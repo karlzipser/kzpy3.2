@@ -1,0 +1,180 @@
+
+
+#####################
+# Dummy data to make place for images
+layer {
+  name: "ddata"
+  type: "DummyData"
+  top: "ddata"
+
+  dummy_data_param {
+    shape {
+      dim: 1
+      dim: 1
+      dim: 75
+      dim: 75
+    }
+  }
+}
+
+# Dummy data to make place for multiple target values
+layer {
+  name: "ddata2"
+  type: "DummyData"
+  top: "ddata2"
+  dummy_data_param {
+    shape {
+      dim: 1
+      dim: 2
+    }
+  }
+}
+#####################
+
+#####################
+# Image data
+layer {
+  type: 'Python'
+  name: 'py_image_data'
+  bottom: 'ddata'
+  top: 'py_image_data'
+  python_param {
+    module: 'kz_layers2'
+    layer: 'SimpleLayer4'
+  }
+}
+
+# Target values
+layer {
+  type: 'Python'
+  name: 'py_target_data'
+  bottom: 'ddata2'
+  top: 'py_target_data'
+  python_param {
+    module: 'kz_layers2'
+    layer: 'SimpleLayer5'
+  }
+}
+#####################
+
+
+
+#####################
+# Hidden layers
+layer {
+  name: "conv1"
+  type: "Convolution"
+  bottom: "py_image_data"
+  top: "conv1"
+  convolution_param {
+    num_output: 24
+    kernel_size: 11
+    stride: 3
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "relu1"
+  type: "ReLU"
+  bottom: "conv1"
+  top: "conv1"
+}
+layer {
+  name: "pool1"
+  type: "Pooling"
+  bottom: "conv1"
+  top: "pool1"
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    stride: 2
+  }
+}
+
+layer {
+  name: "conv2"
+  type: "Convolution"
+  bottom: "pool1"
+  top: "conv2"
+  convolution_param {
+    num_output: 128
+    kernel_size: 5
+    group: 4
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "relu2"
+  type: "ReLU"
+  bottom: "conv2"
+  top: "conv2"
+}
+layer {
+  name: "pool2"
+  type: "Pooling"
+  bottom: "conv2"
+  top: "pool2"
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    stride: 2
+  }
+}
+
+layer {
+  name: "ip1"
+  type: "InnerProduct"
+  bottom: "pool2"
+  top: "ip1"
+  inner_product_param {
+    num_output: 256
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+
+layer {
+  name: "relu3"
+  type: "ReLU"
+  bottom: "ip1"
+  top: "ip1"
+}
+
+layer {
+  name: "ip2"
+  type: "InnerProduct"
+  bottom: "ip1"
+  top: "ip2"
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "relu4"
+  type: "ReLU"
+  bottom: "ip2"
+  top: "ip2"
+}
+
+#####################
+
+
+
+#####################
+# output layer
+layer {
+  name: "identity"
+  type: "EuclideanLoss"
+  bottom: "ip2"
+  bottom: "py_target_data"
+  top: "identity"
+  loss_weight: 1
+}

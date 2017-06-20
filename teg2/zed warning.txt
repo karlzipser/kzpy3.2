@@ -1,0 +1,20 @@
+/output error. (System code: 5) 
+ SET failed Input/output error. (System code: 5) 
+ SET failed Input/output error. (System code: 5) 
+##______________________WARNING______________________##
+## ZED Firmware version is not up-to-date with current ZED SDK.
+## VGA mode will be not consistent
+## You have to update the firmware with the latest version (v1142) using the ZED Explorer
+ERROR : Since the version 1.0.0 of the SDK the VGA resolution is 672*376, it seems you try to open an old SVO or you do not have update your firmware.
+[ INFO] [1480089557.622578473]: ZED_WRONG_FIRMWARE
+(37.881401062, -999.99, -122.27230072, -999.99)
+dist = 138442714.843
+In state 0 for 0 seconds
+(37.881401062, -999.99, -122.27230072, -999.99)
+dist = 138442714.843
+In state 0 for 0 seconds
+ZED SDK >> (Init) GPU used : GM20B , ID : 0
+ZED SDK >> (Init) Disparity mode has been set to NONE
+(37.881401062, -999.99, -122.27230072, -999.99)
+dist = 138442714.843
+In state 0 for 0 seconds

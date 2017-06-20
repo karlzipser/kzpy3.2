@@ -1,0 +1,118 @@
+Installing Caffe on Jetson TK1, 31 March 2016
+#
+# Install based primarily on this page:
+#	http://planspace.org/20150614-the_nvidia_jetson_tk1_with_caffe_on_mnist/
+
+
+# 'flashed' Jetpack to the Jetson TK1
+# [2nd time, unselected samples and visionworks]
+
+# ran ocv.sh in ~/OpenCV4Tegra to install openCV
+
+sudo apt-get install \
+    libprotobuf-dev protobuf-compiler gfortran \
+    libboost-dev cmake libleveldb-dev libsnappy-dev \
+    libboost-thread-dev libboost-system-dev \
+    libatlas-base-dev libhdf5-serial-dev libgflags-dev \
+    libgoogle-glog-dev liblmdb-dev gcc-4.7 g++-4.7
+sudo apt-get install python-numpy
+sudo apt-get install libboost-filesystem-dev 
+sudo apt-get install python-dev 
+sudo apt-get  install libboost-python-dev 
+
+
+sudo apt-get install git
+git clone https://github.com/BVLC/caffe.git
+cd caffe
+cp Makefile.config.example Makefile.config
+
+# Don't use the python layer. No changes necessary to Makefile.config
+
+make -j 4 all
+make -j 4 test
+make -j 4 runtest
+
+sudo apt-get install python-pip 
+sudo easy_install cython 
+
+# this was necessary after I didn't include all NVIDA visionworks packages in the install.
+sudo apt-get install libfreetype6-dev
+
+# [takes a long time, is required for import caffe to work]
+sudo pip install -U scikit-image
+sudo pip install protobuf
+
+make pycaffe
+
+# add to .bashrc, at end:
+export PYTHONPATH=~/caffe/python:$PYTHONPATH 
+# at this point, caffe appears to work in python.
+
+
+###################################
+# ###
+# first time:
+# after all this, setting PYTHON_LAYERS to TRUE and doing make clean and make -j 4 all killed caffe.
+# I think I also set USE_CUDNN to TRUE, which is bad.
+# I will start over tomorrow. Maybe installing ipython in two different ways was a problem
+#######
+
+
+
+# Benchmark test (Run from!!! ~/caffe)
+# Note, these are for ten image minibatches. Divide by ten to get single
+# image times.
+build/tools/caffe time --model=models/bvlc_alexnet/deploy.prototxt --gpu=0
+Results:
+caffe benchmarks:
+Macbook Pro: (2.7 GHz Intel Core i5)
+283 ms forward
+236 ms backward
+
+Jetson TK1 (CPU only):
+5414 ms forward
+5215 ms backward
+
+Jetson TK1 with GPU:
+240 ms forward
+304 ms backward
+
+Jetson TX1 (CPU only):
+ ms forward
+ ms backward
+
+Jetson TX1 with GPU:
+179 ms forward
+148 ms backward
+
+hiMac (3.5 GHz Intel Core i7)
+182 ms forward
+154 ms backward
+
+K40 cortex cluster
+27 ms forward
+30 ms backward
+
+git clone https:// [did the grinch install]
+# see http://jetsonhacks.com/2015/05/26/install-grinch-kernel-for-l4t-21-3-on-nvidia-jetson-tk1/
+
+
+apt-get install opencv-python
+sudo apt-get install libv4l-dev # this should be installed before compiling opencv, perhaps
+
+reran ocv.sh, this had no discerable effect.
+
+arduino radio control:
+https://www.sparkfun.com/tutorials/348
+* http://playground.arduino.cc/Code/ReadReceiver
+* http://www.camelsoftware.com/2015/12/25/reading-pwm-signals-from-an-rc-receiver-with-arduino/
+* http://www.benripley.com/diy/arduino/three-ways-to-read-a-pwm-signal-with-arduino/
+
+
+Shutdown:
+sudo shutdown -h now
+
+
+Format SD card:  http://jetsonhacks.com/2015/02/07/format-sd-card-ext4-nvidia-jetson-tk1/
+lsblk
+sudo mkfs.ext4 /dev/mmcblk1p1

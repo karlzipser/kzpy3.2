@@ -1,0 +1,204 @@
+layer {
+	type: "DummyData"
+	top: "data"
+	dummy_data_param {
+		shape {
+			dim: 1
+			dim: 18
+			dim: 376
+			dim: 672
+		}
+	}
+}
+
+layer {
+	name: "data_pool1"
+	type: "Pooling"
+	bottom: "data"
+	top: "data_pool1"
+	pooling_param {
+		pool: AVE
+		kernel_size: 3
+		stride: 2
+		pad: 0
+	}
+}
+layer {
+	name: "data_pool2"
+	type: "Pooling"
+	bottom: "data_pool1"
+	top: "data_pool2"
+	pooling_param {
+		pool: AVE
+		kernel_size: 3
+		stride: 2
+		pad: 0
+	}
+}
+layer {
+	name: "data_pool3"
+	type: "Pooling"
+	bottom: "data_pool2"
+	top: "data_pool3"
+	pooling_param {
+		pool: AVE
+		kernel_size: 3
+		stride: 2
+		pad: 0
+	}
+}
+layer {
+	name: "data_pool4"
+	type: "Pooling"
+	bottom: "data_pool3"
+	top: "data_pool4"
+	pooling_param {
+		pool: AVE
+		kernel_size: 3
+		stride: 2
+		pad: 0
+	}
+}
+layer {
+	name: "data_pool5"
+	type: "Pooling"
+	bottom: "data_pool4"
+	top: "data_pool5"
+	pooling_param {
+		pool: AVE
+		kernel_size: 3
+		stride: 2
+		pad: 0
+	}
+}
+
+
+layer {
+	name: "convC"
+	type: "Convolution"
+	bottom: "data_pool2"
+	top: "convC"
+	convolution_param {
+		num_output: 32
+		group: 1
+		kernel_size: 3
+		stride: 2
+		pad_h: 1
+		pad_w: 1
+		weight_filler {
+			type: "gaussian" 
+			std: 0.1
+		}
+	}
+}
+
+layer {
+	name: "convC_pool"
+	type: "Pooling"
+	bottom: "convC"
+	top: "convC_pool"
+	pooling_param {
+		pool: AVE
+		kernel_size: 3
+		stride: 2
+	}
+}
+layer {
+	name: "convD"
+	type: "Convolution"
+	bottom: "convC_pool"
+	top: "convD"
+	convolution_param {
+		num_output: 32
+		group: 1
+		kernel_size: 3
+		stride: 2
+		pad_h: 0
+		pad_w: 1
+		weight_filler {
+			type: "gaussian" 
+			std: 0.1
+		}
+	}
+}
+layer {
+	name: "convB"
+	type: "Convolution"
+	bottom: "data_pool3"
+	top: "convB"
+	convolution_param {
+		num_output: 32
+		group: 1
+		kernel_size: 3
+		stride: 2
+		pad_h: 0
+		pad_w: 1
+		weight_filler {
+			type: "gaussian" 
+			std: 0.1
+		}
+	}
+}
+
+layer {
+	name: "convB_pool"
+	type: "Pooling"
+	bottom: "convB"
+	top: "convB_pool"
+	pooling_param {
+		pool: AVE
+		kernel_size: 3
+		stride: 2
+	}
+}
+
+layer {
+	name: "convA"
+	type: "Convolution"
+	bottom: "data_pool4"
+	top: "convA"
+	convolution_param {
+		num_output: 32
+		group: 1
+		kernel_size: 3
+		stride: 2
+		pad_h: 0
+		pad_w: 1
+		weight_filler {
+			type: "gaussian" 
+			std: 0.1
+		}
+	}
+}
+
+layer {
+	name: "deconvA"
+	type: "Deconvolution"
+	bottom: "convA"
+	top: "deconvA"
+	convolution_param {
+		num_output: 32
+		group: 1
+		kernel_size: 3
+		stride: 2
+		pad_h: 0
+		pad_w: 0
+		weight_filler {
+			type: "gaussian" 
+			std: 0.1
+		}
+	}
+}
+
+layer {
+	name: "deconvA_pool"
+	type: "Pooling"
+	bottom: "deconvA"
+	top: "deconvA_pool"
+	pooling_param {
+		pool: AVE
+		kernel_size: 3
+		stride: 2
+	}
+}
+

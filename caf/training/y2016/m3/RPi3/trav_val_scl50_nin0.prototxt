@@ -1,0 +1,353 @@
+#####################
+# Dummy data to make place for images
+layer {
+  name: "ddata"
+  type: "DummyData"
+  top: "ddata"
+
+  dummy_data_param {
+    shape {
+      dim: 1
+      dim: 9
+      dim: 112
+      dim: 150
+    }
+  }
+}
+
+# Dummy data to make place for multiple target values
+layer {
+  name: "ddata2"
+  type: "DummyData"
+  top: "ddata2"
+  dummy_data_param {
+    shape {
+      dim: 1
+      dim: 3
+    }
+  }
+}
+#####################
+
+#####################
+# Image data
+layer {
+  type: 'Python'
+  name: 'M_py_image_data'
+  bottom: 'ddata'
+  top: 'M_py_image_data'
+  python_param {
+    module: 'kz_layers2'
+    layer: 'SimpleLayer4'
+  }
+}
+
+# Target values
+layer {
+  type: 'Python'
+  name: 'M_py_target_data'
+  bottom: 'ddata2'
+  top: 'M_py_target_data'
+  python_param {
+    module: 'kz_layers2'
+    layer: 'SimpleLayer5'
+  }
+}
+###############################################################
+###############################################################
+
+
+
+
+###############################################################
+#
+layer {
+  name: "M_conv1"
+  type: "Convolution"
+  bottom: "M_py_image_data"
+  top: "M_conv1"
+  convolution_param {
+    num_output: 96
+    kernel_size: 11
+    pad: 11
+    stride: 4
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "RELU1_M_conv1"
+  type: "ReLU"
+  bottom: "M_conv1"
+  top: "M_conv1"
+}
+layer {
+  name: "CCCP1_M_conv1"
+  type: "Convolution"
+  bottom: "M_conv1"
+  top: "CCCP1_M_conv1"
+  convolution_param {
+    num_output: 96
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "RELU2_M_conv1"
+  type: "ReLU"
+  bottom: "CCCP1_M_conv1"
+  top: "CCCP1_M_conv1"
+}
+layer {
+  name: "CCCP2_M_conv1"
+  type: "Convolution"
+  bottom: "CCCP1_M_conv1"
+  top: "CCCP2_M_conv1"
+  convolution_param {
+    num_output: 96
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "RELU3_M_conv1"
+  type: "ReLU"
+  bottom: "CCCP2_M_conv1"
+  top: "CCCP2_M_conv1"
+}
+layer {
+  name: "POOL_M_conv1"
+  type: "Pooling"
+  bottom: "CCCP2_M_conv1"
+  top: "POOL_M_conv1"
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    stride: 2
+  }
+}
+#
+###############################################################
+
+
+
+
+
+###############################################################
+#
+layer {
+  name: "M_conv2"
+  type: "Convolution"
+  bottom: "POOL_M_conv1"
+  top: "M_conv2"
+  convolution_param {
+    num_output: 96
+    kernel_size: 5
+    pad: 5
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "RELU1_M_conv2"
+  type: "ReLU"
+  bottom: "M_conv2"
+  top: "M_conv2"
+}
+layer {
+  name: "CCCP1_M_conv2"
+  type: "Convolution"
+  bottom: "M_conv2"
+  top: "CCCP1_M_conv2"
+  convolution_param {
+    num_output: 96
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "RELU2_M_conv2"
+  type: "ReLU"
+  bottom: "CCCP1_M_conv2"
+  top: "CCCP1_M_conv2"
+}
+layer {
+  name: "CCCP2_M_conv2"
+  type: "Convolution"
+  bottom: "CCCP1_M_conv2"
+  top: "CCCP2_M_conv2"
+  convolution_param {
+    num_output: 96
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "RELU3_M_conv2"
+  type: "ReLU"
+  bottom: "CCCP2_M_conv2"
+  top: "CCCP2_M_conv2"
+}
+layer {
+  name: "POOL_M_conv2"
+  type: "Pooling"
+  bottom: "CCCP2_M_conv2"
+  top: "POOL_M_conv2"
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    stride: 2
+  }
+}
+#
+###############################################################
+
+
+
+
+###############################################################
+#
+layer {
+  name: "M_conv3"
+  type: "Convolution"
+  bottom: "POOL_M_conv2"
+  top: "M_conv3"
+  convolution_param {
+    num_output: 96
+    kernel_size: 5
+    pad: 5
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "RELU1_M_conv3"
+  type: "ReLU"
+  bottom: "M_conv3"
+  top: "M_conv3"
+}
+layer {
+  name: "CCCP1_M_conv3"
+  type: "Convolution"
+  bottom: "M_conv3"
+  top: "CCCP1_M_conv3"
+  convolution_param {
+    num_output: 96
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "RELU2_M_conv3"
+  type: "ReLU"
+  bottom: "CCCP1_M_conv3"
+  top: "CCCP1_M_conv3"
+}
+layer {
+  name: "CCCP2_M_conv3"
+  type: "Convolution"
+  bottom: "CCCP1_M_conv3"
+  top: "CCCP2_M_conv3"
+  convolution_param {
+    num_output: 96
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "RELU3_M_conv3"
+  type: "ReLU"
+  bottom: "CCCP2_M_conv3"
+  top: "CCCP2_M_conv3"
+}
+layer {
+  name: "POOL_M_conv3"
+  type: "Pooling"
+  bottom: "CCCP2_M_conv3"
+  top: "POOL_M_conv3"
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    stride: 2
+  }
+}
+#
+###############################################################
+
+
+###############################################################
+layer {
+  name: "ip1"
+  type: "InnerProduct"
+  bottom: "POOL_M_conv3"
+  top: "ip1"
+  inner_product_param {
+    num_output: 96
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "relu3"
+  type: "ReLU"
+  bottom: "ip1"
+  top: "ip1"
+}
+
+layer {
+  name: "ip2"
+  type: "InnerProduct"
+  bottom: "ip1"
+  top: "ip2"
+  inner_product_param {
+    num_output: 3
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "relu4"
+  type: "ReLU"
+  bottom: "ip2"
+  top: "ip2"
+}
+
+#####################
+
+
+
+#####################
+# output layer
+layer {
+  name: "identity"
+  type: "EuclideanLoss"
+  bottom: "ip2"
+  bottom: "M_py_target_data"
+  top: "identity"
+  loss_weight: 1
+}

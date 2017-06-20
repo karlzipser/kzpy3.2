@@ -1,0 +1,25 @@
+
+(376, 672)								data
+
+(188, 336)								data_pool1
+
+(94, 168)								data_pool2
+
+(47, 84)					data_pool3			convC
+
+(23, 42)			data_pool4		convB			convC_pool		
+					 
+
+(11, 21)	data_pool5 		convA	convB_pool		convD
+
+
+									deconv
+
+
+(11, 21)							deconv_pool
+
+
+
+
+
+

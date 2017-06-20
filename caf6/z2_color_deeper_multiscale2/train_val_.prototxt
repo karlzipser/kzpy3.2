@@ -1,0 +1,339 @@
+layer {
+	name: "steer_motor_target_data"
+	type: "DummyData"
+	top: "steer_motor_target_data"
+	dummy_data_param {
+		shape {
+			dim: 1
+			dim: 20
+		}
+	}
+}
+
+
+
+layer {
+        name: "metadata"
+        type: "DummyData"
+        top: "metadata"
+        dummy_data_param {
+                shape {
+                        dim: 1
+                        dim: 6
+                        dim: 14
+                        dim: 26
+                }
+        }
+}
+
+
+layer {
+	name: "ZED_data_pool2"
+	type: "DummyData"
+	top: "ZED_data_pool2"
+	dummy_data_param {
+		shape {
+			dim: 1
+			dim: 12
+			dim: 94
+			dim: 168
+		}
+	}
+}
+	
+###################### Convolutional Layer Set 'conv1_B' ######################
+#
+layer { # 
+	name: "conv1_A"
+	type: "Convolution"
+	bottom: "ZED_data_pool2"
+	top: "conv1_A"
+	convolution_param {
+		num_output: 96
+		group: 1
+		kernel_size: 5
+		stride: 3
+		pad: 0
+		weight_filler {
+			type: "gaussian" 
+			std: 0.00001
+		}
+	}
+}
+layer {
+	name: "conv1_A_relu"
+	type: "ReLU"
+	bottom: "conv1_A"
+	top: "conv1_A"
+}
+layer { # 
+	name: "conv1_A_pool_0"
+	type: "Pooling"
+	bottom: "conv1_A"
+	top: "conv1_A_pool_0"
+	pooling_param {
+		pool: MAX
+		kernel_size: 3
+		stride: 2
+		pad: 0
+	}
+}
+
+
+layer { # 
+	name: "conv1_B"
+	type: "Convolution"
+	bottom: "ZED_data_pool2"
+	top: "conv1_B"
+	convolution_param {
+		num_output: 96
+		group: 1
+		kernel_size: 11
+		stride: 3
+		pad: 2
+		weight_filler {
+			type: "gaussian" 
+			std: 0.00001
+		}
+	}
+}
+layer {
+	name: "conv1_B_relu"
+	type: "ReLU"
+	bottom: "conv1_B"
+	top: "conv1_B"
+}
+
+
+
+
+layer {
+	name: "conv1_B_pool_0"
+	type: "Pooling"
+	bottom: "conv1_B"
+	top: "conv1_B_pool_0"
+	pooling_param {
+		pool: MAX
+		kernel_size: 3
+		stride: 1
+		pad: 1
+	}
+}
+layer {
+	name: "conv1_B_pool_nin"
+	type: "Convolution"
+	bottom: "conv1_B_pool_0"
+	top: "conv1_B_pool_nin"
+	convolution_param {
+		num_output: 96
+		group: 1
+		kernel_size: 1
+		stride: 1
+		pad: 0
+		weight_filler {
+			type: "gaussian" 
+			std: 0.1
+		}
+	}
+}
+layer {
+	name: "conv1_B_pool_nin_relu"
+	type: "ReLU"
+	bottom: "conv1_B_pool_nin"
+	top: "conv1_B_pool_nin"
+}
+layer {
+  name: "conv1_B_concat"
+  type: "Concat"
+  bottom: "conv1_B"
+  bottom: "conv1_B_pool_nin"
+  top: "conv1_B_concat"
+  concat_param {
+    axis: 1
+  }     
+}      
+
+layer { # 
+	name: "conv1_B_pool_1"
+	type: "Pooling"
+	bottom: "conv1_B_concat"
+	top: "conv1_B_pool_1"
+	pooling_param {
+		pool: MAX
+		kernel_size: 3
+		stride: 2
+		pad: 0
+	}
+}
+layer {
+	name: "conv1_B_nin"
+	type: "Convolution"
+	bottom: "conv1_B_pool_1"
+	top: "conv1_B_nin"
+	convolution_param {
+		num_output: 96
+		group: 1
+		kernel_size: 1
+		stride: 1
+		pad: 0
+		weight_filler {
+			type: "gaussian" 
+			std: 0.1
+		}
+	}
+}
+layer {
+	name: "conv1_B_nin_relu"
+	type: "ReLU"
+	bottom: "conv1_B_nin"
+	top: "conv1_B_nin"
+}
+layer {
+	name: "conv1_B_nin2"
+	type: "Convolution"
+	bottom: "conv1_B_nin"
+	top: "conv1_B_nin2"
+	convolution_param {
+		num_output: 96
+		group: 1
+		kernel_size: 1
+		stride: 1
+		pad: 0
+		weight_filler {
+			type: "gaussian" 
+			std: 0.1
+		}
+	}
+}
+layer {
+	name: "conv1_B_nin2_relu"
+	type: "ReLU"
+	bottom: "conv1_B_nin2"
+	top: "conv1_B_nin2"
+}
+############################################################
+
+layer {
+  name: "conv1_B_metadata_concat"
+  type: "Concat"
+  bottom: "conv1_B_nin2"
+  bottom: "metadata"
+  top: "conv1_B_metadata_concat"
+  concat_param {
+    axis: 1
+  }     
+}               
+                        
+
+
+###################### Convolutional Layer Set 'conv2' ######################
+#
+layer {
+	name: "conv2"
+	type: "Convolution"
+	bottom: "conv1_B_metadata_concat"
+	top: "conv2"
+	convolution_param {
+		num_output: 256
+		group: 1
+		kernel_size: 3
+		stride: 2
+		pad: 0
+		weight_filler {
+			type: "gaussian" 
+			std: 0.1
+		}
+	}
+}
+	
+layer {
+	name: "conv2_relu"
+	type: "ReLU"
+	bottom: "conv2"
+	top: "conv2"
+}
+
+
+
+layer {
+	name: "conv2_pool_1"
+	type: "Pooling"
+	bottom: "conv2"
+	top: "conv2_pool_1"
+	pooling_param {
+		pool: MAX
+		kernel_size: 3
+		stride: 2
+		pad: 0
+	}
+}
+
+
+
+
+
+
+
+
+###################### IP Layer Set 'ip1' ######################
+#
+layer {
+	name: "ip1"
+	type: "InnerProduct"
+	bottom: "conv2_pool_1"
+	top: "ip1"
+	inner_product_param {
+		num_output: 512
+		weight_filler {
+			type: "xavier" 
+		}
+	}
+}
+	
+layer {
+	name: "ip1_relu"
+	type: "ReLU"
+	bottom: "ip1"
+	top: "ip1"
+}
+	
+############################################################
+
+
+
+
+
+
+
+
+
+
+###################### IP Layer Set 'ip2' ######################
+#
+layer {
+	name: "ip2"
+	type: "InnerProduct"
+	bottom: "ip1"
+	top: "ip2"
+	inner_product_param {
+		num_output: 20
+		weight_filler {
+			type: "xavier" 
+		}
+	}
+}
+	
+
+	
+############################################################
+
+
+layer {
+	name: "euclidean"
+	type: "EuclideanLoss"
+	bottom: "ip2"
+	bottom: "steer_motor_target_data"
+	top: "euclidean"
+	loss_weight: 1
+}
+	

@@ -1,0 +1,258 @@
+
+layer {
+	name: "steer_motor_target_data"
+	type: "DummyData"
+	top: "steer_motor_target_data"
+	dummy_data_param {
+		shape {
+			dim: 1
+			dim: 20
+		}
+	}
+}
+
+layer {
+	name: "metadata"
+	type: "DummyData"
+	top: "metadata"
+	dummy_data_param {
+		shape {
+			dim: 1
+			dim: 6
+			dim: 14
+			dim: 26
+		}
+	}
+}
+	
+
+layer {
+	name: "ZED_data_pool2"
+	type: "DummyData"
+	top: "ZED_data_pool2"
+	dummy_data_param {
+		shape {
+			dim: 1
+			dim: 12
+			dim: 94
+			dim: 168
+		}
+	}
+}
+
+
+layer {
+  name: "ZED_data_pool2_scale"
+  type: "Scale"
+  bottom: "ZED_data_pool2"
+  top: "ZED_data_pool2_scale"
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  scale_param {
+    filler {
+      value: 0.003921    }
+    bias_term: true
+    bias_filler {
+      value: -0.5
+    }
+  }
+}
+
+
+layer {
+	name: "conv1"
+	type: "Convolution"
+	bottom: "ZED_data_pool2_scale"
+	top: "conv1"
+	convolution_param {
+		num_output: 96
+		group: 1
+		kernel_size: 11
+		stride: 3
+		pad_h: 0
+		pad_w: 0
+		weight_filler {
+			type: "gaussian" 
+			std: 0.00001
+		}
+	}
+}
+
+	
+
+layer {
+	name: "conv1_relu"
+	type: "ReLU"
+	bottom: "conv1"
+	top: "conv1"
+}
+	
+
+layer {
+	name: "conv1_pool"
+	type: "Pooling"
+	bottom: "conv1"
+	top: "conv1_pool"
+	pooling_param {
+		pool: MAX
+		kernel_size: 3
+		stride: 2
+		pad_h: 0
+		pad_w: 0
+	}
+}
+	
+
+layer {
+	name: "conv1_pool_drop"
+	type: "Dropout"
+	bottom: "conv1_pool"
+	top: "conv1_pool"
+	dropout_param {
+		dropout_ratio: 0.0
+	}
+}
+	
+
+layer {
+	type: 'Concat'
+	name: 'conv1_metadata_concat'
+	bottom: "conv1_pool"
+	bottom: "metadata"
+	top: 'conv1_metadata_concat'
+	concat_param {
+		axis: 1
+	}
+}
+		
+
+layer {
+	name: "conv2"
+	type: "Convolution"
+	bottom: "conv1_metadata_concat"
+	top: "conv2"
+	convolution_param {
+		num_output: 256
+		group: 2
+		kernel_size: 3
+		stride: 2
+		pad_h: 0
+		pad_w: 0
+		weight_filler {
+			type: "gaussian" 
+			std: 0.1
+		}
+	}
+}
+	
+
+layer {
+	name: "conv2_relu"
+	type: "ReLU"
+	bottom: "conv2"
+	top: "conv2"
+}
+	
+
+layer {
+	name: "conv2_pool"
+	type: "Pooling"
+	bottom: "conv2"
+	top: "conv2_pool"
+	pooling_param {
+		pool: MAX
+		kernel_size: 3
+		stride: 2
+		pad_h: 0
+		pad_w: 0
+	}
+}
+	
+
+layer {
+	name: "conv2_pool_drop"
+	type: "Dropout"
+	bottom: "conv2_pool"
+	top: "conv2_pool"
+	dropout_param {
+		dropout_ratio: 0.0
+	}
+}
+	
+
+layer {
+	name: "ip1"
+	type: "InnerProduct"
+	bottom: "conv2_pool"
+	top: "ip1"
+	inner_product_param {
+		num_output: 512
+		weight_filler {
+			type: "xavier" 
+		}
+	}
+}
+	
+
+layer {
+	name: "ip1_relu"
+	type: "ReLU"
+	bottom: "ip1"
+	top: "ip1"
+}
+	
+
+layer {
+	name: "ip1_drop"
+	type: "Dropout"
+	bottom: "ip1"
+	top: "ip1"
+	dropout_param {
+		dropout_ratio: 0.0
+	}
+}
+
+
+
+layer {
+	name: "ip2"
+	type: "InnerProduct"
+	bottom: "ip1"
+	top: "ip2"
+	inner_product_param {
+		num_output: 20
+		weight_filler {
+			type: "xavier" 
+		}
+	}
+}
+
+
+
+layer {
+	name: "ip3"
+	type: "InnerProduct"
+	bottom: "ip2"
+	top: "ip3"
+	inner_product_param {
+		num_output: 20
+		weight_filler {
+			type: "xavier" 
+		}
+	}
+}
+
+layer {
+	name: "euclidean"
+	type: "EuclideanLoss"
+	bottom: "steer_motor_target_data"
+	bottom: "ip3"
+	top: "euclidean"
+	loss_weight: 1
+}

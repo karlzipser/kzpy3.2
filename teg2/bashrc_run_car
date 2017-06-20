@@ -1,0 +1,40 @@
+#export COMPUTER_NAME="Mr_Silver"
+#source ~/kzpy3/teg2/bashrc_run_car
+
+alias rstat='python ~/kzpy3/teg7/data/rosstatus.py'
+export PYTHONPATH=~/caffe/python:$PYTHONPATH
+
+PS1="$COMPUTER_NAME: \W$ " #"Mr_Blue_original_clone: \W$ "
+export PATH=/usr/local/cuda-7.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+export LD_LIBRARY_PATH=/usr/local/cuda-7.0/lib:
+export __GL_PERFMON_MODE=1
+
+source /opt/ros/indigo/setup.bash
+source ~/catkin_ws/devel/setup.bash
+source ~/kzpy3/teg2/bashrc
+
+
+
+
+PS1="$COMPUTER_NAME: \W$ "
+
+if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+  SESSION_TYPE=remote/ssh
+  echo "This is a remote/ssh login"
+        #echo "sleep before rstat"
+        #sleep 30
+  #rstat
+# many other tests omitted
+else
+        echo "here"
+        #echo "sleep before rla..."
+        #sleep 60
+        #cd ~/kzpy3
+        #git pull
+        #cd
+        #rrm
+        #rlog
+        #rla
+        #(rla 3>&1 1>&2 2>&3 | grep -v "slMat2cvMat: mat type currently not supported 0 0") 3>&1 1>&2 2>&3
+
+fi

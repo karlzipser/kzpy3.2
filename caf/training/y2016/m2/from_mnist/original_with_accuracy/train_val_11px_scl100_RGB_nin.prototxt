@@ -1,0 +1,363 @@
+#####################
+# Dummy data to make place for images
+layer {
+  name: "ddata"
+  type: "DummyData"
+  top: "ddata"
+
+  dummy_data_param {
+    shape {
+      dim: 1
+      dim: 3
+      dim: 225
+      dim: 300
+    }
+  }
+}
+
+# Dummy data to make place for multiple target values
+layer {
+  name: "ddata2"
+  type: "DummyData"
+  top: "ddata2"
+  dummy_data_param {
+    shape {
+      dim: 1
+      dim: 3
+    }
+  }
+}
+#####################
+
+#####################
+# Image data
+layer {
+  type: 'Python'
+  name: 'py_image_data'
+  bottom: 'ddata'
+  top: 'py_image_data'
+  python_param {
+    module: 'kz_layers2'
+    layer: 'SimpleLayer4'
+  }
+}
+
+# Target values
+layer {
+  type: 'Python'
+  name: 'py_target_data'
+  bottom: 'ddata2'
+  top: 'py_target_data'
+  python_param {
+    module: 'kz_layers2'
+    layer: 'SimpleLayer5'
+  }
+}
+###############################################################
+###############################################################
+
+
+
+
+
+
+
+
+
+###############################################################
+#
+layer {
+  name: "conv1_RGB"
+  type: "Convolution"
+  bottom: "py_image_data"
+  top: "conv1_RGB"
+  convolution_param {
+    num_output: 96
+    kernel_size: 11
+    stride: 3
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "RELU1_conv1_RGB"
+  type: "ReLU"
+  bottom: "conv1_RGB"
+  top: "conv1_RGB"
+}
+layer {
+  name: "CCCP1_conv1_RGB"
+  type: "Convolution"
+  bottom: "conv1_RGB"
+  top: "CCCP1_conv1_RGB"
+  convolution_param {
+    num_output: 96
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "RELU2_conv1_RGB"
+  type: "ReLU"
+  bottom: "CCCP1_conv1_RGB"
+  top: "CCCP1_conv1_RGB"
+}
+layer {
+  name: "CCCP2_conv1_RGB"
+  type: "Convolution"
+  bottom: "CCCP1_conv1_RGB"
+  top: "CCCP2_conv1_RGB"
+  convolution_param {
+    num_output: 96
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "RELU3_conv1_RGB"
+  type: "ReLU"
+  bottom: "CCCP2_conv1_RGB"
+  top: "CCCP2_conv1_RGB"
+}
+layer {
+  name: "POOL_conv1_RGB"
+  type: "Pooling"
+  bottom: "CCCP2_conv1_RGB"
+  top: "POOL_conv1_RGB"
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    stride: 2
+  }
+}
+#
+###############################################################
+
+
+###############################################################
+#
+layer {
+  name: "conv2_RGB"
+  type: "Convolution"
+  bottom: "POOL_conv1_RGB"
+  top: "conv2_RGB"
+  convolution_param {
+    num_output: 256
+    kernel_size: 5
+    stride: 1
+    pad: 2 ################ added manually
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "RELU1_conv2_RGB"
+  type: "ReLU"
+  bottom: "conv2_RGB"
+  top: "conv2_RGB"
+}
+layer {
+  name: "CCCP1_conv2_RGB"
+  type: "Convolution"
+  bottom: "conv2_RGB"
+  top: "CCCP1_conv2_RGB"
+  convolution_param {
+    num_output: 128
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "RELU2_conv2_RGB"
+  type: "ReLU"
+  bottom: "CCCP1_conv2_RGB"
+  top: "CCCP1_conv2_RGB"
+}
+layer {
+  name: "CCCP2_conv2_RGB"
+  type: "Convolution"
+  bottom: "CCCP1_conv2_RGB"
+  top: "CCCP2_conv2_RGB"
+  convolution_param {
+    num_output: 96
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "RELU3_conv2_RGB"
+  type: "ReLU"
+  bottom: "CCCP2_conv2_RGB"
+  top: "CCCP2_conv2_RGB"
+}
+layer {
+  name: "POOL_conv2_RGB"
+  type: "Pooling"
+  bottom: "CCCP2_conv2_RGB"
+  top: "POOL_conv2_RGB"
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    stride: 2
+  }
+}
+#
+###############################################################
+
+
+
+
+
+###############################################################
+#
+layer {
+  name: "conv3_RGB"
+  type: "Convolution"
+  bottom: "POOL_conv2_RGB"
+  top: "conv3_RGB"
+  convolution_param {
+    num_output: 256
+    kernel_size: 3
+    stride: 1
+    pad: 1 ################ added manually
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "RELU1_conv3_RGB"
+  type: "ReLU"
+  bottom: "conv3_RGB"
+  top: "conv3_RGB"
+}
+layer {
+  name: "CCCP1_conv3_RGB"
+  type: "Convolution"
+  bottom: "conv3_RGB"
+  top: "CCCP1_conv3_RGB"
+  convolution_param {
+    num_output: 128
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "RELU2_conv3_RGB"
+  type: "ReLU"
+  bottom: "CCCP1_conv3_RGB"
+  top: "CCCP1_conv3_RGB"
+}
+layer {
+  name: "CCCP2_conv3_RGB"
+  type: "Convolution"
+  bottom: "CCCP1_conv3_RGB"
+  top: "CCCP2_conv3_RGB"
+  convolution_param {
+    num_output: 96
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "RELU3_conv3_RGB"
+  type: "ReLU"
+  bottom: "CCCP2_conv3_RGB"
+  top: "CCCP2_conv3_RGB"
+}
+layer {
+  name: "POOL_conv3_RGB"
+  type: "Pooling"
+  bottom: "CCCP2_conv3_RGB"
+  top: "POOL_conv3_RGB"
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    stride: 2
+  }
+}
+#
+###############################################################
+
+
+
+
+
+
+
+
+###############################################################
+###############################################################
+layer {
+  name: "ip1"
+  type: "InnerProduct"
+  bottom: "POOL_conv3_RGB"
+  top: "ip1"
+  inner_product_param {
+    num_output: 96
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+
+layer {
+  name: "relu7"
+  type: "ReLU"
+  bottom: "ip1"
+  top: "ip1"
+}
+
+layer {
+  name: "ip2"
+  type: "InnerProduct"
+  bottom: "ip1"
+  top: "ip2"
+  inner_product_param {
+    num_output: 3
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "relu8"
+  type: "ReLU"
+  bottom: "ip2"
+  top: "ip2"
+}
+
+#####################
+
+
+
+#####################
+# output layer
+layer {
+  name: "identity"
+  type: "EuclideanLoss"
+  bottom: "ip2"
+  bottom: "py_target_data"
+  top: "identity"
+  loss_weight: 1
+}

@@ -1,0 +1,178 @@
+
+
+
+
+layer {
+	name: "steer_motor_target_data"
+	type: "DummyData"
+	top: "steer_motor_target_data"
+	dummy_data_param {
+		shape {
+			dim: 1
+			dim: 20
+		}
+	}
+}
+
+
+layer {
+	name: "conv5_2_PAST"
+	type: "DummyData"
+	top: "conv5_2_PAST"
+	dummy_data_param {
+		shape {
+			dim: 1
+			dim: 384
+			dim: 2
+			dim: 5
+		}
+	}
+}
+
+layer {
+	name: "conv5_2_PRESENT"
+	type: "DummyData"
+	top: "conv5_2_PRESENT"
+	dummy_data_param {
+		shape {
+			dim: 1
+			dim: 384
+			dim: 2
+			dim: 5
+		}
+	}
+}
+
+
+
+
+
+	
+############################################################
+
+layer {
+  name: "conv5_2_time_concat"
+  type: "Concat"
+  bottom: "conv5_2_PAST"
+  bottom: "conv5_2_PRESENT"
+  top: "conv5_2_time_concat"
+  concat_param {
+    axis: 1
+  }
+}
+
+layer {
+	name: "conv5_2_2"
+	type: "Convolution"
+	bottom: "conv5_2_time_concat"
+	top: "conv5_2_2"
+	convolution_param {
+		num_output: 384
+		group: 1
+		kernel_size: 1
+		stride: 1
+		pad: 0
+		weight_filler {
+			type: "gaussian" 
+			std: 0.1
+		}
+	}
+}
+	
+layer {
+	name: "conv5_2_2_relu"
+	type: "ReLU"
+	bottom: "conv5_2_2"
+	top: "conv5_2_2"
+}
+############################################
+#
+layer {
+	name: "conv6_2"
+	type: "Convolution"
+	bottom: "conv5_2_2"
+	top: "conv6_2"
+	convolution_param {
+		num_output: 384
+		group: 1
+		kernel_size: 3
+		stride: 2
+		pad: 0
+		weight_filler {
+			type: "gaussian" 
+			std: 0.1
+		}
+	}
+}
+	
+layer {
+	name: "conv6_2_relu"
+	type: "ReLU"
+	bottom: "conv6_2"
+	top: "conv6_2"
+}
+	
+
+	
+############################################################
+
+
+###################### IP Layer Set 'ip1' ######################
+#
+layer {
+	name: "ip1"
+	type: "InnerProduct"
+	bottom: "conv6_2"
+	top: "ip1"
+	inner_product_param {
+		num_output: 512
+		weight_filler {
+			type: "xavier" 
+		}
+	}
+}
+	
+layer {
+	name: "ip1_relu"
+	type: "ReLU"
+	bottom: "ip1"
+	top: "ip1"
+}
+	
+############################################################
+
+
+###################### IP Layer Set 'ip2' ######################
+#
+layer {
+	name: "ip2"
+	type: "InnerProduct"
+	bottom: "ip1"
+	top: "ip2"
+	inner_product_param {
+		num_output: 20
+		weight_filler {
+			type: "xavier" 
+		}
+	}
+}
+	
+layer {
+	name: "ip2_relu"
+	type: "ReLU"
+	bottom: "ip2"
+	top: "ip2"
+}
+	
+############################################################
+
+
+layer {
+	name: "euclidean"
+	type: "EuclideanLoss"
+	bottom: "ip2"
+	bottom: "steer_motor_target_data"
+	top: "euclidean"
+	loss_weight: 1
+}
+	

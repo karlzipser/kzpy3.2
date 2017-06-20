@@ -1,0 +1,151 @@
+layer {
+  name: "data"
+  type: "Data"
+  top: "data"
+  top: "label"
+  include {
+    phase: TRAIN
+  }
+  transform_param {
+    scale: 0.00392156862745
+  }
+  data_param {
+    source: "models/mnist/mnist_train_lmdb"
+    batch_size: 100
+    backend: LMDB
+  }
+}
+layer {
+  name: "data"
+  type: "Data"
+  top: "data"
+  top: "label"
+  include {
+    phase: TEST
+  }
+  transform_param {
+    scale: 0.00392156862745
+  }
+  data_param {
+    source: "models/mnist/mnist_test_lmdb"
+    batch_size: 100
+    backend: LMDB
+  }
+}
+layer {
+  name: "conv1a"
+  type: "Convolution"
+  bottom: "data"
+  top: "conv1a"
+  convolution_param {
+    num_output: 9
+    kernel_size: 5
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "conv2a"
+  type: "Convolution"
+  bottom: "conv1a"
+  top: "conv2a"
+  convolution_param {
+    num_output: 9
+    group: 1
+    pad: 2
+    kernel_size: 5
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "conv1a_conv2a"
+  type: "Concat"
+  bottom: "conv1a"
+  bottom: "conv2a"
+  top: "conv1a_conv2a"
+}
+layer {
+  name: "conv3"
+  type: "Convolution"
+  bottom: "conv1a_conv2a"
+  top: "conv3"
+  convolution_param {
+    num_output: 9
+    group: 1
+    pad: 2
+    kernel_size: 5
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "conv1a_conv2a_conv3"
+  type: "Concat"
+  bottom: "conv3"
+  bottom: "conv1a_conv2a"
+  top: "conv1a_conv2a_conv3"
+}
+layer {
+  name: "ip1"
+  type: "InnerProduct"
+  bottom: "conv1a_conv2a_conv3"
+  top: "ip1"
+  inner_product_param {
+    num_output: 108
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+    name: "reshape"
+    type: "Reshape"
+    bottom: "ip1"
+    top: "reshape"
+    reshape_param {
+      shape {
+        dim: 0  # copy the dimension from below
+        dim: 3
+        dim: 6
+        dim: 6
+      }
+    }
+}
+layer {
+  name: "conv4"
+  type: "Convolution"
+  bottom: "reshape"
+  top: "conv4"
+  convolution_param {
+    num_output: 9
+    group: 1
+    pad: 0
+    kernel_size: 3
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "ip2"
+  type: "InnerProduct"
+  bottom: "conv4"
+  top: "ip2"
+  inner_product_param {
+    num_output: 10
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "loss"
+  type: "SoftmaxWithLoss"
+  bottom: "ip1"
+  bottom: "label"
+  top: "loss"
+}

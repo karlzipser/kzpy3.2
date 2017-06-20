@@ -1,0 +1,47 @@
+# /Users/karlzipser/kzpy3/caf7/z3_color
+# Wednesday, 08 Mar 2017, 05:45:09 PM
+
+layer {
+	name: "left_t_0"
+	type: "DummyData"
+	top: "left_t_0"
+	dummy_data_param {
+		shape {
+			dim: 1
+			dim: 18
+			dim: 376
+			dim: 672
+		}
+	}
+}
+	
+
+layer {
+	name: "left_t_0_pool"
+	type: "Pooling"
+	bottom: "left_t_0"
+	top: "left_t0_pool"
+	pooling_param {
+		pool: AVE
+		kernel_size: 1
+		stride: 4
+		pad_h: 0
+		pad_w: 0
+	}
+}
+	
+# 26  vs 16
+layer {
+	name: "left_t_0_pool_pool"
+	type: "Pooling"
+	bottom: "left_t0_pool"
+	top: "left_t_0_pool_pool"
+	pooling_param {
+		pool: AVE
+		kernel_size: 3
+		stride: 2
+		pad_h: 0
+		pad_w: 0
+	}
+}
+

@@ -1,0 +1,7 @@
+17 Sept. 2015
+Training person_clothes_from_BL_17Sept2015
+
+goal: start with fine tune Barry Lyndon weights model_from_scratch_rot_conv_iter_33000.caffemodel
+(these are not reall rot_conv), which is actually something like 600k iterations, and use it
+to start training the person task, then compare with the training from scratch.
+

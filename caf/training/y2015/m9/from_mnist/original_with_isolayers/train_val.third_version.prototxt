@@ -1,0 +1,1261 @@
+#### layer 0 ####
+layer {
+  name: "data"
+  type: "Data"
+  top: "data"
+  top: "label"
+  include {
+    phase: TRAIN
+  }
+  transform_param {
+    scale: 0.00392156862745
+  }
+  data_param {
+    source: "caffe/data/mnist/mnist_train_lmdb"
+    batch_size: 100
+    backend: LMDB
+  }
+}
+layer {
+  name: "data"
+  type: "Data"
+  top: "data"
+  top: "label"
+  include {
+    phase: TEST
+  }
+  transform_param {
+    scale: 0.00392156862745
+  }
+  data_param {
+    source: "caffe/data/mnist/mnist_test_lmdb"
+    batch_size: 100
+    backend: LMDB
+  }
+}
+layer {
+  type: 'Python'
+  name: 'pydata'
+  bottom: 'data'
+  top: 'pydata'
+  python_param {
+    module: 'kz_layers0'
+    layer: 'SimpleLayer2'
+  }
+  include {
+    phase: TRAIN
+  }
+}
+layer {
+  type: 'Python'
+  name: 'pydata'
+  bottom: 'data'
+  top: 'pydata'
+  python_param {
+    module: 'kz_layers0'
+    layer: 'SimpleLayer2'
+  }
+  include {
+    phase: TEST
+  }
+}
+
+#### layer 1 ####
+
+	layer {
+	  name: "ic1_hid1"
+	  type: "Convolution"
+	  bottom: "pydata"
+	  top: "ic1_hid1"
+	  convolution_param {
+	    num_output: 24
+	    kernel_size: 3
+	    pad: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic1_hid1_relu"
+	  type: "ReLU"
+	  bottom: "ic1_hid1"
+	  top: "ic1_hid1"
+	}	
+	layer {
+	  name: "ic1_hid2"
+	  type: "Convolution"
+	  bottom: "ic1_hid1"
+	  top: "ic1_hid2"
+	  convolution_param {
+	    num_output: 24
+	    kernel_size: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic1_hid2_relu"
+	  type: "ReLU"
+	  bottom: "ic1_hid2"
+	  top: "ic1_hid2"
+	}
+	layer {
+	  name: "ic1_out1"
+	  type: "Convolution"
+	  bottom: "ic1_hid2"
+	  top: "ic1_out1"
+	  convolution_param {
+	    num_output: 24
+	    kernel_size: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic1_out1_relu"
+	  type: "ReLU"
+	  bottom: "ic1_out1"
+	  top: "ic1_out1"
+	}
+	layer {
+	  name: "ic1_out2"
+	  type: "Convolution"
+	  bottom: "ic1_out1"
+	  top: "ic1_out2"
+	  convolution_param {
+	    num_output: 3
+	    kernel_size: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic1_out2_relu"
+	  type: "ReLU"
+	  bottom: "ic1_out2"
+	  top: "ic1_out2"
+	}
+	
+#### layer 2 ####
+
+	layer {
+	  name: "ic2_in"
+	  type: "Concat"
+	  	bottom: 'ic1_hid2'
+  		bottom: 'ic1_out1' 
+  		bottom: 'ic1_out2' 
+	  top: "ic2_in"
+	}
+	layer {
+	  name: "ic2_hid1"
+	  type: "Convolution"
+	  bottom: "ic2_in"
+	  top: "ic2_hid1"
+	  convolution_param {
+	    num_output: 24
+	    kernel_size: 3
+	    pad: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic2_hid1_relu"
+	  type: "ReLU"
+	  bottom: "ic2_hid1"
+	  top: "ic2_hid1"
+	}	
+	layer {
+	  name: "ic2_hid2"
+	  type: "Convolution"
+	  bottom: "ic2_hid1"
+	  top: "ic2_hid2"
+	  convolution_param {
+	    num_output: 24
+	    kernel_size: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic2_hid2_relu"
+	  type: "ReLU"
+	  bottom: "ic2_hid2"
+	  top: "ic2_hid2"
+	}
+	layer {
+	  name: "ic2_out1"
+	  type: "Convolution"
+	  bottom: "ic2_hid2"
+	  top: "ic2_out1"
+	  convolution_param {
+	    num_output: 24
+	    kernel_size: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic2_out1_relu"
+	  type: "ReLU"
+	  bottom: "ic2_out1"
+	  top: "ic2_out1"
+	}
+	layer {
+	  name: "ic2_out2"
+	  type: "Convolution"
+	  bottom: "ic2_out1"
+	  top: "ic2_out2"
+	  convolution_param {
+	    num_output: 3
+	    kernel_size: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic2_out2_relu"
+	  type: "ReLU"
+	  bottom: "ic2_out2"
+	  top: "ic2_out2"
+	}
+	
+#### layer 3 ####
+
+	layer {
+	  name: "ic3_in"
+	  type: "Concat"
+	  	bottom: 'ic1_out1'
+  		bottom: 'ic2_hid2'
+  		bottom: 'ic2_out1' 
+ bottom: 'ic1_out2' 
+ bottom: 'ic2_out2' 
+	  top: "ic3_in"
+	}
+	layer {
+	  name: "ic3_hid1"
+	  type: "Convolution"
+	  bottom: "ic3_in"
+	  top: "ic3_hid1"
+	  convolution_param {
+	    num_output: 24
+	    kernel_size: 3
+	    pad: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic3_hid1_relu"
+	  type: "ReLU"
+	  bottom: "ic3_hid1"
+	  top: "ic3_hid1"
+	}	
+	layer {
+	  name: "ic3_hid2"
+	  type: "Convolution"
+	  bottom: "ic3_hid1"
+	  top: "ic3_hid2"
+	  convolution_param {
+	    num_output: 24
+	    kernel_size: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic3_hid2_relu"
+	  type: "ReLU"
+	  bottom: "ic3_hid2"
+	  top: "ic3_hid2"
+	}
+	layer {
+	  name: "ic3_out1"
+	  type: "Convolution"
+	  bottom: "ic3_hid2"
+	  top: "ic3_out1"
+	  convolution_param {
+	    num_output: 24
+	    kernel_size: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic3_out1_relu"
+	  type: "ReLU"
+	  bottom: "ic3_out1"
+	  top: "ic3_out1"
+	}
+	layer {
+	  name: "ic3_out2"
+	  type: "Convolution"
+	  bottom: "ic3_out1"
+	  top: "ic3_out2"
+	  convolution_param {
+	    num_output: 3
+	    kernel_size: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic3_out2_relu"
+	  type: "ReLU"
+	  bottom: "ic3_out2"
+	  top: "ic3_out2"
+	}
+	
+#### layer 4 ####
+
+	layer {
+	  name: "ic4_in"
+	  type: "Concat"
+	  	bottom: 'ic2_out1'
+  		bottom: 'ic3_hid2'
+  		bottom: 'ic3_out1' 
+ bottom: 'ic1_out2' 
+ bottom: 'ic2_out2' 
+ bottom: 'ic3_out2' 
+	  top: "ic4_in"
+	}
+	layer {
+	  name: "ic4_hid1"
+	  type: "Convolution"
+	  bottom: "ic4_in"
+	  top: "ic4_hid1"
+	  convolution_param {
+	    num_output: 24
+	    kernel_size: 3
+	    pad: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic4_hid1_relu"
+	  type: "ReLU"
+	  bottom: "ic4_hid1"
+	  top: "ic4_hid1"
+	}	
+	layer {
+	  name: "ic4_hid2"
+	  type: "Convolution"
+	  bottom: "ic4_hid1"
+	  top: "ic4_hid2"
+	  convolution_param {
+	    num_output: 24
+	    kernel_size: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic4_hid2_relu"
+	  type: "ReLU"
+	  bottom: "ic4_hid2"
+	  top: "ic4_hid2"
+	}
+	layer {
+	  name: "ic4_out1"
+	  type: "Convolution"
+	  bottom: "ic4_hid2"
+	  top: "ic4_out1"
+	  convolution_param {
+	    num_output: 24
+	    kernel_size: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic4_out1_relu"
+	  type: "ReLU"
+	  bottom: "ic4_out1"
+	  top: "ic4_out1"
+	}
+	layer {
+	  name: "ic4_out2"
+	  type: "Convolution"
+	  bottom: "ic4_out1"
+	  top: "ic4_out2"
+	  convolution_param {
+	    num_output: 3
+	    kernel_size: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic4_out2_relu"
+	  type: "ReLU"
+	  bottom: "ic4_out2"
+	  top: "ic4_out2"
+	}
+	
+#### layer 5 ####
+
+	layer {
+	  name: "ic5_in"
+	  type: "Concat"
+	  	bottom: 'ic3_out1'
+  		bottom: 'ic4_hid2'
+  		bottom: 'ic4_out1' 
+ bottom: 'ic1_out2' 
+ bottom: 'ic2_out2' 
+ bottom: 'ic3_out2' 
+ bottom: 'ic4_out2' 
+	  top: "ic5_in"
+	}
+	layer {
+	  name: "ic5_hid1"
+	  type: "Convolution"
+	  bottom: "ic5_in"
+	  top: "ic5_hid1"
+	  convolution_param {
+	    num_output: 24
+	    kernel_size: 3
+	    pad: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic5_hid1_relu"
+	  type: "ReLU"
+	  bottom: "ic5_hid1"
+	  top: "ic5_hid1"
+	}	
+	layer {
+	  name: "ic5_hid2"
+	  type: "Convolution"
+	  bottom: "ic5_hid1"
+	  top: "ic5_hid2"
+	  convolution_param {
+	    num_output: 24
+	    kernel_size: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic5_hid2_relu"
+	  type: "ReLU"
+	  bottom: "ic5_hid2"
+	  top: "ic5_hid2"
+	}
+	layer {
+	  name: "ic5_out1"
+	  type: "Convolution"
+	  bottom: "ic5_hid2"
+	  top: "ic5_out1"
+	  convolution_param {
+	    num_output: 24
+	    kernel_size: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic5_out1_relu"
+	  type: "ReLU"
+	  bottom: "ic5_out1"
+	  top: "ic5_out1"
+	}
+	layer {
+	  name: "ic5_out2"
+	  type: "Convolution"
+	  bottom: "ic5_out1"
+	  top: "ic5_out2"
+	  convolution_param {
+	    num_output: 3
+	    kernel_size: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic5_out2_relu"
+	  type: "ReLU"
+	  bottom: "ic5_out2"
+	  top: "ic5_out2"
+	}
+	
+#### layer 6 ####
+
+	layer {
+	  name: "ic6_in"
+	  type: "Concat"
+	  	bottom: 'ic4_out1'
+  		bottom: 'ic5_hid2'
+  		bottom: 'ic5_out1' 
+ bottom: 'ic1_out2' 
+ bottom: 'ic2_out2' 
+ bottom: 'ic3_out2' 
+ bottom: 'ic4_out2' 
+ bottom: 'ic5_out2' 
+	  top: "ic6_in"
+	}
+	layer {
+	  name: "ic6_hid1"
+	  type: "Convolution"
+	  bottom: "ic6_in"
+	  top: "ic6_hid1"
+	  convolution_param {
+	    num_output: 24
+	    kernel_size: 3
+	    pad: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic6_hid1_relu"
+	  type: "ReLU"
+	  bottom: "ic6_hid1"
+	  top: "ic6_hid1"
+	}	
+	layer {
+	  name: "ic6_hid2"
+	  type: "Convolution"
+	  bottom: "ic6_hid1"
+	  top: "ic6_hid2"
+	  convolution_param {
+	    num_output: 24
+	    kernel_size: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic6_hid2_relu"
+	  type: "ReLU"
+	  bottom: "ic6_hid2"
+	  top: "ic6_hid2"
+	}
+	layer {
+	  name: "ic6_out1"
+	  type: "Convolution"
+	  bottom: "ic6_hid2"
+	  top: "ic6_out1"
+	  convolution_param {
+	    num_output: 24
+	    kernel_size: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic6_out1_relu"
+	  type: "ReLU"
+	  bottom: "ic6_out1"
+	  top: "ic6_out1"
+	}
+	layer {
+	  name: "ic6_out2"
+	  type: "Convolution"
+	  bottom: "ic6_out1"
+	  top: "ic6_out2"
+	  convolution_param {
+	    num_output: 3
+	    kernel_size: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic6_out2_relu"
+	  type: "ReLU"
+	  bottom: "ic6_out2"
+	  top: "ic6_out2"
+	}
+	
+#### layer 7 ####
+
+	layer {
+	  name: "ic7_in"
+	  type: "Concat"
+	  	bottom: 'ic5_out1'
+  		bottom: 'ic6_hid2'
+  		bottom: 'ic6_out1' 
+ bottom: 'ic1_out2' 
+ bottom: 'ic2_out2' 
+ bottom: 'ic3_out2' 
+ bottom: 'ic4_out2' 
+ bottom: 'ic5_out2' 
+ bottom: 'ic6_out2' 
+	  top: "ic7_in"
+	}
+	layer {
+	  name: "ic7_hid1"
+	  type: "Convolution"
+	  bottom: "ic7_in"
+	  top: "ic7_hid1"
+	  convolution_param {
+	    num_output: 24
+	    kernel_size: 3
+	    pad: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic7_hid1_relu"
+	  type: "ReLU"
+	  bottom: "ic7_hid1"
+	  top: "ic7_hid1"
+	}	
+	layer {
+	  name: "ic7_hid2"
+	  type: "Convolution"
+	  bottom: "ic7_hid1"
+	  top: "ic7_hid2"
+	  convolution_param {
+	    num_output: 24
+	    kernel_size: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic7_hid2_relu"
+	  type: "ReLU"
+	  bottom: "ic7_hid2"
+	  top: "ic7_hid2"
+	}
+	layer {
+	  name: "ic7_out1"
+	  type: "Convolution"
+	  bottom: "ic7_hid2"
+	  top: "ic7_out1"
+	  convolution_param {
+	    num_output: 24
+	    kernel_size: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic7_out1_relu"
+	  type: "ReLU"
+	  bottom: "ic7_out1"
+	  top: "ic7_out1"
+	}
+	layer {
+	  name: "ic7_out2"
+	  type: "Convolution"
+	  bottom: "ic7_out1"
+	  top: "ic7_out2"
+	  convolution_param {
+	    num_output: 3
+	    kernel_size: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic7_out2_relu"
+	  type: "ReLU"
+	  bottom: "ic7_out2"
+	  top: "ic7_out2"
+	}
+	
+#### layer 8 ####
+
+	layer {
+	  name: "ic8_in"
+	  type: "Concat"
+	  	bottom: 'ic6_out1'
+  		bottom: 'ic7_hid2'
+  		bottom: 'ic7_out1' 
+ bottom: 'ic1_out2' 
+ bottom: 'ic2_out2' 
+ bottom: 'ic3_out2' 
+ bottom: 'ic4_out2' 
+ bottom: 'ic5_out2' 
+ bottom: 'ic6_out2' 
+ bottom: 'ic7_out2' 
+	  top: "ic8_in"
+	}
+	layer {
+	  name: "ic8_hid1"
+	  type: "Convolution"
+	  bottom: "ic8_in"
+	  top: "ic8_hid1"
+	  convolution_param {
+	    num_output: 24
+	    kernel_size: 3
+	    pad: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic8_hid1_relu"
+	  type: "ReLU"
+	  bottom: "ic8_hid1"
+	  top: "ic8_hid1"
+	}	
+	layer {
+	  name: "ic8_hid2"
+	  type: "Convolution"
+	  bottom: "ic8_hid1"
+	  top: "ic8_hid2"
+	  convolution_param {
+	    num_output: 24
+	    kernel_size: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic8_hid2_relu"
+	  type: "ReLU"
+	  bottom: "ic8_hid2"
+	  top: "ic8_hid2"
+	}
+	layer {
+	  name: "ic8_out1"
+	  type: "Convolution"
+	  bottom: "ic8_hid2"
+	  top: "ic8_out1"
+	  convolution_param {
+	    num_output: 24
+	    kernel_size: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic8_out1_relu"
+	  type: "ReLU"
+	  bottom: "ic8_out1"
+	  top: "ic8_out1"
+	}
+	layer {
+	  name: "ic8_out2"
+	  type: "Convolution"
+	  bottom: "ic8_out1"
+	  top: "ic8_out2"
+	  convolution_param {
+	    num_output: 3
+	    kernel_size: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic8_out2_relu"
+	  type: "ReLU"
+	  bottom: "ic8_out2"
+	  top: "ic8_out2"
+	}
+	
+#### layer 9 ####
+
+	layer {
+	  name: "ic9_in"
+	  type: "Concat"
+	  	bottom: 'ic7_out1'
+  		bottom: 'ic8_hid2'
+  		bottom: 'ic8_out1' 
+ bottom: 'ic1_out2' 
+ bottom: 'ic2_out2' 
+ bottom: 'ic3_out2' 
+ bottom: 'ic4_out2' 
+ bottom: 'ic5_out2' 
+ bottom: 'ic6_out2' 
+ bottom: 'ic7_out2' 
+ bottom: 'ic8_out2' 
+	  top: "ic9_in"
+	}
+	layer {
+	  name: "ic9_hid1"
+	  type: "Convolution"
+	  bottom: "ic9_in"
+	  top: "ic9_hid1"
+	  convolution_param {
+	    num_output: 24
+	    kernel_size: 3
+	    pad: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic9_hid1_relu"
+	  type: "ReLU"
+	  bottom: "ic9_hid1"
+	  top: "ic9_hid1"
+	}	
+	layer {
+	  name: "ic9_hid2"
+	  type: "Convolution"
+	  bottom: "ic9_hid1"
+	  top: "ic9_hid2"
+	  convolution_param {
+	    num_output: 24
+	    kernel_size: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic9_hid2_relu"
+	  type: "ReLU"
+	  bottom: "ic9_hid2"
+	  top: "ic9_hid2"
+	}
+	layer {
+	  name: "ic9_out1"
+	  type: "Convolution"
+	  bottom: "ic9_hid2"
+	  top: "ic9_out1"
+	  convolution_param {
+	    num_output: 24
+	    kernel_size: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic9_out1_relu"
+	  type: "ReLU"
+	  bottom: "ic9_out1"
+	  top: "ic9_out1"
+	}
+	layer {
+	  name: "ic9_out2"
+	  type: "Convolution"
+	  bottom: "ic9_out1"
+	  top: "ic9_out2"
+	  convolution_param {
+	    num_output: 3
+	    kernel_size: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic9_out2_relu"
+	  type: "ReLU"
+	  bottom: "ic9_out2"
+	  top: "ic9_out2"
+	}
+	
+#### layer 10 ####
+
+	layer {
+	  name: "ic10_in"
+	  type: "Concat"
+	  	bottom: 'ic8_out1'
+  		bottom: 'ic9_hid2'
+  		bottom: 'ic9_out1' 
+ bottom: 'ic1_out2' 
+ bottom: 'ic2_out2' 
+ bottom: 'ic3_out2' 
+ bottom: 'ic4_out2' 
+ bottom: 'ic5_out2' 
+ bottom: 'ic6_out2' 
+ bottom: 'ic7_out2' 
+ bottom: 'ic8_out2' 
+ bottom: 'ic9_out2' 
+	  top: "ic10_in"
+	}
+	layer {
+	  name: "ic10_hid1"
+	  type: "Convolution"
+	  bottom: "ic10_in"
+	  top: "ic10_hid1"
+	  convolution_param {
+	    num_output: 24
+	    kernel_size: 3
+	    pad: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic10_hid1_relu"
+	  type: "ReLU"
+	  bottom: "ic10_hid1"
+	  top: "ic10_hid1"
+	}	
+	layer {
+	  name: "ic10_hid2"
+	  type: "Convolution"
+	  bottom: "ic10_hid1"
+	  top: "ic10_hid2"
+	  convolution_param {
+	    num_output: 24
+	    kernel_size: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic10_hid2_relu"
+	  type: "ReLU"
+	  bottom: "ic10_hid2"
+	  top: "ic10_hid2"
+	}
+	layer {
+	  name: "ic10_out1"
+	  type: "Convolution"
+	  bottom: "ic10_hid2"
+	  top: "ic10_out1"
+	  convolution_param {
+	    num_output: 24
+	    kernel_size: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic10_out1_relu"
+	  type: "ReLU"
+	  bottom: "ic10_out1"
+	  top: "ic10_out1"
+	}
+	layer {
+	  name: "ic10_out2"
+	  type: "Convolution"
+	  bottom: "ic10_out1"
+	  top: "ic10_out2"
+	  convolution_param {
+	    num_output: 3
+	    kernel_size: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic10_out2_relu"
+	  type: "ReLU"
+	  bottom: "ic10_out2"
+	  top: "ic10_out2"
+	}
+	
+#### layer 11 ####
+
+	layer {
+	  name: "ic11_in"
+	  type: "Concat"
+	  	bottom: 'ic9_out1'
+  		bottom: 'ic10_hid2'
+  		bottom: 'ic10_out1' 
+ bottom: 'ic1_out2' 
+ bottom: 'ic2_out2' 
+ bottom: 'ic3_out2' 
+ bottom: 'ic4_out2' 
+ bottom: 'ic5_out2' 
+ bottom: 'ic6_out2' 
+ bottom: 'ic7_out2' 
+ bottom: 'ic8_out2' 
+ bottom: 'ic9_out2' 
+ bottom: 'ic10_out2' 
+	  top: "ic11_in"
+	}
+	layer {
+	  name: "ic11_hid1"
+	  type: "Convolution"
+	  bottom: "ic11_in"
+	  top: "ic11_hid1"
+	  convolution_param {
+	    num_output: 24
+	    kernel_size: 3
+	    pad: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic11_hid1_relu"
+	  type: "ReLU"
+	  bottom: "ic11_hid1"
+	  top: "ic11_hid1"
+	}	
+	layer {
+	  name: "ic11_hid2"
+	  type: "Convolution"
+	  bottom: "ic11_hid1"
+	  top: "ic11_hid2"
+	  convolution_param {
+	    num_output: 24
+	    kernel_size: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic11_hid2_relu"
+	  type: "ReLU"
+	  bottom: "ic11_hid2"
+	  top: "ic11_hid2"
+	}
+	layer {
+	  name: "ic11_out1"
+	  type: "Convolution"
+	  bottom: "ic11_hid2"
+	  top: "ic11_out1"
+	  convolution_param {
+	    num_output: 24
+	    kernel_size: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic11_out1_relu"
+	  type: "ReLU"
+	  bottom: "ic11_out1"
+	  top: "ic11_out1"
+	}
+	layer {
+	  name: "ic11_out2"
+	  type: "Convolution"
+	  bottom: "ic11_out1"
+	  top: "ic11_out2"
+	  convolution_param {
+	    num_output: 3
+	    kernel_size: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic11_out2_relu"
+	  type: "ReLU"
+	  bottom: "ic11_out2"
+	  top: "ic11_out2"
+	}
+	
+#### layer 12 ####
+
+	layer {
+	  name: "ic12_in"
+	  type: "Concat"
+	  	bottom: 'ic10_out1'
+  		bottom: 'ic11_hid2'
+  		bottom: 'ic11_out1' 
+ bottom: 'ic1_out2' 
+ bottom: 'ic2_out2' 
+ bottom: 'ic3_out2' 
+ bottom: 'ic4_out2' 
+ bottom: 'ic5_out2' 
+ bottom: 'ic6_out2' 
+ bottom: 'ic7_out2' 
+ bottom: 'ic8_out2' 
+ bottom: 'ic9_out2' 
+ bottom: 'ic10_out2' 
+ bottom: 'ic11_out2' 
+	  top: "ic12_in"
+	}
+	layer {
+	  name: "ic12_hid1"
+	  type: "Convolution"
+	  bottom: "ic12_in"
+	  top: "ic12_hid1"
+	  convolution_param {
+	    num_output: 24
+	    kernel_size: 3
+	    pad: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic12_hid1_relu"
+	  type: "ReLU"
+	  bottom: "ic12_hid1"
+	  top: "ic12_hid1"
+	}	
+	layer {
+	  name: "ic12_hid2"
+	  type: "Convolution"
+	  bottom: "ic12_hid1"
+	  top: "ic12_hid2"
+	  convolution_param {
+	    num_output: 24
+	    kernel_size: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic12_hid2_relu"
+	  type: "ReLU"
+	  bottom: "ic12_hid2"
+	  top: "ic12_hid2"
+	}
+	layer {
+	  name: "ic12_out1"
+	  type: "Convolution"
+	  bottom: "ic12_hid2"
+	  top: "ic12_out1"
+	  convolution_param {
+	    num_output: 24
+	    kernel_size: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic12_out1_relu"
+	  type: "ReLU"
+	  bottom: "ic12_out1"
+	  top: "ic12_out1"
+	}
+	layer {
+	  name: "ic12_out2"
+	  type: "Convolution"
+	  bottom: "ic12_out1"
+	  top: "ic12_out2"
+	  convolution_param {
+	    num_output: 3
+	    kernel_size: 1
+	    weight_filler {
+	      type: "xavier"
+	    }
+	  }
+	}
+	layer {
+	  name: "ic12_out2_relu"
+	  type: "ReLU"
+	  bottom: "ic12_out2"
+	  top: "ic12_out2"
+	}
+	
+#### layer 13 ####
+
+layer {
+  name: "pool1"
+  type: "Pooling"
+  bottom: "ic6_out2"
+  top: "pool1"
+  pooling_param {
+    pool: AVE
+    kernel_size: 6
+    stride: 1
+  }
+}
+layer {
+  name: "ip1"
+  type: "InnerProduct"
+  bottom: "pool1"
+  top: "ip1"
+  inner_product_param {
+    num_output: 10
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "accuracy1"
+  type: "Accuracy"
+  bottom: "ip1"
+  bottom: "label"
+  top: "accuracy1"
+  include {
+    phase: TEST
+  }
+}
+layer {
+  name: "loss1"
+  type: "SoftmaxWithLoss"
+  bottom: "ip1"
+  bottom: "label"
+  top: "loss1"
+}
+
+
+
+layer {
+  name: "pool2"
+  type: "Pooling"
+  bottom: "ic12_out2"
+  top: "pool2"
+  pooling_param {
+    pool: AVE
+    kernel_size: 6
+    stride: 1
+  }
+}
+layer {
+  name: "ip2"
+  type: "InnerProduct"
+  bottom: "pool2"
+  top: "ip2"
+  inner_product_param {
+    num_output: 10
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "accuracy2"
+  type: "Accuracy"
+  bottom: "ip2"
+  bottom: "label"
+  top: "accuracy2"
+  include {
+    phase: TEST
+  }
+}
+layer {
+  name: "loss2"
+  type: "SoftmaxWithLoss"
+  bottom: "ip2"
+  bottom: "label"
+  top: "loss2"
+}
+

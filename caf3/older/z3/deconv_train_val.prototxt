@@ -1,0 +1,218 @@
+layer {
+	name: "image_data_past"
+	type: "DummyData"
+	top: "image_data_past"
+	dummy_data_param {
+		shape {
+			dim: 1
+			dim: 1
+			dim: 94
+			dim: 168
+		}
+	}
+}
+layer {
+	name: "image_data"
+	type: "DummyData"
+	top: "image_data"
+	dummy_data_param {
+		shape {
+			dim: 1
+			dim: 1
+			dim: 94
+			dim: 168
+		}
+	}
+}
+layer {
+	name: "image_data_future"
+	type: "DummyData"
+	top: "image_data_future"
+	dummy_data_param {
+		shape {
+			dim: 1
+			dim: 1
+			dim: 94
+			dim: 168
+		}
+	}
+}
+	
+
+
+layer {
+	name: "conv1_past"
+	type: "Convolution"
+	bottom: "image_data_past"
+	top: "conv1_past"
+	convolution_param {
+		num_output: 64
+		group: 1
+		kernel_size: 7
+		stride: 3
+		pad_h: 0
+		pad_w: 0
+		weight_filler {
+			type: "gaussian" 
+			std: 0.01
+		}
+	}
+}
+layer {
+	name: "conv1_past"
+	type: "ReLU"
+	bottom: "conv1_past"
+	top: "conv1_past"
+}
+layer {
+	name: "conv1"
+	type: "Convolution"
+	bottom: "image_data"
+	top: "conv1"
+	convolution_param {
+		num_output: 64
+		group: 1
+		kernel_size: 7
+		stride: 3
+		pad_h: 0
+		pad_w: 0
+		weight_filler {
+			type: "gaussian" 
+			std: 0.01
+		}
+	}
+}
+layer {
+	name: "conv1_relu"
+	type: "ReLU"
+	bottom: "conv1"
+	top: "conv1"
+}
+
+
+
+layer {
+  name: "conv1_concat"
+  bottom: "conv1_past"
+  bottom: "conv1"
+  top: "conv1_concat"
+  type: "Concat"
+  concat_param {
+    axis: 1
+  }
+}
+
+
+layer {
+	name: "conv1_NIN"
+	type: "Convolution"
+	bottom: "conv1_concat"
+	top: "conv1_NIN"
+	convolution_param {
+		num_output: 64
+		group: 1
+		kernel_size: 1
+		stride: 1
+		pad_h: 0
+		pad_w: 0
+		weight_filler {
+			type: "gaussian" 
+			std: 0.01
+		}
+	}
+}
+layer {
+	name: "conv1_NIN_relu"
+	type: "ReLU"
+	bottom: "conv1_NIN"
+	top: "conv1_NIN"
+}
+
+
+layer {
+	name: "conv2"
+	type: "Convolution"
+	bottom: "conv1_NIN"
+	top: "conv2"
+	convolution_param {
+		num_output: 64
+		group: 1
+		kernel_size: 3
+		stride: 1
+		pad_h: 0
+		pad_w: 0
+		weight_filler {
+			type: "gaussian" 
+			std: 0.01
+		}
+	}
+}
+layer {
+	name: "conv2_relu"
+	type: "ReLU"
+	bottom: "conv2"
+	top: "conv2"
+}
+
+
+
+layer {
+	name: "deconv1"
+	type: "Deconvolution"
+	bottom: "conv2"
+	top: "deconv1"
+	convolution_param {
+		num_output: 64
+		group: 1
+		kernel_size: 15
+		stride: 3
+		pad_h: 1
+		pad_w: 0
+		weight_filler {
+			type: "gaussian" 
+			std: 0.01
+		}
+	}
+}
+layer {
+	name: "deconv1_relu"
+	type: "ReLU"
+	bottom: "deconv1"
+	top: "deconv1"
+}
+
+
+layer {
+	name: "deconv1_NIN"
+	type: "Convolution"
+	bottom: "deconv1"
+	top: "deconv1_NIN"
+	convolution_param {
+		num_output: 1
+		group: 1
+		kernel_size: 1
+		stride: 1
+		pad_h: 0
+		pad_w: 0
+		weight_filler {
+			type: "gaussian" 
+			std: 0.01
+		}
+	}
+}
+layer {
+	name: "deconv1_NIN_relu"
+	type: "ReLU"
+	bottom: "deconv1_NIN"
+	top: "deconv1_NIN"
+}
+
+layer {
+	name: "euclidean"
+	type: "EuclideanLoss"
+	bottom: "image_data_future"
+	bottom: "deconv1_NIN"
+	top: "euclidean"
+	loss_weight: 1
+}
+	

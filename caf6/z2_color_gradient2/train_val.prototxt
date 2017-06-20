@@ -1,0 +1,582 @@
+# /home/karlzipser/kzpy3/caf6/z2_color_gradient2
+# Friday, 27 Jan 2017, 06:31:08 PM
+
+layer {
+	name: "steer_motor_target_data"
+	type: "DummyData"
+	top: "steer_motor_target_data"
+	dummy_data_param {
+		shape {
+			dim: 1
+			dim: 20
+		}
+	}
+}
+	
+
+layer {
+	name: "metadata"
+	type: "DummyData"
+	top: "metadata"
+	dummy_data_param {
+		shape {
+			dim: 1
+			dim: 6
+			dim: 14
+			dim: 26
+		}
+	}
+}
+	
+
+layer {
+	name: "ZED_data_pool2"
+	type: "DummyData"
+	top: "ZED_data_pool2"
+	dummy_data_param {
+		shape {
+			dim: 1
+			dim: 12
+			dim: 94
+			dim: 168
+		}
+	}
+}
+	
+
+layer {
+	name: "ZED_data_pool2_gradient"
+	type: "DummyData"
+	top: "ZED_data_pool2_gradient"
+	dummy_data_param {
+		shape {
+			dim: 1
+			dim: 2
+			dim: 94
+			dim: 168
+		}
+	}
+}
+	
+
+layer {
+	name: "conv1_gradient"
+	type: "DummyData"
+	top: "conv1_gradient"
+	dummy_data_param {
+		shape {
+			dim: 1
+			dim: 2
+			dim: 28
+			dim: 53
+		}
+	}
+}
+	
+
+layer {
+	name: "conv2_gradient"
+	type: "DummyData"
+	top: "conv2_gradient"
+	dummy_data_param {
+		shape {
+			dim: 1
+			dim: 2
+			dim: 6
+			dim: 12
+		}
+	}
+}
+	
+
+layer {
+	name: "ninGa"
+	type: "Convolution"
+	bottom: "ZED_data_pool2_gradient"
+	top: "ninGa"
+	convolution_param {
+		num_output: 20
+		group: 1
+		kernel_size: 1
+		stride: 1
+		pad_h: 0
+		pad_w: 0
+		weight_filler {
+			type: "gaussian" 
+			std: 0.1
+		}
+	}
+}
+	
+
+layer {
+	name: "ninGa_relu"
+	type: "ReLU"
+	bottom: "ninGa"
+	top: "ninGa"
+}
+	
+
+layer {
+	name: "ninGb"
+	type: "Convolution"
+	bottom: "ninGa"
+	top: "ninGb"
+	convolution_param {
+		num_output: 5
+		group: 1
+		kernel_size: 1
+		stride: 1
+		pad_h: 0
+		pad_w: 0
+		weight_filler {
+			type: "gaussian" 
+			std: 0.1
+		}
+	}
+}
+	
+
+layer {
+	name: "ninGb_relu"
+	type: "ReLU"
+	bottom: "ninGb"
+	top: "ninGb"
+}
+	
+
+layer {
+	name: "ninGc"
+	type: "Convolution"
+	bottom: "conv1_gradient"
+	top: "ninGc"
+	convolution_param {
+		num_output: 40
+		group: 1
+		kernel_size: 1
+		stride: 1
+		pad_h: 0
+		pad_w: 0
+		weight_filler {
+			type: "gaussian" 
+			std: 0.1
+		}
+	}
+}
+	
+
+layer {
+	name: "ninGc_relu"
+	type: "ReLU"
+	bottom: "ninGc"
+	top: "ninGc"
+}
+	
+
+layer {
+	name: "ninGd"
+	type: "Convolution"
+	bottom: "ninGc"
+	top: "ninGd"
+	convolution_param {
+		num_output: 20
+		group: 1
+		kernel_size: 1
+		stride: 1
+		pad_h: 0
+		pad_w: 0
+		weight_filler {
+			type: "gaussian" 
+			std: 0.1
+		}
+	}
+}
+	
+
+layer {
+	name: "ninGd_relu"
+	type: "ReLU"
+	bottom: "ninGd"
+	top: "ninGd"
+}
+	
+
+layer {
+	name: "ninGe"
+	type: "Convolution"
+	bottom: "conv2_gradient"
+	top: "ninGe"
+	convolution_param {
+		num_output: 100
+		group: 1
+		kernel_size: 1
+		stride: 1
+		pad_h: 0
+		pad_w: 0
+		weight_filler {
+			type: "gaussian" 
+			std: 0.1
+		}
+	}
+}
+	
+
+layer {
+	name: "ninGe_relu"
+	type: "ReLU"
+	bottom: "ninGe"
+	top: "ninGe"
+}
+	
+
+layer {
+	name: "ninGf"
+	type: "Convolution"
+	bottom: "ninGe"
+	top: "ninGf"
+	convolution_param {
+		num_output: 40
+		group: 1
+		kernel_size: 1
+		stride: 1
+		pad_h: 0
+		pad_w: 0
+		weight_filler {
+			type: "gaussian" 
+			std: 0.1
+		}
+	}
+}
+	
+
+layer {
+	name: "ninGf_relu"
+	type: "ReLU"
+	bottom: "ninGf"
+	top: "ninGf"
+}
+	
+
+layer {
+	type: 'Concat'
+	name: 'ZED_data_pool2_concat'
+	bottom: "ZED_data_pool2"
+	bottom: "ninGb"
+	top: 'ZED_data_pool2_concat'
+	concat_param {
+		axis: 1
+	}
+}
+		
+
+layer {
+	name: "conv1"
+	type: "Convolution"
+	bottom: "ZED_data_pool2_concat"
+	top: "conv1"
+	convolution_param {
+		num_output: 96
+		group: 1
+		kernel_size: 11
+		stride: 3
+		pad_h: 0
+		pad_w: 0
+		weight_filler {
+			type: "gaussian" 
+			std: 0.00001
+		}
+	}
+}
+	
+
+layer {
+	name: "conv1_relu"
+	type: "ReLU"
+	bottom: "conv1"
+	top: "conv1"
+}
+	
+
+layer {
+	name: "conv1_pool"
+	type: "Pooling"
+	bottom: "conv1"
+	top: "conv1_pool"
+	pooling_param {
+		pool: MAX
+		kernel_size: 3
+		stride: 1
+		pad_h: 1
+		pad_w: 1
+	}
+}
+	
+
+layer {
+	type: 'Concat'
+	name: 'conv1_concat'
+	bottom: "conv1"
+	bottom: "conv1_pool"
+	bottom: "ninGd"
+	top: 'conv1_concat'
+	concat_param {
+		axis: 1
+	}
+}
+		
+
+layer {
+	name: "nin1"
+	type: "Convolution"
+	bottom: "conv1_concat"
+	top: "nin1"
+	convolution_param {
+		num_output: 96
+		group: 1
+		kernel_size: 1
+		stride: 1
+		pad_h: 0
+		pad_w: 0
+		weight_filler {
+			type: "gaussian" 
+			std: 0.1
+		}
+	}
+}
+	
+
+layer {
+	name: "nin1_relu"
+	type: "ReLU"
+	bottom: "nin1"
+	top: "nin1"
+}
+	
+
+layer {
+	name: "nin2"
+	type: "Convolution"
+	bottom: "nin1"
+	top: "nin2"
+	convolution_param {
+		num_output: 96
+		group: 1
+		kernel_size: 1
+		stride: 1
+		pad_h: 0
+		pad_w: 0
+		weight_filler {
+			type: "gaussian" 
+			std: 0.1
+		}
+	}
+}
+	
+
+layer {
+	name: "nin2_relu"
+	type: "ReLU"
+	bottom: "nin2"
+	top: "nin2"
+}
+	
+
+layer {
+	name: "nin2_pool"
+	type: "Pooling"
+	bottom: "nin2"
+	top: "nin2_pool"
+	pooling_param {
+		pool: MAX
+		kernel_size: 3
+		stride: 2
+		pad_h: 0
+		pad_w: 0
+	}
+}
+	
+
+layer {
+	type: 'Concat'
+	name: 'conv1_metadata_concat'
+	bottom: "nin2_pool"
+	bottom: "metadata"
+	top: 'conv1_metadata_concat'
+	concat_param {
+		axis: 1
+	}
+}
+		
+
+layer {
+	name: "conv2"
+	type: "Convolution"
+	bottom: "conv1_metadata_concat"
+	top: "conv2"
+	convolution_param {
+		num_output: 256
+		group: 2
+		kernel_size: 3
+		stride: 2
+		pad_h: 0
+		pad_w: 0
+		weight_filler {
+			type: "gaussian" 
+			std: 0.1
+		}
+	}
+}
+	
+
+layer {
+	name: "conv2_relu"
+	type: "ReLU"
+	bottom: "conv2"
+	top: "conv2"
+}
+	
+
+layer {
+	name: "conv2_pool"
+	type: "Pooling"
+	bottom: "conv2"
+	top: "conv2_pool"
+	pooling_param {
+		pool: MAX
+		kernel_size: 3
+		stride: 1
+		pad_h: 1
+		pad_w: 1
+	}
+}
+	
+
+layer {
+	type: 'Concat'
+	name: 'conv2_concat'
+	bottom: "conv2"
+	bottom: "conv2_pool"
+	bottom: "ninGf"
+	top: 'conv2_concat'
+	concat_param {
+		axis: 1
+	}
+}
+		
+
+layer {
+	name: "nin3"
+	type: "Convolution"
+	bottom: "conv2_concat"
+	top: "nin3"
+	convolution_param {
+		num_output: 256
+		group: 1
+		kernel_size: 1
+		stride: 1
+		pad_h: 0
+		pad_w: 0
+		weight_filler {
+			type: "gaussian" 
+			std: 0.1
+		}
+	}
+}
+	
+
+layer {
+	name: "nin3_relu"
+	type: "ReLU"
+	bottom: "nin3"
+	top: "nin3"
+}
+	
+
+layer {
+	name: "nin4"
+	type: "Convolution"
+	bottom: "nin3"
+	top: "nin4"
+	convolution_param {
+		num_output: 256
+		group: 1
+		kernel_size: 1
+		stride: 1
+		pad_h: 0
+		pad_w: 0
+		weight_filler {
+			type: "gaussian" 
+			std: 0.1
+		}
+	}
+}
+	
+
+layer {
+	name: "nin4_relu"
+	type: "ReLU"
+	bottom: "nin4"
+	top: "nin4"
+}
+	
+
+layer {
+	name: "nin4_pool"
+	type: "Pooling"
+	bottom: "nin4"
+	top: "nin4_pool"
+	pooling_param {
+		pool: MAX
+		kernel_size: 3
+		stride: 2
+		pad_h: 0
+		pad_w: 0
+	}
+}
+	
+
+layer {
+	name: "ip1"
+	type: "InnerProduct"
+	bottom: "nin4_pool"
+	top: "ip1"
+	inner_product_param {
+		num_output: 512
+		weight_filler {
+			type: "xavier" 
+		}
+	}
+}
+	
+
+layer {
+	name: "ip1_relu"
+	type: "ReLU"
+	bottom: "ip1"
+	top: "ip1"
+}
+	
+
+layer {
+	name: "ip2"
+	type: "InnerProduct"
+	bottom: "ip1"
+	top: "ip2"
+	inner_product_param {
+		num_output: 20
+		weight_filler {
+			type: "xavier" 
+		}
+	}
+}
+	
+
+layer {
+	name: "euclidean"
+	type: "EuclideanLoss"
+	bottom: "steer_motor_target_data"
+	bottom: "ip2"
+	top: "euclidean"
+	loss_weight: 1
+}
+	

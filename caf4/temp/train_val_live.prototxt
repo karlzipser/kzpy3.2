@@ -1,0 +1,298 @@
+layer {
+	type: "DummyData"
+	top: "ZED_data_left"
+	dummy_data_param {
+		shape {
+			dim: 1
+			dim: 9
+			dim: 376
+			dim: 672
+		}
+	}
+}
+layer {
+	type: "DummyData"
+	top: "ZED_data_right"
+	dummy_data_param {
+		shape {
+			dim: 1
+			dim: 9
+			dim: 376
+			dim: 672
+		}
+	}
+}
+layer {
+	type: "Convolution"
+	bottom: "ZED_data_left"
+	top: "conv1_left"
+	convolution_param {
+		num_output: 32
+		group: 1
+		kernel_size: 5
+		stride: 2
+		pad: 0
+		weight_filler {
+			type: "gaussian" 
+			std: 0.1
+		}
+	}
+}
+layer {
+	name: "conv1_left_pool"
+	type: "Pooling"
+	bottom: "conv1_left"
+	top: "conv1_left_pool"
+	pooling_param {
+		pool: MAX
+		kernel_size: 3
+		stride: 2
+		pad: 0
+	}
+}	
+layer {
+	type: "Pooling"
+	bottom: "conv1_left_pool"
+	top: "conv1_left_pool_pool"
+	pooling_param {
+		pool: MAX
+		kernel_size: 3
+		stride: 2
+		pad: 1
+	}
+}
+layer {
+	type: "Pooling"
+	bottom: "conv1_left_pool_pool"
+	top: "conv1_left_pool_pool_pool"
+	pooling_param {
+		pool: MAX
+		kernel_size: 3
+		stride: 2
+		pad: 0
+	}
+}	
+layer {
+	type: "Pooling"
+	bottom: "conv1_left_pool_pool_pool"
+	top: "conv1_left_pool_pool_pool_pool"
+	pooling_param {
+		pool: MAX
+		kernel_size: 3
+		stride: 2
+		pad: 0
+	}
+}
+layer {
+	type: "Pooling"
+	bottom: "conv1_left_pool_pool_pool_pool"
+	top: "conv1_left_pool_pool_pool_pool_pool"
+	pooling_param {
+		pool: MAX
+		kernel_size: 3
+		stride: 2
+		pad: 0
+	}
+}
+layer {
+	type: "Convolution"
+	bottom: "conv1_left_pool"
+	top: "conv2_left"
+	convolution_param {
+		num_output: 96
+		group: 1
+		kernel_size: 3
+		stride: 2
+		pad: 1
+		weight_filler {
+			type: "gaussian" 
+			std: 0.1
+		}
+	}
+}
+layer {
+	type: "Pooling"
+	bottom: "conv2_left"
+	top: "conv2_left_pool"
+	pooling_param {
+		pool: MAX
+		kernel_size: 3
+		stride: 2
+		pad: 0
+	}
+}
+
+
+layer {
+
+	type: "Convolution"
+	bottom: "ZED_data_right"
+	top: "conv1_right"
+	convolution_param {
+		num_output: 32
+		group: 1
+		kernel_size: 5
+		stride: 2
+		pad: 0
+		weight_filler {
+			type: "gaussian" 
+			std: 0.1
+		}
+	}
+}
+layer {
+	name: "conv1_right_pool"
+	type: "Pooling"
+	bottom: "conv1_right"
+	top: "conv1_right_pool"
+	pooling_param {
+		pool: MAX
+		kernel_size: 3
+		stride: 2
+		pad: 0
+	}
+}	
+layer {
+	name: "conv2_right"
+	type: "Convolution"
+	bottom: "conv1_right_pool"
+	top: "conv2_right"
+	convolution_param {
+		num_output: 96
+		group: 1
+		kernel_size: 3
+		stride: 2
+		pad: 1
+		weight_filler {
+			type: "gaussian" 
+			std: 0.1
+		}
+	}
+}
+layer {
+	name: "conv2_right_pool"
+	type: "Pooling"
+	bottom: "conv2_right"
+	top: "conv2_right_pool"
+	pooling_param {
+		pool: MAX
+		kernel_size: 3
+		stride: 2
+		pad: 0
+	}
+}
+layer {
+  type: "Concat"
+  bottom: "conv2_left_pool"
+  bottom: "conv2_right_pool"
+  top: "left_right_concat"
+  concat_param {
+    axis: 1
+  }
+}
+
+
+
+layer {
+	type: "Convolution"
+	bottom: "left_right_concat"
+	top: "conv3"
+	convolution_param {
+		num_output: 96
+		group: 1
+		kernel_size: 3
+		stride: 2
+		pad: 0
+		weight_filler {
+			type: "gaussian" 
+			std: 0.1
+		}
+	}
+}
+
+layer {
+	type: "Pooling"
+	bottom: "conv3"
+	top: "conv3_pool"
+	pooling_param {
+		pool: MAX
+		kernel_size: 3
+		stride: 2
+		pad: 0
+	}
+}
+layer {
+	type: "Convolution"
+	bottom: "conv3_pool"
+	top: "conv4"
+	convolution_param {
+		num_output: 96
+		group: 1
+		kernel_size: 3
+		stride: 1
+		pad_h: 1
+		pad_w: 1
+		weight_filler {
+			type: "gaussian" 
+			std: 0.1
+		}
+	}
+}
+
+layer {
+	type: "Convolution"
+	bottom: "conv4"
+	top: "conv5"
+	convolution_param {
+		num_output: 96
+		group: 1
+		kernel_size: 3
+		stride: 1
+		pad_h: 1
+		pad_w: 1
+		weight_filler {
+			type: "gaussian" 
+			std: 0.1
+		}
+	}
+}
+layer {
+	type: "Convolution"
+	bottom: "conv5"
+	top: "conv6"
+	convolution_param {
+		num_output: 96
+		group: 1
+		kernel_size: 3
+		stride: 1
+		pad_h: 1
+		pad_w: 1
+		weight_filler {
+			type: "gaussian" 
+			std: 0.1
+		}
+	}
+}
+layer {
+	type: "Convolution"
+	bottom: "conv6"
+	top: "conv7"
+	convolution_param {
+		num_output: 96
+		group: 1
+		kernel_size: 3
+		stride: 1
+		pad_h: 1
+		pad_w: 1
+		weight_filler {
+			type: "gaussian" 
+			std: 0.1
+		}
+	}
+}
+
+
+
+
+
+

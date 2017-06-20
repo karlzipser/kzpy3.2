@@ -1,0 +1,17 @@
+
+net: "/home/bdd/kzpy3/caf7/z2_color_lstm/train_val.prototxt"
+test_iter: 1
+test_interval: 1000000
+test_initialization: false
+base_lr: 0.005  
+momentum: 0.0001
+weight_decay: 0.000005
+clip_gradients: 1.0
+lr_policy: "inv"
+gamma: 0.0001
+power: 0.75
+display: 13500
+max_iter: 10000000
+snapshot: 162000
+snapshot_prefix: "/home/bdd/Desktop/z2_color_lstm/z2_color_lstm"
+	

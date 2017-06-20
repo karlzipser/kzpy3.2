@@ -1,0 +1,49 @@
+Wiring:
+
+##########################
+#
+Adafruit ultimage GPS
+https://learn.adafruit.com/adafruit-ultimate-gps/arduino-wiring
+VIN to +5V
+GND to Ground
+RX to digital 2
+TX to digital 3
+#
+##########################
+
+
+##########################
+#
+Parallax Gyroscope Module 3-Axis L3G4200D
+https://www.parallax.com/product/27911
+http://forum.arduino.cc/index.php?topic=147351.msg1106879#msg1106879
+VIN to +5V
+GND to Ground
+SCL line to pin A5
+SDA line to pin A4
+#
+##########################
+
+
+##########################
+#
+Arduino Micro RC router
+#define PIN_SERVO_IN 11
+#define PIN_MOTOR_IN 10
+#define PIN_BUTTON_IN 8
+// These go out to ESC (motor controller) and steer servo via black-red-white ribbons.
+#define PIN_SERVO_OUT 9
+#define PIN_MOTOR_OUT 12
+#
+##########################
+
+
+Design concepts:
+Stick with Arduino Uno. The Micro is small and sexy, but it has subtle differences that waste a lot of my time. Also, it acts strangely with uploading. Most work is done with Uno, and code written for it.
+
+Stay away from soldering protoboards. It is fun, yes, but opaque and inflexible. Use connectors. Attach chips with screws to rigid support, rather than depending on header pins.
+
+
+
+
+http://makezine.com/projects/build-android-powered-autonomous-rc-car/

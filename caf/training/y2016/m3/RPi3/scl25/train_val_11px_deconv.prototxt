@@ -1,0 +1,316 @@
+
+
+#####################
+# Dummy data to make place for images
+layer {
+  name: "ddata"
+  type: "DummyData"
+  top: "ddata"
+  dummy_data_param {
+    shape {
+      dim: 1
+      dim: 8
+      dim: 75
+      dim: 75
+    }
+  }
+}
+
+# Dummy data to make place for multiple target values
+layer {
+  name: "ddata2"
+  type: "DummyData"
+  top: "ddata2"
+  dummy_data_param {
+    shape {
+      dim: 1
+      dim: 1
+      dim: 75
+      dim: 75
+    }
+  }
+}
+#####################
+
+#####################
+# Image data
+layer {
+  type: 'Python'
+  name: 'py_image_data'
+  bottom: 'ddata'
+  top: 'py_image_data'
+  python_param {
+    module: 'kz_layers2'
+    layer: 'SimpleLayer4a'
+  }
+}
+
+# Target values
+layer {
+  type: 'Python'
+  name: 'py_target_data'
+  bottom: 'ddata2'
+  top: 'py_target_data'
+  python_param {
+    module: 'kz_layers2'
+    layer: 'SimpleLayer4b'
+  }
+}
+#####################
+layer {
+  name: "slicer_label"
+  type: "Slice"
+  bottom: "py_image_data"
+  ## Example of label with a shape N x 8 x 1 x 1
+  top: "label1"
+  top: "label2"
+  top: "label3"
+  top: "label4"
+  top: "label5"
+  top: "label6"
+  top: "label7"
+  top: "label8"
+  slice_param {
+    axis: 1
+    slice_point: 1
+    slice_point: 2
+    slice_point: 3
+    slice_point: 4
+    slice_point: 5
+    slice_point: 6
+    slice_point: 7
+  }
+}
+
+
+#####################
+# Hidden layers
+layer {
+  name: "conv1"
+  type: "Convolution"
+  bottom: "py_image_data"
+  top: "conv1"
+  convolution_param {
+    num_output: 96
+    kernel_size: 11
+    stride: 3
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "relu1"
+  type: "ReLU"
+  bottom: "conv1"
+  top: "conv1"
+}
+layer {
+  name: "pool1"
+  type: "Pooling"
+  bottom: "conv1"
+  top: "pool1"
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    stride: 2
+  }
+}
+
+layer {
+  name: "conv2"
+  type: "Convolution"
+  bottom: "pool1"
+  top: "conv2"
+  convolution_param {
+    num_output: 256
+    kernel_size: 5
+    group: 2
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "relu2"
+  type: "ReLU"
+  bottom: "conv2"
+  top: "conv2"
+}
+layer {
+  name: "pool2"
+  type: "Pooling"
+  bottom: "conv2"
+  top: "pool2"
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    stride: 2
+  }
+}
+
+layer {
+  name: "deconv1"
+  type: "Deconvolution"
+  bottom: "pool2"
+  top: "deconv1"
+  convolution_param {
+    num_output: 256
+    kernel_size: 5
+    group: 2
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "deconv1relu2"
+  type: "ReLU"
+  bottom: "deconv1"
+  top: "deconv1"
+}
+layer {
+  name: "concat1"
+  bottom: "deconv1"
+  bottom: "conv2"
+  top: "concat1"
+  type: "Concat"
+  concat_param {
+    axis: 1
+  }
+}
+layer {
+  name: "deconv2"
+  type: "Deconvolution"
+  bottom: "concat1"
+  top: "deconv2"
+  convolution_param {
+    num_output: 128
+    kernel_size: 5
+    group: 2
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "deconv2relu2"
+  type: "ReLU"
+  bottom: "deconv2"
+  top: "deconv2"
+}
+layer {
+  name: "concat2"
+  bottom: "deconv2"
+  bottom: "pool1"
+  top: "concat2"
+  type: "Concat"
+  concat_param {
+    axis: 1
+  }
+}
+layer {
+  name: "deconv3"
+  type: "Deconvolution"
+  bottom: "concat2"
+  top: "deconv3"
+  convolution_param {
+    num_output: 128
+    kernel_size: 5
+    group: 2
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "deconv3relu2"
+  type: "ReLU"
+  bottom: "deconv3"
+  top: "deconv3"
+}
+
+layer {
+  name: "deconv4"
+  type: "Deconvolution"
+  bottom: "deconv3"
+  top: "deconv4"
+  convolution_param {
+    num_output: 128
+    kernel_size: 5
+    group: 2
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "deconv4relu2"
+  type: "ReLU"
+  bottom: "deconv4"
+  top: "deconv4"
+}
+
+layer {
+  name: "deconv5"
+  type: "Deconvolution"
+  bottom: "deconv4"
+  top: "deconv5"
+  convolution_param {
+    num_output: 128
+    kernel_size: 5
+    stride: 2
+    group: 2
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "deconv5relu2"
+  type: "ReLU"
+  bottom: "deconv5"
+  top: "deconv5"
+}
+
+layer {
+  name: "deconv6"
+  type: "Deconvolution"
+  bottom: "deconv5"
+  top: "deconv6"
+  convolution_param {
+    num_output: 128
+    kernel_size: 11
+    stride: 2
+    group: 2
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "deconv6relu2"
+  type: "ReLU"
+  bottom: "deconv6"
+  top: "deconv6"
+}
+
+
+
+
+
+
+#####################
+
+
+
+#####################
+# output layer
+#layer {
+#  name: "identity"
+#  type: "EuclideanLoss"
+#  bottom: "ip2"
+#  bottom: "py_target_data"
+#  top: "identity"
+#  loss_weight: 1
+#}

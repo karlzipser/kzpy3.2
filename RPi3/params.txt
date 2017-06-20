@@ -1,0 +1,5 @@
+capture 1
+trim -5
+cruise 0
+rand_control 0
+rand_trim 0

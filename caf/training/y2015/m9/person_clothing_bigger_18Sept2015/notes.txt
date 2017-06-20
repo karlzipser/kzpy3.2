@@ -1,0 +1,10 @@
+18 Sept. 2015
+
+Making conv1 and conv2 bigger.
+
+Now,
+	Memory required for data: 868023608
+as opposed to for original network:
+	Memory required for data: 1757220868
+
+It seems to be smaller, probably because of increased number of groups. Let's see if it works!

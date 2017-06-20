@@ -1,0 +1,44 @@
+
+Here is the organization of the data that I am using. For the complete dataset, it looks like this
+for a given data disk:
+
+/media/ubuntu/bair_car_data_4/ [For example. I use even/odd drive pairs to store duplicates of raw data]
+
+	bair_car_data/
+
+		caffe_z2_direct_from_Evans_19Sept2016_Mr_Orange/ [specifies: drive conditions, location, date, car]
+
+			bair_car_2016-09-19-17-34-24_38.bag [1.1 GB] [maybe 60 bag files per run, varies greatly]
+			bair_car_2016-09-19-17-35-06_39.bag
+
+			.preprocessed/
+
+				bair_car_2016-09-19-17-34-24_38.bag.pkl [~35 MB] [idental bag file names, but with .pkl extension]
+				bair_car_2016-09-19-17-35-06_39.bag.pkl [These contain 94x164 grayscale images]
+				left_image_bound_to_data.pkl  [data bound to left frame timestamps (left frame leads right)]
+				preprocessed_data.pkl         [all data except image pixels]
+
+
+
+For training, this can be greatly reduced to:
+
+
+home/ubuntu/
+
+	bair_car_data/
+
+		caffe_z2_direct_from_Evans_19Sept2016_Mr_Orange/
+
+			.preprocessed/
+
+				bair_car_2016-09-19-17-34-24_38.bag.pkl
+				bair_car_2016-09-19-17-35-06_39.bag.pkl
+				left_image_bound_to_data.pkl
+				preprocessed_data.pkl
+
+
+That is to say, the same structure of directories, but leaving out the large .bag files. This is the form in which
+I am giving the data to you today (9/20/2016). Philip has bair_car_data_1 with the raw data on it; if you need ~2 TB of raw data from bair_car_data_3, let me know.
+
+
+

@@ -1,0 +1,14 @@
+net: "kzpy3/caf/training/y2016/m3/RPi3/bvlc_ref_train_val_str.prototxt"
+test_iter: 100
+test_interval: 10000
+base_lr: 0.001
+lr_policy: "step"
+gamma: 0.1
+stepsize: 100000
+display: 10000
+max_iter: 4500000
+momentum: 0.9
+weight_decay: 0.0005
+snapshot: 100000
+snapshot_prefix: "scratch/2016/3/RPi3/bvlc_ref_mod_str"
+#solver_mode: CPU

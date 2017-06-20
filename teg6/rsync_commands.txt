@@ -1,0 +1,3 @@
+rsync -rav Desktop/bair_car_data/ /media/karlzipser/bair_car_data_ba/bair_car_data/
+
+rsync -rav /media/karlzipser/ExtraDrive1/* /media/karlzipser/bair_car_data_ba/hdf5/

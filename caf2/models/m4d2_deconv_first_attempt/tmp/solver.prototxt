@@ -1,0 +1,16 @@
+
+net: "kzpy3/caf2/models/m4d1_deconv_first_attempt/tmp/train_val.prototxt"
+test_iter: 1
+test_interval: 1000000
+test_initialization: false
+base_lr: 0.0001  # 0.00005
+momentum: 0.01
+weight_decay: 0.005
+lr_policy: "inv"
+gamma: 0.0001
+power: 0.75
+display: 10000
+max_iter: 1000000
+snapshot: 50000
+snapshot_prefix: "scratch/caf2_models/m4d1_deconv_first_attempt/m4d2_deconv_first_attempt"
+	

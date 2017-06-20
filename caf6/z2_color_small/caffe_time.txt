@@ -1,0 +1,7 @@
+
+
+karlzipser@bdd:~/caffe$ build/tools/caffe time --model=/home/karlzipser/kzpy3/caf6/z2_color/train_val.prototxt  --gpu=0
+Average Forward pass: 1.21125 ms.
+
+karlzipser@bdd:~/caffe$ build/tools/caffe time --model=/home/karlzipser/kzpy3/caf6/z2_color_small/train_val.prototxt  --gpu=0
+Average Forward pass: 1.06261 ms.

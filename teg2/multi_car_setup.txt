@@ -1,0 +1,85 @@
+# rosnode kill -a
+
+
+##################################
+#
+Mr. Blue
+ssh ubuntu@192.163.43.63 #    gets: "slMat2cvMat: mat type currently not supported 0 0"
+cat .ssh/id_rsa.pub  | ssh ubuntu@192.168.43.63 'cat >> .ssh/authorized_keys'
+lacks sudo automatic password: "ubuntu ALL=(ALL) NOPASSWD: ALL"
+##################################
+
+
+##################################
+#
+Mr. Yellow
+ssh ubuntu@192.168.43.76
+from uuid import getnode as get_mac; get_mac()
+mac: 18443932076L
+##################################
+
+
+##################################
+#
+Mr. Silver
+ssh ubuntu@192.168.43.53
+# √ unusable because of Arduino grounding problem.
+GPS poor resolution
+##################################
+
+##################################
+#
+Mr. Orange
+ssh ubuntu@192.168.43.113
+mac: 18443933021L
+##################################
+
+##################################
+#
+Mr. Teal
+ssh ubuntu@192.168.43.54
+mac: 18443935037L
+problem: red wire interferes with fan blade.
+##################################
+
+##################################
+#
+Mr. Black
+ssh ubuntu@192.168.43.196
+mac:
+##################################
+
+##################################
+#
+Mr. White
+ssh ubuntu@192.168.43.64
+##################################
+
+
+
+
+
+put z2.caf into kzpy3
+
+update all computer_name.py
+
+√ find screws to close roll cage
+
+charge bats
+mount bodies
+get video camera
+get gps meters
+way to fasten in bats
+charge computers
+
+
+PS1="Mr. Orange: \W$ "
+
+
+checklist:
+each computer: has name set in .bashrc
+has name set in computer.py
+does not have GPS stuff set in computer.py
+has rgla working
+
+

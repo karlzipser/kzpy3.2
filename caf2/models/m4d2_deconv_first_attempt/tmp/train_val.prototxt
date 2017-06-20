@@ -1,0 +1,140 @@
+# m4d1_deconv_first_attempt
+# 02Apr16_00h16m26s
+# A first attempt at making a conv-deconv network
+# 
+layer {
+	name: "py_image_data"
+	type: "DummyData"
+	top: "py_image_data"
+	dummy_data_param {
+		shape {
+			dim: 1
+			dim: 9
+			dim: 44
+			dim: 138
+		}
+	}
+}
+	
+layer {
+	name: "py_target_data"
+	type: "DummyData"
+	top: "py_target_data"
+	dummy_data_param {
+		shape {
+			dim: 1
+			dim: 1
+			dim: 44
+			dim: 138
+		}
+	}
+}
+	
+layer {
+	name: "conv1"
+	type: "Convolution"
+	bottom: "py_image_data"
+	top: "conv1"
+	convolution_param {
+		num_output: 96
+		group: 1
+		kernel_size: 5
+		stride: 3
+		pad_h: 2
+		pad_w: 0
+		weight_filler {
+			type: "gaussian" 
+			std: 0.01
+		}
+	}
+}
+layer {
+	name: "conv1_relu"
+	type: "ReLU"
+	bottom: "conv1"
+	top: "conv1"
+}	
+layer {
+	name: "conv2"
+	type: "Convolution"
+	bottom: "conv1"
+	top: "conv2"
+	convolution_param {
+		num_output: 256
+		group: 2
+		kernel_size: 5
+		stride: 3
+		pad_h: 1
+		pad_w: 1
+		weight_filler {
+			type: "gaussian" 
+			std: 0.01
+		}
+	}
+}
+layer {
+	name: "conv2_relu"
+	type: "ReLU"
+	bottom: "conv2"
+	top: "conv2"
+}		
+layer {
+	name: "deconv1"
+	type: "Deconvolution"
+	bottom: "conv2"
+	top: "deconv1"
+	convolution_param {
+		num_output: 96
+		group: 1
+		kernel_size: 5
+		stride: 3
+		pad_h: 1
+		pad_w: 1
+		weight_filler {
+			type: "gaussian" 
+			std: 0.01
+		}
+	}
+}
+layer {
+	name: "deconv1_relu"
+	type: "ReLU"
+	bottom: "deconv1"
+	top: "deconv1"
+}	
+layer {
+  name: "concat"
+  bottom: "conv1"
+  bottom: "deconv1"
+  top: "concat"
+  type: "Concat"
+  concat_param {
+    axis: 1
+  }
+}
+layer {
+	name: "deconv2"
+	type: "Deconvolution"
+	bottom: "concat"
+	top: "deconv2"
+	convolution_param {
+		num_output: 1
+		group: 1
+		kernel_size: 6
+		stride: 3
+		pad_h: 2
+		pad_w: 0
+		weight_filler {
+			type: "gaussian" 
+			std: 0.01
+		}
+	}
+}
+layer {
+	name: "euclidean"
+	type: "EuclideanLoss"
+	bottom: "deconv2"
+	bottom: "py_target_data"
+	top: "euclidean"
+	loss_weight: 1
+}

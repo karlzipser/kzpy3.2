@@ -1,0 +1,36 @@
+# The train/test net protocol buffer definition
+# run from ~
+#net: "kzpy3/caf/training/y2016/m3/RPi3/scl25/train_val_11px_deconv.prototxt"
+#net: "kzpy3/caf/training/y2016/m3/RPi3/scl25/train_val_11px_24_128_256_patch_scl100.prototxt"
+net: "kzpy3/caf/training/y2016/m3/RPi3/scl25/train_val_11px_96_256_512_patch_scl100.prototxt"
+#net: "kzpy3/caf/training/y2016/m3/RPi3/scl25/train_val_11px_96_256_512_trajectory.prototxt"
+#net: "kzpy3/caf/training/y2016/m3/RPi3/scl25/train_val_11px_96_256_512.prototxt"
+#net: "kzpy3/caf/training/y2016/m3/RPi3/scl25/train_val_11px_16_64.prototxt"
+# test_iter specifies how many forward passes the test should carry out.
+# In the case of MNIST, we have test batch size 100 and 100 test iterations,
+# covering the full 10,000 testing images.
+test_iter: 1
+# Carry out testing every 500 training iterations.
+test_interval: 1000000
+# The base learning rate, momentum and the weight decay of the network.
+base_lr: 0.0001  # 0.00005
+momentum: 0.01
+#weight_decay: 0.000005
+#weight_decay: 0.05
+weight_decay: 0.005
+# The learning rate policy
+lr_policy: "inv"
+gamma: 0.0001
+power: 0.75
+# Display every 100 iterations
+display: 10000
+# The maximum number of iterations
+max_iter: 1000000
+# snapshot intermediate results
+snapshot: 100000
+#snapshot_prefix: "scratch/2016/3/RPi/scl25/c16c64"
+#snapshot_prefix: "scratch/2016/3/RPi/scl25/c96c256i512"
+#snapshot_prefix: "scratch/2016/3/RPi/scl25/c96c256i512trajectory"
+#snapshot_prefix: "scratch/2016/3/RPi/scl25/c96c256i512patch"
+snapshot_prefix: "scratch/2016/3/RPi/scl25/c96c256i512patch_scl100"
+#snapshot_prefix: "scratch/2016/3/RPi/scl25/c24c128i256patch"

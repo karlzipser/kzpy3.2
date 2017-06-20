@@ -1,0 +1,101 @@
+
+
+
+
+layer {
+	name: "input_data"
+	type: "DummyData"
+	top: "input_data"
+	dummy_data_param {
+		shape {
+			dim: 1
+			dim: 225
+		}
+	}
+}
+
+layer {
+	name: "target_data"
+	type: "DummyData"
+	top: "target_data"
+	dummy_data_param {
+		shape {
+			dim: 1
+			dim: 9
+		}
+	}
+}
+
+
+
+############################################
+#
+layer {
+	name: "ip1"
+	type: "InnerProduct"
+	bottom: "input_data"
+	top: "ip1"
+	inner_product_param {
+		num_output: 128
+		weight_filler {
+			type: "xavier" 
+		}
+	}
+}
+	layer {
+	name: "ip1_relu"
+	type: "ReLU"
+	bottom: "ip1"
+	top: "ip1"
+}
+############################################################
+
+############################################
+#
+layer {
+	name: "ip2"
+	type: "InnerProduct"
+	bottom: "ip1"
+	top: "ip2"
+	inner_product_param {
+		num_output: 128
+		weight_filler {
+			type: "xavier" 
+		}
+	}
+}
+	layer {
+	name: "ip2_relu"
+	type: "ReLU"
+	bottom: "ip2"
+	top: "ip2"
+}
+############################################################
+
+
+############################################
+#
+layer {
+	name: "ip3"
+	type: "InnerProduct"
+	bottom: "ip2"
+	top: "ip3"
+	inner_product_param {
+		num_output: 9
+		weight_filler {
+			type: "xavier" 
+		}
+	}
+}
+############################################################
+
+
+layer {
+	name: "euclidean"
+	type: "EuclideanLoss"
+	bottom: "ip3"
+	bottom: "target_data"
+	top: "euclidean"
+	loss_weight: 1
+}
+	

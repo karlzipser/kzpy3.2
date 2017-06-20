@@ -1,0 +1,332 @@
+name: "RPi"
+input: "M_ddata"
+input_dim: 1
+input_dim: 9
+input_dim: 112
+input_dim: 150
+force_backward: true
+#####################
+# Dummy data to make place for images
+#layer {
+#  name: "M_ddata"
+#  type: "DummyData"
+#  top: "M_ddata"
+#
+#  dummy_data_param {
+#    shape {
+#      dim: 1
+#      dim: 9
+#      dim: 112
+#      dim: 150
+#    }
+#  }
+#}
+# Dummy data to make place for multiple target values
+layer {
+  name: "MC_cat_ddata2"
+  type: "DummyData"
+  top: "MC_cat_ddata2"
+  dummy_data_param {
+    shape {
+      dim: 1
+      dim: 7
+    }
+  }
+}
+
+
+#####################
+# Motion image data
+layer {
+  type: 'Python'
+  name: 'M_py_image_data'
+  bottom: 'M_ddata'
+  top: 'M_py_image_data'
+  python_param {
+    module: 'kz_layers0'
+    layer: 'SimpleLayer0'
+  }
+}
+# Target values
+layer {
+  type: 'Python'
+  name: 'MC_cat_py_target_data'
+  bottom: 'MC_cat_ddata2'
+  top: 'MC_cat_py_target_data'
+  python_param {
+    module: 'kz_layers0'
+    layer: 'SimpleLayer0'
+  }
+}
+#####################
+# Motion layers
+layer {
+  name: "M_conv1"
+  type: "Convolution"
+  bottom: "M_py_image_data"
+  top: "M_conv1"
+  convolution_param {
+    num_output: 96
+    kernel_size: 11
+    stride: 3
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "M_relu1"
+  type: "ReLU"
+  bottom: "M_conv1"
+  top: "M_conv1"
+}
+layer { # (1, 96, 17, 23)
+  name: "M_pool1"
+  type: "Pooling"
+  bottom: "M_conv1"
+  top: "M_pool1"
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    stride: 2
+  }
+}
+#####################
+#
+layer {
+  name: "M_cccp1"
+  type: "Convolution"
+  bottom: "M_pool1"
+  top: "M_cccp1"
+  convolution_param {
+    num_output: 96
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "M_cccp1_relu2"
+  type: "ReLU"
+  bottom: "M_cccp1"
+  top: "M_cccp1"
+}
+layer {
+  name: "M_cccp2"
+  type: "Convolution"
+  bottom: "M_cccp1"
+  top: "M_cccp2"
+  convolution_param {
+    num_output: 96
+    kernel_size: 1
+    stride: 1
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "M_cccp2_relu3"
+  type: "ReLU"
+  bottom: "M_cccp2"
+  top: "M_cccp2"
+}
+
+#####################
+# Dummy data to make place for color images
+layer {
+  name: "C_ddata"
+  type: "DummyData"
+  top: "C_ddata"
+
+  dummy_data_param {
+    shape {
+      dim: 1
+      dim: 3
+      dim: 225
+      dim: 300
+    }
+  }
+}
+##################### Color layers ###################
+layer {
+  type: 'Python'
+  name: 'C_py_image_data' # Color image data
+  bottom: 'C_ddata'
+  top: 'C_py_image_data'
+  python_param {
+    module: 'kz_layers0'
+    layer: 'SimpleLayer0'
+  }
+}
+layer {
+  name: "C_conv1"
+  type: "Convolution"
+  bottom: "C_py_image_data"
+  top: "C_conv1"
+  convolution_param {
+    num_output: 96
+    kernel_size: 11
+    stride: 3
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "C_relu1"
+  type: "ReLU"
+  bottom: "C_conv1"
+  top: "C_conv1"
+}
+layer {
+  name: "C_pool1"
+  type: "Pooling"
+  bottom: "C_conv1"
+  top: "C_pool1"
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    stride: 2
+  }
+}
+layer {
+  name: "C_conv2"
+  type: "Convolution"
+  bottom: "C_pool1"
+  top: "C_conv2"
+  convolution_param {
+    num_output: 256
+    kernel_size: 5
+    group: 2
+    pad: 1 #### for alignment with motion network
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "C_relu2"
+  type: "ReLU"
+  bottom: "C_conv2"
+  top: "C_conv2"
+}
+layer {
+  name: "C_pool2"
+  type: "Pooling"
+  bottom: "C_conv2"
+  top: "C_pool2"
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    stride: 2
+  }
+}
+
+
+
+##################### Motion-Color integration layers ###################
+layer {
+  name: "MC_concat"
+  type: "Concat"
+  bottom: "M_cccp2"
+  bottom: "C_pool2"
+  top: "MC_concat"
+  concat_param {
+    axis: 1
+  }
+}
+layer {
+  name: "MC_conv3"
+  type: "Convolution"
+  bottom: "MC_concat"
+  top: "MC_conv3"
+  convolution_param {
+    num_output: 384
+    kernel_size: 3
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "MC_relu3"
+  type: "ReLU"
+  bottom: "MC_conv3"
+  top: "MC_conv3"
+}
+layer {
+  name: "MC_pool3"
+  type: "Pooling"
+  bottom: "MC_conv3"
+  top: "MC_pool3"
+  pooling_param {
+    pool: MAX
+    kernel_size: 3
+    stride: 2
+  }
+}
+
+
+
+##################### inner product layers #############
+layer {
+  name: "MC_ip1"
+  type: "InnerProduct"
+  bottom: "MC_pool3"
+  top: "MC_ip1"
+  inner_product_param {
+    num_output: 512
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "MC_relu3"
+  type: "ReLU"
+  bottom: "MC_ip1"
+  top: "MC_ip1"
+}
+layer {
+  name: "MC_cat_ip2"
+  type: "InnerProduct"
+  bottom: "MC_ip1"
+  top: "MC_cat_ip2"
+  inner_product_param {
+    num_output: 7
+    weight_filler {
+      type: "xavier"
+    }
+  }
+}
+layer {
+  name: "MC_cat_relu4"
+  type: "ReLU"
+  bottom: "MC_cat_ip2"
+  top: "MC_cat_ip2"
+}
+
+
+
+##################### output layer ##################
+layer {
+  name: "identity"
+  type: "EuclideanLoss"
+  bottom: "MC_cat_ip2"
+  bottom: "MC_cat_py_target_data"
+  top: "identity"
+  loss_weight: 1
+}
+
+#####################
+# output layer
+#layer {
+#  name: "MC_loss"
+#  type: "SoftmaxWithLoss"
+#  bottom: "MC_ip2"
+#  bottom: "MC_py_target_data"
+#  top: "MC_loss"
+#}

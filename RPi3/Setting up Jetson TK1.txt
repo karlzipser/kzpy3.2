@@ -1,0 +1,47 @@
+Setting up Jetson TK1
+
+##############################################################
+#
+WIFI,see:
+	http://elinux.org/Jetson/Network_Adapters
+		Download & unzip Media:rtl8192cufw.bin.zip,
+		Then copy this firmware driver into the "/lib/firmware/rtlwifi" folder on the device using root permissions.
+		reboot
+		wifi options should appear in menu
+#
+##############################################################
+
+
+https://github.com/CoDaS-Lab/jetson-for-vision/blob/master/README.md
+--looks important
+
+
+##############################################################
+#
+ssh-keygen -t rsa -C username@machine
+mkdir .ssh [on pi]
+cat ~/.ssh/id_rsa.pub | ssh ubuntu@###.###.##.##  'cat >> .ssh/authorized_keys'
+#
+##############################################################
+
+
+installed ipython through Ubuntu Software Center
+installed git through Ubuntu Software Center
+
+
+##############################################################
+#
+sudo apt-get install python-pip
+#
+##############################################################
+
+##############################################################
+#
+git clone https://github.com/karlzipser/kzpy3.0.git
+mv kzpy3.0 kzpy3
+#
+##############################################################
+
+sudo apt-get install python-scipy --fix-missing
+
+

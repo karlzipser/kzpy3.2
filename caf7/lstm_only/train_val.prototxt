@@ -1,0 +1,150 @@
+
+layer {
+	name: "steer_motor_target_data"
+	type: "DummyData"
+	top: "steer_motor_target_data"
+	dummy_data_param {
+		shape {
+			dim: 10 # time samples
+            dim: 1 # number of independent channels
+			dim: 2 # steer/motor
+		}
+	}
+}
+
+# ignoring this layer for lstm_only testing
+#layer {
+#	name: "metadata"
+#	type: "DummyData"
+#	top: "metadata"
+#	dummy_data_param {
+#		shape {
+#			dim: 2
+#			dim: 96
+#			dim: 14
+#			dim: 26
+#		}
+#	}
+#}
+	
+layer {
+      name: "clip"
+      type: "DummyData"
+      top: "clip"
+      dummy_data_param {
+      	shape {
+	        dim: 10 # time samples
+	        dim: 1 # number of independent channels
+	    }
+      }
+}
+
+layer {
+	name: "ZED_data_pool2"
+	type: "DummyData"
+	top: "ZED_data_pool2"
+	dummy_data_param {
+		shape {
+			dim: 10 # time samples
+            dim: 1 # number of independent channels
+            dim: 2 # depth channel
+			dim: 3 # color channel
+			dim: 94 # height channel
+			dim: 168 # width channel
+		}
+	}
+}
+
+
+layer {
+  name: "ZED_data_pool2_scale"
+  type: "Scale"
+  bottom: "ZED_data_pool2"
+  top: "ZED_data_pool2_scale"
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  param {
+    lr_mult: 0
+    decay_mult: 0
+  }
+  scale_param {
+    filler {
+      value: 0.003921    }
+    bias_term: true
+    bias_filler {
+      value: -0.5
+    }
+  }
+}
+
+layer {
+    name: "ZED_data_pool2_reshape"
+    type: "Reshape"
+    bottom: "ZED_data_pool2_scale"
+    top: "ZED_data_pool2_reshape"
+    reshape_param {
+        shape {
+            dim: 0 # copy number of time samples
+            dim: 0 # copy number of independent channels
+            dim: -1 # flatten everything else
+        }
+    }
+}
+
+#####################   LSTM layer ######################
+layer {
+      name: "lstm1"
+      type: "LSTM"
+      bottom: "ZED_data_pool2_reshape"
+      bottom: "clip"
+      top: "lstm1"
+      recurrent_param {
+        num_output: 256
+	weight_filler {
+	  type: "gaussian"
+	  std: 0.1
+	}
+        bias_filler {
+          type: "constant"
+        }
+      }
+}
+
+############# Final fully connected layer ###############
+layer {
+  name: "ip3"
+  type: "InnerProduct"
+  bottom: "lstm1"
+  top: "ip3"
+  param {
+    lr_mult: 10
+    decay_mult: 1
+  }
+  param {
+    lr_mult: 2
+    decay_mult: 0
+  }
+  inner_product_param {
+    num_output: 2
+    weight_filler {
+      type: "gaussian"
+      std: 0.01
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
+    }
+    axis: 2
+  }
+}
+
+layer {
+	name: "euclidean"
+	type: "EuclideanLoss"
+	bottom: "steer_motor_target_data"
+	bottom: "ip3"
+	top: "euclidean"
+	loss_weight: 1
+}

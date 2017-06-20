@@ -1,0 +1,57 @@
+Fresh Jetpack 2.3 install from NVIDIA website
+
+sudo apt-get update -y
+sudo apt-get install cmake -y
+
+# General dependencies
+sudo apt-get install libprotobuf-dev libleveldb-dev libsnappy-dev \
+libhdf5-serial-dev protobuf-compiler -y
+sudo apt-get install --no-install-recommends libboost-all-dev -y
+
+# BLAS
+sudo apt-get install libatlas-base-dev -y
+
+# Remaining Dependencies
+sudo apt-get install libgflags-dev libgoogle-glog-dev liblmdb-dev -y
+
+# Python Dependencies
+sudo apt-get install python-dev python-numpy python-skimage python-protobuf -y
+
+# Clone Caffe (experimental FP16 version)
+cd ~
+git clone https://github.com/nvidia/caffe -b experimental/fp16
+cd caffe
+cp Makefile.config.example Makefile.config
+
+# Remove cmake folder and CMakeLists files
+rm -rf cmake/ CMakeLists.txt
+
+# Edit the following lines in Makefile.config
+
+    sed -i 's/# NATIVE_FP16/NATIVE_FP16/g' Makefile.config
+    sed -i 's/# USE_CUDNN/USE_CUDNN/g' Makefile.config
+    sed -i 's/-gencode arch=compute_50,code=compute_50/-gencode arch=compute_53,code=sm_53 -gencode arch=compute_53,code=compute_53/g' Makefile.config
+
+    INCLUDE_DIRS := $(PYTHON_INCLUDE) /usr/local/include
+    becomes
+    INCLUDE_DIRS := $(PYTHON_INCLUDE) /usr/local/include /usr/include/hdf5/serial/
+
+    LIBRARY_DIRS := $(PYTHON_LIB) /usr/local/lib /usr/lib
+    becomes
+    LIBRARY_DIRS := $(PYTHON_LIB) /usr/local/lib /usr/lib /usr/lib/aarch64-linux-gnu/hdf5/serial/
+
+# Fix HDF5 linking issue
+sudo ln -s /usr/lib/aarch64-linux-gnu/libhdf5_serial.so.10 /usr/lib/aarch64-linux-gnu/libhdf5.so
+sudo ln -s /usr/lib/aarch64-linux-gnu/libhdf5_serial_hl.so.10 /usr/lib/aarch64-linux-gnu/libhdf5_hl.so
+
+# Build caffe
+make -j4
+make pycaffe
+make distribute
+
+# Edit the following lines in .bashrc and then source .bashrc
+export PATH=/usr/local/cuda-8.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/ubuntu/caffe/build/tools
+export PYTHONPATH=/home/ubuntu/caffe/python:$PYTHONPATH
+
+# Install ipython
+sudo apt-get install ipython ipython-notebook python-pandas -y

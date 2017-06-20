@@ -1,0 +1,6 @@
+
+print('second_params.py')
+
+a = 1
+b = 2
+print 1+b
