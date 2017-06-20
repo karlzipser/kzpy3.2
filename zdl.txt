@@ -4,25 +4,27 @@ v
 	 Left_Image_Bound_To_Data_TS : Hold left_image_boud_to_data in TimestampedData format.
 TimestampedData : Dictionary structure for holding lists of data corresponding to list of timestamps.
 1) acc:
-	[[-1.14 9.78 1.48] (len=3) [-2.75 10.8 1.19] (len=3) ... [2.06 9.56 1.23] (len=3) [1.79 9.52 1.86] (len=3)] (len=20305)
+	[[-1.95 10.65 -1.72] (len=3) [-3.3 6.95 -1.49] (len=3) ... [2.04 9.52 1.23] (len=3) [2.04 9.54 1.23] (len=3)] (len=20305)
 2) encoder:
-	[1.52 1.54 ... 0.0 0.0] (len=20305)
+	[1.4 1.4 ... 0.0 0.0] (len=20305)
 3) gyro:
-	[[13.65 2.7 0.39] (len=3) [35.53 5.72 28.96] (len=3) ... [0.0 0.43 0.0] (len=3) [0.0 0.0 0.0] (len=3)] (len=20305)
+	[[-6.39 21.45 -17.36] (len=3) [-0.67 22.22 -35.98] (len=3) ... [0.0 0.0 0.0] (len=3) [0.0 0.0 0.0] (len=3)] (len=20305)
 4) load:
-	 <function _load at 0x10f131de8> <type 'function'>
+	 <function _load at 0x10b8350c8> <type 'function'>
 5) motor:
-	[57.0 57.0 ... 49.0 48.0] (len=20305)
+	[58.0 58.0 ... 48.0 48.0] (len=20305)
 6) right_image:
-	[1491949568.75 1491949569.25 ... 1491950078.58 1491949696.99] (len=20305)
+	[1491949542.02 1491949542.05 ... 1491950232.74 1491950232.77] (len=20305)
 7) save:
-	 <function _save at 0x10f131758> <type 'function'>
+	 <function _save at 0x10b82de60> <type 'function'>
 8) state:
 	[6.0 6.0 ... 2.0 2.0] (len=20305)
 9) steer:
-	[33.0 33.0 ... 49.0 49.0] (len=20305)
-10) ts:
-	[1491949568.74 1491949569.24 ... 1491950078.56 1491949696.98] (len=20305)
-11) type:
-	 SomeData
+	[36.19 36.0 ... 49.0 49.0] (len=20305)
+10) translate_from_left_image_bound_to_data:
+	 <function _translate_from_left_image_bound_to_data at 0x10d26f050> <type 'function'>
+11) ts:
+	[1491949542.01 1491949542.04 ... 1491950232.73 1491950232.76] (len=20305)
+12) type:
+	 Left_Image_Bound_To_Data_TS
 

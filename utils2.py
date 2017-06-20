@@ -1042,11 +1042,16 @@ def img_to_img_uint8(d):
 def zsave_obj(d):
     obj = d['obj']
     path = d['path']
+    if 'save_function_placeholder' not in d:
+        save_function_placeholder = True
 
     if path != None:
         print(path)
     if callable(obj):
-        text_to_file({ 'txt':'<function>', 'path':path+'.fun' })
+        if save_function_placeholder:
+            text_to_file({ 'txt':'<function>', 'path':path+'.fun' })
+        else:
+            pass
     elif type(obj) == str:
         text_to_file({'txt':obj,'path':path+'.txt'})
     elif fname(path) == 'img_uint8':
@@ -1080,7 +1085,7 @@ def zload_obj(d):
     for a in all_files:
         if os.path.isdir(a):
             dic.append(a)
-    print(dic)
+    #print(dic)
     #print txt
     #print fun
     #print pkl
@@ -1093,7 +1098,7 @@ def zload_obj(d):
         obj[n] = q
     for k in fun:
         n = fname(k).split('.')[0]
-        print('do nothing with '+k)
+        #print('do nothing with '+k)
         #obj[n] = '<function>'
     for k in pkl:
         n = fname(k).split('.')[0]
@@ -1103,7 +1108,7 @@ def zload_obj(d):
         obj[n] = imread(k)
     for k in dic:
         n = fname(k)
-        print(dic,n,k,ctr)
+        #print(dic,n,k,ctr)
         obj[n] = zload_obj({'path':k,'ctr':ctr+1})
 
     #raw_input('hit enter')
