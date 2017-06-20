@@ -11,8 +11,9 @@ FINAL_LINE_COLOR = (255, 255, 255)
 WORKING_LINE_COLOR = (127, 127, 127)
 
 # ============================================================================
-
+t = 0
 class PolygonDrawer(object):
+    
     def __init__(self, window_name):
         self.window_name = window_name # Name for our window
 
@@ -22,6 +23,7 @@ class PolygonDrawer(object):
 
 
     def on_mouse(self, event, x, y, buttons, user_param):
+        global t
         # Mouse callback that gets called for every mouse event (i.e. moving, clicking, etc.)
 
         if self.done: # Nothing more to do
@@ -31,6 +33,10 @@ class PolygonDrawer(object):
             # We want to be able to draw the line-in-progress, so update current mouse position
             self.current = (x, y)
         elif event == cv2.EVENT_LBUTTONDOWN:
+            if time.time() - t < 0.2:
+                print("Completing polygon with %d points." % len(self.points))
+                self.done = True
+            t = time.time()
             # Left click means adding a point at current position to the list of points
             print("Adding point #%d with position(%d,%d)" % (len(self.points), x, y))
             self.points.append((x, y))

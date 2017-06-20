@@ -34,6 +34,7 @@ def Left_Image_Bound_To_Data_TS():
 	D['acc'] = []
 	D['encoder'] = []
 	D['gyro'] = []
+	D['gyro_heading'] = []
 	D['motor'] = []
 	D['right_image'] = []
 	D['state'] = []
@@ -48,14 +49,19 @@ def Left_Image_Bound_To_Data_TS():
 	D['translate_from_left_image_bound_to_data'] = _translate_from_left_image_bound_to_data
   	return D
 
+src = '/Volumes/SSD_2TB/bair_car_data_new_28April2017/meta'
+dst = opjD('meta')
+runs = sggo(src,'*')
+for r in runs:
+	if len(sggo(r,'left_image_bound_to_data.pkl')) > 0:
+		a = Left_Image_Bound_To_Data_TS()
+		a['translate_from_left_image_bound_to_data'](
+			{'path':opj(r,'left_image_bound_to_data.pkl')})
+		a['save']({'path':opjD('meta',fname(r),'left_image_bound_to_data_TS')})
 
-a = Left_Image_Bound_To_Data_TS()
-a['translate_from_left_image_bound_to_data'](
-	{'path':'/Volumes/SSD_2TB/bair_car_data_new_28April2017/meta/caffe2_z2_color_direct_local_11Apr17_15h25m02s_Mr_Silver/left_image_bound_to_data.pkl'})
-a['save']({'path':opjD('meta','caffe2_z2_color_direct_local_11Apr17_15h25m02s_Mr_Silver','left_image_bound_to_data_TS')})
-
-
+"""
 v = Left_Image_Bound_To_Data_TS()
 v['load']({'path':opjD('meta','caffe2_z2_color_direct_local_11Apr17_15h25m02s_Mr_Silver','left_image_bound_to_data_TS')})
 v['save']({'path':opjD('v')})
+"""
 
