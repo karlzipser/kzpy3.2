@@ -10,13 +10,14 @@ def TimestampedData():
 				assert(len(D[k]) == len_ts)
 	def _load(d):
 		path = d['path']
-
-		d = zload_obj({'path':path})
+		assert(len(gg(path))>0)
+		e = zload_obj({'path':path})
+		print(d2s('e =',e))
 		for k in D.keys():
 			if type(D[k]) == list:
 				del D[k]
-		for k in d.keys():
-			D[k] = d[k]
+		for k in e.keys():
+			D[k] = e[k]
 		_validate_timestamps()
 	D['load'] = _load
 	def _save(d):
@@ -26,24 +27,30 @@ def TimestampedData():
 	return D
 
 
-def SomeData():
+def Left_Image_Bound_To_Data_TS():
 	D = TimestampedData()
-	D['Purpose'] = d2s(inspect.stack()[0][3],':','A specific type of dataset.\n') + D['Purpose']
+	D['Purpose'] = d2s(inspect.stack()[0][3],':','Hold left_image_boud_to_data in TimestampedData format.\n') + D['Purpose']
 	D['type'] = 'SomeData'
-	D['steer'] = []
-	D['motor'] = []
+	D['acc'] = []
 	D['encoder'] = []
-	return D
+	D['gyro'] = []
+	D['motor'] = []
+	D['right_image'] = []
+	D['state'] = []
+	D['steer'] = []
+  	return D
 
 
-q = SomeData()
-q['ts'] = np.random.randn(5)
-q['steer'] = np.random.randn(4)
-q['motor'] = np.random.randn(4)
-q['encoder'] = np.random.randn(4)
+a = Left_Image_Bound_To_Data_TS()
+L=lo('/Volumes/SSD_2TB/bair_car_data_new_28April2017/meta/caffe2_z2_color_direct_local_11Apr17_15h25m02s_Mr_Silver/left_image_bound_to_data.pkl')
+a['ts'] = sorted(L.keys())
+for t in a['ts']:
+	for k in L[t].keys():
+		a[k].append(L[t][k])
+a['save']({'path':opjD('left_image_bound_to_data_ts')})
 
-q['save']({'path':opjD('qq')})
 
-#v = SomeData()
-#v['load']({'path':opjD('qq')})
+v = Left_Image_Bound_To_Data_TS()
+v['load']({'path':opjD('left_image_bound_to_data_ts')})
+v['save']({'path':opjD('v')})
 

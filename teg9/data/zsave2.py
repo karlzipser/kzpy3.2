@@ -71,7 +71,8 @@ def zload_obj(d):
 		obj[n] = q
 	for k in fun:
 		n = fname(k).split('.')[0]
-		obj[n] = '<function>'
+		print('do nothing with '+k)
+		#obj[n] = '<function>'
 	for k in pkl:
 		n = fname(k).split('.')[0]
 		obj[n] = load_obj(k)
