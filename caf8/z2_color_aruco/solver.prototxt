@@ -1,5 +1,5 @@
 # /home/karlzipser/kzpy3/caf8/z2_color_aruco
-# Monday, 19 Jun 2017, 06:43:41 PM
+# Tuesday, 20 Jun 2017, 11:55:46 AM
 
 net: "/home/karlzipser/kzpy3/caf8/z2_color_aruco/train_val.prototxt"
 test_iter: 1

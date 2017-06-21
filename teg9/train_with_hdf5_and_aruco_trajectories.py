@@ -388,7 +388,7 @@ while True:
 
 		Solver.put_data_into_model(data,Solver.solver,b)
 	if len(data['other_car_inverse_distances']) == 0:
-		if np.random.random()<0.:
+		if np.random.random()<1.:
 			continue
 
 	Solver.solver.step(1) # The training step. Everything below is for display.
