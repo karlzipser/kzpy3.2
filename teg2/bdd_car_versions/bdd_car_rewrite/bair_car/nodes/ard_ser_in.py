@@ -3,7 +3,12 @@ from kzpy3.utils import *
 
  
 
-
+class DUMMY_SER():
+    def __init__(self):
+        pass
+    def write(self):
+        pass
+dummy_ser = DUMMY_SER()
 
 def get_arduino_serial_connections(baudrate, timeout):
     sers = []
@@ -42,6 +47,10 @@ def assign_serial_connections(sers):
             print('Unable to identify port {0}'.format(ser.port))
             print('Is transmitter turned on?')
             print('Is MSE battery plugged in?')
+            is 'SIG' not in Arduinos:
+                print"WARNING: 'SIG' not found, using dummy serial port"
+                time.sleep(1)
+                Arduinos['SIG'] = dummy_ser
             #M['Stop_Arduinos'] = True
     return Arduinos
 

@@ -69,3 +69,4 @@ export PYTHONPATH=$PYTHONPATH:~/kzpy3/data_analysis/trajectory_generator
 export PYTHONPATH=$PYTHONPATH:~/kzpy3/data_analysis/visualization
 #fi
 # ARUCO CODE PYTHON PATH CHANGE
+alias anapy='export PATH=~/anaconda2/bin:$PATH'
