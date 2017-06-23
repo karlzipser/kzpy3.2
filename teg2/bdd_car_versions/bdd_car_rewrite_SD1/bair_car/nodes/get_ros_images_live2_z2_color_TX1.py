@@ -4,6 +4,7 @@ reed to run roslaunch first, e.g.,
 
 roslaunch bair_car bair_car.launch use_zed:=true record:=false
 """
+from kzpy3.utils2 import *
 
 weight_file_path = opjD('fulldata')
 
