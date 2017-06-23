@@ -320,6 +320,7 @@ def run_loop(Arduinos,M,BUTTON_DELTA=50,):
             if M['current_state'] == M['state_four']:
                 #M['aruco_evasion_active'] = 0
                 process_state_4(M)
+                M['state_pub'].publish(std_msgs.msg.Int32(M['current_state'].number))
                 continue
             else:
                 if not calibrated(Arduinos,M):
