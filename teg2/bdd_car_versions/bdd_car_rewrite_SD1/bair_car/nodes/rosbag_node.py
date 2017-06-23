@@ -26,7 +26,7 @@ if __name__ == '__main__':
     bag_rec_folder = opj(media_path,'rosbags')#sys.argv[2] # '/media/ubuntu/3131-3031/rosbags'
     bag_rec_folder = opj(bag_rec_folder,foldername)
 
-    unix('mkdir '+bag_mv_folder)
+    unix('mkdir '+bag_rec_folder)
     #unix('mkdir  '+opj(bag_mv_folder,'.caf'))
     #unix('mkdir  '+opj(bag_mv_folder,'.bair_car'))
 
