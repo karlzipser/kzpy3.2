@@ -69,7 +69,7 @@ def print_stars1(n=1):
 host_name = socket.gethostname()
 home_path = os.path.expanduser("~")
 username = getpass.getuser()
-media_path = opj('/media',username)
+
 imread = scipy.misc.imread
 imsave = scipy.misc.imsave
 degrees = np.degrees
@@ -108,7 +108,7 @@ def opjh(*args):
     return opj(home_path,opj(*args))
 def opjD(*args):
     return opjh('Desktop',opj(*args))
-
+media_path = opj('/media',username)
 
 def rlen(a):
     return range(len(a))
