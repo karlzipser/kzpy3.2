@@ -4,9 +4,9 @@ reed to run roslaunch first, e.g.,
 
 roslaunch bair_car bair_car.launch use_zed:=true record:=false
 """
-from kzpy3.utils2 import *
 
-weight_file_path = opjD('fulldata')
+
+
 
 # Labels
 Direct = 1.
@@ -30,11 +30,12 @@ verbose = False
 nframes = 2 # default superseded by net
 
 # try:
-from kzpy3.utils2 import *
+from kzpy3.utils import *
 import torch
 import torch.nn as nn
 from torch.autograd import Variable
 from nets.squeezenet import SqueezeNet
+weight_file_path = opjD('fulldata')
 
 def static_vars(**kwargs):
     def decorate(func):
