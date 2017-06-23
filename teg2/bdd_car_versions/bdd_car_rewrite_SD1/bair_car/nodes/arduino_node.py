@@ -134,10 +134,12 @@ ard_MSE.setup(M,Arduinos)
 threading.Thread(target=arduino_mse_thread).start()
 
 if 'IMU' in Arduinos.keys():
+    print("'IMU' in Arduinos.keys()")
     ard_IMU.setup(M,Arduinos)
     threading.Thread(target=arduino_imu_thread).start()
 
 if 'SIG' in Arduinos.keys():
+    'SIG' in Arduinos.keys()
     threading.Thread(target=arduino_sig_thread).start()
     ard_SIG.setup(M,Arduinos)
 
