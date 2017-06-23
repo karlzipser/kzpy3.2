@@ -74,7 +74,8 @@ def run_model(input, metadata):
     
     output = solver(input, Variable(metadata))  # Run the neural net
 
-    print(output)
+    if verbose:
+        print(output)
 
     # Get latest prediction
     torch_motor = 100 * output[0][19].data[0]
@@ -229,7 +230,7 @@ model_name_pub = rospy.Publisher('/bair_car/model_name', std_msgs.msg.String, qu
 
 ctr = 0
 
-time_step = Timer(1)
+time_step = Timer(2)
 caffe_enter_timer = Timer(1)
 folder_display_timer = Timer(30)
 git_pull_timer = Timer(60)
@@ -281,6 +282,6 @@ while not rospy.is_shutdown():
         else:
             unix('sudo shutdown -h now')
     if time_step.check():
-        print(d2s("In state",state,"for",time.time()-state_enter_time,"seconds, previous_state =",previous_state))
+        print(d2s("In state",state,"for",dp(time.time()-state_enter_time),"seconds, previous_state =",previous_state))
         time_step.reset()
     
