@@ -171,14 +171,15 @@ B = 0
 state = 0
 previous_state = 0
 state_transition_time_s = 0
-
+state_enter_time = 0
 def state_callback(data):
-    global state, previous_state
+    global state, previous_state, state_enter_time
     # data.data = 6
     if state != data.data:
         if state in [3,5,6,7] and previous_state in [3,5,6,7]:
             pass
         else:
+            state_enter_time = time.time()
             previous_state = state
     state = data.data
 def right_callback(data):
@@ -252,7 +253,7 @@ while not rospy.is_shutdown():
                 cur_time = time.time()
                 last_time = cur_time
 
-                print torch_motor,torch_steer
+                #print torch_motor,torch_steer
 
                 if state in [3,6]:          
                     steer_cmd_pub.publish(std_msgs.msg.Int32(torch_steer))
@@ -262,8 +263,11 @@ while not rospy.is_shutdown():
 
     else:
         caffe_enter_timer.reset()
-    """
+    
+    if state == 4 and time.time()-state_enter_time > 30:
+        print("<<<< SHUTTING DOWN NOW >>>>>")
+
     if time_step.check():
-        print(d2s("In state",state,"for",state_transition_time_s,"seconds, previous_state =",previous_state))
+        print(d2s("In state",state,"for",time.time()-state_enter_time,"seconds, previous_state =",previous_state))
         time_step.reset()
-    """
+    
