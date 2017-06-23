@@ -114,9 +114,9 @@ def arduino_master_thread():
 
             #print M.keys()
             try:
-                #pass
+                pass
                 #print (shape(M['acc_lst']),M['acc_lst_mean'])
-                print(M['caffe_motor'])#,M['aruco_evasion_active'],int(M['caffe_steer_pwm']),M['current_state'].name,M['steer_pwm_lst'][-1],M['steer_percent'],M['motor_percent'],M['acc'],M['gyro'],M['head'])#,M['gyro'],M['head'],M['encoder'])
+                #print(M['caffe_motor'])#,M['aruco_evasion_active'],int(M['caffe_steer_pwm']),M['current_state'].name,M['steer_pwm_lst'][-1],M['steer_percent'],M['motor_percent'],M['acc'],M['gyro'],M['head'])#,M['gyro'],M['head'],M['encoder'])
             except:
                 pass
 
