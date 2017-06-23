@@ -19,7 +19,8 @@ if True:
 	bair_car_data_path = opjD('bair_car_data_new_28April2017')#opjD('bair_car_data_Main_Dataset') # '/media/karlzipser/ExtraDrive4/bair_car_data_new_28April2017'#opjD('bair_car_data_new')
 	#weights_file_path =  most_recent_file_in_folder(opjD(fname(opjh(REPO,CAF,MODEL))))
 	weights_file_path = opjh('caffe_models/z2_color.caffemodel')
-	weights_file_path = '/home/karlzipser/Desktop/z2_color_aruco/z2_color_aruco_iter_2100000.caffemodel'
+	#weights_file_path = '/home/karlzipser/Desktop/z2_color_aruco/z2_color_aruco_iter_2100000.caffemodel'
+	weights_file_path = opjh('caffe_models/z2_color/z2_color.caffemodel')
 	N_FRAMES = 2 # how many timesteps with images.
 	N_STEPS = 10 # how many timestamps with non-image data
 	gpu = 1
@@ -211,8 +212,4 @@ while True:
 			mi_or_cv2_animate(data['left'],delay=33)
 			pause(0.001)
 			print_timer.reset()
-
-
-
-
 

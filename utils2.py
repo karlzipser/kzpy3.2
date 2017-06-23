@@ -1143,36 +1143,26 @@ def code_to_code_str(d):
     import pyperclip
     path = d['path']
 
-    """
-    if 'start' not in d:
-        start = None
-    else:
-        start = d['start']
-    if 'end' not in d:
-        end = None
-    else:
-        end = d['end']
-    """
-
-
     code = txt_file_to_list_of_strings(path)
     for i in range(len(code)):
         pd2s(i,')',code[i])
-    """
-    len_code = len(code)
-
-    _start = 0
-    _end = len_code
-    if start != None:
-        _start = start
-    if end != None:
-        _end = end
-    """
     start,stop = input('start,stop ')
-    code_str = '\n'.join(code[start:stop])
+    code_to_clipboard({'path':path,'start':start,'stop':stop})
 
+
+
+def code_to_clipboard(d):
+    import pyperclip
+    code = d['path']
+    start = d['start']
+    stop = d['stop']
+
+    code_str = '\n'.join(code[start:stop])
     cprint(code_str,'yellow')
     pyperclip.copy(code_str) 
     print('\nOkay, it is in the clipboard')
 
 
+
+
+#

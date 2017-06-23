@@ -57,7 +57,7 @@ class SqueezeNet(nn.Module):
         self.final_output = nn.Sequential(
             nn.Dropout(p=0.5),
             final_conv,
-            nn.ReLU(inplace=True),
+            # nn.ReLU(inplace=True),
             nn.AvgPool2d(kernel_size=5, stride=6)
         )
 

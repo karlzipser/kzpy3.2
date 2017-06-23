@@ -190,13 +190,40 @@ while True:
     loss.backward()
     optimizer.step()
 
+    #torch.save(net.state_dict(), 'save_file')
+
     if print_timer.check():
         print('1. Output:')
-        print(outputs) # Output of Network
+        o = outputs[0].data.cpu().numpy()
+        print(t) # Output of Network
         print('2. Labels:')
-        print(labels)
+        t= labels[0].cpu().numpy()
+        print(o)
         print('3. Loss:')
         print(array(loss_list[-loss_list_N:]).mean())
         print(loss_list[-1])
         print_timer.reset()
-        mi(batch_camera_data[0][0].cpu().numpy());pause(0.000000001)
+        a=batch_camera_data[0][:].cpu().numpy()
+        b=a.transpose(1,2,0)
+        h = shape(a)[1]
+        w = shape(a)[2]
+
+        c = zeros((10+h*2,10+2*w,3))
+        c[:h,:w,:] = z2o(b[:,:,3:6])
+        c[:h,-w:,:] = z2o(b[:,:,:3])
+
+        c[-h:,:w,:] = z2o(b[:,:,9:12])
+        c[-h:,-w:,:] = z2o(b[:,:,6:9])
+
+        mi(c,'cameras')
+        figure('steer')
+        clf()
+    
+        ylim(-0.05,1.05);xlim(0,len(t))
+        plot([-1,60],[0.49,0.49],'k');plot(o,'og'); plot(t,'or'); plt.title(data['name'])
+        pause(0.000000001)
+
+
+
+
+#
