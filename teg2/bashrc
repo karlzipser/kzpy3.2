@@ -3,7 +3,7 @@
 # cd; cd kzpy3; git pull; cd
 alias ls='ls -al'
 alias rhz='rostopic hz /bair_car/zed/left/image_rect_color'
-alias rls='ls -al /media/ubuntu/rosbags'
+alias rls='ls -al /media/nvidia/rosbags'
 alias rrm='rm ~/catkin_ws/src/bair_car/rosbags/*'
 alias rlog='rm -r ~/.ros/log/*'
 alias rla='roslaunch bair_car bair_car.launch use_zed:=true record:=true'
@@ -17,7 +17,7 @@ alias rac='rostopic echo /bair_car/acc'
 alias rst='rostopic echo /bair_car/steer'
 alias rmo='rostopic echo /bair_car/motor'
 alias ren='rostopic echo /bair_car/encoder'
-alias rcd='cd /media/ubuntu/rosbags'
+alias rcd='cd /media/nvidia/rosbags'
 alias ssd='sudo shutdown -h now'
 alias killros='killall python && killall roslaunch && killall record'
 alias rcn='echo $COMPUTER_NAME'
@@ -27,14 +27,7 @@ alias rlat='rostopic echo /bair_car/GPS2_lat'
 alias rstat='python ~/kzpy3/teg7/data/rosstatus.py'
 alias test_caffe='cd ~/caffe; build/tools/caffe time --model=models/bvlc_alexnet/deploy.prototxt --gpu=0'
 alias zed_explorer='/usr/local/zed/tools/ZED\ Explorer'
-# sudo vi /etc/hosts # to edit hosts
-alias mrsil='ssh ubuntu@Mr_Silver'
-alias mryel='ssh ubuntu@Mr_Yellow'
-alias mrblu='ssh ubuntu@Mr_Blue'
-alias mrora='ssh ubuntu@Mr_Orange'
-alias mrtea='ssh ubuntu@Mr_Teal'
-alias mrbla='ssh ubuntu@Mr_Black'
-alias mrwhi='ssh ubuntu@Mr_White'
+
 
 alias ssh_date='sudo date --set="$(ssh karlzipser@192.168.1.16 date)"'
 
