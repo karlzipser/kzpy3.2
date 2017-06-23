@@ -41,7 +41,7 @@ weights_file_path = opjh("caffe_current/z2_color_aruco4_9200000.caffemodel")
 verbose = False
 use_caffe = True
 steer_gain = 1.0
-motor_gain = 0.2
+motor_gain = 0.0
 acc2rd_threshold = 150
 
 PID_min_max = [1.5,2.5]
