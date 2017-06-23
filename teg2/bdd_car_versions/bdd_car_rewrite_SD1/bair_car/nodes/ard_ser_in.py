@@ -47,7 +47,7 @@ def assign_serial_connections(sers):
             print('Unable to identify port {0}'.format(ser.port))
             print('Is transmitter turned on?')
             print('Is MSE battery plugged in?')
-            is 'SIG' not in Arduinos:
+            if 'SIG' not in Arduinos.keys():
                 print"WARNING: 'SIG' not found, using dummy serial port"
                 time.sleep(1)
                 Arduinos['SIG'] = dummy_ser
