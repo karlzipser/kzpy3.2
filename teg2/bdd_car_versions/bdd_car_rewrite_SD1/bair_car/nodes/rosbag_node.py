@@ -23,7 +23,7 @@ if __name__ == '__main__':
     assert(len(sys.argv) >= 3)
 
     bag_rec_folder = opjh('catkin_ws/src/bair_car/rosbags') #sys.argv[1] # '/home/ubuntu/catkin_ws/src/bair_car/rosbags'
-    bag_mv_folder = media_path#sys.argv[2] # '/media/ubuntu/3131-3031/rosbags'
+    bag_mv_folder = opj(media_path,'rosbags')#sys.argv[2] # '/media/ubuntu/3131-3031/rosbags'
     bag_mv_folder = opj(bag_mv_folder,foldername)
 
     unix('mkdir '+bag_mv_folder)
