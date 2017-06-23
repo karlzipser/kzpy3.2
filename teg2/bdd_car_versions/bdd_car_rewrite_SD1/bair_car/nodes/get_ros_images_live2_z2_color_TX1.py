@@ -5,7 +5,7 @@ reed to run roslaunch first, e.g.,
 roslaunch bair_car bair_car.launch use_zed:=true record:=false
 """
 
-weight_file_path = '/home/nvidia/catkin_ws/src/bair_car/nodes/fulldata'
+weight_file_path = opjD('fulldata')
 
 # Labels
 Direct = 1.
@@ -213,7 +213,7 @@ import time
 rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_callback,queue_size = 1)
 rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_callback,queue_size = 1)
 rospy.Subscriber('/bair_car/state', std_msgs.msg.Int32,state_callback)
-rospy.Subscriber('/bair_car/state_transition_time_s', std_msgs.msg.Int32, state_transition_time_s_callback)
+#rospy.Subscriber('/bair_car/state_transition_time_s', std_msgs.msg.Int32, state_transition_time_s_callback)
 steer_cmd_pub = rospy.Publisher('cmd/steer', std_msgs.msg.Int32, queue_size=100)
 motor_cmd_pub = rospy.Publisher('cmd/motor', std_msgs.msg.Int32, queue_size=100)
 freeze_cmd_pub = rospy.Publisher('cmd/freeze', std_msgs.msg.Int32, queue_size=100)
@@ -262,6 +262,8 @@ while not rospy.is_shutdown():
 
     else:
         caffe_enter_timer.reset()
+    """
     if time_step.check():
         print(d2s("In state",state,"for",state_transition_time_s,"seconds, previous_state =",previous_state))
         time_step.reset()
+    """
