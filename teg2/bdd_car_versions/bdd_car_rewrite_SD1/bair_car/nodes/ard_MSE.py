@@ -2,8 +2,8 @@ import threading
 from kzpy3.utils2 import *
 import std_msgs.msg
 import rospy
-import kzpy3.teg2.bdd_car_versions.bdd_car_rewrite.runtime_params
-from kzpy3.teg2.bdd_car_versions.bdd_car_rewrite.runtime_params import *
+import kzpy3.teg2.bdd_car_versions.bdd_car_rewrite.runtime_params as rp
+#from kzpy3.teg2.bdd_car_versions.bdd_car_rewrite.runtime_params import *
 
 lock = threading.Lock()
 
@@ -282,8 +282,8 @@ def setup(M,Arduinos):
     M['caffe_motor'] = 49
     M['caffe_motor_pwm'] = M['motor_null']
     M['n_lst_steps'] = 30
-    M['steer_gain'] = steer_gain
-    M['motor_gain'] = motor_gain
+    M['steer_gain'] = rp.steer_gain
+    M['motor_gain'] = rp.motor_gain
     M['acc2rd_threshold'] = acc2rd_threshold
     M['data_saving'] = 0
     print("MSE setup")
