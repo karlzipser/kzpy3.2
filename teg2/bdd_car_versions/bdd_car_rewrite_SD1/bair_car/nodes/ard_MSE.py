@@ -495,6 +495,7 @@ def serial_data_to_messages(Arduinos,M):
         M['button_pwm_lst'].append(mse_input[1])
         M['steer_pwm_lst'].append(mse_input[2])
         M['motor_pwm_lst'].append(mse_input[3])
+        print(mse_input)
         #M['steer_pwm_write_lst'].append(mse_input[4])
         #M['motor_pwm_write_lst'].append(mse_input[5])
         M['encoder_lst'].append(mse_input[4])#6])
