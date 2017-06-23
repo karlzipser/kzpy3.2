@@ -29,7 +29,7 @@ verbose = False
 nframes = 2 # default superseded by net
 
 # try:
-from kzpy3.utils import *
+from kzpy3.utils2 import *
 import torch
 import torch.nn as nn
 from torch.autograd import Variable

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from kzpy3.utils import *
+from kzpy3.utils2 import *
 import os, sys, shutil, subprocess, time
 import rospy
 import std_msgs.msg
@@ -22,8 +22,8 @@ if __name__ == '__main__':
 
     assert(len(sys.argv) >= 3)
 
-    bag_rec_folder = sys.argv[1] # '/home/ubuntu/catkin_ws/src/bair_car/rosbags'
-    bag_mv_folder = sys.argv[2] # '/media/ubuntu/3131-3031/rosbags'
+    bag_rec_folder = opjh('catkin_ws/src/bair_car/rosbags') #sys.argv[1] # '/home/ubuntu/catkin_ws/src/bair_car/rosbags'
+    bag_mv_folder = opj(media_pat)#sys.argv[2] # '/media/ubuntu/3131-3031/rosbags'
     bag_mv_folder = opj(bag_mv_folder,foldername)
 
     unix('mkdir '+bag_mv_folder)

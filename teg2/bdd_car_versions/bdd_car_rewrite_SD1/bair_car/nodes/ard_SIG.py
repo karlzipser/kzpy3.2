@@ -1,7 +1,7 @@
 #import os, serial, threading, Queue
 #import threading
 
-from kzpy3.utils import *
+from kzpy3.utils2 import *
 import rospy
 
 os.environ['STOP'] = 'False'
