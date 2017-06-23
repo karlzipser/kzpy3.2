@@ -277,10 +277,7 @@ while not rospy.is_shutdown():
         print('!!! about to shutdown from state 4 !!! ' + str(steer))
     if state == 4 and time.time()-state_enter_time > shutdown_time:
         print(d2s("Rebooting because in state 4 for",shutdown_time,"+ s"))
-        if steer < 90:
-            unix('sudo reboot')
-        else:
-            unix('sudo shutdown -h now')
+        unix('sudo reboot')
     if time_step.check():
         print(d2s("In state",state,"for",dp(time.time()-state_enter_time),"seconds, previous_state =",previous_state))
         time_step.reset()
