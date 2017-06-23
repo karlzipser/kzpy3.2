@@ -284,7 +284,7 @@ def setup(M,Arduinos):
     M['n_lst_steps'] = 30
     M['steer_gain'] = rp.steer_gain
     M['motor_gain'] = rp.motor_gain
-    M['acc2rd_threshold'] = acc2rd_threshold
+    M['acc2rd_threshold'] = rp.acc2rd_threshold
     M['data_saving'] = 0
     print("MSE setup")
 
