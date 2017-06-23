@@ -14,7 +14,6 @@ def apply_steer_pwm_gain(steer_pwm,M):
 
 
 def apply_motor_pwm_gain(motor_pwm,M):
-    print M['motor_gain']
     return (motor_pwm-M['motor_null']) * M['motor_gain'] + M['motor_null']
 
 
