@@ -132,7 +132,7 @@ class Net_Steer_PID_Motor(PID_Motor):
 class Net_Steer_Hum_Motor(PID_Motor):
     def process(self):
         self.M['caffe_steer_pwm'] = percent_to_pwm(self.M['caffe_steer'],self.M['steer_null'],self.M['steer_max'],self.M['steer_min'])
-        print(self.M['caffe_motor'],self.M['motor_null'],self.M['motor_max'],self.M['motor_min'])
+        #print(self.M['caffe_motor'],self.M['motor_null'],self.M['motor_max'],self.M['motor_min'])
         mse_write_publish(self.M,self.Arduinos,self.M['caffe_steer_pwm'],self.M['smooth_motor'])
 
 class Aruco_Steer_Aruco_Motor(Computer_Control):
