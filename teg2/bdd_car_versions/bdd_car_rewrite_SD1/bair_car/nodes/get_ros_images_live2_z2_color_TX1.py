@@ -178,10 +178,10 @@ def state_callback(data):
     global state, previous_state, state_enter_time
     # data.data = 6
     if state != data.data:
+        state_enter_time = time.time()
         if state in [3,5,6,7] and previous_state in [3,5,6,7]:
             pass
         else:
-            state_enter_time = time.time()
             previous_state = state
     state = data.data
 def right_callback(data):
