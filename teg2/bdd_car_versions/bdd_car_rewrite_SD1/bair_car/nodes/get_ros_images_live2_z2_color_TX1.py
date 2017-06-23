@@ -266,9 +266,12 @@ while not rospy.is_shutdown():
     else:
         caffe_enter_timer.reset()
     
-    if state == 4 and time.time()-state_enter_time > 30:
-        print("<<<< SHUTTING DOWN NOW >>>>>")
-
+    shutdown_time = 30
+    if state == 4 and time.time()-state_enter_time > shutdown_time-5:
+        print('!!! about to shutdown from state 4 !!!')
+    if state == 4 and time.time()-state_enter_time > shutdown_time:
+        print(d2s("Shutting down because in state 4 for",shutdown_time,"+ s")
+                unix('sudo shutdown -h now')
     if time_step.check():
         print(d2s("In state",state,"for",time.time()-state_enter_time,"seconds, previous_state =",previous_state))
         time_step.reset()

@@ -157,7 +157,7 @@ class Aruco_Steer_Aruco_Motor(Computer_Control):
 
 
 def buttons_to_state(Arduinos,M,BUTTON_DELTA):
-    print M['button_pwm_lst'][-1]
+    #print M['button_pwm_lst'][-1]
     if np.abs(M['button_pwm_lst'][-1] - M['state_four'].button_pwm_peak) < BUTTON_DELTA:
         if M['current_state'] == None:
             M['current_state'] = M['state_four']
