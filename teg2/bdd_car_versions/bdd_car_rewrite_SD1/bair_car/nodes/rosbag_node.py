@@ -47,14 +47,15 @@ if __name__ == '__main__':
                 if '.bag' != os.path.splitext(f)[1]:
                     continue
                 save_pub.publish(std_msgs.msg.Int32(1) )
-                print('Moving {0}'.format(f))
-                f_rec = os.path.join(bag_rec_folder, f)
-                f_mv = os.path.join(bag_mv_folder, f)
-                # shutil.copy(f_rec, f_mv)
-                start = time.time()
-                subprocess.call(['mv', f_rec, f_mv])
+                if False:
+                    print('Moving {0}'.format(f))
+                    f_rec = os.path.join(bag_rec_folder, f)
+                    f_mv = os.path.join(bag_mv_folder, f)
+                    # shutil.copy(f_rec, f_mv)
+                    start = time.time()
+                    subprocess.call(['mv', f_rec, f_mv])
                 elapsed = time.time() - start
-                unix('rm '+opj(bag_rec_folder,'*.bag')) # 27 Nov 2016, to remove untransferred bags
+                #unix('rm '+opj(bag_rec_folder,'*.bag')) # 27 Nov 2016, to remove untransferred bags
                 print('Done in {0} secs\n'.format(elapsed))
                 save_pub.publish(std_msgs.msg.Int32(0))
                 
