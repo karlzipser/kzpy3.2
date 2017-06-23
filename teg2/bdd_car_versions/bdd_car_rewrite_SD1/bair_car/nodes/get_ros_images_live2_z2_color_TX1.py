@@ -171,6 +171,7 @@ right_list = []
 A = 0
 B = 0
 state = 0
+steer = 0
 previous_state = 0
 state_transition_time_s = 0
 state_enter_time = 0
@@ -184,6 +185,9 @@ def state_callback(data):
         else:
             previous_state = state
     state = data.data
+def steer_callback(data):
+    global steer
+    steer = data.data
 def right_callback(data):
     global A,B, left_list, right_list, solver
     A += 1
@@ -215,6 +219,7 @@ import time
 
 rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_callback,queue_size = 1)
 rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_callback,queue_size = 1)
+rospy.Subscriber("/bair_car/steer", std_msgs.msg.Int32,steer_callback)
 rospy.Subscriber('/bair_car/state', std_msgs.msg.Int32,state_callback)
 #rospy.Subscriber('/bair_car/state_transition_time_s', std_msgs.msg.Int32, state_transition_time_s_callback)
 steer_cmd_pub = rospy.Publisher('cmd/steer', std_msgs.msg.Int32, queue_size=100)
@@ -271,7 +276,10 @@ while not rospy.is_shutdown():
         print('!!! about to shutdown from state 4 !!!')
     if state == 4 and time.time()-state_enter_time > shutdown_time:
         print(d2s("Shutting down because in state 4 for",shutdown_time,"+ s"))
-        unix('sudo shutdown -h now')
+        if steer == 0:
+            unix('sudo reboot')
+        else:
+            unix('sudo shutdown -h now')
     if time_step.check():
         print(d2s("In state",state,"for",time.time()-state_enter_time,"seconds, previous_state =",previous_state))
         time_step.reset()
