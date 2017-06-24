@@ -35,7 +35,7 @@ import torch
 import torch.nn as nn
 from torch.autograd import Variable
 from nets.squeezenet import SqueezeNet
-weight_file_path = opjD('fulldata')
+weight_file_path = opjh('pytorch_models','epoch6goodnet')
 
 def static_vars(**kwargs):
     def decorate(func):
