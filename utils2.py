@@ -1165,5 +1165,14 @@ def code_to_clipboard(d):
 
 
 
+def blank_dic():
+    print("""
+def blank_dic):
+    D = {}
+    D['type'] = '?'
+    D['Purpose'] = d2s(inspect.stack()[0][3],':','?')
+    return D""")
+
+
 
 #

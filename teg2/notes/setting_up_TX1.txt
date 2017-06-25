@@ -303,3 +303,14 @@ git clone https://github.com/karlzipser/kzpy3.1.git
 mv kzpy3.1 kzpy3
 git clone https://github.com/karlzipser/caffe_current.git
 
+
+
+
+
+
+.bashrc
+auto login
+wifi
+ethernet
+model repo
+code repo
