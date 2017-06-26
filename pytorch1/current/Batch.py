@@ -1,147 +1,16 @@
 from kzpy3.utils2 import *
 pythonpaths(['kzpy3','kzpy3/teg9','kzpy3/pytorch1','kzpy3/pytorch1/nets'])
 from vis2 import *
-import data.utils.get_data_with_hdf5 as get_data_with_hdf5
 import torch
 
-
-
-GPU = 0
-BATCH_SIZE = 100
-DISPLAY = False
-MODEL = 'SqueezeNet'
-RESUME = True
-print(MODEL)
-bair_car_data_path = opjD('bair_car_data_Main_Dataset')
-if RESUME:
-    weights_file_path = opjD('save_file.weights')
-ignore = ['reject_run','left','out1_in2']#,'Smyth','racing','local','Tilden','campus']
-require_one = []
-use_states = [1,3,5,6,7]
-
 print_timer = Timer(5)
-save_net_timer = Timer(60*10)
-
-
-
-
-
-torch.set_default_tensor_type('torch.FloatTensor') 
-torch.cuda.set_device(GPU)
-torch.cuda.device(GPU)
-init_str = """
-from nets.MODEL import SqueezeNet
-net = SqueezeNet().cuda()
-"""
-init_str = init_str.replace("MODEL",MODEL)
-exec(init_str)
-criterion = torch.nn.MSELoss().cuda()
-optimizer = torch.optim.Adadelta(net.parameters())
-
-
-if True:#RESUME:
-    cprint(d2s('Resuming with',weights_file_path),'yellow')
-    save_data = torch.load(weights_file_path)
-    net.load_state_dict(save_data)
-    time.sleep(4)
-
-
-#saved_net_weights = torch.load('/home/karlzipser/pytorch_models/epoch6goodnet')
-#net.load_state_dict(saved_net_weights['net'])
-
-
-
-
-
-
-
-hdf5_runs_path = opj(bair_car_data_path,'hdf5/runs')
-hdf5_segment_metadata_path = opj(bair_car_data_path,'hdf5/segment_metadata')
-get_data_with_hdf5.load_Segment_Data(hdf5_segment_metadata_path,hdf5_runs_path)
-print('\nloading low_steer... (takes awhile)')
-low_steer = load_obj(opj(hdf5_segment_metadata_path,'low_steer'))
-random.shuffle(low_steer)
-print('\nloading high_steer... (takes awhile)')
-high_steer = load_obj(opj(hdf5_segment_metadata_path,'high_steer'))
-random.shuffle(high_steer)
-print('done')
-len_high_steer = len(high_steer)
-len_low_steer = len(low_steer)
-ctr_low = -1
-ctr_high = -1
-if DISPLAY:
-        figure('high low steer histograms',figsize=(2,1))
-        histogram_plot_there = True
-        clf()
-        plt.hist(array(low_steer)[:,2],bins=range(0,100))
-        plt.hist(array(high_steer)[:,2],bins=range(0,100))
-        figure(1)
-
-
-
-
-
-def get_data_considering_high_low_steer():
-    global ctr_low
-    global ctr_high
-    global low_steer
-    global high_steer
-
-    if ctr_low >= len_low_steer:
-        ctr_low = -1
-    if ctr_high >= len_high_steer:
-        ctr_high = -1
-    if ctr_low == -1:
-        random.shuffle(low_steer)
-        ctr_low = 0
-    if ctr_high == -1:
-        random.shuffle(high_steer)
-        ctr_high = 0
-    if random.random() < 0.5:
-        choice = low_steer[ctr_low]
-        ctr_low += 1
-    else:
-        choice = high_steer[ctr_high]
-        ctr_high += 1
-
-    run_code = choice[3]
-    seg_num = choice[0]
-    offset = choice[1]
-
-    data = get_data_with_hdf5.get_data(run_code,seg_num,offset,3*net.N_STEPS,offset+0,net.N_FRAMES,ignore=ignore,require_one=require_one,use_states=use_states)
-
-    return data
-
-
-
-
-
-
-
-
-
-
-
-
-
-def save_net():
-    if save_net_timer.check():
-        torch.save(net.state_dict(), opjD('save_file.weights'))
-        save_net_timer.reset()
-    
-
-
-loss_list = []
-
-
-
-
 
 
 def Batch(d):
     batch_size = d['batch_size']
 
     D = {}
+    D['net'] = d['net']
     D['type'] = 'batch'
     D['Purpose'] = d2s(inspect.stack()[0][3],':','object to collect data for pytorch batch')
     D['batch_size'] = batch_size
@@ -152,11 +21,12 @@ def Batch(d):
 
     def _fill(d):
         get_data_function = d['get_data_function']
+        get_data_args = d['get_data_args']
 
         for b in range(D['batch_size']):
             _data = None
             while _data == None:
-                _data = get_data_function()
+                _data = get_data_function(get_data_args)
             data = _data
             _data_into_batch(data)
     D['fill'] = _fill
@@ -167,7 +37,7 @@ def Batch(d):
 
         if True:
             list_camera_input = []
-            for t in range(net.N_FRAMES):
+            for t in range(D['net'].N_FRAMES):
                 for camera in ('left', 'right'):
                     list_camera_input.append(torch.from_numpy(data[camera][t]))
             camera_data = torch.cat(list_camera_input, 2)
@@ -218,11 +88,11 @@ def Batch(d):
     D['clear'] = _clear
 
     def _train(d):
-        net = d['net']
         optimizer = d['optimizer']
+        criterion = d['criterion']
         
         optimizer.zero_grad()
-        D['outputs'] = net(torch.autograd.Variable(D['camera_data']), torch.autograd.Variable(D['metadata'])).cuda()
+        D['outputs'] = D['net'](torch.autograd.Variable(D['camera_data']), torch.autograd.Variable(D['metadata'])).cuda()
         D['loss'] = criterion(D['outputs'], torch.autograd.Variable(D['target_data']))
         D['loss'].backward()
         optimizer.step()
@@ -266,49 +136,3 @@ def Batch(d):
     D['display'] = _display
 
     return D
-
-
-
-def Rate_Counter():
-    D = {}
-    D['type'] = 'Rate_Counter'
-    D['Purpose'] = d2s(inspect.stack()[0][3],':','Network rate object')
-    D['rate_ctr'] = 0
-    D['rate_timer_interval'] = 10.0
-    D['rate_timer'] = Timer(D['rate_timer_interval'])
-    def _step(d):
-        batch_size = d['batch_size']
-
-        D['rate_ctr'] += 1
-        if D['rate_timer'].check():
-            print(d2s('rate =',dp(batch_size*D['rate_ctr']/D['rate_timer_interval'],2),'Hz'))
-            D['rate_timer'].reset()
-            D['rate_ctr'] = 0
-    D['step'] = _step
-    return D   
-
-rate_counter = Rate_Counter()
-
-
-while True:
-
-    batch = Batch({'batch_size':BATCH_SIZE})
-    batch['fill']({'get_data_function':get_data_considering_high_low_steer})
-    batch['train']({'net':net,'optimizer':optimizer})
-
-    loss_list.append(batch['loss'].data[0])
-    loss_list_N = 1000/BATCH_SIZE
-    if len(loss_list) > 1.5*loss_list_N:
-        loss_list = loss_list[-loss_list_N:]
-
-    save_net()
-    
-    batch['display']({})
-
-    rate_counter['step']({'batch_size':batch['batch_size']})
-
-    batch['clear']()
-
-
-
-
