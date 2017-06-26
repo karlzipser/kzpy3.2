@@ -1175,4 +1175,9 @@ def blank_dic):
 
 
 
+def array_to_int_list(a):
+    l = []
+    for d in a:
+        l.append(int(d*100))
+    return l
 #

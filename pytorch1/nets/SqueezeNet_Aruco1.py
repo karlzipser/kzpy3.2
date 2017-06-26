@@ -53,8 +53,8 @@ class SqueezeNet(nn.Module):
             Fire(384, 64, 256, 256),
             Fire(512, 64, 256, 256),
         )
-        final_conv = nn.Conv2d(512, self.N_STEPS * 4, kernel_size=1)
-        self.final_output = nn.Sequential(
+        final_conv = nn.Conv2d(512, 66, kernel_size=1)
+        self.final_output_Aruco = nn.Sequential(
             nn.Dropout(p=0.5),
             final_conv,
             # nn.ReLU(inplace=True),
@@ -74,7 +74,7 @@ class SqueezeNet(nn.Module):
         x = self.pre_metadata_features(x)
         x = torch.cat((x, metadata), 1)
         x = self.post_metadata_features(x)
-        x = self.final_output(x)
+        x = self.final_output_Aruco(x)
         x = x.view(x.size(0), -1)
         return x
 

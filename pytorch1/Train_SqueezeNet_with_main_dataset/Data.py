@@ -1,5 +1,5 @@
 from kzpy3.utils2 import *
-pythonpaths(['kzpy3','kzpy3/teg9','kzpy3/pytorch1'])
+pythonpaths(['kzpy3','kzpy3/teg9'])
 from vis2 import *
 import data.utils.get_data_with_hdf5 as Segment_Data
 
