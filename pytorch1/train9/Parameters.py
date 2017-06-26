@@ -1,6 +1,6 @@
 from kzpy3.utils2 import *
 
-GPU = 0
+GPU = 1
 BATCH_SIZE = 100
 DISPLAY = False
 MODEL = 'SqueezeNet_Aruco1'

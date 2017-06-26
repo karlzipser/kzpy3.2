@@ -172,3 +172,7 @@ http://www.pyimagesearch.com/2016/10/24/ubuntu-16-04-how-to-install-opencv/
 pip install python-opencv
 sudo apt-get install python-tk
 pip install h5py
+
+# install torch, pytorch.org
+sudo pip install http://download.pytorch.org/whl/cu80/torch-0.1.12.post2-cp27-none-linux_x86_64.whl 
+sudo pip install torchvision
