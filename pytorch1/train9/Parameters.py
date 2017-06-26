@@ -7,7 +7,7 @@ MODEL = 'SqueezeNet_Aruco1'
 RESUME = True
 print(MODEL)
 if RESUME:
-    weights_file_path = opjD('save_file.weights')
+    weights_file_path = opjD('save_file_Aruco.weights')
 ignore = ['reject_run','left','out1_in2']#,'Smyth','racing','local','Tilden','campus']
 require_one = []
 use_states = [1,3,5,6,7]

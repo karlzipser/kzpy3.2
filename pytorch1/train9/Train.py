@@ -23,7 +23,7 @@ criterion = torch.nn.MSELoss().cuda()
 optimizer = torch.optim.Adadelta(net.parameters())
 
 
-if False:#RESUME:
+if RESUME:
     cprint(d2s('Resuming with',P.weights_file_path),'yellow')
     save_data = torch.load(P.weights_file_path)
     net.load_state_dict(save_data)
