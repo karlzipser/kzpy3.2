@@ -251,7 +251,13 @@ def get_data_considering_high_low_steer_and_valid_trajectory_timestamp(d):
         for topic in Aruco_Steering_Trajectories[run_name][behavioral_mode][desired_direction][timestamp]:
             data[topic] = Aruco_Steering_Trajectories[run_name][behavioral_mode][desired_direction][timestamp][topic]
         data['id'] = (run_name,behavioral_mode,desired_direction,timestamp,run_code,seg_num,offset)
-
+    if P.other_cars_only: 
+        if data == None:
+            return None
+        if data['other_car_inverse_distances'] == None:
+            return None
+        if len(data['other_car_inverse_distances']) == 0:
+            return None
     return data
 
 

@@ -14,5 +14,5 @@ use_states = [1,3,5,6,7]
 #bair_car_data_path = opjD('bair_car_data_Main_Dataset')
 bair_car_data_path = opjD('bair_car_data_new_28April2017')
 save_net_timer = Timer(60*10)
-
-
+print_timer = Timer(5)
+other_cars_only = True

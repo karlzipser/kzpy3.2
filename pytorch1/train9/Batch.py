@@ -1,9 +1,10 @@
 from kzpy3.utils2 import *
-pythonpaths(['kzpy3','kzpy3/pytorch1'])
+pythonpaths(['kzpy3','kzpy3/pytorch1','kzpy3/pytorch1/train9'])
+import Parameters as P
 from vis2 import *
 import torch
 
-print_timer = Timer(5)
+
 
 
 def Batch(d):
@@ -155,7 +156,7 @@ def Batch(d):
             d['print_now'] = False
         print_now = d['print_now']
 
-        if print_timer.check() or print_now:
+        if P.print_timer.check() or print_now:
 
             #outputs = d['outputs']
 
@@ -184,7 +185,7 @@ def Batch(d):
             ylim(-0.05,1.05);xlim(0,len(t))
             plot([-1,60],[0.49,0.49],'k');plot(o,'og'); plot(t,'or'); plt.title(D['names'][0])
             pause(0.000000001)
-            print_timer.reset()
+            P.print_timer.reset()
     D['display'] = _display
 
     return D
