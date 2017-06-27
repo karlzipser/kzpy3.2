@@ -163,10 +163,10 @@ def Batch(d):
             o = D['outputs'][0].data.cpu().numpy()
             #o = outputs[0].data.cpu().numpy()
             t= D['target_data'][0].cpu().numpy()
-            print('1. Output:')
-            print(t) # Output of Network
-            print('2. Labels:')
-            print(o)
+            #print('1. Output:')
+            #print(t) # Output of Network
+            #print('2. Labels:')
+            #print(o)
             print('3. Loss:')
             #print(array(loss_list[-loss_list_N:]).mean())
             #print(loss_list[-1])
