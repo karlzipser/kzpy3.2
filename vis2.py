@@ -609,3 +609,21 @@ def normalized_vector_from_pts(pts):
 
 
 
+def Image_to_Folder_Saver(d):
+    D = {}
+    D['path'] = d['path']
+
+    D['type'] = 'Image_to_Folder_Saver'
+    D['Purpose'] = d2s(inspect.stack()[0][3],':','Save images to folder with counter for name.')
+    D['save_img_ctr'] = 0
+    def _save(d):
+        img = d['img']
+        if 'ext' not in d:
+            ext = 'png'
+        imsave(opj(D['path'],str(D['save_img_ctr'])+'.'+ext),img)
+        D['save_img_ctr'] += 1
+    D['save'] = _save
+    return D
+
+
+

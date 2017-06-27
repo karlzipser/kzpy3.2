@@ -4,6 +4,7 @@ from vis2 import *
 import torch
 
 print_timer = Timer(5)
+img_saver = Image_to_Folder_Saver({'path':opjD('cameras0')})
 
 
 def Batch(d):
@@ -127,6 +128,7 @@ def Batch(d):
             c[-h:,:w,:] = z2o(b[:,:,9:12])
             c[-h:,-w:,:] = z2o(b[:,:,6:9])
             mi(c,'cameras')
+            img_saver['save']({'img':c})
             figure('steer')
             clf()
             ylim(-0.05,1.05);xlim(0,len(t))

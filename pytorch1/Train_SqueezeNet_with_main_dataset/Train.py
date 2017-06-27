@@ -24,7 +24,7 @@ optimizer = torch.optim.Adadelta(net.parameters())
 if True:#RESUME:
     cprint(d2s('Resuming with',P.weights_file_path),'yellow')
     save_data = torch.load(P.weights_file_path)
-    net.load_state_dict(save_data['net'])
+    net.load_state_dict(save_data)
     time.sleep(4)
 
 
