@@ -170,7 +170,7 @@ sudo apt-get install screen
 ####### sudo, no password #########
 # http://askubuntu.com/questions/147241/execute-sudo-without-password
 sudo visudo
-# add at or near end:
+# add as last line:
 <username> ALL=(ALL) NOPASSWD: ALL
 ######
 
