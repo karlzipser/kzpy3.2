@@ -105,3 +105,92 @@ for k in loss_dic:
 			data = get_data_with_hdf5.get_data(run_code,seg_num,offset,N_STEPS,offset+0,N_FRAMES,ignore=ignore,require_one=require_one)
 			mi(data['left'][0]);pause(1)
 
+
+
+
+
+
+def load_animate_hdf5(path,start_at_time=0):
+	start_at(start_at_time)
+	l,s=function_load_hdf5(path)
+	img = False
+	for h in range(len(s)):
+		if type(img) != bool:
+			img *= 0
+			img += 128
+			mi_or_cv2(img)
+		pause(0.5)
+		n = str(h)
+		for i in range(len(s[n]['left'])):
+			img = s[n]['left'][i]
+			#print s[n][state][i]
+			bar_color = [0,0,0]
+			
+			if s[n][state][i] == 1:
+				bar_color = [0,0,255]
+			elif s[n][state][i] == 6:
+				bar_color = [255,0,0]
+			elif s[n][state][i] == 5:
+				bar_color = [255,255,0]
+			elif s[n][state][i] == 7:
+				bar_color = [255,0,255]
+			else:
+				bar_color = [0,0,0]
+			if i < 2:
+				smooth_steer = s[n][steer][i]
+			else:
+				smooth_steer = (s[n][steer][i] + 0.5*s[n][steer][i-1] + 0.25*s[n][steer][i-2])/1.75
+			#print smooth_steer
+			apply_rect_to_img(img,smooth_steer,0,99,bar_color,bar_color,0.9,0.1,center=True,reverse=True,horizontal=True)
+			apply_rect_to_img(img,s[n][motor][i],0,99,bar_color,bar_color,0.9,0.1,center=True,reverse=True,horizontal=False)
+			mi_or_cv2(img)
+A5 = load_animate_hdf5
+
+
+
+
+
+
+def Timeseries_Segments_hdf5(d):
+	D = {}
+	D['path'] = d['path']
+	True
+	D['type'] = 'Timeseries_Segments_hdf5'
+	D['Purpose'] = d2s(inspect.stack()[0][3],':','Interface for loading timeseries segments from hdf5')
+	def _load_hdf5(d):
+		path = d['path']
+		True
+		F = h5py.File(path)
+		Lb = F['labels']
+		S = F['segments']
+		return Lb,S
+	def _load():
+		labels,segments = _load_hdf5({'path':D['path']})
+		True
+		D['labels'] = {}
+		for q in labels.keys():
+			D['labels'][q] = labels[q]
+		D['segments'] = {}
+		for q in segments.keys():
+			D['segments'][int(q)] = segments[q]
+	def _get(d):
+		label_name = None
+		segment_num = None
+		if 'label' in d:
+			label_name = d['label']
+		if 'segment' in d:
+			segment_num = d['segment']
+		assert(not(label_name == None and X == None))
+		assert(not(label_name != None and X != None))
+		True
+		if label_name != None:
+			return D['labels'][label_name]
+		elif segment_num != None:
+			return D['segments'][segment_num]
+	D['get'] = _get
+
+		
+	_load()
+	return D	
+
+
