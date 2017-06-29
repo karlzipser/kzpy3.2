@@ -30,6 +30,7 @@ alias zed_explorer='/usr/local/zed/tools/ZED\ Explorer'
 alias sopen="open -a /Applications/Sublime\ Text\ 2.app/"
 
 alias ssh_date='sudo date --set="$(ssh karlzipser@192.168.1.16 date)"'
+clear
 
 alias ssh_date='sudo date --set="$(ssh karlzipser@192.168.43.243 date)"'
 alias fixScreen='DISPLAY=:0 xrandr --output HDMI-0 --mode 1024x768'
