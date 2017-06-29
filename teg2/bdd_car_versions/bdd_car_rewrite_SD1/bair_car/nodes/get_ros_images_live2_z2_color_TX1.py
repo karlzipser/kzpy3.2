@@ -35,7 +35,7 @@ import torch
 import torch.nn as nn
 from torch.autograd import Variable
 from nets.squeezenet import SqueezeNet
-weight_file_path = opjh('pytorch_models','save_file.weights')#'epoch6goodnet')
+weight_file_path = opjh('pytorch_models','epoch6goodnet')#'save_file.weights')#)
 
 def static_vars(**kwargs):
     def decorate(func):
@@ -54,7 +54,7 @@ def init_model():
     # Initializes Solver
     solver = SqueezeNet().cuda()
     
-    solver.load_state_dict(save_data)#['net'])
+    solver.load_state_dict(save_data['net'])
     solver.eval()
     nframes = solver.N_FRAMES
 
@@ -80,10 +80,10 @@ def run_model(input, metadata):
         print(output)
 
     # Get latest prediction
-    #torch_motor = 100 * output[0][19].data[0] ########################!!!!!!!!!!!!!!!!!!!!!
-    #torch_steer = 100 * output[0][9].data[0] ########################!!!!!!!!!!!!!!!!!!!!!
-    torch_motor = 100 * output[0][11].data[0] ########################!!!!!!!!!!!!!!!!!!!!!
-    torch_steer = 100 * output[0][2].data[0] ########################!!!!!!!!!!!!!!!!!!!!!
+    torch_motor = 100 * output[0][19].data[0]
+    torch_steer = 100 * output[0][9].data[0]
+    #torch_motor = 100 * output[0][11].data[0] ########################!!!!!!!!!!!!!!!!!!!!!
+    #torch_steer = 100 * output[0][2].data[0] ########################!!!!!!!!!!!!!!!!!!!!!
 
     if verbose:
         print('Torch Prescale Motor: ' + str(torch_motor))
