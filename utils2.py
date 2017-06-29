@@ -1170,11 +1170,44 @@ def blank_dic():
 def blank_dic(d):
     D = {}
     D[''] = d['']
-    
+    True
     D['type'] = '?'
     D['Purpose'] = d2s(inspect.stack()[0][3],':','?')
     return D""")
 
+
+def blank_file():
+    print("""
+from kzpy3.utils2 import *
+pythonpaths(['kzpy3'])
+from vis2 import *
+
+
+translation_dic = {'a':'apples','b':'build','c':'cats','d':'dogs'}
+if __name__ == "__main__" and '__file__' in vars():
+    argument_dictionary = args_to_dic({  'pargs':sys.argv[1:]  })
+else:
+    print('Running this within interactive python.')
+    argument_dictionary = args_to_dic({  'pargs':"-a -1 -b 4 -c '[1,2,9]' -d '{1:5,2:4}'"  })
+argument_dictionary = translate_args(
+    {'argument_dictionary':argument_dictionary,
+    'translation_dic':translation_dic})
+print(argument_dictionary)
+
+
+        """)
+    blank_dic()
+    print("""
+
+if False:
+    try:
+        pass
+    except Exception as e:
+        print("********** Exception ***********************")
+        print(e.message, e.args)
+
+#EOF
+    """)
 
 
 def array_to_int_list(a):

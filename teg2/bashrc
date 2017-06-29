@@ -27,7 +27,7 @@ alias rlat='rostopic echo /bair_car/GPS2_lat'
 alias rstat='python ~/kzpy3/teg7/data/rosstatus.py'
 alias test_caffe='cd ~/caffe; build/tools/caffe time --model=models/bvlc_alexnet/deploy.prototxt --gpu=0'
 alias zed_explorer='/usr/local/zed/tools/ZED\ Explorer'
-
+alias sopen="open -a /Applications/Sublime\ Text\ 2.app/"
 
 alias ssh_date='sudo date --set="$(ssh karlzipser@192.168.1.16 date)"'
 

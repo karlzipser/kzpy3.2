@@ -35,7 +35,7 @@ import torch
 import torch.nn as nn
 from torch.autograd import Variable
 from nets.squeezenet import SqueezeNet
-weight_file_path = opjh('pytorch_models','epoch6goodnet')
+weight_file_path = opjh('pytorch_models','save_file.weights')#'epoch6goodnet')
 
 def static_vars(**kwargs):
     def decorate(func):
@@ -50,9 +50,11 @@ def init_model():
     global solver, scale, nframes
     # Load PyTorch model
     save_data = torch.load(weight_file_path)
+    print("Loaded "+weight_file_path)
     # Initializes Solver
     solver = SqueezeNet().cuda()
-    solver.load_state_dict(save_data['net'])
+    
+    solver.load_state_dict(save_data)#['net'])
     solver.eval()
     nframes = solver.N_FRAMES
 
