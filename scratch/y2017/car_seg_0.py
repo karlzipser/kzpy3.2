@@ -9,7 +9,7 @@ if __name__ == "__main__" and '__file__' in vars():
     argument_dictionary = args_to_dic({  'pargs':sys.argv[1:]  })
 else:
     print('Running this within interactive python.')
-    argument_dictionary = args_to_dic({  'pargs':"-a -1 -b 4 -c '[1,2,9]' -d '{1:5,2:4}'"  })
+    argument_dictionary = args_to_dic({  'pargs':"-a -1 -b 4 -c [1,2,9] -d {1:5,2:4}"  })
 argument_dictionary = translate_args(
     {'argument_dictionary':argument_dictionary,
     'translation_dic':translation_dic})
@@ -31,6 +31,7 @@ def Mouse(d):
 	D['color'] = (0,0,0)
 	D['mode'] = 'inactive'
 	D['points'] = None
+	D['window_name'] = 'seg'
 	def _event(event, x, y, buttons, user_param):
 		if False:#done:
 			return
@@ -45,7 +46,7 @@ def Mouse(d):
 				if D['points'] != None:
 					if len(D['points']) > 1:
 						cv2.line(img,D['points'][-2],D['points'][-1],D['color'])
-				k = mci(img,title=window_name,delay=1,scale=4.0)
+				k = mci(img,title=D['window_name'],delay=1,scale=4.0)
 				if k == ord(' '):
 					pass
 				pd2s(D['xy'],D['color'])
@@ -71,45 +72,20 @@ def Mouse(d):
 
 	return D
 
+img0 = imread(opjD('7863.png'))
 img = img0.copy()
 img[img>254] = 254 # reserve 255 for masks.
 cv2.destroyAllWindows()
-k = mci(img,title=window_name,delay=1,scale=4.0)
+k = mci(img,title='seg',delay=1,scale=4.0)
 me = Mouse({'img':img,'scale':4.0})
-cv2.setMouseCallback(window_name,me['event'])
+cv2.setMouseCallback('seg',me['event'])
+
+if True:
+	mask = img[:,:,0].copy()
+	mask[mask<255] = 0
+	mi(mask)
 
 
-
-
-
-
-def on_mouse(self, event, x, y, buttons, user_param):
-    global t
-    if done:
-        return
-    if event == cv2.EVENT_MOUSEMOVE:
-        self.current = (x, y)
-    elif event == cv2.EVENT_LBUTTONDOWN:
-        if time.time() - t < 0.2:
-            print("Completing polygon with %d points." % len(self.points))
-            self.done = True
-        t = time.time()
-        print("Adding point #%d with position(%d,%d)" % (len(self.points), x, y))
-        self.points.append((x, y))
-
-
-
-
-def Bounding_Box(d):
-    D = {}
-    D['xy'] = d['xy']
-    
-    D['type'] = 'Bounding_Box'
-    D['Purpose'] = d2s(inspect.stack()[0][3],':','Bounding_Box for car segmentation.')
-    return D
-
-
-bounding_box = Bounding_Box({'xy:})
 
 if False:
     try:
@@ -118,17 +94,39 @@ if False:
         print("********** Exception ***********************")
         print(e.message, e.args)
 
-while(True):
-	img_paths = sggo('/Volumes/SSD_2TB/cameras','*.png')
-	img = imread(random.choice(img_paths))
-	window_name = 'left right t0 t1'
-	k = mci(img,title=window_name,delay=500,scale=4.0)
-	if k == ord('q'):
-		break
+	while(True):
+		img_paths = sggo('/Volumes/SSD_2TB/cameras','*.png')
+		img = imread(random.choice(img_paths))
+		window_name = 'left right t0 t1'
+		k = mci(img,title=window_name,delay=500,scale=4.0)
+		if k == ord('q'):
+			break
+
+
+
+if True:
+	# Load two images
+	img2 = imread(opjD('7863.png'))
+	img1 = imread(opjD('7843.png'))
+	# I want to put logo on top-left corner, So I create a ROI
+	rows,cols,channels = img2.shape
+	roi = img1[0:rows, 0:cols ]
+	# Now create a mask of logo and create its inverse mask also
+	img2gray = cv2.cvtColor(imread(opjD('mask.png')),cv2.COLOR_RGB2GRAY)
+	ret, mask = cv2.threshold(img2gray, 10, 255, cv2.THRESH_BINARY)
+	mask_inv = cv2.bitwise_not(mask)
+	# Now black-out the area of logo in ROI
+	img1_bg = cv2.bitwise_and(roi,roi,mask = mask_inv)
+	# Take only region of logo from logo image.
+	img2_fg = cv2.bitwise_and(img2,img2,mask = mask)
+	# Put logo in ROI and modify the main image
+	dst = cv2.add(img1_bg,img2_fg)
+	img1[0:rows, 0:cols ] = dst
+	mci(img1,scale=3.0)
+	#cv2.imshow('res',imresize(img1,2.0))
+	#cv2.waitKey(0)
+	#cv2.destroyAllWindows()
 
 
 
 
-
-
-#EOF
