@@ -53,7 +53,8 @@ def init_model():
     print("Loaded "+weight_file_path)
     # Initializes Solver
     solver = SqueezeNet().cuda()
-    solver.load_state_dict(save_data['net'])
+    
+    solver.load_state_dict(save_data)#['net'])
     solver.eval()
     nframes = solver.N_FRAMES
 
