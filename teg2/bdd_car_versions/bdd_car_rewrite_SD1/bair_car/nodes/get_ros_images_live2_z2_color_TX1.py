@@ -84,7 +84,7 @@ def run_model(input, metadata):
     #torch_steer = 100 * output[0][9].data[0]
     torch_motor = 100 * output[0][11].data[0] ########################!!!!!!!!!!!!!!!!!!!!!
     torch_steer = 100 * output[0][2].data[0] ########################!!!!!!!!!!!!!!!!!!!!!
-
+    print torch_steer,torch_motor
     if verbose:
         print('Torch Prescale Motor: ' + str(torch_motor))
         print('Torch Prescale Steer: ' + str(torch_steer))
