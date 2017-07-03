@@ -35,7 +35,7 @@ import torch
 import torch.nn as nn
 from torch.autograd import Variable
 from nets.squeezenet import SqueezeNet
-weight_file_path = opjD('save_file.weights.infer')#epoch6goodnet')#'save_file.weights')#)
+weight_file_path = opjD('epoch6goodnet')#'save_file.weights')#)
 
 def static_vars(**kwargs):
     def decorate(func):
