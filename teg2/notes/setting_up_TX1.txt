@@ -319,9 +319,10 @@ code repo
 
 3 July 2017
 power up ESC
+delete and reenter network connections
 bind receiver (keep transmitter very close, press in button. if light flickers, turn transmitter odd and on)
 flash Arduino code
 do git pull
 currently need to reboot every time running rla because of ZED issue
 
-on kzpy3 master, chmod a+x teg2/bdd_car_versions/bdd_car_rewrite_SD1/bair_car/nodes/get_ros_images_live2_z2_color_TX1.py
+On kzpy3 master, chmod a+x teg2/bdd_car_versions/bdd_car_rewrite_SD1/bair_car/nodes/get_ros_images_live2_z2_color_TX1.py if necessary.
