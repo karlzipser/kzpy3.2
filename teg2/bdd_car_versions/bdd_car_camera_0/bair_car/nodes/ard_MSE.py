@@ -17,10 +17,11 @@ def apply_motor_pwm_gain(motor_pwm,M):
     return (motor_pwm-M['motor_null']) * M['motor_gain'] + M['motor_null']
 
 
-def mse_write_publish(M,Arduinos,steer_pwm,motor_pwm,camera_pwm=0):
+def mse_write_publish(M,Arduinos,steer_pwm,motor_pwm):
     global steer_pwm_prev
     steer_pwm = apply_steer_pwm_gain(steer_pwm,M)
     motor_pwm = apply_motor_pwm_gain(motor_pwm,M)
+    camera_pwm = steer_pwm
     write_str = d2n( '(', int(steer_pwm),',',int(motor_pwm+10000),',',int(camera_pwm+20000),')')
     Arduinos['MSE'].write(write_str)
     steer_percent = pwm_to_percent(M,M['steer_null'],steer_pwm,M['steer_max'],M['steer_min'])
