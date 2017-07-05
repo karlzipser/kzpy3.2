@@ -1188,7 +1188,7 @@ if __name__ == "__main__" and '__file__' in vars():
     argument_dictionary = args_to_dic({  'pargs':sys.argv[1:]  })
 else:
     print('Running this within interactive python.')
-    argument_dictionary = args_to_dic({  'pargs':"-a -1 -b 4 -c '[1,2,9]' -d '{1:5,2:4}'"  })
+    argument_dictionary = args_to_dic({  'pargs':"-a -1 -b 4 -c [1,2,9] -d {1:5,2:4}"  })
 argument_dictionary = translate_args(
     {'argument_dictionary':argument_dictionary,
     'translation_dic':translation_dic})
