@@ -34,9 +34,10 @@ def Batch(d):
                 seg_num = e[0]
                 offset = e[1]
                 _data = DD['get_data']({'run_code':run_code,'seg_num':seg_num,'offset':offset})
-            D['data_ids'].append([run_code,seg_num,offset])
+            D['data_ids'].append((run_code,seg_num,offset))
             data = _data
             _data_into_batch(data)
+        D['data_ids'].reverse() # this is to match way batch is filled up below
     D['fill'] = _fill
 
     def _data_into_batch(data):
@@ -95,10 +96,18 @@ def Batch(d):
     def _forward(d):
         optimizer = d['optimizer']
         criterion = d['criterion']
+        trial_loss_record = d['trial_loss_record']
         True
         optimizer.zero_grad()
         D['outputs'] = D['net'](torch.autograd.Variable(D['camera_data']), torch.autograd.Variable(D['metadata'])).cuda()
         D['loss'] = criterion(D['outputs'], torch.autograd.Variable(D['target_data']))
+        for b in range(D['batch_size']):
+            id = D['data_ids'][b]
+            t= D['target_data'][b].cpu().numpy()
+            o = D['outputs'][b].data.cpu().numpy()
+            a = t - o
+            trial_loss_record[(id,tuple(t),tuple(o))] = np.sqrt(a * a).mean()
+
     D['forward'] = _forward
 
     def _backward(d):
@@ -121,7 +130,7 @@ def Batch(d):
             t= D['target_data'][0].cpu().numpy()
 
             print('Loss:',dp(D['loss'].data.cpu().numpy()[0],5))
-            print(o,t)
+            #print(o,t,D['data_ids'])
             a=D['camera_data'][0][:].cpu().numpy()
             b=a.transpose(1,2,0)
             h = shape(a)[1]

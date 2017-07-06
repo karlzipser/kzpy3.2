@@ -16,7 +16,7 @@ torch.set_default_tensor_type('torch.FloatTensor')
 torch.cuda.set_device(P.GPU)
 torch.cuda.device(P.GPU)
 
-from nets.SqueezeNet import SqueezeNet
+from nets2.SqueezeNet import SqueezeNet
 net = SqueezeNet().cuda()
 criterion = torch.nn.MSELoss().cuda()
 optimizer = torch.optim.Adadelta(net.parameters())
@@ -45,29 +45,32 @@ DD=Data.Data()
 timer = {}
 timer['train'] = Timer(60*30)
 timer['val'] = Timer(60*3)
+trial_loss_record = {}
 
 batch = Batch.Batch({'net':net,'batch_size':P.BATCH_SIZE})
 
+
 while True:
     for mode in ['train','val']:
+
         timer[mode].reset()
+
         while not timer[mode].check():
+
             batch['fill']({'Data':DD,'mode':mode})
             
-            batch['forward']({'optimizer':optimizer,'criterion':criterion})
+            batch['forward']({'optimizer':optimizer,'criterion':criterion,'trial_loss_record':trial_loss_record})
+
             if mode == 'train':
                 batch['backward']({'optimizer':optimizer})
 
             loss_record[mode]['add']({'loss':batch['loss'].data.cpu().numpy()[0]})
 
             Utils.save_net({'net':net,'loss_record':loss_record})
+
             batch['display']({})
-            """
-            print batch['loss'];print['loss'];pause(4)
-            print batch['outputs'];print['outputs'];pause(4)
-            print batch['target_data'];print['target_data'];pause(4)
-            print batch['data_ids'];print['data_ids'];pause(4)
-            """
+
+
             rate_counter['step']({'batch_size':batch['batch_size']})
 
             batch['clear']()
@@ -79,6 +82,27 @@ while True:
                 figure('loss');clf();#ylim(0,0.02)
                 loss_record['train']['plot']({'c':'b'})
                 loss_record['val']['plot']({'c':'r'})
+
+
+
+
+
+import operator
+sorted_trial_loss_record = sorted(trial_loss_record.items(),key=operator.itemgetter(1))
+
+for i in range(-1,-100,-1):
+    l =  sorted_trial_loss_record[i]
+    run_code,seg_num,offset = sorted_trial_loss_record[i][0][0]
+    t = sorted_trial_loss_record[i][0][1]
+    o = sorted_trial_loss_record[i][0][2]
+    data = DD['get_data']({'run_code':run_code,'seg_num':seg_num,'offset':offset})
+    figure(22);clf();ylim(0,1)
+    plot(t,'r.')
+    plot(o,'g.')
+    plot([0,20],[0.5,0.5],'k')
+    mi(data['right'][0,:,:],23,img_title=d2s(l[1]))
+    pause(1)
+
 
 
 #EOF
