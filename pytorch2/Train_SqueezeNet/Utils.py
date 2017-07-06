@@ -30,6 +30,13 @@ def save_net(d):
     loss_record = d['loss_record']
     if P.save_net_timer.check():
         torch.save(net.state_dict(), opjD('save_file'+time_str()+'.weights'))
+
+        # Save for inference (creates ['net'] and moves net to GPU #0)
+        weights = {'net':net.state_dict().copy()}
+        for key in weights['net']:
+            weights['net'][key] = weights['net'][key].cuda(device=0)
+        torch.save(weights, opjD('save_file'+time_str()+'.infer'))
+
         P.save_net_timer.reset()
 
 
