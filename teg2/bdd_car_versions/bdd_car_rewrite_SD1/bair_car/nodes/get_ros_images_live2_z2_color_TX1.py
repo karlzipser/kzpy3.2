@@ -54,7 +54,9 @@ def init_model():
     # Initializes Solver
     solver = SqueezeNet().cuda()
     
-    solver.load_state_dict(save_data['net'])
+    #solver.load_state_dict(save_data['net'])
+    solver.load_state_dict(save_data)
+
     solver.eval()
     nframes = solver.N_FRAMES
 
