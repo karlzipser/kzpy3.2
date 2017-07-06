@@ -22,13 +22,19 @@ def Batch(d):
     D['names'] = []
 
     def _fill(d):
-        get_data_function = d['get_data_function']
-        get_data_args = d['get_data_args']
-
+        DD = d['Data']
+        mode = d['mode']
+        True
+        D['data_ids'] = []
         for b in range(D['batch_size']):
             _data = None
             while _data == None:
-                _data = get_data_function(get_data_args)
+                e = DD['next']({'mode':mode})
+                run_code = e[3]
+                seg_num = e[0]
+                offset = e[1]
+                _data = DD['get_data']({'run_code':run_code,'seg_num':seg_num,'offset':offset})
+            D['data_ids'].append([run_code,seg_num,offset])
             data = _data
             _data_into_batch(data)
     D['fill'] = _fill
@@ -36,7 +42,6 @@ def Batch(d):
     def _data_into_batch(data):
         if True:
             D['names'].insert(0,data['name']) # This to match torch.cat use below
-
         if True:
             list_camera_input = []
             for t in range(D['net'].N_FRAMES):
@@ -47,7 +52,6 @@ def Batch(d):
             camera_data = torch.transpose(camera_data, 0, 2)
             camera_data = torch.transpose(camera_data, 1, 2)
             D['camera_data'] = torch.cat((torch.unsqueeze(camera_data, 0), D['camera_data']), 0)
-
         if True:
             metadata = torch.FloatTensor().cuda()
             zero_matrix = torch.FloatTensor(1, 1, 23, 41).zero_().cuda()
@@ -67,11 +71,10 @@ def Batch(d):
             for i in range(122): # Concatenate zero matrices to fit the dataset
                 metadata = torch.cat((zero_matrix, metadata), 1)
             D['metadata'] = torch.cat((metadata, D['metadata']), 0)
-
         if True:
-            s = data['steer']#[-net.N_STEPS:]
-            m = data['motor']#[-net.N_STEPS:]
-            r = range(2,31,3)
+            s = data['steer']
+            m = data['motor']
+            r = range(2,31,3) # This depends on NUM_STEPS and STRIDE
             s = array(s)[r]
             m = array(m)[r]
             steer = torch.from_numpy(s).cuda().float() / 99.
@@ -80,11 +83,6 @@ def Batch(d):
             D['target_data'] = torch.cat((target_data, D['target_data']), 0)
 
     def _clear():
-        #D['batch_size'] = None
-        #D['camera_data'] = None
-        #D['metadata'] = None
-        #D['target_data'] = None
-        #D['names'] = None
         D['camera_data'] = torch.FloatTensor().cuda()
         D['metadata'] = torch.FloatTensor().cuda()
         D['target_data'] = torch.FloatTensor().cuda()
@@ -118,21 +116,12 @@ def Batch(d):
         True
         if print_timer.check() or print_now:
 
-            #outputs = d['outputs']
-
             o = D['outputs'][0].data.cpu().numpy()
-            #o = outputs[0].data.cpu().numpy()
-            t= D['target_data'][0].cpu().numpy()
-            """
-            print('1. Output:')
-            print(o) # Output of Network
-            print('2. Labels:')
-            print(t)
-            """
-            print('3. Loss:')
 
-            #print(array(loss_list[-loss_list_N:]).mean())
-            #print(loss_list[-1])
+            t= D['target_data'][0].cpu().numpy()
+
+            print('Loss:',dp(D['loss'].data.cpu().numpy()[0],5))
+
             a=D['camera_data'][0][:].cpu().numpy()
             b=a.transpose(1,2,0)
             h = shape(a)[1]

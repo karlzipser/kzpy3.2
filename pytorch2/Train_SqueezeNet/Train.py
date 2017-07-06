@@ -6,8 +6,6 @@ pythonpaths(['kzpy3','kzpy3/pytorch2/nets','kzpy3/pytorch2/Train_SqueezeNet'])
 from vis2 import *
 import torch
 import Data
-DD=Data.Data()
-get_data_function = DD['get_data']
 import Batch
 import Utils
 import Parameters as P
@@ -23,67 +21,50 @@ net = SqueezeNet().cuda()
 criterion = torch.nn.MSELoss().cuda()
 optimizer = torch.optim.Adadelta(net.parameters())
 
-
 if P.RESUME:
     cprint(d2s('Resuming with',P.weights_file_path),'yellow')
     save_data = torch.load(P.weights_file_path)
     net.load_state_dict(save_data)
     time.sleep(4)
 
-
 rate_counter = Utils.Rate_Counter()
 
-data = lo(opjD('valid_steer_data'))
-
-
-#timer = Timer(0)
+DD=Data.Data()
 
 batch = Batch.Batch({'net':net,'batch_size':P.BATCH_SIZE})
 
-P.data_ctr = 0
-while P.data_ctr < len(data['train_steer']):
-    e = data['train_steer'][i]
-    run_code = e[3]
-    seg_num = e[0]
-    offset = e[1]
+loss_record = {}
+loss_record['train'] = Utils.Loss_Record()
+loss_record['val'] = Utils.Loss_Record()
 
+train_timer = Timer(60*5)
+val_timer = Timer(60*1)
+while True:
 
-
-    #print dp(1/timer.time())
-    #timer.reset()
-
-    #batch = Batch.Batch({'net':net,'batch_size':P.BATCH_SIZE})
-    
-    batch['fill']({'get_data_function':get_data_function,'data':data}) #get_data_args':{'run_code':run_code,'seg_num':seg_num,'offset':offset}})
+    batch['fill']({'Data':DD,'mode':'train'})
     
     batch['forward']({'optimizer':optimizer,'criterion':criterion})
     batch['backward']({'optimizer':optimizer})
 
-    #data['train_los_dic'][(run_code,seg_num,offset)] = loss
+    loss_record['add']({'loss':batch['loss'].data.cpu().numpy()[0]})
 
     Utils.save_net({'net':net})
-    
     batch['display']({})
-
-
+    """
+    print batch['loss'];print['loss'];pause(4)
+    print batch['outputs'];print['outputs'];pause(4)
+    print batch['target_data'];print['target_data'];pause(4)
+    print batch['data_ids'];print['data_ids'];pause(4)
+    """
     rate_counter['step']({'batch_size':batch['batch_size']})
 
     batch['clear']()
 
+
     if P.epoch_timer.check():
-        pd2s(' i =',i)
+        pd2s('\tctr =',DD['train']['ctr'],dp(100.0*DD['train']['ctr']/(1.0*len(DD['train']['all_steer']))),'%')
         P.epoch_timer.reset()
+        figure(mode+' loss');clf()
+        loss_record['plot']()
 
-
-"""
-        loss_record
-        ['loss_sum'] += D['loss'].data[0]
-        loss_record['loss_ctr'] += 1
-        if D['loss_ctr'] == P.LOSS_CTR_LIMIT:
-            D['avg_los']
-
-    D['loss_ctr'] = 0
-    D['loss_sum'] = 0
-"""
-
-
+#EOF

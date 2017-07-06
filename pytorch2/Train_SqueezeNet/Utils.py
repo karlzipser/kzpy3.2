@@ -1,6 +1,7 @@
 from kzpy3.utils2 import *
 cprint('****************** '+__file__+' ******************','yellow')
 pythonpaths(['kzpy3','kzpy3/teg9','kzpy3/pytorch2'])
+from vis2 import *
 import Parameters as P
 import torch
 
@@ -29,3 +30,38 @@ def save_net(d):
     if P.save_net_timer.check():
         torch.save(net.state_dict(), opjD('save_file'+time_str()+'.weights'))
         P.save_net_timer.reset()
+
+
+
+def Loss_Record():
+    True
+    D = {}
+    D['t0'] = time.time()
+    D['type'] = 'Loss_Record'
+    D['Purpose'] = d2s(inspect.stack()[0][3],':','to accumlate losses, timestamp in training and validation')
+    D['loss_list'] = []
+    D['timestamp_list'] = []
+    #ctr_list = []
+    D['loss_sum'] = 0
+    D['loss_ctr'] = 0
+    D['loss_timer'] = Timer(10)
+    def _add(d):
+        loss = d['loss']
+        True
+        D['loss_sum'] += loss
+        D['loss_ctr'] += 1
+        if D['loss_timer'].check():
+            D['loss_list'].append(D['loss_sum']/(1.0*D['loss_ctr']))
+            D['loss_sum'] = 0
+            D['loss_ctr'] = 0
+            D['timestamp_list'].append(time.time())
+            D['loss_timer'].reset()
+    D['add'] = _add
+    def _plot(d):
+        c = d['c']
+        True
+        plt.plot(np.array(D['timestamp_list'])-D['t0'],D['loss_list'],c+'.')
+    D['plot'] = _plot
+    return D
+
+
