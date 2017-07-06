@@ -26,15 +26,22 @@ if P.RESUME:
     save_data = torch.load(P.weights_file_path)
     net.load_state_dict(save_data)
     time.sleep(4)
+    loss_record_loaded = zload_obj({'path':opjD('loss_record')})
+    loss_record = {}
+    for mode in ['train','val']:
+        loss_record[mode] = Utils.Loss_Record()
+        for k in loss_record_loaded[mode].keys():
+            if not callable(loss_record[mode][k]):
+                loss_record[mode][k] = loss_record_loaded[mode][k]
+else:
+    loss_record = {}
+    loss_record['train'] = Utils.Loss_Record()
+    loss_record['val'] = Utils.Loss_Record()
 
 rate_counter = Utils.Rate_Counter()
 
 DD=Data.Data()
 
-
-loss_record = {}
-loss_record['train'] = Utils.Loss_Record()
-loss_record['val'] = Utils.Loss_Record()
 timer = {}
 timer['train'] = Timer(60*30)
 timer['val'] = Timer(60*3)
@@ -69,7 +76,7 @@ while True:
             if P.epoch_timer.check():
                 pd2s('\tmode =',mode,'ctr =',DD[mode]['ctr'],dp(100.0*DD[mode]['ctr']/(1.0*len(DD[mode]['all_steer']))),'%')
                 P.epoch_timer.reset()
-                figure('loss');clf();ylim(0,0.02)
+                figure('loss');clf();#ylim(0,0.02)
                 loss_record['train']['plot']({'c':'b'})
                 loss_record['val']['plot']({'c':'r'})
 

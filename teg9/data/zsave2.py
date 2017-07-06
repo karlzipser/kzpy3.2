@@ -4,7 +4,7 @@ from kzpy3.utils2 import *
 def text_to_file(d):
 	txt = d['txt']
 	path = d['path']
-
+	True
 	with open(path, "w") as text_file:
 		text_file.write("{0}".format(txt))
 
@@ -12,7 +12,7 @@ def text_to_file(d):
 
 def img_to_img_uint8(d):
 	img = d['img']
-
+	True
 	return (255.0*z2o(img)).astype(np.uint8)
 
 
@@ -20,7 +20,7 @@ def img_to_img_uint8(d):
 def zsave_obj(d):
 	obj = d['obj']
 	path = d['path']
-
+	True
 	if path != None:
 		print path
 	if callable(obj):
@@ -41,7 +41,7 @@ def zsave_obj(d):
 
 def zload_obj(d):
 	path = d['path']
-
+	True
 	if 'ctr' not in d:
 		ctr = 0
 	else:
@@ -92,7 +92,7 @@ def zload_obj(d):
 def restore_functions(d):
 	src = d['src']
 	dst = d['dst']
-
+	True
 	for k in src.keys():
 		if callable(src[k]):
 			dst[k] = src[k]
