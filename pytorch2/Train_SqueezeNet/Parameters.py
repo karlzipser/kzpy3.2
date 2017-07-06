@@ -4,7 +4,7 @@ if '__file__' not in locals():
 from kzpy3.utils2 import *
 cprint('****************** '+__file__+' ******************','yellow')
 
-GPU = 0
+GPU = 1
 BATCH_SIZE = 100
 DISPLAY = True
 VERBOSE = True
@@ -26,8 +26,9 @@ epoch_timer = Timer(5)
 #other_cars_only = True
 HIGH_LOW_HISTOGRAM_FIGURE_NAME = 'high low steer histograms'
 
-EPOCH_FINISHED = 'EPOCH FINISHED'
+#EPOCH_FINISHED = 'EPOCH FINISHED'
 
 
 
 
+#EOF
