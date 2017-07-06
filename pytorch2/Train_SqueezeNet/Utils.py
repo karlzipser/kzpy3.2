@@ -27,6 +27,7 @@ def Rate_Counter():
 
 def save_net(d):
     net = d['net']
+    loss_record = d['loss_record']
     if P.save_net_timer.check():
         torch.save(net.state_dict(), opjD('save_file'+time_str()+'.weights'))
         P.save_net_timer.reset()
@@ -44,7 +45,7 @@ def Loss_Record():
     #ctr_list = []
     D['loss_sum'] = 0
     D['loss_ctr'] = 0
-    D['loss_timer'] = Timer(10)
+    D['loss_timer'] = Timer(30)
     def _add(d):
         loss = d['loss']
         True

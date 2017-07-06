@@ -4,7 +4,7 @@ if '__file__' not in locals():
 from kzpy3.utils2 import *
 cprint('****************** '+__file__+' ******************','yellow')
 
-GPU = 1
+GPU = 0
 BATCH_SIZE = 100
 DISPLAY = True
 VERBOSE = True
