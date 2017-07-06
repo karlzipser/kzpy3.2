@@ -121,7 +121,7 @@ def Batch(d):
             t= D['target_data'][0].cpu().numpy()
 
             print('Loss:',dp(D['loss'].data.cpu().numpy()[0],5))
-
+            print(o,t)
             a=D['camera_data'][0][:].cpu().numpy()
             b=a.transpose(1,2,0)
             h = shape(a)[1]
