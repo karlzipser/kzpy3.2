@@ -68,7 +68,7 @@ def Loss_Record():
     def _plot(d):
         c = d['c']
         True
-        plt.plot(np.array(D['timestamp_list'])-D['t0'],D['loss_list'],c+'.')
+        plt.plot((np.array(D['timestamp_list'])-D['t0'])/3600.0,D['loss_list'],c+'.')
     D['plot'] = _plot
     return D
 
