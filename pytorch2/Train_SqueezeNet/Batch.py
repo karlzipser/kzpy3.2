@@ -49,7 +49,7 @@ def Batch(d):
                 for camera in ('left', 'right'):
                     list_camera_input.append(torch.from_numpy(data[camera][t]))
             camera_data = torch.cat(list_camera_input, 2)
-            camera_data = camera_data.cuda().float()
+            camera_data = camera_data.cuda().float()/255. - 0.5
             camera_data = torch.transpose(camera_data, 0, 2)
             camera_data = torch.transpose(camera_data, 1, 2)
             D['camera_data'] = torch.cat((torch.unsqueeze(camera_data, 0), D['camera_data']), 0)
@@ -141,6 +141,7 @@ def Batch(d):
             c[-h:,:w,:] = z2o(b[:,:,9:12])
             c[-h:,-w:,:] = z2o(b[:,:,6:9])
             mi(c,'cameras')
+            print(a.min(),a.max())
             #img_saver['save']({'img':c})
             figure('steer')
             clf()

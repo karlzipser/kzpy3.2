@@ -9,7 +9,7 @@ DISPLAY = True
 VERBOSE = True
 LOAD_ARUCO = False
 BAIR_CAR_DATA_PATH = opjD('bair_car_data_Main_Dataset') #opjD('bair_car_data_new_28April2017')
-RESUME = True
+RESUME = False
 if RESUME:
     weights_file_path = most_recent_file_in_folder(opjD(),['save_file'])
 IGNORE = ['reject_run','left','out1_in2']#,'Smyth','racing','local','Tilden','campus']
