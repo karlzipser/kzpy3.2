@@ -484,7 +484,7 @@ def memory():
     return ret
 
 
-def most_recent_file_in_folder(path,str_elements=[]):
+def most_recent_file_in_folder(path,str_elements=[],ignore_str_elements=[]):
     files = gg(opj(path,'*'))
     if len(files) == 0:
         return None
@@ -493,6 +493,10 @@ def most_recent_file_in_folder(path,str_elements=[]):
         is_candidate = True
         for s in str_elements:
             if s not in f:
+                is_candidate = False
+                break
+        for s in ignore_str_elements:
+            if s in f:
                 is_candidate = False
                 break
         if is_candidate:
