@@ -6,7 +6,7 @@ import std_msgs.msg
 
 os.environ['STOP'] = 'False'
 
-from import kzpy3.teg2.bdd_car_versions.bdd_car_rewrite.runtime_params import foldername
+from  kzpy3.teg2.bdd_car_versions.bdd_car_rewrite.runtime_params import foldername
 
 time.sleep(3)
 
