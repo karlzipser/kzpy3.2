@@ -17,6 +17,7 @@ os.environ['STOP'] = 'False'
 baudrate = 115200
 timeout = 0.1
 Arduinos = ard_ser_in.assign_serial_connections(ard_ser_in.get_arduino_serial_connections(baudrate,timeout))
+assert(len(Arduinos)>0)
 time_step = Timer(1)
 folder_display_timer = Timer(10)
 git_pull_timer = Timer(60)
