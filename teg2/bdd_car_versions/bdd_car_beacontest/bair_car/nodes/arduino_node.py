@@ -15,7 +15,7 @@ import kzpy3.teg2.bdd_car_versions.bdd_car_rewrite.runtime_params as rp
 os.environ['STOP'] = 'False'
 
 baudrate = 115200
-timeout = 0.1
+timeout = 0.5
 Arduinos = ard_ser_in.assign_serial_connections(ard_ser_in.get_arduino_serial_connections(baudrate,timeout))
 assert(len(Arduinos)>0)
 time_step = Timer(1)
