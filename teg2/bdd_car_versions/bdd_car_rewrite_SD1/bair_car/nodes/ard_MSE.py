@@ -143,6 +143,11 @@ class Net_Steer_Net_Motor(PID_Motor):
         self.M['caffe_motor_pwm'] = percent_to_pwm(self.M['caffe_motor'],self.M['motor_null'],self.M['motor_max'],self.M['motor_min'])
         mse_write_publish(self.M,self.Arduinos,self.M['caffe_steer_pwm'],self.M['caffe_motor_pwm'])
 
+class Human_Steer_Net_Motor(PID_Motor):
+    def process(self):
+        self.M['caffe_motor_pwm'] = percent_to_pwm(self.M['caffe_motor'],self.M['motor_null'],self.M['motor_max'],self.M['motor_min'])
+        mse_write_publish(self.M,self.Arduinos,self.M['smooth_steer'],self.M['caffe_motor_pwm'])
+
 
 class Aruco_Steer_Aruco_Motor(Computer_Control):
     def process(self):
@@ -247,7 +252,7 @@ def setup(M,Arduinos):
     state_six = Net_Steer_Net_Motor('state 6',6,1900,M,Arduinos)
     state_three = Net_Steer_Hum_Motor('state 3',3,1900,M,Arduinos)
     state_five = Human_Control('state 5',5,1900,M,Arduinos)
-    state_seven = Hum_Steer_PID_Motor('state 7',7,1900,M,Arduinos)
+    state_seven = Human_Steer_Net_Motor('state 7',7,1900,M,Arduinos)
     state_eight = Net_Steer_PID_Motor('state 8',8,1900,M,Arduinos)
     state_nine = Freeze('state 9',9,1900,M,Arduinos)
     state_four = Calibration_State('state 4',4,870,M,Arduinos)
