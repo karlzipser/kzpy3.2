@@ -132,6 +132,7 @@ def format_camera_data(left_list, right_list):
    #         for i in range(nframes): # [0,1,2,... nframes -1]
    #             camera_data = torch.cat((torch.from_numpy(side[-i - 1][:, :, c]).float().unsqueeze(2), camera_data), 2)
 
+    
     camera_data = camera_data.cuda().float()/255. - 0.5
     camera_data = torch.transpose(camera_data, 0, 2)
     camera_data = torch.transpose(camera_data, 1, 2)
