@@ -28,7 +28,7 @@ def assign_serial_connections(sers):
         for _ in xrange(1000):
             try:
                 ser_str = ser.readline()
-                
+                print ser_str
                 exec('ser_tuple = list({0})'.format(ser_str))
                 if ser_tuple[0] in ['mse']:
                     print(d2s('Port',ser.port,'is the MSE:',ser_str))
