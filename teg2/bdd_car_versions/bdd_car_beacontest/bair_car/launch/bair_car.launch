@@ -4,7 +4,7 @@
     <arg name="use_caffe" default="false" />
     
     <arg name="record" default="false" />
-    <arg name="bagpath" default="/media/ubuntu/rosbags" />
+    <arg name="bagpath" default="/media/nvidia/rosbags" />
 
     <group ns="$(arg car_name)">
         <node name="run_arduino" pkg="bair_car" type="arduino_node.py" output="screen">
