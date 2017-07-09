@@ -2,10 +2,7 @@ from kzpy3.vis import *
 from Parameters import args
 import kzpy3.teg9data.utils.Segment_Data as Segment_Data
 
-hdf5_runs_path = args.data_path + '/hdf5/runs'
-hdf5_segment_metadata_path = args.data_path + '/hdf5/segment_metadata'
-Segment_Data.load_Segment_Data(hdf5_segment_metadata_path, hdf5_runs_path)
-        
+
 class Data:
 
     class DataIndex:
@@ -18,12 +15,22 @@ class Data:
             self.epoch_counter = epoch_counter
 
     def __init__(self):
-        print('loading train_all_steer...')  # Loads pkl index file
+
+        # Load hdf5 segment data
+        self.hdf5_runs_path = self.hdf5_segment_metadata_path = args.data_path
+        self.hdf5_runs_path += '/hdf5/runs'
+        self.hdf5_segment_metadata_path += '/hdf5/segment_metadata'
+
+        self.Segment_Data.load_Segment_Data(hdf5_segment_metadata_path,
+                                            hdf5_runs_path)
+
+        # Load data indexes for training and validation
+        print('loading train_all_steer...')
         self.train_index = DataIndex(lo('/home/karlzipser/Desktop/' +
-                                        'train_all_steer')), -1, 0)
+                                        'train_all_steer'), -1, 0)
         print('loading val_all_steer...')
         self.val_index = DataIndex(lo('/home/karlzipser/Desktop/' +
-                                        'val_all_steer')), -1, 0)
+                                      'val_all_steer'), -1, 0)
 
     def get_data(self, run_code, seg_num, offset):
         data = Segment_Data.get_data(run_code, seg_num, offset,
