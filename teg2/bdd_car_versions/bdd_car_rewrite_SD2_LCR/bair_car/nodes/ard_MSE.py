@@ -179,7 +179,7 @@ def buttons_to_state(Arduinos,M,BUTTON_DELTA):
     if M['current_state'] == None:
         return
 
-    for s in [M['state_one'],M['state_two']]:
+    for s in [M['state_one'],M['state_two'],M['state_three']]:
         if np.abs(M['button_pwm_lst'][-1] - s.button_pwm_peak) < BUTTON_DELTA:  
             if M['current_state'] == s:
                 return
@@ -190,7 +190,7 @@ def buttons_to_state(Arduinos,M,BUTTON_DELTA):
             return
 
 
-
+    """
     if np.abs(M['button_pwm_lst'][-1] - M['state_three'].button_pwm_peak) < BUTTON_DELTA:
         if M['aruco_evasion_active'] == 1 and M['current_state'] != M['state_ten']:
            #print "HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
@@ -206,6 +206,7 @@ def buttons_to_state(Arduinos,M,BUTTON_DELTA):
         M['current_state'].enter()
         M['previous_state'].leave()
         return
+    """
 
 
 
