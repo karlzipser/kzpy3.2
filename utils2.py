@@ -1326,4 +1326,14 @@ def zrestore_functions(d):
 
             
 
+
+def stop_ros():
+    #M['Stop_Arduinos'] = True
+    #rospy.signal_shutdown("M[Stop_Arduinos] = True")
+    print('!!!!! stop_ros() !!!!!')
+    #time.sleep(1)
+    unix(opjh('kzpy3/kill_ros.sh'))
+    #assert(False)
+
+
 #EOF
