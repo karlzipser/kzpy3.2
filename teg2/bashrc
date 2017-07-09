@@ -81,8 +81,8 @@ rrm
 rlog
 echo "rm ~/catkin_ws/src/bair_car"
 rm ~/catkin_ws/src/bair_car
-echo "ln -s ~/kzpy3/teg2/bdd_car_versions/bdd_car_rewrite_SD2/bair_car ~/catkin_ws/src/bair_car"
-ln -s ~/kzpy3/teg2/bdd_car_versions/bdd_car_rewrite_SD2/bair_car ~/catkin_ws/src/bair_car
+echo "ln -s ~/kzpy3/teg2/bdd_car_versions/bdd_car_rewrite_SD2_LCR/bair_car ~/catkin_ws/src/bair_car"
+ln -s ~/kzpy3/teg2/bdd_car_versions/bdd_car_rewrite_SD2_LCR/bair_car ~/catkin_ws/src/bair_car
 echo "sleep 30s before rla . . ."
 sleep 30
 rla
