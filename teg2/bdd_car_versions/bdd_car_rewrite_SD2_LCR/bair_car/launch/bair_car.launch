@@ -10,9 +10,6 @@
         <node name="run_arduino" pkg="bair_car" type="arduino_node.py" output="screen">
         </node>
 
-        <node name="run_caffe" pkg="bair_car" type="network.py" output="screen">  if="$(arg use_caffe)">
-        </node>
-
         <group ns="zed" if="$(arg use_zed)">        
             <include file="$(find zed_wrapper)/launch/zed_tf.launch" />
 
