@@ -4,39 +4,38 @@ from vis2 import *
 import torch
 import torch.nn.utils as nnutils
 from torch.autograd import Variable
-print_timer = Timer(5)
-img_saver = Image_to_Folder_Saver({'path':opjD('cameras0')})
 
 
 class Batch:
 
     def __init__(self, net):
-        self.net = net 
+        self.net = net
         self.camera_data = torch.FloatTensor().cuda()
         self.metadata = torch.FloatTensor().cuda()
         self.target_data = torch.FloatTensor().cuda()
         self.names = []
         self.outputs = None
-        self.loss= None
+        self.loss = None
+        self.print_timer = Timer(args.print_time)
 
     def fill(self, data, data_index):
         self.data_ids = []
         for b in range(args.batch_size):
             data_point = None
-            while data_point == None:
+            while data_point is None:
                 e = data.next(data_index)
                 run_code = e[3]
                 seg_num = e[0]
                 offset = e[1]
-                data_point = data.get_data({'run_code':run_code,
-                                            'seg_num':seg_num,
-                                            'offset':offset})
+                data_point = data.get_data({'run_code': run_code,
+                                            'seg_num': seg_num,
+                                            'offset': offset})
 
-            self.data_ids.append((run_code,seg_num,offset))
+            self.data_ids.append((run_code, seg_num, offset))
             self.data_into_batch(data_point)
 
     def data_into_batch(self, data):
-        self.names.insert(0,data['name'])  # TODO: Figure out what this does
+        self.names.insert(0, data['name'])
 
         # Convert Camera Data to PyTorch Ready Tensors
         list_camera_input = []
@@ -54,7 +53,8 @@ class Batch:
         metadata = torch.FloatTensor().cuda()
         zero_matrix = torch.FloatTensor(1, 1, 23, 41).zero_().cuda()
         one_matrix = torch.FloatTensor(1, 1, 23, 41).fill_(1).cuda()
-        for cur_label in ['racing', 'caffe', 'follow', 'direct', 'play', 'furtive']:
+        for cur_label in ['racing', 'caffe', 'follow', 'direct', 'play',
+                          'furtive']:
             if cur_label == 'caffe':
                 if data['states'][0]:
                     metadata = torch.cat((one_matrix, metadata), 1)
@@ -72,7 +72,7 @@ class Batch:
         # Figure out which timesteps of labels to get
         s = data['steer']
         m = data['motor']
-        r = range(2,31,3) # This depends on NUM_STEPS and STRIDE
+        r = range(2, 31, 3)  # This depends on NUM_STEPS and STRIDE
         s = array(s)[r]
         m = array(m)[r]
 
@@ -93,7 +93,7 @@ class Batch:
             t = self.target_data[b].cpu().numpy()
             o = self.outputs[b].data.cpu().numpy()
             a = (self.target_data[b].data - self.outputs[b].data).cpu().numpy()
-            trial_loss_record[(id,tuple(t),tuple(o))] = np.sqrt(a * a).mean()
+            trial_loss_record[(id, tuple(t), tuple(o))] = np.sqrt(a * a).mean()
 
     def backward(self, optimizer):
         self.loss.backward()
@@ -103,23 +103,27 @@ class Batch:
     def display(print_now=False):
         if print_timer.check() or print_now:
             o = self.outputs[0].data.cpu().numpy()
-            t= self.target_data[0].cpu().numpy()
+            t = self.target_data[0].cpu().numpy()
 
-            print('Loss:',dp(D['loss'].data.cpu().numpy()[0],5))
-            a=self.camera_data[0][:].cpu().numpy()
-            b=a.transpose(1,2,0)
+            print('Loss:', dp(D['loss'].data.cpu().numpy()[0], 5))
+            a = self.camera_data[0][:].cpu().numpy()
+            b = a.transpose(1, 2, 0)
             h = shape(a)[1]
             w = shape(a)[2]
-            c = zeros((10+h*2,10+2*w,3))
-            c[:h,:w,:] = z2o(b[:,:,3:6])
-            c[:h,-w:,:] = z2o(b[:,:,:3])
-            c[-h:,:w,:] = z2o(b[:,:,9:12])
-            c[-h:,-w:,:] = z2o(b[:,:,6:9])
-            mi(c,'cameras')
-            print(a.min(),a.max())
+            c = zeros((10+h*2, 10+2*w, 3))
+            c[:h, :w, :] = z2o(b[:, :, 3:6])
+            c[:h, -w:, :] = z2o(b[:, :, :3])
+            c[-h:, :w, :] = z2o(b[:, :, 9:12])
+            c[-h:, -w:, :] = z2o(b[:, :, 6:9])
+            mi(c, 'cameras')
+            print(a.min(), a.max())
             figure('steer')
             clf()
-            ylim(-0.05,1.05);xlim(0,len(t))
-            plot([-1,60],[0.49,0.49],'k');plot(o,'og'); plot(t,'or'); plt.title(D['names'][0])
+            ylim(-0.05, 1.05)
+            xlim(0, len(t))
+            plot([-1, 60], [0.49, 0.49], 'k')
+            plot(o, 'og')
+            plot(t, 'or')
+            plt.title(D['names'][0])
             pause(0.000000001)
             print_timer.reset()
