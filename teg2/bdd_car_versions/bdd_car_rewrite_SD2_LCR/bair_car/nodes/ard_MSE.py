@@ -254,7 +254,7 @@ def setup(M,Arduinos):
     #state_five = Human_Control('state 5',5,1900,M,Arduinos)
     #state_seven = Human_Steer_Net_Motor('state 7',7,1900,M,Arduinos)
     #state_eight = Net_Steer_PID_Motor('state 8',8,1900,M,Arduinos)
-    #state_nine = Freeze('state 9',9,1900,M,Arduinos)
+    state_nine = Freeze('state 9',9,1900,M,Arduinos)
     state_four = Calibration_State('state 4',4,870,M,Arduinos)
     #state_ten = Aruco_Steer_Aruco_Motor('state 10',10,1900,M,Arduinos)
     """
@@ -277,7 +277,7 @@ def setup(M,Arduinos):
     #M['state_six'] = state_six
     #M['state_seven'] = state_seven
     #M['state_eight'] = state_eight
-    #M['state_nine'] = state_nine
+    M['state_nine'] = state_nine
     #M['state_ten'] = state_ten
 
     M['current_state'] = None
