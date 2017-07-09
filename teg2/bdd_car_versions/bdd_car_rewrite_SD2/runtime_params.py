@@ -1,8 +1,11 @@
 # This is used to specifiy caffe mode and data file name information
 
 
-from kzpy3.utils import time_str
-from kzpy3.utils import opjh
+from kzpy3.utils2 import time_str
+from kzpy3.utils2 import opjh
+from kzpy3.utils2 import print_stars0
+from kzpy3.utils2 import print_stars1
+
 import os
 import numpy as np
 print_stars0();print(__file__);print_stars1()
