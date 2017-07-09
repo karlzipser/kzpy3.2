@@ -1,0 +1,87 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+BAIR_CAR_DATA_PATH	Parameters.py	/^BAIR_CAR_DATA_PATH = opjD('bair_car_data_Main_Dataset') #opjD('bair_car_data_new_28April2017')$/;"	v
+BATCH_SIZE	Parameters.py	/^BATCH_SIZE = 100$/;"	v
+Batch	Batch.py	/^def Batch(d):$/;"	f
+DD	Train.py	/^DD=Data.Data()$/;"	v
+DISPLAY	Parameters.py	/^DISPLAY = True$/;"	v
+Data	Data.py	/^def Data():$/;"	f
+Data	Data_Preparation.py	/^def Data():$/;"	f
+GPU	Parameters.py	/^GPU = 0$/;"	v
+IGNORE	Parameters.py	/^IGNORE = ['reject_run','left','out1_in2']#,'Smyth','racing','local','Tilden','campus']$/;"	v
+LOAD_ARUCO	Parameters.py	/^LOAD_ARUCO = False$/;"	v
+Loss_Record	Utils.py	/^def Loss_Record():$/;"	f
+N_FRAMES	Parameters.py	/^N_FRAMES = 2$/;"	v
+N_STEPS	Parameters.py	/^N_STEPS = 10$/;"	v
+REQUIRE_ONE	Parameters.py	/^REQUIRE_ONE = []$/;"	v
+RESUME	Parameters.py	/^RESUME = True$/;"	v
+Rate_Counter	Utils.py	/^def Rate_Counter():$/;"	f
+STRIDE	Parameters.py	/^STRIDE = 3 # multiply by N Steps in order to have fixed number of steps reach further in time.$/;"	v
+USE_STATES	Parameters.py	/^USE_STATES = [1,3,5,6,7]$/;"	v
+VERBOSE	Parameters.py	/^VERBOSE = True$/;"	v
+WEIGHTS_FOLDER_PATH	Parameters.py	/^WEIGHTS_FOLDER_PATH = opjh(WORK_PATH,'weights')$/;"	v
+WORK_PATH	Parameters.py	/^WORK_PATH = opjD('pytorch3_training')$/;"	v
+__file__	Data.py	/^    __file__ = 'Data.py'$/;"	v
+__file__	Train.py	/^    __file__ = 'Train.py'$/;"	v
+_add	Utils.py	/^    def _add(d):$/;"	f	function:Loss_Record
+_backward	Batch.py	/^    def _backward(d):$/;"	f	function:Batch
+_check	Data_Preparation.py	/^    def _check(d):$/;"	f	function:Data
+_clear	Batch.py	/^    def _clear():$/;"	f	function:Batch
+_data_into_batch	Batch.py	/^    def _data_into_batch(data):$/;"	f	function:Batch
+_display	Batch.py	/^    def _display(d):$/;"	f	function:Batch
+_fill	Batch.py	/^    def _fill(d):$/;"	f	function:Batch
+_forward	Batch.py	/^    def _forward(d):$/;"	f	function:Batch
+_get_all_steer	Data_Preparation.py	/^    def _get_all_steer():$/;"	f	function:Data
+_get_data	Data.py	/^    def _get_data(d):$/;"	f	function:Data
+_get_data	Data_Preparation.py	/^    def _get_data(d):$/;"	f	function:Data
+_get_data_considering_high_low_steer	Data_Preparation.py	/^    def _get_data_considering_high_low_steer(d):$/;"	f	function:Data
+_get_data_considering_high_low_steer_and_valid_trajectory_timestamp	Data_Preparation.py	/^    def _get_data_considering_high_low_steer_and_valid_trajectory_timestamp(d):$/;"	f	function:Data
+_load_Aruco_Steering_Trajectories	Data_Preparation.py	/^    def _load_Aruco_Steering_Trajectories():$/;"	f	function:Data
+_next	Data.py	/^    def _next(d):$/;"	f	function:Data
+_plot	Utils.py	/^    def _plot(d):$/;"	f	function:Loss_Record
+_prepare_Aruco_trajectory_data	Data_Preparation.py	/^    def _prepare_Aruco_trajectory_data():$/;"	f	function:Data
+_step	Utils.py	/^    def _step(d):$/;"	f	function:Rate_Counter
+argument_dictionary	Data_Preparation.py	/^    argument_dictionary = args_to_dic({  'pargs':"-a -1 -b 4 -c [1,2,9] -d {1:5,2:4}"  })$/;"	v
+argument_dictionary	Data_Preparation.py	/^    argument_dictionary = args_to_dic({  'pargs':sys.argv[1:]  })$/;"	v
+argument_dictionary	Data_Preparation.py	/^argument_dictionary = translate_args($/;"	v
+batch	Train.py	/^batch = Batch.Batch({'net':net,'batch_size':P.BATCH_SIZE})$/;"	v
+criterion	Train.py	/^criterion = torch.nn.MSELoss().cuda()$/;"	v
+data	Train.py	/^    data = DD['get_data']({'run_code':run_code,'seg_num':seg_num,'offset':offset})$/;"	v
+epoch_timer	Parameters.py	/^epoch_timer = Timer(5)$/;"	v
+h5py_read_dataset	Data.py	/^def h5py_read_dataset(d):$/;"	f
+h5py_save_dataset	Data.py	/^def h5py_save_dataset(d):$/;"	f
+hdf5_runs_path	Data.py	/^hdf5_runs_path = opj(P.BAIR_CAR_DATA_PATH,'hdf5\/runs')$/;"	v
+hdf5_runs_path	Data_Preparation.py	/^hdf5_runs_path = opj(P.BAIR_CAR_DATA_PATH,'hdf5\/runs')$/;"	v
+hdf5_segment_metadata_path	Data.py	/^hdf5_segment_metadata_path = opj(P.BAIR_CAR_DATA_PATH,'hdf5\/segment_metadata')$/;"	v
+hdf5_segment_metadata_path	Data_Preparation.py	/^hdf5_segment_metadata_path = opj(P.BAIR_CAR_DATA_PATH,'hdf5\/segment_metadata')$/;"	v
+img_saver	Batch.py	/^img_saver = Image_to_Folder_Saver({'path':opjD('cameras0')})$/;"	v
+l	Train.py	/^    l =  sorted_trial_loss_record[i]$/;"	v
+loss_record	Train.py	/^    loss_record = {}$/;"	v
+loss_record_loaded	Train.py	/^    loss_record_loaded = zload_obj({'path':opjD('loss_record')})$/;"	v
+net	Train.py	/^net = SqueezeNet().cuda()$/;"	v
+o	Train.py	/^    o = sorted_trial_loss_record[i][0][2]$/;"	v
+optimizer	Train.py	/^optimizer = torch.optim.Adadelta(net.parameters())$/;"	v
+print_timer	Batch.py	/^print_timer = Timer(5)$/;"	v
+print_timer	Parameters.py	/^print_timer = Timer(5)$/;"	v
+rate_counter	Train.py	/^rate_counter = Utils.Rate_Counter()$/;"	v
+save_data	Train.py	/^    save_data = torch.load(P.weights_file_path)$/;"	v
+save_net	Utils.py	/^def save_net(d):$/;"	f
+save_net_timer	Parameters.py	/^save_net_timer = Timer(60*30)$/;"	v
+segments	Data_Preparation.py	/^    segments = {}$/;"	v
+segsk	Data_Preparation.py	/^    segsk = segments.keys()$/;"	v
+sorted_trial_loss_record	Train.py	/^sorted_trial_loss_record = sorted(trial_loss_record.items(),key=operator.itemgetter(1))$/;"	v
+t	Train.py	/^    t = sorted_trial_loss_record[i][0][1]$/;"	v
+timer	Train.py	/^timer = {}$/;"	v
+train_all_steer	Data_Preparation.py	/^    train_all_steer = []$/;"	v
+train_segsk	Data_Preparation.py	/^    train_segsk = segsk[val_len:]$/;"	v
+translation_dic	Data_Preparation.py	/^translation_dic = {'a':'apples','b':'build','c':'cats','d':'dogs'}$/;"	v
+trial_loss_record	Train.py	/^trial_loss_record = {}$/;"	v
+val_all_steer	Data_Preparation.py	/^    val_all_steer = []$/;"	v
+val_len	Data_Preparation.py	/^    val_len = int(validation_proportion * len(segsk))$/;"	v
+val_segsk	Data_Preparation.py	/^    val_segsk = segsk[:val_len]$/;"	v
+validation_proportion	Data_Preparation.py	/^    validation_proportion = 0.1$/;"	v
+weights_file_path	Parameters.py	/^    weights_file_path = most_recent_file_in_folder(opjD(),['save_file'],['infer'])$/;"	v
