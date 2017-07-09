@@ -7,5 +7,5 @@ echo "bash script"
 #rosrun image_view image_view image:=/bair_car/zed/left/image_rect_color &
 
 #python ~/kzpy3/teg2/data/show/kz_ros.py /media/karlzipser/ExtraDrive1/temp_bag/caffe_z2_direct_local_22Nov16_09h43m41s_Mr_White 5 40
-
-roslaunch bair_car bair_car.launch use_zed:=true record:=true
+source /home/nvidia/.bashrc
+#roslaunch bair_car bair_car.launch use_zed:=true record:=true
