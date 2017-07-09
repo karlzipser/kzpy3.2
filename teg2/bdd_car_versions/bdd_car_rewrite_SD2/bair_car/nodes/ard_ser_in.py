@@ -39,6 +39,7 @@ def assign_serial_connections(sers):
             print('Unable to identify port {0}'.format(ser.port))
             print('Is transmitter turned on?')
             print('Is MSE battery plugged in?')
+            stop_ros()
 
     return Arduinos
 

@@ -26,6 +26,7 @@ def run_loop(Arduinos,M):
 
     try:
         if os.environ['STOP'] == 'True':
+            stop_ros()
             assert(False)
         while M['Stop_Arduinos'] == False or not rospy.is_shutdown():
 
@@ -46,6 +47,7 @@ def run_loop(Arduinos,M):
 
             except Exception as e:
                 pass #print e
+        stop_ros()
     except Exception as e:
         print("********** Exception ***********************")
         print(e.message, e.args)
@@ -54,7 +56,8 @@ def run_loop(Arduinos,M):
         M['Stop_Arduinos'] = True
         if 'SIG' in Arduinos.keys():
             Arduinos['SIG'].write(LED_signal)
-        rospy.signal_shutdown(d2s(e.message,e.args))   
+        rospy.signal_shutdown(d2s(e.message,e.args))
+        stop_ros()
 
 
 

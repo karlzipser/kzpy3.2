@@ -303,6 +303,7 @@ def run_loop(Arduinos,M,BUTTON_DELTA=50,):
     lock = threading.Lock()
     if 'MSE' not in Arduinos:
         M['Stop_Arduinos'] = True
+        stop_ros()
         return
 
     
