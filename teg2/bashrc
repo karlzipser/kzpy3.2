@@ -39,6 +39,7 @@ alias fixScreen='DISPLAY=:0 xrandr --output HDMI-0 --mode 1024x768'
 #echo "source ~/8August2016_common_aliases"
 #export DISPLAY=:0.0
 alias gacp="git add .;git commit -m 'gacp';git push origin master"
+alias gp3="~/kzpy3/kzpy3_git_pull.sh"
 #alias gckzpy3="git clone https://github.com/karlzipser/kzpy3.0.git"
 git config --global credential.helper "cache --timeout=86400"
 alias ipy="ipython --no-banner"
