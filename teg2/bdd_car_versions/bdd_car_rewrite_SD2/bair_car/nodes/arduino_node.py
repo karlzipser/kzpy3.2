@@ -135,11 +135,11 @@ def arduino_master_thread():
 
 
 
-if 'IMU' in Arduinos:
+if 'MSE' in Arduinos:
     ard_MSE.setup(M,Arduinos)
     threading.Thread(target=arduino_mse_thread).start()
 else:
-    print("!!!!!!!!!! 'IMU' not in Arduinos[] !!!!!!!!!!!")
+    print("!!!!!!!!!! 'MSE' not in Arduinos[] !!!!!!!!!!!")
     stop_ros()
 
 if 'IMU' in Arduinos.keys():

@@ -5,6 +5,11 @@ reed to run roslaunch first, e.g.,
 roslaunch bair_car bair_car.launch use_zed:=true record:=false
 """
 
+from kzpy3.utils2 import *
+import torch
+import torch.nn as nn
+from torch.autograd import Variable
+from nets.squeezenet import SqueezeNet
 
 
 # ????????
@@ -34,11 +39,6 @@ verbose = False
 nframes = 2 # default superseded by net
 
 # try:
-from kzpy3.utils2 import *
-import torch
-import torch.nn as nn
-from torch.autograd import Variable
-from nets.squeezenet import SqueezeNet
 weight_file_path = opjh('pytorch_models','epoch6goodnet') #'save_file.weights')#)
 
 def static_vars(**kwargs):
