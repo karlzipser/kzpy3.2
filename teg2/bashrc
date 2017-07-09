@@ -73,7 +73,7 @@ echo "Hi nvidia on Jetson"
 echo "cd ~/kzpy3"
 cd ~/kzpy3
 echo "git pull &;cd"
-git pull &
+git pull
 cd
 echo "rrm;rlog"
 rrm

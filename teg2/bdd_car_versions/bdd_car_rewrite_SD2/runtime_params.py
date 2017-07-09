@@ -5,8 +5,7 @@ from kzpy3.utils import time_str
 from kzpy3.utils import opjh
 import os
 import numpy as np
-print "***************** bdd_car_rewrite_run_params.py"
-
+print_stars0();print(__file__);print_stars1()
 computer_name = "MR_Unknown"
 try:  
    computer_name = os.environ["COMPUTER_NAME"]
