@@ -8,7 +8,7 @@ from kzpy3.vis2 import *
 import matplotlib.pyplot as plt
 import operator
 
-from SqueezeNet import SqueezeNet
+from nets.SqueezeNet import SqueezeNet
 import torch
 
 
