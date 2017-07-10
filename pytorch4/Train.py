@@ -11,6 +11,7 @@ import operator
 from nets.SqueezeNet import SqueezeNet
 import torch
 
+print(args.display)
 
 # Set Up PyTorch Environment
 torch.set_default_tensor_type('torch.FloatTensor')
@@ -76,31 +77,13 @@ while True:
                 print('epoch progress=' + str(100 * data_index.ctr /
                                               len(data_index.all_steer)) + '%')
 
-                batch.display()
+                if args.display:
+                    batch.display()
 
-                plt.figure('loss')
-                plt.clf()  # clears figure
-                loss_record['train'].plot('b')  # plot with blue color
-                loss_record['val'].plot('r')  # plot with red color
-                print_timer.reset()
+                    plt.figure('loss')
+                    plt.clf()  # clears figure
+                    loss_record['train'].plot('b')  # plot with blue color
+                    loss_record['val'].plot('r')  # plot with red color
+                    print_timer.reset()
 
             batch = Batch.Batch(net)  # Reinitialiize batch
-
-# This below is not really integrated correctly by me, but is useful. Utils.py could be a good home.
-sorted_trial_loss_record = sorted(trial_loss_record.items(),
-                                  key=operator.itemgetter(1))
-
-for i in range(-1, -100, -1):
-    l = sorted_trial_loss_record[i]
-    run_code, seg_num, offset = sorted_trial_loss_record[i][0][0]
-    t = sorted_trial_loss_record[i][0][1]
-    o = sorted_trial_loss_record[i][0][2]
-    sorted_data = data.get_data(run_code, seg_num, offset)
-    plt.figure(22)
-    plt.clf()
-    plt.ylim(0, 1)
-    plt.plot(t, 'r.')
-    plt.plot(o, 'g.')
-    plt.plot([0, 20], [0.5, 0.5], 'k')
-    mi(sorted_data['right'][0, :, :], 23, img_title=d2s(l[1]))
-    pause(1)

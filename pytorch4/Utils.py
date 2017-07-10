@@ -55,3 +55,23 @@ class Loss_Record:
     def plot(self, c):
         plt.plot((np.array(self.timestamp_list) - self.t0) / 3600.0,
                  self.loss_list, c + '.')
+
+
+def display_sort_trial_loss(trial_loss, data):
+    sorted_trial_loss_record = sorted(trial_loss_record.items(),
+                                      key=operator.itemgetter(1))
+    
+    for i in range(-1, -100, -1):
+        l = sorted_trial_loss_record[i]
+        run_code, seg_num, offset = sorted_trial_loss_record[i][0][0]
+        t = sorted_trial_loss_record[i][0][1]
+        o = sorted_trial_loss_record[i][0][2]
+        sorted_data = data.get_data(run_code, seg_num, offset)
+        plt.figure(22)
+        plt.clf()
+        plt.ylim(0, 1)
+        plt.plot(t, 'r.')
+        plt.plot(o, 'g.')
+        plt.plot([0, 20], [0.5, 0.5], 'k')
+        mi(sorted_data['right'][0, :, :], 23, img_title=d2s(l[1]))
+        pause(1)
