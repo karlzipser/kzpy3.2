@@ -76,12 +76,13 @@ while True:
                 print('epoch progress=' + str(100 * data_index.ctr /
                                               len(data_index.all_steer)) + '%')
 
-                batch.display()
+                if args.display:
+                    batch.display()
 
-                plt.figure('loss')
-                plt.clf()  # clears figure
-                loss_record['train'].plot('b')  # plot with blue color
-                loss_record['val'].plot('r')  # plot with red color
-                print_timer.reset()
+                    plt.figure('loss')
+                    plt.clf()  # clears figure
+                    loss_record['train'].plot('b')  # plot with blue color
+                    loss_record['val'].plot('r')  # plot with red color
+                    print_timer.reset()
 
             batch = Batch.Batch(net)  # Reinitialiize batch
