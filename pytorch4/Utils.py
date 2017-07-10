@@ -1,6 +1,7 @@
 from Parameters import args
 from kzpy3.utils2 import *
 import matplotlib.pyplot as plt
+import torch
 
 
 class Rate_Counter:
@@ -19,18 +20,17 @@ class Rate_Counter:
             self.rate_timer.reset()
             self.rate_ctr = 0
 
-
-def save_net(net, loss_record, weights_folder_path):
-    weights_file_name = 'save_file' + time_str()
+def save_net(net, loss_record):
+    weights_file_name = '/save_file' + time_str()
     torch.save(net.state_dict(),
-               opjh(weights_folder_path, weights_file_name+'.weights'))
+               args.save_path + weights_file_name + '.weights')
 
     # Next, save for inference (creates ['net'] and moves net to GPU #0)
     weights = {'net': net.state_dict().copy()}
     for key in weights['net']:
         weights['net'][key] = weights['net'][key].cuda(device=0)
     torch.save(weights,
-               opjh(weights_folder_path, weights_file_name+'.infer'))
+               args.save_path + weights_file_name + '.infer')
 
 
 class Loss_Record:
