@@ -4,6 +4,15 @@ import kzpy3.teg9.data.utils.preprocess_Bag_Folders as preprocess_Bag_Folders
 import kzpy3.teg9.data.utils.Bag_File as Bag_File
 #import shutil
 
+"""
+e.g.,
+python ~/kzpy3/teg9/data/preprocess.py /media/karlzipser/ExtraDrive2/Mr_Purple_7July2017 /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_path_dataset 30
+python ~/kzpy3/teg9/data/preprocess.py /media/karlzipser/ExtraDrive2/Mr_Orange_6July2017 /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_path_dataset 30
+python ~/kzpy3/teg9/data/preprocess.py /media/karlzipser/ExtraDrive2/Mr_Orange_8July2017 /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_path_dataset 30
+python ~/kzpy3/teg9/data/preprocess.py /media/karlzipser/ExtraDrive2/Mr_Purple_8July2017 /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_path_dataset 30
+python ~/kzpy3/teg9/data/preprocess.py /media/karlzipser/ExtraDrive2/Mr_Purple_6July2017 /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_path_dataset 30
+
+"""
 
 bag_folders_src_location = sys.argv[1]
 bag_folders_dst = sys.argv[2]

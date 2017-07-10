@@ -194,3 +194,8 @@ def Timeseries_Segments_hdf5(d):
 	return D	
 
 
+python ~/kzpy3/teg9/data/preprocess.py /media/karlzipser/ExtraDrive2/Mr_Purple_7July2017 /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_path_dataset 30
+python ~/kzpy3/teg9/data/preprocess.py /media/karlzipser/ExtraDrive2/Mr_Orange_6July2017 /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_path_dataset 30
+python ~/kzpy3/teg9/data/preprocess.py /media/karlzipser/ExtraDrive2/Mr_Orange_8July2017 /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_path_dataset 30
+python ~/kzpy3/teg9/data/preprocess.py /media/karlzipser/ExtraDrive2/Mr_Purple_8July2017 /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_path_dataset 30
+python ~/kzpy3/teg9/data/preprocess.py /media/karlzipser/ExtraDrive2/Mr_Purple_6July2017 /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_path_dataset 30
