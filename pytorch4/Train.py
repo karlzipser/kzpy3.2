@@ -1,15 +1,16 @@
+from Parameters import args
+import Data
+import Batch
+import Utils
+
 from kzpy3.utils2 import *
 from kzpy3.vis2 import *
 import matplotlib.pyplot as plt
 import operator
 
-from SqueezeNet import SqueezeNet
+from nets.SqueezeNet import SqueezeNet
 import torch
 
-from Parameters import args
-import Data
-import Batch
-import Utils
 
 # Set Up PyTorch Environment
 torch.set_default_tensor_type('torch.FloatTensor')
@@ -67,7 +68,7 @@ while True:
             rate_counter.step()
 
             if save_timer.check():
-                Utils.save_net(net, loss_record, 'save/')
+                Utils.save_net(net, loss_record)
                 save_timer.reset()
             if print_timer.check():
                 print('mode=' + mode)
@@ -84,7 +85,6 @@ while True:
                 print_timer.reset()
 
             batch = Batch.Batch(net)  # Reinitialiize batch
-    break
 
 # This below is not really integrated correctly by me, but is useful. Utils.py could be a good home.
 sorted_trial_loss_record = sorted(trial_loss_record.items(),

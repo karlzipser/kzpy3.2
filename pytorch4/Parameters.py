@@ -13,7 +13,9 @@ parser.add_argument('--aruco', default=True, type=bool, help='Use Aruco data')
 parser.add_argument('--data-path', default='/home/karlzipser/Desktop/' +
                     'bair_car_data_Main_Dataset', type=str)
 parser.add_argument('--resume-path', default=None, type=str, help='Path to' +
-                    'resume file containing network state dictionary')
+                    ' resume file containing network state dictionary')
+parser.add_argument('--save-path', default='save', type=str, help='Path to' +
+                    ' folder to save net state dictionaries.')
 
 # nargs='+' allows for multiple arguments and stores arguments in a list
 parser.add_argument('--ignore', default=('reject_run', 'left', 'out1_in2'),
