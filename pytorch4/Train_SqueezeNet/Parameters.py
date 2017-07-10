@@ -27,8 +27,8 @@ parser.add_argument('--nframes', default=2, type=int,
                     help='# timesteps of camera input')
 parser.add_argument('--nsteps', default=10, type=int,
                     help='# of steps of time to predict in the future')
-parser.add_argument('--stride', default=3, type=int,  # TODO
-                    help="no idea what this does, prob don't change it.")
+parser.add_argument('--stride', default=3, type=int,
+                    help="number of timesteps between network predictions")
 
 parser.add_argument('--save-time', default=60*30, type=int,
                     help='time to wait before saving network (seconds)')

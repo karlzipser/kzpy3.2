@@ -2,6 +2,7 @@ from Parameters import args
 from kzpy3.utils2 import *
 import matplotlib.pyplot as plt
 
+
 class Rate_Counter:
     """Calculate rate of process in Hz"""
 
@@ -13,26 +14,24 @@ class Rate_Counter:
     def step(self):
         self.rate_ctr += 1
         if self.rate_timer.check():
-            print('rate = ' + str(args.batch_size * self.rate_ctr
-                  / self.rate_timer_interval) + 'Hz')
+            print('rate = ' + str(args.batch_size * self.rate_ctr /
+                  self.rate_timer_interval) + 'Hz')
             self.rate_timer.reset()
             self.rate_ctr = 0
 
-save_net_timer = Timer(args.save_time)
-def save_net(net, loss_record, weights_folder_path, now=False):
-    if save_net_timer.check() or now:
-        weights_file_name = 'save_file' + time_str()
-        torch.save(net.state_dict(),
-                   opjh(weights_folder_path,weights_file_name+'.weights'))
 
-        # Next, save for inference (creates ['net'] and moves net to GPU #0)
-        weights = {'net':net.state_dict().copy()}
-        for key in weights['net']:
-            weights['net'][key] = weights['net'][key].cuda(device=0)
-        torch.save(weights,
-                   opjh(weights_folder_path,weights_file_name+'.infer'))
+def save_net(net, loss_record, weights_folder_path):
+    weights_file_name = 'save_file' + time_str()
+    torch.save(net.state_dict(),
+               opjh(weights_folder_path, weights_file_name+'.weights'))
 
-        save_net_timer.reset()
+    # Next, save for inference (creates ['net'] and moves net to GPU #0)
+    weights = {'net': net.state_dict().copy()}
+    for key in weights['net']:
+        weights['net'][key] = weights['net'][key].cuda(device=0)
+    torch.save(weights,
+               opjh(weights_folder_path, weights_file_name+'.infer'))
+
 
 class Loss_Record:
     def __init__(self):
@@ -42,6 +41,7 @@ class Loss_Record:
         self.loss_sum = 0
         self.loss_ctr = 0
         self.loss_timer = Timer(30)
+
     def add(self, loss):
         self.loss_sum += loss
         self.loss_ctr += 1
@@ -51,6 +51,7 @@ class Loss_Record:
             self.loss_ctr = 0
             self.timestamp_list.append(time.time())
             self.loss_timer.reset()
+
     def plot(self, c):
         plt.plot((np.array(self.timestamp_list) - self.t0) / 3600.0,
                  self.loss_list, c + '.')

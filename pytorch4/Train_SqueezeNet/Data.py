@@ -12,6 +12,7 @@ class DataIndex:
         self.ctr = ctr
         self.epoch_counter = epoch_counter
 
+
 class Data:
     def __init__(self):
 
