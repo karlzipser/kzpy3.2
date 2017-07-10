@@ -70,7 +70,7 @@ class Batch:
         # Figure out which timesteps of labels to get
         s = data['steer']
         m = data['motor']
-        r = range(2, 31, 3)  # This depends on NUM_STEPS and STRIDE
+        r = range(args.stride*args.nsteps -1, -1, -args.stride)[::-1]
         s = array(s)[r]
         m = array(m)[r]
 

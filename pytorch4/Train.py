@@ -11,6 +11,7 @@ import operator
 from nets.SqueezeNet import SqueezeNet
 import torch
 
+print(args.display)
 
 # Set Up PyTorch Environment
 torch.set_default_tensor_type('torch.FloatTensor')
