@@ -86,7 +86,7 @@ while True:
             batch = Batch.Batch(net)  # Reinitialiize batch
     break
 
-
+# This below is not really integrated correctly by me, but is useful
 sorted_trial_loss_record = sorted(trial_loss_record.items(),
                                   key=operator.itemgetter(1))
 
