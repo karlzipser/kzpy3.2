@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from kzpy3.utils2 import *
+from kzpy3.utils import *
 import os, sys, shutil, subprocess, time
 import rospy
 import std_msgs.msg
