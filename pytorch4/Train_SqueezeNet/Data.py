@@ -1,19 +1,18 @@
 from kzpy3.vis import *
 from Parameters import args
-import kzpy3.teg9data.utils.Segment_Data as Segment_Data
+import kzpy3.teg9.data.utils.Segment_Data as Segment_Data
 
+
+class DataIndex:
+    """
+    Index object, keeps track of position in data stack.
+    """
+    def __init__(self, all_steer, ctr, epoch_counter):
+        self.all_steer = all_steer
+        self.ctr = ctr
+        self.epoch_counter = epoch_counter
 
 class Data:
-
-    class DataIndex:
-        """
-        Index object, keeps track of position in data stack.
-        """
-        def __init__(all_steer, ctr, epoch_counter):
-            self.all_steer = all_steer
-            self.ctr = ctr
-            self.epoch_counter = epoch_counter
-
     def __init__(self):
 
         # Load hdf5 segment data
@@ -21,8 +20,8 @@ class Data:
         self.hdf5_runs_path += '/hdf5/runs'
         self.hdf5_segment_metadata_path += '/hdf5/segment_metadata'
 
-        self.Segment_Data.load_Segment_Data(hdf5_segment_metadata_path,
-                                            hdf5_runs_path)
+        Segment_Data.load_Segment_Data(self.hdf5_segment_metadata_path,
+                                       self.hdf5_runs_path)
 
         # Load data indexes for training and validation
         print('loading train_all_steer...')

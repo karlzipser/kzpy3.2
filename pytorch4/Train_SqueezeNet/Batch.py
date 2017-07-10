@@ -1,9 +1,10 @@
 from kzpy3.utils2 import *
-from Paramters import args
-from vis2 import *
+from kzpy3.vis2 import *
+from Parameters import args
 import torch
 import torch.nn.utils as nnutils
 from torch.autograd import Variable
+import matplotlib.pyplot as plt
 
 
 class Batch:
@@ -16,7 +17,6 @@ class Batch:
         self.names = []
         self.outputs = None
         self.loss = None
-        self.print_timer = Timer(args.print_time)
 
     def fill(self, data, data_index):
         self.data_ids = []
@@ -27,9 +27,7 @@ class Batch:
                 run_code = e[3]
                 seg_num = e[0]
                 offset = e[1]
-                data_point = data.get_data({'run_code': run_code,
-                                            'seg_num': seg_num,
-                                            'offset': offset})
+                data_point = data.get_data(run_code, seg_num, offset)
 
             self.data_ids.append((run_code, seg_num, offset))
             self.data_into_batch(data_point)
@@ -92,7 +90,7 @@ class Batch:
             id = self.data_ids[b]
             t = self.target_data[b].cpu().numpy()
             o = self.outputs[b].data.cpu().numpy()
-            a = (self.target_data[b].data - self.outputs[b].data).cpu().numpy()
+            a = (self.target_data[b] - self.outputs[b].data).cpu().numpy()
             trial_loss_record[(id, tuple(t), tuple(o))] = np.sqrt(a * a).mean()
 
     def backward(self, optimizer):
@@ -100,30 +98,28 @@ class Batch:
         nnutils.clip_grad_norm(self.net.parameters(), 1.0)
         optimizer.step()
 
-    def display(print_now=False):
-        if print_timer.check() or print_now:
-            o = self.outputs[0].data.cpu().numpy()
-            t = self.target_data[0].cpu().numpy()
+    def display(self):
+        o = self.outputs[0].data.cpu().numpy()
+        t = self.target_data[0].cpu().numpy()
 
-            print('Loss:', dp(D['loss'].data.cpu().numpy()[0], 5))
-            a = self.camera_data[0][:].cpu().numpy()
-            b = a.transpose(1, 2, 0)
-            h = shape(a)[1]
-            w = shape(a)[2]
-            c = zeros((10+h*2, 10+2*w, 3))
-            c[:h, :w, :] = z2o(b[:, :, 3:6])
-            c[:h, -w:, :] = z2o(b[:, :, :3])
-            c[-h:, :w, :] = z2o(b[:, :, 9:12])
-            c[-h:, -w:, :] = z2o(b[:, :, 6:9])
-            mi(c, 'cameras')
-            print(a.min(), a.max())
-            figure('steer')
-            clf()
-            ylim(-0.05, 1.05)
-            xlim(0, len(t))
-            plot([-1, 60], [0.49, 0.49], 'k')
-            plot(o, 'og')
-            plot(t, 'or')
-            plt.title(D['names'][0])
-            pause(0.000000001)
-            print_timer.reset()
+        print('Loss:', dp(self.loss.data.cpu().numpy()[0], 5))
+        a = self.camera_data[0][:].cpu().numpy()
+        b = a.transpose(1, 2, 0)
+        h = shape(a)[1]
+        w = shape(a)[2]
+        c = zeros((10+h*2, 10+2*w, 3))
+        c[:h, :w, :] = z2o(b[:, :, 3:6])
+        c[:h, -w:, :] = z2o(b[:, :, :3])
+        c[-h:, :w, :] = z2o(b[:, :, 9:12])
+        c[-h:, -w:, :] = z2o(b[:, :, 6:9])
+        mi(c, 'cameras')
+        print(a.min(), a.max())
+        figure('steer')
+        clf()
+        ylim(-0.05, 1.05)
+        xlim(0, len(t))
+        plot([-1, 60], [0.49, 0.49], 'k')
+        plot(o, 'og')
+        plot(t, 'or')
+        plt.title(self.names[0])
+        pause(0.000000001)
