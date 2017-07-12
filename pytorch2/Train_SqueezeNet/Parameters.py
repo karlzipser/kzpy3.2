@@ -20,8 +20,8 @@ N_STEPS = 10
 STRIDE = 3 # multiply by N Steps in order to have fixed number of steps reach further in time.
 # STRIDE is not fully controlled here, there must be changes in _data_into_batch().
 save_net_timer = Timer(60*30)
-print_timer = Timer(5)
-epoch_timer = Timer(5)
+print_timer = Timer(15)
+epoch_timer = Timer(15)
 
 
 

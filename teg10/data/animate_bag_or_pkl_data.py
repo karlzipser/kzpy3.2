@@ -1,5 +1,5 @@
-from kzpy3.vis import *
-import kzpy3.teg9.data.animate as animate
+from kzpy3.vis2 import *
+import kzpy3.teg10.data.animate as animate
 
 import cv2
 
@@ -86,9 +86,9 @@ def preprocess_bagfiles(A,path):
                             A['steer_previous'] = A['steer'][-1]
                             A['motor_previous'] = A['motor'][-1]
                         else:
-                            A['steer'].append(A['meta'][t]['steer'])
-                            A['state'].append(A['meta'][t]['state'])
-                            A['motor'].append(A['meta'][t]['motor'])
+                            A['steer'].append(A['meta'][t]['steer']/1.0) # should fail with 'no data' string
+                            A['state'].append(A['meta'][t]['state']/1.0)
+                            A['motor'].append(A['meta'][t]['motor']/1.0)
                     except:
                         A['steer'].append(0)
                         A['state'].append(0)
@@ -140,9 +140,9 @@ def multi_preprocess_pkl_files(A,meta_path,rgb_1to4_path):
                     steer_previous = A['steer'][-1]
                     motor_previous = A['motor'][-1]
                 else:
-                    A['steer'].append(A['meta'][t]['steer'])
-                    A['state'].append(A['meta'][t]['state'])
-                    A['motor'].append(A['meta'][t]['motor'])
+                    A['steer'].append(A['meta'][t]['steer']/1.0) # should fail with 'no data' string
+                    A['state'].append(A['meta'][t]['state']/1.0)
+                    A['motor'].append(A['meta'][t]['motor']/1.0)
             except:
                 A['steer'].append(0)
                 A['state'].append(0)
@@ -172,7 +172,7 @@ def multi_preprocess_pkl_files(A,meta_path,rgb_1to4_path):
                 A['encoder'].append(0)
 
     #A['acc_xz_dst'] = sqrt(array(A['acc_x'])**2 + array(A['acc_z'])**2)
-    A['collisions'] = 0*array(A['steer'])
+    #A['collisions'] = 0*array(A['steer'])
     figure('left_deltas')
     clf()
     A['left_deltas'] = array(A['left_deltas'])
@@ -197,7 +197,7 @@ def get_new_A():
     A['delay'] = 33
     A['steer'] = []
     A['state'] = []
-    A['SMOOTHING'] = True
+    A['SMOOTHING'] = False
     A['motor'] = []
     A['images'] = []
     A['left'] = []
@@ -213,15 +213,15 @@ def get_new_A():
 def main():
     """
     e.g.
-    python kzpy3/teg9/data/animate_bag_or_pkl_data.py pkl '/media/karlzipser/ExtraDrive4/bair_car_data_new_28April2017' '/media/karlzipser/ExtraDrive4/bair_car_data_new_28April2017/meta/direct_rewrite_test_15May17_03h17m17s_Mr_Yellow'
-
+    python kzpy3/teg10/data/animate_bag_or_pkl_data.py pkl '/media/karlzipser/ExtraDrive2/bdd_car_data_July2017_path_dataset/meta/direct_local_LCR_09Jul17_16h35m28s_Mr_Yellow'
     """
     #bag_or_pkl = 'pkl'#sys.argv[1]
     #data_path = '/home/karlzipser/Desktop/bair_car_data_Main_Dataset'#sys.argv[2]
     #run_name = 'follow_26Aug2016_Mr_Orange_Tilden_1'#fname(sys.argv[3])
     bag_or_pkl = sys.argv[1]
-    data_path = sys.argv[2]
-    run_name = fname(sys.argv[3])
+    run_path = sys.argv[2]
+    data_path = run_path.split('meta')[0]
+    run_name = fname(run_path)
     if bag_or_pkl == 'bag':
         print('Working with bag files')
     elif bag_or_pkl == 'pkl':

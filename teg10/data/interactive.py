@@ -1,7 +1,6 @@
-#from kzpy3.teg9.data.utils.preprocess_bag_data import *
-#from kzpy3.teg9.data.utils.Bag_File import *
+
 from kzpy3.misc.progress import *
-from kzpy3.vis import *
+from kzpy3.vis2 import *
 
 """
 This
@@ -68,23 +67,31 @@ These runs need to be processed correctly:
 
 """
 
-i_variables = ['state','steer','motor','run_','runs','run_labels','meta_path','rgb_1to4_path','B_','left_images','right_images','unsaved_labels']
+i_variables = ['state','steer','motor','run_','runs','run_labels','meta_path','rgb_1to4_path',
+	'B_','left_images','right_images','unsaved_labels']
 
-i_labels = ['mostly_caffe','mostly_human','aruco_ring','out1_in2','direct','home','furtive','play','racing','multicar','campus','night','Smyth','left','notes','local','Tilden','reject_run','reject_intervals','snow','follow','only_states_1_and_6_good']
+i_labels = ['LCR','mostly_caffe','mostly_human','aruco_ring','out1_in2','direct','home','furtive',
+	'play','racing','multicar','campus','night','Smyth','left','notes','local','Tilden','reject_run','reject_intervals','snow','follow','only_states_1_and_6_good']
 not_direct_modes = ['out1_in2','left','furtive','play','racing','follow']
 
-i_functions = ['function_close_all_windows','function_set_plot_time_range','function_set_label','function_current_run','function_help','function_set_paths','function_list_runs','function_set_run','function_visualize_run','function_animate','function_run_loop']
-for q in i_variables + i_functions + i_labels:
-	exec(d2n(q,' = ',"\'",q,"\'")) # I use leading underscore because this facilitates auto completion in ipython
+i_functions = ['function_close_all_windows','function_set_plot_time_range','function_set_label',
+	'function_current_run','function_help','function_set_paths','function_list_runs','function_set_run',
+	'function_visualize_run','function_animate','function_run_loop']
 
-i_label_abbreviations = {aruco_ring:'ar_r',mostly_human:'mH',mostly_caffe:'mC',out1_in2:'o1i2', direct:'D' ,home:'H',furtive:'Fu',play:'P',racing:'R',multicar:'M',campus:'C',night:'Ni',Smyth:'Smy',left:'Lf',notes:'N',local:'L',Tilden:'T',reject_run:'X',reject_intervals:'Xi',snow:'S',follow:'F',only_states_1_and_6_good:'1_6'}
+for q in i_variables + i_functions + i_labels:
+	exec(d2n(q,' = ',"\'",q,"\'"))
+
+i_label_abbreviations = {LCR:'LCR',aruco_ring:'ar_r',mostly_human:'mH',mostly_caffe:'mC',out1_in2:'o1i2', direct:'D',
+	home:'H',furtive:'Fu',play:'P',racing:'R',multicar:'M',campus:'C',night:'Ni',Smyth:'Smy',
+	left:'Lf',notes:'N',local:'L',Tilden:'T',reject_run:'X',reject_intervals:'Xi',snow:'S',follow:'F',
+	only_states_1_and_6_good:'1_6'}
 
 I = {}
 
 #bair_car_data_path = opjD('bair_car_data_new')
-bair_car_data_path = '/media/karlzipser/ExtraDrive4/bair_car_data_new_28April2017'
+#bair_car_data_path = '/media/karlzipser/ExtraDrive4/bair_car_data_new_28April2017'
 #bair_car_data_path = opjD('bair_car_data_Main_Dataset')
-bair_car_data_path = '/Volumes/SSD_2TB/bair_car_data_new_28April2017'
+#bair_car_data_path = '/Volumes/SSD_2TB/bair_car_data_new_28April2017'
 bair_car_data_path = '/media/karlzipser/ExtraDrive2/bdd_car_data_July2017_path_dataset'
 
 
@@ -99,7 +106,6 @@ def load_images(bag_file_path,color_mode="rgb8",include_flip=True):
         PKL = True
     else:
         assert(False)
-
     if not PKL:
         for s in sides:
             bag_img_dic[s] = {}
@@ -329,7 +335,37 @@ if False: # trying to fix problem
 			I[B_]['data']['state'][i] = 0
 
 
-def function_visualize_run(j=None,do_load_images=True,do_CA=False):
+
+def function_adjust_offset(t_start,t_end,motor_offset,steer_offset):
+	"""
+	In some runs state 4 is reached unintentionally, leading to calibration faults.
+	This function allows estimated correction of this.
+	"""
+	B = I[B_]
+	if I[B_] == None:
+		cprint('ERROR, first neet to set run (SR)')
+		return
+	ts = np.array(B['data']['raw_timestamps'])
+	tsZero = ts - ts[0]
+	if 'steer_corrected' not in B['data']:
+		B['data']['steer_corrected'] = B['data']['steer'].copy()
+	if 'motor_corrected' not in B['data']:
+		B['data']['motor_corrected'] = B['data']['motor'].copy()
+	L = I[B_]['left_image_bound_to_data']
+	for i in range(len(ts)):
+		if ts[i]-ts[0] >= t_start and ts[i]-ts[0] < t_end:
+			L[ts[i]]['motor'] += motor_offset
+			L[ts[i]]['steer'] += steer_offset
+			if is_number(steer_offset):
+				B['data']['steer_corrected'][i] += steer_offset
+			if is_number(motor_offset):
+				B['data']['motor_corrected'][i] += motor_offset
+	plt.subplot(5,1,2)
+	plot(tsZero,B['data']['steer_corrected'],'r:')
+	plot(tsZero,B['data']['motor_corrected'],'b:')	
+
+
+def function_visualize_run(j=None,do_load_images=False,do_CA=False):
 	"""
 	function_visualize_run()
 		VR

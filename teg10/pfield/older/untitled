@@ -1,0 +1,88 @@
+class Timer:
+    def __init__(self, time_s):
+        self.time_s = time_s
+        self.start_time = time.time()
+    def check(self):
+        if time.time() - self.start_time > self.time_s:
+            return True
+        else:
+            return False
+    def time(self):
+        return time.time() - self.start_time
+    def reset(self):
+        self.start_time = time.time()
+    def trigger(self):
+        self.start_time = 0
+
+
+
+
+
+
+
+img60 = zeros((200,200))
+
+for s in range(70,100,5):
+    for m in range(55,105,5):
+        if (s,m) in S:
+            for tr in S[s,m]['raw']:
+                for i in range(0,len(tr)):
+                    xy = tr[i]
+                    x,y = xy[0],xy[1]
+                    x *=30
+                    x += 100
+                    y *= 30
+                    x = int(x)
+                    y = int(y)
+                    if y >= 0:
+                    #if img60[x,y] < 20:
+                        img60[x,y] += 1
+mi(img60);pause(0.0001)
+
+
+i = img60.copy()
+
+i[i>50]=50
+
+mi(scipy.rot90(i))
+
+figure(3)
+clf()
+xlim(-2,2)
+ylim(0,2)
+figure(4)
+clf()
+xlim(-2,2)
+ylim(0,2)
+for s in range(70,100,5):
+    for m in range(55,105,5):
+        if (s,m) in S:
+            for tr in S[s,m]['raw']:
+                if tr[-1][1] > 0.75 and tr[-1][0] > 0.75 and tr[-1][1] < 1.1:
+                    if m < 60:
+                        figure(3)
+                        pts_plot(tr)
+                        pause(0.1)  
+                    else:
+                        figure(4)
+                        pts_plot(tr)
+                        pause(0.1)  
+ 
+figure(5)
+clf()
+xlim(-2,2)
+ylim(0,2)
+figure(5)
+clf()
+xlim(-2,2)
+ylim(0,2)
+egs = []
+for s in range(45,55,5):
+    for m in range(55,105,5):
+        if (s,m) in S:
+            for tr in S[s,m]['raw']:
+                if tr[-1][1] < 1.5 and tr[-1][0] > -0.15 and tr[-1][1] > 1 and tr[-1][0] < 0.15:
+                        figure(5)
+                        pts_plot(tr)
+                        pause(0.1)
+                        egs.append(tr) 

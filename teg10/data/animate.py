@@ -1,30 +1,20 @@
-from kzpy3.vis import *
+from kzpy3.vis2 import *
 
 
 
-def prepare_and_show_or_return_frame(img,steer,motor,state,delay,scale,color_mode,window_title='animate'): #,collision):
-    bar_color = [0,0,0]
-    if state == 1:
-        bar_color = [0,0,255]
-    elif state == 6:
-        bar_color = [255,0,0]
-    elif state == 3:
-        bar_color = [200,55,0]
-    elif state == 5:
-        bar_color = [255,255,0]
-    elif state == 7:
-        bar_color = [255,0,255]
-    elif state == 2:
-        bar_color = [100,100,100]
+def prepare_and_show_or_return_frame(d):
+    required_args = ['img','steer','motor','delay','scale','bar_color']
+    for arg in required_args:
+        exec(arg+" = d['"+arg+"']")
+    if 'window_title' in d:
+        window_title = d['window_title']
     else:
-        print state
-        bar_color = [0,0,0]
+        window_title = 'animate'
+    True
     if steer != None:
         apply_rect_to_img(img,steer,0,99,bar_color,bar_color,0.9,0.1,center=True,reverse=True,horizontal=True)
     if motor != None:
         apply_rect_to_img(img,motor,0,99,bar_color,bar_color,0.9,0.1,center=True,reverse=True,horizontal=False)
-    #if collision == 1:
-    #    img[:10,:,:] = [255,0,0] 
     if delay == None:
         scale_img = cv2.resize(img, (0,0), fx=scale, fy=scale)
         return scale_img
@@ -33,8 +23,17 @@ def prepare_and_show_or_return_frame(img,steer,motor,state,delay,scale,color_mod
         return k  
 
 
+bar_color_dic = {
+        1:[0,0,255],
+        6:[0,0,0],
+        3:[255,0,0],
+        5:[255,255,0],
+        7:[255,0,255],
+        2:[0,255,0] }
 
-def animate_with_key_control(A):
+def animate_with_key_control(d):
+    A = d
+    True
     timer = Timer(1)
     ctr = 0
     while True:
@@ -54,7 +53,7 @@ def animate_with_key_control(A):
                     A['current_img_index'] = 0
                 indx = int(A['current_img_index'])
                 img = A['images'][indx].copy() #.copy() # Copy if need to change image.
-
+                img = cv2.resize(img, (0,0), fx=A['scale'], fy=A['scale'])
                 if 'steer' not in A or len(A['steer']) == 0:
                     steer = 49
                     state = 0
@@ -63,6 +62,11 @@ def animate_with_key_control(A):
                     steer = A['steer'][indx]
                     state = A['state'][indx]
                     motor = A['motor'][indx]
+                cv2.putText(img,d2s(int(state),int(steer),int(motor)),(10,20),cv2.FONT_HERSHEY_SIMPLEX,0.5,(255,0,0))
+                if state in bar_color_dic:
+                    bar_color = bar_color_dic[state]
+                else:
+                    bar_color = [0,0,0]
                 if A['delay'] == None:
                     print('Writing to file instead of display!')
                     if len(A['images']) > A['save_stop_index']:
@@ -72,19 +76,21 @@ def animate_with_key_control(A):
                         A['STOP_LOADER_THREAD'] = True
                         return
                     if A['current_img_index'] >= A['save_start_index']:
-                        out_img = prepare_and_show_or_return_frame(img,steer,None,state,A['delay'],A['scale'],A['color_mode'])#,A['collisions'][int(A['current_img_index'])])
+                        out_img = prepare_and_show_or_return_frame({'img':img,'steer':steer,'motor':None,'state':state,'delay':A['delay'],'scale':1.0,'bar_color':bar_color})
+                        unix('mkdir -p '+opjD('temp2'))
                         imsave(opjD('temp2',d2n(ctr,'.png')),out_img)
                         print ctr
                         ctr += 1
                     continue
                 else:
-                    k = prepare_and_show_or_return_frame(img,steer,None,state,A['delay'],A['scale'],A['color_mode'])#,A['collisions'][int(A['current_img_index'])])
+                    k = prepare_and_show_or_return_frame({'img':img,'steer':steer,'motor':None,'state':state,'delay':A['delay'],'scale':1.0,'bar_color':bar_color})
                 if k == ord('q'):
                     print('Exiting animate_with_key_control')
                     A['STOP_GRAPH_THREAD'] = True
                     A['STOP_LOADER_THREAD'] = True
+                    A['STOP_ANIMATOR_THREAD'] = True
                     cv2.destroyAllWindows()
-                    save_obj(A['collisions'],opjD(A['run_name']+'.collisions_'+time_str()))
+                    #save_obj(A['collisions'],opjD(A['run_name']+'.collisions_'+time_str()))
                     return
                 if k == ord(' '):
                     if A['d_indx'] == 0:
@@ -158,13 +164,14 @@ def animate_with_key_control(A):
                         A['current_img_index'] += 1
                 if k == ord('u'):
                     while A['current_img_index'] < len(A['images']):
-                        if A['loaded_collisions'][int(A['current_img_index'])]> 0:
+                        if False:#A['loaded_collisions'][int(A['current_img_index'])]> 0:
                             print('found collision')
                             break
                         A['current_img_index'] += 1
                 if k == ord('h'):
                     if A['current_img_index'] > 12:
-                        A['collisions'][int(A['current_img_index'])-12] = 1 # reaction time
+                        pass
+                        #A['collisions'][int(A['current_img_index'])-12] = 1 # reaction time
             except:
                 pass
                 time.sleep(0.2)
@@ -180,13 +187,15 @@ def graph(A):
     indx = int(A['current_img_index'])
     while True:
         if A['STOP_GRAPH_THREAD'] == False:   
-            if len(A['images']) < 3*30:
+            if len(A['images']) < 3*30 or len(A['steer']) == 0:
                 print(d2s('Have',len(A['images']),'images, waiting...'))
                 pause(0.2)
                 continue
             A_len = len(A['images'])
-            clf()       
+            clf()
+            print A['steer']
             steer = array(A['steer'])
+
             encoder = array(A['encoder'])
             plot(steer,'r.-')
             plot(10*encoder,'k.-')
