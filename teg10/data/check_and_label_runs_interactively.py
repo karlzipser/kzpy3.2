@@ -1,6 +1,9 @@
 
-from kzpy3.misc.progress import *
-from kzpy3.vis2 import *
+from kzpy3.utils2 import *
+pythonpaths(['kzpy3','kzpy3/teg10'])
+from vis2 import *
+from misc.progress import ProgressBar
+
 
 
 doc_string = """
@@ -236,7 +239,8 @@ def function_list_runs(rng=None,auto_direct_labelling=False):
 	"""
 	cprint(I[meta_path])
 	try:
-		run_labels_path = most_recent_file_in_folder(opj(V['bair_car_data_path'],'run_labels'),['run_labels'])
+		run_labels_path = most_recent_file_in_folder(opj(V[bair_car_data_path],'run_labels'),['run_labels'])
+		cprint(run_labels_path,'blue')
 		I[run_labels] = load_obj(run_labels_path)
 	except:
 		cprint('Unable to load run_labels!!!!! Initalizing to empty dict')
@@ -292,7 +296,7 @@ def function_set_label(k,v=True):
 		k = [k]
 	for m in k:
 		I[run_labels][I[run_]][m] = v
-	save_obj(I[run_labels],opj(V['bair_car_data_path'],'run_labels','run_labels_'+time_str()+'.pkl'))
+	save_obj(I[run_labels],opj(V[bair_car_data_path],'run_labels','run_labels_'+time_str()+'.pkl'))
 SL = function_set_label
 
 
@@ -329,7 +333,7 @@ def function_set_plot_time_range(t0=-999,t1=-999):
 		t1 = tsZero[-1]
 	#figure(r+' stats')
 	figure('stats')
-	clf()
+	#clf()
 	plt.subplot(5,1,1)
 	plt.xlim(t0,t1)
 	plt.xlim(t0,t1)

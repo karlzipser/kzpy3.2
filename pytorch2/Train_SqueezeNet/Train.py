@@ -90,7 +90,7 @@ while True:
 import operator
 sorted_trial_loss_record = sorted(trial_loss_record.items(),key=operator.itemgetter(1))
 
-for i in range(-1,-100,-1):
+for i in range(len(sorted_trial_loss_record)/2,len(sorted_trial_loss_record)/2+100):#range(-1,-100,-1):
     l =  sorted_trial_loss_record[i]
     run_code,seg_num,offset = sorted_trial_loss_record[i][0][0]
     t = sorted_trial_loss_record[i][0][1]
@@ -103,6 +103,17 @@ for i in range(-1,-100,-1):
     mi(data['right'][0,:,:],23,img_title=d2s(l[1]))
     pause(1)
 
+
+Sorted_trial_loss_record_dic = {}
+Sorted_trial_loss_record_dic['ids'] = []
+Sorted_trial_loss_record_dic['losses'] = []
+for i in range(len(sorted_trial_loss_record)):
+    l =  sorted_trial_loss_record[i]
+    run_code,seg_num,offset = sorted_trial_loss_record[i][0][0]
+    t = sorted_trial_loss_record[i][0][1]
+    o = sorted_trial_loss_record[i][0][2]
+    Sorted_trial_loss_record_dic['ids'].append((run_code,seg_num,offset))
+    Sorted_trial_loss_record_dic['losses'].append(l[1])
 
 
 #EOF
