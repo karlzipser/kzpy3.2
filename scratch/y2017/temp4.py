@@ -96,5 +96,81 @@ D[run_name] = h5py.File(path)
 D[run_name]['segments']['0']['steer'][199]
 
 
+Names = ['dic','name','test','first','second','INIT_DONE']
+for l in Names:
+	exec(d2n(l,'=',"'",l,"'"))
+Globals = {}
+g = Globals
+g[INIT_DONE] = True
+
+def dic_exec_str():
+	return """
+d = args_to_dictionary(args)
+for k in keys:
+	if type(k) == str:
+		assert(k in d)
+		exec(k+'='+"'"+k+"'")
+	elif type(k) == list:
+		exec(k[0]+'='+"'"+k[0]+"'")
+		if k[0] not in d:
+			d[k[0]] = k[1]
+			"""
+
+
+
+
+
+def fun2(*args):
+	keys = [first,[second,2]]
+	exec(dic_exec_str())
+	if True:
+		print(d[first]-d[second])
+		for k in sorted(d.keys()):
+			print(d2s(k,':',d[k]))
+	return d
+
+
+
+def nice_print_dic(*args):
+	keys = ['dic',['name','no name']]
+	exec(dic_exec_str())
+	if True:
+	    pd2s(name,':',d[name])
+	    sk = sorted(d[dic].keys())
+	    for k in sk:
+	        pd2s(tb,k,'=',d[dic][k])
+	    print('')
+
+
+
+
+
+
+def fun(*args):
+	keys = ['first',['second',2]]
+	d = args_to_dictionary()
+	for k in keys:
+		if type(k) == str:
+			assert(k in d)
+			exec(k+'='+"'"+k+"'")
+		elif type(k) == list:
+			exec(k[0]+'='+"'"+k[0]+"'")
+			if k[0] not in d:
+				d[k[0]] = k[1]
+	if True:
+		print(d[first])
+		print(d[second])
+		print(d.keys())
+
+
+
+
+
+
+
+
+
+
+
 
 
