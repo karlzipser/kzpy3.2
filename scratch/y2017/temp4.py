@@ -96,12 +96,24 @@ D[run_name] = h5py.File(path)
 D[run_name]['segments']['0']['steer'][199]
 
 
+
+
+
+
+
+
+
+
+
+
 Names = ['dic','name','test','first','second','INIT_DONE']
 for l in Names:
 	exec(d2n(l,'=',"'",l,"'"))
 Globals = {}
 g = Globals
 g[INIT_DONE] = True
+
+
 
 def dic_exec_str():
 	return """
@@ -120,28 +132,77 @@ for k in keys:
 
 
 
+equals = 'equals__'
+nothing = 'nothing__'
+
+
+
+def da(*args):
+	"""
+	# da = dictionary access
+	# e.g.,
+	W={1:{2:{3:4},100:[1,2,3]}}
+	print(W)
+	print(da(W,1,2))
+	da(W,1,2,equals,9)
+	print(W)
+	print(da(W,1,2))
+	"""
+	Q = args[0]
+	assert(type(Q)==dict)
+	range_end = len(args)
+	right_hand_side = nothing
+	if len(args) > 3:
+		if args[-2] == equals:
+			right_hand_side = args[-1]
+			range_end = len(args)-2
+	for i in range(1,range_end):
+		k = args[i]
+		assert(type(k) in [str,int,long,bool,float,tuple])
+		if k not in Q:
+			Q[k] = {}
+		if i == range_end-1:
+			if right_hand_side != nothing:
+				Q[k] = right_hand_side
+				return
+		Q = Q[k]
+	return Q
+
+
+
 def fun2(*args):
-	keys = [first,[second,2]]
+	keys = ['first',['second',2]]
 	exec(dic_exec_str())
 	if True:
-		print(d[first]-d[second])
+		print(da(d,first)-da(d,second))
+		#print(d[first]-d[second])
 		for k in sorted(d.keys()):
 			print(d2s(k,':',d[k]))
 	return d
 
-
-
+V = {}
+W={1:{2:{3:4}}} 
+V['W'] = W
 def nice_print_dic(*args):
-	keys = ['dic',['name','no name']]
-	exec(dic_exec_str())
-	if True:
-	    pd2s(name,':',d[name])
-	    sk = sorted(d[dic].keys())
-	    for k in sk:
-	        pd2s(tb,k,'=',d[dic][k])
-	    print('')
-
-
+    if len(args) == 1 and type(args[0]) == dict:
+        d = args[0]
+    else:
+        d = args_to_dictionary(args) # note, different from args_to_dic(d) !
+    dic = d['dic']
+    if type(dic) == str:
+    	name = dic
+    	dic = V[dic]
+    elif 'name' in d:
+        name = d['name']
+    else:
+        name = False
+    if True:
+        if name != 'False':
+            pd2s(name,':')
+        sk = sorted(dic.keys())
+        for k in sk:
+            pd2s(tb,k,':',dic[k])
+        print('')
 
 
 

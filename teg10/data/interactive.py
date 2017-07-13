@@ -365,7 +365,7 @@ def function_adjust_offset(t_start,t_end,motor_offset,steer_offset):
 	plot(tsZero,B['data']['motor_corrected'],'b:')	
 
 
-def function_visualize_run(j=None,do_load_images=False,do_CA=False):
+def function_visualize_run(j=None,img_load=False,do_CA=False):
 	"""
 	function_visualize_run()
 		VR
@@ -440,7 +440,7 @@ def function_visualize_run(j=None,do_load_images=False,do_CA=False):
 	plt.ylim(0,0.001*bins[0].max())
 	plt.pause(0.01)
 
-	if do_load_images:
+	if img_load:
 		left_images_ = {}
 		right_images_ = {}
 		steer_ = {}
@@ -792,7 +792,7 @@ if False:
 		CS_("Goal: create normal and flip hdf5 segements.")
 		for i in range(len(I[runs])):
 			try:
-				VR(i,do_load_images=False)
+				VR(i,img_load=False)
 				r = I[runs][i]
 				ks = sorted(I[run_labels][r])
 				labeled = False

@@ -1406,7 +1406,7 @@ def nice_print_dic(*args):
             pd2s(name,':')
         sk = sorted(dic.keys())
         for k in sk:
-            pd2s(tb,k,'=',dic[k])
+            pd2s(tb,k,':',dic[k])
         print('')
 
 
