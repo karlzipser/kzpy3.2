@@ -11,36 +11,33 @@ python kzpy3/teg10/data/preprocess.py -src /media/karlzipser/ExtraDrive2/Mr_Purp
 """
 
 
-
-Names = ['name','dic','argument_dictionary','translation_dic','accepted_states']
-for l in Names:
+"""
+local_variable_names = ['argument_dictionary']
+for l in local_variable_names:
 	exec(d2n(l,'=',"'",l,"'"))
-Values = {}
-v = Values
+local_variable_values = {}
+lv = local_variable_values
+"""
 
 
-
-v[translation_dic] = {'src':'bag_folders_src_location','dst':'bag_folders_dst','n':'NUM_STATE_ONE_STEPS','bd':'DO_PREPROCESS_BAG_DATA','bf':'DO_PREPROCESS_BAG_FOLDERS','acs':accepted_states}
+translation_dic = {'src':'bag_folders_src_location','dst':'bag_folders_dst','n':'NUM_STATE_ONE_STEPS','bd':'DO_PREPROCESS_BAG_DATA','bf':'DO_PREPROCESS_BAG_FOLDERS'}
 if __name__ == "__main__" and '__file__' in vars():
-    v[argument_dictionary] = args_to_dic({'pargs':sys.argv[1:]})
+    argument_dictionary = args_to_dic({  'pargs':sys.argv[1:]  })
 else:
     print('Running this within interactive python.')
-    v[argument_dictionary] = args_to_dic({
-    	'pargs':"-src /media/karlzipser/ExtraDrive2/Mr_Purple_7July2017 -dst /media/karlzipser/ExtraDrive2/bdd_car_data_TEMP -n 30 -bd No -bf Yes"  })
-v[argument_dictionary] = translate_args(
-    {argument_dictionary:v[argument_dictionary],
-    translation_dic:v[translation_dic]})
-if len(v[argument_dictionary]) == 0:
+    argument_dictionary = args_to_dic({
+    	'pargs':"-src /media/karlzipser/ExtraDrive2/Mr_Purple_7July2017 -dst /media/karlzipser/ExtraDrive2/bdd_car_data_TEMP -n 30 -bd True -bf False"  })
+argument_dictionary = translate_args(
+    {'argument_dictionary':argument_dictionary,
+    'translation_dic':translation_dic})
+if len(argument_dictionary) == 0:
 	pd2s(doc_string)
-	nice_print_dic({dic:v[translation_dic],name:'arguments'})
+	nice_print_dic({'dic':translation_dic,'name':'arguments'})
 	exit()
+nice_print_dic({'dic':argument_dictionary,'name':'argument_dictionary'})
 
 
-
-nice_print_dic({dic:v[argument_dictionary],name:'argument_dictionary'})
-nice_print_dic(dic,v[argument_dictionary], name,'argument_dictionary_')
-
-
+#nice_print_dic({dic:v[argument_dictionary],name:argument_dictionary})
 
 
 
@@ -56,13 +53,9 @@ def preprocess(d):
 			exec(d2s(k,"= 'Yes'"))
 		else:
 			exec(d2n(k,'=',"'",d[k],"'"))
-	if accepted_states not in d:
-		v[accepted_states] = [1,3,5,6,7]
-	else:
-		v[accepted_states] = d[accepted_states]
 	True
 
-	bag_folders_src = opj(bag_folders_src_location,'processed')#'new')
+	bag_folders_src = opj(bag_folders_src_location,'new')
 	bag_folders_dst_rgb1to4_path = opj(bag_folders_dst,'rgb_1to4')
 	bag_folders_dst_meta_path = opj(bag_folders_dst,'meta')
 
@@ -103,13 +96,13 @@ def preprocess(d):
 	if DO_PREPROCESS_BAG_FOLDERS == 'Yes':
 		pd2s('DO_PREPROCESS_BAG_FOLDERS')
 		graphics=False
-		#accepted_states=[1,3,5,6,7]
+		accepted_states=[1,3,5,6,7]
 		pkl_name='Bag_Folder.pkl' # if different from 'Bag_Folder.pkl', (e.g., 'Bag_Folder_90_state_one_steps.pkl') files will be reprocessed.
 
 		preprocess_Bag_Folders.preprocess_Bag_Folders(bag_folders_dst_meta_path,
-			bag_folders_dst_rgb1to4_path,
-			NUM_STATE_ONE_STEPS=NUM_STATE_ONE_STEPS,
-			graphics=graphics,accepted_states=v[accepted_states],
+			bag_folders_dst_rgb1to4_path
+			,NUM_STATE_ONE_STEPS=NUM_STATE_ONE_STEPS,
+			graphics=graphics,accepted_states=accepted_states,
 			pkl_name=pkl_name)
 
 	os.rename(bag_folders_src,opj(bag_folders_src_location,'processed'))
@@ -121,7 +114,7 @@ def preprocess(d):
 
 
 if __name__ == '__main__':
-	preprocess(v[argument_dictionary])
+	preprocess(argument_dictionary)
 
 
 # EOF

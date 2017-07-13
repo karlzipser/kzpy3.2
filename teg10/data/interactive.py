@@ -863,3 +863,8 @@ if False:
 			save_obj(low_steer,opj(bair_car_data_path,'hdf5/segment_metadata/low_steer'))
 			save_obj(high_steer,opj(bair_car_data_path,'hdf5/segment_metadata/high_steer'))
 
+
+
+
+
+#EOF

@@ -51,7 +51,7 @@ if False:
 #
 ####################################
 
-
+tb = '\t'
 
 
 def print_stars(n=1):
@@ -218,7 +218,7 @@ def d2n(*args):
 def d2f(*args):
     return d2s_spacer(args[1:],spacer=args[0])
 def pd2s(*args):
-    print(d2s(*args))
+    cprint(d2s(*args),'yellow')
 
 def dp(f,n=2):
     """
@@ -1008,6 +1008,11 @@ def args_to_dic(d):
 def translate_args(d):
     translation_dic = d['translation_dic']
     argument_dictionary = d['argument_dictionary']
+    print(translation_dic)
+    print(argument_dictionary)
+    True
+    if len(argument_dictionary) == 0:
+        return {}
     for k in translation_dic.keys():
         v = translation_dic[k]
         translation_dic['-'+v] = v
@@ -1334,6 +1339,77 @@ def stop_ros():
     #time.sleep(1)
     unix(opjh('kzpy3/kill_ros.sh'))
     #assert(False)
+
+
+
+
+
+
+
+
+
+def is_even(q):
+    if np.mod(q,2) == 0:
+        return True
+    return False
+
+
+
+
+def args_to_dictionary(*args):
+    assert(is_even(len(args[0])))
+    ctr = 0
+    keys = []
+    values = []
+    for e in args[0]:
+        if is_even(ctr):
+            keys.append(e)
+        else:
+            values.append(e)
+        ctr += 1
+    d = {}
+    assert(len(keys) == len(values))
+    for k,v in zip(keys,values):
+        d[k] = v
+    return d
+
+
+
+"""
+def nice_print_dic(d):
+    dic = d['dic']
+    if 'name' in d:
+        name = d['name']
+    else:
+        name = False
+    True
+    if name != 'False':
+        pd2s(name,':')
+    sk = sorted(dic.keys())
+    for k in sk:
+        pd2s(tb,k,'=',dic[k])
+    print('')
+"""
+
+def nice_print_dic(*args):
+    if len(args) == 1 and type(args[0]) == dict:
+        d = args[0]
+    else:
+        d = args_to_dictionary(args) # note, different from args_to_dic(d) !
+    dic = d['dic']
+    if 'name' in d:
+        name = d['name']
+    else:
+        name = False
+    if True:
+        if name != 'False':
+            pd2s(name,':')
+        sk = sorted(dic.keys())
+        for k in sk:
+            pd2s(tb,k,'=',dic[k])
+        print('')
+
+
 
 
 #EOF

@@ -1,7 +1,7 @@
-from kzpy3.vis import *
-import kzpy3.teg9.data.utils.Bag_Folder as Bag_Folder
-
-
+from kzpy3.utils2 import *
+pythonpaths(['kzpy3','kzpy3/teg10'])
+from vis2 import *
+import data.utils.Bag_Folder as Bag_Folder
 
 
 def preprocess_Bag_Folders(bag_folders_path_meta_path,bag_folders_path_rgb1to4_path,NUM_STATE_ONE_STEPS=30,graphics=False,accepted_states=[1],pkl_name='Bag_Folder.pkl'):

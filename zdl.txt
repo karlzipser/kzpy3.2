@@ -1,52 +1,472 @@
->> segments[(410, 71)]
-segments
-0) (0, 0):
-	[[0 91 66 0] (len=4) [0 77 56 0] (len=4) ... [0 472 71 0] (len=4) [0 1236 50 0] (len=4)] (len=1330)
-1) (0, 1):
-	[[1 447 60 0] (len=4) [1 562 40 0] (len=4) ... [1 809 47 0] (len=4) [1 497 55 0] (len=4)] (len=876)
-2) (0, 2):
-	[[2 96 36 0] (len=4) [2 11 49 0] (len=4) ... [2 74 74 0] (len=4) [2 46 71 0] (len=4)] (len=129)
-3) (0, 3):
-	[[3 298 55 0] (len=4) [3 227 54 0] (len=4) ... [3 521 42 0] (len=4) [3 475 62 0] (len=4)] (len=546)
-4) (0, 4):
-	[[4 1624 99 0] (len=4) [4 1801 44 0] (len=4) ... [4 2708 49 0] (len=4) [4 1746 44 0] (len=4)] (len=3365)
-5) (0, 5):
-	[[5 140 41 0] (len=4) [5 122 49 0] (len=4) ... [5 783 47 0] (len=4) [5 100 57 0] (len=4)] (len=797)
-6) (0, 6):
-	[[6 30 52 0] (len=4) [6 28 53 0] (len=4) ... [6 57 52 0] (len=4) [6 56 39 0] (len=4)] (len=59)
-7) (0, 7):
-	[[7 526 48 0] (len=4) [7 290 67 0] (len=4) ... [7 18 99 0] (len=4) [7 353 54 0] (len=4)] (len=705)
-8) (0, 8):
-	[[8 9 55 0] (len=4) [8 226 41 0] (len=4) ... [8 132 55 0] (len=4) [8 185 53 0] (len=4)] (len=237)
-9) (0, 9):
-	[[9 12 56 0] (len=4) [9 0 56 0] (len=4) ... [9 6 56 0] (len=4) [9 15 56 0] (len=4)] (len=38)
-10) (0, 10):
-	[[10 19 46 0] (len=4) [10 11 51 0] (len=4) ... [10 12 51 0] (len=4) [10 14 50 0] (len=4)] (len=20)
-11) (0, 11):
-	[[11 23 56 0] (len=4) [11 164 32 0] (len=4) ... [11 395 34 0] (len=4) [11 536 38 0] (len=4)] (len=646)
-12) (0, 12):
-	[[12 172 42 0] (len=4) [12 212 47 0] (len=4) ... [12 40 38 0] (len=4) [12 130 32 0] (len=4)] (len=215)
-13) (0, 13):
-	[[13 217 52 0] (len=4) [13 102 45 0] (len=4) ... [13 194 54 0] (len=4) [13 223 45 0] (len=4)] (len=244)
-14) (0, 14):
-	[[14 526 61 0] (len=4) [14 348 42 0] (len=4) ... [14 260 66 0] (len=4) [14 207 22 0] (len=4)] (len=542)
-15) (0, 15):
-	[[15 174 55 0] (len=4) [15 147 51 0] (len=4) ... [15 154 43 0] (len=4) [15 78 28 0] (len=4)] (len=198)
-16) (0, 16):
-	[[16 118 40 0] (len=4) [16 635 38 0] (len=4) ... [16 469 35 0] (len=4) [16 159 54 0] (len=4)] (len=750)
-17) (0, 17):
-	[[17 392 33 0] (len=4) [17 517 48 0] (len=4) ... [17 203 27 0] (len=4) [17 397 32 0] (len=4)] (len=814)
-18) (0, 18):
-	[[18 384 43 0] (len=4) [18 162 40 0] (len=4) ... [18 451 40 0] (len=4) [18 607 47 0] (len=4)] (len=820)
-19) (0, 19):
-	[[19 29 37 0] (len=4) [19 40 47 0] (len=4) ... [19 70 43 0] (len=4) [19 42 41 0] (len=4)] (len=141)
-20) (0, 20):
-	[[20 18 34 0] (len=4) [20 764 34 0] (len=4) ... [20 486 49 0] (len=4) [20 669 26 0] (len=4)] (len=1100)
-21) (0, 21):
-	[[21 216 49 0] (len=4) [21 123 42 0] (len=4) ... [21 134 36 0] (len=4) [21 140 38 0] (len=4)] (len=319)
-22) (0, 22):
-	[[22 172 39 0] (len=4) [22 128 26 0] (len=4) ... [22 58 35 0] (len=4) [22 169 39 0] (len=4)] (len=216)
-23) (0, 23):
-	[[23 356 64 0] (len=4) [23 166 41 0] (len=4) ... [23 247 60 0] (len=4) [23 280 42 0] (len=4)] (len=386)
-..56243)
+>> BF['left_image_bound_to_data']
+BF
+0) bag_file_num_dic:
+	0) 1:
+		 /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_path_dataset/rgb_1to4/direct_local_07Jul17_18h37m24s_Mr_Purple/bair_car_2017-07-07-18-38-10_1.bag.pkl
+	1) 2:
+		 /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_path_dataset/rgb_1to4/direct_local_07Jul17_18h37m24s_Mr_Purple/bair_car_2017-07-07-18-38-47_2.bag.pkl
+	2) 3:
+		 /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_path_dataset/rgb_1to4/direct_local_07Jul17_18h37m24s_Mr_Purple/bair_car_2017-07-07-18-39-25_3.bag.pkl
+	3) 4:
+		 /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_path_dataset/rgb_1to4/direct_local_07Jul17_18h37m24s_Mr_Purple/bair_car_2017-07-07-18-39-58_4.bag.pkl
+	4) 5:
+		 /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_path_dataset/rgb_1to4/direct_local_07Jul17_18h37m24s_Mr_Purple/bair_car_2017-07-07-18-40-29_5.bag.pkl
+	5) 6:
+		 /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_path_dataset/rgb_1to4/direct_local_07Jul17_18h37m24s_Mr_Purple/bair_car_2017-07-07-18-41-11_6.bag.pkl
+	6) 7:
+		 /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_path_dataset/rgb_1to4/direct_local_07Jul17_18h37m24s_Mr_Purple/bair_car_2017-07-07-18-41-50_7.bag.pkl
+	7) 8:
+		 /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_path_dataset/rgb_1to4/direct_local_07Jul17_18h37m24s_Mr_Purple/bair_car_2017-07-07-18-42-28_8.bag.pkl
+	8) 9:
+		 /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_path_dataset/rgb_1to4/direct_local_07Jul17_18h37m24s_Mr_Purple/bair_car_2017-07-07-18-43-03_9.bag.pkl
+	9) 10:
+		 /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_path_dataset/rgb_1to4/direct_local_07Jul17_18h37m24s_Mr_Purple/bair_car_2017-07-07-18-43-40_10.bag.pkl
+	10) 11:
+		 /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_path_dataset/rgb_1to4/direct_local_07Jul17_18h37m24s_Mr_Purple/bair_car_2017-07-07-18-44-14_11.bag.pkl
+	11) 12:
+		 /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_path_dataset/rgb_1to4/direct_local_07Jul17_18h37m24s_Mr_Purple/bair_car_2017-07-07-18-44-50_12.bag.pkl
+	12) 13:
+		 /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_path_dataset/rgb_1to4/direct_local_07Jul17_18h37m24s_Mr_Purple/bair_car_2017-07-07-18-45-25_13.bag.pkl
+	13) 14:
+		 /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_path_dataset/rgb_1to4/direct_local_07Jul17_18h37m24s_Mr_Purple/bair_car_2017-07-07-18-45-56_14.bag.pkl
+	14) 15:
+		 /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_path_dataset/rgb_1to4/direct_local_07Jul17_18h37m24s_Mr_Purple/bair_car_2017-07-07-18-46-28_15.bag.pkl
+	15) 16:
+		 /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_path_dataset/rgb_1to4/direct_local_07Jul17_18h37m24s_Mr_Purple/bair_car_2017-07-07-18-47-02_16.bag.pkl
+	16) 17:
+		 /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_path_dataset/rgb_1to4/direct_local_07Jul17_18h37m24s_Mr_Purple/bair_car_2017-07-07-18-47-35_17.bag.pkl
+	17) 18:
+		 /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_path_dataset/rgb_1to4/direct_local_07Jul17_18h37m24s_Mr_Purple/bair_car_2017-07-07-18-48-14_18.bag.pkl
+	18) 19:
+		 /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_path_dataset/rgb_1to4/direct_local_07Jul17_18h37m24s_Mr_Purple/bair_car_2017-07-07-18-48-48_19.bag.pkl
+	19) 20:
+		 /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_path_dataset/rgb_1to4/direct_local_07Jul17_18h37m24s_Mr_Purple/bair_car_2017-07-07-18-49-24_20.bag.pkl
+	20) 21:
+		 /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_path_dataset/rgb_1to4/direct_local_07Jul17_18h37m24s_Mr_Purple/bair_car_2017-07-07-18-50-00_21.bag.pkl
+	21) 22:
+		 /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_path_dataset/rgb_1to4/direct_local_07Jul17_18h37m24s_Mr_Purple/bair_car_2017-07-07-18-50-33_22.bag.pkl
+	22) 23:
+		 /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_path_dataset/rgb_1to4/direct_local_07Jul17_18h37m24s_Mr_Purple/bair_car_2017-07-07-18-51-09_23.bag.pkl
+	23) 24:
+		 /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_path_dataset/rgb_1to4/direct_local_07Jul17_18h37m24s_Mr_Purple/bair_car_2017-07-07-18-51-44_24.bag.pkl
+	..27)
+
+1) bag_files:
+	[/media/karlzipser/ExtraDrive2/bdd_car_data_July2017_path_dataset/rgb_1to4/direct_local_07Jul17_18h37m24s_Mr_Purple/bair_car_2017-07-07-18-38-10_1.bag.pkl /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_path_dataset/rgb_1to4/direct_local_07Jul17_18h37m24s_Mr_Purple/bair_car_2017-07-07-18-38-47_2.bag.pkl ... /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_path_dataset/rgb_1to4/direct_local_07Jul17_18h37m24s_Mr_Purple/bair_car_2017-07-07-18-53-35_27.bag.pkl /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_path_dataset/rgb_1to4/direct_local_07Jul17_18h37m24s_Mr_Purple/bair_car_2017-07-07-18-54-13_28.bag.pkl] (len=28)
+2) data:
+	0) good_start_indicies:
+		[1526 1527 ... 29800 29801] (len=14919)
+	1) good_start_timestamps:
+		[1499477940.48 1499477940.53 ... 1499478884.94 1499478884.98] (len=14919)
+	2) motor:
+		[0.0 0.0 ... 0.0 0.0] (len=29983)
+	3) raw_timestamp_deltas:
+		[0.0 0.03 ... 0.03 0.04] (len=29983)
+	4) raw_timestamps:
+		[1499477889.62 1499477889.65 ... 1499478890.98 1499478891.01] (len=29983)
+	5) state:
+		[-1.0 -1.0 ... 4.0 4.0] (len=29983)
+	6) state_one_steps:
+		[0.0 0.0 ... 0.0 0.0] (len=29983)
+	7) steer:
+		[0.0 0.0 ... 0.0 0.0] (len=29983)
+
+3) good_timestamps_to_raw_timestamps_indicies__dic:
+	0) 1499477940.48:
+		 1526 <type 'int'>
+	1) 1499477940.53:
+		 1527 <type 'int'>
+	2) 1499477940.55:
+		 1528 <type 'int'>
+	3) 1499477940.58:
+		 1529 <type 'int'>
+	4) 1499477940.63:
+		 1530 <type 'int'>
+	5) 1499477940.65:
+		 1531 <type 'int'>
+	6) 1499477940.68:
+		 1532 <type 'int'>
+	7) 1499477940.72:
+		 1533 <type 'int'>
+	8) 1499477940.74:
+		 1534 <type 'int'>
+	9) 1499477940.78:
+		 1535 <type 'int'>
+	10) 1499477940.82:
+		 1536 <type 'int'>
+	11) 1499477940.85:
+		 1537 <type 'int'>
+	12) 1499477940.89:
+		 1538 <type 'int'>
+	13) 1499477940.92:
+		 1539 <type 'int'>
+	14) 1499477940.94:
+		 1540 <type 'int'>
+	15) 1499477940.98:
+		 1541 <type 'int'>
+	16) 1499477941.01:
+		 1542 <type 'int'>
+	17) 1499477941.05:
+		 1543 <type 'int'>
+	18) 1499477941.08:
+		 1544 <type 'int'>
+	19) 1499477941.13:
+		 1545 <type 'int'>
+	20) 1499477941.15:
+		 1546 <type 'int'>
+	21) 1499477941.18:
+		 1547 <type 'int'>
+	22) 1499477941.23:
+		 1548 <type 'int'>
+	23) 1499477941.25:
+		 1549 <type 'int'>
+	..14918)
+
+4) img_dic:
+	0) left:
+
+	1) right:
+
+
+5) left_image_bound_to_data:
+	0) 1499477889.62:
+		0) acc:
+			[0.0 9.8 0.0] (len=3)
+		1) encoder:
+			 0.0 <type 'float'>
+		2) motor:
+			 no data
+		3) right_image:
+			 1499477889.62 <type 'float'>
+		4) state:
+			 no data
+		5) steer:
+			 no data
+
+	1) 1499477889.65:
+		0) acc:
+			[0.0 9.8 0.0] (len=3)
+		1) encoder:
+			 0.0 <type 'float'>
+		2) motor:
+			 no data
+		3) right_image:
+			 1499477889.66 <type 'float'>
+		4) state:
+			 no data
+		5) steer:
+			 no data
+
+	2) 1499477889.68:
+		0) acc:
+			[0.0 9.8 0.0] (len=3)
+		1) encoder:
+			 0.0 <type 'float'>
+		2) motor:
+			 no data
+		3) right_image:
+			 1499477889.69 <type 'float'>
+		4) state:
+			 no data
+		5) steer:
+			 no data
+
+	3) 1499477889.72:
+		0) acc:
+			[0.0 9.8 0.0] (len=3)
+		1) encoder:
+			 0.0 <type 'float'>
+		2) motor:
+			 no data
+		3) right_image:
+			 1499477889.72 <type 'float'>
+		4) state:
+			 no data
+		5) steer:
+			 no data
+
+	4) 1499477889.75:
+		0) acc:
+			[0.0 9.8 0.0] (len=3)
+		1) encoder:
+			 0.0 <type 'float'>
+		2) motor:
+			 no data
+		3) right_image:
+			 1499477889.75 <type 'float'>
+		4) state:
+			 no data
+		5) steer:
+			 no data
+
+	5) 1499477889.78:
+		0) acc:
+			[0.0 9.8 0.0] (len=3)
+		1) encoder:
+			 0.0 <type 'float'>
+		2) motor:
+			 no data
+		3) right_image:
+			 1499477889.79 <type 'float'>
+		4) state:
+			 no data
+		5) steer:
+			 no data
+
+	6) 1499477889.82:
+		0) acc:
+			[0.0 9.8 0.0] (len=3)
+		1) encoder:
+			 0.0 <type 'float'>
+		2) motor:
+			 no data
+		3) right_image:
+			 1499477889.82 <type 'float'>
+		4) state:
+			 no data
+		5) steer:
+			 no data
+
+	7) 1499477889.85:
+		0) acc:
+			[0.0 9.8 0.0] (len=3)
+		1) encoder:
+			 0.0 <type 'float'>
+		2) motor:
+			 no data
+		3) right_image:
+			 1499477889.86 <type 'float'>
+		4) state:
+			 no data
+		5) steer:
+			 no data
+
+	8) 1499477889.88:
+		0) acc:
+			[0.0 9.8 0.0] (len=3)
+		1) encoder:
+			 0.0 <type 'float'>
+		2) motor:
+			 no data
+		3) right_image:
+			 1499477889.89 <type 'float'>
+		4) state:
+			 no data
+		5) steer:
+			 no data
+
+	9) 1499477889.92:
+		0) acc:
+			[0.0 9.8 0.0] (len=3)
+		1) encoder:
+			 0.0 <type 'float'>
+		2) motor:
+			 no data
+		3) right_image:
+			 1499477889.93 <type 'float'>
+		4) state:
+			 no data
+		5) steer:
+			 no data
+
+	10) 1499477889.95:
+		0) acc:
+			[0.0 9.8 0.0] (len=3)
+		1) encoder:
+			 0.0 <type 'float'>
+		2) motor:
+			 no data
+		3) right_image:
+			 1499477889.96 <type 'float'>
+		4) state:
+			 no data
+		5) steer:
+			 no data
+
+	11) 1499477889.98:
+		0) acc:
+			[0.0 9.8 0.0] (len=3)
+		1) encoder:
+			 0.0 <type 'float'>
+		2) motor:
+			 no data
+		3) right_image:
+			 1499477889.99 <type 'float'>
+		4) state:
+			 no data
+		5) steer:
+			 no data
+
+	12) 1499477890.02:
+		0) acc:
+			[0.0 9.8 0.0] (len=3)
+		1) encoder:
+			 0.0 <type 'float'>
+		2) motor:
+			 no data
+		3) right_image:
+			 1499477890.02 <type 'float'>
+		4) state:
+			 no data
+		5) steer:
+			 no data
+
+	13) 1499477890.05:
+		0) acc:
+			[0.0 9.8 0.0] (len=3)
+		1) encoder:
+			 0.0 <type 'float'>
+		2) motor:
+			 no data
+		3) right_image:
+			 1499477890.05 <type 'float'>
+		4) state:
+			 no data
+		5) steer:
+			 no data
+
+	14) 1499477890.08:
+		0) acc:
+			[0.0 9.8 0.0] (len=3)
+		1) encoder:
+			 0.0 <type 'float'>
+		2) motor:
+			 no data
+		3) right_image:
+			 1499477890.09 <type 'float'>
+		4) state:
+			 no data
+		5) steer:
+			 no data
+
+	15) 1499477890.12:
+		0) acc:
+			[0.0 9.8 0.0] (len=3)
+		1) encoder:
+			 0.0 <type 'float'>
+		2) motor:
+			 no data
+		3) right_image:
+			 1499477890.12 <type 'float'>
+		4) state:
+			 no data
+		5) steer:
+			 no data
+
+	16) 1499477890.15:
+		0) acc:
+			[0.0 9.8 0.0] (len=3)
+		1) encoder:
+			 0.0 <type 'float'>
+		2) motor:
+			 no data
+		3) right_image:
+			 1499477890.15 <type 'float'>
+		4) state:
+			 no data
+		5) steer:
+			 no data
+
+	17) 1499477890.18:
+		0) acc:
+			[0.0 9.8 0.0] (len=3)
+		1) encoder:
+			 0.0 <type 'float'>
+		2) motor:
+			 no data
+		3) right_image:
+			 1499477890.19 <type 'float'>
+		4) state:
+			 no data
+		5) steer:
+			 no data
+
+	18) 1499477890.22:
+		0) acc:
+			[0.0 9.8 0.0] (len=3)
+		1) encoder:
+			 0.0 <type 'float'>
+		2) motor:
+			 no data
+		3) right_image:
+			 1499477890.22 <type 'float'>
+		4) state:
+			 no data
+		5) steer:
+			 no data
+
+	19) 1499477890.25:
+		0) acc:
+			[0.0 9.8 0.0] (len=3)
+		1) encoder:
+			 0.0 <type 'float'>
+		2) motor:
+			 no data
+		3) right_image:
+			 1499477890.26 <type 'float'>
+		4) state:
+			 no data
+		5) steer:
+			 no data
+
+	20) 1499477890.28:
+		0) acc:
+			[0.0 9.8 0.0] (len=3)
+		1) encoder:
+			 0.0 <type 'float'>
+		2) motor:
+			 no data
+		3) right_image:
+			 1499477890.29 <type 'float'>
+		4) state:
+			 no data
+		5) steer:
+			 no data
+
+	21) 1499477890.32:
+		0) acc:
+			[0.0 9.8 0.0] (len=3)
+		1) encoder:
+			 0.0 <type 'float'>
+		2) motor:
+			 no data
+		3) right_image:
+			 1499477890.32 <type 'float'>
+		4) state:
+			 no data
+		5) steer:
+			 no data
+
+	22) 1499477890.35:
+		0) acc:
+			[0.0 9.8 0.0] (len=3)
+		1) encoder:
+			 0.0 <type 'float'>
+		2) motor:
+			 no data
+		3) right_image:
+			 1499477890.36 <type 'float'>
+		4) state:
+			 no data
+		5) steer:
+			 no data
+
+	23) 1499477890.38:
+		0) acc:
+			[0.0 9.8 0.0] (len=3)
+		1) encoder:
+			 0.0 <type 'float'>
+		2) motor:
+			 no data
+		3) right_image:
+			 1499477890.39 <type 'float'>
+		4) state:
+			 no data
+		5) steer:
+			 no data
+
+	..29982)
+
+6) path:
+	 /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_path_dataset/rgb_1to4/direct_local_07Jul17_18h37m24s_Mr_Purple
 
