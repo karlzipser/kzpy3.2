@@ -16,29 +16,27 @@ Names = ['name','dic','argument_dictionary','translation_dic','accepted_states']
 for l in Names:
 	exec(d2n(l,'=',"'",l,"'"))
 Values = {}
-v = Values
+V = Values
 
 
 
-v[translation_dic] = {'src':'bag_folders_src_location','dst':'bag_folders_dst','n':'NUM_STATE_ONE_STEPS','bd':'DO_PREPROCESS_BAG_DATA','bf':'DO_PREPROCESS_BAG_FOLDERS','acs':accepted_states}
+V[translation_dic] = {'src':'bag_folders_src_location','dst':'bag_folders_dst','n':'NUM_STATE_ONE_STEPS','bd':'DO_PREPROCESS_BAG_DATA','bf':'DO_PREPROCESS_BAG_FOLDERS','acs':accepted_states}
 if __name__ == "__main__" and '__file__' in vars():
-    v[argument_dictionary] = args_to_dic({'pargs':sys.argv[1:]})
+    V[argument_dictionary] = args_to_dic({'pargs':sys.argv[1:]})
 else:
     print('Running this within interactive python.')
-    v[argument_dictionary] = args_to_dic({
+    V[argument_dictionary] = args_to_dic({
     	'pargs':"-src /media/karlzipser/ExtraDrive2/Mr_Purple_7July2017 -dst /media/karlzipser/ExtraDrive2/bdd_car_data_TEMP -n 30 -bd No -bf Yes"  })
-v[argument_dictionary] = translate_args(
-    {argument_dictionary:v[argument_dictionary],
-    translation_dic:v[translation_dic]})
-if len(v[argument_dictionary]) == 0:
+V[argument_dictionary] = translate_args(
+    {argument_dictionary:V[argument_dictionary],
+    translation_dic:V[translation_dic]})
+if len(V[argument_dictionary]) == 0:
 	pd2s(doc_string)
-	nice_print_dic({dic:v[translation_dic],name:'arguments'})
+	nice_print_dic({dic:V[translation_dic],name:'arguments'})
 	exit()
 
 
-
-nice_print_dic({dic:v[argument_dictionary],name:'argument_dictionary'})
-nice_print_dic(dic,v[argument_dictionary], name,'argument_dictionary_')
+nice_print_dic( dic,V[argument_dictionary],  name,argument_dictionary )
 
 
 
@@ -57,9 +55,9 @@ def preprocess(d):
 		else:
 			exec(d2n(k,'=',"'",d[k],"'"))
 	if accepted_states not in d:
-		v[accepted_states] = [1,3,5,6,7]
+		V[accepted_states] = [1,3,5,6,7]
 	else:
-		v[accepted_states] = d[accepted_states]
+		V[accepted_states] = d[accepted_states]
 	True
 
 	bag_folders_src = opj(bag_folders_src_location,'processed')#'new')
@@ -109,7 +107,7 @@ def preprocess(d):
 		preprocess_Bag_Folders.preprocess_Bag_Folders(bag_folders_dst_meta_path,
 			bag_folders_dst_rgb1to4_path,
 			NUM_STATE_ONE_STEPS=NUM_STATE_ONE_STEPS,
-			graphics=graphics,accepted_states=v[accepted_states],
+			graphics=graphics,accepted_states=V[accepted_states],
 			pkl_name=pkl_name)
 
 	os.rename(bag_folders_src,opj(bag_folders_src_location,'processed'))
@@ -121,7 +119,7 @@ def preprocess(d):
 
 
 if __name__ == '__main__':
-	preprocess(v[argument_dictionary])
+	preprocess(V[argument_dictionary])
 
 
 # EOF
