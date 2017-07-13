@@ -591,14 +591,20 @@ def function_animate(t0,t1):
 					cprint("********** Exception ***********************",'red')
 					print(e.message, e.args)
 				#print state_one_g_t_zero_dict[t]
-				if state_one_g_t_zero_dict[t] < 1:#t not in B['good_timestamps_to_raw_timestamps_indicies__dic']:
+				if False:#state_one_g_t_zero_dict[t] < 1:#t not in B['good_timestamps_to_raw_timestamps_indicies__dic']:
 					#img[:,:,0] = img[:,:,1]
 					#img[:,:,2] = img[:,:,1]
 					img[-10:,:,0] = 255
 					img[-10:,:,1:2] = 0
-				cv2.imshow('video',cv2.cvtColor(img,cv2.COLOR_RGB2BGR))
+				L = B['left_image_bound_to_data'][t]
+				state = L['state']
+				motor = L['motor']
+				steer = L['steer']
+				img = cv2.resize(img, (0,0), fx=3.0, fy=3.0)
+				cv2.putText(img,d2s(int(state),int(steer),int(motor)),(10,30),cv2.FONT_HERSHEY_SIMPLEX,1.0,(255,0,0),4)
+				cv2.imshow('function_animate',cv2.cvtColor(img,cv2.COLOR_RGB2BGR))
 				if cv2.waitKey(30) & 0xFF == ord('q'):
-					pass
+					return
 		ctr += 1
 AR = function_animate
 
