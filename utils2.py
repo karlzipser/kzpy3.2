@@ -912,7 +912,7 @@ def zdic_to_str(d,range_lst,depth=0,dic_show_ends=4,dic_truncate=True):
             this_range = [this_range,this_range+1]
 
     if this_range[0] > 0:
-        dic_str_lst.append(d2n('\t'*depth,'0) ...'))
+        dic_str_lst.append(d2n('\t'*depth,'<0> ...'))
 
     for i in range(this_range[0],this_range[1]):
         if i >= len(sorted_keys):
@@ -920,7 +920,7 @@ def zdic_to_str(d,range_lst,depth=0,dic_show_ends=4,dic_truncate=True):
         key = sorted_keys[i]
         value = d[key]
 
-        dic_str_lst.append(d2n('\t'*depth,i,') ',key,':'))
+        dic_str_lst.append(d2n('\t'*depth,'<',i,'> ',key,':'))
 
         if isinstance(value,dict):
             if len(range_lst) > 1:
@@ -1050,7 +1050,7 @@ def img_to_img_uint8(d):
     return (255.0*z2o(img)).astype(np.uint8)
 
 
-
+"""
 def zsave_obj(d):
     obj = d['obj']
     path = d['path']
@@ -1075,9 +1075,9 @@ def zsave_obj(d):
             zsave_obj({ 'obj':obj[k], 'path':opj(path,k) })
     else:
         save_obj(obj,path)
+"""
 
-
-
+"""
 def zload_obj(d):
     path = d['path']
 
@@ -1125,7 +1125,7 @@ def zload_obj(d):
 
     #raw_input('hit enter')
     return obj
-
+"""
 
 
 def restore_functions(d):
@@ -1412,6 +1412,78 @@ def nice_print_dic(*args):
         print('')
 
 
+
+
+
+
+
+
+
+
+dic_exec_str = """
+Args = args_to_dictionary(args)
+for k in keys:
+    if type(k) == str:
+        assert(k in Args)
+        exec(k+'='+"'"+k+"'")
+    elif type(k) == list:
+        exec(k[0]+'='+"'"+k[0]+"'")
+        if k[0] not in Args:
+            Args[k[0]] = k[1]
+            """
+
+
+equals = 'equals__'
+nothing = 'nothing__'
+
+def da(*args):
+    """
+    # dictionary access
+    # e.g.,
+    W={1:{2:{3:4},100:[1,2,3]}}
+    print(W)
+    print(da(W,1,2))
+    da(W,1,2,equals,9)
+    print(W)
+    print(da(W,1,2))
+    """
+    Q = args[0]
+    assert(type(Q)==dict)
+    range_end = len(args)
+    right_hand_side = nothing
+    if len(args) > 3:
+        if args[-2] == equals:
+            right_hand_side = args[-1]
+            range_end = len(args)-2
+    for i in range(1,range_end):
+        k = args[i]
+        assert(type(k) in [str,int,long,bool,float,tuple])
+        if k not in Q:
+            Q[k] = {}
+        if i == range_end-1:
+            if right_hand_side != nothing:
+                Q[k] = right_hand_side
+                return
+        Q = Q[k]
+    return Q
+
+
+
+
+def zdprint(*args):
+    keys = ['dic',['depth',-2]]
+    exec(dic_exec_str)
+    if True:
+        if len(Args[dic]) == 0:
+            print('empty dictionary')
+            return
+        zdset(Args[dic])
+        zd(Args[depth])
+        txt_lst = txt_file_to_list_of_strings(opjh('kzpy3','zdl.txt'))
+        print('\n'.join(txt_lst))
+
+
+Command_line_arguments = args_to_dictionary(sys.argv[1:])
 
 
 #EOF
