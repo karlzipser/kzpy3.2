@@ -11,7 +11,6 @@ e.g.,
 python kzpy3/teg10/preprocess.py --src /media/karlzipser/rosbags/temp --dst /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_path_dataset/ --num 30 --accepted_states [1,2,3] --bd yes --bf yes
 """
 #cmd_line = "python kzpy3/teg10/preprocess.py --src /media/karlzipser/rosbags/temp --dst /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_path_dataset/ --num 30 --accepted_states [1,2,3] --bd yes --bf yes"
-
 #Command_line_arguments = args_to_dictionary(cmd_line.split(' ')[2:])
 
 for _name in ['dic','DO_PREPROCESS_BAG_DATA','DO_PREPROCESS_BAG_FOLDERS','accepted_states','bag_folders_src_location',

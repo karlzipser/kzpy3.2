@@ -754,7 +754,7 @@ def function_save_hdf5(run_num=None,dst_path=opj(V[bair_car_data_path],'hdf5/run
 		gsegments[opj(str(i),'motor')] = np.array(motor_list)
 		gsegments[opj(str(i),'state')] = np.array(state_list)
 	F.close()
-S5 = function_save_hdf5
+
 
 
 
@@ -873,10 +873,20 @@ def load_hdf5_steer_hist(path,dst_path):
 def process_runs_to_hdf5():
 	if True:
 		CS_("Goal: create normal and flip hdf5 segements.")
+		hdf5_runs_path = opj(pname(I['meta_path']),'hdf5','runs')
+		existing_hdf5_files = gg(opj(hdf5_runs_path,'*.hdf5'))
+		for i in range(len(existing_hdf5_files)):
+			existing_hdf5_files[i] = fname(existing_hdf5_files[i])
 		for i in range(len(I[runs])):
+			r = I[runs][i]
+			if r+'.hdf5' in existing_hdf5_files:
+				print(r+' is done')
+			else:
+				print(r+' is NOT done')
+			continue
 			if True:#try:
 				VR(i,img_load=True)
-				r = I[runs][i]
+				
 				ks = sorted(I[run_labels][r])
 				labeled = False
 				for k in ks:
@@ -884,8 +894,8 @@ def process_runs_to_hdf5():
 						labeled = True
 				if labeled and I[run_labels][I[runs][i]][reject_run] == False:
 					cprint(d2s(i,') accept',r),'yellow')
-					S5(i,flip=False)
-					S5(flip=True)
+					function_save_hdf5(i,flip=False)
+					function_save_hdf5(flip=True)
 				else:
 					cprint(d2s(i,') reject',r),'red')
 
