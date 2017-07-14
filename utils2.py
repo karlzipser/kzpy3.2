@@ -115,12 +115,12 @@ def rlen(a):
 
 PRINT_COMMENTS = True
 def CS_(comment,section=''):
-    str = '# - '
+    stri = '# - '
     if len(section) > 0:
-        str = str + section + ': '
-    str = str + comment
+        stri = stri + section + ': '
+    stri = stri + comment
     if PRINT_COMMENTS:
-        print(str)
+        cprint(stri,'red','on_green')
 
 
 def zeroToOneRange(m):

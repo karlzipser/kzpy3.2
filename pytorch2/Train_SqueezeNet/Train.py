@@ -79,7 +79,7 @@ while True:
             if P.epoch_timer.check():
                 pd2s('\tmode =',mode,'ctr =',DD[mode]['ctr'],dp(100.0*DD[mode]['ctr']/(1.0*len(DD[mode]['all_steer']))),'%')
                 P.epoch_timer.reset()
-                figure('loss');clf();ylim(0.003,0.006);xlim(146,180)
+                figure('loss');clf();ylim(0.003,0.006);xlim(146,200)
                 loss_record['train']['plot']({'c':'b'})
                 loss_record['val']['plot']({'c':'r'})
 
@@ -115,5 +115,6 @@ for i in range(len(sorted_trial_loss_record)):
     Sorted_trial_loss_record_dic['ids'].append((run_code,seg_num,offset))
     Sorted_trial_loss_record_dic['losses'].append(l[1])
 
+#so(Sorted_trial_loss_record_dic,opjD('Sorted_trial_loss_record_dic_'+time_str()))
 
 #EOF
