@@ -825,7 +825,15 @@ def load_animate_hdf5(path,start_at_time=0):
 A5 = load_animate_hdf5
 
 
-# filter out left and out in files
+
+
+
+
+########################################################
+
+
+
+
 
 def load_hdf5_steer_hist(path,dst_path):
 	if len(gg(opj(dst_path,fname(path).replace('hdf5','state_hist_list.pkl')))) == 1:
@@ -870,93 +878,90 @@ def load_hdf5_steer_hist(path,dst_path):
 
 
 
-def process_runs_to_hdf5():
-	if True:
-		CS_("Goal: create normal and flip hdf5 segements.")
-		hdf5_runs_path = opj(pname(I['meta_path']),'hdf5','runs')
-		existing_hdf5_files = gg(opj(hdf5_runs_path,'*.hdf5'))
-		for i in range(len(existing_hdf5_files)):
-			existing_hdf5_files[i] = fname(existing_hdf5_files[i])
-		for i in range(len(I[runs])):
-			r = I[runs][i]
-			if r+'.hdf5' in existing_hdf5_files:
-				print(r+' is done')
+def create_normal_and_flip_hdf5_segements():
+	CS_("Goal: create normal and flip hdf5 segements. (Very time consuming)")
+	hdf5_runs_path = opj(pname(I['meta_path']),'hdf5','runs')
+	existing_hdf5_files = gg(opj(hdf5_runs_path,'*.hdf5'))
+	for i in range(len(existing_hdf5_files)):
+		existing_hdf5_files[i] = fname(existing_hdf5_files[i])
+	for i in range(len(I[runs])):
+		r = I[runs][i]
+		if r+'.hdf5' in existing_hdf5_files:
+			print(r+' is done')
+		else:
+			print(r+' is NOT done')
+		continue
+		if True:#try:
+			VR(i,img_load=True)
+			
+			ks = sorted(I[run_labels][r])
+			labeled = False
+			for k in ks:
+				if I[run_labels][r][k]:
+					labeled = True
+			if labeled and I[run_labels][I[runs][i]][reject_run] == False:
+				cprint(d2s(i,') accept',r),'yellow')
+				function_save_hdf5(i,flip=False)
+				function_save_hdf5(flip=True)
 			else:
-				print(r+' is NOT done')
-			continue
-			if True:#try:
-				VR(i,img_load=True)
-				
-				ks = sorted(I[run_labels][r])
-				labeled = False
-				for k in ks:
-					if I[run_labels][r][k]:
-						labeled = True
-				if labeled and I[run_labels][I[runs][i]][reject_run] == False:
-					cprint(d2s(i,') accept',r),'yellow')
-					function_save_hdf5(i,flip=False)
-					function_save_hdf5(flip=True)
-				else:
-					cprint(d2s(i,') reject',r),'red')
+				cprint(d2s(i,') reject',r),'red')
 
-			else:#except Exception as e:
-				print("********** Exception ***********************")
-				print(e.message, e.args)
-				cprint('Failure in for i in range(len(I[runs])): loop','blue')
+		else:#except Exception as e:
+			print("********** Exception ***********************")
+			print(e.message, e.args)
+			cprint('Failure in for i in range(len(I[runs])): loop','blue')
 
 
+
+def create_valid_hdf5_data_moments():
+	CS_("Goal: create valid data moments. (Time Consuming)")
+	hdf5s = sgg(opj(V[bair_car_data_path],'hdf5/runs/*.hdf5'))
+	ctr = 0
+	for h in hdf5s:
+		ctr += 1
+		print ctr
+		load_hdf5_steer_hist(h,opj(V[bair_car_data_path],'hdf5','segment_metadata'))
+
+
+
+def compile_run_codes_and_hdf5_data_moment_lists():
 	if True:
-		CS_("Goal: create steer hist lists.")
-		hdf5s = sgg(opj(V[bair_car_data_path],'hdf5/runs/*.hdf5'))
+		CS_("Goal: compile run codes. (Fast)")
+		run_codes = {}
+		steer_hists = sgg(opj(V[bair_car_data_path],'hdf5/segment_metadata/*.state_hist_list.pkl'))
 		ctr = 0
-		for h in hdf5s:
+		combined = []
+		for s in steer_hists:
+			o = load_obj(s)
+			run_codes[ctr] = fname(s).replace('.state_hist_list.pkl','')
+			print ctr,run_codes[ctr]
+			#for j in range(len(o)):
+			#	o[j][3] = ctr
+			#	combined.append(o[j])
 			ctr += 1
-			print ctr
-			load_hdf5_steer_hist(h,opj(V[bair_car_data_path],'hdf5','segment_metadata'))
-
-
-
+		#save_obj(combined,opjD('combined'))
+		unix('mkdir -p '+opj(V[bair_car_data_path],'hdf5/segment_metadata'))
+		save_obj(run_codes,opj(V[bair_car_data_path],'hdf5/segment_metadata/run_codes'))
 	if True:
-
-		if True:
-			CS_("Goal: compile run codes.")
-			run_codes = {}
-			steer_hists = sgg(opj(V[bair_car_data_path],'hdf5/segment_metadata/*.state_hist_list.pkl'))
-			ctr = 0
-			combined = []
-			for s in steer_hists:
-				o = load_obj(s)
-				run_codes[ctr] = fname(s).replace('.state_hist_list.pkl','')
-				print ctr,run_codes[ctr]
-				#for j in range(len(o)):
-				#	o[j][3] = ctr
-				#	combined.append(o[j])
-				ctr += 1
-			#save_obj(combined,opjD('combined'))
-			unix('mkdir -p '+opj(V[bair_car_data_path],'hdf5/segment_metadata'))
-			save_obj(run_codes,opj(V[bair_car_data_path],'hdf5/segment_metadata/run_codes'))
-
-
-		if True:
-			CS_("Goal: compile low_steer and high_steer.")
-			low_steer = []
-			high_steer = []
-			low_steer_files = sgg(opj(V[bair_car_data_path],'hdf5/segment_metadata/*.low_steer_data_moments.pkl'))
-			ctr = 0
-			for s in low_steer_files:
-				print (ctr,s)
-				q = load_obj(s)
-				for i in range(len(q)):
-					q[i].append(ctr)
-				low_steer += q
-				q = load_obj(s.replace('.low_steer.','.high_steer_data_moments.'))
-				for i in range(len(q)):
-					q[i].append(ctr)
-				high_steer += q
-				ctr += 1
-			save_obj(high_steer+low_steer,opj(V[bair_car_data_path],'hdf5/segment_metadata/all_valid_data_moments'))
-			save_obj(low_steer,opj(V[bair_car_data_path],'hdf5/segment_metadata/low_steer_data_moments'))
-			save_obj(high_steer,opj(V[bair_car_data_path],'hdf5/segment_metadata/high_steer_data_moments'))
+		CS_("Goal: compile low_steer and high_steer. (Fast)")
+		low_steer = []
+		high_steer = []
+		low_steer_files = sgg(opj(V[bair_car_data_path],'hdf5/segment_metadata/*.low_steer_data_moments.pkl'))
+		ctr = 0
+		for s in low_steer_files:
+			print (ctr,s)
+			q = load_obj(s)
+			for i in range(len(q)):
+				q[i].append(ctr)
+			low_steer += q
+			q = load_obj(s.replace('.low_steer.','.high_steer_data_moments.'))
+			for i in range(len(q)):
+				q[i].append(ctr)
+			high_steer += q
+			ctr += 1
+		save_obj(high_steer+low_steer,opj(V[bair_car_data_path],'hdf5/segment_metadata/all_valid_data_moments'))
+		save_obj(low_steer,opj(V[bair_car_data_path],'hdf5/segment_metadata/low_steer_data_moments'))
+		save_obj(high_steer,opj(V[bair_car_data_path],'hdf5/segment_metadata/high_steer_data_moments'))
 
 
 

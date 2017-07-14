@@ -175,7 +175,7 @@ def str_contains_one(st,str_list):
     return False
 
 
-def unix(command_line_str, print_stdout=True, print_stderr=False,print_cmd=False):
+def unix(command_line_str, print_stdout=False, print_stderr=False,print_cmd=False):
     command_line_str = command_line_str.replace('~',home_path)
     p = subprocess.Popen(command_line_str.split(), stdout=subprocess.PIPE)
     stdout,stderr = p.communicate()
