@@ -54,10 +54,12 @@ def Batch(d):
             camera_data = torch.transpose(camera_data, 1, 2)
             D['camera_data'] = torch.cat((torch.unsqueeze(camera_data, 0), D['camera_data']), 0)
         if True:
+            mode_ctr = 0
             metadata = torch.FloatTensor().cuda()
             zero_matrix = torch.FloatTensor(1, 1, 23, 41).zero_().cuda()
             one_matrix = torch.FloatTensor(1, 1, 23, 41).fill_(1).cuda()
             for cur_label in ['racing', 'caffe', 'follow', 'direct', 'play', 'furtive']:
+                mode_ctr += 1
                 if cur_label == 'caffe':
                     if data['states'][0]:
                         metadata = torch.cat((one_matrix, metadata), 1)
@@ -68,10 +70,21 @@ def Batch(d):
                         metadata = torch.cat((one_matrix, metadata), 1)
                     else:
                         metadata = torch.cat((zero_matrix, metadata), 1)
+            if 'LCR' in data['labels']:
+                #print data['states']
+                for target_state in [1,2,3]:
+                    for i in range(0,len(data['states']),3): ###############!!!!!!!!!!!!!!!! temp, generalize
+                        mode_ctr += 1
+                        if data['states'][i] == target_state:
+                            metadata = torch.cat((one_matrix, metadata), 1)
+                        else:
+                            metadata = torch.cat((zero_matrix, metadata), 1)
 
-            for i in range(122): # Concatenate zero matrices to fit the dataset
+            for i in range(128 - mode_ctr): # Concatenate zero matrices to fit the dataset
                 metadata = torch.cat((zero_matrix, metadata), 1)
+
             D['metadata'] = torch.cat((metadata, D['metadata']), 0)
+
         if True:
             s = data['steer']
             m = data['motor']
@@ -82,6 +95,51 @@ def Batch(d):
             motor = torch.from_numpy(m).cuda().float() / 99.
             target_data = torch.unsqueeze(torch.cat((steer, motor), 0), 0)
             D['target_data'] = torch.cat((target_data, D['target_data']), 0)
+
+        """
+            def _data_into_batch(data):
+                if True:
+                    D['names'].insert(0,data['name']) # This to match torch.cat use below
+                if True:
+                    list_camera_input = []
+                    for t in range(D['net'].N_FRAMES):
+                        for camera in ('left', 'right'):
+                            list_camera_input.append(torch.from_numpy(data[camera][t]))
+                    camera_data = torch.cat(list_camera_input, 2)
+                    camera_data = camera_data.cuda().float()/255. - 0.5
+                    camera_data = torch.transpose(camera_data, 0, 2)
+                    camera_data = torch.transpose(camera_data, 1, 2)
+                    D['camera_data'] = torch.cat((torch.unsqueeze(camera_data, 0), D['camera_data']), 0)
+                if True:
+                    metadata = torch.FloatTensor().cuda()
+                    zero_matrix = torch.FloatTensor(1, 1, 23, 41).zero_().cuda()
+                    one_matrix = torch.FloatTensor(1, 1, 23, 41).fill_(1).cuda()
+                    for cur_label in ['racing', 'caffe', 'follow', 'direct', 'play', 'furtive']:
+                        if cur_label == 'caffe':
+                            if data['states'][0]:
+                                metadata = torch.cat((one_matrix, metadata), 1)
+                            else:
+                                metadata = torch.cat((zero_matrix, metadata), 1)
+                        else:
+                            if data['labels'][cur_label]:
+                                metadata = torch.cat((one_matrix, metadata), 1)
+                            else:
+                                metadata = torch.cat((zero_matrix, metadata), 1)
+
+                    for i in range(122): # Concatenate zero matrices to fit the dataset
+                        metadata = torch.cat((zero_matrix, metadata), 1)
+                    D['metadata'] = torch.cat((metadata, D['metadata']), 0)
+                if True:
+                    s = data['steer']
+                    m = data['motor']
+                    r = range(2,31,3) # This depends on NUM_STEPS and STRIDE
+                    s = array(s)[r]
+                    m = array(m)[r]
+                    steer = torch.from_numpy(s).cuda().float() / 99.
+                    motor = torch.from_numpy(m).cuda().float() / 99.
+                    target_data = torch.unsqueeze(torch.cat((steer, motor), 0), 0)
+                    D['target_data'] = torch.cat((target_data, D['target_data']), 0)
+        """
 
     def _clear():
         D['camera_data'] = torch.FloatTensor().cuda()
@@ -147,7 +205,7 @@ def Batch(d):
             clf()
             ylim(-0.05,1.05);xlim(0,len(t))
             plot([-1,60],[0.49,0.49],'k');plot(o,'og'); plot(t,'or'); plt.title(D['names'][0])
-            pause(0.000000001)
+            pause(5.000000001)
             print_timer.reset()
     D['display'] = _display
 

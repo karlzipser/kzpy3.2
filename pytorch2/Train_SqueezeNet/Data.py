@@ -28,11 +28,11 @@ def Data():
     D['get_data'] = _get_data
     D['train'] = {}
     print('loading train_all_steer...')
-    D['train']['all_steer'] = lo(opjD('train_all_steer')) # train__run_seg_off
+    D['train']['all_steer'] = lo(opj(P.BAIR_CAR_DATA_PATH,'train_all_steer')) # train__run_seg_off
     D['train']['ctr'] = -1
     D['val'] = {}
     print('loading val_all_steer...')
-    D['val']['all_steer'] = lo(opjD('val_all_steer'))  #val__run_seg_off
+    D['val']['all_steer'] = lo(opj(P.BAIR_CAR_DATA_PATH,'val_all_steer'))  #val__run_seg_off
     D['val']['ctr'] = -1
     print('...done loading.')
     D['train']['epoch_counter'] = 0
@@ -56,5 +56,14 @@ def Data():
     return D
 
 
+"""
+p = lo('/media/karlzipser/ExtraDrive2/bdd_car_data_July2017_LCR/hdf5/segment_metadata/all_valid_data_moments.pkl' )
+random.shuffle(p)
+val_all_steer = p[:int(len(p)*0.1)]
+train_all_steer = p[int(len(p)*0.1):]
+so(opjD('val_all_steer_'),val_all_steer) #then move
+so(opjD('train_all_steer_'),train_all_steer) #then move
+
+"""
 
 #EOF

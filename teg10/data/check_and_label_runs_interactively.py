@@ -79,7 +79,7 @@ if __name__ == "__main__" and '__file__' in vars():
 else:
     print('Running this within interactive python.')
     V[argument_dictionary] = args_to_dic({
-    	'pargs':"-src /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_path_dataset"})
+    	'pargs':"-src /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_LCR"})
 V[argument_dictionary] = translate_args(
     {argument_dictionary:V[argument_dictionary],
     translation_dic:V[translation_dic]})
@@ -240,7 +240,7 @@ def function_list_runs(rng=None,auto_direct_labelling=False):
 	cprint(I[meta_path])
 	try:
 		run_labels_path = most_recent_file_in_folder(opj(V[bair_car_data_path],'run_labels'),['run_labels'])
-		cprint(run_labels_path,'blue')
+		cprint(run_labels_path,'green')
 		I[run_labels] = load_obj(run_labels_path)
 	except:
 		cprint('Unable to load run_labels!!!!! Initalizing to empty dict')
@@ -290,6 +290,7 @@ def function_set_label(k,v=True):
 	function_set_label(k,v)
 		SL
 	"""
+	unix('mkdir -p '+opj(V[bair_car_data_path],'run_labels'))
 	if not I[run_] in I[run_labels]:
 		I[run_labels][I[run_]] = {}
 	if type(k) != list:
@@ -735,18 +736,24 @@ def function_save_hdf5(run_num=None,dst_path=opj(V[bair_car_data_path],'hdf5/run
 			limg = I[left_images][t]
 			rimg = I[right_images][t]
 			st = I[steer][t]
+			sta = I[state][t]
 			if flip:
 				st -= 49
 				st *= -1.0
 				st += 49
 				left_image_list.append(scipy.fliplr(rimg))
 				right_image_list.append(scipy.fliplr(limg))
+				if glabels[LCR] > 0:
+					if sta == 2: # reverse left-right direction indicated by state in LCR mode
+						sta = 3
+					elif sta == 3:
+						sta = 2
 			else:
 				left_image_list.append(limg)
 				right_image_list.append(rimg)
 			steer_list.append(st)
 			motor_list.append(I[motor][t])
-			state_list.append(I[state][t])
+			state_list.append(sta)#(I[state][t])
 		gsegments[opj(str(i),'left_timestamp')] = segment
 		gsegments[opj(str(i),'left')] = np.array(left_image_list)
 		gsegments[opj(str(i),'right')] = np.array(right_image_list)
@@ -890,7 +897,6 @@ def create_normal_and_flip_hdf5_segements():
 			print(r+' is done')
 		else:
 			print(r+' is NOT done')
-		continue
 		if True:#try:
 			VR(i,img_load=True)
 			
@@ -969,6 +975,10 @@ def compile_run_codes_and_hdf5_data_moment_lists():
 
 
 
+if True:
+	create_normal_and_flip_hdf5_segements()
+	create_valid_hdf5_data_moments()
+	compile_run_codes_and_hdf5_data_moment_lists()
 
 
 

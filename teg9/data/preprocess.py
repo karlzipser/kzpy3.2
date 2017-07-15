@@ -56,7 +56,7 @@ Bag_File.bag_folders_save_images(bag_folders_src,bag_folders_dst_rgb1to4_path)
 
 graphics=False
 accepted_states=[1,3,5,6,7]
-pkl_name='Bag_Folder.pkl' # if different from 'Bag_Folder.pkl', (e.g., 'Bag_Folder_90_state_one_steps.pkl') files will be reprocessed.
+pkl_name='Bag_Folder.redo.pkl' # if different from 'Bag_Folder.pkl', (e.g., 'Bag_Folder_90_state_one_steps.pkl') files will be reprocessed.
 
 preprocess_Bag_Folders.preprocess_Bag_Folders(bag_folders_dst_meta_path,
 	bag_folders_dst_rgb1to4_path

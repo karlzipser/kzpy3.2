@@ -149,8 +149,10 @@ def run_into_Segment_Data(run_code_num,hdf5_segment_metadata_path,hdf5_runs_path
 	assert(run_name in Segment_Data['runs'])
 	cprint(run_name,'yellow')
 	labels,segments = function_load_hdf5(opj(hdf5_runs_path,run_name+'.hdf5'))
-	high_steer = load_obj(opj(hdf5_segment_metadata_path,run_name+'.high_steer.pkl'))
-	low_steer = load_obj(opj(hdf5_segment_metadata_path,run_name+'.low_steer.pkl'))
+	#high_steer = load_obj(opj(hdf5_segment_metadata_path,run_name+'.high_steer.pkl'))
+	#low_steer = load_obj(opj(hdf5_segment_metadata_path,run_name+'.low_steer.pkl'))
+	high_steer = load_obj(opj(hdf5_segment_metadata_path,run_name+'.high_steer_data_moments.pkl'))
+	low_steer = load_obj(opj(hdf5_segment_metadata_path,run_name+'.low_steer_data_moments.pkl'))
 	state_hist_list = load_obj(opj(hdf5_segment_metadata_path,run_name+'.state_hist_list.pkl'))
 	Segment_Data['runs'][run_name]['labels'] = labels
 	Segment_Data['runs'][run_name]['segments'] = segments
