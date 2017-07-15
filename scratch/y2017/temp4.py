@@ -129,8 +129,15 @@ for k in keys:
 			"""
 
 
-
-
+def names_exec_str(*args):
+	keys = ['names']
+	exec(dic_exec_str())
+	if True:
+		print(da(d,first)-da(d,second))
+		#print(d[first]-d[second])
+		for k in sorted(d.keys()):
+			print(d2s(k,':',d[k]))
+	return d
 
 equals = 'equals__'
 nothing = 'nothing__'
@@ -147,6 +154,9 @@ def da(*args):
 	da(W,1,2,equals,9)
 	print(W)
 	print(da(W,1,2))
+	da(W,1,100,equals,1000)
+	print(W)
+	print(da(W,1,100))
 	"""
 	Q = args[0]
 	assert(type(Q)==dict)
