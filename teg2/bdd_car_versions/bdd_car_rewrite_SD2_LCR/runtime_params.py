@@ -29,7 +29,7 @@ Play = 0.
 Furtive = 0.
 Caf = 0.0
 Racing = 0.0
-Location =  'local_LCR' #Smyth_tape'
+Location =  'home_LCR' #Smyth_tape'
 
 solver_file_path = opjh("kzpy3/caf5/z2_color/solver_live.prototxt")
 weights_file_path = opjh("caffe_current/z2_color.caffemodel" )
