@@ -9,7 +9,7 @@ DISPLAY = True
 VERBOSE = True
 LOAD_ARUCO = False
 #BAIR_CAR_DATA_PATH = opjD('bair_car_data_Main_Dataset') #opjD('bair_car_data_new_28April2017')
-BAIR_CAR_DATA_PATH = '/media/karlzipser/ExtraDrive2/bdd_car_data_July2017_LCR' 
+BAIR_CAR_DATA_PATH = opjD('bdd_car_data_July2017_LCR')
 RESUME = True
 if RESUME:
     weights_file_path = most_recent_file_in_folder(opjD(),['save_file'],['infer'])
@@ -23,7 +23,7 @@ STRIDE = 3 # multiply by N Steps in order to have fixed number of steps reach fu
 save_net_timer = Timer(60*30)
 print_timer = Timer(15)
 epoch_timer = Timer(15)
-
+save_file_name = 'save_file_LCR_'
 
 
 

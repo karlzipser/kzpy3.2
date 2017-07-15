@@ -79,7 +79,8 @@ while True:
             if P.epoch_timer.check():
                 pd2s('\tmode =',mode,'ctr =',DD[mode]['ctr'],dp(100.0*DD[mode]['ctr']/(1.0*len(DD[mode]['all_steer']))),'%')
                 P.epoch_timer.reset()
-                figure('loss');clf();ylim(0.003,0.006);xlim(146,200)
+                figure('loss');clf();ylim(0.001,0.003);xlim(200,220)
+                #figure('loss');clf();ylim(0.0035,0.006);xlim(150,250)
                 loss_record['train']['plot']({'c':'b'})
                 loss_record['val']['plot']({'c':'r'})
 

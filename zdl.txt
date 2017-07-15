@@ -1,17 +1,13 @@
->> Args[dic]['bag_folders_dst']
+>> Args[dic]['purpose']
 Args[dic]
-<0> DO_PREPROCESS_BAG_DATA:
-	 False <type 'bool'>
-<1> DO_PREPROCESS_BAG_FOLDERS:
-	 True <type 'bool'>
-<2> NUM_STATE_ONE_STEPS:
-	 30 <type 'int'>
-<3> REDO_BAG_FOLDERS:
-	 True <type 'bool'>
-<4> accepted_states:
-	[1 2 3] (len=3)
-<5> bag_folders_dst:
-	 /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_LCR
-<6> bag_folders_src_location:
-	 /media/karlzipser/rosbags/temp
+<0> dic_type:
+	 Dic_Blank
+<1> first:
+	 10 <type 'int'>
+<2> fun2:
+	 Now a string, now a function
+<3> purpose:
+	 Dic_Blank : Test out new thing
+<4> second:
+	 2 <type 'int'>
 
