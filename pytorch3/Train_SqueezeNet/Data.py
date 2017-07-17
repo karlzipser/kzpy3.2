@@ -15,7 +15,6 @@ def Data():
     D['type'] = 'Training_Data'
     D['Purpose'] = d2s(inspect.stack()[0][3],':','Object to hold various data and information for training')
     D['train_los_dic'] = {}
-    D['get_data'] = _get_data
     D['train'] = {}
     print('loading train_all_steer...')
     D['train']['all_steer'] = lo(opj(P['BAIR_CAR_DATA_PATH'],'train_all_steer')) # train__run_seg_off
@@ -27,6 +26,7 @@ def Data():
     print('...done loading.')
     D['train']['epoch_counter'] = 0
     D['val']['epoch_counter'] = 0
+    D['get_data'] = _get_data
     D['next'] = _next
     print D.keys()
     return D
