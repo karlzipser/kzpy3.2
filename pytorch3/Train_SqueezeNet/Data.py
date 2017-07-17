@@ -8,12 +8,8 @@ Segment_Data.load_Segment_Data(hdf5_segment_metadata_path,hdf5_runs_path)
 
 
     
-def Data():#*args):
-    #print args
-    #keys = ['aaa',['unused_arg',True]]
-    #exec(dic_exec_str)
+def Data():
     D = {}
-    #D[unused_arg] = Args[unused_arg]
     True
     D = {}
     D['type'] = 'Training_Data'
@@ -33,9 +29,7 @@ def Data():#*args):
     D['val']['epoch_counter'] = 0
     D['next'] = _next
     print D.keys()
-    #print('unused_arg = '+D[unused_arg])
     return D
-
 
 
 def _get_data(d):
@@ -45,7 +39,6 @@ def _get_data(d):
     True   
     data = Segment_Data.get_data(run_code,seg_num,offset,P['STRIDE']*P['N_STEPS'],offset+0,P['N_FRAMES'],ignore=P['IGNORE'],require_one=P['REQUIRE_ONE'],use_states=P['USE_STATES'])
     return data
-
 
 
 def _next(d):

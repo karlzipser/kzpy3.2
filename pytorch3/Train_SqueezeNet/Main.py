@@ -2,9 +2,6 @@ from Parameters import *
 exec(identify_file_str)
 import Data
 
-if len(Command_line_arguments) == 0:
-    Command_line_arguments = {GPU:66, DISPLAY:False}
-
 for a in Command_line_arguments.keys():
     P[a] = Command_line_arguments[a]
 

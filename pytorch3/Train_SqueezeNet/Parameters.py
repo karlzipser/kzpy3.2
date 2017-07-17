@@ -1,8 +1,8 @@
 from Names import *
 exec(identify_file_str)
 
-Parameters = {}
-P = Parameters
+P = {}
+
 
 P[GPU] = 1
 P[BATCH_SIZE] = 100
@@ -20,13 +20,13 @@ P[N_FRAMES] = 2
 P[N_STEPS] = 10
 P[STRIDE] = 3 # multiply by N Steps in order to have fixed number of steps reach further in time.
 # STRIDE is not fully controlled here, there must be changes in _data_into_batch().
+P[SAVE_FILE_NAME] = 'save_file_LCR_'
 P[save_net_timer] = Timer(60*30)
 P[print_timer] = Timer(15)
 P[epoch_timer] = Timer(15)
-P[save_file_name] = 'save_file_LCR_'
 
-Globals = {}
-G = Globals
+G = {}
+
 
 
 
