@@ -14,6 +14,20 @@ try:
 except ImportError:
     from angles import normalize_angle #  Adjust for different angles packages
 
+def get_center(self,list_xys):
+    # TODO add z axis
+    
+    xs_pos = []
+    ys_pos = []
+    
+    for xy_pos in list_xys:
+        xs_pos.append(xy_pos[0])
+        ys_pos.append(xy_pos[1])
+    
+    center = (sum(xs_pos)/len(xs_pos),sum(ys_pos)/len(ys_pos))
+    self.center = center
+    return center
+
 def get_heading(seq_xy):
     '''
     Give an average heading over all positions. Two different positions are 

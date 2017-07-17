@@ -1,14 +1,10 @@
-############################
+'''
+Created on May 8, 2017
 
-"""
-for viewing training with X11 on cluster:
-	
-source .bash_profile
-CXSSH
-source .bash_profile
-ksv
-mlcp
-ipython --pylab
-from kzpy3.caf.view_training import *
-
-"""
+@author: picard
+'''
+# Scan bagfile for all show_trajectories
+# Get close get_close_encounters
+# Calculate evasive trajectories for encounters
+# Convert trajectories to labels
+# Save labels with timestamps
