@@ -1,12 +1,14 @@
 #!/usr/bin/env python
-from kzpy3.utils import *
+from kzpy3.utils2 import *
 import os, sys, shutil, subprocess, time
 import rospy
 import std_msgs.msg
 
 os.environ['STOP'] = 'False'
 
-from  kzpy3.teg2.bdd_car_versions.bdd_car_rewrite.runtime_params import foldername
+exec_str = "from kzpy3.teg2.bdd_car_versions.bdd_car_rewrite_SD2_LCR.runtime_params import foldername"
+print("from rosbag_node.py doing: '"+exec_str+"'")
+exec(exec_str)
 
 time.sleep(3)
 
@@ -40,6 +42,7 @@ if __name__ == '__main__':
 
     try:
         if os.environ['STOP'] == 'True':
+            stop_ros()
             assert(False)
         while not rospy.is_shutdown():
             save_pub.publish(std_msgs.msg.Int32(0))
@@ -63,6 +66,7 @@ if __name__ == '__main__':
         print("********** Exception ***********************")
         print(e.message, e.args)
         os.environ['STOP'] = 'True'
-    
         rospy.signal_shutdown(d2s(e.message,e.args))
+        stop_ros()
+    stop_ros()
 

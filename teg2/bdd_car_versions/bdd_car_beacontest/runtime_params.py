@@ -1,12 +1,14 @@
 # This is used to specifiy caffe mode and data file name information
 
 
-from kzpy3.utils import time_str
-from kzpy3.utils import opjh
+from kzpy3.utils2 import time_str
+from kzpy3.utils2 import opjh
+from kzpy3.utils2 import print_stars0
+from kzpy3.utils2 import print_stars1
+
 import os
 import numpy as np
-print "***************** bdd_car_rewrite_run_params.py"
-
+print_stars0();print(__file__);print_stars1()
 computer_name = "MR_Unknown"
 try:  
    computer_name = os.environ["COMPUTER_NAME"]
@@ -19,7 +21,7 @@ except KeyError:
 
 ####################### general car settings ################
 #
-for i in range(5):
+for i in range(1):
 	print('*************' + computer_name + '***********')
 Direct = 1.
 Follow = 0.
@@ -27,7 +29,7 @@ Play = 0.
 Furtive = 0.
 Caf = 0.0
 Racing = 0.0
-Location =  'local' #Smyth_tape'
+Location =  'home_LCR' #Smyth_tape'
 
 solver_file_path = opjh("kzpy3/caf5/z2_color/solver_live.prototxt")
 weights_file_path = opjh("caffe_current/z2_color.caffemodel" )

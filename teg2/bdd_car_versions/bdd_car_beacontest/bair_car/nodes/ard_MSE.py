@@ -2,7 +2,7 @@ import threading
 from kzpy3.utils2 import *
 import std_msgs.msg
 import rospy
-import kzpy3.teg2.bdd_car_versions.bdd_car_rewrite_SD1.runtime_params as rp
+import kzpy3.teg2.bdd_car_versions.bdd_car_rewrite_SD2_LCR.runtime_params as rp
 #from kzpy3.teg2.bdd_car_versions.bdd_car_rewrite.runtime_params import *
 
 lock = threading.Lock()
@@ -179,7 +179,7 @@ def buttons_to_state(Arduinos,M,BUTTON_DELTA):
     if M['current_state'] == None:
         return
 
-    for s in [M['state_one'],M['state_two']]:
+    for s in [M['state_one'],M['state_two'],M['state_three']]:
         if np.abs(M['button_pwm_lst'][-1] - s.button_pwm_peak) < BUTTON_DELTA:  
             if M['current_state'] == s:
                 return
@@ -190,7 +190,7 @@ def buttons_to_state(Arduinos,M,BUTTON_DELTA):
             return
 
 
-
+    """
     if np.abs(M['button_pwm_lst'][-1] - M['state_three'].button_pwm_peak) < BUTTON_DELTA:
         if M['aruco_evasion_active'] == 1 and M['current_state'] != M['state_ten']:
            #print "HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
@@ -206,6 +206,7 @@ def buttons_to_state(Arduinos,M,BUTTON_DELTA):
         M['current_state'].enter()
         M['previous_state'].leave()
         return
+    """
 
 
 
@@ -247,16 +248,16 @@ def setup(M,Arduinos):
     M['calibrated'] = False
     M['PID'] = [-1,-1]
 
-    state_one = Human_Control('state 1',1,1700,M,Arduinos)
+    state_one = Smooth_Human_Control('state 1',1,1700,M,Arduinos)
     state_two = Smooth_Human_Control('state 2',2,1424,M,Arduinos)
-    state_six = Net_Steer_Net_Motor('state 6',6,1900,M,Arduinos)
-    state_three = Net_Steer_Hum_Motor('state 3',3,1900,M,Arduinos)
-    state_five = Human_Control('state 5',5,1900,M,Arduinos)
-    state_seven = Human_Steer_Net_Motor('state 7',7,1900,M,Arduinos)
-    state_eight = Net_Steer_PID_Motor('state 8',8,1900,M,Arduinos)
+    #state_six = Net_Steer_Net_Motor('state 6',6,1900,M,Arduinos)
+    state_three = Smooth_Human_Control('state 3',3,1900,M,Arduinos)
+    #state_five = Human_Control('state 5',5,1900,M,Arduinos)
+    #state_seven = Human_Steer_Net_Motor('state 7',7,1900,M,Arduinos)
+    #state_eight = Net_Steer_PID_Motor('state 8',8,1900,M,Arduinos)
     state_nine = Freeze('state 9',9,1900,M,Arduinos)
     state_four = Calibration_State('state 4',4,870,M,Arduinos)
-    state_ten = Aruco_Steer_Aruco_Motor('state 10',10,1900,M,Arduinos)
+    #state_ten = Aruco_Steer_Aruco_Motor('state 10',10,1900,M,Arduinos)
     """
     state_one = Human_Control('state 1',1,1900,M,Arduinos)
     state_two = Smooth_Human_Control('state 2',2,1700,M,Arduinos)
@@ -273,12 +274,12 @@ def setup(M,Arduinos):
     M['state_two'] = state_two
     M['state_three'] = state_three
     M['state_four'] = state_four
-    M['state_five'] = state_five
-    M['state_six'] = state_six
-    M['state_seven'] = state_seven
-    M['state_eight'] = state_eight
+    #M['state_five'] = state_five
+    #M['state_six'] = state_six
+    #M['state_seven'] = state_seven
+    #M['state_eight'] = state_eight
     M['state_nine'] = state_nine
-    M['state_ten'] = state_ten
+    #M['state_ten'] = state_ten
 
     M['current_state'] = None
     M['caffe_steer'] = 49
@@ -303,6 +304,7 @@ def run_loop(Arduinos,M,BUTTON_DELTA=50,):
     lock = threading.Lock()
     if 'MSE' not in Arduinos:
         M['Stop_Arduinos'] = True
+        stop_ros()
         return
 
     
@@ -343,7 +345,7 @@ def run_loop(Arduinos,M,BUTTON_DELTA=50,):
             #print(M['pid_motor_percent'],M['motor_freeze_threshold'],int(100*np.array(M['encoder_lst'][0:5]).mean()),int(100*np.array(M['encoder_lst'][-5:]).mean()),int(M['current_state'].state_transition_timer.time()))
                          
             freeze = False
-            if M['current_state'] in [M['state_three'],M['state_five'],M['state_six'],M['state_seven']]:
+            if False: #M['current_state'] in [M['state_three'],M['state_five'],M['state_six'],M['state_seven']]:
 
                 if M['pid_motor_percent'] > M['motor_freeze_threshold'] and np.array(M['encoder_lst'][0:20]).mean() > 1 and np.array(M['encoder_lst'][-20:]).mean()<0.1 and M['current_state'].state_transition_timer.time() > 1:
                     print("if M['motor_percent'] > M['motor_freeze_threshold']...")
@@ -384,7 +386,7 @@ def run_loop(Arduinos,M,BUTTON_DELTA=50,):
                 #M['aruco_evasion_active'] = 0
                 pass
 
-            elif M['current_state'] in [M['state_three'],M['state_five'],M['state_six'],M['state_seven']]:
+            elif False: #M['current_state'] in [M['state_three'],M['state_five'],M['state_six'],M['state_seven']]:
                 #M['aruco_evasion_active'] = 0
                 human_motor = False
                 human_steer = False

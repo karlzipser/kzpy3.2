@@ -44,7 +44,7 @@ def run_loop(Arduinos,M):
 
             except Exception as e:
                 pass #print e
-
+        stop_ros()
     except Exception as e:
         print("********** Exception ***********************")
         print(e.message, e.args)
@@ -53,6 +53,7 @@ def run_loop(Arduinos,M):
         LED_signal = d2n('(10000)')
         Arduinos['SIG'].write(LED_signal)
         rospy.signal_shutdown(d2s(e.message,e.args))
+        stop_ros()
 
 
 

@@ -1,15 +1,6 @@
 from kzpy3.utils2 import *
 
 
- 
-"""
-class DUMMY_SER():
-    def __init__(self):
-        pass
-    def write(self):
-        pass
-dummy_ser = DUMMY_SER()
-"""
 
 def get_arduino_serial_connections(baudrate, timeout):
     sers = []
@@ -25,10 +16,10 @@ def get_arduino_serial_connections(baudrate, timeout):
 def assign_serial_connections(sers):
     Arduinos = {}
     for ser in sers:
-        for _ in xrange(1000):
+        for _ in xrange(100):
             try:
                 ser_str = ser.readline()
-                print '>'+ser_str
+                
                 exec('ser_tuple = list({0})'.format(ser_str))
                 if ser_tuple[0] in ['mse']:
                     print(d2s('Port',ser.port,'is the MSE:',ser_str))
@@ -48,11 +39,8 @@ def assign_serial_connections(sers):
             print('Unable to identify port {0}'.format(ser.port))
             print('Is transmitter turned on?')
             print('Is MSE battery plugged in?')
-            #if 'SIG' not in Arduinos.keys():
-            #    print"WARNING: 'SIG' not found, using dummy serial port"
-            #    time.sleep(1)
-            #    Arduinos['SIG'] = dummy_ser
-            #M['Stop_Arduinos'] = True
+            stop_ros()
+
     return Arduinos
 
 

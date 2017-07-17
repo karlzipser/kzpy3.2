@@ -10,14 +10,13 @@ import std_msgs.msg
 import geometry_msgs.msg
 import rospy
 
-import kzpy3.teg2.bdd_car_versions.bdd_car_rewrite.runtime_params as rp
+import kzpy3.teg2.bdd_car_versions.bdd_car_rewrite_SD2_LCR.runtime_params as rp
 
 os.environ['STOP'] = 'False'
 
 baudrate = 115200
-timeout = 0.5
+timeout = 0.5 # before 7/9/17 was 0.1
 Arduinos = ard_ser_in.assign_serial_connections(ard_ser_in.get_arduino_serial_connections(baudrate,timeout))
-assert(len(Arduinos)>0)
 time_step = Timer(1)
 folder_display_timer = Timer(10)
 git_pull_timer = Timer(60)
@@ -84,6 +83,7 @@ def arduino_master_thread():
     
     try:
         if os.environ['STOP'] == 'True':
+            stop_ros()
             assert(False)
         while not rospy.is_shutdown():
             if time_step.check():
@@ -122,6 +122,7 @@ def arduino_master_thread():
                 pass
 
             time.sleep(0.5)
+        stop_ros()
     except Exception as e:
         print("********** Exception ***********************")
         print(e.message, e.args)
@@ -129,10 +130,18 @@ def arduino_master_thread():
         LED_signal = d2n('(10000)')
         Arduinos['SIG'].write(LED_signal)
         rospy.signal_shutdown(d2s(e.message,e.args))
-        
+        stop_ros()
 
-ard_MSE.setup(M,Arduinos)
-threading.Thread(target=arduino_mse_thread).start()
+
+
+
+
+if 'MSE' in Arduinos:
+    ard_MSE.setup(M,Arduinos)
+    threading.Thread(target=arduino_mse_thread).start()
+else:
+    print("!!!!!!!!!! 'MSE' not in Arduinos[] !!!!!!!!!!!")
+    stop_ros()
 
 if 'IMU' in Arduinos.keys():
     print("'IMU' in Arduinos.keys()")
@@ -151,6 +160,4 @@ q = raw_input('')
 while q not in ['q','Q']:
     q = raw_input('')
 
-M['Stop_Arduinos'] = True
-rospy.signal_shutdown("M[Stop_Arduinos] = True")
-
+stop_ros()
