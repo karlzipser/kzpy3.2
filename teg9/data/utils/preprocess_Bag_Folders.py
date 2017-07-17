@@ -4,7 +4,7 @@ import kzpy3.teg9.data.utils.Bag_Folder as Bag_Folder
 
 
 
-def preprocess_Bag_Folders(bag_folders_path_meta_path,bag_folders_path_rgb1to4_path,NUM_STATE_ONE_STEPS=30,graphics=False,accepted_states=[1],pkl_name='Bag_Folder.pkl'):
+def preprocess_Bag_Folders(bag_folders_path_meta_path,bag_folders_path_rgb1to4_path,NUM_STATE_ONE_STEPS=30,graphics=False,accepted_states=[1],pkl_name='Bag_Folder.pkl',MIN_VALID_SPEED=53):
 	
 	
 	bag_folders_paths_list = sorted(gg(opj(bag_folders_path_meta_path,'*')),key=natural_keys)
@@ -32,7 +32,7 @@ def preprocess_Bag_Folders(bag_folders_path_meta_path,bag_folders_path_rgb1to4_p
 					opj(bag_folders_path_rgb1to4_path,fname(bfp)),
 					left_image_bound_to_data_name=left_image_bound_to_data_name,
 					NUM_STATE_ONE_STEPS=NUM_STATE_ONE_STEPS,
-					accepted_states=accepted_states)
+					accepted_states=accepted_states,MIN_VALID_SPEED=MIN_VALID_SPEED)
 				if BF != None:
 					save_obj(BF,opj(bfp,'Bag_Folder.pkl'))
 

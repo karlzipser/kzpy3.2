@@ -895,6 +895,7 @@ def create_normal_and_flip_hdf5_segements():
 		r = I[runs][i]
 		if r+'.hdf5' in existing_hdf5_files:
 			print(r+' is done')
+			continue
 		else:
 			print(r+' is NOT done')
 		if True:#try:
@@ -975,7 +976,7 @@ def compile_run_codes_and_hdf5_data_moment_lists():
 
 
 
-if True:
+if False:
 	create_normal_and_flip_hdf5_segements()
 	create_valid_hdf5_data_moments()
 	compile_run_codes_and_hdf5_data_moment_lists()
@@ -985,7 +986,13 @@ if True:
 
 
 
-
+if False:
+	p = lo('/media/karlzipser/ExtraDrive2/bdd_car_data_July2017_LCR/hdf5/segment_metadata/all_valid_data_moments.pkl' )
+	q=random.shuffle(p)  
+	val_all_steer = p[:int(len(p)*0.1)]
+	train_all_steer = p[int(len(p)*0.1):]
+	so(opjD('val_all_steer'),val_all_steer)
+	so(opjD('train_all_steer'),train_all_steer)
 
 
 

@@ -12,10 +12,11 @@ LOAD_ARUCO = False
 BAIR_CAR_DATA_PATH = opjD('bdd_car_data_July2017_LCR')
 RESUME = True
 if RESUME:
-    weights_file_path = most_recent_file_in_folder(opjD(),['save_file'],['infer'])
+    weights_file_path = most_recent_file_in_folder(opjD(),['save_file_LCR'],['infer'])
 IGNORE = ['reject_run','left','out1_in2']#,'Smyth','racing','local','Tilden','campus']
 REQUIRE_ONE = []
-USE_STATES = [1,3,5,6,7]
+USE_STATES = [1,2,3]
+print_stars0();pd2s('USE_STATES =',USE_STATES);print_stars1()
 N_FRAMES = 2
 N_STEPS = 10
 STRIDE = 3 # multiply by N Steps in order to have fixed number of steps reach further in time.

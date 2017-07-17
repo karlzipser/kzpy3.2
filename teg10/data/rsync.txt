@@ -13,3 +13,6 @@ rsync -rav '/media/karlzipser/ExtraDrive4/bair_car_data_new_28April2017/meta/' '
 rsync -rav '/media/karlzipser/ExtraDrive4/bair_car_data_new_28April2017/rgb_1to4/' '/media/karlzipser/SSD_2TB/bair_car_data_new_28April2017/rgb_1to4/'
 
 rsync -rav '/home/karlzipser/Desktop/bair_car_data_new_28April2017' '/media/karlzipser/SSD_2TB/bair_car_data_new_28April2017/rgb_1to4/'
+
+
+rsync -rav /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_LCR/hdf5 /home/karlzipser/Desktop/bdd_car_data_July2017_LCR/

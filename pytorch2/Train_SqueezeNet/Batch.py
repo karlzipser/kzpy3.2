@@ -20,6 +20,7 @@ def Batch(d):
     D['metadata'] = torch.FloatTensor().cuda()
     D['target_data'] = torch.FloatTensor().cuda()
     D['names'] = []
+    D['states'] = []
 
     def _fill(d):
         DD = d['Data']
@@ -95,6 +96,7 @@ def Batch(d):
             motor = torch.from_numpy(m).cuda().float() / 99.
             target_data = torch.unsqueeze(torch.cat((steer, motor), 0), 0)
             D['target_data'] = torch.cat((target_data, D['target_data']), 0)
+            D['states'].append(data['states'])
 
         """
             def _data_into_batch(data):
@@ -145,6 +147,7 @@ def Batch(d):
         D['camera_data'] = torch.FloatTensor().cuda()
         D['metadata'] = torch.FloatTensor().cuda()
         D['target_data'] = torch.FloatTensor().cuda()
+        D['states'] = []
         D['names'] = []
         D['outputs'] = None
         D['loss'] = None
@@ -200,12 +203,13 @@ def Batch(d):
             c[-h:,-w:,:] = z2o(b[:,:,6:9])
             mi(c,'cameras')
             print(a.min(),a.max())
+            print(D['states'][-1])
             #img_saver['save']({'img':c})
             figure('steer')
             clf()
             ylim(-0.05,1.05);xlim(0,len(t))
             plot([-1,60],[0.49,0.49],'k');plot(o,'og'); plot(t,'or'); plt.title(D['names'][0])
-            pause(5.000000001)
+            pause(0.000000001)
             print_timer.reset()
     D['display'] = _display
 

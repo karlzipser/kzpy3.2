@@ -83,7 +83,7 @@ if G[DO_PREPROCESS_BAG_DATA]:
 if G[DO_PREPROCESS_BAG_FOLDERS]:
 
 	graphics=False
-	"""
+	
 	if G[REDO_BAG_FOLDERS]:
 		pd2s('Redoing bag folders . . .')
 		pkl_name = 'Bag_Folder_REDO.pkl' # if different from 'Bag_Folder.pkl', (e.g., 'Bag_Folder_90_state_one_steps.pkl') files will be reprocessed.
@@ -95,6 +95,7 @@ if G[DO_PREPROCESS_BAG_FOLDERS]:
 		,NUM_STATE_ONE_STEPS=NUM_STATE_ONE_STEPS,
 		graphics=graphics,accepted_states=G[accepted_states],
 		pkl_name=pkl_name)
+	
 	"""
 	accepted_states=[1,3,5,6,7]
 	pkl_name='Bag_Folder.pkl' # if different from 'Bag_Folder.pkl', (e.g., 'Bag_Folder_90_state_one_steps.pkl') files will be reprocessed.
@@ -104,6 +105,7 @@ if G[DO_PREPROCESS_BAG_FOLDERS]:
 		,NUM_STATE_ONE_STEPS=NUM_STATE_ONE_STEPS,
 		graphics=graphics,accepted_states=accepted_states,
 		pkl_name=pkl_name)
+	"""
 
 if G[DO_PREPROCESS_BAG_DATA]:
 	os.rename(bag_folders_src,opj(G[bag_folders_src_location],'processed'))

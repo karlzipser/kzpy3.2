@@ -17,7 +17,7 @@ python ~/kzpy3/teg9/data/preprocess.py /media/karlzipser/ExtraDrive2/Mr_Purple_6
 bag_folders_src_location = sys.argv[1]
 bag_folders_dst = sys.argv[2]
 NUM_STATE_ONE_STEPS = int(sys.argv[3])
-
+MIN_VALID_SPEED = int(sys.argv[3])
 assert(is_number(NUM_STATE_ONE_STEPS))
 
 bag_folders_src = opj(bag_folders_src_location,'new' )
@@ -55,14 +55,17 @@ Bag_File.bag_folders_transfer_meta(bag_folders_src,bag_folders_dst_meta_path)
 Bag_File.bag_folders_save_images(bag_folders_src,bag_folders_dst_rgb1to4_path)
 
 graphics=False
-accepted_states=[1,3,5,6,7]
-pkl_name='Bag_Folder.redo.pkl' # if different from 'Bag_Folder.pkl', (e.g., 'Bag_Folder_90_state_one_steps.pkl') files will be reprocessed.
+#accepted_states=[1,3,5,6,7]
+accepted_states=[1,2,3]
+
+#pkl_name='Bag_Folder.redo.pkl' # if different from 'Bag_Folder.pkl', (e.g., 'Bag_Folder_90_state_one_steps.pkl') files will be reprocessed.
+pkl_name='Bag_Folder.pkl' # if different from 'Bag_Folder.pkl', (e.g., 'Bag_Folder_90_state_one_steps.pkl') files will be reprocessed.
 
 preprocess_Bag_Folders.preprocess_Bag_Folders(bag_folders_dst_meta_path,
 	bag_folders_dst_rgb1to4_path
 	,NUM_STATE_ONE_STEPS=NUM_STATE_ONE_STEPS,
 	graphics=graphics,accepted_states=accepted_states,
-	pkl_name=pkl_name)
+	pkl_name=pkl_name,MIN_VALID_SPEED=MIN_VALID_SPEED)
 
 os.rename(bag_folders_src,opj(bag_folders_src_location,'processed'))
 

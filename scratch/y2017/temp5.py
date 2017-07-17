@@ -8,17 +8,17 @@ if len(Command_line_arguments) == 0:
 
 
 print(Command_line_arguments)
-zdprint('dic',Command_line_arguments)
+#zdprint('dic',Command_line_arguments)
 
 
-for _name in ['dic','name','test','dic_type','purpose']:
-    exec(d2n(_name,'=',"'",_name,"'"))
+for _name in ['dic','name','test','dic_type','purpose']:exec(d2n(_name,'=',"'",_name,"'"))
+
+
 G = {}
 
 
 
-for _name in ['first','second']:
-    exec(d2n(_name,'=',"'",_name,"'"))
+for _name in ['first','second']:exec(d2n(_name,'=',"'",_name,"'"))
 def fun1(*args):
     keys = [first,[second,2]]
     exec(dic_exec_str)
@@ -35,12 +35,12 @@ def fun1(*args):
 
 
 
-fun1(dic,{1:2,2:3} ,name,'Fred' ,first,10 ,second,100)
+fun1(dic,{1:2,2:3} ,name,Command_line_arguments['--src'] ,first,10 ,second,100)
 
 
 
-for _name in ['first','second','fun2']:
-    exec(d2n(_name,'=',"'",_name,"'"))
+for _name in ['fun2']:exec(d2n(_name,'=',"'",_name,"'"))
+
 def Dic_Blank(*args):
     keys = [first,[second,2]]
     exec(dic_exec_str)

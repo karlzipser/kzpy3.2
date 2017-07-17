@@ -2,7 +2,7 @@ from kzpy3.vis import *
 import numbers
 import cv2
 
-def init(bag_folders_path_meta_path,bag_folders_rgb_1to4_path, left_image_bound_to_data_name='left_image_bound_to_data.pkl',NUM_STATE_ONE_STEPS=10,accepted_states=[1]):
+def init(bag_folders_path_meta_path,bag_folders_rgb_1to4_path, left_image_bound_to_data_name='left_image_bound_to_data.pkl',NUM_STATE_ONE_STEPS=10,accepted_states=[1],MIN_VALID_SPEED=53):
 
     BF = {}
 
@@ -167,7 +167,7 @@ def init(bag_folders_path_meta_path,bag_folders_rgb_1to4_path, left_image_bound_
         BF['left_image_bound_to_data'][ts]['state_one_steps'] = 0 # overwrite loaded values
 
     for i in range(len(good_timestamps_list)-2,-1,-1):
-        if _is_timestamp_valid_data(BF,good_timestamps_list[i],accepted_states) and good_timestamps_list[i+1] - good_timestamps_list[i] < 0.1:
+        if _is_timestamp_valid_data(BF,good_timestamps_list[i],accepted_states,MIN_VALID_SPEED) and good_timestamps_list[i+1] - good_timestamps_list[i] < 0.1:
             state_one_steps += 1
         else:
             state_one_steps = 0
@@ -232,14 +232,14 @@ def init(bag_folders_path_meta_path,bag_folders_rgb_1to4_path, left_image_bound_
 
 
 
-def _is_timestamp_valid_data(BF,t,accepted_states=[1]):
+def _is_timestamp_valid_data(BF,t,accepted_states=[1],MIN_VALID_SPEED=53):
     valid = True
     state = BF['left_image_bound_to_data'][t]['state']
     motor = BF['left_image_bound_to_data'][t]['motor']
     steer = BF['left_image_bound_to_data'][t]['steer']
     if state not in accepted_states: #[1]:#[1,3,5,6,7]: Disallowing caffe states altogether
         valid = False
-    if motor < 53: # i.e., there must be at least a slight forward motor command 
+    if motor < MIN_VALID_SPEED: # i.e., there must be at least a slight forward motor command 
         valid = False
     if False:
         if state in [3,5,6,7]: # Some strange things can happen when human takes control, steering gets stuck at max
