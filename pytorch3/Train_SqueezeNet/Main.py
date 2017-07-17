@@ -8,7 +8,7 @@ for a in Command_line_arguments.keys():
 DD=Data.Data()
 
 zdprint(dic,P)
-zdprint(dic,Command_line_arguments) # bug, len of dic must be greater than 1
+#zdprint(dic,Command_line_arguments) # bug, len of dic must be greater than 1
 """
 DB = Dic_Blank(first,10)
 zdprint(dic,DB)

@@ -16,14 +16,14 @@ def Dic_Blank(*args):
 def _fun2(*args):
     keys = [first,[second,2]]
     exec(dic_exec_str)
-    if True:
-        print(da(Args,first)-da(Args,second))
-        pd2s(name,'=',da(Args,name))
-        pd2s('dic_2','=',da(Args,dic,2))
-        da(Args,dic,2,equals,22)
-        da(Args,second,equals,{1:2,3:4,5:6})
-        pd2s('dic_2','=',da(Args,dic,2))
-        zdprint(dic,Args)
+    True:
+    print(da(Args,first)-da(Args,second))
+    pd2s(name,'=',da(Args,name))
+    pd2s('dic_2','=',da(Args,dic,2))
+    da(Args,dic,2,equals,22)
+    da(Args,second,equals,{1:2,3:4,5:6})
+    pd2s('dic_2','=',da(Args,dic,2))
+    zdprint(dic,Args)
     return Args
 
 

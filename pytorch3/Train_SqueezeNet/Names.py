@@ -5,6 +5,8 @@ exec(identify_file_str)
 for _name in ['dic','name','test','dic_type','purpose']:exec(d2n(_name,'=',"'",_name,"'"))
 
 
+for _name in ['batch_size','net','camera_data','metadata','target_data','names','states']:exec(d2n(_name,'=',"'",_name,"'"))
+
 for _name in [
 	'GPU',
 	'BATCH_SIZE',
@@ -22,8 +24,8 @@ for _name in [
 	'save_net_timer',
 	'print_timer',
 	'epoch_timer',
-	'weights_file_path',
-	'save_file_name']:exec(d2n(_name,'=',"'",_name,"'"))
+	'WEIGHTS_FILE_PATH',
+	'SAVE_FILE_NAME']:exec(d2n(_name,'=',"'",_name,"'"))
 
 
 

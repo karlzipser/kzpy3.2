@@ -1,7 +1,13 @@
->> Args[dic]['DISPLAY']
+>> Args[dic]['purpose']
 Args[dic]
-<0> DISPLAY:
-	 True <type 'bool'>
-<1> GPU:
-	 999 <type 'int'>
+<0> dic_type:
+	 Dic_Blank
+<1> first:
+	 10 <type 'int'>
+<2> fun2:
+	 Now a string, now a function
+<3> purpose:
+	 Dic_Blank : Test out new thing
+<4> second:
+	 2 <type 'int'>
 
