@@ -544,7 +544,7 @@ def in_range(e,a,b):
 
 def nvidia_smi_continuous(t=0.1):
     while True:                                     
-        unix('nvidia-smi')
+        unix('nvidia-smi',print_stdout=True)
         time.sleep(t)
 
 
