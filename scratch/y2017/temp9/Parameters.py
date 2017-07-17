@@ -1,7 +1,9 @@
 from Names import *
 exec(identify_file_str)
 
-P = {}
+Parameters = {}
+P = Parameters
+
 P[GPU] = 1
 P[BATCH_SIZE] = 100
 P[DISPLAY] = True
@@ -23,7 +25,9 @@ P[print_timer] = Timer(15)
 P[epoch_timer] = Timer(15)
 P[save_file_name] = 'save_file_LCR_'
 
+Globals = {}
+G = Globals
 
 
-print "HERE!!!!!!!"
+
 #EOF
