@@ -5,7 +5,7 @@ import Data
 for a in Command_line_arguments.keys():
     P[a] = Command_line_arguments[a]
 
-DD=Data.Data()
+Training_data = Data.Training_Data()
 
 zdprint(dic,P)
 #zdprint(dic,Command_line_arguments) # bug, len of dic must be greater than 1

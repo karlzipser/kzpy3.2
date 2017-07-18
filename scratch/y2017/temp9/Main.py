@@ -9,8 +9,8 @@ for a in Command_line_arguments.keys():
     P[a] = Command_line_arguments[a]
 
 
-zdprint(dic,P)
-zdprint(dic,Command_line_arguments) # bug, len of dic must be greater than 1
+#zdprint(dic,P)
+#zdprint(dic,Command_line_arguments) # bug, len of dic must be greater than 1
 
 DB = Dic_Blank(first,10)
 zdprint(dic,DB)

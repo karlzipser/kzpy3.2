@@ -1422,7 +1422,7 @@ def nice_print_dic(*args):
 
 dic_exec_str = """
 Args = args_to_dictionary(args)
-for k in keys:
+for k in keys_:
     if type(k) == str:
         assert(k in Args)
         exec(k+'='+"'"+k+"'")
@@ -1430,14 +1430,15 @@ for k in keys:
         exec(k[0]+'='+"'"+k[0]+"'")
         if k[0] not in Args:
             Args[k[0]] = k[1]
-del keys
+del keys_
             """
 
 
 equals = 'equals__'
 nothing = 'nothing__'
+plus_equals = 'plus_equals__'
 
-def da(*args):
+def dictionary_access(*args):
     """
     # dictionary access
     # e.g.,
@@ -1453,7 +1454,7 @@ def da(*args):
     range_end = len(args)
     right_hand_side = nothing
     if len(args) > 3:
-        if args[-2] == equals:
+        if args[-2] in [equals,plus_equals]:
             right_hand_side = args[-1]
             range_end = len(args)-2
     for i in range(1,range_end):
@@ -1463,16 +1464,19 @@ def da(*args):
             Q[k] = {}
         if i == range_end-1:
             if right_hand_side != nothing:
-                Q[k] = right_hand_side
+                if args[-2] == equals:
+                    Q[k] = right_hand_side
+                elif args[-2] == plus_equals:
+                    Q[k] += right_hand_side
                 return
         Q = Q[k]
     return Q
-
+da = dictionary_access
 
 
 
 def zdprint(*args):
-    keys = ['dic',['depth',-2]]
+    keys_ = ['dic',['depth',-2]]
     exec(dic_exec_str)
     if True:
         if len(Args[dic]) == 0:

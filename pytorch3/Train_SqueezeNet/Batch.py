@@ -8,7 +8,7 @@ exec(identify_file_str)
 
 
 def Batch(*args):
-    keys = [net,batch_size]
+    keys_ = [net,batch_size]
     exec(dic_exec_str)
     D = {}
     D[net] = Args[net]
@@ -30,28 +30,27 @@ def Batch(*args):
 
 
 def _fill(*args):
-    keys = ['Data','mode']
+    keys_ = ['Data','mode']
     exec(dic_exec_str)
     DD = Args['Data']
-    mode = Args['mode']
+    mode_ = Args['mode']
     True
     D['data_ids'] = []
-    for b in range(D['batch_size']):
-        _data = None
-        while _data == None:
-            e = DD['next']({'mode':mode}) #da(DD,next)('mode',mode)
-            run_code = e[3]
-            seg_num = e[0]
-            offset = e[1]
-            _data = DD['get_data']({'run_code':run_code,'seg_num':seg_num,'offset':offset})
-        D['data_ids'].append((run_code,seg_num,offset))
-        data = _data
-        _data_into_batch(data)
+    for b_ in range(D['batch_size']):
+        Data_moment = None
+        while Data_moment == None:
+            e_ = DD['next']({'mode':mode}) #da(DD,next)('mode',mode)
+            run_code_ = e[3]
+            seg_num_ = e[0]
+            offset_ = e[1]
+            Data_moment = DD['get_data']({'run_code':run_code_,'seg_num':seg_num_,'offset':offset_})
+        D['data_ids'].append((run_code_,seg_num,offset_))
+        _data_into_batch(Data_moment)
     D['data_ids'].reverse() # this is to match way batch is filled up below
 
 
 def _data_into_batch(*args):
-    keys = ['the_data']
+    keys_ = ['the_data']
     exec(dic_exec_str)
     data = Args[the_data]
     if True:

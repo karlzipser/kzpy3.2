@@ -1,13 +1,39 @@
->> Args[dic]['purpose']
+>> Args[dic]['print_timer']
 Args[dic]
-<0> dic_type:
-	 Dic_Blank
-<1> first:
-	 10 <type 'int'>
-<2> fun2:
-	 Now a string, now a function
-<3> purpose:
-	 Dic_Blank : Test out new thing
-<4> second:
+<0> BAIR_CAR_DATA_PATH:
+	 /Users/karlzipser/Desktop/bdd_car_data_July2017_LCR
+<1> BATCH_SIZE:
+	 100 <type 'int'>
+<2> DISPLAY:
+	 True <type 'bool'>
+<3> GPU:
+	 1 <type 'int'>
+<4> IGNORE:
+	[reject_run left out1_in2] (len=3)
+<5> LOAD_ARUCO:
+	 False <type 'bool'>
+<6> N_FRAMES:
 	 2 <type 'int'>
+<7> N_STEPS:
+	 10 <type 'int'>
+<8> REQUIRE_ONE:
+	[]
+<9> RESUME:
+	 False <type 'bool'>
+<10> SAVE_FILE_NAME:
+	 save_file_LCR_
+<11> STRIDE:
+	 3 <type 'int'>
+<12> USE_STATES:
+	[1 3 ... 6 7] (len=5)
+<13> VERBOSE:
+	 True <type 'bool'>
+<14> WEIGHTS_FILE_PATH:
+	 /Users/karlzipser/Desktop/save_file (1).weights
+<15> epoch_timer:
+	 <kzpy3.utils2.Timer instance at 0x107b2fef0> <type 'instance'>
+<16> print_timer:
+	 <kzpy3.utils2.Timer instance at 0x107b2fe60> <type 'instance'>
+<17> save_net_timer:
+	 <kzpy3.utils2.Timer instance at 0x107b2fea8> <type 'instance'>
 
