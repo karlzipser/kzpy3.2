@@ -1,4 +1,4 @@
-from Names import *
+from Names_Module import *
 exec(identify_file_str)
 
 P = {}
@@ -12,13 +12,12 @@ P[BAIR_CAR_DATA_PATH] = opjD('bdd_car_data_July2017_LCR')
 P[RESUME] = False
 if RESUME:
     P[WEIGHTS_FILE_PATH] = most_recent_file_in_folder(opjD(),['save_file'],['infer'])
-P[IGNORE] = ['reject_run','left','out1_in2']#,'Smyth','racing','local','Tilden','campus']
+P[IGNORE] = [reject_run,left,out1_in2]#,'Smyth','racing','local','Tilden','campus']
 P[REQUIRE_ONE] = []
 P[USE_STATES] = [1,3,5,6,7]
 P[N_FRAMES] = 2
 P[N_STEPS] = 10
-P[STRIDE] = 3 # multiply by N Steps in order to have fixed number of steps reach further in time.
-# STRIDE is not fully controlled here, there must be changes in _data_into_batch().
+P[STRIDE] = 3
 P[SAVE_FILE_NAME] = 'save_file_LCR_'
 P[save_net_timer] = Timer(60*30)
 P[print_timer] = Timer(15)

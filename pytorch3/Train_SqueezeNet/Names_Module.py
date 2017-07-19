@@ -1,7 +1,8 @@
-from Paths import *
+from Paths_Module import *
 exec(identify_file_str)
 
 for _name in [
+	'reject_run','left','out1_in2',
 	'dic',
 	'name',
 	'test',
@@ -50,7 +51,8 @@ for _name in [
 	'print_timer',
 	'epoch_timer',
 	'WEIGHTS_FILE_PATH',
-	'SAVE_FILE_NAME'
+	'SAVE_FILE_NAME',
+	'mode'
 	]:exec(d2n(_name,'=',"'",_name,"'"))
 
 
