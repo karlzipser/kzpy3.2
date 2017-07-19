@@ -21,15 +21,15 @@ def Batch(*args):
     D[target_data] = torch.FloatTensor().cuda()
     D[names] = []
     D[states] = []
-    D['fill'] = _fill
-    D['clear'] = _clear
-    D['forward'] = _forward
-    D['backward'] = _backward
-    D['display'] = _display
+    D['fill'] = function_fill
+    D['clear'] = function_clear
+    D['forward'] = function_forward
+    D['backward'] = function_backward
+    D['display'] = function_display
     return D
 
 
-def _fill(*args):
+def function_fill(*args):
     keys_ = ['Data','mode']
     exec(dic_exec_str)
     DD = Args['Data']
@@ -49,7 +49,7 @@ def _fill(*args):
     D['data_ids'].reverse() # this is to match way batch is filled up below
 
 
-def _data_into_batch(*args):
+def function_data_into_batch(*args):
     keys_ = ['the_data']
     exec(dic_exec_str)
     data = Args[the_data]
@@ -110,7 +110,7 @@ def _data_into_batch(*args):
         D['states'].append(data['states'])
 
 
-def _clear():
+def function_clear():
     D['camera_data'] = torch.FloatTensor().cuda()
     D['metadata'] = torch.FloatTensor().cuda()
     D['target_data'] = torch.FloatTensor().cuda()
@@ -121,7 +121,7 @@ def _clear():
 
 
 
-def _forward(d):
+def function_forward(d):
     optimizer = d['optimizer']
     criterion = d['criterion']
     trial_loss_record = d['trial_loss_record']
@@ -138,7 +138,7 @@ def _forward(d):
 
 
 
-def _backward(d):
+def function_backward(d):
     optimizer = d['optimizer']
     True
     D['loss'].backward()
@@ -147,7 +147,7 @@ def _backward(d):
 
 
 
-def _display(d):
+def function_display(d):
     if 'print_now' not in d:
         d['print_now'] = False
     print_now = d['print_now']

@@ -4,7 +4,7 @@ import data.utils.Segment_Data as Segment_Data
 
 hdf5_runs_path = opj(P['BAIR_CAR_DATA_PATH'],'hdf5/runs')
 hdf5_segment_metadata_path = opj(P['BAIR_CAR_DATA_PATH'],'hdf5/segment_metadata')
-#Segment_Data.load_Segment_Data(hdf5_segment_metadata_path,hdf5_runs_path)
+Segment_Data.load_Segment_Data(hdf5_segment_metadata_path,hdf5_runs_path)
 
 _ = dictionary_access
     
@@ -13,21 +13,21 @@ def Training_Data():
     True
     _(D,dic_type,equals,'Training_Data')
     _(D,purpose,equals,d2s(inspect.stack()[0][3],':','Object to hold various data and information for training'))
-    _(D,train_los_dic, equals, {})
     _(D,train, equals, {})
     print('loading train_all_steer...')
-    _(D,train,all_data_moment_id_codes, equals, 0)#lo(opj(P[BAIR_CAR_DATA_PATH],'train_all_steer'))) # train__run_seg_off
+    _(D,train,all_data_moment_id_codes, equals, lo(opj(P[BAIR_CAR_DATA_PATH],'train_all_steer')))
     _(D,train,ctr,equals,-1)
+    _(D,train,loss_dic,equals,{})
     _(D,val,equals,{})
     print('loading val_all_steer...')
-    _(D,val,all_data_moment_id_codes,equals,0)#lo(opj(P[BAIR_CAR_DATA_PATH],'val_all_steer'))  #val__run_seg_off
+    _(D,val,all_data_moment_id_codes, equals, lo(opj(P[BAIR_CAR_DATA_PATH],'val_all_steer')))
     _(D,val,ctr,equals,-1)
+    _(D,val,loss_dic,equals,{})
     print('...done loading.')
     _(D,train,epoch_counter,equals,0)
     _(D,val,epoch_counter,equals,0)
     _(D,get_data,equals,_function_get_data)
     _(D,next,equals,_function_next)
-    zdprint(dic,D)
     return D
 
 
@@ -35,10 +35,10 @@ def Training_Data():
 def _function_get_data(*args):
     keys_ = [run_code,seg_num,offset]
     exec(dic_exec_str)
-    True   
+    True
     Data_moment = Segment_Data.get_data(
         Args[run_code],Args[seg_num],Args[offset],
-        P[STRIDE]*P[N_STEPS],offset+0,P[N_FRAMES],ignore=P[IGNORE],
+        P[STRIDE]*P[N_STEPS],Args[offset]+0,P[N_FRAMES],ignore=P[IGNORE],
         require_one=P[REQUIRE_ONE],use_states=P[USE_STATES])
     return Data_moment
 

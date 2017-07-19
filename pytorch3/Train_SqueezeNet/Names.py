@@ -1,12 +1,38 @@
 from Paths import *
 exec(identify_file_str)
 
-for _name in ['dic','name','test','dic_type','purpose',
-	'batch_size','net','camera_data','metadata','target_data','names','states',
-	'train_los_dic','train','val','ctr','all_steer','epoch_counter','get_data','next','run_code','seg_num','offset']:
-	exec(d2n(_name,'=',"'",_name,"'"))
-
 for _name in [
+	'dic',
+	'name',
+	'test',
+	'dic_type',
+	'purpose',
+	'batch_size',
+	'net',
+	'camera_data',
+	'metadata',
+	'target_data',
+	'names',
+	'states',
+	'loss_dic',
+	'train',
+	'val',
+	'ctr',
+	'all_steer',
+	'epoch_counter',
+	'get_data',
+	'next',
+	'run_code',
+	'seg_num',
+	'offset',
+	'all_data_moment_id_codes',
+	'left',
+	'right',
+	'fill',
+	'clear',
+	'forward',
+	'backward',
+	'display',
 	'GPU',
 	'BATCH_SIZE',
 	'DISPLAY',
@@ -24,7 +50,8 @@ for _name in [
 	'print_timer',
 	'epoch_timer',
 	'WEIGHTS_FILE_PATH',
-	'SAVE_FILE_NAME']:exec(d2n(_name,'=',"'",_name,"'"))
+	'SAVE_FILE_NAME'
+	]:exec(d2n(_name,'=',"'",_name,"'"))
 
 
 

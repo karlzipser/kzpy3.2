@@ -1,39 +1,65 @@
->> Args[dic]['print_timer']
+>> Args[dic]['states']
 Args[dic]
-<0> BAIR_CAR_DATA_PATH:
-	 /Users/karlzipser/Desktop/bdd_car_data_July2017_LCR
-<1> BATCH_SIZE:
-	 100 <type 'int'>
-<2> DISPLAY:
-	 True <type 'bool'>
-<3> GPU:
-	 1 <type 'int'>
-<4> IGNORE:
-	[reject_run left out1_in2] (len=3)
-<5> LOAD_ARUCO:
-	 False <type 'bool'>
-<6> N_FRAMES:
-	 2 <type 'int'>
-<7> N_STEPS:
-	 10 <type 'int'>
-<8> REQUIRE_ONE:
-	[]
-<9> RESUME:
-	 False <type 'bool'>
-<10> SAVE_FILE_NAME:
-	 save_file_LCR_
-<11> STRIDE:
-	 3 <type 'int'>
-<12> USE_STATES:
-	[1 3 ... 6 7] (len=5)
-<13> VERBOSE:
-	 True <type 'bool'>
-<14> WEIGHTS_FILE_PATH:
-	 /Users/karlzipser/Desktop/save_file (1).weights
-<15> epoch_timer:
-	 <kzpy3.utils2.Timer instance at 0x107b2fef0> <type 'instance'>
-<16> print_timer:
-	 <kzpy3.utils2.Timer instance at 0x107b2fe60> <type 'instance'>
-<17> save_net_timer:
-	 <kzpy3.utils2.Timer instance at 0x107b2fea8> <type 'instance'>
+<0> labels:
+	<0> LCR:
+		 True <type 'bool'>
+	<1> Smyth:
+		 False <type 'bool'>
+	<2> Tilden:
+		 True <type 'bool'>
+	<3> aruco_ring:
+		 False <type 'bool'>
+	<4> campus:
+		 False <type 'bool'>
+	<5> direct:
+		 False <type 'bool'>
+	<6> flip:
+		 False <type 'bool'>
+	<7> follow:
+		 False <type 'bool'>
+	<8> furtive:
+		 False <type 'bool'>
+	<9> home:
+		 False <type 'bool'>
+	<10> left:
+		 False <type 'bool'>
+	<11> local:
+		 False <type 'bool'>
+	<12> mostly_caffe:
+		 False <type 'bool'>
+	<13> mostly_human:
+		 False <type 'bool'>
+	<14> multicar:
+		 False <type 'bool'>
+	<15> night:
+		 False <type 'bool'>
+	<16> notes:
+		 False <type 'bool'>
+	<17> only_states_1_and_6_good:
+		 False <type 'bool'>
+	<18> out1_in2:
+		 False <type 'bool'>
+	<19> play:
+		 False <type 'bool'>
+	<20> racing:
+		 False <type 'bool'>
+	<21> reject_intervals:
+		 False <type 'bool'>
+	<22> reject_run:
+		 False <type 'bool'>
+	<23> snow:
+		 False <type 'bool'>
+
+<1> left:
+	[??? ???] (len=2)
+<2> motor:
+	[56.0 56.38 ... 59.0 59.0] (len=180)
+<3> name:
+	 direct_Tilden_LCR_15Jul17_10h52m51s_Mr_Yellow
+<4> right:
+	[??? ???] (len=2)
+<5> states:
+	[1.0 1.0 ... 1.0 1.0] (len=180)
+<6> steer:
+	[50.0 50.0 ... 82.87 82.05] (len=180)
 

@@ -17,7 +17,7 @@ python ~/kzpy3/teg9/data/preprocess.py /media/karlzipser/ExtraDrive2/Mr_Purple_6
 bag_folders_src_location = sys.argv[1]
 bag_folders_dst = sys.argv[2]
 NUM_STATE_ONE_STEPS = int(sys.argv[3])
-MIN_VALID_SPEED = int(sys.argv[3])
+MIN_VALID_SPEED = int(sys.argv[4])
 assert(is_number(NUM_STATE_ONE_STEPS))
 assert(NUM_STATE_ONE_STEPS>0 and NUM_STATE_ONE_STEPS<1000)
 assert(is_number(MIN_VALID_SPEED))
@@ -62,7 +62,7 @@ graphics=False
 accepted_states=[1,2,3]
 
 #pkl_name='Bag_Folder.redo.pkl' # if different from 'Bag_Folder.pkl', (e.g., 'Bag_Folder_90_state_one_steps.pkl') files will be reprocessed.
-pkl_name='Bag_Folder.redo_for_min_speed.pkl' # if different from 'Bag_Folder.pkl', (e.g., 'Bag_Folder_90_state_one_steps.pkl') files will be reprocessed.
+pkl_name='Bag_Folder.pkl' # if different from 'Bag_Folder.pkl', (e.g., 'Bag_Folder_90_state_one_steps.pkl') files will be reprocessed.
 
 preprocess_Bag_Folders.preprocess_Bag_Folders(bag_folders_dst_meta_path,
 	bag_folders_dst_rgb1to4_path
