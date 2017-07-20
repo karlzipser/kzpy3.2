@@ -14,7 +14,7 @@ def Batch(*args):
     D = {}
     D[network] = Args[network]
     True
-    _(D,batch_size,equals,P[batch_size])
+    _(D,batch_size,equals,P[BATCH_SIZE])
     D[dic_type] = 'Batch'
     D[purpose] = d2s(inspect.stack()[0][3],':','object to collect data for pytorch batch')
     D[camera_data] = torch.FloatTensor().cuda()
@@ -43,14 +43,14 @@ def Batch(*args):
 
     def _function_data_into_batch(*args):
         Args = args_to_dictionary(args)
-        data_momentv = Args[data_moment]
+        Data_moment = Args[data_moment]
         if True:
-            D[names].insert(0,data_momentv[name]) # This to match torch.cat use below
+            D[names].insert(0,Data_moment[name]) # This to match torch.cat use below
         if True:
             list_camera_input = []
-            for t in range(D[net].N_FRAMES):
+            for t in range(D[network][net].N_FRAMES):
                 for camerav in (left, right):
-                    list_camera_input.append(torch.from_numpy(data_momentv[camerav][t]))
+                    list_camera_input.append(torch.from_numpy(Data_moment[camerav][t]))
             camera_datav = torch.cat(list_camera_input, 2)
             camera_datav = camera_datav.cuda().float()/255. - 0.5
             camera_datav = torch.transpose(camera_datav, 0, 2)
@@ -64,22 +64,22 @@ def Batch(*args):
             for cur_labelv in [racing, caffe, follow, direct, play, furtive]:
                 mode_ctrv += 1
                 if cur_labelv == caffe:
-                    if data_momentv[states][0]:
-                        metadatav = torch.cat((one_matrix, metadata), 1)
+                    if Data_moment[states][0]:
+                        metadatav = torch.cat((one_matrixv, metadatav), 1)
                     else:
-                        metadatav = torch.cat((zero_matrix, metadata), 1)
+                        metadatav = torch.cat((zero_matrixv, metadatav), 1)
                 else:
-                    if data_momentv[labels][cur_label]:
-                        metadata = torch.cat((one_matrix, metadata), 1)
+                    if Data_moment[labels][cur_labelv]:
+                        metadatav = torch.cat((one_matrixv, metadatav), 1)
                     else:
-                        metadata = torch.cat((zero_matrix, metadata), 1)
-            if LCR in data[labels]:
+                        metadatav = torch.cat((zero_matrixv, metadatav), 1)
+            if LCR in Data_moment[labels]:
                 #print data['states']
                 for target_statev in [1,2,3]:
-                    for i in range(0,len(data_momentv[states]),3): ###############!!!!!!!!!!!!!!!! temp, generalize
+                    for i in range(0,len(Data_moment[states]),3): ###############!!!!!!!!!!!!!!!! temp, generalize
                         mode_ctrv += 1
                         #!!!!!!!! reverse concatinations so they are in normal order
-                        if data_momentv[states][i] == target_statev:
+                        if Data_moment[states][i] == target_statev:
                             metadatav = torch.cat((one_matrixv, metadatav), 1)
                         else:
                             metadatav = torch.cat((zero_matrixv, metadatav), 1)
@@ -90,8 +90,8 @@ def Batch(*args):
             D[metadata] = torch.cat((metadatav, D[metadata]), 0)
 
         if True:
-            sv = data_momentv[steer]
-            mv = data_momentv[motor]
+            sv = Data_moment[steer]
+            mv = Data_moment[motor]
             rv = range(2,31,3) # This depends on NUM_STEPS and STRIDE
             sv = array(sv)[rv]
             mv = array(mv)[rv]
@@ -99,7 +99,7 @@ def Batch(*args):
             motorv = torch.from_numpy(mv).cuda().float() / 99.
             target_datav = torch.unsqueeze(torch.cat((steerv, motorv), 0), 0)
             D[target_data] = torch.cat((target_datav, D[target_data]), 0)
-            D[states].append(data[states])
+            D[states].append(Data_moment[states])
 
 
 
@@ -118,12 +118,12 @@ def Batch(*args):
         True
         Trial_loss_record = D[network][trial_loss_record]
         D[network][optimizer].zero_grad()
-        D[outputs] = D[network](torch.autograd.Variable(D[camera_data]), torch.autograd.Variable(D[metadata])).cuda()
+        D[outputs] = D[network][net](torch.autograd.Variable(D[camera_data]), torch.autograd.Variable(D[metadata])).cuda()
         D[loss] = D[network][criterion](D[outputs], torch.autograd.Variable(D[target_data]))
         for bv in range(D[batch_size]):
             id = D[data_ids][bv]
             tv= D[target_data][bv].cpu().numpy()
-            ov = D[outputs][b].data.cpu().numpy()
+            ov = D[outputs][bv].data.cpu().numpy()
             av = tv - ov
             Trial_loss_record[(id,tuple(tv),tuple(ov))] = np.sqrt(av * av).mean()
 
@@ -154,7 +154,7 @@ def Batch(*args):
             bv = av.transpose(1,2,0)
             hv = shape(av)[1]
             wv = shape(av)[2]
-            cv = zeros((10+h*2,10+2*w,3))
+            cv = zeros((10+hv*2,10+2*wv,3))
             cv[:hv,:wv,:] = z2o(bv[:,:,3:6])
             cv[:hv,-wv:,:] = z2o(bv[:,:,:3])
             cv[-hv:,:wv,:] = z2o(bv[:,:,9:12])
@@ -168,7 +168,7 @@ def Batch(*args):
             ylim(-0.05,1.05);xlim(0,len(tv))
             plot([-1,60],[0.49,0.49],'k');plot(ov,'og'); plot(tv,'or'); plt.title(D[names][0])
             pause(0.000000001)
-            print_timer.reset()
+            P[print_timer].reset()
 
     D[fill] = _function_fill
     D[clear] = _function_clear

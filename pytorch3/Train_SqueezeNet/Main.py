@@ -39,7 +39,7 @@ while True:
 	Batch[clear]()
 	Batch[fill]('Data',Training_data, mode,train)
 	Batch[forward]()
-	Batch[display]({'print_now':True})
+	Batch[display](print_now,True)
 	Batch[backward]()
 	print timer.time()
 	

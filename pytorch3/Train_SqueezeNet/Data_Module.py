@@ -15,7 +15,7 @@ def Training_Data():
     _(D,purpose,equals,d2s(inspect.stack()[0][3],':','Object to hold various data and information for training'))
     for modev in [train,val]:
         _(D,modev, equals, {})
-        fv = mode+'_all_steer'
+        fv = modev+'_all_steer'
         print('loading '+fv)
         _(D,modev,all_data_moment_id_codes, equals, lo(opj(P[BAIR_CAR_DATA_PATH],fv)))
         _(D,modev,ctr,equals,-1)
@@ -41,9 +41,9 @@ def Training_Data():
         if _(D,modev,ctr) == -1:
             _(D,modev,ctr,equals,0)
             print('shuffle start')
-            random.shuffle(_(D,modev,all_data_moment_id_codes)
+            random.shuffle(_(D,modev,all_data_moment_id_codes))
             print('shuffle finished')
-        data_moment_id_codev = _(D,modev,all_data_moment_id_codes)_(D,modev,ctr)
+        data_moment_id_codev = _(D,modev,all_data_moment_id_codes)[_(D,modev,ctr)]
         _(D,modev,ctr,plus_equals,1)
         return data_moment_id_codev
 

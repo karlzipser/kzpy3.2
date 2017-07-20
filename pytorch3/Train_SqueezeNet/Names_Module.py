@@ -70,7 +70,11 @@ for _name in [
 	'trial_loss_record',
 	'loss',
 	'outputs',
-	'print_now'
+	'print_now',
+	'network',
+	'metadata',
+	'steer',
+	'motor'
 	]:exec(d2n(_name,'=',"'",_name,"'"))
 
 #
