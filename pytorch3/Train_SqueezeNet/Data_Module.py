@@ -15,12 +15,14 @@ def Training_Data():
     _(D,purpose,equals,d2s(inspect.stack()[0][3],':','Object to hold various data and information for training'))
     _(D,train, equals, {})
     print('loading train_all_steer...')
-    _(D,train,all_data_moment_id_codes, equals, lo(opj(P[BAIR_CAR_DATA_PATH],'train_all_steer')))
+    #_(D,train,all_data_moment_id_codes, equals, lo(opj(P[BAIR_CAR_DATA_PATH],'train_all_steer')))
+    D[train][all_data_moment_id_codes] = lo(opj(P[BAIR_CAR_DATA_PATH],'train_all_steer'))
     _(D,train,ctr,equals,-1)
     _(D,train,loss_dic,equals,{})
     _(D,val,equals,{})
     print('loading val_all_steer...')
-    _(D,val,all_data_moment_id_codes, equals, lo(opj(P[BAIR_CAR_DATA_PATH],'val_all_steer')))
+    #_(D,val,all_data_moment_id_codes, equals, lo(opj(P[BAIR_CAR_DATA_PATH],'val_all_steer')))
+    D[val][all_data_moment_id_codes] = lo(opj(P[BAIR_CAR_DATA_PATH],'val_all_steer'))
     _(D,val,ctr,equals,-1)
     _(D,val,loss_dic,equals,{})
     print('...done loading.')
@@ -41,19 +43,28 @@ def Training_Data():
 
 
     def _function_next(*args):
+        #print D[val][all_data_moment_id_codes][0]
+
         Args = args_to_dictionary(args)
         modev = Args[mode]
-        True
-        if da(D,modev,ctr) >= len(da(D,modev,all_data_moment_id_codes)):
-            da(D,modev,ctr,equals,-1)
-            da(D,modev,epoch_counter,plus_equals,1)
-        if da(D,modev,ctr) == -1:
-            da(D,modev,ctr,equals,0)
+
+        #print D[val][all_data_moment_id_codes][0]
+        if D[modev][ctr] >= len(da(D,modev,all_data_moment_id_codes)):
+            D[modev][ctr] = -1
+            D[modev][epoch_counter] += 1
+        if D[modev][ctr] == -1:
+            D[modev][ctr] = 0
             print('shuffle start')
-            random.shuffle(da(D,modev,all_data_moment_id_codes))
+            random.shuffle(D[modev][all_data_moment_id_codes])
             print('shuffle finished')
-        data_moment_id_codev = _(D,modev,all_data_moment_id_codes,_(D,modev,ctr))
-        _(D,modev,ctr,plus_equals,1)
+        #print D[val][all_data_moment_id_codes][0]
+        data_moment_id_codev = D[modev][all_data_moment_id_codes][D[modev][ctr]]
+        #data_moment_id_codev = da(D,modev,all_data_moment_id_codes)[D[modev][ctr]]
+        #print D[val][all_data_moment_id_codes][0]
+        D[modev][ctr] += 1
+        #print D[val][all_data_moment_id_codes][0]
+        D[val][all_data_moment_id_codes][0]
+        #print D[val][all_data_moment_id_codes][0]
         return data_moment_id_codev
 
     _(D,get_data,equals,_function_get_data)

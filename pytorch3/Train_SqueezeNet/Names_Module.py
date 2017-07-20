@@ -52,7 +52,9 @@ for _name in [
 	'epoch_timer',
 	'WEIGHTS_FILE_PATH',
 	'SAVE_FILE_NAME',
-	'mode'
+	'mode',
+	'criterion',
+	'optimizer'
 	]:exec(d2n(_name,'=',"'",_name,"'"))
 
 

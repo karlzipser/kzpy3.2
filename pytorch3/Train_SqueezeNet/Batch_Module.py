@@ -5,6 +5,7 @@ import torch
 import torch.nn.utils as nnutils
 
 #img_saver = Image_to_Folder_Saver({'path':opjD('cameras0')})
+print_timer = Timer(5)
 
 _ = dictionary_access
 
@@ -26,27 +27,26 @@ def Batch(*args):
 
     def function_fill(*args):
         Args = args_to_dictionary(args)
-        DD = Args['Data']
         True
         D['data_ids'] = []
         for b_ in range(D['batch_size']):
             Data_moment = None
             while Data_moment == None:
-                ev = DD['next'](mode,Args[mode])
-                print ev
-                print type(ev)
+                ev = Args['Data']['next'](mode,Args[mode])
+                #print ev
+                #print type(ev)
                 run_codev = ev[3]
                 seg_numv = ev[0]
                 offsetv = ev[1]
-                Data_moment = _(DD,get_data)(run_code,run_codev, seg_num,seg_numv, offset,offsetv)
-            D['data_ids'].append((run_code_,seg_num,offset_))
-            _data_into_batch(Data_moment)
+                Data_moment = _(Args['Data'],get_data)(run_code,run_codev, seg_num,seg_numv, offset,offsetv)
+            D['data_ids'].append((run_codev,seg_numv,offsetv))
+            function_data_into_batch('the_data',Data_moment)
         D['data_ids'].reverse() # this is to match way batch is filled up below
 
 
     def function_data_into_batch(*args):
         Args = args_to_dictionary(args)
-        data = Args[the_data]
+        data = Args['the_data']
         if True:
             D['names'].insert(0,data['name']) # This to match torch.cat use below
         if True:

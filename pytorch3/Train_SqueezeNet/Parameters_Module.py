@@ -3,8 +3,8 @@ exec(identify_file_str)
 
 P = {}
 
-P[GPU] = 1
-P[BATCH_SIZE] = 100
+P[GPU] = 0
+P[BATCH_SIZE] = 1024
 P[DISPLAY] = True
 P[VERBOSE] = True
 P[LOAD_ARUCO] = False

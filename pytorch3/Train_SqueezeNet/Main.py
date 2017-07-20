@@ -7,10 +7,10 @@ if not hasattr(main,'__file__'):
 #
 ##############################
 from Parameters_Module import *
-exec(identify_file_str)
 import Data_Module
 import Batch_Module
-import torch
+import Network_Module
+exec(identify_file_str)
 
 _ = dictionary_access
 
@@ -19,31 +19,34 @@ for a in Args.keys():
 
 
 
-
-
-torch.set_default_tensor_type('torch.FloatTensor') 
-torch.cuda.set_device(_(P,GPU))
-torch.cuda.device(_(P,GPU))
+trial_loss_record = {} # get this into Pytorch_Network
 
 
 
-from SqueezeNet import SqueezeNet
-netv = SqueezeNet().cuda()
-criterion = torch.nn.MSELoss().cuda()
-optimizer = torch.optim.Adadelta(netv.parameters())
 
 
+
+
+Network = Network_Module.Pytorch_Network()
 
 Training_data = Data_Module.Training_Data()
 
+Batch = Batch_Module.Batch(net,Network[net], batch_size,P[BATCH_SIZE])
 
-Batch = Batch_Module.Batch(net,netv, batch_size,_(P,BATCH_SIZE))
+timer = Timer(0)
 
-_(Batch,fill)('Data',Training_data, mode,train)
-#batch['fill']({'Data':DD,'mode':mode})
-#Data_moment = _(Training_data,get_data)(run_code,1, seg_num,2, offset,3)
+while True:
+	timer.reset()
+	Batch[clear]()
+	Batch[fill]('Data',Training_data, mode,train)
+	Batch[forward]({'optimizer':Network[optimizer],'criterion':Network[criterion],'trial_loss_record':trial_loss_record})
+	Batch[display]({'print_now':True})
+	Batch[backward]({'optimizer':Network[optimizer]})
+	print timer.time()
+	
 
-#zdprint(dic,Data_moment)
+	#Batch['clear']()
+
 
 
 

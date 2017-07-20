@@ -1469,6 +1469,7 @@ def dictionary_access(*args):
                 elif args[-2] == plus_equals:
                     Q[k] += right_hand_side
                 return
+        #print(type(k),type(Q[k]))
         Q = Q[k]
     return Q
 da = dictionary_access
