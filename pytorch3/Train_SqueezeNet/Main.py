@@ -1,11 +1,11 @@
-##############################
+###############################
 #  for interactive terminal
 import __main__ as main
 if not hasattr(main,'__file__'):
 	from kzpy3.utils2 import *
 	pythonpaths(['kzpy3','kzpy3/pytorch3/Train_SqueezeNet','kzpy3/teg9'])
 #
-##############################
+###############################
 from Parameters_Module import *
 import Data_Module
 import Batch_Module

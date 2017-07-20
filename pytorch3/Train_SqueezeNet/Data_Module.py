@@ -1,7 +1,7 @@
 from Parameters_Module import *
 exec(identify_file_str)
 import data.utils.Segment_Data as Segment_Data
-
+#
 hdf5_runs_path = opj(P['BAIR_CAR_DATA_PATH'],'hdf5/runs')
 hdf5_segment_metadata_path = opj(P['BAIR_CAR_DATA_PATH'],'hdf5/segment_metadata')
 Segment_Data.load_Segment_Data(hdf5_segment_metadata_path,hdf5_runs_path);print('.')

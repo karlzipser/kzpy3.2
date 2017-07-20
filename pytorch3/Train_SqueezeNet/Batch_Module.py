@@ -4,7 +4,7 @@ from vis2 import *
 import torch
 import torch.nn.utils as nnutils
 
-#img_saver = Image_to_Folder_Saver({'path':opjD('cameras0')})
+ #img_saver = Image_to_Folder_Saver({'path':opjD('cameras0')})
 print_timer = Timer(5)
 
 _ = dictionary_access
