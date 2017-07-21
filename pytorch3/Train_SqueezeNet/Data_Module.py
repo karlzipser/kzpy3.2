@@ -43,6 +43,7 @@ def Training_Data():
             print('shuffle start')
             random.shuffle(_(D,modev,all_data_moment_id_codes))
             print('shuffle finished')
+        #data_moment_id_codev = _(D,modev,all_data_moment_id_codes)[_(D,modev,ctr)]
         data_moment_id_codev = _(D,modev,all_data_moment_id_codes)[_(D,modev,ctr)]
         _(D,modev,ctr,plus_equals,1)
         return data_moment_id_codev
