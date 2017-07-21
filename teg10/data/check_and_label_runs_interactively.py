@@ -97,6 +97,7 @@ nice_print_dic( dic,V[argument_dictionary],  name,argument_dictionary )
 #V['bair_car_data_path'] = opjD('bair_car_data_Main_Dataset')
 #V['bair_car_data_path'] = '/Volumes/SSD_2TB/bair_car_data_new_28April2017'
 V[bair_car_data_path] = V[argument_dictionary][bair_car_data_path]
+assert_disk_locations(V[bair_car_data_path])
 
 
 

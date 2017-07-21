@@ -74,7 +74,8 @@ for _name in [
 	'network',
 	'metadata',
 	'steer',
-	'motor'
+	'motor',
+	'data'
 	]:exec(d2n(_name,'=',"'",_name,"'"))
 
 #

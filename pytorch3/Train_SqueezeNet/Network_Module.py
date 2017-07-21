@@ -21,6 +21,8 @@ def Pytorch_Network():
     _(D,criterion,equals,torch.nn.MSELoss().cuda())
     _(D,optimizer,equals,torch.optim.Adadelta(D[net].parameters()))
     _(D,trial_loss_record,equals,{})
+    for modev in [train,val]:
+	    _(D,epoch_counter,val,equals,0)
     return D
 
 

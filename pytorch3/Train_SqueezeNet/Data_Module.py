@@ -37,7 +37,7 @@ def Training_Data():
         modev = Args[mode]
         if _(D,modev,ctr) >= len(_(D,modev,all_data_moment_id_codes)):
             _(D,modev,ctr,equals,-1)
-            _(D,modev,epoch_counter,plus_equals,1)
+            Args[network][epoch_counter][modev] += 1
         if _(D,modev,ctr) == -1:
             _(D,modev,ctr,equals,0)
             print('shuffle start')

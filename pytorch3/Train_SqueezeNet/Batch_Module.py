@@ -28,14 +28,14 @@ def Batch(*args):
         Args = args_to_dictionary(args)
         True
         D[data_ids] = []
-        for b_ in range(D['batch_size']):
+        for b_ in range(D[batch_size]):
             Data_moment = None
             while Data_moment == None:
-                ev = Args['Data']['next'](mode,Args[mode])
+                ev = Args[data][next](mode,Args[mode], network,D[network])
                 run_codev = ev[3]
                 seg_numv = ev[0]
                 offsetv = ev[1]
-                Data_moment = _(Args['Data'],get_data)(run_code,run_codev, seg_num,seg_numv, offset,offsetv)
+                Data_moment = _(Args[data],get_data)(run_code,run_codev, seg_num,seg_numv, offset,offsetv)
             D[data_ids].append((run_codev,seg_numv,offsetv))
             _function_data_into_batch(data_moment,Data_moment)
         D[data_ids].reverse() # this is to match way batch is filled up below
@@ -125,7 +125,8 @@ def Batch(*args):
             tv= D[target_data][bv].cpu().numpy()
             ov = D[outputs][bv].data.cpu().numpy()
             av = tv - ov
-            Trial_loss_record[(id,tuple(tv),tuple(ov))] = np.sqrt(av * av).mean()
+            #Trial_loss_record[(id,tuple(tv),tuple(ov))] = np.sqrt(av * av).mean()
+            Trial_loss_record[id] = np.sqrt(av * av).mean()
 
 
 

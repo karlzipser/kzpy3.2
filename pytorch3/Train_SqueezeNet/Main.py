@@ -37,7 +37,7 @@ timer = Timer(0)
 while True:
 	timer.reset()
 	Batch[clear]()
-	Batch[fill]('Data',Training_data, mode,train)
+	Batch[fill](data,Training_data, mode,train)
 	Batch[forward]()
 	Batch[display](print_now,True)
 	Batch[backward]()
