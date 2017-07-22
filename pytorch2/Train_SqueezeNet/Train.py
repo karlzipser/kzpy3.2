@@ -57,6 +57,11 @@ while True:
 
         while not timer[mode].check():
 
+            if mode == 'val':
+                net.eval()
+            else:
+                net.train()
+
             batch['fill']({'Data':DD,'mode':mode})
             
             batch['forward']({'optimizer':optimizer,'criterion':criterion,'trial_loss_record':trial_loss_record})
@@ -79,8 +84,9 @@ while True:
             if P.epoch_timer.check():
                 pd2s('\tmode =',mode,'ctr =',DD[mode]['ctr'],dp(100.0*DD[mode]['ctr']/(1.0*len(DD[mode]['all_steer']))),'%')
                 P.epoch_timer.reset()
-                figure('loss');clf();ylim(0.0004,0.0011);xlim(285,370)
-                #figure('loss');clf();ylim(0.0035,0.006);xlim(150,300)
+                figure('loss');clf();ylim(0.0005,0.002);xlim(369,390)
+                #figure('loss');clf();ylim(0.0004,0.0011);xlim(285,370)
+                ##figure('loss');clf();ylim(0.0035,0.006);xlim(150,300)
                 loss_record['train']['plot']({'c':'b'})
                 loss_record['val']['plot']({'c':'r'})
 

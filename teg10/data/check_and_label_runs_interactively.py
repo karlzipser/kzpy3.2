@@ -992,9 +992,8 @@ if False:
 	q=random.shuffle(p)  
 	val_all_steer = p[:int(len(p)*0.1)]
 	train_all_steer = p[int(len(p)*0.1):]
-	so(opjD('val_all_steer'),val_all_steer)
-	so(opjD('train_all_steer'),train_all_steer)
-
+	so(opj('/media/karlzipser/ExtraDrive2/bdd_car_data_July2017_LCR/hdf5/segment_metadata','val_all_steer'),val_all_steer)
+	so(opj('/media/karlzipser/ExtraDrive2/bdd_car_data_July2017_LCR/hdf5/segment_metadata','train_all_steer'),train_all_steer)
 
 
 

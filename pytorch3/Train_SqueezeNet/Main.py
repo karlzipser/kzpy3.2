@@ -18,7 +18,10 @@ for a in Args.keys():
     _(P,a,equals,_(Args,a)) #P[a] = Args[a]
 
 
-
+# save loss records for train and val, times and moment numbers
+# save loss by moment id
+# save weights
+# save other state variables
 
 
 
