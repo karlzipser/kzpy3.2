@@ -3,16 +3,13 @@ exec(identify_file_str)
 
 P = {}
 
-P[GPU] = 0
+P[GPU] = 1
 P[BATCH_SIZE] = 64
 P[DISPLAY] = True
 P[VERBOSE] = True
 P[LOAD_ARUCO] = False
 P[BAIR_CAR_DATA_PATH] = opjD('bdd_car_data_July2017_LCR')
 P[CODE_PATH] = CODE_PATH__
-P[RESUME] = True
-if RESUME:
-    P[WEIGHTS_FILE_PATH] = most_recent_file_in_folder(opjD(),['save_file'],['infer'])
 P[IGNORE] = [reject_run,left,out1_in2]#,'Smyth','racing','local','Tilden','campus']
 P[REQUIRE_ONE] = []
 P[USE_STATES] = [1,2,3]
@@ -26,6 +23,10 @@ P[print_timer] = Timer(15)
 P[TRAIN_TIME] = 60*10.0
 P[VAL_TIME] = 60*1.0
 #P[epoch_timer] = Timer(15)
+P[RESUME] = True
+if RESUME:
+    P[INITIAL_WEIGHTS_FOLDER] = opj(P[NETWORK_OUTPUT_FOLDER],'weights')
+    P[WEIGHTS_FILE_PATH] = most_recent_file_in_folder(P[INITIAL_WEIGHTS_FOLDER],['save_file'],[])
 
 
 

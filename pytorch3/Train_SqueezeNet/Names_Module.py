@@ -83,7 +83,11 @@ for _name in [
 	'rate_ctr',
 	'rate_timer',
 	'step',
-	'rate_counter','loss_record','add','loss','TRAIN_TIME','VAL_TIME'
+	'rate_counter',
+	'loss_record',
+	'add','loss',
+	'TRAIN_TIME',
+	'VAL_TIME','INITIAL_WEIGHTS_FOLDER'
 	]:exec(d2n(_name,'=',"'",_name,"'"))
 
 #

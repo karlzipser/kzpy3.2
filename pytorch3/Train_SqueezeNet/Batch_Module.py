@@ -44,6 +44,7 @@ def Batch(*args):
     def _function_data_into_batch(*args):
         Args = args_to_dictionary(args)
         Data_moment = Args[data_moment]
+        True
         if True:
             D[names].insert(0,Data_moment[name]) # This to match torch.cat use below
         if True:
