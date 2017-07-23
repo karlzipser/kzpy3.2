@@ -116,7 +116,7 @@ def Batch(*args):
 
     def _function_forward():
         True
-        Trial_loss_record = D[network][trial_loss_record]
+        Trial_loss_record = D[network][data_moment_loss_record]
         D[network][optimizer].zero_grad()
         D[outputs] = D[network][net](torch.autograd.Variable(D[camera_data]), torch.autograd.Variable(D[metadata])).cuda()
         D[loss] = D[network][criterion](D[outputs], torch.autograd.Variable(D[target_data]))
@@ -127,6 +127,7 @@ def Batch(*args):
             av = tv - ov
             #Trial_loss_record[(id,tuple(tv),tuple(ov))] = np.sqrt(av * av).mean()
             Trial_loss_record[id] = np.sqrt(av * av).mean()
+        D[network][rate_counter][step]()
 
 
 

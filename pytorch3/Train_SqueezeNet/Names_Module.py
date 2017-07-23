@@ -67,7 +67,7 @@ for _name in [
 	'furtive',
 	'labels',
 	'LCR',
-	'trial_loss_record',
+	'data_moment_loss_record',
 	'loss',
 	'outputs',
 	'print_now',
@@ -75,7 +75,15 @@ for _name in [
 	'metadata',
 	'steer',
 	'motor',
-	'data'
+	'data',
+	'NETWORK_OUTPUT_FOLDER',
+	'code','data_moment_loss_records','loss_history','weights',
+	'save_net',
+	'CODE_PATH',
+	'rate_ctr',
+	'rate_timer',
+	'step',
+	'rate_counter','loss_record','add','loss','TRAIN_TIME','VAL_TIME'
 	]:exec(d2n(_name,'=',"'",_name,"'"))
 
 #

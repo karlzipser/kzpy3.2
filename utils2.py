@@ -1502,4 +1502,41 @@ cprint('******** '+__file__+' ********','yellow')
     """
 
 
+
+
+
+def Rate_Counter(*args):
+    Args = args_to_dictionary(args)
+    D = {}
+    if 'batch_size' in Args:
+        D['batch_size'] = Args['batch_size']
+    else:
+        D['batch_size'] = 1.0
+    True
+    D[type] = 'Rate_Counter'
+    D['purpose'] = d2s(inspect.stack()[0][3],':','Network rate object')
+    D['rate_ctr'] = 0
+    D['rate_timer_interval'] = 10.0
+    D['rate_timer'] = Timer(D['rate_timer_interval'])
+    def _function_step():
+        D['rate_ctr'] += 1
+        if D['rate_timer'].check():
+            print(d2s('rate =',dp(D['batch_size']*D['rate_ctr']/D['rate_timer_interval'],2),'Hz'))
+            D['rate_timer'].reset()
+            D['rate_ctr'] = 0
+    D['step'] = _function_step
+    return D
+
+
+
+
+
+
+
+
+
+
+
+
+    
 #EOF

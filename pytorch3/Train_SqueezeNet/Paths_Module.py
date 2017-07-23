@@ -1,5 +1,6 @@
 from kzpy3.utils2 import *
-pythonpaths(['kzpy3','kzpy3/pytorch3/Train_SqueezeNet','kzpy3/pytorch3/nets','kzpy3/teg9'])
+CODE_PATH__ = opjh('kzpy3/pytorch3')
+pythonpaths([opjh('kzpy3'),opj(CODE_PATH__,'Train_SqueezeNet'),opj(CODE_PATH__,'nets'),opj('kzpy3/teg9')])
 exec(identify_file_str)
 
 #EOF

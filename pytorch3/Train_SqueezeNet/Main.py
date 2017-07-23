@@ -22,29 +22,42 @@ for a in Args.keys():
 # save loss by moment id
 # save weights
 # save other state variables
-
-
-
-
+current_code_dst_folder = opj(code,time_str())
+for folder in [code,current_code_dst_folder,loss_history,weights]:
+	unix('mkdir -p '+opj(P[NETWORK_OUTPUT_FOLDER],folder))
+unix('scp -r '+P[CODE_PATH]+' '+opj(P[NETWORK_OUTPUT_FOLDER],current_code_dst_folder))
 
 
 
 Network = Network_Module.Pytorch_Network()
 
-Training_data = Data_Module.Training_Data()
+Train_Val_data = Data_Module.Training_Data()
 
 Batch = Batch_Module.Batch(network,Network)
 
 timer = Timer(0)
 
 while True:
-	timer.reset()
-	Batch[clear]()
-	Batch[fill](data,Training_data, mode,train)
-	Batch[forward]()
-	Batch[display](print_now,True)
-	Batch[backward]()
-	print timer.time()
+	for train_val in [
+		[train,val,Timer(P[TRAIN_TIME]),'b'],
+		[val,train,Timer(P[VAL_TIME]),'r']]:
+
+		modev = train_val[0]
+		other_modev = train_val[1]
+		timer = train_val[2]
+		timer.reset()
+		colorv = train_val[3]
+		while not timer.check():
+			Batch[clear]()
+			Batch[fill](data,Train_Val_data, mode,modev)
+			Batch[forward]()
+			Batch[display]()
+			Batch[backward]()
+			Network[loss_record][modev][add](loss,Batch['loss'].data.cpu().numpy()[0],
+				'alt_ctr',Network[loss_record][other_modev][ctr],
+				'color',colorv)
+			Network[save_net]()
+
 	
 
 	#Batch['clear']()
