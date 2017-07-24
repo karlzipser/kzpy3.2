@@ -72,7 +72,7 @@ echo "rrm;rlog"
 rrm
 rlog
 
-OPTIONS="bdd_car_rewrite_SD2 bdd_car_rewrite_SD2_LCR rosbags reboot shutdown"
+OPTIONS="bdd_car_rewrite_SD2 bdd_car_rewrite_SD2_LCR rosbags git_pull reboot shutdown"
 select opt in $OPTIONS; do
    if [ "$opt" = "reboot" ]; then
     echo rebooting
@@ -83,13 +83,17 @@ select opt in $OPTIONS; do
    elif [ "$opt" = "bdd_car_rewrite_SD2" ]; then
     rm ~/catkin_ws/src/bair_car
     ln -s ~/kzpy3/teg2/bdd_car_versions/bdd_car_rewrite_SD2/bair_car ~/catkin_ws/src/bair_car
-    ls -al ~/catkin/src/bair_car
+    ls -al ~/catkin_ws/src/bair_car
    elif [ "$opt" = "bdd_car_rewrite_SD2_LCR" ]; then
     rm ~/catkin_ws/src/bair_car
     ln -s ~/kzpy3/teg2/bdd_car_versions/bdd_car_rewrite_SD2_LCR/bair_car ~/catkin_ws/src/bair_car
-    ls -al ~/catkin/src/bair_car
+    ls -al ~/catkin_ws/src/bair_car
    elif [ "$opt" = "rosbags" ]; then
     check_rosbags.py
+   elif [ "$opt" = "git_pull" ]; then
+    cd ~/kzpy3
+    git pull
+    cd
    else
     #clear
     echo bad option
