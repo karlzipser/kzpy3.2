@@ -75,6 +75,7 @@ rlog
 OPTIONS="bdd_car_rewrite_SD2 bdd_car_rewrite_SD2_LCR rla rosbags git_pull reboot shutdown"
 COLUMNS=12
 select opt in $OPTIONS; do
+   COLUMNS=12
    if [ "$opt" = "reboot" ]; then
     echo "Rebooting . . ."
     sudo reboot
