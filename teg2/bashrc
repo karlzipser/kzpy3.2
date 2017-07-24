@@ -72,7 +72,7 @@ echo "rrm;rlog"
 rrm
 rlog
 
-OPTIONS="quit bdd_car_rewrite_SD2 bdd_car_rewrite_SD2_LCR"
+OPTIONS="quit bdd_car_rewrite_SD2 bdd_car_rewrite_SD2_LCR rosbags"
 select opt in $OPTIONS; do
    if [ "$opt" = "quit" ]; then
     echo done
@@ -85,6 +85,8 @@ select opt in $OPTIONS; do
     rm ~/catkin_ws/src/bair_car
     ln -s ~/kzpy3/teg2/bdd_car_versions/bdd_car_rewrite_SD2_LCR/bair_car ~/catkin_ws/src/bair_car
     echo "using bdd_car_rewrite_SD2_LCR"
+   elif [ "$opt" = "rosbags" ]; then
+    check_rosbags.py
    else
     #clear
     echo bad option
