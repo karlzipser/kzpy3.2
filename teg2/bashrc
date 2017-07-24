@@ -77,9 +77,9 @@ select opt in $OPTIONS; do
    if [ "$opt" = "reboot" ]; then
     echo rebooting
     sudo reboot
-   if [ "$opt" = "shutdown" ]; then
-    echo shut down
-    sudo shutdown -h now
+   elif [ "$opt" = "shutdown" ]; then
+    echo "shut down"
+    ssd
    elif [ "$opt" = "bdd_car_rewrite_SD2" ]; then
     rm ~/catkin_ws/src/bair_car
     ln -s ~/kzpy3/teg2/bdd_car_versions/bdd_car_rewrite_SD2/bair_car ~/catkin_ws/src/bair_car
