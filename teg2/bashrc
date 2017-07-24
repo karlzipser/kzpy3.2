@@ -40,12 +40,9 @@ alias gp3="~/kzpy3/kzpy3_git_pull.sh"
 git config --global credential.helper "cache --timeout=86400"
 alias ipy="ipython --no-banner"
 export PYTHONPATH=~:$PYTHONPATH
-#export PYTHONPATH=~/kzpy3/caf/layers:$PYTHONPATH
-#export PYTHONPATH=~/kzpy3/caf2/layers:$PYTHONPATH
 export PYTHONSTARTUP=~/kzpy3/vis2.py
 export PATH=~/kzpy3/scripts:$PATH
 export PATH=~/caffe/build/tools:$PATH
-
 export PYTHONPATH=~/caffe/python:$PYTHONPATH
 
 
@@ -67,30 +64,32 @@ export PYTHONPATH=~/caffe/python:$PYTHONPATH
 if [ "$(whoami)" == "nvidia" ]
 then
 echo "Hi nvidia on Jetson"
-echo "cd ~/kzpy3"
+echo "cd ~/kzpy3;git pull;cd"
 cd ~/kzpy3
-echo "git pull &;cd"
 git pull
 cd
 echo "rrm;rlog"
 rrm
 rlog
-echo "rm ~/catkin_ws/src/bair_car"
-rm ~/catkin_ws/src/bair_car
 
-echo "************************************************\n*"
-#echo "ln -s ~/kzpy3/teg2/bdd_car_versions/bdd_car_rewrite_SD2/bair_car ~/catkin_ws/src/bair_car"
-#ln -s ~/kzpy3/teg2/bdd_car_versions/bdd_car_rewrite_SD2/bair_car ~/catkin_ws/src/bair_car
-
-echo "~/kzpy3/teg2/bdd_car_versions/bdd_car_rewrite_SD2_LCR/bair_car ~/catkin_ws/src/bair_car"
-ln -s ~/kzpy3/teg2/bdd_car_versions/bdd_car_rewrite_SD2_LCR/bair_car ~/catkin_ws/src/bair_car
-echo "************************************************\n*"
-echo "wait 2s"
-sleep 2
-
-#echo "sleep 30s before rla . . ."
-#sleep 30
-#rla
+OPTIONS="quit bdd_car_rewrite_SD2 bdd_car_rewrite_SD2_LCR"
+select opt in $OPTIONS; do
+   if [ "$opt" = "quit" ]; then
+    echo done
+    #exit
+   elif [ "$opt" = "bdd_car_rewrite_SD2" ]; then
+    rm ~/catkin_ws/src/bair_car
+    ln -s ~/kzpy3/teg2/bdd_car_versions/bdd_car_rewrite_SD2/bair_car ~/catkin_ws/src/bair_car
+    echo "using bdd_car_rewrite_SD2"
+   elif [ "$opt" = "bdd_car_rewrite_SD2_LCR" ]; then
+    rm ~/catkin_ws/src/bair_car
+    ln -s ~/kzpy3/teg2/bdd_car_versions/bdd_car_rewrite_SD2_LCR/bair_car ~/catkin_ws/src/bair_car
+    echo "using bdd_car_rewrite_SD2_LCR"
+   else
+    #clear
+    echo bad option
+   fi
+done
 fi
 
 date

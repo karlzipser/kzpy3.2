@@ -68,6 +68,7 @@ n_avg_IMU = 10
 
 ####################### specific car settings ################
 #
+"""
 if computer_name == 'Mr_Orange':
 	#PID_min_max = [2.,3.]
 	#motor_gain = 1.0
@@ -115,7 +116,7 @@ if computer_name == 'Mr_LightBlue':
 #if computer_name == 'Mr_Blue_Original':
 #	motor_gain = 0.5
 #	pass
-
+"""
 
 #
 ###################################################################
@@ -152,6 +153,7 @@ foldername = foldername + time_str() + '_'
 
 foldername = foldername + computer_name
 
+"""
 #
 ###################################################################
 # Aruco code parameters
@@ -171,6 +173,6 @@ ar_params={
 'ar_min_motor' : 59,
 'ar_override_motor':49,
 'ar_override_steer':49 } # Full stop. Backwards is not considered
-        
+"""        
 
 
