@@ -20,8 +20,8 @@ for im in import_list + import_from_list + import_as_list:
             exec('import '+im)
             #print("imported "+im)
         except:
-            if False:#username == 'karlzipser':
-                print('Failed to import '+im)
+            pass
+            #print('Failed to import '+im)
     else:
         assert(type(im)) == list
         if im[0] == 'FROM':
@@ -29,14 +29,15 @@ for im in import_list + import_from_list + import_as_list:
                 exec('from '+im[1]+' import '+im[2])
                 #print("from "+im[1]+" imported "+im[2])
             except:
-                print('Failed to from '+im[1]+' import '+im[2])
+                pass
+                #print('Failed to from '+im[1]+' import '+im[2])
         else:
             assert(im[0] == 'AS')
             try:
                 exec('import '+im[1]+' as '+im[2])
                 #print("imported "+im[1]+" as "+im[2])
             except:
-                print('Failed to import '+im[1]+' as '+im[2])           
+                pass#print('Failed to import '+im[1]+' as '+im[2])           
 
 #print("*** Note, kzpy3/teg2/bashrc now does: 'export PYTHONSTARTUP=~/kzpy3/vis2.py' ***")
 
