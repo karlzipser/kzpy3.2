@@ -72,7 +72,7 @@ echo "rrm;rlog"
 rrm
 rlog
 
-OPTIONS="bdd_car_rewrite_SD2 bdd_car_rewrite_SD2_LCR rosbags git_pull reboot shutdown"
+OPTIONS="bdd_car_rewrite_SD2 bdd_car_rewrite_SD2_LCR rla rosbags git_pull reboot shutdown"
 select opt in $OPTIONS; do
    if [ "$opt" = "reboot" ]; then
     echo "Rebooting . . ."
@@ -80,6 +80,8 @@ select opt in $OPTIONS; do
    elif [ "$opt" = "shutdown" ]; then
     echo "Shutting down . . ."
     ssd
+   elif [ "$opt" = "rla" ]; then
+    rla
    elif [ "$opt" = "bdd_car_rewrite_SD2" ]; then
     rm ~/catkin_ws/src/bair_car
     ln -s ~/kzpy3/teg2/bdd_car_versions/bdd_car_rewrite_SD2/bair_car ~/catkin_ws/src/bair_car
