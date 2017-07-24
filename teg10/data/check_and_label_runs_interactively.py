@@ -995,7 +995,7 @@ if False:
 	so(opj('/media/karlzipser/ExtraDrive2/bdd_car_data_July2017_LCR/hdf5/segment_metadata','val_all_steer'),val_all_steer)
 	so(opj('/media/karlzipser/ExtraDrive2/bdd_car_data_July2017_LCR/hdf5/segment_metadata','train_all_steer'),train_all_steer)
 
-
+# rsync -rav /media/karlzipser/ExtraDrive2/bdd_car_data_July2017_LCR/hdf5 /home/karlzipser/Desktop/bdd_car_data_July2017_LCR/
 
 
 
