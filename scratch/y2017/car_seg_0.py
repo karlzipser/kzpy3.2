@@ -113,11 +113,20 @@ def annotation():
 		masks = map(fname,sggo(opjD('car_annotation','masks','*.png')))
 		if fname(c) not in masks:
 			mask = imread(c)
-			mask = imread(c)
+			mask_copy = mask.copy()
 			setup_image({'img':mask})
-			decision = raw_input('Save? (y=Yes,enter=No)')
-			if decision == 'y':
-				save_mask({'mask':mask,'path':opjD('car_annotation','masks',fname(c))})
+			decision = 'y'
+			while decision in ['y','r']:
+				decision = raw_input('Save? (y=Yes,r=Reset,enter=No)')
+				if decision == 'y':
+					save_mask({'mask':mask,'path':opjD('car_annotation','masks',fname(c))})
+					decision = 'x'
+				elif decision == 'r':
+					mask = mask_copy.copy()
+					setup_image({'img':mask})
+					decision = 'y'
+				else:
+					decision = 'x'
 			#mi(combine_images({'img1':,'img2':,'mask':}))
 
 
