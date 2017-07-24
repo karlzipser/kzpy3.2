@@ -20,7 +20,7 @@ for im in import_list + import_from_list + import_as_list:
             exec('import '+im)
             #print("imported "+im)
         except:
-            if username == 'karlzipser':
+            if False:#username == 'karlzipser':
                 print('Failed to import '+im)
     else:
         assert(type(im)) == list
