@@ -17,6 +17,6 @@ while True:
 
 	bag_size = dp(bag_size/1000000000.)
 
-	print(d2s(bag_num,bag_size,'GB',bag_time,'s'))
+	print(d2s(bag_num,bag_size,'GB',bag_time,'s',time_str('TimeShort')))
 
 	time.sleep(5)

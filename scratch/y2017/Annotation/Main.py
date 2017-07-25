@@ -1,3 +1,4 @@
+#! //anaconda/bin/python
 ###############################
 #  for interactive terminal
 import __main__ as main

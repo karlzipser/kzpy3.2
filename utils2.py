@@ -8,6 +8,20 @@
 from __future__ import print_function  # print('me') instead of print 'me'
 from __future__ import division  # 1/2 == 0.5, not 0
 ######################
+"""
+pip install pyserial
+sudo pip install termcolor
+
+cv2 on osx:
+    http://www.mobileway.net/2015/02/14/install-opencv-for-python-on-mac-os-x/
+    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    brew tap homebrew/science
+    brew install opencv
+    sudo ln -s /usr/local/Cellar/opencv/2.4.13.2/lib/python2.7/site-packages/cv2.so /Library/Python/2.7/site-packages/cv2.so
+    sudo ln -s /usr/local/Cellar/opencv/2.4.13.2/lib/python2.7/site-packages/cv.py /Library/Python/2.7/site-packages/cv.py
+    to .bash_profile: export PYTHONPATH=/Library/Python/2.7/site-packages:$PYTHONPATH
+"""
+
 
 import_list = ['os','os.path','shutil','scipy','scipy.io','string','glob','time','sys','datetime','random','cPickle','re',
     'subprocess','serial','math','inspect','fnmatch','h5py','socket','getpass','numbers']
@@ -18,26 +32,27 @@ for im in import_list + import_from_list + import_as_list:
     if type(im) == str:
         try:
             exec('import '+im)
-            #print("imported "+im)
+            print("imported "+im)
         except:
             pass
-            #print('Failed to import '+im)
+            print('Failed to import '+im)
     else:
         assert(type(im)) == list
         if im[0] == 'FROM':
             try:
                 exec('from '+im[1]+' import '+im[2])
-                #print("from "+im[1]+" imported "+im[2])
+                print("from "+im[1]+" imported "+im[2])
             except:
                 pass
-                #print('Failed to from '+im[1]+' import '+im[2])
+                print('Failed to from '+im[1]+' import '+im[2])
         else:
             assert(im[0] == 'AS')
             try:
                 exec('import '+im[1]+' as '+im[2])
-                #print("imported "+im[1]+" as "+im[2])
+                print("imported "+im[1]+" as "+im[2])
             except:
-                pass#print('Failed to import '+im[1]+' as '+im[2])           
+                pass
+                print('Failed to import '+im[1]+' as '+im[2])           
 
 #print("*** Note, kzpy3/teg2/bashrc now does: 'export PYTHONSTARTUP=~/kzpy3/vis2.py' ***")
 
@@ -352,6 +367,8 @@ def time_str(mode='FileSafe'):
        return now.strftime('%d%b%y_%Hh%Mm%Ss')
     if mode=='Pretty':
        return now.strftime('%A, %d %b %Y, %r')
+    if mode=='TimeShort':
+       return now.strftime('%H:%M')
 
 
 def zrn(c,verify=False,show_only=False):
