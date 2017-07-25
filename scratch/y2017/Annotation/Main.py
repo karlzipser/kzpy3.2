@@ -6,7 +6,9 @@ if not hasattr(main,'__file__'):
 	pythonpaths([opjh('kzpy3'),opjh('kzpy3/scratch/y2017/Annotation')])
 #
 ###############################
+
 from Parameters_Module import *
+from vis2 import *
 exec(identify_file_str)
 
 _ = dictionary_access
@@ -105,9 +107,14 @@ def combine_images(*args):
 	img1[0:rows, 0:cols ] = dst
 	return img1
 Image = {}
-def annotation():
-	camera_imgs = sggo(opjD('car_annotation','cameras','*.png'))
-	i = 0
+def annotation(*args):
+	Args = args_to_dictionary(args)
+	if 'i' not in Args:
+		i = 0
+	else:
+		i = Args['i']
+	True
+	camera_imgs = sggo(P[IMAGES],'*.png')
 	reverse = False
 	while True:
 		if i < 0:
@@ -115,7 +122,7 @@ def annotation():
 		elif i > len(camera_imgs):
 			i = len(camera_imgs)-1
 		c = camera_imgs[i]
-		masks = map(fname,sggo(opjD('car_annotation','masks','*.png')))
+		masks = map(fname,sggo(P[MASKS],'*.png'))
 		if fname(c) not in masks:
 			print(d2s('annotating',c))
 			Image['mask'] = imread(c)
@@ -130,13 +137,15 @@ def annotation():
 					setup_image('img',Image['mask'])
 				elif k == 115: # s
 					pd2s('saving mask for',fname(c))
-					save_mask('mask',Image['mask'], 'path',opjD('car_annotation','masks',fname(c)))
+					save_mask('mask',Image['mask'], 'path',opj(P[MASKS],fname(c)))
 					i += 1
 					break
 				elif k == 63233: # <down arrow>
 					i += 1
 					reverse = False
 					break
+				elif k == ord('q'):
+					sys.exit()
 				#elif k == 63232: # <up arrow>
 				#	i -= 1
 				#	reverse = True
@@ -152,10 +161,10 @@ def annotation():
 """
 
 def test():
-	camera_imgs = sggo(opjD('car_annotation','cameras','*.png'))
-	masks = sggo(opjD('car_annotation','masks','*.png'))
+	camera_imgs = sggo(P[IMAGES],'*.png')
+	masks = sggo(P[MASKS],'*.png')
 	mask = random.choice(masks)
-	img2 = imread(opjD('car_annotation','cameras',fname(mask)))
+	img2 = imread(opj(P[IMAGES],fname(mask)))
 	img1 = imread(random.choice(camera_imgs))
 	mask = imread(mask)
 	mi(combine_images('img1',img1, 'img2',img2, 'mask',mask),1)
@@ -166,7 +175,8 @@ def multitest():
 		pause(5)
 
 
-
+if __name__ == '__main__':
+	annotation()
 
 
 
