@@ -162,7 +162,7 @@ def Batch(*args):
             cv[:hv,-wv:,:] = z2o(bv[:,:,:3])
             cv[-hv:,:wv,:] = z2o(bv[:,:,9:12])
             cv[-hv:,-wv:,:] = z2o(bv[:,:,6:9])
-            mi(cv,'cameras')
+            mi(cv,'cameras');pause(0.000000001)
             print(av.min(),av.max())
             print(D[states][-1])
             #img_saver['save']({'img':c})

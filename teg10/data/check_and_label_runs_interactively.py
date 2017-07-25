@@ -351,17 +351,29 @@ ST = function_set_plot_time_range
 
 
 if False: # trying to fix problem
-	for i in range(len(I[B_]['data']['state'])):
-		if I[B_]['data']['state'][i] == 'no data':
-			I[B_]['data']['state'][i] = 0
-
+	for mode in ['state','motor','steer']:
+		for i in range(len(I[B_]['data'][mode])):
+			if type(I[B_]['data'][mode][i]) == str:#'no data':
+				print 'no data'
+				if mode == 'state':
+					I[B_]['data'][mode][i] = 0
+				else:
+					I[B_]['data'][mode][i] = 49
 
 
 def function_adjust_offset(t_start,t_end,motor_offset,steer_offset):
 	"""
 	In some runs state 4 is reached unintentionally, leading to calibration faults.
 	This function allows estimated correction of this. Saving results and putting them
-	into correct location must be done manually.
+	into correct location must be done manually:
+
+		B=I[B_]
+		B['data']['steer'] = B['data']['steer_corrected']
+		B['data']['motor'] = B['data']['motor_corrected']
+		so(B,opjD('Bag_Folder'))
+	
+	Then, rename original Bag_Folder.pkl as "B_ag_Folder.pkl" and put new one in meta folder.
+	Then, rerun this program to insure that corrections were saved properly.
 	"""
 	B = I[B_]
 	if I[B_] == None:
@@ -376,6 +388,15 @@ def function_adjust_offset(t_start,t_end,motor_offset,steer_offset):
 	L = I[B_]['left_image_bound_to_data']
 	for i in range(len(ts)):
 		if ts[i]-ts[0] >= t_start and ts[i]-ts[0] < t_end:
+			if not is_number(L[ts[i]]['motor']):
+				print(L[ts[i]]['motor'])
+				L[ts[i]]['motor'] = 49
+			if not is_number(L[ts[i]]['steer']):
+				print(L[ts[i]]['steer'])
+				L[ts[i]]['steer'] = 49
+			if not is_number(L[ts[i]]['state']):
+				print(L[ts[i]]['state'])
+				L[ts[i]]['state'] = 4		
 			L[ts[i]]['motor'] += motor_offset
 			L[ts[i]]['steer'] += steer_offset
 			if is_number(steer_offset):
