@@ -975,7 +975,7 @@ def compile_run_codes_and_hdf5_data_moment_lists():
 		CS_("Goal: compile low_steer and high_steer. (Fast)")
 		low_steer = []
 		high_steer = []
-		low_steer_files = sgg(opj(V[bair_car_data_path],'hdf5/segment_metadata/*.low_steer_data_moments.pkl'))
+		low_steer_files = sggo(V[bair_car_data_path],'hdf5/segment_metadata/*.low_steer_data_moments.pkl')
 		ctr = 0
 		for s in low_steer_files:
 			print (ctr,s)
@@ -983,7 +983,8 @@ def compile_run_codes_and_hdf5_data_moment_lists():
 			for i in range(len(q)):
 				q[i].append(ctr)
 			low_steer += q
-			q = load_obj(s.replace('.low_steer.','.high_steer_data_moments.'))
+			q = load_obj(s.replace('.low_steer_data_moments.','.high_steer_data_moments.'))
+			assert('low' not in q)
 			for i in range(len(q)):
 				q[i].append(ctr)
 			high_steer += q
