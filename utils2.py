@@ -125,7 +125,9 @@ def opjh(*args):
     return opj(home_path,opj(*args))
 def opjD(*args):
     return opjh('Desktop',opj(*args))
-media_path = opj('/media',username)
+def opjm(*args):
+    media_path = opj('/media',username)
+    return opj(media_path,opj(*args))
 
 def rlen(a):
     return range(len(a))
