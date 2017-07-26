@@ -1,3 +1,6 @@
+from kzpy3.utils2 import *
+exec(identify_file_str)
+
 import math
 import torch
 import torch.nn as nn
@@ -31,7 +34,7 @@ class SqueezeNet(nn.Module):
 
     def __init__(self):
         super(SqueezeNet, self).__init__()
-        
+        self.A = {}
         self.lr = 0.01
         self.momentum = 0.01
         self.N_FRAMES = 2
@@ -70,13 +73,19 @@ class SqueezeNet(nn.Module):
                 if m.bias is not None:
                     m.bias.data.zero_()
 
+
     def forward(self, x, metadata):
-        x = self.pre_metadata_features(x)
-        x = torch.cat((x, metadata), 1)
-        x = self.post_metadata_features(x)
-        x = self.final_output(x)
-        x = x.view(x.size(0), -1)
-        return x
+        self.A['camera_input'] = x
+        self.A['pre_metadata_features'] = self.pre_metadata_features(self.A['camera_input'])
+        self.A['pre_metadata_features_metadata'] = torch.cat((self.A['pre_metadata_features'], metadata), 1)
+        self.A['post_metadata_features'] = self.post_metadata_features(self.A['pre_metadata_features_metadata'])
+        self.A['final_output'] = self.final_output(self.A['post_metadata_features'])
+
+        self.A['final_output_view'] = self.A['final_output'].view(self.A['final_output'].size(0), -1)
+      
+        return self.A['final_output_view']
+
+
 
 def unit_test():
     test_net = SqueezeNet()

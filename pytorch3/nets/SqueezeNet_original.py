@@ -1,6 +1,3 @@
-from kzpy3.utils2 import *
-exec(identify_file_str)
-
 import math
 import torch
 import torch.nn as nn
@@ -72,30 +69,14 @@ class SqueezeNet(nn.Module):
                     init.kaiming_uniform(m.weight.data)
                 if m.bias is not None:
                     m.bias.data.zero_()
-        self.a = None
-        self.b = None
-        self.c = None
-        self.d = None
-        self.e = None
 
     def forward(self, x, metadata):
-        a = self.pre_metadata_features(x)
-        b = torch.cat((a, metadata), 1)
-        c = self.post_metadata_features(b)
-        d = self.final_output(c)
-        #a = a.view(a.size(0), -1)
-        #b = b.view(b.size(0), -1)
-        #c = c.view(c.size(0), -1)
-        d = d.view(d.size(0), -1)
-
-        self.a = a
-        self.b = b        
-        self.c = c
-        self.d = d        
-
-        return d
-
-
+        x = self.pre_metadata_features(x)
+        x = torch.cat((x, metadata), 1)
+        x = self.post_metadata_features(x)
+        x = self.final_output(x)
+        x = x.view(x.size(0), -1)
+        return x
 
 def unit_test():
     test_net = SqueezeNet()

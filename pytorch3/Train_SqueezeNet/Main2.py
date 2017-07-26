@@ -10,6 +10,7 @@ from Parameters_Module import *
 import Data_Module
 import Batch_Module
 import Network_Module
+import Activity_Module
 exec(identify_file_str)
 
 _ = dictionary_access
@@ -51,10 +52,7 @@ while True:
 			Batch[clear]()
 			Batch[fill](data,Train_Val_data, mode,modev)
 			Batch[forward]()
-			t=Network[net].b
-			q = t.data.cpu().numpy()
-			#q[0,0]=0;q[0,1]=1
-			#mi(q);pause(0.01)
+			Net_activity = View_Module.Net_Activity('net_activiations',Network[net].A)
 			raw_input('ctrl-c')
 			Batch[display]()
 			Batch[backward]()

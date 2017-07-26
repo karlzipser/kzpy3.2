@@ -68,8 +68,8 @@ def Batch(*args):
 
                     if Data_moment[states][0]:
                         metadatav = torch.cat((one_matrixv, metadatav), 1)
-                        print cur_labelv
-                        raw_input('here')
+                        #print cur_labelv
+                        #raw_input('here')
                     else:
                         metadatav = torch.cat((zero_matrixv, metadatav), 1)
                 else:
