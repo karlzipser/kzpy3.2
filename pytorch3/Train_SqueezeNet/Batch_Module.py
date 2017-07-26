@@ -65,12 +65,17 @@ def Batch(*args):
             for cur_labelv in [racing, caffe, follow, direct, play, furtive]:
                 mode_ctrv += 1
                 if cur_labelv == caffe:
+
                     if Data_moment[states][0]:
                         metadatav = torch.cat((one_matrixv, metadatav), 1)
+                        print cur_labelv
+                        raw_input('here')
                     else:
                         metadatav = torch.cat((zero_matrixv, metadatav), 1)
                 else:
                     if Data_moment[labels][cur_labelv]:
+                        #print cur_labelv
+                        
                         metadatav = torch.cat((one_matrixv, metadatav), 1)
                     else:
                         metadatav = torch.cat((zero_matrixv, metadatav), 1)

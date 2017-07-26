@@ -38,19 +38,24 @@ Batch = Batch_Module.Batch(network,Network)
 timer = Timer(0)
 
 while True:
-	for train_valv in [
+	for train_val in [
 		[train,val,Timer(P[TRAIN_TIME]),'b'],
 		[val,train,Timer(P[VAL_TIME]),'r']]:
 
-		modev = train_valv[0]
-		other_modev = train_valv[1]
-		timer = train_valv[2]
+		modev = train_val[0]
+		other_modev = train_val[1]
+		timer = train_val[2]
 		timer.reset()
-		colorv = train_valv[3]
+		colorv = train_val[3]
 		while not timer.check():
 			Batch[clear]()
 			Batch[fill](data,Train_Val_data, mode,modev)
 			Batch[forward]()
+			t=Network[net].b
+			q = t.data.cpu().numpy()
+			#q[0,0]=0;q[0,1]=1
+			#mi(q);pause(0.01)
+			raw_input('ctrl-c')
 			Batch[display]()
 			Batch[backward]()
 			Network[loss_record][modev][add](loss,Batch['loss'].data.cpu().numpy()[0],
@@ -63,8 +68,9 @@ while True:
 	#Batch['clear']()
 
 
-
-
+t=Network[net].temp
+q = t.data.cpu().numpy()
+mi(q)
 
 
 #EOF
