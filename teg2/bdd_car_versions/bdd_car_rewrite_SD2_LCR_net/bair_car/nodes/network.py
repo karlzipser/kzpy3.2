@@ -165,7 +165,7 @@ def format_metadata(raw_metadata):
             use_matrixv = zero_matrix
         for i in range(10):
             metadatav = torch.cat((use_matrixv, metadatav), 1)
-    for i in range(128-6-30):
+    for i in range(128-6-30*3):
         metadatav = torch.cat((zero_matrix, metadatav), 0) 
     return metadatav.cuda().unsqueeze(0)
 
@@ -199,10 +199,10 @@ def state_callback(data):
     # data.data = 6
     if state != data.data:
         state_enter_time = time.time()
-        if state in [3,5,6,7] and previous_state in [3,5,6,7]:
-            pass
-        else:
-            previous_state = state
+        #if state in [3,5,6,7] and previous_state in [3,5,6,7]:
+        #    pass
+        #else:
+        previous_state = state
     state = data.data
 def steer_callback(data):
     global steer
