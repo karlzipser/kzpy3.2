@@ -248,10 +248,12 @@ def setup(M,Arduinos):
     M['calibrated'] = False
     M['PID'] = [-1,-1]
 
-    state_one = Smooth_Human_Control('state 1',1,1700,M,Arduinos)
-    state_two = Smooth_Human_Control('state 2',2,1424,M,Arduinos)
+    state_one = Net_Steer_Net_Motor('state 1',1,1424,M,Arduinos)#Smooth_Human_Control('state 1',1,1700,M,Arduinos)
+    state_one = Net_Steer_Net_Motor('state 2',2,1700,M,Arduinos)#Smooth_Human_Control('state 1',1,1700,M,Arduinos)
+    state_one = Net_Steer_Net_Motor('state 3',3,1900,M,Arduinos)#Smooth_Human_Control('state 1',1,1700,M,Arduinos)
+    state_two = #Smooth_Human_Control('state 2',2,1424,M,Arduinos)
     #state_six = Net_Steer_Net_Motor('state 6',6,1900,M,Arduinos)
-    state_three = Smooth_Human_Control('state 3',3,1900,M,Arduinos)
+    state_three = #Smooth_Human_Control('state 3',3,1900,M,Arduinos)
     #state_five = Human_Control('state 5',5,1900,M,Arduinos)
     #state_seven = Human_Steer_Net_Motor('state 7',7,1900,M,Arduinos)
     #state_eight = Net_Steer_PID_Motor('state 8',8,1900,M,Arduinos)
