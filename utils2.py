@@ -20,6 +20,8 @@ cv2 on osx:
     sudo ln -s /usr/local/Cellar/opencv/2.4.13.2/lib/python2.7/site-packages/cv2.so /Library/Python/2.7/site-packages/cv2.so
     sudo ln -s /usr/local/Cellar/opencv/2.4.13.2/lib/python2.7/site-packages/cv.py /Library/Python/2.7/site-packages/cv.py
     to .bash_profile: export PYTHONPATH=/Library/Python/2.7/site-packages:$PYTHONPATH
+x11 on osx: https://www.xquartz.org/
+    in .Xdefaults: *VT100.translations: #override  Meta <KeyPress> V:  insert-selection(PRIMARY, CUT_BUFFER0) \n
 """
 
 
