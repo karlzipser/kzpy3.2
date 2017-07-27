@@ -146,7 +146,7 @@ def format_camera_data(left_list, right_list):
 
     return camera_data
 
-zero_matrix = torch.FloatTensor(1, 23, 41).zero_()
+zero_matrix = torch.FloatTensor(1, 1, 23, 41).zero_()
 one_matrixv = torch.FloatTensor(1, 1, 23, 41).fill_(1).cuda()
 
 def format_metadata(raw_metadata):
@@ -155,9 +155,10 @@ def format_metadata(raw_metadata):
     :return:
     """
     metadatav = torch.FloatTensor()
+    mode_ctrv = 0
     for mode in raw_metadata:
         metadatav = torch.cat((torch.FloatTensor(1, 23, 41).fill_(mode), metadatav), 0)
-
+        mode_ctrv += 1
     for target_statev in [1,2,3]:
         if target_statev == state:
             use_matrixv = one_matrixv
@@ -165,7 +166,8 @@ def format_metadata(raw_metadata):
             use_matrixv = zero_matrix
         for i in range(10):
             metadatav = torch.cat((use_matrixv, metadatav), 1)
-    for i in range(128-6-30*3):
+             mode_ctrv += 1
+    for i in range(128-mode_ctrv):
         metadatav = torch.cat((zero_matrix, metadatav), 0) 
     return metadatav.cuda().unsqueeze(0)
 
