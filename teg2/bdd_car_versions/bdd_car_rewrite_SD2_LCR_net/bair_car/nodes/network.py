@@ -165,7 +165,7 @@ def format_metadata(raw_metadata):
         else:
             use_matrixv = zero_matrix
         for i in range(10):
-            metadatav = torch.cat((use_matrixv, metadatav), 1)
+            metadatav = torch.cat((use_matrixv, metadatav), 0)
             mode_ctrv += 1
     for i in range(128-mode_ctrv):
         metadatav = torch.cat((zero_matrix, metadatav), 0) 
