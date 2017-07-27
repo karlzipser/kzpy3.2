@@ -71,7 +71,7 @@ cd
 echo "rrm;rlog"
 rrm
 rlog
-
+alias sb='source ~/.bashrc'
 OPTIONS="bdd_car_rewrite_SD2 bdd_car_rewrite_SD2_LCR bdd_car_rewrite_SD2_LCR_net rla rosbags git_pull reboot shutdown"
 COLUMNS=12
 select opt in $OPTIONS; do
