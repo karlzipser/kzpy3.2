@@ -257,8 +257,8 @@ torch_steer_previous = 49
 torch_motor_previous = 49
 
 while not rospy.is_shutdown():
-    if state in [3,5,6,7]:
-        if (previous_state not in [3,5,6,7]):
+    if state in [1,2,3]:
+        if (previous_state not in [1,2,3]):
             previous_state = state
             caffe_enter_timer.reset()
         if not caffe_enter_timer.check():
@@ -281,9 +281,9 @@ while not rospy.is_shutdown():
 
                 #print torch_motor,torch_steer
 
-                if state in [3,6]:          
+                if state in [1,2,3]:          
                     steer_cmd_pub.publish(std_msgs.msg.Int32(torch_steer))
-                if state in [6,7]:
+                if state in [1,2,3]:
                     motor_cmd_pub.publish(std_msgs.msg.Int32(torch_motor))
 
 

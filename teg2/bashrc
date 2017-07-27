@@ -92,6 +92,10 @@ select opt in $OPTIONS; do
     rm ~/catkin_ws/src/bair_car
     ln -s ~/kzpy3/teg2/bdd_car_versions/bdd_car_rewrite_SD2_LCR/bair_car ~/catkin_ws/src/bair_car
     ls -al ~/catkin_ws/src/bair_car
+   elif [ "$opt" = "bdd_car_rewrite_SD2_LCR_net" ]; then
+    rm ~/catkin_ws/src/bair_car
+    ln -s ~/kzpy3/teg2/bdd_car_versions/bdd_car_rewrite_SD2_LCR_net/bair_car ~/catkin_ws/src/bair_car
+    ls -al ~/catkin_ws/src/bair_car
    elif [ "$opt" = "rosbags" ]; then
     check_rosbags.py
    elif [ "$opt" = "git_pull" ]; then
