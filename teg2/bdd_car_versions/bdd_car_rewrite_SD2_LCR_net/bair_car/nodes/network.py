@@ -154,9 +154,9 @@ def format_metadata(raw_metadata):
     Formats meta data from raw inputs from camera.
     :return:
     """
-    metadata = torch.FloatTensor()
+    metadatav = torch.FloatTensor()
     for mode in raw_metadata:
-        metadata = torch.cat((torch.FloatTensor(1, 23, 41).fill_(mode), metadata), 0)
+        metadatav = torch.cat((torch.FloatTensor(1, 23, 41).fill_(mode), metadatav), 0)
 
     for target_statev in [1,2,3]:
         if target_statev == state:
@@ -166,8 +166,8 @@ def format_metadata(raw_metadata):
         for i in range(10):
             metadatav = torch.cat((use_matrixv, metadatav), 1)
     for i in range(128-6-30):
-        metadata = torch.cat((zero_matrix, metadata), 0) 
-    return metadata.cuda().unsqueeze(0)
+        metadatav = torch.cat((zero_matrix, metadatav), 0) 
+    return metadatav.cuda().unsqueeze(0)
 
 #
 ########################################################
