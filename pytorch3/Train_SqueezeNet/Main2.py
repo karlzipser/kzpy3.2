@@ -73,17 +73,17 @@ while True:
 
 
 if False:
-	all_lines_list = txt_file_to_list_of_strings(opjh('kzpy3','pytorch3','Train_SqueezeNet','Main2.py'))
+	all_lines_listv = txt_file_to_list_of_strings(opjh('kzpy3','pytorch3','Train_SqueezeNet','Main2.py'))
 	startv = False
-	run_lines_list = []
-	for av in all_lines_list:
+	run_lines_listv = []
+	for av in all_lines_listv:
 		if av == '##START##':
 			startv = True
 		if startv:
-			run_lines_list.append(av)
+			run_lines_listv.append(av)
 		if av == '##END##':
 			break
-	exec('\n'.join(run_lines_list))
+	exec('\n'.join(run_lines_listv))
 
 
 if False:
