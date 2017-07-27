@@ -257,38 +257,26 @@ torch_steer_previous = 49
 torch_motor_previous = 49
 
 while not rospy.is_shutdown():
-    if state in [1,2,3]:
-        if (previous_state not in [1,2,3]):
-            previous_state = state
-            caffe_enter_timer.reset()
-        if not caffe_enter_timer.check():
-            print "waiting before entering caffe mode..."
-            steer_cmd_pub.publish(std_msgs.msg.Int32(49))
-            motor_cmd_pub.publish(std_msgs.msg.Int32(49))
-            time.sleep(0.1)
-            continue
-        else:
-            if len(left_list) > nframes + 2:
-                camera_data = format_camera_data(left_list, right_list)
-                metadata = format_metadata((Racing, 0, Follow, Direct, Play, Furtive))
 
-                torch_motor, torch_steer = run_model(camera_data, metadata)
+    if len(left_list) > nframes + 2:
+        camera_data = format_camera_data(left_list, right_list)
+        metadata = format_metadata((Racing, 0, Follow, Direct, Play, Furtive))
 
-                freeze_cmd_pub.publish(std_msgs.msg.Int32(freeze))
-                
-                cur_time = time.time()
-                last_time = cur_time
+        torch_motor, torch_steer = run_model(camera_data, metadata)
 
-                #print torch_motor,torch_steer
+        freeze_cmd_pub.publish(std_msgs.msg.Int32(freeze))
+        
+        cur_time = time.time()
+        last_time = cur_time
 
-                if state in [1,2,3]:          
-                    steer_cmd_pub.publish(std_msgs.msg.Int32(torch_steer))
-                if state in [1,2,3]:
-                    motor_cmd_pub.publish(std_msgs.msg.Int32(torch_motor))
+        #print torch_motor,torch_steer
+
+        if state in [1,2,3]:          
+            steer_cmd_pub.publish(std_msgs.msg.Int32(torch_steer))
+        if state in [1,2,3]:
+            motor_cmd_pub.publish(std_msgs.msg.Int32(torch_motor))
 
 
-    else:
-        caffe_enter_timer.reset()
     
     shutdown_time = 30
     if state == 4 and time.time()-state_enter_time > shutdown_time-5:
