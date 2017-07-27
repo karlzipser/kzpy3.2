@@ -146,8 +146,8 @@ def format_camera_data(left_list, right_list):
 
     return camera_data
 
-zero_matrix = torch.FloatTensor(1, 1, 23, 41).zero_()
-one_matrixv = torch.FloatTensor(1, 1, 23, 41).fill_(1).cuda()
+zero_matrix = torch.FloatTensor(1, 23, 41).zero_()
+one_matrixv = torch.FloatTensor(1, 23, 41).fill_(1).cuda()
 
 def format_metadata(raw_metadata):
     """
