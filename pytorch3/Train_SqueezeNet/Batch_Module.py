@@ -66,7 +66,7 @@ def Batch(*args):
                 mode_ctrv += 1
                 if cur_labelv == caffe:
 
-                    if Data_moment[states][0]:
+                    if Data_moment[states][0] in [3,5,6,7]:
                         metadatav = torch.cat((one_matrixv, metadatav), 1)
                         #print cur_labelv
                         #raw_input('here')

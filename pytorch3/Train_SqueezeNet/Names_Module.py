@@ -88,7 +88,8 @@ for _name in [
 	'add','loss',
 	'TRAIN_TIME',
 	'VAL_TIME','INITIAL_WEIGHTS_FOLDER',
-	'activiations'
+	'activiations',
+	'moment_index', 'imgs', 'view'
 	]:exec(d2n(_name,'=',"'",_name,"'"))
 
 #

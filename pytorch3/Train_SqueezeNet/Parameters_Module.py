@@ -3,7 +3,7 @@ exec(identify_file_str)
 
 P = {}
 
-P[GPU] = 1
+P[GPU] = 0
 P[BATCH_SIZE] = 64
 P[DISPLAY] = True
 P[VERBOSE] = True

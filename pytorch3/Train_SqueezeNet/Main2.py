@@ -34,6 +34,8 @@ Network = Network_Module.Pytorch_Network()
 
 Train_Val_data = Data_Module.Training_Data()
 
+##START##
+
 Batch = Batch_Module.Batch(network,Network)
 
 timer = Timer(0)
@@ -52,8 +54,8 @@ while True:
 			Batch[clear]()
 			Batch[fill](data,Train_Val_data, mode,modev)
 			Batch[forward]()
-			Net_activity = View_Module.Net_Activity('net_activiations',Network[net].A)
-			raw_input('ctrl-c')
+			#Net_activity = Activity_Module.Net_Activity(activiations,Network[net].A)
+			#raw_input('ctrl-c')
 			Batch[display]()
 			Batch[backward]()
 			Network[loss_record][modev][add](loss,Batch['loss'].data.cpu().numpy()[0],
@@ -61,14 +63,36 @@ while True:
 				'color',colorv)
 			Network[save_net]()
 
-	
+##END##
 
 	#Batch['clear']()
 
 
-t=Network[net].temp
-q = t.data.cpu().numpy()
-mi(q)
 
 
-#EOF
+
+
+if False:
+	all_lines_list = txt_file_to_list_of_strings(opjh('kzpy3','pytorch3','Train_SqueezeNet','Main2.py'))
+	startv = False
+	run_lines_list = []
+	for av in all_lines_list:
+		if av == '##START##':
+			startv = True
+		if startv:
+			run_lines_list.append(av)
+		if av == '##END##':
+			break
+	exec('\n'.join(run_lines_list))
+
+
+if False:
+	a=[]
+	for i in range(64):
+		a.append(Net_activity[imgs]['post_metadata_features'][i])
+	a=np.array(a)
+	b=a.mean(axis=0)
+	mi(b,0);pause(0.1)
+
+
+#EOF	
