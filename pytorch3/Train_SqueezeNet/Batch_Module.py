@@ -175,17 +175,17 @@ def Batch(*args):
             print(D[states][-1])
             #img_saver['save']({'img':c})
 
-            print 'A'
+
             Net_activity = Activity_Module.Net_Activity(activiations,D[network][net].A)
-            print 'B'
+
             Net_activity[view](moment_index,0,delay,33, scales,{camera_input:3,pre_metadata_features:0,pre_metadata_features_metadata:2,post_metadata_features:4})
-            print 'C'
+
             figure('steer')
             clf()
             ylim(-0.05,1.05);xlim(0,len(tv))
             plot([-1,60],[0.49,0.49],'k');plot(ov,'og'); plot(tv,'or'); plt.title(D[names][0])
             pause(0.000000001)
-            print 'D'
+
             P[print_timer].reset()
     """
     
