@@ -230,7 +230,7 @@ CA = function_close_all_windows
 
 def mci(img,delay=33,title='animate',scale=1.0,color_mode=cv2.COLOR_RGB2BGR):
     img = cv2.cvtColor(img,color_mode)
-    scale_img = cv2.resize(img, (0,0), fx=scale, fy=scale)
+    scale_img = cv2.resize(img, (0,0), fx=scale, fy=scale, interpolation=0)
     cv2.imshow(title,scale_img)
     k = cv2.waitKey(delay)
     return k

@@ -54,9 +54,11 @@ while True:
 			Batch[clear]()
 			Batch[fill](data,Train_Val_data, mode,modev)
 			Batch[forward]()
-			#Net_activity = Activity_Module.Net_Activity(activiations,Network[net].A)
+			Net_activity = Activity_Module.Net_Activity(activiations,Network[net].A)
+			Net_activity[view](moment_index,0, scale,3, 'delay',2000)
+			pause(10)
 			#raw_input('ctrl-c')
-			Batch[display]()
+			Batch[display](print_now,True)
 			Batch[backward]()
 			Network[loss_record][modev][add](loss,Batch['loss'].data.cpu().numpy()[0],
 				'alt_ctr',Network[loss_record][other_modev][ctr],
@@ -73,6 +75,7 @@ while True:
 
 
 if False:
+	R="""
 	all_lines_listv = txt_file_to_list_of_strings(opjh('kzpy3','pytorch3','Train_SqueezeNet','Main2.py'))
 	startv = False
 	run_lines_listv = []
@@ -83,8 +86,9 @@ if False:
 			run_lines_listv.append(av)
 		if av == '##END##':
 			break
-	exec('\n'.join(run_lines_listv))
-
+	exec_str = '\\n'.join(run_lines_listv)
+	exec(exec_str)
+	"""
 
 if False:
 	a=[]

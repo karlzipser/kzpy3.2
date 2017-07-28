@@ -60,8 +60,10 @@ class SqueezeNet(nn.Module):
         self.final_output = nn.Sequential(
             nn.Dropout(p=0.5),
             final_conv,
-            # nn.ReLU(inplace=True),
+            # nn.ReLU(inplace=True), # this allows initial training to recover from zeros in output
             nn.AvgPool2d(kernel_size=5, stride=6)
+
+
         )
 
         for m in self.modules():
@@ -80,10 +82,8 @@ class SqueezeNet(nn.Module):
         self.A['pre_metadata_features_metadata'] = torch.cat((self.A['pre_metadata_features'], metadata), 1)
         self.A['post_metadata_features'] = self.post_metadata_features(self.A['pre_metadata_features_metadata'])
         self.A['final_output'] = self.final_output(self.A['post_metadata_features'])
-
-        self.A['final_output_view'] = self.A['final_output'].view(self.A['final_output'].size(0), -1)
-      
-        return self.A['final_output_view']
+        self.A['final_output'] = self.A['final_output'].view(self.A['final_output'].size(0), -1)
+        return self.A['final_output']
 
 
 

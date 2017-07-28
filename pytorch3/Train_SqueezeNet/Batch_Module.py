@@ -3,6 +3,7 @@ exec(identify_file_str)
 from vis2 import *
 import torch
 import torch.nn.utils as nnutils
+import Activity_Module
 
 #img_saver = Image_to_Folder_Saver({'path':opjD('cameras0')})
 
@@ -66,7 +67,7 @@ def Batch(*args):
                 mode_ctrv += 1
                 if cur_labelv == caffe:
 
-                    if Data_moment[states][0] in [3,5,6,7]:
+                    if Data_moment[states][0] in [3,5,6,7]: #!!!!!!!!!!!!!!!!!!!!!!!!
                         metadatav = torch.cat((one_matrixv, metadatav), 1)
                         #print cur_labelv
                         #raw_input('here')
@@ -98,7 +99,8 @@ def Batch(*args):
         if True:
             sv = Data_moment[steer]
             mv = Data_moment[motor]
-            rv = range(2,31,3) # This depends on NUM_STEPS and STRIDE
+            rv = range(8,91,9)
+            #rv = range(2,31,3) # This depends on NUM_STEPS and STRIDE
             sv = array(sv)[rv]
             mv = array(mv)[rv]
             steerv = torch.from_numpy(sv).cuda().float() / 99.
@@ -150,6 +152,7 @@ def Batch(*args):
         if print_now not in Args:
             Args[print_now] = False
         True
+        cv2.waitKey(1) # This is to keep cv2 windows alive
         if P[print_timer].check() or Args[print_now]:
 
             ov = D[outputs][0].data.cpu().numpy()
@@ -167,16 +170,26 @@ def Batch(*args):
             cv[:hv,-wv:,:] = z2o(bv[:,:,:3])
             cv[-hv:,:wv,:] = z2o(bv[:,:,9:12])
             cv[-hv:,-wv:,:] = z2o(bv[:,:,6:9])
-            mi(cv,'cameras');pause(0.000000001)
-            print(av.min(),av.max())
+            #mi(cv,'cameras');pause(0.000000001)
+            print(d2s('camera_data min,max =',av.min(),av.max()))
             print(D[states][-1])
             #img_saver['save']({'img':c})
+
+            print 'A'
+            Net_activity = Activity_Module.Net_Activity(activiations,D[network][net].A)
+            print 'B'
+            Net_activity[view](moment_index,0,delay,33, scales,{camera_input:3,pre_metadata_features:0,pre_metadata_features_metadata:2,post_metadata_features:4})
+            print 'C'
             figure('steer')
             clf()
             ylim(-0.05,1.05);xlim(0,len(tv))
             plot([-1,60],[0.49,0.49],'k');plot(ov,'og'); plot(tv,'or'); plt.title(D[names][0])
             pause(0.000000001)
+            print 'D'
             P[print_timer].reset()
+    """
+    
+    """
 
     D[fill] = _function_fill
     D[clear] = _function_clear
@@ -186,6 +199,6 @@ def Batch(*args):
     return D
 
 
-
+#scales,{camera_input:2,post_metadata_features:4,pre_metadata_features:1},
 
 #EOF

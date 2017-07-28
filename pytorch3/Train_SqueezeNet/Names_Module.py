@@ -89,7 +89,8 @@ for _name in [
 	'TRAIN_TIME',
 	'VAL_TIME','INITIAL_WEIGHTS_FOLDER',
 	'activiations',
-	'moment_index', 'imgs', 'view'
+	'moment_index', 'imgs', 'view','camera_input','final_output',
+	'pre_metadata_features','pre_metadata_features_metadata','post_metadata_features','scales','delay'
 	]:exec(d2n(_name,'=',"'",_name,"'"))
 
 #
