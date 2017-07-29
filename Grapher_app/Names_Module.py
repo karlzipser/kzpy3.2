@@ -2,7 +2,10 @@ from Paths_Module import *
 exec(identify_file_str)
 
 for _name in [
-	'pts_plot','img','purpose','name','xyz_sizes','data_type','x','y','xmin','ymin','xmax','ymax','xscale','yscale','floats_to_pixels','pixels_to_floats','ysize','xsize','lines_plot',
+	'pts_plot','img','purpose','name','xyz_sizes','data_type','x','y',
+	'xmin','ymin','xmax','ymax','xscale','yscale','floats_to_pixels',
+	'pixels_to_floats','ysize','xsize','lines_plot','color',
+
 	'reject_run',
 	'left',
 	'out1_in2',
