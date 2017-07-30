@@ -61,7 +61,7 @@ if da(P,EXAMPLE1):
 					Original_timestamp_data[new_keyv][vals] = Original_timestamp_data[kv][vals][:,ctrv]
 					ctrv += 1
 				del Original_timestamp_data[kv]
-				
+
 	Left_timestamp_data = {}
 	Left_timestamp_data[ts] = Original_timestamp_data[left_image][ts]
 
@@ -71,11 +71,15 @@ if da(P,EXAMPLE1):
 	Left_timestamp_data[right_ts] = np.array(Left_timestamp_data[right_ts])
 	assert( np.abs( 0.03 - np.median(Left_timestamp_data[ts] - Left_timestamp_data[right_ts]) ) < 0.01 )
 
-	for kv in Original_timestamp_data.keys():
+	for kv in sorted(Original_timestamp_data.keys()):
 		if kv != left_image and kv != right_image:
 			if len(Original_timestamp_data[kv][ts]) > 0:
+				print('processing '+kv)
 				Left_timestamp_data[kv] = np.interp(Left_timestamp_data[ts],
 					Original_timestamp_data[kv][ts],Original_timestamp_data[kv][vals])
+				if kv in P[MEO_PARAMS]:
+					Left_timestamp_data[kv+'_meo'] = np.interp(Left_timestamp_data[ts],
+						Original_timestamp_data[kv][ts],meo(Original_timestamp_data[kv][vals],P[MEO_PARAMS][kv]))
 
 	"""
 

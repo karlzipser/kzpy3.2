@@ -22,21 +22,32 @@ use_wordsv = """
 	acc_x
 	acc_y
 	acc_z
+	acc_x_meo
+	acc_y_meo
+	acc_z_meo
+
 	acc
 	right_image
 	gyro_x
 	gyro_y
 	gyro_z
+	gyro_x_meo
+	gyro_y_meo
+	gyro_z_meo
 	gyro
 	encoder
+	encoder_meo
+
 	state
 	steer
 	motor
 	left_image
 	gyro_heading_x gyro_heading_y gyro_heading_z gyro_heading
+	gyro_heading_x_meo gyro_heading_y_meo gyro_heading_z_meo
 	gps
 	ts
 	right_ts
+
 	vals
 	tdic
 """
