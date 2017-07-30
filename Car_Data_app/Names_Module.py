@@ -38,6 +38,8 @@ use_wordsv = """
 	encoder
 	encoder_meo
 
+	left_ts_deltas
+
 	state
 	steer
 	motor
@@ -50,6 +52,8 @@ use_wordsv = """
 
 	vals
 	tdic
+	bag_folder_path
+	h5py_path
 """
 
 import re
