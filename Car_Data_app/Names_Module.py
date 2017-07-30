@@ -3,7 +3,7 @@ exec(identify_file_str)
 
 print('---')
 use_wordsv = """
-
+	
 	EXAMPLE1
 	EXAMPLE2
 	EXAMPLE3
@@ -13,43 +13,32 @@ use_wordsv = """
 	EXAMPLE7
 	EXAMPLE8
 	VERBOSE
-	cameras
-	color
-	color_mode
-	coordinates
-	data_type
-	dic_type
-	floats_to_pixels
-	image
-	img
-	left_image
-	lines_plot
-	pixels_to_floats
-	ptsplot
-	purpose
-	steer
-	x
-	xmax
-	xmin
-	xscale
-	xsize
-	y
-	ymax
-	ymin
-	yscale
-	ysize
+	
+	MEO_PARAMS
+	topic
+	x y z
 
+	dic_type
+	acc_x
+	acc_y
+	acc_z
 	acc
 	right_image
+	gyro_x
+	gyro_y
+	gyro_z
 	gyro
 	encoder
 	state
 	steer
 	motor
 	left_image
-	gyro_heading
+	gyro_heading_x gyro_heading_y gyro_heading_z gyro_heading
 	gps
-
+	ts
+	right_ts
+	vals
+	tdic
 """
 
 import re

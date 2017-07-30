@@ -627,3 +627,10 @@ def Image_to_Folder_Saver(d):
 
 
 
+def wk(t_seconds):
+    k = cv2.waitKey(int(t_seconds*1000.0))
+    if k == ord('q'):
+        print('quit')
+        return
+    else:
+        return k

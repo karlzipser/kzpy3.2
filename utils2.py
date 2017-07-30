@@ -1383,7 +1383,11 @@ def is_even(q):
 
 
 def args_to_dictionary(*args):
-    assert(is_even(len(args[0])))
+    if not is_even(len(args[0])):
+        print("args_to_dictionary(*args)")
+        print("args are:")
+        print(args)
+        raise ValueError('ERROR because: not is_even(len(args[0]))')
     ctr = 0
     keys = []
     values = []
@@ -1394,7 +1398,13 @@ def args_to_dictionary(*args):
             values.append(e)
         ctr += 1
     d = {}
-    assert(len(keys) == len(values))
+    if len(keys) != len(values):
+        print("args_to_dictionary(*args)")
+        print("given keys are:")
+        print(keys)
+        print("given values are:")
+        print(values)
+        raise ValueError('ERROR because: len(keys) != len(values)')
     for k,v in zip(keys,values):
         d[k] = v
     return d

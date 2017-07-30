@@ -20,29 +20,11 @@ for a in Args.keys():
 
 
 
-
-
-
-if False:
-	imgv=imread('/home/karlzipser/Desktop/cameras.png' )
-
-	I = Graph_Module.Image(xmin,-2,xmax,2, ymin,0,ymax,7, xsize,400,ysize,400)
-	i = 0
-	while i < 100:
-		I[img] *= 0
-		I[img][:400,:400,:] = imgv[:400,:400,:3].copy()
-		yrv = arange(0,7,0.06)
-		xrv = np.sin(yrv+i)
-		I[lines_plot](x,xrv,y,yrv)
-		mci(I[img],color_mode=cv2.COLOR_RGB2BGR,delay=16)
-		i += 0.06
-
-
-
-if True:
+if _(P,EXAMPLE1):
+	limgv=imread('/home/karlzipser/Desktop/cameras.png' )
 	#o=lo('/home/karlzipser/Desktop/bair_car_data_Main_Dataset/meta/furtive_24Aug2016_Tilden/preprocessed_data.pkl' )
-	o=lo('/home/karlzipser/Desktop/bdd_car_data_July2017_LCR/meta/direct_local_LCR_10Jul17_09h36m15s_Mr_Yellow/preprocessed_data.pkl')
-	xv,yv = get_key_sorted_elements_of_dic(o['steer'])
+	ov=lo('/home/karlzipser/Desktop/bdd_car_data_July2017_LCR/meta/direct_local_LCR_10Jul17_09h36m15s_Mr_Yellow/preprocessed_data.pkl')
+	xv,yv = get_key_sorted_elements_of_dic(ov['steer'])
 	xv = np.array(xv)
 	yv = np.array(yv)
 	xv -= xv[0]
@@ -59,17 +41,97 @@ if True:
 		I[xmin]+=170/1000.
 		I[xmax]+=170/1000.
 		I[img] *= 0
+		I[img][:200,:200,:] = limgv[:200,:200,:3].copy()
 		indiciesv = np.where(np.logical_and(xv>=I[xmin], xv<I[xmax]))
 		xsv = xv[indiciesv]
 		ysv = yv[indiciesv]
 		baselinev = ysv*0.0+49
 		I[ptsplot](x,xsv,y,baselinev,color,(0,0,255))
-		I[ptsplot](x,xsv,y,baselinev,color,(0,0,255))
+		#I[ptsplot](x,xsv,y,baselinev,color,(0,0,255))
 		I[ptsplot](x,xsv,y,ysv,color,(0,255,0))
 		imgv[:200,:1800,:] = I[img]
 		imgv[300:500,700:2500,:] = I[img]
 		mci(imgv,color_mode=cv2.COLOR_RGB2BGR,delay=17)
 		#mci(I[img],color_mode=cv2.COLOR_RGB2BGR,delay=17)
 
+
+
+if _(P,EXAMPLE2):
+	ov=lo('/home/karlzipser/Desktop/bdd_car_data_July2017_LCR/meta/direct_local_LCR_10Jul17_09h36m15s_Mr_Yellow/preprocessed_data.pkl')
+	xv,yv = get_key_sorted_elements_of_dic(ov['encoder'])
+	xv = np.array(xv)
+	yv = np.array(yv)
+	ymv = np.array(meo(yv,200))
+	xv -= xv[0]
+	I = Graph_Module.Image2(xmin,xv.min()-100, xmax,xv.max()+100, ymin,-1, ymax,10, xsize,6000,ysize,800)
+	baselinev = yv*0.0
+	for iv in rlen(xv):
+		if np.mod(int(xv[iv]),10) == 0:
+			baselinev[iv] = 1
+	I[ptsplot](x,xv,y,baselinev,color,(0,0,255))
+	I[ptsplot](x,xv, y,ymv, color,(255,0,0))
+	I[ptsplot](x,xv, y,yv, color,(0,255,0))
+	mci(I[img],color_mode=cv2.COLOR_RGB2BGR,delay=1)
+	wk(1000000)
+
+
+
+
+if da(P,EXAMPLE3):
+	#ov=lo('/media/karlzipser/ExtraDrive2/bdd_car_data_July2017_LCR/meta/direct_Tilden_LCR_12Jul17_09h41m48s_Mr_Yellow/preprocessed_data.pkl')
+	#ov=lo('/media/karlzipser/ExtraDrive2/bdd_car_data_July2017_LCR/meta/direct_local_LCR_12Jul17_20h20m26s_Mr_Yellow/preprocessed_data.pkl')
+	#ov=lo('/media/karlzipser/ExtraDrive2/bdd_car_data_July2017_LCR/meta/direct_home_LCR_25Jul17_20h04m40s_Mr_Yellow/preprocessed_data.pkl')
+	ov=lo('/media/karlzipser/ExtraDrive2/bdd_car_data_July2017_LCR/meta/direct_home_LCR_25Jul17_19h37m22s_Mr_Yellow/preprocessed_data.pkl')
+	xv,yv = get_key_sorted_elements_of_dic(ov['gyro'])
+	xv = np.array(xv)
+	yv = np.array(yv)
+	yv=yv[:,1]
+	
+	ymv = np.array(meo(yv,200))
+	xv -= xv[0]
+	I = Graph_Module.Image2(xmin,xv.min()-100, xmax,xv.max()+100, ymin,-500, ymax,500, xsize,3000,ysize,2000)
+	baselinev = yv*0.0
+	for iv in rlen(xv):
+		if np.mod(int(xv[iv]),10) == 0:
+			baselinev[iv] = 1
+	I[ptsplot](x,xv,y,baselinev,color,(0,0,255))
+	I[ptsplot](x,xv, y,yv, color,(0,255,0))
+	I[ptsplot](x,xv, y,ymv, color,(255,0,0))
+	mci(I[img],color_mode=cv2.COLOR_RGB2BGR,delay=1)
+	wk(1000000)
+
+	if False:
+		vv = []
+		for iv in range(100,81000):
+			vv.append(np.std(yv[iv-50:iv+50]))
+		plot(vv)
+
+
+if da(P,EXAMPLE4):
+
+	ov=lo('/media/karlzipser/ExtraDrive2/bdd_car_data_July2017_LCR/meta/direct_home_LCR_25Jul17_19h37m22s_Mr_Yellow/preprocessed_data.pkl')
+	xv,yv = get_key_sorted_elements_of_dic(ov['gyro'])
+	xv = np.array(xv)
+	yv = np.array(yv)
+	yv=yv[:,1]
+	
+	ymv = np.array(meo(yv,200))
+	xv -= xv[0]
+	I = Graph_Module.Image2(xmin,xv.min()-100, xmax,xv.max()+100, ymin,-500, ymax,500, xsize,3000,ysize,2000)
+	baselinev = yv*0.0
+	for iv in rlen(xv):
+		if np.mod(int(xv[iv]),10) == 0:
+			baselinev[iv] = 1
+	I[ptsplot](x,xv,y,baselinev,color,(0,0,255))
+	I[ptsplot](x,xv, y,yv, color,(0,255,0))
+	I[ptsplot](x,xv, y,ymv, color,(255,0,0))
+	mci(I[img],color_mode=cv2.COLOR_RGB2BGR,delay=1)
+	wk(1000000)
+
+	if False:
+		vv = []
+		for iv in range(100,81000):
+			vv.append(np.std(yv[iv-50:iv+50]))
+		plot(vv)
 
 #EOF
