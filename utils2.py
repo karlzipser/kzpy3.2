@@ -69,8 +69,10 @@ if False:
         print(e.message, e.args)
 #
 ####################################
-
+stars0v = '**********************\n*\n'
+stars1v = '\n*\n**********************'
 tb = '\t'
+tbv = '\t'
 
 
 def print_stars(n=1):
@@ -1522,11 +1524,19 @@ def zdprint(*args):
         txt_lst = txt_file_to_list_of_strings(opjh('kzpy3','zdl.txt'))
         print('\n'.join(txt_lst))
 
+
+
+#####################################################
+#
 if username != 'nvidia':
     temp = args_to_dictionary(sys.argv[1:])
     Args = {}
     for k in temp.keys():
-        exec('Args[\''+k+'\'] = '+temp[k])
+        if '/' in temp[k]:
+            print('Treating '+temp[k]+' as filename')
+            exec("Args[\'"+k+"\'] = '"+temp[k]+"'")
+        else:
+            exec('Args[\''+k+'\'] = '+temp[k])
     del temp
 
     identify_file_str = """
@@ -1534,7 +1544,8 @@ if '__file__' not in locals():
     __file__ = ' __file__ '
 cprint('******** '+__file__+' ********','yellow')
     """
-
+#
+#####################################################
 
 
 

@@ -15,7 +15,10 @@ use_wordsv = """
 	VERBOSE
 	
 	MEO_PARAMS
+	DATASET_PATH RUN_NAME
 	topic
+	run_name
+	h5py_path
 	x y z
 
 	dic_type
@@ -49,6 +52,9 @@ use_wordsv = """
 	gps
 	ts
 	right_ts
+	
+	SRC
+	DST
 
 	vals
 	tdic
