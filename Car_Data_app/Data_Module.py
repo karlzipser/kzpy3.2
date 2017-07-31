@@ -105,7 +105,8 @@ def Original_Timestamp_Data(*args):
 					ctrv += 1
 				del D[kv]
 
-	F = h5py.File(file_path,'w')
+#	F = h5py.File(file_path,'w')
+	F = h5w(file_path)
 	for topicv in D.keys():
 		print topicv
 		Group = F.create_group(topicv)
@@ -163,8 +164,10 @@ def Left_Timestamp_Metadata(*args):
 	pathv = opj(h5py_pathv,run_namev,'original_timestamp_data.h5py')
 	assert_disk_locations(pathv)
 
-	F = h5py.File(pathv,'r')
-	L = h5py.File(opj(pname(pathv),'left_timestamp_metadata.h5py'),'w')
+#	F = h5py.File(pathv,'r')
+#	L = h5py.File(opj(pname(pathv),'left_timestamp_metadata.h5py'),'w')
+	F = h5r(pathv)
+	L = h5w(opj(pname(pathv),'left_timestamp_metadata.h5py'))
 
 	L.create_dataset(ts,data=np.array(F[left_image][ts]))
 

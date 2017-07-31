@@ -69,7 +69,7 @@ if SRC in Args and DST in Args:
 
 
 if P[ EXAMPLE2 ]:
-	L = h5py.File('/media/karlzipser/ExtraDrive2/bdd_car_data_July2017_LCR/h5py/direct_local_LCR_29Jul17_18h09m32s_Mr_Yellow/left_timestamp_metadata.h5py','r')
+	L = h5r('/media/karlzipser/ExtraDrive2/bdd_car_data_July2017_LCR/h5py/direct_local_LCR_29Jul17_18h09m32s_Mr_Yellow/left_timestamp_metadata.h5py')
 	for kv in L.keys():
 		figure(kv)
 		plot(L[ts][:],L[kv][:])

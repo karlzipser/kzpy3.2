@@ -1,6 +1,6 @@
 from Paths_Module import *
 exec(identify_file_str)
-
+from Car_Data_app.Names_Module import *
 print('---')
 use_wordsv = """
 
@@ -49,7 +49,13 @@ use_wordsv = """
 	left_image
 	gyro_heading
 	gps
-
+	TOPICS
+	name
+	maxval
+	minval
+	START_TIME
+	END_TIME
+	CV2_KEY_COMMANDS
 """
 
 import re
@@ -115,7 +121,7 @@ for cv in code_filesv:
 		if 'Names_Module' not in cv:
 			code_files2v.append(cv)
 
-print code_files2v
+print(code_files2v)
 codev = []
 for cv in code_files2v:
 	codev += txt_file_to_list_of_strings(cv)
@@ -151,7 +157,7 @@ for wv in wordsv:
 print('---')
 swordsv = sorted(Words.keys())
 for wv in swordsv:
-	print wv
+	print(wv)
 
 
 

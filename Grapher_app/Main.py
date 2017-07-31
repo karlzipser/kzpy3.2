@@ -9,12 +9,147 @@ if not hasattr(main,'__file__'):
 from Parameters_Module import *
 from kzpy3.vis2 import *
 import Graph_Module
+from Car_Data_app.Names_Module import *
 exec(identify_file_str)
 
 _ = dictionary_access
 
 for a in Args.keys():
     _(P,a,equals,_(Args,a)) #P[a] = Args[a]
+
+
+
+
+if da(P,EXAMPLE5):
+	L = h5r(opjm('ExtraDrive2/bdd_car_data_July2017_LCR/h5py/direct_local_LCR_29Jul17_18h09m32s_Mr_Yellow/left_timestamp_metadata.h5py'))
+	tsv = L[ts]
+	tsv -= tsv[0]
+
+
+
+
+	start_tv = P[START_TIME]
+	if P[END_TIME] == maxval:
+		end_tv = max(tsv)
+	else:
+		end_tv = P[END_TIME]
+
+
+	for kv in P[TOPICS].keys():
+		print(kv)
+		valsv = L[kv][:]
+		if P[TOPICS][kv][minval] == minval:
+			yminv = min(valsv)
+		else:
+			yminv = P[TOPICS][kv][minval]
+		if P[TOPICS][kv][maxval] == maxval:
+			ymaxv = max(valsv)
+		else:
+			ymaxv = P[TOPICS][kv][maxval]
+
+		xpixelsv = 510
+		ypixelsv = 69
+		screen_xv = 0
+		screen_yv = 0
+		start_tv_init,end_tv_init,yminv_init,ymaxv_init,xpixelsv_init,ypixelsv_init = start_tv,end_tv,yminv,ymaxv,xpixelsv,ypixelsv
+		screen_xv_init,screen_yv_init = screen_xv,screen_yv
+		show_menuv = True
+		while True:
+			I = Graph_Module.Image2(xmin,start_tv, xmax,end_tv, ymin,yminv, ymax,ymaxv, xsize,xpixelsv,ysize,ypixelsv)
+			I[ptsplot](x,tsv,y,valsv,color,(0,255,0))
+			keyv = mci(I[img],color_mode=cv2.COLOR_RGB2BGR,delay=33,title=kv)
+			dtv = (start_tv-end_tv)*0.01
+			dvalv = (ymaxv-yminv)*0.01
+			dxpixelsv = max(1,xpixelsv*0.01)
+			dypixelsv = max(1,ypixelsv*0.01)
+
+			if show_menuv:
+				show_menuv = False
+				print('Key command menu')
+				for lv in P[CV2_KEY_COMMANDS]:
+					print_lv = lv
+					if len(lv) == 0 or lv == ' ':
+						print_lv = "\'"+lv+"\'"
+					print(d2s('\t',print_lv,'-',P[CV2_KEY_COMMANDS][lv][1]))
+					
+			key_decodedv = False
+
+			for mv in P[CV2_KEY_COMMANDS]:
+				if len(mv) > 0:
+					if keyv == ord(mv):
+						cmd_tuplev = P[CV2_KEY_COMMANDS][mv]
+						exec(cmd_tuplev[0])
+						print(cmd_tuplev[1])
+						key_decodedv = True
+
+			if not key_decodedv:
+				if keyv != -1:
+					print(d2s(str(unichr(keyv)), '=',keyv))
+
+			"""
+			if keyv == ord('l'):
+				start_tv -= dtv; end_tv -= dtv
+			elif keyv == ord('j'):
+				start_tv += dtv; end_tv += dtv
+
+			elif keyv == ord('i'):
+				start_tv += dtv; end_tv -= dtv
+			elif keyv == ord('m'):
+				start_tv -= dtv; end_tv += dtv
+
+			elif keyv == ord('u'):
+				ymaxv += dvalv
+			elif keyv == ord('n'):
+				ymaxv -= dvalv
+
+			elif keyv == ord('y'):
+				yminv += dvalv 
+			elif keyv == ord('b'):
+				yminv -= dvalv 
+
+			elif keyv == ord('t'):
+				xpixelsv += dxpixelsv; xpixelsv=int(xpixelsv)
+			elif keyv == ord('v'):
+				xpixelsv -= dxpixelsv; xpixelsv=int(xpixelsv)
+
+			elif keyv == ord('r'):
+				xpixelsv += dxpixelsv; xpixelsv=int(xpixelsv)
+			elif keyv == ord('c'):
+				xpixelsv -= dxpixelsv; xpixelsv=int(xpixelsv)
+
+			elif keyv == ord(' '):
+				start_tv,end_tv,yminv,ymaxv,xpixelsv,ypixelsv = start_tv_init,end_tv_init,yminv_init,ymaxv_init,xpixelsv_init,ypixelsv_init
+			elif keyv == ord('q'):
+				sys.exit()
+			elif keyv != -1:
+				print(d2s(str(unichr(keyv)), '=',keyv))
+			else:
+				pass
+			"""
+	#wk(1000000)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

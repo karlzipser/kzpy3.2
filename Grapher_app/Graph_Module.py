@@ -42,6 +42,14 @@ def Image2(*args):
         D[xscale] = D[xsize]/(1.0*D[xmax]-D[xmin])
         D[yscale] = D[ysize]/(1.0*D[ymax]-D[ymin])
         xv,yv = D[floats_to_pixels](x,xv,y,yv)
+        indiciesv = np.where(np.logical_and(yv>=0, yv<D[xsize]))
+        xv = xv[indiciesv]
+        yv = yv[indiciesv]        
+        indiciesv = np.where(np.logical_and(xv>=0, xv<D[ysize])) # Note confusing reversals of x and y
+        xv = xv[indiciesv]
+        yv = yv[indiciesv]          #indiciesv = np.where(np.logical_and(yv>=0, yv<D[ysize]))
+        #xv = xv[indiciesv]
+        #yv = yv[indiciesv]        
         D[img][xv,yv,:] = colorv
     D[ptsplot] = _function_pts_plot
     return D
