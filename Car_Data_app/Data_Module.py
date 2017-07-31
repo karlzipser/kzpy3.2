@@ -116,13 +116,44 @@ def Original_Timestamp_Data(*args):
 
 
 
+def _assign_right_image_timestamps(A):
+    interp_dic = {}
+    k,d = get_sorted_keys_and_data(A['right_image'])
+    for i in range(0,len(k)-1):
+        a = int(k[i]*1000)
+        b = int(k[i+1]*1000)
+        c = (a+b)/2
+        for j in range(a,b):
+            if j < c:
+                v = k[i]
+            else:
+                v = k[i+1]
+            interp_dic[j/1000.] = v
+    return interp_dic
 
-
+def _assign_right_image_timestamps2(F):
+    interp_dic = {}
+    k,d =  F[right_image][ts][:],F[right_image][vals][:]
+    for i in range(0,len(k)-1):
+        a = int(k[i]*1000)
+        b = int(k[i+1]*1000)
+        c = (a+b)/2
+        for j in range(a,b):
+            if j < c:
+                v = k[i]
+            else:
+                v = k[i+1]
+            interp_dic[j/1000.] = v
+    lv = F[left_image][ts][:]
+    rv = []
+    for iv in rlen(lv):
+    	rv.append(interp_dic[lv[iv]])
+    return np.array(rv)
 
 
 def Left_Timestamp_Metadata(*args):
 	"""
-	right timestamps not correct.
+	right timestamps . . .
 	"""
 	Args = args_to_dictionary(args)
 	D = {}
@@ -137,12 +168,12 @@ def Left_Timestamp_Metadata(*args):
 
 	L.create_dataset(ts,data=np.array(F[left_image][ts]))
 
-	right_tsv = []
-	for iv in range(len(F[left_image][vals])):
-		right_tsv.append(F[right_image][ts][iv])
+	right_tsv = _assign_right_image_timestamps2(F)
+	#for iv in range(len(F[left_image][vals])):
+	#	right_tsv.append(F[right_image][ts][iv])
 
 	L.create_dataset(right_ts,data=np.array(right_tsv))
-	assert( np.abs( 0.03 - np.median(L[ts][:]-L[right_ts][:]) ) < 0.01 )
+	#assert( np.abs( 0.03 - np.median(L[ts][:]-L[right_ts][:]) ) < 0.01 )
 
 	for kv in sorted(F.keys()):
 		if kv != left_image and kv != right_image:

@@ -20,7 +20,7 @@ for a in Args.keys():
 
 
 
-if _(P,EXAMPLE1):
+if da(P,EXAMPLE1):
 	limgv=imread('/home/karlzipser/Desktop/cameras.png' )
 	#o=lo('/home/karlzipser/Desktop/bair_car_data_Main_Dataset/meta/furtive_24Aug2016_Tilden/preprocessed_data.pkl' )
 	ov=lo('/home/karlzipser/Desktop/bdd_car_data_July2017_LCR/meta/direct_local_LCR_10Jul17_09h36m15s_Mr_Yellow/preprocessed_data.pkl')
@@ -29,7 +29,7 @@ if _(P,EXAMPLE1):
 	yv = np.array(yv)
 	xv -= xv[0]
 
-	xLv,yLv = get_key_sorted_elements_of_dic(o['left_image'])
+	xLv,yLv = get_key_sorted_elements_of_dic(ov['left_image'])
 	xLv = np.array(xLv)
 	yLv = np.array(yLv)
 	xLv -= xLv[0]
@@ -56,7 +56,7 @@ if _(P,EXAMPLE1):
 
 
 
-if _(P,EXAMPLE2):
+if da(P,EXAMPLE2):
 	ov=lo('/home/karlzipser/Desktop/bdd_car_data_July2017_LCR/meta/direct_local_LCR_10Jul17_09h36m15s_Mr_Yellow/preprocessed_data.pkl')
 	xv,yv = get_key_sorted_elements_of_dic(ov['encoder'])
 	xv = np.array(xv)
