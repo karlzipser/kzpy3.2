@@ -61,4 +61,29 @@ def Image2(*args):
 
 
 
+
+def Image3(*args):
+    Args = args_to_dictionary(args)
+    D = {}
+    D[xmin] = Args[xmin] 
+    D[xmax] = Args[xmax]
+    D[ymin] = Args[ymin]
+    D[ymax] = Args[ymax]
+    D[xsize] = Args[Image_source][xsize]
+    D[ysize] = Args[Image_source][ysize]
+    D[img] = Args[Image_source][img]
+    D[xscale] = Args[Image_source][xscale]
+    D[yscale] = Args[Image_source][yscale]
+    True
+    D[dic_type] = inspect.stack()[0][3]
+    D[purpose] = d2s(D[dic_type],':','An image which translates from float coordinates, using source Image2.')
+    D[floats_to_pixels] = Args[Image_source][floats_to_pixels]
+    D[pixel_to_float] = Args[Image_source][pixel_to_float]
+    D[ptsplot] = Args[Image_source][ptsplot]
+    return D
+
+
+
+
+
 #EOF

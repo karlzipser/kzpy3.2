@@ -53,28 +53,28 @@ P[CV2_KEY_COMMANDS] = {
 	'i':("P[START_TIME] += 100.0*dtv; P[END_TIME] -= 100.0*dtv","Time scale out"),
 	'm':("P[START_TIME] -= 100.0*dtv; P[END_TIME] += 100.0*dtv","Time scale in"),
 
-	'u':("ymaxv += dvalv","y max increase"),
-	'n':("ymaxv -= dvalv","y max decrease"),
-	'y':("yminv += dvalv","y min increase"),
-	'b':("yminv -= dvalv","y min decrease"),
+	#'u':("ymaxv += dvalv","y max increase"),
+	#'n':("ymaxv -= dvalv","y max decrease"),
+	#'y':("yminv += dvalv","y min increase"),
+	#'b':("yminv -= dvalv","y min decrease"),
 
-	't':("xpixelsv += dxpixelsv; xpixelsv=int(xpixelsv)","increase width"),
-	'v':("xpixelsv -= dxpixelsv; xpixelsv=int(xpixelsv)","decrease width"),
+	#'t':("xpixelsv += dxpixelsv; xpixelsv=int(xpixelsv)","increase width"),
+	#'v':("xpixelsv -= dxpixelsv; xpixelsv=int(xpixelsv)","decrease width"),
 
-	'r':("ypixelsv += dypixelsv; ypixelsv=int(ypixelsv)","increase height"),
-	'c':("ypixelsv -= dypixelsv; ypixelsv=int(ypixelsv)","decrease height"),
+	#'r':("ypixelsv += dypixelsv; ypixelsv=int(ypixelsv)","increase height"),
+	#'c':("ypixelsv -= dypixelsv; ypixelsv=int(ypixelsv)","decrease height"),
 
-	'e':("P[VERTICAL_LINE_PROPORTION] += dproportv","increase vertical line proportion"),
-	'x':("P[VERTICAL_LINE_PROPORTION] -= dproportv","decrease vertical line proportion"),
+	#'e':("P[VERTICAL_LINE_PROPORTION] += dproportv","increase vertical line proportion"),
+	#qqqqqqqqqqqqqqq'x':("P[VERTICAL_LINE_PROPORTION] -= dproportv","decrease vertical line proportion"),
 
 	' ':("P[VERTICAL_LINE_PROPORTION]=0.5;P[START_TIME],P[END_TIME],yminv,ymaxv,xpixelsv,ypixelsv = P[START_TIME_INIT],P[END_TIME_INIT],yminv_init,ymaxv_init,xpixelsv_init,ypixelsv_init;show_menuv = True","Reset"),
 	'a':("show_menuv = True","Menu"),
 	
-	'2':("screen_yv+=10;cv2.moveWindow(kv,screen_xv,screen_yv)","Move window down"),
-	'8':("screen_yv-=10;cv2.moveWindow(kv,screen_xv,screen_yv)","Move window up"),
-	'4':("screen_xv-=10;cv2.moveWindow(kv,screen_xv,screen_yv)","Move window left"),
-	'6':("screen_xv+=10;cv2.moveWindow(kv,screen_xv,screen_yv)","Move window right"),
-
+	#'2':("screen_yv+=10;cv2.moveWindow(kv,screen_xv,screen_yv)","Move window down"),
+	#'8':("screen_yv-=10;cv2.moveWindow(kv,screen_xv,screen_yv)","Move window up"),
+	#'4':("screen_xv-=10;cv2.moveWindow(kv,screen_xv,screen_yv)","Move window left"),
+	#'6':("screen_xv+=10;cv2.moveWindow(kv,screen_xv,screen_yv)","Move window right"),
+	#'w':("print 'here';do_center_time(center_time, I[pixel_to_float](xint,int(P[VERTICAL_LINE_PROPORTION]*xpixelsv), yint,0)[0]);P[VERTICAL_LINE_PROPORTION]=0.5","Center on vertical line"),
 	'q':("sys.exit()","Quit"),
 }
 

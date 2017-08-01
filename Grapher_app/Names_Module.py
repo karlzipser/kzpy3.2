@@ -61,6 +61,7 @@ use_wordsv = """
 	MOUSE_X MOUSE_Y
 	START_TIME_INIT END_TIME_INIT
 	MOUSE_X MOUSE_Y MOUSE_MOVE_TIME
+	center_time
 
 
 """
