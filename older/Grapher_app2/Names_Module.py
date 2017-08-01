@@ -62,9 +62,7 @@ use_wordsv = """
 	START_TIME_INIT END_TIME_INIT
 	MOUSE_X MOUSE_Y MOUSE_MOVE_TIME
 	center_time
-	L_FILE O_FILE
-	Image_source
-	REAL_TIME_DTV MOUSE_IN_RED_ZONE
+
 
 """
 

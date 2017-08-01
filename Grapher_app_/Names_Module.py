@@ -64,7 +64,6 @@ use_wordsv = """
 	center_time
 	L_FILE O_FILE
 	Image_source
-	REAL_TIME_DTV MOUSE_IN_RED_ZONE
 
 """
 

@@ -19,29 +19,18 @@ P[START_TIME] = 0
 P[END_TIME] = maxval
 #P[TOPICS] = {acc_x_meo:{maxval:maxval,minval:minval}}
 P[TOPICS] = {
-	steer:{maxval:120,minval:-1,color:(255,0,0)},
-	motor:{maxval:70,minval:-1,color:(0,255-32,32)},
-	state:{maxval:6,minval:-1,color:(128,128,128)},
-	encoder:{maxval:4,minval:-1,color:(0,128,128)},
-	acc_x:{maxval:10,minval:-10,color:(128,128,0)},
-	acc_y:{maxval:10,minval:-10,color:(128-32,128+32,0)},
-	acc_z:{maxval:10,minval:-10,color:(128-64,128+64,0)},
-	gyro_x:{maxval:180,minval:-180,color:(128,128,0)},
-	gyro_y:{maxval:180,minval:-180,color:(128-32,128+32,0)},
-	gyro_z:{maxval:180,minval:-180,color:(128-64,128+64,0)},
-	gyro_heading_x:{maxval:360,minval:-180,color:(128-64,128+64,0)},
-
+#	steer:{maxval:100,minval:-1-500},
+	motor:{maxval:100,minval:-1},
 	}
 P[VERTICAL_LINE_PROPORTION] = 0.5
 
 P[X_PIXEL_SIZE] = 2000
-P[Y_PIXEL_SIZE] = 2000
+P[Y_PIXEL_SIZE] = 500
 P[SCREEN_X] = 1500
-P[SCREEN_Y] = 150
+P[SCREEN_Y] = 50
 P[MOUSE_MOVE_TIME] = 0
 P[MOUSE_X] = 0
 P[MOUSE_Y] = 0
-P[REAL_TIME_DTV] = -2/30.
 
 """
 	 u'acc_y_meo',
@@ -62,12 +51,10 @@ P[REAL_TIME_DTV] = -2/30.
 
 
 P[CV2_KEY_COMMANDS] = {
-	'p':("P[START_TIME] -= P[REAL_TIME_DTV]; P[END_TIME] -= P[REAL_TIME_DTV]","Time step forward,real time"),
 	'l':("P[START_TIME] -= dtv; P[END_TIME] -= dtv","Time step forward"),
-	'h':("P[START_TIME] += dtv; P[END_TIME] += dtv","Time step back"),
-	'u':("P[START_TIME] += P[REAL_TIME_DTV]; P[END_TIME] += P[REAL_TIME_DTV]","Time step back, real time"),
-	'j':("P[START_TIME] += 100.0*dtv; P[END_TIME] -= 100.0*dtv","Time scale out"),
-	'k':("P[START_TIME] -= 100.0*dtv; P[END_TIME] += 100.0*dtv","Time scale in"),
+	'j':("P[START_TIME] += dtv; P[END_TIME] += dtv","Time step back"),
+	'i':("P[START_TIME] += 100.0*dtv; P[END_TIME] -= 100.0*dtv","Time scale out"),
+	'm':("P[START_TIME] -= 100.0*dtv; P[END_TIME] += 100.0*dtv","Time scale in"),
 	' ':("""
 P[VERTICAL_LINE_PROPORTION]=0.5
 P[START_TIME],P[END_TIME] = P[START_TIME_INIT],P[END_TIME_INIT]
