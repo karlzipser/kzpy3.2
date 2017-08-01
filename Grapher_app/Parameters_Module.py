@@ -63,9 +63,11 @@ P[REAL_TIME_DTV] = -2/30.
 
 P[CV2_KEY_COMMANDS] = {
 	'p':("P[START_TIME] -= P[REAL_TIME_DTV]; P[END_TIME] -= P[REAL_TIME_DTV]","Time step forward,real time"),
+	'm':("P[START_TIME] -= P[REAL_TIME_DTV]/2.0; P[END_TIME] -= P[REAL_TIME_DTV]/2.0","Time step forward,real time"),
 	'l':("P[START_TIME] -= dtv; P[END_TIME] -= dtv","Time step forward"),
 	'h':("P[START_TIME] += dtv; P[END_TIME] += dtv","Time step back"),
 	'u':("P[START_TIME] += P[REAL_TIME_DTV]; P[END_TIME] += P[REAL_TIME_DTV]","Time step back, real time"),
+	'v':("P[START_TIME] += P[REAL_TIME_DTV]/2.0; P[END_TIME] += P[REAL_TIME_DTV]/2.0","Time step back, real time"),
 	'j':("P[START_TIME] += 100.0*dtv; P[END_TIME] -= 100.0*dtv","Time scale out"),
 	'k':("P[START_TIME] -= 100.0*dtv; P[END_TIME] += 100.0*dtv","Time scale in"),
 	' ':("""

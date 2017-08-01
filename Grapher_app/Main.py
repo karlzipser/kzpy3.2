@@ -12,11 +12,10 @@ import Graph_Module
 from Car_Data_app.Names_Module import *
 exec(identify_file_str)
 """
-	Animate advance/retreat n seconds at r rate
+
 	Put in baseline
 	Put in second markers, both absolute and relative to verticle line
-	Put in playback time multiple (e.g., 1.43 X)
-	Take out or comment out unused features
+
 """
 _ = dictionary_access
 
