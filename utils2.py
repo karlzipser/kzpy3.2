@@ -1589,7 +1589,12 @@ def Rate_Counter(*args):
 
 
 
-
+def find_nearest(array,value):
+	"""
+	https://stackoverflow.com/questions/2566412/find-nearest-value-in-numpy-array
+	"""
+	idx = (np.abs(array-value)).argmin()
+	return array[idx]
 
 
 

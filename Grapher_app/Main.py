@@ -18,21 +18,44 @@ for a in Args.keys():
     _(P,a,equals,_(Args,a)) #P[a] = Args[a]
 
 
+cv2.destroyAllWindows()
+P[VERTICAL_LINE_PROPORTION]
+dproportv = 1/1000.0
+P[START_TIME] = P[START_TIME]
+
+xpixelsv = P[X_PIXEL_SIZE]
+ypixelsv = P[Y_PIXEL_SIZE]
+screen_xv = P[SCREEN_X]
+screen_yv = P[SCREEN_Y]
+
+def mouse_event(event, x, y, buttons, user_param):
+	if event == cv2.EVENT_LBUTTONDOWN:
+		P[MOUSE_X] = x
+		P[MOUSE_Y] = y
+		do_center_time('center_time',I[pixel_to_float](xint,x, yint,0)[0])
+
+
+def do_center_time(*args):
+	Args = args_to_dictionary(args)
+	center_timev = Args['center_time']
+	time_widthv = P[END_TIME] - P[START_TIME]
+	P[START_TIME] = center_timev - time_widthv/2
+	P[END_TIME] = center_timev + time_widthv/2
 
 
 if da(P,EXAMPLE5):
-	L = h5r(opjm('ExtraDrive2/bdd_car_data_July2017_LCR/h5py/direct_local_LCR_29Jul17_18h09m32s_Mr_Yellow/left_timestamp_metadata.h5py'))
+	L = h5r(opjD('bdd_car_data_July2017_LCR/h5py/direct_local_LCR_29Jul17_18h09m32s_Mr_Yellow/left_timestamp_metadata.h5py'))
+	O = h5r(opjD('bdd_car_data_July2017_LCR/h5py/direct_local_LCR_29Jul17_18h09m32s_Mr_Yellow/original_timestamp_data.h5py'))
+	
+
+	t0v = L[ts][0]
 	tsv = L[ts]
 	tsv -= tsv[0]
-
-
-
-
-	start_tv = P[START_TIME]
-	if P[END_TIME] == maxval:
-		end_tv = max(tsv)
-	else:
-		end_tv = P[END_TIME]
+	Timestamp_to_left_image = {}
+	for iv in rlen(tsv):
+		Timestamp_to_left_image[tsv[iv]] = iv
+	
+	P[END_TIME] =  max(tsv)
 
 
 	for kv in P[TOPICS].keys():
@@ -47,21 +70,29 @@ if da(P,EXAMPLE5):
 		else:
 			ymaxv = P[TOPICS][kv][maxval]
 
-		xpixelsv = 510
-		ypixelsv = 69
-		screen_xv = 0
-		screen_yv = 0
-		start_tv_init,end_tv_init,yminv_init,ymaxv_init,xpixelsv_init,ypixelsv_init = start_tv,end_tv,yminv,ymaxv,xpixelsv,ypixelsv
+
+		P[START_TIME_INIT],P[END_TIME_INIT],yminv_init,ymaxv_init,xpixelsv_init,ypixelsv_init = P[START_TIME],P[END_TIME],yminv,ymaxv,xpixelsv,ypixelsv
 		screen_xv_init,screen_yv_init = screen_xv,screen_yv
 		show_menuv = True
+		first_timev = True
 		while True:
-			I = Graph_Module.Image2(xmin,start_tv, xmax,end_tv, ymin,yminv, ymax,ymaxv, xsize,xpixelsv,ysize,ypixelsv)
+			I = Graph_Module.Image2(xmin,P[START_TIME], xmax,P[END_TIME], ymin,yminv, ymax,ymaxv, xsize,xpixelsv,ysize,ypixelsv)
 			I[ptsplot](x,tsv,y,valsv,color,(0,255,0))
+			time_from_pixelv = I[pixel_to_float](xint,int(P[VERTICAL_LINE_PROPORTION]*xpixelsv), yint,0)[0]
+			ts_from_pixelv = find_nearest(tsv,time_from_pixelv)
+			assert(ts_from_pixelv in tsv) #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			cv2.putText(I[img],d2s(dp(ts_from_pixelv,3)),(10,30),cv2.FONT_HERSHEY_SIMPLEX,1.0,(255,0,0),4)
+			cv2.line(I[img],(int(P[VERTICAL_LINE_PROPORTION]*xpixelsv),0),(int(P[VERTICAL_LINE_PROPORTION]*xpixelsv),ypixelsv),(0,0,255))
 			keyv = mci(I[img],color_mode=cv2.COLOR_RGB2BGR,delay=33,title=kv)
-			dtv = (start_tv-end_tv)*0.01
-			dvalv = (ymaxv-yminv)*0.01
-			dxpixelsv = max(1,xpixelsv*0.01)
-			dypixelsv = max(1,ypixelsv*0.01)
+			mci(O[left_image][vals][Timestamp_to_left_image[ts_from_pixelv]][:],title=left_image,scale=4)
+			if first_timev:
+				first_timev = False
+				cv2.moveWindow(kv,screen_xv,screen_yv)
+				cv2.setMouseCallback(kv,mouse_event)
+			dtv = (P[START_TIME]-P[END_TIME])*0.001
+			dvalv = (ymaxv-yminv)*0.001
+			dxpixelsv = max(1,xpixelsv*0.1)
+			dypixelsv = max(1,ypixelsv*0.1)
 
 			if show_menuv:
 				show_menuv = False
@@ -79,54 +110,14 @@ if da(P,EXAMPLE5):
 					if keyv == ord(mv):
 						cmd_tuplev = P[CV2_KEY_COMMANDS][mv]
 						exec(cmd_tuplev[0])
-						print(cmd_tuplev[1])
+						#print(cmd_tuplev[1])
 						key_decodedv = True
 
 			if not key_decodedv:
 				if keyv != -1:
 					print(d2s(str(unichr(keyv)), '=',keyv))
 
-			"""
-			if keyv == ord('l'):
-				start_tv -= dtv; end_tv -= dtv
-			elif keyv == ord('j'):
-				start_tv += dtv; end_tv += dtv
 
-			elif keyv == ord('i'):
-				start_tv += dtv; end_tv -= dtv
-			elif keyv == ord('m'):
-				start_tv -= dtv; end_tv += dtv
-
-			elif keyv == ord('u'):
-				ymaxv += dvalv
-			elif keyv == ord('n'):
-				ymaxv -= dvalv
-
-			elif keyv == ord('y'):
-				yminv += dvalv 
-			elif keyv == ord('b'):
-				yminv -= dvalv 
-
-			elif keyv == ord('t'):
-				xpixelsv += dxpixelsv; xpixelsv=int(xpixelsv)
-			elif keyv == ord('v'):
-				xpixelsv -= dxpixelsv; xpixelsv=int(xpixelsv)
-
-			elif keyv == ord('r'):
-				xpixelsv += dxpixelsv; xpixelsv=int(xpixelsv)
-			elif keyv == ord('c'):
-				xpixelsv -= dxpixelsv; xpixelsv=int(xpixelsv)
-
-			elif keyv == ord(' '):
-				start_tv,end_tv,yminv,ymaxv,xpixelsv,ypixelsv = start_tv_init,end_tv_init,yminv_init,ymaxv_init,xpixelsv_init,ypixelsv_init
-			elif keyv == ord('q'):
-				sys.exit()
-			elif keyv != -1:
-				print(d2s(str(unichr(keyv)), '=',keyv))
-			else:
-				pass
-			"""
-	#wk(1000000)
 
 
 

@@ -17,7 +17,16 @@ _(P,EXAMPLE5,equals,1)
 
 P[START_TIME] = 0
 P[END_TIME] = maxval
-P[TOPICS] = {acc_x_meo:{maxval:maxval,minval:minval}}
+#P[TOPICS] = {acc_x_meo:{maxval:maxval,minval:minval}}
+P[TOPICS] = {steer:{maxval:100,minval:-1}}
+P[VERTICAL_LINE_PROPORTION] = 0.5
+
+P[X_PIXEL_SIZE] = 2000
+P[Y_PIXEL_SIZE] = 500
+P[SCREEN_X] = 1500
+P[SCREEN_Y] = 50
+
+
 """
 	 u'acc_y_meo',
 	 u'acc_z_meo',
@@ -37,36 +46,33 @@ P[TOPICS] = {acc_x_meo:{maxval:maxval,minval:minval}}
 
 
 P[CV2_KEY_COMMANDS] = {
-	'l':("start_tv -= dtv; end_tv -= dtv","Time step forward"),
-	'j':("start_tv += dtv; end_tv += dtv","Time step back"),
-	'i':("start_tv += dtv; end_tv -= dtv","Time scale out"),
-	'm':("start_tv -= dtv; end_tv += dtv","Time scale in"),
+	'l':("P[START_TIME] -= dtv; P[END_TIME] -= dtv","Time step forward"),
+	'j':("P[START_TIME] += dtv; P[END_TIME] += dtv","Time step back"),
+	'i':("P[START_TIME] += 100.0*dtv; P[END_TIME] -= 100.0*dtv","Time scale out"),
+	'm':("P[START_TIME] -= 100.0*dtv; P[END_TIME] += 100.0*dtv","Time scale in"),
+
 	'u':("ymaxv += dvalv","y max increase"),
 	'n':("ymaxv -= dvalv","y max decrease"),
 	'y':("yminv += dvalv","y min increase"),
 	'b':("yminv -= dvalv","y min decrease"),
+
 	't':("xpixelsv += dxpixelsv; xpixelsv=int(xpixelsv)","increase width"),
 	'v':("xpixelsv -= dxpixelsv; xpixelsv=int(xpixelsv)","decrease width"),
-	#'r':("xpixelsv += dxpixelsv; xpixelsv=int(xpixelsv)",""),
-	#eeeeeee'c':("xpixelsv -= dxpixelsv; xpixelsv=int(xpixelsv)",""),
+
 	'r':("ypixelsv += dypixelsv; ypixelsv=int(ypixelsv)","increase height"),
 	'c':("ypixelsv -= dypixelsv; ypixelsv=int(ypixelsv)","decrease height"),
-	' ':("start_tv,end_tv,yminv,ymaxv,xpixelsv,ypixelsv = start_tv_init,end_tv_init,yminv_init,ymaxv_init,xpixelsv_init,ypixelsv_init;show_menuv = True","Reset"),
+
+	'e':("P[VERTICAL_LINE_PROPORTION] += dproportv","increase vertical line proportion"),
+	'x':("P[VERTICAL_LINE_PROPORTION] -= dproportv","decrease vertical line proportion"),
+
+	' ':("P[VERTICAL_LINE_PROPORTION]=0.5;P[START_TIME],P[END_TIME],yminv,ymaxv,xpixelsv,ypixelsv = P[START_TIME_INIT],P[END_TIME_INIT],yminv_init,ymaxv_init,xpixelsv_init,ypixelsv_init;show_menuv = True","Reset"),
 	'a':("show_menuv = True","Menu"),
+	
 	'2':("screen_yv+=10;cv2.moveWindow(kv,screen_xv,screen_yv)","Move window down"),
 	'8':("screen_yv-=10;cv2.moveWindow(kv,screen_xv,screen_yv)","Move window up"),
 	'4':("screen_xv-=10;cv2.moveWindow(kv,screen_xv,screen_yv)","Move window left"),
 	'6':("screen_xv+=10;cv2.moveWindow(kv,screen_xv,screen_yv)","Move window right"),
 
-
-	'':("",""),
-	'':("",""),
-	'':("",""),
-	'':("",""),
-	'':("",""),
-	'':("",""),
-	'':("",""),
-	'':("",""),
 	'q':("sys.exit()","Quit"),
 }
 

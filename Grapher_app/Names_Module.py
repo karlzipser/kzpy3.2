@@ -28,12 +28,12 @@ use_wordsv = """
 	ptsplot
 	purpose
 	steer
-	x
+	x xint
 	xmax
 	xmin
 	xscale
 	xsize
-	y
+	y yint
 	ymax
 	ymin
 	yscale
@@ -56,6 +56,12 @@ use_wordsv = """
 	START_TIME
 	END_TIME
 	CV2_KEY_COMMANDS
+	pixel_to_float
+	VERTICAL_LINE_PROPORTION START_TIME END_TIME X_PIXEL_SIZE Y_PIXEL_SIZE SCREEN_X SCREEN_Y
+	MOUSE_X MOUSE_Y
+	START_TIME_INIT END_TIME_INIT
+
+
 """
 
 import re

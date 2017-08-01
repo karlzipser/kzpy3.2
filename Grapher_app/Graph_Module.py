@@ -31,10 +31,15 @@ def Image2(*args):
         yintv = ((yv-D[ymin])*D[yscale]).astype(np.int64)
         return D[ysize]-yintv,xintv #!!!
     D[floats_to_pixels] = _function_floats_to_pixels
-    def _function_pixels_to_floats(*args):
+    def _function_pixel_to_float(*args):
         Args = args_to_dictionary(args)
-        return 'not implemented'
-    D[pixels_to_floats] = _function_pixels_to_floats
+        xintv = Args[xint]
+        yintv = Args[yint]
+        xv = xintv / (1.0*D[xsize]) * (D[xmax]-D[xmin]) + D[xmin]
+        yv = (D[ysize]-yintv) / (1.0*D[ysize]) * (D[ymax]-D[ymin]) + D[ymin]
+
+        return xv,yv
+    D[pixel_to_float] = _function_pixel_to_float
     def _function_pts_plot(*args):
         Args = args_to_dictionary(args)
         xv,yv,colorv = Args[x],Args[y],Args[color]
