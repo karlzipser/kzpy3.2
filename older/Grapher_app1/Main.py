@@ -29,11 +29,9 @@ screen_xv = P[SCREEN_X]
 screen_yv = P[SCREEN_Y]
 
 def mouse_event(event, x, y, buttons, user_param):
-	P[MOUSE_X] = x
-	P[MOUSE_Y] = y
-	if event == cv2.EVENT_MOUSEMOVE:
-		P[MOUSE_MOVE_TIME] = time.time()
-	elif event == cv2.EVENT_LBUTTONDOWN:
+	if event == cv2.EVENT_LBUTTONDOWN:
+		P[MOUSE_X] = x
+		P[MOUSE_Y] = y
 		do_center_time('center_time',I[pixel_to_float](xint,x, yint,0)[0])
 
 
@@ -80,13 +78,7 @@ if da(P,EXAMPLE5):
 		while True:
 			I = Graph_Module.Image2(xmin,P[START_TIME], xmax,P[END_TIME], ymin,yminv, ymax,ymaxv, xsize,xpixelsv,ysize,ypixelsv)
 			I[ptsplot](x,tsv,y,valsv,color,(0,255,0))
-			#if time.time() - P[MOUSE_MOVE_TIME] > 0.5 or np.abs(P[MOUSE_Y]-ypixelsv) > 100:
-			if np.abs(P[MOUSE_Y]-ypixelsv/2) > 100:
-
-				ref_xv = int(P[VERTICAL_LINE_PROPORTION]*xpixelsv)
-			else:
-				ref_xv = P[MOUSE_X]
-			time_from_pixelv = I[pixel_to_float](xint,ref_xv, yint,0)[0]
+			time_from_pixelv = I[pixel_to_float](xint,int(P[VERTICAL_LINE_PROPORTION]*xpixelsv), yint,0)[0]
 			ts_from_pixelv = find_nearest(tsv,time_from_pixelv)
 			assert(ts_from_pixelv in tsv) #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			cv2.putText(I[img],d2s(dp(ts_from_pixelv,3)),(10,30),cv2.FONT_HERSHEY_SIMPLEX,1.0,(255,0,0),4)

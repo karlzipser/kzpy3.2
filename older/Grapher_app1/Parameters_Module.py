@@ -25,9 +25,7 @@ P[X_PIXEL_SIZE] = 2000
 P[Y_PIXEL_SIZE] = 500
 P[SCREEN_X] = 1500
 P[SCREEN_Y] = 50
-P[MOUSE_MOVE_TIME] = 0
-P[MOUSE_X] = 0
-P[MOUSE_Y] = 0
+
 
 """
 	 u'acc_y_meo',
