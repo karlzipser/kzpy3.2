@@ -118,38 +118,47 @@ def Original_Timestamp_Data(*args):
 
 
 def _assign_right_image_timestamps(A):
-    interp_dic = {}
-    k,d = get_sorted_keys_and_data(A['right_image'])
-    for i in range(0,len(k)-1):
-        a = int(k[i]*1000)
-        b = int(k[i+1]*1000)
-        c = (a+b)/2
-        for j in range(a,b):
-            if j < c:
-                v = k[i]
-            else:
-                v = k[i+1]
-            interp_dic[j/1000.] = v
-    return interp_dic
+	interp_dic = {}
+	k,d = get_sorted_keys_and_data(A['right_image'])
+	for i in range(0,len(k)-1):
+		a = int(k[i]*1000)
+		b = int(k[i+1]*1000)
+		c = (a+b)/2
+		for j in range(a,b):
+			if j < c:
+				v = k[i]
+			else:
+				v = k[i+1]
+			interp_dic[j/1000.] = v
+	return interp_dic
 
 def _assign_right_image_timestamps2(F):
-    interp_dic = {}
-    k,d =  F[right_image][ts][:],F[right_image][vals][:]
-    for i in range(0,len(k)-1):
-        a = int(k[i]*1000)
-        b = int(k[i+1]*1000)
-        c = (a+b)/2
-        for j in range(a,b):
-            if j < c:
-                v = k[i]
-            else:
-                v = k[i+1]
-            interp_dic[j/1000.] = v
-    lv = F[left_image][ts][:]
-    rv = []
-    for iv in rlen(lv):
-    	rv.append(interp_dic[lv[iv]])
-    return np.array(rv)
+	interp_dic = {}
+	k,d =  F[right_image][ts][:],F[right_image][vals][:]
+	for i in range(0,len(k)-1):
+		a = int(k[i]*1000)
+		b = int(k[i+1]*1000)
+		c = (a+b)/2
+		for j in range(a,b):
+			if j < c:
+				v = k[i]
+			else:
+				v = k[i+1]
+			interp_dic[j/1000.] = v
+	lv = F[left_image][ts][:]
+	rv = []
+	try:
+		for iv in rlen(lv):
+			rv.append(interp_dic[lv[iv]])
+	except Exception as e:
+		print("********** Exception ***********************")
+		print("""	try:
+		for iv in rlen(lv):
+			rv.append(interp_dic[lv[iv]]))
+		print(e.message, e.args)
+			""")
+		print(e.message, e.args)
+	return np.array(rv)
 
 
 def Left_Timestamp_Metadata(*args):
@@ -185,7 +194,7 @@ def Left_Timestamp_Metadata(*args):
 				L.create_dataset(kv,data=np.interp(L[ts][:],F[kv][ts][:],F[kv][vals][:]))
 				if kv in P[MEO_PARAMS]:
 					L.create_dataset(kv+'_meo',  
-						data=np.interp(L[ts][:],F[kv][ts][:],meo(F[kv][vals][:],P[MEO_PARAMS][kv])) )
+						data=np.interp(L[ts][:],F[kv][ts][:],meo(F[kv][vals][:],P[MEO_PARAMS][kv])))
 
 	L[state][:]=L[state][:].astype(int)
 

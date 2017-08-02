@@ -65,12 +65,7 @@ use_wordsv = """
 	L_FILE O_FILE
 	Image_source
 	REAL_TIME_DTV MOUSE_IN_RED_ZONE
-	IMAGE2 IMAGE3
-	TEMP_RUN_NUMBER
-	check show ICONS
-	width height name number x y img click_time clicked
-	Img
-START_TIME_INIT END_TIME_INIT Y_PIXEL_SIZE_INIT X_PIXEL_SIZE_INIT
+
 """
 
 import re

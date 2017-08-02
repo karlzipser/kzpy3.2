@@ -16,9 +16,8 @@ _(P,EXAMPLE5,equals,1)
 
 
 P[START_TIME] = 0
-#P[END_TIME] = maxval
-
-
+P[END_TIME] = maxval
+#P[TOPICS] = {acc_x_meo:{maxval:maxval,minval:minval}}
 P[TOPICS] = {
 	steer:{maxval:120,minval:-1,color:(255,0,0)},
 	motor:{maxval:70,minval:-1,color:(0,255-32,32)},
@@ -44,7 +43,6 @@ P[MOUSE_X] = 0
 P[MOUSE_Y] = 0
 P[REAL_TIME_DTV] = -2/30.
 
-P[ICONS] = []
 """
 	 u'acc_y_meo',
 	 u'acc_z_meo',
@@ -75,22 +73,19 @@ P[CV2_KEY_COMMANDS] = {
 	' ':("""
 P[VERTICAL_LINE_PROPORTION]=0.5
 P[START_TIME],P[END_TIME] = P[START_TIME_INIT],P[END_TIME_INIT]
-yminv,ymaxv = yminv_init,ymaxv_init
+yminv,ymaxv,xpixelsv,ypixelsv = yminv_init,ymaxv_init,xpixelsv_init,ypixelsv_init
 show_menuv = True""",
 		"Reset"),
 	'a':("show_menuv = True","Menu"),
-
-
-
 	'q':("sys.exit()","Quit"),
 }
 
-P[TEMP_RUN_NUMBER] = 0
-P[DATASET_PATH] = opjD('bdd_car_data_July2017_LCR')
-def temp_get_files(i):
-	run_namev = ['direct_local_LCR_28Jul17_10h22m41s_Mr_Yellow','direct_local_LCR_29Jul17_18h09m32s_Mr_Yellow','direct_local_VAL_LCR_28Jul17_10h44m46s_Mr_Yellow'][i]
-	run_pathv = opj(P[DATASET_PATH],'h5py',run_namev)
-	return opj(run_pathv,'left_timestamp_metadata.h5py'),opj(run_pathv,'original_timestamp_data.h5py')
+
+
+P[L_FILE] = opjD('bdd_car_data_July2017_LCR/h5py/direct_local_LCR_29Jul17_18h09m32s_Mr_Yellow/left_timestamp_metadata.h5py')
+P[O_FILE] = opjD('bdd_car_data_July2017_LCR/h5py/direct_local_LCR_29Jul17_18h09m32s_Mr_Yellow/original_timestamp_data.h5py')
+
+
 
 
 
