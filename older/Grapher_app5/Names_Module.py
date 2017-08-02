@@ -70,11 +70,7 @@ use_wordsv = """
 	check show ICONS
 	width height name number x y img click_time clicked
 	Img
-	START_TIME_INIT END_TIME_INIT Y_PIXEL_SIZE_INIT X_PIXEL_SIZE_INIT
-	path
-	CURRENT_ICON_NUM CAMERA_SCALE CURRENT_ICON
-	baseline
-	H5PY_RUNS CURRENT_ICON_NAME
+START_TIME_INIT END_TIME_INIT Y_PIXEL_SIZE_INIT X_PIXEL_SIZE_INIT
 """
 
 import re

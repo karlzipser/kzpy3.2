@@ -25,34 +25,15 @@ _ = dictionary_access
 for a in Args.keys():
 	_(P,a,equals,_(Args,a))
 
-#cv2.destroyAllWindows()
-#mci(P[IMAGE2][img],title=steer)
-#cv2.moveWindow(steer,P[SCREEN_X],P[SCREEN_Y])
+
+
+P[ICONS] = [Graph_Module.Icon(x,0, y,0, width,100, height,100, name,'Icon1', img,None, number,1)]
 P[X_PIXEL_SIZE_INIT],P[Y_PIXEL_SIZE_INIT] = P[X_PIXEL_SIZE],P[Y_PIXEL_SIZE]
-##################3
-P[ICONS] = {}
-
-P[DATASET_PATH] = opjD('bdd_car_data_July2017_LCR')
-P[H5PY_RUNS] = sggo(P[DATASET_PATH],'h5py','*')
-
-for iv in rlen(P[H5PY_RUNS]):
-	namev = fname(P[H5PY_RUNS][iv])
-	P[ICONS][namev] = Graph_Module.Icon(
-						y,iv*100,
-						x,0.8*P[Y_PIXEL_SIZE],
-						img,(255*np.random.random((30,50,3))).astype(np.uint8),
-						Img,None,
-						path,P[H5PY_RUNS][iv],
-						name,namev)
-P[CURRENT_ICON_NAME] = namev
-
-
 
 while True:
 
-	run_namev = P[ICONS][P[CURRENT_ICON_NAME]][name]
-	lv = opj(P[ICONS][P[CURRENT_ICON_NAME]][path],'left_timestamp_metadata.h5py')
-	ov = opj(P[ICONS][P[CURRENT_ICON_NAME]][path],'original_timestamp_data.h5py')
+	
+	run_namev,lv,ov = temp_get_files(P[TEMP_RUN_NUMBER])
 	L = h5r(lv)
 	O = h5r(ov)
 	tsv = L[ts][:]
@@ -65,13 +46,12 @@ while True:
 	P[START_TIME] = 0
 	P[START_TIME_INIT],P[END_TIME_INIT] = P[START_TIME],P[END_TIME]
 
+
+
+
+
 	I = {}
 
-	zero_baselinev = 0*tsv
-	baseline_with_ticsv = zero_baselinev.copy()
-	for i in rlen(baseline_with_ticsv):
-		if np.mod(int(tsv[i]),10.0) == 0:
-			baseline_with_ticsv[i] = 1.0
 
 	mouse_red_zone_warning_timerv = Timer(0)
 	show_menuv = True
@@ -89,9 +69,17 @@ while True:
 			ymax,100,
 			xsize,P[X_PIXEL_SIZE],
 			ysize,P[Y_PIXEL_SIZE])
-		for nv in P[ICONS]:
-			P[ICONS][nv][Img] = P[IMAGE2]
-			P[ICONS][nv][show]()
+		#cv2.destroyAllWindows()
+		#mci(P[IMAGE2][img],title=steer)
+		#cv2.moveWindow(steer,P[SCREEN_X],P[SCREEN_Y])
+
+
+
+
+
+
+
+		#P[IMAGE2][img] *= 0
 		ctrv = 0
 		for kv in sorted(P[TOPICS].keys()):
 			valsv = L[kv][:]
@@ -118,16 +106,6 @@ while True:
 				ymax,ymaxv,
 				Img,P[IMAGE2])
 			P[IMAGE3] = I[kv]
-			if kv == 'acc_y':
-				baseline_valsv = baseline_with_ticsv + P[TOPICS][kv][baseline]
-				baseline_colorv = (255,255,255)
-			else:
-				baseline_valsv = zero_baselinev + P[TOPICS][kv][baseline]
-				baseline_colorv = (64,64,64)
-			#for i in rlen(baseline_valsv):
-			#	if np.mod(tsv[i],10) == 0:
-			#		baseline_valsv[i] = 1
-			I[kv][ptsplot](x,tsv, y,baseline_valsv, color,baseline_colorv)
 			I[kv][ptsplot](x,tsv, y,valsv, color,P[TOPICS][kv][color])
 		if np.abs(P[MOUSE_Y]-P[Y_PIXEL_SIZE]/2) > 100:
 			ref_xv = int(P[VERTICAL_LINE_PROPORTION]*P[X_PIXEL_SIZE])
@@ -151,7 +129,7 @@ while True:
 		cv2.putText(
 			I[kv][img],
 			d2n(dp(display_ratev/30.0,1),'X'),
-			(10,90),
+			(P[SCREEN_X]-200,30),
 			cv2.FONT_HERSHEY_SIMPLEX,
 			0.75,(255,0,0),1)
 		cv2.line(
@@ -169,8 +147,8 @@ while True:
 		img_indexv = Timestamp_to_left_image[ts_from_pixelv]
 		img_index_listv.append(img_indexv)
 		camera_imgv = O[left_image][vals][img_indexv][:]
-		cxv = (P[Y_PIXEL_SIZE]-P[CAMERA_SCALE]*shape(camera_imgv)[0])
-		cyv = (P[X_PIXEL_SIZE]-P[CAMERA_SCALE]*shape(camera_imgv)[1])
+		cxv = (P[X_PIXEL_SIZE]-4*shape(camera_imgv)[0])
+		cyv = (P[Y_PIXEL_SIZE]-4*shape(camera_imgv)[1])
 		I[kv][img][cxv:,cyv:,:] = cv2.resize(camera_imgv, (0,0), fx=4, fy=4)
 		cv2.putText(
 			I[kv][img],
@@ -178,11 +156,6 @@ while True:
 			(cyv+10,cxv-10),
 			cv2.FONT_HERSHEY_SIMPLEX,
 			0.75,(255,255,255),1)
-		for nv in P[ICONS]:
-			if nv == P[CURRENT_ICON_NAME]:
-				iconv = P[ICONS][nv]
-				cv2.rectangle(I[kv][img],(iconv[y],iconv[x]),(iconv[y]+iconv[height],iconv[x]+iconv[width]), (200,200,200), 3)
-				break
 		#####################################################################
 		#
 		keyv = mci(P[IMAGE2][img],color_mode=cv2.COLOR_RGB2BGR,delay=33,title=kv)
@@ -194,11 +167,14 @@ while True:
 			img_index_listv = []
 			img_index_timerv.reset()
 
+		#mci(O[left_image][vals][img_indexv][:],
+		#	title=left_image,scale=4)
 		if first_timev:
 			first_timev = False
 			cv2.setMouseCallback(kv,Graph_Module.mouse_event)
 
 		dtv = (P[START_TIME]-P[END_TIME])*0.001
+
 
 		dvalv = (ymaxv-yminv)*0.001
 		dxpixelsv = max(1,P[X_PIXEL_SIZE]*0.1)
@@ -215,7 +191,12 @@ while True:
 				
 		key_decodedv = False
 
-
+		if keyv == ord('0'):
+			P[TEMP_RUN_NUMBER]=0;print 0;break
+		elif keyv == ord('1'):
+			P[TEMP_RUN_NUMBER]=1;print 1;break
+		elif keyv == ord('2'):
+			P[TEMP_RUN_NUMBER]=2;print 2;break
 
 		for mv in P[CV2_KEY_COMMANDS]:
 			if len(mv) > 0:
@@ -235,22 +216,16 @@ while True:
 					print("********** Exception ***********************")
 					print(e.message, e.args)
 		
-		#################################
-
-		clickedv = False
-		for nv in P[ICONS]:
-			iconv = P[ICONS][nv]
-			if iconv[clicked]:
-				P[CURRENT_ICON_NAME] = iconv[name]
-				iconv[clicked] = False
-				clickedv = True
-				P[VERTICAL_LINE_PROPORTION]=0.5
-				P[START_TIME],P[END_TIME] = P[START_TIME_INIT],P[END_TIME_INIT]
-				yminv,ymaxv = yminv_init,ymaxv_init
-				show_menuv = True
-		if clickedv:
-			clickedv = False
+		if P[ICONS][0][clicked]:
+			P[ICONS][0][clicked] = False
+			P[TEMP_RUN_NUMBER] += 1
+			if P[TEMP_RUN_NUMBER] > 2:
+				P[TEMP_RUN_NUMBER] = 0
 			break
+		
+
+
+
 
 
 

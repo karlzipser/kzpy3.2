@@ -73,8 +73,8 @@ def mouse_event(event, xv, yv, buttons, user_param):
         P[MOUSE_MOVE_TIME] = time.time()
     elif event == cv2.EVENT_LBUTTONDOWN:
         _do_center_time('center_time',P[IMAGE3][pixel_to_float](xint,xv, yint,0)[0])
-        for nv in P[ICONS].keys():
-            P[ICONS][nv][check](x,xv, y,yv)
+        for Ic in P[ICONS]:
+            Ic[check](x,xv, y,yv)
 
 
 def _do_center_time(*args):
@@ -94,22 +94,20 @@ def _do_center_time(*args):
 def Icon(*args):
     Args = args_to_dictionary(args)
     D = {}
-    D[x] = int(Args[x])
-    D[y] = int(Args[y])
+    D[x] = Args[x]
+    D[y] = Args[y]
+    D[width] = Args[width]
+    D[height] = Args[height]
     D[img] = Args[img]
-    D[path] = Args[path]
-    D[Img] = Args[Img]
     D[name] = Args[name]
+    D[number] = Args[number]
     True
-    D[width] = shape(D[img])[0]
-    D[height] = shape(D[img])[1]
     D[click_time] = False
     D[clicked] = False
     def _function_check(*args):
         Args = args_to_dictionary(args)
-        xv = Args[y]
-        yv = Args[x]
-        pd2s('checking',D[name],(xv,yv),'vs',(D[x],D[y]))
+        xv = Args[x]
+        yv = Args[y]
         True
         if xv >= D[x]:
             if xv <= D[x]+D[width]:
@@ -118,9 +116,13 @@ def Icon(*args):
                         D[click_time] = time.time()
                         D[clicked] = True
                         print(D[name]+ ' clicked')
-    def _function_show():
+    def _function_show(*args):
+        Args = args_to_dictionary(args)
+        img = Args[img]
+        xv = Args[x]
+        yv = Args[y]
         True
-        D[Img][img][D[x]:D[x]+D[width],D[y]:D[y]+D[height],:] = D[img]
+        img[xv:xv+width,yv:yv+height] = D[img]
     D[check] = _function_check
     D[show] = _function_show
     return D

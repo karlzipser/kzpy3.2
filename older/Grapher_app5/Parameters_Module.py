@@ -20,30 +20,29 @@ P[START_TIME] = 0
 
 
 P[TOPICS] = {
-	steer:{maxval:80,		minval:20,		baseline:49.0,	color:(255,0,0)},
-	motor:{maxval:80,		minval:49,		baseline:49.0,	color:(0,255-32,32)},
-	state:{maxval:6,		minval:-10,		baseline:0,		color:(128,128,128)},
-	encoder:{maxval:4,		minval:-4,		baseline:0,		color:(0,128,128)},
-	acc_x:{maxval:10,		minval:-10,		baseline:0,		color:(128,128,0)},
-	acc_y:{maxval:10,		minval:-10,		baseline:0,		color:(128-32,128+32,0)},
-	acc_z:{maxval:10-9.80,		minval:-10,		baseline:0,		color:(128-64,128+64,0)},
-	gyro_x:{maxval:180,		minval:-180,	baseline:0,		color:(128,128,0)},
-	gyro_y:{maxval:180,		minval:-180,	baseline:0,		color:(128-32,128+32,0)},
-	gyro_z:{maxval:180,		minval:-180,	baseline:0,		color:(128-64,128+64,0)},
-	gyro_heading_x:{maxval:360,minval:-180,	baseline:0,		color:(255,200,200)},
+	steer:{maxval:120,minval:-1,color:(255,0,0)},
+	motor:{maxval:70,minval:-1,color:(0,255-32,32)},
+	state:{maxval:6,minval:-1,color:(128,128,128)},
+	encoder:{maxval:4,minval:-1,color:(0,128,128)},
+	acc_x:{maxval:10,minval:-10,color:(128,128,0)},
+	acc_y:{maxval:10,minval:-10,color:(128-32,128+32,0)},
+	acc_z:{maxval:10,minval:-10,color:(128-64,128+64,0)},
+	gyro_x:{maxval:180,minval:-180,color:(128,128,0)},
+	gyro_y:{maxval:180,minval:-180,color:(128-32,128+32,0)},
+	gyro_z:{maxval:180,minval:-180,color:(128-64,128+64,0)},
+	gyro_heading_x:{maxval:360,minval:-180,color:(255,200,200)},
 
 	}
 P[VERTICAL_LINE_PROPORTION] = 0.5
 
 P[X_PIXEL_SIZE] = 2000
-P[Y_PIXEL_SIZE] = 1000
-P[SCREEN_X] = 0#1500
-P[SCREEN_Y] = 0#150
+P[Y_PIXEL_SIZE] = 2000
+P[SCREEN_X] = 1500
+P[SCREEN_Y] = 150
 P[MOUSE_MOVE_TIME] = 0
 P[MOUSE_X] = 0
 P[MOUSE_Y] = 0
 P[REAL_TIME_DTV] = -2/30.
-P[CAMERA_SCALE] = 4
 
 P[ICONS] = []
 """
@@ -93,9 +92,9 @@ show_menuv = True""",
 
 	'q':("sys.exit()","Quit"),
 }
-"""
-P[TEMP_RUN_NUMBER] = 0
 
+P[TEMP_RUN_NUMBER] = 0
+P[DATASET_PATH] = opjD('bdd_car_data_July2017_LCR')
 def temp_get_files(i):
 	run_namev = ['direct_local_LCR_28Jul17_10h22m41s_Mr_Yellow',
 		'direct_local_LCR_29Jul17_18h09m32s_Mr_Yellow',
@@ -103,7 +102,7 @@ def temp_get_files(i):
 	run_pathv = opj(P[DATASET_PATH],'h5py',run_namev)
 
 	return run_namev,opj(run_pathv,'left_timestamp_metadata.h5py'),opj(run_pathv,'original_timestamp_data.h5py')
-"""
+
 
 
 
