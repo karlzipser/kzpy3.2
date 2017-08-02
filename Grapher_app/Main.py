@@ -36,11 +36,14 @@ P[DATASET_PATH] = opjD('bdd_car_data_July2017_LCR')
 P[H5PY_RUNS] = sggo(P[DATASET_PATH],'h5py','*')
 
 for iv in rlen(P[H5PY_RUNS]):
+	O = h5r(opj(P[H5PY_RUNS][iv],'original_timestamp_data.h5py'))
+	icon_imgv = O[left_image][vals][int(len(O[left_image][vals])/2)][:]
+	icon_imgv = cv2.resize(icon_imgv, (0,0), fx=0.5, fy=0.5)
 	namev = fname(P[H5PY_RUNS][iv])
 	P[ICONS][namev] = Graph_Module.Icon(
-						y,iv*100,
-						x,0.8*P[Y_PIXEL_SIZE],
-						img,(255*np.random.random((30,50,3))).astype(np.uint8),
+						y,int(10+1.1*iv*shape(icon_imgv)[1]),
+						x,0.52*P[Y_PIXEL_SIZE],
+						img,icon_imgv,
 						Img,None,
 						path,P[H5PY_RUNS][iv],
 						name,namev)
@@ -129,7 +132,7 @@ while True:
 			#		baseline_valsv[i] = 1
 			I[kv][ptsplot](x,tsv, y,baseline_valsv, color,baseline_colorv)
 			I[kv][ptsplot](x,tsv, y,valsv, color,P[TOPICS][kv][color])
-		if np.abs(P[MOUSE_Y]-P[Y_PIXEL_SIZE]/2) > 100:
+		if np.abs(P[MOUSE_Y]-P[Y_PIXEL_SIZE]*0.4) > 100:
 			ref_xv = int(P[VERTICAL_LINE_PROPORTION]*P[X_PIXEL_SIZE])
 			P[MOUSE_IN_RED_ZONE] = False
 		else:
@@ -138,7 +141,7 @@ while True:
 			cv2.line(
 				I[kv][img],
 				(P[MOUSE_X],0),
-				(P[MOUSE_X],P[Y_PIXEL_SIZE]),
+				(P[MOUSE_X],int(P[Y_PIXEL_SIZE]/2)),
 				(255,0,0))
 		time_from_pixelv = I[kv][pixel_to_float](xint,ref_xv, yint,0)[0]
 		ts_from_pixelv = find_nearest(tsv,time_from_pixelv)
@@ -157,7 +160,7 @@ while True:
 		cv2.line(
 			I[kv][img],
 			(int(P[VERTICAL_LINE_PROPORTION]*P[X_PIXEL_SIZE]),0),
-			(int(P[VERTICAL_LINE_PROPORTION]*P[X_PIXEL_SIZE]),P[Y_PIXEL_SIZE]),
+			(int(P[VERTICAL_LINE_PROPORTION]*P[X_PIXEL_SIZE]),int(P[Y_PIXEL_SIZE]/2)),
 			(0,0,255))
 		if not mouse_red_zone_warning_timerv.check():
 			cv2.putText(
