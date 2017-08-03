@@ -12,7 +12,8 @@ import Graph_Module
 from Car_Data_app.Names_Module import *
 exec(identify_file_str)
 """
-
+	* Have playback at fix rate, not machine capacity
+	* Parameterize all those little display constants
 """
 _ = dictionary_access
 

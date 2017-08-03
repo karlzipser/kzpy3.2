@@ -216,12 +216,12 @@ def Left_Timestamp_Metadata(*args):
 
 
 
-rgb_1to4_path = 'rgb_1to4_path'
 
 def Original_Timestamp_Data_from_preprocessed_data_pkl(*args):
 	"""
 	Translate from preprocessed_data.pkl and .pkl rosbag image files to original_timestamp_data.h5py
 	"""
+
 	Args = args_to_dictionary(args)
 	preprocessed_datafile_path_ = Args[preprocessed_datafile_path]
 	rgb_1to4_path_ = Args[rgb_1to4_path]
@@ -261,7 +261,10 @@ def Original_Timestamp_Data_from_preprocessed_data_pkl(*args):
 	for side_ in ['left','right']:
 		Temp[side_+'_image'] = {}
 	bag_pkls_ = sggo(rgb_1to4_path_,'*.bag.pkl')
+	assert(len(bag_pkls_) > 0)
+
 	for b_ in bag_pkls_:
+
 		print b_
 		O = load_obj(b_)
 		for side_ in ['left','right']:
@@ -284,11 +287,11 @@ def Original_Timestamp_Data_from_preprocessed_data_pkl(*args):
 
 
 
-if True:
-	D =  Original_Timestamp_Data_from_preprocessed_data_pkl(
+if False:
+	Original_Timestamp_Data_from_preprocessed_data_pkl(
 		preprocessed_datafile_path,'/media/karlzipser/ExtraDrive2/bdd_car_data_July2017_LCR/meta/direct_local_VAL_LCR_28Jul17_10h44m46s_Mr_Yellow/preprocessed_data.pkl',
 		h5py_path,opjD(),
 		rgb_1to4_path,'/media/karlzipser/ExtraDrive2/bdd_car_data_July2017_LCR/rgb_1to4/direct_local_VAL_LCR_28Jul17_10h44m46s_Mr_Yellow' )
-
+	Data_Module.Left_Timestamp_Metadata(run_name,'direct_local_VAL_LCR_28Jul17_10h44m46s_Mr_Yellow', h5py_path,opjD())
 
 #EOF

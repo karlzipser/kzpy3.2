@@ -13,8 +13,8 @@ _(P,EXAMPLE4,equals,0)
 
 _(P,EXAMPLE5,equals,1)
 
-#P[DATASET_PATHS] = [opjD('bdd_car_data_July2017_LCR'),opjD('TEMP')]
-P[DATASET_PATHS] = ['/media/karlzipser/ExtraDrive2/bdd_car_data_July2017_LCR',opjD('TEMP')]
+P[DATASET_PATHS] = [opjD('bdd_car_data_July2017_LCR'),opjD('TEMP')]
+#P[DATASET_PATHS] = ['/media/karlzipser/ExtraDrive2/bdd_car_data_July2017_LCR',opjD('TEMP')]
 
 P[TOPICS] = {
 	steer:{maxval:80,		minval:20,		baseline:49.0,	color:(255,0,0)},
