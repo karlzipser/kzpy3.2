@@ -60,6 +60,11 @@ use_wordsv = """
 	tdic
 	bag_folder_path
 	h5py_path
+	meta_run_path
+	preprocessed_datafile_path
+	
+
+	
 """
 
 import re

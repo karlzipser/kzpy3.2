@@ -179,16 +179,16 @@ while True:
 		camera_img_ = O[left_image][vals][img_index_][:]
 		cx_ = (P[Y_PIXEL_SIZE]-P[CAMERA_SCALE]*shape(camera_img_)[0])
 		cy_ = (P[X_PIXEL_SIZE]-P[CAMERA_SCALE]*shape(camera_img_)[1])
-		I[topic_][img][cx_:,cy_:,:] = cv2.resize(camera_img_, (0,0), fx=4, fy=4)
+		I[topic_][img][cx_-10:-10,cy_-10:-10,:] = cv2.resize(camera_img_, (0,0), fx=4, fy=4)
 		if P[MOUSE_IN_RED_ZONE] == True:
-			cv2.rectangle(I[topic_][img],(cy_,cx_),(P[X_PIXEL_SIZE]-3,P[Y_PIXEL_SIZE]-3), (255,0,0), 3)
+			cv2.rectangle(I[topic_][img],(cy_-10,cx_-10),(P[X_PIXEL_SIZE]-3-10,P[Y_PIXEL_SIZE]-3-10), (255,0,0), 3)
 
 		cv2.putText(
 			I[topic_][img],
 			run_name_,
-			(cy_+10,cx_-10),
+			(cy_-10,cx_-20),
 			cv2.FONT_HERSHEY_SIMPLEX,
-			0.75,(255,255,255),1)
+			0.7,(255,255,255),1)
 		for n_ in P[ICONS]:
 			if n_ == P[CURRENT_ICON_NAME]:
 				icon_ = P[ICONS][n_]
