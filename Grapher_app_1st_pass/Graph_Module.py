@@ -72,7 +72,7 @@ def mouse_event(event, xv, yv, buttons, user_param):
     if event == cv2.EVENT_MOUSEMOVE:
         P[MOUSE_MOVE_TIME] = time.time()
     elif event == cv2.EVENT_LBUTTONDOWN:
-        _do_center_time('center_time',_(P,IMAGE3,pixel_to_float)(xint,xv, yint,0)[0])
+        _do_center_time('center_time',P[IMAGE3][pixel_to_float](xint,xv, yint,0)[0])
         for nv in P[ICONS].keys():
             P[ICONS][nv][check](x,xv, y,yv)
 
@@ -109,7 +109,7 @@ def Icon(*args):
         Args = args_to_dictionary(args)
         xv = Args[y]
         yv = Args[x]
-        #pd2s('checking',D[name],(xv,yv),'vs',(D[x],D[y]))
+        pd2s('checking',D[name],(xv,yv),'vs',(D[x],D[y]))
         True
         if xv >= D[x]:
             if xv <= D[x]+D[width]:

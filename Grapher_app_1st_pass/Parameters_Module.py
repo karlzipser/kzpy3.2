@@ -69,22 +69,22 @@ P[CV2_KEY_COMMANDS] = {
 		"Time step forward,real time"),
 	'm':("P[START_TIME] -= P[REAL_TIME_DTV]/2.0; P[END_TIME] -= P[REAL_TIME_DTV]/2.0",
 		"Time step forward,real time"),
-	'l':("P[START_TIME] -= dt_; P[END_TIME] -= dt_",
+	'l':("P[START_TIME] -= dtv; P[END_TIME] -= dtv",
 		"Time step forward"),
-	'h':("P[START_TIME] += dt_; P[END_TIME] += dt_",
+	'h':("P[START_TIME] += dtv; P[END_TIME] += dtv",
 		"Time step back"),
 	'u':("P[START_TIME] += P[REAL_TIME_DTV]; P[END_TIME] += P[REAL_TIME_DTV]",
 		"Time step back, real time"),
 	'v':("P[START_TIME] += P[REAL_TIME_DTV]/2.0; P[END_TIME] += P[REAL_TIME_DTV]/2.0",
 		"Time step back, real time"),
-	'j':("P[START_TIME] += 100.0*dt_; P[END_TIME] -= 100.0*dt_",
+	'j':("P[START_TIME] += 100.0*dtv; P[END_TIME] -= 100.0*dtv",
 		"Time scale out"),
-	'k':("P[START_TIME] -= 100.0*dt_; P[END_TIME] += 100.0*dt_",
+	'k':("P[START_TIME] -= 100.0*dtv; P[END_TIME] += 100.0*dtv",
 		"Time scale in"),
 	' ':("""
 P[VERTICAL_LINE_PROPORTION]=0.5
 P[START_TIME],P[END_TIME] = P[START_TIME_INIT],P[END_TIME_INIT]
-ymin_,ymax_ = ymin_init_,ymax_init_
+yminv,ymaxv = yminv_init,ymaxv_init
 show_menuv = True""",
 		"Reset"),
 	'a':("show_menuv = True","Menu"),
