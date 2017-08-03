@@ -72,6 +72,7 @@ def mouse_event(event, xv, yv, buttons, user_param):
     if event == cv2.EVENT_MOUSEMOVE:
         P[MOUSE_MOVE_TIME] = time.time()
     elif event == cv2.EVENT_LBUTTONDOWN:
+        #if yv < P[Y_MOUSE_RANGE_PROPORTION] * P[Y_PIXEL_SIZE]:
         _do_center_time('center_time',_(P,IMAGE3,pixel_to_float)(xint,xv, yint,0)[0])
         for nv in P[ICONS].keys():
             P[ICONS][nv][check](x,xv, y,yv)

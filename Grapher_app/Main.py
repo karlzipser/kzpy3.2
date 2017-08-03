@@ -21,29 +21,40 @@ for a in Args.keys():
 
 #cv2.destroyAllWindows()
 #mci(P[IMAGE2][img],title=steer)
-#cv2.moveWindow(steer,P[SCREEN_X],P[SCREEN_Y])
+
 P[X_PIXEL_SIZE_INIT],P[Y_PIXEL_SIZE_INIT] = P[X_PIXEL_SIZE],P[Y_PIXEL_SIZE]
 ##################3
 P[ICONS] = {}
 
-P[DATASET_PATH] = opjD('bdd_car_data_July2017_LCR')
-P[H5PY_RUNS] = sggo(P[DATASET_PATH],'h5py','*')
 
-for i_ in rlen(P[H5PY_RUNS]):
-	O = h5r(opj(P[H5PY_RUNS][i_],'original_timestamp_data.h5py'))
+h5py_runs_ = []
+for dataset_path_ in P[DATASET_PATHS]:
+	h5py_runs_ += sggo(dataset_path_,'h5py','*')
+
+icon_row_counter_ = 0
+icon_column_counter_ = 0
+for i_ in rlen(h5py_runs_):
+	O = h5r(opj(h5py_runs_[i_],'original_timestamp_data.h5py'))
 	icon_img_ = O[left_image][vals][int(len(O[left_image][vals])/2)][:]
 	icon_img_ = cv2.resize(icon_img_, (0,0), fx=0.5, fy=0.5)
-	name_ = fname(P[H5PY_RUNS][i_])
+	name_ = fname(h5py_runs_[i_])
 	P[ICONS][name_] = Graph_Module.Icon(
-						y,int(10+1.1*i_*shape(icon_img_)[1]),
-						x,0.52*P[Y_PIXEL_SIZE],
+						y,int(10+1.1*icon_column_counter_*shape(icon_img_)[1]),
+						x,0.52*P[Y_PIXEL_SIZE] + 1.1*icon_row_counter_*shape(icon_img_)[0],
 						img,icon_img_,
 						Img,None,
-						path,P[H5PY_RUNS][i_],
+						path,h5py_runs_[i_],
 						name,name_)
+	icon_column_counter_ += 1
+	if icon_column_counter_ >= P[MAX_ICONS_PER_ROW]:
+		icon_column_counter_ = 0
+		icon_row_counter_ += 1
+
 P[CURRENT_ICON_NAME] = name_
 
 
+show_menu_ = True
+first_time_ = True
 
 while True:
 
@@ -71,8 +82,7 @@ while True:
 			baseline_with_tics_[i] = 1.0
 
 	mouse_red_zone_warning_timer_ = Timer(0)
-	show_menu_ = True
-	first_time_ = True
+
 	img_index_timer_ = Timer(1)
 	img_index_list_ = []
 	display_ratev = 0
@@ -126,7 +136,7 @@ while True:
 			#		baseline_valsv[i] = 1
 			I[topic_][ptsplot](x,ts_, y,baseline_valsv, color,baseline_colorv)
 			I[topic_][ptsplot](x,ts_, y,vals_, color,P[TOPICS][topic_][color])
-		if np.abs(P[MOUSE_Y]-P[Y_PIXEL_SIZE]*0.4) > 100:
+		if np.abs(P[MOUSE_Y]-P[Y_PIXEL_SIZE]*0.45) > 35:
 			ref_xv = int(P[VERTICAL_LINE_PROPORTION]*P[X_PIXEL_SIZE])
 			P[MOUSE_IN_RED_ZONE] = False
 		else:
@@ -137,11 +147,12 @@ while True:
 				(P[MOUSE_X],0),
 				(P[MOUSE_X],int(P[Y_PIXEL_SIZE]/2)),
 				(255,0,0))
+
 		time_from_pixel_ = I[topic_][pixel_to_float](xint,ref_xv, yint,0)[0]
 		ts_from_pixel_ = find_nearest(ts_,time_from_pixel_)
 		cv2.putText(
 			I[topic_][img],
-			d2n(dp(ts_from_pixel_,3),'s'),
+			d2n(dp(ts_from_pixel_,2),'s'),
 			(10,30),
 			cv2.FONT_HERSHEY_SIMPLEX,
 			0.75,(255,0,0),1)
@@ -166,13 +177,16 @@ while True:
 		img_index_ = Timestamp_to_left_image[ts_from_pixel_]
 		img_index_list_.append(img_index_)
 		camera_img_ = O[left_image][vals][img_index_][:]
-		cxv = (P[Y_PIXEL_SIZE]-P[CAMERA_SCALE]*shape(camera_img_)[0])
-		cyv = (P[X_PIXEL_SIZE]-P[CAMERA_SCALE]*shape(camera_img_)[1])
-		I[topic_][img][cxv:,cyv:,:] = cv2.resize(camera_img_, (0,0), fx=4, fy=4)
+		cx_ = (P[Y_PIXEL_SIZE]-P[CAMERA_SCALE]*shape(camera_img_)[0])
+		cy_ = (P[X_PIXEL_SIZE]-P[CAMERA_SCALE]*shape(camera_img_)[1])
+		I[topic_][img][cx_:,cy_:,:] = cv2.resize(camera_img_, (0,0), fx=4, fy=4)
+		if P[MOUSE_IN_RED_ZONE] == True:
+			cv2.rectangle(I[topic_][img],(cy_,cx_),(P[X_PIXEL_SIZE]-3,P[Y_PIXEL_SIZE]-3), (255,0,0), 3)
+
 		cv2.putText(
 			I[topic_][img],
 			run_name_,
-			(cyv+10,cxv-10),
+			(cy_+10,cx_-10),
 			cv2.FONT_HERSHEY_SIMPLEX,
 			0.75,(255,255,255),1)
 		for n_ in P[ICONS]:
@@ -185,7 +199,7 @@ while True:
 		keyv = mci(P[IMAGE2][img],color_mode=cv2.COLOR_RGB2BGR,delay=33,title=topic_)
 		#
 		#####################################################################
-
+		
 		if img_index_timer_.check():
 			display_ratev = max(img_index_list_)-min(img_index_list_)
 			img_index_list_ = []
@@ -194,6 +208,7 @@ while True:
 		if first_time_:
 			first_time_ = False
 			cv2.setMouseCallback(topic_,Graph_Module.mouse_event)
+			cv2.moveWindow(steer,P[SCREEN_X],P[SCREEN_Y])
 
 		dt_ = (P[START_TIME]-P[END_TIME])*0.001
 

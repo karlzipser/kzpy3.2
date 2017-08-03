@@ -13,11 +13,7 @@ _(P,EXAMPLE4,equals,0)
 
 _(P,EXAMPLE5,equals,1)
 
-
-
-P[START_TIME] = 0
-#P[END_TIME] = maxval
-
+P[DATASET_PATHS] = [opjD('bdd_car_data_July2017_LCR'),opjD('TEMP')]
 
 P[TOPICS] = {
 	steer:{maxval:80,		minval:20,		baseline:49.0,	color:(255,0,0)},
@@ -36,16 +32,17 @@ P[TOPICS] = {
 P[VERTICAL_LINE_PROPORTION] = 0.5
 
 P[X_PIXEL_SIZE] = 2000
-P[Y_PIXEL_SIZE] = 1000
-P[SCREEN_X] = 0#1500
-P[SCREEN_Y] = 0#150
+P[Y_PIXEL_SIZE] = 1800
+P[SCREEN_X] = 20
+P[SCREEN_Y] = 40
 P[MOUSE_MOVE_TIME] = 0
 P[MOUSE_X] = 0
 P[MOUSE_Y] = 0
 P[REAL_TIME_DTV] = -2/30.
 P[CAMERA_SCALE] = 4
-
+P[Y_MOUSE_RANGE_PROPORTION] = 0.5
 P[ICONS] = []
+P[MAX_ICONS_PER_ROW] = 2
 """
 	 u'acc_y_meo',
 	 u'acc_z_meo',
