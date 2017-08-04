@@ -10,27 +10,23 @@ print '*** test1 ***'
 
 #######################
 
-
+# Variables
 a = 1
 b = 2
+print(a,b)
+
+##################
+
+# dictionary
 D = {}
 D['a'] = b
 D['b'] = a
 print(a,b,D['a'],D['b'])
 
 
-#######################
-
-
-print(D.keys())
 
 #######################
-
-print(a.keys) # will give an error
-
-
-#######################
-
+# list
 
 l = []
 l.append(1)
@@ -44,8 +40,18 @@ print(l[0])
 print(l[1])
 
 
+
 #######################
 
+
+print(D.keys())
+print(type(D.keys()))
+print(D.keys()[1])
+
+
+#######################
+
+# dictionary holding a list
 
 D['l'] = l
 print(D['l'][1])
