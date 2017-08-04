@@ -23,3 +23,4 @@ for j in rlen(s):
 		pause(0.001)
 
 
+D['f'] = lambda x,y,z: x+y+z

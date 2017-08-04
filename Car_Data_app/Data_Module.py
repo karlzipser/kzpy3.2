@@ -15,7 +15,7 @@ def Original_Timestamp_Data(*args):
 	unix('mkdir -p '+opj(h5py_pathv,run_namev))
 	file_path = opj(h5py_pathv,run_namev,'original_timestamp_data.h5py')
 	if os.path.exists(file_path):
-		print(stars0v+file_path+' exists, doing nothing.'+stars1v)
+		print(stars0v+file_path+' exists, doing nothing.'+stars1_)
 		return None
 	import rospy
 	import rosbag
@@ -27,20 +27,20 @@ def Original_Timestamp_Data(*args):
 	image_topicsv = ['zed/left/image_rect_color','zed/right/image_rect_color']
 	single_value_topicsv = [steer,state,motor,encoder]
 	vector3_topicsv = [acc,gyro,gps,gyro_heading]
-	all_topicsv = image_topicsv + single_value_topicsv + vector3_topicsv
-	bair_all_topicsv = []
-	for v in all_topicsv:
-		bair_all_topicsv.append('/bair_car/'+v)
+	all_topics_ = image_topicsv + single_value_topicsv + vector3_topicsv
+	bair_all_topics_ = []
+	for v in all_topics_:
+		bair_all_topics_.append('/bair_car/'+v)
 	Rename = {}
 	Rename['zed/left/image_rect_color'] = left_image
 	Rename['zed/right/image_rect_color'] = right_image
 
-	for topicv in all_topicsv:
-		if 'zed' in topicv:
-				topicv = Rename[topicv]
-		D[topicv] = {}
-		D[topicv][ts] = []
-		D[topicv][vals] = []
+	for topic_ in all_topics_:
+		if 'zed' in topic_:
+				topic_ = Rename[topic_]
+		D[topic_] = {}
+		D[topic_][ts] = []
+		D[topic_][vals] = []
 
 	bag_filesv = sorted(glob.glob(opj(bag_folder_pathv,'*.bag')))
 	
@@ -61,57 +61,57 @@ def Original_Timestamp_Data(*args):
 
 		bagv = rosbag.Bag(bv)
 
-		for mv in bagv.read_messages(topics=bair_all_topicsv):
-			timestampv = round(mv[2].to_time(),3) # millisecond resolution
+		for m_ in bagv.read_messages(topics=bair_all_topics_):
+			timestampv = round(m_[2].to_time(),3) # millisecond resolution
 			assert(is_number(timestampv))
-			topicv = mv[0].replace('/bair_car/','')
-			if 'zed' in mv[0]:
-				valv = bridge.imgmsg_to_cv2(mv[1],"rgb8")
+			topic_ = m_[0].replace('/bair_car/','')
+			if 'zed' in m_[0]:
+				valv = bridge.imgmsg_to_cv2(m_[1],"rgb8")
 				valv = cv2.resize(valv, (0,0), fx=0.25, fy=0.25)
-			elif hasattr(mv[1], 'data'):
-				if is_number(mv[1].data):
-					valv = mv[1].data
-			elif hasattr(mv[1], 'x'):
-				valv = [mv[1].x,mv[1].y,mv[1].z]
+			elif hasattr(m_[1], 'data'):
+				if is_number(m_[1].data):
+					valv = m_[1].data
+			elif hasattr(m_[1], 'x'):
+				valv = [m_[1].x,m_[1].y,m_[1].z]
 				for nv in valv:
 					assert(is_number(nv))
-			elif hasattr(mv[1], 'latitude'):
-				valv = [mv[1].latitude,mv[1].longitude,mv[1].altitude]
+			elif hasattr(m_[1], 'latitude'):
+				valv = [m_[1].latitude,m_[1].longitude,m_[1].altitude]
 				for nv in valv:
 					assert(is_number(nv))
 			else:
-				raise ValueError('ERROR because: topic '+topicv+' not processed.')
-			if 'zed' in topicv:
-				topicv = Rename[topicv]
+				raise ValueError('ERROR because: topic '+topic_+' not processed.')
+			if 'zed' in topic_:
+				topic_ = Rename[topic_]
 
-			D[topicv][ts].append(timestampv)
-			D[topicv][vals].append(valv)
+			D[topic_][ts].append(timestampv)
+			D[topic_][vals].append(valv)
 
 		print(d2s('\t',dp(timerv.time()),'seconds'))
 
-	D[topicv][ts] = np.array(D[topicv][ts])
-	D[topicv][vals] = np.array(D[topicv][vals])
+	D[topic_][ts] = np.array(D[topic_][ts])
+	D[topic_][vals] = np.array(D[topic_][vals])
 
-	for kv in D.keys():
-		if len(shape(D[kv][vals])) == 2:
-			if shape(D[kv][vals])[1] == 3:
-				D[kv][vals] = np.array(D[kv][vals])
-				ctrv = 0
-				for qv in [x,y,z]:
-					new_keyv = kv+'_'+qv
-					D[new_keyv] = {}
-					D[new_keyv][ts] = D[kv][ts]
-					D[new_keyv][vals] = D[kv][vals][:,ctrv]
-					ctrv += 1
-				del D[kv]
+	for k_ in D.keys():
+		if len(shape(D[k_][vals])) == 2:
+			if shape(D[k_][vals])[1] == 3:
+				D[k_][vals] = np.array(D[k_][vals])
+				ctr_ = 0
+				for q_ in [x,y,z]:
+					new_key_ = k_+'_'+q_
+					D[new_key_] = {}
+					D[new_key_][ts] = D[k_][ts]
+					D[new_key_][vals] = D[k_][vals][:,ctr_]
+					ctr_ += 1
+				del D[k_]
 
 #	F = h5py.File(file_path,'w')
 	F = h5w(file_path)
-	for topicv in D.keys():
-		print topicv
-		Group = F.create_group(topicv)
-		Group.create_dataset(ts,data=D[topicv][ts])
-		Group.create_dataset(vals,data=D[topicv][vals])
+	for topic_ in D.keys():
+		print topic_
+		Group = F.create_group(topic_)
+		Group.create_dataset(ts,data=D[topic_][ts])
+		Group.create_dataset(vals,data=D[topic_][vals])
 	F.close()
 	return(D)
 
@@ -170,6 +170,9 @@ def Left_Timestamp_Metadata(*args):
 	run_namev = Args[run_name]
 	h5py_pathv = Args[h5py_path]
 	True
+	if os.path.exists(opj(h5py_pathv,run_namev,'left_timestamp_metadata.h5py')):
+		spd2s(opj(h5py_pathv,run_namev,'left_timestamp_metadata.h5py')+' exists, doing nothing.')
+		return None
 	pathv = opj(h5py_pathv,run_namev,'original_timestamp_data.h5py')
 	assert_disk_locations(pathv)
 
@@ -187,14 +190,14 @@ def Left_Timestamp_Metadata(*args):
 	L.create_dataset(right_ts,data=np.array(right_tsv))
 	#assert( np.abs( 0.03 - np.median(L[ts][:]-L[right_ts][:]) ) < 0.01 )
 
-	for kv in sorted(F.keys()):
-		if kv != left_image and kv != right_image:
-			if len(F[kv][ts]) > 0:
-				print('\tprocessing '+kv)
-				L.create_dataset(kv,data=np.interp(L[ts][:],F[kv][ts][:],F[kv][vals][:]))
-				if kv in P[MEO_PARAMS]:
-					L.create_dataset(kv+'_meo',  
-						data=np.interp(L[ts][:],F[kv][ts][:],meo(F[kv][vals][:],P[MEO_PARAMS][kv])))
+	for k_ in sorted(F.keys()):
+		if k_ != left_image and k_ != right_image:
+			if len(F[k_][ts]) > 0:
+				print('\tprocessing '+k_)
+				L.create_dataset(k_,data=np.interp(L[ts][:],F[k_][ts][:],F[k_][vals][:]))
+				if k_ in P[MEO_PARAMS]:
+					L.create_dataset(k_+'_meo',  
+						data=np.interp(L[ts][:],F[k_][ts][:],meo(F[k_][vals][:],P[MEO_PARAMS][k_])))
 
 	L[state][:]=L[state][:].astype(int)
 
@@ -206,5 +209,92 @@ def Left_Timestamp_Metadata(*args):
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+def Original_Timestamp_Data_from_preprocessed_data_pkl(*args):
+	"""
+	Translate from preprocessed_data.pkl and .pkl rosbag image files to original_timestamp_data.h5py
+	"""
+
+	Args = args_to_dictionary(args)
+	preprocessed_datafile_path_ = Args[preprocessed_datafile_path]
+	rgb_1to4_path_ = Args[rgb_1to4_path]
+	h5py_path_ = Args[h5py_path]
+	True
+	run_name_ = fname(pname(preprocessed_datafile_path_))
+	unix('mkdir -p '+opj(h5py_path_,run_name_))
+	file_path_ = opj(h5py_path_,run_name_,'original_timestamp_data.h5py')
+	if os.path.exists(file_path_):
+		spd2s(file_path_+' exists, doing nothing.')
+		return None
+
+	O = lo(preprocessed_datafile_path_)
+	D = {}
+	for k_ in O.keys():
+		D[k_] = {}
+		ts_,vals_ = get_sorted_keys_and_data(O[k_])
+		D[k_][ts] = np.array(ts_)
+		D[k_][vals] = np.array(vals_)
+
+
+	for k_ in D.keys():
+		if len(shape(D[k_][vals])) == 2:
+			if shape(D[k_][vals])[1] == 3:
+				D[k_][vals] = np.array(D[k_][vals])
+				ctr_ = 0
+				for q_ in [x,y,z]:
+					new_key_ = k_+'_'+q_
+					D[new_key_] = {}
+					D[new_key_][ts] = D[k_][ts]
+					D[new_key_][vals] = D[k_][vals][:,ctr_]
+					ctr_ += 1
+				del D[k_]
+
+
+	Temp = {}
+	for side_ in ['left','right']:
+		Temp[side_+'_image'] = {}
+	bag_pkls_ = sggo(rgb_1to4_path_,'*.bag.pkl')
+	assert(len(bag_pkls_) > 0)
+
+	for b_ in bag_pkls_:
+
+		print b_
+		O = load_obj(b_)
+		for side_ in ['left','right']:
+			ts_ = O[side_].keys()
+			for t_ in ts_:
+				Temp[side_+'_image'][t_] = O[side_][t_]
+			ts_,vals_ = get_sorted_keys_and_data(Temp[side_+'_image'])
+			D[side_+'_image'][ts] = ts_
+			D[side_+'_image'][vals] = vals_
+
+
+	F = h5w(file_path_)
+	for topic_ in D.keys():
+		print topic_
+		Group = F.create_group(topic_)
+		Group.create_dataset(ts,data=D[topic_][ts])
+		Group.create_dataset(vals,data=D[topic_][vals])
+	F.close()
+	return(D)
+
+
+
+if False:
+	Original_Timestamp_Data_from_preprocessed_data_pkl(
+		preprocessed_datafile_path,'/media/karlzipser/ExtraDrive2/bdd_car_data_July2017_LCR/meta/direct_local_VAL_LCR_28Jul17_10h44m46s_Mr_Yellow/preprocessed_data.pkl',
+		h5py_path,opjD(),
+		rgb_1to4_path,'/media/karlzipser/ExtraDrive2/bdd_car_data_July2017_LCR/rgb_1to4/direct_local_VAL_LCR_28Jul17_10h44m46s_Mr_Yellow' )
+	Data_Module.Left_Timestamp_Metadata(run_name,'direct_local_VAL_LCR_28Jul17_10h44m46s_Mr_Yellow', h5py_path,opjD())
 
 #EOF

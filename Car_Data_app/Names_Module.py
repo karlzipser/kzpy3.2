@@ -55,11 +55,16 @@ use_wordsv = """
 	
 	SRC
 	DST
-
+	DATA_SRC 
 	vals
 	tdic
 	bag_folder_path
 	h5py_path
+	meta_run_path
+	preprocessed_datafile_path
+	rgb_1to4_path
+
+	
 """
 
 import re
