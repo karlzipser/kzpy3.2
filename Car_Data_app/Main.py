@@ -7,8 +7,14 @@ if not hasattr(main,'__file__'):
 #
 ###############################
 """
-e.g.,
+To preprocess rosbags, e.g.:
 python kzpy3/Car_Data_app/Main.py SRC '/media/karlzipser/rosbags/Mr_Yellow_29July2017/new' DST '/media/karlzipser/ExtraDrive2/bdd_car_data_July2017_LCR/h5py'
+
+To convert from pkl representation of data, e.g.:
+
+python kzpy3/Car_Data_app/Main.py DATA_SRC '/media/karlzipser/ExtraDrive2/bdd_car_data_July2017_regular'  DST '/media/karlzipser/ExtraDrive2/bdd_car_data_July2017_regular/h5py'
+
+To change rosbags disk permissions: sudo chmod -R 777 /media/karlzipser/rosbags/
 """
 
 from Parameters_Module import *
@@ -26,23 +32,23 @@ print(Args)
 
 
 if SRC in Args and DST in Args:
-	bag_folders_srcv = Args[SRC]
+	bag_folders_src_ = Args[SRC]
 	h5py_dst = Args[DST]
 	True
 
-	runsv = sgg(opj(bag_folders_srcv,'*'))
-	print(bag_folders_srcv)
-	assert(len(runsv) > 0)
+	runs_ = sgg(opj(bag_folders_src_,'*'))
+	print(bag_folders_src_)
+	assert(len(runs_) > 0)
 
 
-	cprint('Preliminary check of '+bag_folders_srcv)
+	cprint('Preliminary check of '+bag_folders_src_)
 	cprint("	checking bag file sizes and run durations")
 
 	##############
 	# Old code below, not always using dic naming conventions
-	for rv in runsv:
-		bags = sgg(opj(rv,'*.bag'))
-		cprint(d2s(tb,fname(rv),len(bags)))
+	for r_ in runs_:
+		bags = sgg(opj(r_,'*.bag'))
+		cprint(d2s(tb,fname(r_),len(bags)))
 		mtimes = []
 		for b in bags:
 			bag_size = os.path.getsize(b)
@@ -54,15 +60,15 @@ if SRC in Args and DST in Args:
 		run_duration = mtimes[-1]-mtimes[0]
 		print run_duration
 		assert(run_duration/60./60. < 3.) # If clock set incorrectly, this can change during run leading to year-long intervals
-		cprint(d2s(rv,'is okay'))
+		cprint(d2s(r_,'is okay'))
 	#
 	##############
 
-	for rv in runsv:
-		Data_Module.Original_Timestamp_Data(bag_folder_path,rv, h5py_path,h5py_dst)
-		Data_Module.Left_Timestamp_Metadata(run_name,fname(rv), h5py_path,h5py_dst)
-	if fname(bag_folders_srcv) == 'new':
-		os.rename(bag_folders_srcv,opj(pname(bag_folders_srcv),'processed2'))
+	for r_ in runs_:
+		Data_Module.Original_Timestamp_Data(bag_folder_path,r_, h5py_path,h5py_dst)
+		Data_Module.Left_Timestamp_Metadata(run_name,fname(r_), h5py_path,h5py_dst)
+	if fname(bag_folders_src_) == 'new':
+		os.rename(bag_folders_src_,opj(pname(bag_folders_src_),'processed2'))
 
 
 elif DATA_SRC in Args and DST in Args:
