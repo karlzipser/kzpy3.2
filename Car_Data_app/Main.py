@@ -73,14 +73,16 @@ elif DATA_SRC in Args and DST in Args:
 	runs_ = sggo(data_src_,'meta','*')
 	print(data_src_)
 	assert(len(runs_) > 0)
-
-
 	for r_ in runs_:
-		Data_Module.Original_Timestamp_Data_from_preprocessed_data_pkl(
-			preprocessed_datafile_path,opj(r_,'preprocessed_data.pkl'),
-			h5py_path,h5py_dst_,
-			rgb_1to4_path,opj(data_src_,'rgb_1to4',fname(r_)))
-		Data_Module.Left_Timestamp_Metadata(run_name,fname(r_), h5py_path,h5py_dst_)
+		try:
+			Data_Module.Original_Timestamp_Data_from_preprocessed_data_pkl(
+				preprocessed_datafile_path,opj(r_,'preprocessed_data.pkl'),
+				h5py_path,h5py_dst_,
+				rgb_1to4_path,opj(data_src_,'rgb_1to4',fname(r_)))
+			Data_Module.Left_Timestamp_Metadata(run_name,fname(r_), h5py_path,h5py_dst_)
+		except Exception as e:
+			print("********** Exception ***********************")
+			print(e.message, e.args)	
 
 
 

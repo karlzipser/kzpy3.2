@@ -170,6 +170,9 @@ def Left_Timestamp_Metadata(*args):
 	run_namev = Args[run_name]
 	h5py_pathv = Args[h5py_path]
 	True
+	if os.path.exists(opj(h5py_pathv,run_namev,'left_timestamp_metadata.h5py')):
+		spd2s(opj(h5py_pathv,run_namev,'left_timestamp_metadata.h5py')+' exists, doing nothing.')
+		return None
 	pathv = opj(h5py_pathv,run_namev,'original_timestamp_data.h5py')
 	assert_disk_locations(pathv)
 

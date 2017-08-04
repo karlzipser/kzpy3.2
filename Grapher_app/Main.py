@@ -14,6 +14,8 @@ exec(identify_file_str)
 """
 	* Have playback at fix rate, not machine capacity
 	* Parameterize all those little display constants
+	* Write out total time
+	* Print out all topic values at current time
 """
 _ = dictionary_access
 
@@ -102,41 +104,42 @@ while True:
 			P[ICONS][n_][show]()
 		ctrv = 0
 		for topic_ in sorted(P[TOPICS].keys()):
-			vals_ = L[topic_][:]
-			if P[TOPICS][topic_][minval] == minval:
-				ymin_ = min(vals_)
-			else:
-				ymin_ = P[TOPICS][topic_][minval]
-			if P[TOPICS][topic_][maxval] == maxval:
-				ymax_ = max(vals_)
-			else:
-				ymax_ = P[TOPICS][topic_][maxval]
-			dyv = (ymax_ - ymin_)
-			ymin_ = ymax_ - dyv*(len(P[TOPICS].keys())+1)
-			ymax_ += dyv*ctrv
-			ctrv += 1
-			ymin_init_,ymax_init_, = ymin_,ymax_
+			if topic_ in L.keys():
+				vals_ = L[topic_][:]
+				if P[TOPICS][topic_][minval] == minval:
+					ymin_ = min(vals_)
+				else:
+					ymin_ = P[TOPICS][topic_][minval]
+				if P[TOPICS][topic_][maxval] == maxval:
+					ymax_ = max(vals_)
+				else:
+					ymax_ = P[TOPICS][topic_][maxval]
+				dyv = (ymax_ - ymin_)
+				ymin_ = ymax_ - dyv*(len(P[TOPICS].keys())+1)
+				ymax_ += dyv*ctrv
+				ctrv += 1
+				ymin_init_,ymax_init_, = ymin_,ymax_
 
-			I[topic_] = Graph_Module.Image2(
-				xsize,P[X_PIXEL_SIZE],
-				ysize,P[Y_PIXEL_SIZE],
-				xmin,P[START_TIME],
-				xmax,P[END_TIME],
-				ymin,ymin_,
-				ymax,ymax_,
-				Img,P[IMAGE2])
-			P[IMAGE3] = I[topic_]
-			if topic_ == 'acc_y':
-				baseline_valsv = baseline_with_tics_ + _(P,TOPICS,topic_,baseline) #P[TOPICS][topic_][baseline]
-				baseline_colorv = (255,255,255)
-			else:
-				baseline_valsv = zero_baselinev_ + _(P,TOPICS,topic_,baseline) #P[TOPICS][topic_][baseline]
-				baseline_colorv = (64,64,64)
-			#for i in rlen(baseline_valsv):
-			#	if np.mod(ts_[i],10) == 0:
-			#		baseline_valsv[i] = 1
-			I[topic_][ptsplot](x,ts_, y,baseline_valsv, color,baseline_colorv)
-			I[topic_][ptsplot](x,ts_, y,vals_, color,P[TOPICS][topic_][color])
+				I[topic_] = Graph_Module.Image2(
+					xsize,P[X_PIXEL_SIZE],
+					ysize,P[Y_PIXEL_SIZE],
+					xmin,P[START_TIME],
+					xmax,P[END_TIME],
+					ymin,ymin_,
+					ymax,ymax_,
+					Img,P[IMAGE2])
+				P[IMAGE3] = I[topic_]
+				if topic_ == 'acc_y':
+					baseline_valsv = baseline_with_tics_ + _(P,TOPICS,topic_,baseline) #P[TOPICS][topic_][baseline]
+					baseline_colorv = (255,255,255)
+				else:
+					baseline_valsv = zero_baselinev_ + _(P,TOPICS,topic_,baseline) #P[TOPICS][topic_][baseline]
+					baseline_colorv = (64,64,64)
+				#for i in rlen(baseline_valsv):
+				#	if np.mod(ts_[i],10) == 0:
+				#		baseline_valsv[i] = 1
+				I[topic_][ptsplot](x,ts_, y,baseline_valsv, color,baseline_colorv)
+				I[topic_][ptsplot](x,ts_, y,vals_, color,P[TOPICS][topic_][color])
 		if np.abs(P[MOUSE_Y]-P[Y_PIXEL_SIZE]*0.45) > 35:
 			ref_xv = int(P[VERTICAL_LINE_PROPORTION]*P[X_PIXEL_SIZE])
 			P[MOUSE_IN_RED_ZONE] = False
