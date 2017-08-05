@@ -3,7 +3,7 @@
 import __main__ as main
 if not hasattr(main,'__file__'):
 	from kzpy3.utils2 import *
-	pythonpaths(['kzpy3','kzpy3/Grapher_app','kzpy3/teg9'])
+	pythonpaths(['kzpy3','kzpy3/Grapher_app'])
 #
 ###############################
 from Parameters_Module import *
@@ -63,9 +63,9 @@ while True:
 
 	run_name_ = P[ICONS][P[CURRENT_ICON_NAME]][name]
 	l_ = opj(P[ICONS][P[CURRENT_ICON_NAME]][path],'left_timestamp_metadata.h5py')
-	ov = opj(P[ICONS][P[CURRENT_ICON_NAME]][path],'original_timestamp_data.h5py')
+	o_  = opj(P[ICONS][P[CURRENT_ICON_NAME]][path],'original_timestamp_data.h5py')
 	L = h5r(l_)
-	O = h5r(ov)
+	O = h5r(o_ )
 	ts_ = L[ts][:]
 	ts_ = ts_.copy()
 	ts_ -= ts_[0]
@@ -212,7 +212,7 @@ while True:
 		if first_time_:
 			first_time_ = False
 			cv2.setMouseCallback(topic_,Graph_Module.mouse_event)
-			cv2.moveWindow(steer,P[SCREEN_X],P[SCREEN_Y])
+			cv2.mo_ eWindow(steer,P[SCREEN_X],P[SCREEN_Y])
 
 		dt_ = (P[START_TIME]-P[END_TIME])*0.001
 

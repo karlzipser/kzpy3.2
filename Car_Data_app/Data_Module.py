@@ -290,11 +290,32 @@ def Original_Timestamp_Data_from_preprocessed_data_pkl(*args):
 
 
 
+h5py_folder = 'h5py_folder'
+def make_flip_images(*args):
+	Args = args_to_dictionary(args)
+	h5py_folder_ = Args[h5py_folder]
+	True
+	O = h5r(opj(h5py_folder_,'original_timestamp_data.h5py'))
+	F = h5w(opj(h5py_folder_,'flip_images.h5py'))
+	for topic_ in [left_image,right_image]:
+		flip_topic_ = topic_+'_flip'
+		pd2s('\t',topic_,'to',flip_topic_)
+		flip_images_ = []
+		for i_ in range(len(O[topic_][ts])):
+			flip_images_.append(cv2.flip(O[topic_][vals][i_],1))
+		flip_images_ = np.array(flip_images_)
+		Group = F.create_group(flip_topic_)
+		Group.create_dataset(ts,data=O[topic_][ts])
+		Group.create_dataset(vals,data=flip_images_)
+	F.close()
+
+
+
 if False:
-	Original_Timestamp_Data_from_preprocessed_data_pkl(
-		preprocessed_datafile_path,'/media/karlzipser/ExtraDrive2/bdd_car_data_July2017_LCR/meta/direct_local_VAL_LCR_28Jul17_10h44m46s_Mr_Yellow/preprocessed_data.pkl',
-		h5py_path,opjD(),
-		rgb_1to4_path,'/media/karlzipser/ExtraDrive2/bdd_car_data_July2017_LCR/rgb_1to4/direct_local_VAL_LCR_28Jul17_10h44m46s_Mr_Yellow' )
-	Data_Module.Left_Timestamp_Metadata(run_name,'direct_local_VAL_LCR_28Jul17_10h44m46s_Mr_Yellow', h5py_path,opjD())
+	runs_ = sgg(opjm('ExtraDrive4/bair_car_data_new_28April2017/h5py/*'))# 'ExtraDrive2/bdd_car_data_July2017_LCR/h5py/*'))
+	for r_ in runs_:
+		spd2s(r_)
+		make_flip_images(h5py_folder,r_)
+
 
 #EOF

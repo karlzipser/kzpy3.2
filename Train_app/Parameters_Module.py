@@ -1,5 +1,5 @@
 from Paths_Module import *
-from All_Names_Module import *
+from Names_Module import *
 exec(identify_file_str)
 
 _ = dictionary_access
@@ -15,8 +15,8 @@ _(P,EXAMPLE4,equals,0)
 _(P,EXAMPLE5,equals,1)
 
 #P[DATASET_PATHS] = [opjD('bdd_car_data_July2017_LCR')]
-P[DATASET_PATHS] = [opjm('ExtraDrive2/bdd_car_data_July2017_LCR')]
-#P[DATASET_PATHS] = [opjm('ExtraDrive2/bair_car_data_Main_Dataset')]
+#P[DATASET_PATHS] = [opjm('ExtraDrive2/bdd_car_data_July2017_LCR')]
+P[DATASET_PATHS] = [opjm('ExtraDrive2/bair_car_data_Main_Dataset')]
 #P[DATASET_PATHS] = [opjm('ExtraDrive2/bdd_car_data_July2017_regular')]
 
 P[TOPICS] = {
@@ -94,7 +94,17 @@ show_menuv = True""",
 
 	'q':("sys.exit()","Quit"),
 }
+"""
+P[TEMP_RUN_NUMBER] = 0
 
+def temp_get_files(i):
+	run_namev = ['direct_local_LCR_28Jul17_10h22m41s_Mr_Yellow',
+		'direct_local_LCR_29Jul17_18h09m32s_Mr_Yellow',
+		'direct_local_VAL_LCR_28Jul17_10h44m46s_Mr_Yellow'][i]
+	run_pathv = opj(P[DATASET_PATH],'h5py',run_namev)
+
+	return run_namev,opj(run_pathv,'left_timestamp_metadata.h5py'),opj(run_pathv,'original_timestamp_data.h5py')
+"""
 
 
 
