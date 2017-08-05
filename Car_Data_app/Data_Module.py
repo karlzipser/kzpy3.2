@@ -290,13 +290,17 @@ def Original_Timestamp_Data_from_preprocessed_data_pkl(*args):
 
 
 
-h5py_folder = 'h5py_folder'
+#h5py_folder = 'h5py_folder'
 def make_flip_images(*args):
 	Args = args_to_dictionary(args)
 	h5py_folder_ = Args[h5py_folder]
 	True
+	f_ = opj(h5py_folder_,'flip_images.h5py')
+	if os.path.exists(f_):
+		spd2s(f_+' exists, doing nothing.')
+		return None
 	O = h5r(opj(h5py_folder_,'original_timestamp_data.h5py'))
-	F = h5w(opj(h5py_folder_,'flip_images.h5py'))
+	F = h5w(f_)
 	for topic_ in [left_image,right_image]:
 		flip_topic_ = topic_+'_flip'
 		pd2s('\t',topic_,'to',flip_topic_)
@@ -312,10 +316,9 @@ def make_flip_images(*args):
 
 
 if False:
-	runs_ = sgg(opjm('ExtraDrive4/bair_car_data_new_28April2017/h5py/*'))# 'ExtraDrive2/bdd_car_data_July2017_LCR/h5py/*'))
+	runs_ = sgg(opjm('ExtraDrive2/bdd_car_data_July2017_LCR/h5py/*'))#'ExtraDrive2/bdd_car_data_July2017_regular/h5py/*'))# '
 	for r_ in runs_:
 		spd2s(r_)
 		make_flip_images(h5py_folder,r_)
-
 
 #EOF

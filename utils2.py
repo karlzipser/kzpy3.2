@@ -24,7 +24,7 @@ x11 on osx: https://www.xquartz.org/
 	in .Xdefaults: *VT100.translations: #override  Meta <KeyPress> V:  insert-selection(PRIMARY, CUT_BUFFER0) \n
 """
 
-
+from kzpy3.All_Names_Module import *
 import_list = ['os','os.path','shutil','scipy','scipy.io','string','glob','time','sys','datetime','random','cPickle','re',
 	'subprocess','serial','math','inspect','fnmatch','h5py','socket','getpass','numbers']
 import_from_list = [['FROM','pprint','pprint'],['FROM','scipy.optimize','curve_fit'],['FROM','termcolor','cprint']]

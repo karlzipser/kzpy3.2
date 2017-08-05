@@ -16,6 +16,10 @@ exec(identify_file_str)
 	* Parameterize all those little display constants
 	* Write out total time
 	* Print out all topic values at current time
+	* Show left and right images
+	* Allow programatic display, exactly corresponding to network training needs
+	* Need to display data from hdf5 files or from data extracted from neural network inputs/outputs
+	* Need to display from ros
 """
 _ = dictionary_access
 
@@ -200,7 +204,7 @@ while True:
 				break
 		#####################################################################
 		#
-		keyv = mci(P[IMAGE2][img],color_mode=cv2.COLOR_RGB2BGR,delay=33,title=topic_)
+		key_ = mci(P[IMAGE2][img],color_mode=cv2.COLOR_RGB2BGR,delay=33,title=topic_)
 		#
 		#####################################################################
 		
@@ -212,7 +216,7 @@ while True:
 		if first_time_:
 			first_time_ = False
 			cv2.setMouseCallback(topic_,Graph_Module.mouse_event)
-			cv2.mo_ eWindow(steer,P[SCREEN_X],P[SCREEN_Y])
+			cv2.moveWindow(steer,P[SCREEN_X],P[SCREEN_Y])
 
 		dt_ = (P[START_TIME]-P[END_TIME])*0.001
 
@@ -235,7 +239,7 @@ while True:
 
 		for mv in P[CV2_KEY_COMMANDS]:
 			if len(mv) > 0:
-				if keyv == ord(mv):
+				if key_ == ord(mv):
 					if P[MOUSE_IN_RED_ZONE]:
 						mouse_red_zone_warning_timer_ = Timer(2)
 					else:
@@ -243,10 +247,10 @@ while True:
 						exec(cmd_tuplev[0])
 					key_decodedv = True
 		if not key_decodedv:
-			if keyv != -1:
+			if key_ != -1:
 				try:
-					print(d2s('keyv =',keyv))
-					print(d2s(str(unichr(keyv)), '=',keyv))
+					print(d2s('key_ =',key_))
+					print(d2s(str(unichr(key_)), '=',key_))
 				except Exception as e:
 					print("********** Exception ***********************")
 					print(e.message, e.args)

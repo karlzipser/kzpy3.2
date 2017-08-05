@@ -7,18 +7,10 @@ _ = dictionary_access
 P = {}
 
 _(P,VERBOSE,equals,True)
-_(P,EXAMPLE1,equals,0)
-_(P,EXAMPLE2,equals,0)
-_(P,EXAMPLE3,equals,0)
-_(P,EXAMPLE4,equals,0)
-
-_(P,EXAMPLE5,equals,1)
-
 #P[DATASET_PATHS] = [opjD('bdd_car_data_July2017_LCR')]
 P[DATASET_PATHS] = [opjm('ExtraDrive2/bdd_car_data_July2017_LCR')]
 #P[DATASET_PATHS] = [opjm('ExtraDrive2/bair_car_data_Main_Dataset')]
 #P[DATASET_PATHS] = [opjm('ExtraDrive2/bdd_car_data_July2017_regular')]
-
 P[TOPICS] = {
 	steer:{maxval:80,		minval:20,		baseline:49.0,	color:(255,0,0)},
 	motor:{maxval:80,		minval:49,		baseline:49.0,	color:(0,255-32,32)},
@@ -26,7 +18,7 @@ P[TOPICS] = {
 	encoder:{maxval:4,		minval:-4,		baseline:0,		color:(0,128,128)},
 	acc_x:{maxval:10,		minval:-10,		baseline:0,		color:(128,128,0)},
 	acc_y:{maxval:10,		minval:-10,		baseline:0,		color:(128-32,128+32,0)},
-	acc_z:{maxval:10-9.80,		minval:-10,		baseline:0,		color:(128-64,128+64,0)},
+	acc_z:{maxval:10-9.80,	minval:-10,		baseline:0,		color:(128-64,128+64,0)},
 	gyro_x:{maxval:180,		minval:-180,	baseline:0,		color:(128,128,0)},
 	gyro_y:{maxval:180,		minval:-180,	baseline:0,		color:(128-32,128+32,0)},
 	gyro_z:{maxval:180,		minval:-180,	baseline:0,		color:(128-64,128+64,0)},
@@ -34,7 +26,6 @@ P[TOPICS] = {
 
 	}
 P[VERTICAL_LINE_PROPORTION] = 0.5
-
 P[X_PIXEL_SIZE] = 2000
 P[Y_PIXEL_SIZE] = 2000#1100
 P[SCREEN_X] = 20
@@ -47,24 +38,6 @@ P[CAMERA_SCALE] = 4
 P[Y_MOUSE_RANGE_PROPORTION] = 0.5
 P[ICONS] = []
 P[MAX_ICONS_PER_ROW] = 14
-"""
-	 u'acc_y_meo',
-	 u'acc_z_meo',
-	 u'encoder_meo',
-	 u'gyro_heading_x_meo',
-	 u'gyro_heading_y_meo',
-	 u'gyro_heading_y_meo',
-	 u'gyro_x_meo',
-	 u'gyro_z_meo',
-	 u'left_ts_deltas',
-	 u'motor',
-	 u'state',
-	 u'steer',
-	 #u'right_ts',
-	 ]
-"""
-
-
 P[CV2_KEY_COMMANDS] = {
 	'p':("P[START_TIME] -= P[REAL_TIME_DTV]; P[END_TIME] -= P[REAL_TIME_DTV]",
 		"Time step forward,real time"),
@@ -89,9 +62,6 @@ ymin_,ymax_ = ymin_init_,ymax_init_
 show_menuv = True""",
 		"Reset"),
 	'a':("show_menuv = True","Menu"),
-
-
-
 	'q':("sys.exit()","Quit"),
 }
 

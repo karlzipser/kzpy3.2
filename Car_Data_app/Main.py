@@ -15,6 +15,8 @@ To convert from pkl representation of data, e.g.:
 python kzpy3/Car_Data_app/Main.py DATA_SRC '/media/karlzipser/ExtraDrive2/bdd_car_data_July2017_regular'  DST '/media/karlzipser/ExtraDrive2/bdd_car_data_July2017_regular/h5py'
 
 To change rosbags disk permissions: sudo chmod -R 777 /media/karlzipser/rosbags/
+
+* Put flip into processing pipeline
 """
 
 from Parameters_Module import *
@@ -67,6 +69,7 @@ if SRC in Args and DST in Args:
 	for r_ in runs_:
 		Data_Module.Original_Timestamp_Data(bag_folder_path,r_, h5py_path,h5py_dst)
 		Data_Module.Left_Timestamp_Metadata(run_name,fname(r_), h5py_path,h5py_dst)
+		Data_Module.make_flip_images(h5py_folder,opj(h5py_dst,fname(r_)))
 	if fname(bag_folders_src_) == 'new':
 		os.rename(bag_folders_src_,opj(pname(bag_folders_src_),'processed2'))
 

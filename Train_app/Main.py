@@ -20,6 +20,6 @@ for a in Args.keys():
 	_(P,a,equals,_(Args,a))
 
 
-
+spd2s('The Train application.')
 
 #EOF

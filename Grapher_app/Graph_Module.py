@@ -5,14 +5,14 @@ exec(identify_file_str)
 _ = dictionary_access
 
 def Image2(*args):
+    """
+    Note, because of the way image display is different from plotting display,
+    there is a confusing switching of x and y in certain places.
+    """
     Args = args_to_dictionary(args)
     D = {}
-    D[xmin] = Args[xmin] 
-    D[xmax] = Args[xmax]
-    D[ymin] = Args[ymin]
-    D[ymax] = Args[ymax]
-    D[xsize] = Args[xsize]
-    D[ysize] = Args[ysize]
+    for p_ in [xmin,xmax,ymin,ymax,xsize,ysize]:
+        D[p_] = Args[p_]
     if data_type in Args:
         D[data_type] = Args[data_type]
     else:
@@ -29,36 +29,36 @@ def Image2(*args):
     
     def _function_floats_to_pixels(*args):
         Args = args_to_dictionary(args)
-        xv = array(Args[x])
-        yv = array(Args[y])
-        xintv = ((xv-D[xmin])*D[xscale]).astype(np.int64)
-        yintv = ((yv-D[ymin])*D[yscale]).astype(np.int64)
-        return D[ysize]-yintv,xintv #!!!
+        x_ = array(Args[x])
+        y_ = array(Args[y])
+        xint_ = ((x_-D[xmin])*D[xscale]).astype(np.int64)
+        yint_ = ((y_-D[ymin])*D[yscale]).astype(np.int64)
+        return D[ysize]-yint_,xint_ #!!!
     D[floats_to_pixels] = _function_floats_to_pixels
     def _function_pixel_to_float(*args):
         Args = args_to_dictionary(args)
-        xintv = Args[xint]
-        yintv = Args[yint]
-        xv = xintv / (1.0*D[xsize]) * (D[xmax]-D[xmin]) + D[xmin]
-        yv = (D[ysize]-yintv) / (1.0*D[ysize]) * (D[ymax]-D[ymin]) + D[ymin]
+        xint_ = Args[xint]
+        yint_ = Args[yint]
+        x_ = xint_ / (1.0*D[xsize]) * (D[xmax]-D[xmin]) + D[xmin]
+        y_ = (D[ysize]-yint_) / (1.0*D[ysize]) * (D[ymax]-D[ymin]) + D[ymin]
 
-        return xv,yv
+        return x_,y_
     D[pixel_to_float] = _function_pixel_to_float
     def _function_pts_plot(*args):
         Args = args_to_dictionary(args)
-        xv,yv,colorv = Args[x],Args[y],Args[color]
+        x_,y_,color_ = Args[x],Args[y],Args[color]
         True
         D[xscale] = D[xsize]/(1.0*D[xmax]-D[xmin])
         D[yscale] = D[ysize]/(1.0*D[ymax]-D[ymin])
-        xv,yv = D[floats_to_pixels](x,xv,y,yv)
-        indiciesv = np.where(np.logical_and(yv>=0, yv<D[xsize]))
-        xv = xv[indiciesv]
-        yv = yv[indiciesv]        
-        indiciesv = np.where(np.logical_and(xv>=0, xv<D[ysize]))
+        x_,y_ = D[floats_to_pixels](x,x_,y,y_)
+        indicies_ = np.where(np.logical_and(y_>=0, y_<D[xsize]))
+        x_ = x_[indicies_]
+        y_ = y_[indicies_]        
+        indicies_ = np.where(np.logical_and(x_>=0, x_<D[ysize]))
         # Note confusing reversals of x and y above and in this module
-        xv = xv[indiciesv]
-        yv = yv[indiciesv]    
-        D[img][xv,yv,:] = colorv
+        x_ = x_[indicies_]
+        y_ = y_[indicies_]    
+        D[img][x_,y_,:] = color_
     D[ptsplot] = _function_pts_plot
     return D
 
@@ -66,25 +66,25 @@ def Image2(*args):
 
 
 
-def mouse_event(event, xv, yv, buttons, user_param):
-    P[MOUSE_X] = xv
-    P[MOUSE_Y] = yv
+def mouse_event(event, x_, y_, buttons, user_param):
+    P[MOUSE_X] = x_
+    P[MOUSE_Y] = y_
     if event == cv2.EVENT_MOUSEMOVE:
         P[MOUSE_MOVE_TIME] = time.time()
     elif event == cv2.EVENT_LBUTTONDOWN:
-        #if yv < P[Y_MOUSE_RANGE_PROPORTION] * P[Y_PIXEL_SIZE]:
-        _do_center_time('center_time',_(P,IMAGE3,pixel_to_float)(xint,xv, yint,0)[0])
+        #if y_ < P[Y_MOUSE_RANGE_PROPORTION] * P[Y_PIXEL_SIZE]:
+        _do_center_time('center_time',_(P,IMAGE3,pixel_to_float)(xint,x_, yint,0)[0])
         for nv in P[ICONS].keys():
-            P[ICONS][nv][check](x,xv, y,yv)
+            P[ICONS][nv][check](x,x_, y,y_)
 
 
 def _do_center_time(*args):
     Args = args_to_dictionary(args)
     center_timev = Args['center_time']
     True
-    time_widthv = P[END_TIME] - P[START_TIME]
-    P[START_TIME] = center_timev - time_widthv/2
-    P[END_TIME] = center_timev + time_widthv/2
+    time_width_ = P[END_TIME] - P[START_TIME]
+    P[START_TIME] = center_timev - time_width_/2
+    P[END_TIME] = center_timev + time_width_/2
 
 
 
@@ -108,14 +108,14 @@ def Icon(*args):
     D[clicked] = False
     def _function_check(*args):
         Args = args_to_dictionary(args)
-        xv = Args[y]
-        yv = Args[x]
-        #pd2s('checking',D[name],(xv,yv),'vs',(D[x],D[y]))
+        x_ = Args[y]
+        y_ = Args[x]
+        #pd2s('checking',D[name],(x_,y_),'vs',(D[x],D[y]))
         True
-        if xv >= D[x]:
-            if xv <= D[x]+D[width]:
-                if yv >= D[y]:
-                    if yv <= D[y]+D[height]:
+        if x_ >= D[x]:
+            if x_ <= D[x]+D[width]:
+                if y_ >= D[y]:
+                    if y_ <= D[y]+D[height]:
                         D[click_time] = time.time()
                         D[clicked] = True
                         print(D[name]+ ' clicked')

@@ -1,4 +1,5 @@
 use_wordsv = """
+	left_image_flip
 	h5py_folder
 	EXAMPLE1
 	EXAMPLE2
@@ -136,6 +137,16 @@ use_wordsv = """
 	CURRENT_ICON_NUM CAMERA_SCALE CURRENT_ICON
 	baseline
 	H5PY_RUNS CURRENT_ICON_NAME DATASET_PATHS MAX_ICONS_PER_ROW Y_MOUSE_RANGE_PROPORTION
+
+
+	runs   run_labels   meta_path   rgb_1to4_path mostly_caffe   mostly_human   
+	aruco_ring   out1_in2   direct   home   furtive 
+	play   racing   multicar   campus   night   Smyth   left   notes   local   Tilden   
+	reject_run   reject_intervals   snow   follow   only_states_1_and_6_good
+
+
+
+
 
 	reject_run 
 	left 
