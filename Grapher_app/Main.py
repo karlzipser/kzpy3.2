@@ -199,6 +199,14 @@ while len(R[steer][ts]) < 100:
 	pause(0.5)
 while True:
 	timer.reset()
+	for m_ in [ts,vals]:
+		R[left_image][m_] = R[left_image][m_][-1:]
+		R[right_image][m_] = R[left_image][m_][-1:]
+	for topic_ in R.keys():
+		#print len(R[topic_][ts]),P[TOPIC_STEPS_LIMIT]
+		if len(R[topic_][ts]) > P[TOPIC_STEPS_LIMIT]:
+			for m_ in [ts,vals]:
+				R[topic_][m_] = R[topic_][m_][-P[TOPIC_STEPS_LIMIT]:]
 	D = Display_Graph_Module.Display_Graph(topics,R)
 	D[show]()#start_time,D[end_time]-10)
 	#print timer.time()
