@@ -74,7 +74,7 @@ echo "rrm;rlog"
 rrm
 rlog
 alias sb='source ~/.bashrc'
-OPTIONS="screen rla rosbags git_pull reboot shutdown bdd_car_rewrite_SD2 bdd_car_rewrite_SD2_LCR bdd_car_rewrite_SD2_LCR_net"
+OPTIONS="screen rla rosbags git_pull reboot shutdown exit bdd_car_rewrite_SD2 bdd_car_rewrite_SD2_LCR bdd_car_rewrite_SD2_LCR_net"
 COLUMNS=12
 select opt in $OPTIONS; do
    COLUMNS=12
@@ -105,7 +105,9 @@ select opt in $OPTIONS; do
     git pull
     cd
    elif [ "$opt" = "screen" ]; then
-    scren 
+    screen 
+   elif [ "$opt" = "exit" ]; then
+    break 
    else
     #clear
     echo bad option

@@ -42,7 +42,7 @@ P[ICONS] = []
 P[MAX_ICONS_PER_ROW] = 14
 """
 
-
+P[TOPIC_STEPS_LIMIT] = 100
 
 
 
