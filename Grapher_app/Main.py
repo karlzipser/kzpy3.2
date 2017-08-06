@@ -10,7 +10,7 @@ from Parameters_Module import *
 from kzpy3.vis2 import *
 
 import Display_Graph_Module
-from Car_Data_app.Names_Module import *
+#from Car_Data_app.Names_Module import *
 exec(identify_file_str)
 """
 	* Have playback at fix rate, not machine capacity
