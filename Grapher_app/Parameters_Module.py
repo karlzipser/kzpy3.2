@@ -26,8 +26,8 @@ P[TOPICS] = {
 	left_ts_deltas:{maxval:0.1,minval:0,	baseline:0,		color:(0,0,255)},
 	}
 #P[VERTICAL_LINE_PROPORTION] = 0.5
-P[X_PIXEL_SIZE] = 2000
-P[Y_PIXEL_SIZE] = 2000#1100
+P[X_PIXEL_SIZE] = 1000
+P[Y_PIXEL_SIZE] = 800#1100
 P[SCREEN_X] = 20
 P[SCREEN_Y] = 40
 P[CAMERA_SCALE] = 4
