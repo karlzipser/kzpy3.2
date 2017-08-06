@@ -1551,7 +1551,7 @@ def zdprint(*args):
 
 #####################################################
 #
-if username != 'nvidia':
+if True:#username != 'nvidia':
 	temp = args_to_dictionary(sys.argv[1:])
 	Args = {}
 	for k in temp.keys():
