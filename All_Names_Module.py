@@ -1,242 +1,260 @@
 use_wordsv = """
-	left_image_flip
-	h5py_folder
-	EXAMPLE1
-	EXAMPLE2
-	EXAMPLE3
-	EXAMPLE4
-	EXAMPLE5
-	EXAMPLE6
-	EXAMPLE7
-	EXAMPLE8
-	VERBOSE
 	
-	MEO_PARAMS
-	DATASET_PATH RUN_NAME
-	topic
-	run_name
-	h5py_path
-	x y z
 
-	dic_type
-	acc_x
-	acc_y
-	acc_z
-	acc_x_meo
-	acc_y_meo
-	acc_z_meo
-
-	acc
-	right_image
-	gyro_x
-	gyro_y
-	gyro_z
-	gyro_x_meo
-	gyro_y_meo
-	gyro_z_meo
-	gyro
-	encoder
-	encoder_meo
-
-	left_ts_deltas
-
-	state
-	steer
-	motor
-	left_image
-	gyro_heading_x
-	gyro_heading_y
-	gyro_heading_z
-	gyro_heading
-	gyro_heading_x_meo
-	gyro_heading_y_meo
-	gyro_heading_z_meo
-	gps
-	ts
-	right_ts
-	
-	SRC
-	DST
-	DATA_SRC 
-	vals
-	tdic
-	bag_folder_path
-	h5py_path
-	meta_run_path
-	preprocessed_datafile_path
-	rgb_1to4_path
-
-	EXAMPLE1
-	EXAMPLE2
-	EXAMPLE3
-	EXAMPLE4
-	EXAMPLE5
-	EXAMPLE6
-	EXAMPLE7
-	EXAMPLE8
-	VERBOSE
-	cameras
-	color
-	color_mode
-	coordinates
-	data_type
-	dic_type
-	floats_to_pixels
-	image
-	img
-	left_image
-	lines_plot
-	pixels_to_floats
-	ptsplot
-	purpose
-	steer
-	x xint
-	xmax
-	xmin
-	xscale
-	xsize
-	y yint
-	ymax
-	ymin
-	yscale
-	ysize
-
-	acc
-	right_image
-	gyro
-	encoder
-	state
-	steer
-	motor
-	left_image
-	gyro_heading
-	gps
-	TOPICS
-	name
-	maxval
-	minval
-	START_TIME
-	END_TIME
-	CV2_KEY_COMMANDS
-	pixel_to_float
-	VERTICAL_LINE_PROPORTION START_TIME END_TIME X_PIXEL_SIZE Y_PIXEL_SIZE SCREEN_X SCREEN_Y
-	MOUSE_X MOUSE_Y
-	START_TIME_INIT END_TIME_INIT
-	MOUSE_X MOUSE_Y MOUSE_MOVE_TIME
-	center_time
-	L_FILE O_FILE
-	Image_source
-	REAL_TIME_DTV MOUSE_IN_RED_ZONE
-	IMAGE2 IMAGE3
-	TEMP_RUN_NUMBER
-	check show ICONS
-	width height name number x y img click_time clicked
-	Img
-	START_TIME_INIT END_TIME_INIT Y_PIXEL_SIZE_INIT X_PIXEL_SIZE_INIT
-	path
-	CURRENT_ICON_NUM CAMERA_SCALE CURRENT_ICON
-	baseline
-	H5PY_RUNS CURRENT_ICON_NAME DATASET_PATHS MAX_ICONS_PER_ROW Y_MOUSE_RANGE_PROPORTION
-
-
-	runs   run_labels   meta_path   rgb_1to4_path mostly_caffe   mostly_human   
-	aruco_ring   out1_in2   direct   home   furtive 
-	play   racing   multicar   campus   night   Smyth   left   notes   local   Tilden   
-	reject_run   reject_intervals   snow   follow   only_states_1_and_6_good
-
-
-
-
-
-	reject_run 
-	left 
-	out1_in2 
-	dic 
-	name 
-	test 
-	dic_type 
-	purpose 
-	batch_size 
-	net 
-	camera_data 
-	metadata 
-	target_data 
-	names 
-	states 
-	loss_dic 
-	train 
-	val 
-	ctr 
-	all_steer 
-	epoch_counter 
-	get_data 
-	next 
-	run_code 
-	seg_num 
-	offset 
-	all_data_moment_id_codes 
-	left 
-	right 
-	fill 
-	clear 
-	forward 
-	backward 
-	display 
-	GPU 
-	BATCH_SIZE 
-	DISPLAY 
-	VERBOSE 
-	LOAD_ARUCO 
-	BAIR_CAR_DATA_PATH 
-	RESUME 
-	IGNORE 
-	REQUIRE_ONE 
-	USE_STATES 
-	N_FRAMES 
-	N_STEPS 
-	STRIDE 
-	save_net_timer 
-	print_timer 
-	epoch_timer 
-	WEIGHTS_FILE_PATH 
-	SAVE_FILE_NAME 
-	mode 
-	criterion 
-	optimizer 
-	data_ids 
-	data_moment 
-	racing 
-	caffe 
-	follow 
-	direct 
-	play 
-	furtive 
-	labels 
-	LCR 
-	data_moment_loss_record 
-	loss 
-	outputs 
-	print_now 
-	network 
-	metadata 
-	steer 
-	motor 
-	data 
-	NETWORK_OUTPUT_FOLDER 
-	code data_moment_loss_records loss_history weights   
-	save_net 
-	CODE_PATH 
-	rate_ctr 
-	rate_timer 
-	step 
-	rate_counter 
-	loss_record 
-	add loss 
-	TRAIN_TIME 
-	VAL_TIME INITIAL_WEIGHTS_FOLDER 
-	activiations 
-	moment_index  imgs  view camera_input final_output 
-	pre_metadata_features pre_metadata_features_metadata post_metadata_features scales delay
+BAIR_CAR_DATA_PATH
+BATCH_SIZE
+CAMERA_SCALE
+CODE_PATH
+CURRENT_ICON
+CURRENT_ICON_NAME
+CURRENT_ICON_NUM
+CV2_KEY_COMMANDS
+DATASET_PATH
+DATASET_PATHS
+DATA_SRC
+DISPLAY
+DST
+END_TIME
+END_TIME_INIT
+EXAMPLE1
+EXAMPLE2
+EXAMPLE3
+EXAMPLE4
+EXAMPLE5
+EXAMPLE6
+EXAMPLE7
+EXAMPLE8
+GPU
+H5PY_RUNS
+ICONS
+IGNORE
+IMAGE2
+IMAGE3
+INITIAL_WEIGHTS_FOLDER vertical_line insert_camera_image cv2_key_commands
+process_key_commands vertical_line_proportion camera timestamp_to_left_image
+Image_source  ref_time dt ref_time img_index key
+Img graph_topics
+LCR
+LOAD_ARUCO
+L_FILE
+MAX_ICONS_PER_ROW
+MEO_PARAMS
+MOUSE_IN_RED_ZONE
+MOUSE_MOVE_TIME
+MOUSE_X
+MOUSE_Y
+NETWORK_OUTPUT_FOLDER
+N_FRAMES
+N_STEPS
+O_FILE
+REAL_TIME_DTV
+REQUIRE_ONE
+RESUME
+RUN_NAME
+SAVE_FILE_NAME
+SCREEN_X
+SCREEN_Y
+SRC
+START_TIME
+START_TIME_INIT
+STRIDE
+Smyth
+TEMP_RUN_NUMBER
+TOPICS topics
+TRAIN_TIME
+Tilden
+USE_STATES
+VAL_TIME
+VERBOSE
+VERTICAL_LINE_PROPORTION
+WEIGHTS_FILE_PATH
+X_PIXEL_SIZE
+X_PIXEL_SIZE_INIT
+Y_MOUSE_RANGE_PROPORTION
+Y_PIXEL_SIZE
+Y_PIXEL_SIZE_INIT
+acc
+acc_x
+acc_x_meo
+acc_y
+acc_y_meo
+acc_z
+acc_z_meo
+activiations
+add
+all_data_moment_id_codes
+all_steer
+aruco_ring
+backward
+bag_folder_path
+base_graph
+baseline
+baseline_with_tics
+batch_size
+caffe
+camera_data
+camera_input
+cameras
+campus
+center_time
+check
+clear
+click_time
+clicked
+code
+color
+color_mode
+coordinates
+criterion
+ctr
+data
+data_ids
+data_moment
+data_moment_loss_record
+data_moment_loss_records
+data_type
+delay
+dic
+dic_type
+direct
+display
+encoder
+encoder_meo
+end_time
+end_time_init
+epoch_counter
+epoch_timer
+fill
+final_output
+floats_to_pixels
+follow
+forward
+furtive
+get_data
+gps
+gyro
+gyro_heading
+gyro_heading_x
+gyro_heading_x_meo
+gyro_heading_y
+gyro_heading_y_meo
+gyro_heading_z
+gyro_heading_z_meo
+gyro_x
+gyro_x_meo
+gyro_y
+gyro_y_meo
+gyro_z
+gyro_z_meo
+h5py_folder
+h5py_path
+height
+home
+image
+img
+imgs
+labels
+left
+left_image
+left_image_flip
+left_ts_deltas
+lines_plot
+local
+loss
+loss_dic
+loss_history
+loss_record
+maxval
+meta_path
+meta_run_path
+metadata
+minval
+mode
+moment_index
+mostly_caffe
+mostly_human
+motor
+multicar
+name
+names
+net
+network
+next
+night
+notes
+number
+offset
+only_states_1_and_6_good
+optimizer
+out1_in2
+outputs
+path
+pixel_to_float
+pixels_to_floats
+play
+post_metadata_features
+pre_metadata_features
+pre_metadata_features_metadata
+preprocessed_datafile_path
+print_now
+print_timer
+ptsplot
+purpose
+racing
+rate_counter
+rate_ctr
+rate_timer
+reference_time
+reject_intervals
+reject_run
+rgb_1to4_path
+right
+right_image
+right_ts
+run_code
+run_labels
+run_name
+runs
+save_net
+save_net_timer
+scales
+seg_num
+show
+snow
+start_time
+start_time_init
+state
+states
+steer
+step
+target_data
+tdic
+test
+timestamps
+topic
+train
+ts
+txt
+val
+vals
+values
+view
+weights
+width
+x
+xint
+xmax
+xmin
+xscale
+xsize
+y
+yint
+ymax
+ymin
+yscale
+ysize
+z
+zero_baseline
 
 
 """
@@ -364,8 +382,14 @@ for wv in swordsv:
 
 
 use_words_listv = getWords(use_wordsv)
+Use_words_dic = {}
 for _name in use_words_listv:
+	Use_words_dic[_name] = True
+use_words_listv = []
+for _name in sorted(Use_words_dic.keys()):
 	exec(d2n(_name,'=',"'",_name,"'"))
+	use_words_listv.append(_name)
+	print(_name)
 
 
 #EOF
