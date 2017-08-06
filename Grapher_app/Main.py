@@ -98,28 +98,11 @@ for topic_ in [steer, motor, state, encoder,
 	acc_x,acc_y,acc_z,
 	gyro_x,gyro_y,gyro_z,
 	gyro_heading_x,gyro_heading_y,gyro_heading_z,
-	left_image,right_image]:
+	#left_image,right_image
+	]:
 	R[topic_] = {ts:[],vals:[]}
 
 
-"""
-R[steer] = {}
-R[steer][ts] = []
-R[steer][vals] = []
-
-R[acc_x] = {}
-R[acc_x][ts] = []
-R[acc_x][vals] = []
-
-R[left_image] = {}
-R[left_image][ts] = []
-R[left_image][vals] = []
-
-R[right_image] = {}
-R[right_image][ts] = []
-R[right_image][vals] = []
-
-"""
 def steer__callback(msg):
 	R[steer][ts].append(time.time())
 	R[steer][vals].append(msg.data)
@@ -184,8 +167,8 @@ rospy.Subscriber('/bair_car/encoder', std_msgs.msg.Float32, callback=encoder__ca
 rospy.Subscriber('/bair_car/acc', geometry_msgs.msg.Vector3, callback=acc__callback)
 rospy.Subscriber('/bair_car/gyro', geometry_msgs.msg.Vector3, callback=gyro__callback)
 rospy.Subscriber('/bair_car/gyro_heading', geometry_msgs.msg.Vector3, callback=gyro_heading__callback)
-rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_image__callback,queue_size = 1)
-rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_image__callback,queue_size = 1)
+#rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_image__callback,queue_size = 1)
+#rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_image__callback,queue_size = 1)
 
 
 
@@ -200,8 +183,9 @@ while len(R[steer][ts]) < 100:
 while True:
 	timer.reset()
 	for m_ in [ts,vals]:
-		R[left_image][m_] = R[left_image][m_][-1:]
-		R[right_image][m_] = R[left_image][m_][-1:]
+		if left_image in R:
+			R[left_image][m_] = R[left_image][m_][-1:]
+			R[right_image][m_] = R[left_image][m_][-1:]
 	for topic_ in R.keys():
 		#print len(R[topic_][ts]),P[TOPIC_STEPS_LIMIT]
 		if len(R[topic_][ts]) > P[TOPIC_STEPS_LIMIT]:

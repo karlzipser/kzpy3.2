@@ -65,7 +65,7 @@ alias Train='python kzpy3/Train_app/Main.py'
 
 if [ "$(whoami)" == "nvidia" ]
 then
-echo "Hi nvidia on Jetson"
+echo Hi $COMPUTER_NAME on Jetson
 echo "cd ~/kzpy3;git pull;cd"
 cd ~/kzpy3
 git pull

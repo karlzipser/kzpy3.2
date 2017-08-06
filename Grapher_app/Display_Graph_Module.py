@@ -15,7 +15,10 @@ def Display_Graph(*args):
 	#print D[topics].keys()
 	
 	D[timestamp_to_left_image] = {}
-	ts_ = D[topics][left_image][ts][:]
+	if left_image in D[topics]:
+		ts_ = D[topics][left_image][ts][:]
+	else:
+		ts_ = D[topics][steer][ts][:]
 	for i_ in rlen(ts_):
 		D[timestamp_to_left_image][ts_[i_]] = i_
 	D[end_time] = max(ts_)
@@ -106,8 +109,9 @@ def Display_Graph(*args):
 					print(d2s('key_ =',key_))
 					print(d2s(str(unichr(key_)), '=',key_))
 				except Exception as e:
-					print("********** Exception ***********************")
-					print(e.message, e.args)
+					pass
+					#print("********** Exception ***********************")
+					#print(e.message, e.args)
 	D[process_key_commands] = _function_process_key_commands
 	
 
@@ -178,7 +182,8 @@ def Display_Graph(*args):
 		D[dt] = (D[start_time]-D[end_time])*0.001
 		 
 		#D[insert_camera_image](camera,D[topics][left_image][vals], img_index, img_index_)#D[timestamp_to_left_image][ts_from_pixel_])
-		D[insert_camera_image](camera,D[topics][left_image][vals], img_index,-1)#D[timestamp_to_left_image][ts_from_pixel_])
+		if left_image in D[topics]:
+			D[insert_camera_image](camera,D[topics][left_image][vals], img_index,-1)#D[timestamp_to_left_image][ts_from_pixel_])
 
 		key_ = mci(D[base_graph][img],color_mode=cv2.COLOR_RGB2BGR,delay=1,title='topics')
 
