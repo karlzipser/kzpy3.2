@@ -5,10 +5,12 @@ import rospy
 rivl='rosrun image_view image_view image:=/bair_car/zed/left/image_rect_color'
 
 steer_list = []
-
+m = []
 def steer_callback(msg):
 	global steer_list
+	global m
 	steer_list.append(msg.data)
+	m.append(msg)
 	if len(steer_list) > 100:
 		steer_list = steer_list[-100:]
 
