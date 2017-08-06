@@ -31,7 +31,7 @@ P[X_PIXEL_SIZE_INIT],P[Y_PIXEL_SIZE_INIT] = P[X_PIXEL_SIZE],P[Y_PIXEL_SIZE]
 
 
 
-
+"""
 ##########################################
 #
 h5py_run_path = '/home/karlzipser/Desktop/bdd_car_data_July2017_LCR/h5py/direct_Tilden_LCR_23Jul17_10h27m34s_Mr_Yellow'
@@ -54,7 +54,7 @@ OO[left_image][vals] = O[left_image][vals]
 #
 #########################################
 
-
+"""
 
 
 
