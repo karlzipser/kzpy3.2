@@ -1562,7 +1562,7 @@ if username != 'nvidia':
 			exec('Args[\''+k+'\'] = '+temp[k])
 	del temp
 
-	identify_file_str = """
+identify_file_str = """
 if '__file__' not in locals():
 	__file__ = ' __file__ '
 cprint('******** '+__file__+' ********','yellow')
