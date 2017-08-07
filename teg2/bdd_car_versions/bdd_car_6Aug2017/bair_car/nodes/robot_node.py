@@ -125,8 +125,8 @@ rospy.Subscriber('/bair_car/gyro_heading', geometry_msgs.msg.Vector3, callback=g
 rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_image__callback,queue_size = 1)
 rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_image__callback,queue_size = 1)
 
-
-figure(1)
+#acc2rd_list = []
+#figure(1)
 
 while not rospy.is_shutdown():
 
@@ -140,8 +140,8 @@ while not rospy.is_shutdown():
 		acc2rd_list.append(acc2rd)
 		if len(acc2rd_list) > 120:
 			acc2rd_list = acc2rd_list[100:]
-		clf();xylim(0,100,0,20)
-		plot(accrd_list)
+		#clf();xylim(0,100,0,20)
+		#plot(acc2rd_list);plt.pause(0.0001)
 		#print acc2rd
 		if acc2rd > rp.robot_acc2rd_threshold:
 			print("if acc2rd > rp.robot_acc2rd_threshold:")
