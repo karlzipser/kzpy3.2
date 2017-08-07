@@ -9,6 +9,7 @@ import rospy
 import cv2
 from cv_bridge import CvBridge,CvBridgeError
 from sensor_msgs.msg import Image
+import kzpy3.data_analysis.Angle_Dict_Creator as Angle_Dict_Creator
 import runtime_parameters as rp
 bridge = CvBridge()
 
@@ -125,36 +126,46 @@ rospy.Subscriber('/bair_car/gyro_heading', geometry_msgs.msg.Vector3, callback=g
 rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_image__callback,queue_size = 1)
 rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_image__callback,queue_size = 1)
 
+
+GRAPHICS = False
 if True:
 	acc2rd_list = []
 	mean_acc2rd_list = []
-	figure(1)
+	if GRAPHICS:
+		figure(1)
 
 while not rospy.is_shutdown():
 
 	try:
-		key_ = mci(R[left_image][vals][-1],color_mode=cv2.COLOR_RGB2BGR,delay=33,title='topics')
 		if reload_timer.check(): # put in thread?
 			reload(rp)
 			reload_timer.reset()
 
+		camera_img_ = R[left_image][vals][-1].copy()
+		angles_to_center, angles_surfaces, distances_marker, markers = Angle_Dict_Creator.get_angles_and_distance(camera_img_)
+		if GRAPHICS:
+			key_ = mci(camera_img_,color_mode=cv2.COLOR_RGB2BGR,delay=33,title='topics')
 		acc2rd = R[acc_x][vals][-1]**2+R[acc_z][vals][-1]**2
 		if True:
 			acc2rd_list.append(acc2rd)
 			if len(acc2rd_list) > 100:
 				acc2rd_list = acc2rd_list[-100:]
-			clf();xylim(0,100,0,20)
-			plot(acc2rd_list);
-			print acc2rd
+			if GRAPHICS:
+				clf();xylim(0,100,0,20)
+				plot(acc2rd_list);
+			#print acc2rd
 		if len(acc2rd_list) > 3:
 			mean_acc2rd = np.array(acc2rd_list[-3:]).mean()
+			print(dp(mean_acc2rd))
 			mean_acc2rd_list.append(mean_acc2rd)
 			if len(mean_acc2rd_list) > 100:
 				mean_acc2rd_list = mean_acc2rd_list[-100:]
-			plot(mean_acc2rd_list);
+			if GRAPHICS:
+				plot(mean_acc2rd_list);
 			if mean_acc2rd > rp.robot_acc2rd_threshold:
 				print("if acc2rd > rp.robot_acc2rd_threshold:")
-		plt.pause(0.0001)		
+		if GRAPHICS:
+			plt.pause(0.0001)		
 	except Exception as e:
 		print("********** Exception ***********************")
 		print(e.message, e.args)
