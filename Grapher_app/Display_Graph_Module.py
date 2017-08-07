@@ -104,7 +104,7 @@ def Display_Graph(*args):
 		elif key_ == ord(' '): D[start_time],D[end_time] = D[start_time_init],D[end_time_init];
 
 
-		if not key_decoded_:
+		if False: #not key_decoded_:
 			if key_ != -1:
 				try:
 					print(d2s('key_ =',key_))
