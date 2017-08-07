@@ -135,8 +135,10 @@ def get_markers_in_image(cv_image, crop=False):
         rvecs, tvecs, _ = aruco.estimatePoseSingleMarkers(corners, marker_length, zed_parameters.cameraMatrix, zed_parameters.distCoeffs)
     except:
         rvecs, tvecs = aruco.estimatePoseSingleMarkers(corners, marker_length, zed_parameters.cameraMatrix, zed_parameters.distCoeffs)
-    
-    if rvecs != None:       
+
+    #if rvecs != None:       
+   
+    if rvecs.any() != None:       
                 
         for i in range(0, len(rvecs)):
                         
