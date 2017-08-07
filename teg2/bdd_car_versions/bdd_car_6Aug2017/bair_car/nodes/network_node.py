@@ -112,7 +112,7 @@ while not rospy.is_shutdown():
 						motor_cmd_pub.publish(std_msgs.msg.Int32(torch_motor))
 
 				elif rp.who_is_in_charge == rp.I_ROBOT:
-
+					print('I_ROBOT',rp.who_is_in_charge,rp.robot_steer,rp.robot_motor)
 					if state in [3,6]:          
 						steer_cmd_pub.publish(std_msgs.msg.Int32(rp.robot_steer))
 					if state in [6,7]:
@@ -132,7 +132,7 @@ while not rospy.is_shutdown():
 
 
 	if time_step.check():
-		print(rp.who_is_in_charge,rp.robot_steer,rp.robot_motor)
+		
 		#print(torch_steer,torch_motor)
 		print(d2s("In state",state,"for",dp(state_enter_timer.time()),"seconds, previous_state =",previous_state))
 		time_step.reset()
