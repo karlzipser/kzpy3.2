@@ -1,6 +1,7 @@
 from Parameters_Module import *
 from vis2 import *
 import Graph_Image_Module
+import kzpy3.data_analysis.Angle_Dict_Creator as Angle_Dict_Creator
 exec(identify_file_str)
 
 _ = dictionary_access
@@ -153,7 +154,7 @@ def Display_Graph(*args):
 				baseline_color_ = (64,64,64)
 
 				I[topic_][ptsplot](x,ts_, y,vals_, color,P[TOPICS][topic_][color])
-				#I[topic_][ptsplot](x,ts_, y,baseline_vals_, color,baseline_color_)
+				I[topic_][ptsplot](x,ts_, y,baseline_vals_, color,baseline_color_)
 	D[graph_topics] = _function_graph_topics
 
 
@@ -161,6 +162,7 @@ def Display_Graph(*args):
 		"""
 		Note, the input is in terms of t0 = 0, but the data is time since The Epoch.
 		"""
+
 		Args = args_to_dictionary(args)
 
 		if start_time in Args:
@@ -174,7 +176,7 @@ def Display_Graph(*args):
 			ref_time_ = (D[start_time]+D[end_time])/2.0 - D[start_time]
 		True
 		D[reference_time] = D[end_time]#find_nearest(np.array(D[topics][left_image][ts][:]),ref_time_+D[start_time])   #D[topics][left_image][ts][0])
-		#img_index_ = D[timestamp_to_left_image][D[reference_time]]
+		img_index_ = D[timestamp_to_left_image][D[reference_time]]
 		D[base_graph][img] *= 0
 		D[graph_topics]()
 		vertical_line_proportion_ = (D[reference_time]-D[start_time])/(D[end_time]-D[start_time])
@@ -183,6 +185,8 @@ def Display_Graph(*args):
 		 
 		#D[insert_camera_image](camera,D[topics][left_image][vals], img_index, img_index_)#D[timestamp_to_left_image][ts_from_pixel_])
 		if left_image in D[topics]:
+			angles_to_center, angles_surfaces, distances_marker, markers = Angle_Dict_Creator.get_angles_and_distance(D[topics][left_image][vals][-1])
+			print angles_to_center
 			D[insert_camera_image](camera,D[topics][left_image][vals], img_index,-1)#D[timestamp_to_left_image][ts_from_pixel_])
 
 		key_ = mci(D[base_graph][img],color_mode=cv2.COLOR_RGB2BGR,delay=1,title='topics')

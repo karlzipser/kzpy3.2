@@ -97,7 +97,7 @@ for topic_ in [steer, motor, state, encoder,
 	acc_x,acc_y,acc_z,
 	gyro_x,gyro_y,gyro_z,
 	gyro_heading_x,gyro_heading_y,gyro_heading_z,
-	#left_image,right_image
+	left_image,right_image
 	]:
 	R[topic_] = {ts:[],vals:[]}
 
@@ -166,8 +166,8 @@ rospy.Subscriber('/bair_car/encoder', std_msgs.msg.Float32, callback=encoder__ca
 rospy.Subscriber('/bair_car/acc', geometry_msgs.msg.Vector3, callback=acc__callback)
 rospy.Subscriber('/bair_car/gyro', geometry_msgs.msg.Vector3, callback=gyro__callback)
 rospy.Subscriber('/bair_car/gyro_heading', geometry_msgs.msg.Vector3, callback=gyro_heading__callback)
-#rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_image__callback,queue_size = 1)
-#rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_image__callback,queue_size = 1)
+rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_image__callback,queue_size = 1)
+rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_image__callback,queue_size = 1)
 
 
 
