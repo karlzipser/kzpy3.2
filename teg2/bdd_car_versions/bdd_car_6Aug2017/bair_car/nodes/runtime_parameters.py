@@ -40,7 +40,7 @@ NETWORK = 111
 I_ROBOT = 222
 who_is_in_charge = I_ROBOT
 robot_steer = 49
-robot_motor = 53
+robot_motor = 49
 
 steer_gain = 1.0
 motor_gain = 1.0
