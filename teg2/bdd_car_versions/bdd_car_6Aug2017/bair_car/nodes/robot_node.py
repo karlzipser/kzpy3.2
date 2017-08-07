@@ -126,7 +126,7 @@ rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_image__callb
 rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_image__callback,queue_size = 1)
 
 
-
+figure(1)
 
 while not rospy.is_shutdown():
 
@@ -137,7 +137,12 @@ while not rospy.is_shutdown():
 			reload_timer.reset()
 
 		acc2rd = R[acc_x][vals][-1]**2+R[acc_x][vals][-1]**2
-		print acc2rd
+		acc2rd_list.append(acc2rd)
+		if len(acc2rd_list) > 120:
+			acc2rd_list = acc2rd_list[100:]
+		clf();xylim(0,100,0,20)
+		plot(accrd_list)
+		#print acc2rd
 		if acc2rd > rp.robot_acc2rd_threshold:
 			print("if acc2rd > rp.robot_acc2rd_threshold:")
 				

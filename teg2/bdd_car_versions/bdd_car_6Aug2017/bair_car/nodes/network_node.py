@@ -26,7 +26,7 @@ time_step = Timer(2)
 network_enter_timer = Timer(0.3)
 folder_display_timer = Timer(30)
 git_pull_timer = Timer(60)
-reload_timer = Timer(1)
+reload_timer = Timer(10)
 torch_steer_previous = 49
 torch_motor_previous = 49
 
