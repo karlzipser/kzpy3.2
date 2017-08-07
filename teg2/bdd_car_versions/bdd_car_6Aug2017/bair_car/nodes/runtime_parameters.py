@@ -40,7 +40,7 @@ NETWORK = 111
 I_ROBOT = 222
 who_is_in_charge = I_ROBOT
 robot_steer = 49
-robot_motor = 49
+robot_motor = 53
 
 steer_gain = 1.0
 motor_gain = 1.0
@@ -65,6 +65,7 @@ motor_freeze_threshold = 55
 n_avg_IMU = 10
 
 robot_acc2rd_threshold = 10
+robot_acc_y_exit_threshold = 0
 #
 ###################################################################
 

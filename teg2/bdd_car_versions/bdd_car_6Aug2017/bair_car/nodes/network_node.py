@@ -16,6 +16,7 @@ left_list = []
 right_list = []
 state = 0
 steer = 0
+robot_in_charge_ = 0
 previous_state = 0
 state_transition_time_s = 0
 state_enter_timer = Timer(0)
@@ -46,6 +47,10 @@ def steer__callback(data):
 	global steer
 	steer = data.data
 
+def robot_in_charge__callback(data):
+	global robot_in_charge_
+	robot_in_charge_ = data.data
+
 def right_image__callback(data):
 	global left_list, right_list, solver
 	cimg = bridge.imgmsg_to_cv2(data,"bgr8")
@@ -64,10 +69,12 @@ def state_transition_time_s__callback(data):
 	global state_transition_time_s
 	state_transition_time_s = data.data
 
+
 rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_image__callback,queue_size = 1)
 rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_image__callback,queue_size = 1)
 rospy.Subscriber("/bair_car/steer", std_msgs.msg.Int32,steer__callback)
 rospy.Subscriber('/bair_car/state', std_msgs.msg.Int32,state__callback)
+rospy.Subscriber('/bair_car/cmd/robot_in_charge', std_msgs.msg.Int32,robot_in_charge__callback)
 steer_cmd_pub = rospy.Publisher('cmd/steer', std_msgs.msg.Int32, queue_size=100)
 motor_cmd_pub = rospy.Publisher('cmd/motor', std_msgs.msg.Int32, queue_size=100)
 freeze_cmd_pub = rospy.Publisher('cmd/freeze', std_msgs.msg.Int32, queue_size=100)
@@ -97,7 +104,7 @@ while not rospy.is_shutdown():
 		else:
 			if len(left_list) > nframes + 2:
 
-				if rp.who_is_in_charge == rp.NETWORK:
+				if not robot_in_charge_:
 
 					camera_data = format_camera_data(left_list, right_list)
 					metadata = format_metadata((rp.Racing, 0, rp.Follow, rp.Direct, rp.Play, rp.Furtive))
@@ -111,7 +118,7 @@ while not rospy.is_shutdown():
 					if state in [6,7]:
 						motor_cmd_pub.publish(std_msgs.msg.Int32(torch_motor))
 
-				elif rp.who_is_in_charge == rp.I_ROBOT:
+				elif robot_in_charge_:
 					print('I_ROBOT',rp.who_is_in_charge,rp.robot_steer,rp.robot_motor)
 					if state in [3,6]:          
 						steer_cmd_pub.publish(std_msgs.msg.Int32(rp.robot_steer))
