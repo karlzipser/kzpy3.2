@@ -132,7 +132,7 @@ if True:
 
 while not rospy.is_shutdown():
 
-	if True:
+	try:
 		key_ = mci(R[left_image][vals][-1],color_mode=cv2.COLOR_RGB2BGR,delay=33,title='topics')
 		if reload_timer.check(): # put in thread?
 			reload(rp)
@@ -155,7 +155,7 @@ while not rospy.is_shutdown():
 			if mean_acc2rd > rp.robot_acc2rd_threshold:
 				print("if acc2rd > rp.robot_acc2rd_threshold:")
 		plt.pause(0.0001)		
-	else: #except Exception as e:
+	except Exception as e:
 		print("********** Exception ***********************")
 		print(e.message, e.args)
 
