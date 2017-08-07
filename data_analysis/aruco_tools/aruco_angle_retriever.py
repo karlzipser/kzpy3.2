@@ -138,8 +138,8 @@ def get_markers_in_image(cv_image, crop=False):
 
     #if rvecs != None:       
    
-    if rvecs.any() != None:       
-                
+    #if rvecs.any() != None:       
+    try:   
         for i in range(0, len(rvecs)):
                         
             rvec = rvecs[i]
@@ -147,6 +147,8 @@ def get_markers_in_image(cv_image, crop=False):
             
             marker = Marker(ids[i][0], 1.0, corners[i], rvec, tvec)
             markers.append(marker)
+    except:
+        print('rvec exception')
             
     return markers
 
