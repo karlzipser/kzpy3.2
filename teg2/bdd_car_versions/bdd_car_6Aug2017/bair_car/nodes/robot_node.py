@@ -139,6 +139,7 @@ robot_in_charge_ = 0
 robot_in_charge_exit_timer_ = Timer(2) # gives time to get to normal acc values after car turn signal
 
 while not rospy.is_shutdown():
+	time.sleep(0.01)
 	if robot_in_charge_exit_timer_.check():
 		try:
 			if reload_timer.check(): # put in thread?

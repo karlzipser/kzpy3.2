@@ -66,6 +66,7 @@ n_avg_IMU = 10
 
 robot_acc2rd_threshold = 10
 robot_acc_y_exit_threshold = 0
+torch_alt_motor = 53
 #
 ###################################################################
 
