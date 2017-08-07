@@ -389,7 +389,7 @@ use_words_listv = []
 for _name in sorted(Use_words_dic.keys()):
 	exec(d2n(_name,'=',"'",_name,"'"))
 	use_words_listv.append(_name)
-	print(_name)
+	#print(_name)
 
 
 #EOF

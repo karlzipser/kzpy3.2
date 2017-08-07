@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
-
+from kzpy3.utils2 import *
+from kzpy3.vis2 import *
 import roslib
 import std_msgs.msg
 import geometry_msgs.msg
@@ -11,7 +12,7 @@ from sensor_msgs.msg import Image
 import runtime_parameters as rp
 bridge = CvBridge()
 
-
+reload_timer = Timer(10)
 
 R = {}
 for topic_ in [steer, motor, state, encoder,
@@ -22,10 +23,10 @@ for topic_ in [steer, motor, state, encoder,
 	]:
 	R[topic_] = {ts:[],vals:[]}
 
-
+n_ = 20
 def steer__callback(msg):
 	R[steer][ts].append(time.time())
-	R[steer][vals].append(msg.data)\
+	R[steer][vals].append(msg.data)
 	if len(R[steer][ts]) > 1.5*n_:
 		R[steer][ts] = 		R[steer][ts][-n_:]
 		R[steer][vals] = 	R[steer][vals][-n_:]
@@ -129,16 +130,19 @@ rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_image__callbac
 
 while not rospy.is_shutdown():
 
-	key_ = mci(D[base_graph][img],color_mode=cv2.COLOR_RGB2BGR,delay=1,title='topics')
-	if reload_timer.check(): # put in thread?
-		reload(rp)
-		reload_timer.reset()
+	try:
+		key_ = mci(R[left_image][vals][-1],color_mode=cv2.COLOR_RGB2BGR,delay=33,title='topics')
+		if reload_timer.check(): # put in thread?
+			reload(rp)
+			reload_timer.reset()
 
 		acc2rd = R[acc_x][vals][-1]**2+R[acc_x][vals][-1]**2
 		print acc2rd
-        if acc2rd > rp.robot_acc2rd_threshold:
-            print("if acc2rd > rp.robot_acc2rd_threshold:")
-                        
-
+		if acc2rd > rp.robot_acc2rd_threshold:
+			print("if acc2rd > rp.robot_acc2rd_threshold:")
+				
+	except Exception as e:
+		print("********** Exception ***********************")
+		print(e.message, e.args)
 
 stop_ros()
