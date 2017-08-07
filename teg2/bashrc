@@ -74,7 +74,7 @@ echo "rrm;rlog"
 rrm
 rlog
 alias sb='source ~/.bashrc'
-OPTIONS="screen rla rosbags git_pull reboot shutdown exit bdd_car_rewrite_SD2 bdd_car_rewrite_SD2_LCR bdd_car_rewrite_SD2_LCR_net"
+OPTIONS="screen rla rosbags git_pull reboot shutdown exit bdd_car_rewrite_SD2 bdd_car_rewrite_SD2_LCR bdd_car_rewrite_SD2_LCR_net bdd_car_6Aug2017"
 COLUMNS=12
 select opt in $OPTIONS; do
    COLUMNS=12
@@ -86,6 +86,10 @@ select opt in $OPTIONS; do
     ssd
    elif [ "$opt" = "rla" ]; then
     rla
+   elif [ "$opt" = "bdd_car_6Aug2017" ]; then
+    rm ~/catkin_ws/src/bair_car
+    ln -s ~/kzpy3/teg2/bdd_car_versions/bdd_car_6Aug2017/bair_car ~/catkin_ws/src/bair_car
+    ls -al ~/catkin_ws/src/bair_car
    elif [ "$opt" = "bdd_car_rewrite_SD2" ]; then
     rm ~/catkin_ws/src/bair_car
     ln -s ~/kzpy3/teg2/bdd_car_versions/bdd_car_rewrite_SD2/bair_car ~/catkin_ws/src/bair_car
