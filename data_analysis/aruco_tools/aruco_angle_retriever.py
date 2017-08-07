@@ -148,7 +148,7 @@ def get_markers_in_image(cv_image, crop=False):
             marker = Marker(ids[i][0], 1.0, corners[i], rvec, tvec)
             markers.append(marker)
     except:
-        print('rvec exception')
+        pass #print('rvec exception')
             
     return markers
 

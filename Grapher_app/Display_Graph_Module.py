@@ -185,10 +185,13 @@ def Display_Graph(*args):
 		 
 		#D[insert_camera_image](camera,D[topics][left_image][vals], img_index, img_index_)#D[timestamp_to_left_image][ts_from_pixel_])
 		if left_image in D[topics]:
-			angles_to_center, angles_surfaces, distances_marker, markers = Angle_Dict_Creator.get_angles_and_distance(D[topics][left_image][vals][-1])
-			print angles_to_center
-			D[insert_camera_image](camera,D[topics][left_image][vals], img_index,-1)#D[timestamp_to_left_image][ts_from_pixel_])
-
+			camera_img_ =  D[topics][left_image][vals][-1].copy()
+			cx_ = (P[Y_PIXEL_SIZE]-P[CAMERA_SCALE]*shape(camera_img_)[0])
+			cy_ = (P[X_PIXEL_SIZE]-P[CAMERA_SCALE]*shape(camera_img_)[1])
+			angles_to_center, angles_surfaces, distances_marker, markers = Angle_Dict_Creator.get_angles_and_distance(camera_img_)
+			#print(dp(np.array(angles_to_center),1))
+			#D[insert_camera_image](camera,D[topics][left_image][vals], img_index,-1)#D[timestamp_to_left_image][ts_from_pixel_])
+			D[base_graph][img][cx_-10:-10,cy_-10:-10,:] = camera_img_
 		key_ = mci(D[base_graph][img],color_mode=cv2.COLOR_RGB2BGR,delay=1,title='topics')
 
 		D[process_key_commands](key,key_)
