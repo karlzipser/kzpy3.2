@@ -18,7 +18,7 @@ state = 0
 steer = 0
 previous_state = 0
 state_transition_time_s = 0
-state_enter_timer = None
+state_enter_time = 0
 freeze = False
 torch_motor,torch_steer = None,None
 ctr = 0
@@ -26,16 +26,16 @@ time_step = Timer(2)
 network_enter_timer = Timer(0.3)
 folder_display_timer = Timer(30)
 git_pull_timer = Timer(60)
-reload_timer = Timer(5)
+reload_timer = Timer(10)
 torch_steer_previous = 49
 torch_motor_previous = 49
 
 
 def state__callback(data):
-	global state, previous_state, state_enter_timer
+	global state, previous_state, state_enter_time
 	# data.data = 6
 	if state != data.data:
-		state_enter_timer = Timer(0)
+		state_enter_time = time.time()
 		if state in [3,5,6,7] and previous_state in [3,5,6,7]:
 			pass
 		else:
@@ -77,13 +77,6 @@ model_name_pub = rospy.Publisher('/bair_car/model_name', std_msgs.msg.String, qu
 
 
 while not rospy.is_shutdown():
-
-
-	if reload_timer.check(): # put in thread?
-		reload(rp)
-		reload_timer.reset()
-
-
 	if state in [3,5,6,7]:
 		if (previous_state not in [3,5,6,7]):
 			previous_state = state
@@ -96,46 +89,32 @@ while not rospy.is_shutdown():
 			continue
 		else:
 			if len(left_list) > nframes + 2:
+				camera_data = format_camera_data(left_list, right_list)
+				metadata = format_metadata((rp.Racing, 0, rp.Follow, rp.Direct, rp.Play, rp.Furtive))
 
-				if rp.who_is_in_charge == rp.NETWORK:
+				torch_motor, torch_steer = run_model(camera_data, metadata)
 
-					camera_data = format_camera_data(left_list, right_list)
-					metadata = format_metadata((rp.Racing, 0, rp.Follow, rp.Direct, rp.Play, rp.Furtive))
-
-					torch_motor, torch_steer = run_model(camera_data, metadata)
-
-					freeze_cmd_pub.publish(std_msgs.msg.Int32(freeze))
-					
-					if state in [3,6]:          
-						steer_cmd_pub.publish(std_msgs.msg.Int32(torch_steer))
-					if state in [6,7]:
-						motor_cmd_pub.publish(std_msgs.msg.Int32(torch_motor))
-
-				elif rp.who_is_in_charge == rp.I_ROBOT:
-
-					robot_steer,robot_motor = rp.robot_steer,robot_motor
-
-					if state in [3,6]:          
-						steer_cmd_pub.publish(std_msgs.msg.Int32(rp.robot_steer))
-					if state in [6,7]:
-						motor_cmd_pub.publish(std_msgs.msg.Int32(rp.robot_motor))					
-
-
+				freeze_cmd_pub.publish(std_msgs.msg.Int32(freeze))
+				
+				if state in [3,6]:          
+					steer_cmd_pub.publish(std_msgs.msg.Int32(torch_steer))
+				if state in [6,7]:
+					motor_cmd_pub.publish(std_msgs.msg.Int32(torch_motor))
 	else:
 		network_enter_timer.reset()
 	
 
 	shutdown_time = 30
-	if state == 4 and state_enter_timer.time() > shutdown_time-5:
+	if state == 4 and time.time()-state_enter_time > shutdown_time-5:
 		print('!!! about to reboot from state 4 !!! ' + str(steer))
-	if state == 4 and state_enter_timer.time() > shutdown_time:
+	if state == 4 and time.time()-state_enter_time > shutdown_time:
 		print(d2s("Rebooting because in state 4 for",shutdown_time,"+ s"))
 		unix('sudo reboot')
 
 
 	if time_step.check():
 		print(torch_steer,torch_motor)
-		print(d2s("In state",state,"for",dp(state_enter_timer.time(),"seconds, previous_state =",previous_state))
+		print(d2s("In state",state,"for",dp(time.time()-state_enter_time),"seconds, previous_state =",previous_state))
 		time_step.reset()
 
 stop_ros()
