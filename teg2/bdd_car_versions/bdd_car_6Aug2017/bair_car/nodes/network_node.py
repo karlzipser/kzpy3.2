@@ -113,8 +113,6 @@ while not rospy.is_shutdown():
 
 				elif rp.who_is_in_charge == rp.I_ROBOT:
 
-					robot_steer,robot_motor = rp.robot_steer,robot_motor
-
 					if state in [3,6]:          
 						steer_cmd_pub.publish(std_msgs.msg.Int32(rp.robot_steer))
 					if state in [6,7]:
