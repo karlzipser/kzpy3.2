@@ -123,8 +123,8 @@ rospy.Subscriber('/bair_car/encoder', std_msgs.msg.Float32, callback=encoder__ca
 rospy.Subscriber('/bair_car/acc', geometry_msgs.msg.Vector3, callback=acc__callback)
 rospy.Subscriber('/bair_car/gyro', geometry_msgs.msg.Vector3, callback=gyro__callback)
 rospy.Subscriber('/bair_car/gyro_heading', geometry_msgs.msg.Vector3, callback=gyro_heading__callback)
-rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_image__callback,queue_size = 1)
-rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_image__callback,queue_size = 1)
+#rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_image__callback,queue_size = 1)
+#rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_image__callback,queue_size = 1)
 
 robot_in_charge_pub_ = rospy.Publisher('cmd/robot_in_charge', std_msgs.msg.Int32, queue_size=100)
 
@@ -147,10 +147,11 @@ while not rospy.is_shutdown():
 				reload_timer.reset()
 
 			if not robot_in_charge_:
-				camera_img_ = R[left_image][vals][-1].copy()
-				angles_to_center, angles_surfaces, distances_marker, markers = Angle_Dict_Creator.get_angles_and_distance(camera_img_)
-				if GRAPHICS:
-					key_ = mci(camera_img_,color_mode=cv2.COLOR_RGB2BGR,delay=33,title='topics')
+				if False:
+					camera_img_ = R[left_image][vals][-1].copy()
+					angles_to_center, angles_surfaces, distances_marker, markers = Angle_Dict_Creator.get_angles_and_distance(camera_img_)
+					if GRAPHICS:
+						key_ = mci(camera_img_,color_mode=cv2.COLOR_RGB2BGR,delay=33,title='topics')
 				acc2rd = R[acc_x][vals][-1]**2+R[acc_z][vals][-1]**2
 				if True:
 					acc2rd_list.append(acc2rd)
