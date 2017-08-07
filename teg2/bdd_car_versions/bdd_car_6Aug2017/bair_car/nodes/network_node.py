@@ -21,9 +21,14 @@ state_transition_time_s = 0
 state_enter_time = 0
 freeze = False
 torch_motor,torch_steer = None,None
-
-
-
+ctr = 0
+time_step = Timer(2)
+network_enter_timer = Timer(1)
+folder_display_timer = Timer(30)
+git_pull_timer = Timer(60)
+reload_timer = Timer(10)
+torch_steer_previous = 49
+torch_motor_previous = 49
 
 
 def state__callback(data):
@@ -59,11 +64,6 @@ def state_transition_time_s__callback(data):
 	global state_transition_time_s
 	state_transition_time_s = data.data
 
-
-
-
-
-
 rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_image__callback,queue_size = 1)
 rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_image__callback,queue_size = 1)
 rospy.Subscriber("/bair_car/steer", std_msgs.msg.Int32,steer__callback)
@@ -73,23 +73,16 @@ motor_cmd_pub = rospy.Publisher('cmd/motor', std_msgs.msg.Int32, queue_size=100)
 freeze_cmd_pub = rospy.Publisher('cmd/freeze', std_msgs.msg.Int32, queue_size=100)
 model_name_pub = rospy.Publisher('/bair_car/model_name', std_msgs.msg.String, queue_size=10)
 
-ctr = 0
 
-time_step = Timer(2)
-caffe_enter_timer = Timer(1)
-folder_display_timer = Timer(30)
-git_pull_timer = Timer(60)
-reload_timer = Timer(10)
-torch_steer_previous = 49
-torch_motor_previous = 49
+
 
 while not rospy.is_shutdown():
 	if state in [3,5,6,7]:
 		if (previous_state not in [3,5,6,7]):
 			previous_state = state
-			caffe_enter_timer.reset()
-		if not caffe_enter_timer.check():
-			print "waiting before entering caffe mode..."
+			network_enter_timer.reset()
+		if not network_enter_timer.check():
+			print "waiting before entering network mode..."
 			steer_cmd_pub.publish(std_msgs.msg.Int32(49))
 			motor_cmd_pub.publish(std_msgs.msg.Int32(49))
 			time.sleep(0.1)
@@ -108,7 +101,7 @@ while not rospy.is_shutdown():
 				if state in [6,7]:
 					motor_cmd_pub.publish(std_msgs.msg.Int32(torch_motor))
 	else:
-		caffe_enter_timer.reset()
+		network_enter_timer.reset()
 	
 
 	shutdown_time = 30
