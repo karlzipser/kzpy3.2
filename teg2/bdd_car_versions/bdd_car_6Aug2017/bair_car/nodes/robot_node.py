@@ -187,8 +187,9 @@ while not rospy.is_shutdown():
 			if GRAPHICS:
 				plt.pause(0.0001)		
 		except Exception as e:
-			print("********** Exception ***********************")
-			print(e.message, e.args)
+			pass
+			#print("********** Exception ***********************")
+			#print(e.message, e.args)
 	else:
 		print("NOT robot_in_charge_exit_timer_.check()")
 		time.sleep(0.25)
