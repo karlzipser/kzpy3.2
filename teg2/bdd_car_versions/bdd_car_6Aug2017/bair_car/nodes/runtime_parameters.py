@@ -31,14 +31,7 @@ Caf = 0.0
 Racing = 0.0
 Location =  'local' #Smyth_tape'
 
-solver_file_path = opjh("kzpy3/caf5/z2_color/solver_live.prototxt")
-weights_file_path = opjh("caffe_current/z2_color.caffemodel" )
-#weights_file_path = opjh("caffe_current/z2_color_aruco1_16400000.caffemodel")
-#weights_file_path = opjh("caffe_current/z2_color_aruco2_1300000.caffemodel")
-#weights_file_path = opjh("caffe_current/z2_color_aruco3_11900000.caffemodel")
-weights_file_path = opjh("caffe_current/z2_color_aruco4_9200000.caffemodel")
-#weights_file_path = opjh('/media/ubuntu/rosbags/caffe_models/z2_color_aruco_potential_May2017/z2_color_iter_6500000.caffemodel')
-#weights_file_path = opjh('/media/ubuntu/rosbags/caffe_models/z2_color_aruco_potential2_May2017/z2_color_iter_5300000.caffemodel')
+weight_file_path = opjh('pytorch_models','epoch6goodnet')
 
 verbose = False
 use_caffe = True

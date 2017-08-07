@@ -97,7 +97,7 @@ while not rospy.is_shutdown():
 		else:
 			if len(left_list) > nframes + 2:
 				camera_data = format_camera_data(left_list, right_list)
-				metadata = format_metadata((Racing, 0, Follow, Direct, Play, Furtive))
+				metadata = format_metadata((rp.Racing, 0, rp.Follow, rp.Direct, rp.Play, rp.Furtive))
 
 				torch_motor, torch_steer = run_model(camera_data, metadata)
 

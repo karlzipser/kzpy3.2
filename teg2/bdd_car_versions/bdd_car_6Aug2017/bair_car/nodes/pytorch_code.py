@@ -6,21 +6,6 @@ from nets.squeezenet import SqueezeNet
 import runtime_parameters as rp
 
 
-
-Direct = 1.
-Follow = 0.
-Play = 0.
-Furtive = 0.
-Caf = 0.0
-Racing = 0.0
-motor_gain = 1.
-steer_gain = 1.
-verbose = False
-weight_file_path = opjh('pytorch_models','epoch6goodnet')
-
-
-
-
 def static_vars(**kwargs):
     def decorate(func):
         for k in kwargs:
@@ -32,8 +17,8 @@ def static_vars(**kwargs):
 nframes = None
 def init_model():
     global solver, scale, nframes
-    save_data = torch.load(weight_file_path)
-    print("Loaded "+weight_file_path)
+    save_data = torch.load(rp.weight_file_path)
+    print("Loaded "+rp.weight_file_path)
     solver = SqueezeNet().cuda()
     solver.load_state_dict(save_data['net'])
     solver.eval()
@@ -56,7 +41,7 @@ def run_model(input, metadata):
     :return: Motor and Steering values
     """
     output = solver(input, Variable(metadata))  # Run the neural net
-    if verbose:
+    if rp.verbose:
         print(output)
 
     #torch_motor = 100 * output[0][19].data[0]
@@ -64,7 +49,7 @@ def run_model(input, metadata):
     torch_motor = 100 * output[0][11].data[0] ########################!!!!!!!!!!!!!!!!!!!!!
     torch_steer = 100 * output[0][2].data[0] ########################!!!!!!!!!!!!!!!!!!!!!
 
-    if verbose:
+    if rp.verbose:
         print('Torch Prescale Motor: ' + str(torch_motor))
         print('Torch Prescale Steer: ' + str(torch_steer))
     
