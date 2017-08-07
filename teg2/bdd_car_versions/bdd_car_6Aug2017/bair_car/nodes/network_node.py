@@ -135,7 +135,7 @@ while not rospy.is_shutdown():
 
 	if time_step.check():
 		print(torch_steer,torch_motor)
-		print(d2s("In state",state,"for",dp(state_enter_timer.time(),"seconds, previous_state =",previous_state))
+		print(d2s("In state",state,"for",dp(state_enter_timer.time(),"seconds, previous_state =",previous_state)))
 		time_step.reset()
 
 stop_ros()
