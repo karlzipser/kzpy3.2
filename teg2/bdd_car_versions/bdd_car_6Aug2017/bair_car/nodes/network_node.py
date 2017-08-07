@@ -103,29 +103,21 @@ while not rospy.is_shutdown():
 
 				freeze_cmd_pub.publish(std_msgs.msg.Int32(freeze))
 				
-
-
-
-
 				if state in [3,6]:          
 					steer_cmd_pub.publish(std_msgs.msg.Int32(torch_steer))
 				if state in [6,7]:
 					motor_cmd_pub.publish(std_msgs.msg.Int32(torch_motor))
-
-
 	else:
 		caffe_enter_timer.reset()
 	
+
 	shutdown_time = 30
 	if state == 4 and time.time()-state_enter_time > shutdown_time-5:
 		print('!!! about to reboot from state 4 !!! ' + str(steer))
-	if state == 4 and time.time()-state_enter_time > shutdown_time and (steer>90 or steer<10):
-		if steer < 10:
-			print(d2s("Rebooting because in state 4 for",shutdown_time,"+ s"))
-			unix('sudo reboot')
-		elif steer > 90:
-			print(d2s("Shutting down because in state 4 for",shutdown_time,"+ s"))
-			unix('sudo shutdown -h now')
+	if state == 4 and time.time()-state_enter_time > shutdown_time:
+		print(d2s("Rebooting because in state 4 for",shutdown_time,"+ s"))
+		unix('sudo reboot')
+
 
 	if time_step.check():
 		print(torch_steer,torch_motor)
