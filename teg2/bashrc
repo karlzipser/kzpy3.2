@@ -59,9 +59,9 @@ export PYTHONPATH=~/caffe/python:$PYTHONPATH
 #alias anapy='export PATH=~/anaconda2/bin:$PATH'
 
 
-alias Grapher='python kzpy3/Grapher_app/Main.py'
-alias Car_Data='python kzpy3/Car_Data_app/Main.py'
-alias Train='python kzpy3/Train_app/Main.py'
+alias Grapher='python ~/kzpy3/Grapher_app/Main.py'
+alias Car_Data='python ~/kzpy3/Car_Data_app/Main.py'
+alias Train='python ~/kzpy3/Train_app/Main.py'
 
 if [ "$(whoami)" == "nvidia" ]
 then

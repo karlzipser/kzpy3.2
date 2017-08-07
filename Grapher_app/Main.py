@@ -86,7 +86,6 @@ import cv2
 from cv_bridge import CvBridge,CvBridgeError
 from sensor_msgs.msg import Image
 exec(identify_file_str)
-
 bridge = CvBridge()
 
 
@@ -175,7 +174,7 @@ rospy.Subscriber('/bair_car/gyro_heading', geometry_msgs.msg.Vector3, callback=g
 
 
 
-
+print('Make sure this has been done if necessary:\n\texport ROS_MASTER_URI=http://nvidia@192.168.1.11:11311')
 timer=Timer(0)
 while len(R[steer][ts]) < 100:
 	print('waiting for ROS data . . .')

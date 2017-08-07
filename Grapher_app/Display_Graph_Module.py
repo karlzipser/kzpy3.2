@@ -18,7 +18,7 @@ def Display_Graph(*args):
 	if left_image in D[topics]:
 		ts_ = D[topics][left_image][ts][:]
 	else:
-		ts_ = D[topics][steer][ts][:]
+		ts_ = D[topics][acc_x][ts][:]
 	for i_ in rlen(ts_):
 		D[timestamp_to_left_image][ts_[i_]] = i_
 	D[end_time] = max(ts_)
