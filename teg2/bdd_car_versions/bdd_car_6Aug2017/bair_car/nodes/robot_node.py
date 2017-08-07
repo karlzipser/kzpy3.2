@@ -125,28 +125,37 @@ rospy.Subscriber('/bair_car/gyro_heading', geometry_msgs.msg.Vector3, callback=g
 rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_image__callback,queue_size = 1)
 rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_image__callback,queue_size = 1)
 
-#acc2rd_list = []
-#figure(1)
+if True:
+	acc2rd_list = []
+	mean_acc2rd_list = []
+	figure(1)
 
 while not rospy.is_shutdown():
 
-	try:
+	if True:
 		key_ = mci(R[left_image][vals][-1],color_mode=cv2.COLOR_RGB2BGR,delay=33,title='topics')
 		if reload_timer.check(): # put in thread?
 			reload(rp)
 			reload_timer.reset()
 
-		acc2rd = R[acc_x][vals][-1]**2+R[acc_x][vals][-1]**2
-		acc2rd_list.append(acc2rd)
-		if len(acc2rd_list) > 120:
-			acc2rd_list = acc2rd_list[100:]
-		#clf();xylim(0,100,0,20)
-		#plot(acc2rd_list);plt.pause(0.0001)
-		#print acc2rd
-		if acc2rd > rp.robot_acc2rd_threshold:
-			print("if acc2rd > rp.robot_acc2rd_threshold:")
-				
-	except Exception as e:
+		acc2rd = R[acc_x][vals][-1]**2+R[acc_z][vals][-1]**2
+		if True:
+			acc2rd_list.append(acc2rd)
+			if len(acc2rd_list) > 100:
+				acc2rd_list = acc2rd_list[-100:]
+			clf();xylim(0,100,0,20)
+			plot(acc2rd_list);
+			print acc2rd
+		if len(acc2rd_list) > 3:
+			mean_acc2rd = np.array(acc2rd_list[-3:]).mean()
+			mean_acc2rd_list.append(mean_acc2rd)
+			if len(mean_acc2rd_list) > 100:
+				mean_acc2rd_list = mean_acc2rd_list[-100:]
+			plot(mean_acc2rd_list);
+			if mean_acc2rd > rp.robot_acc2rd_threshold:
+				print("if acc2rd > rp.robot_acc2rd_threshold:")
+		plt.pause(0.0001)		
+	else: #except Exception as e:
 		print("********** Exception ***********************")
 		print(e.message, e.args)
 
