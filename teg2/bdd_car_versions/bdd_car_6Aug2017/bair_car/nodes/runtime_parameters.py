@@ -133,7 +133,7 @@ foldername = ''
 if Follow == 1:
 	foldername = 'follow_'
 
-model_name = solver_file_path.split('/')[-2]
+model_name = weight_file_path.split('/')[-1]
 
 if Caf == 1:
 	foldername = foldername + 'caffe2_' + model_name +'_'
