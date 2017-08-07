@@ -53,8 +53,8 @@ def run_model(input, metadata):
         print('Torch Prescale Motor: ' + str(torch_motor))
         print('Torch Prescale Steer: ' + str(torch_steer))
     
-    torch_motor = int((torch_motor - 49.) * motor_gain + 49.)
-    torch_steer = int((torch_steer - 49.) * steer_gain + 49.)
+    torch_motor = int((torch_motor - 49.) * rp.motor_gain + 49.)
+    torch_steer = int((torch_steer - 49.) * rp.steer_gain + 49.)
 
     torch_motor = max(0, torch_motor)
     torch_steer = max(0, torch_steer)
