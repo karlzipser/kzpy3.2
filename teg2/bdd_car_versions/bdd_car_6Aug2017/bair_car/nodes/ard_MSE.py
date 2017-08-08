@@ -308,6 +308,8 @@ def run_loop(Arduinos,M,BUTTON_DELTA=50,):
 		stop_ros()
 		return
 
+	acc2rd_list = []
+	mean_acc2rd_list = []
 	
 	try:
 		if os.environ['STOP'] == 'True':
@@ -343,46 +345,21 @@ def run_loop(Arduinos,M,BUTTON_DELTA=50,):
 			M['smooth_write_str'] = d2n( '(', int(M['smooth_steer']), ',', int(M['smooth_motor']+10000), ')')
 
 
-			#print(M['pid_motor_percent'],M['motor_freeze_threshold'],int(100*np.array(M['encoder_lst'][0:5]).mean()),int(100*np.array(M['encoder_lst'][-5:]).mean()),int(M['current_state'].state_transition_timer.time()))
 			
+			
+			acc2rd = M['acc'][0]**2+M['acc'][2]**2
+			acc2rd_list.append(acc2rd)
+			if len(acc2rd_list) > 5:
+				acc2rd_list = acc2rd_list[-5:]
+			if len(acc2rd_list) > 3:
+				mean_acc2rd = np.array(acc2rd_list[-3:]).mean()
 
-			freeze = False
-			M['potential_collision'] = 0
-			if True:
-				if M['current_state'] in [M['state_three'],M['state_five'],M['state_six'],M['state_seven']]:
+			if mean_acc2rd > rp.robot_acc2rd_threshold:
+				M['potential_collision'] = 1
+			else:
+				M['potential_collision'] = 0
 
-					if M['pid_motor_percent'] > M['motor_freeze_threshold'] and np.array(M['encoder_lst'][0:20]).mean() > 1 and np.array(M['encoder_lst'][-20:]).mean()<0.1 and M['current_state'].state_transition_timer.time() > 1:
-						print("if M['motor_percent'] > M['motor_freeze_threshold']...")
-						freeze = True
-					if 'acc' in M:
-						M['acc_lst_mean'] = array(M['acc_lst'][-10:]).mean(axis=0)
-						acc2rd = M['acc'][0]**2+M['acc'][2]**2
-						if acc2rd > M['acc2rd_threshold']:
-							print("if acc2rd > M['acc2rd_threshold']:")
-							freeze = True
-						if np.abs(M['acc_lst_mean'][0]) > M['acc_freeze_threshold_x']:
-							print("if M['acc_lst_mean'][0] > M['acc_freeze_threshold_x']:")
-							freeze = True
-						if M['acc_lst_mean'][1] > M['acc_freeze_threshold_y_max']:
-							print("if M['acc_lst_mean'][1] > M['acc_freeze_threshold_y_max']:")
-							freeze = True
-						if M['acc_lst_mean'][1] < M['acc_freeze_threshold_y_min']:
-							print("if M['acc_lst_mean'][1] > M['acc_freeze_threshold_y_min']:")
-							freeze = True
-						if np.abs(M['acc_lst_mean'][2]) > M['acc_freeze_threshold_z']:
-							print("if M['acc_lst_mean'][2] > M['acc_freeze_threshold_z']:")
-							freeze = True
-					else:
-						pass
-						#print 'acc not in M'
-					if freeze:
-						M['potential_collision'] = 1
-						if False: # not using state nine
-							M['previous_state'] = M['current_state']
-							M['current_state'] = M['state_nine']
-							M['current_state'].enter()
-							M['previous_state'].leave()
-
+			
 
 			
 
