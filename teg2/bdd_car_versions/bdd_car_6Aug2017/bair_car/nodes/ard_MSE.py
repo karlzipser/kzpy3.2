@@ -310,6 +310,7 @@ def run_loop(Arduinos,M,BUTTON_DELTA=50,):
 
 	acc2rd_list = []
 	mean_acc2rd_list = []
+	mean_acc2rd = 0
 	
 	try:
 		if os.environ['STOP'] == 'True':
