@@ -310,7 +310,7 @@ def run_loop(Arduinos,M,BUTTON_DELTA=50,):
 	acc2rd_list = []
 	mean_acc2rd_list = []
 	mean_acc2rd = 0
-	
+
 	try:
 		if os.environ['STOP'] == 'True':
 			assert(False)
@@ -358,6 +358,9 @@ def run_loop(Arduinos,M,BUTTON_DELTA=50,):
 				M['potential_collision'] = 1
 			else:
 				M['potential_collision'] = 0
+
+			if M['acc'][1] < rp.acc_freeze_threshold_y_min:
+				M['potential_collision'] = 2
 
 			
 
