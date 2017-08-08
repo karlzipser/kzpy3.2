@@ -93,6 +93,8 @@ while not rospy.is_shutdown():
 
 
 	if state in [3,5,6,7]:
+		if potential_collision_ == 2:
+			network_enter_timer.reset()
 		if (previous_state not in [3,5,6,7]):
 			previous_state = state
 			network_enter_timer.reset()
