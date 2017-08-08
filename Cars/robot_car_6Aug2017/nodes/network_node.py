@@ -104,7 +104,7 @@ while not rospy.is_shutdown():
 			frozen_ = 0
 			
 		if not network_enter_timer.check() or potential_collision_ == 2:
-			#network_ignore_potential_collision.reset()
+			network_ignore_potential_collision.reset()
 			frozen_ = 0
 			print "waiting before entering network mode..."
 			steer_cmd_pub.publish(std_msgs.msg.Int32(49))
@@ -137,6 +137,9 @@ while not rospy.is_shutdown():
 							motor_cmd_pub.publish(std_msgs.msg.Int32(rp.robot_motor))
 
 				elif potential_collision_:
+					if not frozen_:
+						if not network_ignore_potential_collision.check():
+							continue
 					if not frozen_:
 						print('I_ROBOT',rp.who_is_in_charge,rp.robot_steer,rp.robot_motor)
 					frozen_ = 1				
