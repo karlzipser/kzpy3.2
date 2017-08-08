@@ -100,7 +100,7 @@ while not rospy.is_shutdown():
 		if (previous_state not in [3,5,6,7]):
 			previous_state = state
 			network_enter_timer.reset()
-			#network_ignore_potential_collision.reset()
+			network_ignore_potential_collision.reset()
 			frozen_ = 0
 			
 		if not network_enter_timer.check() or potential_collision_ == 2:
@@ -113,10 +113,8 @@ while not rospy.is_shutdown():
 			continue
 		else:
 			if len(left_list) > nframes + 2:
-				#if not network_ignore_potential_collision.check():
-				#	potential_collision_ = 0
-				if potential_collision_ == 0 and (not frozen_): #or network_ignore_potential_collision.check():
 
+				if potential_collision_ == 0 and (not frozen_):
 					camera_data = format_camera_data(left_list, right_list)
 
 					metadata = format_metadata((rp.Racing, 0, rp.Follow, rp.Direct, rp.Play, rp.Furtive))
