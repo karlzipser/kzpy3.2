@@ -83,7 +83,7 @@ model_name_pub = rospy.Publisher('/bair_car/model_name', std_msgs.msg.String, qu
 
 
 frozen_ = 0
-
+defrosted_timer = Timer(0)
 while not rospy.is_shutdown():
 
 
