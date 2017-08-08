@@ -123,7 +123,7 @@ while not rospy.is_shutdown():
 
 					torch_motor, torch_steer = run_model(camera_data, metadata)
 
-					freeze_cmd_pub.publish(std_msgs.msg.Int32(freeze))
+					frozen_cmd_pub.publish(std_msgs.msg.Int32(frozen_))
 					
 					if state in [3,6]:
 						if rp.robot_steer < 0:   
