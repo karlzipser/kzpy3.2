@@ -105,7 +105,7 @@ while not rospy.is_shutdown():
 			
 		if not network_enter_timer.check() or potential_collision_ == 2:
 			#network_ignore_potential_collision.reset()
-			frozen_ = 1
+			frozen_ = 0
 			print "waiting before entering network mode..."
 			steer_cmd_pub.publish(std_msgs.msg.Int32(49))
 			motor_cmd_pub.publish(std_msgs.msg.Int32(49))
