@@ -62,6 +62,7 @@ M['encoder_pub'] = rospy.Publisher('encoder', std_msgs.msg.Float32, queue_size=5
 M['gyro_pub'] = rospy.Publisher('gyro', geometry_msgs.msg.Vector3, queue_size=100)
 M['gyro_heading_pub'] = rospy.Publisher('gyro_heading', geometry_msgs.msg.Vector3, queue_size=100)
 M['acc_pub'] = rospy.Publisher('acc', geometry_msgs.msg.Vector3, queue_size=100)
+M['potential_collision_pub'] = rospy.Publisher('potential_collision', std_msgs.msg.Int32, queue_size=5) 
 
 
 
