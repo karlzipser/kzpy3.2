@@ -57,10 +57,10 @@ motor_freeze_threshold = 55
 n_avg_IMU = 10
 """
 gyro_freeze_threshold = 150
-acc_freeze_threshold_x = 14
-acc_freeze_threshold_y_max = 30
-acc_freeze_threshold_y_min = 0
-acc_freeze_threshold_z = 5
+acc_freeze_threshold_x = 4
+acc_freeze_threshold_y_max = 13
+acc_freeze_threshold_y_min = 5
+acc_freeze_threshold_z = 2
 motor_freeze_threshold = 55
 n_avg_IMU = 10
 
