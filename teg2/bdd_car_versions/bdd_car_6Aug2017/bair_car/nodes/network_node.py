@@ -108,7 +108,7 @@ while not rospy.is_shutdown():
 			if len(left_list) > nframes + 2:
 
 				if  not network_ignore_potential_collision.check() or ((potential_collision_ == 0) and (not frozen_)): #or network_ignore_potential_collision.check():
-
+					assert(network_ignore_potential_collision.check()==False)
 					camera_data = format_camera_data(left_list, right_list)
 					metadata = format_metadata((rp.Racing, 0, rp.Follow, rp.Direct, rp.Play, rp.Furtive))
 
