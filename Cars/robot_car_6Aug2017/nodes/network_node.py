@@ -113,7 +113,7 @@ while not rospy.is_shutdown():
 			continue
 		else:
 			if len(left_list) > nframes + 2:
-				print defrosted_timer.time()
+				print dp(defrosted_timer.time())
 				if potential_collision_ == 0 and (not frozen_):
 					camera_data = format_camera_data(left_list, right_list)
 
