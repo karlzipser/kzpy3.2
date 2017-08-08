@@ -118,8 +118,8 @@ while not rospy.is_shutdown():
 				torch_motor, torch_steer = run_model(camera_data, metadata)
 
 				print dp(defrosted_timer.time())
-				#if (defrosted_timer.time()<2 or potential_collision_ == 0) and not frozen_:
-				if ((defrosted_timer.time()<2 and potential_collision_ < 2) or potential_collision_ == 0) and not frozen_:
+				#if ((defrosted_timer.time()<2 and potential_collision_ < 2) or potential_collision_ == 0) and not frozen_:
+				if potential_collision_ == 0) and not frozen_:
 
 					frozen_cmd_pub.publish(std_msgs.msg.Int32(frozen_))
 					
