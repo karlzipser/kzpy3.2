@@ -62,7 +62,7 @@ acc_freeze_threshold_x = 4
 acc_freeze_threshold_y_max = 13
 acc_freeze_threshold_y_min = 5
 acc_freeze_threshold_z = 2
-motor_freeze_threshold = 55
+motor_freeze_threshold = 53
 n_avg_IMU = 10
 
 robot_acc2rd_threshold = 7

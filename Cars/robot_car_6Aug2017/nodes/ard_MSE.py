@@ -345,7 +345,12 @@ def run_loop(Arduinos,M,BUTTON_DELTA=50,):
 			M['smooth_write_str'] = d2n( '(', int(M['smooth_steer']), ',', int(M['smooth_motor']+10000), ')')
 
 
-			
+			M['potential_collision'] = 0
+
+			print M['caffe_motor']
+            if M['caffe_motor'] > M['motor_freeze_threshold'] and np.array(M['encoder_lst'][0:20]).mean() > 1 and np.array(M['encoder_lst'][-20:]).mean()<0.1 and M['current_state'].state_transition_timer.time() > 1:
+                    print("caffe_motor freeze")
+                    M['potential_collision'] = 1
 			
 			acc2rd = M['acc'][0]**2+M['acc'][2]**2
 			acc2rd_list.append(acc2rd)
@@ -355,9 +360,7 @@ def run_loop(Arduinos,M,BUTTON_DELTA=50,):
 				mean_acc2rd = np.array(acc2rd_list[-3:]).mean()
 
 			if mean_acc2rd > rp.robot_acc2rd_threshold:
-				M['potential_collision'] = 1
-			else:
-				M['potential_collision'] = 0
+				M['potential_collision'] = 1	
 
 			if M['acc'][1] < rp.acc_freeze_threshold_y_min:
 				M['potential_collision'] = 2
