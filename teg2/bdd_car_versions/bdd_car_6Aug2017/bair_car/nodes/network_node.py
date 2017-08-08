@@ -106,7 +106,7 @@ while not rospy.is_shutdown():
 			continue
 		else:
 			if len(left_list) > nframes + 2:
-				print network_ignore_potential_collision.check()
+
 				if  not network_ignore_potential_collision.check() or ((potential_collision_ == 0) and (not frozen_)): #or network_ignore_potential_collision.check():
 
 					camera_data = format_camera_data(left_list, right_list)
