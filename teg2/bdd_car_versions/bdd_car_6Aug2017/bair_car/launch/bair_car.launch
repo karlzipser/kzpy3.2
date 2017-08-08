@@ -13,8 +13,7 @@
         <node name="network" pkg="bair_car" type="network_node.py" output="screen">  if="$(arg use_caffe)">
         </node>
 
-        <node name="robot" pkg="bair_car" type="robot_node.py" output="screen">  if="$(arg use_caffe)">
-        </node>
+
 
 
         <group ns="zed" if="$(arg use_zed)">        

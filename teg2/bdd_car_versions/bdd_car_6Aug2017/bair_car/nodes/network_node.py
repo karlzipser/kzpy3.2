@@ -74,7 +74,7 @@ rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_image__callb
 rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_image__callback,queue_size = 1)
 rospy.Subscriber("/bair_car/steer", std_msgs.msg.Int32,steer__callback)
 rospy.Subscriber('/bair_car/state', std_msgs.msg.Int32,state__callback)
-rospy.Subscriber('/bair_car/cmd/robot_in_charge', std_msgs.msg.Int32,robot_in_charge__callback)
+#rospy.Subscriber('/bair_car/cmd/robot_in_charge', std_msgs.msg.Int32,robot_in_charge__callback)
 steer_cmd_pub = rospy.Publisher('cmd/steer', std_msgs.msg.Int32, queue_size=100)
 motor_cmd_pub = rospy.Publisher('cmd/motor', std_msgs.msg.Int32, queue_size=100)
 freeze_cmd_pub = rospy.Publisher('cmd/freeze', std_msgs.msg.Int32, queue_size=100)
