@@ -140,7 +140,10 @@ while not rospy.is_shutdown():
 					#		continue
 					if not frozen_:
 						print('I_ROBOT',rp.who_is_in_charge,rp.robot_steer,rp.robot_motor)
-					frozen_ = 1				
+					frozen_ = 1			
+
+					frozen_cmd_pub.publish(std_msgs.msg.Int32(frozen_))
+						
 					if state in [3,6]:          
 						steer_cmd_pub.publish(std_msgs.msg.Int32(49))
 					if state in [6,7]:
