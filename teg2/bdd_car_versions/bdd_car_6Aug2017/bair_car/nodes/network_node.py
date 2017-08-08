@@ -16,7 +16,7 @@ left_list = []
 right_list = []
 state = 0
 steer = 0
-robot_in_charge_ = 0
+potential_collision_ = 0
 previous_state = 0
 state_transition_time_s = 0
 state_enter_timer = Timer(0)
@@ -47,9 +47,9 @@ def steer__callback(data):
 	global steer
 	steer = data.data
 
-def robot_in_charge__callback(data):
-	global robot_in_charge_
-	robot_in_charge_ = data.data
+def potential_collision__callback(data):
+	global potential_collision_
+	potential_collision_ = data.data
 
 def right_image__callback(data):
 	global left_list, right_list, solver
@@ -74,14 +74,14 @@ rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_image__callb
 rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_image__callback,queue_size = 1)
 rospy.Subscriber("/bair_car/steer", std_msgs.msg.Int32,steer__callback)
 rospy.Subscriber('/bair_car/state', std_msgs.msg.Int32,state__callback)
-#rospy.Subscriber('/bair_car/cmd/robot_in_charge', std_msgs.msg.Int32,robot_in_charge__callback)
+rospy.Subscriber('/bair_car/potential_collision', std_msgs.msg.Int32,potential_collision__callback)
 steer_cmd_pub = rospy.Publisher('cmd/steer', std_msgs.msg.Int32, queue_size=100)
 motor_cmd_pub = rospy.Publisher('cmd/motor', std_msgs.msg.Int32, queue_size=100)
 freeze_cmd_pub = rospy.Publisher('cmd/freeze', std_msgs.msg.Int32, queue_size=100)
 model_name_pub = rospy.Publisher('/bair_car/model_name', std_msgs.msg.String, queue_size=10)
 
 
-
+frozen_ = False
 
 while not rospy.is_shutdown():
 
@@ -96,6 +96,7 @@ while not rospy.is_shutdown():
 			previous_state = state
 			network_enter_timer.reset()
 		if not network_enter_timer.check():
+			frozen_ = False
 			print "waiting before entering network mode..."
 			steer_cmd_pub.publish(std_msgs.msg.Int32(49))
 			motor_cmd_pub.publish(std_msgs.msg.Int32(49))
@@ -104,7 +105,7 @@ while not rospy.is_shutdown():
 		else:
 			if len(left_list) > nframes + 2:
 
-				if not robot_in_charge_:
+				if not potential_collision_ and not frozen_:
 
 					camera_data = format_camera_data(left_list, right_list)
 					metadata = format_metadata((rp.Racing, 0, rp.Follow, rp.Direct, rp.Play, rp.Furtive))
@@ -119,7 +120,8 @@ while not rospy.is_shutdown():
 						#motor_cmd_pub.publish(std_msgs.msg.Int32(torch_motor))
 						motor_cmd_pub.publish(std_msgs.msg.Int32(rp.torch_alt_motor))
 
-				elif robot_in_charge_:
+				elif potential_collision_:
+					frozen_ = True
 					print('I_ROBOT',rp.who_is_in_charge,rp.robot_steer,rp.robot_motor)
 					if state in [3,6]:          
 						steer_cmd_pub.publish(std_msgs.msg.Int32(rp.robot_steer))
