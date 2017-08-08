@@ -108,7 +108,7 @@ while not rospy.is_shutdown():
 			if len(left_list) > nframes + 2:
 
 				if  not network_ignore_potential_collision.check() or ((potential_collision_ == 0) and (not frozen_)): #or network_ignore_potential_collision.check():
-					assert(network_ignore_potential_collision.check()==False)
+
 					camera_data = format_camera_data(left_list, right_list)
 					metadata = format_metadata((rp.Racing, 0, rp.Follow, rp.Direct, rp.Play, rp.Furtive))
 
@@ -123,8 +123,9 @@ while not rospy.is_shutdown():
 						motor_cmd_pub.publish(std_msgs.msg.Int32(rp.torch_alt_motor))
 
 				elif potential_collision_:
-					frozen_ = True
-					print('I_ROBOT',rp.who_is_in_charge,rp.robot_steer,rp.robot_motor)
+					if not frozen_:
+						print('I_ROBOT',rp.who_is_in_charge,rp.robot_steer,rp.robot_motor)
+					frozen_ = True				
 					if state in [3,6]:          
 						steer_cmd_pub.publish(std_msgs.msg.Int32(rp.robot_steer))
 					if state in [6,7]:
