@@ -104,7 +104,7 @@ while not rospy.is_shutdown():
 			frozen_ = 0
 			
 		if not network_enter_timer.check() or potential_collision_ == 2:
-			#network_ignore_potential_collision.reset()
+			network_ignore_potential_collision.reset()
 			frozen_ = 0
 			print "waiting before entering network mode..."
 			steer_cmd_pub.publish(std_msgs.msg.Int32(49))
@@ -113,8 +113,8 @@ while not rospy.is_shutdown():
 			continue
 		else:
 			if len(left_list) > nframes + 2:
-				#if not network_ignore_potential_collision.check():
-				#	potential_collision_ = 0
+				if not network_ignore_potential_collision.check():
+					potential_collision_ = 0
 				if potential_collision_ == 0 and (not frozen_): #or network_ignore_potential_collision.check():
 
 					camera_data = format_camera_data(left_list, right_list)
