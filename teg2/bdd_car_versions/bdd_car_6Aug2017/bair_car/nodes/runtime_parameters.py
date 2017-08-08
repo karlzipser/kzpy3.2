@@ -60,7 +60,7 @@ gyro_freeze_threshold = 150
 acc_freeze_threshold_x = 14
 acc_freeze_threshold_y_max = 30
 acc_freeze_threshold_y_min = 0
-acc_freeze_threshold_z = 14
+acc_freeze_threshold_z = 5
 motor_freeze_threshold = 55
 n_avg_IMU = 10
 
