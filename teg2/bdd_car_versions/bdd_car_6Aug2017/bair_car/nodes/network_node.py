@@ -95,8 +95,8 @@ while not rospy.is_shutdown():
 		if (previous_state not in [3,5,6,7]):
 			previous_state = state
 			network_enter_timer.reset()
-		if not network_enter_timer.check():
 			frozen_ = False
+		if not network_enter_timer.check():
 			print "waiting before entering network mode..."
 			steer_cmd_pub.publish(std_msgs.msg.Int32(49))
 			motor_cmd_pub.publish(std_msgs.msg.Int32(49))
@@ -105,7 +105,7 @@ while not rospy.is_shutdown():
 		else:
 			if len(left_list) > nframes + 2:
 
-				if not potential_collision_ and not frozen_:
+				if (potential_collision_ == 0) and (not frozen_):
 
 					camera_data = format_camera_data(left_list, right_list)
 					metadata = format_metadata((rp.Racing, 0, rp.Follow, rp.Direct, rp.Play, rp.Furtive))
