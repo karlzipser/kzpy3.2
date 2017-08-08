@@ -113,13 +113,12 @@ while not rospy.is_shutdown():
 			continue
 		else:
 			if len(left_list) > nframes + 2:
-				print dp(defrosted_timer.time())
+				camera_data = format_camera_data(left_list, right_list)
+				metadata = format_metadata((rp.Racing, 0, rp.Follow, rp.Direct, rp.Play, rp.Furtive))
+				torch_motor, torch_steer = run_model(camera_data, metadata)
+
+				#print dp(defrosted_timer.time())
 				if potential_collision_ == 0 and not frozen_:
-					camera_data = format_camera_data(left_list, right_list)
-
-					metadata = format_metadata((rp.Racing, 0, rp.Follow, rp.Direct, rp.Play, rp.Furtive))
-
-					torch_motor, torch_steer = run_model(camera_data, metadata)
 
 					frozen_cmd_pub.publish(std_msgs.msg.Int32(frozen_))
 					
@@ -135,7 +134,7 @@ while not rospy.is_shutdown():
 							motor_cmd_pub.publish(std_msgs.msg.Int32(rp.robot_motor))
 
 				elif potential_collision_:
-					_, _ = run_model(camera_data, metadata) # just to equalize timing
+
 					#if not frozen_:
 					#	if not network_ignore_potential_collision.check():
 					#		continue
