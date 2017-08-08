@@ -24,8 +24,8 @@ freeze = False
 torch_motor,torch_steer = None,None
 ctr = 0
 time_step = Timer(2)
-network_enter_timer = Timer(0.3)
-network_ignore_potential_collision = Timer(1) # starting driving triggers the collision IMU detector
+network_enter_timer = Timer(1)
+network_ignore_potential_collision = Timer(2) # starting driving triggers the collision IMU detector
 folder_display_timer = Timer(30)
 git_pull_timer = Timer(60)
 reload_timer = Timer(10)
@@ -108,7 +108,7 @@ while not rospy.is_shutdown():
 			if len(left_list) > nframes + 2:
 
 				if  not network_ignore_potential_collision.check() or ((potential_collision_ == 0) and (not frozen_)): #or network_ignore_potential_collision.check():
-					
+
 					camera_data = format_camera_data(left_list, right_list)
 					metadata = format_metadata((rp.Racing, 0, rp.Follow, rp.Direct, rp.Play, rp.Furtive))
 
@@ -146,7 +146,7 @@ while not rospy.is_shutdown():
 	if time_step.check():
 		
 		#print(torch_steer,torch_motor)
-		print(d2s("In state",state,"for",dp(state_enter_timer.time()),"seconds, previous_state =",previous_state))
+		print(d2s("In state",state,"for",dp(state_enter_timer.time()),"seconds, previous_state =",previous_state,'frozen_ =',frozen_))
 		time_step.reset()
 
 stop_ros()
