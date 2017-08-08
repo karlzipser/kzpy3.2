@@ -65,7 +65,7 @@ acc_freeze_threshold_z = 2
 motor_freeze_threshold = 53
 n_avg_IMU = 10
 
-robot_acc2rd_threshold = 7
+robot_acc2rd_threshold = 10
 robot_acc_y_exit_threshold = 0
 robot_steer =  -999 # negative value means not used
 robot_motor = 58
