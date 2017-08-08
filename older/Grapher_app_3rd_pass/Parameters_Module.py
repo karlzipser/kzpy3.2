@@ -10,7 +10,7 @@ _(P,VERBOSE,equals,True)
 #P[DATASET_PATHS] = [opjD('bdd_car_data_July2017_LCR')]
 #P[DATASET_PATHS] = [opjm('ExtraDrive2/bdd_car_data_July2017_LCR')]
 #P[DATASET_PATHS] = [opjm('ExtraDrive2/bair_car_data_Main_Dataset')]
-P[DATASET_PATHS] = [opjm('ExtraDrive4/bair_car_data_new_28April2017')]
+P[DATASET_PATHS] = [opjm('data_examples/data_examples')]
 P[TOPICS] = {
 	steer:{maxval:80,		minval:20,		baseline:49.0,	color:(255,0,0)},
 	motor:{maxval:80,		minval:49,		baseline:49.0,	color:(0,255-32,32)},
