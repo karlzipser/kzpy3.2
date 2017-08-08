@@ -16,7 +16,7 @@ left_list = []
 right_list = []
 state = 0
 steer = 0
-potential_collision_ = 0
+potential_collision_from_callback_ = 0
 previous_state = 0
 state_transition_time_s = 0
 state_enter_timer = Timer(0)
@@ -49,8 +49,8 @@ def steer__callback(data):
 	steer = data.data
 
 def potential_collision__callback(data):
-	global potential_collision_
-	potential_collision_ = data.data
+	global potential_collision_from_callback_
+	potential_collision_from_callback_ = data.data
 
 def right_image__callback(data):
 	global left_list, right_list, solver
@@ -93,6 +93,7 @@ while not rospy.is_shutdown():
 
 
 	if state in [3,5,6,7]:
+		potential_collision_ = potential_collision_from_callback_
 		if potential_collision_ == 2:
 			network_enter_timer.reset()
 		if (previous_state not in [3,5,6,7]):
@@ -109,8 +110,9 @@ while not rospy.is_shutdown():
 			continue
 		else:
 			if len(left_list) > nframes + 2:
-
-				if  not network_ignore_potential_collision.check() or ((potential_collision_ == 0) and (not frozen_)): #or network_ignore_potential_collision.check():
+				if not network_ignore_potential_collision.check():
+					potential_collision_ = 0
+				if not network_ignore_potential_collision.check() or ((potential_collision_ == 0) and (not frozen_)): #or network_ignore_potential_collision.check():
 
 					camera_data = format_camera_data(left_list, right_list)
 					metadata = format_metadata((rp.Racing, 0, rp.Follow, rp.Direct, rp.Play, rp.Furtive))
