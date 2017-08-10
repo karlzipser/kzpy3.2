@@ -68,14 +68,46 @@ Markers_clockwise = {
 
 
 
+
+
+markers_clockwise_ = [ 51,50,4,63,
+		# East 2
+		146,147,148,149,
+		# East 3
+		52,189,192,191,
+		# East 4
+		199,200,202,203,204,205,208,206,
+		# South 2
+		174,175,176,177,
+		# South 3
+		57,58,67,59,
+		# South 4
+		173,172,171,170,227,226,228,225,
+		# West 2
+		153,152,151,150,
+		# West 3
+		134,133,139,138,
+		# West 4
+		216,217,218,219,223,222,221,220,
+		# North 2
+		132,137,136,135,
+		# North 3
+		198,196,197,194,
+		# North 4
+		178,179,180,181]
+		###############
+
+
+
+
 Marker_xy_dic = {}
 
 marker_spacing_ = 107/4.0/100.0
 
-ctr_ = -7.5
+ctr_ = 7.5
 for k_ in Markers_clockwise['North']:
 	Marker_xy_dic[k_] = [ctr_*marker_spacing_,-8*marker_spacing_]
-	ctr_ += 1
+	ctr_ -= 1
 ctr_ = -7.5
 for k_ in Markers_clockwise['South']:
 	Marker_xy_dic[k_] = [ctr_*marker_spacing_,8*marker_spacing_]
@@ -89,12 +121,16 @@ for k_ in Markers_clockwise['West']:
 	Marker_xy_dic[k_] = [8*marker_spacing_,ctr_*marker_spacing_]
 	ctr_ -= 1
 
+figure(2);clf();plt_square()
 pts = []
 for k_ in Marker_xy_dic.keys():
 	pts.append(Marker_xy_dic[k_])
-figure(2);clf();plt_square();pts_plot(np.array(pts))
-
-
+	plt.annotate(str(k_),Marker_xy_dic[k_])
+pts_plot(np.array(pts))
+"""
+for i_ in rlen(markers_clockwise_):
+	Marker_xy_dic[markers_clockwise_[i_]] = (i_ * marker_spacing_,0)
+"""
 
 
 def get_camera_position(angles_to_center,angles_surfaces,distances_marker):
@@ -142,28 +178,11 @@ def get_camera_position(angles_to_center,angles_surfaces,distances_marker):
 
 
 
-Q={'angles_surfaces': {138: 1.2496890515802406,
-  216: 1.2304502402873205,
-  217: 1.3127486308556253,
-  218: 1.8040529215946637,
-  219: 1.9538203601949251,
-  220: 0.76371584047729324},
- 'angles_to_center': {138: -1.2085845077652309,
-  216: -0.84264398498218307,
-  217: -0.52151679090575254,
-  218: -0.18078284872212613,
-  219: 0.15296201882677507,
-  220: 1.0967007205999866},
- 'distances_marker': {138: 1.4822421901775522,
-  216: 1.5541935926105519,
-  217: 1.5871800515715988,
-  218: 1.6198948011118468,
-  219: 1.6188416675292261,
-  220: 0.74014715055300995}}
-
-#A=preprocess_bagfile(path,'/media/karlzipser/ExtraDrive4/Mr_Yellow_23_24July2017/processed2/direct_home_LCR_Aruco1_23Jul17_17h39m41s_Mr_Yellow/bair_car_2017-07-23-17-47-25_13.bag' , visualize,1)  
 
 
+
+
+	
 
 
 
@@ -172,22 +191,25 @@ Marker_orientation_parameters = {}
 for q_ in ['angle1','angle2','sign1','sign2']:
 	Marker_orientation_parameters[q_] = {}
 for m_ in Markers_clockwise['North']:
-	Marker_orientation_parameters['angle1'][m_] = 0.0
+	Marker_orientation_parameters['angle1'][m_] = 90.0
 	Marker_orientation_parameters['sign1'][m_] = -1.0
 	Marker_orientation_parameters['angle2'][m_] = 1.0
 	Marker_orientation_parameters['sign2'][m_] = -90.0
 for m_ in Markers_clockwise['East']:
-	Marker_orientation_parameters['angle1'][m_] = -90.0
-	Marker_orientation_parameters['sign1'][m_] = 1.0
-	Marker_orientation_parameters['angle2'][m_] = 1.0
-	Marker_orientation_parameters['sign2'][m_] = 0.0
+	Marker_orientation_parameters['angle1'][m_] = 90
+	Marker_orientation_parameters['sign1'][m_] = sign1_
+	Marker_orientation_parameters['angle2'][m_] = 0.0
+	Marker_orientation_parameters['sign2'][m_] = -1.0
+###########################################################
 for m_ in Markers_clockwise['South']:
-	Marker_orientation_parameters['angle1'][m_] = 0.0
+	Marker_orientation_parameters['angle1'][m_] = -90
 	Marker_orientation_parameters['sign1'][m_] = -1.0
-	Marker_orientation_parameters['angle2'][m_] = 1.0
-	Marker_orientation_parameters['sign2'][m_] = -90.0
+	Marker_orientation_parameters['angle2'][m_] = 90.0
+	Marker_orientation_parameters['sign2'][m_] = -1.0
+###########################################################
+
 for m_ in Markers_clockwise['West']:
-	Marker_orientation_parameters['angle1'][m_] = -90.0
+	Marker_orientation_parameters['angle1'][m_] = 0
 	Marker_orientation_parameters['sign1'][m_] = 1.0
 	Marker_orientation_parameters['angle2'][m_] = 1.0
 	Marker_orientation_parameters['sign2'][m_] = 0.0
@@ -196,21 +218,45 @@ for m_ in Markers_clockwise['West']:
 L = A['left']
 ts_ = sorted(L.keys())
 
-for t_ in ts_:
-	print t_
+
+ctr_=0
+for t_ in ts_[0:]:
+	print ctr_
 	Q = L[t_]
 
-	figure(1)
+	figure(3)
 	clf()
-	xylim(-6,6,-6,6)
+	N=6
+	xylim(-N,N,-N,N)
 	plt_square()
 	pts = []
 	for k_ in Marker_xy_dic.keys():
 		plt.annotate(str(k_),Marker_xy_dic[k_])
 		pts.append(Marker_xy_dic[k_])
 	pts_plot(np.array(pts),'g')
-	
 
+
+	Mop = Marker_orientation_parameters
+	for k_ in Q['distances_marker'].keys():
+		if k_ not in Marker_xy_dic.keys():
+			continue
+		p0_ = np.array(Marker_xy_dic[k_])
+		p1_ = np.array([p0_[0],p0_[1]-Q['distances_marker'][k_]])
+		rp0_ = rotatePoint(p0_,p1_,-np.degrees(Q['angles_to_center'][k_]))
+		rp1_ = rotatePoint(p0_,rp0_,Mop['angle1'][k_])
+		#rp1_ = rotatePoint(rp0_,p0_,Mop['angle2'][k_]+Mop['sign2'][k_]*np.degrees(Q['angles_surfaces'][k_]))
+		#v_ = np.array(rp1_) - np.array(rp0_)
+		#vn_ = normalize(v_)
+		#p2_ = np.array(vn_)/10.0+np.array(rp0_)
+		plot(p0_[0],p0_[1],'k.')
+		plot(rp1_[0],rp1_[1],'r.')
+		plot([p0_[0],rp1_[0]], [p0_[1],rp1_[1]],'k')
+		#plot(p2_[0],p2_[1],'b.')
+
+	ctr_+=1
+	pause(0.01)
+	#print angle1_,sign1_
+	#raw_input('hit enter')
 
 
 
@@ -236,20 +282,5 @@ for t_ in ts_:
 	#rotatePoint(centerPoint,point,angle)
 	"""
 
-	Mop = Marker_orientation_parameters
-	for k_ in Q['distances_marker'].keys():
-		if k_ not in Marker_xy_dic.keys():
-			continue
-		p0_ = np.array(Marker_xy_dic[k_])
-		p1_ = np.array([p0_[0],p0_[1]-Q['distances_marker'][k_]])
-		rp0_ = rotatePoint(p0_,p1_,Mop['angle1'][k_]+Mop['sign1'][k_]*np.degrees(Q['angles_to_center'][k_]))
-		rp1_ = rotatePoint(rp0_,p0_,Mop['angle2'][k_]+Mop['sign2'][k_]*np.degrees(Q['angles_surfaces'][k_]))
-		v_ = np.array(rp1_) - np.array(rp0_)
-		vn_ = normalize(v_)
-		p2_ = np.array(vn_)/10.0+np.array(rp0_)
-		plot(p0_[0],p0_[1],'k.')
-		plot(rp0_[0],rp0_[1],'r.')
-		plot(p2_[0],p2_[1],'b.')
 
-
-	pause(0.01)
+#EOF
