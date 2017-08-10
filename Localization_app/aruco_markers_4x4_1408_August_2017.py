@@ -127,62 +127,16 @@ for k_ in Marker_xy_dic.keys():
 	pts.append(Marker_xy_dic[k_])
 	plt.annotate(str(k_),Marker_xy_dic[k_])
 pts_plot(np.array(pts))
-"""
-for i_ in rlen(markers_clockwise_):
-	Marker_xy_dic[markers_clockwise_[i_]] = (i_ * marker_spacing_,0)
-"""
 
-"""
-def get_camera_position(angles_to_center,angles_surfaces,distances_marker):
-	marker_ids = angles_to_center.keys()
-	x_avg = 0.0
-	y_avg = 0.0
-	d_sum = 0.0
-	xs = []
-	ys = []
-	ds = []
-	for m_ in marker_ids:
-		if m_ in [190]: # This one gives false positives on ground.
-			continue
-		if m_ in markers_xy_dic:
-			xy = markers_xy_dic[m_]
-			angle1 = angles_to_center[m_]
-			distance1 = distances_marker[m_]
-			distance2 = 4*107/100.
-			angle2 = (np.pi+marker_angles_dic[m_]) - (np.pi/2.0-angles_surfaces[m_])
-			xd = distance1 * np.sin(angle2)
-			yd = distance1 * np.cos(angle2)
-			#print (dp(np.degrees(marker_angles_dic[m_]+np.pi/2.0-angles_surfaces[m_]+angles_to_center[m_]),2))#,dp(np.degrees(marker_angles_dic[m_]),2),dp(np.degrees(angles_surfaces[m_]),2),dp(np.degrees(angles_to_center[m_],2)))
-			if distance1 < 2*distance2 and distance1 > 0.05:
-			#if distance1 < 2 and distance1 > 0.05:
-				xs.append(xd+xy[0])
-				ys.append(yd+xy[1])
-				ds.append(distance1)
-	d = 0
-	for i in range(len(xs)):
-		d += 1/ds[i]
-		x_avg += d*xs[i]
-		y_avg += d*ys[i]
-		d_sum += d
-	if len(ds) > 2:
-		median_distance_to_markers = np.median(array(ds))
-	elif len(ds) > 0:
-		median_distance_to_markers = array(ds).min()
-	else:
-		median_distance_to_markers = None
-	if d_sum == 0:
-		return None,None,None,None
-	x_avg /= d_sum
-	y_avg /= d_sum
-	return marker_ids,x_avg,y_avg,median_distance_to_markers
+
+
+#for i_ in rlen(markers_clockwise_):
+#	Marker_xy_dic[markers_clockwise_[i_]] = (i_ * marker_spacing_,0)
 
 
 
 
 
-
-
-	
 
 
 
@@ -196,8 +150,8 @@ for m_ in Markers_clockwise['North']:
 	Marker_orientation_parameters['angle2'][m_] = 1.0
 	Marker_orientation_parameters['sign2'][m_] = -90.0
 for m_ in Markers_clockwise['East']:
-	Marker_orientation_parameters['angle1'][m_] = 90
-	Marker_orientation_parameters['sign1'][m_] = sign1_
+	Marker_orientation_parameters['angle1'][m_] = 0
+	Marker_orientation_parameters['sign1'][m_] = 1
 	Marker_orientation_parameters['angle2'][m_] = 0.0
 	Marker_orientation_parameters['sign2'][m_] = -1.0
 ###########################################################
@@ -218,47 +172,67 @@ for m_ in Markers_clockwise['West']:
 L = A['left']
 ts_ = sorted(L.keys())
 
+w_ = 90/180.0
+ctr_= 0
 
-ctr_=0
-for t_ in ts_[0:]:
+for t_ in ts_[ctr_:]:
 	print ctr_
 	Q = L[t_]
-
-	figure(3)
+	figure(5)
 	clf()
-	N=6
+	N=4
 	xylim(-N,N,-N,N)
 	plt_square()
 	pts = []
 	for k_ in Marker_xy_dic.keys():
-		plt.annotate(str(k_),Marker_xy_dic[k_])
+		#plt.annotate(str(k_),Marker_xy_dic[k_])
 		pts.append(Marker_xy_dic[k_])
 	pts_plot(np.array(pts),'g')
-
 
 	Mop = Marker_orientation_parameters
 	for k_ in Q['distances_marker'].keys():
 		if k_ not in Marker_xy_dic.keys():
 			continue
-		p0_ = np.array(Marker_xy_dic[k_])
-		p1_ = np.array([p0_[0],p0_[1]-Q['distances_marker'][k_]])
-		rp0_ = rotatePoint(p0_,p1_,-np.degrees(Q['angles_to_center'][k_]))
-		rp1_ = rotatePoint(p0_,rp0_,Mop['angle1'][k_])
-		#rp1_ = rotatePoint(rp0_,p0_,Mop['angle2'][k_]+Mop['sign2'][k_]*np.degrees(Q['angles_surfaces'][k_]))
-		#v_ = np.array(rp1_) - np.array(rp0_)
-		#vn_ = normalize(v_)
-		#p2_ = np.array(vn_)/10.0+np.array(rp0_)
-		plot(p0_[0],p0_[1],'k.')
-		plot(rp1_[0],rp1_[1],'r.')
-		plot([p0_[0],rp1_[0]], [p0_[1],rp1_[1]],'k')
-		#plot(p2_[0],p2_[1],'b.')
-
+		if k_ in Markers_clockwise['West']:
+			p0_ = np.array(Marker_xy_dic[k_])
+			p1_ = np.array([p0_[0],p0_[1]-Q['distances_marker'][k_]])
+			rp0_ = rotatePoint(p0_,p1_,-np.degrees(w_*Q['angles_to_center'][k_]))
+			rp1_ = rotatePoint(p0_,rp0_,-90)
+			plot(p0_[0],p0_[1],'k.')
+			plot(rp1_[0],rp1_[1],'r.')
+			plot([p0_[0],rp1_[0]], [p0_[1],rp1_[1]],'k')
+		elif k_ in Markers_clockwise['North']:
+			p0_ = np.array(Marker_xy_dic[k_])
+			p1_ = np.array([p0_[0],p0_[1]-Q['distances_marker'][k_]])
+			rp0_ = rotatePoint(p0_,p1_,-np.degrees(w_*Q['angles_to_center'][k_]))
+			rp1_ = rotatePoint(p0_,rp0_,180)
+			plot(p0_[0],p0_[1],'k.')
+			plot(rp1_[0],rp1_[1],'r.')
+			plot([p0_[0],rp1_[0]], [p0_[1],rp1_[1]],'k')
+		elif k_ in Markers_clockwise['East']:
+			p0_ = np.array(Marker_xy_dic[k_])
+			p1_ = np.array([p0_[0],p0_[1]-Q['distances_marker'][k_]])
+			rp0_ = rotatePoint(p0_,p1_,-np.degrees(w_*Q['angles_to_center'][k_]))
+			rp1_ = rotatePoint(p0_,rp0_,90)
+			plot(p0_[0],p0_[1],'k.')
+			plot(rp1_[0],rp1_[1],'r.')
+			plot([p0_[0],rp1_[0]], [p0_[1],rp1_[1]],'k')
+		elif k_ in Markers_clockwise['South']:
+			p0_ = np.array(Marker_xy_dic[k_])
+			p1_ = np.array([p0_[0],p0_[1]-Q['distances_marker'][k_]])
+			rp0_ = rotatePoint(p0_,p1_,-np.degrees(w_*Q['angles_to_center'][k_]))
+			rp1_ = rotatePoint(p0_,rp0_,0)
+			plot(p0_[0],p0_[1],'k.')
+			plot(rp1_[0],rp1_[1],'r.')
+			plot([p0_[0],rp1_[0]], [p0_[1],rp1_[1]],'k')
 	ctr_+=1
+
 	pause(0.01)
+	mi(F[left_image][vals][ctr_],0);pause(0.01)
 	#print angle1_,sign1_
 	#raw_input('hit enter')
 
-"""
+
 
 
 
@@ -313,97 +287,121 @@ L = A['left']
 ts_ =F[left_image][ts][:]
 
 
+def mdif(a,b):
+	return (np.sqrt((a[:,0]-b[:,0])**2+(a[:,1]-b[:,1])**2)).mean()
+
+def mn(*args):
+	Args = args_to_dictionary(args)
+	movable_pts_ = np.array(Args[movable_pts])
+	static_pts_ = np.array(Args[static_pts])
+	True
+	rotate_pts_ = rotate_translate_polygon(pts,movable_pts_, deg,np.random.randn(1)[0]*5, x,np.random.randn(1)[0]*0.1, y,np.random.randn(1)[0]*0.1)
+	if mdif(rotate_pts_,static_pts_) < mdif(movable_pts_,static_pts_):
+		return rotate_pts_
+	return movable_pts_
 
 
-for i_ in rlen(ts_):
+
+movable_pts = 'movable_pts'
+static_pts = 'static_pts'
+degs = 'degs'
+scale = 'scale'
+result_prev = 'result_prev'
+
+def mn2(*args):
+	Args = args_to_dictionary(args)
+	movable_pts_ = np.array(Args[movable_pts])
+	static_pts_ = np.array(Args[static_pts])
+	degs_ = Args[degs]
+	x_ = Args[x]
+	y_ = Args[y]
+	scale_ = Args[scale]
+	result_prev_ = Args[result_prev]
+	True
+	def rndn():
+		return np.random.randn(1)[0]
+	d_deg_	= rndn()*5*scale_
+	d_x_ 	= rndn()*0.1*scale_
+	d_y_ 	= rndn()*0.1*scale_
+	rotate_pts_ = rotate_translate_polygon(pts,movable_pts_, deg,degs_+d_deg_, x,x_+d_x_, y,y_+d_y_)
+	result1_ = mdif(rotate_pts_,static_pts_)
+	if result1_ < result_prev_:
+		return rotate_pts_,degs_+d_deg_,x_+d_x_,y_+d_y_,result1_,True
+	else:
+		return movable_pts_,degs_,x_,y_,result_prev_,False
+
+def mdif(a,b):
+	return (np.sqrt((a[:,0]-b[:,0])**2+(a[:,1]-b[:,1])**2)).mean()
 
 
 
+
+result_prev_ = 1000**2
+scale_ = 1
+x_ = 0; y_ = 0; degs_ = 0
+i0_ = 306
+for i_ in range(i0_,len(ts_)):
+	print i_
 	t_ = ts_[i_]
-	Q = L[t_]
-	mi(F[left_image][vals][i_])
-	figure(3)
-	clf()
-	N=6
-	xylim(-N,N,-N,N)
-	plt_square()
+	if t_ in L.keys():
+		Q = L[t_]
+		mi(F[left_image][vals][i_])
+		figure(3)
+		clf()
+		N=6
+		xylim(-N,N,-N,N)
+		plt_square()
+		pts_ = []
+		ks_ = []
+		for k_ in Q['angles_to_center'].keys():
+			if k_ in Marker_xy_dic.keys():
+				ks_.append(k_)
+				p0_ = [0,Q['distances_marker'][k_]]
+				p1_ = rotatePoint([0,0],p0_,-np.degrees(Q['angles_to_center'][k_])*(80/180.0))
+				pts_.append(p1_)
+		pts_ = np.array(pts_)
+		figure(2);clf();xylim(-N,N,-N,N);plt_square();#pts_plot(pts_);pts_plot(new_pts_,'b');plot(0,0,'ok')
+
+		mpts_ = []
+		for k_ in Marker_xy_dic.keys():
+			plt.annotate(str(k_),Marker_xy_dic[k_])
+			mpts_.append(Marker_xy_dic[k_])
+		pts_plot(np.array(mpts_),'g')
+
+		actual_pts_ = []
+		for i_ in rlen(ks_):
+			k_ = ks_[i_]
+			actual_pts_.append(Marker_xy_dic[k_])	
+		for i_ in range(100):
+			new_pts_,degs_,x_,y_,result_,new_ = mn2(result_prev,result_prev_, movable_pts,pts_, static_pts,actual_pts_,degs,degs_,x,x_,y,y_, scale,i_*scale_/(50.0))
+			if result_ > result_prev_:
+				assert(False)
+			result_prev_ = result_
+			if new_:
+				#pts_plot(np.array(new_pts_),'b');pause(0.00001)
+				pass#print result_
+			else:
+				pass#print result_,False
+		new_pts_ = rotate_translate_polygon(pts,pts_, deg,degs_, x,x_, y,y_)
+		pts_plot(np.array(new_pts_),'r');plot(x_,y_,'kx');pause(0.01)
+
+		print 1,dp(degs_)
 
 
 
+"""
+def mn(*args):
+	Args = args_to_dictionary(args)
+	movable_pts_ = np.array(Args[movable_pts])
+	static_pts_ = np.array(Args[static_pts])
+	True
+	rotate_pts_ = rotate_translate_polygon(pts,movable_pts_, deg,np.random.randn(1)[0]*5, x,np.random.randn(1)[0]*0.1, y,np.random.randn(1)[0]*0.1)
+	if mdif(rotate_pts_,static_pts_) < mdif(movable_pts_,static_pts_):
+		return rotate_pts_,True
+	return movable_pts_,False
+"""
 
 
-
-	pts_ = []
-	ks_ = []
-	for k_ in Q['angles_to_center'].keys():
-		if k_ in Marker_xy_dic.keys():
-			ks_.append(k_)
-		#p0e = [0,(1+np.abs(Q['angles_to_center'][k_])**2) *Q['distances_marker'][k_]]
-		p0_ = [0,Q['distances_marker'][k_]]
-		p1_ = rotatePoint([0,0],p0_,-np.degrees(Q['angles_to_center'][k_])*(72/180.0))
-		pts_.append(p1_)
-		#p1e = rotatePoint([0,0],p0e,-np.degrees(Q['angles_to_center'][k_]))
-		#plot([0,p0[0]],[0,p0[1]]);plot(p0[0],p0[1],'.')
-		#plot([0,p1e[0]],[0,p1e[1]]);plot(p1e[0],p1e[1],'.');plt.annotate(str(k_),np.array(p1e))
-		plot([0,p1_[0]],[0,p1_[1]]);plot(p1_[0],p1_[1],'.');plt.annotate(str(k_),np.array(p1_))
-	pts_ = np.array(pts_)
-	new_pts_ = rotate_translate_polygon(pts,pts_, deg,-45, x,0,y,1)
-	figure(2);clf();xylim(-N,N,-N,N);plt_square();pts_plot(pts_);pts_plot(new_pts_,'b');plot(0,0,'ok')
-
-	mpts_ = []
-	for k_ in Marker_xy_dic.keys():
-		plt.annotate(str(k_),Marker_xy_dic[k_])
-		mpts_.append(Marker_xy_dic[k_])
-	pts_plot(np.array(mpts_),'g')
-
-	actual_pts_ = []
-	for i_ in rlen(ks_):
-		k_ = ks_[i_]
-		actual_pts_.append(Marker_xy_dic[k_])
-		plot([actual_pts_[i_][0],new_pts_[i_][0]],[actual_pts_[i_][1],new_pts_[i_][1]],'r')
-	
-
-	print np.linalg.norm((pts_-new_pts_),ord=1)
-	pause(0.2)
-
-
-
-
-
-
-
-
-def fun(x):
-	y = np.array([2,2.,3,0.])
-	return np.linalg.norm(x-y,ord=1)
-
-x0 = np.array([2,2.,3,0.])
-scipy.optimize.minimize(fun,x0)
-
-
-# https://stackoverflow.com/questions/19843752/structure-of-inputs-to-scipy-minimize-function
-
-def fun(x):
-	y = np.array([2,2.,1,0.])
-	print(x,y)
-	d = []
-	for i in rlen(y):
-		d.append(length(y[i]-x[i]))
-	dm = np.array(d).mean()
-	print dm
-	return dm
-
-x0 = np.array([2,2.,1,0.])
-scipy.optimize.minimize(fun,x0)
-
-
-
-x=x0
-y = np.array([[2,2.],[1,0.]])
-d = []
-for i in rlen(y):
-	d.append(length(y[i]-x[i]))
-print sum(d)
 
 
 
