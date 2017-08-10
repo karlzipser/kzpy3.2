@@ -22,10 +22,10 @@ for a in Args.keys():
 
 
 
-marker_module_ = importlib.import_module(P[MARKER_SETUP],package=None)
+#marker_module_ = importlib.import_module(P[MARKER_SETUP],package=None)
 #markers_xy_dic = marker_module_.markers_xy_dic
 #marker_angles_dic_ = marker_module_.marker_angles_dic_
-get_camera_position = marker_module_.get_camera_position
+#get_camera_position = marker_module_.get_camera_position
 
 
 
@@ -209,7 +209,8 @@ def preprocess_bagfile(*args):
 	print(d2s('Done in',timer.time(),'seconds'))
 	return A
 
-A=preprocess_bagfile(path,'/media/karlzipser/ExtraDrive4/Mr_Yellow_23_24July2017/processed2/direct_home_LCR_Aruco1_23Jul17_20h51m31s_Mr_Yellow/bair_car_2017-07-23-20-56-11_8.bag', visualize,0)
+
+A=preprocess_bagfile(path,'/media/karlzipser/ExtraDrive4/Mr_Yellow_23_24July2017/processed2/direct_home_LCR_Aruco1_23Jul17_20h51m31s_Mr_Yellow/bair_car_2017-07-23-20-52-11_1.bag', visualize,0)
 
 
 

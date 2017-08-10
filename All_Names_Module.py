@@ -1,4 +1,6 @@
 use_wordsv = """
+pts
+deg
 visualize dic
 	marker_data_path
 MARKER_SETUP

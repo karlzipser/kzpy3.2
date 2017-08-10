@@ -132,7 +132,7 @@ for i_ in rlen(markers_clockwise_):
 	Marker_xy_dic[markers_clockwise_[i_]] = (i_ * marker_spacing_,0)
 """
 
-
+"""
 def get_camera_position(angles_to_center,angles_surfaces,distances_marker):
 	marker_ids = angles_to_center.keys()
 	x_avg = 0.0
@@ -258,29 +258,154 @@ for t_ in ts_[0:]:
 	#print angle1_,sign1_
 	#raw_input('hit enter')
 
+"""
 
 
 
 
+# check if estimate is in space
+"""
+for k_ in Markers[x].keys():
+	plot(Markers[x][k_],Markers[y][k_],'o')
+	p1 = [Markers[x][k_],Markers[y][k_]]
+	p2 = [Markers[x][k_],Markers[y][k_]-Q['distances_marker'][k_]]
+	rp_ = rotatePoint(p1,p2,Markers['angle'][k_]+Markers['sign'][k_]*np.degrees(Q['angles_to_center'][k_]))
+	plot(rp_[0],rp_[1],'x')
+	plot([Markers[x][k_],rp_[0]],[  Markers[y][k_],rp_[1]])
+	rp2_ = rotatePoint(rp_,p1,Markers['angle2'][k_]+Markers['sign2'][k_]*np.degrees(Q['angles_surfaces'][k_]))
+	#plot([rp2_[0],rp_[0]],[rp2_[1],rp_[1]])
+	v = np.array(rp2_) - np.array(rp_)
+	vn = normalize(v)
 
-	# check if estimate is in space
+	p3 = np.array(vn)/10.0+np.array(rp_)
+	plot([rp_[0],p3[0]],[rp_[1],p3[1]])
+#rotatePoint(centerPoint,point,angle)
+"""
+
+F = h5r('/media/karlzipser/ExtraDrive2/bdd_car_data_July2017_LCR/h5py/direct_home_LCR_Aruco1_23Jul17_20h51m31s_Mr_Yellow/original_timestamp_data.h5py')
+
+
+pts='pts'
+deg='deg'
+
+
+
+
+def rotate_translate_polygon(*args):
+	Args = args_to_dictionary(args)
+	pts_ = Args[pts]
+	deg_ = Args[deg]
+	x_ = Args[x]
+	y_ = Args[y]
+	True
+	new_pts_ =  np.array(rotatePolygon(pts_,deg_))
+	new_pts_[:,0] += x_
+	new_pts_[:,1] += y_
+	return new_pts_
+
+
 	"""
-	for k_ in Markers[x].keys():
-		plot(Markers[x][k_],Markers[y][k_],'o')
-		p1 = [Markers[x][k_],Markers[y][k_]]
-		p2 = [Markers[x][k_],Markers[y][k_]-Q['distances_marker'][k_]]
-		rp_ = rotatePoint(p1,p2,Markers['angle'][k_]+Markers['sign'][k_]*np.degrees(Q['angles_to_center'][k_]))
-		plot(rp_[0],rp_[1],'x')
-		plot([Markers[x][k_],rp_[0]],[  Markers[y][k_],rp_[1]])
-		rp2_ = rotatePoint(rp_,p1,Markers['angle2'][k_]+Markers['sign2'][k_]*np.degrees(Q['angles_surfaces'][k_]))
-		#plot([rp2_[0],rp_[0]],[rp2_[1],rp_[1]])
-		v = np.array(rp2_) - np.array(rp_)
-		vn = normalize(v)
-
-		p3 = np.array(vn)/10.0+np.array(rp_)
-		plot([rp_[0],p3[0]],[rp_[1],p3[1]])
-	#rotatePoint(centerPoint,point,angle)
+	Translate from .bag files to original_timestamp_data.h5py
 	"""
+	
+
+L = A['left']
+ts_ =F[left_image][ts][:]
+
+
+
+
+for i_ in rlen(ts_):
+
+
+
+	t_ = ts_[i_]
+	Q = L[t_]
+	mi(F[left_image][vals][i_])
+	figure(3)
+	clf()
+	N=6
+	xylim(-N,N,-N,N)
+	plt_square()
+
+
+
+
+
+
+	pts_ = []
+	ks_ = []
+	for k_ in Q['angles_to_center'].keys():
+		if k_ in Marker_xy_dic.keys():
+			ks_.append(k_)
+		#p0e = [0,(1+np.abs(Q['angles_to_center'][k_])**2) *Q['distances_marker'][k_]]
+		p0_ = [0,Q['distances_marker'][k_]]
+		p1_ = rotatePoint([0,0],p0_,-np.degrees(Q['angles_to_center'][k_])*(72/180.0))
+		pts_.append(p1_)
+		#p1e = rotatePoint([0,0],p0e,-np.degrees(Q['angles_to_center'][k_]))
+		#plot([0,p0[0]],[0,p0[1]]);plot(p0[0],p0[1],'.')
+		#plot([0,p1e[0]],[0,p1e[1]]);plot(p1e[0],p1e[1],'.');plt.annotate(str(k_),np.array(p1e))
+		plot([0,p1_[0]],[0,p1_[1]]);plot(p1_[0],p1_[1],'.');plt.annotate(str(k_),np.array(p1_))
+	pts_ = np.array(pts_)
+	new_pts_ = rotate_translate_polygon(pts,pts_, deg,-45, x,0,y,1)
+	figure(2);clf();xylim(-N,N,-N,N);plt_square();pts_plot(pts_);pts_plot(new_pts_,'b');plot(0,0,'ok')
+
+	mpts_ = []
+	for k_ in Marker_xy_dic.keys():
+		plt.annotate(str(k_),Marker_xy_dic[k_])
+		mpts_.append(Marker_xy_dic[k_])
+	pts_plot(np.array(mpts_),'g')
+
+	actual_pts_ = []
+	for i_ in rlen(ks_):
+		k_ = ks_[i_]
+		actual_pts_.append(Marker_xy_dic[k_])
+		plot([actual_pts_[i_][0],new_pts_[i_][0]],[actual_pts_[i_][1],new_pts_[i_][1]],'r')
+	
+
+	print np.linalg.norm((pts_-new_pts_),ord=1)
+	pause(0.2)
+
+
+
+
+
+
+
+
+def fun(x):
+	y = np.array([2,2.,3,0.])
+	return np.linalg.norm(x-y,ord=1)
+
+x0 = np.array([2,2.,3,0.])
+scipy.optimize.minimize(fun,x0)
+
+
+# https://stackoverflow.com/questions/19843752/structure-of-inputs-to-scipy-minimize-function
+
+def fun(x):
+	y = np.array([2,2.,1,0.])
+	print(x,y)
+	d = []
+	for i in rlen(y):
+		d.append(length(y[i]-x[i]))
+	dm = np.array(d).mean()
+	print dm
+	return dm
+
+x0 = np.array([2,2.,1,0.])
+scipy.optimize.minimize(fun,x0)
+
+
+
+x=x0
+y = np.array([[2,2.],[1,0.]])
+d = []
+for i in rlen(y):
+	d.append(length(y[i]-x[i]))
+print sum(d)
+
+
 
 
 #EOF
