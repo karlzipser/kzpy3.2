@@ -1,6 +1,7 @@
 use_wordsv = """
-	
-
+visualize dic
+	marker_data_path
+MARKER_SETUP
 BAIR_CAR_DATA_PATH TOPIC_STEPS_LIMIT
 BATCH_SIZE
 CAMERA_SCALE
