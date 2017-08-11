@@ -173,9 +173,9 @@ L = A['left']
 ts_ = sorted(L.keys())
 
 w_ = 90/180.0
-ctr_= 0
+ctr_= 100
 
-for t_ in ts_[ctr_:]:
+for t_ in ts_[ctr_:ctr_+1]:
 	print ctr_
 	Q = L[t_]
 	figure(5)
@@ -185,34 +185,45 @@ for t_ in ts_[ctr_:]:
 	plt_square()
 	pts = []
 	for k_ in Marker_xy_dic.keys():
-		#plt.annotate(str(k_),Marker_xy_dic[k_])
+		plt.annotate(str(k_),Marker_xy_dic[k_])
 		pts.append(Marker_xy_dic[k_])
 	pts_plot(np.array(pts),'g')
 
 	Mop = Marker_orientation_parameters
-	for k_ in Q['distances_marker'].keys():
+	for k_ in sorted(Q['distances_marker'].keys()):
 		if k_ not in Marker_xy_dic.keys():
 			continue
 		if k_ in Markers_clockwise['West']:
 			p0_ = np.array(Marker_xy_dic[k_])
 			p1_ = np.array([p0_[0],p0_[1]-Q['distances_marker'][k_]])
-			rp0_ = rotatePoint(p0_,p1_,-np.degrees(w_*Q['angles_to_center'][k_]))
+			rp0_ = rotatePoint(p0_,p1_,-np.degrees(w_*Q['angles_to_center'][k_]));print k_,dp(-np.degrees(w_*Q['angles_to_center'][k_])),dp(np.degrees(Q['angles_to_center'][k_]))
 			rp1_ = rotatePoint(p0_,rp0_,-90)
 			plot(p0_[0],p0_[1],'k.')
 			plot(rp1_[0],rp1_[1],'r.')
 			plot([p0_[0],rp1_[0]], [p0_[1],rp1_[1]],'k')
+			"""
+			elif k_ in Markers_clockwise['North']:
+				p0_ = np.array(Marker_xy_dic[k_])
+				p1_ = np.array([p0_[0],p0_[1]-Q['distances_marker'][k_]])
+				rp0_ = rotatePoint(p0_,p1_,-90+np.degrees(w_*Q['angles_to_center'][k_]));print k_,dp(-np.degrees(w_*Q['angles_to_center'][k_])),dp(np.degrees(Q['angles_to_center'][k_]))
+				rp1_ = rotatePoint(p0_,rp0_,-90)
+				plot(p0_[0],p0_[1],'k.')
+				plot(rp1_[0],rp1_[1],'r.')
+				plot([p0_[0],rp1_[0]], [p0_[1],rp1_[1]],'k')
+			"""
 		elif k_ in Markers_clockwise['North']:
 			p0_ = np.array(Marker_xy_dic[k_])
 			p1_ = np.array([p0_[0],p0_[1]-Q['distances_marker'][k_]])
-			rp0_ = rotatePoint(p0_,p1_,-np.degrees(w_*Q['angles_to_center'][k_]))
+			rp0_ = rotatePoint(p0_,p1_,-np.degrees(w_*Q['angles_to_center'][k_]));print k_,dp(-np.degrees(w_*Q['angles_to_center'][k_])),dp(np.degrees(Q['angles_to_center'][k_]))
 			rp1_ = rotatePoint(p0_,rp0_,180)
 			plot(p0_[0],p0_[1],'k.')
 			plot(rp1_[0],rp1_[1],'r.')
 			plot([p0_[0],rp1_[0]], [p0_[1],rp1_[1]],'k')
+			
 		elif k_ in Markers_clockwise['East']:
 			p0_ = np.array(Marker_xy_dic[k_])
 			p1_ = np.array([p0_[0],p0_[1]-Q['distances_marker'][k_]])
-			rp0_ = rotatePoint(p0_,p1_,-np.degrees(w_*Q['angles_to_center'][k_]))
+			rp0_ = rotatePoint(p0_,p1_,-np.degrees(w_*Q['angles_to_center'][k_]));print k_,dp(-np.degrees(w_*Q['angles_to_center'][k_])),dp(np.degrees(Q['angles_to_center'][k_]))
 			rp1_ = rotatePoint(p0_,rp0_,90)
 			plot(p0_[0],p0_[1],'k.')
 			plot(rp1_[0],rp1_[1],'r.')
@@ -220,8 +231,8 @@ for t_ in ts_[ctr_:]:
 		elif k_ in Markers_clockwise['South']:
 			p0_ = np.array(Marker_xy_dic[k_])
 			p1_ = np.array([p0_[0],p0_[1]-Q['distances_marker'][k_]])
-			rp0_ = rotatePoint(p0_,p1_,-np.degrees(w_*Q['angles_to_center'][k_]))
-			rp1_ = rotatePoint(p0_,rp0_,0)
+			rp0_ = rotatePoint(p0_,p1_,-np.degrees(w_*Q['angles_to_center'][k_]));print k_,dp(-np.degrees(w_*Q['angles_to_center'][k_])),dp(np.degrees(Q['angles_to_center'][k_]))
+			rp1_ = rotatePoint(p0_,rp0_,-90)
 			plot(p0_[0],p0_[1],'k.')
 			plot(rp1_[0],rp1_[1],'r.')
 			plot([p0_[0],rp1_[0]], [p0_[1],rp1_[1]],'k')
@@ -229,6 +240,7 @@ for t_ in ts_[ctr_:]:
 
 	pause(0.01)
 	mi(F[left_image][vals][ctr_],0);pause(0.01)
+	#raw_input('enter')
 	#print angle1_,sign1_
 	#raw_input('hit enter')
 
