@@ -990,7 +990,7 @@ def assert_disk_locations(locations):
 	for l in locations:
 		#print(d2s("Checking for",l))
 		if len(gg(l)) < 1:
-			print(d2s(l,"not available!"))
+			spd2s(d2s("Error:\n",l,"not available!"))
 			if len(l.split('/')) > 0:
 				assert_disk_locations(pname(l))
 			raw_input('Hit ctr-C')

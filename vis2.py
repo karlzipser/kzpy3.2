@@ -460,7 +460,8 @@ def xylim(a,b,c,d):
     xlim(a,b)
     ylim(c,d)
 
-
+def xysqlim(a):
+    xylim(-a,a,-a,a)
 
 
 

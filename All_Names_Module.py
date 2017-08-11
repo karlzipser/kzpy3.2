@@ -1,4 +1,5 @@
 use_wordsv = """
+alpha beta gamma dist a h a_rotated marker marker_point marker_face GRAPHICS
 pts
 deg
 visualize dic

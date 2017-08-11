@@ -168,6 +168,7 @@ def preprocess_bagfile(*args):
 
 	cprint('Loading bagfile '+path_,'yellow')
 
+	assert_disk_locations(path_)
 	bag = rosbag.Bag(path_)
 
 	color_mode = "rgb8"
