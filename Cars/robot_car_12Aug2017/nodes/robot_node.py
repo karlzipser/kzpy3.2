@@ -128,7 +128,7 @@ rospy.Subscriber('/bair_car/gyro_heading', geometry_msgs.msg.Vector3, callback=g
 
 robot_in_charge_pub_ = rospy.Publisher('cmd/robot_in_charge', std_msgs.msg.Int32, queue_size=100)
 
-GRAPHICS = False
+GRAPHICS = True
 if True:
 	acc2rd_list = []
 	mean_acc2rd_list = []
@@ -147,7 +147,7 @@ while not rospy.is_shutdown():
 				reload_timer.reset()
 
 			if not robot_in_charge_:
-				if False:
+				if True:
 					camera_img_ = R[left_image][vals][-1].copy()
 					angles_to_center, angles_surfaces, distances_marker, markers = Angle_Dict_Creator.get_angles_and_distance(camera_img_)
 					if GRAPHICS:
