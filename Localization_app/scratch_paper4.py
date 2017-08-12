@@ -142,15 +142,19 @@ def Camera_view_field(*args):
 
 	D[pts] = na(D[pts])
 	D[actual_pts] = na(D[actual_pts])
+
 	def function_rotate_around(*args):
 		Args = args_to_dictionary(args)
 		theta_ = Args[theta]
 		True
+		#D[pts_centered] = D[pts]
+		#return np.random.randn(1)[0]
 		D[pts_translated] = D[pts] - D[markers][D[nearest_marker]][marker_point]
 		D[pts_rotated] = na(rotatePolygon(D[pts_translated],theta_))
 		D[pts_centered] = D[pts_rotated] + Marker_xy_dic[D[nearest_marker]]
 		return ((D[actual_pts] - D[pts_centered][2:])**2).mean()
 	D[rotate_around] = function_rotate_around
+
 	def function_rotate_around_marker(*args):
 		Args = args_to_dictionary(args)
 		theta_ = Args[theta]
@@ -164,13 +168,18 @@ def Camera_view_field(*args):
 	assert(58 not in D[markers].keys())
 	return D
 
-figure(1)
+P[GRAPHICS] = False
+if P[GRAPHICS]:
+	figure(1)
 car_pts_ = [];head_pts_ = [];thetas_=[]
 
 timer_ = Timer(0)
-for i_ in range(0,len(ts_)):
+
+for i_ in range(0,500):#len(ts_)):
+
 	print i_
-	try:# True:
+
+	try:
 		
 		Q = L[ts_[i_]]
 		D=Camera_view_field(aruco_data,Q)
@@ -178,17 +187,20 @@ for i_ in range(0,len(ts_)):
 		timer = Timer(0)
 		results = []
 		min_error_ = 9999
+		t_ctr_ = 0
 		for theta_ in range(0,360,10):
 			error_ = D[rotate_around](theta,theta_)
 			if error_ < min_error_:
 				min_error_ = error_
 				min_theta_ = theta_
-			results.append([theta_,error_])
+			t_ctr_+=1
+		print t_ctr_
+			#results.append([theta_,error_])
 
 		D[rotate_around](theta,min_theta_)
 
 		car_pts_.append(D[pts_centered][0]);head_pts_.append(D[pts_centered][1]);thetas_.append(min_theta_)
-		if True:
+		if P[GRAPHICS]:
 			clf();plt_square();xysqlim(3);
 			pts_plot(D[pts_centered][:1],'r');
 			for i_ in range(1):
@@ -203,7 +215,8 @@ for i_ in range(0,len(ts_)):
 	except Exception as e:
 		print("********** Exception ***********************")
 		print(e.message, e.args)
-	if np.mod(i_,1)==0:
+	
+	if P[GRAPHICS]:
 		pause(0.0001)
 	spd2s(i_/timer_.time(),'hz')
 
@@ -211,12 +224,12 @@ for i_ in range(0,len(ts_)):
 
 
 	#raw_input('enter')
-
-figure(2);clf();plt_square();xysqlim(3);
-pts_plot(na(car_pts_),'b')
-pts_plot(na(head_pts_),'b')
-figure(3)
-plot(na(car_pts_)[:,1],'r.')
-plot(na(car_pts_)[:,0],'.')
-figure(4)
-plot(thetas_,'.')
+if P[GRAPHICS]:
+	figure(2);clf();plt_square();xysqlim(3);
+	pts_plot(na(car_pts_),'b')
+	pts_plot(na(head_pts_),'b')
+	figure(3)
+	plot(na(car_pts_)[:,1],'r.')
+	plot(na(car_pts_)[:,0],'.')
+	figure(4)
+	plot(thetas_,'.')
