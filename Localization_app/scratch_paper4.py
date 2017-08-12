@@ -188,7 +188,7 @@ for i_ in range(0,len(ts_)):
 		D[rotate_around](theta,min_theta_)
 
 		car_pts_.append(D[pts_centered][0]);head_pts_.append(D[pts_centered][1]);thetas_.append(min_theta_)
-		if False:
+		if True:
 			clf();plt_square();xysqlim(3);
 			pts_plot(D[pts_centered][:1],'r');
 			for i_ in range(1):
