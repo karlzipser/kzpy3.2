@@ -90,10 +90,10 @@ for k_ in Markers_clockwise['West']:
 
 
 CA()
+
 def Camera_view_field(*args):
 	Args = args_to_dictionary(args)
 	Aruco_data = Args[aruco_data]
-	theta_ = Args[theta]
 	True
 	D = {}
 	D[markers] = {}
@@ -109,7 +109,7 @@ def Camera_view_field(*args):
 		h_ = [0.333,0]
 		a_rotated_ = na(rotatePoint([0,0],a_,-90-D[markers][m_][alpha]))
 		D[markers][m_][marker_point] = D[markers][m_][dist]*a_rotated_
-		marker_face_ = na(rotatePoint([0,0],-marker_point_,D[markers][m_][beta]))/length(marker_point_)/10.0
+		marker_face_ = na(rotatePoint([0,0],-D[markers][m_][marker_point],D[markers][m_][beta]))/length(D[markers][m_][marker_point])/10.0
 		gamma_ = angle_clockwise([0,-1],marker_face_)
 		D[markers][m_][left] = 	D[markers][m_][marker_point]-marker_face_
 		D[markers][m_][right] = D[markers][m_][marker_point]+marker_face_
@@ -117,7 +117,7 @@ def Camera_view_field(*args):
 
 	
 
-	if False:
+	def _function_plot_start_configuration():
 		origin_ = na([0,0])
 		for m_ in D[markers].keys():
 			mp_ = D[markers][m_][marker_point]
@@ -126,40 +126,71 @@ def Camera_view_field(*args):
 			plt.annotate(m_,origin_+mp_)
 			plot_line(origin_+mp_,origin_+D[markers][m_][left],'y')
 			plot_line(origin_+mp_,origin_+D[markers][m_][right],'g')
+	D[plot_start_configuration] = _function_plot_start_configuration
 	
-	#raw_input('enter')		
-
-	
-
 	D[pts] = [[0,0],h_]
+	D[actual_pts] = []
 	for m_ in D[markers].keys():
+		if m_ == 58:
+			continue # a duplicate
 		for side_ in [left,right]:
 			D[pts].append(D[markers][m_][side_])
+		D[actual_pts].append(Marker_xy_dic[(m_,left)])
+		D[actual_pts].append(Marker_xy_dic[(m_,right)])
 
 	D[pts] = na(D[pts])
+	D[actual_pts] = na(D[actual_pts])
 
-	D[pts_translated] = D[pts] - D[markers][D[nearest_marker]][marker_point]
-	D[pts_rotated] = na(rotatePolygon(D[pts_translated],theta_))
-	D[pts_centered] = D[pts_rotated] + Marker_xy_dic[D[nearest_marker]]
-
-	#pts_plot(D[pts],'k');
-	#pts_plot(D[pts_translated],'b');
-	#pts_plot(D[pts_rotated],'g');
-	pts_plot(D[pts_centered],'r');
-	for i_ in range(0,len(D[pts_centered]),2):
-		plot_line(D[pts_centered][i_],D[pts_centered][i_+1],'r')
-	pts_plot(D[pts_centered][:2],'k');
-
-	pause(0.0001)
+	def function_rotate_around(*args):
+		Args = args_to_dictionary(args)
+		theta_ = Args[theta]
+		True
+		D[pts_translated] = D[pts] - D[markers][D[nearest_marker]][marker_point]
+		D[pts_rotated] = na(rotatePolygon(D[pts_translated],theta_))
+		D[pts_centered] = D[pts_rotated] + Marker_xy_dic[D[nearest_marker]]
+		return ((D[actual_pts] - D[pts_centered][2:])**2).mean()
+	D[rotate_around] = function_rotate_around
 	return D
 
-Q = L[ts_[10]]
-D=Camera_view_field(aruco_data,Q, theta,20)
+figure(1);
+
+for i_ in rlen(ts_):
+	try:
+		clf();plt_square();xysqlim(3)
+		Q = L[ts_[i_]]
+		D=Camera_view_field(aruco_data,Q)
+
+		timer = Timer(0)
+		results = []
+		min_error_ = 9999
+		for theta_ in range(0,360,10):
+			error_ = D[rotate_around](theta,theta_)
+			if error_ < min_error_:
+				min_error_ = error_
+				min_theta_ = theta_
+			results.append([theta_,error_])
+		print timer.time(),dp(min_theta_),dp(min_error_)
+
+		D[rotate_around](theta,min_theta_)
+
+		pts_plot(D[pts_centered][2:],'k');
+		for i_ in range(2,len(D[pts_centered]),2):
+			plot_line(D[pts_centered][i_],D[pts_centered][i_+1],'k')
+		pts_plot(D[pts_centered][:2],'r');
+		for i_ in range(1):
+			plot_line(D[pts_centered][i_],D[pts_centered][i_+1],'r')
+		for i_ in range(0,len(D[actual_pts]),2):
+			plot_line(D[actual_pts][i_],D[actual_pts][i_+1],'g')
+		pts_plot(D[actual_pts],'y');
+		pause(0.0001)
+	except Exception as e:
+		print("********** Exception ***********************")
+		print(e.message, e.args)
+	
 
 
 
-
-raw_input('enter')
+#raw_input('enter')
 
 
 
