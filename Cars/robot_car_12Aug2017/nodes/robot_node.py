@@ -60,7 +60,7 @@ while not rospy.is_shutdown():
 		if GRAPHICS:
 			key_ = mci(camera_img_,color_mode=cv2.COLOR_RGB2BGR,delay=33,title='topics')
 	except Exception as e:
-		print("********** robot_node.py Exception ***********************")
+		print("**********  robot_node.py Exception ***********************")
 		print(e.message, e.args)	
 
 
