@@ -202,8 +202,8 @@ for t_ in ts_[50:]:
 		#pts_plot(translated_pts_,'b')
 		return ((fixed_pts_ - translated_pts_)**2).mean()
 
-	results = []
 	timer = Timer(0)
+	results = []
 	min_error_ = 9999
 	for theta_ in range(0,360,10):
 		error_ = fun(theta_,0,moving_pts_,nearest_marker_point_,translation_vector_)

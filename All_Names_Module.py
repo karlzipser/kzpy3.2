@@ -2,7 +2,7 @@ use_wordsv = """
 aruco_data markers nearest_marker
 alpha beta gamma dist a h a_rotated marker marker_point marker_face GRAPHICS
 pts pts_center_nearest theta pts_centered center_marker rotate_around
-deg
+deg rotate_around_marker
 visualize dic plot_start_configuration
 	marker_data_path pts_rotated pts_translated
 MARKER_SETUP

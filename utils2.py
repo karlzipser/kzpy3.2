@@ -251,6 +251,15 @@ def spd2s(*args):
 	cprint(s_+'\n*','yellow')
 	cprint('* '+d_,'yellow')
 	cprint('*\n'+s_,'yellow')
+def srpd2s(*args):
+	d_ = d2s(*args)
+	l_ = len(d_)
+	s_ = ""
+	for q_ in range(len(d_)+4):
+		s_ += "*"
+	cprint(s_+'\n*','red')
+	cprint('* '+d_,'red')
+	cprint('*\n'+s_,'red')
 
 def dp(f,n=2):
 	"""
@@ -990,7 +999,7 @@ def assert_disk_locations(locations):
 	for l in locations:
 		#print(d2s("Checking for",l))
 		if len(gg(l)) < 1:
-			spd2s(d2s("Error:\n",l,"not available!"))
+			srpd2s(d2s("Error:\n",l,"not available!"))
 			if len(l.split('/')) > 0:
 				assert_disk_locations(pname(l))
 			raw_input('Hit ctr-C')

@@ -7,7 +7,8 @@ if not hasattr(main,'__file__'):
 #
 ###############################
 from vis2 import *
-from Main import *
+#from Main import *
+A = lo(opjD('A'))
 
 P = {}
 P[GRAPHICS] = True
@@ -99,6 +100,8 @@ def Camera_view_field(*args):
 	D[markers] = {}
 	nearest_marker_ = [None,999]
 	for m_ in Aruco_data['angles_to_center'].keys():
+		if m_ == 58:
+			continue # a duplicate
 		D[markers][m_] = {}
 		D[markers][m_][alpha] = np.degrees(Aruco_data['angles_to_center'][m_])/2.0
 		D[markers][m_][beta] = np.degrees(Aruco_data['angles_surfaces'][m_])
@@ -126,7 +129,7 @@ def Camera_view_field(*args):
 	D[plot_start_configuration] = _function_plot_start_configuration
 	D[pts] = [[0,0],h_]
 	D[actual_pts] = []
-	for m_ in D[markers].keys():
+	for m_ in sorted(D[markers].keys()):
 		if m_ == 58:
 			continue # a duplicate
 		for side_ in [left,right]:
@@ -145,13 +148,27 @@ def Camera_view_field(*args):
 		D[pts_centered] = D[pts_rotated] + Marker_xy_dic[D[nearest_marker]]
 		return ((D[actual_pts] - D[pts_centered][2:])**2).mean()
 	D[rotate_around] = function_rotate_around
+	def function_rotate_around_marker(*args):
+		Args = args_to_dictionary(args)
+		theta_ = Args[theta]
+		marker_ = Args[marker]
+		True
+		D[pts_translated] = D[pts] - D[markers][marker_][marker_point]
+		D[pts_rotated] = na(rotatePolygon(D[pts_translated],theta_))
+		D[pts_centered] = D[pts_rotated] + Marker_xy_dic[marker_]
+		return ((D[actual_pts] - D[pts_centered][2:])**2).mean()
+	D[rotate_around_marker] = function_rotate_around_marker
+	assert(58 not in D[markers].keys())
 	return D
 
-figure(1);clf();
+figure(1)
+car_pts_ = [];head_pts_ = [];thetas_=[]
+
+timer_ = Timer(0)
 for i_ in range(0,len(ts_)):
 	print i_
-	try:
-		plt_square();xysqlim(3)
+	try:# True:
+		
 		Q = L[ts_[i_]]
 		D=Camera_view_field(aruco_data,Q)
 
@@ -164,139 +181,39 @@ for i_ in range(0,len(ts_)):
 				min_error_ = error_
 				min_theta_ = theta_
 			results.append([theta_,error_])
-		#print timer.time(),dp(min_theta_),dp(min_error_)
 
 		D[rotate_around](theta,min_theta_)
 
-		#pts_plot(D[pts_centered][2:],'k');
-		#for i_ in range(2,len(D[pts_centered]),2):
-		#	plot_line(D[pts_centered][i_],D[pts_centered][i_+1],'k')
-		pts_plot(D[pts_centered][:1],'r');
-		#for i_ in range(1):
-		#	plot_line(D[pts_centered][i_],D[pts_centered][i_+1],'r')
-		#for i_ in range(0,len(D[actual_pts]),2):
-		#	plot_line(D[actual_pts][i_],D[actual_pts][i_+1],'g')
-		#pts_plot(D[actual_pts],'y');
-		
+		car_pts_.append(D[pts_centered][0]);head_pts_.append(D[pts_centered][1]);thetas_.append(min_theta_)
+		if False:
+			clf();plt_square();xysqlim(3);
+			pts_plot(D[pts_centered][:1],'r');
+			for i_ in range(1):
+				plot_line(D[pts_centered][i_],D[pts_centered][i_+1],'r')
+			for i_ in range(0,len(D[actual_pts]),2):
+				plot_line(D[actual_pts][i_],D[actual_pts][i_+1],'g')
+			pts_plot(D[actual_pts],'y');
+			pts_plot(D[pts_centered][2:],'k');
+			for i_ in range(2,len(D[pts_centered]),2):
+				plot_line(D[pts_centered][i_],D[pts_centered][i_+1],'k')	
+
 	except Exception as e:
 		print("********** Exception ***********************")
 		print(e.message, e.args)
-	if np.mod(i_,10)==0:
+	if np.mod(i_,1)==0:
 		pause(0.0001)
+	spd2s(i_/timer_.time(),'hz')
+
 
 
 
 	#raw_input('enter')
 
-
-
-
-for t_ in ts_:
-	Q = L[t_]
-	figure(1);clf();plt_square()
-	D=Camera_view_field(aruco_data,Q)
-
-
-
-		a_ = [0,1]
-		h_ = [0.333,0]
-		a_rotated_ = na(rotatePoint([0,0],a_,-90-alpha_))
-		marker_point_ = dist_*a_rotated_
-		marker_face_ = na(rotatePoint([0,0],-marker_point_,beta_))/length(marker_point_)/10.0
-		gamma_ = angle_clockwise([0,-1],marker_face_)
-
-
-		M[marker_][a_rotated] 	= a_rotated_
-		M[marker_][marker_point] = marker_point_
-		M[marker_][marker_face] = marker_face_
-		M[marker_][gamma] 		= gamma_
-		M[marker_][left] = M[marker_][marker_point]-M[marker_][marker_face]
-		M[marker_][right] = M[marker_][marker_point]+M[marker_][marker_face]
-
-	origin_ = na(Marker_xy_dic[Nearest_marker[marker]]) - M[Nearest_marker[marker]][marker_point]
-
-	if False:
-		for marker_ in marker_ids_:
-			if P[GRAPHICS]:
-				plot_line(origin_,origin_+M[marker_][h],'r')
-				plot_line(origin_,origin_+M[marker_][marker_point],'b')
-				plt.annotate(marker_,origin_+M[marker_][marker_point])
-				plot_line(origin_+M[marker_][marker_point],origin_+M[marker_][left],'y')
-				plot_line(origin_+M[marker_][marker_point],origin_+M[marker_][right],'g')
-
-	if True:
-		origin_ = na([0,0])
-		for marker_ in marker_ids_:
-			if P[GRAPHICS]:
-				plot_line(origin_,origin_+M[marker_][h],'r')
-				plot_line(origin_,origin_+M[marker_][marker_point],'b')
-				plt.annotate(marker_,origin_+M[marker_][marker_point])
-				plot_line(origin_+M[marker_][marker_point],origin_+M[marker_][left],'y')
-				plot_line(origin_+M[marker_][marker_point],origin_+M[marker_][right],'g')
-
-
-
-
-	fixed_markers_ = Markers_clockwise['North']+Markers_clockwise['South']+Markers_clockwise['East']+Markers_clockwise['West']
-	markers_ = []
-	xy_markers = []
-	for m_ in sorted(M.keys()):
-		if m_ in fixed_markers_:
-			markers_.append(m_)
-	fixed_pts_ = []
-	moving_pts_ = []
-	for m_ in markers_:
-		for side in [left,right]:
-			fixed_pts_.append(Marker_xy_dic[(m_,side)])
-			moving_pts_.append(M[m_][side])
-	fixed_pts_ = na(fixed_pts_)
-	moving_pts_ = na(moving_pts_)
-	nearest_marker_ = Nearest_marker[marker]
-	translation_vector_ = Marker_xy_dic[nearest_marker_]-M[nearest_marker_][marker_point]
-	nearest_marker_point_ = M[nearest_marker_][marker_point]
-
-
-	def fun(theta_,theta0_,moving_pts_,nearest_marker_point_,translation_vector_):
-		#figure(22)
-		rotating_pts_ = moving_pts_.copy()
-		rotating_pts_ -= nearest_marker_point_
-		rotating_pts_ = na(rotatePolygon(rotating_pts_,theta_))
-		rotating_pts_ += nearest_marker_point_
-		translated_pts_ = translation_vector_+rotating_pts_
-		#pts_plot(translated_pts_,'b')
-		return ((fixed_pts_ - translated_pts_)**2).mean()
-
-	results = []
-	timer = Timer(0)
-	min_error_ = 9999
-	for theta_ in range(0,360,10):
-		error_ = fun(theta_,0,moving_pts_,nearest_marker_point_,translation_vector_)
-		if error_ < min_error_:
-			min_error_ = error_
-			min_theta_ = theta_
-		results.append([theta_,error_])
-	print timer.time(),dp(min_theta_),dp(min_error_)
-
-
-
-	theta_ = min_theta_
-	rotating_pts_ = moving_pts_.copy()
-	rotating_pts_ -= nearest_marker_point_
-	rotating_pts_ = na(rotatePolygon(rotating_pts_,theta_))
-	rotating_pts_ += nearest_marker_point_
-	translated_pts_ = translation_vector_+rotating_pts_
-	assert(len(translated_pts_) == len(fixed_pts_))
-	pts_plot(translated_pts_,'r')
-
-	r=na(results) 
-	figure(2);pts_plot(r)
-	"""
-		fixed_moving_center_point_ = 
-		
-		theta_ = 
-		error_ = 
-	"""
-	mi(F[left_image][vals][ctr_],0);pause(0.01)
-	ctr_ += 1
-	pause(.001)
-	#raw_input('enter')
+figure(2);clf();plt_square();xysqlim(3);
+pts_plot(na(car_pts_),'b')
+pts_plot(na(head_pts_),'b')
+figure(3)
+plot(na(car_pts_)[:,1],'r.')
+plot(na(car_pts_)[:,0],'.')
+figure(4)
+plot(thetas_,'.')

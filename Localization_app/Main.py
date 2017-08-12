@@ -212,8 +212,8 @@ def preprocess_bagfile(*args):
 
 
 A=preprocess_bagfile(path,'/media/karlzipser/ExtraDrive4/Mr_Yellow_23_24July2017/processed2/direct_home_LCR_Aruco1_23Jul17_20h51m31s_Mr_Yellow/bair_car_2017-07-23-20-52-11_1.bag', visualize,0)
-
-
+L = A['left']
+ts_ = sorted(L.keys())
 
 
 
