@@ -8,9 +8,10 @@ if not hasattr(main,'__file__'):
 ###############################
 from kzpy3.vis2 import *
 #from Main import *
-A = lo(opjD('A'))
-L = A['right']
-ts_ = sorted(L.keys())
+Aruco_data = lo(opjD('A'))
+
+
+
 
 
 P = {}
@@ -93,7 +94,11 @@ for k_ in Markers_clockwise['West']:
 
 
 
-CA()
+
+
+
+
+
 
 def Camera_view_field(*args):
 	Args = args_to_dictionary(args)
@@ -168,42 +173,72 @@ def Camera_view_field(*args):
 	assert(58 not in D[markers].keys())
 	return D
 
-P[GRAPHICS] = True
+
+
+
+
+
+
+P[GRAPHICS] = False
 if P[GRAPHICS]:
+	CA()
 	figure(1)
+
+
+
 car_pts_ = [];head_pts_ = [];thetas_=[]
 
 timer_ = Timer(0)
 
-for i_ in rlen(ts_):
-	try:
-		
-		Q = L[ts_[i_]]
-		D=Camera_view_field(aruco_data,Q)
+def Data_Access():
+	D = {}
+	D[ts] = {}
+	for side_ in [left,right]:
+		D[ts][side_] = sorted(Aruco_data[side_].keys())
+	D[index] = 0
+	def _function_get_data():
+		if D[index] >= len(D[ts][right]) or D[index] >= len(D[ts][left]):
+			return False,False
+		data_ = Aruco_data[left][D[ts][left][D[index]]],Aruco_data[right][D[ts][right][D[index]]]
+		D[index] += 1
+		return data_
+	D[get_data] = _function_get_data
+	return D
 
-		timer = Timer(0)
-		results = []
-		min_error_ = 9999
-		t_ctr_ = 0
-		for theta_ in range(0,360,10):
-			error_ = D[rotate_around](theta,theta_)
-			if error_ < min_error_:
-				min_error_ = error_
-				min_theta_ = theta_
-			t_ctr_+=1
-		D[rotate_around](theta,min_theta_)
-		car_pts_.append(D[pts_centered][0]);head_pts_.append(D[pts_centered][1]);thetas_.append(min_theta_)
-		if P[GRAPHICS]:
-			clf();plt_square();xysqlim(3);
-			pts_plot(D[pts_centered][:1],'r');
-			for i_ in range(1):
-				plot_line(D[pts_centered][i_],D[pts_centered][i_+1],'r')
-			for i_ in range(0,len(D[actual_pts]),2):
-				plot_line(D[actual_pts][i_],D[actual_pts][i_+1],'g')
-			pts_plot(D[actual_pts],'y');
-			pts_plot(D[pts_centered][2:],'k');
-			for i_ in range(2,len(D[pts_centered]),2):
-				plot_line(D[pts_centered][i_],D[pts_centered][i_+1],'k')	
+Data_access = Data_Access()
+
+ctr_ = 0
+while True:
+	Data_left,Data_right = Data_access[get_data]()
+	if Data_left == False:
+		break
+	clf();
+	try:
+		for Q in [Data_left,Data_right]:
+			D=Camera_view_field(aruco_data,Q)
+			timer = Timer(0)
+			results = []
+			min_error_ = 9999
+			t_ctr_ = 0
+			for theta_ in range(0,360,10):
+				error_ = D[rotate_around](theta,theta_)
+				if error_ < min_error_:
+					min_error_ = error_
+					min_theta_ = theta_
+				t_ctr_+=1
+			D[rotate_around](theta,min_theta_)
+			car_pts_.append(D[pts_centered][0]);head_pts_.append(D[pts_centered][1]);thetas_.append(min_theta_)
+			if P[GRAPHICS]:
+				plt_square();xysqlim(3);
+				pts_plot(D[pts_centered][:1],'r');
+				for i_ in range(1):
+					plot_line(D[pts_centered][i_],D[pts_centered][i_+1],'r')
+				for i_ in range(0,len(D[actual_pts]),2):
+					plot_line(D[actual_pts][i_],D[actual_pts][i_+1],'g')
+				pts_plot(D[actual_pts],'y');
+				pts_plot(D[pts_centered][2:],'k');
+				for i_ in range(2,len(D[pts_centered]),2):
+					plot_line(D[pts_centered][i_],D[pts_centered][i_+1],'k')	
 
 	except Exception as e:
 		print("********** Exception ***********************")
@@ -211,14 +246,57 @@ for i_ in rlen(ts_):
 	
 	if P[GRAPHICS]:
 		pause(0.0001)
-	if np.mod(i_,100) == 0:
-		spd2s(i_/timer_.time(),'hz')
+	ctr_ += 1
+	if np.mod(ctr_,1) == 0:
+		spd2s(ctr_/timer_.time(),'hz')
+
+"""	
+for side_ in [left,right]:
+	ts_ = sorted(Aruco_data[side].keys())
+	for i_ in rlen(ts_):
+		try:
+			
+			Q = L[ts_[i_]]
+			D=Camera_view_field(aruco_data,Q)
+
+			timer = Timer(0)
+			results = []
+			min_error_ = 9999
+			t_ctr_ = 0
+			for theta_ in range(0,360,10):
+				error_ = D[rotate_around](theta,theta_)
+				if error_ < min_error_:
+					min_error_ = error_
+					min_theta_ = theta_
+				t_ctr_+=1
+			D[rotate_around](theta,min_theta_)
+			car_pts_.append(D[pts_centered][0]);head_pts_.append(D[pts_centered][1]);thetas_.append(min_theta_)
+			if P[GRAPHICS]:
+				clf();plt_square();xysqlim(3);
+				pts_plot(D[pts_centered][:1],'r');
+				for i_ in range(1):
+					plot_line(D[pts_centered][i_],D[pts_centered][i_+1],'r')
+				for i_ in range(0,len(D[actual_pts]),2):
+					plot_line(D[actual_pts][i_],D[actual_pts][i_+1],'g')
+				pts_plot(D[actual_pts],'y');
+				pts_plot(D[pts_centered][2:],'k');
+				for i_ in range(2,len(D[pts_centered]),2):
+					plot_line(D[pts_centered][i_],D[pts_centered][i_+1],'k')	
+
+		except Exception as e:
+			print("********** Exception ***********************")
+			print(e.message, e.args)
+		
+		if P[GRAPHICS]:
+			pause(0.0001)
+		if np.mod(i_,100) == 0:
+			spd2s(i_/timer_.time(),'hz')
+"""
 
 
 
 
-	#raw_input('enter')
-if True:#P[GRAPHICS]:
+if P[GRAPHICS]:
 	figure(2);clf();plt_square();xysqlim(3);
 	pts_plot(na(car_pts_),'b')
 	pts_plot(na(head_pts_),'b')
@@ -228,3 +306,6 @@ if True:#P[GRAPHICS]:
 	figure(4)
 	plot(thetas_,'.')
 	raw_enter()
+
+
+#EOF
