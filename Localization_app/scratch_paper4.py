@@ -225,7 +225,7 @@ for i_ in range(0,500):#len(ts_)):
 
 
 	#raw_input('enter')
-if P[GRAPHICS]:
+if True:P[GRAPHICS]:
 	figure(2);clf();plt_square();xysqlim(3);
 	pts_plot(na(car_pts_),'b')
 	pts_plot(na(head_pts_),'b')
