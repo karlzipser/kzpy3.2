@@ -6,9 +6,12 @@ if not hasattr(main,'__file__'):
 	pythonpaths(['kzpy3','kzpy3/Localization_app'])
 #
 ###############################
-from vis2 import *
+from kzpy3.vis2 import *
 #from Main import *
 A = lo(opjD('A'))
+L = A['left']
+ts_ = sorted(L.keys())
+
 
 P = {}
 P[GRAPHICS] = True
