@@ -177,7 +177,7 @@ timer_ = Timer(0)
 
 for i_ in range(0,500):#len(ts_)):
 
-	print i_
+	#print i_
 
 	try:
 		
@@ -194,7 +194,7 @@ for i_ in range(0,500):#len(ts_)):
 				min_error_ = error_
 				min_theta_ = theta_
 			t_ctr_+=1
-		print t_ctr_
+		#print t_ctr_
 			#results.append([theta_,error_])
 
 		D[rotate_around](theta,min_theta_)
@@ -218,7 +218,8 @@ for i_ in range(0,500):#len(ts_)):
 	
 	if P[GRAPHICS]:
 		pause(0.0001)
-	spd2s(i_/timer_.time(),'hz')
+	if np.mod(i_,100) == 0:
+		spd2s(i_/timer_.time(),'hz')
 
 
 
