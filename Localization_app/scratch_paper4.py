@@ -220,7 +220,7 @@ while True:
 			results = []
 			min_error_ = 9999
 			t_ctr_ = 0
-			for theta_ in range(0,360,10):
+			for theta_ in range(0,360,20):
 				error_ = D[rotate_around](theta,theta_)
 				if error_ < min_error_:
 					min_error_ = error_
