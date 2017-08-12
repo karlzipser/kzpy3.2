@@ -1,6 +1,7 @@
 use_wordsv = """
+aruco_data markers nearest_marker
 alpha beta gamma dist a h a_rotated marker marker_point marker_face GRAPHICS
-pts
+pts pts_center_nearest
 deg
 visualize dic
 	marker_data_path
