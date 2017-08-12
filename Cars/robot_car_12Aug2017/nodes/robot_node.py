@@ -135,12 +135,14 @@ robot_in_charge_ = 0
 robot_in_charge_exit_timer_ = Timer(2) # gives time to get to normal acc values after car turn signal
 
 while not rospy.is_shutdown():
-
-	camera_img_ = R[left_image][vals][-1].copy()
-	angles_to_center, angles_surfaces, distances_marker, markers = Angle_Dict_Creator.get_angles_and_distance(camera_img_)
-	if GRAPHICS:
-		key_ = mci(camera_img_,color_mode=cv2.COLOR_RGB2BGR,delay=33,title='topics')
-	
+	try:
+		camera_img_ = R[left_image][vals][-1].copy()
+		angles_to_center, angles_surfaces, distances_marker, markers = Angle_Dict_Creator.get_angles_and_distance(camera_img_)
+		if GRAPHICS:
+			key_ = mci(camera_img_,color_mode=cv2.COLOR_RGB2BGR,delay=33,title='topics')
+	except Exception as e:
+		print("********** robot_node.py Exception ***********************")
+		print(e.message, e.args)	
 
 
 stop_ros()
