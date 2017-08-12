@@ -179,7 +179,7 @@ def Camera_view_field(*args):
 
 
 
-P[GRAPHICS] = True
+P[GRAPHICS] = False
 if P[GRAPHICS]:
 	CA()
 	figure(1)
