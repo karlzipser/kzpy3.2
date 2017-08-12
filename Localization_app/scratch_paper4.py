@@ -9,7 +9,7 @@ if not hasattr(main,'__file__'):
 from kzpy3.vis2 import *
 #from Main import *
 A = lo(opjD('A'))
-L = A['left']
+L = A['right']
 ts_ = sorted(L.keys())
 
 
@@ -168,17 +168,14 @@ def Camera_view_field(*args):
 	assert(58 not in D[markers].keys())
 	return D
 
-P[GRAPHICS] = False
+P[GRAPHICS] = True
 if P[GRAPHICS]:
 	figure(1)
 car_pts_ = [];head_pts_ = [];thetas_=[]
 
 timer_ = Timer(0)
 
-for i_ in range(0,500):#len(ts_)):
-
-	#print i_
-
+for i_ in rlen(ts_):
 	try:
 		
 		Q = L[ts_[i_]]
@@ -194,11 +191,7 @@ for i_ in range(0,500):#len(ts_)):
 				min_error_ = error_
 				min_theta_ = theta_
 			t_ctr_+=1
-		#print t_ctr_
-			#results.append([theta_,error_])
-
 		D[rotate_around](theta,min_theta_)
-
 		car_pts_.append(D[pts_centered][0]);head_pts_.append(D[pts_centered][1]);thetas_.append(min_theta_)
 		if P[GRAPHICS]:
 			clf();plt_square();xysqlim(3);
@@ -225,7 +218,7 @@ for i_ in range(0,500):#len(ts_)):
 
 
 	#raw_input('enter')
-if True:P[GRAPHICS]:
+if True:#P[GRAPHICS]:
 	figure(2);clf();plt_square();xysqlim(3);
 	pts_plot(na(car_pts_),'b')
 	pts_plot(na(head_pts_),'b')
@@ -234,3 +227,4 @@ if True:P[GRAPHICS]:
 	plot(na(car_pts_)[:,0],'.')
 	figure(4)
 	plot(thetas_,'.')
+	raw_enter()

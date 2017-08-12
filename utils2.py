@@ -1615,7 +1615,8 @@ def find_nearest(array,value):
 	return array[idx]
 
 
-
+def raw_enter():
+	return raw_input('Hit enter to continue > ')
 
 
 
