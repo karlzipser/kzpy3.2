@@ -89,7 +89,7 @@ select opt in $OPTIONS; do
     rla
    elif [ "$opt" = "robot_car_6Aug2017" ]; then
     rm ~/catkin_ws/src/bair_car
-    ln -s ~/kzpy3/Cars/robot_car_6Aug2017 ~/catkin_ws/src/bair_car
+    ln -s ~/kzpy3/Cars/robot_car_6Aug2017_temp ~/catkin_ws/src/bair_car
     ls -al ~/catkin_ws/src/bair_car
    elif [ "$opt" = "robot_car_12Aug2017" ]; then
     rm ~/catkin_ws/src/bair_car
