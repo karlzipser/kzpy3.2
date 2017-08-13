@@ -92,24 +92,25 @@ aruco_position_y_pub = rospy.Publisher('/bair_car/aruco_position_y', std_msgs.ms
 #
 import threading
 def aruco_thread():
-	from Parameters_Module import *
-	from Project_Aruco_Markers_Module import Aruco_Trajectory
+	from kzpy3.Localization_app.Parameters_Module import *
+	from kzpy3.Localization_app.Project_Aruco_Markers_Module import Aruco_Trajectory
 	import kzpy3.data_analysis.Angle_Dict_Creator as Angle_Dict_Creator
+	print('starting aruco_thread . . .')
+	while not rospy.is_shutdown():
+		for camera_list_ in [left_list,right_list]:
 
-	for camera_list_ in [left_list,right_list]:
+			camera_img_ = camera_list_[-1]
 
-		camera_img_ = camera_list_[-1]
+			angles_to_center, angles_surfaces, distances_marker, markers = Angle_Dict_Creator.get_angles_and_distance(camera_img_,borderColor=None)
+			
+			Q = {'angles_to_center':angles_to_center,'angles_surfaces':angles_surfaces,'distances_marker':distances_marker}
 
-		angles_to_center, angles_surfaces, distances_marker, markers = Angle_Dict_Creator.get_angles_and_distance(camera_img_,borderColor=None)
-		
-		Q = {'angles_to_center':angles_to_center,'angles_surfaces':angles_surfaces,'distances_marker':distances_marker}
+			hx_,hy_,x_,y_ =	Aruco_trajectory[step](one_frame_aruco_data,Q)
 
-		hx_,hy_,x_,y_ =	Aruco_trajectory[step](one_frame_aruco_data,Q)
-
-		aruco_position_x_pub.publish(std_msgs.msg.Float32(x_))
-		aruco_position_y_pub.publish(std_msgs.msg.Float32(y_))
-		aruco_heading_x_pub.publish(std_msgs.msg.Float32(hx_-x_))
-		aruco_heading_y_pub.publish(std_msgs.msg.Float32(hy_-y_))
+			aruco_position_x_pub.publish(std_msgs.msg.Float32(x_))
+			aruco_position_y_pub.publish(std_msgs.msg.Float32(y_))
+			aruco_heading_x_pub.publish(std_msgs.msg.Float32(hx_-x_))
+			aruco_heading_y_pub.publish(std_msgs.msg.Float32(hy_-y_))
 #
 threading.Thread(target=aruco_thread).start()
 #
