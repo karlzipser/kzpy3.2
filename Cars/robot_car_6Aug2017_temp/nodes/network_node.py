@@ -90,6 +90,7 @@ aruco_heading_y_pub = rospy.Publisher('/bair_car/aruco_heading_y', std_msgs.msg.
 aruco_position_x_pub = rospy.Publisher('/bair_car/aruco_position_x', std_msgs.msg.Float32, queue_size=100)
 aruco_position_y_pub = rospy.Publisher('/bair_car/aruco_position_y', std_msgs.msg.Float32, queue_size=100)
 #
+import threading
 def aruco_thread():
 	from Parameters_Module import *
 	from Project_Aruco_Markers_Module import Aruco_Trajectory
