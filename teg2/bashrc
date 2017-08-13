@@ -75,7 +75,7 @@ echo "rrm;rlog"
 rrm
 rlog
 alias sb='source ~/.bashrc'
-OPTIONS="screen rla rosbags git_pull reboot shutdown exit bdd_car_rewrite_SD2 bdd_car_rewrite_SD2_LCR bdd_car_rewrite_SD2_LCR_net robot_car_6Aug2017 robot_car_12Aug2017"
+OPTIONS="screen rla rosbags git_pull reboot shutdown exit bdd_car_rewrite_SD2 bdd_car_rewrite_SD2_LCR bdd_car_rewrite_SD2_LCR_net robot_car_6Aug2017 robot_car_6Aug2017_temp"
 COLUMNS=12
 select opt in $OPTIONS; do
    COLUMNS=12
@@ -89,11 +89,11 @@ select opt in $OPTIONS; do
     rla
    elif [ "$opt" = "robot_car_6Aug2017" ]; then
     rm ~/catkin_ws/src/bair_car
-    ln -s ~/kzpy3/Cars/robot_car_6Aug2017_temp ~/catkin_ws/src/bair_car
+    ln -s ~/kzpy3/Cars/robot_car_6Aug2017 ~/catkin_ws/src/bair_car
     ls -al ~/catkin_ws/src/bair_car
-   elif [ "$opt" = "robot_car_12Aug2017" ]; then
+   elif [ "$opt" = "robot_car_6Aug2017_temp" ]; then
     rm ~/catkin_ws/src/bair_car
-    ln -s ~/kzpy3/Cars/robot_car_12Aug2017 ~/catkin_ws/src/bair_car
+    ln -s ~/kzpy3/Cars/robot_car_6Aug2017_temp ~/catkin_ws/src/bair_car
     ls -al ~/catkin_ws/src/bair_car
    elif [ "$opt" = "bdd_car_rewrite_SD2" ]; then
     rm ~/catkin_ws/src/bair_car
