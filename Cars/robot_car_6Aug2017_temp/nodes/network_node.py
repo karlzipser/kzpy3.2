@@ -123,7 +123,7 @@ def aruco_thread():
 		except:
 			error_ctr_ += 1
 			if np.mod(error_ctr_,100) == 0:
-				print(d2s("aruco_thread error #",error_ctr_," (may be transient)")
+				print(d2s("aruco_thread error #",error_ctr_," (may be transient)"))
 #
 threading.Thread(target=aruco_thread).start()
 #
