@@ -91,11 +91,15 @@ aruco_position_x_pub = rospy.Publisher('/bair_car/aruco_position_x', std_msgs.ms
 aruco_position_y_pub = rospy.Publisher('/bair_car/aruco_position_y', std_msgs.msg.Float32, queue_size=100)
 #
 import threading
+#
 def aruco_thread():
+
 	from kzpy3.Localization_app.Parameters_Module import *
 	from kzpy3.Localization_app.Project_Aruco_Markers_Module import Aruco_Trajectory
 	import kzpy3.data_analysis.Angle_Dict_Creator as Angle_Dict_Creator
+
 	print('starting aruco_thread . . .')
+
 	while not rospy.is_shutdown():
 		for camera_list_ in [left_list,right_list]:
 
