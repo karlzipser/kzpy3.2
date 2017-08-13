@@ -1,4 +1,18 @@
 use_wordsv = """
+ROS_LIVE
+hxl
+hyl
+xl max_list_length
+yl step
+hx car_pts head_pts
+hy
+x
+y
+
+past_to_present_proportion
+one_frame_aruco_data
+
+
 aruco_data markers nearest_marker
 alpha beta gamma dist a h a_rotated marker marker_point marker_face GRAPHICS
 pts pts_center_nearest theta pts_centered center_marker rotate_around side index

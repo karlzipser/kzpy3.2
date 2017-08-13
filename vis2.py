@@ -635,3 +635,17 @@ def wk(t_seconds):
         return
     else:
         return k
+
+
+def plot_line(a_,b,c):
+    plot([a_[0],b[0]],[a_[1],b[1]],c)
+
+
+
+
+
+
+
+
+
+#EOF
