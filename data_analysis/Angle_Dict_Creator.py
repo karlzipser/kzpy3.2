@@ -14,9 +14,9 @@ from aruco_tools.aruco_angle_retriever import *
 
 
 
-def get_angles_and_distance(cv_image, crop=False):
+def get_angles_and_distance(cv_image, crop=False, borderColor=(0,255,0)):
     
-    markers = get_markers_in_image(cv_image, crop)
+    markers = get_markers_in_image(cv_image, crop, borderColor)
     angles_to_center = {}
     angles_surfaces = {}
     distances_marker = {}

@@ -48,12 +48,12 @@ if P[ROS_LIVE]:
 		D = {}
 		def _function_get_data():
 			camera_img_ = R[left_image][vals][-1]
-			angles_to_center, angles_surfaces, distances_marker, markers = Angle_Dict_Creator.get_angles_and_distance(camera_img_)
+			angles_to_center, angles_surfaces, distances_marker, markers = Angle_Dict_Creator.get_angles_and_distance(camera_img_,borderColor=None)#borderColor=(255,0,0))
 			Left = {'angles_to_center':angles_to_center,'angles_surfaces':angles_surfaces,'distances_marker':distances_marker}
 			if P[GRAPHICS]:
 				mci(camera_img_,color_mode=cv2.COLOR_RGB2BGR,delay=33,title='left_image')
 			camera_img_ = R[right_image][vals][-1]
-			angles_to_center, angles_surfaces, distances_marker, markers = Angle_Dict_Creator.get_angles_and_distance(camera_img_)
+			angles_to_center, angles_surfaces, distances_marker, markers = Angle_Dict_Creator.get_angles_and_distance(camera_img_,borderColor=None)#borderColor=(0,0,255))
 			Right = {'angles_to_center':angles_to_center,'angles_surfaces':angles_surfaces,'distances_marker':distances_marker}
 			if P[GRAPHICS]:
 				mci(camera_img_,color_mode=cv2.COLOR_RGB2BGR,delay=33,title='right_image')

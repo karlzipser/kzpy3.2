@@ -111,7 +111,7 @@ def get_boundary_angle_min_distance(cv_image, crop=False, max_distance_boundary=
 
 
 
-def get_markers_in_image(cv_image, crop=False):
+def get_markers_in_image(cv_image, crop=False, borderColor=(0,255,0)):
     
     markers = [] 
         
@@ -127,7 +127,9 @@ def get_markers_in_image(cv_image, crop=False):
     parameters = aruco.DetectorParameters_create()
     
     corners, ids, rejected_points = aruco.detectMarkers(cv_image, aruco_dict, parameters=parameters)
-    cv_image = aruco.drawDetectedMarkers(cv_image, corners, borderColor=(0, 255, 0))
+
+    if  borderColor != None:
+        cv_image = aruco.drawDetectedMarkers(cv_image, corners, borderColor=borderColor)
     
     marker_length = 0.2  # meter
     
