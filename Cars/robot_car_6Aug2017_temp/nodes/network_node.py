@@ -94,9 +94,10 @@ import threading
 #
 def aruco_thread():
 
+	import kzpy3.data_analysis.Angle_Dict_Creator as Angle_Dict_Creator
 	from kzpy3.Localization_app.Parameters_Module import *
 	from kzpy3.Localization_app.Project_Aruco_Markers_Module import Aruco_Trajectory
-	import kzpy3.data_analysis.Angle_Dict_Creator as Angle_Dict_Creator
+	Aruco_trajectory = Aruco_Trajectory()
 
 	print('starting aruco_thread . . .')
 
