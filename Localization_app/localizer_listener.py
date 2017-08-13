@@ -12,7 +12,10 @@ import std_msgs.msg
 import rospy
 exec(identify_file_str)
 na = np.array
-
+"""
+export ROS_MASTER_URI=http://192.168.X.XXX:11311
+"""
+os.environ["ROS_MASTER_URI"] = "http://192.168.1.20:11311"
 
 R = {}
 for k_ in [aruco_position_x,aruco_position_y,aruco_heading_x,aruco_heading_y]:
