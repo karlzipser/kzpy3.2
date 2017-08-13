@@ -44,6 +44,11 @@ if P[ROS_LIVE]:
 	rospy.init_node('listener',anonymous=True)
 	rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_image__callback,queue_size = 1)
 	rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_image__callback,queue_size = 1)
+	aruco_heading_x_pub = rospy.Publisher('/bair_car/aruco_heading_x', std_msgs.msg.Float32, queue_size=100)
+	aruco_heading_y_pub = rospy.Publisher('/bair_car/aruco_heading_y', std_msgs.msg.Float32, queue_size=100)
+	aruco_position_x_pub = rospy.Publisher('/bair_car/aruco_position_x', std_msgs.msg.Float32, queue_size=100)
+	aruco_position_y_pub = rospy.Publisher('/bair_car/aruco_position_y', std_msgs.msg.Float32, queue_size=100)
+
 	def Data_Access():
 		D = {}
 		def _function_get_data():
@@ -103,6 +108,13 @@ while True:
 			
 				hx_,hy_,x_,y_ =	Aruco_trajectory[step](one_frame_aruco_data,Q)
 
+				aruco_position_x_pub.publish(std_msgs.msg.Float32(x_))
+				aruco_position_y_pub.publish(std_msgs.msg.Float32(y_))
+				aruco_heading_x_pub.publish(std_msgs.msg.Float32(hx_-x_))
+				aruco_heading_y_pub.publish(std_msgs.msg.Float32(hy_-y_))
+
+
+
 	except Exception as e:
 		print("********** Exception ***********************")
 		print(e.message, e.args)
@@ -113,8 +125,9 @@ while True:
 			plot(hx_,hy_,'b.')
 			plot(x_,y_,'y.')
 			pause(0.0001)
+			pass
 		ctr_ += 1
-		if np.mod(ctr_,1) == 0:
+		if np.mod(ctr_,100) == 0:
 			spd2s(ctr_/timer_.time(),'hz')
 	except Exception as e:
 		print("********** Exception ***********************")

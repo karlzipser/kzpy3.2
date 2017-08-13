@@ -3,7 +3,6 @@ CODE_PATH__ = opjh('kzpy3/Localization_app')
 pythonpaths([opjh('kzpy3'),opjh(CODE_PATH__)])
 from Parameters_Module import *
 from vis2 import *
-from aruco_home_4x4_markers import Marker_xy_dic
 exec(identify_file_str)
 
 na = np.array
@@ -19,8 +18,8 @@ def Camera_View_Field(*args):
 	D[markers] = {}
 	nearest_marker_ = [None,999]
 	for m_ in Aruco_data['angles_to_center'].keys():
-		if m_ == 58:
-			continue # a duplicate
+		if m_ in P[MARKERS_TO_IGNORE]:
+			continue
 		D[markers][m_] = {}
 		D[markers][m_][alpha] = np.degrees(Aruco_data['angles_to_center'][m_])/2.0
 		D[markers][m_][beta] = np.degrees(Aruco_data['angles_surfaces'][m_])
@@ -49,8 +48,8 @@ def Camera_View_Field(*args):
 	D[pts] = [[0,0],h_]
 	D[actual_pts] = []
 	for m_ in sorted(D[markers].keys()):
-		if m_ == 58:
-			continue # a duplicate
+		if m_ in P[MARKERS_TO_IGNORE]:
+			continue
 		for side_ in [left,right]:
 			D[pts].append(D[markers][m_][side_])
 		D[actual_pts].append(Marker_xy_dic[(m_,left)])
@@ -63,8 +62,6 @@ def Camera_View_Field(*args):
 		Args = args_to_dictionary(args)
 		theta_ = Args[theta]
 		True
-		#D[pts_centered] = D[pts]
-		#return np.random.randn(1)[0]
 		D[pts_translated] = D[pts] - D[markers][D[nearest_marker]][marker_point]
 		D[pts_rotated] = na(rotatePolygon(D[pts_translated],theta_))
 		D[pts_centered] = D[pts_rotated] + Marker_xy_dic[D[nearest_marker]]
@@ -107,7 +104,7 @@ def Aruco_Trajectory():
 		head_pts_ = D[head_pts]
 		a_ = P[past_to_present_proportion]
 		t_ctr_ = 0
-		for theta_ in range(0,360,30):
+		for theta_ in range(0,360,P[DEGREE_STEP_FOR_ROTATION_FIT]):
 			error_ = CVF[rotate_around](theta,theta_)
 			if error_ < min_error_:
 				min_error_ = error_

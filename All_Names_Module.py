@@ -1,4 +1,5 @@
 use_wordsv = """
+aruco_position_x aruco_position_y aruco_heading_x aruco_heading_y
 ROS_LIVE
 hxl
 hyl
@@ -8,11 +9,11 @@ hx car_pts head_pts
 hy
 x
 y
-
+MARKERS_TO_IGNORE
 past_to_present_proportion
 one_frame_aruco_data
 
-
+DEGREE_STEP_FOR_ROTATION_FIT
 aruco_data markers nearest_marker
 alpha beta gamma dist a h a_rotated marker marker_point marker_face GRAPHICS
 pts pts_center_nearest theta pts_centered center_marker rotate_around side index
