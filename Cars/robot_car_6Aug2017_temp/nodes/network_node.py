@@ -101,6 +101,8 @@ def aruco_thread():
 
 	print('starting aruco_thread . . .')
 
+	error_ctr_ = 0
+
 	while not rospy.is_shutdown():
 		try:
 			for camera_list_ in [left_list,right_list]:
@@ -117,8 +119,11 @@ def aruco_thread():
 				aruco_position_y_pub.publish(std_msgs.msg.Float32(y_))
 				aruco_heading_x_pub.publish(std_msgs.msg.Float32(hx_-x_))
 				aruco_heading_y_pub.publish(std_msgs.msg.Float32(hy_-y_))
+			error_ctr_ = 0
 		except:
-			print("aruco_thread error, may be transient")
+			error_ctr_ += 1
+			if np.mod(error_ctr_,100) == 0:
+				print(d2s("aruco_thread error #",error_ctr_," (may be transient)")
 #
 threading.Thread(target=aruco_thread).start()
 #
