@@ -18,7 +18,6 @@ export ROS_MASTER_URI=http://192.168.1.20:11311
 make sure master's ip and name (tegra-ubuntu) are in /etc/hosts
 on master, export ROS_IP=0.0.0.0 # Listen on any interface
 """
-
 ipaddr_ = "http://192.168.1.20:11311"
 print(d2s('Setting ROS_MASTER_URI to',ipaddr_))
 os.environ["ROS_MASTER_URI"] = ipaddr_
@@ -50,8 +49,8 @@ for k_ in Marker_xy_dic.keys():
 	if not is_number(k_):
 		pts_.append(Marker_xy_dic[k_])
 pts_ = na(pts_)
-#pts_plot(pts_,'b')
-#raw_enter()
+pts_plot(pts_,'b')
+raw_enter()
 ctr_ = 0
 
 while True:
@@ -61,36 +60,15 @@ while True:
 		hx_ = R[aruco_heading_x][vals][-1] + x_
 		hy_ = R[aruco_heading_y][vals][-1] + y_
 			
-		if False:
-			figure(5);clf();plt_square();xysqlim(2*107.0/100.0);
-			plot(hx_,hy_,'g.')
-			plot(x_,y_,'r.')
-			pts_plot(pts_,'b')
-			pause(0.0001)
 
-		if False:
-			figure(6);clf();plt_square();xysqlim(2*107.0/100.0);
-			plot(0,length(na((R[aruco_heading_x][vals][-1],R[aruco_heading_y][vals][-1]))),'g.')
-			plot(0,0,'r.')
-			theta_ = angle_clockwise((0,1), (R[aruco_heading_x][vals][-1],R[aruco_heading_y][vals][-1]))
-			xy_ = na([x_,y_])
-			pts_pov_ = na(rotatePolygon(pts_-xy_,theta_))
-			pts_plot(pts_pov_,'b')
-			pause(0.0001)
-		if True:
-			figure(6);clf();plt_square();xysqlim(2*107.0/100.0);
-			plot(0,length(na((R[aruco_heading_x][vals][-1],R[aruco_heading_y][vals][-1]))),'g.')
-			plot(0,0,'r.')
-			theta_ = angle_clockwise((0,1), (R[aruco_heading_x][vals][-1],R[aruco_heading_y][vals][-1]))
-			xy_ = na([x_,y_])
-			pts_pov_ = na(rotatePolygon(pts_-xy_,theta_))
-			pts_plot(pts_pov_,'b')
-			pause(0.0001)
-
-
-		#ctr_ += 1
-		#if np.mod(ctr_,100) == 0:
-		#	spd2s(ctr_/timer_.time(),'hz')
+		figure(5);clf();plt_square();xysqlim(2*107.0/100.0);
+		plot(hx_,hy_,'g.')
+		plot(x_,y_,'r.')
+		pts_plot(pts_,'b')
+		pause(0.0001)
+		ctr_ += 1
+		if np.mod(ctr_,100) == 0:
+			spd2s(ctr_/timer_.time(),'hz')
 	except Exception as e:
 		print("********** Exception ***********************")
 		print(e.message, e.args)
