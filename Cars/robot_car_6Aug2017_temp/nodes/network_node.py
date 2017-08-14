@@ -117,7 +117,7 @@ def aruco_thread():
 				
 				Q = {'angles_to_center':angles_to_center,'angles_surfaces':angles_surfaces,'distances_marker':distances_marker}
 
-				hx_,hy_,x_,y_ =	Aruco_trajectory[step](one_frame_aruco_data,Q)
+				hx_,hy_,x_,y_ =	Aruco_trajectory[step](one_frame_aruco_data,Q, p,P)
 
 				aruco_position_x_pub.publish(std_msgs.msg.Float32(x_))
 				aruco_position_y_pub.publish(std_msgs.msg.Float32(y_))
