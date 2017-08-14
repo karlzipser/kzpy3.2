@@ -1,5 +1,10 @@
 #!/usr/bin/env python
+"""
+https://answers.ros.org/question/90536/ros-remote-master-can-see-topics-but-no-data/
 
+on roscore machine:
+export ROS_IP=0.0.0.0 # Listen on any interface
+"""
 import cv2 # befor pytorch_code import on purpose, affects bdd2, maybe not TX1
 from pytorch_code import *
 import roslib

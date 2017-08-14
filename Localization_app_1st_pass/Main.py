@@ -6,7 +6,6 @@ if not hasattr(main,'__file__'):
 	pythonpaths(['kzpy3','kzpy3/Localization_app'])
 #
 ###############################
-import Parameters_Module
 from Parameters_Module import *
 from vis2 import *
 from Project_Aruco_Markers_Module import Aruco_Trajectory
@@ -67,16 +66,6 @@ if P[ROS_LIVE]:
 		D[get_data] = _function_get_data
 		return D
 else:
-	import roslib
-	import std_msgs.msg
-	import geometry_msgs.msg
-	import rospy
-	import cv2
-	rospy.init_node('listener',anonymous=True)
-	aruco_heading_x_pub = rospy.Publisher('/bair_car/aruco_heading_x', std_msgs.msg.Float32, queue_size=100)
-	aruco_heading_y_pub = rospy.Publisher('/bair_car/aruco_heading_y', std_msgs.msg.Float32, queue_size=100)
-	aruco_position_x_pub = rospy.Publisher('/bair_car/aruco_position_x', std_msgs.msg.Float32, queue_size=100)
-	aruco_position_y_pub = rospy.Publisher('/bair_car/aruco_position_y', std_msgs.msg.Float32, queue_size=100)
 	Aruco_data = lo(opjD('A'))
 	def Data_Access():
 		D = {}
@@ -100,21 +89,9 @@ Aruco_trajectory = Aruco_Trajectory()
 if P[GRAPHICS]:
 	CA()
 ctr_ = 0
-rate_timer_ = Timer(10)
-
-rate = rospy.Rate(30.0)
-reload_timer = Timer(5)
-
-
+timer_ = Timer(0)
 while True:
 
-	data_okay_ = False
-
-	if reload_timer.check():
-		reload(Parameters_Module)
-		from Parameters_Module import *
-		print P[past_to_present_proportion]
-		reload_timer.reset()
 	try:
 		Data_left,Data_right = Data_access[get_data]()
 
@@ -128,34 +105,30 @@ while True:
 
 
 		for Q in [Data_left,Data_right]:
-			if True:#ctr_<100:
-				hx_,hy_,x_,y_ =	Aruco_trajectory[step](one_frame_aruco_data,Q, p,P)
 			
-			aruco_position_x_pub.publish(std_msgs.msg.Float32(x_))
-			aruco_position_y_pub.publish(std_msgs.msg.Float32(y_))
-			aruco_heading_x_pub.publish(std_msgs.msg.Float32(hx_-x_))
-			aruco_heading_y_pub.publish(std_msgs.msg.Float32(hy_-y_))
-			
-			#rate.sleep()
-			ctr_ += 1
-			if rate_timer_.check():
-				spd2s(ctr_/rate_timer_.time(),'hz')
-				rate_timer_.reset()
-				ctr_ = 0
-		data_okay_ = True
+				hx_,hy_,x_,y_ =	Aruco_trajectory[step](one_frame_aruco_data,Q)
+
+				aruco_position_x_pub.publish(std_msgs.msg.Float32(x_))
+				aruco_position_y_pub.publish(std_msgs.msg.Float32(y_))
+				aruco_heading_x_pub.publish(std_msgs.msg.Float32(hx_-x_))
+				aruco_heading_y_pub.publish(std_msgs.msg.Float32(hy_-y_))
+
+
 
 	except Exception as e:
 		print("********** Exception ***********************")
 		print(e.message, e.args)
 	
 	try:
-		if P[GRAPHICS] and data_okay_:
+		if P[GRAPHICS]:
 			figure(5);clf();plt_square();xysqlim(2*107.0/100.0);
 			plot(hx_,hy_,'b.')
 			plot(x_,y_,'y.')
 			pause(0.0001)
 			pass
-
+		ctr_ += 1
+		if np.mod(ctr_,100) == 0:
+			spd2s(ctr_/timer_.time(),'hz')
 	except Exception as e:
 		print("********** Exception ***********************")
 		print(e.message, e.args)

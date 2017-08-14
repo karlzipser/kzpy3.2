@@ -1,9 +1,9 @@
 use_wordsv = """
-aruco_position_x aruco_position_y aruco_heading_x aruco_heading_y
-ROS_LIVE
+aruco_position_x aruco_position_y aruco_heading_x aruco_heading_y actual_center_of_mass
+ROS_LIVE SHOW_MARKER_ID center_of_mass
 hxl
 hyl
-xl max_list_length
+xl max_list_length p ANGLE_DIST_PARAM
 yl step
 hx car_pts head_pts
 hy

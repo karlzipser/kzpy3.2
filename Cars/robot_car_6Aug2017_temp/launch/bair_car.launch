@@ -72,6 +72,10 @@
             /$(arg car_name)/motor
             /$(arg car_name)/state
             /$(arg car_name)/steer
+            /$(arg car_name)/aruco_position_x
+            /$(arg car_name)/aruco_position_y    
+            /$(arg car_name)/aruco_heading_x
+            /$(arg car_name)/aruco_heading_y    
             /$(arg car_name)/zed/depth/camera_info 
             /$(arg car_name)/zed/depth/image_rect_color 
             /$(arg car_name)/zed/left/camera_info 

@@ -67,6 +67,7 @@ alias Localization='python ~/kzpy3/Localization_app/Main.py'
 if [ "$(whoami)" == "nvidia" ]
 then
 echo Hi $COMPUTER_NAME on Jetson
+export ROS_IP=0.0.0.0 # Listen on any interface
 echo "cd ~/kzpy3;git pull;cd"
 cd ~/kzpy3
 git pull
