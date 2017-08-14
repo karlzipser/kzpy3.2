@@ -128,8 +128,7 @@ while True:
 
 
 		for Q in [Data_left,Data_right]:
-			if True:#ctr_<100:
-				hx_,hy_,x_,y_ =	Aruco_trajectory[step](one_frame_aruco_data,Q, p,P)
+			hx_,hy_,x_,y_ =	Aruco_trajectory[step](one_frame_aruco_data,Q, p,P)
 			
 			aruco_position_x_pub.publish(std_msgs.msg.Float32(x_))
 			aruco_position_y_pub.publish(std_msgs.msg.Float32(y_))
