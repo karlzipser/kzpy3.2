@@ -18,11 +18,11 @@ export ROS_MASTER_URI=http://192.168.1.20:11311
 make sure master's ip and name (tegra-ubuntu) are in /etc/hosts
 on master, export ROS_IP=0.0.0.0 # Listen on any interface
 """
-"""
+
 ipaddr_ = "http://192.168.1.20:11311"
 print(d2s('Setting ROS_MASTER_URI to',ipaddr_))
 os.environ["ROS_MASTER_URI"] = ipaddr_
-"""
+
 R = {}
 for k_ in [aruco_position_x,aruco_position_y,aruco_heading_x,aruco_heading_y]:
 	R[k_] = {ts:[],vals:[]}
