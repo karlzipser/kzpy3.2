@@ -184,11 +184,12 @@ def aruco_thread():
 			print robot_steer
 			error_ctr_ = 0
 
-		except:
+		except Exception as e:
+			print("********** Exception ***********************")
+			print(e.message, e.args)
 			error_ctr_ += 1
-			if error_timer.check():
-				print(d2s("aruco_thread error #",error_ctr_," (may be transient)"))
-				error_timer.reset()
+			print(d2s("aruco_thread error #",error_ctr_," (may be transient)"))
+
 #
 threading.Thread(target=aruco_thread).start()
 #
