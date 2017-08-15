@@ -61,7 +61,30 @@ def get_heading_centers(*args):
 
 
 
-Heading_centers = get_heading_centers(
+
+
+def join_dic_lists(*args):
+	Args = args_to_dictionary(args)
+	dic_list_ = Args[dic_list]
+	True
+	D = {}
+	for k_ in dic_list_[0]:
+		D[k_] = []
+	for d_ in dic_list_:
+		for k_ in D:
+			print k_
+			D[k_] += list(d_[k_])
+	return D
+
+
+Heading_centers1 = get_heading_centers(
 	left_timestamp_metadata,opjD('bdd_car_data_July2017_LCR/h5py/direct_home_LCR_Aruco1_23Jul17_17h39m41s_Mr_Yellow/left_timestamp_metadata.h5py'),
-	aruco_trajectories,opjD('meta/direct_home_LCR_Aruco1_23Jul17_17h39m41s_Mr_Yellow/Aruco_trajectories.h5py'),
 	aruco_cubic_splines,opjD('meta/direct_home_LCR_Aruco1_23Jul17_17h39m41s_Mr_Yellow/Cubic_splines.pkl'))
+
+
+Heading_centers2 = get_heading_centers(
+	left_timestamp_metadata,opjD('bdd_car_data_July2017_LCR/h5py/direct_home_LCR_Aruco1_23Jul17_20h51m31s_Mr_Yellow/left_timestamp_metadata.h5py'),
+	aruco_cubic_splines,opjD('meta/direct_home_LCR_Aruco1_23Jul17_20h51m31s_Mr_Yellow/Cubic_splines.pkl'))
+
+
+Heading_centers = join_dic_lists(dic_list,[Heading_centers1,Heading_centers2])
