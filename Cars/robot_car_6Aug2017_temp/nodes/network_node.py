@@ -172,8 +172,8 @@ def aruco_thread():
 				dy_avg += hy_-y_
 				aruco_position_x_pub.publish(std_msgs.msg.Float32(x_))
 				aruco_position_y_pub.publish(std_msgs.msg.Float32(y_))
-				aruco_heading_x_pub.publish(std_msgs.msg.Float32(dx))
-				aruco_heading_y_pub.publish(std_msgs.msg.Float32(dy))
+				aruco_heading_x_pub.publish(std_msgs.msg.Float32(hx_-x_))
+				aruco_heading_y_pub.publish(std_msgs.msg.Float32(hy_-y_))
 
 			x_avg /= 2.0
 			dx_avg /= 2.0
