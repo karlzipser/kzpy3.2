@@ -5,7 +5,7 @@ import cv2
 from cv_bridge import CvBridge,CvBridgeError
 import threading
 import kzpy3.teg9.data.animate as animate
-import kzpy3.teg9.data.utils.raw_marker_data_to_cubic_splines as raw_marker_data_to_cubic_splines
+import kzpy3.teg9.arena.raw_marker_data_to_cubic_splines as raw_marker_data_to_cubic_splines
 if '__file__' not in vars():
     __file__ = "__file__ NOT DEFINED"
 
@@ -239,7 +239,7 @@ May28 = ['/media/karlzipser/ExtraDrive4/Mr_Yellow_27May2017/processed',
 
 
 
-if True:
+if False:
     CS_("Get raw marker data from bag file images to pkl files.",fname(__file__))
     multi_process_bag_folders(['/media/karlzipser/rosbags/Mr_Black_3June2017/new'],
         '/media/karlzipser/ExtraDrive4/bair_car_data_new_28April2017/meta',

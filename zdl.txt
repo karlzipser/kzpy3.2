@@ -1,12 +1,23 @@
-bair_car_data_Main_Dataset <Tilden, sidewalks, campus, caution tape>
-	h5py <new>
-	hdf5
-	meta
-	run_labels
+>> Aruco_trajectories['left']
+Aruco_trajectories
+<0> left:
+	<0> hx:
+		[]
+	<1> hy:
+		[]
+	<2> x:
+		[]
+	<3> y:
+		[]
 
-bair_car_data_new_28April2017 <Smyth-Fernwald w/Aruco markers>
-	h5py <new>
-	hdf5
-	meta
-	run_labels
+<1> right:
+	<0> hx:
+		[]
+	<1> hy:
+		[]
+	<2> x:
+		[]
+	<3> y:
+		[]
+
 

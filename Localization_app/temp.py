@@ -59,3 +59,42 @@ for a in arange(-45,45):
 	b.append(a)
 	d.append(1.0+(np.abs(a/45.0)**2)/10.0)
 clf();plot(b,d,'o')
+
+
+
+
+
+
+
+
+
+
+
+n = []
+for i in rlen(hmx):
+	n.append(angle_clockwise((0,1),(hmx[i]-Aruco_trajectories[left][x][i],hmy[i]-Aruco_trajectories[left][y][i])))
+"""	
+for i in range(0,len(hmx),5):
+	clf();plt_square();xysqlim(3);
+	plot(Aruco_trajectories[left][x][i],Aruco_trajectories[left][y][i],'.');pause(0.001)
+	print n[i]
+"""
+figure(6);
+for an in range(15,180+15,30):
+	ox=[];oy=[]
+	clf();plt_square();xysqlim(2*107.0/100.0)
+	for i in range(0,len(hmx),5):
+		if n[i] >an-15 and n[i]<an+15:
+			ox.append(Aruco_trajectories[left][x][i])
+			oy.append(Aruco_trajectories[left][y][i])
+			plot(ox[-1],oy[-1],'r.');spause()
+
+
+
+ox0=ox;oy0=oy
+
+
+
+
+
+

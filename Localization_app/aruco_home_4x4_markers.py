@@ -73,14 +73,14 @@ def get_marker_xy_dic():
 		Marker_xy_dic[(k_,right)] = Marker_xy_dic[k_] + na([0,-marker_width/2.0])
 		ctr_ -= 1
 
-	Marker_xy_dic[100] = na([-0.21,-0.83])
-	Marker_xy_dic[11] =  na([0.12,-0.12]) + Marker_xy_dic[100]
-	Marker_xy_dic[0] =   na([0,-0.22]) + Marker_xy_dic[100]
-	Marker_xy_dic[102] = na([0.12,-0.12]) + Marker_xy_dic[100]
+	Marker_xy_dic[100] = na([-0.21,-0.82])
+	Marker_xy_dic[0] = na([-0.21,-0.84-marker_width])
+	Marker_xy_dic[11] =  na([-0.12,-0.12]) + Marker_xy_dic[100]
+	Marker_xy_dic[102] = na([0.12,-0.11]) + Marker_xy_dic[100]
 
 	for side_ in [left,right]:
-		for m_ in [100,11,0,102]:
-			Marker_xy_dic[m_,side_] = Marker_xy_dic[m_]
+		for m_ in [100,0,102,11]:
+			Marker_xy_dic[m_,side_] = Marker_xy_dic[m_].copy()
 
 	Marker_xy_dic[(100,right)] += na([marker_width/2.0,0])
 	Marker_xy_dic[(100,left)] -= na([marker_width/2.0,0])
@@ -93,4 +93,6 @@ def get_marker_xy_dic():
 
 	return Marker_xy_dic
 
+
 Marker_xy_dic = get_marker_xy_dic()
+

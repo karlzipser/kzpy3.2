@@ -37,6 +37,8 @@ plt.show()
 PP,FF = plt.rcParams,'figure.figsize'
 
 
+def spause():
+    pause(0.0001)
 
 def hist(data,bins=100):
     """
