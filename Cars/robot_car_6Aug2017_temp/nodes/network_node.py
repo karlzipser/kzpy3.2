@@ -140,6 +140,7 @@ def get_steer(*args):
 	return steer
 #
 robot_steer = 49
+error_timer = Timer(3)
 #
 def aruco_thread():
 	import kzpy3.data_analysis.Angle_Dict_Creator as Angle_Dict_Creator
@@ -185,8 +186,9 @@ def aruco_thread():
 
 		except:
 			error_ctr_ += 1
-			if np.mod(error_ctr_,100) == 0:
+			if error_timer.check():
 				print(d2s("aruco_thread error #",error_ctr_," (may be transient)"))
+				error_timer.reset()
 #
 threading.Thread(target=aruco_thread).start()
 #
