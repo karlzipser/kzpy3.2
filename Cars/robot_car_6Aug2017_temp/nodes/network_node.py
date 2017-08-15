@@ -136,7 +136,7 @@ def get_steer(*args):
 
 	px = int(x*7.0/wall_length + 4.0)
 	py = int(y*7.0/wall_length + 4.0)
-	steer = heading_steering_coordinates[binned_angle][px,py]
+	steer = int(heading_steering_coordinates[binned_angle][px,py])
 
 	return steer
 #
