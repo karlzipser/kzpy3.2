@@ -180,7 +180,7 @@ def aruco_thread():
 			dy_avg /= 2.0
 
 			robot_steer = get_steer(X,x_avg, Y,y_avg, DX,dx_avg, DY,dy_avg)
-
+			print robot_steer
 			error_ctr_ = 0
 
 		except:
