@@ -1,14 +1,17 @@
 use_wordsv = """
 aruco_position_x aruco_position_y aruco_heading_x aruco_heading_y actual_center_of_mass
 ROS_LIVE SHOW_MARKER_ID center_of_mass
-hxl
+hxl hx_meo hy_meo x_meo y_meo 
 hyl
-xl max_list_length p ANGLE_DIST_PARAM
+xl max_list_length p ANGLE_DIST_PARAM angle
 yl step
 hx car_pts head_pts
-hy
-x
+hy dic_list
+x 
 y
+	aruco_trajectories
+	aruco_cubic_splines
+	left_timestamp_metadata
 MARKERS_TO_IGNORE
 past_to_present_proportion
 one_frame_aruco_data
