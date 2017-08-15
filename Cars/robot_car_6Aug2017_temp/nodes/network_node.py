@@ -99,6 +99,7 @@ import threading
 heading_steering_coordinates = lo(opjD('heading_steering_coordinates'))
 wall_length = 4*107.0/100.0
 #
+from kzpy3.vis2 import angle_clockwise
 def get_steer(*args):
 	Args = args_to_dictionary(args);_=da
 	x = _(Args,X)
