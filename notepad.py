@@ -88,3 +88,15 @@ Heading_centers2 = get_heading_centers(
 
 
 Heading_centers = join_dic_lists(dic_list,[Heading_centers1,Heading_centers2])
+
+
+from kzpy3.misc.nipy_utils import voronoi
+pts=np.random.random((10,2))
+a=[]
+for x in arange(0,10):
+	for y in arange(0,10):
+		a.append((x,y))
+a=np.array(a)
+voronoi(a,pts)
+
+
