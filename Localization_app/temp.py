@@ -98,3 +98,15 @@ ox0=ox;oy0=oy
 
 
 
+def A():
+	D = {}
+	B = {1:2,3:4}
+	def _get_b(k):
+		return B[k]
+	D['get'] = _get_b
+	return D
+
+C = A()
+
+
+a = d[LEFT][MIDDLE][RIGHT]

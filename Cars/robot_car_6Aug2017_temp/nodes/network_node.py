@@ -96,12 +96,57 @@ aruco_position_y_pub = rospy.Publisher('/bair_car/aruco_position_y', std_msgs.ms
 #
 import threading
 #
-def aruco_thread():
+heading_steering_coordinates = lo(opjD('heading_steering_coordinates'))
+wall_length = 4*107.0/100.0
+#
+def get_steer(*args):
+	Args = args_to_dictionary(args);_=da
+	x = _(Args,X)
+	y = _(Args,Y)
+	dx = _(Args,DX)
+	dy = _(Args,DY)
+	True
+	a = angle_clockwise((0,1),(dx,dy))
 
+	if a >= 345 or a < 15:
+		binned_angle = 0;
+	elif a >= 15 and a < 45:
+		binned_angle = 30;
+	elif a >= 45 and a < 75:
+		binned_angle = 60
+	elif a >= 75 and a < 105:
+		binned_angle = 90
+	elif a >= 105 and a < 135:
+		binned_angle = 120
+	elif a >= 135 and a < 165:
+		binned_angle = 150
+	elif a >= 165 and a < 195:
+		binned_angle = 180
+	elif a >= 195 and a < 225:
+		binned_angle = 210
+	elif a >= 225 and a < 255:
+		binned_angle = 240
+	elif a >= 255 and a < 285:
+		binned_angle = 270
+	elif a >= 285 and a < 315:
+		binned_angle = 300
+	elif a >= 315 and a < 345:
+		binned_angle = 330;
+
+	px = int(x*7.0/wall_length + 4.0)
+	py = int(y*7.0/wall_length + 4.0)
+	steer = heading_steering_coordinates[binned_angle][px,py]
+
+	return steer
+#
+robot_steer = 49
+#
+def aruco_thread():
 	import kzpy3.data_analysis.Angle_Dict_Creator as Angle_Dict_Creator
 	from kzpy3.Localization_app.Parameters_Module import *
 	from kzpy3.Localization_app.Project_Aruco_Markers_Module import Aruco_Trajectory
 	Aruco_trajectory = Aruco_Trajectory()
+	global robot_steer
 
 	print('starting aruco_thread . . .')
 
@@ -109,6 +154,8 @@ def aruco_thread():
 
 	while not rospy.is_shutdown():
 		try:
+			x_avg,y_avg = 0.0,0.0
+			dx_avg,dy_avg = 0.0,0.0
 			for camera_list_ in [left_list,right_list]:
 
 				camera_img_ = camera_list_[-1]
@@ -118,12 +165,24 @@ def aruco_thread():
 				Q = {'angles_to_center':angles_to_center,'angles_surfaces':angles_surfaces,'distances_marker':distances_marker}
 
 				hx_,hy_,x_,y_ =	Aruco_trajectory[step](one_frame_aruco_data,Q, p,P)
-				#print(hx_,hy_,x_,y_)
+				x_avg += x_
+				y_avg += y_
+				dx_avg += hx_-x_
+				dy_avg += hy_-y_
 				aruco_position_x_pub.publish(std_msgs.msg.Float32(x_))
 				aruco_position_y_pub.publish(std_msgs.msg.Float32(y_))
-				aruco_heading_x_pub.publish(std_msgs.msg.Float32(hx_-x_))
-				aruco_heading_y_pub.publish(std_msgs.msg.Float32(hy_-y_))
+				aruco_heading_x_pub.publish(std_msgs.msg.Float32(dx))
+				aruco_heading_y_pub.publish(std_msgs.msg.Float32(dy))
+
+			x_avg /= 2.0
+			dx_avg /= 2.0
+			y_avg /= 2.0
+			dy_avg /= 2.0
+
+			robot_steer = get_steer(X,x_avg, Y,y_avg, DX,dx_avg, DY,dy_avg)
+
 			error_ctr_ = 0
+
 		except:
 			error_ctr_ += 1
 			if np.mod(error_ctr_,100) == 0:
@@ -165,9 +224,10 @@ while not rospy.is_shutdown():
 			continue
 		else:
 			if len(left_list) > nframes + 2:
-				camera_data = format_camera_data(left_list, right_list)
-				metadata = format_metadata((rp.Racing, 0, rp.Follow, rp.Direct, rp.Play, rp.Furtive))
-				torch_motor, torch_steer = run_model(camera_data, metadata)
+				if False:
+					camera_data = format_camera_data(left_list, right_list)
+					metadata = format_metadata((rp.Racing, 0, rp.Follow, rp.Direct, rp.Play, rp.Furtive))
+					torch_motor, torch_steer = run_model(camera_data, metadata)
 
 				print dp(defrosted_timer.time())
 				if ((defrosted_timer.time()<2 and potential_collision_ < 2) or potential_collision_ == 0) and not frozen_:
@@ -176,15 +236,19 @@ while not rospy.is_shutdown():
 					frozen_cmd_pub.publish(std_msgs.msg.Int32(frozen_))
 					
 					if state in [3,6]:
-						if rp.robot_steer < 0:   
-							steer_cmd_pub.publish(std_msgs.msg.Int32(torch_steer))
-						else:
-							steer_cmd_pub.publish(std_msgs.msg.Int32(rp.robot_steer))
+						steer_cmd_pub.publish(std_msgs.msg.Int32(robot_steer))
+						if False:
+							if rp.robot_steer < 0:   
+								steer_cmd_pub.publish(std_msgs.msg.Int32(torch_steer))
+							else:
+								steer_cmd_pub.publish(std_msgs.msg.Int32(rp.robot_steer))
 					if state in [6,7]:
-						if rp.robot_motor < 0:
-							motor_cmd_pub.publish(std_msgs.msg.Int32(torch_motor))
-						else:
-							motor_cmd_pub.publish(std_msgs.msg.Int32(rp.robot_motor))
+						motor_cmd_pub.publish(std_msgs.msg.Int32(rp.robot_motor))
+						if False:
+							if rp.robot_motor < 0:
+								motor_cmd_pub.publish(std_msgs.msg.Int32(torch_motor))
+							else:
+								motor_cmd_pub.publish(std_msgs.msg.Int32(rp.robot_motor))
 
 				elif potential_collision_:
 

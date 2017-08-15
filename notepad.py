@@ -89,14 +89,117 @@ Heading_centers2 = get_heading_centers(
 
 Heading_centers = join_dic_lists(dic_list,[Heading_centers1,Heading_centers2])
 
+	
 
+arena_half_width_ = 2*107.0/100.0
 from kzpy3.misc.nipy_utils import voronoi
-pts=np.random.random((10,2))
-a=[]
-for x in arange(0,10):
-	for y in arange(0,10):
-		a.append((x,y))
-a=np.array(a)
-voronoi(a,pts)
 
+a_=[]
+a_i = []
 
+the_range_ = arange(-arena_half_width_,arena_half_width_+arena_half_width_/99.,arena_half_width_/100.)
+x_ctr = 0
+for x_ in the_range_:
+	y_ctr = 0
+	for y_ in the_range_:
+		a_.append((x_,y_))
+		a_i.append((x_ctr,y_ctr))
+		y_ctr += 1
+	x_ctr += 1
+a_=np.array(a_)
+
+Imgs = {}
+du_ = 30
+for u_ in range(0,331,du_):
+	print u_
+	Heading_centers[angle] = na(Heading_centers[angle])
+	indicies_ = np.where(np.logical_and(Heading_centers[angle]>max(u_-du_,0),Heading_centers[angle]<u_+du_))
+	if u_-du_ < 0:
+		
+		indicies360_ = (np.where(Heading_centers[angle]>360+u_-du_))[0].tolist()
+		indicies_ = indicies_[0].tolist()
+		indicies_ += indicies360_
+	H = {}
+
+	for k_ in Heading_centers:
+		H[k_] = list(na(Heading_centers[k_])[indicies_])
+
+	"""
+	the_range_ = arange(-arena_half_width_,arena_half_width_+arena_half_width_/2,arena_half_width_/3.)
+	for x_ in the_range_:
+		for y_ in the_range_:
+			H[x].append(x_)
+			H[y].append(y_)
+			H[steer].append(49)
+			H[motor].append(49)
+	"""
+
+	figure(1);clf();plt_square();xysqlim(2*107.0/100.0);
+	pts_plot(na(a_))
+	plot(H[x],H[y],'b.')
+	pts_ = na([H[x],H[y]]).transpose()
+	v_ = voronoi(a_,pts_)
+
+	# get indicies of different headings
+
+	img_ = np.zeros((202,202))
+	for i_ in rlen(a_):
+		c_ = v_[i_]
+		img_[a_i[i_][0],a_i[i_][1]] = H[steer][c_]
+	from scipy import ndimage
+
+	img_ = imresize(img_,(8,8))
+	img_=(z2o(img_)*99).astype(np.uint8)
+
+	mi(img_,3);pause(0.01)
+	Imgs[u_] = img_
+	#raw_enter()
+#
+#
+#
+heading_steering_coordinates = lo(opjD('heading_steering_coordinates'))
+wall_length = 4*107.0/100.0
+#
+def get_steer(*args):
+	Args = args_to_dictionary(args);_=da
+	x = _(Args,X)
+	y = _(Args,Y)
+	dx = _(Args,DX)
+	dy = _(Args,DY)
+	True
+	a = angle_clockwise((0,1),(dx,dy))
+
+	if a >= 345 or a < 15:
+		binned_angle = 0;
+	elif a >= 15 and a < 45:
+		binned_angle = 30;
+	elif a >= 45 and a < 75:
+		binned_angle = 60
+	elif a >= 75 and a < 105:
+		binned_angle = 90
+	elif a >= 105 and a < 135:
+		binned_angle = 120
+	elif a >= 135 and a < 165:
+		binned_angle = 150
+	elif a >= 165 and a < 195:
+		binned_angle = 180
+	elif a >= 195 and a < 225:
+		binned_angle = 210
+	elif a >= 225 and a < 255:
+		binned_angle = 240
+	elif a >= 255 and a < 285:
+		binned_angle = 270
+	elif a >= 285 and a < 315:
+		binned_angle = 300
+	elif a >= 315 and a < 345:
+		binned_angle = 330;
+
+	px = int(x*7.0/wall_length + 4.0)
+	py = int(y*7.0/wall_length + 4.0)
+	steer = heading_steering_coordinates[binned_angle][px,py]
+
+	return steer
+#
+#
+#
+#EOF
