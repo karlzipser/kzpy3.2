@@ -5,7 +5,7 @@ hxl hx_meo hy_meo x_meo y_meo DX X DY Y
 hyl
 xl max_list_length p ANGLE_DIST_PARAM angle
 yl step
-hx car_pts head_pts
+hx car_pts head_pts NO_REVERSE
 hy dic_list
 x 
 y

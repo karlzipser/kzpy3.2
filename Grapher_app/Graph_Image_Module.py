@@ -31,9 +31,17 @@ def Graph_Image(*args):
 		Args = args_to_dictionary(args)
 		x_ = array(Args[x])
 		y_ = array(Args[y])
+		if NO_REVERSE in Args:
+			no_reverse = Args[NO_REVERSE]
+		else:
+			no_reverse = False
+		True
 		xint_ = ((x_-D[xmin])*D[xscale]).astype(np.int64)
 		yint_ = ((y_-D[ymin])*D[yscale]).astype(np.int64)
-		return D[ysize]-yint_,xint_ #!!!
+		if no_reverse:
+			return xint_,yint_
+		else:
+			return D[ysize]-yint_,xint_ #!!!
 	D[floats_to_pixels] = _function_floats_to_pixels
 	def _function_pixel_to_float(*args):
 		Args = args_to_dictionary(args)
