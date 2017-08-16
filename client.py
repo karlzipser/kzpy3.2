@@ -26,7 +26,7 @@ import sys
 from thread import *
  
 HOST = '192.168.1.14'   # Symbolic name meaning all available interfaces
-PORT = 8080 # Arbitrary non-privileged port
+PORT = 8888 # Arbitrary non-privileged port
  
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 print 'Socket created'
