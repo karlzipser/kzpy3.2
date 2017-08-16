@@ -42,7 +42,7 @@ who_is_in_charge = I_ROBOT
 
 robot_steer = 49
 robot_motor = 56
-
+robot_steer_gain = 99/93.0
 steer_gain = 1.0
 motor_gain = 1.0
 acc2rd_threshold = 150
