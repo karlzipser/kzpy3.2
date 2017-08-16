@@ -14,7 +14,7 @@ ssh.connect(Car_ips[other_car], username='nvidia',password='nvidia')
 timer = Timer(0)
 for i in range(1000):
 	ssh.exec_command(d2n("echo '(1.4,5.2,",i,")' > ~/Desktop/",other_car,".txt "))
-	print(timer.time())
+	print(i,dp(i/timer.time()))
 
 
 
