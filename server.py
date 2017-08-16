@@ -29,8 +29,8 @@ conn.close()
 import socket
 import sys
  
-HOST = '0.0.0.0'   # Symbolic name, meaning all available interfaces
-PORT = 8888 # Arbitrary non-privileged port
+HOST = '192.168.1.10'   # Symbolic name, meaning all available interfaces
+PORT = 8080 # Arbitrary non-privileged port
  
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 print 'Socket created'
