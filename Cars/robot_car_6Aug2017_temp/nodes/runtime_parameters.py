@@ -41,7 +41,7 @@ I_ROBOT = 222
 who_is_in_charge = I_ROBOT
 
 robot_steer = 49
-robot_motor = 55
+robot_motor = 56
 
 steer_gain = 1.0
 motor_gain = 1.0
@@ -65,7 +65,7 @@ acc_freeze_threshold_z = 2
 motor_freeze_threshold = 53
 n_avg_IMU = 10
 
-robot_acc2rd_threshold = 10
+robot_acc2rd_threshold = 15
 robot_acc_y_exit_threshold = 0
 #
 ###################################################################
