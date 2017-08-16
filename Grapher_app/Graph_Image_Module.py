@@ -41,7 +41,7 @@ def Graph_Image(*args):
 		if no_reverse:
 			return xint_,yint_
 		else:
-			return D[ysize]-yint_,xint_ #!!!
+			return D[ysize]-yint_,xint_
 	D[floats_to_pixels] = _function_floats_to_pixels
 	def _function_pixel_to_float(*args):
 		Args = args_to_dictionary(args)

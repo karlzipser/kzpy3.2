@@ -44,6 +44,7 @@ export PYTHONSTARTUP=~/kzpy3/vis2.py
 export PATH=~/kzpy3/scripts:$PATH
 export PATH=~/caffe/build/tools:$PATH
 export PYTHONPATH=~/caffe/python:$PYTHONPATH
+export PATH=~/kzpy3/c:$PATH
 
 
 
