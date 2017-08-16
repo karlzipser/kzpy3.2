@@ -202,4 +202,26 @@ def get_steer(*args):
 #
 #
 #
+
+
+
+
+
+
+
+
+timer = Timer(0)
+for i in range(100):
+	ssh.exec_command(d2s("echo '(1.4,5.2,",i,")' > ~/Desktop/Mr_Color.txt "))
+print timer.time()
+
+
+
+
+
+
+
+
+
+
 #EOF
