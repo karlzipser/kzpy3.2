@@ -211,9 +211,10 @@ def get_steer(*args):
 robot_steer = 49
 error_timer = Timer(3)
 #
+from kzpy3.Localization_app.Parameters_Module import *
 def aruco_thread():
 	import kzpy3.data_analysis.Angle_Dict_Creator as Angle_Dict_Creator
-	from kzpy3.Localization_app.Parameters_Module import *
+	
 	from kzpy3.Localization_app.Project_Aruco_Markers_Module import Aruco_Trajectory
 	Aruco_trajectory = Aruco_Trajectory()
 	global robot_steer
