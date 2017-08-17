@@ -213,12 +213,14 @@ error_timer = Timer(3)
 #
 from kzpy3.Localization_app.Parameters_Module import *
 figure(5);clf();plt_square();xysqlim(2*107.0/100.0);
+x_avg = 0.0
+y_avg = 0.0
 def aruco_thread():
 	import kzpy3.data_analysis.Angle_Dict_Creator as Angle_Dict_Creator
 	
 	from kzpy3.Localization_app.Project_Aruco_Markers_Module import Aruco_Trajectory
 	Aruco_trajectory = Aruco_Trajectory()
-	global robot_steer
+	global robot_steer,x_avg,y_avg
 
 	print('starting aruco_thread . . .')
 
@@ -247,7 +249,7 @@ def aruco_thread():
 			y_avg /= 2.0
 			dy_avg /= 2.0
 
-			clf();plt_square();xysqlim(2*107.0/100.0);plot(x_avg,y_avg,'ro');spause()
+
 
 			heading = angle_clockwise((0,1),(dx_avg,dy_avg))
 
@@ -290,6 +292,7 @@ frozen_ = 0
 defrosted_timer = Timer(0)
 while not rospy.is_shutdown():
 
+	clf();plt_square();xysqlim(2*107.0/100.0);plot(x_avg,y_avg,'ro');spause()
 
 	if reload_timer.check(): # put in thread?
 		reload(rp)
