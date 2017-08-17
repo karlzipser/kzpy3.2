@@ -1,11 +1,11 @@
 
 from kzpy3.utils2 import *
-Car_ips = {'Mr_Silver':'192.168.1.10','Mr_Gold':'192.168.1.14'}
+Car_ips = {'Mr_Black':'192.168.1.20','Mr_Silver':'192.168.1.10'}
 this_car = os.environ["COMPUTER_NAME"]
-if this_car == 'Mr_Silver':
-	other_car = 'Mr_Gold'
-else:
+if this_car == 'Mr_Black':
 	other_car = 'Mr_Silver'
+else:
+	other_car = 'Mr_Black'
 timer = Timer(0)
 import paramiko
 ssh = paramiko.SSHClient()
