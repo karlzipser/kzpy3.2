@@ -44,7 +44,7 @@ robot_steer = 49
 robot_motor = 56
 robot_steer_gain = 1.1
 X_PARAM = -1.0
-Y_PARAM = 1.0
+Y_PARAM = -1.0
 HEADING_DELTA_PARAM = 0.3
 
 steer_gain = 1.0
