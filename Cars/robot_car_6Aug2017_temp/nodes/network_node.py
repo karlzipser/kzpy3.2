@@ -218,6 +218,11 @@ from kzpy3.Localization_app.Parameters_Module import *
 x_avg = 0.0
 y_avg = 0.0
 steer = 0.0
+import paramiko
+ssh = paramiko.SSHClient()
+ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+ssh.connect('192.168.1.10', username='nvidia',password='nvidia')
+
 def aruco_thread():
 	import kzpy3.data_analysis.Angle_Dict_Creator as Angle_Dict_Creator
 	
@@ -252,7 +257,7 @@ def aruco_thread():
 			y_avg /= 2.0
 			dy_avg /= 2.0
 
-
+			ssh.exec_command(d2n("echo '(",dp(x_avg),dp(x_avg),dp(dx_avg),dp(dy_avg),")' > ~/Desktop/",'Mr_Black',".txt "))
 
 			heading = angle_clockwise((0,1),(dx_avg,dy_avg))
 
