@@ -215,6 +215,7 @@ from kzpy3.Localization_app.Parameters_Module import *
 #figure(5);clf();plt_square();xysqlim(2*107.0/100.0);
 x_avg = 0.0
 y_avg = 0.0
+aruco_freq = Timer(5)
 def aruco_thread():
 	import kzpy3.data_analysis.Angle_Dict_Creator as Angle_Dict_Creator
 	
@@ -273,7 +274,8 @@ def aruco_thread():
 				aruco_heading_x_pub.publish(std_msgs.msg.Float32(dx_avg))
 				aruco_heading_y_pub.publish(std_msgs.msg.Float32(dy_avg))
 
-			print robot_steer,dp(x_avg,1),dp(y_avg,1)
+			aruco_freq.freq()
+			#print robot_steer,dp(x_avg,1),dp(y_avg,1)
 			error_ctr_ = 0
 
 		except Exception as e:
