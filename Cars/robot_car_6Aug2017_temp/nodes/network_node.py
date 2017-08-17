@@ -268,7 +268,7 @@ def aruco_thread():
 			steer =int((steer-49.0)*rp.robot_steer_gain+49.0)
 			steer = min(99,steer)
 			steer = max(0,steer)
-			print steer,heading_delta
+			print dp(x_avg,1), dp(y_avg,1)
 			robot_steer = steer
 
 			if True:
