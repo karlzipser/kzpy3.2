@@ -88,6 +88,7 @@ Heading_centers2 = get_heading_centers(
 
 
 Heading_centers = join_dic_lists(dic_list,[Heading_centers1,Heading_centers2])
+so(opjD('Heading_centers'),Heading_centers)
 
 	
 
@@ -155,7 +156,7 @@ for u_ in range(0,331,du_):
 	Imgs[u_] = img_
 	#raw_enter()
 #
-#
+#####################################################################################
 #
 heading_steering_coordinates = lo(opjD('heading_steering_coordinates'))
 wall_length = 4*107.0/100.0
@@ -210,10 +211,6 @@ def get_steer(*args):
 
 
 
-timer = Timer(0)
-for i in range(100):
-	ssh.exec_command(d2s("echo '(1.4,5.2,",i,")' > ~/Desktop/Mr_Color.txt "))
-print timer.time()
 
 
 
@@ -224,71 +221,170 @@ print timer.time()
 
 
 
+CA()
 
+half_wall_length = wall_length/2.0
+hw = half_wall_length
 
+h = lo(opjD('Heading_centers'))
 
+Potential_graph = Graph_Image(xmin,-hw, xmax,hw, ymin,-hw, ymax,hw, xsize,25, ysize,25, data_type,np.int)
 
+xp,yp = Potential_graph[floats_to_pixels](x,h[x], y,h[y], NO_REVERSE,True)
 
-
-
-
-
-
-
-
-h = Heading_centers
-Gi=Graph_Image(xmin,-hw, xmax,hw, ymin,-hw, ymax,hw, xsize,25, ysize,25, data_type,np.int)
-xp,yp = Gi[floats_to_pixels](x,h[x],y,h[y])
 for i in rlen(xp):
-	Gi[img][xp[i],yp[i],:] += 1
-g = Gi[img][:,:,0].copy()
-t = 100
-g[g>t]=t # set after looking at histogram
-mi(1-z2o(g),1)
-figure(2);clf();hist(g.flatten())
-figure(3);clf();plot(h[x],h[y],'.')
-x1,y1=Gi[floats_to_pixels](x,0.54,y,0.007, NO_REVERSE,True)
-#g[x1,y1] =150
-mi(z2o(g),4)
+	Potential_graph[img][xp[i],yp[i],:] += 1
 
+pg = Potential_graph[img][:,:,0].copy()
+figure('hist');clf();hist(pg.flatten())
+threshold = 100
+pg[pg>threshold] = threshold # set after looking at histogram
+pgf = np.fliplr(pg)
+pg = z2o( np.rot90(pg,1) + np.rot90(pg,2) + np.rot90(pg,3) + np.rot90(pg,4) )
+pgf = z2o( np.rot90(pgf,1) + np.rot90(pgf,2) + np.rot90(pgf,3) + np.rot90(pgf,4) )
+pg = 1.0 - z2o(pg+pgf)
+Potential_graph[img] = pg
+mi(pg,'pg')
+so(opjD('Potential_graph_img'),Potential_graph[img])
+
+############################################################
 # insure pixels out of image set correctly
 # make sure headings correspond to yesterday's heading directions
 
-Da = {}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+################################################################################3
+#
+from kzpy3.Grapher_app.Graph_Image_Module import *
+wall_length = 4*107.0/100.0
+half_wall_length = wall_length/2.0
+hw = half_wall_length
+tmp = Graph_Image(xmin,-hw, xmax,hw, ymin,-hw, ymax,hw, xsize,25, ysize,25)
+tmp[img] = lo(opjD('Potential_graph_img'))
+Potential_graph = Graph_Image(xmin,-hw, xmax,hw, ymin,-hw, ymax,hw, xsize,25, ysize,25, Img,tmp)
+
+Polar_Cartesian_dictionary = {}
+Pc = Polar_Cartesian_dictionary
 for a in range(360):
 	ay = np.sin(np.radians(a))
 	ax = np.cos(np.radians(a))
-	Da[a]=[ax,ay]
-"""
-r=0.5
-for a in arange(0,90,22.5):
-	xya = na(Da[int(a)])*r
-	x1,y1=Gi[floats_to_pixels](x,xya[0], y,xya[1], NO_REVERSE,True)
-	g[x1,y1] =150
-mi(z2o(g),5)
-"""
+	Pc[a]=[ax,ay]
 
-# function, take position, heading, and test granularity and return angle/value pairs (sorted?)
-# or return single angle with best value
 
-x_pos = -1
-y_pos = -1
-heading = 135
-heading_floats = []
-headings = arange(heading-45,heading+45,22.5)
-for a in headings:
-	b = int(a)
-	if b < 0:
-		b = 360 + b
-	elif b >= 360:
-		b -= 360
-	heading_floats.append(Da[b])
-heading_floats = na(heading_floats)
-r = 0.5
-gg = g.copy()
-x1,y1=Gi[floats_to_pixels](x,r*heading_floats[:,0]+x_pos, y,r*heading_floats[:,1]+y_pos, NO_REVERSE,True)
-gg[x1,y1] = 0
-mi(gg,6)
+def angle_360_correction(angle):
+	if angle < 0:
+		angle = 360 + angle
+	elif angle >= 360:
+		angle -= 360
+	if angle >= 0 and angle < 360:
+		return angle
+	else:
+		return angle_360_correction(angle)
+
+def get_headings(x_pos_input,y_pos_input,heading):
+	heading_floats = []
+	headings = arange(heading-45,heading+45,22.5).astype(np.int)
+	for a in headings:
+		b = angle_360_correction(int(a))
+		heading_floats.append(Pc[b])
+	heading_floats = na(heading_floats)
+	return headings,heading_floats
+
+def in_square(x0,y0, x_left, x_right, y_top, y_bottom):
+	if x0 >= x_left:
+		if x0 < x_right:
+			if y0 < y_top:
+				if y0 >= y_bottom:
+					return True
+	return False
+
+
+def get_best_heading(x_pos,y_pos,heading,radius):
+
+	headings,heading_floats = get_headings(x_pos,y_pos,heading)
+
+	x1,y1 = Potential_graph[floats_to_pixels](
+		x,radius*heading_floats[:,0]+x_pos, y,radius*heading_floats[:,1]+y_pos, NO_REVERSE,True)
+
+	min_potential = 9999
+	min_potential_index = -9999
+	for i in rlen(x1):
+		if in_square(x1[i],y1[i],0,25,25,0):
+			p = Potential_graph[img][x1[i],y1[i]]
+		else:
+			p = 1
+		if p < min_potential:
+			min_potential = p
+			min_potential_index = i
+
+	return headings[min_potential_index]
+
+
+
+
+
+
+
+
+if False:
+	figure('test')
+	clf();plt_square(),xysqlim(2.1)
+	f = Timer(5)
+	for j in range(1000):
+		c=np.random.choice(['k','r','g','y','b'])
+		xy=wall_length*np.random.random(2)-half_wall_length;h2 = np.random.random(1)*360
+		for i in range(60):
+			hnew = get_best_heading(xy[0],xy[1],h2,0.5)
+			h2=angle_360_correction(hnew)
+			ac = angle_360_correction(h2)
+			dxy = 0.2*na(Polar_Cartesian_dictionary[int(ac)])
+			xy+=dxy
+			f.freq()
+			plot(xy[0],xy[1],c+'.');spause()
+
 
 
 #EOF

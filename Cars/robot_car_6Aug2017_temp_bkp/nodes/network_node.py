@@ -100,74 +100,6 @@ heading_steering_coordinates = lo(opjD('heading_steering_coordinates'))
 wall_length = 4*107.0/100.0
 #
 from kzpy3.vis2 import angle_clockwise
-#
-#
-################################################################################3
-#
-from kzpy3.Grapher_app.Graph_Image_Module import *
-wall_length = 4*107.0/100.0
-half_wall_length = wall_length/2.0
-hw = half_wall_length
-tmp = Graph_Image(xmin,-hw, xmax,hw, ymin,-hw, ymax,hw, xsize,25, ysize,25)
-tmp[img] = lo(opjD('Potential_graph_img'))
-Potential_graph = Graph_Image(xmin,-hw, xmax,hw, ymin,-hw, ymax,hw, xsize,25, ysize,25, Img,tmp)
-#
-Polar_Cartesian_dictionary = {}
-Pc = Polar_Cartesian_dictionary
-for a in range(360):
-	ay = np.sin(np.radians(a))
-	ax = np.cos(np.radians(a))
-	Pc[a]=[ax,ay]
-#
-def angle_360_correction(angle):
-	if angle < 0:
-		angle = 360 + angle
-	elif angle >= 360:
-		angle -= 360
-	if angle >= 0 and angle < 360:
-		return angle
-	else:
-		return angle_360_correction(angle)
-#
-def get_headings(x_pos_input,y_pos_input,heading):
-	heading_floats = []
-	headings = arange(heading-45,heading+45,22.5).astype(np.int)
-	for a in headings:
-		b = angle_360_correction(int(a))
-		heading_floats.append(Pc[b])
-	heading_floats = na(heading_floats)
-	return headings,heading_floats
-#
-def in_square(x0,y0, x_left, x_right, y_top, y_bottom):
-	if x0 >= x_left:
-		if x0 < x_right:
-			if y0 < y_top:
-				if y0 >= y_bottom:
-					return True
-	return False
-#
-def get_best_heading(x_pos,y_pos,heading,radius):
-
-	headings,heading_floats = get_headings(x_pos,y_pos,heading)
-
-	x1,y1 = Potential_graph[floats_to_pixels](
-		x,radius*heading_floats[:,0]+x_pos, y,radius*heading_floats[:,1]+y_pos, NO_REVERSE,True)
-
-	min_potential = 9999
-	min_potential_index = -9999
-	for i in rlen(x1):
-		if in_square(x1[i],y1[i],0,25,25,0):
-			p = Potential_graph[img][x1[i],y1[i]]
-		else:
-			p = 1
-		if p < min_potential:
-			min_potential = p
-			min_potential_index = i
-
-	return headings[min_potential_index]
-#
-###################################################################
-#
 def get_steer(*args):
 	Args = args_to_dictionary(args);_=da
 	x = _(Args,X)
@@ -239,34 +171,21 @@ def aruco_thread():
 				y_avg += y_
 				dx_avg += hx_-x_
 				dy_avg += hy_-y_
+				aruco_position_x_pub.publish(std_msgs.msg.Float32(x_))
+				aruco_position_y_pub.publish(std_msgs.msg.Float32(y_))
+				aruco_heading_x_pub.publish(std_msgs.msg.Float32(hx_-x_))
+				aruco_heading_y_pub.publish(std_msgs.msg.Float32(hy_-y_))
 
 			x_avg /= 2.0
 			dx_avg /= 2.0
 			y_avg /= 2.0
 			dy_avg /= 2.0
 
-			heading = angle_clockwise((0,1),(dx_avg,dy_avg))
-
-			heading_new = get_best_heading(rp.X_PARAM*x_avg,rp.Y_PARAM*y_avg,heading,0.5)
-
-			heading_delta = (heading_new - heading)
-
 			steer = get_steer(X,x_avg, Y,y_avg, DX,dx_avg, DY,dy_avg)
-
-			steer += rp.HEADING_DELTA_PARAM * heading_delta
-
-
 			steer =int((steer-49.0)*rp.robot_steer_gain+49.0)
 			steer = min(99,steer)
 			steer = max(0,steer)
 			robot_steer = steer
-
-			if True:
-				aruco_position_x_pub.publish(std_msgs.msg.Float32(x_avg))
-				aruco_position_y_pub.publish(std_msgs.msg.Float32(y_avg))
-				aruco_heading_x_pub.publish(std_msgs.msg.Float32(dx_avg))
-				aruco_heading_y_pub.publish(std_msgs.msg.Float32(dy_avg))
-
 			print robot_steer
 			error_ctr_ = 0
 

@@ -597,6 +597,7 @@ class Timer:
 	def __init__(self, time_s=0):
 		self.time_s = time_s
 		self.start_time = time.time()
+		self.count = 0
 	def check(self):
 		if time.time() - self.start_time > self.time_s:
 			return True
@@ -606,8 +607,14 @@ class Timer:
 		return time.time() - self.start_time
 	def reset(self):
 		self.start_time = time.time()
+		self.count = 0
 	def trigger(self):
 		self.start_time = 0
+	def freq(self):
+		self.count += 1
+		if self.check():
+			spd2s('Frequency = ',self.count/self.time(),'Hz')
+			self.reset()
 
   
 

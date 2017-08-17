@@ -43,10 +43,6 @@ who_is_in_charge = I_ROBOT
 robot_steer = 49
 robot_motor = 57
 robot_steer_gain = 1.05
-X_PARAM = 1.0
-Y_PARAM = 1.0
-HEADING_DELTA_PARAM = 0.5
-
 steer_gain = 1.0
 motor_gain = 1.0
 acc2rd_threshold = 150

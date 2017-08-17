@@ -127,3 +127,6 @@ done
 fi
 
 date
+
+
+# chmod -R 744 xyz
