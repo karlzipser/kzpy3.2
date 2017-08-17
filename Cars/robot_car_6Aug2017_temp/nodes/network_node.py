@@ -217,13 +217,13 @@ from kzpy3.Localization_app.Parameters_Module import *
 #figure(5);clf();plt_square();xysqlim(2*107.0/100.0);
 x_avg = 0.0
 y_avg = 0.0
-
+steer = 0.0
 def aruco_thread():
 	import kzpy3.data_analysis.Angle_Dict_Creator as Angle_Dict_Creator
 	
 	from kzpy3.Localization_app.Project_Aruco_Markers_Module import Aruco_Trajectory
 	Aruco_trajectory = Aruco_Trajectory()
-	global robot_steer,x_avg,y_avg
+	global robot_steer,x_avg,y_avg,steer
 
 	print('starting aruco_thread . . .')
 
@@ -260,7 +260,7 @@ def aruco_thread():
 
 			heading_delta = (heading_new - heading)
 
-			steer = get_steer(X,x_avg, Y,y_avg, DX,dx_avg, DY,dy_avg)
+			#steer = get_steer(X,x_avg, Y,y_avg, DX,dx_avg, DY,dy_avg)
 
 			steer += rp.HEADING_DELTA_PARAM * heading_delta
 
