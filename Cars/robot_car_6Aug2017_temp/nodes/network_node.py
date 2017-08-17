@@ -5,6 +5,8 @@ https://answers.ros.org/question/90536/ros-remote-master-can-see-topics-but-no-d
 on roscore machine:
 export ROS_IP=0.0.0.0 # Listen on any interface
 """
+from kzpy3.utils2 import *
+aruco_freq = Timer(5)
 import cv2 # befor pytorch_code import on purpose, affects bdd2, maybe not TX1
 from pytorch_code import *
 import roslib
@@ -215,7 +217,7 @@ from kzpy3.Localization_app.Parameters_Module import *
 #figure(5);clf();plt_square();xysqlim(2*107.0/100.0);
 x_avg = 0.0
 y_avg = 0.0
-aruco_freq = Timer(5)
+
 def aruco_thread():
 	import kzpy3.data_analysis.Angle_Dict_Creator as Angle_Dict_Creator
 	
