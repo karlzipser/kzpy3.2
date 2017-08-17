@@ -212,7 +212,7 @@ robot_steer = 49
 error_timer = Timer(3)
 #
 from kzpy3.Localization_app.Parameters_Module import *
-figure(5);clf();plt_square();xysqlim(2*107.0/100.0);
+#figure(5);clf();plt_square();xysqlim(2*107.0/100.0);
 x_avg = 0.0
 y_avg = 0.0
 def aruco_thread():
@@ -273,7 +273,7 @@ def aruco_thread():
 				aruco_heading_x_pub.publish(std_msgs.msg.Float32(dx_avg))
 				aruco_heading_y_pub.publish(std_msgs.msg.Float32(dy_avg))
 
-			print robot_steer
+			print robot_steer,dp(x_avg,1),dp(y_avg,1)
 			error_ctr_ = 0
 
 		except Exception as e:
@@ -292,7 +292,7 @@ frozen_ = 0
 defrosted_timer = Timer(0)
 while not rospy.is_shutdown():
 
-	clf();plt_square();xysqlim(2*107.0/100.0);plot(x_avg,y_avg,'ro');spause()
+	#clf();plt_square();xysqlim(2*107.0/100.0);plot(x_avg,y_avg,'ro');spause()
 
 	if reload_timer.check(): # put in thread?
 		reload(rp)
