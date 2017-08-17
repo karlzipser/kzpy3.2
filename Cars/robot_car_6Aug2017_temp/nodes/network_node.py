@@ -212,6 +212,7 @@ robot_steer = 49
 error_timer = Timer(3)
 #
 from kzpy3.Localization_app.Parameters_Module import *
+figure(5);clf();plt_square();xysqlim(2*107.0/100.0);
 def aruco_thread():
 	import kzpy3.data_analysis.Angle_Dict_Creator as Angle_Dict_Creator
 	
@@ -245,6 +246,8 @@ def aruco_thread():
 			dx_avg /= 2.0
 			y_avg /= 2.0
 			dy_avg /= 2.0
+
+			clf();plt_square();xysqlim(2*107.0/100.0);plot(x_avg,y_avg,'ro');spause()
 
 			heading = angle_clockwise((0,1),(dx_avg,dy_avg))
 
