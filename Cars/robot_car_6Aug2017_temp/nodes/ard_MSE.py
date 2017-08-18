@@ -353,20 +353,23 @@ def run_loop(Arduinos,M,BUTTON_DELTA=50,):
 				print("caffe_motor freeze")
 				M['potential_collision'] = 1
 			
-			acc2rd = M['acc'][0]**2+M['acc'][2]**2
-			acc2rd_list.append(acc2rd)
-			if len(acc2rd_list) > 5:
-				acc2rd_list = acc2rd_list[-5:]
-			if len(acc2rd_list) > 3:
-				mean_acc2rd = np.array(acc2rd_list[-3:]).mean()
 
-			if mean_acc2rd > rp.robot_acc2rd_threshold:
-				M['potential_collision'] = 1	
+			try:
+				acc2rd = M['acc'][0]**2+M['acc'][2]**2
+				acc2rd_list.append(acc2rd)
+				if len(acc2rd_list) > 5:
+					acc2rd_list = acc2rd_list[-5:]
+				if len(acc2rd_list) > 3:
+					mean_acc2rd = np.array(acc2rd_list[-3:]).mean()
 
-			if M['acc'][1] < rp.acc_freeze_threshold_y_min:
+				if mean_acc2rd > rp.robot_acc2rd_threshold:
+					M['potential_collision'] = 1	
+
+				if M['acc'][1] < rp.acc_freeze_threshold_y_min:
 				M['potential_collision'] = 2
 
-			
+			except:
+				print('no acc')
 
 			
 
