@@ -366,7 +366,7 @@ def run_loop(Arduinos,M,BUTTON_DELTA=50,):
 					M['potential_collision'] = 1	
 
 				if M['acc'][1] < rp.acc_freeze_threshold_y_min:
-				M['potential_collision'] = 2
+					M['potential_collision'] = 2
 
 			except:
 				print('no acc')
