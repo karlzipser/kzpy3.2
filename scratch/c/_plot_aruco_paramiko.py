@@ -7,7 +7,7 @@ from kzpy3.Grapher_app.Graph_Image_Module import *
 wall_length = 4*107.0/100.0
 half_wall_length = wall_length/2.0
 hw = half_wall_length
-Gi = Graph_Image(xmin,-hw, xmax,hw, ymin,-hw, ymax,hw, xsize,100, ysize,100)
+Gi = Graph_Image(xmin,-hw, xmax,hw, ymin,-hw, ymax,hw, xsize,200, ysize,200)
 
 
 
@@ -16,7 +16,7 @@ while True:
 		l = txt_file_to_list_of_strings(opjD('Mr_Black.txt'))
 		exec('pose = '+l[0])
 		if len(pose) == 4:
-			print pose
+			#print pose
 			if clear_timer.check():
 				#img *= 0
 				clear_timer.reset()
