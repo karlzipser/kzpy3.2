@@ -24,6 +24,8 @@ while True:
 			k = mci(Gi[img],delay=5,scale=4)
 		if k == ord('q'):
 			break
+		if k == ord('r'):
+			Gi[img] *= 0
 	except (KeyboardInterrupt, SystemExit):
 		raise
 	except:
