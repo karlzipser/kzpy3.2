@@ -265,9 +265,10 @@ def aruco_thread():
 
 			heading_delta = (heading_new - heading)
 
-			steer = get_steer(X,x_avg, Y,y_avg, DX,dx_avg, DY,dy_avg)
+			if rp.STEER_FROM_XY:
+				steer = get_steer(X,x_avg, Y,y_avg, DX,dx_avg, DY,dy_avg)
 
-			#steer += rp.HEADING_DELTA_PARAM * heading_delta
+			steer += rp.HEADING_DELTA_PARAM * heading_delta
 
 
 			steer =int((steer-49.0)*rp.robot_steer_gain+49.0)
