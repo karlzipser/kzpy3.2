@@ -228,6 +228,7 @@ def aruco_thread():
 	
 	from kzpy3.Localization_app.Project_Aruco_Markers_Module import Aruco_Trajectory
 	Aruco_trajectory = Aruco_Trajectory()
+	Aruco_trajectory[past_to_present_proportion] = rp.past_to_present_proportion
 	global robot_steer,x_avg,y_avg,steer
 
 	print('starting aruco_thread . . .')
