@@ -7,7 +7,7 @@ from kzpy3.Grapher_app.Graph_Image_Module import *
 wall_length = 4*107.0/100.0
 half_wall_length = wall_length/2.0
 hw = half_wall_length
-Gi = Graph_Image(xmin,-hw, xmax,hw, ymin,-hw, ymax,hw, xsize,200, ysize,200)
+Gi = Graph_Image(xmin,-hw, xmax,hw, ymin,-hw, ymax,hw, xsize,428, ysize,428)
 
 
 
@@ -22,7 +22,7 @@ while True:
 				clear_timer.reset()
 			Gi[ptsplot](x,[pose[0]],y,[pose[1]],color,(255,0,0))
 			Gi[ptsplot](x,[pose[0]+pose[2]],y,[pose[1]+pose[3]],color,(0,255,0))
-			k = mci(Gi[img],delay=5,scale=4)
+			k = mci(Gi[img],delay=5,scale=2)
 		if k == ord('q'):
 			break
 		if k == ord('r'):
