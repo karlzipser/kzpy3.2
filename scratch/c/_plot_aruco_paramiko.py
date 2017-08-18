@@ -16,15 +16,16 @@ while True:
 		l = txt_file_to_list_of_strings(opjD('Mr_Black.txt'))
 		exec('pose = '+l[0])
 		if len(pose) == 4:
+			print pose
 			if clear_timer.check():
 				#img *= 0
 				clear_timer.reset()
 			Gi[ptsplot](x,pose[0],y,pose[1],color,(255,0,0))
-		k = mci(Gi[img],delay=5)
+			k = mci(Gi[img],delay=5)
 		if k == ord('q'):
 			break
 	except (KeyboardInterrupt, SystemExit):
 		raise
 	except:
-		#raise
+		raise
 		print(d2s('oops',time.time()))
