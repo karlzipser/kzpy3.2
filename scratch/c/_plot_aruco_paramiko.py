@@ -7,7 +7,7 @@ while True:
 	if True:#try:
 		l = txt_file_to_list_of_strings(opjD('Mr_Black.txt'))
 		exec('pose = '+l[0])
-		img[pose[0],pose[1],0]=255;
+		img[int(10*pose[0]),int(10*pose[1]),0]=255;
 		mci(img,delay=5)
 	else:#except:
 		print 'oops'
