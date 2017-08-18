@@ -20,7 +20,7 @@ while True:
 				img *= 0
 				clear_timer.reset()
 				x1,y1 = Gi[pts_plot](x,pose[0],y,pose[1],(255,0,0))
-		k = mci(img,delay=5)
+		k = mci(Gi[img],delay=5)
 		if k == ord('q'):
 			break
 	except (KeyboardInterrupt, SystemExit):
