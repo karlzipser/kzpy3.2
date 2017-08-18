@@ -16,5 +16,4 @@ while True:
 	except (KeyboardInterrupt, SystemExit):
 		raise
 	except:
-		print(d2s('oops',time.time())
-
+		print(d2s('oops',time.time()))
