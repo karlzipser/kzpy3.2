@@ -264,7 +264,7 @@ def aruco_thread():
 
 			heading = angle_clockwise((0,1),(dx_avg,dy_avg))
 
-			heading_new = get_best_heading(rp.X_PARAM*x_avg,rp.Y_PARAM*y_avg,heading,0.5)
+			heading_new = get_best_heading(rp.X_PARAM*x_avg,rp.Y_PARAM*y_avg,heading,rp.radius)
 
 			heading_delta = (heading_new - heading)
 
