@@ -14,6 +14,7 @@ while True:
 			img[210+int(100*pose[0]),210+int(100*pose[1]),0]=255;
 		mci(img,delay=5)
 	except (KeyboardInterrupt, SystemExit):
-        raise
-    except:
+		raise
+	except:
 		print(d2s('oops',time.time())
+
