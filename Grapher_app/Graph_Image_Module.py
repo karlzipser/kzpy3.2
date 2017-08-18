@@ -62,7 +62,7 @@ def Graph_Image(*args):
 		D[xscale] = D[xsize]/(1.0*D[xmax]-D[xmin])
 		D[yscale] = D[ysize]/(1.0*D[ymax]-D[ymin])
 		x_,y_ = D[floats_to_pixels](x,x_,y,y_)
-		print(x_,y_)
+		#print(x_,y_)
 		indicies_ = np.where(np.logical_and(y_>=0, y_<D[xsize]))
 		x_ = x_[indicies_]
 		y_ = y_[indicies_]        
