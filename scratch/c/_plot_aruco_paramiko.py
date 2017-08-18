@@ -13,7 +13,7 @@ Gi = Graph_Image(xmin,-hw, xmax,hw, ymin,-hw, ymax,hw, xsize,428, ysize,428)
 
 while True:
 	try:
-		l = txt_file_to_list_of_strings(opjD('Mr_Black.txt'))
+		l = txt_file_to_list_of_strings(opjD('Mr_Black.car.txt'))
 		exec('pose = '+l[0])
 		if len(pose) == 4:
 			#print pose
