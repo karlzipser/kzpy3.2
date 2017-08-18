@@ -20,7 +20,7 @@ while True:
 			if clear_timer.check():
 				#img *= 0
 				clear_timer.reset()
-			Gi[ptsplot](x,pose[0],y,pose[1],color,(255,0,0))
+			Gi[ptsplot](x,[pose[0]],[y,pose[1]],color,(255,0,0))
 			k = mci(Gi[img],delay=5)
 		if k == ord('q'):
 			break
