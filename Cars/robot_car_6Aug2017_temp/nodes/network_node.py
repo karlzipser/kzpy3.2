@@ -257,7 +257,7 @@ def aruco_thread():
 			y_avg /= 2.0
 			dy_avg /= 2.0
 
-			ssh.exec_command(d2n("echo '(",dp(x_avg),',',dp(y_avg),',',dp(dx_avg),',',dp(dy_avg),")' > ~/Desktop/",'Mr_Black',".txt "))
+			ssh.exec_command(d2n("echo '(",dp(x_avg),',',dp(y_avg),',',dp(dx_avg),',',dp(dy_avg),")' > ~/Desktop/",rp.computer_name,".txt "))
 
 			heading = angle_clockwise((0,1),(dx_avg,dy_avg))
 
