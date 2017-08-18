@@ -13,5 +13,7 @@ while True:
 				clear_timer.reset()
 			img[210+int(100*pose[0]),210+int(100*pose[1]),0]=255;
 		mci(img,delay=5)
-	except:
-		print 'oops'
+	except (KeyboardInterrupt, SystemExit):
+        raise
+    except:
+		print(d2s('oops',time.time())
