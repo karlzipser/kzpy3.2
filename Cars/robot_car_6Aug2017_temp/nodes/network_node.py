@@ -133,7 +133,7 @@ def angle_360_correction(angle):
 #
 def get_headings(x_pos_input,y_pos_input,heading):
 	heading_floats = []
-	headings = arange(heading-45,heading+45,22.5).astype(np.int)
+	headings = arange(heading-45,heading+45,22.5/4.0).astype(np.int)
 	for a in headings:
 		b = angle_360_correction(int(a))
 		heading_floats.append(Pc[b])
