@@ -167,7 +167,7 @@ def get_best_heading(x_pos,y_pos,heading,radius):
 			min_potential = p
 			min_potential_index = i
 
-	return headings[min_potential_index],heading_floats
+	return headings[min_potential_index],heading_floats,x1,y1
 #
 ###################################################################
 #
@@ -262,17 +262,23 @@ def aruco_thread():
 
 			heading = angle_clockwise((0,1),(dx_avg,dy_avg))
 
-			heading_new,heading_floats = get_best_heading(rp.X_PARAM*x_avg,rp.Y_PARAM*y_avg,heading,rp.radius)
+			heading_new,heading_floats,x1,y1 = get_best_heading(rp.X_PARAM*x_avg,rp.Y_PARAM*y_avg,heading,rp.radius)
 			
 			heading_delta = (heading_new - heading)
 
 			pose_str = d2n("(",dp(x_avg),',',dp(y_avg),',',dp(dx_avg),',',dp(dy_avg),")")
+
 			heading_floats_str = "["
 			for h in heading_floats:
 				heading_floats_str += d2n('[',rp.radius*h[0]+x_avg,',',rp.radius*h[1]+y_avg,'],')
 			heading_floats_str += ']'
 
-			ssh_command_str = d2n("echo 'pose = ",pose_str,"\nheading_floats = ",heading_floats_str,"' > ~/Desktop/",rp.computer_name,".car.txt ")
+			xy_str = "["
+			for xy in zip(x1,y1):
+				xy_str += d2n('[',xy[0],',',xy[1],'],')
+			xy_str += ']'
+
+			ssh_command_str = d2n("echo 'pose = ",pose_str,"\nxy = ",xy_str,"\nheading_floats = ",heading_floats_str,"' > ~/Desktop/",rp.computer_name,".car.txt ")
 			#print ssh_command_str
 			ssh.exec_command(ssh_command_str)
 
