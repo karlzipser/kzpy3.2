@@ -98,7 +98,7 @@ aruco_position_y_pub = rospy.Publisher('/bair_car/aruco_position_y', std_msgs.ms
 #
 import threading
 #
-heading_steering_coordinates = lo(opjD('heading_steering_coordinates'))
+#heading_steering_coordinates = lo(opjD('heading_steering_coordinates'))
 wall_length = 4*107.0/100.0
 #
 from kzpy3.vis2 import angle_clockwise
@@ -211,9 +211,9 @@ def get_steer(*args):
 
 	px = int(x*7.0/wall_length + 4.0)
 	py = int(y*7.0/wall_length + 4.0)
-	steer = int(heading_steering_coordinates[binned_angle][px,py])
+	#steer = int(heading_steering_coordinates[binned_angle][px,py])
 
-	return steer
+	#return steer
 #
 steer_prev = 49
 robot_steer = 49
