@@ -269,7 +269,7 @@ def aruco_thread():
 			heading_delta = (heading_new - heading)
 
 
-			print heading_new,heading,heading_delta
+			print int(heading_new),int(heading),int(heading_delta)
 			if rp.STEER_FROM_XY:
 				steer = get_steer(X,x_avg, Y,y_avg, DX,dx_avg, DY,dy_avg)
 
