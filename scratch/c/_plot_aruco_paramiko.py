@@ -40,7 +40,7 @@ while not done:
 
 				for xxyy in xy:
 					#print xxyy
-					Gi[img][xxyy[0],xxyy[1],:] = [0,0,255]
+					Gi[img][xxyy[0],xxyy[1],:] = [0,255,255]
 					#print Gi[img][xxyy[0],xxyy[1],:]
 				car_color = Colors[car_name]
 				Gi[ptsplot](x,[pose[0]],y,[pose[1]],color,car_color)
