@@ -10,8 +10,8 @@ from kzpy3.Grapher_app.Graph_Image_Module import *
 wall_length = 4*107.0/100.0
 half_wall_length = wall_length/2.0
 hw = half_wall_length
-#img_ = cv2.blur(lo(opjD('Potential_graph_img')),(rp.potential_graph_blur,rp.potential_graph_blur))
-img_ = ((np.array(lo(opjD('Potential_graph_img'))))*255.0).astype(np.int)
+img_ = z2o(cv2.blur(lo(opjD('Potential_graph_img')),(rp.potential_graph_blur,rp.potential_graph_blur)))
+#img_ = ((np.array(lo(opjD('Potential_graph_img'))))*255.0).astype(np.int)
 
 #mi(img_);spause()
 Gi = Graph_Image(xmin,-hw, xmax,hw, ymin,-hw, ymax,hw, xsize,25, ysize,25)
