@@ -58,10 +58,14 @@ def Graph_Image(*args):
 	def _function_pts_plot(*args):
 		Args = args_to_dictionary(args)
 		x_,y_,color_ = Args[x],Args[y],Args[color]
+		if NO_REVERSE in Args:
+			no_reverse = Args[NO_REVERSE]
+		else:
+			no_reverse = False		
 		True
 		D[xscale] = D[xsize]/(1.0*D[xmax]-D[xmin])
 		D[yscale] = D[ysize]/(1.0*D[ymax]-D[ymin])
-		x_,y_ = D[floats_to_pixels](x,x_,y,y_)
+		x_,y_ = D[floats_to_pixels](x,x_,y,y_,NO_REVERSE,no_reverse)
 		#print(x_,y_)
 		indicies_ = np.where(np.logical_and(y_>=0, y_<D[xsize]))
 		x_ = x_[indicies_]

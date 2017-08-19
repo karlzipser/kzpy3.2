@@ -29,7 +29,7 @@ while not done:
 					clear_timer.reset()
 				Gi[ptsplot](x,[pose[0]],y,[pose[1]],color,(255,0,0))
 				Gi[ptsplot](x,[pose[0]+pose[2]],y,[pose[1]+pose[3]],color,(0,255,0))
-				heading_floats = np.array(heading_floats)
+				heading_floats = np.array(heading_floats), NO_REVERSE,True
 				Gi[ptsplot]( x,heading_floats[:,0], y,heading_floats[:,1], color,(255,255,255))
 				k = mci(Gi[img],delay=5,scale=2)
 			if k == ord('q'):
