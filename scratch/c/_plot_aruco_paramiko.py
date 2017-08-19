@@ -23,22 +23,19 @@ while not done:
 			for ll in l:
 				exec(ll)
 			if len(pose) == 4:
-				#print pose
+
 				if clear_timer.check():
-					#img *= 0
+
 					clear_timer.reset()
 				Gi[ptsplot](x,[pose[0]],y,[pose[1]],color,(255,0,0))
 				Gi[ptsplot](x,[pose[0]+pose[2]],y,[pose[1]+pose[3]],color,(0,255,0))
 
-
-				Gi[img][10,10,0] = 55
-				#mi(Gi[img]);spause()
 				heading_floats = np.array(heading_floats)
 				Gi[ptsplot]( x,heading_floats[:,0], y,heading_floats[:,1], color,(255,255,255), NO_REVERSE,False)
 
 				for xxyy in xy:
 					print xxyy
-					Gi[img][xxyy[0],xxyy[1],2] = 0
+					Gi[img][xxyy[1],xxyy[0],2] = 0
 					print Gi[img][xxyy[0],xxyy[1],:]
 
 				k = mci(Gi[img],delay=5,scale=10)
