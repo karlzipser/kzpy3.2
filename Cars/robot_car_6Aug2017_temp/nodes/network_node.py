@@ -213,6 +213,7 @@ def get_steer(*args):
 
 	return steer
 #
+steer_prev = 49
 robot_steer = 49
 error_timer = Timer(3)
 #
@@ -232,7 +233,7 @@ def aruco_thread():
 	from kzpy3.Localization_app.Project_Aruco_Markers_Module import Aruco_Trajectory
 	Aruco_trajectory = Aruco_Trajectory()
 	P[past_to_present_proportion] = rp.past_to_present_proportion
-	global robot_steer,x_avg,y_avg,steer
+	global robot_steer,x_avg,y_avg,steer,steer_prev
 
 	print('starting aruco_thread . . .')
 
@@ -296,6 +297,8 @@ def aruco_thread():
 			steer =int((steer-49.0)*rp.robot_steer_gain+49.0)
 			steer = min(99,steer)
 			steer = max(0,steer)
+			steer = int((1.0-rp.steer_momentum)*steer+rp.steer_momentum*steer_prev)
+			steer_prev = steer
 			#print dp(x_avg,1), dp(y_avg,1)
 			#print steer
 			print int(heading_new),int(heading),int(heading_delta),int(steer)
