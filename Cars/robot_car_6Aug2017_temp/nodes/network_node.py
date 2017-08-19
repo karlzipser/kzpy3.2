@@ -153,7 +153,7 @@ def get_best_heading(x_pos,y_pos,heading,radius):
 	headings,heading_floats = get_headings(x_pos,y_pos,heading)
 
 	x1,y1 = Potential_graph[floats_to_pixels](
-		x,radius*heading_floats[:,0]+x_pos, y,radius*heading_floats[:,1]+y_pos, NO_REVERSE,False)
+		x,radius*heading_floats[:,0]+x_pos, y,radius*heading_floats[:,1]+y_pos)#, NO_REVERSE,True)
 
 	min_potential = 9999
 	min_potential_index = -9999
