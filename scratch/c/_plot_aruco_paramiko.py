@@ -53,5 +53,5 @@ while not done:
 	except (KeyboardInterrupt, SystemExit):
 		raise
 	except:
-		raise
+		#raise
 		print(d2s('oops',time.time()))
