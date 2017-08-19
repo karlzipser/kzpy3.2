@@ -224,10 +224,22 @@ from kzpy3.Localization_app.Parameters_Module import *
 x_avg = 0.0
 y_avg = 0.0
 steer = 0.0
+
 import paramiko
 ssh = paramiko.SSHClient()
 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-ssh.connect('192.168.1.10', username='nvidia',password='nvidia')
+def paramiko_thread():
+	connected = False
+	while connected == False:
+		try:
+			ssh.connect('192.168.1.10', username='nvidia',password='nvidia')
+			connected = True
+			spd2s('ssh connection established.')
+		except:
+			spd2s('ssh connection failed . . . [will retry]')
+			time.sleep(0.5)
+
+threading.Thread(target=paramiko_thread).start()
 
 def aruco_thread():
 	import kzpy3.data_analysis.Angle_Dict_Creator as Angle_Dict_Creator
@@ -285,8 +297,10 @@ def aruco_thread():
 
 			ssh_command_str = d2n("echo 'pose = ",pose_str,"\nxy = ",xy_str,"\nheading_floats = ",heading_floats_str,"' > ~/Desktop/",rp.computer_name,".car.txt ")
 			#print ssh_command_str
-			ssh.exec_command(ssh_command_str)
-
+			try:
+				ssh.exec_command(ssh_command_str)
+			except:
+				print('ssh.exec_command failed')
 
 			"""
 			if rp.STEER_FROM_XY:
