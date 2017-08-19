@@ -36,7 +36,7 @@ while not done:
 				Gi[img][10,10,0] = 55
 				heading_floats = np.array(heading_floats)
 				Gi[ptsplot]( x,heading_floats[:,0], y,heading_floats[:,1], color,(255,255,255), NO_REVERSE,False)
-				k = mci(Gi[img],delay=5,scale=2)
+				k = mci(Gi[img],delay=5,scale=10)
 			if k == ord('q'):
 				done = True
 				break
