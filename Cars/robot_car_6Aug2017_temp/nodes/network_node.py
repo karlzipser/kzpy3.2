@@ -153,21 +153,21 @@ def get_best_heading(x_pos,y_pos,heading,radius):
 	headings,heading_floats = get_headings(x_pos,y_pos,heading)
 
 	x1,y1 = Potential_graph[floats_to_pixels](
-		x,radius*heading_floats[:,0]+x_pos, y,radius*heading_floats[:,1]+y_pos, NO_REVERSE,False)
+		x,radius*heading_floats[:,0]+x_pos, y,radius*heading_floats[:,1]+y_pos, NO_REVERSE,True)
 
 	min_potential = 9999
 	min_potential_index = -9999
 	for i in rlen(x1):
 		if in_square(x1[i],y1[i],0,25,25,0):
 			p = Potential_graph[img][x1[i],y1[i]]
-			print i,dp(p),dp(headings[i])
+			#print i,dp(p),dp(headings[i])
 		else:
 			p = 1
 		if p < min_potential:
 			min_potential = p
 			min_potential_index = i
 
-	return headings[min_potential_index]
+	return headings[min_potential_index],heading_floats
 #
 ###################################################################
 #
@@ -259,18 +259,26 @@ def aruco_thread():
 			y_avg /= 2.0
 			dy_avg /= 2.0
 
-			ssh_command_str = d2n("echo '(",dp(x_avg),',',dp(y_avg),',',dp(dx_avg),',',dp(dy_avg),")' > ~/Desktop/",rp.computer_name,".car.txt ")
-			#print ssh_command_str
-			ssh.exec_command(ssh_command_str)
 
 			heading = angle_clockwise((0,1),(dx_avg,dy_avg))
 
-			heading_new = get_best_heading(rp.X_PARAM*x_avg,rp.Y_PARAM*y_avg,heading,rp.radius)
+			heading_new,heading_floats = get_best_heading(rp.X_PARAM*x_avg,rp.Y_PARAM*y_avg,heading,rp.radius)
 			
 			heading_delta = (heading_new - heading)
 
+			pose_str = d2n("(",dp(x_avg),',',dp(y_avg),',',dp(dx_avg),',',dp(dy_avg),")")
+			heading_floats_str = "("
+			for h in heading_floats:
+				heading_floats_str += d2n(h,',')
+			heading_floats_str += ')'
+
+			ssh_command_str = d2n("echo 'pose = ",pose_str,"\nheading_floats = ",heading_floats_str,")' > ~/Desktop/",rp.computer_name,".car.txt ")
+			#print ssh_command_str
+			ssh.exec_command(ssh_command_str)
+
 
 			print int(heading_new),int(heading),int(heading_delta)
+
 			if rp.STEER_FROM_XY:
 				steer = get_steer(X,x_avg, Y,y_avg, DX,dx_avg, DY,dy_avg)
 

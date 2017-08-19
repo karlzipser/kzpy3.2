@@ -20,7 +20,8 @@ while not done:
 	try:
 		for car in ['Mr_Black.car.txt','Mr_New.car.txt']:
 			l = txt_file_to_list_of_strings(opjD(car))
-			exec('pose = '+l[0])
+			for ll in l:
+				exec(ll)
 			if len(pose) == 4:
 				#print pose
 				if clear_timer.check():
