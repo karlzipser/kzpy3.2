@@ -35,7 +35,7 @@ while not done:
 
 				for xxyy in xy:
 					print xxyy
-					Gi[img][xxyy[1],xxyy[0],2] = 128
+					Gi[img][xxyy[0],xxyy[1],2] = 200
 					print Gi[img][xxyy[0],xxyy[1],:]
 
 				k = mci(Gi[img],delay=5,scale=10)
