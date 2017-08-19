@@ -2,7 +2,7 @@
 from kzpy3.vis2 import *
 clear_timer = Timer(1)
 #clf();plt_square();xysqlim(2.1);
-
+import kzpy3.Cars.robot_car_6Aug2017_temp.nodes.runtime_parameters as rp
 
 #  b=cv2.blur(a,(40,40)) 
 
@@ -10,7 +10,7 @@ from kzpy3.Grapher_app.Graph_Image_Module import *
 wall_length = 4*107.0/100.0
 half_wall_length = wall_length/2.0
 hw = half_wall_length
-img_ = lo(opjD('Potential_graph_img'))
+img_ = cv2.blur(lo(opjD('Potential_graph_img')),(rp.potential_graph_blur,rp.potential_graph_blur))
 Gi = Graph_Image(xmin,-hw, xmax,hw, ymin,-hw, ymax,hw, xsize,400, ysize,400)
 for i in range(3):
 	Gi[img][:,:,i] = imresize(img_,(400,400))
