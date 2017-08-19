@@ -380,10 +380,11 @@ if False:
 			hnew = get_best_heading(xy[0],xy[1],h2,0.5)
 			h2=angle_360_correction(hnew)
 			ac = angle_360_correction(h2)
-			dxy = 0.2*na(Polar_Cartesian_dictionary[int(ac)])
+			dxy = 0.3*na(Polar_Cartesian_dictionary[int(ac)])
 			xy+=dxy
 			f.freq()
 			plot(xy[0],xy[1],c+'.');spause()
+			list_of_strings_to_txt_file(opjD('Mr_Black.car.txt'),[d2s('(',xy[0],',',xy[1],',',0,',',0,')')])
 
 
 
