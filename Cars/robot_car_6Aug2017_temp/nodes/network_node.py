@@ -265,7 +265,7 @@ def aruco_thread():
 			heading = angle_clockwise((0,1),(dx_avg,dy_avg))
 
 			heading_new = get_best_heading(rp.X_PARAM*x_avg,rp.Y_PARAM*y_avg,heading,rp.radius)
-
+			print heading_new
 			heading_delta = (heading_new - heading)
 
 			if rp.STEER_FROM_XY:
@@ -278,7 +278,7 @@ def aruco_thread():
 			steer = min(99,steer)
 			steer = max(0,steer)
 			#print dp(x_avg,1), dp(y_avg,1)
-			print steer
+			#print steer
 			robot_steer = steer
 
 			if True:
