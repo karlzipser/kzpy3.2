@@ -298,7 +298,7 @@ def aruco_thread():
 			steer = max(0,steer)
 			#print dp(x_avg,1), dp(y_avg,1)
 			#print steer
-			print int(heading_new),int(heading),int(heading_delta,steer)
+		print int(heading_new),int(heading),int(heading_delta),int(steer)
 
 			robot_steer = steer
 
