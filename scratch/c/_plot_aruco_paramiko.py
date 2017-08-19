@@ -12,8 +12,8 @@ half_wall_length = wall_length/2.0
 hw = half_wall_length
 img_ = cv2.blur(lo(opjD('Potential_graph_img')),(rp.potential_graph_blur,rp.potential_graph_blur))
 Gi = Graph_Image(xmin,-hw, xmax,hw, ymin,-hw, ymax,hw, xsize,25, ysize,25)
-#for i in range(3):
-#	Gi[img][:,:,i] = imresize(img_,(400,400))
+for i in range(3):
+	Gi[img][:,:,i] = img_.copy()#imresize(img_,(400,400))
 
 done = False
 while not done:
@@ -42,7 +42,7 @@ while not done:
 				break
 			if k == ord('r'):
 				for i in range(3):
-					Gi[img][:,:,i] = imresize(img_,(400,400))
+					Gi[img][:,:,i] = img_.copy()#imresize(img_,(400,400))
 	except (KeyboardInterrupt, SystemExit):
 		raise
 	except:
