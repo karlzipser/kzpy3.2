@@ -18,11 +18,14 @@ Gi = Graph_Image(xmin,-hw, xmax,hw, ymin,-hw, ymax,hw, xsize,25, ysize,25)
 for i in range(3):
 	Gi[img][:,:,i] = img_.copy()#imresize(img_,(400,400))
 
+Colors = {'Mr_Black':(0,0,0),'Mr_Blue':(0,0,255)}
+
 done = False
 while not done:
 	try:
-		for car in ['Mr_Black.car.txt','Mr_New.car.txt']:
-			l = txt_file_to_list_of_strings(opjD(car))
+		for car in sggo(opjD('*.car.txt')) #['Mr_Black.car.txt','Mr_New.car.txt']:
+			car_name = fname(car).split('.')[0]
+			l = txt_file_to_list_of_strings(car)#opjD(car))
 			for ll in l:
 				exec(ll)
 			if len(pose) == 4:
@@ -39,8 +42,8 @@ while not done:
 					#print xxyy
 					Gi[img][xxyy[0],xxyy[1],:] = [0,0,255]
 					#print Gi[img][xxyy[0],xxyy[1],:]
-				
-				Gi[ptsplot](x,[pose[0]],y,[pose[1]],color,(255,0,0))
+				car_color = Colors[car_name]
+				Gi[ptsplot](x,[pose[0]],y,[pose[1]],color,car_color)
 				Gi[ptsplot](x,[pose[0]+pose[2]],y,[pose[1]+pose[3]],color,(0,255,0))
 
 				k = mci(Gi[img],delay=5,scale=10)
