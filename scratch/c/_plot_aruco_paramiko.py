@@ -13,7 +13,7 @@ hw = half_wall_length
 #img_ = cv2.blur(lo(opjD('Potential_graph_img')),(rp.potential_graph_blur,rp.potential_graph_blur))
 img_ = lo(opjD('Potential_graph_img'))
 
-mi(img_)
+mi(img_);spause()
 Gi = Graph_Image(xmin,-hw, xmax,hw, ymin,-hw, ymax,hw, xsize,25, ysize,25)
 for i in range(3):
 	Gi[img][:,:,i] = img_.copy()#imresize(img_,(400,400))
