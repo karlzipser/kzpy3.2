@@ -10,7 +10,9 @@ from kzpy3.Grapher_app.Graph_Image_Module import *
 wall_length = 4*107.0/100.0
 half_wall_length = wall_length/2.0
 hw = half_wall_length
-img_ = cv2.blur(lo(opjD('Potential_graph_img')),(rp.potential_graph_blur,rp.potential_graph_blur))
+#img_ = cv2.blur(lo(opjD('Potential_graph_img')),(rp.potential_graph_blur,rp.potential_graph_blur))
+img_ = lo(opjD('Potential_graph_img'))
+
 mi(img_)
 Gi = Graph_Image(xmin,-hw, xmax,hw, ymin,-hw, ymax,hw, xsize,25, ysize,25)
 for i in range(3):
@@ -32,12 +34,12 @@ while not done:
 				Gi[ptsplot](x,[pose[0]+pose[2]],y,[pose[1]+pose[3]],color,(0,255,0))
 
 				heading_floats = np.array(heading_floats)
-				Gi[ptsplot]( x,heading_floats[:,0], y,heading_floats[:,1], color,(255,255,255), NO_REVERSE,False)
+				#Gi[ptsplot]( x,heading_floats[:,0], y,heading_floats[:,1], color,(255,255,255), NO_REVERSE,False)
 
 				for xxyy in xy:
-					print xxyy
+					#print xxyy
 					Gi[img][xxyy[0],xxyy[1],2] = 200
-					print Gi[img][xxyy[0],xxyy[1],:]
+					#print Gi[img][xxyy[0],xxyy[1],:]
 
 				k = mci(Gi[img],delay=5,scale=10)
 			if k == ord('q'):
