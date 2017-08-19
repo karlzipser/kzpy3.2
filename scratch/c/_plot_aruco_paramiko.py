@@ -31,7 +31,7 @@ while not done:
 				Gi[ptsplot](x,[pose[0]+pose[2]],y,[pose[1]+pose[3]],color,(0,255,0))
 				for xxyy in xy:
 					print xxyy
-					Gi[img][xxyy[0],[xxyy[1]],2] = 0
+					Gi[img][8*xxyy[0],8*[xxyy[1]],2] = 0
 					print Gi[img][xxyy[0],[xxyy[1]],:]
 				Gi[img][10,10,0] = 55
 				heading_floats = np.array(heading_floats)
