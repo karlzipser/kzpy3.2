@@ -47,7 +47,7 @@ while not done:
 			if k == ord('q'):
 				done = True
 				break
-			if k == ord('r'):
+			if True:#k == ord('r'):
 				for i in range(3):
 					Gi[img][:,:,i] = img_.copy()#imresize(img_,(400,400))
 	except (KeyboardInterrupt, SystemExit):
