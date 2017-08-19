@@ -33,7 +33,7 @@ while not done:
 					print xxyy
 					Gi[img][8*xxyy[0],8*[xxyy[1]],2] = 0
 					print Gi[img][xxyy[0],[xxyy[1]],:]
-				Gi[img][10,10,0] = 55
+				Gi[img][8*10,8*10,0] = 55
 				heading_floats = np.array(heading_floats)
 				Gi[ptsplot]( x,heading_floats[:,0], y,heading_floats[:,1], color,(255,255,255), NO_REVERSE,False)
 				k = mci(Gi[img],delay=5,scale=2)
