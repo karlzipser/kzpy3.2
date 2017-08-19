@@ -23,7 +23,7 @@ Colors = {'Mr_Black':(0,0,0),'Mr_Blue':(0,0,255)}
 done = False
 while not done:
 	try:
-		for car in sggo(opjD('*.car.txt')) #['Mr_Black.car.txt','Mr_New.car.txt']:
+		for car in sggo(opjD('*.car.txt')): #['Mr_Black.car.txt','Mr_New.car.txt']:
 			car_name = fname(car).split('.')[0]
 			l = txt_file_to_list_of_strings(car)#opjD(car))
 			for ll in l:
