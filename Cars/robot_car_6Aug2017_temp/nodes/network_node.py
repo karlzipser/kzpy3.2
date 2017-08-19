@@ -269,7 +269,7 @@ def aruco_thread():
 			pose_str = d2n("(",dp(x_avg),',',dp(y_avg),',',dp(dx_avg),',',dp(dy_avg),")")
 			heading_floats_str = "["
 			for h in heading_floats:
-				heading_floats_str += d2n('[',h[0]+x_avg,',',h[1]+y_avg,'],')
+				heading_floats_str += d2n('[',rp.radius*h[0]+x_avg,',',rp.radius*h[1]+y_avg,'],')
 			heading_floats_str += ']'
 
 			ssh_command_str = d2n("echo 'pose = ",pose_str,"\nheading_floats = ",heading_floats_str,"' > ~/Desktop/",rp.computer_name,".car.txt ")
