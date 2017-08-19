@@ -285,7 +285,6 @@ def aruco_thread():
 			ssh.exec_command(ssh_command_str)
 
 
-			print int(heading_new),int(heading),int(heading_delta)
 			"""
 			if rp.STEER_FROM_XY:
 				steer = get_steer(X,x_avg, Y,y_avg, DX,dx_avg, DY,dy_avg)
@@ -299,6 +298,8 @@ def aruco_thread():
 			steer = max(0,steer)
 			#print dp(x_avg,1), dp(y_avg,1)
 			#print steer
+			print int(heading_new),int(heading),int(heading_delta,steer)
+
 			robot_steer = steer
 
 			if True:
