@@ -111,8 +111,8 @@ wall_length = 4*107.0/100.0
 half_wall_length = wall_length/2.0
 hw = half_wall_length
 tmp = Graph_Image(xmin,-hw, xmax,hw, ymin,-hw, ymax,hw, xsize,25, ysize,25)
-tmp[img] = cv2.blur(lo(opjD('Potential_graph_img')),(rp.potential_graph_blur,rp.potential_graph_blur))
-#tmp[img] = lo(opjD('Potential_graph_img'))
+#tmp[img] = cv2.blur(lo(opjD('Potential_graph_img')),(rp.potential_graph_blur,rp.potential_graph_blur))
+tmp[img] = lo(opjD('Potential_graph_img'))
 
 Potential_graph = Graph_Image(xmin,-hw, xmax,hw, ymin,-hw, ymax,hw, xsize,25, ysize,25, Img,tmp)
 #
@@ -286,12 +286,13 @@ def aruco_thread():
 
 
 			print int(heading_new),int(heading),int(heading_delta)
-
+			"""
 			if rp.STEER_FROM_XY:
 				steer = get_steer(X,x_avg, Y,y_avg, DX,dx_avg, DY,dy_avg)
 
 			steer += rp.HEADING_DELTA_PARAM * heading_delta
-
+			"""
+			steer = heading_delta*(-99.0/45)
 
 			steer =int((steer-49.0)*rp.robot_steer_gain+49.0)
 			steer = min(99,steer)
