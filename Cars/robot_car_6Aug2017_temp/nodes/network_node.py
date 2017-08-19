@@ -160,6 +160,7 @@ def get_best_heading(x_pos,y_pos,heading,radius):
 	for i in rlen(x1):
 		if in_square(x1[i],y1[i],0,25,25,0):
 			p = Potential_graph[img][x1[i],y1[i]]
+			print i,p
 		else:
 			p = 1
 		if p < min_potential:
