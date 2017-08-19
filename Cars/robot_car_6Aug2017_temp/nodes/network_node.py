@@ -111,8 +111,8 @@ wall_length = 4*107.0/100.0
 half_wall_length = wall_length/2.0
 hw = half_wall_length
 tmp = Graph_Image(xmin,-hw, xmax,hw, ymin,-hw, ymax,hw, xsize,25, ysize,25)
-#tmp[img] = cv2.blur(lo(opjD('Potential_graph_img')),(rp.potential_graph_blur,rp.potential_graph_blur))
-tmp[img] = lo(opjD('Potential_graph_img'))
+tmp[img] = cv2.blur(lo(opjD('Potential_graph_img')),(rp.potential_graph_blur,rp.potential_graph_blur))
+#tmp[img] = lo(opjD('Potential_graph_img'))
 
 Potential_graph = Graph_Image(xmin,-hw, xmax,hw, ymin,-hw, ymax,hw, xsize,25, ysize,25, Img,tmp)
 #
