@@ -1,4 +1,5 @@
 use_wordsv = """
+IP_ADDRESS
 aruco_position_x aruco_position_y aruco_heading_x aruco_heading_y actual_center_of_mass
 ROS_LIVE SHOW_MARKER_ID center_of_mass
 hxl hx_meo hy_meo x_meo y_meo DX X DY Y
