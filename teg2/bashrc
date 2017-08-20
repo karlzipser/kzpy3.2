@@ -29,6 +29,12 @@ alias sopen="open -a /Applications/Sublime\ Text\ 2.app/"
 #alias ssh_date='sudo date --set="$(ssh karlzipser@192.168.43.243 date)"'
 alias fixScreen='DISPLAY=:0 xrandr --output HDMI-0 --mode 1024x768'
 
+alias Mr_Blue='ssh nvidia@192.168.1.101'
+alias Mr_Black='ssh nvidia@192.168.1.102'
+alias Mr_Orange_Blue='ssh nvidia@192.168.1.103'
+alias Mr_Yellow_Blue='ssh nvidia@192.168.1.104'
+alias Mr_Lt_Blue='ssh nvidia@192.168.1.105'
+alias Mr_Purple='ssh nvidia@192.168.1.106'
 
 ######################## for .bashrc from MacBook #################
 #

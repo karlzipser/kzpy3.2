@@ -14,8 +14,8 @@ import threading
 
 Computers = {
 	'ubuntu_laptop2':	'192.168.1.100',
-	'Mr_Blue':			'192.168.1.101',
-	'Mr_Black':			'192.168.1.102',
+	'Mr_Blue':			'192.168.1.102',
+	'Mr_Black':			'192.168.1.101',
 	'Mr_Orange':		'192.168.1.103',
 	'Mr_Yellow':		'192.168.1.104',
 	'Mr_Lt_Blue':		'192.168.1.105',
