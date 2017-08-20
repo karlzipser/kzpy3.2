@@ -41,7 +41,7 @@ I_ROBOT = 222
 who_is_in_charge = I_ROBOT
 
 robot_steer = 49
-robot_motor = 57
+robot_motor = 58
 robot_steer_gain = 1.0
 past_to_present_proportion = 0.75
 steer_momentum = 0.5
