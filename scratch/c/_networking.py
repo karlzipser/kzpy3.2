@@ -9,7 +9,7 @@
 #ifconfig eth0 192.168.0.10 netmask 255.255.255.0 up
 
 #https://pricklytech.wordpress.com/2013/04/24/ubuntu-change-hostname-permanently-using-the-command-line/
-
+from kzpy3.utils2 import *
 import threading
 
 Computers = {
