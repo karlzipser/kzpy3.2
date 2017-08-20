@@ -31,10 +31,14 @@ def ping_test(*args):
 	"""
 	Args = args_to_dictionary(args)
 	True
-	result = unix(d2n('ping -c 1  ',Args[IP_ADDRESS]))
+	result = unix(d2n('sudo ping -c 1 -W 0.3 -i 0.2 ',Args[IP_ADDRESS]))
 	for i in rlen(result):
+
 		if 'transmitted' in result[i]:
-			return int(result[i].split('transmitted')[1].split(' ')[1])
+			#print result
+			num_str = result[i].split('transmitted')[1].split(' ')[1]
+			#print num_str
+			return int(num_str)
 
 def ping_status():
 	print('ping status:')
