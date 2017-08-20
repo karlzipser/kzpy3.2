@@ -34,7 +34,7 @@ def ping_test(*args):
 	result = unix(d2n('ping -c 1  ',Args[IP_ADDRESS]))
 	for i in rlen(result):
 		if 'transmitted' in result[i]:
-			return int(result[i].split('transmitted')[1].split(' ')[1])
+			return int(result[i].split('transmitted')[1].split(' ')[0])
 
 def ping_status():
 	print('ping status:')
