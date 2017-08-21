@@ -301,6 +301,7 @@ def aruco_thread():
 				ssh.exec_command(ssh_command_str)
 			except:
 				#print('ssh.exec_command failed')
+				pass
 
 			"""
 			if rp.STEER_FROM_XY:
