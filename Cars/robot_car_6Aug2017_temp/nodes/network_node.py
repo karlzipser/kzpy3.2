@@ -333,11 +333,13 @@ def aruco_thread():
 			error_ctr_ = 0
 
 		except Exception as e:
+			pass
+			"""
 			print("********** Exception ***********************")
 			print(e.message, e.args)
 			error_ctr_ += 1
 			#print(d2s("aruco_thread error #",error_ctr_," (may be transient)"))
-
+			"""
 #
 threading.Thread(target=aruco_thread).start()
 #
