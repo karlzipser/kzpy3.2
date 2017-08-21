@@ -8,6 +8,7 @@ marker_width = 21/100.0
 
 north = marker_spacing * na([0,1.])
 north_east = na(rotatePoint((0,0),north,-45))
+north_west = na(rotatePoint((0,0),north,45))
 east = na(rotatePoint((0,0),north,-90))
 south = na(rotatePoint((0,0),north,-180))
 south_east = na(rotatePoint((0,0),north,-135))
@@ -36,6 +37,7 @@ LEFT = 'left'
 RIGHT = 'right'
 LEFT2 = 'LEFT2'
 RIGHT2 = 'RIGHT2'
+"""
 D = {
 	m0:((FIRST_MARKER,na([0.,0.])),north),
 	m1:((m0,[west]),north),
@@ -50,6 +52,44 @@ D = {
 	m10:((m9,[south_east]),south_west),
 
 }
+"""
+D = {
+	0:((FIRST_MARKER,na([0.,0.])),north)
+}
+for i in range(1,4*5):
+	D[i] = ((i-1,[west]),north)
+D[i+1] = ((i,[west/2.,north/2.]),east)
+
+for j in range(i+2,i+17):
+	D[j] = ((j-1,[north]),east)
+D[j+1] = ((j,[north/2.0,east/2.0]),south)
+
+for k in range(j+2,j+17):
+	D[k] = ((k-1,[east]),south)
+D[k+1] = ((k,[south/2.0,east/2.0]),west)
+
+for l in range(k+2,k+3):
+	D[l] = ((l-1,[south]),west)
+
+D[l+1] = ((l,[south/2.0,east/2.0]),south)
+
+for m in range(l+2,l+5):
+	D[m] = ((m-1,[east]),south)
+
+D[m+1] = ((m,[south_east/2.0,east/2.0]),south_west)
+
+for n in range(m+2,m+5):
+	D[n] = ((n-1,[south_east]),south_west)
+
+D[n+1] = ((n,[south*0.85,0.355*east]),west)
+
+for o in range(n+2,n+9):
+	D[o] = ((o-1,[south]),west)
+
+D[o+1] = ((o,[0.85*south,0.335*west]),north_west)
+
+for p in range(o+2,o+5):
+	D[p] = ((p-1,[south_west]),north_west)
 
 Marker_xy_dic = {}
 
@@ -87,9 +127,9 @@ for k in Marker_xy_dic:
 	if is_number(k):
 		txt = str(k)
 		plt.annotate(txt,Marker_xy_dic[k])
-		left_pt = Marker_xy_dic[(k,LEFT2)]
-		right_pt = Marker_xy_dic[(k,RIGHT2)]
-		plot([left_pt[0],right_pt[0]],[left_pt[1],right_pt[1]],'b')
+		#left_pt = Marker_xy_dic[(k,LEFT2)]
+		#right_pt = Marker_xy_dic[(k,RIGHT2)]
+		#plot([left_pt[0],right_pt[0]],[left_pt[1],right_pt[1]],'b')
 		left_pt = Marker_xy_dic[(k,LEFT)]
 		right_pt = Marker_xy_dic[(k,RIGHT)]
 		plot([left_pt[0],right_pt[0]],[left_pt[1],right_pt[1]],'g')
