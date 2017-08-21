@@ -110,7 +110,7 @@ from kzpy3.Grapher_app.Graph_Image_Module import *
 wall_length = 4*107.0/100.0
 half_wall_length = wall_length/2.0
 hw = half_wall_length
-tmp = Graph_Image(xmin,-hw, xmax,6.03-hw, ymin,-hw, ymax,hw, xsize,35, ysize,25)
+tmp = Graph_Image(xmin,-6.03+hw, xmax,hw, ymin,-hw, ymax,hw, xsize,35, ysize,25)
 #tmp[img] = cv2.blur(lo(opjD('Potential_graph_img')),(rp.potential_graph_blur,rp.potential_graph_blur))
 tmp[img] = lo(opjD('Potential_graph_img'))
 #tmp[img][18:21,10:15] = 1.0
