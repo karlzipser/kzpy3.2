@@ -140,27 +140,53 @@ for k in D:
 	Marker_xy_dic[(k,RIGHT2)] = Marker_xy_dic[k] + 1/2.0 * na(rotatePoint((0,0),marker_heading,90))
 
 
+rotating_keys = []
+rotating_vals = []
+for k in Marker_xy_dic:
+	rotating_keys.append(k)
+	rotating_vals.append(Marker_xy_dic[k])
+rotating_vals = rotatePolygon(rotating_vals,180)
+for k,v in zip(rotating_keys,rotating_vals):
+	Marker_xy_dic[k] = v
+
 
 
 graphics = False
 
 if graphics:
+	from kzpy3.Grapher_app.Graph_Image_Module import *
+	pts = []
 	figure('arena');clf();plt_square();#xylim(-0.1,0.6,-0.1,0.6)#xysqlim(1.)
 	for k in Marker_xy_dic:
 		pts_plot(na([Marker_xy_dic[k]]))
 		if is_number(k):
 			txt = str(k)
 			plt.annotate(txt,Marker_xy_dic[k])
+			pts.append(Marker_xy_dic[k])
 			left_pt = Marker_xy_dic[(k,LEFT2)]
 			right_pt = Marker_xy_dic[(k,RIGHT2)]
 			plot([left_pt[0],right_pt[0]],[left_pt[1],right_pt[1]],'b')
 			left_pt = Marker_xy_dic[(k,LEFT)]
 			right_pt = Marker_xy_dic[(k,RIGHT)]
+			pts.append(left_pt)
+			pts.append(right_pt)
 			plot([left_pt[0],right_pt[0]],[left_pt[1],right_pt[1]],'g')
 		else:
 			txt = str(k[1])
 			if '2' not in txt:
 				plt.annotate(txt,Marker_xy_dic[k])
+
+	pts = np.array(pts)
+	Gi = Graph_Image(xmin,-2.25,ymin,-2.25,xmax,4.1,ymax,2.25,xsize,350,ysize,250)
+	Gi[ptsplot](x,pts[:,0],y,pts[:,1],color,(255,0,0))
+	mi(Gi[img],3)
+	figure(2)
+	pts = []
+	for k in Marker_xy_dic.keys():
+		if not is_number(k):
+			pts.append(Marker_xy_dic[k])
+	pts = na(pts)
+	pts_plot(pts,'r')
 	raw_enter()
 
 
