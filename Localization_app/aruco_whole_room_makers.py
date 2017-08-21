@@ -142,7 +142,7 @@ for k in D:
 
 
 
-graphics = True
+graphics = False
 
 if graphics:
 	figure('arena');clf();plt_square();#xylim(-0.1,0.6,-0.1,0.6)#xysqlim(1.)
@@ -161,13 +161,7 @@ if graphics:
 			txt = str(k[1])
 			if '2' not in txt:
 				plt.annotate(txt,Marker_xy_dic[k])
-
-
-
-
-
-
-raw_enter()
+	raw_enter()
 
 
 #EOF
