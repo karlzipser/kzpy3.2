@@ -142,7 +142,7 @@ for k in D:
 
 
 
-graphics = False
+graphics = True
 
 if graphics:
 	figure('arena');clf();plt_square();#xylim(-0.1,0.6,-0.1,0.6)#xysqlim(1.)
