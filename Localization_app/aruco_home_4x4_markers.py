@@ -96,3 +96,10 @@ def get_marker_xy_dic():
 
 Marker_xy_dic = get_marker_xy_dic()
 
+if False:
+	pts_ = []
+	for k_ in Marker_xy_dic.keys():
+		if not is_number(k_):
+			pts_.append(Marker_xy_dic[k_])
+	pts_ = na(pts_)
+	pts_plot(pts_,'b')

@@ -9,26 +9,14 @@ marker_width = 21/100.0
 north = marker_spacing * na([0,1.])
 north_east = na(rotatePoint((0,0),north,-45))
 north_west = na(rotatePoint((0,0),north,45))
+north_west2 = na(rotatePoint((0,0),north,49))
 east = na(rotatePoint((0,0),north,-90))
 south = na(rotatePoint((0,0),north,-180))
-south_east = na(rotatePoint((0,0),north,-135))
+south_east = na(rotatePoint((0,0),north,-138))
 south_west = na(rotatePoint((0,0),north,-225))
+south_west1 = na(rotatePoint((0,0),north,-228))
+south_west2 = na(rotatePoint((0,0),north,-222))
 west = na(rotatePoint((0,0),north,-270))
-
-m0 = 0
-m1 = 1
-m2 = 2
-m3 = 3
-m4 = 4
-m5 = 5
-m6 = 6
-m7 = 7
-m8 = 8
-m9 = 9
-m10 = 10
-m11 = 11
-m12 = 12
-m13 = 13
 
 
 
@@ -37,59 +25,51 @@ LEFT = 'left'
 RIGHT = 'right'
 LEFT2 = 'LEFT2'
 RIGHT2 = 'RIGHT2'
-"""
-D = {
-	m0:((FIRST_MARKER,na([0.,0.])),north),
-	m1:((m0,[west]),north),
-	m2:((m1,[west]),north),
-	m3:((m2,[west]),north),
-	m4:((m3,[west/2.,north/2.]),east),
-	m5:((m4,[north]),east),
-	m6:((m5,[north/2.0,east/2.0]),south),
-	m7:((m6,[east]),south),
-	m8:((m7,[east]),south),
-	m9:((m8,[north*0.35,east*0.14,south_east]),south_west),
-	m10:((m9,[south_east]),south_west),
 
-}
-"""
+# South Wall
 D = {
 	0:((FIRST_MARKER,na([3.076,-8*marker_spacing])),north)
 }
 for i in range(1,4*5):
 	D[i] = ((i-1,[west]),north)
-D[i+1] = ((i,[west/2.,north/2.]),east)
 
+# West Wall
+D[i+1] = ((i,[west/2.,north/2.]),east)
 for j in range(i+2,i+17):
 	D[j] = ((j-1,[north]),east)
+
+
+# North Wall
 D[j+1] = ((j,[north/2.0,east/2.0]),south)
-
-for k in range(j+2,j+17):
+for k in range(j+2,j+18):
 	D[k] = ((k-1,[east]),south)
-D[k+1] = ((k,[south/2.0,east/2.0]),west)
 
+# East Wall segment 1
+D[k+1] = ((k,[south/2.0,east/2.0]),west)
 for l in range(k+2,k+3):
 	D[l] = ((l-1,[south]),west)
 
-D[l+1] = ((l,[south/2.0,east/2.0]),south)
 
-for m in range(l+2,l+5):
+# East Wall segment 2
+D[l+1] = ((l,[south/2.0,east/2.0]),south)
+for m in range(l+2,l+4):
 	D[m] = ((m-1,[east]),south)
 
-D[m+1] = ((m,[south_east/2.0,east/2.0]),south_west)
-
+# East Wall segment 3
+D[m+1] = ((m,[0.55*south_east,0.45*east]),south_west)
 for n in range(m+2,m+5):
-	D[n] = ((n-1,[south_east]),south_west)
+	D[n] = ((n-1,[south_east]),south_west1)
 
+# East Wall segment 4
 D[n+1] = ((n,[south*0.85,0.355*east]),west)
-
 for o in range(n+2,n+9):
 	D[o] = ((o-1,[south]),west)
 
+# East Wall segment 5
 D[o+1] = ((o,[0.85*south,0.335*west]),north_west)
-
 for p in range(o+2,o+5):
-	D[p] = ((p-1,[south_west]),north_west)
+	D[p] = ((p-1,[south_west2]),north_west2)
+
 
 Marker_xy_dic = {}
 
@@ -110,12 +90,26 @@ for k in D:
 		k_prev = k
 
 
+Marker_xy_dic[1000] = na([0.21,+0.82])
+Marker_xy_dic[1100] = Marker_xy_dic[1000] - na([0,1.1*marker_width])
+Marker_xy_dic[1102] =  na([-0.12,-0.12]) + Marker_xy_dic[1000]
+Marker_xy_dic[1011] = na([0.12,-0.11]) + Marker_xy_dic[1000]
+D[1100] = ((),south)
+D[1000] = ((),north)
+D[1011] = ((),east)
+D[1102] = ((),west)
+#for side_ in [left,right]:
+#	for m_ in [100,0,102,11]:
+#		Marker_xy_dic[m_,side_] = Marker_xy_dic[m_].copy()
+
+74:1000,75:1100,76:1102,77:1011
+
 for k in D:
 	marker_heading = D[k][1]
-	Marker_xy_dic[(k,LEFT)] = Marker_xy_dic[k] + marker_width/2.0/marker_spacing * na(rotatePoint((0,0),marker_heading,90))
-	Marker_xy_dic[(k,RIGHT)] = Marker_xy_dic[k] + marker_width/2.0/marker_spacing * na(rotatePoint((0,0),marker_heading,-90))
-	Marker_xy_dic[(k,LEFT2)] = Marker_xy_dic[k] + 1/2.0 * na(rotatePoint((0,0),marker_heading,90))
-	Marker_xy_dic[(k,RIGHT2)] = Marker_xy_dic[k] + 1/2.0 * na(rotatePoint((0,0),marker_heading,-90))
+	Marker_xy_dic[(k,LEFT)] = Marker_xy_dic[k] + marker_width/2.0/marker_spacing * na(rotatePoint((0,0),marker_heading,-90))
+	Marker_xy_dic[(k,RIGHT)] = Marker_xy_dic[k] + marker_width/2.0/marker_spacing * na(rotatePoint((0,0),marker_heading,90))
+	Marker_xy_dic[(k,LEFT2)] = Marker_xy_dic[k] + 1/2.0 * na(rotatePoint((0,0),marker_heading,-90))
+	Marker_xy_dic[(k,RIGHT2)] = Marker_xy_dic[k] + 1/2.0 * na(rotatePoint((0,0),marker_heading,90))
 
 
 
