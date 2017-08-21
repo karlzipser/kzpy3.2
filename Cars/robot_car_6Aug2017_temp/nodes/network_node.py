@@ -232,7 +232,7 @@ def paramiko_thread():
 	connected = False
 	while connected == False:
 		try:
-			ssh.connect('192.168.1.10', username='nvidia')#,password='nvidia')
+			ssh.connect('192.168.1.105', username='nvidia')#,password='nvidia')
 			connected = True
 			spd2s('ssh connection established.')
 		except:
