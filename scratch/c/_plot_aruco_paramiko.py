@@ -12,7 +12,7 @@ half_wall_length = wall_length/2.0
 hw = half_wall_length
 #img_ = z2o(cv2.blur(lo(opjD('Potential_graph_img')),(rp.potential_graph_blur,rp.potential_graph_blur)))
 img_ = ((np.array(lo(opjD('Potential_graph_img'))))*255.0).astype(np.int)
-i#mg_[18:21,10:15] = 255
+#img_[18:21,10:15] = 255
 #mi(img_);spause()
 Gi = Graph_Image(xmin,-hw, xmax,6.03-hw, ymin,-hw, ymax,hw, xsize,35, ysize,25)
 for i in range(3):
