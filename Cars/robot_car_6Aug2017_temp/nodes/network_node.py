@@ -300,7 +300,7 @@ def aruco_thread():
 			try:
 				ssh.exec_command(ssh_command_str)
 			except:
-				print('ssh.exec_command failed')
+				#print('ssh.exec_command failed')
 
 			"""
 			if rp.STEER_FROM_XY:
@@ -317,7 +317,7 @@ def aruco_thread():
 			steer_prev = steer
 			#print dp(x_avg,1), dp(y_avg,1)
 			#print steer
-			print int(heading_new),int(heading),int(heading_delta),int(steer)
+			#print int(heading_new),int(heading),int(heading_delta),int(steer)
 
 			robot_steer = steer
 
@@ -335,7 +335,7 @@ def aruco_thread():
 			print("********** Exception ***********************")
 			print(e.message, e.args)
 			error_ctr_ += 1
-			print(d2s("aruco_thread error #",error_ctr_," (may be transient)"))
+			#print(d2s("aruco_thread error #",error_ctr_," (may be transient)"))
 
 #
 threading.Thread(target=aruco_thread).start()
