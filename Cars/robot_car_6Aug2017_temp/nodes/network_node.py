@@ -232,7 +232,7 @@ def paramiko_thread():
 	connected = False
 	while connected == False:
 		try:
-			ssh.connect('192.168.1.10', username='nvidia',password='nvidia')
+			ssh.connect('192.168.1.10', username='nvidia')#,password='nvidia')
 			connected = True
 			spd2s('ssh connection established.')
 		except:
@@ -321,7 +321,7 @@ def aruco_thread():
 			steer_prev = steer
 			#print dp(x_avg,1), dp(y_avg,1)
 			#print steer
-			#print int(heading_new),int(heading),int(heading_delta),int(steer)
+			print int(heading_new),int(heading),int(heading_delta),int(steer)
 
 			robot_steer = steer
 
