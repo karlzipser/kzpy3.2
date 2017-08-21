@@ -51,7 +51,7 @@ HEADING_DELTA_PARAM = 0.1
 STEER_FROM_XY = False
 radius = 0.5
 potential_graph_blur = 4
-
+print_marker_ids = True
 
 
 steer_gain = 1.0
