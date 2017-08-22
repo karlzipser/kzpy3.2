@@ -110,13 +110,13 @@ from kzpy3.Grapher_app.Graph_Image_Module import *
 wall_length = 4*107.0/100.0
 half_wall_length = wall_length/2.0
 hw = half_wall_length
-tmp = Graph_Image(xmin,-6.03+hw, xmax,hw, ymin,-hw, ymax,hw, xsize,25, ysize,35)
+tmp = Graph_Image(xmin,-6.03+hw, xmax,hw, ymin,-hw, ymax,hw, xsize,rp.img_width, ysize,rp.img_width)
 #tmp[img] = cv2.blur(lo(opjD('Potential_graph_img')),(rp.potential_graph_blur,rp.potential_graph_blur))
 tmp[img] = lo(opjD('Potential_graph_img'))
 #tmp[img][18:21,10:15] = 1.0
 #tmp[img] = cv2.blur(tmp[img],(rp.potential_graph_blur,rp.potential_graph_blur))
 
-Potential_graph = Graph_Image(xmin,-hw, xmax,hw, ymin,-hw, ymax,hw, xsize,25, ysize,35, Img,tmp)
+Potential_graph = Graph_Image(xmin,-hw, xmax,hw, ymin,-hw, ymax,hw, xsize,rp.img_width, ysize,rp.img_width, Img,tmp)
 #
 Polar_Cartesian_dictionary = {}
 Pc = Polar_Cartesian_dictionary
@@ -162,7 +162,7 @@ def get_best_heading(x_pos,y_pos,heading,radius):
 	min_potential = 9999
 	min_potential_index = -9999
 	for i in rlen(x1):
-		if in_square(x1[i],y1[i],0,35,25,0):
+		if in_square(x1[i],y1[i],0,rp.img_width,rp.img_width,0):
 			p = Potential_graph[img][x1[i],y1[i]]
 			#print i,dp(p),dp(headings[i])
 		else:

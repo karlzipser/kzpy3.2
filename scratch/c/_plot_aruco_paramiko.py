@@ -14,7 +14,7 @@ hw = half_wall_length
 img_ = ((np.array(lo(opjD('Potential_graph_img'))))*255.0).astype(np.int)
 #img_[18:21,10:15] = 255
 #mi(img_);spause()
-Gi = Graph_Image(xmin,-hw, xmax,6.03-hw, ymin,-hw, ymax,hw, xsize,35, ysize,25)
+Gi = Graph_Image(xmin,-hw, xmax,6.03-hw, ymin,-hw, ymax,hw, xsize,35, ysize,35)
 for i in range(3):
 	Gi[img][:,:,i] = img_.copy()#imresize(img_,(400,400))
 

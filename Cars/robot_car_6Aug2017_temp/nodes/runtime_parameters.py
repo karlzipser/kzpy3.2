@@ -52,7 +52,7 @@ STEER_FROM_XY = False
 radius = 0.5
 potential_graph_blur = 4
 print_marker_ids = False
-
+img_width = 35
 
 steer_gain = 1.0
 motor_gain = 1.0
