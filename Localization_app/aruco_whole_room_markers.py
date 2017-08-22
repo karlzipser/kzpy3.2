@@ -154,7 +154,7 @@ for k,v in zip(rotating_keys,rotating_vals):
 
 
 
-graphics = False
+graphics = True
 
 if graphics:
 	from kzpy3.Grapher_app.Graph_Image_Module import *
@@ -180,7 +180,12 @@ if graphics:
 				plt.annotate(txt,Marker_xy_dic[k])
 
 	pts = np.array(pts)
-	Gi = Graph_Image(xmin,-2.25,ymin,-2.25,xmax,4.1,ymax,2.25,xsize,350,ysize,250)
+	x_min = -(6.03/2.0)#-6.03+hw
+	x_max = (6.03/2.0)#hw
+	y_min = -(6.03/2.0)#-hw#
+	y_max = 6.03/2.0#hw#
+
+	Gi = Graph_Image(xmin,x_min,ymin,y_min,xmax,x_max,ymax,y_max,xsize,350,ysize,250)
 	Gi[ptsplot](x,pts[:,0],y,pts[:,1],color,(255,0,0))
 	mi(Gi[img],3)
 	figure(4)
