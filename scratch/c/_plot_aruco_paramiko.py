@@ -46,7 +46,7 @@ while not done:
 				Gi[ptsplot](x,[pose[0]],y,[pose[1]],color,car_color)
 				Gi[ptsplot](x,[pose[0]+pose[2]],y,[pose[1]+pose[3]],color,(0,255,0))
 
-		k = mci(Gi[img],delay=5,scale=10)
+		k = mci(Gi[img],delay=5,scale=30)
 		if k == ord('q'):
 			done = True
 			break
