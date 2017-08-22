@@ -146,8 +146,8 @@ for k in Marker_xy_dic:
 	rotating_keys.append(k)
 	rotating_vals.append(Marker_xy_dic[k])
 rotating_vals = rotatePolygon(rotating_vals,180)
-#rotating_vals = na(rotating_vals)
-#rotating_vals[:,0] -= (rotating_vals[:,0].max()+rotating_vals[:,0].min())/2.0
+rotating_vals = na(rotating_vals)
+rotating_vals[:,0] -= (rotating_vals[:,0].max()+rotating_vals[:,0].min())/2.0
 
 for k,v in zip(rotating_keys,rotating_vals):
 	Marker_xy_dic[k] = v
