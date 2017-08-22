@@ -111,10 +111,10 @@ wall_length = 4*107.0/100.0
 half_wall_length = wall_length/2.0
 hw = half_wall_length
 
-x_min = -6.03+hw
-x_max = hw
-y_min = -(6.03/2.0)#-hw#-3#
-y_max = 6.03/2.0#hw#3#
+x_min = -(6.03/2.0)#-6.03+hw
+x_max = (6.03/2.0)#hw
+y_min = -(6.03/2.0)#-hw#
+y_max = 6.03/2.0#hw#
 
 tmp = Graph_Image(xmin,x_min, xmax,x_max, ymin,y_min, ymax,y_max, xsize,rp.img_width, ysize,rp.img_width)
 #tmp[img] = cv2.blur(lo(opjD('Potential_graph_img')),(rp.potential_graph_blur,rp.potential_graph_blur))
