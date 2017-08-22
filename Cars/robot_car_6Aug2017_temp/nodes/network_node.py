@@ -261,7 +261,7 @@ def aruco_thread():
 
 	while not rospy.is_shutdown():
 		try:
-			print 'A'
+
 			x_avg,y_avg = 0.0,0.0
 			dx_avg,dy_avg = 0.0,0.0
 			for camera_list_ in [left_list,right_list]:
@@ -280,7 +280,7 @@ def aruco_thread():
 				y_avg += y_
 				dx_avg += hx_-x_
 				dy_avg += hy_-y_
-			print 'B'
+
 			x_avg /= 2.0
 			dx_avg /= 2.0
 			y_avg /= 2.0
@@ -294,8 +294,8 @@ def aruco_thread():
 			heading_delta = (heading_new - heading)
 
 			pose_str = d2n("(",dp(x_avg),',',dp(y_avg),',',dp(dx_avg),',',dp(dy_avg),")")
-			print 'C'
-			"""
+
+			
 			heading_floats_str = "["
 			for h in heading_floats:
 				heading_floats_str += d2n('[',rp.radius*h[0]+x_avg,',',rp.radius*h[1]+y_avg,'],')
@@ -307,14 +307,16 @@ def aruco_thread():
 			xy_str += ']'
 
 			ssh_command_str = d2n("echo 'pose = ",pose_str,"\nxy = ",xy_str,"\nheading_floats = ",heading_floats_str,"' > ~/Desktop/",rp.computer_name,".car.txt ")
+			print ssh_command_str
 			#print ssh_command_str
 			try:
 				ssh.exec_command(ssh_command_str)
+				print 'ssh success'
 			except:
 				print('ssh.exec_command failed')
 				#pass
-			"""
-			print 'D'
+			
+
 			"""
 			if rp.STEER_FROM_XY:
 				steer = get_steer(X,x_avg, Y,y_avg, DX,dx_avg, DY,dy_avg)
@@ -322,7 +324,7 @@ def aruco_thread():
 			steer += rp.HEADING_DELTA_PARAM * heading_delta
 			"""
 			steer = heading_delta*(-99.0/45)
-			print 'E'
+
 			steer =int((steer-49.0)*rp.robot_steer_gain+49.0)
 			steer = min(99,steer)
 			steer = max(0,steer)
@@ -343,7 +345,7 @@ def aruco_thread():
 			aruco_freq.freq()
 			#print robot_steer,dp(x_avg,1),dp(y_avg,1)
 			error_ctr_ = 0
-			print 'G'
+
 		except Exception as e:
 			#pass
 			
