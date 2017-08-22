@@ -369,7 +369,7 @@ def run_loop(Arduinos,M,BUTTON_DELTA=50,):
 						if M['acc'][1] < rp.robot_acc_y_exit_threshold:
 							if M['potential_collision'] < rp.acc_y_tilt_event:
 								M['potential_collision'] = rp.acc_y_tilt_event
-								srpd2s("mean_acc2rd > rp.robot_acc2rd_threshold")
+								srpd2s("M['acc'][1] < rp.robot_acc_y_exit_threshold")
 				except:
 					if potential_collision_error_timer.check():
 						print('potential_collision_error_timer')

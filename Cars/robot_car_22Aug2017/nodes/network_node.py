@@ -336,7 +336,7 @@ while not rospy.is_shutdown():
 			defrosted_timer.reset()
 			frozen_ = 0
 			
-		if not network_enter_timer.check() or potential_collision_ == rp.potential_motor_freeze_collision:
+		if not network_enter_timer.check() or potential_collision_ == rp.acc_y_tilt_event:
 			defrosted_timer.reset()
 			frozen_ = 0
 			print "waiting before entering network mode..."
