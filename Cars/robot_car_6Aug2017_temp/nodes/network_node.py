@@ -307,7 +307,7 @@ def aruco_thread():
 
 			xy_str = "["
 			for xy in zip(x1,y1):
-				xy_str += d2n('[',dp(xy[0]),',',dp(xy[1]),'],')
+				xy_str += d2n('[',xy[0],',',xy[1],'],')
 			xy_str += ']'
 
 			ssh_command_str = d2n("echo 'pose = ",pose_str,"\nxy = ",xy_str,"\nheading_floats = ",heading_floats_str,"' > ~/Desktop/",rp.computer_name,".car.txt ")
