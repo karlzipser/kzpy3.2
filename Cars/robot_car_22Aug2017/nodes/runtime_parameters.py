@@ -35,7 +35,7 @@ weight_file_path = opjh('pytorch_models','epoch6goodnet')
 
 verbose = False
 #use_caffe = True
-
+n_avg_IMU = 10
 NETWORK = 111
 I_ROBOT = 222
 who_is_in_charge = I_ROBOT
