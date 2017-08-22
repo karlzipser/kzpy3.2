@@ -181,7 +181,7 @@ def get_best_heading(x_pos,y_pos,heading,radius):
 #
 steer_prev = 49
 robot_steer = 49
-error_timer = Timer(3)
+error_timer = Timer(1)
 #
 from kzpy3.Localization_app.Parameters_Module import *
 x_avg = 0.0
@@ -204,8 +204,10 @@ def paramiko_thread():
 			spd2s('ssh connection established.')
 			ssh_connection = True
 		except:
-			spd2s('ssh connection failed . . . [will retry]')
-			time.sleep(0.5)
+			if error_timer.check():
+				spd2s('ssh connection failed . . . [will retry]')
+				time.sleep(0.5)
+				error_timer.reset()
 
 threading.Thread(target=paramiko_thread).start()
 
@@ -274,7 +276,9 @@ def aruco_thread():
 					ssh.exec_command(ssh_command_str)
 					#print 'ssh success'
 			except:
-				print('ssh.exec_command failed')
+				if error_timer.check():
+					print('ssh.exec_command failed')
+					error_timer.reset()
 				#pass
 			
 			steer = heading_delta*(-99.0/45)
@@ -298,10 +302,12 @@ def aruco_thread():
 
 		except Exception as e:
 			#pass
-			print("********** Exception ***********************")
-			print(e.message, e.args)
-			error_ctr_ += 1
-			print(d2s("aruco_thread error #",error_ctr_," (may be transient)"))
+			if error_timer.check():
+				print("********** Exception ***********************")
+				print(e.message, e.args)
+				error_ctr_ += 1
+				print(d2s("aruco_thread error #",error_ctr_," (may be transient)"))
+				error_timer.reset()
 			
 #
 threading.Thread(target=aruco_thread).start()
