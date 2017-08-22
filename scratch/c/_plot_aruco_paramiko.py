@@ -55,6 +55,6 @@ while not done:
 					Gi[img][:,:,i] = img_.copy()#imresize(img_,(400,400))
 	except (KeyboardInterrupt, SystemExit):
 		raise
-	except:
-		#raise
-		print(d2s('oops',time.time()))
+	except Exception as e:
+		print("********** Exception ***********************")
+		print(e.message, e.args)
