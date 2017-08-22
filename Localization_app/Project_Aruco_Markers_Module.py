@@ -40,7 +40,7 @@ def Camera_View_Field(*args):
 		D[markers][m_][left] = 	D[markers][m_][marker_point]-marker_face_
 		D[markers][m_][right] = D[markers][m_][marker_point]+marker_face_
 		
-	D[center_of_mass] = na(pts_).mean(axis=0)
+	#D[center_of_mass] = na(pts_).mean(axis=0)
 
 	D[nearest_marker] = nearest_marker_[0]
 	def _function_plot_start_configuration():
