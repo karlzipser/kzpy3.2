@@ -23,6 +23,8 @@ Colors = {'Mr_Black':(0,0,0),'Mr_Blue':(0,0,255)}
 done = False
 while not done:
 	try:
+		something_happened = False
+		
 		for car in sggo(opjD('*.car.txt')): #['Mr_Black.car.txt','Mr_New.car.txt']:
 			car_name = fname(car).split('.')[0]
 			new_car = car.replace('car','')
@@ -48,11 +50,13 @@ while not done:
 				car_color = Colors[car_name]
 				Gi[ptsplot](x,[pose[0]],y,[pose[1]],color,car_color)
 				Gi[ptsplot](x,[pose[0]+pose[2]],y,[pose[1]+pose[3]],color,(0,255,0))
+				something_happened = True
 
-		k = mci(Gi[img],delay=5,scale=30)
-		if k == ord('q'):
-			done = True
-			break
+		if something_happened:
+			k = mci(Gi[img],delay=5,scale=30)
+			if k == ord('q'):
+				done = True
+				break
 		if True:#k == ord('r'):
 				for i in range(3):
 					Gi[img][:,:,i] = img_.copy()#imresize(img_,(400,400))
