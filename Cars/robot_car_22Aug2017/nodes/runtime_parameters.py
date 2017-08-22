@@ -76,7 +76,7 @@ acc_y_tilt_event = 1000
 ###################################################################
 # 
 
-non_user_section = True:
+non_user_section = True
 if non_user_section:
 	if Direct == 1:
 		task = 'direct'
