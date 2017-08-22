@@ -22,7 +22,7 @@ Colors = {'Mr_Black':(0,0,0),'Mr_Blue':(0,0,255)}
 
 done = False
 while not done:
-	try:
+	if True:#try:
 		for car in sggo(opjD('*.car.txt')): #['Mr_Black.car.txt','Mr_New.car.txt']:
 			car_name = fname(car).split('.')[0]
 			new_car = car.replace('car','')
@@ -55,8 +55,10 @@ while not done:
 		if True:#k == ord('r'):
 				for i in range(3):
 					Gi[img][:,:,i] = img_.copy()#imresize(img_,(400,400))
+	"""
 	except (KeyboardInterrupt, SystemExit):
 		raise
 	except Exception as e:
 		print("********** Exception ***********************")
 		print(e.message, e.args)
+	"""
