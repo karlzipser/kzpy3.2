@@ -60,7 +60,7 @@ motor_gain = 1.0
 #acc2rd_threshold = 150
 
 PID_min_max = [1.5,2.5]
-motor_freeze_threshold = 53
+motor_freeze_threshold = 55
 robot_acc2rd_threshold = 15
 robot_acc_y_exit_threshold = 0
 potential_acc2rd_collision = 10
