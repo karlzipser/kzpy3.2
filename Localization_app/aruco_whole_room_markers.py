@@ -154,7 +154,7 @@ for k,v in zip(rotating_keys,rotating_vals):
 
 
 
-graphics = True
+graphics = False
 
 if graphics:
 	from kzpy3.Grapher_app.Graph_Image_Module import *
@@ -185,7 +185,7 @@ if graphics:
 	y_min = -(6.03/2.0)#-hw#
 	y_max = 6.03/2.0#hw#
 
-	Gi = Graph_Image(xmin,x_min,ymin,y_min,xmax,x_max,ymax,y_max,xsize,350,ysize,250)
+	Gi = Graph_Image(xmin,x_min,ymin,y_min,xmax,x_max,ymax,y_max,xsize,350,ysize,350)
 	Gi[ptsplot](x,pts[:,0],y,pts[:,1],color,(255,0,0))
 	mi(Gi[img],3)
 	figure(4)
