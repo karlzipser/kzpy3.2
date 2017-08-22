@@ -14,17 +14,23 @@ hw = half_wall_length
 img_ = ((np.array(lo(opjD('Potential_graph_img'))))*255.0).astype(np.int)
 #img_[18:21,10:15] = 255
 #mi(img_);spause()
-Gi = Graph_Image(xmin,-hw, xmax,6.03-hw, ymin,-hw, ymax,hw, xsize,35, ysize,35)
+x_min = -(6.03/2.0)#-6.03+hw
+x_max = (6.03/2.0)#hw
+y_min = -(6.03/2.0)#-hw#
+y_max = 6.03/2.0#hw#
+Gi = Graph_Image(xmin,x_min, xmax,x_max, ymin,y_min, ymax,y_max, xsize,35, ysize,35)
 for i in range(3):
 	Gi[img][:,:,i] = img_.copy()#imresize(img_,(400,400))
 
 Colors = {'Mr_Black':(0,0,0),'Mr_Blue':(0,0,255)}
 
+
+
 done = False
 while not done:
 	try:
 		something_happened = False
-		
+
 		for car in sggo(opjD('*.car.txt')): #['Mr_Black.car.txt','Mr_New.car.txt']:
 			car_name = fname(car).split('.')[0]
 			new_car = car.replace('car','')
@@ -43,7 +49,7 @@ while not done:
 				#Gi[ptsplot]( x,heading_floats[:,0], y,heading_floats[:,1], color,(255,255,255), NO_REVERSE,False)
 
 				for xxyy in xy:
-					print xxyy
+					#print xxyy
 					#print xxyy
 					Gi[img][int(xxyy[0]),int(xxyy[1]),:] = [0,255,255]
 					#print Gi[img][xxyy[0],xxyy[1],:]
