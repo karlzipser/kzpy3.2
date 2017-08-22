@@ -234,13 +234,18 @@ steer = 0.0
 import paramiko
 ssh = paramiko.SSHClient()
 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+
+ssh_connection = False
+
 def paramiko_thread():
+	global ssh_connection
 	connected = False
 	while connected == False:
 		try:
 			ssh.connect('192.168.1.105', username='nvidia')#,password='nvidia')
 			connected = True
 			spd2s('ssh connection established.')
+			ssh_connection = True
 		except:
 			spd2s('ssh connection failed . . . [will retry]')
 			time.sleep(0.5)
@@ -295,23 +300,23 @@ def aruco_thread():
 
 			pose_str = d2n("(",dp(x_avg),',',dp(y_avg),',',dp(dx_avg),',',dp(dy_avg),")")
 
-			
 			heading_floats_str = "["
 			for h in heading_floats:
-				heading_floats_str += d2n('[',rp.radius*h[0]+x_avg,',',rp.radius*h[1]+y_avg,'],')
+				heading_floats_str += d2n('[',dp(rp.radius*h[0]+x_avg),',',dp(rp.radius*h[1]+y_avg),'],')
 			heading_floats_str += ']'
 
 			xy_str = "["
 			for xy in zip(x1,y1):
-				xy_str += d2n('[',xy[0],',',xy[1],'],')
+				xy_str += d2n('[',dp(xy[0]),',',dp(xy[1]),'],')
 			xy_str += ']'
 
 			ssh_command_str = d2n("echo 'pose = ",pose_str,"\nxy = ",xy_str,"\nheading_floats = ",heading_floats_str,"' > ~/Desktop/",rp.computer_name,".car.txt ")
 			print ssh_command_str
 			#print ssh_command_str
 			try:
-				ssh.exec_command(ssh_command_str)
-				print 'ssh success'
+				if ssh_connection:
+					ssh.exec_command(ssh_command_str)
+					print 'ssh success'
 			except:
 				print('ssh.exec_command failed')
 				#pass
