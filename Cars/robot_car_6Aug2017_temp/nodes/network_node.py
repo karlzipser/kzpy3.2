@@ -260,7 +260,7 @@ def aruco_thread():
 	P[past_to_present_proportion] = rp.past_to_present_proportion
 	global robot_steer,x_avg,y_avg,steer,steer_prev
 
-	print('starting aruco_thread . . .')
+	spd2s('starting aruco_thread . . .')
 
 	error_ctr_ = 0
 
@@ -316,7 +316,7 @@ def aruco_thread():
 			try:
 				if ssh_connection:
 					ssh.exec_command(ssh_command_str)
-					print 'ssh success'
+					#print 'ssh success'
 			except:
 				print('ssh.exec_command failed')
 				#pass
@@ -337,10 +337,10 @@ def aruco_thread():
 			steer_prev = steer
 			#print dp(x_avg,1), dp(y_avg,1)
 			#print steer
-			print int(heading_new),int(heading),int(heading_delta),int(steer)
+			#print int(heading_new),int(heading),int(heading_delta),int(steer)
 
 			robot_steer = steer
-			print 'F'
+
 			if True:
 				aruco_position_x_pub.publish(std_msgs.msg.Float32(x_avg))
 				aruco_position_y_pub.publish(std_msgs.msg.Float32(y_avg))
