@@ -353,8 +353,8 @@ def run_loop(Arduinos,M,BUTTON_DELTA=50,):
 			#print M['caffe_motor']
 			#print(dp(M['caffe_motor']), dp(M['motor_freeze_threshold']),dp(np.array(M['encoder_lst'][0:20]).mean()),dp(np.array(M['encoder_lst'][-20:]).mean()))
 #			if M['caffe_motor'] > M['motor_freeze_threshold'] and np.array(M['encoder_lst'][0:en]).mean() > 0.5 and np.array(M['encoder_lst'][-en:]).mean()<0.1 and M['current_state'].state_transition_timer.time() > 1:
-			if M['caffe_motor'] > M['motor_freeze_threshold'] and np.array(M['encoder_lst']).mean()<0.1 and M['current_state'].state_transition_timer.time() > 1:
-				spd2s("caffe_motor freeze")
+			if M['current_state'] == M['state_six'] and M['caffe_motor'] > M['motor_freeze_threshold'] and np.array(M['encoder_lst']).mean()<0.1 and M['current_state'].state_transition_timer.time() > 1:
+				#spd2s("caffe_motor freeze")
 				M['potential_collision'] = 1
 			
 
