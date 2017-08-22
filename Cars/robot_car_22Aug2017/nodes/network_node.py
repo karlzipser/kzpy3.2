@@ -329,7 +329,7 @@ while not rospy.is_shutdown():
 		if potential_collision_ == rp.potential_motor_freeze_collision:
 			network_enter_timer.reset()
 
-		if (previous_state not in [3,5,6,7]):
+		if (previous_state not in [6]):#[3,5,6,7]):
 			previous_state = state
 			network_enter_timer.reset()
 			defrosted_timer.reset()
