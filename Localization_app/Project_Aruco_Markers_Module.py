@@ -86,7 +86,7 @@ def Camera_View_Field(*args):
 		D[pts_centered] = D[pts_rotated] + Marker_xy_dic[marker_]
 		return ((D[actual_pts] - D[pts_centered][2:])**2).mean()
 	D[rotate_around_marker] = function_rotate_around_marker
-	assert(58 not in D[markers].keys())
+	#assert(58 not in D[markers].keys())
 	return D
 
 
@@ -100,7 +100,7 @@ def Aruco_Trajectory():
 	D[y] = False
 	D[car_pts] = []
 	D[head_pts] = []
-	D[past_to_present_proportion] = 0.975
+	#D[past_to_present_proportion] = 0.975
 	D[max_list_length] = 12
 	timer = Timer(10)
 	def _function_step(*args):
