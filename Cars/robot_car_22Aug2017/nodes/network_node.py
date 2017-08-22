@@ -378,7 +378,7 @@ while not rospy.is_shutdown():
 
 	if state in [3,5,6,7]:
 		potential_collision_ = potential_collision_from_callback_
-		if potential_collision_ == 2:
+		if potential_collision_ == rp.potential_motor_freeze_collision:
 			network_enter_timer.reset()
 
 		if (previous_state not in [3,5,6,7]):
@@ -387,7 +387,7 @@ while not rospy.is_shutdown():
 			defrosted_timer.reset()
 			frozen_ = 0
 			
-		if not network_enter_timer.check() or potential_collision_ == 2:
+		if not network_enter_timer.check() or potential_collision_ == rp.potential_motor_freeze_collision:
 			defrosted_timer.reset()
 			frozen_ = 0
 			print "waiting before entering network mode..."
@@ -403,7 +403,7 @@ while not rospy.is_shutdown():
 					torch_motor, torch_steer = run_model(camera_data, metadata)
 
 				#print dp(defrosted_timer.time())
-				if ((defrosted_timer.time()<2 and potential_collision_ < 2) or potential_collision_ == 0) and not frozen_:
+				if ((defrosted_timer.time()<2 and potential_collision_ < rp.potential_motor_freeze_collision) or potential_collision_ == 0) and not frozen_:
 				#if potential_collision_ == 0 and not frozen_:
 
 					frozen_cmd_pub.publish(std_msgs.msg.Int32(frozen_))

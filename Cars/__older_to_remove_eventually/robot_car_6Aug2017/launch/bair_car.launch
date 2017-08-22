@@ -13,6 +13,9 @@
         <node name="network" pkg="bair_car" type="network_node.py" output="screen">  if="$(arg use_caffe)">
         </node>
 
+
+
+
         <group ns="zed" if="$(arg use_zed)">        
             <include file="$(find zed_wrapper)/launch/zed_tf.launch" />
 
@@ -72,10 +75,6 @@
             /$(arg car_name)/motor
             /$(arg car_name)/state
             /$(arg car_name)/steer
-            /$(arg car_name)/aruco_position_x
-            /$(arg car_name)/aruco_position_y    
-            /$(arg car_name)/aruco_heading_x
-            /$(arg car_name)/aruco_heading_y    
             /$(arg car_name)/zed/depth/camera_info 
             /$(arg car_name)/zed/depth/image_rect_color 
             /$(arg car_name)/zed/left/camera_info 
@@ -85,7 +84,7 @@
             /$(arg car_name)/left_right
             /$(arg car_name)/model_name" />
     <node pkg="rosbag" type="record" name="rosbag_record_all"
-          args="--split --size=1024 -b 2048 --lz4 -o /media/nvidia/rosbags/$(arg car_name) $(arg rosbag_args)"
+          args="--split --size=1024 -b 2048 --lz4 -o $(find bair_car)/rosbags/$(arg car_name) $(arg rosbag_args)"
           respawn="false"
           if="$(arg record)" >
     </node>

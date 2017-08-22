@@ -347,33 +347,26 @@ def run_loop(Arduinos,M,BUTTON_DELTA=50,):
 
 			M['potential_collision'] = 0
 
-			en = int(M['n_lst_steps']/4)
-
-			#print 'temp encoder print',np.array(M['encoder_lst'][0:en]).mean(),np.array(M['encoder_lst'][-en:]).mean(),M['caffe_motor']
 			#print M['caffe_motor']
 			#print(dp(M['caffe_motor']), dp(M['motor_freeze_threshold']),dp(np.array(M['encoder_lst'][0:20]).mean()),dp(np.array(M['encoder_lst'][-20:]).mean()))
-#			if M['caffe_motor'] > M['motor_freeze_threshold'] and np.array(M['encoder_lst'][0:en]).mean() > 0.5 and np.array(M['encoder_lst'][-en:]).mean()<0.1 and M['current_state'].state_transition_timer.time() > 1:
-			if M['current_state'] == M['state_six'] and M['caffe_motor'] > M['motor_freeze_threshold'] and np.array(M['encoder_lst']).mean()<0.1 and M['current_state'].state_transition_timer.time() > 1:
-				#spd2s("caffe_motor freeze")
+			if M['caffe_motor'] > M['motor_freeze_threshold'] and np.array(M['encoder_lst'][0:20]).mean() > 0.5 and np.array(M['encoder_lst'][-20:]).mean()<0.1 and M['current_state'].state_transition_timer.time() > 1:
+				print("caffe_motor freeze")
 				M['potential_collision'] = 1
 			
+			acc2rd = M['acc'][0]**2+M['acc'][2]**2
+			acc2rd_list.append(acc2rd)
+			if len(acc2rd_list) > 5:
+				acc2rd_list = acc2rd_list[-5:]
+			if len(acc2rd_list) > 3:
+				mean_acc2rd = np.array(acc2rd_list[-3:]).mean()
 
-			try:
-				acc2rd = M['acc'][0]**2+M['acc'][2]**2
-				acc2rd_list.append(acc2rd)
-				if len(acc2rd_list) > 5:
-					acc2rd_list = acc2rd_list[-5:]
-				if len(acc2rd_list) > 3:
-					mean_acc2rd = np.array(acc2rd_list[-3:]).mean()
+			if mean_acc2rd > rp.robot_acc2rd_threshold:
+				M['potential_collision'] = 1	
 
-				if mean_acc2rd > rp.robot_acc2rd_threshold:
-					M['potential_collision'] = 1	
+			if M['acc'][1] < rp.acc_freeze_threshold_y_min:
+				M['potential_collision'] = 2
 
-				if M['acc'][1] < rp.acc_freeze_threshold_y_min:
-					M['potential_collision'] = 2
-
-			except:
-				print('no acc')
+			
 
 			
 

@@ -12,13 +12,13 @@ from pytorch_code import *
 import roslib
 import std_msgs.msg
 import geometry_msgs.msg
-
 from cv_bridge import CvBridge,CvBridgeError
 import rospy
 from sensor_msgs.msg import Image
+#
 bridge = CvBridge()
 rospy.init_node('listener',anonymous=True)
-
+#
 left_list = []
 right_list = []
 state = 0
@@ -27,22 +27,16 @@ potential_collision_from_callback_ = 0
 previous_state = 0
 state_transition_time_s = 0
 state_enter_timer = Timer(0)
-freeze = False
 torch_motor,torch_steer = None,None
 ctr = 0
 time_step = Timer(2)
 network_enter_timer = Timer(2)
-network_ignore_potential_collision = Timer(2) # starting driving triggers the collision IMU detector
-folder_display_timer = Timer(30)
-git_pull_timer = Timer(60)
 reload_timer = Timer(10)
-torch_steer_previous = 49
-torch_motor_previous = 49
-
-
+#
+#
+#
 def state__callback(data):
 	global state, previous_state, state_enter_timer
-	# data.data = 6
 	if state != data.data:
 		state_enter_timer = Timer(0)
 		if state in [3,5,6,7] and previous_state in [3,5,6,7]:
@@ -50,34 +44,34 @@ def state__callback(data):
 		else:
 			previous_state = state
 	state = data.data
-
+#
 def steer__callback(data):
 	global steer
 	steer = data.data
-
+#
 def potential_collision__callback(data):
 	global potential_collision_from_callback_
 	potential_collision_from_callback_ = data.data
-
+#
 def right_image__callback(data):
 	global left_list, right_list, solver
 	cimg = bridge.imgmsg_to_cv2(data,"bgr8")
 	if len(right_list) > nframes + 3:
 		right_list = right_list[-(nframes + 3):]
 	right_list.append(cimg)
-
+#
 def left_image__callback(data):
 	global left_list, right_list
 	cimg = bridge.imgmsg_to_cv2(data,"bgr8")
 	if len(left_list) > nframes + 3:
 		left_list = left_list[-(nframes + 3):]
 	left_list.append(cimg)
-
+#
 def state_transition_time_s__callback(data):
 	global state_transition_time_s
 	state_transition_time_s = data.data
-
-
+#
+#
 rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_image__callback,queue_size = 1)
 rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_image__callback,queue_size = 1)
 rospy.Subscriber("/bair_car/steer", std_msgs.msg.Int32,steer__callback)
@@ -86,9 +80,9 @@ rospy.Subscriber('/bair_car/potential_collision', std_msgs.msg.Int32,potential_c
 steer_cmd_pub = rospy.Publisher('cmd/steer', std_msgs.msg.Int32, queue_size=10)
 motor_cmd_pub = rospy.Publisher('cmd/motor', std_msgs.msg.Int32, queue_size=10)
 frozen_cmd_pub = rospy.Publisher('cmd/frozen', std_msgs.msg.Int32, queue_size=10)
-
-
-
+#
+#
+#
 ###################################################################
 # aruco markers
 aruco_heading_x_pub = rospy.Publisher('/bair_car/aruco_heading_x', std_msgs.msg.Float32, queue_size=10)
@@ -110,19 +104,12 @@ from kzpy3.Grapher_app.Graph_Image_Module import *
 wall_length = 4*107.0/100.0
 half_wall_length = wall_length/2.0
 hw = half_wall_length
-
-x_min = -(6.03/2.0)#-6.03+hw
-x_max = (6.03/2.0)#hw
-y_min = -(6.03/2.0)#-hw#
-y_max = 6.03/2.0#hw#
-
-tmp = Graph_Image(xmin,x_min, xmax,x_max, ymin,y_min, ymax,y_max, xsize,rp.img_width, ysize,rp.img_width)
-#tmp[img] = cv2.blur(lo(opjD('Potential_graph_img')),(rp.potential_graph_blur,rp.potential_graph_blur))
+tmp = Graph_Image(xmin,-hw, xmax,hw, ymin,-hw, ymax,hw, xsize,rp.img_width, ysize,rp.img_width)
 tmp[img] = lo(opjD('Potential_graph_img'))
-#tmp[img][18:21,10:15] = 1.0
-#tmp[img] = cv2.blur(tmp[img],(rp.potential_graph_blur,rp.potential_graph_blur))
-
-Potential_graph = Graph_Image(xmin,x_min, xmax,x_max, ymin,y_min, ymax,y_max, xsize,rp.img_width, ysize,rp.img_width, Img,tmp)
+tmp[img][18:21,10:15] = 1.0
+tmp[img] = cv2.blur(tmp[img],(rp.potential_graph_blur,rp.potential_graph_blur))
+#
+Potential_graph = Graph_Image(xmin,-hw, xmax,hw, ymin,-hw, ymax,hw, xsize,rp.img_width, ysize,rp.img_width, Img,tmp)
 #
 Polar_Cartesian_dictionary = {}
 Pc = Polar_Cartesian_dictionary
@@ -168,9 +155,8 @@ def get_best_heading(x_pos,y_pos,heading,radius):
 	min_potential = 9999
 	min_potential_index = -9999
 	for i in rlen(x1):
-		if in_square(x1[i],y1[i],0,rp.img_width,rp.img_width,0):
+		if in_square(x1[i],y1[i],0,img_width,img_width,0):
 			p = Potential_graph[img][x1[i],y1[i]]
-			#print i,dp(p),dp(headings[i])
 		else:
 			p = 1
 		if p < min_potential:
@@ -181,77 +167,33 @@ def get_best_heading(x_pos,y_pos,heading,radius):
 #
 ###################################################################
 #
-def get_steer(*args):
-	Args = args_to_dictionary(args);_=da
-	x = _(Args,X)
-	y = _(Args,Y)
-	dx = _(Args,DX)
-	dy = _(Args,DY)
-	True
-	a = angle_clockwise((0,1),(dx,dy))
-
-	if a >= 345 or a < 15:
-		binned_angle = 0;
-	elif a >= 15 and a < 45:
-		binned_angle = 30;
-	elif a >= 45 and a < 75:
-		binned_angle = 60
-	elif a >= 75 and a < 105:
-		binned_angle = 90
-	elif a >= 105 and a < 135:
-		binned_angle = 120
-	elif a >= 135 and a < 165:
-		binned_angle = 150
-	elif a >= 165 and a < 195:
-		binned_angle = 180
-	elif a >= 195 and a < 225:
-		binned_angle = 210
-	elif a >= 225 and a < 255:
-		binned_angle = 240
-	elif a >= 255 and a < 285:
-		binned_angle = 270
-	elif a >= 285 and a < 315:
-		binned_angle = 300
-	elif a >= 315 and a < 345:
-		binned_angle = 330;
-
-	px = int(x*7.0/wall_length + 4.0)
-	py = int(y*7.0/wall_length + 4.0)
-	#steer = int(heading_steering_coordinates[binned_angle][px,py])
-
-	#return steer
 #
 steer_prev = 49
 robot_steer = 49
 error_timer = Timer(3)
 #
 from kzpy3.Localization_app.Parameters_Module import *
-#figure(5);clf();plt_square();xysqlim(2*107.0/100.0);
 x_avg = 0.0
 y_avg = 0.0
 steer = 0.0
-
+#
 import paramiko
 ssh = paramiko.SSHClient()
 ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-
-ssh_connection = False
-
+#
 def paramiko_thread():
-	global ssh_connection
 	connected = False
 	while connected == False:
 		try:
-			ssh.connect('192.168.1.105', username='nvidia')#,password='nvidia')
+			ssh.connect('192.168.1.10', username='nvidia',password='nvidia')
 			connected = True
 			spd2s('ssh connection established.')
-			ssh_connection = True
 		except:
 			spd2s('ssh connection failed . . . [will retry]')
 			time.sleep(0.5)
-
+#
 threading.Thread(target=paramiko_thread).start()
-
+#
 def aruco_thread():
 	import kzpy3.data_analysis.Angle_Dict_Creator as Angle_Dict_Creator
 	
@@ -260,13 +202,12 @@ def aruco_thread():
 	P[past_to_present_proportion] = rp.past_to_present_proportion
 	global robot_steer,x_avg,y_avg,steer,steer_prev
 
-	spd2s('starting aruco_thread . . .')
+	print('starting aruco_thread . . .')
 
 	error_ctr_ = 0
 
 	while not rospy.is_shutdown():
 		try:
-
 			x_avg,y_avg = 0.0,0.0
 			dx_avg,dy_avg = 0.0,0.0
 			for camera_list_ in [left_list,right_list]:
@@ -275,9 +216,6 @@ def aruco_thread():
 
 				angles_to_center, angles_surfaces, distances_marker, markers = Angle_Dict_Creator.get_angles_and_distance(camera_img_,borderColor=None)
 				
-				if rp.print_marker_ids:
-					print angles_to_center.keys()
-
 				Q = {'angles_to_center':angles_to_center,'angles_surfaces':angles_surfaces,'distances_marker':distances_marker}
 
 				hx_,hy_,x_,y_ =	Aruco_trajectory[step](one_frame_aruco_data,Q, p,P)
@@ -291,7 +229,6 @@ def aruco_thread():
 			y_avg /= 2.0
 			dy_avg /= 2.0
 
-
 			heading = angle_clockwise((0,1),(dx_avg,dy_avg))
 
 			heading_new,heading_floats,x1,y1 = get_best_heading(rp.X_PARAM*x_avg,rp.Y_PARAM*y_avg,heading,rp.radius)
@@ -302,7 +239,7 @@ def aruco_thread():
 
 			heading_floats_str = "["
 			for h in heading_floats:
-				heading_floats_str += d2n('[',dp(rp.radius*h[0]+x_avg),',',dp(rp.radius*h[1]+y_avg),'],')
+				heading_floats_str += d2n('[',rp.radius*h[0]+x_avg,',',rp.radius*h[1]+y_avg,'],')
 			heading_floats_str += ']'
 
 			xy_str = "["
@@ -311,33 +248,22 @@ def aruco_thread():
 			xy_str += ']'
 
 			ssh_command_str = d2n("echo 'pose = ",pose_str,"\nxy = ",xy_str,"\nheading_floats = ",heading_floats_str,"' > ~/Desktop/",rp.computer_name,".car.txt ")
-			#print ssh_command_str
-			#print ssh_command_str
+
 			try:
-				if ssh_connection:
-					ssh.exec_command(ssh_command_str)
-					#print 'ssh success'
+				ssh.exec_command(ssh_command_str)
 			except:
 				print('ssh.exec_command failed')
-				#pass
-			
 
-			"""
-			if rp.STEER_FROM_XY:
-				steer = get_steer(X,x_avg, Y,y_avg, DX,dx_avg, DY,dy_avg)
 
-			steer += rp.HEADING_DELTA_PARAM * heading_delta
-			"""
-			steer = heading_delta*(-99.0/45)
+			steer = heading_delta*(-99.0/45.0)
 
 			steer =int((steer-49.0)*rp.robot_steer_gain+49.0)
 			steer = min(99,steer)
 			steer = max(0,steer)
 			steer = int((1.0-rp.steer_momentum)*steer+rp.steer_momentum*steer_prev)
 			steer_prev = steer
-			#print dp(x_avg,1), dp(y_avg,1)
-			#print steer
-			#print int(heading_new),int(heading),int(heading_delta),int(steer)
+			
+			print int(heading_new),int(heading),int(heading_delta),int(steer)
 
 			robot_steer = steer
 
@@ -348,17 +274,15 @@ def aruco_thread():
 				aruco_heading_y_pub.publish(std_msgs.msg.Float32(dy_avg))
 
 			aruco_freq.freq()
-			#print robot_steer,dp(x_avg,1),dp(y_avg,1)
+
 			error_ctr_ = 0
 
 		except Exception as e:
-			#pass
-			
 			print("********** Exception ***********************")
 			print(e.message, e.args)
 			error_ctr_ += 1
 			print(d2s("aruco_thread error #",error_ctr_," (may be transient)"))
-			
+#
 #
 threading.Thread(target=aruco_thread).start()
 #
@@ -369,12 +293,9 @@ frozen_ = 0
 defrosted_timer = Timer(0)
 while not rospy.is_shutdown():
 
-	#clf();plt_square();xysqlim(2*107.0/100.0);plot(x_avg,y_avg,'ro');spause()
-
 	if reload_timer.check(): # put in thread?
 		reload(rp)
 		reload_timer.reset()
-
 
 	if state in [3,5,6,7]:
 		potential_collision_ = potential_collision_from_callback_
@@ -402,9 +323,7 @@ while not rospy.is_shutdown():
 					metadata = format_metadata((rp.Racing, 0, rp.Follow, rp.Direct, rp.Play, rp.Furtive))
 					torch_motor, torch_steer = run_model(camera_data, metadata)
 
-				#print dp(defrosted_timer.time())
 				if ((defrosted_timer.time()<2 and potential_collision_ < 2) or potential_collision_ == 0) and not frozen_:
-				#if potential_collision_ == 0 and not frozen_:
 
 					frozen_cmd_pub.publish(std_msgs.msg.Int32(frozen_))
 					
@@ -425,9 +344,6 @@ while not rospy.is_shutdown():
 
 				elif potential_collision_:
 
-					#if not frozen_:
-					#	if not network_ignore_potential_collision.check():
-					#		continue
 					if not frozen_:
 						print('I_ROBOT',rp.who_is_in_charge,rp.robot_steer,rp.robot_motor)
 					frozen_ = 1			
@@ -438,7 +354,6 @@ while not rospy.is_shutdown():
 						steer_cmd_pub.publish(std_msgs.msg.Int32(49))
 					if state in [6,7]:
 						motor_cmd_pub.publish(std_msgs.msg.Int32(49))					
-
 
 	else:
 		network_enter_timer.reset()
@@ -454,7 +369,6 @@ while not rospy.is_shutdown():
 
 	if time_step.check():
 		
-		#print(torch_steer,torch_motor)
 		print(d2s("In state",state,"for",dp(state_enter_timer.time()),"seconds, previous_state =",previous_state,'frozen_ =',frozen_))
 		time_step.reset()
 

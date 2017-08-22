@@ -41,7 +41,18 @@ I_ROBOT = 222
 who_is_in_charge = I_ROBOT
 
 robot_steer = 49
-robot_motor = 49
+robot_motor = 57
+robot_steer_gain = 1.0
+past_to_present_proportion = 0.75
+steer_momentum = 0.5
+X_PARAM = 1.0
+Y_PARAM = 1.0
+HEADING_DELTA_PARAM = 0.1
+STEER_FROM_XY = False
+radius = 0.5
+potential_graph_blur = 4
+print_marker_ids = False
+img_width = 35
 
 steer_gain = 1.0
 motor_gain = 1.0
@@ -65,10 +76,8 @@ acc_freeze_threshold_z = 2
 motor_freeze_threshold = 53
 n_avg_IMU = 10
 
-robot_acc2rd_threshold = 10
+robot_acc2rd_threshold = 15
 robot_acc_y_exit_threshold = 0
-robot_steer =  -999 # negative value means not used
-robot_motor = 58
 #
 ###################################################################
 
