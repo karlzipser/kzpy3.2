@@ -295,6 +295,7 @@ def aruco_thread():
 
 			pose_str = d2n("(",dp(x_avg),',',dp(y_avg),',',dp(dx_avg),',',dp(dy_avg),")")
 			print 'C'
+			"""
 			heading_floats_str = "["
 			for h in heading_floats:
 				heading_floats_str += d2n('[',rp.radius*h[0]+x_avg,',',rp.radius*h[1]+y_avg,'],')
@@ -312,6 +313,7 @@ def aruco_thread():
 			except:
 				print('ssh.exec_command failed')
 				#pass
+			"""
 			print 'D'
 			"""
 			if rp.STEER_FROM_XY:
