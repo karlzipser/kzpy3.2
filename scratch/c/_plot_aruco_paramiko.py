@@ -25,7 +25,9 @@ while not done:
 	try:
 		for car in sggo(opjD('*.car.txt')): #['Mr_Black.car.txt','Mr_New.car.txt']:
 			car_name = fname(car).split('.')[0]
-			l = txt_file_to_list_of_strings(car)#opjD(car))
+			new_car = car.replace('car','')
+			unix('mv '+car+' '+new_car)
+			l = txt_file_to_list_of_strings(new_car)#opjD(car))
 			for ll in l:
 				exec(ll)
 			if len(pose) == 4:

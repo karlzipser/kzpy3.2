@@ -311,7 +311,7 @@ def aruco_thread():
 			xy_str += ']'
 
 			ssh_command_str = d2n("echo 'pose = ",pose_str,"\nxy = ",xy_str,"\nheading_floats = ",heading_floats_str,"' > ~/Desktop/",rp.computer_name,".car.txt ")
-			print ssh_command_str
+			#print ssh_command_str
 			#print ssh_command_str
 			try:
 				if ssh_connection:
