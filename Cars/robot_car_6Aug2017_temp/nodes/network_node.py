@@ -110,13 +110,19 @@ from kzpy3.Grapher_app.Graph_Image_Module import *
 wall_length = 4*107.0/100.0
 half_wall_length = wall_length/2.0
 hw = half_wall_length
-tmp = Graph_Image(xmin,-6.03+hw, xmax,hw, ymin,-hw, ymax,hw, xsize,rp.img_width, ysize,rp.img_width)
+
+x_min = -6.03+hw
+x_max = hw
+y_min = -(6.03/2.0)#-hw
+y_max = 6.03/2.0#hw
+
+tmp = Graph_Image(xmin,x_min, xmax,x_max, ymin,y_min, ymax,y_max, xsize,rp.img_width, ysize,rp.img_width)
 #tmp[img] = cv2.blur(lo(opjD('Potential_graph_img')),(rp.potential_graph_blur,rp.potential_graph_blur))
 tmp[img] = lo(opjD('Potential_graph_img'))
 #tmp[img][18:21,10:15] = 1.0
 #tmp[img] = cv2.blur(tmp[img],(rp.potential_graph_blur,rp.potential_graph_blur))
 
-Potential_graph = Graph_Image(xmin,-6.03+hw, xmax,hw, ymin,-hw, ymax,hw, xsize,rp.img_width, ysize,rp.img_width, Img,tmp)
+Potential_graph = Graph_Image(xmin,x_min, xmax,x_max, ymin,y_min, ymax,y_max, xsize,rp.img_width, ysize,rp.img_width, Img,tmp)
 #
 Polar_Cartesian_dictionary = {}
 Pc = Polar_Cartesian_dictionary
