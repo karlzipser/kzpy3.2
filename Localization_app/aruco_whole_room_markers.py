@@ -121,7 +121,7 @@ for k in markers_clockwise:
 			k_prev = k
 
 
-Marker_xy_dic[0] = na([0.21,+0.82])
+Marker_xy_dic[0] = na([0.21,0.82+marker_width])
 Marker_xy_dic[100] = Marker_xy_dic[0] - na([0,1.1*marker_width])
 Marker_xy_dic[102] =  na([-0.12,-0.12]) + Marker_xy_dic[0]
 Marker_xy_dic[11] = na([0.12,-0.11]) + Marker_xy_dic[0]
@@ -145,7 +145,11 @@ rotating_vals = []
 for k in Marker_xy_dic:
 	rotating_keys.append(k)
 	rotating_vals.append(Marker_xy_dic[k])
+
 rotating_vals = rotatePolygon(rotating_vals,180)
+rotating_vals = na(rotating_vals)
+rotating_vals[:,0] -= (rotating_vals[:,0].max()+rotating_vals[:,0].min())/2.0
+
 for k,v in zip(rotating_keys,rotating_vals):
 	Marker_xy_dic[k] = v
 
@@ -180,7 +184,7 @@ if graphics:
 	Gi = Graph_Image(xmin,-2.25,ymin,-2.25,xmax,4.1,ymax,2.25,xsize,350,ysize,250)
 	Gi[ptsplot](x,pts[:,0],y,pts[:,1],color,(255,0,0))
 	mi(Gi[img],3)
-	figure(2)
+	figure(4)
 	pts = []
 	for k in Marker_xy_dic.keys():
 		if not is_number(k):
