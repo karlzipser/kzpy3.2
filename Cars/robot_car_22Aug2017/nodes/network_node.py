@@ -328,8 +328,7 @@ while not rospy.is_shutdown():
 		potential_collision_ = potential_collision_from_callback_
 		if potential_collision_ == rp.potential_motor_freeze_collision:
 			network_enter_timer.reset()
-	else:
-		potential_collision_ = 0
+		
 
 		if (previous_state not in [3,5,6,7]):
 			previous_state = state
@@ -385,6 +384,7 @@ while not rospy.is_shutdown():
 						motor_cmd_pub.publish(std_msgs.msg.Int32(49))					
 
 	else:
+		potential_collision_ = 0
 		network_enter_timer.reset()
 	
 	shutdown_time = 30
