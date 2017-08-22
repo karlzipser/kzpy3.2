@@ -41,6 +41,7 @@ while not done:
 				#Gi[ptsplot]( x,heading_floats[:,0], y,heading_floats[:,1], color,(255,255,255), NO_REVERSE,False)
 
 				for xxyy in xy:
+					print xxyy
 					#print xxyy
 					Gi[img][xxyy[0],xxyy[1],:] = [0,255,255]
 					#print Gi[img][xxyy[0],xxyy[1],:]
