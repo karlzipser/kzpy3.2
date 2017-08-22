@@ -181,7 +181,7 @@ def get_best_heading(x_pos,y_pos,heading,radius):
 #
 steer_prev = 49
 robot_steer = 49
-error_timer = Timer(1)
+error_timer = Timer(3)
 #
 from kzpy3.Localization_app.Parameters_Module import *
 x_avg = 0.0

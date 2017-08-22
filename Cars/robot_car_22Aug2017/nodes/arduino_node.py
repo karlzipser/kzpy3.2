@@ -100,12 +100,12 @@ def arduino_master_thread():
                 reload_timer.reset()
                 M['steer_gain'] = rp.steer_gain
                 M['motor_gain'] = rp.motor_gain
-                M['acc2rd_threshold'] = rp.acc2rd_threshold
-                M['gyro_freeze_threshold'] = rp.gyro_freeze_threshold
-                M['acc_freeze_threshold_x'] = rp.acc_freeze_threshold_x
-                M['acc_freeze_threshold_y_max'] = rp.acc_freeze_threshold_y_max
-                M['acc_freeze_threshold_y_min'] = rp.acc_freeze_threshold_y_min
-                M['acc_freeze_threshold_z'] = rp.acc_freeze_threshold_z
+                #M['acc2rd_threshold'] = rp.acc2rd_threshold
+                #M['gyro_freeze_threshold'] = rp.gyro_freeze_threshold
+                #M['acc_freeze_threshold_x'] = rp.acc_freeze_threshold_x
+                #M['acc_freeze_threshold_y_max'] = rp.acc_freeze_threshold_y_max
+                #M['acc_freeze_threshold_y_min'] = rp.acc_freeze_threshold_y_min
+                #M['acc_freeze_threshold_z'] = rp.acc_freeze_threshold_z
                 M['motor_freeze_threshold'] = rp.motor_freeze_threshold
                 M['PID_min_max'] = rp.PID_min_max
                 M['n_avg_IMU'] = rp.n_avg_IMU
