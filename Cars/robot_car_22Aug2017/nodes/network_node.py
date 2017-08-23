@@ -167,21 +167,19 @@ def get_best_heading(x_pos,y_pos,heading,radius):
 	min_potential = 9999
 	min_potential_index = -9999
 	for i in rlen(x1):
-		if not heading_pause:
-			if np.abs(headings[i]) < rp.heading_pause_threshold:
-				print('A')
-				if heading_floats[i] > rp.heading_float_pause_threshold:
-					print('B')
-					heading_pause = True
 		if in_square(x1[i],y1[i],0,rp.img_width,rp.img_width,0):
 			p = Potential_graph[img][x1[i],y1[i]]
-			#print i,dp(p),dp(headings[i])
 		else:
 			p = 1
 		if p < min_potential:
 			min_potential = p
 			min_potential_index = i
-
+		if not heading_pause:
+			if np.abs(headings[i]) < rp.heading_pause_threshold:
+				print('A')
+				if p > rp.heading_float_pause_threshold:
+					print(p,rp.heading_float_pause_threshold)
+					heading_pause = True
 	return headings[min_potential_index],heading_floats,x1,y1,heading_pause
 #
 ###################################################################
