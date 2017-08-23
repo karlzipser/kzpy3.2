@@ -160,7 +160,7 @@ def in_square(x0,y0, x_left, x_right, y_top, y_bottom):
 def get_best_heading(x_pos,y_pos,heading,radius):
 
 	headings,heading_floats = get_headings(x_pos,y_pos,heading)
-
+	middle_heading_index = int(len(headings)/2)
 	x1,y1 = Potential_graph[floats_to_pixels](
 		x,radius*heading_floats[:,1]+x_pos, y,radius*heading_floats[:,0]+y_pos, NO_REVERSE,False)
 	heading_pause = False
@@ -175,8 +175,7 @@ def get_best_heading(x_pos,y_pos,heading,radius):
 			min_potential = p
 			min_potential_index = i
 		if not heading_pause:
-			print headings
-			if np.abs(headings[i]) < rp.heading_pause_threshold:
+			if np.abs(headings[i]-headings[middle_heading_index]) < rp.heading_pause_threshold:
 				print('A')
 				if p > rp.heading_float_pause_threshold:
 					print(p,rp.heading_float_pause_threshold)
