@@ -163,10 +163,14 @@ def get_best_heading(x_pos,y_pos,heading,radius):
 
 	x1,y1 = Potential_graph[floats_to_pixels](
 		x,radius*heading_floats[:,1]+x_pos, y,radius*heading_floats[:,0]+y_pos, NO_REVERSE,False)
-
+	heading_pause = False
 	min_potential = 9999
 	min_potential_index = -9999
 	for i in rlen(x1):
+		if not heading_pause:
+			if np.abs(headings[i]) < rp.heading_pause_threshold:
+				if heading_floats[i] > rp.heading_float_pause_threshold:
+					heading_pause = True
 		if in_square(x1[i],y1[i],0,rp.img_width,rp.img_width,0):
 			p = Potential_graph[img][x1[i],y1[i]]
 			#print i,dp(p),dp(headings[i])
@@ -176,7 +180,7 @@ def get_best_heading(x_pos,y_pos,heading,radius):
 			min_potential = p
 			min_potential_index = i
 
-	return headings[min_potential_index],heading_floats,x1,y1
+	return headings[min_potential_index],heading_floats,x1,y1,heading_pause
 #
 ###################################################################
 #
@@ -184,6 +188,7 @@ def get_best_heading(x_pos,y_pos,heading,radius):
 #
 steer_prev = 49
 robot_steer = 49
+heading_pause = False
 error_timer = Timer(3)
 #
 from kzpy3.Localization_app.Parameters_Module import *
@@ -220,7 +225,7 @@ def aruco_thread():
 	from kzpy3.Localization_app.Project_Aruco_Markers_Module import Aruco_Trajectory
 	Aruco_trajectory = Aruco_Trajectory()
 	P[past_to_present_proportion] = rp.past_to_present_proportion
-	global robot_steer,x_avg,y_avg,steer,steer_prev
+	global robot_steer,x_avg,y_avg,steer,steer_prev,heading_pause
 
 	spd2s('starting aruco_thread . . .')
 
@@ -256,7 +261,7 @@ def aruco_thread():
 
 			heading = angle_clockwise((0,1),(dx_avg,dy_avg))
 
-			heading_new,heading_floats,x1,y1 = get_best_heading(rp.X_PARAM*x_avg,rp.Y_PARAM*y_avg,heading,rp.radius)
+			heading_new,heading_floats,x1,y1,heading_pause = get_best_heading(rp.X_PARAM*x_avg,rp.Y_PARAM*y_avg,heading,rp.radius)
 			
 			heading_delta = (heading_new - heading)
 
@@ -329,8 +334,9 @@ while not rospy.is_shutdown():
 
 	if state in [6]:#[3,5,6,7]:
 		potential_collision_ = potential_collision_from_callback_
-		if potential_collision_ == rp.potential_motor_freeze_collision:
-			network_enter_timer.reset()
+		if False: # why is the below there?
+			if potential_collision_ == rp.potential_motor_freeze_collision:
+				network_enter_timer.reset()
 		
 
 		if (previous_state not in [3,5,6,7]):
@@ -354,7 +360,7 @@ while not rospy.is_shutdown():
 					metadata = format_metadata((rp.Racing, 0, rp.Follow, rp.Direct, rp.Play, rp.Furtive))
 					torch_motor, torch_steer = run_model(camera_data, metadata)
 
-				if ((defrosted_timer.time()<2 and potential_collision_ < rp.potential_motor_freeze_collision) or potential_collision_ == 0) and not frozen_:
+				if ((defrosted_timer.time()<2 and potential_collision_ < rp.potential_motor_freeze_collision) or potential_collision_ == 0) and not (heading_pause or frozen_):
 
 					frozen_cmd_pub.publish(std_msgs.msg.Int32(frozen_))
 					
@@ -376,7 +382,7 @@ while not rospy.is_shutdown():
 				elif potential_collision_:
 
 					if not frozen_:
-						print('I_ROBOT',rp.who_is_in_charge,rp.robot_steer,rp.robot_motor)
+						srpd2s('I_ROBOT',rp.who_is_in_charge,rp.robot_steer,rp.robot_motor)
 					frozen_ = 1			
 
 					frozen_cmd_pub.publish(std_msgs.msg.Int32(frozen_))
@@ -386,6 +392,14 @@ while not rospy.is_shutdown():
 					if state in [6,7]:
 						motor_cmd_pub.publish(std_msgs.msg.Int32(49))					
 
+				elif heading_pause:
+
+					srpd2s('heading_pause')		
+
+					if state in [3,6]:          
+						steer_cmd_pub.publish(std_msgs.msg.Int32(49))
+					if state in [6,7]:
+						motor_cmd_pub.publish(std_msgs.msg.Int32(49))	
 	else:
 		potential_collision_ = 0
 		network_enter_timer.reset()
