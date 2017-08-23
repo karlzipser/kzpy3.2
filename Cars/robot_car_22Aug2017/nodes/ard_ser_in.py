@@ -47,6 +47,9 @@ def assign_serial_connections(sers):
                 '\nIs transmitter turned on?',
                 '\nIs MSE battery plugged in?')
             stop_ros()
+    else:
+        spd2s('Using dummy Arduino MSE.')
+        Arduinos['MSE'] = 'Dummy MSE'
 
     return Arduinos
 
