@@ -15,6 +15,7 @@ def get_arduino_serial_connections(baudrate, timeout):
     return sers
 
 def assign_serial_connections(sers):
+    cprint('Looking for Arduinos . . .')
     Arduinos = {}
     ser_timer = Timer(30)
     while not ser_timer.check() or len(sers) == 0:
