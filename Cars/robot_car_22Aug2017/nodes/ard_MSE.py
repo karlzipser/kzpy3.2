@@ -220,9 +220,9 @@ def setup(M,Arduinos):
 
 	if not rp.require_Arudinos_MSE:
 		spd2s('NOTE: rp.require_Arudinos_MSE == False, using dummy MSE values')
-		def dummy_write(_):
+		def dummy_write(_nothing_):
 			return
-		def dummy_read:
+		def dummy_read():
 			return ('mse',1450,1450,1450,2.0)
 		M['Arduinos_MSE_write'] = dummy_write
 		M['Arduinos_MSE_readline'] = dummy_read
