@@ -116,7 +116,10 @@ y_min = -(6.03/2.0)#-hw#
 y_max = 6.03/2.0#hw#
 
 tmp = Graph_Image(xmin,x_min, xmax,x_max, ymin,y_min, ymax,y_max, xsize,rp.img_width, ysize,rp.img_width)
-tmp[img] = lo(opjD('Potential_graph_img'))
+potential_image = imread(rp.potential_field_png)
+potential_image = potential_image[:,:,0]
+potential_image = z2o(potential_image)
+tmp[img] = potential_image#lo(opjD('Potential_graph_img'))
 
 Potential_graph = Graph_Image(xmin,x_min, xmax,x_max, ymin,y_min, ymax,y_max, xsize,rp.img_width, ysize,rp.img_width, Img,tmp)
 #
