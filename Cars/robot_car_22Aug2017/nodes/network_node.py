@@ -263,6 +263,8 @@ def aruco_thread():
 
 			heading_new,heading_floats,x1,y1,heading_pause = get_best_heading(rp.X_PARAM*x_avg,rp.Y_PARAM*y_avg,heading,rp.radius)
 			
+			print(heading_new,heading_floats,x1,y1,heading_pause)
+
 			heading_delta = (heading_new - heading)
 
 			pose_str = d2n("(",dp(x_avg),',',dp(y_avg),',',dp(dx_avg),',',dp(dy_avg),")")
