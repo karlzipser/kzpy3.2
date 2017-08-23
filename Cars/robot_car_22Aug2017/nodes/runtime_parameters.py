@@ -33,7 +33,7 @@ Racing = 0.0
 Location =  'generic' #Smyth_tape'
 
 weight_file_path = opjh('pytorch_models','epoch6goodnet')
-
+require_Arudinos_MSE = False #!!!!!!!!!!!!!!!
 verbose = False
 #use_caffe = True
 n_avg_IMU = 10

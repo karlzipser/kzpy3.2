@@ -1,5 +1,6 @@
 from kzpy3.utils2 import *
 
+import runtime_parameters as rp
 
 
 def get_arduino_serial_connections(baudrate, timeout):
@@ -15,30 +16,35 @@ def get_arduino_serial_connections(baudrate, timeout):
 
 def assign_serial_connections(sers):
     Arduinos = {}
-    for ser in sers:
-        for _ in xrange(100):
+    ser_timer = Timer(30)
+    while not ser_timer.check() or len(sers) == 0:
+        for ser in sers:
             try:
                 ser_str = ser.readline()
-                
                 exec('ser_tuple = list({0})'.format(ser_str))
                 if ser_tuple[0] in ['mse']:
                     print(d2s('Port',ser.port,'is the MSE:',ser_str))
                     Arduinos['MSE'] = ser
+                    sers.remove(ser)
                     break
                 elif ser_tuple[0] in ['acc','gyro','head']:
                     print(d2s('Port',ser.port,'is the IMU:',ser_str))
                     Arduinos['IMU'] = ser
+                    sers.remove(ser)
                     break
                 elif ser_tuple[0] in ['GPS2']:
                     print(d2s('Port',ser.port,'is the SIG:',ser_str))
                     Arduinos['SIG'] = ser
+                    sers.remove(ser)
                     break
             except:
                 pass
-        else:
-            print('Unable to identify port {0}'.format(ser.port))
-            print('Is transmitter turned on?')
-            print('Is MSE battery plugged in?')
+    if rp.require_Arudinos_MSE:
+        if 'MSE' not in Arduinos:
+            srpd2s('Fatal error\nArduino MSE not found!',
+                '\nUnable to identify port {0}'.format(ser.port),
+                '\nIs transmitter turned on?',
+                '\nIs MSE battery plugged in?')
             stop_ros()
 
     return Arduinos

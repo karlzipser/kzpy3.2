@@ -4,6 +4,8 @@ import std_msgs.msg
 import rospy
 import runtime_parameters as rp
 
+
+
 lock = threading.Lock()
 
 os.environ['STOP'] = 'False'
@@ -20,7 +22,8 @@ def mse_write_publish(M,Arduinos,steer_pwm,motor_pwm):
 	steer_pwm = apply_steer_pwm_gain(steer_pwm,M)
 	motor_pwm = apply_motor_pwm_gain(motor_pwm,M)
 	write_str = d2n( '(', int(steer_pwm), ',', int(motor_pwm+10000), ')')
-	Arduinos['MSE'].write(write_str)
+	M['Arduinos_MSE_write'](write_str)
+	#Arduinos['MSE'].write(write_str)
 	steer_percent = pwm_to_percent(M,M['steer_null'],steer_pwm,M['steer_max'],M['steer_min'])
 	motor_percent = pwm_to_percent(M,M['motor_null'],motor_pwm,M['motor_max'],M['motor_min'])
 	M['steer_pub'].publish(std_msgs.msg.Int32(steer_percent))
@@ -214,6 +217,18 @@ def buttons_to_state(Arduinos,M,BUTTON_DELTA):
 ##############################################################3
 #
 def setup(M,Arduinos):
+
+	if not rp.require_Arudinos_MSE:
+		spd2s('NOTE: rp.require_Arudinos_MSE == False, using dummy MSE values')
+		def dummy_write(_):
+			return
+		def dummy_read:
+			return ('mse',1450,1450,1450,2.0)
+		M['Arduinos_MSE_write'] = dummy_write
+		M['Arduinos_MSE_readline'] = dummy_read
+	else:
+		M['Arduinos_MSE_write'] = Arduinos['MSE'].write
+		M['Arduinos_MSE_readline'] = Arduinos['MSE'].readline
 
 	#M['state_transition_timer'] = Timer(0)
 	M['n_avg_steer'] = 20
@@ -416,14 +431,6 @@ def run_loop(Arduinos,M,BUTTON_DELTA=50,):
 
 			M['state_pub'].publish(std_msgs.msg.Int32(M['current_state'].number))
 
-			"""
-
-
-				#else:
-				#M['PID'] = [-1,-1]
-				#print((M['current_state'].number,M['steer_percent'],M['motor_percent'],M['state_transition_timer'].time()))
-				Arduinos['MSE'].write(M['smooth_write_str'])
-			"""
 	except Exception as e:
 		print("********** Exception ***********************")
 		print(e.message, e.args)
@@ -488,7 +495,8 @@ def pid_processing(M):
 
 
 def serial_data_to_messages(Arduinos,M):
-	read_str = Arduinos['MSE'].readline()
+	#read_str = Arduinos['MSE'].readline()
+	read_str = M['Arduinos_MSE_readline']()
 	try:
 		exec('mse_input = list({0})'.format(read_str))
 	except:
