@@ -17,7 +17,7 @@ def get_arduino_serial_connections(baudrate, timeout):
 def assign_serial_connections(sers):
     spd2s('Looking for Arduinos . . .')
     Arduinos = {}
-    ser_timer = Timer(30)
+    ser_timer = Timer(6)
     while not ser_timer.check() or not len(sers) == 0:
         for ser in sers:
             try:
