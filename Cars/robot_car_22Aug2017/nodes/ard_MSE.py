@@ -298,7 +298,7 @@ calibration_signal_timer = Timer(0.01)
 ##############################################################3
 #
 potential_collision_error_timer = Timer(0.5)
-#potential_collision_timer = Timer(5)
+tilt_timer = Timer(5)
 
 def run_loop(Arduinos,M,BUTTON_DELTA=50,):
 
@@ -348,13 +348,12 @@ def run_loop(Arduinos,M,BUTTON_DELTA=50,):
 
 			M['potential_collision'] = 0
 
-			if M['current_state'] == M['state_six'] and M['current_state'].state_transition_timer.time() > 5.0:# and potential_collision_timer.check():
+			if M['current_state'] == M['state_six'] and M['current_state'].state_transition_timer.time() > 5.0 and tilt_timer.check():
 				try:
 					en = int(M['n_lst_steps']/2)
-					if False:#M['caffe_motor'] > M['motor_freeze_threshold'] and np.array(M['encoder_lst'][-en:]).mean()<0.05:
+					if M['caffe_motor'] > M['motor_freeze_threshold'] and np.array(M['encoder_lst'][-en:]).mean()<0.05:
 						if not M['potential_collision']:
 							M['potential_collision'] = rp.potential_motor_freeze_collision
-							#potential_collision_timer.reset()
 							spd2s("caffe_motor freeze")
 					else:
 						acc2rd = M['acc'][0]**2+M['acc'][2]**2
@@ -367,12 +366,12 @@ def run_loop(Arduinos,M,BUTTON_DELTA=50,):
 						if mean_acc2rd > rp.robot_acc2rd_threshold:	
 							if not M['potential_collision']:
 								M['potential_collision'] = rp.potential_acc2rd_collision
-								#potential_collision_timer.reset()
 								srpd2s("mean_acc2rd > rp.robot_acc2rd_threshold")
 						if M['acc'][1] < rp.robot_acc_y_exit_threshold:
 							if M['potential_collision'] < rp.acc_y_tilt_event:
 								M['potential_collision'] = rp.acc_y_tilt_event
-								srpd2s("M['acc'][1] < rp.robot_acc_y_exit_threshold")
+								srpd2s("M['potential_collision'] = rp.acc_y_tilt_event")
+								tilt_timer.reset()
 				except:
 					if potential_collision_error_timer.check():
 						print('potential_collision_error_timer')
@@ -380,11 +379,8 @@ def run_loop(Arduinos,M,BUTTON_DELTA=50,):
 				
 
 			if M['current_state'] == M['state_nine']:
-				#M['aruco_evasion_active'] = 0
 				pass
-
 			elif M['current_state'] in [M['state_three'],M['state_five'],M['state_six'],M['state_seven']]:
-				#M['aruco_evasion_active'] = 0
 				human_motor = False
 				human_steer = False
 				if np.abs(M['steer_percent'] - 49) > 5:
