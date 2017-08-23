@@ -175,7 +175,7 @@ def get_best_heading(x_pos,y_pos,heading,radius):
 			min_potential = p
 			min_potential_index = i
 		if not heading_pause:
-			if np.abs(headings[i]-headings[middle_heading_index]) < rp.heading_pause_threshold:
+			if np.abs(headings[i]-headings[middle_heading_index]) < rp.heading_pause_threshold_angle:
 				if p > rp.heading_float_pause_threshold:
 					print(p,rp.heading_float_pause_threshold)
 					heading_pause = True
