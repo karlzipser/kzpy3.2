@@ -169,7 +169,9 @@ def get_best_heading(x_pos,y_pos,heading,radius):
 	for i in rlen(x1):
 		if not heading_pause:
 			if np.abs(headings[i]) < rp.heading_pause_threshold:
+				print('A')
 				if heading_floats[i] > rp.heading_float_pause_threshold:
+					print('B')
 					heading_pause = True
 		if in_square(x1[i],y1[i],0,rp.img_width,rp.img_width,0):
 			p = Potential_graph[img][x1[i],y1[i]]
@@ -263,7 +265,7 @@ def aruco_thread():
 
 			heading_new,heading_floats,x1,y1,heading_pause = get_best_heading(rp.X_PARAM*x_avg,rp.Y_PARAM*y_avg,heading,rp.radius)
 			
-			print(heading_new,heading_floats,x1,y1,heading_pause)
+			#print(heading_new,heading_floats,x1,y1,heading_pause)
 
 			heading_delta = (heading_new - heading)
 

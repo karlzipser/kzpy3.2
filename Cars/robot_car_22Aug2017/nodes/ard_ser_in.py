@@ -18,7 +18,7 @@ def assign_serial_connections(sers):
     spd2s('Looking for Arduinos . . .')
     Arduinos = {}
     ser_timer = Timer(30)
-    while not ser_timer.check() or len(sers) == 0:
+    while not ser_timer.check() or not len(sers) == 0:
         for ser in sers:
             try:
                 ser_str = ser.readline()
