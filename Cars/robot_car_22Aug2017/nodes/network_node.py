@@ -177,7 +177,7 @@ def get_best_heading(x_pos,y_pos,heading,radius):
 		if not heading_pause:
 			if np.abs(headings[i]-headings[middle_heading_index]) < rp.heading_pause_threshold_angle:
 				if p > rp.heading_float_pause_threshold:
-					print(p,rp.heading_float_pause_threshold)
+					#print(p,rp.heading_float_pause_threshold)
 					heading_pause = True
 	return headings[min_potential_index],heading_floats,x1,y1,heading_pause
 #
@@ -394,9 +394,10 @@ while not rospy.is_shutdown():
 						motor_cmd_pub.publish(std_msgs.msg.Int32(49))					
 
 				elif heading_pause:
-
-					srpd2s('heading_pause')		
-
+					if error_timer.check():
+						srpd2s('heading_pause')
+						error_timer.reset()
+						
 					if state in [3,6]:          
 						steer_cmd_pub.publish(std_msgs.msg.Int32(49))
 					if state in [6,7]:
