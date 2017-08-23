@@ -176,7 +176,6 @@ def get_best_heading(x_pos,y_pos,heading,radius):
 			min_potential_index = i
 		if not heading_pause:
 			if np.abs(headings[i]-headings[middle_heading_index]) < rp.heading_pause_threshold:
-				print('A')
 				if p > rp.heading_float_pause_threshold:
 					print(p,rp.heading_float_pause_threshold)
 					heading_pause = True
@@ -416,7 +415,7 @@ while not rospy.is_shutdown():
 
 	if time_step.check():
 
-		print(d2s("In state",state,"for",dp(state_enter_timer.time()),"seconds, previous_state =",previous_state,'frozen_ =',frozen_))
+		print(d2s("In state",state,"for",dp(state_enter_timer.time()),"seconds, previous_state =",previous_state,'frozen_ =',frozen_,'heading_pause =', heading_pause))
 		time_step.reset()
 
 stop_ros()
