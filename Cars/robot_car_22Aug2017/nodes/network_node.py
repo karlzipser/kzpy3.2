@@ -179,6 +179,7 @@ def get_best_heading(x_pos,y_pos,heading,radius):
 				if p > rp.heading_float_pause_threshold:
 					#print(p,rp.heading_float_pause_threshold)
 					heading_pause = True
+	heading_pause = False #!!!!!!!!!!!
 	return headings[min_potential_index],heading_floats,x1,y1,heading_pause
 #
 ###################################################################
