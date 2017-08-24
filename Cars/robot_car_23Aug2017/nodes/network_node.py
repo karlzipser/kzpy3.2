@@ -216,10 +216,11 @@ def paramiko_connection_thread():
 						#print 'paramiko_connection_thread: '+k
 						if error_timer.check():
 							print Connected_car_names
-						Ssh[k].connect(rp.Car_IP_dic[j], username='nvidia')
+						Ssh[k].connect(rp.Car_IP_dic[k], username='nvidia')
 						Connected_car_names[k] = True
-						spd2s('ssh connection to',k,established)
+						spd2s('ssh connection to',k,'established')
 					except:
+						spd2s('ssh connection to',k,'failed')
 						pass
 		time.sleep(1)
 threading.Thread(target=paramiko_connection_thread).start()
