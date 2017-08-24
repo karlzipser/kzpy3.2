@@ -23,7 +23,7 @@ Gi = Graph_Image(xmin,x_min,
 	xsize,shape(potential_image)[0],
 	ysize,shape(potential_image)[1])
 for i in range(3):
-	Gi[img][:,:,i] = img_.copy()
+	Gi[img][:,:,i] = potential_image.copy()
 
 Colors = {'Mr_Black':(0,0,0),'Mr_Blue':(0,0,255),'Mr_Lt_Blue':(200,200,255)}
 
@@ -64,7 +64,7 @@ while not done:
 				break
 		if True:#k == ord('r'):
 				for i in range(3):
-					Gi[img][:,:,i] = img_.copy()
+					Gi[img][:,:,i] = potential_image.copy()
 	
 	except (KeyboardInterrupt, SystemExit):
 		raise

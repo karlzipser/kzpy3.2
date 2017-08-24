@@ -22,8 +22,8 @@ except KeyError:
 
 Car_IP_dic = {'Mr_Blue':'192.168.1.101',
 	'Mr_Black':'192.168.1.102',
-	'Mr_Orange_Blue':'192.168.1.103',
-	'Mr_Yellow_Blue':'192.168.1.104',
+	'Mr_Orange:'192.168.1.103',
+	'Mr_Yellow':'192.168.1.104',
 	'Mr_Lt_Blue':'192.168.1.105',
 	'Mr_Purple':'.168.1.106'}
 ####################### general car settings ################
