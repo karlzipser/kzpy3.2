@@ -43,7 +43,7 @@ def assign_serial_connections(sers):
     if rp.require_Arudinos_MSE:
         if 'MSE' not in Arduinos:
             srpd2s('Fatal error\nArduino MSE not found!',
-                '\nUnable to identify port {0}'.format(ser.port),
+                #'\nUnable to identify port {0}'.format(ser.port),
                 '\nIs transmitter turned on?',
                 '\nIs MSE battery plugged in?')
             stop_ros()

@@ -225,7 +225,7 @@ ssh_command_str = ''
 
 one_over_sixty = 1.0/60.0
 def paramiko_command_thread():
-	timer = Time(0)
+	timer = Timer(0)
 	while True:
 		timer.reset()
 		for k in rp.Car_IP_dic:
