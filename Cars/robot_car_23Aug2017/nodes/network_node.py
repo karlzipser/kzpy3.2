@@ -207,9 +207,8 @@ for k in rp.Car_IP_dic:
 		Ssh[k].set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
 def paramiko_connection_thread():
-	done = False
-	while done == False:
-		done = True
+	timer = Timer(0)
+	while timer.time() < 120:
 		for k in rp.Car_IP_dic:
 			if k != rp.computer_name:
 				if Connected_car_names[k] == False:
@@ -217,8 +216,8 @@ def paramiko_connection_thread():
 						Ssh[k].connect(rp.Car_IP_dic[j], username='nvidia')
 						Connected_car_names[k] = True
 					except:
-						done = False
-		time.sleep(0.1)
+						pass
+		time.sleep(1)
 threading.Thread(target=paramiko_connection_thread).start()
 
 ssh_command_str = ''
