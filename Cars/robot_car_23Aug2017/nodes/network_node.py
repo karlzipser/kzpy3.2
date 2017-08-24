@@ -213,6 +213,7 @@ def paramiko_connection_thread():
 			if k != rp.computer_name:
 				if Connected_car_names[k] == False:
 					try:
+						print 'paramiko_connection_thread: '+k
 						Ssh[k].connect(rp.Car_IP_dic[j], username='nvidia')
 						Connected_car_names[k] = True
 						spd2s('ssh connection to',k,established)
@@ -229,9 +230,10 @@ def paramiko_command_thread():
 	while True:
 		timer.reset()
 		for k in rp.Car_IP_dic:
-			print k
+			
 			if k != rp.computer_name:
 				if Connected_car_names[k]:
+					print 'paramiko_command_thread +'+k
 					try:
 						Ssh[k].exec_command(ssh_command_str)
 						spd2s('ssh.exec_command  to',k)
