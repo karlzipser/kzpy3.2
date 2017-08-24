@@ -229,6 +229,7 @@ def paramiko_command_thread():
 	while True:
 		timer.reset()
 		for k in rp.Car_IP_dic:
+			print k
 			if k != rp.computer_name:
 				if Connected_car_names[k]:
 					try:
