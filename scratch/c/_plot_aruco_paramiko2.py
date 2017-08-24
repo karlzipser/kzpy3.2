@@ -7,7 +7,7 @@ import kzpy3.Cars.robot_car_23Aug2017.nodes.runtime_parameters as rp
 potential_image = imread(rp.potential_field_png)
 potential_image = potential_image[:,:,0]
 potential_image = z2o(1.0*potential_image)
-
+mi(potential_image,'potential_image');spause()
 from kzpy3.Grapher_app.Graph_Image_Module import *
 wall_length = 4*107.0/100.0
 half_wall_length = wall_length/2.0
@@ -25,7 +25,7 @@ Gi = Graph_Image(xmin,x_min,
 for i in range(3):
 	Gi[img][:,:,i] = potential_image.copy()
 
-mi(potential_image,'potential_image')
+
 
 Colors = {'Mr_Black':(0,0,0),'Mr_Blue':(0,0,255),'Mr_Lt_Blue':(50,200,255)}
 
