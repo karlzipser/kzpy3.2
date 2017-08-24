@@ -25,7 +25,7 @@ Gi = Graph_Image(xmin,x_min,
 for i in range(3):
 	Gi[img][:,:,i] = potential_image.copy()
 
-Colors = {'Mr_Black':(0,0,0),'Mr_Blue':(0,0,255),'Mr_Lt_Blue':(200,200,255)}
+Colors = {'Mr_Black':(0,0,0),'Mr_Blue':(0,0,255),'Mr_Lt_Blue':(100,230,255)}
 
 done = False
 while not done:
