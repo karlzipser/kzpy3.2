@@ -1,5 +1,5 @@
 use_wordsv = """
-IP_ADDRESS NAME STOP_NOW START STOP STARTED_THREAD CONTINUE PAUSE PAUSE_NOW
+IP_ADDRESS NAME STOP_NOW START STOP STARTED_THREAD CONTINUE PAUSE PAUSE_NOW COUNTER NAME
 aruco_position_x aruco_position_y aruco_heading_x aruco_heading_y actual_center_of_mass
 ROS_LIVE SHOW_MARKER_ID center_of_mass OUTPUT THREAD_COUNTER
 hxl hx_meo hy_meo x_meo y_meo DX X DY Y

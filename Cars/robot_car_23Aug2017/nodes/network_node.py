@@ -224,12 +224,13 @@ ssh_command_str = ''
 
 one_over_sixty = 1.0/60.0
 def paramiko_command_thread():
+	timer = Time(0)
 	while True:
-		timer = Time(0)
+		timer.reset()
 		for k in rp.Car_IP_dic:
 			if k != rp.computer_name:
 				if Connected_car_names[k]:
-					ssh.exec_command(ssh_command_str)
+					Ssh[k].exec_command(ssh_command_str)
 				except:
 					if error_timer.check():
 						print('ssh.exec_command failed')
