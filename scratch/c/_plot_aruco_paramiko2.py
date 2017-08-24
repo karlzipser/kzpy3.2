@@ -7,7 +7,7 @@ import kzpy3.Cars.robot_car_23Aug2017.nodes.runtime_parameters as rp
 potential_image = imread(rp.potential_field_png)
 potential_image = potential_image[:,:,0]
 potential_image = (255*z2o(1.0*potential_image)).astype(np.int)
-mi(potential_image,'potential_image');spause()
+#mi(potential_image,'potential_image');spause()
 from kzpy3.Grapher_app.Graph_Image_Module import *
 wall_length = 4*107.0/100.0
 half_wall_length = wall_length/2.0
