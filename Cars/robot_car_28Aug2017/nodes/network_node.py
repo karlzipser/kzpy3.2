@@ -294,6 +294,8 @@ threading.Thread(target=paramiko_command_thread).start()
 
 car_print_timer = Timer(0.5)
 
+aruco_error_timer = Timer(1.0)
+
 def aruco_thread():
 	import kzpy3.data_analysis.Angle_Dict_Creator as Angle_Dict_Creator
 	
@@ -308,7 +310,9 @@ def aruco_thread():
 
 	while not rospy.is_shutdown():
 		try:
-
+			if aruco_error_timer.check():
+				heading_pause = True
+				srpd2s('aruco_error_timer.check()',aruco_error_timer.time())
 			x_avg,y_avg = 0.0,0.0
 			dx_avg,dy_avg = 0.0,0.0
 			for camera_list_ in [left_list,right_list]:
@@ -385,6 +389,7 @@ def aruco_thread():
 
 			aruco_freq.freq()
 			error_ctr_ = 0
+			aruco_error_timer.reset()
 
 		except Exception as e:
 			#pass
