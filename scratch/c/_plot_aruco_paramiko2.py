@@ -2,7 +2,7 @@
 from kzpy3.vis2 import *
 clear_timer = Timer(1)
 
-import kzpy3.Cars.robot_car_23Aug2017.nodes.runtime_parameters as rp
+import kzpy3.Cars.robot_car_28Aug2017.nodes.runtime_parameters as rp
 
 potential_image = imread(rp.potential_field_png)
 potential_image = potential_image[:,:,0]
