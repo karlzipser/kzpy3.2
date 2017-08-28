@@ -368,7 +368,7 @@ def aruco_thread():
 			car_question_mark = check_for_other_car(x_avg,y_avg,dx_avg,dy_avg)
 			if car_question_mark != False:
 				print 'A'
-				if car_print_timer.check():
+				if False:#car_print_timer.check():
 					print 'B'
 					srpd2s(car_question_mark,' is too close!!!!')
 					print 'C'
