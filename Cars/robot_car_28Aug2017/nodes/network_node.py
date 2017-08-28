@@ -93,16 +93,17 @@ for k in rp.Car_IP_dic:
 		Other_car_coordinates[k] = {}
 
 one_over_sixty = 1.0/60.0
-one_over_fifteen = 1.0/15.0
+one_over_fifteen = 1.0#/15.0
 
 def get_other_car_coordinates_thread():
 	while True:
 		try:
+			print 'get_other_car_coordinates_thread'
 			timer = Timer(0)
 			for car in sgg(opjD('*.car.txt')):
 				car_name = fname(car).split('.')[0]
-				new_car = car.replace('car','')
-				unix('cp '+car+' '+new_car)
+				new_car = car.replace('.car','')
+				unix('cp '+car+' '+new_car,False)
 				l = txt_file_to_list_of_strings(new_car)
 				for ll in l:
 					exec(ll)
