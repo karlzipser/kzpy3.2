@@ -231,6 +231,7 @@ def get_best_heading(x_pos,y_pos,heading,radius):
 			if np.abs(headings[i]-headings[middle_heading_index]) < rp.heading_pause_threshold_angle:
 				p2 = Potential_graph[img][int((x1[i]+x_pos)/2.0),int((y1[i]+y_pos)/2.0)]
 				if p2 > rp.heading_float_pause_threshold:
+					print p2
 					heading_pause = True
 	return headings[min_potential_index],heading_floats,x1,y1,heading_pause
 #
