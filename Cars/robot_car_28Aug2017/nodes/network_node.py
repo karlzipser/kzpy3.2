@@ -349,7 +349,7 @@ def aruco_thread():
 			
 			#print(heading_new,heading_floats,x1,y1,heading_pause)
 			car_question_mark = check_for_other_car(x_avg,y_avg,dx_avg,dy_avg)
-			if car_question_mark != False
+			if car_question_mark != False:
 				if car_print_timer():
 					srd2s(car_question_mark,' is too close!!!!')
 					car_print_timer.reset()
