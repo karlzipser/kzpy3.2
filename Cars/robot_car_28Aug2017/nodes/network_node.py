@@ -201,10 +201,15 @@ def check_for_other_car(x_avg,y_avg,dx_avg,dy_avg):
 				if time.time() - Other_car_coordinates[k][TIME] < 1.0:
 					ox = Other_car_coordinates[k][POSE][0]
 					oy = Other_car_coordinates[k][POSE][1]
-					print k,Other_car_coordinates[k]
-					return False
-					if np.abs(angle_clockwise((dx_avg,dy_avg),(ox-x_avg,oy-y_avg))) < 45:
-						if np.sqrt((x_avg-ox)**2+(y_avg-oy)**2) < 0.5:
+					#print k,Other_car_coordinates[k]
+					#return False
+					ac = angle_clockwise((dx_avg,dy_avg),(ox-x_avg,oy-y_avg))
+					print ac
+					if np.abs(ac) < 45:
+						di = np.sqrt((x_avg-ox)**2+(y_avg-oy)**2)
+						print di
+						if di < 0.5:
+							print k
 							return k
 		except Exception as e:
 			print("***** check_for_other_car ***** Exception ***********************")
