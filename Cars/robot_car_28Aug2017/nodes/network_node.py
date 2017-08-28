@@ -367,10 +367,15 @@ def aruco_thread():
 			#print(heading_new,heading_floats,x1,y1,heading_pause)
 			car_question_mark = check_for_other_car(x_avg,y_avg,dx_avg,dy_avg)
 			if car_question_mark != False:
+				print 'A'
 				if car_print_timer.check():
+					print 'B'
 					srpd2s(car_question_mark,' is too close!!!!')
+					print 'C'
 					car_print_timer.reset()
+					print 'D'
 				heading_pause = True
+				print 'E'
 
 			heading_delta = (heading_new - heading)
 
