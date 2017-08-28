@@ -373,7 +373,8 @@ def aruco_thread():
 			steer = max(0,steer)
 			steer = int((1.0-rp.steer_momentum)*steer+rp.steer_momentum*steer_prev)
 			steer_prev = steer
-			print steer
+			if rp.print_steer:
+				pd2s('steer =',steer)
 			robot_steer = steer
 
 			if True:

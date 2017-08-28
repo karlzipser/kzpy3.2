@@ -61,6 +61,7 @@ STEER_FROM_XY = False
 radius = 0.5
 #potential_graph_blur = 4
 print_marker_ids = False
+print_steer = False
 img_width = 35
 
 steer_gain = 1.0
