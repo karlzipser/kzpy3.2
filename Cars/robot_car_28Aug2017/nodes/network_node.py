@@ -217,7 +217,7 @@ def get_best_heading(x_pos,y_pos,heading,radius):
 		if p < min_potential:
 			min_potential = p
 			min_potential_index = i
-		if not heading_pause:
+		if False:#not heading_pause:
 			if np.abs(headings[i]-headings[middle_heading_index]) < rp.heading_pause_threshold_angle:
 				p2 = Potential_graph[img][int((x1[i]+x_pos)/2.0),int((y1[i]+y_pos)/2.0)]
 				if p2 > rp.heading_float_pause_threshold:
@@ -295,7 +295,7 @@ threading.Thread(target=paramiko_command_thread).start()
 
 car_print_timer = Timer(0.5)
 
-aruco_error_timer = Timer(1.0)
+aruco_error_timer = Timer(0.5)
 aruco_error_print_timer = Timer(0.5)
 def aruco_thread():
 	import kzpy3.data_analysis.Angle_Dict_Creator as Angle_Dict_Creator
@@ -348,7 +348,7 @@ def aruco_thread():
 			heading_new,heading_floats,x1,y1,heading_pause = get_best_heading(rp.X_PARAM*x_avg,rp.Y_PARAM*y_avg,heading,rp.radius)
 			
 			#print(heading_new,heading_floats,x1,y1,heading_pause)
-			if False:#check_for_other_car(x_avg,y_avg,dx_avg,dy_avg):
+			if check_for_other_car(x_avg,y_avg,dx_avg,dy_avg):
 				if car_print_timer():
 					print "Car!!!!!"
 					car_print_timer.reset()

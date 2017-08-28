@@ -313,6 +313,7 @@ calibration_signal_timer = Timer(0.01)
 ##############################################################3
 #
 potential_collision_error_timer = Timer(0.5)
+potential_collision_error_print_timer = Timer(1)
 tilt_timer = Timer(5)
 
 def run_loop(Arduinos,M,BUTTON_DELTA=50,):
@@ -385,7 +386,9 @@ def run_loop(Arduinos,M,BUTTON_DELTA=50,):
 						if M['acc'][1] < rp.robot_acc_y_exit_threshold:
 							if M['potential_collision'] < rp.acc_y_tilt_event:
 								M['potential_collision'] = rp.acc_y_tilt_event
-								srpd2s("M['potential_collision'] = rp.acc_y_tilt_event")
+								if potential_collision_error_print_timer.check():
+									srpd2s("M['potential_collision'] = rp.acc_y_tilt_event")
+									potential_collision_error_print_timer.reset()
 								tilt_timer.reset()
 				except:
 					if potential_collision_error_timer.check():
