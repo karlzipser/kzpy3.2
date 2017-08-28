@@ -115,7 +115,7 @@ def get_other_car_coordinates_thread():
 		except Exception as e:
 			print("********** Exception ***********************")
 			print(e.message, e.args)			
-#threading.Thread(target=get_other_car_coordinates_thread).start()
+threading.Thread(target=get_other_car_coordinates_thread).start()
 
 
 
@@ -295,7 +295,7 @@ threading.Thread(target=paramiko_command_thread).start()
 car_print_timer = Timer(0.5)
 
 aruco_error_timer = Timer(1.0)
-
+aruco_error_print_timer = Timer(0.5)
 def aruco_thread():
 	import kzpy3.data_analysis.Angle_Dict_Creator as Angle_Dict_Creator
 	
@@ -312,7 +312,9 @@ def aruco_thread():
 		try:
 			if aruco_error_timer.check():
 				heading_pause = True
-				srpd2s('aruco_error_timer.check()',aruco_error_timer.time())
+				if aruco_error_print_timer.check():
+					srpd2s('aruco_error_timer.check()',aruco_error_timer.time())
+					aruco_error_print_timer.reset()
 			x_avg,y_avg = 0.0,0.0
 			dx_avg,dy_avg = 0.0,0.0
 			for camera_list_ in [left_list,right_list]:
