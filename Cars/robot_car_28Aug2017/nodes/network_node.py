@@ -205,7 +205,7 @@ def check_for_other_car(x_avg,y_avg,dx_avg,dy_avg):
 					#return False
 					ac = angle_clockwise((dx_avg,dy_avg),(ox-x_avg,oy-y_avg))
 					print ac
-					if np.abs(ac) < 45:
+					if np.abs(ac) < 45 or np.abs(ac) > (360-45):
 						di = np.sqrt((x_avg-ox)**2+(y_avg-oy)**2)
 						print di
 						if di < 0.5:
@@ -367,7 +367,7 @@ def aruco_thread():
 			#print(heading_new,heading_floats,x1,y1,heading_pause)
 			car_question_mark = check_for_other_car(x_avg,y_avg,dx_avg,dy_avg)
 			if car_question_mark != False:
-				if car_print_timer():
+				if car_print_timer.check():
 					srpd2s(car_question_mark,' is too close!!!!')
 					car_print_timer.reset()
 				heading_pause = True
