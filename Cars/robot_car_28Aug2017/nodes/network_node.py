@@ -113,6 +113,7 @@ def get_other_car_coordinates_thread():
 				if len(pose) == 4:
 					Other_car_coordinates[car_name][POSE] = pose
 					Other_car_coordinates[car_name][TIME] = time.time()
+				spd2s(Other_car_coordinates)
 			t = timer.time()
 			if t < one_over_fifteen:
 				time.sleep(one_over_fifteen - t)
