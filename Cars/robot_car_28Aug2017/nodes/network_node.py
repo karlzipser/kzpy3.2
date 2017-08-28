@@ -304,7 +304,7 @@ threading.Thread(target=paramiko_command_thread).start()
 
 car_print_timer = Timer(0.5)
 
-aruco_error_timer = Timer(0.5)
+aruco_error_timer = Timer(0.75)
 aruco_error_print_timer = Timer(0.5)
 def aruco_thread():
 	import kzpy3.data_analysis.Angle_Dict_Creator as Angle_Dict_Creator
