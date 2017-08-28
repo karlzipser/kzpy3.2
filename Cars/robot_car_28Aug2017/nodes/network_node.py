@@ -356,7 +356,7 @@ def aruco_thread():
 			heading_new,heading_floats,x1,y1,heading_pause = get_best_heading(rp.X_PARAM*x_avg,rp.Y_PARAM*y_avg,heading,rp.radius)
 			
 			#print(heading_new,heading_floats,x1,y1,heading_pause)
-			car_question_mark = check_for_other_car(x_avg,y_avg,dx_avg,dy_avg)
+			car_question_mark = False#check_for_other_car(x_avg,y_avg,dx_avg,dy_avg)
 			if car_question_mark != False:
 				if car_print_timer():
 					srpd2s(car_question_mark,' is too close!!!!')
