@@ -101,7 +101,7 @@ one_over_fifteen = 1.0#/15.0
 def get_other_car_coordinates_thread():
 	while True:
 		try:
-			print 'get_other_car_coordinates_thread'
+			p#rint 'get_other_car_coordinates_thread'
 			timer = Timer(0)
 			for car in sgg(opjD('*.car.txt')):
 				car_name = fname(car).split('.')[0]
@@ -113,7 +113,7 @@ def get_other_car_coordinates_thread():
 				if len(pose) == 4:
 					Other_car_coordinates[car_name][POSE] = pose
 					Other_car_coordinates[car_name][TIME] = time.time()
-				spd2s(Other_car_coordinates)
+				#spd2s(Other_car_coordinates)
 			t = timer.time()
 			if t < one_over_fifteen:
 				time.sleep(one_over_fifteen - t)
@@ -154,7 +154,7 @@ y_max = 6.03/2.0#hw#
 
 tmp = Graph_Image(xmin,x_min, xmax,x_max, ymin,y_min, ymax,y_max, xsize,rp.img_width, ysize,rp.img_width)
 potential_image = imread(rp.potential_field_png)
-potential_image = potential_image[:,:,0]
+potential_image = 1.0*potential_image[:,:,0]
 potential_image = z2o(potential_image)
 tmp[img] = potential_image#lo(opjD('Potential_graph_img'))
 
