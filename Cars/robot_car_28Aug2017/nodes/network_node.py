@@ -115,7 +115,7 @@ def get_other_car_coordinates_thread():
 		except Exception as e:
 			print("********** Exception ***********************")
 			print(e.message, e.args)			
-threading.Thread(target=get_other_car_coordinates_thread).start()
+#threading.Thread(target=get_other_car_coordinates_thread).start()
 
 
 
@@ -341,7 +341,7 @@ def aruco_thread():
 			heading_new,heading_floats,x1,y1,heading_pause = get_best_heading(rp.X_PARAM*x_avg,rp.Y_PARAM*y_avg,heading,rp.radius)
 			
 			#print(heading_new,heading_floats,x1,y1,heading_pause)
-			if check_for_other_car(x_avg,y_avg,dx_avg,dy_avg):
+			if False:#check_for_other_car(x_avg,y_avg,dx_avg,dy_avg):
 				if car_print_timer():
 					print "Car!!!!!"
 					car_print_timer.reset()
@@ -373,7 +373,7 @@ def aruco_thread():
 			steer = max(0,steer)
 			steer = int((1.0-rp.steer_momentum)*steer+rp.steer_momentum*steer_prev)
 			steer_prev = steer
-
+			print steer
 			robot_steer = steer
 
 			if True:
