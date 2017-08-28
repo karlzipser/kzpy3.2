@@ -195,13 +195,17 @@ def in_square(x0,y0, x_left, x_right, y_top, y_bottom):
 #
 def check_for_other_car(x_avg,y_avg,dx_avg,dy_avg):
 	for k in Other_car_coordinates:
-		if TIME in Other_car_coordinates[k]:
-			if time.time() - Other_car_coordinates[k][TIME] < 1.0:
-				ox = Other_car_coordinates[k][POSE][0]
-				oy = Other_car_coordinates[k][POSE][1]
-				if np.abs(angle_clockwise((dx_avg,dy_avg),(ox-x_avg,oy-y_avg))) < 45:
-					if np.sqrt((x_avg-ox)**2+(y_avg-ox)**2) < 0.5:
-						return k
+		try:
+			if TIME in Other_car_coordinates[k]:
+				if time.time() - Other_car_coordinates[k][TIME] < 1.0:
+					ox = Other_car_coordinates[k][POSE][0]
+					oy = Other_car_coordinates[k][POSE][1]
+					if np.abs(angle_clockwise((dx_avg,dy_avg),(ox-x_avg,oy-y_avg))) < 45:
+						if np.sqrt((x_avg-ox)**2+(y_avg-ox)**2) < 0.5:
+							return k
+		except Exception as e:
+			print("***** check_for_other_car ***** Exception ***********************")
+			print(e.message, e.args)
 	return False
 
 
