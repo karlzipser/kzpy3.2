@@ -97,20 +97,24 @@ one_over_fifteen = 1.0/15.0
 
 def get_other_car_coordinates_thread():
 	while True:
-		timer = Timer(0)
-		for car in sgg(opjD('*.car.txt')):
-			car_name = fname(car).split('.')[0]
-			new_car = car.replace('car','')
-			unix('cp '+car+' '+new_car)
-			l = txt_file_to_list_of_strings(new_car)
-			for ll in l:
-				exec(ll)
-			if len(pose) == 4:
-				Other_car_coordinates[car_name][POSE] = pose
-				Other_car_coordinates[car_name][TIME] = time.time()
-		t = timer.time()
-		if t < one_over_fifteen:
-			time.sleep(one_over_fifteen - t)
+		try:
+			timer = Timer(0)
+			for car in sgg(opjD('*.car.txt')):
+				car_name = fname(car).split('.')[0]
+				new_car = car.replace('car','')
+				unix('cp '+car+' '+new_car)
+				l = txt_file_to_list_of_strings(new_car)
+				for ll in l:
+					exec(ll)
+				if len(pose) == 4:
+					Other_car_coordinates[car_name][POSE] = pose
+					Other_car_coordinates[car_name][TIME] = time.time()
+			t = timer.time()
+			if t < one_over_fifteen:
+				time.sleep(one_over_fifteen - t)
+		except Exception as e:
+			print("********** Exception ***********************")
+			print(e.message, e.args)			
 threading.Thread(target=get_other_car_coordinates_thread).start()
 
 
