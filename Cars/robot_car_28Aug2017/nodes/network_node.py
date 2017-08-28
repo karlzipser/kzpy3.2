@@ -95,6 +95,9 @@ for k in rp.Car_IP_dic:
 one_over_sixty = 1.0/60.0
 one_over_fifteen = 1.0#/15.0
 
+TIME = 'TIME'
+POSE = 'POSE'
+
 def get_other_car_coordinates_thread():
 	while True:
 		try:
