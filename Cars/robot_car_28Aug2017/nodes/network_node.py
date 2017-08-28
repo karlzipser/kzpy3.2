@@ -12,7 +12,7 @@ from pytorch_code import *
 import roslib
 import std_msgs.msg
 import geometry_msgs.msg
-
+import threading
 from cv_bridge import CvBridge,CvBridgeError
 import rospy
 from sensor_msgs.msg import Image
@@ -123,7 +123,7 @@ aruco_heading_y_pub = rospy.Publisher('/bair_car/aruco_heading_y', std_msgs.msg.
 aruco_position_x_pub = rospy.Publisher('/bair_car/aruco_position_x', std_msgs.msg.Float32, queue_size=10)
 aruco_position_y_pub = rospy.Publisher('/bair_car/aruco_position_y', std_msgs.msg.Float32, queue_size=10)
 #
-import threading
+
 #
 #heading_steering_coordinates = lo(opjD('heading_steering_coordinates'))
 wall_length = 4*107.0/100.0
