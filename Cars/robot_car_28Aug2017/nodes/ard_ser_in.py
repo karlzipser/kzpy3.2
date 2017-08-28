@@ -17,7 +17,7 @@ def get_arduino_serial_connections(baudrate, timeout):
 def assign_serial_connections(sers):
     spd2s('Looking for Arduinos . . .')
     Arduinos = {}
-    ser_timer = Timer(30)
+    ser_timer = Timer(4)
     while not ser_timer.check() or not len(sers) == 0:
         for ser in sers:
             try:
@@ -40,6 +40,7 @@ def assign_serial_connections(sers):
                     break
             except:
                 pass
+    spd2s('Done looking for Arduinos.')
     if rp.require_Arudinos_MSE:
         if 'MSE' not in Arduinos:
             srpd2s('Fatal error\nArduino MSE not found!',
