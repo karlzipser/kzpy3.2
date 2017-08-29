@@ -16,8 +16,6 @@ import threading
 from cv_bridge import CvBridge,CvBridgeError
 import rospy
 from sensor_msgs.msg import Image
-
-
 bridge = CvBridge()
 rospy.init_node('listener',anonymous=True)
 
@@ -90,14 +88,16 @@ frozen_cmd_pub = rospy.Publisher('cmd/frozen', std_msgs.msg.Int32, queue_size=10
 
 
 
-
+###################
+# These imports should go after ros setup section
 from kzpy3.Grapher_app.Graph_Image_Module import *
 from kzpy3.vis2 import angle_clockwise
 from kzpy3.Localization_app.Parameters_Module import *
 import kzpy3.data_analysis.Angle_Dict_Creator as Angle_Dict_Creator
 from kzpy3.Localization_app.Project_Aruco_Markers_Module import Aruco_Trajectory
 import paramiko
-
+#
+##################
 
 
 
@@ -295,10 +295,10 @@ def paramiko_connection_thread():
 						Connected_car_names[k] = True
 						spd2s('ssh connection to',k,'established')
 					except:
-						#spd2s('ssh connection to',k,'failed')
+						pd2s('ssh connection to',k,'failed')
 						pass
 		time.sleep(5)
-#threading.Thread(target=paramiko_connection_thread).start()
+threading.Thread(target=paramiko_connection_thread).start()
 
 ssh_command_str = ''
 
