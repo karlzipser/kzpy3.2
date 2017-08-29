@@ -208,7 +208,7 @@ def check_for_other_car(x_avg,y_avg,dx_avg,dy_avg):
 					if np.abs(ac) < 45 or np.abs(ac) > (360-45):
 						di = np.sqrt((x_avg-ox)**2+(y_avg-oy)**2)
 						print di
-						if di < 0.5:
+						if di < rp.other_car_distance_threshold:
 							print k
 							return k
 		except Exception as e:
