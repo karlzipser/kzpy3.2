@@ -69,7 +69,7 @@ if __name__ == '__main__':
                     
                 rate.sleep()
         except Exception as e:
-            print("********** Exception ***********************")
+            print("********** rospy.init_node('rosbag_node', anonymous=True) Exception ***********************")
             print(e.message, e.args)
             os.environ['STOP'] = 'True'
             rospy.signal_shutdown(d2s(e.message,e.args))

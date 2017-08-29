@@ -435,7 +435,7 @@ def run_loop(Arduinos,M,BUTTON_DELTA=50,):
 			M['state_pub'].publish(std_msgs.msg.Int32(M['current_state'].number))
 
 	except Exception as e:
-		print("********** Exception ***********************")
+		print("********** def run_loop(Arduinos,M,BUTTON_DELTA=50,): Exception ***********************")
 		print(e.message, e.args)
 		os.environ['STOP'] = 'True'
 		M['Stop_Arduinos'] = True

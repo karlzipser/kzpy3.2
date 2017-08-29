@@ -46,7 +46,7 @@ def run_loop(Arduinos,M):
                 pass #print e
         stop_ros()
     except Exception as e:
-        print("********** Exception ***********************")
+        print("********** def run_loop(Arduinos,M): Exception ***********************")
         print(e.message, e.args)
         os.environ['STOP'] = 'True'
         M['Stop_Arduinos'] = True

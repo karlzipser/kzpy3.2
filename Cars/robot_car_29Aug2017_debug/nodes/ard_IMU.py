@@ -46,11 +46,11 @@ def run_loop(Arduinos,M):
 
 
             except Exception as e:
-                    print("********** def run_loop(Arduinos,M): Exception ***********************")
+                    print("********** def run_loop(Arduinos,M): 1 Exception ***********************")
                     print(e.message, e.args)
         stop_ros()
     except Exception as e:
-        print("********** Exception ***********************")
+        print("********** def run_loop(Arduinos,M): 2 Exception ***********************")
         print(e.message, e.args)
         os.environ['STOP'] = 'True'
         LED_signal = d2n('(10000)')

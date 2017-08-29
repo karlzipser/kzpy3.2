@@ -133,7 +133,7 @@ def get_other_car_coordinates_thread():
 				if t < one_over_fifteen:
 					time.sleep(one_over_fifteen - t)
 			except Exception as e:
-				print("********** Exception ***********************")
+				print("********** def get_other_car_coordinates_thread(): Exception ***********************")
 				print(e.message, e.args)
 		else:
 			time.sleep(0.1)
@@ -229,7 +229,7 @@ def check_for_other_car(x_avg,y_avg,dx_avg,dy_avg):
 							#car_print(d2s(k,' distance =',dp(di)),name=k)
 							return k
 		except Exception as e:
-			print("***** check_for_other_car ***** Exception ***********************")
+			print("***** def check_for_other_car(x_avg,y_avg,dx_avg,dy_avg): ***** Exception ***********************")
 			print(e.message, e.args)
 	return False
 
@@ -435,7 +435,7 @@ def aruco_thread():
 			except Exception as e:
 				#pass
 				if error_timer.check():
-					print("********** Exception ***********************")
+					print("********** def aruco_thread(): Exception ***********************")
 					print(e.message, e.args)
 					error_ctr_ += 1
 					print(d2s("aruco_thread error #",error_ctr_," (may be transient)"))

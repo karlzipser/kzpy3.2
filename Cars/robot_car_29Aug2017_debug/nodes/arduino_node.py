@@ -125,7 +125,7 @@ def arduino_master_thread():
             time.sleep(0.5)
         stop_ros()
     except Exception as e:
-        print("********** Exception ***********************")
+        print("********** def arduino_master_thread(): Exception ***********************")
         print(e.message, e.args)
         os.environ['STOP'] = 'True'
         LED_signal = d2n('(10000)')
