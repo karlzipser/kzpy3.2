@@ -37,11 +37,15 @@ def run_loop(Arduinos,M):
                 #print imu_input
                 m = imu_input[0]
                 M[m] = imu_input[1:4]
-                if m == 'acc':
-                    #print("if m == 'acc':")
-                    M['acc_lst'].append(M['acc'])
-                    if len(M['acc_lst']) > 1.5*M['n_avg_IMU']:
-                        M['acc_lst'] = M['acc_lst'][-M['n_avg_IMU']:]
+                try:
+                    if m == 'acc':
+                        #print("if m == 'acc':")
+                        M['acc_lst'].append(M['acc'])
+                        if len(M['acc_lst']) > 1.5*M['n_avg_IMU']:
+                            M['acc_lst'] = M['acc_lst'][-M['n_avg_IMU']:]
+                except Exception as e:
+                    print("********** def run_loop(Arduinos,M): Exception ***********************")
+                    print(e.message, e.args)                
                 M[imu_dic[m]].publish(geometry_msgs.msg.Vector3(*M[m]))
 
 
