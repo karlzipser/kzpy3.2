@@ -468,7 +468,7 @@ def smooth_data(M):
 	return
 	#
 	###############################
-	M['smooth_steer'] = 
+	
 	if len(M['steer_pwm_lst']) >= M['n_avg_steer']:
 		M['smooth_steer'] = array(M['steer_pwm_lst'][-M['n_avg_steer']:]).mean()
 	else:
