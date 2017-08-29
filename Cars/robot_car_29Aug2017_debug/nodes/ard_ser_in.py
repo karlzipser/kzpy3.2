@@ -19,7 +19,9 @@ def assign_serial_connections(sers):
     Arduinos = {}
     ser_timer = Timer(5)
     ser_long_timer = Timer(120)
-    while not ('MSE' in Arduinos and ser_timer.check()) or not len(sers) == 0 or not ser_long_timer.check():
+    while not ('MSE' in Arduinos and ser_timer.check()) or not len(sers) == 0:
+        if ser_long_timer.check():
+            break
         if ser_timer.check():
             spd2s('Looking for Arduinos . . .')
             ser_timer.reset()
