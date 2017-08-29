@@ -36,6 +36,7 @@ def run_loop(Arduinos,M):
                 exec('imu_input = list({0})'.format(read_str))
                 #print imu_input
                 m = imu_input[0]
+                print m
                 M[m] = imu_input[1:4]
                 try:
                     if m == 'acc':
