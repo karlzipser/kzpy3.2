@@ -23,24 +23,28 @@ def assign_serial_connections(sers):
         if ser_timer.check():
             spd2s('Looking for Arduinos . . .')
             ser_timer.reset()
+            spd2s(sers,Arduinos)
         for ser in sers:
             try:
                 ser_str = ser.readline()
                 exec('ser_tuple = list({0})'.format(ser_str))
                 if ser_tuple[0] in ['mse']:
-                    spd2s('Port',ser.port,'is the MSE:',ser_str,ser_timer.time(),sers)
+                    
                     Arduinos['MSE'] = ser
                     sers.remove(ser)
+                    spd2s('Port',ser.port,'is the MSE:',ser_str,ser_timer.time(),sers,Arduinos)
                     break
                 elif ser_tuple[0] in ['acc','gyro','head']:
-                    spd2s('Port',ser.port,'is the IMU:',ser_str,ser_timer.time(),sers)
+                    
                     Arduinos['IMU'] = ser
                     sers.remove(ser)
+                    spd2s('Port',ser.port,'is the IMU:',ser_str,ser_timer.time(),sers,Arduinos)
                     break
                 elif ser_tuple[0] in ['GPS2']:
-                    spd2s('Port',ser.port,'is the SIG:',ser_str,ser_timer.time(),sers)
+                    
                     Arduinos['SIG'] = ser
                     sers.remove(ser)
+                    spd2s('Port',ser.port,'is the SIG:',ser_str,ser_timer.time(),sers,Arduinos)
                     break
             except:
                 pass
