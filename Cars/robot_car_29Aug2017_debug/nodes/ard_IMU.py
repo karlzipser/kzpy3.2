@@ -46,7 +46,8 @@ def run_loop(Arduinos,M):
 
 
             except Exception as e:
-                pass #print e
+                    print("********** def run_loop(Arduinos,M): Exception ***********************")
+                    print(e.message, e.args)
         stop_ros()
     except Exception as e:
         print("********** Exception ***********************")
