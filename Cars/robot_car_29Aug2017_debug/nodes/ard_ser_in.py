@@ -15,6 +15,7 @@ def get_arduino_serial_connections(baudrate, timeout):
     return sers
 
 def assign_serial_connections(sers):
+    spd2s(sers)
     Arduinos = {}
     ser_timer = Timer(5)
     ser_long_timer = Timer(120)
@@ -27,17 +28,17 @@ def assign_serial_connections(sers):
                 ser_str = ser.readline()
                 exec('ser_tuple = list({0})'.format(ser_str))
                 if ser_tuple[0] in ['mse']:
-                    spd2s('Port',ser.port,'is the MSE:',ser_str,ser_timer.time())
+                    spd2s('Port',ser.port,'is the MSE:',ser_str,ser_timer.time(),sers)
                     Arduinos['MSE'] = ser
                     sers.remove(ser)
                     break
                 elif ser_tuple[0] in ['acc','gyro','head']:
-                    spd2s('Port',ser.port,'is the IMU:',ser_str,ser_timer.time())
+                    spd2s('Port',ser.port,'is the IMU:',ser_str,ser_timer.time(),sers)
                     Arduinos['IMU'] = ser
                     sers.remove(ser)
                     break
                 elif ser_tuple[0] in ['GPS2']:
-                    spd2s('Port',ser.port,'is the SIG:',ser_str,ser_timer.time())
+                    spd2s('Port',ser.port,'is the SIG:',ser_str,ser_timer.time(),sers)
                     Arduinos['SIG'] = ser
                     sers.remove(ser)
                     break
