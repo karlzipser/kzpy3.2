@@ -282,7 +282,7 @@ def paramiko_connection_thread():
 						#spd2s('ssh connection to',k,'failed')
 						pass
 		time.sleep(1)
-threading.Thread(target=paramiko_connection_thread).start()
+#threading.Thread(target=paramiko_connection_thread).start()
 
 ssh_command_str = ''
 
