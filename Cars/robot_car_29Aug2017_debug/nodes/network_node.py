@@ -21,7 +21,7 @@ rospy.init_node('listener',anonymous=True)
 
 left_list = []
 right_list = []
-state = 0
+state = '{Not Set}'
 steer = 0
 potential_collision_from_callback_ = 0
 previous_state = 0
@@ -86,7 +86,7 @@ steer_cmd_pub = rospy.Publisher('cmd/steer', std_msgs.msg.Int32, queue_size=10)
 motor_cmd_pub = rospy.Publisher('cmd/motor', std_msgs.msg.Int32, queue_size=10)
 frozen_cmd_pub = rospy.Publisher('cmd/frozen', std_msgs.msg.Int32, queue_size=10)
 
-
+state = '{Not Set}'
 
 ###################
 # These imports should go after ros setup section
@@ -450,6 +450,8 @@ threading.Thread(target=aruco_thread).start()
 #
 ###################################################################
 
+def car_print(stri):
+	cprint(stri,rp.Car_termcolor_dic[rp.computer_name][0],rp.Car_termcolor_dic[rp.computer_name][1])
 
 frozen_ = 0
 defrosted_timer = Timer(0)
@@ -535,15 +537,17 @@ while not rospy.is_shutdown():
 	
 	shutdown_time = 30
 	if state == 4 and state_enter_timer.time() > shutdown_time-5:
-		print('!!! about to reboot from state 4 !!! ' + str(steer))
+		car_print('!!! about to reboot from state 4 !!! ' + str(steer))
 	if state == 4 and state_enter_timer.time() > shutdown_time:
-		print(d2s("Rebooting because in state 4 for",shutdown_time,"+ s"))
+		car_print(d2s("Rebooting because in state 4 for",shutdown_time,"+ s"))
 		unix('sudo reboot')
 
 
 	if time_step.check():
 
-		print(d2s("In state <",state,">for",dp(state_enter_timer.time()),"seconds, previous_state =",previous_state,'frozen_ =',frozen_,'heading_pause =', heading_pause))
+		car_print(d2s(rp.computer_name,"in state <",state,"> for",dp(state_enter_timer.time()),"seconds, previous_state =",previous_state,'frozen_ =',frozen_,'heading_pause =', heading_pause))
 		time_step.reset()
 
 stop_ros()
+
+
