@@ -29,6 +29,10 @@ select opt in $OPTIONS; do
     rm ~/catkin_ws/src/bair_car
     ln -s ~/kzpy3/Cars/robot_car_28Aug2017 ~/catkin_ws/src/bair_car
     ls -al ~/catkin_ws/src/bair_car
+   elif [ "$opt" = "robot_car_29Aug2017_debug" ]; then
+    rm ~/catkin_ws/src/bair_car
+    ln -s ~/kzpy3/Cars/robot_car_29Aug2017_debug ~/catkin_ws/src/bair_car
+    ls -al ~/catkin_ws/src/bair_car
    elif [ "$opt" = "bdd_car_rewrite_SD2" ]; then
     rm ~/catkin_ws/src/bair_car
     ln -s ~/kzpy3/teg2/bdd_car_versions/bdd_car_rewrite_SD2/bair_car ~/catkin_ws/src/bair_car
