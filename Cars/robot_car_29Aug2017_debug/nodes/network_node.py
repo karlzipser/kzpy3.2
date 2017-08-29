@@ -221,10 +221,10 @@ def check_for_other_car(x_avg,y_avg,dx_avg,dy_avg):
 					#print k,Other_car_coordinates[k]
 					#return False
 					ac = angle_clockwise((dx_avg,dy_avg),(ox-x_avg,oy-y_avg))
-					#print ac
+					print ac
 					if np.abs(ac) < 45 or np.abs(ac) > (360-45):
 						di = np.sqrt((x_avg-ox)**2+(y_avg-oy)**2)
-						#print di
+						print di
 						if di < rp.other_car_distance_threshold:
 							car_print(d2s(k,' distance =',dp(di)),name=k)
 							return k
