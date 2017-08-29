@@ -1,6 +1,7 @@
 from kzpy3.utils2 import *
 
-
+import runtime_parameters as rp
+# original
 
 def get_arduino_serial_connections(baudrate, timeout):
     sers = []
@@ -14,32 +15,42 @@ def get_arduino_serial_connections(baudrate, timeout):
     return sers
 
 def assign_serial_connections(sers):
+    spd2s('Looking for Arduinos . . .')
     Arduinos = {}
-    for ser in sers:
-        for _ in xrange(100):
+    ser_timer = Timer(30)
+    while not ser_timer.check() or not len(sers) == 0:
+        for ser in sers:
             try:
                 ser_str = ser.readline()
-                
                 exec('ser_tuple = list({0})'.format(ser_str))
                 if ser_tuple[0] in ['mse']:
-                    print(d2s('Port',ser.port,'is the MSE:',ser_str))
+                    spd2s('Port',ser.port,'is the MSE:',ser_str,ser_timer.time())
                     Arduinos['MSE'] = ser
+                    sers.remove(ser)
                     break
                 elif ser_tuple[0] in ['acc','gyro','head']:
-                    print(d2s('Port',ser.port,'is the IMU:',ser_str))
+                    spd2s('Port',ser.port,'is the IMU:',ser_str,ser_timer.time())
                     Arduinos['IMU'] = ser
+                    sers.remove(ser)
                     break
                 elif ser_tuple[0] in ['GPS2']:
-                    print(d2s('Port',ser.port,'is the SIG:',ser_str))
+                    spd2s('Port',ser.port,'is the SIG:',ser_str,ser_timer.time())
                     Arduinos['SIG'] = ser
+                    sers.remove(ser)
                     break
             except:
                 pass
-        else:
-            print('Unable to identify port {0}'.format(ser.port))
-            print('Is transmitter turned on?')
-            print('Is MSE battery plugged in?')
+    spd2s('Done looking for Arduinos.')
+    if rp.require_Arudinos_MSE:
+        if 'MSE' not in Arduinos:
+            srpd2s('Fatal error\nArduino MSE not found!',
+                #'\nUnable to identify port {0}'.format(ser.port),
+                '\nIs transmitter turned on?',
+                '\nIs MSE battery plugged in?')
             stop_ros()
+    else:
+        spd2s('Using dummy Arduino MSE.')
+        Arduinos['MSE'] = 'Dummy MSE'
 
     return Arduinos
 
