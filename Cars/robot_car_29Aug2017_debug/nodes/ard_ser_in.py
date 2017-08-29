@@ -17,7 +17,8 @@ def get_arduino_serial_connections(baudrate, timeout):
 def assign_serial_connections(sers):
     Arduinos = {}
     ser_timer = Timer(5)
-    while not ('MSE' in Arduinos and ser_timer.check()) or not len(sers) == 0:
+    ser_long_timer = Timer(120)
+    while not ('MSE' in Arduinos and ser_timer.check()) or not len(sers) == 0 or not ser_long_timer.check():
         if ser_timer.check():
             spd2s('Looking for Arduinos . . .')
             ser_timer.reset()
@@ -51,6 +52,7 @@ def assign_serial_connections(sers):
                 '\nIs transmitter turned on?',
                 '\nIs MSE battery plugged in?')
             stop_ros()
+            unix('sudo reboot')
     else:
         spd2s('Using dummy Arduino MSE.')
         Arduinos['MSE'] = 'Dummy MSE'

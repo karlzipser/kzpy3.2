@@ -221,12 +221,12 @@ def check_for_other_car(x_avg,y_avg,dx_avg,dy_avg):
 					#print k,Other_car_coordinates[k]
 					#return False
 					ac = angle_clockwise((dx_avg,dy_avg),(ox-x_avg,oy-y_avg))
-					print ac
+					#print ac
 					if np.abs(ac) < 45 or np.abs(ac) > (360-45):
 						di = np.sqrt((x_avg-ox)**2+(y_avg-oy)**2)
-						print di
+						#print di
 						if di < rp.other_car_distance_threshold:
-							car_print(d2s(k,' distance =',dp(di)),name=k)
+							#car_print(d2s(k,' distance =',dp(di)),name=k)
 							return k
 		except Exception as e:
 			print("***** check_for_other_car ***** Exception ***********************")
@@ -331,7 +331,7 @@ threading.Thread(target=paramiko_command_thread).start()
 
 car_print_timer = Timer(0.5)
 
-aruco_error_timer = Timer(0.75)
+aruco_error_timer = Timer(rp.aruco_error_time)
 aruco_error_print_timer = Timer(0.5)
 def aruco_thread():
 
@@ -385,14 +385,12 @@ def aruco_thread():
 				#print(heading_new,heading_floats,x1,y1,heading_pause)
 				car_question_mark = check_for_other_car(x_avg,y_avg,dx_avg,dy_avg)
 				if car_question_mark != False:
-					#if type(car_print_timer.check()) != str:
-					print 'B'
-					srpd2s(k,' is too close!!!!')
-					print 'C'
+					car_print('!!!!!!!!!!!!!!!!!!!!!!!!!\n!',rp.computer_name)
+					car_print(d2s('\t',car_question_mark,' is too close!!!!'),car_question_mark)
+					car_print('!\n!!!!!!!!!!!!!!!!!!!!!!!!!',rp.computer_name)
 					car_print_timer.reset()
-					print 'D'
 					heading_pause = True
-					print 'E'
+
 
 				heading_delta = (heading_new - heading)
 
