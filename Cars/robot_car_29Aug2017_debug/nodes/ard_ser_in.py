@@ -16,6 +16,9 @@ def get_arduino_serial_connections(baudrate, timeout):
 
 def assign_serial_connections(sers):
     spd2s(sers)
+    if len(sers) == 0:
+        srpd2s('Fatal error\nlen(sers) == 0',
+        stop_ros()
     Arduinos = {}
     ser_timer = Timer(5)
     ser_long_timer = Timer(120)
@@ -59,7 +62,6 @@ def assign_serial_connections(sers):
                 '\nIs transmitter turned on?',
                 '\nIs MSE battery plugged in?')
             stop_ros()
-            unix('sudo reboot')
     else:
         spd2s('Using dummy Arduino MSE.')
         Arduinos['MSE'] = 'Dummy MSE'
