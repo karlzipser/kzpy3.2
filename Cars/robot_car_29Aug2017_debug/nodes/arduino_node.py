@@ -138,6 +138,7 @@ def arduino_master_thread():
 
 
 if 'MSE' in Arduinos:
+    spd2s("'MSE' in Arduinos.keys()")
     ard_MSE.setup(M,Arduinos)
     threading.Thread(target=arduino_mse_thread).start()
 else:
