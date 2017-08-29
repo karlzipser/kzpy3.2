@@ -17,7 +17,7 @@ def get_arduino_serial_connections(baudrate, timeout):
 def assign_serial_connections(sers):
     spd2s(sers)
     if len(sers) == 0:
-        srpd2s('Fatal error\nlen(sers) == 0',
+        srpd2s('Fatal error\nlen(sers) == 0')
         stop_ros()
     Arduinos = {}
     ser_timer = Timer(5)
