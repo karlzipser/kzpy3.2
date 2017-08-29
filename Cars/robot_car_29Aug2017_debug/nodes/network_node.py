@@ -387,7 +387,7 @@ def aruco_thread():
 				if car_question_mark != False:
 					if type(car_print_timer.check()) != str:
 						print 'B'
-						srpd2s(car_question_mark,' is too close!!!!')
+						srpd2s(k,' is too close!!!!')
 						print 'C'
 						car_print_timer.reset()
 						print 'D'
