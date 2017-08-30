@@ -496,21 +496,23 @@ while not rospy.is_shutdown():
 
 					frozen_cmd_pub.publish(std_msgs.msg.Int32(frozen_))
 					
-					if state in [3,6]:
+					if state in [6]:# [3,6]:
 						steer_cmd_pub.publish(std_msgs.msg.Int32(robot_steer))
 						if False:
 							if rp.robot_steer < 0:   
 								steer_cmd_pub.publish(std_msgs.msg.Int32(torch_steer))
 							else:
 								steer_cmd_pub.publish(std_msgs.msg.Int32(rp.robot_steer))
-					if state in [6,7]:
+					if state in [6]: #[6,7]:
 						motor_cmd_pub.publish(std_msgs.msg.Int32(rp.robot_motor))
 						if False:
 							if rp.robot_motor < 0:
 								motor_cmd_pub.publish(std_msgs.msg.Int32(torch_motor))
 							else:
 								motor_cmd_pub.publish(std_msgs.msg.Int32(rp.robot_motor))
-
+					if state in [3,5,7]:
+						steer_cmd_pub.publish(std_msgs.msg.Int32(49))
+						motor_cmd_pub.publish(std_msgs.msg.Int32(49))
 				elif potential_collision_:
 
 					if not frozen_:
