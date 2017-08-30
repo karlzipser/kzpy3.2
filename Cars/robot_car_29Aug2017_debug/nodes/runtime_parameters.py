@@ -25,13 +25,15 @@ Car_IP_dic = {'Mr_Blue':'192.168.1.101',
 	'Mr_Orange':'192.168.1.103',
 	'Mr_Yellow':'192.168.1.104',
 	'Mr_Lt_Blue':'192.168.1.105',
-	'Mr_Purple':'192.168.1.106'}
+	'Mr_Purple':'192.168.1.106',
+	'Mr_TX2':'192.168.1.201'}
 Car_termcolor_dic = {'Mr_Blue':('blue','on_white'),
 	'Mr_Black':('grey','on_white'),
 	'Mr_Orange':('red','on_yellow'),
 	'Mr_Yellow':('yellow','on_grey'),
 	'Mr_Lt_Blue':('blue','on_cyan'),
-	'Mr_Purple':('magenta','on_white')}
+	'Mr_Purple':('magenta','on_white'),
+	'Mr_TX2':(255,200,150)}
 ####################### general car settings ################
 #
 for i in range(1):
