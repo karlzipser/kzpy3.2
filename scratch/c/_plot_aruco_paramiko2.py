@@ -27,7 +27,10 @@ for i in range(3):
 
 
 
-Colors = {'Mr_Black':(255,0,0),'Mr_Yellow':(255,255,0),'Mr_Blue':(0,0,255),'Mr_Lt_Blue':(50,200,255)}
+Colors = {'Mr_Black':(255,0,0),'Mr_Yellow':(255,255,0),'Mr_Blue':(0,0,255),'Mr_Lt_Blue':(50,200,255),
+	'Mr_Orange':(255,200,0),'Mr_Purple':(0,255,255)}
+
+k = mci(Gi[img],delay=5,scale=5)
 
 done = False
 while not done:
@@ -60,7 +63,7 @@ while not done:
 				something_happened = True
 
 		if something_happened:
-			k = mci(Gi[img],delay=5,scale=30)
+			k = mci(Gi[img],delay=5,scale=5)
 			if k == ord('q'):
 				done = True
 				break

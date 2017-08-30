@@ -35,6 +35,7 @@ alias Mr_Orange='ssh nvidia@192.168.1.103'
 alias Mr_Yellow='ssh nvidia@192.168.1.104'
 alias Mr_Lt_Blue='ssh nvidia@192.168.1.105'
 alias Mr_Purple='ssh nvidia@192.168.1.106'
+alias Mr_TX2='ssh nvidia@192.168.1.201'
 
 ######################## for .bashrc from MacBook #################
 #
