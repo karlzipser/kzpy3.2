@@ -81,7 +81,9 @@ motor_gain = 1.0
 
 PID_min_max = [1.5,2.5]
 motor_freeze_threshold = 55
-robot_acc2rd_threshold = 80#20
+robot_acc2rd_threshold = 40
+if computer_name in ['Mr_Orange']:
+	robot_acc2rd_threshold = 80
 robot_acc_y_exit_threshold = 3
 potential_acc2rd_collision = 10
 potential_motor_freeze_collision = 20
