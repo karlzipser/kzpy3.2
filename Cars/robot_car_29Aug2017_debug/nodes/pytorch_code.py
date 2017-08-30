@@ -25,7 +25,7 @@ def init_model():
     nframes = solver.N_FRAMES
     scale = nn.AvgPool2d(kernel_size=3, stride=2, padding=1).cuda()
 
-init_model()
+#init_model()
 
 
 
