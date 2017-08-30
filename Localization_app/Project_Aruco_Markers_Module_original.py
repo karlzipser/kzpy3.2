@@ -98,8 +98,8 @@ def Aruco_Trajectory():
 	D[hy] = False
 	D[x] = False
 	D[y] = False
-	#D[car_pts] = []
-	#D[head_pts] = []
+	D[car_pts] = []
+	D[head_pts] = []
 	#D[past_to_present_proportion] = 0.975
 	D[max_list_length] = 12
 	timer = Timer(10)
@@ -112,8 +112,8 @@ def Aruco_Trajectory():
 		min_error0_ = 9999
 		min_error1_ = 9999
 		min_error2_ = 9999
-		#car_pts_ = D[car_pts]
-		#head_pts_ = D[head_pts]
+		car_pts_ = D[car_pts]
+		head_pts_ = D[head_pts]
 		a_ = P[past_to_present_proportion]
 		t_ctr_ = 0
 
@@ -144,21 +144,25 @@ def Aruco_Trajectory():
 			timer.reset()
 
 		CVF[rotate_around](theta,min_theta2_)
-		car_pts_=CVF[pts_centered][0]
-		head_pts_=CVF[pts_centered][1]
-
+		car_pts_.append(CVF[pts_centered][0])
+		head_pts_.append(CVF[pts_centered][1])
+		if len(car_pts_) > 1.5*D[max_list_length]:
+			D[car_pts] = D[car_pts][-D[max_list_length]:]
+		if len(head_pts_) > 1.5*D[max_list_length]:
+			D[head_pts] = D[head_pts][-D[max_list_length]:]
 		if D[hx] == False:
-			D[hx] = head_pts_[0]
-			D[hy] = head_pts_[1]
-		D[hx] =  a_*D[hx]+(1-a_)*head_pts_[0]  
-		D[hy] = a_*D[hy]+(1-a_)*head_pts_[1] 
+			D[hx] = head_pts_[-1][0]
+			D[hy] = head_pts_[-1][1]
+		D[hx] =  a_*D[hx]+(1-a_)*head_pts_[-1][0]  
+		D[hy] = a_*D[hy]+(1-a_)*head_pts_[-1][1] 
 		if D[x] == False:
-			D[x] = car_pts_[0]
-			D[y] = car_pts_[1]
-		D[x] =  a_*D[x]+(1-a_)*car_pts_[0]  
-		D[y] = a_*D[y]+(1-a_)*car_pts_[1]
-
-		return D[hx],D[hy],D[x],D[y]
+			D[x] = car_pts_[-1][0]
+			D[y] = car_pts_[-1][1]
+		D[x] =  a_*D[x]+(1-a_)*car_pts_[-1][0]  
+		D[y] = a_*D[y]+(1-a_)*car_pts_[-1][1]
+		#x__ = (D[x]+D[hx])/2.0
+		#y__ = (D[y]+D[hy])/2.0
+		return D[hx],D[hy],D[x],D[y]#x__,y__
 	D[step] = _function_step
 	return D
 

@@ -21,7 +21,7 @@ rospy.init_node('listener',anonymous=True)
 
 left_list = []
 right_list = []
-state = 0
+state = '{Not Set}'
 steer = 0
 potential_collision_from_callback_ = 0
 previous_state = 0
@@ -44,6 +44,11 @@ def state__callback(data):
 	global state, previous_state, state_enter_timer
 	if state != data.data:
 		state_enter_timer = Timer(0)
+		if state in [3,5,7]:
+			srpd2s('if state in [3,5,7]:')
+			unix('ssd')
+			stop_ros()
+
 		if state in [3,5,6,7] and previous_state in [3,5,6,7]:
 			pass
 		else:
@@ -86,6 +91,20 @@ steer_cmd_pub = rospy.Publisher('cmd/steer', std_msgs.msg.Int32, queue_size=10)
 motor_cmd_pub = rospy.Publisher('cmd/motor', std_msgs.msg.Int32, queue_size=10)
 frozen_cmd_pub = rospy.Publisher('cmd/frozen', std_msgs.msg.Int32, queue_size=10)
 
+state = '{Not Set}'
+
+###################
+# These imports should go after ros setup section
+from kzpy3.Grapher_app.Graph_Image_Module import *
+from kzpy3.vis2 import angle_clockwise
+from kzpy3.Localization_app.Parameters_Module import *
+import kzpy3.data_analysis.Angle_Dict_Creator as Angle_Dict_Creator
+from kzpy3.Localization_app.Project_Aruco_Markers_Module import Aruco_Trajectory
+import paramiko
+#
+##################
+
+
 
 Other_car_coordinates = {}
 for k in rp.Car_IP_dic:
@@ -100,26 +119,29 @@ one_over_fifteen = 1.0#/15.0
 
 def get_other_car_coordinates_thread():
 	while True:
-		try:
-			#print 'get_other_car_coordinates_thread'
-			timer = Timer(0)
-			for car in sgg(opjD('*.car.txt')):
-				car_name = fname(car).split('.')[0]
-				new_car = car.replace('.car','')
-				unix('cp '+car+' '+new_car,False)
-				l = txt_file_to_list_of_strings(new_car)
-				for ll in l:
-					exec(ll)
-				if len(pose) == 4:
-					Other_car_coordinates[car_name][POSE] = pose
-					Other_car_coordinates[car_name][TIME] = time.time()
-				#spd2s(Other_car_coordinates)
-			t = timer.time()
-			if t < one_over_fifteen:
-				time.sleep(one_over_fifteen - t)
-		except Exception as e:
-			print("********** Exception ***********************")
-			print(e.message, e.args)			
+		if state in [3,5,6,7]:
+			try:
+				#print 'get_other_car_coordinates_thread'
+				timer = Timer(0)
+				for car in sgg(opjD('*.car.txt')):
+					car_name = fname(car).split('.')[0]
+					new_car = car.replace('.car','')
+					unix('cp '+car+' '+new_car,False)
+					l = txt_file_to_list_of_strings(new_car)
+					for ll in l:
+						exec(ll)
+					if len(pose) == 4:
+						Other_car_coordinates[car_name][POSE] = pose
+						Other_car_coordinates[car_name][TIME] = time.time()
+					#spd2s(Other_car_coordinates)
+				t = timer.time()
+				if t < one_over_fifteen:
+					time.sleep(one_over_fifteen - t)
+			except Exception as e:
+				print("********** def get_other_car_coordinates_thread(): Exception ***********************")
+				print(e.message, e.args)
+		else:
+			time.sleep(0.1)
 threading.Thread(target=get_other_car_coordinates_thread).start()
 
 
@@ -137,12 +159,12 @@ aruco_position_y_pub = rospy.Publisher('/bair_car/aruco_position_y', std_msgs.ms
 #heading_steering_coordinates = lo(opjD('heading_steering_coordinates'))
 wall_length = 4*107.0/100.0
 #
-from kzpy3.vis2 import angle_clockwise
+
 #
 #
 ################################################################################3
 #
-from kzpy3.Grapher_app.Graph_Image_Module import *
+
 wall_length = 4*107.0/100.0
 half_wall_length = wall_length/2.0
 hw = half_wall_length
@@ -204,15 +226,15 @@ def check_for_other_car(x_avg,y_avg,dx_avg,dy_avg):
 					#print k,Other_car_coordinates[k]
 					#return False
 					ac = angle_clockwise((dx_avg,dy_avg),(ox-x_avg,oy-y_avg))
-					print ac
+					#print ac
 					if np.abs(ac) < 45 or np.abs(ac) > (360-45):
 						di = np.sqrt((x_avg-ox)**2+(y_avg-oy)**2)
-						print di
+						#print di
 						if di < rp.other_car_distance_threshold:
-							print k
+							#car_print(d2s(k,' distance =',dp(di)),name=k)
 							return k
 		except Exception as e:
-			print("***** check_for_other_car ***** Exception ***********************")
+			print("***** def check_for_other_car(x_avg,y_avg,dx_avg,dy_avg): ***** Exception ***********************")
 			print(e.message, e.args)
 	return False
 
@@ -243,20 +265,19 @@ def get_best_heading(x_pos,y_pos,heading,radius):
 #
 ###################################################################
 #
-
 #
 steer_prev = 49
 robot_steer = 49
 heading_pause = False
 error_timer = Timer(3)
 #
-from kzpy3.Localization_app.Parameters_Module import *
+
 x_avg = 0.0
 y_avg = 0.0
 steer = 0.0
 ###################################################################
 #
-import paramiko
+
 Ssh = {}
 Connected_car_names = {}
 for k in rp.Car_IP_dic:
@@ -279,10 +300,10 @@ def paramiko_connection_thread():
 						Connected_car_names[k] = True
 						spd2s('ssh connection to',k,'established')
 					except:
-						#spd2s('ssh connection to',k,'failed')
+						pd2s('ssh connection to',k,'failed')
 						pass
-		time.sleep(1)
-#threading.Thread(target=paramiko_connection_thread).start()
+		time.sleep(5)
+threading.Thread(target=paramiko_connection_thread).start()
 
 ssh_command_str = ''
 
@@ -290,34 +311,35 @@ ssh_command_str = ''
 def paramiko_command_thread():
 	timer = Timer(0)
 	while True:
-		timer.reset()
-		for k in rp.Car_IP_dic:
-			
-			if k != rp.computer_name:
-				if Connected_car_names[k]:
-					#print 'paramiko_command_thread +'+k
-					try:
-						Ssh[k].exec_command(ssh_command_str)
-						#spd2s('ssh.exec_command  to',k)
-					except:
-						if error_timer.check():
-							srpd2s('ssh.exec_command failed to',k)
-							error_timer.reset()
-		t = timer.time()
-		if t < one_over_sixty:
-			time.sleep(one_over_sixty - t)
+		if state in [3,5,6,7]:
+			timer.reset()
+			for k in rp.Car_IP_dic:
+				
+				if k != rp.computer_name:
+					if Connected_car_names[k]:
+						#print 'paramiko_command_thread +'+k
+						try:
+							Ssh[k].exec_command(ssh_command_str)
+							#spd2s('ssh.exec_command  to',k)
+						except:
+							if error_timer.check():
+								srpd2s('ssh.exec_command failed to',k)
+								error_timer.reset()
+			t = timer.time()
+			if t < one_over_sixty:
+				time.sleep(one_over_sixty - t)
+		else:
+			time.sleep(0.1)
 threading.Thread(target=paramiko_command_thread).start()
 #
 ###################################################################
 
 car_print_timer = Timer(0.5)
 
-aruco_error_timer = Timer(0.75)
+aruco_error_timer = Timer(rp.aruco_error_time)
 aruco_error_print_timer = Timer(0.5)
 def aruco_thread():
-	import kzpy3.data_analysis.Angle_Dict_Creator as Angle_Dict_Creator
-	
-	from kzpy3.Localization_app.Project_Aruco_Markers_Module import Aruco_Trajectory
+
 	Aruco_trajectory = Aruco_Trajectory()
 	P[past_to_present_proportion] = rp.past_to_present_proportion
 	global robot_steer,x_avg,y_avg,steer,steer_prev,heading_pause,ssh_command_str
@@ -327,110 +349,111 @@ def aruco_thread():
 	error_ctr_ = 0
 
 	while not rospy.is_shutdown():
-		try:
-			if aruco_error_timer.check():
-				heading_pause = True
-				if aruco_error_print_timer.check():
-					srpd2s('aruco_error_timer.check()',aruco_error_timer.time())
-					aruco_error_print_timer.reset()
-			x_avg,y_avg = 0.0,0.0
-			dx_avg,dy_avg = 0.0,0.0
-			for camera_list_ in [left_list,right_list]:
+		if state in [3,5,6,7]:
+			try:
+				if aruco_error_timer.check():
+					heading_pause = True
+					if aruco_error_print_timer.check():
+						srpd2s('aruco_error_timer.check()',aruco_error_timer.time())
+						aruco_error_print_timer.reset()
+				x_avg,y_avg = 0.0,0.0
+				dx_avg,dy_avg = 0.0,0.0
+				for camera_list_ in [left_list,right_list]:
 
-				camera_img_ = camera_list_[-1]
+					camera_img_ = camera_list_[-1]
 
-				angles_to_center, angles_surfaces, distances_marker, markers = Angle_Dict_Creator.get_angles_and_distance(camera_img_,borderColor=None)
+					angles_to_center, angles_surfaces, distances_marker, markers = Angle_Dict_Creator.get_angles_and_distance(camera_img_,borderColor=None)
+					
+					if rp.print_marker_ids:
+						pd2s('angles_to_center.keys()',angles_to_center.keys())
+
+					Q = {'angles_to_center':angles_to_center,'angles_surfaces':angles_surfaces,'distances_marker':distances_marker}
+
+					hx_,hy_,x_,y_ =	Aruco_trajectory[step](one_frame_aruco_data,Q, p,P)
+					x_avg += x_
+					y_avg += y_
+					dx_avg += hx_-x_
+					dy_avg += hy_-y_
+
+				x_avg /= 2.0
+				dx_avg /= 2.0
+				y_avg /= 2.0
+				dy_avg /= 2.0
+
+
+				heading = angle_clockwise((0,1),(dx_avg,dy_avg))
+
+				###
+
+				heading_new,heading_floats,x1,y1,heading_pause = get_best_heading(rp.X_PARAM*x_avg,rp.Y_PARAM*y_avg,heading,rp.radius)
 				
-				if rp.print_marker_ids:
-					pd2s('angles_to_center.keys()',angles_to_center.keys())
-
-				Q = {'angles_to_center':angles_to_center,'angles_surfaces':angles_surfaces,'distances_marker':distances_marker}
-
-				hx_,hy_,x_,y_ =	Aruco_trajectory[step](one_frame_aruco_data,Q, p,P)
-				x_avg += x_
-				y_avg += y_
-				dx_avg += hx_-x_
-				dy_avg += hy_-y_
-
-			x_avg /= 2.0
-			dx_avg /= 2.0
-			y_avg /= 2.0
-			dy_avg /= 2.0
-
-
-			heading = angle_clockwise((0,1),(dx_avg,dy_avg))
-
-			###
-
-			heading_new,heading_floats,x1,y1,heading_pause = get_best_heading(rp.X_PARAM*x_avg,rp.Y_PARAM*y_avg,heading,rp.radius)
-			
-			#print(heading_new,heading_floats,x1,y1,heading_pause)
-			car_question_mark = check_for_other_car(x_avg,y_avg,dx_avg,dy_avg)
-			if car_question_mark != False:
-				print 'A'
-				if False:#car_print_timer.check():
-					print 'B'
-					srpd2s(car_question_mark,' is too close!!!!')
-					print 'C'
+				#print(heading_new,heading_floats,x1,y1,heading_pause)
+				car_question_mark = check_for_other_car(x_avg,y_avg,dx_avg,dy_avg)
+				if car_question_mark != False:
+					car_print('!!!!!!!!!!!!!!!!!!!!!!!!!\n!',rp.computer_name)
+					car_print(d2s('\t',car_question_mark,' is too close!!!!'),car_question_mark)
+					car_print('!\n!!!!!!!!!!!!!!!!!!!!!!!!!',rp.computer_name)
 					car_print_timer.reset()
-					print 'D'
-				heading_pause = True
-				print 'E'
-
-			heading_delta = (heading_new - heading)
-
-			pose_str = d2n("(",dp(x_avg),',',dp(y_avg),',',dp(dx_avg),',',dp(dy_avg),")")
-
-			heading_floats_str = "["
-			for h in heading_floats:
-				heading_floats_str += d2n('[',dp(rp.radius*h[0]+x_avg),',',dp(rp.radius*h[1]+y_avg),'],')
-			heading_floats_str += ']'
-
-			xy_str = "["
-			for xy in zip(x1,y1):
-				xy_str += d2n('[',xy[0],',',xy[1],'],')
-			xy_str += ']'
-
-			temp = d2n("echo 'pose = ",pose_str,"\nxy = ",xy_str,"\nheading_floats = ",heading_floats_str,"' > ~/Desktop/",rp.computer_name,".car.txt ")
-			ssh_command_str = temp
+					heading_pause = True
 
 
-			
-			steer = heading_delta*(-99.0/45)
+				heading_delta = (heading_new - heading)
 
-			steer =int((steer-49.0)*rp.robot_steer_gain+49.0)
-			steer = min(99,steer)
-			steer = max(0,steer)
-			steer = int((1.0-rp.steer_momentum)*steer+rp.steer_momentum*steer_prev)
-			steer_prev = steer
-			if rp.print_steer:
-				pd2s('steer =',steer)
-			robot_steer = steer
+				pose_str = d2n("(",dp(x_avg),',',dp(y_avg),',',dp(dx_avg),',',dp(dy_avg),")")
 
-			if True:
-				aruco_position_x_pub.publish(std_msgs.msg.Float32(x_avg))
-				aruco_position_y_pub.publish(std_msgs.msg.Float32(y_avg))
-				aruco_heading_x_pub.publish(std_msgs.msg.Float32(dx_avg))
-				aruco_heading_y_pub.publish(std_msgs.msg.Float32(dy_avg))
+				heading_floats_str = "["
+				for h in heading_floats:
+					heading_floats_str += d2n('[',dp(rp.radius*h[0]+x_avg),',',dp(rp.radius*h[1]+y_avg),'],')
+				heading_floats_str += ']'
 
-			aruco_freq.freq()
-			error_ctr_ = 0
-			aruco_error_timer.reset()
+				xy_str = "["
+				for xy in zip(x1,y1):
+					xy_str += d2n('[',xy[0],',',xy[1],'],')
+				xy_str += ']'
 
-		except Exception as e:
-			#pass
-			if error_timer.check():
-				print("********** Exception ***********************")
-				print(e.message, e.args)
-				error_ctr_ += 1
-				print(d2s("aruco_thread error #",error_ctr_," (may be transient)"))
-				error_timer.reset()
-			
+				temp = d2n("echo 'pose = ",pose_str,"\nxy = ",xy_str,"\nheading_floats = ",heading_floats_str,"' > ~/Desktop/",rp.computer_name,".car.txt ")
+				ssh_command_str = temp
+
+
+				
+				steer = heading_delta*(-99.0/45)
+
+				steer =int((steer-49.0)*rp.robot_steer_gain+49.0)
+				steer = min(99,steer)
+				steer = max(0,steer)
+				steer = int((1.0-rp.steer_momentum)*steer+rp.steer_momentum*steer_prev)
+				steer_prev = steer
+				if rp.print_steer:
+					pd2s('steer =',steer)
+				robot_steer = steer
+
+				if True:
+					aruco_position_x_pub.publish(std_msgs.msg.Float32(x_avg))
+					aruco_position_y_pub.publish(std_msgs.msg.Float32(y_avg))
+					aruco_heading_x_pub.publish(std_msgs.msg.Float32(dx_avg))
+					aruco_heading_y_pub.publish(std_msgs.msg.Float32(dy_avg))
+
+				aruco_freq.freq()
+				error_ctr_ = 0
+				aruco_error_timer.reset()
+
+			except Exception as e:
+				#pass
+				if error_timer.check():
+					print("********** def aruco_thread(): Exception ***********************")
+					print(e.message, e.args)
+					error_ctr_ += 1
+					print(d2s("aruco_thread error #",error_ctr_," (may be transient)"))
+					error_timer.reset()
+		else:
+			time.sleep(0.1)
 #
 threading.Thread(target=aruco_thread).start()
 #
 ###################################################################
 
+def car_print(stri,name=rp.computer_name):
+	cprint(stri,rp.Car_termcolor_dic[name][0],rp.Car_termcolor_dic[name][1])
 
 frozen_ = 0
 defrosted_timer = Timer(0)
@@ -516,15 +539,17 @@ while not rospy.is_shutdown():
 	
 	shutdown_time = 30
 	if state == 4 and state_enter_timer.time() > shutdown_time-5:
-		print('!!! about to reboot from state 4 !!! ' + str(steer))
+		car_print('!!! about to reboot from state 4 !!! ' + str(steer))
 	if state == 4 and state_enter_timer.time() > shutdown_time:
-		print(d2s("Rebooting because in state 4 for",shutdown_time,"+ s"))
+		car_print(d2s("Rebooting because in state 4 for",shutdown_time,"+ s"))
 		unix('sudo reboot')
 
 
 	if time_step.check():
 
-		print(d2s("In state",state,"for",dp(state_enter_timer.time()),"seconds, previous_state =",previous_state,'frozen_ =',frozen_,'heading_pause =', heading_pause))
+		car_print(d2s(rp.computer_name,"in state <",state,"> for",dp(state_enter_timer.time()),"seconds, previous_state =",previous_state,'frozen_ =',frozen_,'heading_pause =', heading_pause))
 		time_step.reset()
 
 stop_ros()
+
+

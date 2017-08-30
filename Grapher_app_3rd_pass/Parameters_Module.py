@@ -7,8 +7,9 @@ _ = dictionary_access
 P = {}
 
 _(P,VERBOSE,equals,True)
+P[DATASET_PATHS] = [opjm('rosbags/bdd_aruco_demo')]
 #P[DATASET_PATHS] = [opjD('bdd_car_data_July2017_LCR')]
-P[DATASET_PATHS] = [opjm('ExtraDrive2/bdd_car_data_July2017_LCR')]
+#P[DATASET_PATHS] = [opjm('ExtraDrive2/bdd_car_data_July2017_LCR')]
 #P[DATASET_PATHS] = [opjm('ExtraDrive2/bair_car_data_Main_Dataset')]
 #P[DATASET_PATHS] = [opjm('data_examples/data_examples')]
 #P[DATASET_PATHS] = ['/media/karlzipser/ExtraDrive4/bdd_car_data_free_driving_cars']
@@ -28,7 +29,7 @@ P[TOPICS] = {
 	}
 P[VERTICAL_LINE_PROPORTION] = 0.5
 P[X_PIXEL_SIZE] = 1500
-P[Y_PIXEL_SIZE] = 1000#1100
+P[Y_PIXEL_SIZE] = 1500#1100
 P[SCREEN_X] = 20
 P[SCREEN_Y] = 40
 P[MOUSE_MOVE_TIME] = 0

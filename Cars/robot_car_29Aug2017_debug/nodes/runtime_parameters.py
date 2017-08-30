@@ -20,15 +20,18 @@ except KeyError:
    """
 
 
-Car_IP_dic = {
-	'Mr_Blue':'192.168.1.101',
+Car_IP_dic = {'Mr_Blue':'192.168.1.101',
 	'Mr_Black':'192.168.1.102',
 	'Mr_Orange':'192.168.1.103',
 	'Mr_Yellow':'192.168.1.104',
 	'Mr_Lt_Blue':'192.168.1.105',
-	'Mr_Purple':'192.168.1.106',
-	'Mr_TX2':'192.168.1.201'
-	}
+	'Mr_Purple':'192.168.1.106'}
+Car_termcolor_dic = {'Mr_Blue':('blue','on_white'),
+	'Mr_Black':('grey','on_white'),
+	'Mr_Orange':('red','on_yellow'),
+	'Mr_Yellow':('yellow','on_grey'),
+	'Mr_Lt_Blue':('blue','on_cyan'),
+	'Mr_Purple':('magenta','on_white')}
 ####################### general car settings ################
 #
 for i in range(1):
@@ -50,11 +53,12 @@ NETWORK = 111
 I_ROBOT = 222
 who_is_in_charge = I_ROBOT
 robot_steer = 49
-robot_motor = 58#49#60
-robot_steer_gain = 1.0
+robot_motor = 56#49#60
+robot_steer_gain = 0.75
 other_car_distance_threshold = 1.0
 potential_field_png = opjD('markers.35x35.offset2.png')
-past_to_present_proportion = 0.75
+past_to_present_proportion = 0.25
+aruco_error_time = 0.75
 steer_momentum = 0.5
 heading_pause_threshold_angle = 7
 heading_float_pause_threshold = 10.95

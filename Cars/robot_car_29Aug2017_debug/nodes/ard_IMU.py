@@ -36,25 +36,21 @@ def run_loop(Arduinos,M):
                 exec('imu_input = list({0})'.format(read_str))
                 #print imu_input
                 m = imu_input[0]
-                print m
                 M[m] = imu_input[1:4]
-                try:
-                    if m == 'acc':
-                        #print("if m == 'acc':")
-                        M['acc_lst'].append(M['acc'])
-                        if len(M['acc_lst']) > 1.5*M['n_avg_IMU']:
-                            M['acc_lst'] = M['acc_lst'][-M['n_avg_IMU']:]
-                except Exception as e:
-                    print("********** def run_loop(Arduinos,M): Exception ***********************")
-                    print(e.message, e.args)                
+                if m == 'acc':
+                    #print("if m == 'acc':")
+                    M['acc_lst'].append(M['acc'])
+                    if len(M['acc_lst']) > 1.5*M['n_lst_steps']:
+                        M['acc_lst'] = M['acc_lst'][-M['n_lst_steps']:]
                 M[imu_dic[m]].publish(geometry_msgs.msg.Vector3(*M[m]))
 
 
             except Exception as e:
-                pass #print e
+                    print("********** def run_loop(Arduinos,M): 1 Exception ***********************")
+                    print(e.message, e.args)
         stop_ros()
     except Exception as e:
-        print("********** Exception ***********************")
+        print("********** def run_loop(Arduinos,M): 2 Exception ***********************")
         print(e.message, e.args)
         os.environ['STOP'] = 'True'
         LED_signal = d2n('(10000)')

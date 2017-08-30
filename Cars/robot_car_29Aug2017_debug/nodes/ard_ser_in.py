@@ -15,31 +15,45 @@ def get_arduino_serial_connections(baudrate, timeout):
     return sers
 
 def assign_serial_connections(sers):
-    spd2s('Looking for Arduinos . . .')
+    spd2s(sers)
+    if len(sers) == 0:
+        srpd2s('Fatal error\nlen(sers) == 0')
+        stop_ros()
     Arduinos = {}
-    ser_timer = Timer(15)
-    while not ser_timer.check() or not len(sers) == 0:
+    ser_timer = Timer(5)
+    ser_long_timer = Timer(120)
+    while not ('MSE' in Arduinos and ser_timer.check()) or not len(sers) == 0:
+        if ser_long_timer.check():
+            break
+        if ser_timer.check():
+            spd2s('Looking for Arduinos . . .')
+            ser_timer.reset()
+            spd2s(sers,Arduinos)
         for ser in sers:
             try:
                 ser_str = ser.readline()
                 exec('ser_tuple = list({0})'.format(ser_str))
                 if ser_tuple[0] in ['mse']:
-                    spd2s('Port',ser.port,'is the MSE:',ser_str,ser_timer.time())
+                    
                     Arduinos['MSE'] = ser
                     sers.remove(ser)
+                    spd2s('Port',ser.port,'is the MSE:',ser_str,ser_timer.time(),sers,Arduinos)
                     break
                 elif ser_tuple[0] in ['acc','gyro','head']:
-                    spd2s('Port',ser.port,'is the IMU:',ser_str,ser_timer.time())
+                    
                     Arduinos['IMU'] = ser
                     sers.remove(ser)
+                    spd2s('Port',ser.port,'is the IMU:',ser_str,ser_timer.time(),sers,Arduinos)
                     break
                 elif ser_tuple[0] in ['GPS2']:
-                    spd2s('Port',ser.port,'is the SIG:',ser_str,ser_timer.time())
+                    
                     Arduinos['SIG'] = ser
                     sers.remove(ser)
+                    spd2s('Port',ser.port,'is the SIG:',ser_str,ser_timer.time(),sers,Arduinos)
                     break
             except:
                 pass
+        time.sleep(0.1)
     spd2s('Done looking for Arduinos.')
     if rp.require_Arudinos_MSE:
         if 'MSE' not in Arduinos:

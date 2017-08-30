@@ -27,7 +27,7 @@ for i in range(3):
 
 
 
-Colors = {'Mr_Black':(255,0,0),'Mr_Blue':(0,0,255),'Mr_Lt_Blue':(50,200,255)}
+Colors = {'Mr_Black':(255,0,0),'Mr_Yellow':(255,255,0),'Mr_Blue':(0,0,255),'Mr_Lt_Blue':(50,200,255)}
 
 done = False
 while not done:
