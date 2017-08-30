@@ -7,7 +7,8 @@ _ = dictionary_access
 P = {}
 
 _(P,VERBOSE,equals,True)
-P[DATASET_PATHS] = [opjD('bdd_car_data_July2017_LCR')]
+P[DATASET_PATHS] = [ opjm('rosbags/Mr_Lt_Blue_16_50_29Aug2017/processed2/Mr_Lt_Blue_16_50_29Aug2017')]
+#P[DATASET_PATHS] = [opjD('bdd_car_data_July2017_LCR')]
 #P[DATASET_PATHS] = [opjm('ExtraDrive2/bdd_car_data_July2017_LCR')]
 #P[DATASET_PATHS] = [opjm('ExtraDrive2/bair_car_data_Main_Dataset')]
 #P[DATASET_PATHS] = [opjm('ExtraDrive2/bdd_car_data_July2017_regular')]
@@ -45,6 +46,27 @@ P[MAX_ICONS_PER_ROW] = 14
 
 P[TOPIC_STEPS_LIMIT] = 5000
 
+
+
+
+"""
+use one terminal window with different tabs:
+
+$ roscore
+____
+$ rosbag play /media/karlzipser/rosbags/Mr_Lt_Blue_16_50_29Aug2017/processed2/Mr_Lt_Blue_16_50_29Aug2017/*.bag
+____
+$ python kzpy3/Grapher_app/Main.py 
+
+
+[press 'q' while mouse is in graphics window to quit]
+
+
+next,
+$ python kzpy3/Grapher_app_3rd_pass/Main.py
+
+[this shows the h5py version of the data and gives access at any timepoint.]
+"""
 
 
 
