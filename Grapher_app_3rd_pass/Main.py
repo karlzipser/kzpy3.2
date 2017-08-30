@@ -35,6 +35,7 @@ P[ICONS] = {}
 
 
 h5py_runs_ = []
+assert_disk_locations(P[DATASET_PATHS])
 for dataset_path_ in P[DATASET_PATHS]:
 	h5py_runs_ += sggo(dataset_path_,'h5py','*')
 

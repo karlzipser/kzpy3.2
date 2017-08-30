@@ -53,8 +53,11 @@ if SRC in Args and DST in Args:
 		cprint(d2s(tb,fname(r_),len(bags)))
 		mtimes = []
 		for b in bags:
+			#print b
 			bag_size = os.path.getsize(b)
+			#print bag_size
 			mtimes.append(os.path.getmtime(b))
+			#print mtimes
 			if bag_size < 0.99 * 1074813904:
 				cprint(d2s('Bagfile',b,'has size',bag_size,'which is below full size.'),'red')
 				unix('mv '+b+' '+b+'.too_small')

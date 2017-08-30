@@ -1,6 +1,6 @@
 from Parameters_Module import *
 exec(identify_file_str)
-
+from kzpy3.vis2 import * 
 
 def Original_Timestamp_Data(*args):
 	"""
@@ -15,7 +15,7 @@ def Original_Timestamp_Data(*args):
 	unix('mkdir -p '+opj(h5py_pathv,run_namev))
 	file_path = opj(h5py_pathv,run_namev,'original_timestamp_data.h5py')
 	if os.path.exists(file_path):
-		print(stars0v+file_path+' exists, doing nothing.'+stars1_)
+		spd2s(file_path+' exists, doing nothing.')
 		return None
 	import rospy
 	import rosbag
