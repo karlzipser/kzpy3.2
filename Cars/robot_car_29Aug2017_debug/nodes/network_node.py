@@ -46,8 +46,8 @@ def state__callback(data):
 		state_enter_timer = Timer(0)
 		if state in [3,5,7]:
 			srpd2s('if state in [3,5,7]:')
-			unix('ssd')
-			stop_ros()
+			#unix('ssd')
+			#stop_ros()
 
 		if state in [3,5,6,7] and previous_state in [3,5,6,7]:
 			pass
