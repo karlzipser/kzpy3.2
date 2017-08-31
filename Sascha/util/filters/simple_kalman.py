@@ -10,11 +10,11 @@ import sys
 from os.path import expanduser
 import time
 from kzpy3.Sascha.util.filters.third_party.pykalman.pykalman import KalmanFilter
-import pylab as pl
+import pylab as plt
 
 class Simple_Kalman_Estimator():
 
-    number_of_observations = 5
+    number_of_observations = 10
     
     kf = KalmanFilter(transition_matrices=np.array([[1, 1], [0, 1]]),
                   transition_covariance=0.01 * np.eye(2))
@@ -25,7 +25,8 @@ class Simple_Kalman_Estimator():
         self.observations = np.append(self.observations, position_xy)
         
         if len(self.observations) == 1:
-            self.observations = np.append(self.observations, position_xy)
+            #self.observations = np.append(self.observations, position_xy)
+            return [position_xy]
             
         if len(self.observations) > self.number_of_observations:
             self.observations = np.delete(self.observations,0)
@@ -37,37 +38,26 @@ class Simple_Kalman_Estimator():
 if __name__ == '__main__':
     
     filter = Simple_Kalman_Estimator()
-    
-    
-    pl.ion()
-    
-   
 
-    lower_bound = max(0,i-4)
-    upper_bound = i+2
+    rnd = np.random.RandomState(0)
+    plt.ion()
+
     
-    observations = src_observations[lower_bound:upper_bound]
-    
-    states_pred = filter.get_xy_position(src_observations[i], np.pi / .2, np.pi / 6.)
-    print len(states_pred)
-    print len(observations)
-    x = np.linspace(lower_bound, 3 * np.pi, upper_bound)
-    print len(x)
-    fig = pl.figure(figsize=(16, 6))
-            
-    obs_scatter = pl.scatter(x, observations, marker='x', color='b',
-                             label='observations')
-    position_line = pl.plot(x, states_pred,
-                            linestyle='-', marker='o', color='r',
-                            label='position est.')
-    # velocity_line = pl.plot(x, states_pred[:, 1],
-    #                        linestyle='-', marker='o', color='g',
-    #                        label='velocity est.')
-    pl.legend(loc='lower right')
-    pl.xlim(xmin=0, xmax=x.max())
-    pl.xlabel('time')
-    pl.show()
-    pl.pause(1)
-    pl.close()
-            
+    # generate a noisy sine wave to act as our fake observations
+    n_timesteps = 100
+    x = np.linspace(0, 3 * np.pi, n_timesteps)
+    observations = 20 * (np.sin(x) + 0.5 * rnd.randn(n_timesteps))
+    actual_values = 20 * (np.sin(x) + 0.5)
+    for i in range(0,len(observations)):
+        plt.figure(figsize=(16, 6))
+        result = filter.get_xy_position(observations[i], np.pi / .2, np.pi / 6.)
+        x = np.arange(0,len(result))
+        
+        plt.plot(x,result, color='b')
+        plt.plot(x,actual_values[max(0,i-9):i+1], color='r')
+        plt.plot(x,observations[max(0,i-9):i+1],color='g')
+        plt.show()
+        plt.pause(0.1)
+        plt.close()
+        
     
