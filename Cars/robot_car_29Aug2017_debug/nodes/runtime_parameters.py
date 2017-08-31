@@ -57,7 +57,7 @@ who_is_in_charge = I_ROBOT
 robot_steer = 49
 robot_motor = 58#49#60
 robot_steer_gain = 0.75
-other_car_distance_threshold = 1.5
+other_car_distance_threshold = 1.0
 car_detect_angle = 75#60
 potential_field_png = opjD('markers.35x35.offset2.png')
 past_to_present_proportion = 0.75
@@ -81,9 +81,9 @@ motor_gain = 1.0
 
 PID_min_max = [1.5,2.5]
 motor_freeze_threshold = 55
-robot_acc2rd_threshold = 80# 40
+robot_acc2rd_threshold = 800# 40
 if computer_name in ['Mr_Orange']:
-	robot_acc2rd_threshold = 80
+	robot_acc2rd_threshold = 800
 robot_acc_y_exit_threshold = 3
 potential_acc2rd_collision = 10
 potential_motor_freeze_collision = 20
