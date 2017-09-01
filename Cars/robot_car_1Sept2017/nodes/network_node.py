@@ -127,7 +127,7 @@ def get_other_car_coordinates_thread():
 				timer = Timer(0)
 				for car in sgg(opjD('*.car.txt')):
 					#car_ctime = os.path.getctime(car)
-					if time.time() - car_ctime < 2.0:
+					if True:#time.time() - car_ctime < 2.0:
 						car_name = fname(car).split('.')[0]
 						new_car = car.replace('.car','')
 						unix('cp '+car+' '+new_car,False)
