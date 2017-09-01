@@ -13,8 +13,8 @@ try:
     existing_bag_files = sgg('/media/nvidia/rosbags/*.bag')
     folder_name = existing_bag_files[0].replace('bair_car',rp.computer_name)
     folder_name = '_'.join(folder_name.split('_')[:-1])
-    print('mkdir folder_name)
-    print('mv /media/nvidia/rosbags/*.bag /media/nvidia/rosbags/'+folder_name)
+    print('mkdir '+folder_name)
+    print('mv /media/nvidia/rosbags/*.bag '+folder_name)
 except Exception as e:
     print("********** rosbag_node.py Exception ***********************")
     print(e.message, e.args)
