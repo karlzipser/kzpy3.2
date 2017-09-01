@@ -37,6 +37,13 @@ alias Mr_Lt_Blue='ssh nvidia@192.168.1.105'
 alias Mr_Purple='ssh nvidia@192.168.1.106'
 alias Mr_TX2='ssh nvidia@192.168.1.201'
 
+alias bu='Mr_Blue'
+alias bk='Mr_Black'
+alias or='Mr_Orange'
+alias ye='Mr_Yellow'
+alias mt='Mr_Lt_Blue'
+alias pu='Mr_Purple'
+alias tx='Mr_TX2'
 ######################## for .bashrc from MacBook #################
 #
 #export DISPLAY=:0.0
