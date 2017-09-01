@@ -126,7 +126,7 @@ def get_other_car_coordinates_thread():
 				#print 'get_other_car_coordinates_thread'
 				timer = Timer(0)
 				for car in sgg(opjD('*.car.txt')):
-					car_ctime = os.path.getctime(car)
+					#car_ctime = os.path.getctime(car)
 					if time.time() - car_ctime < 2.0:
 						car_name = fname(car).split('.')[0]
 						new_car = car.replace('.car','')
@@ -146,7 +146,7 @@ def get_other_car_coordinates_thread():
 				print(e.message, e.args)
 		else:
 			time.sleep(0.1)
-#threading.Thread(target=get_other_car_coordinates_thread).start()
+threading.Thread(target=get_other_car_coordinates_thread).start()
 
 
 
