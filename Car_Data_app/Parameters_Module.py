@@ -4,8 +4,10 @@ exec(identify_file_str)
 
 _ = dictionary_access
 
+
+
 P = {}
-P[SINGLE_VALUE_TOPICS] = [steer,state,motor,potential_collision,encoder,aruco_heading_x,aruco_heading_y,aruco_position_x,aruco_position_y,heading_pause,car_in_range]
+P[SINGLE_VALUE_TOPICS] = [steer,state,motor,potential_collision,encoder,aruco_heading_x,aruco_heading_y,aruco_position_x,aruco_position_y,'cmd/heading_pause','cmd/car_in_range']
 _(P,VERBOSE,equals,True)
 _(P,EXAMPLE1,equals,False)
 _(P,EXAMPLE2,equals,True)

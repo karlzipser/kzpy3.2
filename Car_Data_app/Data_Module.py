@@ -34,9 +34,12 @@ def Original_Timestamp_Data(*args):
 	Rename = {}
 	Rename['zed/left/image_rect_color'] = left_image
 	Rename['zed/right/image_rect_color'] = right_image
+	Rename['cmd/heading_pause'] = heading_pause
+	Rename['cmd/car_in_range'] = car_in_range
+
 
 	for topic_ in all_topics_:
-		if 'zed' in topic_:
+		if 'zed' in topic_ or 'cmd' in topic_:
 				topic_ = Rename[topic_]
 		D[topic_] = {}
 		D[topic_][ts] = []
@@ -65,7 +68,7 @@ def Original_Timestamp_Data(*args):
 			timestampv = round(m_[2].to_time(),3) # millisecond resolution
 			assert(is_number(timestampv))
 			topic_ = m_[0].replace('/bair_car/','')
-			if 'zed' in m_[0]:
+			if 'zed' in m_[0]:# or 'cmd' in m_[0]:
 				valv = bridge.imgmsg_to_cv2(m_[1],"rgb8")
 				valv = cv2.resize(valv, (0,0), fx=0.25, fy=0.25)
 			elif hasattr(m_[1], 'data'):
@@ -81,7 +84,7 @@ def Original_Timestamp_Data(*args):
 					assert(is_number(nv))
 			else:
 				raise ValueError('ERROR because: topic '+topic_+' not processed.')
-			if 'zed' in topic_:
+			if 'zed' in topic_ or 'cmd' in topic_:
 				topic_ = Rename[topic_]
 
 			D[topic_][ts].append(timestampv)
