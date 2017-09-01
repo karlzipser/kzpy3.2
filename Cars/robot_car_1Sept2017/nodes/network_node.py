@@ -461,7 +461,7 @@ def aruco_thread():
 				aruco_heading_y_pub.publish(std_msgs.msg.Float32(dy_avg_prev))
 				heading_pause_pub.publish(std_msgs.msg.Int32(heading_pause))
 				car_in_range_pub.publish(std_msgs.msg.Int32(car_in_range))
-				if aruco_thread_exception_print_timer.check():
+				if False: #aruco_thread_exception_print_timer.check():
 					print("********** def aruco_thread(): Exception ***********************")
 					print(e.message, e.args)
 					error_ctr_ += 1

@@ -36,8 +36,8 @@ Car_termcolor_dic = {'Mr_Blue':('blue','on_white'),
 	'Mr_TX2':(255,200,150)}
 ####################### general car settings ################
 #
-for i in range(1):
-	print('*************' + computer_name + '***********')
+#for i in range(1):
+#	print('*************' + computer_name + '***********')
 Direct = 1.
 Follow = 0.
 Play = 0.
@@ -84,7 +84,7 @@ motor_freeze_threshold = 55
 robot_acc2rd_threshold = 800# 40
 if computer_name in ['Mr_Orange']:
 	robot_acc2rd_threshold = 800
-robot_acc_y_exit_threshold = 3
+robot_acc_y_exit_threshold = -100000 # e.g., never triggered
 potential_acc2rd_collision = 10
 potential_motor_freeze_collision = 20
 acc_y_tilt_event = 1000
