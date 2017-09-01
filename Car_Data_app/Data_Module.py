@@ -25,7 +25,7 @@ def Original_Timestamp_Data(*args):
 	bridge = cv_bridge.CvBridge()
 
 	image_topicsv = ['zed/left/image_rect_color','zed/right/image_rect_color']
-	single_value_topicsv = [steer,state,motor,encoder]
+	single_value_topicsv = P[SINGLE_VALUE_TOPICS]
 	vector3_topicsv = [acc,gyro,gps,gyro_heading]
 	all_topics_ = image_topicsv + single_value_topicsv + vector3_topicsv
 	bair_all_topics_ = []
