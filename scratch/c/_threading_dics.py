@@ -2,20 +2,34 @@
 from kzpy3.vis2 import *
 import threading
 
-# RECOVER OTHER VERSION
 def Continuing_State(name='<no name>',ctr=1):
 	D = {}
 	D[NAME] = name
 	timer = Timer(1)
 	D[STOP_NOW] = False
+	D[PAUSE_NOW] = False
 	D[OUTPUT] = None
 	D[COUNTER] = ctr
+	def function_enter():
+		print('Entering thread...')
+	def function_exit():
+		print('...leaving thread.')
 	def function_thread():
+
+		function_enter()
+		work_timer = Timer(0)
+		work_message_timer = Timer(3)
+		pause_timer = Timer(2)
+		wait_timer = Timer(0.1)
 		while not D[STOP_NOW]:
-				if timer.check():
-					print timer.time()
-					timer.reset()
-				time.sleep(0.1)
+			if not D[PAUSE_NOW]:
+				D[OUTPUT] = d2s(D[NAME],'working for',work_timer.time(),'seconds')
+				work_message_timer.message(D[OUTPUT])
+				wait_timer.wait()
+				print('w')
+			else:
+				pause_timer.message('<paused>')
+		function_exit()
 	def function_start():
 		D[STOP_NOW] = False
 		spd2s('...starting thread #',D[COUNTER],D[NAME])

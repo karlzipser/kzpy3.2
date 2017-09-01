@@ -615,6 +615,15 @@ class Timer:
 		if self.check():
 			spd2s('Frequency = ',self.count/self.time(),'Hz')
 			self.reset()
+	def message(self,message_str,color='yellow'):
+		if self.check():
+			cprint(message_str,color)
+			self.reset()
+	def wait(self):
+		while not(self.check()):
+			time.sleep(self.time_s/100.0)
+		self.reset()	
+
 
   
 
