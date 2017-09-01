@@ -146,7 +146,7 @@ def get_other_car_coordinates_thread():
 				print(e.message, e.args)
 		else:
 			time.sleep(0.1)
-threading.Thread(target=get_other_car_coordinates_thread).start()
+#threading.Thread(target=get_other_car_coordinates_thread).start()
 
 
 
