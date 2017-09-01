@@ -14,7 +14,7 @@ import pylab as plt
 
 class Simple_Kalman_Estimator():
 
-    trans_matrix = np.array([[0.15,0.15], [0.85, 0.85]])
+    trans_matrix = np.array([[1,1], [0,1]])
 
     kf_x = KalmanFilter(transition_matrices=trans_matrix,
                   transition_covariance=0.1 * np.eye(2))
