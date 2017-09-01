@@ -33,6 +33,8 @@ P[TOPICS] = {
 	car_in_range:{maxval:1,minval:0,	baseline:0,		color:(255,0,0)},
 	aruco_position_x:{maxval:-4,minval:4,	baseline:0,		color:(0,0,255)},
 	aruco_position_y:{maxval:-4,minval:4,	baseline:0,		color:(0,100,155)},
+	#other_car_position_x:{maxval:-4,minval:4,	baseline:0,		color:(0,255,100)},
+	#other_car_position_y:{maxval:-4,minval:4,	baseline:0,		color:(0,255,100)},
 }
 P[VERTICAL_LINE_PROPORTION] = 0.5
 P[X_PIXEL_SIZE] = 1500

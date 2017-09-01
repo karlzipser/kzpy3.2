@@ -126,16 +126,18 @@ def get_other_car_coordinates_thread():
 				#print 'get_other_car_coordinates_thread'
 				timer = Timer(0)
 				for car in sgg(opjD('*.car.txt')):
-					car_name = fname(car).split('.')[0]
-					new_car = car.replace('.car','')
-					unix('cp '+car+' '+new_car,False)
-					l = txt_file_to_list_of_strings(new_car)
-					for ll in l:
-						exec(ll)
-					if len(pose) == 4:
-						Other_car_coordinates[car_name][POSE] = pose
-						Other_car_coordinates[car_name][TIME] = time.time()
-					#spd2s(Other_car_coordinates)
+					car_ctime = os.path.getctime(car)
+					if time.time() - car_ctime < 2.0:
+						car_name = fname(car).split('.')[0]
+						new_car = car.replace('.car','')
+						unix('cp '+car+' '+new_car,False)
+						l = txt_file_to_list_of_strings(new_car)
+						for ll in l:
+							exec(ll)
+						if len(pose) == 4:
+							Other_car_coordinates[car_name][POSE] = pose
+							Other_car_coordinates[car_name][TIME] = time.time()
+						#spd2s(Other_car_coordinates)
 				t = timer.time()
 				if t < one_over_fifteen:
 					time.sleep(one_over_fifteen - t)

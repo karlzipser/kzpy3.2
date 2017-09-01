@@ -65,6 +65,7 @@
             /$(arg car_name)/cmd/frozen
             /$(arg car_name)/cmd/heading_pause
             /$(arg car_name)/cmd/car_in_range
+            /$(arg car_name)/other_car_position
             /$(arg car_name)/potential_collision
             /$(arg car_name)/encoder
             /$(arg car_name)/gps
