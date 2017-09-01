@@ -226,7 +226,7 @@ def check_for_other_car(x_avg,y_avg,dx_avg,dy_avg):
 				if time.time() - Other_car_coordinates[k][TIME] < 1.0:
 					ox = Other_car_coordinates[k][POSE][0]
 					oy = Other_car_coordinates[k][POSE][1]
-					other_car_position_pub.publish(geometry_msgs.msg.Vector3(ox,oy,Car_num_dic[k]))
+					other_car_position_pub.publish(geometry_msgs.msg.Vector3(ox,oy,rp.Car_num_dic[k]))
 					#print k,Other_car_coordinates[k]
 					#return False
 					ac = angle_clockwise((dx_avg,dy_avg),(ox-x_avg,oy-y_avg))
