@@ -34,6 +34,13 @@ Car_termcolor_dic = {'Mr_Blue':('blue','on_white'),
 	'Mr_Lt_Blue':('blue','on_cyan'),
 	'Mr_Purple':('magenta','on_white'),
 	'Mr_TX2':(255,200,150)}
+Car_num_dic = {'Mr_Blue':1.0,
+	'Mr_Black':2.0,
+	'Mr_Orange':3.0,
+	'Mr_Yellow':4.0,
+	'Mr_Lt_Blue':5.0,
+	'Mr_Purple':6.0,
+	'Mr_TX2':7.0}
 ####################### general car settings ################
 #
 #for i in range(1):

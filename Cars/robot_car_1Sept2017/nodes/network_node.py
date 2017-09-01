@@ -155,6 +155,7 @@ aruco_heading_x_pub = rospy.Publisher('/bair_car/aruco_heading_x', std_msgs.msg.
 aruco_heading_y_pub = rospy.Publisher('/bair_car/aruco_heading_y', std_msgs.msg.Float32, queue_size=10)
 aruco_position_x_pub = rospy.Publisher('/bair_car/aruco_position_x', std_msgs.msg.Float32, queue_size=10)
 aruco_position_y_pub = rospy.Publisher('/bair_car/aruco_position_y', std_msgs.msg.Float32, queue_size=10)
+other_car_position_pub = rospy.Publisher('other_car_position', geometry_msgs.msg.Vector3, queue_size=10)
 #
 
 #
@@ -225,6 +226,7 @@ def check_for_other_car(x_avg,y_avg,dx_avg,dy_avg):
 				if time.time() - Other_car_coordinates[k][TIME] < 1.0:
 					ox = Other_car_coordinates[k][POSE][0]
 					oy = Other_car_coordinates[k][POSE][1]
+					other_car_position_pub.publish(geometry_msgs.msg.Vector3(ox,oy,Car_num_dic[k])
 					#print k,Other_car_coordinates[k]
 					#return False
 					ac = angle_clockwise((dx_avg,dy_avg),(ox-x_avg,oy-y_avg))
