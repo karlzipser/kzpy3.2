@@ -89,7 +89,7 @@ def arduino_master_thread():
         while not rospy.is_shutdown():
             if time_step.check():
                 time_step.reset()
-                if not folder_display_timer.check():
+                if False: #not folder_display_timer.check():
                     print("*** Data foldername = "+rp.foldername+ '***')
 
             if reload_timer.check():

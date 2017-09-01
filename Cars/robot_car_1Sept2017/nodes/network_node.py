@@ -358,7 +358,7 @@ def aruco_thread():
 			try:
 				if aruco_error_timer.check():
 					heading_pause = 1
-					if aruco_error_print_timer.check():
+					if False:#aruco_error_print_timer.check():
 						srpd2s('aruco_error_timer.check()',aruco_error_timer.time())
 						aruco_error_print_timer.reset()
 				x_avg,y_avg = 0.0,0.0
