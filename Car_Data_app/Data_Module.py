@@ -26,7 +26,7 @@ def Original_Timestamp_Data(*args):
 
 	image_topicsv = ['zed/left/image_rect_color','zed/right/image_rect_color']
 	single_value_topicsv = P[SINGLE_VALUE_TOPICS]
-	vector3_topicsv = [acc,gyro,gps,gyro_heading]
+	vector3_topicsv = P[VECTOR3_TOPICS]
 	all_topics_ = image_topicsv + single_value_topicsv + vector3_topicsv
 	bair_all_topics_ = []
 	for v in all_topics_:

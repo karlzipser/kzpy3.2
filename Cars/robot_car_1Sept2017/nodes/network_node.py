@@ -155,7 +155,7 @@ aruco_heading_x_pub = rospy.Publisher('/bair_car/aruco_heading_x', std_msgs.msg.
 aruco_heading_y_pub = rospy.Publisher('/bair_car/aruco_heading_y', std_msgs.msg.Float32, queue_size=10)
 aruco_position_x_pub = rospy.Publisher('/bair_car/aruco_position_x', std_msgs.msg.Float32, queue_size=10)
 aruco_position_y_pub = rospy.Publisher('/bair_car/aruco_position_y', std_msgs.msg.Float32, queue_size=10)
-other_car_position_pub = rospy.Publisher('other_car_position', geometry_msgs.msg.Vector3, queue_size=10)
+other_car_position_pub = rospy.Publisher('/bair_car/other_car_position', geometry_msgs.msg.Vector3, queue_size=10)
 #
 
 #
