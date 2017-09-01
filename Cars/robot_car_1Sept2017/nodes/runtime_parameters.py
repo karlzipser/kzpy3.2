@@ -9,7 +9,7 @@ from kzpy3.utils2 import opjD
 
 import os
 import numpy as np
-print_stars0();print(__file__);print_stars1()
+#print_stars0();print(__file__);print_stars1()
 computer_name = "MR_Unknown"
 try:  
    computer_name = os.environ["COMPUTER_NAME"]

@@ -15,7 +15,7 @@ def get_arduino_serial_connections(baudrate, timeout):
     return sers
 
 def assign_serial_connections(sers):
-    spd2s(sers)
+    #spd2s(sers)
     if len(sers) == 0:
         srpd2s('Fatal error\nlen(sers) == 0')
         stop_ros()
@@ -28,7 +28,7 @@ def assign_serial_connections(sers):
         if ser_timer.check():
             spd2s('Looking for Arduinos . . .')
             ser_timer.reset()
-            spd2s(sers,Arduinos)
+            #spd2s(sers,Arduinos)
         for ser in sers:
             try:
                 ser_str = ser.readline()
@@ -37,19 +37,19 @@ def assign_serial_connections(sers):
                     
                     Arduinos['MSE'] = ser
                     sers.remove(ser)
-                    spd2s('Port',ser.port,'is the MSE:',ser_str,ser_timer.time(),sers,Arduinos)
+                    spd2s('Port',ser.port,'is the MSE:')#,ser_str,ser_timer.time(),sers,Arduinos)
                     break
                 elif ser_tuple[0] in ['acc','gyro','head']:
                     
                     Arduinos['IMU'] = ser
                     sers.remove(ser)
-                    spd2s('Port',ser.port,'is the IMU:',ser_str,ser_timer.time(),sers,Arduinos)
+                    spd2s('Port',ser.port,'is the IMU:')#,ser_str,ser_timer.time(),sers,Arduinos)
                     break
                 elif ser_tuple[0] in ['GPS2']:
                     
                     Arduinos['SIG'] = ser
                     sers.remove(ser)
-                    spd2s('Port',ser.port,'is the SIG:',ser_str,ser_timer.time(),sers,Arduinos)
+                    spd2s('Port',ser.port,'is the SIG:')#,ser_str,ser_timer.time(),sers,Arduinos)
                     break
             except:
                 pass

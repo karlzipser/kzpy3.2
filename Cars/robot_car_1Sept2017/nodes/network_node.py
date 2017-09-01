@@ -35,7 +35,7 @@ network_enter_timer = Timer(2)
 network_ignore_potential_collision = Timer(2) # starting driving triggers the collision IMU detector
 folder_display_timer = Timer(30)
 git_pull_timer = Timer(60)
-reload_timer = Timer(10)
+reload_timer = Timer(30)
 torch_steer_previous = 49
 torch_motor_previous = 49
 
@@ -351,8 +351,10 @@ def aruco_thread():
 
 	error_ctr_ = 0
 
+	x_avg_prev,y_avg_prev = 0.0,0.0
+	dx_avg_prev,dy_avg_prev = 0.0,0.0
 	while not rospy.is_shutdown():
-		if state in [3,5,6,7]:
+		if state in [6]:
 			try:
 				if aruco_error_timer.check():
 					heading_pause = 1
@@ -383,6 +385,8 @@ def aruco_thread():
 				y_avg /= 2.0
 				dy_avg /= 2.0
 
+				x_avg_prev,y_avg_prev = x_avg,y_avg
+				dx_avg_prev,dy_avg_prev = dx_avg,dy_avg
 
 				heading = angle_clockwise((0,1),(dx_avg,dy_avg))
 
@@ -451,7 +455,12 @@ def aruco_thread():
 				aruco_error_timer.reset()
 
 			except Exception as e:
-				#pass
+				aruco_position_x_pub.publish(std_msgs.msg.Float32(x_avg_prev))
+				aruco_position_y_pub.publish(std_msgs.msg.Float32(y_avg_prev))
+				aruco_heading_x_pub.publish(std_msgs.msg.Float32(dx_avg_prev))
+				aruco_heading_y_pub.publish(std_msgs.msg.Float32(dy_avg_prev))
+				heading_pause_pub.publish(std_msgs.msg.Int32(heading_pause))
+				car_in_range_pub.publish(std_msgs.msg.Int32(car_in_range))
 				if aruco_thread_exception_print_timer.check():
 					print("********** def aruco_thread(): Exception ***********************")
 					print(e.message, e.args)
@@ -470,6 +479,7 @@ def car_print(stri,name=rp.computer_name):
 
 frozen_ = 0
 defrosted_timer = Timer(0)
+state_messenger = Timer(1)
 while not rospy.is_shutdown():
 
 	if reload_timer.check(): # put in thread?
@@ -526,10 +536,7 @@ while not rospy.is_shutdown():
 								motor_cmd_pub.publish(std_msgs.msg.Int32(torch_motor))
 							else:
 								motor_cmd_pub.publish(std_msgs.msg.Int32(rp.robot_motor))
-					if state in [3,5,7]:
-						steer_cmd_pub.publish(std_msgs.msg.Int32(49))
-						motor_cmd_pub.publish(std_msgs.msg.Int32(49))
-						srpd2s('state in [3,5,7] so outputs set to 49')
+
 				elif potential_collision_:
 
 					if not frozen_:
@@ -553,6 +560,10 @@ while not rospy.is_shutdown():
 					if state in [6,7]:
 						motor_cmd_pub.publish(std_msgs.msg.Int32(49))	
 	else:
+		if state in [3,5,7]:
+			steer_cmd_pub.publish(std_msgs.msg.Int32(49))
+			motor_cmd_pub.publish(std_msgs.msg.Int32(49))
+			state_messenger('state in [3,5,7] so outputs set to 49','red')
 		potential_collision_ = 0
 		network_enter_timer.reset()
 	
