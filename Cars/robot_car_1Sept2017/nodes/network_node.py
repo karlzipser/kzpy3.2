@@ -121,7 +121,7 @@ one_over_fifteen = 1.0#/15.0
 
 def get_other_car_coordinates_thread():
 	while True:
-		if state in [3,5,6,7]:
+		if state in [6]:
 			try:
 				#print 'get_other_car_coordinates_thread'
 				timer = Timer(0)
@@ -139,13 +139,13 @@ def get_other_car_coordinates_thread():
 							Other_car_coordinates[car_name][TIME] = time.time()
 						#spd2s(Other_car_coordinates)
 				t = timer.time()
-				if t < one_over_fifteen:
-					time.sleep(one_over_fifteen - t)
+				if t < 0.1:##one_over_fifteen:
+					time.sleep(0.1-t) #one_over_fifteen - t)
 			except Exception as e:
 				print("********** def get_other_car_coordinates_thread(): Exception ***********************")
 				print(e.message, e.args)
 		else:
-			time.sleep(0.1)
+			time.sleep(0.2)
 threading.Thread(target=get_other_car_coordinates_thread).start()
 
 
@@ -317,7 +317,7 @@ ssh_command_str = ''
 def paramiko_command_thread():
 	timer = Timer(0)
 	while True:
-		if state in [3,5,6,7]:
+		if state in [6]:
 			timer.reset()
 			for k in rp.Car_IP_dic:
 				
@@ -332,10 +332,10 @@ def paramiko_command_thread():
 								srpd2s('ssh.exec_command failed to',k)
 								error_timer.reset()
 			t = timer.time()
-			if t < one_over_sixty:
-				time.sleep(one_over_sixty - t)
+			if t < 0.1:#one_over_sixty:
+				time.sleep(0.1-t) #one_over_sixty - t)
 		else:
-			time.sleep(0.1)
+			time.sleep(0.2)
 threading.Thread(target=paramiko_command_thread).start()
 #
 ###################################################################
