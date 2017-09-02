@@ -144,6 +144,7 @@ def get_other_car_coordinates_thread():
 			except Exception as e:
 				print("********** def get_other_car_coordinates_thread(): Exception ***********************")
 				print(e.message, e.args)
+				unix('rm /home/nvidia/Desktop/*.txt')
 		else:
 			time.sleep(0.2)
 threading.Thread(target=get_other_car_coordinates_thread).start()
