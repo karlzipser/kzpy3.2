@@ -10,7 +10,7 @@ Car_xterm_colors_dic = {'Mr_Blue':('white','blue'),
 }
 ctr = 0
 for k in Car_xterm_colors_dic:
-	for geo in [d2n('80x10+0+',ctr*180),d2n('20x10+500+',ctr*180)]:
+	for geo in [d2n('80x10+0+',ctr*180),d2n('20x10+600+',ctr*180)]:
 		fg = Car_xterm_colors_dic[k][0]
 		bg = Car_xterm_colors_dic[k][1]
 		ssh = d2n('ssh nvidia@',rp.Car_IP_dic[k])

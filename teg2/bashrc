@@ -45,6 +45,7 @@ alias lt='Mr_Lt_Blue'
 alias pu='Mr_Purple'
 alias tx='Mr_TX2'
 
+alias kx='killall xterm'
 
 ######################## for .bashrc from MacBook #################
 #
