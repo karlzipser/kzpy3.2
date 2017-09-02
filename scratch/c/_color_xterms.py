@@ -9,7 +9,7 @@ Car_xterm_colors_dic = {'Mr_Blue':('white','blue'),
 	'Mr_Purple':('white','purple'),
 }
 ctr = 0
-for k in Car_xterm_colors_dic:
+for k in sorted(Car_xterm_colors_dic.keys()):
 	for geo in [d2n('80x10+0+',ctr*180),d2n('20x10+600+',ctr*180)]:
 		fg = Car_xterm_colors_dic[k][0]
 		bg = Car_xterm_colors_dic[k][1]
