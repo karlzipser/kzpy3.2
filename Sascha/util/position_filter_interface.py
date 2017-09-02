@@ -9,6 +9,7 @@ class Position_Filter():
 
     def __init__(self, number_of_observations):    
         self.filter = Simple_Kalman_Estimator(number_of_observations)
+        #self.filter = 
 
     def get_xy_position(self,position_xy,heading,steering_angle):
         
