@@ -75,7 +75,7 @@ if SRC in Args and DST in Args:
 		Data_Module.Left_Timestamp_Metadata(run_name,fname(r_), h5py_path,h5py_dst)
 		Data_Module.make_flip_images(h5py_folder,opj(h5py_dst,fname(r_)))
 	if fname(bag_folders_src_) == 'new':
-		os.rename(bag_folders_src_,opj(pname(bag_folders_src_),'processed2'))
+		os.rename(bag_folders_src_,opj(pname(bag_folders_src_),'processed_'+time_str()))
 
 
 elif DATA_SRC in Args and DST in Args:
