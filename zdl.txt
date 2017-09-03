@@ -1,5 +1,1747 @@
->> f
-f
-<0> a:
-	 <HDF5 group "/a" (1 members)> <class 'h5py._hl.group.Group'>
+>> o['Direct_Arena_Potential_Field']
+o
+<0> Direct_Arena_Potential_Field:
+	<0> 0:
+		<0> 1491955491.9:
+			<0> clock_potential_values:
+				[0.07 0.07 ... 0.01 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 1.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.62 0.63 ... 0.76 0.77] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 87.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<1> 1491955491.93:
+			<0> clock_potential_values:
+				[0.07 0.07 ... 0.01 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 2.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.62 0.63 ... 0.76 0.77] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 87.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<2> 1491955491.97:
+			<0> clock_potential_values:
+				[0.07 0.07 ... 0.01 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 3.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.62 0.63 ... 0.76 0.77] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 87.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<3> 1491955492.01:
+			<0> clock_potential_values:
+				[0.07 0.07 ... 0.01 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 4.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.62 0.63 ... 0.76 0.77] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 87.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<4> 1491955492.05:
+			<0> clock_potential_values:
+				[0.07 0.07 ... 0.01 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 5.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.62 0.63 ... 0.76 0.77] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 87.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<5> 1491955492.09:
+			<0> clock_potential_values:
+				[0.07 0.07 ... 0.01 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 6.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.62 0.63 ... 0.76 0.77] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 87.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<6> 1491955492.13:
+			<0> clock_potential_values:
+				[0.07 0.07 ... 0.01 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 7.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.62 0.63 ... 0.76 0.77] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 87.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<7> 1491955492.17:
+			<0> clock_potential_values:
+				[0.07 0.07 ... 0.01 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 8.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.62 0.63 ... 0.76 0.77] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 87.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<8> 1491955492.2:
+			<0> clock_potential_values:
+				[0.07 0.07 ... 0.01 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 9.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.62 0.63 ... 0.76 0.77] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 87.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<9> 1491955492.23:
+			<0> clock_potential_values:
+				[0.07 0.07 ... 0.01 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 10.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.62 0.63 ... 0.76 0.77] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 87.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<10> 1491955492.26:
+			<0> clock_potential_values:
+				[0.07 0.07 ... 0.01 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 11.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.62 0.63 ... 0.76 0.77] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 87.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<11> 1491955492.32:
+			<0> clock_potential_values:
+				[0.07 0.07 ... 0.01 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 13.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.62 0.63 ... 0.76 0.77] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 87.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<12> 1491955492.35:
+			<0> clock_potential_values:
+				[0.07 0.07 ... 0.01 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 14.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.62 0.63 ... 0.76 0.77] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 87.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<13> 1491955492.39:
+			<0> clock_potential_values:
+				[0.07 0.07 ... 0.01 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 15.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.62 0.63 ... 0.76 0.77] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 87.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<14> 1491955492.43:
+			<0> clock_potential_values:
+				[0.07 0.07 ... 0.01 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 16.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.62 0.63 ... 0.76 0.77] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 87.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<15> 1491955492.46:
+			<0> clock_potential_values:
+				[0.12 0.1 ... 0.01 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.29 0.28 ... 0.22 0.21] (len=11)
+			<2> near_i:
+				 17.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.6 0.61 ... 0.74 0.76] (len=11)
+			<5> relative_heading:
+				 288.75 <type 'numpy.float16'>
+			<6> steer:
+				 77.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<16> 1491955492.5:
+			<0> clock_potential_values:
+				[0.14 0.13 ... 0.01 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.29 0.29 ... 0.22 0.22] (len=11)
+			<2> near_i:
+				 18.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.59 0.59 ... 0.73 0.75] (len=11)
+			<5> relative_heading:
+				 293.25 <type 'numpy.float16'>
+			<6> steer:
+				 86.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<17> 1491955492.54:
+			<0> clock_potential_values:
+				[0.16 0.14 ... 0.02 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.29 0.29 ... 0.22 0.22] (len=11)
+			<2> near_i:
+				 19.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.58 0.59 ... 0.72 0.75] (len=11)
+			<5> relative_heading:
+				 295.5 <type 'numpy.float16'>
+			<6> steer:
+				 67.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<18> 1491955492.58:
+			<0> clock_potential_values:
+				[0.17 0.15 ... 0.02 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.29 0.29 ... 0.23 0.22] (len=11)
+			<2> near_i:
+				 20.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.56 0.57 ... 0.73 0.75] (len=11)
+			<5> relative_heading:
+				 297.5 <type 'numpy.float16'>
+			<6> steer:
+				 67.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<19> 1491955492.62:
+			<0> clock_potential_values:
+				[0.18 0.16 ... 0.02 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.29 0.29 ... 0.23 0.22] (len=11)
+			<2> near_i:
+				 21.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.56 0.56 ... 0.71 0.74] (len=11)
+			<5> relative_heading:
+				 299.0 <type 'numpy.float16'>
+			<6> steer:
+				 58.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<20> 1491955492.66:
+			<0> clock_potential_values:
+				[0.18 0.17 ... 0.02 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.29 0.29 ... 0.23 0.22] (len=11)
+			<2> near_i:
+				 22.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.54 0.56 ... 0.71 0.74] (len=11)
+			<5> relative_heading:
+				 300.0 <type 'numpy.float16'>
+			<6> steer:
+				 67.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<21> 1491955492.68:
+			<0> clock_potential_values:
+				[0.19 0.17 ... 0.02 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.29 0.29 ... 0.23 0.22] (len=11)
+			<2> near_i:
+				 23.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.54 0.55 ... 0.71 0.74] (len=11)
+			<5> relative_heading:
+				 300.5 <type 'numpy.float16'>
+			<6> steer:
+				 49.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<22> 1491955492.72:
+			<0> clock_potential_values:
+				[0.19 0.17 ... 0.02 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.3 0.29 ... 0.23 0.22] (len=11)
+			<2> near_i:
+				 24.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.54 0.54 ... 0.71 0.73] (len=11)
+			<5> relative_heading:
+				 301.25 <type 'numpy.float16'>
+			<6> steer:
+				 67.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<23> 1491955492.76:
+			<0> clock_potential_values:
+				[0.2 0.18 ... 0.02 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.3 0.29 ... 0.23 0.22] (len=11)
+			<2> near_i:
+				 25.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.54 0.54 ... 0.71 0.73] (len=11)
+			<5> relative_heading:
+				 301.5 <type 'numpy.float16'>
+			<6> steer:
+				 67.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		..58113)
+
+	<1> 1:
+		<0> 1491955491.9:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 1.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.62 0.63 ... 0.76 0.77] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<1> 1491955491.93:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 2.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.62 0.63 ... 0.76 0.77] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<2> 1491955491.97:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 3.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.62 0.63 ... 0.76 0.77] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<3> 1491955492.01:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 4.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.62 0.63 ... 0.76 0.77] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<4> 1491955492.05:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 5.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.62 0.63 ... 0.76 0.77] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<5> 1491955492.09:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 6.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.62 0.63 ... 0.76 0.77] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<6> 1491955492.13:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 7.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.62 0.63 ... 0.76 0.77] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<7> 1491955492.17:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 8.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.62 0.63 ... 0.76 0.77] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<8> 1491955492.2:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 9.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.62 0.63 ... 0.76 0.77] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<9> 1491955492.23:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 10.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.62 0.63 ... 0.76 0.77] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<10> 1491955492.26:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 11.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.62 0.63 ... 0.76 0.77] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<11> 1491955492.32:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 13.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.62 0.63 ... 0.76 0.77] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<12> 1491955492.35:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 14.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.62 0.63 ... 0.76 0.77] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<13> 1491955492.39:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 15.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.62 0.63 ... 0.76 0.77] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<14> 1491955492.43:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 16.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.62 0.63 ... 0.76 0.77] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<15> 1491955492.46:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.29 0.28 ... 0.22 0.21] (len=11)
+			<2> near_i:
+				 17.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.6 0.61 ... 0.74 0.76] (len=11)
+			<5> relative_heading:
+				 288.75 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<16> 1491955492.5:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.29 0.29 ... 0.22 0.22] (len=11)
+			<2> near_i:
+				 18.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.59 0.59 ... 0.73 0.75] (len=11)
+			<5> relative_heading:
+				 293.25 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<17> 1491955492.54:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.29 0.29 ... 0.22 0.22] (len=11)
+			<2> near_i:
+				 19.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.58 0.59 ... 0.72 0.75] (len=11)
+			<5> relative_heading:
+				 295.5 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<18> 1491955492.58:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.29 0.29 ... 0.23 0.22] (len=11)
+			<2> near_i:
+				 20.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.56 0.57 ... 0.73 0.75] (len=11)
+			<5> relative_heading:
+				 297.5 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<19> 1491955492.62:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.29 0.29 ... 0.23 0.22] (len=11)
+			<2> near_i:
+				 21.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.56 0.56 ... 0.71 0.74] (len=11)
+			<5> relative_heading:
+				 299.0 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<20> 1491955492.66:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.29 0.29 ... 0.23 0.22] (len=11)
+			<2> near_i:
+				 22.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.54 0.56 ... 0.71 0.74] (len=11)
+			<5> relative_heading:
+				 300.0 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<21> 1491955492.68:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.29 0.29 ... 0.23 0.22] (len=11)
+			<2> near_i:
+				 23.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.54 0.55 ... 0.71 0.74] (len=11)
+			<5> relative_heading:
+				 300.5 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<22> 1491955492.72:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.3 0.29 ... 0.23 0.22] (len=11)
+			<2> near_i:
+				 24.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.54 0.54 ... 0.71 0.73] (len=11)
+			<5> relative_heading:
+				 301.25 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<23> 1491955492.76:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.3 0.29 ... 0.23 0.22] (len=11)
+			<2> near_i:
+				 25.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.54 0.54 ... 0.71 0.73] (len=11)
+			<5> relative_heading:
+				 301.5 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		..58113)
+
+
+<1> Follow_Arena_Potential_Field:
+	<0> 0:
+		<0> 1491955491.9:
+			<0> clock_potential_values:
+				[0.07 0.07 ... 0.01 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 1.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.42 0.42 ... 0.4 0.4] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 18.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<1> 1491955491.93:
+			<0> clock_potential_values:
+				[0.07 0.07 ... 0.01 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 2.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.42 0.42 ... 0.4 0.4] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 18.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<2> 1491955491.97:
+			<0> clock_potential_values:
+				[0.07 0.07 ... 0.01 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 3.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.42 0.42 ... 0.4 0.4] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 18.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<3> 1491955492.01:
+			<0> clock_potential_values:
+				[0.07 0.07 ... 0.01 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 4.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.42 0.42 ... 0.4 0.4] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 18.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<4> 1491955492.05:
+			<0> clock_potential_values:
+				[0.07 0.07 ... 0.01 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 5.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.42 0.42 ... 0.4 0.4] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 18.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<5> 1491955492.09:
+			<0> clock_potential_values:
+				[0.07 0.07 ... 0.01 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 6.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.42 0.42 ... 0.4 0.4] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 18.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<6> 1491955492.13:
+			<0> clock_potential_values:
+				[0.07 0.07 ... 0.01 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 7.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.42 0.42 ... 0.4 0.4] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 18.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<7> 1491955492.17:
+			<0> clock_potential_values:
+				[0.07 0.07 ... 0.01 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 8.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.42 0.42 ... 0.4 0.4] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 18.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<8> 1491955492.2:
+			<0> clock_potential_values:
+				[0.07 0.07 ... 0.01 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 9.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.42 0.42 ... 0.4 0.4] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 18.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<9> 1491955492.23:
+			<0> clock_potential_values:
+				[0.07 0.07 ... 0.01 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 10.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.42 0.42 ... 0.4 0.4] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 18.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<10> 1491955492.26:
+			<0> clock_potential_values:
+				[0.07 0.07 ... 0.01 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 11.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.42 0.42 ... 0.4 0.4] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 18.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<11> 1491955492.32:
+			<0> clock_potential_values:
+				[0.07 0.07 ... 0.01 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 13.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.42 0.42 ... 0.4 0.4] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 18.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<12> 1491955492.35:
+			<0> clock_potential_values:
+				[0.07 0.07 ... 0.01 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 14.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.42 0.42 ... 0.4 0.4] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 18.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<13> 1491955492.39:
+			<0> clock_potential_values:
+				[0.07 0.07 ... 0.01 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 15.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.42 0.42 ... 0.4 0.4] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 18.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<14> 1491955492.43:
+			<0> clock_potential_values:
+				[0.07 0.07 ... 0.01 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 16.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.42 0.42 ... 0.4 0.4] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 18.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<15> 1491955492.46:
+			<0> clock_potential_values:
+				[0.12 0.1 ... 0.01 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.29 0.28 ... 0.22 0.21] (len=11)
+			<2> near_i:
+				 17.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.42 0.42 ... 0.4 0.4] (len=11)
+			<5> relative_heading:
+				 288.75 <type 'numpy.float16'>
+			<6> steer:
+				 16.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<16> 1491955492.5:
+			<0> clock_potential_values:
+				[0.14 0.13 ... 0.01 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.29 0.29 ... 0.22 0.22] (len=11)
+			<2> near_i:
+				 18.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.42 0.42 ... 0.4 0.4] (len=11)
+			<5> relative_heading:
+				 293.25 <type 'numpy.float16'>
+			<6> steer:
+				 14.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<17> 1491955492.54:
+			<0> clock_potential_values:
+				[0.16 0.14 ... 0.02 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.29 0.29 ... 0.22 0.22] (len=11)
+			<2> near_i:
+				 19.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.42 0.42 ... 0.4 0.4] (len=11)
+			<5> relative_heading:
+				 295.5 <type 'numpy.float16'>
+			<6> steer:
+				 13.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<18> 1491955492.58:
+			<0> clock_potential_values:
+				[0.17 0.15 ... 0.02 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.29 0.29 ... 0.23 0.22] (len=11)
+			<2> near_i:
+				 20.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.43 0.42 ... 0.4 0.4] (len=11)
+			<5> relative_heading:
+				 297.5 <type 'numpy.float16'>
+			<6> steer:
+				 12.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<19> 1491955492.62:
+			<0> clock_potential_values:
+				[0.18 0.16 ... 0.02 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.29 0.29 ... 0.23 0.22] (len=11)
+			<2> near_i:
+				 21.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.43 0.43 ... 0.4 0.4] (len=11)
+			<5> relative_heading:
+				 299.0 <type 'numpy.float16'>
+			<6> steer:
+				 11.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<20> 1491955492.66:
+			<0> clock_potential_values:
+				[0.18 0.17 ... 0.02 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.29 0.29 ... 0.23 0.22] (len=11)
+			<2> near_i:
+				 22.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.43 0.43 ... 0.4 0.4] (len=11)
+			<5> relative_heading:
+				 300.0 <type 'numpy.float16'>
+			<6> steer:
+				 11.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<21> 1491955492.68:
+			<0> clock_potential_values:
+				[0.19 0.17 ... 0.02 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.29 0.29 ... 0.23 0.22] (len=11)
+			<2> near_i:
+				 23.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.43 0.43 ... 0.41 0.4] (len=11)
+			<5> relative_heading:
+				 300.5 <type 'numpy.float16'>
+			<6> steer:
+				 11.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<22> 1491955492.72:
+			<0> clock_potential_values:
+				[0.19 0.17 ... 0.02 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.3 0.29 ... 0.23 0.22] (len=11)
+			<2> near_i:
+				 24.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.43 0.43 ... 0.41 0.4] (len=11)
+			<5> relative_heading:
+				 301.25 <type 'numpy.float16'>
+			<6> steer:
+				 10.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<23> 1491955492.76:
+			<0> clock_potential_values:
+				[0.2 0.18 ... 0.02 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.3 0.29 ... 0.23 0.22] (len=11)
+			<2> near_i:
+				 25.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.43 0.43 ... 0.41 0.4] (len=11)
+			<5> relative_heading:
+				 301.5 <type 'numpy.float16'>
+			<6> steer:
+				 10.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		..58113)
+
+	<1> 1:
+		<0> 1491955491.9:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 1.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.42 0.42 ... 0.4 0.4] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<1> 1491955491.93:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 2.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.42 0.42 ... 0.4 0.4] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<2> 1491955491.97:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 3.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.42 0.42 ... 0.4 0.4] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<3> 1491955492.01:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 4.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.42 0.42 ... 0.4 0.4] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<4> 1491955492.05:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 5.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.42 0.42 ... 0.4 0.4] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<5> 1491955492.09:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 6.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.42 0.42 ... 0.4 0.4] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<6> 1491955492.13:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 7.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.42 0.42 ... 0.4 0.4] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<7> 1491955492.17:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 8.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.42 0.42 ... 0.4 0.4] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<8> 1491955492.2:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 9.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.42 0.42 ... 0.4 0.4] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<9> 1491955492.23:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 10.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.42 0.42 ... 0.4 0.4] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<10> 1491955492.26:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 11.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.42 0.42 ... 0.4 0.4] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<11> 1491955492.32:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 13.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.42 0.42 ... 0.4 0.4] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<12> 1491955492.35:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 14.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.42 0.42 ... 0.4 0.4] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<13> 1491955492.39:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 15.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.42 0.42 ... 0.4 0.4] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<14> 1491955492.43:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.28 0.27 ... 0.21 0.2] (len=11)
+			<2> near_i:
+				 16.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.42 0.42 ... 0.4 0.4] (len=11)
+			<5> relative_heading:
+				 282.0 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<15> 1491955492.46:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.29 0.28 ... 0.22 0.21] (len=11)
+			<2> near_i:
+				 17.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.42 0.42 ... 0.4 0.4] (len=11)
+			<5> relative_heading:
+				 288.75 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<16> 1491955492.5:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.29 0.29 ... 0.22 0.22] (len=11)
+			<2> near_i:
+				 18.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.42 0.42 ... 0.4 0.4] (len=11)
+			<5> relative_heading:
+				 293.25 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<17> 1491955492.54:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.29 0.29 ... 0.22 0.22] (len=11)
+			<2> near_i:
+				 19.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.42 0.42 ... 0.4 0.4] (len=11)
+			<5> relative_heading:
+				 295.5 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<18> 1491955492.58:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.29 0.29 ... 0.23 0.22] (len=11)
+			<2> near_i:
+				 20.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.43 0.42 ... 0.4 0.4] (len=11)
+			<5> relative_heading:
+				 297.5 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<19> 1491955492.62:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.29 0.29 ... 0.23 0.22] (len=11)
+			<2> near_i:
+				 21.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.43 0.43 ... 0.4 0.4] (len=11)
+			<5> relative_heading:
+				 299.0 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<20> 1491955492.66:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.29 0.29 ... 0.23 0.22] (len=11)
+			<2> near_i:
+				 22.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.43 0.43 ... 0.4 0.4] (len=11)
+			<5> relative_heading:
+				 300.0 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<21> 1491955492.68:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.29 0.29 ... 0.23 0.22] (len=11)
+			<2> near_i:
+				 23.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.43 0.43 ... 0.41 0.4] (len=11)
+			<5> relative_heading:
+				 300.5 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<22> 1491955492.72:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.3 0.29 ... 0.23 0.22] (len=11)
+			<2> near_i:
+				 24.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.43 0.43 ... 0.41 0.4] (len=11)
+			<5> relative_heading:
+				 301.25 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		<23> 1491955492.76:
+			<0> clock_potential_values:
+				[1.0 0.9 ... 0.1 0.0] (len=11)
+			<1> marker_inverse_distances:
+				[0.3 0.29 ... 0.23 0.22] (len=11)
+			<2> near_i:
+				 25.0 <type 'numpy.float16'>
+			<3> other_car_inverse_distances:
+				[]
+			<4> potential_values:
+				[0.43 0.43 ... 0.41 0.4] (len=11)
+			<5> relative_heading:
+				 301.5 <type 'numpy.float16'>
+			<6> steer:
+				 0.0 <type 'numpy.float16'>
+			<7> velocity:
+				 0.57861 <type 'numpy.float16'>
+
+		..58113)
+
+
 
