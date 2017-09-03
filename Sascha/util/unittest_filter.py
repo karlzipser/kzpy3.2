@@ -5,7 +5,7 @@ Created on Aug 30, 2017
 '''
 
 import rospy
-from std_msgs.msg import Float32
+from std_msgs.msg import Float32, Int32
 from kzpy3.Sascha.util.position_filter_interface import Position_Filter
 import numpy as np
 import matplotlib.pyplot as plt
@@ -20,6 +20,7 @@ class Test_Me():
     
     aruco_x = None
     aruco_y = None
+    steering = None
     
     def aruco_x_callback(self, data):
         self.aruco_x = data.data
@@ -27,10 +28,13 @@ class Test_Me():
     def aruco_y_callback(self, data):
         self.aruco_y = data.data
         
+    def steering_callback(self,data):
+        self.steering = data.data
+        
     def __init__(self):
         rospy.Subscriber("/bair_car/aruco_position_x", Float32, self.aruco_x_callback)
         rospy.Subscriber("/bair_car/aruco_position_y", Float32, self.aruco_y_callback)
-        
+        rospy.Subscriber("/bair_car/cmd/steer", Int32, self.steering_callback)
         rospy.init_node('aruco_tester', anonymous=True)
     
         # In this example file the filter is queried with a specific rate. It can also
@@ -43,8 +47,8 @@ class Test_Me():
         ax.set_ylim(-4, 4)            
         kalman, = ax.plot([], [], marker='o', linestyle='None', color='r')
         original, = ax.plot([], [], marker='o', linestyle='None', color='b')        
-        plt.ion()
-        plt.show()
+        #plt.ion()
+        #plt.show()
         
         
         while not rospy.is_shutdown():
@@ -58,16 +62,16 @@ class Test_Me():
             # but purely on position information. Still the same heading which is put
             # in is right now also returned
             mock_up_heading = np.pi / 2.
-            mock_up_steering = np.pi / 6.
             
-            filtered_position, heading = self.test_filter.get_xy_position(position_xy, mock_up_heading , mock_up_steering)
+            filtered_position, heading = self.test_filter.get_xy_position(position_xy, mock_up_heading , self.steering)
             
-            kalman.set_data([[filtered_position[0]], [filtered_position[1]]])
-            original.set_data([[position_xy[0]], [position_xy[1]]])
-            
-            plt.draw()
-            
-            plt.pause(0.001)
+            if filtered_position:
+                kalman.set_data([[filtered_position[0]], [filtered_position[1]]])
+                original.set_data([[position_xy[0]], [position_xy[1]]])
+                
+                plt.draw()
+                
+                plt.pause(0.001)
             rate.sleep()
             
     
