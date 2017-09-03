@@ -120,9 +120,13 @@ one_over_fifteen = 1.0#/15.0
 #POSE = 'POSE'
 
 def get_other_car_coordinates_thread():
+	periodic_clearing_timer = Timer(5)
 	while True:
-		if state in [3,5,6,7]:
+		if state in [6]:
 			try:
+				if periodic_clearing_timer.check():
+					unix('rm /home/nvidia/Desktop/*.txt')
+					periodic_clearing_timer.reset()
 				#print 'get_other_car_coordinates_thread'
 				timer = Timer(0)
 				for car in sgg(opjD('*.car.txt')):
@@ -139,13 +143,15 @@ def get_other_car_coordinates_thread():
 							Other_car_coordinates[car_name][TIME] = time.time()
 						#spd2s(Other_car_coordinates)
 				t = timer.time()
-				if t < one_over_fifteen:
-					time.sleep(one_over_fifteen - t)
+				if t < 0.1:##one_over_fifteen:
+					time.sleep(0.1-t) #one_over_fifteen - t)
 			except Exception as e:
 				print("********** def get_other_car_coordinates_thread(): Exception ***********************")
 				print(e.message, e.args)
+				unix('rm /home/nvidia/Desktop/*.txt')
+				time.sleep(0.2)
 		else:
-			time.sleep(0.1)
+			time.sleep(0.2)
 threading.Thread(target=get_other_car_coordinates_thread).start()
 
 
@@ -317,7 +323,7 @@ ssh_command_str = ''
 def paramiko_command_thread():
 	timer = Timer(0)
 	while True:
-		if state in [3,5,6,7]:
+		if state in [6]:
 			timer.reset()
 			for k in rp.Car_IP_dic:
 				
@@ -332,10 +338,10 @@ def paramiko_command_thread():
 								srpd2s('ssh.exec_command failed to',k)
 								error_timer.reset()
 			t = timer.time()
-			if t < one_over_sixty:
-				time.sleep(one_over_sixty - t)
+			if t < 0.1:#one_over_sixty:
+				time.sleep(0.1-t) #one_over_sixty - t)
 		else:
-			time.sleep(0.1)
+			time.sleep(0.2)
 threading.Thread(target=paramiko_command_thread).start()
 #
 ###################################################################
@@ -479,7 +485,8 @@ threading.Thread(target=aruco_thread).start()
 ###################################################################
 
 def car_print(stri,name=rp.computer_name):
-	cprint(stri,rp.Car_termcolor_dic[name][0],rp.Car_termcolor_dic[name][1])
+	print(stri)
+	#cprint(stri,rp.Car_termcolor_dic[name][0],rp.Car_termcolor_dic[name][1])
 
 frozen_ = 0
 defrosted_timer = Timer(0)
@@ -568,6 +575,7 @@ while not rospy.is_shutdown():
 			steer_cmd_pub.publish(std_msgs.msg.Int32(49))
 			motor_cmd_pub.publish(std_msgs.msg.Int32(49))
 			state_messenger('state in [3,5,7] so outputs set to 49','red')
+			unix('sudo reboot')
 		potential_collision_ = 0
 		network_enter_timer.reset()
 	

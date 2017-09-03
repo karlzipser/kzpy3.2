@@ -241,25 +241,25 @@ def d2n(*args):
 def d2f(*args):
 	return d2s_spacer(args[1:],spacer=args[0])
 def pd2s(*args):
-	cprint(d2s(*args),'yellow')
+	cprint(d2s(*args))#,'yellow')
 def spd2s(*args):
 	d_ = d2s(*args)
 	l_ = len(d_)
 	s_ = ""
 	for q_ in range(len(d_)+4):
 		s_ += "*"
-	cprint(s_+'\n*','yellow')
-	cprint('* '+d_,'yellow')
-	cprint('*\n'+s_,'yellow')
+	cprint(s_+'\n*')#,'yellow')
+	cprint('* '+d_)#,'yellow')
+	cprint('*\n'+s_)#,'yellow')
 def srpd2s(*args):
 	d_ = d2s(*args)
 	l_ = len(d_)
 	s_ = ""
 	for q_ in range(len(d_)+4):
 		s_ += "*"
-	cprint(s_+'\n*','red')
-	cprint('* '+d_,'red')
-	cprint('*\n'+s_,'red')
+	cprint(s_+'\n*')#,'red')
+	cprint('* '+d_)#,'red')
+	cprint('*\n'+s_)#(,'red')
 
 def dp(f,n=2):
 	"""
