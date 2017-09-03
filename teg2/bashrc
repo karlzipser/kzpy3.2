@@ -37,11 +37,22 @@ alias Mr_Lt_Blue='ssh nvidia@192.168.1.105'
 alias Mr_Purple='ssh nvidia@192.168.1.106'
 alias Mr_TX2='ssh nvidia@192.168.1.201'
 
+alias bu='Mr_Blue'
+alias bk='Mr_Black'
+alias or='Mr_Orange'
+alias ye='Mr_Yellow'
+alias lt='Mr_Lt_Blue'
+alias pu='Mr_Purple'
+alias tx='Mr_TX2'
+
+alias kx='killall xterm'
+alias rosdo='sudo chmod -R 777 /media/karlzipser/rosbags/'
 ######################## for .bashrc from MacBook #################
 #
 #export DISPLAY=:0.0
 alias gacp="git add .;git commit -m 'gacp';git push origin master"
-alias gp3="~/kzpy3/kzpy3_git_pull.sh"
+alias pgacp='cd ~/kzpy3; git pull; gacp; cd'
+#alias gp3="~/kzpy3/kzpy3_git_pull.sh"
 #alias gckzpy3="git clone https://github.com/karlzipser/kzpy3.0.git"
 git config --global credential.helper "cache --timeout=86400"
 alias ipy="ipython --no-banner"
@@ -53,6 +64,7 @@ export PYTHONPATH=~/caffe/python:$PYTHONPATH
 export PATH=~/kzpy3/c:$PATH
 
 alias Grapher='python ~/kzpy3/Grapher_app/Main.py'
+alias Grapher3='python ~/kzpy3/Grapher_app_3rd_pass/Main.py'
 alias Car_Data='python ~/kzpy3/Car_Data_app/Main.py'
 alias Train='python ~/kzpy3/Train_app/Main.py'
 alias Localization='python ~/kzpy3/Localization_app/Main.py'

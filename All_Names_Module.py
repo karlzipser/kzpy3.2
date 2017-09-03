@@ -6,10 +6,17 @@ hxl hx_meo hy_meo x_meo y_meo DX X DY Y
 hyl
 xl max_list_length p ANGLE_DIST_PARAM angle
 yl step
-hx car_pts head_pts NO_REVERSE
+hx car_pts head_pts NO_REVERSE potential_collision other_car_position VECTOR3_TOPICS
 hy dic_list
 x 
 y
+SINGLE_VALUE_TOPICS
+aruco_heading_x
+aruco_heading_y
+aruco_position_x
+aruco_position_y
+heading_pause
+car_in_range
 	aruco_trajectories
 	aruco_cubic_splines
 	left_timestamp_metadata

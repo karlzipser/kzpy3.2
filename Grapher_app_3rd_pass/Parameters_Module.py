@@ -7,12 +7,15 @@ _ = dictionary_access
 P = {}
 
 _(P,VERBOSE,equals,True)
-P[DATASET_PATHS] = [opjm('rosbags/bdd_aruco_demo')]
+P[DATASET_PATHS] = ['/media/karlzipser/ExtraDrive2/bdd_aruco_demo_3Sept2017']
+#P[DATASET_PATHS] = [opjm('rosbags/bdd_aruco_demo')]
 #P[DATASET_PATHS] = [opjD('bdd_car_data_July2017_LCR')]
 #P[DATASET_PATHS] = [opjm('ExtraDrive2/bdd_car_data_July2017_LCR')]
 #P[DATASET_PATHS] = [opjm('ExtraDrive2/bair_car_data_Main_Dataset')]
 #P[DATASET_PATHS] = [opjm('data_examples/data_examples')]
 #P[DATASET_PATHS] = ['/media/karlzipser/ExtraDrive4/bdd_car_data_free_driving_cars']
+
+
 P[TOPICS] = {
 	steer:{maxval:80,		minval:20,		baseline:49.0,	color:(255,0,0)},
 	motor:{maxval:80,		minval:49,		baseline:49.0,	color:(0,255-32,32)},
@@ -24,9 +27,15 @@ P[TOPICS] = {
 	gyro_x:{maxval:180,		minval:-180,	baseline:0,		color:(128,128,0)},
 	gyro_y:{maxval:180,		minval:-180,	baseline:0,		color:(128-32,128+32,0)},
 	gyro_z:{maxval:180,		minval:-180,	baseline:0,		color:(128-64,128+64,0)},
-	gyro_heading_x:{maxval:360,minval:-180,	baseline:0,		color:(255,200,200)},
-
-	}
+	gyro_heading_x:{maxval:(2*360),minval:-360,	baseline:0,		color:(255,200,200)},
+	left_ts_deltas:{maxval:0.5,minval:0,	baseline:0,		color:(255,255,255)},
+	heading_pause:{maxval:1,minval:0,	baseline:0,		color:(255,255,19)},
+	car_in_range:{maxval:1,minval:0,	baseline:0,		color:(255,0,0)},
+	aruco_position_x:{maxval:-4,minval:4,	baseline:0,		color:(0,0,255)},
+	aruco_position_y:{maxval:-4,minval:4,	baseline:0,		color:(0,100,155)},
+	#other_car_position_x:{maxval:-4,minval:4,	baseline:0,		color:(0,255,100)},
+	#other_car_position_y:{maxval:-4,minval:4,	baseline:0,		color:(0,255,100)},
+}
 P[VERTICAL_LINE_PROPORTION] = 0.5
 P[X_PIXEL_SIZE] = 1500
 P[Y_PIXEL_SIZE] = 1500#1100

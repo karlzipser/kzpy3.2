@@ -62,6 +62,7 @@ if SRC in Args and DST in Args:
 				cprint(d2s('Bagfile',b,'has size',bag_size,'which is below full size.'),'red')
 				unix('mv '+b+' '+b+'.too_small')
 		mtimes = sorted(mtimes)
+		print mtimes
 		run_duration = mtimes[-1]-mtimes[0]
 		print run_duration
 		assert(run_duration/60./60. < 3.) # If clock set incorrectly, this can change during run leading to year-long intervals
@@ -74,7 +75,7 @@ if SRC in Args and DST in Args:
 		Data_Module.Left_Timestamp_Metadata(run_name,fname(r_), h5py_path,h5py_dst)
 		Data_Module.make_flip_images(h5py_folder,opj(h5py_dst,fname(r_)))
 	if fname(bag_folders_src_) == 'new':
-		os.rename(bag_folders_src_,opj(pname(bag_folders_src_),'processed2'))
+		os.rename(bag_folders_src_,opj(pname(bag_folders_src_),'processed_'+time_str()))
 
 
 elif DATA_SRC in Args and DST in Args:
