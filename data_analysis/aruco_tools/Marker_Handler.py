@@ -10,8 +10,8 @@ import numpy as np
 import kzpy3.data_analysis.aruco_tools.aruco_annotator
 
 from kzpy3.data_analysis.aruco_tools.Video_Marker import Video_Marker
-from data_parsing.Bagfile_Handler import Bagfile_Handler
-from visualization.Area_Visualizer import Area_Visualizer
+from  kzpy3.data_analysis.data_parsing.Bagfile_Handler import Bagfile_Handler
+from  kzpy3.data_analysis.visualization.Area_Visualizer import Area_Visualizer
 from kzpy3.data_analysis.aruco_tools.aruco_angle_retriever import get_boundary_angles_distances
 
 class Marker_Handler:
