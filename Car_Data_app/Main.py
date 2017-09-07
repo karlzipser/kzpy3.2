@@ -71,9 +71,14 @@ if SRC in Args and DST in Args:
 	##############
 
 	for r_ in runs_:
-		Data_Module.Original_Timestamp_Data(bag_folder_path,r_, h5py_path,h5py_dst)
-		Data_Module.Left_Timestamp_Metadata(run_name,fname(r_), h5py_path,h5py_dst)
-		Data_Module.make_flip_images(h5py_folder,opj(h5py_dst,fname(r_)))
+		try:
+			Data_Module.Original_Timestamp_Data(bag_folder_path,r_, h5py_path,h5py_dst)
+			Data_Module.Left_Timestamp_Metadata(run_name,fname(r_), h5py_path,h5py_dst)
+			Data_Module.make_flip_images(h5py_folder,opj(h5py_dst,fname(r_)))
+		except Exception as e:
+			print("**********for r_ in runs_: Exception ***********************")
+			print(e.message, e.args)
+		
 	if fname(bag_folders_src_) == 'new':
 		os.rename(bag_folders_src_,opj(pname(bag_folders_src_),'processed_'+time_str()))
 
@@ -94,7 +99,7 @@ elif DATA_SRC in Args and DST in Args:
 				rgb_1to4_path,opj(data_src_,'rgb_1to4',fname(r_)))
 			Data_Module.Left_Timestamp_Metadata(run_name,fname(r_), h5py_path,h5py_dst_)
 		except Exception as e:
-			print("********** Exception ***********************")
+			print("********** elif DATA_SRC in Args and DST in Args: Exception ***********************")
 			print(e.message, e.args)	
 
 
