@@ -84,7 +84,7 @@ def get_car_position_heading_validity(h5py_data_folder,car_position_dic_list):
 						c_ay = C['ay'][q]
 						Gi[ptsplot](x,na([c_ax]),y,na([c_ay]),color,(0,0,255))
 
-
+				#blur = 10*cv2.blur(Gi[img],(30,30))
 				mci(Gi[img],scale=2,title='map');
 				pause_flag = False
 			else:
