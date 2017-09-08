@@ -615,7 +615,7 @@ class Timer:
 		if self.check():
 			spd2s('Frequency = ',self.count/self.time(),'Hz')
 			self.reset()
-	def message(self,message_str,color='yellow'):
+	def message(self,message_str,color='grey'):
 		if self.check():
 			cprint(message_str,color)
 			self.reset()
@@ -1025,8 +1025,9 @@ def assert_disk_locations(locations):
 
 
 
-def h5r(filename):
-	assert_disk_locations(filename)
+def h5r(filename,assert_exists=False):
+	if assert_exists:
+		assert_disk_locations(filename)
 	return h5py.File(filename,'r')
 def h5w(filename):
 	assert_disk_locations(pname(filename))
