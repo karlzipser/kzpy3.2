@@ -2,11 +2,11 @@ from kzpy3.Grapher_app.Graph_Image_Module import *
 from kzpy3.Localization_app.aruco_whole_room_markers import *
 
 
-def get_car_position_heading_validity(h5py_data_folder,car_position_dic_list):
+def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list):
 
-	L = h5r(opj(h5py_data_folder,'left_timestamp_metadata.h5py'))
-	O = h5r(opj(h5py_data_folder,'original_timestamp_data.h5py'))
-	P = h5r(opj(h5py_data_folder,'position_data.h5py'))
+	L = h5r(opj(h5py_car_data_folder,'left_timestamp_metadata.h5py'))
+	O = h5r(opj(h5py_car_data_folder,'original_timestamp_data.h5py'))
+	P = h5r(opj(h5py_car_data_folder,'position_data.h5py'))
 	left_images = O[left_image][vals][:].copy()
 	left_images = left_images.mean(axis=3)
 	right_images = O[right_image][vals][:].copy()
@@ -59,6 +59,7 @@ def get_car_position_heading_validity(h5py_data_folder,car_position_dic_list):
 	o_meo = P['o_meo'][:]
 
 	if graphics:
+		Gi_size = 100#350
 		x_min = -4.0#-(6.03/2.0)#-6.03+hw
 		x_max = 4.0#(6.03/2.0)#hw
 		y_min = -4.0#-(6.03/2.0)#-hw#
@@ -67,9 +68,9 @@ def get_car_position_heading_validity(h5py_data_folder,car_position_dic_list):
 		#spause()
 		#raw_enter()
 		cv2.destroyAllWindows()
-		Gi = Graph_Image(xmin,x_min,ymin,y_min,xmax,x_max,ymax,y_max,xsize,350,ysize,350)
+		Gi = Graph_Image(xmin,x_min,ymin,y_min,xmax,x_max,ymax,y_max,xsize,Gi_size,ysize,Gi_size)
 		for i in range(len(left_images)):
-			time_counter.message(d2s(dp(t[i]-t[0])),'white')
+			#time_counter.message(d2s(dp(t[i]-t[0])),'white')
 			j=i+20
 			if o_meo[i] >1:
 				mci(O[left_image][vals][i],scale=4,title='left_image')#;spause();
@@ -85,19 +86,24 @@ def get_car_position_heading_validity(h5py_data_folder,car_position_dic_list):
 						Gi[ptsplot](x,na([c_ax]),y,na([c_ay]),color,(0,0,255))
 
 				#blur = 10*cv2.blur(Gi[img],(30,30))
-				mci(Gi[img],scale=2,title='map');
+				mci(Gi[img],scale=6,title='map');
 				pause_flag = False
 			else:
 				if not pause_flag:
-					mci(128+0*Gi[img],scale=2,title='map');
+					mci(128+0*Gi[img],scale=6,title='map');
 					pause(0.5)
 					pause_flag = True
 	L.close()
 	O.close()
 	P.close()
 
-h5py_data_folder = '/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/h5py/Mr_Blue_2017-09-02-14-55-25'
-car_position_dic_list = [lo(opjD('Mr_Purple_position_dictionary.pkl')),
-	lo(opjD('Mr_Orange_position_dictionary.pkl')),lo(opjD('Mr_Lt_Blue_position_dictionary.pkl')),
-		lo(opjD('Mr_Black_position_dictionary.pkl')),lo(opjD('Mr_Yellow_position_dictionary.pkl'))]
-get_car_position_heading_validity(h5py_data_folder,car_position_dic_list)
+data_folder = opjD('bdd_car_data_Sept2017_aruco_demo')
+h5py_folder = opj(data_folder,'h5py')
+h5py_car_data_folder = opj(h5py_folder,'Mr_Black_2017-09-04-17-05-28')# 'Mr_Black_2017-09-04-11-21-48')# 'Mr_Blue_2017-09-02-14-55-25')
+car_name = 'Mr_' + h5py_car_data_folder.split('/')[-1].split('_')[1]
+car_position_dictionaries = sggo(data_folder,'position_dictionaries/*.pkl')
+car_position_dic_list = []
+for c in car_position_dictionaries:
+	if car_name not in c:
+		car_position_dic_list.append(lo(c))
+get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list)

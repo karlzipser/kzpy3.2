@@ -120,7 +120,7 @@ for k in markers_clockwise:
 			#print k,dp(d[0]),dp(d[1]), Marker_xy_dic[k]
 			k_prev = k
 
-
+"""
 Marker_xy_dic[0] = na([0.21,0.82+marker_width])
 Marker_xy_dic[100] = Marker_xy_dic[0] - na([0,1.1*marker_width])
 Marker_xy_dic[102] =  na([-0.12,-0.12]) + Marker_xy_dic[0]
@@ -129,7 +129,7 @@ D[100] = ((),south)
 D[0] = ((),north)
 D[11] = ((),east)
 D[102] = ((),west)
-
+"""
 
 
 for k in D:
