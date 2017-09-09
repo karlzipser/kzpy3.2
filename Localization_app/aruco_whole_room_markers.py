@@ -1,5 +1,5 @@
 #!/usr/bin/env python 
-from kzpy3.utils2 import *
+from kzpy3.vis2 import *
 
 p1=[199,200,202,203]
 p2=[204,205,208,206]
