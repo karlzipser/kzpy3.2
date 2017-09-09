@@ -1,5 +1,5 @@
 #!/usr/bin/env python 
-from kzpy3.vis2 import *
+from kzpy3.utils2 import *
 
 p1=[199,200,202,203]
 p2=[204,205,208,206]
@@ -156,7 +156,7 @@ for k,v in zip(rotating_keys,rotating_vals):
 
 graphics = True
 
-if graphics:
+if graphics and 'nvidia' not in opjh():
 	from kzpy3.Grapher_app.Graph_Image_Module import *
 	pts = []
 	figure('arena');clf();plt_square();#xylim(-0.1,0.6,-0.1,0.6)#xysqlim(1.)
