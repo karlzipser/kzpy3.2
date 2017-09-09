@@ -1584,6 +1584,8 @@ if True:#username != 'nvidia':
 		if '/' in temp[k]:
 			print('Treating '+temp[k]+' as filename')
 			exec("Args[\'"+k+"\'] = '"+temp[k]+"'")
+		elif type(temp[k]) == str:
+			exec("Args[\'"+k+"\'] = '"+temp[k]+"'")
 		else:
 			exec('Args[\''+k+'\'] = '+temp[k])
 	del temp
