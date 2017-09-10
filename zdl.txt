@@ -1,403 +1,65 @@
->> Aruco_steering_trajectories['Direct_Arena_Potential_Field']
-Aruco_steering_trajectories
-<0> Direct_Arena_Potential_Field:
-	<0> 0:
-		<0> 1504389393.97:
-			<0> steer:
-				 74 <type 'int'>
-
-		<1> 1504389394.01:
-			<0> steer:
-				 86 <type 'int'>
-
-		<2> 1504389394.05:
-			<0> steer:
-				 92 <type 'int'>
-
-		<3> 1504389394.07:
-			<0> steer:
-				 95 <type 'int'>
-
-		<4> 1504389394.11:
-			<0> steer:
-				 97 <type 'int'>
-
-		<5> 1504389394.14:
-			<0> steer:
-				 98 <type 'int'>
-
-		<6> 1504389394.17:
-			<0> steer:
-				 98 <type 'int'>
-
-		<7> 1504389394.21:
-			<0> steer:
-				 98 <type 'int'>
-
-		<8> 1504389394.24:
-			<0> steer:
-				 98 <type 'int'>
-
-		<9> 1504389394.27:
-			<0> steer:
-				 98 <type 'int'>
-
-		<10> 1504389394.31:
-			<0> steer:
-				 98 <type 'int'>
-
-		<11> 1504389394.35:
-			<0> steer:
-				 98 <type 'int'>
-
-		<12> 1504389394.39:
-			<0> steer:
-				 98 <type 'int'>
-
-		<13> 1504389394.41:
-			<0> steer:
-				 98 <type 'int'>
-
-		<14> 1504389394.45:
-			<0> steer:
-				 98 <type 'int'>
-
-		<15> 1504389394.47:
-			<0> steer:
-				 98 <type 'int'>
-
-		<16> 1504389394.51:
-			<0> steer:
-				 98 <type 'int'>
-
-		<17> 1504389394.56:
-			<0> steer:
-				 98 <type 'int'>
-
-		<18> 1504389394.59:
-			<0> steer:
-				 98 <type 'int'>
-
-		<19> 1504389394.62:
-			<0> steer:
-				 98 <type 'int'>
-
-		<20> 1504389394.64:
-			<0> steer:
-				 98 <type 'int'>
-
-		<21> 1504389394.68:
-			<0> steer:
-				 98 <type 'int'>
-
-		<22> 1504389394.71:
-			<0> steer:
-				 98 <type 'int'>
-
-		<23> 1504389394.74:
-			<0> steer:
-				 98 <type 'int'>
-
-		..634)
-
-	<1> 1:
-		<0> 1504389395.11:
-			<0> steer:
-				 98 <type 'int'>
-
-		<1> 1504389395.14:
-			<0> steer:
-				 98 <type 'int'>
-
-		<2> 1504389395.17:
-			<0> steer:
-				 98 <type 'int'>
-
-		<3> 1504389395.21:
-			<0> steer:
-				 98 <type 'int'>
-
-		<4> 1504389395.24:
-			<0> steer:
-				 98 <type 'int'>
-
-		<5> 1504389395.27:
-			<0> steer:
-				 98 <type 'int'>
-
-		<6> 1504389395.3:
-			<0> steer:
-				 98 <type 'int'>
-
-		<7> 1504389395.33:
-			<0> steer:
-				 98 <type 'int'>
-
-		<8> 1504389395.36:
-			<0> steer:
-				 98 <type 'int'>
-
-		<9> 1504389395.39:
-			<0> steer:
-				 98 <type 'int'>
-
-		<10> 1504389395.44:
-			<0> steer:
-				 98 <type 'int'>
-
-		<11> 1504389395.48:
-			<0> steer:
-				 98 <type 'int'>
-
-		<12> 1504389395.51:
-			<0> steer:
-				 49 <type 'int'>
-
-		<13> 1504389395.54:
-			<0> steer:
-				 24 <type 'int'>
-
-		<14> 1504389395.58:
-			<0> steer:
-				 12 <type 'int'>
-
-		<15> 1504389395.61:
-			<0> steer:
-				 6 <type 'int'>
-
-		<16> 1504389395.64:
-			<0> steer:
-				 3 <type 'int'>
-
-		<17> 1504389395.66:
-			<0> steer:
-				 1 <type 'int'>
-
-		<18> 1504389395.7:
-			<0> steer:
-				 50 <type 'int'>
-
-		<19> 1504389395.74:
-			<0> steer:
-				 74 <type 'int'>
-
-		<20> 1504389395.77:
-			<0> steer:
-				 86 <type 'int'>
-
-		<21> 1504389395.8:
-			<0> steer:
-				 92 <type 'int'>
-
-		<22> 1504389395.83:
-			<0> steer:
-				 95 <type 'int'>
-
-		<23> 1504389395.85:
-			<0> steer:
-				 97 <type 'int'>
-
-		..1147)
-
-
-<1> Follow_Arena_Potential_Field:
-	<0> 0:
-		<0> 1504389393.97:
-			<0> steer:
-				 30 <type 'int'>
-
-		<1> 1504389394.01:
-			<0> steer:
-				 20 <type 'int'>
-
-		<2> 1504389394.05:
-			<0> steer:
-				 15 <type 'int'>
-
-		<3> 1504389394.07:
-			<0> steer:
-				 13 <type 'int'>
-
-		<4> 1504389394.11:
-			<0> steer:
-				 12 <type 'int'>
-
-		<5> 1504389394.14:
-			<0> steer:
-				 11 <type 'int'>
-
-		<6> 1504389394.17:
-			<0> steer:
-				 11 <type 'int'>
-
-		<7> 1504389394.21:
-			<0> steer:
-				 10 <type 'int'>
-
-		<8> 1504389394.24:
-			<0> steer:
-				 10 <type 'int'>
-
-		<9> 1504389394.27:
-			<0> steer:
-				 10 <type 'int'>
-
-		<10> 1504389394.31:
-			<0> steer:
-				 10 <type 'int'>
-
-		<11> 1504389394.35:
-			<0> steer:
-				 10 <type 'int'>
-
-		<12> 1504389394.39:
-			<0> steer:
-				 9 <type 'int'>
-
-		<13> 1504389394.41:
-			<0> steer:
-				 9 <type 'int'>
-
-		<14> 1504389394.45:
-			<0> steer:
-				 9 <type 'int'>
-
-		<15> 1504389394.47:
-			<0> steer:
-				 8 <type 'int'>
-
-		<16> 1504389394.51:
-			<0> steer:
-				 8 <type 'int'>
-
-		<17> 1504389394.56:
-			<0> steer:
-				 8 <type 'int'>
-
-		<18> 1504389394.59:
-			<0> steer:
-				 8 <type 'int'>
-
-		<19> 1504389394.62:
-			<0> steer:
-				 8 <type 'int'>
-
-		<20> 1504389394.64:
-			<0> steer:
-				 8 <type 'int'>
-
-		<21> 1504389394.68:
-			<0> steer:
-				 8 <type 'int'>
-
-		<22> 1504389394.71:
-			<0> steer:
-				 8 <type 'int'>
-
-		<23> 1504389394.74:
-			<0> steer:
-				 8 <type 'int'>
-
-		..634)
-
-	<1> 1:
-		<0> 1504389395.11:
-			<0> steer:
-				 16 <type 'int'>
-
-		<1> 1504389395.14:
-			<0> steer:
-				 17 <type 'int'>
-
-		<2> 1504389395.17:
-			<0> steer:
-				 18 <type 'int'>
-
-		<3> 1504389395.21:
-			<0> steer:
-				 21 <type 'int'>
-
-		<4> 1504389395.24:
-			<0> steer:
-				 22 <type 'int'>
-
-		<5> 1504389395.27:
-			<0> steer:
-				 23 <type 'int'>
-
-		<6> 1504389395.3:
-			<0> steer:
-				 26 <type 'int'>
-
-		<7> 1504389395.33:
-			<0> steer:
-				 28 <type 'int'>
-
-		<8> 1504389395.36:
-			<0> steer:
-				 29 <type 'int'>
-
-		<9> 1504389395.39:
-			<0> steer:
-				 30 <type 'int'>
-
-		<10> 1504389395.44:
-			<0> steer:
-				 34 <type 'int'>
-
-		<11> 1504389395.48:
-			<0> steer:
-				 36 <type 'int'>
-
-		<12> 1504389395.51:
-			<0> steer:
-				 43 <type 'int'>
-
-		<13> 1504389395.54:
-			<0> steer:
-				 48 <type 'int'>
-
-		<14> 1504389395.58:
-			<0> steer:
-				 52 <type 'int'>
-
-		<15> 1504389395.61:
-			<0> steer:
-				 65 <type 'int'>
-
-		<16> 1504389395.64:
-			<0> steer:
-				 73 <type 'int'>
-
-		<17> 1504389395.66:
-			<0> steer:
-				 79 <type 'int'>
-
-		<18> 1504389395.7:
-			<0> steer:
-				 89 <type 'int'>
-
-		<19> 1504389395.74:
-			<0> steer:
-				 94 <type 'int'>
-
-		<20> 1504389395.77:
-			<0> steer:
-				 96 <type 'int'>
-
-		<21> 1504389395.8:
-			<0> steer:
-				 97 <type 'int'>
-
-		<22> 1504389395.83:
-			<0> steer:
-				 98 <type 'int'>
-
-		<23> 1504389395.85:
-			<0> steer:
-				 98 <type 'int'>
-
-		..1147)
-
-
+>> d['states']
+d
+<0> labels:
+	<0> LCR:
+		 True <type 'bool'>
+	<1> Smyth:
+		 False <type 'bool'>
+	<2> Tilden:
+		 False <type 'bool'>
+	<3> aruco_ring:
+		 False <type 'bool'>
+	<4> campus:
+		 False <type 'bool'>
+	<5> direct:
+		 False <type 'bool'>
+	<6> flip:
+		 False <type 'bool'>
+	<7> follow:
+		 False <type 'bool'>
+	<8> furtive:
+		 False <type 'bool'>
+	<9> home:
+		 False <type 'bool'>
+	<10> left:
+		 False <type 'bool'>
+	<11> local:
+		 True <type 'bool'>
+	<12> mostly_caffe:
+		 False <type 'bool'>
+	<13> mostly_human:
+		 False <type 'bool'>
+	<14> multicar:
+		 False <type 'bool'>
+	<15> night:
+		 False <type 'bool'>
+	<16> notes:
+		 False <type 'bool'>
+	<17> only_states_1_and_6_good:
+		 False <type 'bool'>
+	<18> out1_in2:
+		 False <type 'bool'>
+	<19> play:
+		 False <type 'bool'>
+	<20> racing:
+		 False <type 'bool'>
+	<21> reject_intervals:
+		 False <type 'bool'>
+	<22> reject_run:
+		 False <type 'bool'>
+	<23> snow:
+		 False <type 'bool'>
+
+<1> left:
+	[??? ???] (len=2)
+<2> motor:
+	[58.0 58.0 ... 57.0 57.0] (len=90)
+<3> name:
+	 direct_local_LCR_10Jul17_16h30m42s_Mr_Yellow
+<4> right:
+	[??? ???] (len=2)
+<5> states:
+	[1.0 1.0 ... 1.0 1.0] (len=90)
+<6> steer:
+	[41.0 41.0 ... 79.98 79.99] (len=90)
 

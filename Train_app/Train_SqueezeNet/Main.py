@@ -3,7 +3,7 @@
 import __main__ as main
 if not hasattr(main,'__file__'):
 	from kzpy3.utils2 import *
-	pythonpaths(['kzpy3','kzpy3/pytorch3/Train_SqueezeNet','kzpy3/teg9'])
+	pythonpaths(['kzpy3','kzpy3/Train_app/Train_SqueezeNet','kzpy3/teg9'])
 #
 ###############################
 from Parameters_Module import *
@@ -25,7 +25,7 @@ for a in Args.keys():
 current_code_dst_folder = opj(code,time_str())
 for folder in [code,current_code_dst_folder,loss_history,weights]:
 	unix('mkdir -p '+opj(P[NETWORK_OUTPUT_FOLDER],folder))
-unix('scp -r '+P[CODE_PATH]+' '+opj(P[NETWORK_OUTPUT_FOLDER],current_code_dst_folder))
+#unix('scp -r '+P[CODE_PATH]+' '+opj(P[NETWORK_OUTPUT_FOLDER],current_code_dst_folder))
 
 
 

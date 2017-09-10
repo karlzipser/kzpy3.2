@@ -1,4 +1,4 @@
-#from All_Names_Module import *
+from Names_Module import *
 from kzpy3.utils2 import *
 exec(identify_file_str)
 
@@ -10,10 +10,10 @@ P[DISPLAY] = True
 P[VERBOSE] = True
 P[LOAD_ARUCO] = False
 P[BAIR_CAR_DATA_PATH] = opjD('bair_car_data_new_28April2017')
-P[CODE_PATH] = opjD('net_temp/code')#CODE_PATH__
+P[CODE_PATH] = CODE_PATH__
 P[IGNORE] = [reject_run,left,out1_in2]#,'Smyth','racing','local','Tilden','campus']
 P[REQUIRE_ONE] = []
-P[USE_STATES] = [1,2,3]
+P[USE_STATES] = [1,3,5,6,7]
 P[N_FRAMES] = 2
 P[N_STEPS] = 10
 P[STRIDE] = 9#3 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
