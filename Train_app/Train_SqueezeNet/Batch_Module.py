@@ -49,6 +49,21 @@ def Batch(*args):
         if True:
             D[names].insert(0,Data_moment[name]) # This to match torch.cat use below
         if True:
+            offset = np.random.randint(20)
+            list_camera_input = []
+            for t in range(D[network][net].N_FRAMES):
+                for camerav in (left, right):
+                    img = Data_moment[camerav][t]#[40:,:,:]
+                    img[:(30+offset),:,:] = 128
+                    list_camera_input.append(torch.from_numpy(img))
+            camera_datav = torch.cat(list_camera_input, 2)
+            camera_datav = camera_datav.cuda().float()/255. - 0.5
+            camera_datav = torch.transpose(camera_datav, 0, 2)
+            camera_datav = torch.transpose(camera_datav, 1, 2)
+            D[camera_data] = torch.cat((torch.unsqueeze(camera_datav, 0), D[camera_data]), 0)
+        """
+        # previous version
+        if True:
             list_camera_input = []
             for t in range(D[network][net].N_FRAMES):
                 for camerav in (left, right):
@@ -58,6 +73,17 @@ def Batch(*args):
             camera_datav = torch.transpose(camera_datav, 0, 2)
             camera_datav = torch.transpose(camera_datav, 1, 2)
             D[camera_data] = torch.cat((torch.unsqueeze(camera_datav, 0), D[camera_data]), 0)
+
+
+        """
+
+
+
+
+
+
+
+
         if True:
             mode_ctrv = 0
             metadatav = torch.FloatTensor().cuda()
