@@ -39,7 +39,8 @@ verbose = False
 nframes = 2 # default superseded by net
 
 # try:
-weight_file_path = opjh('pytorch_models','epoch6goodnet') #'save_file.weights')#)
+weight_file_path = opjm('rosbags/net/weights/net_09Sep17_20h48m58s.infer')
+#opjh('pytorch_models','epoch6goodnet') #'save_file.weights')#)
 
 def static_vars(**kwargs):
     def decorate(func):
