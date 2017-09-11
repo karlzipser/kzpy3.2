@@ -1,65 +1,9652 @@
->> d['states']
-d
-<0> labels:
-	<0> LCR:
-		 True <type 'bool'>
-	<1> Smyth:
-		 False <type 'bool'>
-	<2> Tilden:
-		 False <type 'bool'>
-	<3> aruco_ring:
-		 False <type 'bool'>
-	<4> campus:
-		 False <type 'bool'>
-	<5> direct:
-		 False <type 'bool'>
-	<6> flip:
-		 False <type 'bool'>
-	<7> follow:
-		 False <type 'bool'>
-	<8> furtive:
-		 False <type 'bool'>
-	<9> home:
-		 False <type 'bool'>
-	<10> left:
-		 False <type 'bool'>
-	<11> local:
-		 True <type 'bool'>
-	<12> mostly_caffe:
-		 False <type 'bool'>
-	<13> mostly_human:
-		 False <type 'bool'>
-	<14> multicar:
-		 False <type 'bool'>
-	<15> night:
-		 False <type 'bool'>
-	<16> notes:
-		 False <type 'bool'>
-	<17> only_states_1_and_6_good:
-		 False <type 'bool'>
-	<18> out1_in2:
-		 False <type 'bool'>
-	<19> play:
-		 False <type 'bool'>
-	<20> racing:
-		 False <type 'bool'>
-	<21> reject_intervals:
-		 False <type 'bool'>
-	<22> reject_run:
-		 False <type 'bool'>
-	<23> snow:
-		 False <type 'bool'>
+>> o['flip_direct_rewrite_test_30Apr17_22h21m02s_Mr_Yellow']
+o
+<0> caffe2_z2_color_direct_local_11Apr17_15h25m02s_Mr_Silver:
+	<0> Direct_Arena_Potential_Field:
+		<0> 0:
+			<0> 1491949542.04:
+				<0> steer:
+					 72.0 <type 'numpy.float16'>
 
-<1> left:
-	[??? ???] (len=2)
-<2> motor:
-	[58.0 58.0 ... 57.0 57.0] (len=90)
-<3> name:
-	 direct_local_LCR_10Jul17_16h30m42s_Mr_Yellow
-<4> right:
-	[??? ???] (len=2)
-<5> states:
-	[1.0 1.0 ... 1.0 1.0] (len=90)
-<6> steer:
-	[41.0 41.0 ... 79.98 79.99] (len=90)
+			<1> 1491949542.08:
+				<0> steer:
+					 73.0 <type 'numpy.float16'>
+
+			<2> 1491949542.12:
+				<0> steer:
+					 74.0 <type 'numpy.float16'>
+
+			<3> 1491949542.18:
+				<0> steer:
+					 75.0 <type 'numpy.float16'>
+
+			<4> 1491949542.21:
+				<0> steer:
+					 74.0 <type 'numpy.float16'>
+
+			<5> 1491949542.25:
+				<0> steer:
+					 75.0 <type 'numpy.float16'>
+
+			<6> 1491949542.28:
+				<0> steer:
+					 75.0 <type 'numpy.float16'>
+
+			<7> 1491949542.31:
+				<0> steer:
+					 75.0 <type 'numpy.float16'>
+
+			<8> 1491949542.34:
+				<0> steer:
+					 75.0 <type 'numpy.float16'>
+
+			<9> 1491949542.38:
+				<0> steer:
+					 75.0 <type 'numpy.float16'>
+
+			<10> 1491949542.41:
+				<0> steer:
+					 75.0 <type 'numpy.float16'>
+
+			<11> 1491949542.45:
+				<0> steer:
+					 76.0 <type 'numpy.float16'>
+
+			<12> 1491949542.49:
+				<0> steer:
+					 75.0 <type 'numpy.float16'>
+
+			<13> 1491949542.51:
+				<0> steer:
+					 76.0 <type 'numpy.float16'>
+
+			<14> 1491949542.55:
+				<0> steer:
+					 76.0 <type 'numpy.float16'>
+
+			<15> 1491949542.58:
+				<0> steer:
+					 76.0 <type 'numpy.float16'>
+
+			<16> 1491949542.61:
+				<0> steer:
+					 76.0 <type 'numpy.float16'>
+
+			<17> 1491949542.65:
+				<0> steer:
+					 77.0 <type 'numpy.float16'>
+
+			<18> 1491949542.68:
+				<0> steer:
+					 77.0 <type 'numpy.float16'>
+
+			<19> 1491949542.71:
+				<0> steer:
+					 77.0 <type 'numpy.float16'>
+
+			<20> 1491949542.74:
+				<0> steer:
+					 77.0 <type 'numpy.float16'>
+
+			<21> 1491949542.78:
+				<0> steer:
+					 78.0 <type 'numpy.float16'>
+
+			<22> 1491949542.81:
+				<0> steer:
+					 77.0 <type 'numpy.float16'>
+
+			<23> 1491949542.84:
+				<0> steer:
+					 78.0 <type 'numpy.float16'>
+
+			..19656)
+
+		<1> 1:
+			<0> 1491949542.04:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1491949542.08:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1491949542.12:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1491949542.18:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1491949542.21:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1491949542.25:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1491949542.28:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1491949542.31:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1491949542.34:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1491949542.38:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1491949542.41:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1491949542.45:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1491949542.49:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1491949542.51:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1491949542.55:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1491949542.58:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1491949542.61:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1491949542.65:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1491949542.68:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1491949542.71:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1491949542.74:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1491949542.78:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1491949542.81:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1491949542.84:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..19656)
+
+
+	<1> Follow_Arena_Potential_Field:
+		<0> 0:
+			<0> 1491949542.04:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<1> 1491949542.08:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<2> 1491949542.12:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<3> 1491949542.18:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<4> 1491949542.21:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<5> 1491949542.25:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<6> 1491949542.28:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<7> 1491949542.31:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<8> 1491949542.34:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<9> 1491949542.38:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<10> 1491949542.41:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<11> 1491949542.45:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<12> 1491949542.49:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<13> 1491949542.51:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<14> 1491949542.55:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<15> 1491949542.58:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<16> 1491949542.61:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<17> 1491949542.65:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<18> 1491949542.68:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<19> 1491949542.71:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<20> 1491949542.74:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<21> 1491949542.78:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<22> 1491949542.81:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<23> 1491949542.84:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			..19656)
+
+		<1> 1:
+			<0> 1491949542.04:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1491949542.08:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1491949542.12:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1491949542.18:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1491949542.21:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1491949542.25:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1491949542.28:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1491949542.31:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1491949542.34:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1491949542.38:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1491949542.41:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1491949542.45:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1491949542.49:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1491949542.51:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1491949542.55:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1491949542.58:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1491949542.61:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1491949542.65:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1491949542.68:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1491949542.71:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1491949542.74:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1491949542.78:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1491949542.81:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1491949542.84:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..19656)
+
+
+
+<1> caffe2_z2_color_direct_local_11Apr17_15h29m09s_Mr_Blue:
+	<0> Direct_Arena_Potential_Field:
+		<0> 0:
+			<0> 1491949787.75:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<1> 1491949787.78:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1491949787.82:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1491949787.85:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1491949787.88:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1491949787.95:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1491949788.02:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1491949788.05:
+				<0> steer:
+					 1.0 <type 'numpy.float16'>
+
+			<8> 1491949788.08:
+				<0> steer:
+					 2.0 <type 'numpy.float16'>
+
+			<9> 1491949788.12:
+				<0> steer:
+					 4.0 <type 'numpy.float16'>
+
+			<10> 1491949788.18:
+				<0> steer:
+					 6.0 <type 'numpy.float16'>
+
+			<11> 1491949788.22:
+				<0> steer:
+					 8.0 <type 'numpy.float16'>
+
+			<12> 1491949788.25:
+				<0> steer:
+					 8.0 <type 'numpy.float16'>
+
+			<13> 1491949788.32:
+				<0> steer:
+					 8.0 <type 'numpy.float16'>
+
+			<14> 1491949788.35:
+				<0> steer:
+					 8.0 <type 'numpy.float16'>
+
+			<15> 1491949788.42:
+				<0> steer:
+					 8.0 <type 'numpy.float16'>
+
+			<16> 1491949788.45:
+				<0> steer:
+					 8.0 <type 'numpy.float16'>
+
+			<17> 1491949788.48:
+				<0> steer:
+					 8.0 <type 'numpy.float16'>
+
+			<18> 1491949788.52:
+				<0> steer:
+					 8.0 <type 'numpy.float16'>
+
+			<19> 1491949788.56:
+				<0> steer:
+					 8.0 <type 'numpy.float16'>
+
+			<20> 1491949788.59:
+				<0> steer:
+					 8.0 <type 'numpy.float16'>
+
+			<21> 1491949788.62:
+				<0> steer:
+					 8.0 <type 'numpy.float16'>
+
+			<22> 1491949788.67:
+				<0> steer:
+					 8.0 <type 'numpy.float16'>
+
+			<23> 1491949788.7:
+				<0> steer:
+					 8.0 <type 'numpy.float16'>
+
+			..9083)
+
+		<1> 1:
+			<0> 1491949787.75:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<1> 1491949787.78:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<2> 1491949787.82:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1491949787.85:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1491949787.88:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1491949787.95:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1491949788.02:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1491949788.05:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1491949788.08:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1491949788.12:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1491949788.18:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1491949788.22:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1491949788.25:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1491949788.32:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1491949788.35:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1491949788.42:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1491949788.45:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1491949788.48:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1491949788.52:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1491949788.56:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1491949788.59:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1491949788.62:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1491949788.67:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1491949788.7:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..9083)
+
+
+	<1> Follow_Arena_Potential_Field:
+		<0> 0:
+			<0> 1491949787.75:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<1> 1491949787.78:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1491949787.82:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1491949787.85:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1491949787.88:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1491949787.95:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1491949788.02:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1491949788.05:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1491949788.08:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1491949788.12:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1491949788.18:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1491949788.22:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1491949788.25:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1491949788.32:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1491949788.35:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1491949788.42:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1491949788.45:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1491949788.48:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1491949788.52:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1491949788.56:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1491949788.59:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1491949788.62:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1491949788.67:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1491949788.7:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..9083)
+
+		<1> 1:
+			<0> 1491949787.75:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<1> 1491949787.78:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<2> 1491949787.82:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1491949787.85:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1491949787.88:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1491949787.95:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1491949788.02:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1491949788.05:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1491949788.08:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1491949788.12:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1491949788.18:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1491949788.22:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1491949788.25:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1491949788.32:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1491949788.35:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1491949788.42:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1491949788.45:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1491949788.48:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1491949788.52:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1491949788.56:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1491949788.59:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1491949788.62:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1491949788.67:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1491949788.7:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..9083)
+
+
+
+<2> caffe2_z2_color_direct_local_11Apr17_22h14m05s_Mr_Yellow:
+	<0> Direct_Arena_Potential_Field:
+		<0> 0:
+			<0> 1491948881.63:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<1> 1491948881.66:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<2> 1491948881.73:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<3> 1491948881.76:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<4> 1491948881.79:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<5> 1491948881.84:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<6> 1491948881.86:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<7> 1491948881.89:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<8> 1491948881.93:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<9> 1491948881.96:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<10> 1491948881.99:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<11> 1491948882.06:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<12> 1491948882.09:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<13> 1491948882.16:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<14> 1491948882.19:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<15> 1491948882.26:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<16> 1491948882.29:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<17> 1491948882.36:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<18> 1491948882.39:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<19> 1491948882.46:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<20> 1491948882.49:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<21> 1491948882.56:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<22> 1491948882.59:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<23> 1491948882.66:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			..39146)
+
+		<1> 1:
+			<0> 1491948881.63:
+				<0> steer:
+					 88.0 <type 'numpy.float16'>
+
+			<1> 1491948881.66:
+				<0> steer:
+					 88.0 <type 'numpy.float16'>
+
+			<2> 1491948881.73:
+				<0> steer:
+					 88.0 <type 'numpy.float16'>
+
+			<3> 1491948881.76:
+				<0> steer:
+					 88.0 <type 'numpy.float16'>
+
+			<4> 1491948881.79:
+				<0> steer:
+					 88.0 <type 'numpy.float16'>
+
+			<5> 1491948881.84:
+				<0> steer:
+					 88.0 <type 'numpy.float16'>
+
+			<6> 1491948881.86:
+				<0> steer:
+					 88.0 <type 'numpy.float16'>
+
+			<7> 1491948881.89:
+				<0> steer:
+					 88.0 <type 'numpy.float16'>
+
+			<8> 1491948881.93:
+				<0> steer:
+					 88.0 <type 'numpy.float16'>
+
+			<9> 1491948881.96:
+				<0> steer:
+					 88.0 <type 'numpy.float16'>
+
+			<10> 1491948881.99:
+				<0> steer:
+					 88.0 <type 'numpy.float16'>
+
+			<11> 1491948882.06:
+				<0> steer:
+					 88.0 <type 'numpy.float16'>
+
+			<12> 1491948882.09:
+				<0> steer:
+					 88.0 <type 'numpy.float16'>
+
+			<13> 1491948882.16:
+				<0> steer:
+					 88.0 <type 'numpy.float16'>
+
+			<14> 1491948882.19:
+				<0> steer:
+					 88.0 <type 'numpy.float16'>
+
+			<15> 1491948882.26:
+				<0> steer:
+					 88.0 <type 'numpy.float16'>
+
+			<16> 1491948882.29:
+				<0> steer:
+					 88.0 <type 'numpy.float16'>
+
+			<17> 1491948882.36:
+				<0> steer:
+					 88.0 <type 'numpy.float16'>
+
+			<18> 1491948882.39:
+				<0> steer:
+					 88.0 <type 'numpy.float16'>
+
+			<19> 1491948882.46:
+				<0> steer:
+					 88.0 <type 'numpy.float16'>
+
+			<20> 1491948882.49:
+				<0> steer:
+					 88.0 <type 'numpy.float16'>
+
+			<21> 1491948882.56:
+				<0> steer:
+					 88.0 <type 'numpy.float16'>
+
+			<22> 1491948882.59:
+				<0> steer:
+					 88.0 <type 'numpy.float16'>
+
+			<23> 1491948882.66:
+				<0> steer:
+					 88.0 <type 'numpy.float16'>
+
+			..39146)
+
+
+	<1> Follow_Arena_Potential_Field:
+		<0> 0:
+			<0> 1491948881.63:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<1> 1491948881.66:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<2> 1491948881.73:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<3> 1491948881.76:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<4> 1491948881.79:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<5> 1491948881.84:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<6> 1491948881.86:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<7> 1491948881.89:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<8> 1491948881.93:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<9> 1491948881.96:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<10> 1491948881.99:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<11> 1491948882.06:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<12> 1491948882.09:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<13> 1491948882.16:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<14> 1491948882.19:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<15> 1491948882.26:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<16> 1491948882.29:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<17> 1491948882.36:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<18> 1491948882.39:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<19> 1491948882.46:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<20> 1491948882.49:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<21> 1491948882.56:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<22> 1491948882.59:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<23> 1491948882.66:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			..39146)
+
+		<1> 1:
+			<0> 1491948881.63:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<1> 1491948881.66:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<2> 1491948881.73:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<3> 1491948881.76:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<4> 1491948881.79:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<5> 1491948881.84:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<6> 1491948881.86:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<7> 1491948881.89:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<8> 1491948881.93:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<9> 1491948881.96:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<10> 1491948881.99:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<11> 1491948882.06:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<12> 1491948882.09:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<13> 1491948882.16:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<14> 1491948882.19:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<15> 1491948882.26:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<16> 1491948882.29:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<17> 1491948882.36:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<18> 1491948882.39:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<19> 1491948882.46:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<20> 1491948882.49:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<21> 1491948882.56:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<22> 1491948882.59:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<23> 1491948882.66:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			..39146)
+
+
+
+<3> direct_Fern_aruco_1_11Apr17_15h47m09s_Mr_Blue:
+	<0> Direct_Arena_Potential_Field:
+		<0> 0:
+			<0> 1491950864.71:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1491950864.75:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1491950864.79:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1491950864.85:
+				<0> steer:
+					 10.0 <type 'numpy.float16'>
+
+			<4> 1491950864.88:
+				<0> steer:
+					 19.0 <type 'numpy.float16'>
+
+			<5> 1491950864.92:
+				<0> steer:
+					 26.0 <type 'numpy.float16'>
+
+			<6> 1491950864.98:
+				<0> steer:
+					 66.0 <type 'numpy.float16'>
+
+			<7> 1491950865.02:
+				<0> steer:
+					 71.0 <type 'numpy.float16'>
+
+			<8> 1491950865.08:
+				<0> steer:
+					 73.0 <type 'numpy.float16'>
+
+			<9> 1491950865.12:
+				<0> steer:
+					 74.0 <type 'numpy.float16'>
+
+			<10> 1491950865.15:
+				<0> steer:
+					 75.0 <type 'numpy.float16'>
+
+			<11> 1491950865.21:
+				<0> steer:
+					 74.0 <type 'numpy.float16'>
+
+			<12> 1491950865.25:
+				<0> steer:
+					 74.0 <type 'numpy.float16'>
+
+			<13> 1491950865.28:
+				<0> steer:
+					 75.0 <type 'numpy.float16'>
+
+			<14> 1491950865.32:
+				<0> steer:
+					 75.0 <type 'numpy.float16'>
+
+			<15> 1491950865.35:
+				<0> steer:
+					 75.0 <type 'numpy.float16'>
+
+			<16> 1491950865.41:
+				<0> steer:
+					 75.0 <type 'numpy.float16'>
+
+			<17> 1491950865.45:
+				<0> steer:
+					 75.0 <type 'numpy.float16'>
+
+			<18> 1491950865.48:
+				<0> steer:
+					 75.0 <type 'numpy.float16'>
+
+			<19> 1491950865.52:
+				<0> steer:
+					 75.0 <type 'numpy.float16'>
+
+			<20> 1491950865.55:
+				<0> steer:
+					 75.0 <type 'numpy.float16'>
+
+			<21> 1491950865.58:
+				<0> steer:
+					 75.0 <type 'numpy.float16'>
+
+			<22> 1491950865.62:
+				<0> steer:
+					 76.0 <type 'numpy.float16'>
+
+			<23> 1491950865.65:
+				<0> steer:
+					 77.0 <type 'numpy.float16'>
+
+			..29902)
+
+		<1> 1:
+			<0> 1491950864.71:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<1> 1491950864.75:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<2> 1491950864.79:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1491950864.85:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1491950864.88:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1491950864.92:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1491950864.98:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1491950865.02:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1491950865.08:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1491950865.12:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1491950865.15:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1491950865.21:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1491950865.25:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1491950865.28:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1491950865.32:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1491950865.35:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1491950865.41:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1491950865.45:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1491950865.48:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1491950865.52:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1491950865.55:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1491950865.58:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1491950865.62:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1491950865.65:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..29902)
+
+
+	<1> Follow_Arena_Potential_Field:
+		<0> 0:
+			<0> 1491950864.71:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1491950864.75:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1491950864.79:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1491950864.85:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1491950864.88:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1491950864.92:
+				<0> steer:
+					 6.0 <type 'numpy.float16'>
+
+			<6> 1491950864.98:
+				<0> steer:
+					 15.0 <type 'numpy.float16'>
+
+			<7> 1491950865.02:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<8> 1491950865.08:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<9> 1491950865.12:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<10> 1491950865.15:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<11> 1491950865.21:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<12> 1491950865.25:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<13> 1491950865.28:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<14> 1491950865.32:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<15> 1491950865.35:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<16> 1491950865.41:
+				<0> steer:
+					 19.0 <type 'numpy.float16'>
+
+			<17> 1491950865.45:
+				<0> steer:
+					 19.0 <type 'numpy.float16'>
+
+			<18> 1491950865.48:
+				<0> steer:
+					 19.0 <type 'numpy.float16'>
+
+			<19> 1491950865.52:
+				<0> steer:
+					 19.0 <type 'numpy.float16'>
+
+			<20> 1491950865.55:
+				<0> steer:
+					 19.0 <type 'numpy.float16'>
+
+			<21> 1491950865.58:
+				<0> steer:
+					 24.0 <type 'numpy.float16'>
+
+			<22> 1491950865.62:
+				<0> steer:
+					 24.0 <type 'numpy.float16'>
+
+			<23> 1491950865.65:
+				<0> steer:
+					 25.0 <type 'numpy.float16'>
+
+			..29902)
+
+		<1> 1:
+			<0> 1491950864.71:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<1> 1491950864.75:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<2> 1491950864.79:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1491950864.85:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1491950864.88:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1491950864.92:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1491950864.98:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1491950865.02:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1491950865.08:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1491950865.12:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1491950865.15:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1491950865.21:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1491950865.25:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1491950865.28:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1491950865.32:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1491950865.35:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1491950865.41:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1491950865.45:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1491950865.48:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1491950865.52:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1491950865.55:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1491950865.58:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1491950865.62:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1491950865.65:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..29902)
+
+
+
+<4> direct_Fern_aruco_1_11Apr17_16h25m09s_Mr_Blue:
+	<0> Direct_Arena_Potential_Field:
+		<0> 0:
+			<0> 1491953144.33:
+				<0> steer:
+					 28.0 <type 'numpy.float16'>
+
+			<1> 1491953144.37:
+				<0> steer:
+					 27.0 <type 'numpy.float16'>
+
+			<2> 1491953144.43:
+				<0> steer:
+					 32.0 <type 'numpy.float16'>
+
+			<3> 1491953144.47:
+				<0> steer:
+					 31.0 <type 'numpy.float16'>
+
+			<4> 1491953144.5:
+				<0> steer:
+					 35.0 <type 'numpy.float16'>
+
+			<5> 1491953144.54:
+				<0> steer:
+					 37.0 <type 'numpy.float16'>
+
+			<6> 1491953144.6:
+				<0> steer:
+					 37.0 <type 'numpy.float16'>
+
+			<7> 1491953144.64:
+				<0> steer:
+					 37.0 <type 'numpy.float16'>
+
+			<8> 1491953144.67:
+				<0> steer:
+					 37.0 <type 'numpy.float16'>
+
+			<9> 1491953144.7:
+				<0> steer:
+					 41.0 <type 'numpy.float16'>
+
+			<10> 1491953144.77:
+				<0> steer:
+					 38.0 <type 'numpy.float16'>
+
+			<11> 1491953144.83:
+				<0> steer:
+					 42.0 <type 'numpy.float16'>
+
+			<12> 1491953144.87:
+				<0> steer:
+					 42.0 <type 'numpy.float16'>
+
+			<13> 1491953144.93:
+				<0> steer:
+					 42.0 <type 'numpy.float16'>
+
+			<14> 1491953144.97:
+				<0> steer:
+					 42.0 <type 'numpy.float16'>
+
+			<15> 1491953145.03:
+				<0> steer:
+					 43.0 <type 'numpy.float16'>
+
+			<16> 1491953145.07:
+				<0> steer:
+					 43.0 <type 'numpy.float16'>
+
+			<17> 1491953145.1:
+				<0> steer:
+					 43.0 <type 'numpy.float16'>
+
+			<18> 1491953145.13:
+				<0> steer:
+					 46.0 <type 'numpy.float16'>
+
+			<19> 1491953145.2:
+				<0> steer:
+					 43.0 <type 'numpy.float16'>
+
+			<20> 1491953145.27:
+				<0> steer:
+					 42.0 <type 'numpy.float16'>
+
+			<21> 1491953145.33:
+				<0> steer:
+					 42.0 <type 'numpy.float16'>
+
+			<22> 1491953145.37:
+				<0> steer:
+					 42.0 <type 'numpy.float16'>
+
+			<23> 1491953145.43:
+				<0> steer:
+					 43.0 <type 'numpy.float16'>
+
+			..49620)
+
+		<1> 1:
+			<0> 1491953144.33:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1491953144.37:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1491953144.43:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1491953144.47:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1491953144.5:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1491953144.54:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1491953144.6:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1491953144.64:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1491953144.67:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1491953144.7:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1491953144.77:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1491953144.83:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1491953144.87:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1491953144.93:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1491953144.97:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1491953145.03:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1491953145.07:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1491953145.1:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1491953145.13:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1491953145.2:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1491953145.27:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1491953145.33:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1491953145.37:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1491953145.43:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..49620)
+
+
+	<1> Follow_Arena_Potential_Field:
+		<0> 0:
+			<0> 1491953144.33:
+				<0> steer:
+					 11.0 <type 'numpy.float16'>
+
+			<1> 1491953144.37:
+				<0> steer:
+					 11.0 <type 'numpy.float16'>
+
+			<2> 1491953144.43:
+				<0> steer:
+					 11.0 <type 'numpy.float16'>
+
+			<3> 1491953144.47:
+				<0> steer:
+					 11.0 <type 'numpy.float16'>
+
+			<4> 1491953144.5:
+				<0> steer:
+					 11.0 <type 'numpy.float16'>
+
+			<5> 1491953144.54:
+				<0> steer:
+					 12.0 <type 'numpy.float16'>
+
+			<6> 1491953144.6:
+				<0> steer:
+					 12.0 <type 'numpy.float16'>
+
+			<7> 1491953144.64:
+				<0> steer:
+					 12.0 <type 'numpy.float16'>
+
+			<8> 1491953144.67:
+				<0> steer:
+					 12.0 <type 'numpy.float16'>
+
+			<9> 1491953144.7:
+				<0> steer:
+					 12.0 <type 'numpy.float16'>
+
+			<10> 1491953144.77:
+				<0> steer:
+					 12.0 <type 'numpy.float16'>
+
+			<11> 1491953144.83:
+				<0> steer:
+					 12.0 <type 'numpy.float16'>
+
+			<12> 1491953144.87:
+				<0> steer:
+					 12.0 <type 'numpy.float16'>
+
+			<13> 1491953144.93:
+				<0> steer:
+					 12.0 <type 'numpy.float16'>
+
+			<14> 1491953144.97:
+				<0> steer:
+					 12.0 <type 'numpy.float16'>
+
+			<15> 1491953145.03:
+				<0> steer:
+					 12.0 <type 'numpy.float16'>
+
+			<16> 1491953145.07:
+				<0> steer:
+					 12.0 <type 'numpy.float16'>
+
+			<17> 1491953145.1:
+				<0> steer:
+					 12.0 <type 'numpy.float16'>
+
+			<18> 1491953145.13:
+				<0> steer:
+					 12.0 <type 'numpy.float16'>
+
+			<19> 1491953145.2:
+				<0> steer:
+					 12.0 <type 'numpy.float16'>
+
+			<20> 1491953145.27:
+				<0> steer:
+					 12.0 <type 'numpy.float16'>
+
+			<21> 1491953145.33:
+				<0> steer:
+					 12.0 <type 'numpy.float16'>
+
+			<22> 1491953145.37:
+				<0> steer:
+					 12.0 <type 'numpy.float16'>
+
+			<23> 1491953145.43:
+				<0> steer:
+					 12.0 <type 'numpy.float16'>
+
+			..49620)
+
+		<1> 1:
+			<0> 1491953144.33:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1491953144.37:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1491953144.43:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1491953144.47:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1491953144.5:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1491953144.54:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1491953144.6:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1491953144.64:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1491953144.67:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1491953144.7:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1491953144.77:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1491953144.83:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1491953144.87:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1491953144.93:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1491953144.97:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1491953145.03:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1491953145.07:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1491953145.1:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1491953145.13:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1491953145.2:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1491953145.27:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1491953145.33:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1491953145.37:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1491953145.43:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..49620)
+
+
+
+<5> direct_Fern_aruco_1_11Apr17_17h04m16s_Mr_Orange:
+	<0> Direct_Arena_Potential_Field:
+		<0> 0:
+			<0> 1491955491.9:
+				<0> steer:
+					 87.0 <type 'numpy.float16'>
+
+			<1> 1491955491.93:
+				<0> steer:
+					 87.0 <type 'numpy.float16'>
+
+			<2> 1491955491.97:
+				<0> steer:
+					 87.0 <type 'numpy.float16'>
+
+			<3> 1491955492.01:
+				<0> steer:
+					 87.0 <type 'numpy.float16'>
+
+			<4> 1491955492.05:
+				<0> steer:
+					 87.0 <type 'numpy.float16'>
+
+			<5> 1491955492.09:
+				<0> steer:
+					 87.0 <type 'numpy.float16'>
+
+			<6> 1491955492.13:
+				<0> steer:
+					 87.0 <type 'numpy.float16'>
+
+			<7> 1491955492.17:
+				<0> steer:
+					 87.0 <type 'numpy.float16'>
+
+			<8> 1491955492.2:
+				<0> steer:
+					 87.0 <type 'numpy.float16'>
+
+			<9> 1491955492.23:
+				<0> steer:
+					 87.0 <type 'numpy.float16'>
+
+			<10> 1491955492.26:
+				<0> steer:
+					 87.0 <type 'numpy.float16'>
+
+			<11> 1491955492.32:
+				<0> steer:
+					 87.0 <type 'numpy.float16'>
+
+			<12> 1491955492.35:
+				<0> steer:
+					 87.0 <type 'numpy.float16'>
+
+			<13> 1491955492.39:
+				<0> steer:
+					 87.0 <type 'numpy.float16'>
+
+			<14> 1491955492.43:
+				<0> steer:
+					 87.0 <type 'numpy.float16'>
+
+			<15> 1491955492.46:
+				<0> steer:
+					 77.0 <type 'numpy.float16'>
+
+			<16> 1491955492.5:
+				<0> steer:
+					 86.0 <type 'numpy.float16'>
+
+			<17> 1491955492.54:
+				<0> steer:
+					 67.0 <type 'numpy.float16'>
+
+			<18> 1491955492.58:
+				<0> steer:
+					 67.0 <type 'numpy.float16'>
+
+			<19> 1491955492.62:
+				<0> steer:
+					 58.0 <type 'numpy.float16'>
+
+			<20> 1491955492.66:
+				<0> steer:
+					 67.0 <type 'numpy.float16'>
+
+			<21> 1491955492.68:
+				<0> steer:
+					 49.0 <type 'numpy.float16'>
+
+			<22> 1491955492.72:
+				<0> steer:
+					 67.0 <type 'numpy.float16'>
+
+			<23> 1491955492.76:
+				<0> steer:
+					 67.0 <type 'numpy.float16'>
+
+			..58113)
+
+		<1> 1:
+			<0> 1491955491.9:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1491955491.93:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1491955491.97:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1491955492.01:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1491955492.05:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1491955492.09:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1491955492.13:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1491955492.17:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1491955492.2:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1491955492.23:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1491955492.26:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1491955492.32:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1491955492.35:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1491955492.39:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1491955492.43:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1491955492.46:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1491955492.5:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1491955492.54:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1491955492.58:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1491955492.62:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1491955492.66:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1491955492.68:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1491955492.72:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1491955492.76:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..58113)
+
+
+	<1> Follow_Arena_Potential_Field:
+		<0> 0:
+			<0> 1491955491.9:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<1> 1491955491.93:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<2> 1491955491.97:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<3> 1491955492.01:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<4> 1491955492.05:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<5> 1491955492.09:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<6> 1491955492.13:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<7> 1491955492.17:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<8> 1491955492.2:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<9> 1491955492.23:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<10> 1491955492.26:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<11> 1491955492.32:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<12> 1491955492.35:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<13> 1491955492.39:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<14> 1491955492.43:
+				<0> steer:
+					 18.0 <type 'numpy.float16'>
+
+			<15> 1491955492.46:
+				<0> steer:
+					 16.0 <type 'numpy.float16'>
+
+			<16> 1491955492.5:
+				<0> steer:
+					 14.0 <type 'numpy.float16'>
+
+			<17> 1491955492.54:
+				<0> steer:
+					 13.0 <type 'numpy.float16'>
+
+			<18> 1491955492.58:
+				<0> steer:
+					 12.0 <type 'numpy.float16'>
+
+			<19> 1491955492.62:
+				<0> steer:
+					 11.0 <type 'numpy.float16'>
+
+			<20> 1491955492.66:
+				<0> steer:
+					 11.0 <type 'numpy.float16'>
+
+			<21> 1491955492.68:
+				<0> steer:
+					 11.0 <type 'numpy.float16'>
+
+			<22> 1491955492.72:
+				<0> steer:
+					 10.0 <type 'numpy.float16'>
+
+			<23> 1491955492.76:
+				<0> steer:
+					 10.0 <type 'numpy.float16'>
+
+			..58113)
+
+		<1> 1:
+			<0> 1491955491.9:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1491955491.93:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1491955491.97:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1491955492.01:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1491955492.05:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1491955492.09:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1491955492.13:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1491955492.17:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1491955492.2:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1491955492.23:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1491955492.26:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1491955492.32:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1491955492.35:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1491955492.39:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1491955492.43:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1491955492.46:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1491955492.5:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1491955492.54:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1491955492.58:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1491955492.62:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1491955492.66:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1491955492.68:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1491955492.72:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1491955492.76:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..58113)
+
+
+
+<6> direct_Fern_aruco_1_11Apr17_17h17m16s_Mr_Blue:
+	<0> Direct_Arena_Potential_Field:
+		<0> 0:
+			<0> 1491956272.21:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1491956272.24:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<2> 1491956272.28:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<3> 1491956272.35:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<4> 1491956272.38:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<5> 1491956272.41:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<6> 1491956272.44:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<7> 1491956272.48:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<8> 1491956272.51:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<9> 1491956272.55:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<10> 1491956272.58:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<11> 1491956272.61:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<12> 1491956272.64:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<13> 1491956272.68:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<14> 1491956272.72:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<15> 1491956272.79:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<16> 1491956272.85:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<17> 1491956272.88:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<18> 1491956272.91:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<19> 1491956272.95:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<20> 1491956273.01:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<21> 1491956273.05:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<22> 1491956273.09:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<23> 1491956273.15:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			..79142)
+
+		<1> 1:
+			<0> 1491956272.21:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<1> 1491956272.24:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1491956272.28:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1491956272.35:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1491956272.38:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1491956272.41:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1491956272.44:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1491956272.48:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1491956272.51:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1491956272.55:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1491956272.58:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1491956272.61:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1491956272.64:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1491956272.68:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1491956272.72:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1491956272.79:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1491956272.85:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1491956272.88:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1491956272.91:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1491956272.95:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1491956273.01:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1491956273.05:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1491956273.09:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1491956273.15:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..79142)
+
+
+	<1> Follow_Arena_Potential_Field:
+		<0> 0:
+			<0> 1491956272.21:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1491956272.24:
+				<0> steer:
+					 24.0 <type 'numpy.float16'>
+
+			<2> 1491956272.28:
+				<0> steer:
+					 24.0 <type 'numpy.float16'>
+
+			<3> 1491956272.35:
+				<0> steer:
+					 24.0 <type 'numpy.float16'>
+
+			<4> 1491956272.38:
+				<0> steer:
+					 24.0 <type 'numpy.float16'>
+
+			<5> 1491956272.41:
+				<0> steer:
+					 24.0 <type 'numpy.float16'>
+
+			<6> 1491956272.44:
+				<0> steer:
+					 24.0 <type 'numpy.float16'>
+
+			<7> 1491956272.48:
+				<0> steer:
+					 23.0 <type 'numpy.float16'>
+
+			<8> 1491956272.51:
+				<0> steer:
+					 23.0 <type 'numpy.float16'>
+
+			<9> 1491956272.55:
+				<0> steer:
+					 23.0 <type 'numpy.float16'>
+
+			<10> 1491956272.58:
+				<0> steer:
+					 23.0 <type 'numpy.float16'>
+
+			<11> 1491956272.61:
+				<0> steer:
+					 23.0 <type 'numpy.float16'>
+
+			<12> 1491956272.64:
+				<0> steer:
+					 23.0 <type 'numpy.float16'>
+
+			<13> 1491956272.68:
+				<0> steer:
+					 23.0 <type 'numpy.float16'>
+
+			<14> 1491956272.72:
+				<0> steer:
+					 23.0 <type 'numpy.float16'>
+
+			<15> 1491956272.79:
+				<0> steer:
+					 23.0 <type 'numpy.float16'>
+
+			<16> 1491956272.85:
+				<0> steer:
+					 23.0 <type 'numpy.float16'>
+
+			<17> 1491956272.88:
+				<0> steer:
+					 23.0 <type 'numpy.float16'>
+
+			<18> 1491956272.91:
+				<0> steer:
+					 23.0 <type 'numpy.float16'>
+
+			<19> 1491956272.95:
+				<0> steer:
+					 23.0 <type 'numpy.float16'>
+
+			<20> 1491956273.01:
+				<0> steer:
+					 22.0 <type 'numpy.float16'>
+
+			<21> 1491956273.05:
+				<0> steer:
+					 22.0 <type 'numpy.float16'>
+
+			<22> 1491956273.09:
+				<0> steer:
+					 21.0 <type 'numpy.float16'>
+
+			<23> 1491956273.15:
+				<0> steer:
+					 23.0 <type 'numpy.float16'>
+
+			..79142)
+
+		<1> 1:
+			<0> 1491956272.21:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<1> 1491956272.24:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1491956272.28:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1491956272.35:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1491956272.38:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1491956272.41:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1491956272.44:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1491956272.48:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1491956272.51:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1491956272.55:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1491956272.58:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1491956272.61:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1491956272.64:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1491956272.68:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1491956272.72:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1491956272.79:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1491956272.85:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1491956272.88:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1491956272.91:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1491956272.95:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1491956273.01:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1491956273.05:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1491956273.09:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1491956273.15:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..79142)
+
+
+
+<7> direct_Fern_aruco_1_11Apr17_22h59m32s_Mr_Yellow:
+	<0> Direct_Arena_Potential_Field:
+		<0> 0:
+			<0> 1491951610.87:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1491951610.91:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1491951610.97:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1491951611.01:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1491951611.07:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1491951611.1:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1491951611.14:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1491951611.2:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1491951611.24:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1491951611.3:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1491951611.34:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1491951611.37:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1491951611.4:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1491951611.44:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1491951611.47:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1491951611.5:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1491951611.54:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1491951611.57:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1491951611.6:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1491951611.63:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1491951611.67:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1491951611.7:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1491951611.74:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1491951611.8:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..15101)
+
+		<1> 1:
+			<0> 1491951610.87:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<1> 1491951610.91:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<2> 1491951610.97:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<3> 1491951611.01:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<4> 1491951611.07:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<5> 1491951611.1:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<6> 1491951611.14:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<7> 1491951611.2:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<8> 1491951611.24:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<9> 1491951611.3:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<10> 1491951611.34:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<11> 1491951611.37:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<12> 1491951611.4:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<13> 1491951611.44:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<14> 1491951611.47:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<15> 1491951611.5:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<16> 1491951611.54:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<17> 1491951611.57:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<18> 1491951611.6:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<19> 1491951611.63:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<20> 1491951611.67:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<21> 1491951611.7:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<22> 1491951611.74:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<23> 1491951611.8:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			..15101)
+
+
+	<1> Follow_Arena_Potential_Field:
+		<0> 0:
+			<0> 1491951610.87:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1491951610.91:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1491951610.97:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1491951611.01:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1491951611.07:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1491951611.1:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1491951611.14:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1491951611.2:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1491951611.24:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1491951611.3:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1491951611.34:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1491951611.37:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1491951611.4:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1491951611.44:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1491951611.47:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1491951611.5:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1491951611.54:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1491951611.57:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1491951611.6:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1491951611.63:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1491951611.67:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1491951611.7:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1491951611.74:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1491951611.8:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..15101)
+
+		<1> 1:
+			<0> 1491951610.87:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<1> 1491951610.91:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<2> 1491951610.97:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<3> 1491951611.01:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<4> 1491951611.07:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<5> 1491951611.1:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<6> 1491951611.14:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<7> 1491951611.2:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<8> 1491951611.24:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<9> 1491951611.3:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<10> 1491951611.34:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<11> 1491951611.37:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<12> 1491951611.4:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<13> 1491951611.44:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<14> 1491951611.47:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<15> 1491951611.5:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<16> 1491951611.54:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<17> 1491951611.57:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<18> 1491951611.6:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<19> 1491951611.63:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<20> 1491951611.67:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<21> 1491951611.7:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<22> 1491951611.74:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<23> 1491951611.8:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			..15101)
+
+
+
+<8> direct_Fern_aruco_1_11Apr17_23h24m50s_Mr_Yellow:
+	<0> Direct_Arena_Potential_Field:
+		<0> 0:
+			<0> 1491953129.62:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1491953129.65:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1491953129.68:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1491953129.72:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1491953129.76:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1491953129.82:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1491953129.85:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1491953129.89:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1491953129.92:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1491953129.95:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1491953129.99:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1491953130.02:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1491953130.05:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1491953130.09:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1491953130.12:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1491953130.15:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1491953130.18:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1491953130.22:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1491953130.25:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1491953130.29:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1491953130.32:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1491953130.39:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1491953130.42:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1491953130.45:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..80665)
+
+		<1> 1:
+			<0> 1491953129.62:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<1> 1491953129.65:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<2> 1491953129.68:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<3> 1491953129.72:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<4> 1491953129.76:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<5> 1491953129.82:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<6> 1491953129.85:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<7> 1491953129.89:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<8> 1491953129.92:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<9> 1491953129.95:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<10> 1491953129.99:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<11> 1491953130.02:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<12> 1491953130.05:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<13> 1491953130.09:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<14> 1491953130.12:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<15> 1491953130.15:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<16> 1491953130.18:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<17> 1491953130.22:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<18> 1491953130.25:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<19> 1491953130.29:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<20> 1491953130.32:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<21> 1491953130.39:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<22> 1491953130.42:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<23> 1491953130.45:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			..80665)
+
+
+	<1> Follow_Arena_Potential_Field:
+		<0> 0:
+			<0> 1491953129.62:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1491953129.65:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1491953129.68:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1491953129.72:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1491953129.76:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1491953129.82:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1491953129.85:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1491953129.89:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1491953129.92:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1491953129.95:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1491953129.99:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1491953130.02:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1491953130.05:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1491953130.09:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1491953130.12:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1491953130.15:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1491953130.18:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1491953130.22:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1491953130.25:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1491953130.29:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1491953130.32:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1491953130.39:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1491953130.42:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1491953130.45:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..80665)
+
+		<1> 1:
+			<0> 1491953129.62:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<1> 1491953129.65:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<2> 1491953129.68:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<3> 1491953129.72:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<4> 1491953129.76:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<5> 1491953129.82:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<6> 1491953129.85:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<7> 1491953129.89:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<8> 1491953129.92:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<9> 1491953129.95:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<10> 1491953129.99:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<11> 1491953130.02:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<12> 1491953130.05:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<13> 1491953130.09:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<14> 1491953130.12:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<15> 1491953130.15:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<16> 1491953130.18:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<17> 1491953130.22:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<18> 1491953130.25:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<19> 1491953130.29:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<20> 1491953130.32:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<21> 1491953130.39:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<22> 1491953130.42:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<23> 1491953130.45:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			..80665)
+
+
+
+<9> direct_Fern_aruco_1_14Apr17_13h33m11s_Mr_Blue:
+	<0> Direct_Arena_Potential_Field:
+		<0> 0:
+			<0> 1492202025.25:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1492202025.28:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1492202025.32:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1492202025.35:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1492202025.38:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1492202025.42:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1492202025.45:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1492202025.52:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1492202025.55:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1492202025.58:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1492202025.62:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1492202025.65:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1492202025.68:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1492202025.75:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1492202025.78:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1492202025.82:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1492202025.85:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1492202025.88:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1492202025.91:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1492202025.95:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1492202025.98:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1492202026.05:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1492202026.08:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1492202026.15:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..13836)
+
+		<1> 1:
+			<0> 1492202025.25:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<1> 1492202025.28:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<2> 1492202025.32:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<3> 1492202025.35:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<4> 1492202025.38:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<5> 1492202025.42:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<6> 1492202025.45:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<7> 1492202025.52:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<8> 1492202025.55:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<9> 1492202025.58:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<10> 1492202025.62:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<11> 1492202025.65:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<12> 1492202025.68:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<13> 1492202025.75:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<14> 1492202025.78:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<15> 1492202025.82:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<16> 1492202025.85:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<17> 1492202025.88:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<18> 1492202025.91:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<19> 1492202025.95:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<20> 1492202025.98:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<21> 1492202026.05:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<22> 1492202026.08:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<23> 1492202026.15:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			..13836)
+
+
+	<1> Follow_Arena_Potential_Field:
+		<0> 0:
+			<0> 1492202025.25:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1492202025.28:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1492202025.32:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1492202025.35:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1492202025.38:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1492202025.42:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1492202025.45:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1492202025.52:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1492202025.55:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1492202025.58:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1492202025.62:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1492202025.65:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1492202025.68:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1492202025.75:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1492202025.78:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1492202025.82:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1492202025.85:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1492202025.88:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1492202025.91:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1492202025.95:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1492202025.98:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1492202026.05:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1492202026.08:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1492202026.15:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..13836)
+
+		<1> 1:
+			<0> 1492202025.25:
+				<0> steer:
+					 89.0 <type 'numpy.float16'>
+
+			<1> 1492202025.28:
+				<0> steer:
+					 79.0 <type 'numpy.float16'>
+
+			<2> 1492202025.32:
+				<0> steer:
+					 79.0 <type 'numpy.float16'>
+
+			<3> 1492202025.35:
+				<0> steer:
+					 79.0 <type 'numpy.float16'>
+
+			<4> 1492202025.38:
+				<0> steer:
+					 79.0 <type 'numpy.float16'>
+
+			<5> 1492202025.42:
+				<0> steer:
+					 79.0 <type 'numpy.float16'>
+
+			<6> 1492202025.45:
+				<0> steer:
+					 79.0 <type 'numpy.float16'>
+
+			<7> 1492202025.52:
+				<0> steer:
+					 79.0 <type 'numpy.float16'>
+
+			<8> 1492202025.55:
+				<0> steer:
+					 79.0 <type 'numpy.float16'>
+
+			<9> 1492202025.58:
+				<0> steer:
+					 79.0 <type 'numpy.float16'>
+
+			<10> 1492202025.62:
+				<0> steer:
+					 79.0 <type 'numpy.float16'>
+
+			<11> 1492202025.65:
+				<0> steer:
+					 69.0 <type 'numpy.float16'>
+
+			<12> 1492202025.68:
+				<0> steer:
+					 69.0 <type 'numpy.float16'>
+
+			<13> 1492202025.75:
+				<0> steer:
+					 69.0 <type 'numpy.float16'>
+
+			<14> 1492202025.78:
+				<0> steer:
+					 69.0 <type 'numpy.float16'>
+
+			<15> 1492202025.82:
+				<0> steer:
+					 69.0 <type 'numpy.float16'>
+
+			<16> 1492202025.85:
+				<0> steer:
+					 69.0 <type 'numpy.float16'>
+
+			<17> 1492202025.88:
+				<0> steer:
+					 69.0 <type 'numpy.float16'>
+
+			<18> 1492202025.91:
+				<0> steer:
+					 69.0 <type 'numpy.float16'>
+
+			<19> 1492202025.95:
+				<0> steer:
+					 69.0 <type 'numpy.float16'>
+
+			<20> 1492202025.98:
+				<0> steer:
+					 69.0 <type 'numpy.float16'>
+
+			<21> 1492202026.05:
+				<0> steer:
+					 69.0 <type 'numpy.float16'>
+
+			<22> 1492202026.08:
+				<0> steer:
+					 69.0 <type 'numpy.float16'>
+
+			<23> 1492202026.15:
+				<0> steer:
+					 69.0 <type 'numpy.float16'>
+
+			..13836)
+
+
+
+<10> direct_Fern_aruco_1_14Apr17_13h45m40s_Mr_Blue:
+	<0> Direct_Arena_Potential_Field:
+		<0> 0:
+			<0> 1492202777.57:
+				<0> steer:
+					 3.0 <type 'numpy.float16'>
+
+			<1> 1492202777.6:
+				<0> steer:
+					 6.0 <type 'numpy.float16'>
+
+			<2> 1492202777.63:
+				<0> steer:
+					 9.0 <type 'numpy.float16'>
+
+			<3> 1492202777.67:
+				<0> steer:
+					 9.0 <type 'numpy.float16'>
+
+			<4> 1492202777.7:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1492202777.73:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<6> 1492202777.8:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<7> 1492202777.83:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<8> 1492202777.86:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<9> 1492202777.9:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<10> 1492202777.96:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<11> 1492202778.0:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<12> 1492202778.06:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<13> 1492202778.13:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<14> 1492202778.16:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<15> 1492202778.2:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<16> 1492202778.23:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<17> 1492202778.3:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<18> 1492202778.33:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<19> 1492202778.36:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<20> 1492202778.4:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<21> 1492202778.46:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<22> 1492202778.5:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<23> 1492202778.53:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			..68359)
+
+		<1> 1:
+			<0> 1492202777.57:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1492202777.6:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1492202777.63:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1492202777.67:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1492202777.7:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1492202777.73:
+				<0> steer:
+					 82.0 <type 'numpy.float16'>
+
+			<6> 1492202777.8:
+				<0> steer:
+					 65.0 <type 'numpy.float16'>
+
+			<7> 1492202777.83:
+				<0> steer:
+					 68.0 <type 'numpy.float16'>
+
+			<8> 1492202777.86:
+				<0> steer:
+					 72.0 <type 'numpy.float16'>
+
+			<9> 1492202777.9:
+				<0> steer:
+					 73.0 <type 'numpy.float16'>
+
+			<10> 1492202777.96:
+				<0> steer:
+					 81.0 <type 'numpy.float16'>
+
+			<11> 1492202778.0:
+				<0> steer:
+					 81.0 <type 'numpy.float16'>
+
+			<12> 1492202778.06:
+				<0> steer:
+					 81.0 <type 'numpy.float16'>
+
+			<13> 1492202778.13:
+				<0> steer:
+					 80.0 <type 'numpy.float16'>
+
+			<14> 1492202778.16:
+				<0> steer:
+					 80.0 <type 'numpy.float16'>
+
+			<15> 1492202778.2:
+				<0> steer:
+					 80.0 <type 'numpy.float16'>
+
+			<16> 1492202778.23:
+				<0> steer:
+					 80.0 <type 'numpy.float16'>
+
+			<17> 1492202778.3:
+				<0> steer:
+					 80.0 <type 'numpy.float16'>
+
+			<18> 1492202778.33:
+				<0> steer:
+					 80.0 <type 'numpy.float16'>
+
+			<19> 1492202778.36:
+				<0> steer:
+					 79.0 <type 'numpy.float16'>
+
+			<20> 1492202778.4:
+				<0> steer:
+					 79.0 <type 'numpy.float16'>
+
+			<21> 1492202778.46:
+				<0> steer:
+					 77.0 <type 'numpy.float16'>
+
+			<22> 1492202778.5:
+				<0> steer:
+					 72.0 <type 'numpy.float16'>
+
+			<23> 1492202778.53:
+				<0> steer:
+					 72.0 <type 'numpy.float16'>
+
+			..68359)
+
+
+	<1> Follow_Arena_Potential_Field:
+		<0> 0:
+			<0> 1492202777.57:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1492202777.6:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1492202777.63:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1492202777.67:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1492202777.7:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1492202777.73:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<6> 1492202777.8:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<7> 1492202777.83:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<8> 1492202777.86:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<9> 1492202777.9:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<10> 1492202777.96:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<11> 1492202778.0:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<12> 1492202778.06:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<13> 1492202778.13:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<14> 1492202778.16:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<15> 1492202778.2:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<16> 1492202778.23:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<17> 1492202778.3:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<18> 1492202778.33:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<19> 1492202778.36:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<20> 1492202778.4:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<21> 1492202778.46:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<22> 1492202778.5:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<23> 1492202778.53:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			..68359)
+
+		<1> 1:
+			<0> 1492202777.57:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1492202777.6:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1492202777.63:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1492202777.67:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1492202777.7:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1492202777.73:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<6> 1492202777.8:
+				<0> steer:
+					 86.0 <type 'numpy.float16'>
+
+			<7> 1492202777.83:
+				<0> steer:
+					 86.0 <type 'numpy.float16'>
+
+			<8> 1492202777.86:
+				<0> steer:
+					 87.0 <type 'numpy.float16'>
+
+			<9> 1492202777.9:
+				<0> steer:
+					 87.0 <type 'numpy.float16'>
+
+			<10> 1492202777.96:
+				<0> steer:
+					 88.0 <type 'numpy.float16'>
+
+			<11> 1492202778.0:
+				<0> steer:
+					 88.0 <type 'numpy.float16'>
+
+			<12> 1492202778.06:
+				<0> steer:
+					 88.0 <type 'numpy.float16'>
+
+			<13> 1492202778.13:
+				<0> steer:
+					 88.0 <type 'numpy.float16'>
+
+			<14> 1492202778.16:
+				<0> steer:
+					 88.0 <type 'numpy.float16'>
+
+			<15> 1492202778.2:
+				<0> steer:
+					 88.0 <type 'numpy.float16'>
+
+			<16> 1492202778.23:
+				<0> steer:
+					 88.0 <type 'numpy.float16'>
+
+			<17> 1492202778.3:
+				<0> steer:
+					 88.0 <type 'numpy.float16'>
+
+			<18> 1492202778.33:
+				<0> steer:
+					 87.0 <type 'numpy.float16'>
+
+			<19> 1492202778.36:
+				<0> steer:
+					 87.0 <type 'numpy.float16'>
+
+			<20> 1492202778.4:
+				<0> steer:
+					 87.0 <type 'numpy.float16'>
+
+			<21> 1492202778.46:
+				<0> steer:
+					 87.0 <type 'numpy.float16'>
+
+			<22> 1492202778.5:
+				<0> steer:
+					 87.0 <type 'numpy.float16'>
+
+			<23> 1492202778.53:
+				<0> steer:
+					 87.0 <type 'numpy.float16'>
+
+			..68359)
+
+
+
+<11> direct_Fern_aruco_1_14Apr17_20h17m10s_Mr_Yellow:
+	<0> Direct_Arena_Potential_Field:
+		<0> 0:
+			<0> 1492201066.96:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1492201067.0:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1492201067.03:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1492201067.06:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1492201067.1:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1492201067.14:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1492201067.17:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1492201067.21:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1492201067.24:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1492201067.28:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1492201067.32:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1492201067.35:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1492201067.38:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1492201067.44:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1492201067.49:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1492201067.52:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1492201067.56:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1492201067.59:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1492201067.63:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1492201067.66:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1492201067.7:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1492201067.73:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1492201067.77:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1492201067.8:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..6651)
+
+		<1> 1:
+			<0> 1492201066.96:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<1> 1492201067.0:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<2> 1492201067.03:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<3> 1492201067.06:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<4> 1492201067.1:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<5> 1492201067.14:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<6> 1492201067.17:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<7> 1492201067.21:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<8> 1492201067.24:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<9> 1492201067.28:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<10> 1492201067.32:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<11> 1492201067.35:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<12> 1492201067.38:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<13> 1492201067.44:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<14> 1492201067.49:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<15> 1492201067.52:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<16> 1492201067.56:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<17> 1492201067.59:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<18> 1492201067.63:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<19> 1492201067.66:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<20> 1492201067.7:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<21> 1492201067.73:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<22> 1492201067.77:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<23> 1492201067.8:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			..6651)
+
+
+	<1> Follow_Arena_Potential_Field:
+		<0> 0:
+			<0> 1492201066.96:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1492201067.0:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1492201067.03:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1492201067.06:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1492201067.1:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1492201067.14:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1492201067.17:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1492201067.21:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1492201067.24:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1492201067.28:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1492201067.32:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1492201067.35:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1492201067.38:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1492201067.44:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1492201067.49:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1492201067.52:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1492201067.56:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1492201067.59:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1492201067.63:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1492201067.66:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1492201067.7:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1492201067.73:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1492201067.77:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1492201067.8:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..6651)
+
+		<1> 1:
+			<0> 1492201066.96:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<1> 1492201067.0:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<2> 1492201067.03:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<3> 1492201067.06:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<4> 1492201067.1:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<5> 1492201067.14:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<6> 1492201067.17:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<7> 1492201067.21:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<8> 1492201067.24:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<9> 1492201067.28:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<10> 1492201067.32:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<11> 1492201067.35:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<12> 1492201067.38:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<13> 1492201067.44:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<14> 1492201067.49:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<15> 1492201067.52:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<16> 1492201067.56:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<17> 1492201067.59:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<18> 1492201067.63:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<19> 1492201067.66:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<20> 1492201067.7:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<21> 1492201067.73:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<22> 1492201067.77:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<23> 1492201067.8:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			..6651)
+
+
+
+<12> direct_Fern_aruco_1_14Apr17_20h24m03s_Mr_Yellow:
+	<0> Direct_Arena_Potential_Field:
+		<0> 0:
+			<0> 1492201478.46:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1492201478.49:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1492201478.52:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1492201478.56:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1492201478.62:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1492201478.65:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1492201478.69:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1492201478.72:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1492201478.76:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1492201478.79:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1492201478.85:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1492201478.89:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1492201478.95:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1492201478.98:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1492201479.02:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1492201479.06:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1492201479.12:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1492201479.15:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1492201479.19:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1492201479.22:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1492201479.29:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1492201479.32:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1492201479.36:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1492201479.39:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..25583)
+
+		<1> 1:
+			<0> 1492201478.46:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<1> 1492201478.49:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<2> 1492201478.52:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<3> 1492201478.56:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<4> 1492201478.62:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<5> 1492201478.65:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<6> 1492201478.69:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<7> 1492201478.72:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<8> 1492201478.76:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<9> 1492201478.79:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<10> 1492201478.85:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<11> 1492201478.89:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<12> 1492201478.95:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<13> 1492201478.98:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<14> 1492201479.02:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<15> 1492201479.06:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<16> 1492201479.12:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<17> 1492201479.15:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<18> 1492201479.19:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<19> 1492201479.22:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<20> 1492201479.29:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<21> 1492201479.32:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<22> 1492201479.36:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<23> 1492201479.39:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			..25583)
+
+
+	<1> Follow_Arena_Potential_Field:
+		<0> 0:
+			<0> 1492201478.46:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1492201478.49:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1492201478.52:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1492201478.56:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1492201478.62:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1492201478.65:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1492201478.69:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1492201478.72:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1492201478.76:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1492201478.79:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1492201478.85:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1492201478.89:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1492201478.95:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1492201478.98:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1492201479.02:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1492201479.06:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1492201479.12:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1492201479.15:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1492201479.19:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1492201479.22:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1492201479.29:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1492201479.32:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1492201479.36:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1492201479.39:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..25583)
+
+		<1> 1:
+			<0> 1492201478.46:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<1> 1492201478.49:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<2> 1492201478.52:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<3> 1492201478.56:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<4> 1492201478.62:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<5> 1492201478.65:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<6> 1492201478.69:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<7> 1492201478.72:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<8> 1492201478.76:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<9> 1492201478.79:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<10> 1492201478.85:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<11> 1492201478.89:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<12> 1492201478.95:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<13> 1492201478.98:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<14> 1492201479.02:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<15> 1492201479.06:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<16> 1492201479.12:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<17> 1492201479.15:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<18> 1492201479.19:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<19> 1492201479.22:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<20> 1492201479.29:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<21> 1492201479.32:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<22> 1492201479.36:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<23> 1492201479.39:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			..25583)
+
+
+
+<13> direct_Fern_aruco_1_14Apr17_21h14m26s_Mr_Yellow:
+	<0> Direct_Arena_Potential_Field:
+		<0> 0:
+			<0> 1492204507.28:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<1> 1492204507.31:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<2> 1492204507.34:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<3> 1492204507.38:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<4> 1492204507.41:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<5> 1492204507.44:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1492204507.48:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1492204507.51:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1492204507.54:
+				<0> steer:
+					 8.0 <type 'numpy.float16'>
+
+			<9> 1492204507.58:
+				<0> steer:
+					 20.0 <type 'numpy.float16'>
+
+			<10> 1492204507.61:
+				<0> steer:
+					 27.0 <type 'numpy.float16'>
+
+			<11> 1492204507.68:
+				<0> steer:
+					 26.0 <type 'numpy.float16'>
+
+			<12> 1492204507.71:
+				<0> steer:
+					 23.0 <type 'numpy.float16'>
+
+			<13> 1492204507.74:
+				<0> steer:
+					 22.0 <type 'numpy.float16'>
+
+			<14> 1492204507.78:
+				<0> steer:
+					 23.0 <type 'numpy.float16'>
+
+			<15> 1492204507.81:
+				<0> steer:
+					 22.0 <type 'numpy.float16'>
+
+			<16> 1492204507.88:
+				<0> steer:
+					 22.0 <type 'numpy.float16'>
+
+			<17> 1492204507.94:
+				<0> steer:
+					 23.0 <type 'numpy.float16'>
+
+			<18> 1492204507.98:
+				<0> steer:
+					 22.0 <type 'numpy.float16'>
+
+			<19> 1492204508.01:
+				<0> steer:
+					 23.0 <type 'numpy.float16'>
+
+			<20> 1492204508.08:
+				<0> steer:
+					 23.0 <type 'numpy.float16'>
+
+			<21> 1492204508.11:
+				<0> steer:
+					 24.0 <type 'numpy.float16'>
+
+			<22> 1492204508.14:
+				<0> steer:
+					 26.0 <type 'numpy.float16'>
+
+			<23> 1492204508.18:
+				<0> steer:
+					 25.0 <type 'numpy.float16'>
+
+			..83186)
+
+		<1> 1:
+			<0> 1492204507.28:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<1> 1492204507.31:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<2> 1492204507.34:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<3> 1492204507.38:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<4> 1492204507.41:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<5> 1492204507.44:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<6> 1492204507.48:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1492204507.51:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1492204507.54:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1492204507.58:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1492204507.61:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1492204507.68:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1492204507.71:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1492204507.74:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1492204507.78:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1492204507.81:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1492204507.88:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1492204507.94:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1492204507.98:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1492204508.01:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1492204508.08:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1492204508.11:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1492204508.14:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1492204508.18:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..83186)
+
+
+	<1> Follow_Arena_Potential_Field:
+		<0> 0:
+			<0> 1492204507.28:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<1> 1492204507.31:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<2> 1492204507.34:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<3> 1492204507.38:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<4> 1492204507.41:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<5> 1492204507.44:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1492204507.48:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1492204507.51:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1492204507.54:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1492204507.58:
+				<0> steer:
+					 2.0 <type 'numpy.float16'>
+
+			<10> 1492204507.61:
+				<0> steer:
+					 10.0 <type 'numpy.float16'>
+
+			<11> 1492204507.68:
+				<0> steer:
+					 11.0 <type 'numpy.float16'>
+
+			<12> 1492204507.71:
+				<0> steer:
+					 11.0 <type 'numpy.float16'>
+
+			<13> 1492204507.74:
+				<0> steer:
+					 11.0 <type 'numpy.float16'>
+
+			<14> 1492204507.78:
+				<0> steer:
+					 11.0 <type 'numpy.float16'>
+
+			<15> 1492204507.81:
+				<0> steer:
+					 11.0 <type 'numpy.float16'>
+
+			<16> 1492204507.88:
+				<0> steer:
+					 11.0 <type 'numpy.float16'>
+
+			<17> 1492204507.94:
+				<0> steer:
+					 11.0 <type 'numpy.float16'>
+
+			<18> 1492204507.98:
+				<0> steer:
+					 11.0 <type 'numpy.float16'>
+
+			<19> 1492204508.01:
+				<0> steer:
+					 11.0 <type 'numpy.float16'>
+
+			<20> 1492204508.08:
+				<0> steer:
+					 11.0 <type 'numpy.float16'>
+
+			<21> 1492204508.11:
+				<0> steer:
+					 11.0 <type 'numpy.float16'>
+
+			<22> 1492204508.14:
+				<0> steer:
+					 11.0 <type 'numpy.float16'>
+
+			<23> 1492204508.18:
+				<0> steer:
+					 11.0 <type 'numpy.float16'>
+
+			..83186)
+
+		<1> 1:
+			<0> 1492204507.28:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<1> 1492204507.31:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<2> 1492204507.34:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<3> 1492204507.38:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<4> 1492204507.41:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<5> 1492204507.44:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<6> 1492204507.48:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1492204507.51:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1492204507.54:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1492204507.58:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1492204507.61:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1492204507.68:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1492204507.71:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1492204507.74:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1492204507.78:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1492204507.81:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1492204507.88:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1492204507.94:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1492204507.98:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1492204508.01:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1492204508.08:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1492204508.11:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1492204508.14:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1492204508.18:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..83186)
+
+
+
+<14> direct_caffe_Fern_aruco_15Apr17_20h42m44s_Mr_Yellow:
+	<0> Direct_Arena_Potential_Field:
+		<0> 0:
+			<0> 1492289001.42:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1492289001.46:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1492289001.49:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1492289001.56:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1492289001.59:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1492289001.66:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1492289001.69:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1492289001.73:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1492289001.76:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1492289001.79:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1492289001.83:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1492289001.86:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1492289001.89:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1492289001.93:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1492289001.96:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1492289002.03:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1492289002.06:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1492289002.09:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1492289002.13:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1492289002.16:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1492289002.19:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1492289002.23:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1492289002.26:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1492289002.3:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..10113)
+
+		<1> 1:
+			<0> 1492289001.42:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<1> 1492289001.46:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<2> 1492289001.49:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<3> 1492289001.56:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<4> 1492289001.59:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<5> 1492289001.66:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<6> 1492289001.69:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<7> 1492289001.73:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<8> 1492289001.76:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<9> 1492289001.79:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<10> 1492289001.83:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<11> 1492289001.86:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<12> 1492289001.89:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<13> 1492289001.93:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<14> 1492289001.96:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<15> 1492289002.03:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<16> 1492289002.06:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<17> 1492289002.09:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<18> 1492289002.13:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<19> 1492289002.16:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<20> 1492289002.19:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<21> 1492289002.23:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<22> 1492289002.26:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<23> 1492289002.3:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			..10113)
+
+
+	<1> Follow_Arena_Potential_Field:
+		<0> 0:
+			<0> 1492289001.42:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1492289001.46:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1492289001.49:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1492289001.56:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1492289001.59:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1492289001.66:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1492289001.69:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1492289001.73:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1492289001.76:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1492289001.79:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1492289001.83:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1492289001.86:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1492289001.89:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1492289001.93:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1492289001.96:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1492289002.03:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1492289002.06:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1492289002.09:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1492289002.13:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1492289002.16:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1492289002.19:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1492289002.23:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1492289002.26:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1492289002.3:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..10113)
+
+		<1> 1:
+			<0> 1492289001.42:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<1> 1492289001.46:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<2> 1492289001.49:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<3> 1492289001.56:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<4> 1492289001.59:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<5> 1492289001.66:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<6> 1492289001.69:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<7> 1492289001.73:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<8> 1492289001.76:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<9> 1492289001.79:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<10> 1492289001.83:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<11> 1492289001.86:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<12> 1492289001.89:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<13> 1492289001.93:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<14> 1492289001.96:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<15> 1492289002.03:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<16> 1492289002.06:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<17> 1492289002.09:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<18> 1492289002.13:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<19> 1492289002.16:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<20> 1492289002.19:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<21> 1492289002.23:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<22> 1492289002.26:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<23> 1492289002.3:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			..10113)
+
+
+
+<15> direct_rewrite_test_21Apr17_12h58m58s_Mr_Silver:
+	<0> Direct_Arena_Potential_Field:
+		<0> 0:
+			<0> 1492804778.37:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1492804778.43:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1492804778.49:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1492804778.53:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1492804778.56:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1492804778.59:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1492804778.63:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1492804778.66:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1492804778.69:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1492804778.73:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1492804778.76:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1492804778.8:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1492804778.83:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1492804778.86:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1492804778.89:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1492804778.93:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1492804778.99:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1492804779.03:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1492804779.06:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1492804779.09:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1492804779.13:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1492804779.16:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1492804779.2:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1492804779.23:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..17499)
+
+		<1> 1:
+			<0> 1492804778.37:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<1> 1492804778.43:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<2> 1492804778.49:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<3> 1492804778.53:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<4> 1492804778.56:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<5> 1492804778.59:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<6> 1492804778.63:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<7> 1492804778.66:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<8> 1492804778.69:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<9> 1492804778.73:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<10> 1492804778.76:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<11> 1492804778.8:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<12> 1492804778.83:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<13> 1492804778.86:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<14> 1492804778.89:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<15> 1492804778.93:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<16> 1492804778.99:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<17> 1492804779.03:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<18> 1492804779.06:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<19> 1492804779.09:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<20> 1492804779.13:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<21> 1492804779.16:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<22> 1492804779.2:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<23> 1492804779.23:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			..17499)
+
+
+	<1> Follow_Arena_Potential_Field:
+		<0> 0:
+			<0> 1492804778.37:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1492804778.43:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1492804778.49:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1492804778.53:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1492804778.56:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1492804778.59:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1492804778.63:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1492804778.66:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1492804778.69:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1492804778.73:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1492804778.76:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1492804778.8:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1492804778.83:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1492804778.86:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1492804778.89:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1492804778.93:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1492804778.99:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1492804779.03:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1492804779.06:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1492804779.09:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1492804779.13:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1492804779.16:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1492804779.2:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1492804779.23:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..17499)
+
+		<1> 1:
+			<0> 1492804778.37:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<1> 1492804778.43:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<2> 1492804778.49:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<3> 1492804778.53:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<4> 1492804778.56:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<5> 1492804778.59:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<6> 1492804778.63:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<7> 1492804778.66:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<8> 1492804778.69:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<9> 1492804778.73:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<10> 1492804778.76:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<11> 1492804778.8:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<12> 1492804778.83:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<13> 1492804778.86:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<14> 1492804778.89:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<15> 1492804778.93:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<16> 1492804778.99:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<17> 1492804779.03:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<18> 1492804779.06:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<19> 1492804779.09:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<20> 1492804779.13:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<21> 1492804779.16:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<22> 1492804779.2:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<23> 1492804779.23:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			..17499)
+
+
+
+<16> direct_rewrite_test_21Apr17_13h36m18s_Mr_Silver:
+	<0> Direct_Arena_Potential_Field:
+		<0> 0:
+			<0> 1492807017.36:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1492807017.39:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1492807017.42:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1492807017.46:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1492807017.49:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1492807017.56:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1492807017.59:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1492807017.66:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1492807017.69:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1492807017.72:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1492807017.76:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1492807017.8:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1492807017.83:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1492807017.89:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1492807017.92:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1492807017.96:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1492807017.99:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1492807018.06:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1492807018.09:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1492807018.13:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1492807018.16:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1492807018.2:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1492807018.26:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1492807018.3:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..7767)
+
+		<1> 1:
+			<0> 1492807017.36:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1492807017.39:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1492807017.42:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1492807017.46:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1492807017.49:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1492807017.56:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1492807017.59:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1492807017.66:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1492807017.69:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1492807017.72:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1492807017.76:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1492807017.8:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1492807017.83:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1492807017.89:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1492807017.92:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1492807017.96:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1492807017.99:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1492807018.06:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1492807018.09:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1492807018.13:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1492807018.16:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1492807018.2:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1492807018.26:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1492807018.3:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..7767)
+
+
+	<1> Follow_Arena_Potential_Field:
+		<0> 0:
+			<0> 1492807017.36:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1492807017.39:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1492807017.42:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1492807017.46:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1492807017.49:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1492807017.56:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1492807017.59:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1492807017.66:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1492807017.69:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1492807017.72:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1492807017.76:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1492807017.8:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1492807017.83:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1492807017.89:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1492807017.92:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1492807017.96:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1492807017.99:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1492807018.06:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1492807018.09:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1492807018.13:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1492807018.16:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1492807018.2:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1492807018.26:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1492807018.3:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..7767)
+
+		<1> 1:
+			<0> 1492807017.36:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1492807017.39:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1492807017.42:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1492807017.46:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1492807017.49:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1492807017.56:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1492807017.59:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1492807017.66:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1492807017.69:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1492807017.72:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1492807017.76:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1492807017.8:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1492807017.83:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1492807017.89:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1492807017.92:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1492807017.96:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1492807017.99:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1492807018.06:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1492807018.09:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1492807018.13:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1492807018.16:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1492807018.2:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1492807018.26:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1492807018.3:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..7767)
+
+
+
+<17> direct_rewrite_test_21Apr17_14h21m44s_Mr_Silver:
+	<0> Direct_Arena_Potential_Field:
+		<0> 0:
+			<0> 1492809742.23:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1492809742.27:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1492809742.31:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1492809742.35:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1492809742.4:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1492809742.45:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1492809742.5:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1492809742.54:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1492809742.57:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1492809742.6:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1492809742.63:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1492809742.67:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1492809742.7:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1492809742.74:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1492809742.77:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1492809742.82:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1492809742.85:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1492809742.89:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1492809742.92:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1492809742.94:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1492809743.01:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1492809743.05:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1492809743.08:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1492809743.14:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..6277)
+
+		<1> 1:
+			<0> 1492809742.23:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1492809742.27:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1492809742.31:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1492809742.35:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1492809742.4:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1492809742.45:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1492809742.5:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1492809742.54:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1492809742.57:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1492809742.6:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1492809742.63:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1492809742.67:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1492809742.7:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1492809742.74:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1492809742.77:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1492809742.82:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1492809742.85:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1492809742.89:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1492809742.92:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1492809742.94:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1492809743.01:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1492809743.05:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1492809743.08:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1492809743.14:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..6277)
+
+
+	<1> Follow_Arena_Potential_Field:
+		<0> 0:
+			<0> 1492809742.23:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1492809742.27:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1492809742.31:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1492809742.35:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1492809742.4:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1492809742.45:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1492809742.5:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1492809742.54:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1492809742.57:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1492809742.6:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1492809742.63:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1492809742.67:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1492809742.7:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1492809742.74:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1492809742.77:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1492809742.82:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1492809742.85:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1492809742.89:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1492809742.92:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1492809742.94:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1492809743.01:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1492809743.05:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1492809743.08:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1492809743.14:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..6277)
+
+		<1> 1:
+			<0> 1492809742.23:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1492809742.27:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1492809742.31:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1492809742.35:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1492809742.4:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1492809742.45:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1492809742.5:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1492809742.54:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1492809742.57:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1492809742.6:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1492809742.63:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1492809742.67:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1492809742.7:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1492809742.74:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1492809742.77:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1492809742.82:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1492809742.85:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1492809742.89:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1492809742.92:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1492809742.94:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1492809743.01:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1492809743.05:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1492809743.08:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1492809743.14:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..6277)
+
+
+
+<18> direct_rewrite_test_21Apr17_14h30m28s_Mr_Silver:
+	<0> Direct_Arena_Potential_Field:
+		<0> 0:
+			<0> 1492810266.34:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1492810266.41:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1492810266.44:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1492810266.5:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1492810266.54:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1492810266.57:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1492810266.61:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1492810266.64:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1492810266.71:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1492810266.74:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1492810266.81:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1492810266.89:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1492810266.92:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1492810266.97:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1492810267.0:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1492810267.04:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1492810267.07:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1492810267.11:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1492810267.17:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1492810267.21:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1492810267.24:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1492810267.32:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1492810267.37:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1492810267.41:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..4777)
+
+		<1> 1:
+			<0> 1492810266.34:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1492810266.41:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1492810266.44:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1492810266.5:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1492810266.54:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1492810266.57:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1492810266.61:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1492810266.64:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1492810266.71:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1492810266.74:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1492810266.81:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1492810266.89:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1492810266.92:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1492810266.97:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1492810267.0:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1492810267.04:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1492810267.07:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1492810267.11:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1492810267.17:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1492810267.21:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1492810267.24:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1492810267.32:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1492810267.37:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1492810267.41:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..4777)
+
+
+	<1> Follow_Arena_Potential_Field:
+		<0> 0:
+			<0> 1492810266.34:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1492810266.41:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1492810266.44:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1492810266.5:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1492810266.54:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1492810266.57:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1492810266.61:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1492810266.64:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1492810266.71:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1492810266.74:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1492810266.81:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1492810266.89:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1492810266.92:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1492810266.97:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1492810267.0:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1492810267.04:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1492810267.07:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1492810267.11:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1492810267.17:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1492810267.21:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1492810267.24:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1492810267.32:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1492810267.37:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1492810267.41:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..4777)
+
+		<1> 1:
+			<0> 1492810266.34:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1492810266.41:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1492810266.44:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1492810266.5:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1492810266.54:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1492810266.57:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1492810266.61:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1492810266.64:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1492810266.71:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1492810266.74:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1492810266.81:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1492810266.89:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1492810266.92:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1492810266.97:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1492810267.0:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1492810267.04:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1492810267.07:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1492810267.11:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1492810267.17:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1492810267.21:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1492810267.24:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1492810267.32:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1492810267.37:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1492810267.41:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..4777)
+
+
+
+<19> direct_rewrite_test_21Apr17_14h35m09s_Mr_Silver:
+	<0> Direct_Arena_Potential_Field:
+		<0> 0:
+			<0> 1492810548.29:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1492810548.35:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1492810548.41:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1492810548.45:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1492810548.48:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1492810548.55:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1492810548.58:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1492810548.62:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1492810548.65:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1492810548.72:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1492810548.75:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1492810548.78:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1492810548.81:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1492810548.86:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1492810548.89:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1492810548.95:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1492810548.98:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1492810549.06:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1492810549.09:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1492810549.12:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1492810549.15:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1492810549.18:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1492810549.22:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1492810549.26:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..8791)
+
+		<1> 1:
+			<0> 1492810548.29:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<1> 1492810548.35:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<2> 1492810548.41:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<3> 1492810548.45:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<4> 1492810548.48:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<5> 1492810548.55:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<6> 1492810548.58:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<7> 1492810548.62:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<8> 1492810548.65:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<9> 1492810548.72:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<10> 1492810548.75:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<11> 1492810548.78:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<12> 1492810548.81:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<13> 1492810548.86:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<14> 1492810548.89:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<15> 1492810548.95:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<16> 1492810548.98:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<17> 1492810549.06:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1492810549.09:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1492810549.12:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1492810549.15:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1492810549.18:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1492810549.22:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1492810549.26:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			..8791)
+
+
+	<1> Follow_Arena_Potential_Field:
+		<0> 0:
+			<0> 1492810548.29:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1492810548.35:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1492810548.41:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1492810548.45:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1492810548.48:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1492810548.55:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1492810548.58:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1492810548.62:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1492810548.65:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1492810548.72:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1492810548.75:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1492810548.78:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1492810548.81:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1492810548.86:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1492810548.89:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1492810548.95:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1492810548.98:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1492810549.06:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1492810549.09:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1492810549.12:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1492810549.15:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1492810549.18:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1492810549.22:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1492810549.26:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..8791)
+
+		<1> 1:
+			<0> 1492810548.29:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<1> 1492810548.35:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<2> 1492810548.41:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<3> 1492810548.45:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<4> 1492810548.48:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<5> 1492810548.55:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<6> 1492810548.58:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<7> 1492810548.62:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<8> 1492810548.65:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<9> 1492810548.72:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<10> 1492810548.75:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<11> 1492810548.78:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<12> 1492810548.81:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<13> 1492810548.86:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<14> 1492810548.89:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<15> 1492810548.95:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<16> 1492810548.98:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<17> 1492810549.06:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1492810549.09:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1492810549.12:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1492810549.15:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1492810549.18:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1492810549.22:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1492810549.26:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			..8791)
+
+
+
+<20> direct_rewrite_test_21Apr17_16h13m00s_Mr_Silver:
+	<0> Direct_Arena_Potential_Field:
+		<0> 0:
+			<0> 1492816416.74:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1492816416.78:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1492816416.82:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1492816416.84:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1492816416.88:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1492816416.92:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1492816416.96:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1492816416.96:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1492816417.03:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1492816417.07:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1492816417.11:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1492816417.14:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1492816417.21:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1492816417.23:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1492816417.27:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1492816417.3:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1492816417.33:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1492816417.37:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1492816417.4:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1492816417.46:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1492816417.49:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1492816417.53:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1492816417.56:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1492816417.6:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..29167)
+
+		<1> 1:
+			<0> 1492816416.74:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1492816416.78:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1492816416.82:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1492816416.84:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1492816416.88:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1492816416.92:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1492816416.96:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1492816416.96:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1492816417.03:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1492816417.07:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1492816417.11:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1492816417.14:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1492816417.21:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1492816417.23:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1492816417.27:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1492816417.3:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1492816417.33:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1492816417.37:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1492816417.4:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1492816417.46:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1492816417.49:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1492816417.53:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1492816417.56:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1492816417.6:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..29167)
+
+
+	<1> Follow_Arena_Potential_Field:
+		<0> 0:
+			<0> 1492816416.74:
+				<0> steer:
+					 6.0 <type 'numpy.float16'>
+
+			<1> 1492816416.78:
+				<0> steer:
+					 5.0 <type 'numpy.float16'>
+
+			<2> 1492816416.82:
+				<0> steer:
+					 4.0 <type 'numpy.float16'>
+
+			<3> 1492816416.84:
+				<0> steer:
+					 3.0 <type 'numpy.float16'>
+
+			<4> 1492816416.88:
+				<0> steer:
+					 2.0 <type 'numpy.float16'>
+
+			<5> 1492816416.92:
+				<0> steer:
+					 2.0 <type 'numpy.float16'>
+
+			<6> 1492816416.96:
+				<0> steer:
+					 1.0 <type 'numpy.float16'>
+
+			<7> 1492816416.96:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1492816417.03:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1492816417.07:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1492816417.11:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1492816417.14:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1492816417.21:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1492816417.23:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1492816417.27:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1492816417.3:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1492816417.33:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1492816417.37:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1492816417.4:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1492816417.46:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1492816417.49:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1492816417.53:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1492816417.56:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1492816417.6:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..29167)
+
+		<1> 1:
+			<0> 1492816416.74:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1492816416.78:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1492816416.82:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1492816416.84:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1492816416.88:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1492816416.92:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1492816416.96:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1492816416.96:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1492816417.03:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1492816417.07:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1492816417.11:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1492816417.14:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1492816417.21:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1492816417.23:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1492816417.27:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1492816417.3:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1492816417.33:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1492816417.37:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1492816417.4:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1492816417.46:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1492816417.49:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1492816417.53:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1492816417.56:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1492816417.6:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..29167)
+
+
+
+<21> direct_rewrite_test_21Apr17_16h34m12s_Mr_Silver:
+	<0> Direct_Arena_Potential_Field:
+		<0> 0:
+			<0> 1492817696.39:
+				<0> steer:
+					 40.0 <type 'numpy.float16'>
+
+			<1> 1492817696.46:
+				<0> steer:
+					 27.0 <type 'numpy.float16'>
+
+			<2> 1492817696.52:
+				<0> steer:
+					 21.0 <type 'numpy.float16'>
+
+			<3> 1492817696.55:
+				<0> steer:
+					 11.0 <type 'numpy.float16'>
+
+			<4> 1492817696.58:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1492817696.62:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<6> 1492817696.66:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<7> 1492817696.72:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<8> 1492817696.78:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<9> 1492817696.82:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<10> 1492817696.87:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<11> 1492817696.88:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<12> 1492817696.92:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<13> 1492817696.95:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<14> 1492817697.0:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<15> 1492817697.03:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<16> 1492817697.05:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<17> 1492817697.08:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<18> 1492817697.12:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<19> 1492817697.16:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<20> 1492817697.21:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<21> 1492817697.25:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<22> 1492817697.28:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<23> 1492817697.32:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			..17429)
+
+		<1> 1:
+			<0> 1492817696.39:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1492817696.46:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1492817696.52:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1492817696.55:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1492817696.58:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1492817696.62:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<6> 1492817696.66:
+				<0> steer:
+					 80.0 <type 'numpy.float16'>
+
+			<7> 1492817696.72:
+				<0> steer:
+					 64.0 <type 'numpy.float16'>
+
+			<8> 1492817696.78:
+				<0> steer:
+					 54.0 <type 'numpy.float16'>
+
+			<9> 1492817696.82:
+				<0> steer:
+					 54.0 <type 'numpy.float16'>
+
+			<10> 1492817696.87:
+				<0> steer:
+					 55.0 <type 'numpy.float16'>
+
+			<11> 1492817696.88:
+				<0> steer:
+					 55.0 <type 'numpy.float16'>
+
+			<12> 1492817696.92:
+				<0> steer:
+					 56.0 <type 'numpy.float16'>
+
+			<13> 1492817696.95:
+				<0> steer:
+					 56.0 <type 'numpy.float16'>
+
+			<14> 1492817697.0:
+				<0> steer:
+					 56.0 <type 'numpy.float16'>
+
+			<15> 1492817697.03:
+				<0> steer:
+					 56.0 <type 'numpy.float16'>
+
+			<16> 1492817697.05:
+				<0> steer:
+					 56.0 <type 'numpy.float16'>
+
+			<17> 1492817697.08:
+				<0> steer:
+					 56.0 <type 'numpy.float16'>
+
+			<18> 1492817697.12:
+				<0> steer:
+					 56.0 <type 'numpy.float16'>
+
+			<19> 1492817697.16:
+				<0> steer:
+					 56.0 <type 'numpy.float16'>
+
+			<20> 1492817697.21:
+				<0> steer:
+					 57.0 <type 'numpy.float16'>
+
+			<21> 1492817697.25:
+				<0> steer:
+					 57.0 <type 'numpy.float16'>
+
+			<22> 1492817697.28:
+				<0> steer:
+					 57.0 <type 'numpy.float16'>
+
+			<23> 1492817697.32:
+				<0> steer:
+					 57.0 <type 'numpy.float16'>
+
+			..17429)
+
+
+	<1> Follow_Arena_Potential_Field:
+		<0> 0:
+			<0> 1492817696.39:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1492817696.46:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1492817696.52:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1492817696.55:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1492817696.58:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1492817696.62:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<6> 1492817696.66:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<7> 1492817696.72:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<8> 1492817696.78:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<9> 1492817696.82:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<10> 1492817696.87:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<11> 1492817696.88:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<12> 1492817696.92:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<13> 1492817696.95:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<14> 1492817697.0:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<15> 1492817697.03:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<16> 1492817697.05:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<17> 1492817697.08:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<18> 1492817697.12:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<19> 1492817697.16:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<20> 1492817697.21:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<21> 1492817697.25:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<22> 1492817697.28:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<23> 1492817697.32:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			..17429)
+
+		<1> 1:
+			<0> 1492817696.39:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1492817696.46:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1492817696.52:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1492817696.55:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1492817696.58:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1492817696.62:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<6> 1492817696.66:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<7> 1492817696.72:
+				<0> steer:
+					 96.0 <type 'numpy.float16'>
+
+			<8> 1492817696.78:
+				<0> steer:
+					 92.0 <type 'numpy.float16'>
+
+			<9> 1492817696.82:
+				<0> steer:
+					 91.0 <type 'numpy.float16'>
+
+			<10> 1492817696.87:
+				<0> steer:
+					 91.0 <type 'numpy.float16'>
+
+			<11> 1492817696.88:
+				<0> steer:
+					 91.0 <type 'numpy.float16'>
+
+			<12> 1492817696.92:
+				<0> steer:
+					 91.0 <type 'numpy.float16'>
+
+			<13> 1492817696.95:
+				<0> steer:
+					 91.0 <type 'numpy.float16'>
+
+			<14> 1492817697.0:
+				<0> steer:
+					 91.0 <type 'numpy.float16'>
+
+			<15> 1492817697.03:
+				<0> steer:
+					 92.0 <type 'numpy.float16'>
+
+			<16> 1492817697.05:
+				<0> steer:
+					 92.0 <type 'numpy.float16'>
+
+			<17> 1492817697.08:
+				<0> steer:
+					 92.0 <type 'numpy.float16'>
+
+			<18> 1492817697.12:
+				<0> steer:
+					 92.0 <type 'numpy.float16'>
+
+			<19> 1492817697.16:
+				<0> steer:
+					 93.0 <type 'numpy.float16'>
+
+			<20> 1492817697.21:
+				<0> steer:
+					 93.0 <type 'numpy.float16'>
+
+			<21> 1492817697.25:
+				<0> steer:
+					 93.0 <type 'numpy.float16'>
+
+			<22> 1492817697.28:
+				<0> steer:
+					 93.0 <type 'numpy.float16'>
+
+			<23> 1492817697.32:
+				<0> steer:
+					 93.0 <type 'numpy.float16'>
+
+			..17429)
+
+
+
+<22> direct_rewrite_test_21Apr17_16h39m43s_Mr_Black:
+	<0> Direct_Arena_Potential_Field:
+		<0> 0:
+			<0> 1492818020.01:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1492818020.04:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1492818020.08:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1492818020.14:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1492818020.18:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1492818020.25:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1492818020.28:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1492818020.31:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1492818020.35:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1492818020.38:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1492818020.42:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1492818020.45:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1492818020.48:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1492818020.51:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1492818020.58:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1492818020.61:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1492818020.65:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1492818020.68:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1492818020.75:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1492818020.78:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1492818020.81:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1492818020.85:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1492818020.88:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1492818020.95:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..27514)
+
+		<1> 1:
+			<0> 1492818020.01:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<1> 1492818020.04:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<2> 1492818020.08:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<3> 1492818020.14:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<4> 1492818020.18:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<5> 1492818020.25:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<6> 1492818020.28:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<7> 1492818020.31:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<8> 1492818020.35:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<9> 1492818020.38:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<10> 1492818020.42:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<11> 1492818020.45:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<12> 1492818020.48:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<13> 1492818020.51:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<14> 1492818020.58:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<15> 1492818020.61:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<16> 1492818020.65:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<17> 1492818020.68:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<18> 1492818020.75:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<19> 1492818020.78:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<20> 1492818020.81:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<21> 1492818020.85:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<22> 1492818020.88:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<23> 1492818020.95:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			..27514)
+
+
+	<1> Follow_Arena_Potential_Field:
+		<0> 0:
+			<0> 1492818020.01:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1492818020.04:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1492818020.08:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1492818020.14:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1492818020.18:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1492818020.25:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1492818020.28:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1492818020.31:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1492818020.35:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1492818020.38:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1492818020.42:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1492818020.45:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1492818020.48:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1492818020.51:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1492818020.58:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1492818020.61:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1492818020.65:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1492818020.68:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1492818020.75:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1492818020.78:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1492818020.81:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1492818020.85:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1492818020.88:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1492818020.95:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..27514)
+
+		<1> 1:
+			<0> 1492818020.01:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<1> 1492818020.04:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<2> 1492818020.08:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<3> 1492818020.14:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<4> 1492818020.18:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<5> 1492818020.25:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<6> 1492818020.28:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<7> 1492818020.31:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<8> 1492818020.35:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<9> 1492818020.38:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<10> 1492818020.42:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<11> 1492818020.45:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<12> 1492818020.48:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<13> 1492818020.51:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<14> 1492818020.58:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<15> 1492818020.61:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<16> 1492818020.65:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<17> 1492818020.68:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<18> 1492818020.75:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<19> 1492818020.78:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<20> 1492818020.81:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<21> 1492818020.85:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<22> 1492818020.88:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<23> 1492818020.95:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			..27514)
+
+
+
+<23> direct_rewrite_test_21Apr17_16h50m20s_Mr_Silver:
+	<0> Direct_Arena_Potential_Field:
+		<0> 0:
+			<0> 1492818662.17:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<1> 1492818662.21:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<2> 1492818662.24:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<3> 1492818662.27:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<4> 1492818662.31:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<5> 1492818662.34:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<6> 1492818662.37:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<7> 1492818662.41:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<8> 1492818662.44:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<9> 1492818662.47:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<10> 1492818662.51:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<11> 1492818662.54:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<12> 1492818662.57:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<13> 1492818662.61:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<14> 1492818662.64:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<15> 1492818662.67:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<16> 1492818662.71:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<17> 1492818662.74:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<18> 1492818662.77:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<19> 1492818662.81:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<20> 1492818662.84:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<21> 1492818662.87:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<22> 1492818662.91:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			<23> 1492818662.94:
+				<0> steer:
+					 99.0 <type 'numpy.float16'>
+
+			..6705)
+
+		<1> 1:
+			<0> 1492818662.17:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1492818662.21:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1492818662.24:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1492818662.27:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1492818662.31:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1492818662.34:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1492818662.37:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1492818662.41:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1492818662.44:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1492818662.47:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1492818662.51:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1492818662.54:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1492818662.57:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1492818662.61:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1492818662.64:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1492818662.67:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1492818662.71:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1492818662.74:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1492818662.77:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1492818662.81:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1492818662.84:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1492818662.87:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1492818662.91:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1492818662.94:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..6705)
+
+
+	<1> Follow_Arena_Potential_Field:
+		<0> 0:
+			<0> 1492818662.17:
+				<0> steer:
+					 28.0 <type 'numpy.float16'>
+
+			<1> 1492818662.21:
+				<0> steer:
+					 28.0 <type 'numpy.float16'>
+
+			<2> 1492818662.24:
+				<0> steer:
+					 28.0 <type 'numpy.float16'>
+
+			<3> 1492818662.27:
+				<0> steer:
+					 28.0 <type 'numpy.float16'>
+
+			<4> 1492818662.31:
+				<0> steer:
+					 28.0 <type 'numpy.float16'>
+
+			<5> 1492818662.34:
+				<0> steer:
+					 28.0 <type 'numpy.float16'>
+
+			<6> 1492818662.37:
+				<0> steer:
+					 28.0 <type 'numpy.float16'>
+
+			<7> 1492818662.41:
+				<0> steer:
+					 28.0 <type 'numpy.float16'>
+
+			<8> 1492818662.44:
+				<0> steer:
+					 28.0 <type 'numpy.float16'>
+
+			<9> 1492818662.47:
+				<0> steer:
+					 28.0 <type 'numpy.float16'>
+
+			<10> 1492818662.51:
+				<0> steer:
+					 28.0 <type 'numpy.float16'>
+
+			<11> 1492818662.54:
+				<0> steer:
+					 28.0 <type 'numpy.float16'>
+
+			<12> 1492818662.57:
+				<0> steer:
+					 28.0 <type 'numpy.float16'>
+
+			<13> 1492818662.61:
+				<0> steer:
+					 28.0 <type 'numpy.float16'>
+
+			<14> 1492818662.64:
+				<0> steer:
+					 28.0 <type 'numpy.float16'>
+
+			<15> 1492818662.67:
+				<0> steer:
+					 28.0 <type 'numpy.float16'>
+
+			<16> 1492818662.71:
+				<0> steer:
+					 28.0 <type 'numpy.float16'>
+
+			<17> 1492818662.74:
+				<0> steer:
+					 28.0 <type 'numpy.float16'>
+
+			<18> 1492818662.77:
+				<0> steer:
+					 28.0 <type 'numpy.float16'>
+
+			<19> 1492818662.81:
+				<0> steer:
+					 28.0 <type 'numpy.float16'>
+
+			<20> 1492818662.84:
+				<0> steer:
+					 28.0 <type 'numpy.float16'>
+
+			<21> 1492818662.87:
+				<0> steer:
+					 28.0 <type 'numpy.float16'>
+
+			<22> 1492818662.91:
+				<0> steer:
+					 28.0 <type 'numpy.float16'>
+
+			<23> 1492818662.94:
+				<0> steer:
+					 28.0 <type 'numpy.float16'>
+
+			..6705)
+
+		<1> 1:
+			<0> 1492818662.17:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<1> 1492818662.21:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<2> 1492818662.24:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<3> 1492818662.27:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<4> 1492818662.31:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<5> 1492818662.34:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<6> 1492818662.37:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<7> 1492818662.41:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<8> 1492818662.44:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<9> 1492818662.47:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<10> 1492818662.51:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<11> 1492818662.54:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<12> 1492818662.57:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<13> 1492818662.61:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<14> 1492818662.64:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<15> 1492818662.67:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<16> 1492818662.71:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<17> 1492818662.74:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<18> 1492818662.77:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<19> 1492818662.81:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<20> 1492818662.84:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<21> 1492818662.87:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<22> 1492818662.91:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			<23> 1492818662.94:
+				<0> steer:
+					 0.0 <type 'numpy.float16'>
+
+			..6705)
+
+
+
+..221)
 

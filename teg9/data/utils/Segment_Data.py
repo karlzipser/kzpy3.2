@@ -235,6 +235,11 @@ def get_data(run_code_num,seg_num,offset,slen,img_offset,img_slen,ignore=[left,o
 	motors = Segment_Data['runs'][run_name]['segments'][seg_num_str]['motor'][a:b]
 	if len(motors)!=slen:
 		return None
+	#print Segment_Data['runs'][run_name]['segments'][seg_num_str]['left_timestamp'][a]
+	#print(10**9 * Segment_Data['runs'][run_name]['segments'][seg_num_str]['left_timestamp'][a])
+	left_timestamp = Segment_Data['runs'][run_name]['segments'][seg_num_str]['left_timestamp'][a:b]
+	if len(left_timestamp)!=slen:
+		return None
 	states = Segment_Data['runs'][run_name]['segments'][str(seg_num)]['state'][a:b]
 	if len(states)!=slen:
 		return None
@@ -251,6 +256,7 @@ def get_data(run_code_num,seg_num,offset,slen,img_offset,img_slen,ignore=[left,o
 			steers[i] = (3/6.)*steers[i] + (2/6.)*steers[i-1] + (1/6.)*steers[i-2]
 	data = {}
 	data['name'] = run_name
+	data['left_timestamp'] = left_timestamp
 	data['steer'] = steers
 	data['motor']  = motors
 	data['states'] = states
