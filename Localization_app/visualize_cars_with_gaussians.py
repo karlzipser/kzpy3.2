@@ -287,6 +287,7 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 					dd = 1
 				Aruco_steering_trajectories[behavioral_mode][dd][t[i]] = {}
 				Aruco_steering_trajectories[behavioral_mode][dd][t[i]]['steer'] = steer
+				Aruco_steering_trajectories[behavioral_mode][dd][t[i]]['motor'] = motor
 				#print(behavioral_mode,dd,steer,t[i])
 			else:
 				if not pause_flag:

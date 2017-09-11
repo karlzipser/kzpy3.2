@@ -1,4 +1,5 @@
 use_wordsv = """
+Direct_Arena_Potential_Field Follow_Arena_Potential_Field
 IP_ADDRESS NAME STOP_NOW START STOP STARTED_THREAD CONTINUE PAUSE PAUSE_NOW COUNTER NAME TIME POSE
 aruco_position_x aruco_position_y aruco_heading_x aruco_heading_y actual_center_of_mass
 ROS_LIVE SHOW_MARKER_ID center_of_mass OUTPUT THREAD_COUNTER
