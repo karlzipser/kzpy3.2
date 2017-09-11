@@ -1017,9 +1017,9 @@ def assert_disk_locations(locations):
 		if len(gg(l)) < 1:
 			srpd2s(d2s("Error:\n",l,"not available!"))
 			if len(l.split('/')) > 0:
-				assert_disk_locations(pname(l))
-			raw_input('Hit ctr-C')
-			assert(False)
+				spd2s('Could not find',pname(l),'!!!!!!!!!!')
+				raise ValueError(d2s('Could not find',pname(l),'!!!!!!!!!!'))
+			#assert(False)
 		#print(d2s(l,'is there.\n'))
 
 

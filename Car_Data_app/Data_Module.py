@@ -150,17 +150,18 @@ def _assign_right_image_timestamps2(F):
 			interp_dic[j/1000.] = v
 	lv = F[left_image][ts][:]
 	rv = []
-	try:
-		for iv in rlen(lv):
+	for iv in rlen(lv):
+		print iv
+		try:
 			rv.append(interp_dic[lv[iv]])
-	except Exception as e:
-		print("********** Exception ***********************")
-		print("""	try:
-		for iv in rlen(lv):
-			rv.append(interp_dic[lv[iv]]))
-		print(e.message, e.args)
-			""")
-		print(e.message, e.args)
+		except Exception as e:
+			print("********** Exception ***********************")
+			print("""	try:
+			for iv in rlen(lv):
+				rv.append(interp_dic[lv[iv]]))
+			print(e.message, e.args)
+				""")
+			print(e.message, e.args)
 	return np.array(rv)
 
 
@@ -173,8 +174,8 @@ def Left_Timestamp_Metadata(*args):
 	run_namev = Args[run_name]
 	h5py_pathv = Args[h5py_path]
 	True
-	if os.path.exists(opj(h5py_pathv,run_namev,'left_timestamp_metadata.h5py')):
-		spd2s(opj(h5py_pathv,run_namev,'left_timestamp_metadata.h5py')+' exists, doing nothing.')
+	if os.path.exists(opj(h5py_pathv,run_namev,'left_timestamp_metadata_right_ts.h5py')):
+		spd2s(opj(h5py_pathv,run_namev,'left_timestamp_metadata_right_ts.h5py')+' exists, doing nothing.')
 		return None
 	pathv = opj(h5py_pathv,run_namev,'original_timestamp_data.h5py')
 	assert_disk_locations(pathv)
@@ -182,7 +183,7 @@ def Left_Timestamp_Metadata(*args):
 #	F = h5py.File(pathv,'r')
 #	L = h5py.File(opj(pname(pathv),'left_timestamp_metadata.h5py'),'w')
 	F = h5r(pathv)
-	L = h5w(opj(pname(pathv),'left_timestamp_metadata.h5py'))
+	L = h5w(opj(pname(pathv),'left_timestamp_metadata_right_ts.h5py'))
 
 	L.create_dataset(ts,data=np.array(F[left_image][ts]))
 

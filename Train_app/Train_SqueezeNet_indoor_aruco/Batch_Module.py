@@ -30,13 +30,26 @@ P['Aruco_Steering_Trajectories']['Direct_Arena_Potential_Field'][0]['flip_caffe2
 if True:
 	Aruco_Steering_Trajectories = load_Aruco_Steering_Trajectories()
 """
-Aruco_Steering_Trajectories = P['Aruco_Steering_Trajectories']#lo(opj(P[BAIR_CAR_DATA_PATH],'Aruco_Steering_Trajectories'))
+#Aruco_Steering_Trajectories = P['Aruco_Steering_Trajectories']#lo(opj(P[BAIR_CAR_DATA_PATH],'Aruco_Steering_Trajectories'))
 
 
 
 control_filter1 = zeros(90); control_filter1[:5] = 1.0; control_filter1[5:10] = 0.5
 control_filter2 = 1.0/((arange(90)/60.0)**2+1.0); control_filter2[:5] = 0.0; control_filter2[5:10] = 0.5
 
+
+
+
+All_image_files = P['All_image_files']
+data_moments_indexed = P['data_moments_indexed']
+
+DIRECT = 'Direct_Arena_Potential_Field'
+FOLLOW = 'Follow_Arena_Potential_Field'
+CLOCKWISE = 0
+COUNTER_C = 1
+long_ctr = -1
+
+frequency_timer = Timer(10.0)
 def Batch(*args):
 	Args = args_to_dictionary(args)
 	D = {}
@@ -57,54 +70,79 @@ def Batch(*args):
 	COUNTER_C = 1
 
 	def _function_fill(*args):
+		#print 'AAAAAAAAAAAAAAAAAAAA'
+		global long_ctr,data_moments_indexed
+		#print long_ctr
+		if long_ctr == -1 or long_ctr >= len(data_moments_indexed):
+			long_ctr = 0
+			random.shuffle(data_moments_indexed)
+
 		Args = args_to_dictionary(args)
 		True
 		D[data_ids] = []
 		ctr = 0
 		while ctr < D[batch_size]:
+			frequency_timer.freq()
+			#pd2s('ctr =',ctr)
 			b_ = ctr
-			Data_moment = None
-			"""
-			while Data_moment == None:
-				ev = Args[data][next](mode,Args[mode], network,D[network])
-				run_codev = ev[3]
-				seg_numv = ev[0]
-				offsetv = ev[1]
-				#Data_moment = _(Args[data],get_data)(run_code,run_codev, seg_num,seg_numv, offset,offsetv) ##@@@@@@@@@@@@@@
-			"""
+			FLIP = random.choice([0,1])
+			dm = data_moments_indexed[long_ctr]; long_ctr += 1; ctr += 1
+			#print dm
 			Data_moment = {}
-			behavioral_mode = np.random.choice([DIRECT,FOLLOW])
-			direction = np.random.choice([CLOCKWISE,COUNTER_C])
-			try:
-				t = Data_moment['left_timestamp'][0] ##@@@@@@@@@@@@@@
-				if t in Aruco_Steering_Trajectories[Data_moment['name']][behavioral_mode][direction]: ##@@@@@@@@@@@@@@
-					steer_orig = Data_moment['steer']-49
-					steer_new = Aruco_Steering_Trajectories[Data_moment['name']][behavioral_mode][direction][t]['steer'] - 49 ##@@@@
-					steer_orig *= control_filter1
-					steer_new *= control_filter2
-					Data_moment['steer'] = 49.0 + steer_new + steer_orig ##@@@@@@@@@@@@@@
-					Data_moment['labels'] = {} ##@@@@@@@@@@@@@@
-					for l in ['direct','follow','clockwise','counter-clockwise']:
-						Data_moment['labels'][l] = 0 ##@@@@@@@@@@@@@@
-					if behavioral_mode == DIRECT:
-						Data_moment['labels']['direct'] = 1 ##@@@@@@@@@@@@@@
-					elif behavioral_mode == FOLLOW:
-						Data_moment['labels']['follow'] = 1 ##@@@@@@@@@@@@@@
-					if direction == CLOCKWISE:
-						Data_moment['labels']['clockwise'] = 1 ##@@@@@@@@@@@@@@
-					elif direction == COUNTER_C:
-						Data_moment['labels']['counter-clockwise'] = 1 ##@@@@@@@@@@@@@@
 
-					#print Data_moment['labels']
-					#print shape(Data_moment['steer'])
-					#print t, Aruco_Steering_Trajectories[Data_moment['name']][behavioral_mode][direction][t]['steer']
-					ctr += 1
-			except:
-				pass#print('...')
-				#raw_enter()
-			D[data_ids].append((run_codev,seg_numv,offsetv))
+			Data_moment['steer'] = zeros(90) + dm[3][0]
+			if FLIP:
+				Data_moment['steer'] = 99 - Data_moment['steer']
+			Data_moment['motor'] = zeros(90) + dm[3][1]
+			Data_moment['labels'] = {}
+			for l in ['direct','follow','clockwise','counter-clockwise']:
+				Data_moment['labels'][l] = 0
+			Data_moment['name'] = dm[0]
+			direction = dm[2][1]
+			behavioral_mode = dm[2][0]
+			if behavioral_mode == DIRECT:
+				Data_moment['labels']['direct'] = 1
+			elif behavioral_mode == FOLLOW:
+				Data_moment['labels']['follow'] = 1
+
+			if not FLIP:
+				if direction == CLOCKWISE:
+					Data_moment['labels']['clockwise'] = 1
+				elif direction == COUNTER_C:
+					Data_moment['labels']['counter-clockwise'] = 1
+			else:
+				if direction == COUNTER_C:
+					Data_moment['labels']['clockwise'] = 1
+				elif direction == CLOCKWISE:
+					Data_moment['labels']['counter-clockwise'] = 1
+
+			tl0 = dm[1][0][0]; il0 = dm[1][0][1]
+			tr0 = dm[1][1][0]; ir0 = dm[1][1][1]
+
+			if FLIP:
+				F = All_image_files[Data_moment['name']]['flip']
+			else:
+				F = All_image_files[Data_moment['name']]['normal']
+
+			Data_moment[left] = {}
+			Data_moment[right] = {}
+
+			if not FLIP:
+				Data_moment[left][0] = F[left_image][vals][il0]
+				Data_moment[right][0] = F[right_image][vals][ir0]
+				Data_moment[left][1] = F[left_image][vals][il0+2] # note, two frames
+				Data_moment[right][1] = F[right_image][vals][ir0+2]
+			else:
+				Data_moment[right][0] = F[left_image_flip][vals][il0]
+				Data_moment[left][0] = F['right_image_flip'][vals][ir0]
+				Data_moment[right][1] = F[left_image_flip][vals][il0+2]
+				Data_moment[left][1] = F['right_image_flip'][vals][ir0+2]
+			#mci(Data_moment[right][1],title='r1',delay=1)
+			ctr += 1
+			#D[data_ids].append((run_codev,seg_numv,offsetv))
+			#print Data_moment['labels']
 			_function_data_into_batch(data_moment,Data_moment)
-		D[data_ids].reverse() # this is to match way batch is filled up below
+		#D[data_ids].reverse() # this is to match way batch is filled up below
 
 
 	def _function_data_into_batch(*args):
@@ -120,6 +158,7 @@ def Batch(*args):
 				for camerav in (left, right):
 					img = Data_moment[camerav][t]#[40:,:,:]
 					img[:(30+offset),:,:] = 128
+					#mci(img,title='_function_data_into_batch')
 					list_camera_input.append(torch.from_numpy(img))
 			camera_datav = torch.cat(list_camera_input, 2)
 			camera_datav = camera_datav.cuda().float()/255. - 0.5
@@ -188,7 +227,7 @@ def Batch(*args):
 			motorv = torch.from_numpy(mv).cuda().float() / 99.
 			target_datav = torch.unsqueeze(torch.cat((steerv, motorv), 0), 0)
 			D[target_data] = torch.cat((target_datav, D[target_data]), 0)
-			D[states].append(Data_moment[states])
+			#D[states].append(Data_moment[states])
 
 
 
@@ -209,6 +248,7 @@ def Batch(*args):
 		D[network][optimizer].zero_grad()
 		D[outputs] = D[network][net](torch.autograd.Variable(D[camera_data]), torch.autograd.Variable(D[metadata])).cuda()
 		D[loss] = D[network][criterion](D[outputs], torch.autograd.Variable(D[target_data]))
+		"""
 		for bv in range(D[batch_size]):
 			id = D[data_ids][bv]
 			tv= D[target_data][bv].cpu().numpy()
@@ -217,7 +257,7 @@ def Batch(*args):
 			#Trial_loss_record[(id,tuple(tv),tuple(ov))] = np.sqrt(av * av).mean()
 			Trial_loss_record[id] = np.sqrt(av * av).mean()
 		D[network][rate_counter][step]()
-
+		"""
 
 
 	def _function_backward():

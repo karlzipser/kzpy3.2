@@ -3,11 +3,11 @@
 import __main__ as main
 if not hasattr(main,'__file__'):
 	from kzpy3.utils2 import *
-	pythonpaths(['kzpy3','kzpy3/Train_app/Train_SqueezeNet_aruco','kzpy3/teg9'])
+	pythonpaths(['kzpy3','kzpy3/Train_app/Train_SqueezeNet_indoor_aruco','kzpy3/teg9'])
 #
 ###############################
 from Parameters_Module import *
-import Data_Module
+#import Data_Module
 import Batch_Module
 import Network_Module
 exec(identify_file_str)
@@ -32,36 +32,28 @@ for folder in [code,current_code_dst_folder,loss_history,weights]:
 
 Network = Network_Module.Pytorch_Network()
 
-Train_Val_data = Data_Module.Training_Data()
 
 Batch = Batch_Module.Batch(network,Network)
 
-timer = Timer(0)
+
 
 while True:
-	for train_valv in [
-		[train,val,Timer(P[TRAIN_TIME]),'b'],
-		[val,train,Timer(P[VAL_TIME]),'r']]:
 
-		modev = train_valv[0]
-		other_modev = train_valv[1]
-		timer = train_valv[2]
-		timer.reset()
-		colorv = train_valv[3]
-		while not timer.check():
-			Batch[clear]()
-			Batch[fill](data,Train_Val_data, mode,modev)
-			Batch[forward]()
-			Batch[display]()
-			Batch[backward]()
-			Network[loss_record][modev][add](loss,Batch['loss'].data.cpu().numpy()[0],
-				'alt_ctr',Network[loss_record][other_modev][ctr],
-				'color',colorv)
-			Network[save_net]()
+	Batch[clear]()
+
+	Batch[fill](data,None, mode,None)
+
+	Batch[forward]()
+
+	Batch[display]()
+
+	Batch[backward]()
+
+	Network[save_net]()
 
 	
 
-	#Batch['clear']()
+
 
 
 
