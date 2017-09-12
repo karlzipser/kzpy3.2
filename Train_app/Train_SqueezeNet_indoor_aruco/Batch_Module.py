@@ -48,6 +48,10 @@ FOLLOW = 'Follow_Arena_Potential_Field'
 CLOCKWISE = 0
 COUNTER_C = 1
 long_ctr = -1
+P['LOSS_LIST'] = []
+P['LOSS_LIST_AVG'] = []
+
+loss_timer = Timer(60*5)
 
 frequency_timer = Timer(10.0)
 def Batch(*args):
@@ -73,15 +77,16 @@ def Batch(*args):
 		#print 'AAAAAAAAAAAAAAAAAAAA'
 		global long_ctr,data_moments_indexed
 		#print long_ctr
-		if long_ctr == -1 or long_ctr >= len(data_moments_indexed):
-			long_ctr = 0
-			random.shuffle(data_moments_indexed)
+		
 
 		Args = args_to_dictionary(args)
 		True
 		D[data_ids] = []
 		ctr = 0
 		while ctr < D[batch_size]:
+			if long_ctr == -1 or long_ctr >= len(data_moments_indexed):
+				long_ctr = 0
+				random.shuffle(data_moments_indexed)
 			frequency_timer.freq()
 			#pd2s('ctr =',ctr)
 			b_ = ctr
@@ -93,7 +98,11 @@ def Batch(*args):
 			Data_moment['steer'] = zeros(90) + dm[3][0]
 			if FLIP:
 				Data_moment['steer'] = 99 - Data_moment['steer']
-			Data_moment['motor'] = zeros(90) + dm[3][1]
+			new_motor = dm[3][1]
+			new_motor -= 49
+			new_motor = max(0,new_motor)
+			new_motor *= 7.0
+			Data_moment['motor'] = zeros(90) + new_motor#dm[3][1]
 			Data_moment['labels'] = {}
 			for l in ['direct','follow','clockwise','counter-clockwise']:
 				Data_moment['labels'][l] = 0
@@ -265,7 +274,10 @@ def Batch(*args):
 		D[loss].backward()
 		nnutils.clip_grad_norm(D[network][net].parameters(), 1.0)
 		D[network][optimizer].step()
-
+		P['LOSS_LIST'].append(D[loss].data.cpu().numpy()[:].mean())
+		if len(P['LOSS_LIST']) > 10000:
+			P['LOSS_LIST_AVG'].append(na(P['LOSS_LIST']).mean())
+			P['LOSS_LIST'] = []
 
 
 	def _function_display(*args):
@@ -296,8 +308,9 @@ def Batch(*args):
 			#print(D[states][-1])
 			#print shape(mv)
 			#img_saver['save']({'img':c})
-
-
+			if loss_timer.check():
+				figure('LOSS_LIST_AVG');clf();plot(P['LOSS_LIST_AVG'],'.')
+				loss_timer.reset()
 			Net_activity = Activity_Module.Net_Activity(activiations,D[network][net].A)
 
 			Net_activity[view](moment_index,0,delay,33, scales,{camera_input:3,pre_metadata_features:0,pre_metadata_features_metadata:2,post_metadata_features:4})

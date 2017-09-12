@@ -39,8 +39,9 @@ verbose = False
 nframes = 2 # default superseded by net
 
 # try:
-weight_file_path = opjm('rosbags/net/weights/net_09Sep17_20h48m58s.infer')
+#weight_file_path = opjm('rosbags/net/weights/net_09Sep17_20h48m58s.infer')
 #opjh('pytorch_models','epoch6goodnet') #'save_file.weights')#)
+weight_file_path = opjh('pytorch_models','net_12Sep17_07h49m45s.infer')
 
 def static_vars(**kwargs):
     def decorate(func):
@@ -89,6 +90,8 @@ def run_model(input, metadata):
     #torch_steer = 100 * output[0][9].data[0]
     torch_motor = 100 * output[0][11].data[0] ########################!!!!!!!!!!!!!!!!!!!!!
     torch_steer = 100 * output[0][2].data[0] ########################!!!!!!!!!!!!!!!!!!!!!
+    torch_motor /= 7.0
+    torch_motor += 49
 
     if verbose:
         print('Torch Prescale Motor: ' + str(torch_motor))
