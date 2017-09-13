@@ -323,7 +323,7 @@ ssh_command_str = ''
 def paramiko_command_thread():
 	timer = Timer(0)
 	while True:
-		if state in [6]:
+		if state in [1,6]:
 			timer.reset()
 			for k in rp.Car_IP_dic:
 				
