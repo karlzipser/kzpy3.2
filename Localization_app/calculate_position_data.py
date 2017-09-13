@@ -1,10 +1,11 @@
 from kzpy3.Grapher_app.Graph_Image_Module import *
 from kzpy3.Localization_app.aruco_whole_room_markers import *
 
+car = Args['CAR']
 
 def get_car_position_heading_validity(h5py_data_folder,graphics=False):
 
-	L = h5r(opj(h5py_data_folder,'left_timestamp_metadata.h5py'))
+	L = h5r(opj(h5py_data_folder,'left_timestamp_metadata_right_ts.h5py'))
 	O = h5r(opj(h5py_data_folder,'original_timestamp_data.h5py'))
 
 	left_images = O[left_image][vals][:].copy()
@@ -124,14 +125,15 @@ def get_car_position_heading_validity(h5py_data_folder,graphics=False):
 
 
 
-if False:
+if True:
 
-	car = 'Mr_Lt_Blue'
-	h5py_data_folder = '/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/h5py'
+	#for car in ['Mr_Orange','Mr_Lt_Blue','Mr_Blue','Mr_Yellow','Mr_Black','Mr_Purple']:
+	h5py_data_folder = '/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo_2/h5py'
 
 	runs = sggo(h5py_data_folder,car+'*')
 
 	for r in runs:
+		print r
 		if len(sggo(r,'position_data.h5py')) > 0:
 			unix('rm '+opj(r,'position_data.h5py'))
 			#print opj(r,'position_data.h5py') + 'exists, doing nothing'
@@ -154,32 +156,32 @@ if False:
 				print(e.message, e.args)
 
 
-if False:
+if True:
 
-	for car in ['Mr_Lt_Blue','Mr_Blue','Mr_Yellow','Mr_Black','Mr_Purple']:
-		#car = 'Mr_Orange'
-		h5py_data_folder = '/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/h5py'
+	#for car in ['Mr_Orange','Mr_Lt_Blue','Mr_Blue','Mr_Yellow','Mr_Black','Mr_Purple']:
 
-		runs = sggo(h5py_data_folder,car+'*')
-		All_100ms_data = {}
-		for topic in ['ax','ay','hx','hy','o_meo']:
-			All_100ms_data[topic] = {}
-		for r in runs:
-			print r
-			Data_100ms = {}
-			if len(sggo(r,'position_data.h5py')) > 0:
-				F = h5r(opj(r,'position_data.h5py'))
-				TS_100ms = {}
-				for t in F['t']:
-					TS_100ms[dp(t,1)] = True
-				Data_100ms['t'] = sorted(TS_100ms.keys())
-				for topic in ['ax','ay','hx','hy','o_meo']:
-					Data_100ms[topic] = np.interp(Data_100ms['t'],F['t'][:],F[topic][:])
-				for topic in ['ax','ay','hx','hy','o_meo']:
-					for i in rlen(Data_100ms[topic]):
-						All_100ms_data[topic][Data_100ms['t'][i]] = Data_100ms[topic][i]
-				F.close()
-		so(opjD(car+'_position_dictionary'),All_100ms_data)
+	h5py_data_folder = '/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo_2/h5py'
+
+	runs = sggo(h5py_data_folder,car+'*')
+	All_100ms_data = {}
+	for topic in ['ax','ay','hx','hy','o_meo']:
+		All_100ms_data[topic] = {}
+	for r in runs:
+		print r
+		Data_100ms = {}
+		if len(sggo(r,'position_data.h5py')) > 0:
+			F = h5r(opj(r,'position_data.h5py'))
+			TS_100ms = {}
+			for t in F['t']:
+				TS_100ms[dp(t,1)] = True
+			Data_100ms['t'] = sorted(TS_100ms.keys())
+			for topic in ['ax','ay','hx','hy','o_meo']:
+				Data_100ms[topic] = np.interp(Data_100ms['t'],F['t'][:],F[topic][:])
+			for topic in ['ax','ay','hx','hy','o_meo']:
+				for i in rlen(Data_100ms[topic]):
+					All_100ms_data[topic][Data_100ms['t'][i]] = Data_100ms[topic][i]
+			F.close()
+	so(opjD(car+'_position_dictionary'),All_100ms_data)
 	
 
 

@@ -275,7 +275,7 @@ def Batch(*args):
 		nnutils.clip_grad_norm(D[network][net].parameters(), 1.0)
 		D[network][optimizer].step()
 		P['LOSS_LIST'].append(D[loss].data.cpu().numpy()[:].mean())
-		if len(P['LOSS_LIST']) > 10000:
+		if len(P['LOSS_LIST']) > 1000:
 			P['LOSS_LIST_AVG'].append(na(P['LOSS_LIST']).mean())
 			P['LOSS_LIST'] = []
 

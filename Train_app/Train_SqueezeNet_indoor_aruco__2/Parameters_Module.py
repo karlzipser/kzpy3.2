@@ -3,7 +3,7 @@ from kzpy3.utils2 import *
 exec(identify_file_str)
 
 P = {}
-P['data_moments_indexed'] = lo('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/data_moments_indexed.pkl')
+P['data_moments_indexed'] = lo('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/data_moments_indexed_1.pkl')+lo('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/data_moments_indexed_2.pkl')
 
 P[GPU] = 0
 P[BATCH_SIZE] = 64

@@ -9,7 +9,7 @@ from kzpy3.utils2 import *
 if 'BATCH' in Args:
 	if Args['BATCH'] == 'True':
 		for color in ['Blue','Lt_Blue','Orange','Black','Yellow','Purple']:
-			os.system(d2s("xterm -hold -e python",opjh('kzpy3/Localization_app/visualize_cars_with_gaussians.py'), 'CAR_NAME', 'Mr_'+color,'&'))
+			os.system(d2s("xterm -hold -e python",opjh('kzpy3/Localization_app/visualize_cars_with_gaussians__2.py'), 'CAR_NAME', 'Mr_'+color,'&'))
 			pause(2)
 		raw_enter();
 		exit()
@@ -116,7 +116,7 @@ def angle_to_marker(x_pos,y_pos,h_x,h_y,marker_id,Marker_xy_dic):
 
 
 def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list,behavioral_mode,Aruco_steering_trajectories):
-	L = h5r(opj(h5py_car_data_folder,'left_timestamp_metadata.h5py'))
+	L = h5r(opj(h5py_car_data_folder,'left_timestamp_metadata_right_ts.h5py'))
 	O = h5r(opj(h5py_car_data_folder,'original_timestamp_data.h5py'))
 	P = h5r(opj(h5py_car_data_folder,'position_data.h5py'))
 
@@ -301,7 +301,7 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 
 
 #desired_direction = 'counter-clockwise'
-data_folder = opjD('bdd_car_data_Sept2017_aruco_demo')
+data_folder = opjD('bdd_car_data_Sept2017_aruco_demo_2')
 h5py_folder = opj(data_folder,'h5py')
 #h5py_car_data_folder = opj(h5py_folder,'Mr_Blue_2017-09-02-14-55-25')#'Mr_Black_2017-09-04-17-05-28')#
 # python kzpy3/Localization_app/visualize_cars_with_gaussians.py
@@ -343,7 +343,7 @@ for h5py_car_data_folder in sggo(h5py_folder,'*'):
 
 		
 
-
+spd2s('Done!')
 
 
 

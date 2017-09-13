@@ -1,0 +1,16 @@
+
+
+Car_Data SRC rosbags/new DST /home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo_2/h5py
+
+
+python kzpy3/Localization_app/calculate_position_data.py CAR Mr_Orange # for each car, path set within file.
+
+
+mkdir position_dictionaries
+
+put .pkl files into that
+
+
+
+change path
+
