@@ -87,6 +87,7 @@ def Batch(*args):
 			if long_ctr == -1 or long_ctr >= len(data_moments_indexed):
 				long_ctr = 0
 				random.shuffle(data_moments_indexed)
+				spd2s('suffle data_moments_indexed, len =',len(data_moments_indexed))
 			frequency_timer.freq()
 			#pd2s('ctr =',ctr)
 			b_ = ctr
@@ -124,6 +125,9 @@ def Batch(*args):
 					Data_moment['labels']['clockwise'] = 1
 				elif direction == CLOCKWISE:
 					Data_moment['labels']['counter-clockwise'] = 1
+
+			Data_moment['labels']['counter-clockwise'] = 0 #!!!!!!!!!!!!!!!!!!!!!!!!!
+			Data_moment['labels']['clockwise'] = 0 #!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 			tl0 = dm[1][0][0]; il0 = dm[1][0][1]
 			tr0 = dm[1][1][0]; ir0 = dm[1][1][1]
@@ -275,7 +279,7 @@ def Batch(*args):
 		nnutils.clip_grad_norm(D[network][net].parameters(), 1.0)
 		D[network][optimizer].step()
 		P['LOSS_LIST'].append(D[loss].data.cpu().numpy()[:].mean())
-		if len(P['LOSS_LIST']) > 1000:
+		if len(P['LOSS_LIST']) > 100:
 			P['LOSS_LIST_AVG'].append(na(P['LOSS_LIST']).mean())
 			P['LOSS_LIST'] = []
 

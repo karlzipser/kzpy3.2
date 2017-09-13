@@ -88,79 +88,78 @@ print timer.time()
 
 ##################################################################################
 #
-car = 'Mr_Purple'
+for car in ['Mr_Purple','Mr_Black','Mr_Blue','Mr_Lt_Blue','Mr_Orange','Mr_Yellow']:
+
+	all_left_timestamps = []
+	folders5 = sgg('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/h5py/*')
+	for f in folders5:
+		if car in f:
+			try:
+				F = h5r(opj(f,'left_timestamp_metadata_right_ts.h5py'))
+				time_stamps = list(F['ts'][:])
+				assert(len(time_stamps)>0)
+				all_left_timestamps += time_stamps
+				F.close()
+			except Exception as e:
+				print("********** Exception ***********************")
+				print(e.message, e.args)
+		
+		#ctr += 1
+		#if ctr > 1:
+		#	break
+	all_aruco_left_timestamps = []
+	folders = sgg('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/Aruco_Steering_Trajectories/*')
+	for f in folders:
+		if car in f:
+			try:
+				o = lo(f)
+				for r in o.keys():
+					for b in o[r]:
+						for t in o[r][b]:
+							all_aruco_left_timestamps.append(t)
+			except Exception as e:
+				print("********** Exception ***********************")
+				print(e.message, e.args)
 
 
-all_left_timestamps = []
-folders5 = sgg('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/h5py/*')
-for f in folders5:
-	if car in f:
+
+	common_timestamps = sorted(list(set(all_left_timestamps) & set(all_aruco_left_timestamps)))
+	valid_timestamps = []
+	valid_timestamp_pairs = {}
+	for i in range(0,len(common_timestamps)-1):
+		if common_timestamps[i+1] - common_timestamps[i] < 1/30.*3.0:
+			valid_timestamps.append(common_timestamps[i])
+			valid_timestamp_pairs[common_timestamps[i]] = common_timestamps[i+1]
+	print len(valid_timestamps)/30./60./60.
+
+	so('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/valid_timestamps.'+car+'.pkl',valid_timestamps)
+	so('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/valid_timestamp_pairs.'+car+'.pkl',valid_timestamp_pairs)
+
+
+
+	valid_timestamps = lo('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/valid_timestamps.'+car+'.pkl')
+	data_moments = []
+	folders = sgg('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/Aruco_Steering_Trajectories/*')
+
+	for f in folders:
+		print f
 		try:
-			F = h5r(opj(f,'left_timestamp_metadata.h5py'))
-			time_stamps = list(F['ts'][:])
-			assert(len(time_stamps)>0)
-			all_left_timestamps += time_stamps
-			F.close()
+			run_name = fname(f).split('.')[0]
+			if car in run_name:
+				o = lo(f)
+				for r in o.keys():
+					for b in o[r]:
+						for t in o[r][b]:
+							if t in valid_timestamps:
+								steer = o[r][b][t]['steer']
+								motor = o[r][b][t]['motor']
+								data_moments.append((run_name,t,r,b,steer,motor))
+							else:
+								print t,'invalid'
 		except Exception as e:
 			print("********** Exception ***********************")
 			print(e.message, e.args)
-	
-	#ctr += 1
-	#if ctr > 1:
-	#	break
-all_aruco_left_timestamps = []
-folders = sgg('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/Aruco_Steering_Trajectories/*')
-for f in folders:
-	if car in f:
-		try:
-			o = lo(f)
-			for r in o.keys():
-				for b in o[r]:
-					for t in o[r][b]:
-						all_aruco_left_timestamps.append(t)
-		except Exception as e:
-			print("********** Exception ***********************")
-			print(e.message, e.args)
-
-
-
-common_timestamps = sorted(list(set(all_left_timestamps) & set(all_aruco_left_timestamps)))
-valid_timestamps = []
-valid_timestamp_pairs = {}
-for i in range(0,len(common_timestamps)-1):
-	if common_timestamps[i+1] - common_timestamps[i] < 1/30.*3.0:
-		valid_timestamps.append(common_timestamps[i])
-		valid_timestamp_pairs[common_timestamps[i]] = common_timestamps[i+1]
-print len(valid_timestamps)/30./60./60.
-
-so('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/valid_timestamps.'+car+'.pkl',valid_timestamps)
-so('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/valid_timestamp_pairs.'+car+'.pkl',valid_timestamp_pairs)
-
-
-
-valid_timestamps = lo('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/valid_timestamps.'+car+'.pkl')
-data_moments = []
-folders = sgg('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/Aruco_Steering_Trajectories/*')
-
-for f in folders:
-	print f
-	try:
-		run_name = fname(f).split('.')[0]
-		if car in run_name:
-			o = lo(f)
-			for r in o.keys():
-				for b in o[r]:
-					for t in o[r][b]:
-						if t in valid_timestamps:
-							steer = o[r][b][t]['steer']
-							motor = o[r][b][t]['motor']
-							data_moments.append((run_name,t,r,b,steer,motor))
-						else:
-							print t,'invalid'
-	except Exception as e:
-		print("********** Exception ***********************")
-		print(e.message, e.args)
-so(data_moments,opjD('data_moments_'+car))
+	so(data_moments,opjD('data_moments_'+car))
 #
 ##################################################################################
 
@@ -176,7 +175,7 @@ for f in folders5:
 	print f
 	left_timestamp_index_dic = {}
 	try:
-		F = h5r(opj(f,'left_timestamp_metadata.h5py'))
+		F = h5r(opj(f,'left_timestamp_metadata_right_ts.h5py'))
 		time_stamps = list(F['ts'][:])
 		assert(len(time_stamps)>0)
 		ctr = 0
@@ -471,7 +470,7 @@ while(True):
 
 
 
-car = 'Lt_Blue'
+car = 'Yellow'
 
 ###################### left-right ts dic ####################
 #
