@@ -332,10 +332,10 @@ def paramiko_command_thread():
 						print 'paramiko_command_thread +'+k
 						try:
 							Ssh[k].exec_command(ssh_command_str)
-							spd2s('ssh.exec_command  to',k)
+							#spd2s('ssh.exec_command  to',k)
 						except:
 							if error_timer.check():
-								srpd2s('ssh.exec_command failed to',k)
+								#srpd2s('ssh.exec_command failed to',k)
 								error_timer.reset()
 			t = timer.time()
 			if t < 0.1:#one_over_sixty:
