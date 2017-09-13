@@ -315,7 +315,7 @@ def paramiko_connection_thread():
 						pd2s('ssh connection to',k,'failed')
 						pass
 		time.sleep(5)
-#threading.Thread(target=paramiko_connection_thread).start()
+threading.Thread(target=paramiko_connection_thread).start()
 
 ssh_command_str = ''
 
@@ -342,7 +342,7 @@ def paramiko_command_thread():
 				time.sleep(0.1-t) #one_over_sixty - t)
 		else:
 			time.sleep(0.2)
-#threading.Thread(target=paramiko_command_thread).start()
+threading.Thread(target=paramiko_command_thread).start()
 #
 ###################################################################
 
