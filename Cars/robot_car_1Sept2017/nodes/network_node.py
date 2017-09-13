@@ -364,7 +364,7 @@ def aruco_thread():
 	x_avg_prev,y_avg_prev = 0.0,0.0
 	dx_avg_prev,dy_avg_prev = 0.0,0.0
 	while not rospy.is_shutdown():
-		if state in [6]:
+		if state in [1,6]: #!!!!!!!!!!!
 			try:
 				if aruco_error_timer.check():
 					heading_pause = 1
