@@ -329,10 +329,10 @@ def paramiko_command_thread():
 				
 				if k != rp.computer_name:
 					if Connected_car_names[k]:
-						#print 'paramiko_command_thread +'+k
+						print 'paramiko_command_thread +'+k
 						try:
 							Ssh[k].exec_command(ssh_command_str)
-							#spd2s('ssh.exec_command  to',k)
+							spd2s('ssh.exec_command  to',k)
 						except:
 							if error_timer.check():
 								srpd2s('ssh.exec_command failed to',k)
