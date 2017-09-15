@@ -323,19 +323,19 @@ ssh_command_str = ''
 def paramiko_command_thread():
 	timer = Timer(0)
 	while True:
-		if state in [6]:
+		if state in [1,6]:
 			timer.reset()
 			for k in rp.Car_IP_dic:
 				
 				if k != rp.computer_name:
 					if Connected_car_names[k]:
-						#print 'paramiko_command_thread +'+k
+						print 'paramiko_command_thread +'+k
 						try:
 							Ssh[k].exec_command(ssh_command_str)
 							#spd2s('ssh.exec_command  to',k)
 						except:
 							if error_timer.check():
-								srpd2s('ssh.exec_command failed to',k)
+								#srpd2s('ssh.exec_command failed to',k)
 								error_timer.reset()
 			t = timer.time()
 			if t < 0.1:#one_over_sixty:
@@ -364,7 +364,7 @@ def aruco_thread():
 	x_avg_prev,y_avg_prev = 0.0,0.0
 	dx_avg_prev,dy_avg_prev = 0.0,0.0
 	while not rospy.is_shutdown():
-		if state in [6]:
+		if state in [1,6]: #!!!!!!!!!!!
 			try:
 				if aruco_error_timer.check():
 					heading_pause = 1
