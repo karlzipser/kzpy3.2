@@ -10,13 +10,9 @@ import torch
 import torch.nn as nn
 from torch.autograd import Variable
 from nets.squeezenet import SqueezeNet
+import runtime_parameters as rp
 
 
-# ????????
-# Labels
-print_stars0()
-print('Warning, runtime_params.py not imported in this version.')
-print_stars1()
 
 Direct = 1.
 Follow = 0.
@@ -29,8 +25,7 @@ Racing = 0.0
 motor_gain = 1.
 steer_gain = 1.
 
-# motor_gain = 1.
-# steer_gain = 1.
+reload_timer = Timer(30)
 
 last_time = 0
 
@@ -38,8 +33,10 @@ verbose = False
 
 nframes = 2 # default superseded by net
 
+# try:
+#weight_file_path = opjm('rosbags/net/weights/net_09Sep17_20h48m58s.infer')
+#opjh('pytorch_models','epoch6goodnet') #'save_file.weights')#)
 
-weight_file_path = opjm('rosbags','net.infer')
 
 def static_vars(**kwargs):
     def decorate(func):
@@ -53,8 +50,8 @@ def static_vars(**kwargs):
 def init_model():
     global solver, scale, nframes
     # Load PyTorch model
-    save_data = torch.load(weight_file_path)
-    print("Loaded "+weight_file_path)
+    save_data = torch.load(rp.weight_file_path)
+    print("Loaded "+rp.weight_file_path)
     # Initializes Solver
     solver = SqueezeNet().cuda()
     
@@ -96,8 +93,8 @@ def run_model(input, metadata):
         print('Torch Prescale Steer: ' + str(torch_steer))
     
     # Scale Output
-    torch_motor = int((torch_motor - 49.) * motor_gain + 49.)
-    torch_steer = int((torch_steer - 49.) * steer_gain + 49.)
+    torch_motor = int((torch_motor - 49.) * rp.motor_gain + 49.)
+    torch_steer = int((torch_steer - 49.) * rp.steer_gain + 49.)
 
     # Bound the output
     torch_motor = max(0, torch_motor)
@@ -249,7 +246,12 @@ reload_timer = Timer(10)
 torch_steer_previous = 49
 torch_motor_previous = 49
 
+reload_timer
+
 while not rospy.is_shutdown():
+    if reload_timer.check(): # put in thread?
+        reload(rp)
+        reload_timer.reset()
     if state in [3,5,6,7]:
         if (previous_state not in [3,5,6,7]):
             previous_state = state
