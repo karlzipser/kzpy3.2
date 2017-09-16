@@ -48,6 +48,14 @@ Car_num_dic = {'Mr_Blue':1.0,
 weight_file_path = opjm('rosbags','net.infer')
 require_Arudinos_MSE = True #!!!!!!!!!!!!!!!
 
+
+Direct = 1.
+Follow = 0.
+Play = 0.
+Furtive = 0.
+Caf = 0.0
+Racing = 0.0
+
 steer_gain = 1.0
 motor_gain = 1.3
 
