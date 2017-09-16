@@ -14,16 +14,10 @@ import runtime_parameters as rp
 
 
 
-Direct = 1.
-Follow = 0.
-Play = 0.
-Furtive = 0.
-Caf = 0.0
-Racing = 0.0
 
 
-motor_gain = 1.
-steer_gain = 1.
+
+
 
 reload_timer = Timer(30)
 
@@ -268,7 +262,7 @@ while not rospy.is_shutdown():
         else:
             if len(left_list) > nframes + 2:
                 camera_data = format_camera_data(left_list, right_list)
-                metadata = format_metadata((Racing, 0, Follow, Direct, Play, Furtive))
+                metadata = format_metadata((rp.Follow, rp.Direct))
 
                 torch_motor, torch_steer = run_model(camera_data, metadata)
 
