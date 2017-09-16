@@ -120,9 +120,9 @@ def format_camera_data(left_list, right_list):
     listoftensors = []
     for i in range(nframes):
         for side in (left_list, right_list):
-            print shape(side[-i - 1])
-            side[-i - 1][:188,:,:] *= 0 ####################!!!!!!!!!!!!!!!!!!!!!!!!!
-            side[-i - 1][:188,:,:] += 128
+            #print shape(side[-i - 1])
+            side[-i - 1][:188,:,:] = 128  #*= 0 ####################!!!!!!!!!!!!!!!!!!!!!!!!!
+            #side[-i - 1][:188,:,:] += 128
             listoftensors.append(torch.from_numpy(side[-i - 1]))
     camera_data = torch.cat(listoftensors, 2)
 
@@ -152,7 +152,7 @@ def format_metadata(raw_metadata):
     for mode in raw_metadata:
         metadata = torch.cat((torch.FloatTensor(1, 23, 41).fill_(mode), metadata), 0)
     zero_matrix = torch.FloatTensor(1, 23, 41).zero_()
-    for i in range(122):
+    for i in range(126):
         metadata = torch.cat((zero_matrix, metadata), 0) 
     return metadata.cuda().unsqueeze(0)
 
