@@ -120,7 +120,7 @@ def format_camera_data(left_list, right_list):
     listoftensors = []
     for i in range(nframes):
         for side in (left_list, right_list):
-
+            print shape(side[-i - 1])
             side[-i - 1][:half_img_height,:,:] = 128 ####################!!!!!!!!!!!!!!!!!!!!!!!!!
 
             listoftensors.append(torch.from_numpy(side[-i - 1]))
