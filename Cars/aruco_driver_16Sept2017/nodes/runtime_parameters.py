@@ -49,7 +49,7 @@ weight_file_path = opjm('rosbags','net.infer')
 require_Arudinos_MSE = True #!!!!!!!!!!!!!!!
 
 steer_gain = 1.0
-motor_gain = 1.0
+motor_gain = 1.3
 
 
 
