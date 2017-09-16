@@ -122,10 +122,13 @@ def format_camera_data(left_list, right_list):
     """
 
     camera_start = time.clock()
-    
+    half_img_height = int(shape(left_list[-1])[0]/2)
     listoftensors = []
     for i in range(nframes):
         for side in (left_list, right_list):
+
+            side[-i - 1][:half_img_height,:,:] = 128 ####################!!!!!!!!!!!!!!!!!!!!!!!!!
+
             listoftensors.append(torch.from_numpy(side[-i - 1]))
     camera_data = torch.cat(listoftensors, 2)
 
