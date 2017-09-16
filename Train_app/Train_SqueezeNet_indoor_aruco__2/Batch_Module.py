@@ -108,6 +108,8 @@ def Batch(*args):
 			for l in ['direct','follow','clockwise','counter-clockwise']:
 				Data_moment['labels'][l] = 0
 			Data_moment['name'] = dm[0]
+			if Data_moment['name'] not in All_image_files:
+				continue
 			direction = dm[2][1]
 			behavioral_mode = dm[2][0]
 			if behavioral_mode == DIRECT:

@@ -2,11 +2,16 @@ from Names_Module import *
 from kzpy3.utils2 import *
 exec(identify_file_str)
 
+
 P = {}
-P['data_moments_indexed'] = lo('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/data_moments_indexed_1.pkl')+lo('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/data_moments_indexed_2.pkl')
+P['data_moments_indexed'] =  lo('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/data_moments_indexed_1.pkl')
+P['data_moments_indexed'] += lo('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/data_moments_indexed_2.pkl')
+P['data_moments_indexed'] += lo('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/data_moments_indexed_3.pkl')
+P['data_moments_indexed'] += lo('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/data_moments_indexed_4.pkl')
+P['data_moments_indexed'] += lo('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/data_moments_indexed_4.pkl')
 
 P[GPU] = 0
-P[BATCH_SIZE] = 256
+P[BATCH_SIZE] = 512
 P[DISPLAY] = True
 P[VERBOSE] = True
 P[LOAD_ARUCO] = False
