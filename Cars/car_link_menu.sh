@@ -3,7 +3,7 @@
 OPTIONS="exit ls bdd_car_rewrite_SD2 bdd_car_rewrite_SD2_LCR bdd_car_rewrite_SD2_LCR_net 
   robot_car_6Aug2017 robot_car_22Aug2017 robot_car_23Aug2017 robot_car_28Aug2017 robot_car_29Aug2017_debug
   robot_car_1Sept2017 robot_car_observer1
-  aruco_driver_9Sept2017 aruco_driver_16Sept2017"
+  aruco_driver_9Sept2017 aruco_driver_16Sept2017 aruco_driver_17Sept2017_MSE_only"
 COLUMNS=12
 echo 'car_link_menu:'
 select opt in $OPTIONS; do
@@ -32,6 +32,12 @@ select opt in $OPTIONS; do
     rm ~/catkin_ws/src/bair_car
     ln -s ~/kzpy3/Cars/robot_car_28Aug2017 ~/catkin_ws/src/bair_car
     ls -al ~/catkin_ws/src/bair_car
+    
+   elif [ "$opt" = "aruco_driver_17Sept2017_MSE_only" ]; then
+    rm ~/catkin_ws/src/bair_car
+    ln -s ~/kzpy3/Cars/aruco_driver_17Sept2017_MSE_only ~/catkin_ws/src/bair_car
+    ls -al ~/catkin_ws/src/bair_car
+
    elif [ "$opt" = "aruco_driver_9Sept2017" ]; then
     rm ~/catkin_ws/src/bair_car
     ln -s ~/kzpy3/Cars/aruco_driver_9Sept2017 ~/catkin_ws/src/bair_car
