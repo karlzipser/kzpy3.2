@@ -82,7 +82,7 @@ echo "rrm;rlog"
 rrm
 rlog
 alias sb='source ~/.bashrc'
-OPTIONS="screen rla rosbags git_pull reboot shutdown exit df car_link_menu"
+OPTIONS="screen rla rlanr rosbags git_pull reboot shutdown exit df car_link_menu"
 COLUMNS=12
 echo 'main menu'
 select opt in $OPTIONS; do
@@ -93,6 +93,8 @@ select opt in $OPTIONS; do
    elif [ "$opt" = "shutdown" ]; then
     echo "Shutting down . . ."
     ssd
+  elif [ "$opt" = "rla" ]; then
+    rlanr
    elif [ "$opt" = "rla" ]; then
     rla
    elif [ "$opt" = "car_link_menu" ]; then
