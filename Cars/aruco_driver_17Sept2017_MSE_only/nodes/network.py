@@ -271,7 +271,7 @@ if 'Back' in rp.computer_name or not rp.use_MSE:
 	state = 6
 
 while not rospy.is_shutdown():
-	print back_steer#,torch_steer_previous
+	print(back_steer,torch_steer_previous)
 	if reload_timer.check(): # put in thread?
 		reload(rp)
 		reload_timer.reset()
