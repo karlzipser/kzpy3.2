@@ -254,6 +254,8 @@ if 'Back' not in rp.computer_name:
 else:
 	steer_cmd_pub = rospy.Publisher('cmd/back_steer', std_msgs.msg.Int32, queue_size=10)
 	motor_cmd_pub = rospy.Publisher('cmd/back_motor', std_msgs.msg.Int32, queue_size=10)
+	rospy.Subscriber("Mr_Back/cmd/back_steer", std_msgs.msg.Int32,back_steer_callback)
+	rospy.Subscriber('Mr_Back/cmd/back_motor', std_msgs.msg.Int32,back_motor_callback)
 
 ctr = 0
 
@@ -269,6 +271,7 @@ if 'Back' in rp.computer_name:
 	state = 6
 
 while not rospy.is_shutdown():
+	print back_steer
 	if reload_timer.check(): # put in thread?
 		reload(rp)
 		reload_timer.reset()
