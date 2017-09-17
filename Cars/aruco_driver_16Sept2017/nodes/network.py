@@ -27,9 +27,6 @@ verbose = False
 
 nframes = 2 # default superseded by net
 
-# try:
-#weight_file_path = opjm('rosbags/net/weights/net_09Sep17_20h48m58s.infer')
-#opjh('pytorch_models','epoch6goodnet') #'save_file.weights')#)
 
 
 def static_vars(**kwargs):
@@ -37,7 +34,6 @@ def static_vars(**kwargs):
         for k in kwargs:
             setattr(func, k, kwargs[k])
         return func
-
     return decorate
 
 
@@ -48,15 +44,18 @@ def init_model():
     print("Loaded "+rp.weight_file_path)
     # Initializes Solver
     solver = SqueezeNet().cuda()
-    
     solver.load_state_dict(save_data['net'])
     solver.eval()
     nframes = solver.N_FRAMES
-
     # Create scaling layer
     scale = nn.AvgPool2d(kernel_size=3, stride=2, padding=1).cuda()
 
 init_model()
+
+def nonlinear_motor(m):
+    bb = m * 7.0
+    bb = max(0,10.0*np.log(bb+10))
+    return bb
 
 @static_vars(torch_motor_previous=49, torch_steer_previous=49)
 def run_model(input, metadata):
@@ -81,6 +80,7 @@ def run_model(input, metadata):
     torch_steer = 100 * output[0][2].data[0] ########################!!!!!!!!!!!!!!!!!!!!!
     torch_motor /= 7.0
     torch_motor += 49
+    torch_motor = nonlinear_motor(torch_motor)
 
     if verbose:
         print('Torch Prescale Motor: ' + str(torch_motor))
