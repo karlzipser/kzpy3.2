@@ -3,7 +3,7 @@
 from kzpy3.utils2 import *
 import runtime_parameters as rp
 spd2s(rp.computer_name)
-if 'Back' not in rp.computer_name:
+if 'Back' not in rp.computer_name or not rp.use_MSE:
     spd2s(" 'Back' not in rp.computer_name:")
     import ard_MSE
     import ard_ser_in
