@@ -247,8 +247,8 @@ rospy.Subscriber(d2n("/",rp.computer_name,"/zed/left/image_rect_color"),Image,le
 if 'Back' not in rp.computer_name:
 	rospy.Subscriber(d2n("/",rp.computer_name,"/steer"), std_msgs.msg.Int32,steer_callback)
 	rospy.Subscriber(d2n("/",rp.computer_name,"/state"), std_msgs.msg.Int32,state_callback)
-	rospy.Subscriber("Mr_Back/cmd/back_steer", std_msgs.msg.Int32,back_steer_callback)
-	rospy.Subscriber('Mr_Back/cmd/back_motor', std_msgs.msg.Int32,back_motor_callback)
+	rospy.Subscriber("/Mr_Back/cmd/back_steer", std_msgs.msg.Int32,back_steer_callback)
+	rospy.Subscriber('/Mr_Back/cmd/back_motor', std_msgs.msg.Int32,back_motor_callback)
 	steer_cmd_pub = rospy.Publisher('cmd/steer', std_msgs.msg.Int32, queue_size=10)
 	motor_cmd_pub = rospy.Publisher('cmd/motor', std_msgs.msg.Int32, queue_size=10)
 else:
