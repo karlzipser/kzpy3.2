@@ -56,18 +56,18 @@ init_model()
 
 
 
-"""
+
 def nonlinear_motor(m):
     bb = m * 7.0
     bb = max(0,10.0*np.log(bb+10))
     return bb
-"""
 
+"""
 def nonlinear_motor(m):
     bb = m * 7.0
     bb = max(0,25.0*np.log(bb+100))
     return bb
-
+"""
 
 
 
