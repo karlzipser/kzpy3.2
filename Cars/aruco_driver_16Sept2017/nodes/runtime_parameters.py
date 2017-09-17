@@ -49,8 +49,8 @@ weight_file_path = opjm('rosbags','net.infer')
 require_Arudinos_MSE = True #!!!!!!!!!!!!!!!
 
 
-Direct = 1.
-Follow = 0.
+Direct = 0.
+Follow = 1.
 Play = 0.
 Furtive = 0.
 Caf = 0.0
