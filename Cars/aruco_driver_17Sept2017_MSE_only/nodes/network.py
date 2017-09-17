@@ -242,11 +242,11 @@ def state_transition_time_s_callback(data):
 
 ########################################################
 
-rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_callback,queue_size = 1)
-rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_callback,queue_size = 1)
+rospy.Subscriber("/",rp.computer_name,"/zed/right/image_rect_color",Image,right_callback,queue_size = 1)
+rospy.Subscriber("/",rp.computer_name,"/zed/left/image_rect_color",Image,left_callback,queue_size = 1)
 if 'Back' not in rp.computer_name:
-	rospy.Subscriber("/bair_car/steer", std_msgs.msg.Int32,steer_callback)
-	rospy.Subscriber('/bair_car/state', std_msgs.msg.Int32,state_callback)
+	rospy.Subscriber("/",rp.computer_name,"/steer", std_msgs.msg.Int32,steer_callback)
+	rospy.Subscriber("/",rp.computer_name,"/state", std_msgs.msg.Int32,state_callback)
 	rospy.Subscriber("cmd/back_steer", std_msgs.msg.Int32,back_steer_callback)
 	rospy.Subscriber('cmd/back_motor', std_msgs.msg.Int32,back_motor_callback)
 	steer_cmd_pub = rospy.Publisher('cmd/steer', std_msgs.msg.Int32, queue_size=10)
