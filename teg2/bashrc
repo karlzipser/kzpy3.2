@@ -93,8 +93,8 @@ select opt in $OPTIONS; do
    elif [ "$opt" = "shutdown" ]; then
     echo "Shutting down . . ."
     ssd
-  elif [ "$opt" = "rlanr" ]; then
-    rlanr
+   elif [ "$opt" = "rlanr" ]; then
+    rrm;rlog;roslaunch bair_car bair_car.launch use_zed:=true record:=false car_name:=$COMPUTER_NAME
    elif [ "$opt" = "rla" ]; then
     rla
    elif [ "$opt" = "car_link_menu" ]; then
