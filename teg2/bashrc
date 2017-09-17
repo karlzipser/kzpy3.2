@@ -93,7 +93,7 @@ select opt in $OPTIONS; do
    elif [ "$opt" = "shutdown" ]; then
     echo "Shutting down . . ."
     ssd
-  elif [ "$opt" = "rla" ]; then
+  elif [ "$opt" = "rlanr" ]; then
     rlanr
    elif [ "$opt" = "rla" ]; then
     rla

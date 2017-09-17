@@ -3,7 +3,7 @@
 from kzpy3.utils2 import *
 import runtime_parameters as rp
 
-if rp.require_Arudinos_MSE:
+if 'Back' not in rp.computer_name:
     import ard_MSE
     import ard_ser_in
     import threading
