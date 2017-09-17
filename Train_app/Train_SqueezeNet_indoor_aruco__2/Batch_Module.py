@@ -84,79 +84,82 @@ def Batch(*args):
 		D[data_ids] = []
 		ctr = 0
 		while ctr < D[batch_size]:
-			if long_ctr == -1 or long_ctr >= len(data_moments_indexed):
-				long_ctr = 0
-				random.shuffle(data_moments_indexed)
-				spd2s('suffle data_moments_indexed, len =',len(data_moments_indexed))
-			frequency_timer.freq()
-			#pd2s('ctr =',ctr)
-			b_ = ctr
-			FLIP = random.choice([0,1])
-			dm = data_moments_indexed[long_ctr]; long_ctr += 1; ctr += 1
-			#print dm
-			Data_moment = {}
+			try:
+				if long_ctr == -1 or long_ctr >= len(data_moments_indexed):
+					long_ctr = 0
+					random.shuffle(data_moments_indexed)
+					spd2s('suffle data_moments_indexed, len =',len(data_moments_indexed))
+				frequency_timer.freq()
+				#pd2s('ctr =',ctr)
+				b_ = ctr
+				FLIP = random.choice([0,1])
+				dm = data_moments_indexed[long_ctr]; long_ctr += 1; ctr += 1
+				#print dm
+				Data_moment = {}
 
-			Data_moment['steer'] = zeros(90) + dm[3][0]
-			if FLIP:
-				Data_moment['steer'] = 99 - Data_moment['steer']
-			new_motor = dm[3][1]
-			new_motor -= 49
-			new_motor = max(0,new_motor)
-			new_motor *= 7.0
-			Data_moment['motor'] = zeros(90) + new_motor#dm[3][1]
-			Data_moment['labels'] = {}
-			for l in ['direct','follow','clockwise','counter-clockwise']:
-				Data_moment['labels'][l] = 0
-			Data_moment['name'] = dm[0]
-			if Data_moment['name'] not in All_image_files:
-				continue
-			direction = dm[2][1]
-			behavioral_mode = dm[2][0]
-			if behavioral_mode == DIRECT:
-				Data_moment['labels']['direct'] = 1
-			elif behavioral_mode == FOLLOW:
-				Data_moment['labels']['follow'] = 1
+				Data_moment['steer'] = zeros(90) + dm[3][0]
+				if FLIP:
+					Data_moment['steer'] = 99 - Data_moment['steer']
+				new_motor = dm[3][1]
+				new_motor -= 49
+				new_motor = max(0,new_motor)
+				new_motor *= 7.0
+				Data_moment['motor'] = zeros(90) + new_motor#dm[3][1]
+				Data_moment['labels'] = {}
+				for l in ['direct','follow','clockwise','counter-clockwise']:
+					Data_moment['labels'][l] = 0
+				Data_moment['name'] = dm[0]
+				if Data_moment['name'] not in All_image_files:
+					continue
+				direction = dm[2][1]
+				behavioral_mode = dm[2][0]
+				if behavioral_mode == DIRECT:
+					Data_moment['labels']['direct'] = 1
+				elif behavioral_mode == FOLLOW:
+					Data_moment['labels']['follow'] = 1
 
-			if not FLIP:
-				if direction == CLOCKWISE:
-					Data_moment['labels']['clockwise'] = 1
-				elif direction == COUNTER_C:
-					Data_moment['labels']['counter-clockwise'] = 1
-			else:
-				if direction == COUNTER_C:
-					Data_moment['labels']['clockwise'] = 1
-				elif direction == CLOCKWISE:
-					Data_moment['labels']['counter-clockwise'] = 1
+				if not FLIP:
+					if direction == CLOCKWISE:
+						Data_moment['labels']['clockwise'] = 1
+					elif direction == COUNTER_C:
+						Data_moment['labels']['counter-clockwise'] = 1
+				else:
+					if direction == COUNTER_C:
+						Data_moment['labels']['clockwise'] = 1
+					elif direction == CLOCKWISE:
+						Data_moment['labels']['counter-clockwise'] = 1
 
-			Data_moment['labels']['counter-clockwise'] = 0 #!!!!!!!!!!!!!!!!!!!!!!!!!
-			Data_moment['labels']['clockwise'] = 0 #!!!!!!!!!!!!!!!!!!!!!!!!!!!
+				Data_moment['labels']['counter-clockwise'] = 0 #!!!!!!!!!!!!!!!!!!!!!!!!!
+				Data_moment['labels']['clockwise'] = 0 #!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-			tl0 = dm[1][0][0]; il0 = dm[1][0][1]
-			tr0 = dm[1][1][0]; ir0 = dm[1][1][1]
+				tl0 = dm[1][0][0]; il0 = dm[1][0][1]
+				tr0 = dm[1][1][0]; ir0 = dm[1][1][1]
 
-			if FLIP:
-				F = All_image_files[Data_moment['name']]['flip']
-			else:
-				F = All_image_files[Data_moment['name']]['normal']
+				if FLIP:
+					F = All_image_files[Data_moment['name']]['flip']
+				else:
+					F = All_image_files[Data_moment['name']]['normal']
 
-			Data_moment[left] = {}
-			Data_moment[right] = {}
+				Data_moment[left] = {}
+				Data_moment[right] = {}
 
-			if not FLIP:
-				Data_moment[left][0] = F[left_image][vals][il0]
-				Data_moment[right][0] = F[right_image][vals][ir0]
-				Data_moment[left][1] = F[left_image][vals][il0+2] # note, two frames
-				Data_moment[right][1] = F[right_image][vals][ir0+2]
-			else:
-				Data_moment[right][0] = F[left_image_flip][vals][il0]
-				Data_moment[left][0] = F['right_image_flip'][vals][ir0]
-				Data_moment[right][1] = F[left_image_flip][vals][il0+2]
-				Data_moment[left][1] = F['right_image_flip'][vals][ir0+2]
-			#mci(Data_moment[right][1],title='r1',delay=1)
-			ctr += 1
-			#D[data_ids].append((run_codev,seg_numv,offsetv))
-			#print Data_moment['labels']
-			_function_data_into_batch(data_moment,Data_moment)
+				if not FLIP:
+					Data_moment[left][0] = F[left_image][vals][il0]
+					Data_moment[right][0] = F[right_image][vals][ir0]
+					Data_moment[left][1] = F[left_image][vals][il0+2] # note, two frames
+					Data_moment[right][1] = F[right_image][vals][ir0+2]
+				else:
+					Data_moment[right][0] = F[left_image_flip][vals][il0]
+					Data_moment[left][0] = F['right_image_flip'][vals][ir0]
+					Data_moment[right][1] = F[left_image_flip][vals][il0+2]
+					Data_moment[left][1] = F['right_image_flip'][vals][ir0+2]
+				#mci(Data_moment[right][1],title='r1',delay=1)
+				ctr += 1
+				#D[data_ids].append((run_codev,seg_numv,offsetv))
+				#print Data_moment['labels']
+				_function_data_into_batch(data_moment,Data_moment)
+			except:
+				print('def _function_fill(*args):')
 		#D[data_ids].reverse() # this is to match way batch is filled up below
 
 

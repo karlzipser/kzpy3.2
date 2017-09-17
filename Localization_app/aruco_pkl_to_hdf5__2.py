@@ -1,9 +1,11 @@
+from kzpy3.utils2 import *
 
 
+data_path = Args['PATH']
 
-def load_Aruco_Steering_Trajectories():
+def load_Aruco_Steering_Trajectories(data_path):
 	print("Loading Aruco_Steering_Trajectories . . .")
-	paths = sggo(opjD('Aruco_Steering_Trajectories','*.pkl'))
+	paths = sggo(data_path,'Aruco_Steering_Trajectories','*.pkl')
 	Aruco_Steering_Trajectories = {}
 	ctr = 0
 	for p in paths:
@@ -21,18 +23,15 @@ def load_Aruco_Steering_Trajectories():
 							Aruco_Steering_Trajectories[run_name][mode][direction][t] = {}
 							Aruco_Steering_Trajectories[run_name][mode][direction][t][l] = o[mode][direction][t][l]
 		ctr += 1
-		#if ctr > 5:
-		#	break
 	return Aruco_Steering_Trajectories
 
 
 
 if True:
-	Aruco_Steering_Trajectories = load_Aruco_Steering_Trajectories()
-	so(Aruco_Steering_Trajectories,opjD('Aruco_Steering_Trajectories.pkl'))
+	Aruco_Steering_Trajectories = load_Aruco_Steering_Trajectories(data_path)
+	so(Aruco_Steering_Trajectories,opj(data_path,'Aruco_Steering_Trajectories.pkl'))
 
-
-
+"""
 F = h5w(opjD('Aruco_Steering_Trajectories.hdf5'))
 from kzpy3.vis2 import *
 runs = sorted(Aruco_Steering_Trajectories.keys())
@@ -57,12 +56,12 @@ for r in runs:
 				#clf();plot(time_stamps,steer_list);plt.title(r);spause();
 F.close()
 print timer.time()
-
+"""
 
 
 #############################
 
-
+"""
 timer = Timer(0)
 runs = sorted(Aruco_Steering_Trajectories.keys())
 modes = ['Direct_Arena_Potential_Field','Follow_Arena_Potential_Field']
@@ -78,7 +77,7 @@ for r in runs:
 						del_list.append([r,m,d,t,k])
 so(Aruco_Steering_Trajectories,opjD('Aruco_Steering_Trajectories_concise'))
 print timer.time()
-
+"""
 
 
 
@@ -91,7 +90,7 @@ print timer.time()
 for car in ['Mr_Purple','Mr_Black','Mr_Blue','Mr_Lt_Blue','Mr_Orange','Mr_Yellow']:
 
 	all_left_timestamps = []
-	folders5 = sgg('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/h5py/*')
+	folders5 = sggo(data_path,'h5py','*')
 	for f in folders5:
 		if car in f:
 			try:
@@ -103,12 +102,9 @@ for car in ['Mr_Purple','Mr_Black','Mr_Blue','Mr_Lt_Blue','Mr_Orange','Mr_Yellow
 			except Exception as e:
 				print("********** Exception ***********************")
 				print(e.message, e.args)
-		
-		#ctr += 1
-		#if ctr > 1:
-		#	break
+
 	all_aruco_left_timestamps = []
-	folders = sgg('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/Aruco_Steering_Trajectories/*')
+	folders = sggo(data_path,'Aruco_Steering_Trajectories','*')
 	for f in folders:
 		if car in f:
 			try:
@@ -132,14 +128,14 @@ for car in ['Mr_Purple','Mr_Black','Mr_Blue','Mr_Lt_Blue','Mr_Orange','Mr_Yellow
 			valid_timestamp_pairs[common_timestamps[i]] = common_timestamps[i+1]
 	print len(valid_timestamps)/30./60./60.
 
-	so('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/valid_timestamps.'+car+'.pkl',valid_timestamps)
-	so('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/valid_timestamp_pairs.'+car+'.pkl',valid_timestamp_pairs)
+	so(opj(data_path,'valid_timestamps.'+car+'.pkl'),valid_timestamps)
+	so(opj(data_path,'valid_timestamp_pairs.'+car+'.pkl'),valid_timestamp_pairs)
 
 
 
-	valid_timestamps = lo('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/valid_timestamps.'+car+'.pkl')
+	valid_timestamps = lo(opj(data_path,'valid_timestamps.'+car+'.pkl'))
 	data_moments = []
-	folders = sgg('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/Aruco_Steering_Trajectories/*')
+	folders = sggo(data_path,'Aruco_Steering_Trajectories','*')
 
 	for f in folders:
 		print f
@@ -159,7 +155,7 @@ for car in ['Mr_Purple','Mr_Black','Mr_Blue','Mr_Lt_Blue','Mr_Orange','Mr_Yellow
 		except Exception as e:
 			print("********** Exception ***********************")
 			print(e.message, e.args)
-	so(data_moments,opjD('data_moments_'+car))
+	so(data_moments,opj(data_path,'data_moments_'+car))
 #
 ##################################################################################
 
@@ -170,7 +166,7 @@ for car in ['Mr_Purple','Mr_Black','Mr_Blue','Mr_Lt_Blue','Mr_Orange','Mr_Yellow
 
 ####################left ######################
 #
-folders5 = sgg('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/h5py/*')
+folders5 = sggo(data_path,'h5py','*')
 for f in folders5:
 	print f
 	left_timestamp_index_dic = {}
@@ -193,7 +189,7 @@ for f in folders5:
 ##########################################
 #################### right ######################
 #
-folders5 = sgg('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/h5py/*')
+folders5 = sggo(data_path,'h5py','*')
 for f in folders5:
 	print f
 	right_timestamp_index_dic = {}
@@ -227,7 +223,7 @@ for f in folders5:
 	#if ctr > 1:
 	#	break
 all_aruco_left_timestamps = []
-folders = sgg('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/Aruco_Steering_Trajectories/*')
+folders = sggo(data_path,'Aruco_Steering_Trajectories','*')
 for f in folders:
 	if car in f:
 		try:
@@ -246,31 +242,16 @@ for f in folders:
 
 
 data_moments = []
-files = sgg('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/data_moments_*')
+files = sggo(data_path,'data_moments_*')
 for f in files:
 	o = lo(f)
 	for i in rlen(o):
 		o[i] = list(o[i])
 	data_moments += o
-so(opjD('data_moments'),data_moments)
+so(opj(data_path,'data_moments'),data_moments)
 
 
-"""
-valid_timestamp_pairs = lo('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/valid_timestamp_pairs.pkl')
 
-new_data_moments = []
-for i in rlen(data_moments):
-	dm = []
-	t0 = data_moments[i][1]
-	t1 = valid_timestamp_pairs[t0]
-	dm.append([data_moments[i][0]])
-	dm.append([t0,t1])
-	dm.append([data_moments[i][2]])
-	dm.append([data_moments[i][3]])
-	dm.append([data_moments[i][4]])
-	dm.append([data_moments[i][5]])
-	new_data_moments.append(dm)
-"""
 
 
 
@@ -280,7 +261,7 @@ for i in rlen(data_moments):
 ###################### left ####################
 #
 runs_left_timestamp_index_dic = {}
-folders5 = sgg('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/h5py/*')
+folders5 = sggo(data_path,'h5py','*')
 for f in folders5:
 	print fname(f)
 	left_timestamp_index_dic = {}
@@ -290,12 +271,12 @@ for f in folders5:
 	except Exception as e:
 		print("********** Exception ***********************")
 		print(e.message, e.args)
-so(runs_left_timestamp_index_dic,opjD('runs_left_timestamp_index_dic'))
+so(runs_left_timestamp_index_dic,opj(data_path,'runs_left_timestamp_index_dic'))
 #
 ####################### right ##################
 #
 runs_right_timestamp_index_dic = {}
-folders5 = sgg('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/h5py/*')
+folders5 = sggo(data_path,'h5py','*')
 for f in folders5:
 	print fname(f)
 	right_timestamp_index_dic = {}
@@ -305,7 +286,7 @@ for f in folders5:
 	except Exception as e:
 		print("********** Exception ***********************")
 		print(e.message, e.args)
-so(runs_right_timestamp_index_dic,opjD('runs_right_timestamp_index_dic'))
+so(runs_right_timestamp_index_dic,opj(data_path,'runs_right_timestamp_index_dic'))
 #
 #################################################
 
@@ -314,7 +295,7 @@ so(runs_right_timestamp_index_dic,opjD('runs_right_timestamp_index_dic'))
 
 
 runs_left_right_ts_dic = {}
-folders5 = sgg('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/h5py/*')
+folders5 = sggo(data_path,'h5py','*')
 for f in folders5:
 	print fname(f)
 	try:
@@ -323,7 +304,7 @@ for f in folders5:
 	except Exception as e:
 		print("********** Exception ***********************")
 		print(e.message, e.args)
-so(runs_left_right_ts_dic,opjD('runs_left_right_ts_dic'))
+so(runs_left_right_ts_dic,opj(data_path,'runs_left_right_ts_dic'))
 
 
 
@@ -332,10 +313,10 @@ so(runs_left_right_ts_dic,opjD('runs_left_right_ts_dic'))
 
 ################################3
 #
-runs_left_timestamp_index_dic = lo('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/runs_left_timestamp_index_dic.pkl')
-runs_right_timestamp_index_dic = lo('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/runs_right_timestamp_index_dic.pkl')
-data_moments = lo('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/data_moments.pkl')
-runs_left_right_ts_dic = lo('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/runs_left_right_ts_dic.pkl')
+runs_left_timestamp_index_dic = lo(opj(data_path,'runs_left_timestamp_index_dic.pkl'))
+runs_right_timestamp_index_dic = lo(opj(data_path,'runs_right_timestamp_index_dic.pkl'))
+data_moments = lo(opj(data_path,'data_moments.pkl'))
+runs_left_right_ts_dic = lo(opj(data_path,'runs_left_right_ts_dic.pkl'))
 
 ctr = 0
 data_moments_indexed = []
@@ -351,149 +332,112 @@ for d in data_moments:
 	except Exception as e:
 		print("********** Exception ***********************")
 		print(e.message, e.args)
-so(opjD('data_moments_indexed'),data_moments_indexed)
+so(opj(data_path,'data_moments_indexed'),data_moments_indexed)
 #
 #################################
 
 
 
-All_image_files = {}
-folders5 = sgg('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/h5py/*')
-for f in folders5:
-	print fname(f)
-	All_image_files[fname(f)] = {}
-	if True:
-		try:
-			O = h5r(opj(f,'original_timestamp_data.h5py'))
-			F = h5r(opj(f,'flip_images.h5py'))
-			All_image_files[fname(f)]['normal'] = O
-			All_image_files[fname(f)]['flip'] = F
-		except Exception as e:
-			print("********** Exception ***********************")
-			print(e.message, e.args)	
+if False:
+	All_image_files = {}
+	#folders5 = sgg('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/h5py/*')
+	for f in folders5:
+		print fname(f)
+		All_image_files[fname(f)] = {}
+		if True:
+			try:
+				O = h5r(opj(f,'original_timestamp_data.h5py'))
+				F = h5r(opj(f,'flip_images.h5py'))
+				All_image_files[fname(f)]['normal'] = O
+				All_image_files[fname(f)]['flip'] = F
+			except Exception as e:
+				print("********** Exception ***********************")
+				print(e.message, e.args)	
 
 
 
-DIRECT = 'Direct_Arena_Potential_Field'
-FOLLOW = 'Follow_Arena_Potential_Field'
-CLOCKWISE = 0
-COUNTER_C = 1
-ctr = 0
-random.shuffle(data_moments_indexed)
+	DIRECT = 'Direct_Arena_Potential_Field'
+	FOLLOW = 'Follow_Arena_Potential_Field'
+	CLOCKWISE = 0
+	COUNTER_C = 1
+	ctr = 0
+	random.shuffle(data_moments_indexed)
 
 
-while(True):
-	FLIP = random.choice([0,1])
-	dm = data_moments_indexed[ctr]
-	Data_moment = {}
-	
-	Data_moment['steer'] = zeros(90) + dm[3][0]
-	if FLIP:
-		Data_moment['steer'] = 99 - Data_moment['steer']
-	Data_moment['motor'] = zeros(90) + dm[3][1]
-	Data_moment['labels'] = {}
-	for l in ['direct','follow','clockwise','counter-clockwise']:
-		Data_moment['labels'][l] = 0
-	Data_moment['name'] = dm[0]
-	direction = dm[2][1]
-	behavioral_mode = dm[2][0]
-	if behavioral_mode == DIRECT:
-		Data_moment['labels']['direct'] = 1
-	elif behavioral_mode == FOLLOW:
-		Data_moment['labels']['follow'] = 1
+	while(True):
+		FLIP = random.choice([0,1])
+		dm = data_moments_indexed[ctr]
+		Data_moment = {}
+		
+		Data_moment['steer'] = zeros(90) + dm[3][0]
+		if FLIP:
+			Data_moment['steer'] = 99 - Data_moment['steer']
+		Data_moment['motor'] = zeros(90) + dm[3][1]
+		Data_moment['labels'] = {}
+		for l in ['direct','follow','clockwise','counter-clockwise']:
+			Data_moment['labels'][l] = 0
+		Data_moment['name'] = dm[0]
+		direction = dm[2][1]
+		behavioral_mode = dm[2][0]
+		if behavioral_mode == DIRECT:
+			Data_moment['labels']['direct'] = 1
+		elif behavioral_mode == FOLLOW:
+			Data_moment['labels']['follow'] = 1
 
-	if not FLIP:
-		if direction == CLOCKWISE:
-			Data_moment['labels']['clockwise'] = 1
-		elif direction == COUNTER_C:
-			Data_moment['labels']['counter-clockwise'] = 1
-	else:
-		if direction == COUNTER_C:
-			Data_moment['labels']['clockwise'] = 1
-		elif direction == CLOCKWISE:
-			Data_moment['labels']['counter-clockwise'] = 1
+		if not FLIP:
+			if direction == CLOCKWISE:
+				Data_moment['labels']['clockwise'] = 1
+			elif direction == COUNTER_C:
+				Data_moment['labels']['counter-clockwise'] = 1
+		else:
+			if direction == COUNTER_C:
+				Data_moment['labels']['clockwise'] = 1
+			elif direction == CLOCKWISE:
+				Data_moment['labels']['counter-clockwise'] = 1
 
-	tl0 = dm[1][0][0]; il0 = dm[1][0][1]
-	tr0 = dm[1][1][0]; ir0 = dm[1][1][1]
+		tl0 = dm[1][0][0]; il0 = dm[1][0][1]
+		tr0 = dm[1][1][0]; ir0 = dm[1][1][1]
 
-	if FLIP:
-		F = All_image_files[Data_moment['name']]['flip']
-	else:
-		F = All_image_files[Data_moment['name']]['normal']
+		if FLIP:
+			F = All_image_files[Data_moment['name']]['flip']
+		else:
+			F = All_image_files[Data_moment['name']]['normal']
 
-	Data_moment[left] = {}
-	Data_moment[right] = {}
+		Data_moment[left] = {}
+		Data_moment[right] = {}
 
-	if not FLIP:
-		Data_moment[left][0] = F[left_image][vals][il0]
-		Data_moment[right][0] = F[right_image][vals][ir0]
-		Data_moment[left][1] = F[left_image][vals][il0+2] # note, two frames
-		Data_moment[right][1] = F[right_image][vals][ir0+2]
-	else:
-		Data_moment[right][0] = F[left_image_flip][vals][il0]
-		Data_moment[left][0] = F['right_image_flip'][vals][ir0]
-		Data_moment[right][1] = F[left_image_flip][vals][il0+2]
-		Data_moment[left][1] = F['right_image_flip'][vals][ir0+2]
-
-
-	mi(Data_moment[left][0],'left0')
-	mi(Data_moment[left][1],'left1')
-	mi(Data_moment[right][0],'right0')
-	mi(Data_moment[right][1],'right1')
+		if not FLIP:
+			Data_moment[left][0] = F[left_image][vals][il0]
+			Data_moment[right][0] = F[right_image][vals][ir0]
+			Data_moment[left][1] = F[left_image][vals][il0+2] # note, two frames
+			Data_moment[right][1] = F[right_image][vals][ir0+2]
+		else:
+			Data_moment[right][0] = F[left_image_flip][vals][il0]
+			Data_moment[left][0] = F['right_image_flip'][vals][ir0]
+			Data_moment[right][1] = F[left_image_flip][vals][il0+2]
+			Data_moment[left][1] = F['right_image_flip'][vals][ir0+2]
 
 
-	plt.title(d2s(FLIP,'motor',Data_moment['motor'][3],'steer',Data_moment['steer'][3]))
-	spause();
-
-	print Data_moment[labels]
-
-	raw_enter()
-
-	ctr += 1
+		mi(Data_moment[left][0],'left0')
+		mi(Data_moment[left][1],'left1')
+		mi(Data_moment[right][0],'right0')
+		mi(Data_moment[right][1],'right1')
 
 
-	clf()
+		plt.title(d2s(FLIP,'motor',Data_moment['motor'][3],'steer',Data_moment['steer'][3]))
+		spause();
 
-#mi(l0,1)
-#mi(l0,2)
+		print Data_moment[labels]
 
+		raw_enter()
 
-
-
-
-
+		ctr += 1
 
 
+		clf()
 
-
-
-
-
-
-car = 'Yellow'
-
-###################### left-right ts dic ####################
-#
-folders5 = sgg('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/h5py/*')
-for f in folders5:
-	if car in f:
-		try:
-			F=h5r(opj(f,'original_timestamp_data.h5py'))
-			print fname(f)
-			r = F['right_image']['ts']
-			l = F['left_image']['ts']
-			left_right_dic = {}
-			for i in range(len(l)):
-				t = l[i]
-				for j in range(max(0,i-10),min(i+10,len(r))):
-					if r[j] > t and r[j] < t+0.1:
-						left_right_dic[t] = r[j]
-						break
-			so(left_right_dic,opj(f,'left_right_ts_dic'))
-		except Exception as e:
-			print("********** Exception ***********************")
-			print(e.message, e.args)			
-			
+	#mi(l0,1)
+	#mi(l0,2)
 
 
 
@@ -508,18 +452,56 @@ for f in folders5:
 
 
 
+	car = 'Yellow'
+
+	###################### left-right ts dic ####################
+	#
+	folders5 = sgg('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/h5py/*')
+	for f in folders5:
+		if car in f:
+			try:
+				F=h5r(opj(f,'original_timestamp_data.h5py'))
+				print fname(f)
+				r = F['right_image']['ts']
+				l = F['left_image']['ts']
+				left_right_dic = {}
+				for i in range(len(l)):
+					t = l[i]
+					for j in range(max(0,i-10),min(i+10,len(r))):
+						if r[j] > t and r[j] < t+0.1:
+							left_right_dic[t] = r[j]
+							break
+				so(left_right_dic,opj(f,'left_right_ts_dic'))
+			except Exception as e:
+				print("********** Exception ***********************")
+				print(e.message, e.args)			
+				
 
 
 
 
-Args = {'BATCH':'True'}
-if 'BATCH' in Args:
-	if Args['BATCH'] == 'True':
-		for color in ['Blue','Lt_Blue','Orange','Black','Yellow','Purple']:
-			os.system(d2s("xterm -hold -e python",opjh('kzpy3/c/__temp.py'), 'CAR_NAME', 'Mr_'+color,'&'))
-			pause(2)
-		raw_enter();
-		exit()
-		assert(False)
 
-#EOF
+
+
+
+
+
+
+
+
+
+
+
+
+
+	Args = {'BATCH':'True'}
+	if 'BATCH' in Args:
+		if Args['BATCH'] == 'True':
+			for color in ['Blue','Lt_Blue','Orange','Black','Yellow','Purple']:
+				os.system(d2s("xterm -hold -e python",opjh('kzpy3/c/__temp.py'), 'CAR_NAME', 'Mr_'+color,'&'))
+				pause(2)
+			raw_enter();
+			exit()
+			assert(False)
+
+	#EOF

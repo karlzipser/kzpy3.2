@@ -1,9 +1,9 @@
 
 
-Car_Data SRC rosbags/new DST /home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo_2/h5py
+Car_Data SRC rosbags/new DST /home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo_???/h5py
 
 
-python kzpy3/Localization_app/calculate_position_data.py CAR Mr_Orange # for each car, path set within file.
+python kzpy3/Localization_app/calculate_position_data.py BATCH True MARKERS circle H5PY /home/karlzipser/Desktop/bdd_car_data_15Sept2017_circle/h5py
 
 
 mkdir position_dictionaries
@@ -11,9 +11,41 @@ mkdir position_dictionaries
 put .pkl files into that
 
 
-
-change path
-
 mkdir ~/Desktop/Aruco_Steering_Trajectories_Sept2017
-python kzpy3/Localization_app/visualize_cars_with_gaussians__2.py BATCH True
+python kzpy3/Localization_app/visualize_cars_with_gaussians__3.py BATCH True MARKERS circle DATA_FOLDER /home/karlzipser/Desktop/bdd_car_data_15Sept2017_circle
 
+
+
+
+
+
+
+python kzpy3/Localization_app/visualize_cars_with_gaussians__3.py BATCH True MARKERS circle DATA_FOLDER /home/karlzipser/Desktop/bdd_car_data_14Sept2017_circle
+
+
+
+
+python kzpy3/Localization_app/aruco_pkl_to_hdf5__2.py PATH '/home/karlzipser/Desktop/bdd_car_data_14Sept2017_whole_room/' 
+python kzpy3/Localization_app/aruco_pkl_to_hdf5__2.py PATH '/home/karlzipser/Desktop/bdd_car_data_14Sept2017_whole_room/' 
+python kzpy3/Localization_app/aruco_pkl_to_hdf5__2.py PATH /home/karlzipser/Desktop/bdd_car_data_15Sept2017_circle/
+
+python kzpy3/Localization_app/heading_pause_data_moments.py PATH '/home/karlzipser/Desktop/bdd_car_data_14Sept2017_whole_room/' 
+python kzpy3/Localization_app/heading_pause_data_moments.py PATH /home/karlzipser/Desktop/bdd_car_data_15Sept2017_circle/
+
+
+
+
+
+
+def make_folder_links(src,dst):
+	folders = sggo(src,'*')
+	for f in folders:
+		unix('ln -s '+f+' '+dst+'/_link_'+fname(f))
+
+make_folder_links('/home/karlzipser/Desktop/bdd_car_data_14Sept2017_whole_room/h5py','/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/h5py')
+make_folder_links('/home/karlzipser/Desktop/bdd_car_data_14Sept2017_circle/h5py','/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/h5py')
+make_folder_links('/home/karlzipser/Desktop/bdd_car_data_15Sept2017_circle/h5py','/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/h5py')
+
+
+
+python kzpy3/Train_app/Train_SqueezeNet_indoor_aruco__2/Main.py

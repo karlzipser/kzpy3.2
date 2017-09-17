@@ -1,11 +1,33 @@
 from kzpy3.Grapher_app.Graph_Image_Module import *
-from kzpy3.Localization_app.aruco_whole_room_markers import *
 
-car = Args['CAR']
+h5py_data_folder = Args['H5PY']
+
+if 'BATCH' in Args:
+	if Args['BATCH'] == 'True':
+		for color in ['Blue','Lt_Blue','Orange','Black','Yellow','Purple']:
+			os.system(d2s("xterm -hold -e python kzpy3/Localization_app/calculate_position_data.py CAR Mr_"+color,"MARKERS",Args['MARKERS'],"H5PY",h5py_data_folder,'&'))
+	raw_enter();
+	exit()
+	assert(False)
+else:
+	car = Args['CAR']
+if Args['MARKERS'] == 'whole_room':
+	from kzpy3.Localization_app.aruco_whole_room_markers import *
+elif Args['MARKERS'] == 'circle':
+	from kzpy3.Localization_app.aruco_whole_room_markers_12circle import *
+else:
+	assert(False)
+
+graphics = False
+if 'GRAPHICS' in Args:
+	if Args['GRAPHICS'] == 'True':
+		graphics = True
 
 def get_car_position_heading_validity(h5py_data_folder,graphics=False):
-
-	L = h5r(opj(h5py_data_folder,'left_timestamp_metadata_right_ts.h5py'))
+	if len(gg(opj(h5py_data_folder,'left_timestamp_metadata_right_ts.h5py'))) > 0:
+		L = h5r(opj(h5py_data_folder,'left_timestamp_metadata_right_ts.h5py'))
+	else:
+		L = h5r(opj(h5py_data_folder,'left_timestamp_metadata.h5py'))
 	O = h5r(opj(h5py_data_folder,'original_timestamp_data.h5py'))
 
 	left_images = O[left_image][vals][:].copy()
@@ -28,9 +50,11 @@ def get_car_position_heading_validity(h5py_data_folder,graphics=False):
 			txt = str(k)
 			if graphics: plt.annotate(txt,Marker_xy_dic[k])
 			pts.append(Marker_xy_dic[k])
-			left_pt = Marker_xy_dic[(k,LEFT2)]
-			right_pt = Marker_xy_dic[(k,RIGHT2)]
-			if graphics: plot([left_pt[0],right_pt[0]],[left_pt[1],right_pt[1]],'b')
+			if graphics:
+				if LEFT2 in Marker_xy_dic:
+					left_pt = Marker_xy_dic[(k,LEFT2)]
+					right_pt = Marker_xy_dic[(k,RIGHT2)]
+					if graphics: plot([left_pt[0],right_pt[0]],[left_pt[1],right_pt[1]],'b')
 			left_pt = Marker_xy_dic[(k,LEFT)]
 			right_pt = Marker_xy_dic[(k,RIGHT)]
 			pts.append(left_pt)
@@ -128,7 +152,7 @@ def get_car_position_heading_validity(h5py_data_folder,graphics=False):
 if True:
 
 	#for car in ['Mr_Orange','Mr_Lt_Blue','Mr_Blue','Mr_Yellow','Mr_Black','Mr_Purple']:
-	h5py_data_folder = '/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo_2/h5py'
+	#h5py_data_folder = '/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo_2/h5py'
 
 	runs = sggo(h5py_data_folder,car+'*')
 
@@ -140,8 +164,8 @@ if True:
 		#else:
 		if True:
 			print 'processing '+r
-			try:
-				t,ax,ay,hx,hy,o_meo = get_car_position_heading_validity(r,graphics=False)
+			if True:#try:
+				t,ax,ay,hx,hy,o_meo = get_car_position_heading_validity(r,graphics=graphics)
 
 				F = h5w(opj(r,'position_data.h5py'))
 				F.create_dataset('t',data=t)
@@ -151,7 +175,7 @@ if True:
 				F.create_dataset('hy',data=hy)
 				F.create_dataset('o_meo',data=o_meo)
 				F.close()
-			except Exception as e:
+			else:#except Exception as e:
 				print("********** calculate_position_data.py: Exception ***********************")
 				print(e.message, e.args)
 
@@ -160,7 +184,7 @@ if True:
 
 	#for car in ['Mr_Orange','Mr_Lt_Blue','Mr_Blue','Mr_Yellow','Mr_Black','Mr_Purple']:
 
-	h5py_data_folder = '/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo_2/h5py'
+	#h5py_data_folder = '/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo_2/h5py'
 
 	runs = sggo(h5py_data_folder,car+'*')
 	All_100ms_data = {}
@@ -181,10 +205,10 @@ if True:
 				for i in rlen(Data_100ms[topic]):
 					All_100ms_data[topic][Data_100ms['t'][i]] = Data_100ms[topic][i]
 			F.close()
-	so(opjD(car+'_position_dictionary'),All_100ms_data)
+	so(opj(pname(h5py_data_folder),car+'_position_dictionary'),All_100ms_data)
 	
 
 
-
+print('Done!')
 
 #EOF

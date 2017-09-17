@@ -72,11 +72,12 @@ for i in range(len(markers_clockwise)):
 	Marker_xy_dic[m] = xy
 
 
-
+"""
 Marker_xy_dic[0] = na([0.21,-(0.82+marker_width)])
 Marker_xy_dic[100] = Marker_xy_dic[0] - na([0,1.1*marker_width])
 Marker_xy_dic[102] =  na([-0.12,-0.12]) + Marker_xy_dic[0]
 Marker_xy_dic[11] = na([0.12,-0.11]) + Marker_xy_dic[0]
+"""
 """
 D[100] = ((),south)
 D[0] = ((),north)
