@@ -265,6 +265,7 @@ git_pull_timer = Timer(60)
 reload_timer = Timer(10)
 torch_steer_previous = 49
 torch_motor_previous = 49
+torch_steer = 49
 
 if 'Back' in rp.computer_name or not rp.use_MSE:
 	state = 6
