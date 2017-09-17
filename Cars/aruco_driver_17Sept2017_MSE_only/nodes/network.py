@@ -240,7 +240,7 @@ def state_transition_time_s_callback(data):
 	global state_transition_time_s
 	state_transition_time_s = data.data
 
-########################################################
+#########################################################
 
 rospy.Subscriber(d2n("/",rp.computer_name,"/zed/right/image_rect_color"),Image,right_callback,queue_size = 1)
 rospy.Subscriber(d2n("/",rp.computer_name,"/zed/left/image_rect_color"),Image,left_callback,queue_size = 1)
