@@ -2,8 +2,9 @@
 
 from kzpy3.utils2 import *
 import runtime_parameters as rp
-
+spd2s(rp.computer_name)
 if 'Back' not in rp.computer_name:
+    spd2s(" 'Back' not in rp.computer_name:")
     import ard_MSE
     import ard_ser_in
     import threading
@@ -97,7 +98,7 @@ if 'Back' not in rp.computer_name:
     threading.Thread(target=arduino_master_thread).start()
 
 else:
-    spd2s("rp.require_Arudinos_MSE = False\nMSE Ardunio not used.")
+    spd2s("MSE Ardunio not used.")
 
 
 q = raw_input('')
