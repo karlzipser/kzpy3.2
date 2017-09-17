@@ -271,7 +271,7 @@ if 'Back' in rp.computer_name or not rp.use_MSE:
 	state = 6
 
 while not rospy.is_shutdown():
-	print(back_steer,torch_steer_previous)
+	
 	if reload_timer.check(): # put in thread?
 		reload(rp)
 		reload_timer.reset()
@@ -300,6 +300,7 @@ while not rospy.is_shutdown():
 				if state in [6,7]:
 					motor_cmd_pub.publish(std_msgs.msg.Int32(torch_motor))
 
+				print(back_steer,torch_steer)
 	else:
 		caffe_enter_timer.reset()
 	
