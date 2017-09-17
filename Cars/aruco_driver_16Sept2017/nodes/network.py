@@ -52,10 +52,25 @@ def init_model():
 
 init_model()
 
+
+
+
+
+"""
 def nonlinear_motor(m):
     bb = m * 7.0
     bb = max(0,10.0*np.log(bb+10))
     return bb
+"""
+def nonlinear_motor(m):
+    bb = m * 7.0
+    bb = max(0,33.0*np.log(bb+100))
+    return bb
+
+
+
+
+
 
 @static_vars(torch_motor_previous=49, torch_steer_previous=49)
 def run_model(input, metadata):
