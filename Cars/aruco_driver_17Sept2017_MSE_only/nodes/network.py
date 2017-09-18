@@ -93,6 +93,7 @@ def run_model(input, metadata):
 	#torch_motor = 100 * output[0][19].data[0]
 	#torch_steer = 100 * output[0][9].data[0]
 	torch_motor = 100 * output[0][11].data[0] ########################!!!!!!!!!!!!!!!!!!!!!
+	print d2s('torch_motor =',torch_motor)
 	torch_steer = 100 * output[0][2].data[0] ########################!!!!!!!!!!!!!!!!!!!!!
 	torch_motor /= 7.0
 	torch_motor += 49
@@ -263,8 +264,8 @@ caffe_enter_timer = Timer(1)
 folder_display_timer = Timer(30)
 git_pull_timer = Timer(60)
 reload_timer = Timer(10)
-torch_steer_previous = 49
-torch_motor_previous = 49
+#torch_steer_previous = 49
+#torch_motor_previous = 49
 
 
 if 'Back' in rp.computer_name or not rp.use_MSE:
