@@ -342,7 +342,8 @@ def run_loop(Arduinos,M,BUTTON_DELTA=50,):
 
 
             #print(M['pid_motor_percent'],M['motor_freeze_threshold'],int(100*np.array(M['encoder_lst'][0:5]).mean()),int(100*np.array(M['encoder_lst'][-5:]).mean()),int(M['current_state'].state_transition_timer.time()))
-                         
+                 
+            """        
             freeze = False
             if M['current_state'] in [M['state_three'],M['state_five'],M['state_six'],M['state_seven']]:
 
@@ -375,6 +376,7 @@ def run_loop(Arduinos,M,BUTTON_DELTA=50,):
                     M['current_state'] = M['state_nine']
                     M['current_state'].enter()
                     M['previous_state'].leave()
+            """
 
 
             
