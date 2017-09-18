@@ -74,10 +74,10 @@ if [ "$(whoami)" == "nvidia" ]
 then
 echo Hi $COMPUTER_NAME on Jetson
 #export ROS_IP=0.0.0.0 # Listen on any interface
-echo "cd ~/kzpy3;git pull;cd"
-cd ~/kzpy3
-git pull
-cd
+#echo "cd ~/kzpy3;git pull;cd"
+#cd ~/kzpy3
+#git pull
+#cd
 echo "rrm;rlog"
 rrm
 rlog
