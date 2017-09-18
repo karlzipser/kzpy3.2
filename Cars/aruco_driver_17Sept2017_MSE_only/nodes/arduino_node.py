@@ -66,8 +66,8 @@ if 'Back' not in rp.computer_name or rp.use_MSE:
                 while not rospy.is_shutdown():
                     if time_step.check():
                         time_step.reset()
-                        if not folder_display_timer.check():
-                            print("*** Data foldername = "+rp.foldername+ '***')
+                        #if not folder_display_timer.check():
+                        #   print("*** Data foldername = "+rp.foldername+ '***')
 
                     if reload_timer.check():
                         reload(rp)
