@@ -507,8 +507,8 @@ def serial_data_to_messages(Arduinos,M):
         #print(mse_input)
         #M['steer_pwm_write_lst'].append(mse_input[4])
         #M['motor_pwm_write_lst'].append(mse_input[5])
-        M['encoder_lst'].append(mse_input[4])#6])
-        M['encoder_pub'].publish(std_msgs.msg.Float32(M['encoder_lst'][-1]))
+        #M['encoder_lst'].append(mse_input[4])#6])
+        #M['encoder_pub'].publish(std_msgs.msg.Float32(M['encoder_lst'][-1]))
         lock.release()
         return True
     else:
