@@ -95,8 +95,11 @@ def run_model(input, metadata):
 	torch_motor = 100 * output[0][11].data[0] ########################!!!!!!!!!!!!!!!!!!!!!
 	#print d2s('torch_motor =',torch_motor)
 	torch_steer = 100 * output[0][2].data[0] ########################!!!!!!!!!!!!!!!!!!!!!
-	torch_motor /= 7.0
-	torch_motor += 49
+	
+	if False:
+		torch_motor /= 7.0
+		torch_motor += 49
+	
 	#torch_motor = (torch_motor+nonlinear_motor(torch_motor))/2.0
 
 	if verbose:
