@@ -58,7 +58,7 @@ Caf = 0.0
 Racing = 0.0
 
 steer_gain = 1.0
-motor_gain = 2.0
+motor_gain = 1.5
 
 
 
