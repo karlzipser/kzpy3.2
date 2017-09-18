@@ -294,7 +294,17 @@ while not rospy.is_shutdown():
 				camera_data = format_camera_data(left_list, right_list)
 				metadata = format_metadata((rp.Follow, rp.Direct))
 
-				torch_motor, torch_steer = run_model(camera_data, metadata)
+				#torch_motor, torch_steer = run_model(camera_data, metadata)
+
+
+				forward_motor, forward_steer = run_model(camera_data, metadata)
+
+				if forward_motor < 54:
+					torch_motor = 99 - back_motor
+					torch_steer = 99 - back_steer
+				else:
+					torch_motor = forward_motor
+					torch_steer = forward_steer
 
 				cur_time = time.time()
 				last_time = cur_time
