@@ -96,7 +96,7 @@ def run_model(input, metadata):
 	#print d2s('torch_motor =',torch_motor)
 	torch_steer = 100 * output[0][2].data[0] ########################!!!!!!!!!!!!!!!!!!!!!
 	
-	if False:
+	if True:
 		torch_motor /= 7.0
 		torch_motor += 49
 	
