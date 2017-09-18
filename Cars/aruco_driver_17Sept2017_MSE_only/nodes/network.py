@@ -300,7 +300,7 @@ while not rospy.is_shutdown():
 				if state in [6,7]:
 					motor_cmd_pub.publish(std_msgs.msg.Int32(torch_motor))
 
-				print(back_steer,torch_steer)
+				print((back_steer,torch_steer),(back_motor,torch_motor))
 	else:
 		caffe_enter_timer.reset()
 	
