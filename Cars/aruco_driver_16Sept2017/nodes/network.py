@@ -103,7 +103,7 @@ def run_model(input, metadata):
         print('Torch Prescale Steer: ' + str(torch_steer))
     
     # Scale Output
-    torch_motor = int((torch_motor - 49.) * rp.motor_gain + 49.)
+    torch_motor = int((torch_motor - 49.) * rp.motor_gain + 49. + rp.motor_offset)
     torch_steer = int((torch_steer - 49.) * rp.steer_gain + 49.)
 
     # Bound the output

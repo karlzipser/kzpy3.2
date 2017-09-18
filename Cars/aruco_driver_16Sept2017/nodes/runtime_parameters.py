@@ -59,6 +59,7 @@ Racing = 0.0
 
 steer_gain = 1.0
 motor_gain = 1.5
+motor_offset = 4
 
 
 
