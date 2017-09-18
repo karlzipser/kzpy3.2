@@ -93,7 +93,7 @@ def run_model(input, metadata):
 	#torch_motor = 100 * output[0][19].data[0]
 	#torch_steer = 100 * output[0][9].data[0]
 	torch_motor = 100 * output[0][11].data[0] ########################!!!!!!!!!!!!!!!!!!!!!
-	print d2s('torch_motor =',torch_motor)
+	#print d2s('torch_motor =',torch_motor)
 	torch_steer = 100 * output[0][2].data[0] ########################!!!!!!!!!!!!!!!!!!!!!
 	torch_motor /= 7.0
 	torch_motor += 49
