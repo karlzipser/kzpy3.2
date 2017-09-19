@@ -301,7 +301,7 @@ while not rospy.is_shutdown():
 
 				if 'Back' not in rp.computer_name and forward_motor < 54:
 					torch_motor = 99 - back_motor
-					torch_steer = 99 - back_steer
+					torch_steer = back_steer
 				else:
 					torch_motor = forward_motor
 					torch_steer = forward_steer
