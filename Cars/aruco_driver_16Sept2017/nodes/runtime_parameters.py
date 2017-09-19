@@ -50,8 +50,8 @@ weight_file_path = opjh('pytorch_models','net.infer')
 require_Arudinos_MSE = True #!!!!!!!!!!!!!!!
 
 
-Direct = 0.
-Follow = 1.
+Direct = 1.
+Follow = 0.
 Play = 0.
 Furtive = 0.
 Caf = 0.0
