@@ -60,7 +60,7 @@ Racing = 0.0
 steer_gain = 1.0
 motor_gain = 1.
 
-back_motor_gain = 1.5
+back_motor_gain = 1.0
 forward_threshold = 56
 backward_timer_time = 3
 

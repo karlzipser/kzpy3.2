@@ -89,18 +89,14 @@ def run_model(input, metadata):
 	if verbose:
 		print(output)
 
-	# Get latest prediction
-	#torch_motor = 100 * output[0][19].data[0]
-	#torch_steer = 100 * output[0][9].data[0]
-	torch_motor = 100 * output[0][11].data[0] ########################!!!!!!!!!!!!!!!!!!!!!
-	#print d2s('torch_motor =',torch_motor)
-	torch_steer = 100 * output[0][2].data[0] ########################!!!!!!!!!!!!!!!!!!!!!
-	
-	if True:
-		torch_motor /= 7.0
-		torch_motor += 49
-	
-	#torch_motor = (torch_motor+nonlinear_motor(torch_motor))/2.0
+    # Get latest prediction
+    #torch_motor = 100 * output[0][19].data[0]
+    #torch_steer = 100 * output[0][9].data[0]
+    torch_motor = 100 * output[0][11].data[0] ########################!!!!!!!!!!!!!!!!!!!!!
+    torch_steer = 100 * output[0][2].data[0] ########################!!!!!!!!!!!!!!!!!!!!!
+    torch_motor /= 7.0
+    torch_motor += 49
+    #torch_motor = (torch_motor+nonlinear_motor(torch_motor))/2.0
 
 	if verbose:
 		print('Torch Prescale Motor: ' + str(torch_motor))
@@ -267,8 +263,7 @@ caffe_enter_timer = Timer(1)
 folder_display_timer = Timer(30)
 git_pull_timer = Timer(60)
 reload_timer = Timer(10)
-#torch_steer_previous = 49
-#torch_motor_previous = 49
+
 
 
 if 'Back' in rp.computer_name or not rp.use_MSE:
@@ -302,6 +297,9 @@ while not rospy.is_shutdown():
 				forward_motor, forward_steer = run_model(camera_data, metadata)
 
 				if 'Back' not in rp.computer_name:
+					torch_steer = 99 - back_steer
+					torch_motor = 99 - back_motor
+					"""
 					if backward_timer == None:
 						if forward_motor < rp.forward_threshold:
 							backward_timer = Timer(rp.backward_timer_time)
@@ -314,6 +312,7 @@ while not rospy.is_shutdown():
 						torch_steer = back_steer
 						if backward_timer.check():
 							backward_timer = None
+					"""
 				else:
 					torch_motor = forward_motor
 					torch_steer = forward_steer
