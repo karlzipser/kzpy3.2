@@ -299,7 +299,7 @@ while not rospy.is_shutdown():
 
 				forward_motor, forward_steer = run_model(camera_data, metadata)
 
-				if 'Back' not in rp.computer_name and forward_motor < 54:
+				if 'Back' not in rp.computer_name and forward_motor < rp.forward_threshold:
 					torch_motor = 99 - back_motor
 					torch_steer = back_steer
 				else:

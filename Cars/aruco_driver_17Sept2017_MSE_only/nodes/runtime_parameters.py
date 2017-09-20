@@ -58,7 +58,11 @@ Caf = 0.0
 Racing = 0.0
 
 steer_gain = 1.0
-motor_gain = 1.3
+motor_gain = 1.0
+forward_threshold = 56
 
+				else:
+					torch_motor = forward_motor
+					torch_steer = forward_steer
 use_MSE = True
 
