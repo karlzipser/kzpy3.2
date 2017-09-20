@@ -89,14 +89,14 @@ def run_model(input, metadata):
 	if verbose:
 		print(output)
 
-    # Get latest prediction
-    #torch_motor = 100 * output[0][19].data[0]
-    #torch_steer = 100 * output[0][9].data[0]
-    torch_motor = 100 * output[0][11].data[0] ########################!!!!!!!!!!!!!!!!!!!!!
-    torch_steer = 100 * output[0][2].data[0] ########################!!!!!!!!!!!!!!!!!!!!!
-    torch_motor /= 7.0
-    torch_motor += 49
-    #torch_motor = (torch_motor+nonlinear_motor(torch_motor))/2.0
+	# Get latest prediction
+	#torch_motor = 100 * output[0][19].data[0]
+	#torch_steer = 100 * output[0][9].data[0]
+	torch_motor = 100 * output[0][11].data[0] ########################!!!!!!!!!!!!!!!!!!!!!
+	torch_steer = 100 * output[0][2].data[0] ########################!!!!!!!!!!!!!!!!!!!!!
+	torch_motor /= 7.0
+	torch_motor += 49
+	#torch_motor = (torch_motor+nonlinear_motor(torch_motor))/2.0
 
 	if verbose:
 		print('Torch Prescale Motor: ' + str(torch_motor))
