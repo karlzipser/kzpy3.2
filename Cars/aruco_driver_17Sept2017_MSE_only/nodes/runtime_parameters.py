@@ -59,7 +59,7 @@ Racing = 0.0
 
 steer_gain = 1.0
 motor_gain = 1.0
-back_steer_gain = 1.0
+
 back_motor_gain = 1.5
 forward_threshold = 52
 

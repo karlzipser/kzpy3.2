@@ -107,14 +107,8 @@ def run_model(input, metadata):
 		print('Torch Prescale Steer: ' + str(torch_steer))
 	
 	# Scale Output
-	if 'Back' not in rp.computer_name:
-		motor_gain = rp.motor_gain
-		steer_gain = rp.steer_gain
-	else:
-		motor_gain = rp.back_motor_gain
-		steer_gain = rp.back_steer_gain
-	torch_motor = int((torch_motor - 49.) * motor_gain + 49.)
-	torch_steer = int((torch_steer - 49.) * steer_gain + 49.)
+	torch_motor = int((torch_motor - 49.) * rp.motor_gain + 49.)
+	torch_steer = int((torch_steer - 49.) * rp.steer_gain + 49.)
 
 	# Bound the output
 	torch_motor = max(0, torch_motor)
@@ -306,7 +300,9 @@ while not rospy.is_shutdown():
 				forward_motor, forward_steer = run_model(camera_data, metadata)
 
 				if 'Back' not in rp.computer_name and forward_motor < rp.forward_threshold:
-					torch_motor = 99 - back_motor
+
+					torch_motor = 99 - int((back_motor - 49.) * rp.back_motor_gain + 49.)
+					#torch_motor = 99 - back_motor
 					torch_steer = back_steer
 				else:
 					torch_motor = forward_motor
