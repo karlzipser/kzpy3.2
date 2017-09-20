@@ -301,6 +301,7 @@ while not rospy.is_shutdown():
 						if forward_motor >= rp.forward_threshold:
 							torch_motor = forward_motor
 							torch_steer = forward_steer
+							print(d2s('forward:',torch_motor))
 						else:
 							torch_motor = 49
 							torch_steer = 49
@@ -308,6 +309,7 @@ while not rospy.is_shutdown():
 					else:
 						torch_steer = back_steer
 						torch_motor = 99 - back_motor
+						print(d2s('back:   ',torch_motor))
 						if backward_timer.check():
 							backward_timer = None
 				else:
@@ -322,7 +324,7 @@ while not rospy.is_shutdown():
 				if state in [6,7]:
 					motor_cmd_pub.publish(std_msgs.msg.Int32(torch_motor))
 
-				print((back_steer,torch_steer),(back_motor,torch_motor))
+				#print((back_steer,torch_steer),(back_motor,torch_motor))
 	else:
 		caffe_enter_timer.reset()
 	
