@@ -267,7 +267,7 @@ reload_timer = Timer(10)
 
 if 'Back' in rp.computer_name or not rp.use_MSE:
 	state = 6
-backward_timer = None
+
 torch_motor = 49
 torch_steer = 49
 while not rospy.is_shutdown():
@@ -284,6 +284,7 @@ while not rospy.is_shutdown():
 			steer_cmd_pub.publish(std_msgs.msg.Int32(49))
 			motor_cmd_pub.publish(std_msgs.msg.Int32(49))
 			time.sleep(0.1)
+			backward_timer = None
 			continue
 		else:
 			if len(left_list) > nframes + 2:
@@ -296,22 +297,19 @@ while not rospy.is_shutdown():
 				forward_motor, forward_steer = run_model(camera_data, metadata)
 
 				if 'Back' not in rp.computer_name:
-					torch_steer = 99 - back_steer
-					torch_motor = 99 - back_motor
-					"""
 					if backward_timer == None:
-						if forward_motor < rp.forward_threshold:
-							backward_timer = Timer(rp.backward_timer_time)
-						else:
+						if forward_motor >= rp.forward_threshold:
 							torch_motor = forward_motor
 							torch_steer = forward_steer
+						else:
+							torch_motor = 49
+							torch_steer = 49
+							backward_timer = Timer(rp.backward_timer_time)
 					else:
-						torch_motor = 99 - int((back_motor - 49.) * rp.back_motor_gain + 49.)
-						#torch_motor = 99 - back_motor
 						torch_steer = back_steer
+						torch_motor = 99 - back_motor
 						if backward_timer.check():
 							backward_timer = None
-					"""
 				else:
 					torch_motor = forward_motor
 					torch_steer = forward_steer
