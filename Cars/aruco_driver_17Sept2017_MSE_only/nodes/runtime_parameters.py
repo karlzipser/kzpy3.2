@@ -59,7 +59,9 @@ Racing = 0.0
 
 steer_gain = 1.0
 motor_gain = 1.0
-forward_threshold = 56
+back_steer_gain = 1.0
+back_motor_gain = 1.5
+forward_threshold = 52
 
 				else:
 					torch_motor = forward_motor
