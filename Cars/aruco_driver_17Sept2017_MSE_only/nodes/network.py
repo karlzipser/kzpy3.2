@@ -308,7 +308,7 @@ while not rospy.is_shutdown():
 							backward_timer = Timer(rp.backward_timer_time)
 					else:
 						torch_steer = back_steer
-						torch_motor = 99 - back_motor
+						torch_motor = 99 - back_motor - 5
 						print(d2s('back:   ',torch_motor))
 						if backward_timer.check():
 							backward_timer = None
