@@ -302,7 +302,7 @@ while not rospy.is_shutdown():
 				if 'Back' not in rp.computer_name:
 					if backward_timer == None:
 						if forward_motor < rp.forward_threshold:
-							backward_timer = Timer(3)
+							backward_timer = Timer(rp.backward_timer_time)
 						else:
 							torch_motor = forward_motor
 							torch_steer = forward_steer
@@ -310,7 +310,7 @@ while not rospy.is_shutdown():
 						torch_motor = 99 - int((back_motor - 49.) * rp.back_motor_gain + 49.)
 						#torch_motor = 99 - back_motor
 						torch_steer = back_steer
-						if backward_timer.check()
+						if backward_timer.check():
 							backward_timer = None
 				else:
 					torch_motor = forward_motor
