@@ -273,7 +273,7 @@ reload_timer = Timer(10)
 
 if 'Back' in rp.computer_name or not rp.use_MSE:
 	state = 6
-
+backward_timer = None
 while not rospy.is_shutdown():
 	
 	if reload_timer.check(): # put in thread?
