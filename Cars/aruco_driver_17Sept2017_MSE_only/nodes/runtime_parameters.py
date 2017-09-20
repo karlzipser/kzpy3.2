@@ -63,8 +63,6 @@ motor_gain = 1.0
 back_motor_gain = 1.5
 forward_threshold = 52
 
-				else:
-					torch_motor = forward_motor
-					torch_steer = forward_steer
+
 use_MSE = True
 
