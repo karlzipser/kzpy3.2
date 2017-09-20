@@ -61,7 +61,7 @@ steer_gain = 1.0
 motor_gain = 1.3
 motor_offset = 5
 
-forward_threshold = 60
+forward_threshold = 58
 backward_timer_time = 3
 
 use_MSE = True
