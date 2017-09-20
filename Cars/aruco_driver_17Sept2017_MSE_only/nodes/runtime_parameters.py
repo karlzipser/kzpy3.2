@@ -61,7 +61,7 @@ steer_gain = 1.0
 motor_gain = 1.5
 
 back_motor_gain = 1.5
-forward_threshold = 52
+forward_threshold = 56
 
 
 use_MSE = True
