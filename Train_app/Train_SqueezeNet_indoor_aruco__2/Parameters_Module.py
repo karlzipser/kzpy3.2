@@ -8,22 +8,13 @@ P['data_moments_indexed'] =  lo('/home/karlzipser/Desktop/bdd_car_data_Sept2017_
 P['data_moments_indexed'] += lo('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/data_moments_indexed_2.pkl')
 
 P['data_moments_indexed'] += lo('/home/karlzipser/Desktop/bdd_car_data_15Sept2017_circle/data_moments_indexed.pkl')
-#P['data_moments_indexed'] += lo('/home/karlzipser/Desktop/bdd_car_data_15Sept2017_circle/data_moments_indexed.pkl')
-#P['data_moments_indexed'] += lo('/home/karlzipser/Desktop/bdd_car_data_15Sept2017_circle/data_moments_indexed.pkl')
-#P['data_moments_indexed'] += lo('/home/karlzipser/Desktop/bdd_car_data_15Sept2017_circle/data_moments_indexed.pkl')
-
 P['data_moments_indexed'] += lo('/home/karlzipser/Desktop/bdd_car_data_15Sept2017_circle/heading_pause_data_moments_indexed.pkl')
 
 P['data_moments_indexed'] += lo('/home/karlzipser/Desktop/bdd_car_data_14Sept2017_whole_room/data_moments_indexed.pkl')
-
-#P['data_moments_indexed'] += lo('/home/karlzipser/Desktop/bdd_car_data_14Sept2017_whole_room/heading_pause_data_moments_indexed.pkl')
+P['data_moments_indexed'] += lo('/home/karlzipser/Desktop/bdd_car_data_14Sept2017_whole_room/heading_pause_data_moments_indexed.pkl')
 
 P['data_moments_indexed'] += lo('/home/karlzipser/Desktop/bdd_car_data_14Sept2017_circle/data_moments_indexed.pkl')
-#P['data_moments_indexed'] += lo('/home/karlzipser/Desktop/bdd_car_data_14Sept2017_circle/data_moments_indexed.pkl')
-#P['data_moments_indexed'] += lo('/home/karlzipser/Desktop/bdd_car_data_14Sept2017_circle/data_moments_indexed.pkl')
-#P['data_moments_indexed'] += lo('/home/karlzipser/Desktop/bdd_car_data_14Sept2017_circle/data_moments_indexed.pkl')
-
-#P['data_moments_indexed'] += lo('/home/karlzipser/Desktop/bdd_car_data_14Sept2017_circle/heading_pause_data_moments_indexed.pkl')
+P['data_moments_indexed'] += lo('/home/karlzipser/Desktop/bdd_car_data_14Sept2017_circle/heading_pause_data_moments_indexed.pkl')
 
 #P['data_moments_indexed'] += lo('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/heading_pause_data_moments_indexed.pkl')
 
