@@ -81,7 +81,27 @@ print timer.time()
 
 
 
-
+###################### left-right ts dic ####################
+#
+folders5 = sggo(data_path,'h5py','*')
+for f in folders5:
+	if True:#car in f:
+		try:
+			F=h5r(opj(f,'original_timestamp_data.h5py'))
+			print fname(f)
+			r = F['right_image']['ts']
+			l = F['left_image']['ts']
+			left_right_dic = {}
+			for i in range(len(l)):
+				t = l[i]
+				for j in range(max(0,i-10),min(i+10,len(r))):
+					if r[j] > t and r[j] < t+0.1:
+						left_right_dic[t] = r[j]
+						break
+			so(left_right_dic,opj(f,'left_right_ts_dic'))
+		except Exception as e:
+			print("********** Exception 1 ***********************")
+			print(e.message, e.args)
 
 
 
@@ -114,7 +134,7 @@ for car in ['Mr_Purple','Mr_Black','Mr_Blue','Mr_Lt_Blue','Mr_Orange','Mr_Yellow
 						for t in o[r][b]:
 							all_aruco_left_timestamps.append(t)
 			except Exception as e:
-				print("********** Exception ***********************")
+				print("********** Exception 11 ***********************")
 				print(e.message, e.args)
 
 
@@ -153,7 +173,7 @@ for car in ['Mr_Purple','Mr_Black','Mr_Blue','Mr_Lt_Blue','Mr_Orange','Mr_Yellow
 							else:
 								print t,'invalid'
 		except Exception as e:
-			print("********** Exception ***********************")
+			print("********** Exception 10 ***********************")
 			print(e.message, e.args)
 	so(data_moments,opj(data_path,'data_moments_'+car))
 #
@@ -183,7 +203,7 @@ for f in folders5:
 		print (len(left_timestamp_index_dic.values()),max(left_timestamp_index_dic.values()))
 		so(left_timestamp_index_dic,opj(f,'left_timestamp_index_dic'))
 	except Exception as e:
-		print("********** Exception ***********************")
+		print("********** Exception 9 ***********************")
 		print(e.message, e.args)
 #
 ##########################################
@@ -206,7 +226,7 @@ for f in folders5:
 		print (len(right_timestamp_index_dic.values()),max(right_timestamp_index_dic.values()))
 		so(right_timestamp_index_dic,opj(f,'right_timestamp_index_dic'))
 	except Exception as e:
-		print("********** Exception ***********************")
+		print("********** Exception 8***********************")
 		print(e.message, e.args)
 #
 ##########################################
@@ -233,7 +253,7 @@ for f in folders:
 					for t in o[r][b]:
 						all_aruco_left_timestamps.append(t)
 		except Exception as e:
-			print("********** Exception ***********************")
+			print("********** Exception 7 ***********************")
 			print(e.message, e.args)
 
 
@@ -269,7 +289,7 @@ for f in folders5:
 		o=lo(opj(f,'left_timestamp_index_dic.pkl'))
 		runs_left_timestamp_index_dic[fname(f)] = o
 	except Exception as e:
-		print("********** Exception ***********************")
+		print("********** Exception 6 ***********************")
 		print(e.message, e.args)
 so(runs_left_timestamp_index_dic,opj(data_path,'runs_left_timestamp_index_dic'))
 #
@@ -284,7 +304,7 @@ for f in folders5:
 		o=lo(opj(f,'right_timestamp_index_dic.pkl'))
 		runs_right_timestamp_index_dic[fname(f)] = o
 	except Exception as e:
-		print("********** Exception ***********************")
+		print("********** Exception 5 ***********************")
 		print(e.message, e.args)
 so(runs_right_timestamp_index_dic,opj(data_path,'runs_right_timestamp_index_dic'))
 #
@@ -302,7 +322,7 @@ for f in folders5:
 		o=lo(opj(f,'left_right_ts_dic.pkl'))
 		runs_left_right_ts_dic[fname(f)] = o
 	except Exception as e:
-		print("********** Exception ***********************")
+		print("********** Exception 4 ***********************")
 		print(e.message, e.args)
 so(runs_left_right_ts_dic,opj(data_path,'runs_left_right_ts_dic'))
 
@@ -322,6 +342,7 @@ ctr = 0
 data_moments_indexed = []
 for d in data_moments:
 	try:
+		print d
 		n = d[0]
 		t = d[1]
 		i = runs_left_timestamp_index_dic[n][t]
@@ -330,7 +351,7 @@ for d in data_moments:
 		data_moments_indexed.append([n,((t,i),(tr,ir)),(d[2],d[3]),(d[4],d[5])])
 		ctr += 1
 	except Exception as e:
-		print("********** Exception ***********************")
+		print("********** Exception 3 ***********************")
 		print(e.message, e.args)
 so(opj(data_path,'data_moments_indexed'),data_moments_indexed)
 #
@@ -340,7 +361,7 @@ so(opj(data_path,'data_moments_indexed'),data_moments_indexed)
 
 if False:
 	All_image_files = {}
-	#folders5 = sgg('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/h5py/*')
+
 	for f in folders5:
 		print fname(f)
 		All_image_files[fname(f)] = {}
@@ -351,7 +372,7 @@ if False:
 				All_image_files[fname(f)]['normal'] = O
 				All_image_files[fname(f)]['flip'] = F
 			except Exception as e:
-				print("********** Exception ***********************")
+				print("********** Exception 2 ***********************")
 				print(e.message, e.args)	
 
 
@@ -452,11 +473,11 @@ if False:
 
 
 
-	car = 'Yellow'
+
 
 	###################### left-right ts dic ####################
 	#
-	folders5 = sgg('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/h5py/*')
+	folders5 = sggo(data_path,'h5py','*')
 	for f in folders5:
 		if car in f:
 			try:
@@ -473,7 +494,7 @@ if False:
 							break
 				so(left_right_dic,opj(f,'left_right_ts_dic'))
 			except Exception as e:
-				print("********** Exception ***********************")
+				print("********** Exception 1 ***********************")
 				print(e.message, e.args)			
 				
 
@@ -493,7 +514,7 @@ if False:
 
 
 
-
+	"""
 	Args = {'BATCH':'True'}
 	if 'BATCH' in Args:
 		if Args['BATCH'] == 'True':
@@ -503,5 +524,5 @@ if False:
 			raw_enter();
 			exit()
 			assert(False)
-
+	"""
 	#EOF

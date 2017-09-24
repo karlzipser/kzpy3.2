@@ -11,26 +11,12 @@ mkdir position_dictionaries
 put .pkl files into that
 
 
-mkdir ~/Desktop/Aruco_Steering_Trajectories_Sept2017
 python kzpy3/Localization_app/visualize_cars_with_gaussians__3.py BATCH True MARKERS circle DATA_FOLDER /home/karlzipser/Desktop/bdd_car_data_15Sept2017_circle
 
 
-
-
-
-
-
-python kzpy3/Localization_app/visualize_cars_with_gaussians__3.py BATCH True MARKERS circle DATA_FOLDER /home/karlzipser/Desktop/bdd_car_data_14Sept2017_circle
-
-
-
-
 python kzpy3/Localization_app/aruco_pkl_to_hdf5__2.py PATH '/home/karlzipser/Desktop/bdd_car_data_14Sept2017_whole_room/' 
-python kzpy3/Localization_app/aruco_pkl_to_hdf5__2.py PATH '/home/karlzipser/Desktop/bdd_car_data_14Sept2017_whole_room/' 
-python kzpy3/Localization_app/aruco_pkl_to_hdf5__2.py PATH /home/karlzipser/Desktop/bdd_car_data_15Sept2017_circle/
 
 python kzpy3/Localization_app/heading_pause_data_moments.py PATH '/home/karlzipser/Desktop/bdd_car_data_14Sept2017_whole_room/' 
-python kzpy3/Localization_app/heading_pause_data_moments.py PATH /home/karlzipser/Desktop/bdd_car_data_15Sept2017_circle/
 
 
 
