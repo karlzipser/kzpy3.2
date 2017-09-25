@@ -126,4 +126,35 @@ h5py_data_folder = '/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/h5
 ax,ay,hx,hy,o_meo = get_car_position_heading_validity(h5py_data_folder,graphics=False)
 """
 
+
+
+
+from kzpy3.Localization_app.aruco_whole_room_markers_11circle_no_pillar import *
+
+if False:
+	D = bagfile_to_dic(BAG_PATH='/media/karlzipser/rosbags/processed_23Sep17_17h48m38s/Mr_Purple_2017-09-23-17-10-53/bair_car_2017-09-23-17-18-23_12.bag' )
+	so(D,opjD('one_bag_dic'))
+if False:
+	D = lo(opjD('one_bag_dic'))
+
+n = len(D[left_image][vals])
+
+graphics = True
+
+if graphics: CA();figure(1);plt_square();xysqlim(3)
+
+for i in range(n):
+	angles_to_center, angles_surfaces, distances_marker, markers = Angle_Dict_Creator.get_angles_and_distance(D[left_image][vals][i],borderColor=None)
+	Q = {'angles_to_center':angles_to_center,'angles_surfaces':angles_surfaces,'distances_marker':distances_marker}
+	d = Camera_View_Field(aruco_data,Q,'p',P)
+	if graphics: clf(); plt_square(); xysqlim(3);pts_plot(d['pts']);spause();mci(D[left_image][vals][i],delay=1)
+
+
+
+
+
+
+
+
+
 #EOF
