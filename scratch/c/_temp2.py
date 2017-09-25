@@ -129,31 +129,124 @@ ax,ay,hx,hy,o_meo = get_car_position_heading_validity(h5py_data_folder,graphics=
 
 
 
+
+
+# 25 Sept. 2017
+from kzpy3.Localization_app.Project_Aruco_Markers_Module import * 
 from kzpy3.Localization_app.aruco_whole_room_markers_11circle_no_pillar import *
+import kzpy3.data_analysis.Angle_Dict_Creator as Angle_Dict_Creator
+
+dont_know_why = True
+if dont_know_why:
+	P = {}
+	P[VERBOSE] = True
+	P[GRAPHICS] = False
+	P[ROS_LIVE] = True
+	P[past_to_present_proportion] = 0.99 # 0.5
+	P[MARKERS_TO_IGNORE] = [190] # often has False positives
+	P[DEGREE_STEP_FOR_ROTATION_FIT] = 5#15  # 10 to 30 range, bigger is faster
+	P[ANGLE_DIST_PARAM] = 0.3
 
 if False:
 	D = bagfile_to_dic(BAG_PATH='/media/karlzipser/rosbags/processed_23Sep17_17h48m38s/Mr_Purple_2017-09-23-17-10-53/bair_car_2017-09-23-17-18-23_12.bag' )
 	so(D,opjD('one_bag_dic'))
-if False:
+if True:
 	D = lo(opjD('one_bag_dic'))
 
 n = len(D[left_image][vals])
 
-graphics = True
+graphics = False
 
 if graphics: CA();figure(1);plt_square();xysqlim(3)
 
+timer = Timer(1)
+
+mmm = []
+mmm_lens = []
 for i in range(n):
-	angles_to_center, angles_surfaces, distances_marker, markers = Angle_Dict_Creator.get_angles_and_distance(D[left_image][vals][i],borderColor=None)
-	Q = {'angles_to_center':angles_to_center,'angles_surfaces':angles_surfaces,'distances_marker':distances_marker}
-	d = Camera_View_Field(aruco_data,Q,'p',P)
-	if graphics: clf(); plt_square(); xysqlim(3);pts_plot(d['pts']);spause();mci(D[left_image][vals][i],delay=1)
+	try:
+		mm = {}
+		angles_to_center, angles_surfaces, distances_marker, markers = Angle_Dict_Creator.get_angles_and_distance(D[left_image][vals][i],borderColor=None)
+		Q = {'angles_to_center':angles_to_center,'angles_surfaces':angles_surfaces,'distances_marker':distances_marker}
+		d = Camera_View_Field(aruco_data,Q,'p',P)
+		if graphics: clf(); plt_square(); xysqlim(3);pts_plot(d['pts']);spause();mci(D[left_image][vals][i],delay=1)
+		for m in d['markers'].keys():
+			mm[d2n(m,'_left')] = d['markers'][m]['left']
+			mm[d2n(m,'_right')] = d['markers'][m]['right']
+		if len(mm) > 0:
+			mmm.append(mm)
+			mmm_lens.append(len(mm))
+	except Exception as e:
+		print("********** Exception 123 ***********************")
+		print(e.message, e.args)
+	timer.message(d2s(i,int(100*i/(1.0*n)),'%'),color='white')
+
+
+
+mmm_overlap_dic = {}
+for i in rlen(mmm):
+	for j in rlen(mmm):
+		if i != j:
+			if len(set(mmm[i].keys()) & set(mmm[j].keys())) > 0:
+				if i not in mmm_overlap_dic:
+					mmm_overlap_dic[i] = []
+				mmm_overlap_dic[i].append(j)
+	print len(mmm_overlap_dic[i])
+
+
+timer_total = Timer(0)
+timer = Timer(0.1)
+visited_dic = {}
+j = np.random.choice(rlen(mmm)) #   max_overlap_index
+graphics = True
+for i in range(100000):
+	if graphics: mci(D[left_image][vals][j],delay=100);clf(); plt_square(); xysqlim(3);pts_plot(na(mmm[j].values()));spause();
+	if len(visited_dic) == len(mmm_overlap_dic):
+		break
+	timer.message(d2s('\t',int(100*len(visited_dic)/(1.0*len(mmm))),'%'),color='white')
+	if j not in visited_dic:
+		visited_dic[j] = 1
+	else:
+		visited_dic[j] += 1
+	j = np.random.choice(mmm_overlap_dic[j])
+pd2s('Done in ',dp(timer_total.time()),'seconds')
+figure(2)#CA();
+hist(visited_dic.values(),bins=500)
+
+
+
+"""
+mmm_lens_sorted_indicies = sorted(range(len(mmm_lens)), key=lambda k: mmm_lens[k])
+mmm_lens_sorted_indicies.reverse()
+
+mmm_overlap = {}
+max_overlap_val = 0
+max_overlap_index = None
+ctr = 0
+for i in mmm_lens_sorted_indicies:#rlen(mmm):
+	timer.message(d2s('\t',int(100*ctr/(1.0*len(mmm))),'%'),color='white')
+	for j in mmm_lens_sorted_indicies:#rlen(mmm):
+		if j not in mmm_overlap.keys():
+			if i != j:
+				if i not in mmm_overlap:
+					mmm_overlap[i] = (-1,0)
+				o = len(set(mmm[i].keys()) & set(mmm[j].keys()))
+				if o > mmm_overlap[i][1]:
+					mmm_overlap[i] = (j,o)
+					if o > max_overlap_val:
+						max_overlap_val = o
+						max_overlap_index = i
+	if mmm_overlap[i] == (-1,0):
+		del mmm_overlap[i]
+	ctr += 1
+pd2s('Done in ',dp(timer_total.time()),'seconds')
+#timer.message(d2s('\t',int(100*i/(1.0*len(mmm))),'%'),color='white')
 
 
 
 
-
-
+"""
+True
 
 
 

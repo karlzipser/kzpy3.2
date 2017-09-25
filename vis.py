@@ -371,6 +371,7 @@ def plt_square():
 
 def function_close_all_windows():
     plt.close('all')
+    cv2.destroyAllWindows()
 CA = function_close_all_windows
 
 
