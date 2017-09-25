@@ -161,12 +161,12 @@ if graphics: CA();figure(1);plt_square();xysqlim(3)
 
 timer = Timer(1)
 
-mmm = []
-mmm_lens = []
+mmm = {}
+#mmm_lens = []
 for i in range(n):
 	try:
 		mm = {}
-		angles_to_center, angles_surfaces, distances_marker, markers = Angle_Dict_Creator.get_angles_and_distance(D[left_image][vals][i],borderColor=None)
+		angles_to_center, angles_surfaces, distances_marker, markers = Angle_Dict_Creator.get_angles_and_distance(D[left_image][vals][i],borderColor=(0,255,0))#None)
 		Q = {'angles_to_center':angles_to_center,'angles_surfaces':angles_surfaces,'distances_marker':distances_marker}
 		d = Camera_View_Field(aruco_data,Q,'p',P)
 		if graphics: clf(); plt_square(); xysqlim(3);pts_plot(d['pts']);spause();mci(D[left_image][vals][i],delay=1)
@@ -174,8 +174,8 @@ for i in range(n):
 			mm[d2n(m,'_left')] = d['markers'][m]['left']
 			mm[d2n(m,'_right')] = d['markers'][m]['right']
 		if len(mm) > 0:
-			mmm.append(mm)
-			mmm_lens.append(len(mm))
+			mmm[i] = mm
+			#mmm_lens.append(len(mm))
 	except Exception as e:
 		print("********** Exception 123 ***********************")
 		print(e.message, e.args)
@@ -184,8 +184,8 @@ for i in range(n):
 
 
 mmm_overlap_dic = {}
-for i in rlen(mmm):
-	for j in rlen(mmm):
+for i in mmm.keys():
+	for j in mmm.keys():
 		if i != j:
 			if len(set(mmm[i].keys()) & set(mmm[j].keys())) > 0:
 				if i not in mmm_overlap_dic:
@@ -197,10 +197,10 @@ for i in rlen(mmm):
 timer_total = Timer(0)
 timer = Timer(0.1)
 visited_dic = {}
-j = np.random.choice(rlen(mmm)) #   max_overlap_index
+j = np.random.choice(mmm.keys()) #   max_overlap_index
 graphics = True
 for i in range(100000):
-	if graphics: mci(D[left_image][vals][j],delay=100);clf(); plt_square(); xysqlim(3);pts_plot(na(mmm[j].values()));spause();
+	if graphics: mci(D[left_image][vals][j],delay=500);clf(); plt_square(); xysqlim(3);pts_plot(na(mmm[j].values()));plt.title(len(mmm[j].values()));spause();raw_enter()
 	if len(visited_dic) == len(mmm_overlap_dic):
 		break
 	timer.message(d2s('\t',int(100*len(visited_dic)/(1.0*len(mmm))),'%'),color='white')
@@ -210,7 +210,7 @@ for i in range(100000):
 		visited_dic[j] += 1
 	j = np.random.choice(mmm_overlap_dic[j])
 pd2s('Done in ',dp(timer_total.time()),'seconds')
-figure(2)#CA();
+CA();
 hist(visited_dic.values(),bins=500)
 
 
