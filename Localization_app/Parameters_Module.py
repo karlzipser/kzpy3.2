@@ -6,7 +6,7 @@ _ = dictionary_access
 
 #from aruco_home_4x4_markers import Marker_xy_dic
 #from aruco_whole_room_markers import Marker_xy_dic
-from aruco_whole_room_markers_12circle import Marker_xy_dic
+from aruco_whole_room_markers_11circle import Marker_xy_dic
 P = {}
 P[VERBOSE] = True
 P[GRAPHICS] = False
