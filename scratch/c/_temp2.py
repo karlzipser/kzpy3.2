@@ -163,26 +163,28 @@ timer = Timer(1)
 
 mmm = {}
 #mmm_lens = []
-for i in range(n):
-	try:
-		mm = {}
-		angles_to_center, angles_surfaces, distances_marker, markers = Angle_Dict_Creator.get_angles_and_distance(D[left_image][vals][i],borderColor=(0,255,0))#None)
-		Q = {'angles_to_center':angles_to_center,'angles_surfaces':angles_surfaces,'distances_marker':distances_marker}
-		d = Camera_View_Field(aruco_data,Q,'p',P)
-		if graphics: clf(); plt_square(); xysqlim(3);pts_plot(d['pts']);spause();mci(D[left_image][vals][i],delay=1)
-		for m in d['markers'].keys():
-			mm[d2n(m,'_left')] = d['markers'][m]['left']
-			mm[d2n(m,'_right')] = d['markers'][m]['right']
-		if len(mm) > 0:
-			mmm[i] = mm
-			#mmm_lens.append(len(mm))
-	except Exception as e:
-		print("********** Exception 123 ***********************")
-		print(e.message, e.args)
-	timer.message(d2s(i,int(100*i/(1.0*n)),'%'),color='white')
+for h in range(1):
+	for i in range(n):
+		try:
+			mm = {}
+			angles_to_center, angles_surfaces, distances_marker, markers = Angle_Dict_Creator.get_angles_and_distance(D[left_image][vals][i],borderColor=(h*20,255-h*20,0))#None)
+			Q = {'angles_to_center':angles_to_center,'angles_surfaces':angles_surfaces,'distances_marker':distances_marker}
+			d = Camera_View_Field(aruco_data,Q,'p',P)
+			if graphics: clf(); plt_square(); xysqlim(3);pts_plot(d['pts']);spause();mci(D[left_image][vals][i],delay=1)
+			for m in d['markers'].keys():
+				mm[d2n(m,'_left')] = d['markers'][m]['left']
+				mm[d2n(m,'_right')] = d['markers'][m]['right']
+			if len(mm) > 0:
+				mmm[i] = mm
+				#mmm_lens.append(len(mm))
+		except Exception as e:
+			print("********** Exception 123 ***********************")
+			print(e.message, e.args)
+		timer.message(d2s(i,int(100*i/(1.0*n)),'%'),color='white')
 
 
 
+print('making mmm_overlap_dic')
 mmm_overlap_dic = {}
 for i in mmm.keys():
 	for j in mmm.keys():
@@ -191,14 +193,29 @@ for i in mmm.keys():
 				if i not in mmm_overlap_dic:
 					mmm_overlap_dic[i] = []
 				mmm_overlap_dic[i].append(j)
-	print len(mmm_overlap_dic[i])
+	#print len(mmm_overlap_dic[i])
+
+max_num_markers_index = -1
+max_num_markers_val = 0
+for i in mmm.keys():
+	if len(mmm[i]) > max_num_markers_val:
+		max_num_markers_val = len(mmm[i])
+		max_num_markers_index = i
+
+
+
+www = {}
 
 
 timer_total = Timer(0)
 timer = Timer(0.1)
 visited_dic = {}
-j = np.random.choice(mmm.keys()) #   max_overlap_index
-graphics = True
+j = max_num_markers_index #np.random.choice(mmm.keys()) #   max_overlap_index
+for marker_id in mmm[j].keys():
+	if marker_id not in www:
+		www[marker_id] = {}
+	www[marker_id][j] = mmm[j][marker_id]
+graphics = False
 for i in range(100000):
 	if graphics: mci(D[left_image][vals][j],delay=500);clf(); plt_square(); xysqlim(3);pts_plot(na(mmm[j].values()));plt.title(len(mmm[j].values()));spause();raw_enter()
 	if len(visited_dic) == len(mmm_overlap_dic):
@@ -209,16 +226,41 @@ for i in range(100000):
 	else:
 		visited_dic[j] += 1
 	j = np.random.choice(mmm_overlap_dic[j])
+	j_keys = sorted(mmm[j].keys())
+	stationary = []
+	moving = []
+	for marker_id in j_keys:
+		if marker_id in www.keys():
+			stationary.append(list(na(www[marker_id].values()).mean(axis=0))+[0.0])
+			moving.append(list(mmm[j][marker_id])+[0.0])
+	print stationary
+	print moving
+	raw_enter()
+
+
+
+
 pd2s('Done in ',dp(timer_total.time()),'seconds')
 CA();
 hist(visited_dic.values(),bins=500)
 
 
 
+
+
+
+
+
+
+
+
+#timer.message(d2s('\t',int(100*i/(1.0*len(mmm))),'%'),color='white')
+
+
 """
+print('finding max_overlap_index')
 mmm_lens_sorted_indicies = sorted(range(len(mmm_lens)), key=lambda k: mmm_lens[k])
 mmm_lens_sorted_indicies.reverse()
-
 mmm_overlap = {}
 max_overlap_val = 0
 max_overlap_index = None
@@ -240,12 +282,12 @@ for i in mmm_lens_sorted_indicies:#rlen(mmm):
 		del mmm_overlap[i]
 	ctr += 1
 pd2s('Done in ',dp(timer_total.time()),'seconds')
-#timer.message(d2s('\t',int(100*i/(1.0*len(mmm))),'%'),color='white')
-
-
-
-
 """
+
+
+
+
+
 True
 
 
