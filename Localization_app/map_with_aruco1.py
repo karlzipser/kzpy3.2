@@ -201,7 +201,7 @@ while True:
 		for marker_id in j_keys:
 			all_moving.append(list(mmm[j][marker_id])+[0.0])
 			if marker_id in www.keys():
-				stationary.append(list(na(www[marker_id].values()).mean(axis=0))+[0.0]) #+alpha*np.random.randn(2)
+				stationary.append(list(na(www[marker_id].values()).mean(axis=0))+[0.0]) #+alpha*np.random.randn(2) #d
 				moving.append(list(mmm[j][marker_id])+[0.0])
 		if shape(moving)[0] < 3:
 			continue
