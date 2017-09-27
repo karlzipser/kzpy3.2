@@ -278,12 +278,20 @@ def save_obj(obj, name ):
 		name = name[:-len('.pkl')]
 	with open(name + '.pkl', 'wb') as f:
 		pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
-def load_obj(name ):
+def load_obj(name,noisy=True):
+	if noisy:
+		timer = Timer()
+		print(d2s('Loading',name,'. . .\r')),
+		sys.stdout.flush()
 	if name.endswith('.pkl'):
 		name = name[:-len('.pkl')]
 	assert_disk_locations(name+'.pkl')
 	with open(name + '.pkl', 'rb') as f:
-		return pickle.load(f)
+		o = pickle.load(f)
+		if noisy:
+			print(d2s('Loaded',name,'in',dp(timer.time()),'seconds.\r')),
+			sys.stdout.flush()
+		return o
 lo = load_obj
 def so(arg1,arg2):
 	if type(arg1) == str and type(arg2) != str:
@@ -620,6 +628,8 @@ class Timer:
 			print(message_str+'\r'),
 			sys.stdout.flush()
 			self.reset()
+	def percent_message(self,i,i_max,flush=False):
+		self.message(d2s(i,int(100*i/(1.0*i_max)),'%'),color='white')
 	def wait(self):
 		while not(self.check()):
 			time.sleep(self.time_s/100.0)

@@ -32,7 +32,11 @@ Rename['cmd/car_in_range'] = car_in_range
 def bagfile_to_dic(**kwargs):
 	"""
 	"""
-	bv = kwargs['BAG_PATH']
+	print('bagfile_to_dic(**kwargs)')
+	if 'BAG_PATH' in kwargs:
+		bag_paths = [ kwargs['BAG_PATH'] ]
+	else:
+		bag_paths = kwargs['BAG_PATH_LIST']
 	True
 	D = {}
 	for topic_ in all_topics_:
@@ -43,42 +47,44 @@ def bagfile_to_dic(**kwargs):
 		D[topic_][vals] = []
 
 	
-	cprint('\t'+bv,'blue')
+	for bv in bag_paths:
+
+		cprint('\t'+bv,'blue')
 
 
-	timerv = Timer(0)
+		timerv = Timer(0)
 
-	cprint(bv,'yellow')
+		cprint(bv,'yellow')
 
-	bagv = rosbag.Bag(bv)
+		bagv = rosbag.Bag(bv)
 
-	for m_ in bagv.read_messages(topics=bair_all_topics_):
-		timestampv = round(m_[2].to_time(),3) # millisecond resolution
-		assert(is_number(timestampv))
-		topic_ = m_[0].replace('/bair_car/','')
-		if 'zed' in m_[0]:# or 'cmd' in m_[0]:
-			valv = bridge.imgmsg_to_cv2(m_[1],"rgb8")
-			#valv = cv2.resize(valv, (0,0), fx=0.25, fy=0.25)
-		elif hasattr(m_[1], 'data'):
-			if is_number(m_[1].data):
-				valv = m_[1].data
-		elif hasattr(m_[1], 'x'):
-			valv = [m_[1].x,m_[1].y,m_[1].z]
-			for nv in valv:
-				assert(is_number(nv))
-		elif hasattr(m_[1], 'latitude'):
-			valv = [m_[1].latitude,m_[1].longitude,m_[1].altitude]
-			for nv in valv:
-				assert(is_number(nv))
-		else:
-			raise ValueError('ERROR because: topic '+topic_+' not processed.')
-		if 'zed' in topic_ or 'cmd' in topic_:
-			topic_ = Rename[topic_]
+		for m_ in bagv.read_messages(topics=bair_all_topics_):
+			timestampv = round(m_[2].to_time(),3) # millisecond resolution
+			assert(is_number(timestampv))
+			topic_ = m_[0].replace('/bair_car/','')
+			if 'zed' in m_[0]:# or 'cmd' in m_[0]:
+				valv = bridge.imgmsg_to_cv2(m_[1],"rgb8")
+				#valv = cv2.resize(valv, (0,0), fx=0.25, fy=0.25)
+			elif hasattr(m_[1], 'data'):
+				if is_number(m_[1].data):
+					valv = m_[1].data
+			elif hasattr(m_[1], 'x'):
+				valv = [m_[1].x,m_[1].y,m_[1].z]
+				for nv in valv:
+					assert(is_number(nv))
+			elif hasattr(m_[1], 'latitude'):
+				valv = [m_[1].latitude,m_[1].longitude,m_[1].altitude]
+				for nv in valv:
+					assert(is_number(nv))
+			else:
+				raise ValueError('ERROR because: topic '+topic_+' not processed.')
+			if 'zed' in topic_ or 'cmd' in topic_:
+				topic_ = Rename[topic_]
 
-		D[topic_][ts].append(timestampv)
-		D[topic_][vals].append(valv)
+			D[topic_][ts].append(timestampv)
+			D[topic_][vals].append(valv)
 
-	print(d2s('\t',dp(timerv.time()),'seconds'))
+		print(d2s('\t',dp(timerv.time()),'seconds'))
 
 	D[topic_][ts] = np.array(D[topic_][ts])
 	D[topic_][vals] = np.array(D[topic_][vals])
