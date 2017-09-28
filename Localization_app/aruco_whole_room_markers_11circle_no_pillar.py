@@ -91,7 +91,7 @@ for k in Marker_xy_dic.keys():
 	Marker_xy_dic[(k,RIGHT)] = xy-na(rotatePoint((0,0),xy,85))/(2*107/100.)*marker_width/2.0#/marker_spacing
 
 
-graphics = True
+graphics = False
 
 if graphics and 'nvidia' not in opjh():
 	from kzpy3.Grapher_app.Graph_Image_Module import *

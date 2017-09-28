@@ -550,6 +550,49 @@ def rotatePolygon(polygon,theta):
     return rotatedPolygon
 
 
+
+
+
+
+
+
+def rigid_transform_3D(A, B):
+    """
+    http://nghiaho.com/uploads/code/rigid_transform_3D.py_
+    Input: expects Nx3 matrix of points
+    Returns R,t
+    R = 3x3 rotation matrix
+    t = 3x1 column vector
+    """
+    from math import sqrt
+    assert len(A) == len(B)
+    A = np.matrix(A); B = np.matrix(B)
+    N = A.shape[0]
+    centroid_A = np.mean(A, axis=0)
+    centroid_B = np.mean(B, axis=0)
+    AA = A - np.tile(centroid_A, (N, 1))
+    BB = B - np.tile(centroid_B, (N, 1))
+    H = np.transpose(AA) * BB
+    U, S, Vt = np.linalg.svd(H)
+    R = Vt.T * U.T
+    if np.linalg.det(R) < 0:
+       #print "Reflection detected"
+       Vt[2,:] *= -1
+       R = Vt.T * U.T
+    t = -R*centroid_A.T + centroid_B.T
+    return R, t
+
+
+
+
+
+
+
+
+
+
+
+
 def length(xy):
     return sqrt(xy[0]**2+xy[1]**2)
 
