@@ -106,23 +106,23 @@ if SETUP:
 			max_num_markers_val = len(F[i])
 			max_num_markers_index = i
 
-	radius = 144/2.0*2.5/100.0
-	Constrained = {'210_left':na([0,radius]), '58_left':na([radius,0]), '218_left':na([-radius,0]), '228_left':na([0,-radius]),
-		'220_left':na([-np.sqrt(2.0)*radius,np.sqrt(2.0)*radius]),
-		'175_left':na([np.sqrt(2.0)*radius,np.sqrt(2.0)*radius]),
-		'170_left':na([np.sqrt(2.0)*radius,-np.sqrt(2.0)*radius]),
-		'133_left':na([-np.sqrt(2.0)*radius,-np.sqrt(2.0)*radius])
-		}
+
 
 
 
 
 if RUN_LOOP:
-
+	radius = 144/2.0*2.5/100.0
+	Constrained = {'210_left':na([0,radius]), '58_left':na([radius,0]), '218_left':na([-radius,0]), '228_left':na([0,-radius]),
+		'220_left':na([-np.sqrt(2.0)/2.0*radius,np.sqrt(2.0)/2.0*radius]),
+		'175_left':na([np.sqrt(2.0)/2.0*radius,np.sqrt(2.0)/2.0*radius]),
+		'170_left':na([np.sqrt(2.0)/2.0*radius,-np.sqrt(2.0)/2.0*radius]),
+		'133_left':na([-np.sqrt(2.0)/2.0*radius,-np.sqrt(2.0)/2.0*radius])
+		}
 	while True:
 		
 		run_timer = Timer(60*30)
-		CA()
+		#CA()
 		timer_total = Timer(0)
 		timer = Timer(1)
 		pts_timer = Timer(1)
@@ -208,13 +208,14 @@ if RUN_LOOP:
 							lmv = length(mv)
 							if lmv > lmax_mv:
 								lmax_mv = lmv
-							W[marker_id][f_] += mv
+							#W[marker_id][f_] += mv
+							W[marker_id][f_] = na(stationary[-1])[:2]
 						print lmax_mv
 
 					print(na(stationary)-na(moving))
 
 					if not rotated:#False:#shape(moving)[0] > 3:
-						rotated = True
+						#rotated = True
 						ret_R,ret_t = rigid_transform_3D(moving,stationary)
 
 						for marker_id in sorted(W.keys()):
