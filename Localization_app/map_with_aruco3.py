@@ -1,9 +1,10 @@
-SETUP = 1
+SETUP = 0
+SAVE = 0
 RELOAD = 0
 RUN_LOOP = 1
+CA()
 
-
-from kzpy3.Localization_app.Project_Aruco_Markers_Module import * 
+from kzpy3.Localization_app.Project_Aruco_Markers_Module import *
 from kzpy3.Localization_app.aruco_whole_room_markers_11circle_no_pillar import *
 import kzpy3.data_analysis.Angle_Dict_Creator as Angle_Dict_Creator
 import kzpy3.Car_Data_app.Data_Module as Data_Module
@@ -49,15 +50,19 @@ if SETUP:
 
 
 	if True:
-		#D = Project_Aruco_Markers_Module.bagfile_to_dic(BAG_PATH='/media/karlzipser/rosbags/processed_23Sep17_17h48m38s/Mr_Purple_2017-09-23-17-10-53/bair_car_2017-09-23-17-18-23_12.bag' )
-		D = Data_Module.bagfile_to_dic(BAG_PATH=opjD('Mr_Purple_2017-09-23-17-10-53/bair_car_2017-09-23-17-18-23_12.bag'))
-		#D = Data_Module.bagfile_to_dic(BAG_PATH_LIST=sgg(opjD('Mr_Purple_2017-09-23-17-10-53/*.bag')) ) #'Mr_Black_2017-09-12-13-48-11/a/*.bag')) )
-		#so(D,opjD('one_bag_dic2'))
+		D = Data_Module.bagfile_to_dic(BAG_PATH=opjD('/home/karlzipser/Desktop/processed/Mr_Purple_2017-09-29-12-20-41/bair_car_2017-09-29-12-25-45_8.bag')) #good
+		#D = Data_Module.bagfile_to_dic(BAG_PATH=opjD('/home/karlzipser/Desktop/processed/Mr_Purple_2017-09-29-12-20-41/bair_car_2017-09-29-12-25-07_7.bag'))
+		#D = Data_Module.bagfile_to_dic(BAG_PATH_LIST=sgg('/home/karlzipser/Desktop/processed/Mr_Purple_2017-09-29-12-20-41/a/*.bag'))
+		#D = Data_Module.bagfile_to_dic(BAG_PATH_LIST=sgg(opjD('/home/karlzipser/Desktop/processed/Mr_Purple_2017-09-29-12-20-41/*.bag')))
+		#D = Data_Module.bagfile_to_dic(BAG_PATH=opjD('Mr_Purple_2017-09-23-17-10-53/bair_car_2017-09-23-17-18-23_12.bag'))
+		#D = Data_Module.bagfile_to_dic(BAG_PATH_LIST=sgg(opjD('processed/Mr_Purple_2017-09-23-17-10-53/*.bag')) ) #'Mr_Black_2017-09-12-13-48-11/a/*.bag')) )
+		#D = Data_Module.bagfile_to_dic(BAG_PATH_LIST=sgg(opjD('Mr_Purple_2017-09-29-12-20-41/*.bag')) ) #'Mr_Black_2017-09-12-13-48-11/a/*.bag')) )
 	if False:
 		D = lo(opjD('one_bag_dic2'))
 
 
 	def get_Frame_data(img_lst):
+		views = 0
 		print('get_Frame_data(img_lst)')
 		n = len(img_lst)
 		graphics = False
@@ -94,14 +99,15 @@ if SETUP:
 						mm[d2n(m,'_right')] = d['markers'][m]['right']
 					if len(mm) > 3:
 						F[i] = mm
+						views += 1
 				except Exception as e:
 					print("********** Exception 123 ***********************")
 					print(e.message, e.args)
-				timer.message(d2s(i,int(100*i/(1.0*n)),'%'),color='white')
+				timer.message(d2s(i,'views =',views,int(100*i/(1.0*n)),'%'),color='white')
 		Frame_data = F
 		return Frame_data
 
-	F = get_Frame_data(D[left_image][vals]+list(D[right_image][vals]))
+	F = get_Frame_data(D[left_image][vals])#+list(D[right_image][vals]))
 
 
 	if False:
@@ -127,12 +133,14 @@ if SETUP:
 			max_num_markers_val = len(F[i])
 			max_num_markers_index = i
 
-
-
+if SAVE:
+	so(opjD('F4.pkl'),F)
+	so(opjD('W4.pkl'),W)
 
 if RELOAD:
-	F = lo(opjD('F.pkl'))
-	W = lo(opjD('W.pkl'))
+	F = lo(opjD('F4.pkl'))
+	W = lo(opjD('W4.pkl'))
+
 	max_num_markers_index = -1
 	max_num_markers_val = 0
 	for i in F.keys():
@@ -142,6 +150,7 @@ if RELOAD:
 
 
 if RUN_LOOP:
+
 	radius = 144/2.0*2.5/100.0
 	Constrained = {'210_left':na([0,radius]), '58_left':na([radius,0]), '218_left':na([-radius,0]), '228_left':na([0,-radius]),
 		'220_left':na([-np.sqrt(2.0)/2.0*radius,np.sqrt(2.0)/2.0*radius]),
@@ -175,16 +184,17 @@ if RUN_LOOP:
 
 		run_ctr = 0
 		rotated = False
+		median_distances = []
 		while True:
 
-			alpha = max(0,(0.5*run_timer.time_s - run_timer.time()) / run_timer.time_s)
+			alpha = max(0,(0.1*run_timer.time_s - run_timer.time()) / run_timer.time_s)
 
 			f = np.random.choice(F.keys())
 
 			f_marker_keys = F_sorted_marker_keys[f]
 
 			do_rotate = False
-			if run_timer.time() > 20 and np.mod(run_ctr,5000) == 0:
+			if run_timer.time() > 10 and np.mod(run_ctr,5000) == 0:
 				do_rotate = True
 				a = 0.0
 			else:
@@ -232,21 +242,12 @@ if RUN_LOOP:
 					for marker_id in sorted(Constrained.keys()):
 						stationary.append(list(Constrained[marker_id])+[0.0])
 						moving.append(list(na(W[marker_id].values()).mean(axis=0))+[0.0])
-						"""
+						mv = (1/10. * (na(stationary[-1])-na(moving[-1])))[:2]
 						for f_ in W[marker_id].keys():
-							if False:
-								mv = (0.1 * (na(stationary[-1])-na(moving[-1])))[:2]
-								lmv = length(mv)
-								if lmv > lmax_mv:
-									lmax_mv = lmv
-								W[marker_id][f_] += mv
-							if rotated:
-								W[marker_id][f_] = na(stationary[-1])[:2]
-						print lmax_mv
-						"""
-
-					print(na(stationary)-na(moving))
-
+							for mid in W.keys():
+								len_mid_keys =  1.0 * len(W[mid].keys())
+								if f_ in W[mid].keys():
+									W[marker_id][f_] += mv * 360/1.0/len_mid_keys # there is some effect of number of views, trying to figure it out.
 					if shape(moving)[0] > 3:
 						rotated = True
 						ret_R,ret_t = rigid_transform_3D(moving,stationary)
@@ -292,9 +293,16 @@ if RUN_LOOP:
 							else:
 								right_fitted.append(na(W[k].values()).mean(axis=0))
 						#pts_plot(na(fitted),'c')
-						pts_plot(na(right_fitted),'r');pts_plot(na(left_fitted),'g')
+						distances = []
+						for a in left_fitted:
+							for b in left_fitted:
+								distances.append(np.sqrt( (a[0]-b[0])**2 + (a[1]-b[1])**2))
+						median_dist = np.median(na(distances))
+						median_distances.append(median_dist)
+						figure('median distances');clf();plot(median_distances,'r.-');plt.title(d2s('median dist =',median_dist));figure('distances');clf();hist(distances,bins=50);plt.title(d2s('median dist =',median_dist));figure(1)
+						pts_plot(na(right_fitted),'r');pts_plot(na(left_fitted),'g');
 						#pd2s('alpha =',dp(alpha,3))
-						plt_square(); xysqlim(3);plt.title( d2s(len(F[f].values())/2,dp(alpha) ) )  ;spause();
+						plt_square(); xysqlim(3);plt.title( d2s(len(F[f].values())/2,dp(alpha),d2s('median dist =',median_dist) ) )  ;spause();
 						pts_timer.reset()
 				timer.message(d2s('\trun_ctr =',run_ctr,'alpha =',dp(alpha)),color='white',flush=True)
 				if False:#run_timer.time() > 2 and first_time:
