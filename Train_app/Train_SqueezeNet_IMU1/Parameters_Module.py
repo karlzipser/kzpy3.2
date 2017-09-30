@@ -1,5 +1,15 @@
 
 
+# save loss records for train and val, times and moment numbers
+# save loss by moment id
+# save weights
+# save other state variables
+#current_code_dst_folder = opj(code,time_str())
+#for folder in [code,current_code_dst_folder,loss_history,weights]:
+#	unix('mkdir -p '+opj(P[NETWORK_OUTPUT_FOLDER],folder))
+#unix('scp -r '+P[CODE_PATH]+' '+opj(P[NETWORK_OUTPUT_FOLDER],current_code_dst_folder))
+
+
 from Names_Module import *
 from utils2 import *
 exec(identify_file_str)

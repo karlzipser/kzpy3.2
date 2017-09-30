@@ -89,6 +89,8 @@ class SqueezeNet(nn.Module):
 
 
 def unit_test():
+    print 'not doing unit_test.'
+    return
     test_net = SqueezeNet()
     #a = test_net(Variable(torch.randn(5, 12, 94, 168)), Variable(torch.randn(5, 128, 23, 41)))    
     print('Tested SqueezeNet')

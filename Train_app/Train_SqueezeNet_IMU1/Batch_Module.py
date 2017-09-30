@@ -5,13 +5,8 @@ import torch
 import torch.nn.utils as nnutils
 import Activity_Module
 
-
-
-
-
 control_filter1 = zeros(90); control_filter1[:5] = 1.0; control_filter1[5:10] = 0.5
 control_filter2 = 1.0/((arange(90)/60.0)**2+1.0); control_filter2[:5] = 0.0; control_filter2[5:10] = 0.5
-
 
 data_moments_indexed = P['data_moments_indexed']
 
@@ -27,16 +22,16 @@ loss_timer = Timer(60*5)
 
 frequency_timer = Timer(10.0)
 
+INTO_TORCH = 1
 
-def Batch(*args):
-	Args = args_to_dictionary(args)
+def Batch(**Args):
 	_ = {}
 	_[network] = Args[network]
 	True
-	_[batch_size] = P[BATCH_SIZE]
+	_[BATCH_SIZE] = P[BATCH_SIZE]
 	_[dic_type] = 'Batch'
 	_[purpose] = d2s(inspect.stack()[0][3],':','object to collect data for pytorch batch')
-	_[camera_data] = torch.FloatTensor().cuda()
+	_[CAMERA_DATA] = torch.FloatTensor().cuda()
 	_[metadata] = torch.FloatTensor().cuda()
 	_[target_data] = torch.FloatTensor().cuda()
 	_[names] = []
@@ -47,14 +42,13 @@ def Batch(*args):
 	CLOCKWISE = 0
 	COUNTER_C = 1
 
-	def _function_fill(*args):
+	def _function_fill(**Args):
 		global long_ctr,data_moments_indexed		
 
-		Args = args_to_dictionary(args)
 		True
 		_[data_ids] = []
 		ctr = 0
-		while ctr < _[batch_size]:
+		while ctr < _[BATCH_SIZE]:
 			#print ctr
 			if True:#try:
 				if long_ctr == -1 or long_ctr >= len(data_moments_indexed):
@@ -123,8 +117,7 @@ def Batch(*args):
 						Data_moment[left][q] = F['right_image_flip'][vals][ir0+q]
 						#print('\t\tb')
 
-				
-				_function_data_into_batch(data_moment,Data_moment)
+				_function_data_into_batch(data_moment=Data_moment)
 				ctr += 1
 				#pd2s('ctr =',ctr)
 				frequency_timer.freq()
@@ -132,13 +125,12 @@ def Batch(*args):
 				print('def _function_fill(*args):')
 
 
-	def _function_data_into_batch(*args):
-		Args = args_to_dictionary(args)
+	def _function_data_into_batch(**Args):
 		Data_moment = Args[data_moment]
 		True
 		if True:
 			_[names].insert(0,Data_moment[name]) # This to match torch.cat use below
-		if True:
+		if INTO_TORCH:
 			offset = np.random.randint(20)
 			list_camera_input = []
 			for t in range(_[network][net].N_FRAMES):
@@ -148,16 +140,13 @@ def Batch(*args):
 					img[:(30+offset),:,:] = 128
 					list_camera_input.append(torch.from_numpy(img))
 			#pd2s('shape(list_camera_input) =',shape(list_camera_input))
-			camera_datav = torch.cat(list_camera_input, 2)
-			camera_datav = camera_datav.cuda().float()/255. - 0.5
-			camera_datav = torch.transpose(camera_datav, 0, 2)
-			camera_datav = torch.transpose(camera_datav, 1, 2)
-			_[camera_data] = torch.cat((torch.unsqueeze(camera_datav, 0), _[camera_data]), 0)
+			camera_data = torch.cat(list_camera_input, 2)
+			camera_data = camera_data.cuda().float()/255. - 0.5
+			camera_data = torch.transpose(camera_data, 0, 2)
+			camera_data = torch.transpose(camera_data, 1, 2)
+			_[CAMERA_DATA] = torch.cat((torch.unsqueeze(camera_data, 0), _[CAMERA_DATA]), 0)
 
-
-
-
-		if True:
+		if INTO_TORCH:
 			mode_ctrv = 0
 			metadatav = torch.FloatTensor().cuda()
 			zero_matrixv = torch.FloatTensor(1, 1, 23, 41).zero_().cuda()
@@ -178,7 +167,7 @@ def Batch(*args):
 
 			_[metadata] = torch.cat((metadatav, _[metadata]), 0)
 
-		if True:
+		if INTO_TORCH:
 			sv = Data_moment[steer]
 			mv = Data_moment[motor]
 			rv = range(8,91,9)
@@ -190,9 +179,8 @@ def Batch(*args):
 			_[target_data] = torch.cat((target_datav, _[target_data]), 0)
 
 
-
 	def _function_clear():
-		_[camera_data] = torch.FloatTensor().cuda()
+		_[CAMERA_DATA] = torch.FloatTensor().cuda()
 		_[metadata] = torch.FloatTensor().cuda()
 		_[target_data] = torch.FloatTensor().cuda()
 		_[states] = []
@@ -201,14 +189,12 @@ def Batch(*args):
 		_[loss] = None
 
 
-
 	def _function_forward():
 		True
 		Trial_loss_record = _[network][data_moment_loss_record]
 		_[network][optimizer].zero_grad()
-		_[outputs] = _[network][net](torch.autograd.Variable(_[camera_data]), torch.autograd.Variable(_[metadata])).cuda()
+		_[outputs] = _[network][net](torch.autograd.Variable(_[CAMERA_DATA]), torch.autograd.Variable(_[metadata])).cuda()
 		_[loss] = _[network][criterion](_[outputs], torch.autograd.Variable(_[target_data]))
-
 
 
 	def _function_backward():
@@ -254,11 +240,11 @@ def Batch(*args):
 			P[print_timer].reset()
 
 
-	_[fill] = _function_fill
-	_[clear] = _function_clear
-	_[forward] = _function_forward
-	_[backward] = _function_backward
-	_[display] = _function_display
+	_[FILL] = _function_fill
+	_[CLEAR] = _function_clear
+	_[FORWARD] = _function_forward
+	_[BACKWARD] = _function_backward
+	_[DISPLAY] = _function_display
 	return _
 
 
