@@ -1,9 +1,9 @@
 from Parameters_Module import *
 
 
-
+P = {}
 P[N_STEPS] = 10
-P[N_OUTPUTS] = 20
+P[N_FRAMES] = 2
 
 
 def hdf5_file_is_open(F):
@@ -16,13 +16,13 @@ def hdf5_file_is_open(F):
 
 def Run(**Args):
 	_ = {}
-	_[L_PATH] = Args[L_PATH]
-	_[O_PATH] = Args[O_PATH]
+	_[L_PATH] = opj(Args[PATH],'left_timestamp_metadata_right_ts.h5py')
+	_[O_PATH] = opj(Args[PATH],'original_timestamp_data.h5py')
 	def _open():
 		assert(not hdf5_file_is_open(_[L_PATH]))
 		assert(not hdf5_file_is_open(_[O_PATH]))
-		_[L] = h5r(Args[L_PATH])
-		_[O] = h5r(Args[O_PATH])
+		_[L] = h5r(_[L_PATH])
+		_[O] = h5r(_[O_PATH])
 		_[INDX] = 0
 	def _close():
 		assert(hdf5_file_is_open(_[L_PATH]))
@@ -31,15 +31,15 @@ def Run(**Args):
 		_[O].close()
 		_[INDX] = 0
 	def _read(**Args):
-		if _[INDX] >= len(L['ts'])-P[NUM_STEPS]]: 
+		if _[INDX] >= len(_[L]['ts'])-P[N_STEPS]: 
 			_close()
 			return None
 		Data = {}
 		for t in Args[TOPICS]:
 			if t not in [LEFT,RIGHT]:
-				Data[t] = _[L][_[INDX]:_[INDX]+P[NUM_STEPS]]
+				Data[t] = _[L][t][_[INDX]:_[INDX]+P[N_STEPS]]
 			else:
-				Data[t] = _[O][t]['vals'][_[INDX]:_[INDX]+P[NUM_FRAMES]]
+				Data[t] = _[O][t]['vals'][_[INDX]:_[INDX]+P[N_FRAMES]]
 		_[INDX] += 1
 		return Data
 	_[OPEN] = _open
@@ -48,8 +48,9 @@ def Run(**Args):
 	return _
 
 
-
-
+r = Run(PATH=opjD('bdd_car_data_Sept2017_aruco_demo/h5py/Mr_Yellow_2017-09-15-21-10-14'))
+r[OPEN]()
+r[READ](TOPICS=['steer','motor'])
 
 
 def Data_Packer(**Args):
