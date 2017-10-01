@@ -1,7 +1,7 @@
 ###############################
 #  for interactive terminal
 import __main__ as main
-if not hasattr(main,'__file__'):
+if False:#not hasattr(main,'__file__'):
 	from kzpy3.utils2 import *
 	pythonpaths(['kzpy3','kzpy3/Train_app','kzpy3/teg9'])
 #

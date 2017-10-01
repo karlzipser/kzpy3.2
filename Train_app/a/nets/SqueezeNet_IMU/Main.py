@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 if False:
-	pythonpaths(['kzpy3','kzpy3/Train_app/Train_SqueezeNet_IMU1','kzpy3/teg9'])
-
+	pythonpaths(['kzpy3','kzpy3/Train_app/a/nets/Train_SqueezeNet_IMU','kzpy3/Train_app/a/utils/a'])
 from Parameters_Module import *
 import Batch_Module
 import Network_Module

@@ -1,4 +1,3 @@
-from kzpy3.utils2 import *
 from Parameters_Module import *
 exec(identify_file_str)
 

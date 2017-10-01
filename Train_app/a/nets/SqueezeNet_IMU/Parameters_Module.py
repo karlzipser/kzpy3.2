@@ -1,6 +1,9 @@
+
 from Paths_Module import *
 from utils2 import *
-exec(identify_file_str)
+
+print 2,os.environ['PYTHONPATH'].split(os.pathsep)
+
 
 # save loss records for train and val, times and moment numbers
 # save loss by moment id

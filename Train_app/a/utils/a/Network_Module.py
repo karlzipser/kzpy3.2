@@ -1,9 +1,8 @@
 from Parameters_Module import *
+
 import torch
-
-from SqueezeNet_IMU import SqueezeNet
+from SqueezeNet_Module import SqueezeNet
 exec(identify_file_str)
-
 
 torch.set_default_tensor_type('torch.FloatTensor') 
 torch.cuda.set_device(P[GPU])
