@@ -1,12 +1,55 @@
 from Parameters_Module import *
 
 
+
+P[N_STEPS] = 10
+P[N_OUTPUTS] = 20
+
+
 def hdf5_file_is_open(F):
 	try:
 		l = len(F.keys())
 		return True
 	except:
 		return False
+
+
+def Run(**Args):
+	_ = {}
+	_[L_PATH] = Args[L_PATH]
+	_[O_PATH] = Args[O_PATH]
+	def _open():
+		assert(not hdf5_file_is_open(_[L_PATH]))
+		assert(not hdf5_file_is_open(_[O_PATH]))
+		_[L] = h5r(Args[L_PATH])
+		_[O] = h5r(Args[O_PATH])
+		_[INDX] = 0
+	def _close():
+		assert(hdf5_file_is_open(_[L_PATH]))
+		assert(hdf5_file_is_open(_[O_PATH]))
+		_[L].close()
+		_[O].close()
+		_[INDX] = 0
+	def _read(**Args):
+		if _[INDX] >= len(L['ts'])-P[NUM_STEPS]]: 
+			_close()
+			return None
+		Data = {}
+		for t in Args[TOPICS]:
+			if t not in [LEFT,RIGHT]:
+				Data[t] = _[L][_[INDX]:_[INDX]+P[NUM_STEPS]]
+			else:
+				Data[t] = _[O][t]['vals'][_[INDX]:_[INDX]+P[NUM_FRAMES]]
+		_[INDX] += 1
+		return Data
+	_[OPEN] = _open
+	_[CLOSE] = _close
+	_[READ] = _read
+	return _
+
+
+
+
 
 
 def Data_Packer(**Args):
