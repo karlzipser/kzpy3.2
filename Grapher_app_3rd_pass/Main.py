@@ -68,7 +68,9 @@ first_time_ = True
 while True:
 
 	run_name_ = P[ICONS][P[CURRENT_ICON_NAME]][name]
-	l_ = opj(P[ICONS][P[CURRENT_ICON_NAME]][path],'left_timestamp_metadata.h5py')
+	l_ = opj(P[ICONS][P[CURRENT_ICON_NAME]][path],'left_timestamp_metadata_right_ts.h5py')
+	if len(sgg(l_)) == 0:
+		l_ =  opj(P[ICONS][P[CURRENT_ICON_NAME]][path],'left_timestamp_metadata.h5py')
 	o_  = opj(P[ICONS][P[CURRENT_ICON_NAME]][path],'original_timestamp_data.h5py')
 	L = h5r(l_)
 	O = h5r(o_ )

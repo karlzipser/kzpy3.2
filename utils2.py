@@ -1449,7 +1449,9 @@ def args_to_dictionary(*args):
 		print("args_to_dictionary(*args)")
 		print("args are:")
 		print(args)
-		raise ValueError('ERROR because: not is_even(len(args[0]))')
+		#raise ValueError('ERROR because: not is_even(len(args[0]))')
+		spd2s('def args_to_dictionary(*args): Warning, not is_even(len(args[0]))')
+		return
 	ctr = 0
 	keys = []
 	values = []
@@ -1590,16 +1592,17 @@ def zdprint(*args):
 #
 if True:#username != 'nvidia':
 	temp = args_to_dictionary(sys.argv[1:])
-	Args = {}
-	for k in temp.keys():
-		if '/' in temp[k]:
-			print('Treating '+temp[k]+' as filename')
-			exec("Args[\'"+k+"\'] = '"+temp[k]+"'")
-		elif type(temp[k]) == str:
-			exec("Args[\'"+k+"\'] = '"+temp[k]+"'")
-		else:
-			exec('Args[\''+k+'\'] = '+temp[k])
-	del temp
+	if temp != None:
+		Args = {}
+		for k in temp.keys():
+			if '/' in temp[k]:
+				print('Treating '+temp[k]+' as filename')
+				exec("Args[\'"+k+"\'] = '"+temp[k]+"'")
+			elif type(temp[k]) == str:
+				exec("Args[\'"+k+"\'] = '"+temp[k]+"'")
+			else:
+				exec('Args[\''+k+'\'] = '+temp[k])
+		del temp
 
 identify_file_str = """
 if '__file__' not in locals():
