@@ -42,10 +42,10 @@ def Batch(**Args):
 			for we_are in ['a helper function definition']:
 
 				def _function_data_into_batch(**Args):
-
+					batch_num = Args[BATCH_NUM]
 					for we_are in ["the setup section"]:
 
-						name,list_of_images,list_of_meta_data_floats_or_arrays,list_of_target_floats_or_lists = _[DATA_PACKER][NEXT]()
+						name,list_of_images,list_of_meta_data_floats_or_arrays,list_of_target_floats_or_lists = _[DATA_PACKER][NEXT](batch_num)
 						assert(6*P[N_FRAMES] == len(list_of_images))
 						_[NAMES].insert(0,name) # This to match torch.cat use below
 
@@ -107,7 +107,7 @@ def Batch(**Args):
 
 				while ctr < _[BATCH_SIZE]:
 					if True:#try:
-						_function_data_into_batch()
+						_function_data_into_batch(BATCH_NUM=ctr)
 						ctr += 1
 						P[FREQUENCY_TIMER].freq()
 					else: #except Exception as e:

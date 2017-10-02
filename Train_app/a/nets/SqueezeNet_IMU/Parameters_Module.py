@@ -19,17 +19,13 @@ exec(identify_file_str)
 P = {}
 #P['data_moments_indexed'] =  lo('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/data_moments_indexed_1.pkl')
 
-P[LOSS_TIMER] = Timer(60*5)
-P[PRINT_TIMER] = Timer(1)
-P[FREQUENCY_TIMER] = Timer(10.0)
-P[LOSS_LIST] = []
-P[LOSS_LIST_AVG] = []
+
 P[GPU] = 1
-P[BATCH_SIZE] = 1
+P[BATCH_SIZE] = 10
 P[DISPLAY] = True
 P[VERBOSE] = True
 P[LOAD_ARUCO] = False
-P[BAIR_CAR_DATA_PATH] = opjD('bdd_car_data_Sept2017_aruco_demo')
+P[DATA_PATH] = opjD('bdd_car_data_Sept2017_aruco_demo')
 
 P[IGNORE] = [reject_run,left,out1_in2]#,'Smyth','racing','local','Tilden','campus']
 P[REQUIRE_ONE] = []
@@ -41,7 +37,11 @@ P[STRIDE] = 1#9#3 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 P[NETWORK_OUTPUT_FOLDER] = opjD('IMU_net')
 P[SAVE_FILE_NAME] = 'net'
 P[SAVE_NET_TIMER] = Timer(60*5)
-
+P[LOSS_TIMER] = Timer(60*5)
+P[PRINT_TIMER] = Timer(1)
+P[FREQUENCY_TIMER] = Timer(10.0)
+P[LOSS_LIST] = []
+P[LOSS_LIST_AVG] = []
 P[TRAIN_TIME] = 60*10.0
 P[VAL_TIME] = 60*1.0
 P[RESUME] = False
