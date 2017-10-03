@@ -202,10 +202,10 @@ def Display_Graph(*args):
 					num_ = int(np.degrees(angles_to_center[markers[i_].marker_id])/2)
 				cv2.putText(
 					camera_img_,
-					d2n(num_),
+					d2n(markers[i_].marker_id),#num_),
 					xy_,
 					cv2.FONT_HERSHEY_SIMPLEX,
-					1.0,(0,255,0),2) 
+					0.5,(0,255,0),1) 
 			#print(dp(np.array(angles_to_center),1))
 			#D[insert_camera_image](camera,D[topics][left_image][vals], img_index,-1)#D[timestamp_to_left_image][ts_from_pixel_])
 			D[base_graph][img][cx_-10:-10,cy_-10:-10,:] = camera_img_

@@ -7,7 +7,7 @@ _ = dictionary_access
 P = {}
 
 _(P,VERBOSE,equals,True)
-P[DATASET_PATHS] = [ '/home/karlzipser/Desktop/processed/Mr_Black_2017-09-12-13-48-11' ]
+P[DATASET_PATHS] = [ '/media/karlzipser/rosbags/bair_car_2017-10-03-15-18-07_2.bag' ]
 #P[DATASET_PATHS] = [ opjm('rosbags/Mr_Lt_Blue_16_50_29Aug2017/processed2/Mr_Lt_Blue_16_50_29Aug2017')]
 #P[DATASET_PATHS] = [opjD('bdd_car_data_July2017_LCR')]
 #P[DATASET_PATHS] = [opjm('ExtraDrive2/bdd_car_data_July2017_LCR')]
@@ -28,8 +28,8 @@ P[TOPICS] = {
 	left_ts_deltas:{maxval:0.1,minval:0,	baseline:0,		color:(0,0,255)},
 	}
 #P[VERTICAL_LINE_PROPORTION] = 0.5
-P[X_PIXEL_SIZE] = 800
-P[Y_PIXEL_SIZE] = 800
+P[X_PIXEL_SIZE] = 2*800
+P[Y_PIXEL_SIZE] = 2*800
 P[SCREEN_X] = 20
 P[SCREEN_Y] = 40
 P[CAMERA_SCALE] = 1

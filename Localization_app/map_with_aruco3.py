@@ -40,7 +40,8 @@ if SETUP:
 		P[ANGLE_DIST_PARAM] = 0.3
 
 	if True:
-		D = Data_Module.bagfile_to_dic(BAG_PATH=opjD('/home/karlzipser/Desktop/processed/Mr_Purple_2017-09-29-12-20-41/bair_car_2017-09-29-12-25-45_8.bag')) #good
+		D = Data_Module.bagfile_to_dic(BAG_PATH='/media/karlzipser/rosbags/bair_car_2017-10-03-15-18-07_2.bag')
+		#D = Data_Module.bagfile_to_dic(BAG_PATH=opjD('processed/Mr_Purple_2017-09-29-12-20-41/bair_car_2017-09-29-12-25-45_8.bag')) #good
 		#D = Data_Module.bagfile_to_dic(BAG_PATH=opjD('/home/karlzipser/Desktop/processed/Mr_Purple_2017-09-29-12-20-41/bair_car_2017-09-29-12-25-07_7.bag'))
 		##D = Data_Module.bagfile_to_dic(BAG_PATH_LIST=sgg('/home/karlzipser/Desktop/processed/Mr_Purple_2017-09-29-12-20-41/a/*.bag'))
 		#D = Data_Module.bagfile_to_dic(BAG_PATH_LIST=sgg(opjD('/home/karlzipser/Desktop/processed/Mr_Purple_2017-09-29-12-20-41/*.bag')))
