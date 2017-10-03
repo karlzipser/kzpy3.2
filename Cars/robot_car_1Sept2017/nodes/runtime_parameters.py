@@ -78,7 +78,7 @@ HEADING_DELTA_PARAM = 0.1
 STEER_FROM_XY = False
 radius = 0.5
 #potential_graph_blur = 4
-print_marker_ids = True
+print_marker_ids = False
 print_steer = False
 img_width = 35
 
