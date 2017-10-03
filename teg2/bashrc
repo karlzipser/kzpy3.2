@@ -50,7 +50,7 @@ alias pu='Mr_Purple'
 alias tx='Mr_TX2'
 
 alias kx='killall xterm'
-alias rosdo='sudo chmod -R 777 /media/karlzipser/rosbags/'
+alias rosdo='sudo chmod -R 777 /media/karlzipser/rosbags*'
 ######################## for .bashrc from MacBook #################
 #
 #export DISPLAY=:0.0
