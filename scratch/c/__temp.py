@@ -2,6 +2,21 @@
 
 
 
+sleep 10;rostopic echo -n 1 -w 3 /scan/ranges > ~/Desktop/ranges.txt
+
+
+# https://stackoverflow.com/questions/20924085/python-conversion-between-coordinates
+import numpy as np
+def cart2pol(x, y):
+    rho = np.sqrt(x**2 + y**2)
+    phi = np.arctan2(y, x)
+    return rho, phi
+def pol2cart(rho, phi):
+    x = rho * np.cos(phi)
+    y = rho * np.sin(phi)
+    return x,y
+
+
 
 
 

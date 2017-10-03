@@ -1,4 +1,4 @@
-SETUP = 0
+SETUP = 1
 SAVE = 0
 RELOAD = 0
 RUN_LOOP = 1
@@ -39,20 +39,10 @@ if SETUP:
 		P[DEGREE_STEP_FOR_ROTATION_FIT] = 5#15  # 10 to 30 range, bigger is faster
 		P[ANGLE_DIST_PARAM] = 0.3
 
-
-
-
-
-
-
-
-
-
-
 	if True:
 		D = Data_Module.bagfile_to_dic(BAG_PATH=opjD('/home/karlzipser/Desktop/processed/Mr_Purple_2017-09-29-12-20-41/bair_car_2017-09-29-12-25-45_8.bag')) #good
 		#D = Data_Module.bagfile_to_dic(BAG_PATH=opjD('/home/karlzipser/Desktop/processed/Mr_Purple_2017-09-29-12-20-41/bair_car_2017-09-29-12-25-07_7.bag'))
-		#D = Data_Module.bagfile_to_dic(BAG_PATH_LIST=sgg('/home/karlzipser/Desktop/processed/Mr_Purple_2017-09-29-12-20-41/a/*.bag'))
+		##D = Data_Module.bagfile_to_dic(BAG_PATH_LIST=sgg('/home/karlzipser/Desktop/processed/Mr_Purple_2017-09-29-12-20-41/a/*.bag'))
 		#D = Data_Module.bagfile_to_dic(BAG_PATH_LIST=sgg(opjD('/home/karlzipser/Desktop/processed/Mr_Purple_2017-09-29-12-20-41/*.bag')))
 		#D = Data_Module.bagfile_to_dic(BAG_PATH=opjD('Mr_Purple_2017-09-23-17-10-53/bair_car_2017-09-23-17-18-23_12.bag'))
 		#D = Data_Module.bagfile_to_dic(BAG_PATH_LIST=sgg(opjD('processed/Mr_Purple_2017-09-23-17-10-53/*.bag')) ) #'Mr_Black_2017-09-12-13-48-11/a/*.bag')) )
@@ -187,7 +177,7 @@ if RUN_LOOP:
 		median_distances = []
 		while True:
 
-			alpha = max(0,(0.1*run_timer.time_s - run_timer.time()) / run_timer.time_s)
+			alpha = max(0,(1.0*run_timer.time_s - run_timer.time()) / run_timer.time_s)
 
 			f = np.random.choice(F.keys())
 
@@ -247,7 +237,7 @@ if RUN_LOOP:
 							for mid in W.keys():
 								len_mid_keys =  1.0 * len(W[mid].keys())
 								if f_ in W[mid].keys():
-									W[marker_id][f_] += mv * 360/1.0/len_mid_keys # there is some effect of number of views, trying to figure it out.
+									W[mid][f_] += mv# * 360/1.0/len_mid_keys # there is some effect of number of views, trying to figure it out.
 					if shape(moving)[0] > 3:
 						rotated = True
 						ret_R,ret_t = rigid_transform_3D(moving,stationary)

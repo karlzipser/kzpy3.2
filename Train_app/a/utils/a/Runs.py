@@ -36,6 +36,8 @@ def Run(**Args):
 		_[O].close()
 		_[INDX] = 0
 	def _read(**Args):
+		if INDX in Args:
+			_[INDX] = Args[INDX]
 		if _[INDX] >= len(_[L]['ts'])-P[N_STEPS]: 
 			_close()
 			return None
