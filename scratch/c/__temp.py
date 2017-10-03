@@ -1,8 +1,13 @@
 
 
+KERNEL=="ttyUSB*", MODE="0666"
+sudo chmod 666 /dev/ttyUSB0
+roslaunch rplidar_ros rplidar.launch
 
+sleep 10;rostopic echo -n 100 -w 5 /scan/ranges > ~/Desktop/ranges1.txt
 
-sleep 10;rostopic echo -n 1 -w 3 /scan/ranges > ~/Desktop/ranges.txt
+inf = 3.0
+plt.polar(np.radians(range(360)),a,'.')
 
 
 # https://stackoverflow.com/questions/20924085/python-conversion-between-coordinates
