@@ -5,7 +5,7 @@ RUN_LOOP = 1
 CA()
 
 from kzpy3.Localization_app.Project_Aruco_Markers_Module import *
-from kzpy3.Localization_app.aruco_whole_room_markers_11circle_full_raised import * # <---------
+from kzpy3.Localization_app.aruco_whole_room_markers_11circle_no_pillar import *
 import kzpy3.data_analysis.Angle_Dict_Creator as Angle_Dict_Creator
 import kzpy3.Car_Data_app.Data_Module as Data_Module
 dont_know_why = True
@@ -40,7 +40,7 @@ if SETUP:
 		P[ANGLE_DIST_PARAM] = 0.3
 
 	if True:
-		D = Data_Module.bagfile_to_dic(BAG_PATH=opjm('rosbags/bair_car_2017-10-04-14-11-30_3.bag'))#'/media/karlzipser/rosbags/bair_car_2017-10-03-15-18-07_2.bag')
+		D = Data_Module.bagfile_to_dic(BAG_PATH=opjm('rosbags/bair_car_2017-10-04-14-11-30_3.bag'))#  'bair_car_2017-10-04-14-10-17_1.bag'))
 		#D = Data_Module.bagfile_to_dic(BAG_PATH=opjD('processed/Mr_Purple_2017-09-29-12-20-41/bair_car_2017-09-29-12-25-45_8.bag')) #good
 		#D = Data_Module.bagfile_to_dic(BAG_PATH=opjD('/home/karlzipser/Desktop/processed/Mr_Purple_2017-09-29-12-20-41/bair_car_2017-09-29-12-25-07_7.bag'))
 		##D = Data_Module.bagfile_to_dic(BAG_PATH_LIST=sgg('/home/karlzipser/Desktop/processed/Mr_Purple_2017-09-29-12-20-41/a/*.bag'))
@@ -56,8 +56,8 @@ if SETUP:
 		views = 0
 		print('get_Frame_data(img_lst)')
 		n = len(img_lst)
-		graphics = False
-		if graphics:figure(2);clf();plt_square();xysqlim(20)
+		graphics = True
+
 		timer = Timer(1)
 		F = {}
 		for h in range(1):
@@ -68,33 +68,32 @@ if SETUP:
 					angles_to_center_more = {}
 					angles_surfaces_more = {}
 					distances_marker_more = {}
-					for r in range(10):
-						angles_to_center, angles_surfaces, distances_marker, markers = Angle_Dict_Creator.get_angles_and_distance(img_lst[i],borderColor=None)
-						for k in angles_to_center.keys():
-							if k not in angles_to_center_more.keys():
-								angles_to_center_more[k] = []
-								angles_surfaces_more[k] = []
-								distances_marker_more[k] = []
-							angles_to_center_more[k].append(angles_to_center[k])
-							angles_surfaces_more[k].append(angles_surfaces[k])
-							distances_marker_more[k].append(distances_marker[k])
-					for k in angles_to_center_more.keys():
-						angles_to_center[k] = na(angles_to_center_more[k]).mean()
-						angles_surfaces_more[k] = na(angles_surfaces_more[k]).mean()
-						distances_marker_more[k] = na(distances_marker_more[k]).mean()
-					Q = {'angles_to_center':angles_to_center,'angles_surfaces':angles_surfaces,'distances_marker':distances_marker}
-					d = Camera_View_Field(aruco_data,Q,'p',P)
-					if graphics: clf(); plt_square(); xysqlim(3);pts_plot(d['pts']);spause();mci(img_lst[i],delay=1)
-					for m in d['markers'].keys():
-						mm[d2n(m,'_left')] = d['markers'][m]['left']
-						mm[d2n(m,'_right')] = d['markers'][m]['right']
-					if len(mm) > 3:
-						F[i] = mm
-						views += 1
+					for r in range(1):
+						angles_to_center, angles_surfaces, distances_marker, markers = Angle_Dict_Creator.get_angles_and_distance(img_lst[i],borderColor=(0,255,0))
+
+					camera_img_ = cv2.resize(img_lst[i], (0,0), fx=4, fy=4)					
+
+					for i_ in rlen(markers):
+						
+						xy_ = 4 * markers[i_].corners_xy[0].mean(axis=0)
+						#xy_ += np.array([cy_-10,cx_-10])
+						
+						xy_=tuple(xy_.astype(np.int))
+						
+						num_ = markers[i_].marker_id
+
+						cv2.putText(
+							camera_img_,
+							d2n(markers[i_].marker_id),#num_),
+							xy_,
+							cv2.FONT_HERSHEY_SIMPLEX,
+							0.75,(0,255,0),2) 
+					mci(camera_img_,delay=33,scale=1)
 				except Exception as e:
 					print("********** Exception 123 ***********************")
 					print(e.message, e.args)
 				timer.message(d2s(i,'views =',views,int(100*i/(1.0*n)),'%'),color='white')
+				#raw_enter()
 		Frame_data = F
 		return Frame_data
 

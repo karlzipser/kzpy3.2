@@ -7,7 +7,7 @@ _ = dictionary_access
 P = {}
 
 _(P,VERBOSE,equals,True)
-P[DATASET_PATHS] = [ '/media/karlzipser/rosbags/bair_car_2017-10-03-15-18-07_2.bag' ]
+P[DATASET_PATHS] = [ '/media/karlzipser/rosbags/bair_car_2017-10-04-14-09-42_0.bag' ]
 #P[DATASET_PATHS] = [ opjm('rosbags/Mr_Lt_Blue_16_50_29Aug2017/processed2/Mr_Lt_Blue_16_50_29Aug2017')]
 #P[DATASET_PATHS] = [opjD('bdd_car_data_July2017_LCR')]
 #P[DATASET_PATHS] = [opjm('ExtraDrive2/bdd_car_data_July2017_LCR')]
