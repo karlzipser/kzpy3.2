@@ -99,7 +99,7 @@ def buttons_to_state(Arduinos,M,BUTTON_DELTA):
 		return
 
 	for s in [M['state_one'],M['state_two'],M['state_six']]:
-		if np.abs(M['smooth_button']] - s.button_pwm_peak) < BUTTON_DELTA:  
+		if np.abs(M['smooth_button'] - s.button_pwm_peak) < BUTTON_DELTA:  
 			if M['current_state'] == s:
 				return
 			M['previous_state'] = M['current_state']
