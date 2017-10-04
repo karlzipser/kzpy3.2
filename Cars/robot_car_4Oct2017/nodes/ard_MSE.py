@@ -294,14 +294,13 @@ def pwm_to_percent(M,null_pwm,current_pwm,max_pwm,min_pwm):
 			print('return 49')
 			return 49
 	if current_pwm >= 0:
-		p = int(99*(1.0 + current_pwm/max_pwm)/2.0)
+		p = int(99*(1.0 + current_pwm/(1.0*max_pwm))/2.0)
 	else:
-		p = int(99*(1.0 - current_pwm/min_pwm)/2.0)
+		p = int(99*(1.0 - current_pwm/(1.0*min_pwm))/2.0)
 	if p > 99:
 		p = 99
 	if p < 0:
 		p = 0
-	pd2s('return',p) 
 	return p
 
 
