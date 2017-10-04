@@ -19,7 +19,7 @@ def mse_write_publish(M,Arduinos,steer_pwm,motor_pwm):
 	M['steer_pub'].publish(std_msgs.msg.Int32(steer_percent))
 	M['motor_pub'].publish(std_msgs.msg.Int32(motor_percent))
 	M['state_pub'].publish(std_msgs.msg.Int32(M['current_state'].number))
-	M['potential_collision_pub'].publish(std_msgs.msg.Int32(M['potential_collision']))
+	#M['potential_collision_pub'].publish(std_msgs.msg.Int32(M['potential_collision']))
 
 class State():
 	def __init__(self,name,number,button_pwm_peak,M,Arduinos):
@@ -306,8 +306,9 @@ def process_state_4(M):
 				M['motor_min'] = M['smooth_motor']
 
 	if np.abs(M['steer_max']-M['steer_min']) > 100 and np.abs(M['motor_max']-M['motor_min']) > 100:
+		print M['steer_max']-M['steer_min'],M['motor_max']-M['motor_min']
 		M['calibrated'] = True
-		pd2s('Calibrated!!!!!!!')
+
 	 
 
 def pwm_to_percent(M,null_pwm,current_pwm,max_pwm,min_pwm):
