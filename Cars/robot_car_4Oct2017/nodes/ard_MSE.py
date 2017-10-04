@@ -14,11 +14,8 @@ os.environ['STOP'] = 'False'
 def mse_write_publish(M,Arduinos,steer_pwm,motor_pwm):
 	write_str = d2n( '(', int(steer_pwm), ',', int(motor_pwm+10000), ')')
 	M['Arduinos_MSE_write'](write_str)
-	pd2s(M['steer_null'],steer_pwm,M['steer_max'],M['steer_min'])
-	steer_percent = pwm_to_percent(M,M['steer_null'],steer_pwm,M['steer_max'],M['steer_min'])
-	motor_percent = pwm_to_percent(M,M['motor_null'],motor_pwm,M['motor_max'],M['motor_min'])
-	M['steer_pub'].publish(std_msgs.msg.Int32(steer_percent))
-	M['motor_pub'].publish(std_msgs.msg.Int32(motor_percent))
+	M['steer_pub'].publish(std_msgs.msg.Int32(M['steer_percent']))
+	M['motor_pub'].publish(std_msgs.msg.Int32(M['motor_percent']))
 	M['state_pub'].publish(std_msgs.msg.Int32(M['current_state'].number))
 
 class State():
@@ -54,7 +51,7 @@ class Human_Control(Run_State):
 	def __init__(self,name,number,button_pwm_peak,M,Arduinos):
 		Run_State.__init__(self,name,number,button_pwm_peak,M,Arduinos)
 	def process(self):
-		mse_write_publish(self.M,self.Arduinos,self.M['smooth_steer'],self.M['smooth_motor'])
+		mse_write_publish(self.M,self.Arduinos,self.M['steer_pwm'],self.M['motor_pwm'])
 
 
 
@@ -82,7 +79,7 @@ class Net_Steer_Net_Motor(Run_State):
 
 def buttons_to_state(Arduinos,M,BUTTON_DELTA):
 
-	if np.abs(M['smooth_button'] - M['state_four'].button_pwm_peak) < BUTTON_DELTA:
+	if np.abs(M['button_pwm'] - M['state_four'].button_pwm_peak) < BUTTON_DELTA:
 		if M['current_state'] == None:
 			M['current_state'] = M['state_four']
 			M['current_state'].enter()
@@ -99,7 +96,7 @@ def buttons_to_state(Arduinos,M,BUTTON_DELTA):
 		return
 
 	for s in [M['state_one'],M['state_two'],M['state_six']]:
-		if np.abs(M['smooth_button'] - s.button_pwm_peak) < BUTTON_DELTA:  
+		if np.abs(M['button_pwm'] - s.button_pwm_peak) < BUTTON_DELTA:  
 			if M['current_state'] == s:
 				return
 			M['previous_state'] = M['current_state']
@@ -180,10 +177,6 @@ def run_loop(Arduinos,M,BUTTON_DELTA=50,):
 			if not serial_data_to_messages(Arduinos,M):
 				continue
 
-			M['smooth_motor'] = M['motor_pwm']
-			M['smooth_steer'] = M['steer_pwm']
-			M['smooth_button'] = M['button_pwm']
-
 			buttons_to_state(Arduinos,M,BUTTON_DELTA)
 
 			if M['current_state'] == None:
@@ -200,10 +193,10 @@ def run_loop(Arduinos,M,BUTTON_DELTA=50,):
 				if not calibrated(Arduinos,M):
 					continue
 
-			M['steer_percent'] = pwm_to_percent(M,M['steer_null'],M['smooth_steer'],M['steer_max'],M['steer_min'])
-			M['motor_percent'] = pwm_to_percent(M,M['motor_null'],M['smooth_motor'],M['motor_max'],M['motor_min'])
+			M['steer_percent'] = pwm_to_percent(M,M['steer_null'],M['steer_pwm'],M['steer_max'],M['steer_min'])
+			M['motor_percent'] = pwm_to_percent(M,M['motor_null'],M['motor_pwm'],M['motor_max'],M['motor_min'])
 
-			M['raw_write_str'] = d2n( '(', int(M['smooth_steer']), ',', int(M['smooth_motor']+10000), ')')
+			M['raw_write_str'] = d2n( '(', int(M['steer_pwm']), ',', int(M['motor_pwm']+10000), ')')
 
 			M['current_state'].process()
 
@@ -275,14 +268,14 @@ def process_state_4(M):
 			M['steer_min'] = M['steer_null']
 			M['motor_min'] = M['motor_null']
 		else:
-			if M['smooth_steer'] > M['steer_max']:
-				M['steer_max'] = M['smooth_steer']
-			if M['smooth_motor'] > M['motor_max']:
-				M['motor_max'] = M['smooth_motor']
-			if M['smooth_steer'] < M['steer_min']:
-				M['steer_min'] = M['smooth_steer']
-			if M['smooth_motor'] < M['motor_min']:
-				M['motor_min'] = M['smooth_motor']
+			if M['steer_pwm'] > M['steer_max']:
+				M['steer_max'] = M['steer_pwm']
+			if M['motor_pwm'] > M['motor_max']:
+				M['motor_max'] = M['motor_pwm']
+			if M['steer_pwm'] < M['steer_min']:
+				M['steer_min'] = M['steer_pwm']
+			if M['motor_pwm'] < M['motor_min']:
+				M['motor_min'] = M['motor_pwm']
 
 	if np.abs(M['steer_max']-M['steer_min']) > 300 and np.abs(M['motor_max']-M['motor_min']) > 300:
 		print M['steer_max']-M['steer_min'],M['motor_max']-M['motor_min']
