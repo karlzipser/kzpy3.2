@@ -14,7 +14,6 @@ os.environ['STOP'] = 'False'
 def mse_write_publish(M,Arduinos,steer_pwm,motor_pwm):
 	write_str = d2n( '(', int(steer_pwm), ',', int(motor_pwm+10000), ')')
 	M['Arduinos_MSE_write'](write_str)
-	#Arduinos['MSE'].write(write_str)
 	steer_percent = pwm_to_percent(M,M['steer_null'],steer_pwm,M['steer_max'],M['steer_min'])
 	motor_percent = pwm_to_percent(M,M['motor_null'],motor_pwm,M['motor_max'],M['motor_min'])
 	M['steer_pub'].publish(std_msgs.msg.Int32(steer_percent))
@@ -34,7 +33,7 @@ class State():
 		print('Entering '+self.name)
 		self.state_transition_timer = Timer(0)
 	def process(self):
-		pass #print(self.name+' processing')
+		pass
 	def leave(self):
 		self.state_transition_timer = None
 
@@ -69,14 +68,7 @@ class Calibration_State(Run_State):
 
 
 
-class Computer_Control(Run_State):
-	def __init__(self,name,number,button_pwm_peak,M,Arduinos):
-		Run_State.__init__(self,name,number,button_pwm_peak,M,Arduinos)
-	def enter(self):
-		Run_State.enter(self)
-
-
-class Net_Steer_Net_Motor(Computer_Control):
+class Net_Steer_Net_Motor(Run_State):
 	def process(self):
 		self.M['caffe_steer_pwm'] = percent_to_pwm(self.M['caffe_steer'],self.M['steer_null'],self.M['steer_max'],self.M['steer_min'])
 		self.M['caffe_motor_pwm'] = percent_to_pwm(self.M['caffe_motor'],self.M['motor_null'],self.M['motor_max'],self.M['motor_min'])
@@ -89,7 +81,7 @@ class Net_Steer_Net_Motor(Computer_Control):
 
 
 def buttons_to_state(Arduinos,M,BUTTON_DELTA):
-	print M['button_pwm_lst'][-10:],M['current_state'],M['calibrated']
+
 	if np.abs(M['button_pwm_lst'][-1] - M['state_four'].button_pwm_peak) < BUTTON_DELTA:
 		if M['current_state'] == None:
 			M['current_state'] = M['state_four']
@@ -299,9 +291,9 @@ def process_state_4(M):
 			M['steer_min'] = M['steer_null']
 			M['motor_min'] = M['motor_null']
 
-		
 	if np.abs(M['steer_max']-M['steer_min']) > 100 and np.abs(M['motor_max']-M['motor_min']) > 100:
 		M['calibrated'] = True
+	pd2s('Calibrated!!!!!!!')
 	 
 
 def pwm_to_percent(M,null_pwm,current_pwm,max_pwm,min_pwm):
