@@ -66,7 +66,7 @@ class Calibration_State(Run_State):
 		Run_State.leave(self)
 		self.M['steer_pwm_lst'] = [self.M['steer_null']]
 		self.M['motor_pwm_lst'] = [self.M['motor_null']]
-		self.M['pid_motor_pwm'] = self.M['smooth_motor']
+
 
 
 class Computer_Control(Run_State):
@@ -297,15 +297,7 @@ def process_state_4(M):
 			M['motor_max'] = M['motor_null']
 			M['steer_min'] = M['steer_null']
 			M['motor_min'] = M['motor_null']
-		else:
-			if M['smooth_steer'] > M['steer_max']:
-				M['steer_max'] = M['smooth_steer']
-			if M['smooth_motor'] > M['motor_max']:
-				M['motor_max'] = M['smooth_motor']
-			if M['smooth_steer'] < M['steer_min']:
-				M['steer_min'] = M['smooth_steer']
-			if M['smooth_motor'] < M['motor_min']:
-				M['motor_min'] = M['smooth_motor']
+
 		
 	if np.abs(M['steer_max']-M['steer_min']) > 100 and np.abs(M['motor_max']-M['motor_min']) > 100:
 		M['calibrated'] = True
