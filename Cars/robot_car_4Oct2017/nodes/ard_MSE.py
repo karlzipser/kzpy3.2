@@ -195,6 +195,7 @@ def run_loop(Arduinos,M,BUTTON_DELTA=50,):
 
 			M['steer_percent'] = pwm_to_percent(M,M['steer_null'],M['steer_pwm'],M['steer_max'],M['steer_min'])
 			M['motor_percent'] = pwm_to_percent(M,M['motor_null'],M['motor_pwm'],M['motor_max'],M['motor_min'])
+			pd2s(M['steer_percent'],M['steer_null'],M['steer_pwm'],M['steer_max'],M['steer_min'])
 
 			M['raw_write_str'] = d2n( '(', int(M['steer_pwm']), ',', int(M['motor_pwm']+10000), ')')
 
