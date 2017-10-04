@@ -45,6 +45,7 @@ Car_num_dic = {'Mr_Blue':1.0,
 #
 #for i in range(1):
 #	print('*************' + computer_name + '***********')
+alpha = 0.25
 Direct = 1.
 Follow = 0.
 Play = 0.

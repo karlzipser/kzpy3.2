@@ -235,11 +235,14 @@ def serial_data_to_messages(Arduinos,M):
 		return False
 	if len(mse_input) == 5 and mse_input[0] == 'mse':
 		lock.acquire()
-		M['button_pwm'] = mse_input[1]
-		M['steer_pwm'] = mse_input[2]
-		M['motor_pwm'] = mse_input[3]
-		M['encoder'] = mse_input[4]
+		M['button_pwm'] = 	(1.0-rp.alpha)*button_prev + rp.alpha*mse_input[1]
+		M['steer_pwm'] = 	(1.0-rp.alpha)*steer_prev  + rp.alpha*mse_input[2]
+		M['motor_pwm'] = 	(1.0-rp.alpha)*motor_prev  + rp.alpha*mse_input[3]
+		M['encoder'] = 		mse_input[4]
 		lock.release()
+		
+		button_prev,steer_prev,motor_prev = M['button_pwm'],M['steer_pwm'],M['motor_pwm']
+
 		M['encoder_pub'].publish(std_msgs.msg.Float32(M['encoder']))
 		return True
 	else:
