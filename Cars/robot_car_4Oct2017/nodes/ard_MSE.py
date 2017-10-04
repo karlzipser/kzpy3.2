@@ -305,7 +305,7 @@ def process_state_4(M):
 			if M['smooth_motor'] < M['motor_min']:
 				M['motor_min'] = M['smooth_motor']
 
-	if np.abs(M['steer_max']-M['steer_min']) > 100 and np.abs(M['motor_max']-M['motor_min']) > 100:
+	if np.abs(M['steer_max']-M['steer_min']) > 700 and np.abs(M['motor_max']-M['motor_min']) > 600:
 		print M['steer_max']-M['steer_min'],M['motor_max']-M['motor_min']
 		M['calibrated'] = True
 
