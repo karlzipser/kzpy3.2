@@ -289,7 +289,7 @@ def process_state_4(M):
 	else:
 		if M['set_null'] == False:
 			M['steer_null'] = np.median(na(M['steer_pwm_lst'][-M['n_lst_steps']:]))
-			M['motor_null'] = np.median(na(M['motor_pwm_lst'][-M['n_lst_steps']:])))
+			M['motor_null'] = np.median(na(M['motor_pwm_lst'][-M['n_lst_steps']:]))
 			M['set_null'] = True
 			M['steer_max'] = M['steer_null']
 			M['motor_max'] = M['motor_null']
