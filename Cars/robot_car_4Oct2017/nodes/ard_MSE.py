@@ -15,7 +15,6 @@ def mse_write_publish(M,Arduinos,steer_pwm,motor_pwm):
 	write_str = d2n( '(', int(steer_pwm), ',', int(motor_pwm+10000), ')')
 	M['Arduinos_MSE_write'](write_str)
 	steer_percent = pwm_to_percent(M,M['steer_null'],steer_pwm,M['steer_max'],M['steer_min'])
-	print(steer_percent)
 	motor_percent = pwm_to_percent(M,M['motor_null'],motor_pwm,M['motor_max'],M['motor_min'])
 	M['steer_pub'].publish(std_msgs.msg.Int32(steer_percent))
 	M['motor_pub'].publish(std_msgs.msg.Int32(motor_percent))
@@ -296,6 +295,7 @@ def pwm_to_percent(M,null_pwm,current_pwm,max_pwm,min_pwm):
 	min_pwm -= null_pwm
 	if np.abs(min_pwm)<10 or np.abs(min_pwm)<10:
 		M['calibrated'] = False
+		print('return 49')
 		return 49
 	if current_pwm >= 0:
 		p = int(99*(1.0 + current_pwm/max_pwm)/2.0)
@@ -304,7 +304,8 @@ def pwm_to_percent(M,null_pwm,current_pwm,max_pwm,min_pwm):
 	if p > 99:
 		p = 99
 	if p < 0:
-		p = 0      
+		p = 0
+	pd2s('return',p) 
 	return p
 
 
