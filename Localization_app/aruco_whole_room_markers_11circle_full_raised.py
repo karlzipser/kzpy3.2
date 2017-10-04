@@ -20,7 +20,7 @@ p12=[198,196,197,194]	# A windows
 
 
 
-markers_clockwise = p2+p3+p4+p5+p6+p7+p8+p9+p10+p11+p12     
+markers_clockwise = p4+p5+p6+p7+p8+p9+p10+p11+p12+p2+p3
 
 mc = markers_clockwise
 
