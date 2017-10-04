@@ -19,7 +19,6 @@ def mse_write_publish(M,Arduinos,steer_pwm,motor_pwm):
 	M['steer_pub'].publish(std_msgs.msg.Int32(steer_percent))
 	M['motor_pub'].publish(std_msgs.msg.Int32(motor_percent))
 	M['state_pub'].publish(std_msgs.msg.Int32(M['current_state'].number))
-	#M['potential_collision_pub'].publish(std_msgs.msg.Int32(M['potential_collision']))
 
 class State():
 	def __init__(self,name,number,button_pwm_peak,M,Arduinos):
@@ -63,8 +62,8 @@ class Calibration_State(Run_State):
 		Run_State.__init__(self,name,number,button_pwm_peak,M,Arduinos)
 	def leave(self):
 		Run_State.leave(self)
-		self.M['steer_pwm_lst'] = [self.M['steer_null']]
-		self.M['motor_pwm_lst'] = [self.M['motor_null']]
+		self.M['steer_pwm'] = self.M['steer_null']
+		self.M['motor_pwm'] = self.M['motor_null']
 
 
 
@@ -128,12 +127,7 @@ def setup(M,Arduinos):
 	else:
 		M['Arduinos_MSE_write'] = Arduinos['MSE'].write
 		M['Arduinos_MSE_readline'] = Arduinos['MSE'].readline
-	"""
-	M['n_avg_steer'] = 20
-	M['n_avg_motor'] = 20
-	M['n_avg_button'] = 15
-	M['n_avg_encoder'] = 100
-	"""
+
 	M['steer_null'] = 1400
 	M['motor_null'] = 1500
 	M['steer_percent'] = 49
@@ -145,17 +139,8 @@ def setup(M,Arduinos):
 	M['set_null'] = False
 
 
-	for q in ['button_pwm_lst',
-		'steer_pwm_lst',
-		'motor_pwm_lst',
-		'steer_pwm_write_lst',
-		'motor_pwm_write_lst',
-		'encoder_lst']:
-		M[q] = []
-
 	M['previous_state'] = None
 	M['calibrated'] = False
-	M['PID'] = [-1,-1]
 
 	M['state_one'] = Human_Control('state 1',1,1700,M,Arduinos)
 	M['state_two'] = Human_Control('state 2',2,1424,M,Arduinos)
@@ -167,7 +152,7 @@ def setup(M,Arduinos):
 	M['caffe_steer_pwm'] = M['steer_null']
 	M['caffe_motor'] = 49
 	M['caffe_motor_pwm'] = M['motor_null']
-	M['n_lst_steps'] = 10
+
 
 	print("MSE setup.")
 
@@ -194,16 +179,16 @@ def run_loop(Arduinos,M,BUTTON_DELTA=50,):
 			if not serial_data_to_messages(Arduinos,M):
 				continue
 
-			M['smooth_motor'] = np.mean(na(M['motor_pwm_lst'][-M['n_lst_steps']:]))
-			M['smooth_steer'] = np.mean(na(M['steer_pwm_lst'][-M['n_lst_steps']:]))
-			M['smooth_button'] = np.mean(na(M['button_pwm_lst'][-M['n_lst_steps']:]))
+			M['smooth_motor'] = M['motor_pwm']
+			M['smooth_steer'] = M['steer_pwm']
+			M['smooth_button'] = M['button_pwm']
 
 			buttons_to_state(Arduinos,M,BUTTON_DELTA)
 
 			if M['current_state'] == None:
 				continue
 
-			manage_list_lengths(M)
+
 
 			
 			if M['current_state'] == M['state_four']:
@@ -259,12 +244,12 @@ def serial_data_to_messages(Arduinos,M):
 		return False
 	if len(mse_input) == 5 and mse_input[0] == 'mse':
 		lock.acquire()
-		M['button_pwm_lst'].append(mse_input[1])
-		M['steer_pwm_lst'].append(mse_input[2])
-		M['motor_pwm_lst'].append(mse_input[3])
-		M['encoder_lst'].append(mse_input[4])
-		M['encoder_pub'].publish(std_msgs.msg.Float32(M['encoder_lst'][-1]))
+		M['button_pwm'] = mse_input[1]
+		M['steer_pwm'] = mse_input[2]
+		M['motor_pwm'] = mse_input[3]
+		M['encoder'] = mse_input[4]
 		lock.release()
+		M['encoder_pub'].publish(std_msgs.msg.Float32(M['encoder']))
 		return True
 	else:
 		return False
@@ -272,13 +257,6 @@ def serial_data_to_messages(Arduinos,M):
 	
 	 
 
-def manage_list_lengths(M):
-	lock.acquire()
-	for k in M:
-		if type(M[k]) == list:        
-			if len(M[k]) > 2 * M['n_lst_steps']:
-				M[k] = M[k][-M['n_lst_steps']:]
-	lock.release() 
 
 
 
@@ -288,8 +266,8 @@ def process_state_4(M):
 		M['set_null'] = False
 	else:
 		if M['set_null'] == False:
-			M['steer_null'] = np.mean(na(M['steer_pwm_lst'][-M['n_lst_steps']:]))
-			M['motor_null'] = np.mean(na(M['motor_pwm_lst'][-M['n_lst_steps']:]))
+			M['steer_null'] = M['steer_pwm']
+			M['motor_null'] = M['motor_pwm']
 			M['set_null'] = True
 			M['steer_max'] = M['steer_null']
 			M['motor_max'] = M['motor_null']
