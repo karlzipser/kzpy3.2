@@ -46,12 +46,6 @@ class Run_State(State):
 		self.led()
 		State.enter(self)
 	def led(self):
-		#if self.number in [3,5,6,7,8]:
-		#    n = 3
-		#else:
-		#    n = self.number
-		#print n
-		#LED_signal = d2n('(',n*100+n*10+1001,')')
 		LED_signal = d2n('(',self.M['data_saving']*10000+self.number,')')
 		if 'SIG' in self.Arduinos.keys():
 			self.Arduinos['SIG'].write(LED_signal)
@@ -181,7 +175,7 @@ def setup(M,Arduinos):
 	M['caffe_motor_pwm'] = M['motor_null']
 	M['n_lst_steps'] = 10
 
-	print("MSE setup")
+	print("MSE setup.")
 
 calibration_signal_timer = Timer(0.01)
 #        
