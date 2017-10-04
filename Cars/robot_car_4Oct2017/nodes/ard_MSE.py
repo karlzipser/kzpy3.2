@@ -293,7 +293,7 @@ def process_state_4(M):
 
 	if np.abs(M['steer_max']-M['steer_min']) > 100 and np.abs(M['motor_max']-M['motor_min']) > 100:
 		M['calibrated'] = True
-	pd2s('Calibrated!!!!!!!')
+		pd2s('Calibrated!!!!!!!')
 	 
 
 def pwm_to_percent(M,null_pwm,current_pwm,max_pwm,min_pwm):
