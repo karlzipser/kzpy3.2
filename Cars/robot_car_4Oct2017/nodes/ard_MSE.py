@@ -101,6 +101,7 @@ def buttons_to_state(Arduinos,M,BUTTON_DELTA):
 		M['current_state'] = M['state_four']
 		M['current_state'].enter()
 		M['previous_state'].leave()
+		return
 
 	if M['current_state'] == None:
 		return
