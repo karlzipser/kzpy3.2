@@ -192,7 +192,7 @@ def run_loop(Arduinos,M,BUTTON_DELTA=50,):
 		return
 
 
-	try:
+	if True:#try:
 		if os.environ['STOP'] == 'True':
 			assert(False)
 		while M['Stop_Arduinos'] == False or not rospy.is_shutdown():
@@ -225,7 +225,7 @@ def run_loop(Arduinos,M,BUTTON_DELTA=50,):
 
 			M['state_pub'].publish(std_msgs.msg.Int32(M['current_state'].number))
 
-	except Exception as e:
+	else:#except Exception as e:
 		print("********** def run_loop(Arduinos,M,BUTTON_DELTA=50,): Exception ***********************")
 		print(e.message, e.args)
 		os.environ['STOP'] = 'True'
