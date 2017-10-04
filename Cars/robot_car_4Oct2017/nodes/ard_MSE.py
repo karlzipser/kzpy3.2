@@ -293,10 +293,11 @@ def pwm_to_percent(M,null_pwm,current_pwm,max_pwm,min_pwm):
 	current_pwm -= null_pwm
 	max_pwm -= null_pwm
 	min_pwm -= null_pwm
-	if np.abs(min_pwm)<10 or np.abs(min_pwm)<10:
-		M['calibrated'] = False
-		print('return 49')
-		return 49
+	if False:
+		if np.abs(min_pwm)<10 or np.abs(min_pwm)<10:
+			M['calibrated'] = False
+			print('return 49')
+			return 49
 	if current_pwm >= 0:
 		p = int(99*(1.0 + current_pwm/max_pwm)/2.0)
 	else:
