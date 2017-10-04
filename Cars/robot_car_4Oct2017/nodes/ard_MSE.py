@@ -244,7 +244,7 @@ def calibrated(Arduinos,M):
 	if not M['calibrated']:
 		if calibration_signal_timer.check():
 			s = np.random.choice([1,2,3,5,6,7,9])
-			LED_signal = d2n('(',M['data_saving']*10000+s,')')
+			LED_signal = d2n('(',s,')')
 			if 'SIG' in Arduinos.keys():
 				Arduinos['SIG'].write(LED_signal)
 			calibration_signal_timer.reset()
