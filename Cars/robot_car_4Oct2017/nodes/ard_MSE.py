@@ -18,6 +18,8 @@ def mse_write_publish(M,Arduinos,steer_pwm,motor_pwm):
 	M['motor_pub'].publish(std_msgs.msg.Int32(M['motor_percent']))
 	M['state_pub'].publish(std_msgs.msg.Int32(M['current_state'].number))
 
+
+
 class State():
 	def __init__(self,name,number,button_pwm_peak,M,Arduinos):
 		self.name = name
@@ -34,7 +36,6 @@ class State():
 	def leave(self):
 		self.state_transition_timer = None
 
-
 class Run_State(State):
 	def __init__(self,name,number,button_pwm_peak,M,Arduinos):
 		State.__init__(self,name,number,button_pwm_peak,M,Arduinos)
@@ -46,14 +47,11 @@ class Run_State(State):
 		if 'SIG' in self.Arduinos.keys():
 			self.Arduinos['SIG'].write(LED_signal)
 
-
 class Human_Control(Run_State):
 	def __init__(self,name,number,button_pwm_peak,M,Arduinos):
 		Run_State.__init__(self,name,number,button_pwm_peak,M,Arduinos)
 	def process(self):
 		mse_write_publish(self.M,self.Arduinos,self.M['steer_pwm'],self.M['motor_pwm'])
-
-
 
 class Calibration_State(Run_State):
 	def __init__(self,name,number,button_pwm_peak,M,Arduinos):
@@ -62,8 +60,6 @@ class Calibration_State(Run_State):
 		Run_State.leave(self)
 		self.M['steer_pwm'] = self.M['steer_null']
 		self.M['motor_pwm'] = self.M['motor_null']
-
-
 
 class Net_Steer_Net_Motor(Run_State):
 	def process(self):
@@ -170,7 +166,7 @@ def run_loop(Arduinos,M,BUTTON_DELTA=50,):
 		return
 
 
-	if True:#try:
+	try:
 		if os.environ['STOP'] == 'True':
 			assert(False)
 		while M['Stop_Arduinos'] == False or not rospy.is_shutdown():
@@ -200,7 +196,7 @@ def run_loop(Arduinos,M,BUTTON_DELTA=50,):
 
 			M['state_pub'].publish(std_msgs.msg.Int32(M['current_state'].number))
 
-	else:#except Exception as e:
+	except Exception as e:
 		print("********** def run_loop(Arduinos,M,BUTTON_DELTA=50,): Exception ***********************")
 		print(e.message, e.args)
 		os.environ['STOP'] = 'True'
