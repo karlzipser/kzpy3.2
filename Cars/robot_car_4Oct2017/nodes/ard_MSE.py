@@ -166,7 +166,7 @@ def run_loop(Arduinos,M,BUTTON_DELTA=50,):
 		return
 
 
-	if try:
+	try:
 		if os.environ['STOP'] == 'True':
 			assert(False)
 		while M['Stop_Arduinos'] == False or not rospy.is_shutdown():
