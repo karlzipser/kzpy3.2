@@ -14,6 +14,7 @@ os.environ['STOP'] = 'False'
 def mse_write_publish(M,Arduinos,steer_pwm,motor_pwm):
 	write_str = d2n( '(', int(steer_pwm), ',', int(motor_pwm+10000), ')')
 	M['Arduinos_MSE_write'](write_str)
+	pd2s(M['steer_null'],steer_pwm,M['steer_max'],M['steer_min']))
 	steer_percent = pwm_to_percent(M,M['steer_null'],steer_pwm,M['steer_max'],M['steer_min'])
 	motor_percent = pwm_to_percent(M,M['motor_null'],motor_pwm,M['motor_max'],M['motor_min'])
 	M['steer_pub'].publish(std_msgs.msg.Int32(steer_percent))
