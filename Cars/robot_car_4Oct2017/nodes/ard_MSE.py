@@ -167,7 +167,7 @@ def setup(M,Arduinos):
 	M['caffe_steer_pwm'] = M['steer_null']
 	M['caffe_motor'] = 49
 	M['caffe_motor_pwm'] = M['motor_null']
-	M['n_lst_steps'] = 100
+	M['n_lst_steps'] = 10
 
 	print("MSE setup.")
 
