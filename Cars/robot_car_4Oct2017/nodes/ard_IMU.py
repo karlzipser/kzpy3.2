@@ -11,16 +11,7 @@ imu_dic['head'] = 'gyro_heading_pub'
 lock = threading.Lock()
 
 def setup(M,Arduinos):
-    for m in ['gyro','acc','head']:
-        for d in ['_x_lst','_y_lst','_z_lst']:
-            M[m+d] = []
-
-    
-    M['acc_lst'] = []
-
-
-
-
+    pass
 
 def run_loop(Arduinos,M):
 
@@ -37,11 +28,6 @@ def run_loop(Arduinos,M):
                 #print imu_input
                 m = imu_input[0]
                 M[m] = imu_input[1:4]
-                if m == 'acc':
-                    #print("if m == 'acc':")
-                    M['acc_lst'].append(M['acc'])
-                    if len(M['acc_lst']) > 1.5*M['n_lst_steps']:
-                        M['acc_lst'] = M['acc_lst'][-M['n_lst_steps']:]
                 M[imu_dic[m]].publish(geometry_msgs.msg.Vector3(*M[m]))
 
 
