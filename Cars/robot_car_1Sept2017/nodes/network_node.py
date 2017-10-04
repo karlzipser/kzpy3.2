@@ -575,7 +575,7 @@ while not rospy.is_shutdown():
 			steer_cmd_pub.publish(std_msgs.msg.Int32(49))
 			motor_cmd_pub.publish(std_msgs.msg.Int32(49))
 			state_messenger('state in [3,5,7] so outputs set to 49','red')
-			unix('sudo reboot')
+			#unix('sudo reboot')
 		potential_collision_ = 0
 		network_enter_timer.reset()
 	
