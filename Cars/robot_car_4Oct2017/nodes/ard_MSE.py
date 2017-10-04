@@ -194,9 +194,9 @@ def run_loop(Arduinos,M,BUTTON_DELTA=50,):
 			if not serial_data_to_messages(Arduinos,M):
 				continue
 
-			M['smooth_motor'] = na(M['motor_pwm_lst'][-M['n_lst_steps']:]).median()
-			M['smooth_steer'] = na(M['steer_pwm_lst'][-M['n_lst_steps']:]).median()
-			M['smooth_button'] = na(M['button_pwm_lst'][-M['n_lst_steps']:]).median()
+			M['smooth_motor'] = np.median(na(M['motor_pwm_lst'][-M['n_lst_steps']:]))
+			M['smooth_steer'] = np.median(na(M['steer_pwm_lst'][-M['n_lst_steps']:]))
+			M['smooth_button'] = np.median(na(M['button_pwm_lst'][-M['n_lst_steps']:]))
 
 			buttons_to_state(Arduinos,M,BUTTON_DELTA)
 
