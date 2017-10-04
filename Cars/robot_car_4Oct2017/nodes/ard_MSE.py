@@ -194,9 +194,9 @@ def run_loop(Arduinos,M,BUTTON_DELTA=50,):
 			if not serial_data_to_messages(Arduinos,M):
 				continue
 
-			M['smooth_motor'] = np.median(na(M['motor_pwm_lst'][-M['n_lst_steps']:]))
-			M['smooth_steer'] = np.median(na(M['steer_pwm_lst'][-M['n_lst_steps']:]))
-			M['smooth_button'] = np.median(na(M['button_pwm_lst'][-M['n_lst_steps']:]))
+			M['smooth_motor'] = np.mean(na(M['motor_pwm_lst'][-M['n_lst_steps']:]))
+			M['smooth_steer'] = np.mean(na(M['steer_pwm_lst'][-M['n_lst_steps']:]))
+			M['smooth_button'] = np.mean(na(M['button_pwm_lst'][-M['n_lst_steps']:]))
 
 			buttons_to_state(Arduinos,M,BUTTON_DELTA)
 
@@ -288,8 +288,8 @@ def process_state_4(M):
 		M['set_null'] = False
 	else:
 		if M['set_null'] == False:
-			M['steer_null'] = np.median(na(M['steer_pwm_lst'][-M['n_lst_steps']:]))
-			M['motor_null'] = np.median(na(M['motor_pwm_lst'][-M['n_lst_steps']:]))
+			M['steer_null'] = np.mean(na(M['steer_pwm_lst'][-M['n_lst_steps']:]))
+			M['motor_null'] = np.mean(na(M['motor_pwm_lst'][-M['n_lst_steps']:]))
 			M['set_null'] = True
 			M['steer_max'] = M['steer_null']
 			M['motor_max'] = M['motor_null']
@@ -305,7 +305,7 @@ def process_state_4(M):
 			if M['smooth_motor'] < M['motor_min']:
 				M['motor_min'] = M['smooth_motor']
 
-	if np.abs(M['steer_max']-M['steer_min']) > 700 and np.abs(M['motor_max']-M['motor_min']) > 600:
+	if np.abs(M['steer_max']-M['steer_min']) > 300 and np.abs(M['motor_max']-M['motor_min']) > 300:
 		print M['steer_max']-M['steer_min'],M['motor_max']-M['motor_min']
 		M['calibrated'] = True
 
