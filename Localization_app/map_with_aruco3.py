@@ -40,7 +40,7 @@ if SETUP:
 		P[ANGLE_DIST_PARAM] = 0.3
 
 	if True:
-		D = Data_Module.bagfile_to_dic(BAG_PATH=opjm('rosbags/bair_car_2017-10-04-14-11-30_3.bag'))#'/media/karlzipser/rosbags/bair_car_2017-10-03-15-18-07_2.bag')
+		D = Data_Module.bagfile_to_dic(BAG_PATH=opjD('bair_car_2017-10-04-14-10-17_1.bag'))#opjm('rosbags/bair_car_2017-10-04-14-11-30_3.bag'))#'/media/karlzipser/rosbags/bair_car_2017-10-03-15-18-07_2.bag')
 		#D = Data_Module.bagfile_to_dic(BAG_PATH=opjD('processed/Mr_Purple_2017-09-29-12-20-41/bair_car_2017-09-29-12-25-45_8.bag')) #good
 		#D = Data_Module.bagfile_to_dic(BAG_PATH=opjD('/home/karlzipser/Desktop/processed/Mr_Purple_2017-09-29-12-20-41/bair_car_2017-09-29-12-25-07_7.bag'))
 		##D = Data_Module.bagfile_to_dic(BAG_PATH_LIST=sgg('/home/karlzipser/Desktop/processed/Mr_Purple_2017-09-29-12-20-41/a/*.bag'))
@@ -293,7 +293,7 @@ if RUN_LOOP:
 						figure('median distances');clf();plot(median_distances,'r.-');plt.title(d2s('median dist =',median_dist));figure('distances');clf();hist(distances,bins=50);plt.title(d2s('median dist =',median_dist));figure(1)
 						pts_plot(na(right_fitted),'r');pts_plot(na(left_fitted),'g');
 						#pd2s('alpha =',dp(alpha,3))
-						plt_square(); xysqlim(3);plt.title( d2s(len(F[f].values())/2,dp(alpha),d2s('median dist =',median_dist) ) )  ;spause();
+						plt_square(); xysqlim(9);plt.title( d2s(len(F[f].values())/2,dp(alpha),d2s('median dist =',median_dist) ) )  ;spause();
 						pts_timer.reset()
 				timer.message(d2s('\trun_ctr =',run_ctr,'alpha =',dp(alpha)),color='white',flush=True)
 				if False:#run_timer.time() > 2 and first_time:
