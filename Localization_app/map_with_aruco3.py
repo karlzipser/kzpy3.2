@@ -24,10 +24,12 @@ if dont_know_why:
 
 if SETUP:
 	# 
+	"""
 	from kzpy3.Localization_app.Project_Aruco_Markers_Module import * 
 	from kzpy3.Localization_app.aruco_whole_room_markers_11circle_no_pillar import *
 	import kzpy3.data_analysis.Angle_Dict_Creator as Angle_Dict_Creator
 	import kzpy3.Car_Data_app.Data_Module as Data_Module
+	"""
 	dont_know_why = True
 	if dont_know_why:
 		P = {}
