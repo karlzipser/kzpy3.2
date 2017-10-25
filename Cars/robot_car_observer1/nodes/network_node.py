@@ -485,8 +485,8 @@ threading.Thread(target=aruco_thread).start()
 ###################################################################
 
 def car_print(stri,name=rp.computer_name):
-	print(stri)
-	#cprint(stri,rp.Car_termcolor_dic[name][0],rp.Car_termcolor_dic[name][1])
+	#print(stri)
+	cprint(stri,rp.Car_termcolor_dic[name][0],rp.Car_termcolor_dic[name][1])
 
 frozen_ = 0
 defrosted_timer = Timer(0)
