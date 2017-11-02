@@ -37,18 +37,18 @@ def Batch(**Args):
 		def _function_fill(**Args):
 
 			_function_clear()
-			ctr = 0
+
 
 			for we_are in ['a helper function definition']:
 
-				def _function_data_into_batch(**Args):
-					batch_num = Args[BATCH_NUM]
+				def _function_data_into_batch():
+
 					for we_are in ["the setup section"]:
 
-						name,list_of_images,list_of_meta_data_floats_or_arrays,list_of_target_floats_or_lists = _[DATA_PACKER][NEXT](batch_num)
+						name,list_of_images,list_of_meta_data_floats_or_arrays,list_of_target_floats_or_lists = _[DATA_PACKER][NEXT]()
 						assert(6*P[N_FRAMES] == len(list_of_images))
 						_[NAMES].insert(0,name) # This to match torch.cat use below
-
+						#print name
 					for we_are in ["the image section"]:
 
 						list_of_torch_images = []
@@ -104,10 +104,11 @@ def Batch(**Args):
 
 
 			for we_are in ['the main batch fill loop']:
-
+				ctr = 0
+				_[DATA_PACKER][RUNS][INSURE_CORRECT_NUMBER_OF_RUNS_ARE_OPEN]()
 				while ctr < _[BATCH_SIZE]:
 					if True:#try:
-						_function_data_into_batch(BATCH_NUM=ctr)
+						_function_data_into_batch()
 						ctr += 1
 						P[FREQUENCY_TIMER].freq()
 					else: #except Exception as e:

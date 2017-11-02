@@ -21,12 +21,12 @@ P = {}
 
 
 P[GPU] = 1
-P[BATCH_SIZE] = 10
+P[BATCH_SIZE] = 256
 P[DISPLAY] = True
 P[VERBOSE] = True
 P[LOAD_ARUCO] = False
 P[DATA_PATH] = opjD('bdd_car_data_Sept2017_aruco_demo')
-
+P[SEGMENT_SECONDS] = 10
 P[IGNORE] = [reject_run,left,out1_in2]#,'Smyth','racing','local','Tilden','campus']
 P[REQUIRE_ONE] = []
 P[USE_STATES] = [1,3,5,6,7]
@@ -46,7 +46,7 @@ P[TRAIN_TIME] = 60*10.0
 P[VAL_TIME] = 60*1.0
 P[RESUME] = False
 if RESUME:
-    P[INITIAL_WEIGHTS_FOLDER] = opj(P[NETWORK_OUTPUT_FOLDER],'weights')
+    P[INITIAL_WEIGHTS_FOLDER] = '/home/karlzipser/Desktop/net_indoors/weights'#opj(P[NETWORK_OUTPUT_FOLDER],'weights')
     P[WEIGHTS_FILE_PATH] = most_recent_file_in_folder(P[INITIAL_WEIGHTS_FOLDER],['net'],[])
 
 

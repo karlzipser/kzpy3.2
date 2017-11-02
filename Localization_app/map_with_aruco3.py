@@ -42,7 +42,8 @@ if SETUP:
 		P[ANGLE_DIST_PARAM] = 0.3
 
 	if True:
-		D = Data_Module.bagfile_to_dic(BAG_PATH=opjD('bair_car_2017-10-04-14-10-17_1.bag'))#opjm('rosbags/bair_car_2017-10-04-14-11-30_3.bag'))#'/media/karlzipser/rosbags/bair_car_2017-10-03-15-18-07_2.bag')
+		D = Data_Module.bagfile_to_dic(BAG_PATH='/media/karlzipser/rosbags2/processed_27Oct17_13h41m36s/Mr_Purple_2017-10-23-18-08-42/bair_car_2017-10-23-18-11-39_5.bag')
+		#D = Data_Module.bagfile_to_dic(BAG_PATH=opjD('bair_car_2017-10-04-14-10-17_1.bag'))#opjm('rosbags/bair_car_2017-10-04-14-11-30_3.bag'))#'/media/karlzipser/rosbags/bair_car_2017-10-03-15-18-07_2.bag')
 		#D = Data_Module.bagfile_to_dic(BAG_PATH=opjD('processed/Mr_Purple_2017-09-29-12-20-41/bair_car_2017-09-29-12-25-45_8.bag')) #good
 		#D = Data_Module.bagfile_to_dic(BAG_PATH=opjD('/home/karlzipser/Desktop/processed/Mr_Purple_2017-09-29-12-20-41/bair_car_2017-09-29-12-25-07_7.bag'))
 		##D = Data_Module.bagfile_to_dic(BAG_PATH_LIST=sgg('/home/karlzipser/Desktop/processed/Mr_Purple_2017-09-29-12-20-41/a/*.bag'))
@@ -82,8 +83,8 @@ if SETUP:
 							distances_marker_more[k].append(distances_marker[k])
 					for k in angles_to_center_more.keys():
 						angles_to_center[k] = na(angles_to_center_more[k]).mean()
-						angles_surfaces_more[k] = na(angles_surfaces_more[k]).mean()
-						distances_marker_more[k] = na(distances_marker_more[k]).mean()
+						angles_surfaces_more[k] = na(angles_surfaces_more[k]).mean() #!!!
+						distances_marker_more[k] = na(distances_marker_more[k]).mean() #!!!
 					Q = {'angles_to_center':angles_to_center,'angles_surfaces':angles_surfaces,'distances_marker':distances_marker}
 					d = Camera_View_Field(aruco_data,Q,'p',P)
 					if graphics: clf(); plt_square(); xysqlim(3);pts_plot(d['pts']);spause();mci(img_lst[i],delay=1)

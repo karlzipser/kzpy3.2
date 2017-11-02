@@ -14,7 +14,7 @@ def Net_Activity(**Args):
     _[imgs] = {}
 
     for k in Args[ACTIVATIONS].keys():
-        print k
+        #print k
         _[ACTIVATIONS][k] = Args[ACTIVATIONS][k].data.cpu().numpy()
         _[imgs][k] = {}
         for moment_indexv in [0]:#in range(shape(_[ACTIVATIONS][k])[0]):
@@ -29,7 +29,7 @@ def Net_Activity(**Args):
                     mi(camera_datav[i,:,:],i)
                 #_[imgs][k][moment_indexv] = vis_square(array(img_list),padval=0.5)
             else:
-                mi(vis_square(_[ACTIVATIONS][k][moment_indexv],padval=0.5),k)
+                mi(vis_square(_[ACTIVATIONS][k][moment_indexv],padval=0.5),k);spause()
 
     def _function_view(*args):
         Args = args_to_dictionary(args)
@@ -53,7 +53,7 @@ def Net_Activity(**Args):
             if k in Scales:
                 scalev = Scales[k]
             if scalev == 0:
-                print('Not shwoing '+k)
+                #print('Not shwoing '+k)
                 continue
 
         cv2.waitKey(delayv)
