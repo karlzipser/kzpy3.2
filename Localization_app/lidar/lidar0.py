@@ -1,5 +1,6 @@
 
 if False:
+	"""
 	KERNEL=="ttyUSB*", MODE="0666"
 	sudo chmod 666 /dev/ttyUSB0
 	roslaunch rplidar_ros rplidar.launch
@@ -8,6 +9,7 @@ if False:
 
 	inf = 3.0
 	plt.polar(np.radians(range(360)),a,'.')
+	"""
 
 
 
@@ -77,7 +79,7 @@ for i in range(len(xy_list)-1):
 
 
 
-
+figure(2)
 paper = 8.5*2.54
 edge = 2*2.54
 space = (108-2*edge-4*8.5*2.54)/3.0
@@ -113,7 +115,7 @@ panel_with_marker_pts = np.matrix(panel_with_marker_pts)/100.0
 fitted_markers = (ret_R*panel_with_marker_pts.T) + np.tile(ret_t,(1,len(panel_with_marker_pts)))
 fitted_markers = fitted_markers.T
 fitted_markers = na(fitted_markers)[:,:2]
-CA()
+
 pts_plot(na(stationary)[:,:2],'r')								
 pts_plot(na(moving)[:,:2],'b')								
 pts_plot(na(fitted),'g')								

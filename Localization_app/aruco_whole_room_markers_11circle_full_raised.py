@@ -1,6 +1,8 @@
 #!/usr/bin/env python 
 from kzpy3.vis2 import *
-
+graphics = True
+if graphics and 'nvidia' not in opjh():
+	from kzpy3.Grapher_app.Graph_Image_Module import *
 
 
 
@@ -60,9 +62,9 @@ marker_xys = []
 for i in range(len(markers_clockwise)):
 	a = marker_angles[i]
 	marker_angles_dic[markers_clockwise[i]] = a
-	x = 2*107/100.*np.sin(a)
-	y = 2*107/100.*np.cos(a)
-	marker_xys.append([x,y])
+	x_ = 2*107/100.*np.sin(a)
+	y_ = 2*107/100.*np.cos(a)
+	marker_xys.append([x_,y_])
 markers_xy_dic = {}
 assert(len(markers_clockwise) == len(marker_xys))
 for i in range(len(markers_clockwise)):
@@ -91,10 +93,10 @@ for k in Marker_xy_dic.keys():
 	Marker_xy_dic[(k,RIGHT)] = xy-na(rotatePoint((0,0),xy,85))/(2*107/100.)*marker_width/2.0#/marker_spacing
 
 
-graphics = False
+
 
 if graphics and 'nvidia' not in opjh():
-	from kzpy3.Grapher_app.Graph_Image_Module import *
+	#from kzpy3.Grapher_app.Graph_Image_Module import *
 	pts = []
 	figure('arena');clf();plt_square();#xylim(-0.1,0.6,-0.1,0.6)#xysqlim(1.)
 	for k in Marker_xy_dic:
