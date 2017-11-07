@@ -1,30 +1,15 @@
-from Paths_Module import *
-from All_Names_Module import *
-exec(identify_file_str)
+from kzpy3.Localization_app.Project_Aruco_Markers_Module import *
 
-_ = dictionary_access
+P[past_to_present_proportion] = 0.0
 
-#from aruco_home_4x4_markers import Marker_xy_dic
-#from aruco_whole_room_markers import Marker_xy_dic
-#from aruco_whole_room_markers_11circle_full_raised import Marker_xy_dic
-Marker_xy_dic = lo(opjD('aruco_raised11_5Nov2017_Marker_xy_dic.pkl'))
-spd2s(Marker_xy_dic.keys())
-P = {}
-P[VERBOSE] = True
-P[GRAPHICS] = False
-P[ROS_LIVE] = True
-P[past_to_present_proportion] = 0.0#0.75#0.99 # 0.5
-"""
-P[MARKERS_TO_IGNORE] = [#58, #duplicated on post
-	0,11,102,100, # post markers
-	190, # often has False positives
-	]
-"""
-P[MARKERS_TO_IGNORE] = [190] # often has False positives
-
-P[DEGREE_STEP_FOR_ROTATION_FIT] = 5#15  # 10 to 30 range, bigger is faster
-P[ANGLE_DIST_PARAM] = 0.3
-
+from kzpy3.Image_app.Image_Module import Img
+base_graph = Img(
+	xmin=-2.5,
+	xmax=2.5,
+	ymin=-2.5,
+	ymax=2.5,
+	xsize=300,
+	ysize=300)
 
 if False:
 	timer = Timer(30)
@@ -56,7 +41,11 @@ if False:
 		except:
 			pass
 
-if False:
+
+
+
+
+if True:
 	O = h5r('/media/karlzipser/2_TB_Samsung/h5py/Mr_Lt_Blue_2017-10-23-18-09-39/original_timestamp_data.h5py')
 	o=lo('/media/karlzipser/2_TB_Samsung/h5py/Mr_Lt_Blue_2017-10-23-18-09-39/aruco_data.pkl' )
 	lv=o['left_image_aruco']['vals']
@@ -70,6 +59,7 @@ if False:
 	traj['left']['hxy'] = []
 	traj['right']['hxy'] = []
 
+if True:
 	percent_timer = Timer(1)
 	for i in range(0,len(lv),1):
 		percent_timer.percent_message(i,len(lv),flush=True)
@@ -83,11 +73,17 @@ if False:
 		except KeyboardInterrupt:
 			break
 		except:
-			pass
+			print('fail')
+			a,b,c,d,e,f,g,h=0,0,0,0,0,0,0,0
+			traj['left']['hxy'].append([a,b])
+			traj['right']['hxy'].append([e,f])
+			traj['left']['xy'].append([c,d])
+			traj['right']['xy'].append([g,h])			
 	for s in ['left','right']:
 		for t in ['hxy','xy']:
 			traj[s][t] = na(traj[s][t])
-
+	assert(len(traj['left']['xy'])==len(lv))
+if True:
 	figure(1);clf()
 	traj['left']['x_meo'] = meo(traj['left']['xy'][:,0],30)
 	traj['right']['x_meo'] = meo(traj['right']['xy'][:,0],30)
@@ -97,13 +93,23 @@ if False:
 	plot(traj['right']['x_meo'],'b')
 	plot(traj['left']['xy'][:,0],'b.'),
 	plot(traj['right']['xy'][:,0],'r.')
-	q=10
-	start = 4000#31000#14562
-	for i in range(start,len(traj['left']['x_meo'])-30*q,15):
-		figure(2);clf();plt_square();xysqlim(2.5)
-		plot(traj['left']['x_meo'][i:i+30*q],traj['left']['y_meo'][i:i+30*q],'b.')
-		plot(traj['right']['x_meo'][i:i+30*q],traj['right']['y_meo'][i:i+30*q],'r.')
-		spause()
+	q=1
+	start = 31000#14562#4000#
+
+	
+	for i in range(start,len(traj['left']['x_meo']),5):
+		base_graph[IMG] *= 0
+		#figure(2)#;clf();plt_square();xysqlim(2.5)
+		#plot(traj['left']['xy'][i,0],traj['left']['xy'][i,1],'b.')
+		base_graph[PTS_PLOT](x_=na([traj['left']['x_meo'][i-90:i]]),y_=na([traj['left']['y_meo'][i-90:i]]), color_=(255,0,0))
+		base_graph[PTS_PLOT](x_=na([traj['right']['x_meo'][i-90:i]]),y_=na([traj['right']['y_meo'][i-90:i]]), color_=(0,255,0))
+		mci(base_graph[IMG],title='trajectory',scale=2.0)
+		#plt.title(i)
+		#plot(traj['left']['x_meo'][i:i+30*q],traj['left']['y_meo'][i:i+30*q],'b.')
+		#plot(traj['right']['x_meo'][i:i+30*q],traj['right']['y_meo'][i:i+30*q],'r.')
+		mci(O[left_image][vals][i][:],title='left',scale=4.0)
+		#plt.title(i)
+		#spause()
 
 
 
