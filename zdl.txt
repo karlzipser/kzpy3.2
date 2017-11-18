@@ -1,1228 +1,3372 @@
->> www['67_left']
-www
-<0> 133_left:
-	<0> 36:
-		[0.14 -0.07] (len=2)
-	<1> 37:
-		[-0.02 0.97] (len=2)
-	<2> 38:
-		[0.51 -0.68] (len=2)
-	<3> 39:
-		[0.82 0.09] (len=2)
-	<4> 40:
-		[-0.07 0.11] (len=2)
-	<5> 41:
-		[0.63 -0.12] (len=2)
-	<6> 42:
-		[0.42 0.17] (len=2)
-	<7> 43:
-		[0.18 0.47] (len=2)
-	<8> 44:
-		[-0.01 0.14] (len=2)
-	<9> 45:
-		[-0.03 0.02] (len=2)
-	<10> 46:
-		[0.81 -0.01] (len=2)
-	<11> 47:
-		[0.46 0.24] (len=2)
-	<12> 157:
-		[0.82 -0.03] (len=2)
-	<13> 158:
-		[0.1 -0.23] (len=2)
-	<14> 159:
-		[0.58 0.51] (len=2)
-	<15> 160:
-		[0.26 -0.26] (len=2)
-	<16> 161:
-		[0.06 0.11] (len=2)
-	<17> 162:
-		[0.11 -0.51] (len=2)
-	<18> 163:
-		[0.16 -0.23] (len=2)
-	<19> 164:
-		[0.24 -0.17] (len=2)
-	<20> 165:
-		[0.52 0.23] (len=2)
-	<21> 166:
-		[0.54 -0.44] (len=2)
-	<22> 167:
-		[0.43 -0.32] (len=2)
-	<23> 170:
-		[-0.16 0.56] (len=2)
-	..92)
+>> E['to do']
+E
+Collision_stuff:
+	crash_bair_car_2017-04-11-22-22-48_16.bag.pkl:
+		 0.0
+	crash_bair_car_2017-04-11-22-23-19_17.bag.pkl:
+		 0.0
+	crash_bair_car_2017-04-11-22-23-50_18.bag.pkl:
+		 0.0
+	crash_bair_car_2017-04-11-22-24-24_19.bag.pkl:
+		 0.0
+	crash_bair_car_2017-04-11-22-25-58_22.bag.pkl:
+		 0.0
+	crash_bair_car_2017-04-11-22-26-56_24.bag.pkl:
+		 0.0
+	crash_bair_car_2017-04-11-22-31-39_33.bag.pkl:
+		 0.0
+	crash_bair_car_2017-04-11-22-32-11_34.bag.pkl:
+		 0.0
+	crash_bair_car_2017-04-11-22-32-42_35.bag.pkl:
+		 0.0
+	crash_bair_car_2017-04-11-22-33-45_37.bag.pkl:
+		 0.0
+	crash_bair_car_2017-04-11-22-35-20_40.bag.pkl:
+		 0.0
+	crash_bair_car_2017-04-11-22-36-23_42.bag.pkl:
+		 0.0
+	crash_bair_car_2017-04-15-20-55-41_9.bag.pkl:
+		 0.0
+	crash_bair_car_2017-04-25-14-39-38_15.bag.pkl:
+		 0.0
+	crash_bair_car_2017-04-25-14-56-57_6.bag.pkl:
+		 0.0
+	crash_bair_car_2017-04-28-17-53-41_6.bag.pkl:
+		 0.0
+	crash_bair_car_2017-04-28-17-59-02_16.bag.pkl:
+		 0.0
+	crash_bair_car_2017-04-28-17-59-25_17.bag.pkl:
+		 0.0
+	crash_bair_car_2017-04-28-18-00-01_18.bag.pkl:
+		 0.0
+	crash_bair_car_2017-04-28-18-00-33_19.bag.pkl:
+		 0.0
+	crash_bair_car_2017-04-28-18-01-01_20.bag.pkl:
+		 0.0
+	crash_bair_car_2017-04-28-18-02-48_24.bag.pkl:
+		 0.0
+	crash_bair_car_2017-04-28-18-03-16_25.bag.pkl:
+		 0.0
+	crash_bair_car_2017-04-28-18-05-18_28.bag.pkl:
+		 0.0
 
-<1> 133_right:
-	<0> 36:
-		[0.32 0.01] (len=2)
-	<1> 37:
-		[0.18 0.94] (len=2)
-	<2> 38:
-		[0.67 -0.56] (len=2)
-	<3> 39:
-		[0.97 0.22] (len=2)
-	<4> 40:
-		[0.04 -0.05] (len=2)
-	<5> 41:
-		[0.71 0.06] (len=2)
-	<6> 42:
-		[0.5 0.35] (len=2)
-	<7> 43:
-		[0.35 0.37] (len=2)
-	<8> 44:
-		[0.18 0.08] (len=2)
-	<9> 45:
-		[0.17 0.04] (len=2)
-	<10> 46:
-		[0.97 0.11] (len=2)
-	<11> 47:
-		[0.65 0.3] (len=2)
-	<12> 157:
-		[0.63 -0.06] (len=2)
-	<13> 158:
-		[0.01 -0.05] (len=2)
-	<14> 159:
-		[0.39 0.45] (len=2)
-	<15> 160:
-		[0.12 -0.12] (len=2)
-	<16> 161:
-		[0.0 0.31] (len=2)
-	<17> 162:
-		[-0.05 -0.39] (len=2)
-	<18> 163:
-		[0.0 -0.35] (len=2)
-	<19> 164:
-		[0.18 0.02] (len=2)
-	<20> 165:
-		[0.5 0.43] (len=2)
-	<21> 166:
-		[0.37 -0.54] (len=2)
-	<22> 167:
-		[0.31 -0.16] (len=2)
-	<23> 170:
-		[-0.17 0.76] (len=2)
-	..92)
+F.pkl:
+	 41.36
+F2.pkl:
+	 0.84
+F3.pkl:
+	 23.3
+F4.pkl:
+	 3.35
+IMU_net:
+	weights:
+		net_08Oct17_09h40m53s.infer:
+			 2.97
+		net_08Oct17_10h10m38s.infer:
+			 2.97
+		net_08Oct17_10h20m04s.infer:
+			 2.97
+		net_08Oct17_10h25m06s.infer:
+			 2.97
+		net_08Oct17_10h36m31s.infer:
+			 2.97
+		net_08Oct17_10h44m16s.infer:
+			 2.97
+		net_08Oct17_10h49m17s.infer:
+			 2.97
+		net_08Oct17_10h54m17s.infer:
+			 2.97
+		net_08Oct17_10h59m18s.infer:
+			 2.97
+		net_08Oct17_13h40m37s.infer:
+			 2.97
+		net_08Oct17_13h45m37s.infer:
+			 2.97
+		net_08Oct17_13h50m40s.infer:
+			 2.97
+		net_08Oct17_13h55m40s.infer:
+			 2.97
+		net_08Oct17_14h00m40s.infer:
+			 2.97
+		net_08Oct17_14h05m40s.infer:
+			 2.97
+		net_08Oct17_14h10m40s.infer:
+			 2.97
+		net_08Oct17_14h15m41s.infer:
+			 2.97
+		net_08Oct17_14h20m42s.infer:
+			 2.97
+		net_08Oct17_14h25m42s.infer:
+			 2.97
+		net_08Oct17_14h30m44s.infer:
+			 2.97
+		net_08Oct17_14h35m44s.infer:
+			 2.97
+		net_08Oct17_14h40m45s.infer:
+			 2.97
+		net_09Oct17_09h29m12s.infer:
+			 2.97
+		net_09Oct17_09h34m13s.infer:
+			 2.97
+		..231)
 
-<2> 134_left:
-	<0> 46:
-		[0.66 -0.23] (len=2)
-	<1> 47:
-		[0.25 0.06] (len=2)
-	<2> 162:
-		[0.27 -0.45] (len=2)
-	<3> 163:
-		[0.32 -0.26] (len=2)
-	<4> 164:
-		[0.38 -0.25] (len=2)
-	<5> 165:
-		[0.68 0.17] (len=2)
-	<6> 493:
-		[0.69 -0.68] (len=2)
-	<7> 494:
-		[0.15 -0.35] (len=2)
-	<8> 495:
-		[0.42 -0.82] (len=2)
-	<9> 496:
-		[0.6 -0.23] (len=2)
-	<10> 497:
-		[0.51 -0.24] (len=2)
-	<11> 498:
-		[0.02 -0.18] (len=2)
-	<12> 502:
-		[0.31 -0.44] (len=2)
-	<13> 503:
-		[0.24 -0.38] (len=2)
-	<14> 504:
-		[0.14 0.14] (len=2)
-	<15> 591:
-		[0.31 -0.28] (len=2)
-	<16> 592:
-		[0.24 -0.84] (len=2)
-	<17> 602:
-		[0.55 -0.08] (len=2)
-	<18> 603:
-		[0.37 -0.46] (len=2)
-	<19> 604:
-		[0.51 -0.63] (len=2)
-	<20> 607:
-		[0.51 -1.04] (len=2)
-	<21> 608:
-		[0.34 -0.43] (len=2)
-	<22> 611:
-		[0.72 -0.06] (len=2)
-	<23> 612:
-		[0.48 -0.62] (len=2)
-	..37)
 
-<3> 134_right:
-	<0> 46:
-		[0.83 -0.13] (len=2)
-	<1> 47:
-		[0.44 0.12] (len=2)
-	<2> 162:
-		[0.11 -0.32] (len=2)
-	<3> 163:
-		[0.18 -0.39] (len=2)
-	<4> 164:
-		[0.34 -0.05] (len=2)
-	<5> 165:
-		[0.66 0.37] (len=2)
-	<6> 493:
-		[0.74 -0.49] (len=2)
-	<7> 494:
-		[0.28 -0.19] (len=2)
-	<8> 495:
-		[0.52 -0.65] (len=2)
-	<9> 496:
-		[0.74 -0.09] (len=2)
-	<10> 497:
-		[0.71 -0.27] (len=2)
-	<11> 498:
-		[0.15 -0.03] (len=2)
-	<12> 502:
-		[0.41 -0.26] (len=2)
-	<13> 503:
-		[0.31 -0.19] (len=2)
-	<14> 504:
-		[0.32 0.04] (len=2)
-	<15> 591:
-		[0.5 -0.21] (len=2)
-	<16> 592:
-		[0.2 -0.64] (len=2)
-	<17> 602:
-		[0.37 0.0] (len=2)
-	<18> 603:
-		[0.5 -0.3] (len=2)
-	<19> 604:
-		[0.56 -0.44] (len=2)
-	<20> 607:
-		[0.63 -0.88] (len=2)
-	<21> 608:
-		[0.47 -0.27] (len=2)
-	<22> 611:
-		[0.76 0.14] (len=2)
-	<23> 612:
-		[0.52 -0.43] (len=2)
-	..37)
+Images:
+	cameras-1.png:
+		 0.18
+	cameras-2.png:
+		 0.11
+	cameras-3.png:
+		 0.19
+	cameras-4.png:
+		 0.14
+	cameras-5.png:
+		 0.18
+	cameras-6.png:
+		 0.16
+	cameras-7.png:
+		 0.16
+	cameras-8.png:
+		 0.13
+	cameras-9.png:
+		 0.17
+	cameras.png:
+		 0.16
+	markers.png:
+		 0.17
 
-<4> 138_left:
-	<0> 26:
-		[1.25 1.05] (len=2)
-	<1> 27:
-		[0.55 0.4] (len=2)
-	<2> 28:
-		[0.73 -0.37] (len=2)
-	<3> 29:
-		[0.11 0.35] (len=2)
-	<4> 30:
-		[0.23 0.1] (len=2)
-	<5> 31:
-		[1.11 0.46] (len=2)
-	<6> 32:
-		[0.89 -0.09] (len=2)
-	<7> 33:
-		[0.74 0.47] (len=2)
-	<8> 34:
-		[0.68 -0.39] (len=2)
-	<9> 35:
-		[0.61 0.16] (len=2)
-	<10> 36:
-		[0.56 0.32] (len=2)
-	<11> 37:
-		[0.41 0.62] (len=2)
-	<12> 38:
-		[0.99 -0.42] (len=2)
-	<13> 39:
-		[1.18 0.52] (len=2)
-	<14> 40:
-		[0.44 -0.14] (len=2)
-	<15> 41:
-		[1.06 0.24] (len=2)
-	<16> 42:
-		[0.85 0.52] (len=2)
-	<17> 43:
-		[0.73 0.32] (len=2)
-	<18> 44:
-		[0.57 0.12] (len=2)
-	<19> 45:
-		[0.51 0.16] (len=2)
-	<20> 46:
-		[1.12 0.47] (len=2)
-	<21> 47:
-		[0.86 0.62] (len=2)
-	<22> 470:
-		[0.58 0.04] (len=2)
-	<23> 493:
-		[1.11 -0.01] (len=2)
-	..125)
+LCR_temp:
+	code:
+		09Sep17_11h41m08s:
+			code:
+				09Sep17_11h41m08s:
 
-<5> 138_right:
-	<0> 26:
-		[1.18 1.24] (len=2)
-	<1> 27:
-		[0.7 0.26] (len=2)
-	<2> 28:
-		[0.56 -0.27] (len=2)
-	<3> 29:
-		[0.31 0.33] (len=2)
-	<4> 30:
-		[0.43 0.04] (len=2)
-	<5> 31:
-		[1.19 0.65] (len=2)
-	<6> 32:
-		[0.87 -0.29] (len=2)
-	<7> 33:
-		[0.93 0.51] (len=2)
-	<8> 34:
-		[0.87 -0.45] (len=2)
-	<9> 35:
-		[0.72 0.32] (len=2)
-	<10> 36:
-		[0.67 0.48] (len=2)
-	<11> 37:
-		[0.6 0.58] (len=2)
-	<12> 38:
-		[1.19 -0.37] (len=2)
-	<13> 39:
-		[1.29 0.69] (len=2)
-	<14> 40:
-		[0.55 -0.3] (len=2)
-	<15> 41:
-		[1.13 0.43] (len=2)
-	<16> 42:
-		[0.92 0.71] (len=2)
-	<17> 43:
-		[0.87 0.17] (len=2)
-	<18> 44:
-		[0.73 0.0] (len=2)
-	<19> 45:
-		[0.69 0.25] (len=2)
-	<20> 46:
-		[1.21 0.65] (len=2)
-	<21> 47:
-		[1.05 0.71] (len=2)
-	<22> 470:
-		[0.73 0.18] (len=2)
-	<23> 493:
-		[1.24 0.14] (len=2)
-	..125)
 
-<6> 139_left:
-	<0> 26:
-		[1.3 0.77] (len=2)
-	<1> 27:
-		[0.29 0.52] (len=2)
-	<2> 28:
-		[0.91 -0.59] (len=2)
-	<3> 29:
-		[-0.17 0.39] (len=2)
-	<4> 30:
-		[-0.04 -0.05] (len=2)
-	<5> 31:
-		[1.03 0.2] (len=2)
-	<6> 32:
-		[0.92 0.17] (len=2)
-	<7> 34:
-		[0.42 -0.3] (len=2)
-	<8> 35:
-		[0.46 -0.08] (len=2)
-	<9> 36:
-		[0.35 0.14] (len=2)
-	<10> 37:
-		[0.19 0.79] (len=2)
-	<11> 38:
-		[0.76 -0.58] (len=2)
-	<12> 39:
-		[1.02 0.29] (len=2)
-	<13> 40:
-		[0.15 -0.05] (len=2)
-	<14> 41:
-		[0.81 0.08] (len=2)
-	<15> 42:
-		[0.59 0.37] (len=2)
-	<16> 43:
-		[0.42 0.34] (len=2)
-	<17> 44:
-		[0.26 0.07] (len=2)
-	<18> 45:
-		[0.24 0.09] (len=2)
-	<19> 46:
-		[0.95 0.25] (len=2)
-	<20> 47:
-		[0.64 0.47] (len=2)
-	<21> 150:
-		[0.66 0.76] (len=2)
-	<22> 151:
-		[0.15 0.26] (len=2)
-	<23> 152:
-		[0.33 1.39] (len=2)
-	..118)
 
-<7> 139_right:
-	<0> 26:
-		[1.2 0.94] (len=2)
-	<1> 27:
-		[0.43 0.39] (len=2)
-	<2> 28:
-		[0.76 -0.46] (len=2)
-	<3> 29:
-		[0.02 0.34] (len=2)
-	<4> 30:
-		[0.15 -0.11] (len=2)
-	<5> 31:
-		[0.97 0.39] (len=2)
-	<6> 32:
-		[0.82 0.0] (len=2)
-	<7> 34:
-		[0.58 -0.42] (len=2)
-	<8> 35:
-		[0.61 0.06] (len=2)
-	<9> 36:
-		[0.49 0.28] (len=2)
-	<10> 37:
-		[0.34 0.66] (len=2)
-	<11> 38:
-		[0.94 -0.48] (len=2)
-	<12> 39:
-		[1.2 0.36] (len=2)
-	<13> 40:
-		[0.32 -0.15] (len=2)
-	<14> 41:
-		[0.94 0.23] (len=2)
-	<15> 42:
-		[0.73 0.51] (len=2)
-	<16> 43:
-		[0.56 0.2] (len=2)
-	<17> 44:
-		[0.42 -0.05] (len=2)
-	<18> 45:
-		[0.44 0.14] (len=2)
-	<19> 46:
-		[1.12 0.37] (len=2)
-	<20> 47:
-		[0.82 0.57] (len=2)
-	<21> 150:
-		[0.62 0.96] (len=2)
-	<22> 151:
-		[0.04 0.43] (len=2)
-	<23> 152:
-		[0.28 1.58] (len=2)
-	..118)
+		09Sep17_11h45m19s:
+			code:
+				09Sep17_11h45m19s:
 
-<8> 150_left:
-	<0> 181:
-		[0.32 -1.82] (len=2)
-	<1> 182:
-		[0.54 -1.23] (len=2)
-	<2> 183:
-		[0.13 -0.35] (len=2)
-	<3> 490:
-		[-0.52 -0.02] (len=2)
-	<4> 493:
-		[0.68 -1.01] (len=2)
-	<5> 494:
-		[0.1 -0.68] (len=2)
-	<6> 495:
-		[0.4 -1.15] (len=2)
-	<7> 496:
-		[0.6 -0.58] (len=2)
-	<8> 497:
-		[0.31 0.05] (len=2)
-	<9> 498:
-		[-0.06 -0.5] (len=2)
-	<10> 499:
-		[0.55 -0.63] (len=2)
-	<11> 600:
-		[-0.01 -0.35] (len=2)
-	<12> 601:
-		[0.45 -0.41] (len=2)
-	<13> 602:
-		[0.71 -0.35] (len=2)
-	<14> 603:
-		[0.35 -0.77] (len=2)
-	<15> 604:
-		[0.64 -0.92] (len=2)
-	<16> 605:
-		[0.87 -1.18] (len=2)
-	<17> 606:
-		[0.55 -1.08] (len=2)
-	<18> 607:
-		[0.51 -1.36] (len=2)
-	<19> 608:
-		[0.34 -0.74] (len=2)
-	<20> 609:
-		[0.48 -1.27] (len=2)
-	<21> 610:
-		[0.75 -0.33] (len=2)
-	<22> 611:
-		[0.54 -0.34] (len=2)
-	<23> 612:
-		[0.6 -0.92] (len=2)
-	..57)
 
-<9> 150_right:
-	<0> 181:
-		[0.12 -1.87] (len=2)
-	<1> 182:
-		[0.34 -1.2] (len=2)
-	<2> 183:
-		[-0.07 -0.35] (len=2)
-	<3> 490:
-		[-0.37 -0.14] (len=2)
-	<4> 493:
-		[0.71 -0.81] (len=2)
-	<5> 494:
-		[0.18 -0.49] (len=2)
-	<6> 495:
-		[0.36 -0.95] (len=2)
-	<7> 496:
-		[0.68 -0.4] (len=2)
-	<8> 497:
-		[0.46 -0.08] (len=2)
-	<9> 498:
-		[0.02 -0.32] (len=2)
-	<10> 499:
-		[0.57 -0.43] (len=2)
-	<11> 600:
-		[0.19 -0.4] (len=2)
-	<12> 601:
-		[0.46 -0.21] (len=2)
-	<13> 602:
-		[0.68 -0.15] (len=2)
-	<14> 603:
-		[0.29 -0.58] (len=2)
-	<15> 604:
-		[0.5 -0.77] (len=2)
-	<16> 605:
-		[0.98 -1.01] (len=2)
-	<17> 606:
-		[0.39 -0.96] (len=2)
-	<18> 607:
-		[0.42 -1.18] (len=2)
-	<19> 608:
-		[0.26 -0.55] (len=2)
-	<20> 609:
-		[0.33 -1.14] (len=2)
-	<21> 610:
-		[0.78 -0.13] (len=2)
-	<22> 611:
-		[0.72 -0.25] (len=2)
-	<23> 612:
-		[0.46 -0.78] (len=2)
-	..57)
 
-<10> 151_left:
-	<0> 181:
-		[0.61 -1.78] (len=2)
-	<1> 182:
-		[0.85 -1.31] (len=2)
-	<2> 183:
-		[0.42 -0.45] (len=2)
-	<3> 185:
-		[0.65 0.12] (len=2)
-	<4> 186:
-		[0.68 -1.28] (len=2)
-	<5> 187:
-		[0.63 -1.24] (len=2)
-	<6> 188:
-		[0.57 -0.81] (len=2)
-	<7> 189:
-		[1.01 -1.19] (len=2)
-	<8> 190:
-		[0.32 -0.5] (len=2)
-	<9> 191:
-		[0.53 -1.47] (len=2)
-	<10> 192:
-		[1.11 -0.88] (len=2)
-	<11> 193:
-		[0.38 -0.92] (len=2)
-	<12> 194:
-		[0.82 -0.47] (len=2)
-	<13> 195:
-		[0.89 -0.65] (len=2)
-	<14> 196:
-		[0.87 -0.92] (len=2)
-	<15> 197:
-		[0.69 -0.84] (len=2)
-	<16> 198:
-		[0.9 -1.45] (len=2)
-	<17> 199:
-		[0.46 -1.11] (len=2)
-	<18> 200:
-		[0.22 -0.91] (len=2)
-	<19> 201:
-		[0.72 -0.41] (len=2)
-	<20> 202:
-		[0.8 -0.95] (len=2)
-	<21> 203:
-		[0.35 -0.88] (len=2)
-	<22> 204:
-		[0.72 -0.73] (len=2)
-	<23> 205:
-		[0.64 -0.58] (len=2)
-	..108)
+		09Sep17_11h45m46s:
+			code:
+				09Sep17_11h45m19s:
+					code:
+						09Sep17_11h45m19s:
 
-<11> 151_right:
-	<0> 181:
-		[0.42 -1.85] (len=2)
-	<1> 182:
-		[0.65 -1.29] (len=2)
-	<2> 183:
-		[0.22 -0.44] (len=2)
-	<3> 185:
-		[0.46 0.18] (len=2)
-	<4> 186:
-		[0.53 -1.41] (len=2)
-	<5> 187:
-		[0.52 -1.41] (len=2)
-	<6> 188:
-		[0.41 -0.92] (len=2)
-	<7> 189:
-		[0.89 -1.35] (len=2)
-	<8> 190:
-		[0.13 -0.55] (len=2)
-	<9> 191:
-		[0.35 -1.55] (len=2)
-	<10> 192:
-		[0.91 -0.86] (len=2)
-	<11> 193:
-		[0.18 -0.91] (len=2)
-	<12> 194:
-		[0.63 -0.4] (len=2)
-	<13> 195:
-		[0.83 -0.46] (len=2)
-	<14> 196:
-		[0.8 -1.1] (len=2)
-	<15> 197:
-		[0.49 -0.84] (len=2)
-	<16> 198:
-		[1.0 -1.62] (len=2)
-	<17> 199:
-		[0.26 -1.1] (len=2)
-	<18> 200:
-		[0.02 -0.92] (len=2)
-	<19> 201:
-		[0.88 -0.29] (len=2)
-	<20> 202:
-		[0.82 -0.75] (len=2)
-	<21> 203:
-		[0.49 -1.02] (len=2)
-	<22> 204:
-		[0.54 -0.82] (len=2)
-	<23> 205:
-		[0.5 -0.44] (len=2)
-	..108)
 
-<12> 152_left:
-	<0> 189:
-		[1.19 -1.0] (len=2)
-	<1> 190:
-		[0.57 -0.42] (len=2)
-	<2> 191:
-		[0.76 -1.32] (len=2)
-	<3> 192:
-		[1.37 -0.75] (len=2)
-	<4> 193:
-		[0.63 -0.79] (len=2)
-	<5> 194:
-		[1.1 -0.44] (len=2)
-	<6> 195:
-		[0.9 -0.93] (len=2)
-	<7> 196:
-		[1.07 -0.71] (len=2)
-	<8> 197:
-		[0.95 -0.95] (len=2)
-	<9> 198:
-		[0.66 -1.28] (len=2)
-	<10> 199:
-		[0.74 -1.01] (len=2)
-	<11> 200:
-		[0.47 -0.74] (len=2)
-	<12> 201:
-		[0.58 -0.66] (len=2)
-	<13> 202:
-		[0.64 -1.19] (len=2)
-	<14> 203:
-		[0.25 -0.61] (len=2)
-	<15> 204:
-		[1.01 -0.72] (len=2)
-	<16> 205:
-		[0.74 -0.84] (len=2)
-	<17> 206:
-		[0.96 -0.95] (len=2)
-	<18> 207:
-		[0.8 -1.22] (len=2)
-	<19> 208:
-		[0.82 -1.04] (len=2)
-	<20> 209:
-		[0.9 -1.08] (len=2)
-	<21> 210:
-		[1.54 -0.75] (len=2)
-	<22> 211:
-		[0.89 -0.72] (len=2)
-	<23> 215:
-		[1.21 -1.3] (len=2)
-	..118)
 
-<13> 152_right:
-	<0> 189:
-		[1.14 -1.2] (len=2)
-	<1> 190:
-		[0.38 -0.4] (len=2)
-	<2> 191:
-		[0.57 -1.34] (len=2)
-	<3> 192:
-		[1.17 -0.72] (len=2)
-	<4> 193:
-		[0.43 -0.8] (len=2)
-	<5> 194:
-		[0.91 -0.37] (len=2)
-	<6> 195:
-		[0.81 -0.75] (len=2)
-	<7> 196:
-		[1.04 -0.91] (len=2)
-	<8> 197:
-		[0.75 -0.94] (len=2)
-	<9> 198:
-		[0.78 -1.45] (len=2)
-	<10> 199:
-		[0.54 -1.0] (len=2)
-	<11> 200:
-		[0.28 -0.8] (len=2)
-	<12> 201:
-		[0.72 -0.52] (len=2)
-	<13> 202:
-		[0.7 -1.0] (len=2)
-	<14> 203:
-		[0.36 -0.79] (len=2)
-	<15> 204:
-		[0.82 -0.81] (len=2)
-	<16> 205:
-		[0.6 -0.7] (len=2)
-	<17> 206:
-		[1.01 -0.75] (len=2)
-	<18> 207:
-		[0.6 -1.27] (len=2)
-	<19> 208:
-		[0.66 -0.93] (len=2)
-	<20> 209:
-		[0.72 -1.0] (len=2)
-	<21> 210:
-		[1.46 -0.93] (len=2)
-	<22> 211:
-		[0.69 -0.7] (len=2)
-	<23> 215:
-		[1.13 -1.48] (len=2)
-	..118)
+				09Sep17_11h45m46s:
 
-<14> 153_left:
-	<0> 150:
-		[1.11 -0.83] (len=2)
-	<1> 197:
-		[1.22 -0.89] (len=2)
-	<2> 198:
-		[0.61 -0.98] (len=2)
-	<3> 199:
-		[1.0 -1.13] (len=2)
-	<4> 200:
-		[0.73 -0.77] (len=2)
-	<5> 204:
-		[1.23 -0.55] (len=2)
-	<6> 205:
-		[0.95 -1.01] (len=2)
-	<7> 206:
-		[0.94 -1.23] (len=2)
-	<8> 207:
-		[1.06 -1.12] (len=2)
-	<9> 208:
-		[1.06 -1.16] (len=2)
-	<10> 209:
-		[1.15 -1.17] (len=2)
-	<11> 210:
-		[1.7 -0.52] (len=2)
-	<12> 211:
-		[1.16 -0.76] (len=2)
-	<13> 212:
-		[0.62 -1.11] (len=2)
-	<14> 213:
-		[1.17 -0.82] (len=2)
-	<15> 214:
-		[1.39 -1.43] (len=2)
-	<16> 215:
-		[1.32 -1.06] (len=2)
-	<17> 216:
-		[1.19 -0.79] (len=2)
-	<18> 217:
-		[1.25 -0.64] (len=2)
-	<19> 218:
-		[0.81 -0.85] (len=2)
-	<20> 219:
-		[0.86 -0.65] (len=2)
-	<21> 220:
-		[1.52 -0.88] (len=2)
-	<22> 221:
-		[0.74 -0.94] (len=2)
-	<23> 619:
-		[1.24 -0.8] (len=2)
-	..71)
 
-<15> 153_right:
-	<0> 150:
-		[0.98 -0.68] (len=2)
-	<1> 197:
-		[1.02 -0.91] (len=2)
-	<2> 198:
-		[0.71 -1.15] (len=2)
-	<3> 199:
-		[0.81 -1.1] (len=2)
-	<4> 200:
-		[0.53 -0.78] (len=2)
-	<5> 204:
-		[1.05 -0.64] (len=2)
-	<6> 205:
-		[0.8 -0.87] (len=2)
-	<7> 206:
-		[0.99 -1.04] (len=2)
-	<8> 207:
-		[0.87 -1.16] (len=2)
-	<9> 208:
-		[0.88 -1.07] (len=2)
-	<10> 209:
-		[0.98 -1.08] (len=2)
-	<11> 210:
-		[1.61 -0.7] (len=2)
-	<12> 211:
-		[0.96 -0.74] (len=2)
-	<13> 212:
-		[0.49 -1.26] (len=2)
-	<14> 213:
-		[0.97 -0.78] (len=2)
-	<15> 214:
-		[1.22 -1.33] (len=2)
-	<16> 215:
-		[1.24 -1.24] (len=2)
-	<17> 216:
-		[1.01 -0.87] (len=2)
-	<18> 217:
-		[1.11 -0.5] (len=2)
-	<19> 218:
-		[0.65 -0.73] (len=2)
-	<20> 219:
-		[0.66 -0.63] (len=2)
-	<21> 220:
-		[1.33 -0.84] (len=2)
-	<22> 221:
-		[0.56 -0.85] (len=2)
-	<23> 619:
-		[1.04 -0.8] (len=2)
-	..71)
 
-<16> 165_left:
-	<0> 406:
-		[3.63 -0.41] (len=2)
-	<1> 407:
-		[3.9 -0.45] (len=2)
-	<2> 408:
-		[3.31 -0.08] (len=2)
-	<3> 410:
-		[3.74 -0.93] (len=2)
-	<4> 411:
-		[3.69 -0.48] (len=2)
-	<5> 412:
-		[3.69 -0.77] (len=2)
-	<6> 413:
-		[3.34 0.43] (len=2)
-	<7> 414:
-		[3.66 0.24] (len=2)
-	<8> 415:
-		[3.12 -0.53] (len=2)
-	<9> 416:
-		[3.6 0.18] (len=2)
-	<10> 417:
-		[2.84 -0.32] (len=2)
-	<11> 418:
-		[3.57 -0.56] (len=2)
-	<12> 419:
-		[4.25 0.03] (len=2)
-	<13> 420:
-		[3.64 -0.44] (len=2)
-	<14> 421:
-		[3.44 -0.46] (len=2)
-	<15> 422:
-		[3.85 -0.52] (len=2)
-	<16> 423:
-		[3.79 -0.49] (len=2)
-	<17> 424:
-		[3.53 -0.56] (len=2)
-	<18> 425:
-		[3.83 -0.67] (len=2)
-	<19> 426:
-		[3.3 -0.62] (len=2)
-	<20> 427:
-		[4.44 -0.69] (len=2)
-	<21> 428:
-		[3.63 -0.64] (len=2)
-	<22> 429:
-		[3.43 -0.05] (len=2)
-	<23> 430:
-		[3.91 -0.44] (len=2)
-	..62)
+		10Sep17_08h38m09s:
 
-<17> 165_right:
-	<0> 406:
-		[3.67 -0.61] (len=2)
-	<1> 407:
-		[3.8 -0.62] (len=2)
-	<2> 408:
-		[3.42 0.09] (len=2)
-	<3> 410:
-		[3.94 -0.93] (len=2)
-	<4> 411:
-		[3.73 -0.67] (len=2)
-	<5> 412:
-		[3.68 -0.97] (len=2)
-	<6> 413:
-		[3.54 0.43] (len=2)
-	<7> 414:
-		[3.85 0.29] (len=2)
-	<8> 415:
-		[3.31 -0.57] (len=2)
-	<9> 416:
-		[3.55 0.37] (len=2)
-	<10> 417:
-		[2.66 -0.24] (len=2)
-	<11> 418:
-		[3.37 -0.55] (len=2)
-	<12> 419:
-		[4.41 -0.09] (len=2)
-	<13> 420:
-		[3.79 -0.56] (len=2)
-	<14> 421:
-		[3.62 -0.54] (len=2)
-	<15> 422:
-		[4.01 -0.64] (len=2)
-	<16> 423:
-		[3.99 -0.48] (len=2)
-	<17> 424:
-		[3.73 -0.62] (len=2)
-	<18> 425:
-		[4.03 -0.71] (len=2)
-	<19> 426:
-		[3.42 -0.78] (len=2)
-	<20> 427:
-		[4.64 -0.73] (len=2)
-	<21> 428:
-		[3.44 -0.56] (len=2)
-	<22> 429:
-		[3.56 0.1] (len=2)
-	<23> 430:
-		[4.07 -0.56] (len=2)
-	..62)
 
-<18> 167_left:
-	<0> 406:
-		[3.52 -0.16] (len=2)
-	<1> 407:
-		[4.06 -0.25] (len=2)
-	<2> 411:
-		[3.5 -0.25] (len=2)
-	<3> 412:
-		[3.61 -0.48] (len=2)
-	<4> 413:
-		[3.08 0.42] (len=2)
-	<5> 414:
-		[3.39 0.16] (len=2)
-	<6> 415:
-		[2.86 -0.47] (len=2)
-	<7> 416:
-		[3.71 -0.08] (len=2)
-	<8> 417:
-		[3.08 -0.41] (len=2)
-	<9> 418:
-		[3.84 -0.68] (len=2)
-	<10> 419:
-		[4.03 0.19] (len=2)
-	<11> 420:
-		[3.4 -0.25] (len=2)
-	<12> 421:
-		[3.21 -0.32] (len=2)
-	<13> 422:
-		[3.65 -0.33] (len=2)
-	<14> 423:
-		[3.5 -0.48] (len=2)
-	<15> 424:
-		[3.27 -0.51] (len=2)
-	<16> 425:
-		[3.57 -0.6] (len=2)
-	<17> 426:
-		[3.14 -0.41] (len=2)
-	<18> 427:
-		[4.16 -0.68] (len=2)
-	<19> 428:
-		[3.89 -0.7] (len=2)
-	<20> 429:
-		[3.22 -0.23] (len=2)
-	<21> 430:
-		[3.63 -0.34] (len=2)
-	<22> 431:
-		[3.3 0.03] (len=2)
-	<23> 432:
-		[3.72 -0.58] (len=2)
-	..59)
+	loss_history:
 
-<19> 167_right:
-	<0> 406:
-		[3.54 -0.36] (len=2)
-	<1> 407:
-		[3.97 -0.43] (len=2)
-	<2> 411:
-		[3.53 -0.44] (len=2)
-	<3> 412:
-		[3.55 -0.67] (len=2)
-	<4> 413:
-		[3.27 0.48] (len=2)
-	<5> 414:
-		[3.59 0.17] (len=2)
-	<6> 415:
-		[3.06 -0.47] (len=2)
-	<7> 416:
-		[3.68 0.12] (len=2)
-	<8> 417:
-		[2.89 -0.35] (len=2)
-	<9> 418:
-		[3.64 -0.7] (len=2)
-	<10> 419:
-		[4.19 0.08] (len=2)
-	<11> 420:
-		[3.54 -0.39] (len=2)
-	<12> 421:
-		[3.4 -0.4] (len=2)
-	<13> 422:
-		[3.8 -0.46] (len=2)
-	<14> 423:
-		[3.7 -0.5] (len=2)
-	<15> 424:
-		[3.46 -0.56] (len=2)
-	<16> 425:
-		[3.77 -0.63] (len=2)
-	<17> 426:
-		[3.27 -0.56] (len=2)
-	<18> 427:
-		[4.35 -0.73] (len=2)
-	<19> 428:
-		[3.7 -0.63] (len=2)
-	<20> 429:
-		[3.35 -0.07] (len=2)
-	<21> 430:
-		[3.8 -0.44] (len=2)
-	<22> 431:
-		[3.5 0.05] (len=2)
-	<23> 432:
-		[3.9 -0.66] (len=2)
-	..59)
+	weights:
+		save_file122Jul17_07h55m37s.infer:
+			 2.97
 
-<20> 168_left:
-	<0> 406:
-		[3.47 0.08] (len=2)
-	<1> 407:
-		[4.21 -0.04] (len=2)
-	<2> 408:
-		[3.04 -0.5] (len=2)
-	<3> 410:
-		[3.23 -1.03] (len=2)
-	<4> 413:
-		[2.79 0.46] (len=2)
-	<5> 414:
-		[3.13 0.1] (len=2)
-	<6> 415:
-		[2.61 -0.42] (len=2)
-	<7> 417:
-		[3.31 -0.54] (len=2)
-	<8> 419:
-		[3.8 0.35] (len=2)
-	<9> 420:
-		[3.25 -0.04] (len=2)
-	<10> 421:
-		[2.96 -0.18] (len=2)
-	<11> 422:
-		[3.47 -0.13] (len=2)
-	<12> 423:
-		[3.21 -0.45] (len=2)
-	<13> 424:
-		[2.99 -0.46] (len=2)
-	<14> 425:
-		[3.3 -0.54] (len=2)
-	<15> 426:
-		[2.99 -0.18] (len=2)
-	<16> 427:
-		[3.9 -0.64] (len=2)
-	<17> 429:
-		[3.01 -0.41] (len=2)
-	<18> 430:
-		[3.39 -0.2] (len=2)
-	<19> 431:
-		[2.99 -0.03] (len=2)
-	<20> 432:
-		[3.47 -0.47] (len=2)
-	<21> 433:
-		[3.29 -0.58] (len=2)
-	<22> 434:
-		[3.45 -0.33] (len=2)
-	<23> 436:
-		[2.98 0.0] (len=2)
-	..71)
 
-<21> 168_right:
-	<0> 406:
-		[3.46 -0.12] (len=2)
-	<1> 407:
-		[4.14 -0.22] (len=2)
-	<2> 408:
-		[3.19 -0.37] (len=2)
-	<3> 410:
-		[3.42 -1.06] (len=2)
-	<4> 413:
-		[2.98 0.53] (len=2)
-	<5> 414:
-		[3.33 0.09] (len=2)
-	<6> 415:
-		[2.81 -0.43] (len=2)
-	<7> 417:
-		[3.12 -0.48] (len=2)
-	<8> 419:
-		[3.97 0.25] (len=2)
-	<9> 420:
-		[3.39 -0.19] (len=2)
-	<10> 421:
-		[3.13 -0.28] (len=2)
-	<11> 422:
-		[3.61 -0.27] (len=2)
-	<12> 423:
-		[3.41 -0.49] (len=2)
-	<13> 424:
-		[3.19 -0.49] (len=2)
-	<14> 425:
-		[3.49 -0.59] (len=2)
-	<15> 426:
-		[3.1 -0.34] (len=2)
-	<16> 427:
-		[4.09 -0.68] (len=2)
-	<17> 429:
-		[3.14 -0.26] (len=2)
-	<18> 430:
-		[3.57 -0.31] (len=2)
-	<19> 431:
-		[3.19 -0.03] (len=2)
-	<20> 432:
-		[3.65 -0.55] (len=2)
-	<21> 433:
-		[3.49 -0.58] (len=2)
-	<22> 434:
-		[3.64 -0.38] (len=2)
-	<23> 436:
-		[3.17 0.07] (len=2)
-	..71)
+LCR_temp_July:
+	code:
+		04Aug17_22h01m50s:
+			pytorch3:
+				Train_SqueezeNet:
+					Activity_Module.py:
+						 0.0
+					Activity_Module.pyc:
+						 0.0
+					Batch_Module.py:
+						 0.01
+					Batch_Module.pyc:
+						 0.01
+					Data_Module.py:
+						 0.0
+					Data_Module.pyc:
+						 0.0
+					Loss_Record_Module.py:
+						 0.0
+					Loss_Record_Module.pyc:
+						 0.0
+					Main.py:
+						 0.0
+					Main2.py:
+						 0.0
+					Names_Module.py:
+						 0.0
+					Names_Module.pyc:
+						 0.0
+					Network_Module.py:
+						 0.0
+					Network_Module.pyc:
+						 0.0
+					Parameters_Module.py:
+						 0.0
+					Parameters_Module.pyc:
+						 0.0
+					Paths_Module.py:
+						 0.0
+					Paths_Module.pyc:
+						 0.0
+					__init__.py:
+						 0.0
 
-<22> 169_left:
-	<0> 76:
-		[2.58 0.19] (len=2)
-	<1> 419:
-		[3.59 0.47] (len=2)
-	<2> 420:
-		[3.07 0.16] (len=2)
-	<3> 421:
-		[2.73 -0.04] (len=2)
-	<4> 422:
-		[3.25 0.06] (len=2)
-	<5> 423:
-		[2.95 -0.4] (len=2)
-	<6> 424:
-		[2.73 -0.43] (len=2)
-	<7> 425:
-		[3.01 -0.49] (len=2)
-	<8> 426:
-		[2.82 0.05] (len=2)
-	<9> 431:
-		[2.72 -0.04] (len=2)
-	<10> 432:
-		[3.24 -0.36] (len=2)
-	<11> 439:
-		[2.97 -0.32] (len=2)
-	<12> 441:
-		[3.36 0.25] (len=2)
-	<13> 450:
-		[3.26 -0.07] (len=2)
-	<14> 451:
-		[2.73 -0.46] (len=2)
-	<15> 452:
-		[2.91 -0.65] (len=2)
-	<16> 458:
-		[3.2 0.26] (len=2)
-	<17> 459:
-		[3.22 -0.69] (len=2)
-	<18> 460:
-		[3.12 -0.29] (len=2)
-	<19> 461:
-		[3.27 -0.14] (len=2)
-	<20> 840:
-		[2.88 -0.19] (len=2)
-	<21> 841:
-		[2.79 0.43] (len=2)
-	<22> 842:
-		[3.12 -0.19] (len=2)
-	<23> 843:
-		[3.18 -0.33] (len=2)
-	..54)
+				__init__.pyc:
+					 0.0
+				nets:
+					SqueezeNet.py:
+						 0.0
+					SqueezeNet.pyc:
+						 0.0
+					SqueezeNet_Aruco1.py:
+						 0.0
+					SqueezeNet_Aruco1.pyc:
+						 0.0
+					SqueezeNet_mod.pyc:
+						 0.0
+					SqueezeNet_mod1.pyc:
+						 0.0
+					SqueezeNet_original.py:
+						 0.0
+					SqueezeNetmod.pyc:
+						 0.0
+					Z2ColorBatchNorm.py:
+						 0.0
+					__init__.py:
+						 0.0
+					__init__.pyc:
+						 0.0
 
-<23> 169_right:
-	<0> 76:
-		[2.66 0.01] (len=2)
-	<1> 419:
-		[3.76 0.37] (len=2)
-	<2> 420:
-		[3.2 0.01] (len=2)
-	<3> 421:
-		[2.9 -0.15] (len=2)
-	<4> 422:
-		[3.39 -0.08] (len=2)
-	<5> 423:
-		[3.14 -0.44] (len=2)
-	<6> 424:
-		[2.92 -0.46] (len=2)
-	<7> 425:
-		[3.21 -0.54] (len=2)
-	<8> 426:
-		[2.95 -0.1] (len=2)
-	<9> 431:
-		[2.92 -0.03] (len=2)
-	<10> 432:
-		[3.42 -0.44] (len=2)
-	<11> 439:
-		[3.15 -0.41] (len=2)
-	<12> 441:
-		[3.41 0.06] (len=2)
-	<13> 450:
-		[3.35 -0.24] (len=2)
-	<14> 451:
-		[2.93 -0.42] (len=2)
-	<15> 452:
-		[3.1 -0.69] (len=2)
-	<16> 458:
-		[3.33 0.41] (len=2)
-	<17> 459:
-		[3.4 -0.79] (len=2)
-	<18> 460:
-		[3.31 -0.23] (len=2)
-	<19> 461:
-		[3.38 -0.31] (len=2)
-	<20> 840:
-		[3.06 -0.26] (len=2)
-	<21> 841:
-		[2.98 0.39] (len=2)
-	<22> 842:
-		[3.3 -0.29] (len=2)
-	<23> 843:
-		[3.36 -0.41] (len=2)
-	..54)
 
-..87)
+
+		22Jul17_17h15m31s:
+			pytorch3:
+				Train_SqueezeNet:
+					Batch_Module.py:
+						 0.01
+					Batch_Module.pyc:
+						 0.01
+					Data_Module.py:
+						 0.0
+					Data_Module.pyc:
+						 0.0
+					Main.py:
+						 0.0
+					Names_Module.py:
+						 0.0
+					Names_Module.pyc:
+						 0.0
+					Network_Module.py:
+						 0.0
+					Network_Module.pyc:
+						 0.0
+					Parameters_Module.py:
+						 0.0
+					Parameters_Module.pyc:
+						 0.0
+					Paths_Module.py:
+						 0.0
+					Paths_Module.pyc:
+						 0.0
+					__init__.py:
+						 0.0
+
+				__init__.pyc:
+					 0.0
+				nets:
+					SqueezeNet.py:
+						 0.0
+					SqueezeNet.pyc:
+						 0.0
+					SqueezeNet_Aruco1.py:
+						 0.0
+					SqueezeNet_Aruco1.pyc:
+						 0.0
+					SqueezeNet_mod.pyc:
+						 0.0
+					SqueezeNet_mod1.pyc:
+						 0.0
+					SqueezeNetmod.pyc:
+						 0.0
+					Z2ColorBatchNorm.py:
+						 0.0
+					__init__.py:
+						 0.0
+					__init__.pyc:
+						 0.0
+
+
+
+		22Jul17_21h36m46s:
+			pytorch3:
+				Train_SqueezeNet:
+					Batch_Module.py:
+						 0.01
+					Batch_Module.pyc:
+						 0.01
+					Data_Module.py:
+						 0.0
+					Data_Module.pyc:
+						 0.0
+					Loss_Record_Module.py:
+						 0.0
+					Loss_Record_Module.pyc:
+						 0.0
+					Main.py:
+						 0.0
+					Names_Module.py:
+						 0.0
+					Names_Module.pyc:
+						 0.0
+					Network_Module.py:
+						 0.0
+					Network_Module.pyc:
+						 0.0
+					Parameters_Module.py:
+						 0.0
+					Parameters_Module.pyc:
+						 0.0
+					Paths_Module.py:
+						 0.0
+					Paths_Module.pyc:
+						 0.0
+					__init__.py:
+						 0.0
+
+				__init__.pyc:
+					 0.0
+				nets:
+					SqueezeNet.py:
+						 0.0
+					SqueezeNet.pyc:
+						 0.0
+					SqueezeNet_Aruco1.py:
+						 0.0
+					SqueezeNet_Aruco1.pyc:
+						 0.0
+					SqueezeNet_mod.pyc:
+						 0.0
+					SqueezeNet_mod1.pyc:
+						 0.0
+					SqueezeNetmod.pyc:
+						 0.0
+					Z2ColorBatchNorm.py:
+						 0.0
+					__init__.py:
+						 0.0
+					__init__.pyc:
+						 0.0
+
+
+
+		22Jul17_21h40m59s:
+			pytorch3:
+				Train_SqueezeNet:
+					Batch_Module.py:
+						 0.01
+					Batch_Module.pyc:
+						 0.01
+					Data_Module.py:
+						 0.0
+					Data_Module.pyc:
+						 0.0
+					Loss_Record_Module.py:
+						 0.0
+					Loss_Record_Module.pyc:
+						 0.0
+					Main.py:
+						 0.0
+					Names_Module.py:
+						 0.0
+					Names_Module.pyc:
+						 0.0
+					Network_Module.py:
+						 0.0
+					Network_Module.pyc:
+						 0.0
+					Parameters_Module.py:
+						 0.0
+					Parameters_Module.pyc:
+						 0.0
+					Paths_Module.py:
+						 0.0
+					Paths_Module.pyc:
+						 0.0
+					__init__.py:
+						 0.0
+
+				__init__.pyc:
+					 0.0
+				nets:
+					SqueezeNet.py:
+						 0.0
+					SqueezeNet.pyc:
+						 0.0
+					SqueezeNet_Aruco1.py:
+						 0.0
+					SqueezeNet_Aruco1.pyc:
+						 0.0
+					SqueezeNet_mod.pyc:
+						 0.0
+					SqueezeNet_mod1.pyc:
+						 0.0
+					SqueezeNetmod.pyc:
+						 0.0
+					Z2ColorBatchNorm.py:
+						 0.0
+					__init__.py:
+						 0.0
+					__init__.pyc:
+						 0.0
+
+
+
+		22Jul17_21h42m19s:
+			pytorch3:
+				Train_SqueezeNet:
+					Batch_Module.py:
+						 0.01
+					Batch_Module.pyc:
+						 0.01
+					Data_Module.py:
+						 0.0
+					Data_Module.pyc:
+						 0.0
+					Loss_Record_Module.py:
+						 0.0
+					Loss_Record_Module.pyc:
+						 0.0
+					Main.py:
+						 0.0
+					Names_Module.py:
+						 0.0
+					Names_Module.pyc:
+						 0.0
+					Network_Module.py:
+						 0.0
+					Network_Module.pyc:
+						 0.0
+					Parameters_Module.py:
+						 0.0
+					Parameters_Module.pyc:
+						 0.0
+					Paths_Module.py:
+						 0.0
+					Paths_Module.pyc:
+						 0.0
+					__init__.py:
+						 0.0
+
+				__init__.pyc:
+					 0.0
+				nets:
+					SqueezeNet.py:
+						 0.0
+					SqueezeNet.pyc:
+						 0.0
+					SqueezeNet_Aruco1.py:
+						 0.0
+					SqueezeNet_Aruco1.pyc:
+						 0.0
+					SqueezeNet_mod.pyc:
+						 0.0
+					SqueezeNet_mod1.pyc:
+						 0.0
+					SqueezeNetmod.pyc:
+						 0.0
+					Z2ColorBatchNorm.py:
+						 0.0
+					__init__.py:
+						 0.0
+					__init__.pyc:
+						 0.0
+
+
+
+		22Jul17_21h43m53s:
+			pytorch3:
+				Train_SqueezeNet:
+					Batch_Module.py:
+						 0.01
+					Batch_Module.pyc:
+						 0.01
+					Data_Module.py:
+						 0.0
+					Data_Module.pyc:
+						 0.0
+					Loss_Record_Module.py:
+						 0.0
+					Loss_Record_Module.pyc:
+						 0.0
+					Main.py:
+						 0.0
+					Names_Module.py:
+						 0.0
+					Names_Module.pyc:
+						 0.0
+					Network_Module.py:
+						 0.0
+					Network_Module.pyc:
+						 0.0
+					Parameters_Module.py:
+						 0.0
+					Parameters_Module.pyc:
+						 0.0
+					Paths_Module.py:
+						 0.0
+					Paths_Module.pyc:
+						 0.0
+					__init__.py:
+						 0.0
+
+				__init__.pyc:
+					 0.0
+				nets:
+					SqueezeNet.py:
+						 0.0
+					SqueezeNet.pyc:
+						 0.0
+					SqueezeNet_Aruco1.py:
+						 0.0
+					SqueezeNet_Aruco1.pyc:
+						 0.0
+					SqueezeNet_mod.pyc:
+						 0.0
+					SqueezeNet_mod1.pyc:
+						 0.0
+					SqueezeNetmod.pyc:
+						 0.0
+					Z2ColorBatchNorm.py:
+						 0.0
+					__init__.py:
+						 0.0
+					__init__.pyc:
+						 0.0
+
+
+
+		22Jul17_21h44m26s:
+			pytorch3:
+				Train_SqueezeNet:
+					Batch_Module.py:
+						 0.01
+					Batch_Module.pyc:
+						 0.01
+					Data_Module.py:
+						 0.0
+					Data_Module.pyc:
+						 0.0
+					Loss_Record_Module.py:
+						 0.0
+					Loss_Record_Module.pyc:
+						 0.0
+					Main.py:
+						 0.0
+					Names_Module.py:
+						 0.0
+					Names_Module.pyc:
+						 0.0
+					Network_Module.py:
+						 0.0
+					Network_Module.pyc:
+						 0.0
+					Parameters_Module.py:
+						 0.0
+					Parameters_Module.pyc:
+						 0.0
+					Paths_Module.py:
+						 0.0
+					Paths_Module.pyc:
+						 0.0
+					__init__.py:
+						 0.0
+
+				__init__.pyc:
+					 0.0
+				nets:
+					SqueezeNet.py:
+						 0.0
+					SqueezeNet.pyc:
+						 0.0
+					SqueezeNet_Aruco1.py:
+						 0.0
+					SqueezeNet_Aruco1.pyc:
+						 0.0
+					SqueezeNet_mod.pyc:
+						 0.0
+					SqueezeNet_mod1.pyc:
+						 0.0
+					SqueezeNetmod.pyc:
+						 0.0
+					Z2ColorBatchNorm.py:
+						 0.0
+					__init__.py:
+						 0.0
+					__init__.pyc:
+						 0.0
+
+
+
+		22Jul17_21h50m55s:
+			pytorch3:
+				Train_SqueezeNet:
+					Batch_Module.py:
+						 0.01
+					Batch_Module.pyc:
+						 0.01
+					Data_Module.py:
+						 0.0
+					Data_Module.pyc:
+						 0.0
+					Loss_Record_Module.py:
+						 0.0
+					Loss_Record_Module.pyc:
+						 0.0
+					Main.py:
+						 0.0
+					Names_Module.py:
+						 0.0
+					Names_Module.pyc:
+						 0.0
+					Network_Module.py:
+						 0.0
+					Network_Module.pyc:
+						 0.0
+					Parameters_Module.py:
+						 0.0
+					Parameters_Module.pyc:
+						 0.0
+					Paths_Module.py:
+						 0.0
+					Paths_Module.pyc:
+						 0.0
+					__init__.py:
+						 0.0
+
+				__init__.pyc:
+					 0.0
+				nets:
+					SqueezeNet.py:
+						 0.0
+					SqueezeNet.pyc:
+						 0.0
+					SqueezeNet_Aruco1.py:
+						 0.0
+					SqueezeNet_Aruco1.pyc:
+						 0.0
+					SqueezeNet_mod.pyc:
+						 0.0
+					SqueezeNet_mod1.pyc:
+						 0.0
+					SqueezeNetmod.pyc:
+						 0.0
+					Z2ColorBatchNorm.py:
+						 0.0
+					__init__.py:
+						 0.0
+					__init__.pyc:
+						 0.0
+
+
+
+		23Jul17_22h39m56s:
+			pytorch3:
+				Train_SqueezeNet:
+					Batch_Module.py:
+						 0.01
+					Batch_Module.pyc:
+						 0.01
+					Data_Module.py:
+						 0.0
+					Data_Module.pyc:
+						 0.0
+					Loss_Record_Module.py:
+						 0.0
+					Loss_Record_Module.pyc:
+						 0.0
+					Main.py:
+						 0.0
+					Names_Module.py:
+						 0.0
+					Names_Module.pyc:
+						 0.0
+					Network_Module.py:
+						 0.0
+					Network_Module.pyc:
+						 0.0
+					Parameters_Module.py:
+						 0.0
+					Parameters_Module.pyc:
+						 0.0
+					Paths_Module.py:
+						 0.0
+					Paths_Module.pyc:
+						 0.0
+					__init__.py:
+						 0.0
+
+				__init__.pyc:
+					 0.0
+				nets:
+					SqueezeNet.py:
+						 0.0
+					SqueezeNet.pyc:
+						 0.0
+					SqueezeNet_Aruco1.py:
+						 0.0
+					SqueezeNet_Aruco1.pyc:
+						 0.0
+					SqueezeNet_mod.pyc:
+						 0.0
+					SqueezeNet_mod1.pyc:
+						 0.0
+					SqueezeNetmod.pyc:
+						 0.0
+					Z2ColorBatchNorm.py:
+						 0.0
+					__init__.py:
+						 0.0
+					__init__.pyc:
+						 0.0
+
+
+
+		23Jul17_22h43m07s:
+			pytorch3:
+				Train_SqueezeNet:
+					Batch_Module.py:
+						 0.01
+					Batch_Module.pyc:
+						 0.01
+					Data_Module.py:
+						 0.0
+					Data_Module.pyc:
+						 0.0
+					Loss_Record_Module.py:
+						 0.0
+					Loss_Record_Module.pyc:
+						 0.0
+					Main.py:
+						 0.0
+					Names_Module.py:
+						 0.0
+					Names_Module.pyc:
+						 0.0
+					Network_Module.py:
+						 0.0
+					Network_Module.pyc:
+						 0.0
+					Parameters_Module.py:
+						 0.0
+					Parameters_Module.pyc:
+						 0.0
+					Paths_Module.py:
+						 0.0
+					Paths_Module.pyc:
+						 0.0
+					__init__.py:
+						 0.0
+
+				__init__.pyc:
+					 0.0
+				nets:
+					SqueezeNet.py:
+						 0.0
+					SqueezeNet.pyc:
+						 0.0
+					SqueezeNet_Aruco1.py:
+						 0.0
+					SqueezeNet_Aruco1.pyc:
+						 0.0
+					SqueezeNet_mod.pyc:
+						 0.0
+					SqueezeNet_mod1.pyc:
+						 0.0
+					SqueezeNetmod.pyc:
+						 0.0
+					Z2ColorBatchNorm.py:
+						 0.0
+					__init__.py:
+						 0.0
+					__init__.pyc:
+						 0.0
+
+
+
+		24Jul17_20h47m00s:
+			pytorch3:
+				Train_SqueezeNet:
+					Batch_Module.py:
+						 0.01
+					Batch_Module.pyc:
+						 0.01
+					Data_Module.py:
+						 0.0
+					Data_Module.pyc:
+						 0.0
+					Loss_Record_Module.py:
+						 0.0
+					Loss_Record_Module.pyc:
+						 0.0
+					Main.py:
+						 0.0
+					Names_Module.py:
+						 0.0
+					Names_Module.pyc:
+						 0.0
+					Network_Module.py:
+						 0.0
+					Network_Module.pyc:
+						 0.0
+					Parameters_Module.py:
+						 0.0
+					Parameters_Module.pyc:
+						 0.0
+					Paths_Module.py:
+						 0.0
+					Paths_Module.pyc:
+						 0.0
+					__init__.py:
+						 0.0
+
+				__init__.pyc:
+					 0.0
+				nets:
+					SqueezeNet.py:
+						 0.0
+					SqueezeNet.pyc:
+						 0.0
+					SqueezeNet_Aruco1.py:
+						 0.0
+					SqueezeNet_Aruco1.pyc:
+						 0.0
+					SqueezeNet_mod.pyc:
+						 0.0
+					SqueezeNet_mod1.pyc:
+						 0.0
+					SqueezeNetmod.pyc:
+						 0.0
+					Z2ColorBatchNorm.py:
+						 0.0
+					__init__.py:
+						 0.0
+					__init__.pyc:
+						 0.0
+
+
+
+		24Jul17_20h51m02s:
+			pytorch3:
+				Train_SqueezeNet:
+					Batch_Module.py:
+						 0.01
+					Batch_Module.pyc:
+						 0.01
+					Data_Module.py:
+						 0.0
+					Data_Module.pyc:
+						 0.0
+					Loss_Record_Module.py:
+						 0.0
+					Loss_Record_Module.pyc:
+						 0.0
+					Main.py:
+						 0.0
+					Names_Module.py:
+						 0.0
+					Names_Module.pyc:
+						 0.0
+					Network_Module.py:
+						 0.0
+					Network_Module.pyc:
+						 0.0
+					Parameters_Module.py:
+						 0.0
+					Parameters_Module.pyc:
+						 0.0
+					Paths_Module.py:
+						 0.0
+					Paths_Module.pyc:
+						 0.0
+					__init__.py:
+						 0.0
+
+				__init__.pyc:
+					 0.0
+				nets:
+					SqueezeNet.py:
+						 0.0
+					SqueezeNet.pyc:
+						 0.0
+					SqueezeNet_Aruco1.py:
+						 0.0
+					SqueezeNet_Aruco1.pyc:
+						 0.0
+					SqueezeNet_mod.pyc:
+						 0.0
+					SqueezeNet_mod1.pyc:
+						 0.0
+					SqueezeNetmod.pyc:
+						 0.0
+					Z2ColorBatchNorm.py:
+						 0.0
+					__init__.py:
+						 0.0
+					__init__.pyc:
+						 0.0
+
+
+
+		24Jul17_23h10m43s:
+			pytorch3:
+				Train_SqueezeNet:
+					Batch_Module.py:
+						 0.01
+					Batch_Module.pyc:
+						 0.01
+					Data_Module.py:
+						 0.0
+					Data_Module.pyc:
+						 0.0
+					Loss_Record_Module.py:
+						 0.0
+					Loss_Record_Module.pyc:
+						 0.0
+					Main.py:
+						 0.0
+					Names_Module.py:
+						 0.0
+					Names_Module.pyc:
+						 0.0
+					Network_Module.py:
+						 0.0
+					Network_Module.pyc:
+						 0.0
+					Parameters_Module.py:
+						 0.0
+					Parameters_Module.pyc:
+						 0.0
+					Paths_Module.py:
+						 0.0
+					Paths_Module.pyc:
+						 0.0
+					__init__.py:
+						 0.0
+
+				__init__.pyc:
+					 0.0
+				nets:
+					SqueezeNet.py:
+						 0.0
+					SqueezeNet.pyc:
+						 0.0
+					SqueezeNet_Aruco1.py:
+						 0.0
+					SqueezeNet_Aruco1.pyc:
+						 0.0
+					SqueezeNet_mod.pyc:
+						 0.0
+					SqueezeNet_mod1.pyc:
+						 0.0
+					SqueezeNetmod.pyc:
+						 0.0
+					Z2ColorBatchNorm.py:
+						 0.0
+					__init__.py:
+						 0.0
+					__init__.pyc:
+						 0.0
+
+
+
+		25Jul17_13h39m42s:
+			pytorch3:
+				Train_SqueezeNet:
+					Batch_Module.py:
+						 0.01
+					Batch_Module.pyc:
+						 0.01
+					Data_Module.py:
+						 0.0
+					Data_Module.pyc:
+						 0.0
+					Loss_Record_Module.py:
+						 0.0
+					Loss_Record_Module.pyc:
+						 0.0
+					Main.py:
+						 0.0
+					Names_Module.py:
+						 0.0
+					Names_Module.pyc:
+						 0.0
+					Network_Module.py:
+						 0.0
+					Network_Module.pyc:
+						 0.0
+					Parameters_Module.py:
+						 0.0
+					Parameters_Module.pyc:
+						 0.0
+					Paths_Module.py:
+						 0.0
+					Paths_Module.pyc:
+						 0.0
+					__init__.py:
+						 0.0
+
+				__init__.pyc:
+					 0.0
+				nets:
+					SqueezeNet.py:
+						 0.0
+					SqueezeNet.pyc:
+						 0.0
+					SqueezeNet_Aruco1.py:
+						 0.0
+					SqueezeNet_Aruco1.pyc:
+						 0.0
+					SqueezeNet_mod.pyc:
+						 0.0
+					SqueezeNet_mod1.pyc:
+						 0.0
+					SqueezeNetmod.pyc:
+						 0.0
+					Z2ColorBatchNorm.py:
+						 0.0
+					__init__.py:
+						 0.0
+					__init__.pyc:
+						 0.0
+
+
+
+		25Jul17_16h49m29s:
+			pytorch3:
+				Train_SqueezeNet:
+					Batch_Module.py:
+						 0.01
+					Batch_Module.pyc:
+						 0.01
+					Data_Module.py:
+						 0.0
+					Data_Module.pyc:
+						 0.0
+					Loss_Record_Module.py:
+						 0.0
+					Loss_Record_Module.pyc:
+						 0.0
+					Main.py:
+						 0.0
+					Main2.py:
+						 0.0
+					Names_Module.py:
+						 0.0
+					Names_Module.pyc:
+						 0.0
+					Network_Module.py:
+						 0.0
+					Network_Module.pyc:
+						 0.0
+					Parameters_Module.py:
+						 0.0
+					Parameters_Module.pyc:
+						 0.0
+					Paths_Module.py:
+						 0.0
+					Paths_Module.pyc:
+						 0.0
+					__init__.py:
+						 0.0
+
+				__init__.pyc:
+					 0.0
+				nets:
+					SqueezeNet.py:
+						 0.0
+					SqueezeNet.pyc:
+						 0.0
+					SqueezeNet_Aruco1.py:
+						 0.0
+					SqueezeNet_Aruco1.pyc:
+						 0.0
+					SqueezeNet_mod.pyc:
+						 0.0
+					SqueezeNet_mod1.pyc:
+						 0.0
+					SqueezeNetmod.pyc:
+						 0.0
+					Z2ColorBatchNorm.py:
+						 0.0
+					__init__.py:
+						 0.0
+					__init__.pyc:
+						 0.0
+
+
+
+		25Jul17_16h50m53s:
+			pytorch3:
+				Train_SqueezeNet:
+					Batch_Module.py:
+						 0.01
+					Batch_Module.pyc:
+						 0.01
+					Data_Module.py:
+						 0.0
+					Data_Module.pyc:
+						 0.0
+					Loss_Record_Module.py:
+						 0.0
+					Loss_Record_Module.pyc:
+						 0.0
+					Main.py:
+						 0.0
+					Main2.py:
+						 0.0
+					Names_Module.py:
+						 0.0
+					Names_Module.pyc:
+						 0.0
+					Network_Module.py:
+						 0.0
+					Network_Module.pyc:
+						 0.0
+					Parameters_Module.py:
+						 0.0
+					Parameters_Module.pyc:
+						 0.0
+					Paths_Module.py:
+						 0.0
+					Paths_Module.pyc:
+						 0.0
+					__init__.py:
+						 0.0
+
+				__init__.pyc:
+					 0.0
+				nets:
+					SqueezeNet.py:
+						 0.0
+					SqueezeNet.pyc:
+						 0.0
+					SqueezeNet_Aruco1.py:
+						 0.0
+					SqueezeNet_Aruco1.pyc:
+						 0.0
+					SqueezeNet_mod.pyc:
+						 0.0
+					SqueezeNet_mod1.pyc:
+						 0.0
+					SqueezeNetmod.pyc:
+						 0.0
+					Z2ColorBatchNorm.py:
+						 0.0
+					__init__.py:
+						 0.0
+					__init__.pyc:
+						 0.0
+
+
+
+		25Jul17_17h06m53s:
+			pytorch3:
+				Train_SqueezeNet:
+					Batch_Module.py:
+						 0.01
+					Batch_Module.pyc:
+						 0.01
+					Data_Module.py:
+						 0.0
+					Data_Module.pyc:
+						 0.0
+					Loss_Record_Module.py:
+						 0.0
+					Loss_Record_Module.pyc:
+						 0.0
+					Main.py:
+						 0.0
+					Main2.py:
+						 0.0
+					Names_Module.py:
+						 0.0
+					Names_Module.pyc:
+						 0.0
+					Network_Module.py:
+						 0.0
+					Network_Module.pyc:
+						 0.0
+					Parameters_Module.py:
+						 0.0
+					Parameters_Module.pyc:
+						 0.0
+					Paths_Module.py:
+						 0.0
+					Paths_Module.pyc:
+						 0.0
+					__init__.py:
+						 0.0
+
+				__init__.pyc:
+					 0.0
+				nets:
+					SqueezeNet.py:
+						 0.0
+					SqueezeNet.pyc:
+						 0.0
+					SqueezeNet_Aruco1.py:
+						 0.0
+					SqueezeNet_Aruco1.pyc:
+						 0.0
+					SqueezeNet_mod.pyc:
+						 0.0
+					SqueezeNet_mod1.pyc:
+						 0.0
+					SqueezeNetmod.pyc:
+						 0.0
+					Z2ColorBatchNorm.py:
+						 0.0
+					__init__.py:
+						 0.0
+					__init__.pyc:
+						 0.0
+
+
+
+		25Jul17_17h13m20s:
+			pytorch3:
+				Train_SqueezeNet:
+					Batch_Module.py:
+						 0.01
+					Batch_Module.pyc:
+						 0.01
+					Data_Module.py:
+						 0.0
+					Data_Module.pyc:
+						 0.0
+					Loss_Record_Module.py:
+						 0.0
+					Loss_Record_Module.pyc:
+						 0.0
+					Main.py:
+						 0.0
+					Main2.py:
+						 0.0
+					Names_Module.py:
+						 0.0
+					Names_Module.pyc:
+						 0.0
+					Network_Module.py:
+						 0.0
+					Network_Module.pyc:
+						 0.0
+					Parameters_Module.py:
+						 0.0
+					Parameters_Module.pyc:
+						 0.0
+					Paths_Module.py:
+						 0.0
+					Paths_Module.pyc:
+						 0.0
+					__init__.py:
+						 0.0
+
+				__init__.pyc:
+					 0.0
+				nets:
+					SqueezeNet.py:
+						 0.0
+					SqueezeNet.pyc:
+						 0.0
+					SqueezeNet_Aruco1.py:
+						 0.0
+					SqueezeNet_Aruco1.pyc:
+						 0.0
+					SqueezeNet_mod.pyc:
+						 0.0
+					SqueezeNet_mod1.pyc:
+						 0.0
+					SqueezeNetmod.pyc:
+						 0.0
+					Z2ColorBatchNorm.py:
+						 0.0
+					__init__.py:
+						 0.0
+					__init__.pyc:
+						 0.0
+
+
+
+		25Jul17_18h14m48s:
+			pytorch3:
+				Train_SqueezeNet:
+					Batch_Module.py:
+						 0.01
+					Batch_Module.pyc:
+						 0.01
+					Data_Module.py:
+						 0.0
+					Data_Module.pyc:
+						 0.0
+					Loss_Record_Module.py:
+						 0.0
+					Loss_Record_Module.pyc:
+						 0.0
+					Main.py:
+						 0.0
+					Main2.py:
+						 0.0
+					Names_Module.py:
+						 0.0
+					Names_Module.pyc:
+						 0.0
+					Network_Module.py:
+						 0.0
+					Network_Module.pyc:
+						 0.0
+					Parameters_Module.py:
+						 0.0
+					Parameters_Module.pyc:
+						 0.0
+					Paths_Module.py:
+						 0.0
+					Paths_Module.pyc:
+						 0.0
+					__init__.py:
+						 0.0
+
+				__init__.pyc:
+					 0.0
+				nets:
+					SqueezeNet.py:
+						 0.0
+					SqueezeNet.pyc:
+						 0.0
+					SqueezeNet_Aruco1.py:
+						 0.0
+					SqueezeNet_Aruco1.pyc:
+						 0.0
+					SqueezeNet_mod.pyc:
+						 0.0
+					SqueezeNet_mod1.pyc:
+						 0.0
+					SqueezeNetmod.pyc:
+						 0.0
+					Z2ColorBatchNorm.py:
+						 0.0
+					__init__.py:
+						 0.0
+					__init__.pyc:
+						 0.0
+
+
+
+		26Jul17_09h05m19s:
+			pytorch3:
+				Train_SqueezeNet:
+					Batch_Module.py:
+						 0.01
+					Batch_Module.pyc:
+						 0.01
+					Data_Module.py:
+						 0.0
+					Data_Module.pyc:
+						 0.0
+					Loss_Record_Module.py:
+						 0.0
+					Loss_Record_Module.pyc:
+						 0.0
+					Main.py:
+						 0.0
+					Main2.py:
+						 0.0
+					Names_Module.py:
+						 0.0
+					Names_Module.pyc:
+						 0.0
+					Network_Module.py:
+						 0.0
+					Network_Module.pyc:
+						 0.0
+					Parameters_Module.py:
+						 0.0
+					Parameters_Module.pyc:
+						 0.0
+					Paths_Module.py:
+						 0.0
+					Paths_Module.pyc:
+						 0.0
+					__init__.py:
+						 0.0
+
+				__init__.pyc:
+					 0.0
+				nets:
+					SqueezeNet.py:
+						 0.0
+					SqueezeNet.pyc:
+						 0.0
+					SqueezeNet_Aruco1.py:
+						 0.0
+					SqueezeNet_Aruco1.pyc:
+						 0.0
+					SqueezeNet_mod.pyc:
+						 0.0
+					SqueezeNet_mod1.pyc:
+						 0.0
+					SqueezeNet_modified.py:
+						 0.0
+					SqueezeNetmod.pyc:
+						 0.0
+					Z2ColorBatchNorm.py:
+						 0.0
+					__init__.py:
+						 0.0
+					__init__.pyc:
+						 0.0
+
+
+
+		26Jul17_09h06m36s:
+			pytorch3:
+				Train_SqueezeNet:
+					Batch_Module.py:
+						 0.01
+					Batch_Module.pyc:
+						 0.01
+					Data_Module.py:
+						 0.0
+					Data_Module.pyc:
+						 0.0
+					Loss_Record_Module.py:
+						 0.0
+					Loss_Record_Module.pyc:
+						 0.0
+					Main.py:
+						 0.0
+					Main2.py:
+						 0.0
+					Names_Module.py:
+						 0.0
+					Names_Module.pyc:
+						 0.0
+					Network_Module.py:
+						 0.0
+					Network_Module.pyc:
+						 0.0
+					Parameters_Module.py:
+						 0.0
+					Parameters_Module.pyc:
+						 0.0
+					Paths_Module.py:
+						 0.0
+					Paths_Module.pyc:
+						 0.0
+					__init__.py:
+						 0.0
+
+				__init__.pyc:
+					 0.0
+				nets:
+					SqueezeNet.py:
+						 0.0
+					SqueezeNet.pyc:
+						 0.0
+					SqueezeNet_Aruco1.py:
+						 0.0
+					SqueezeNet_Aruco1.pyc:
+						 0.0
+					SqueezeNet_mod.pyc:
+						 0.0
+					SqueezeNet_mod1.pyc:
+						 0.0
+					SqueezeNet_modified.py:
+						 0.0
+					SqueezeNetmod.pyc:
+						 0.0
+					Z2ColorBatchNorm.py:
+						 0.0
+					__init__.py:
+						 0.0
+					__init__.pyc:
+						 0.0
+
+
+
+		26Jul17_09h08m37s:
+			pytorch3:
+				Train_SqueezeNet:
+					Batch_Module.py:
+						 0.01
+					Batch_Module.pyc:
+						 0.01
+					Data_Module.py:
+						 0.0
+					Data_Module.pyc:
+						 0.0
+					Loss_Record_Module.py:
+						 0.0
+					Loss_Record_Module.pyc:
+						 0.0
+					Main.py:
+						 0.0
+					Main2.py:
+						 0.0
+					Names_Module.py:
+						 0.0
+					Names_Module.pyc:
+						 0.0
+					Network_Module.py:
+						 0.0
+					Network_Module.pyc:
+						 0.0
+					Parameters_Module.py:
+						 0.0
+					Parameters_Module.pyc:
+						 0.0
+					Paths_Module.py:
+						 0.0
+					Paths_Module.pyc:
+						 0.0
+					__init__.py:
+						 0.0
+
+				__init__.pyc:
+					 0.0
+				nets:
+					SqueezeNet.py:
+						 0.0
+					SqueezeNet.pyc:
+						 0.0
+					SqueezeNet_Aruco1.py:
+						 0.0
+					SqueezeNet_Aruco1.pyc:
+						 0.0
+					SqueezeNet_mod.pyc:
+						 0.0
+					SqueezeNet_mod1.pyc:
+						 0.0
+					SqueezeNet_original.py:
+						 0.0
+					SqueezeNetmod.pyc:
+						 0.0
+					Z2ColorBatchNorm.py:
+						 0.0
+					__init__.py:
+						 0.0
+					__init__.pyc:
+						 0.0
+
+
+
+		26Jul17_09h17m49s:
+			pytorch3:
+				Train_SqueezeNet:
+					Batch_Module.py:
+						 0.01
+					Batch_Module.pyc:
+						 0.01
+					Data_Module.py:
+						 0.0
+					Data_Module.pyc:
+						 0.0
+					Loss_Record_Module.py:
+						 0.0
+					Loss_Record_Module.pyc:
+						 0.0
+					Main.py:
+						 0.0
+					Main2.py:
+						 0.0
+					Names_Module.py:
+						 0.0
+					Names_Module.pyc:
+						 0.0
+					Network_Module.py:
+						 0.0
+					Network_Module.pyc:
+						 0.0
+					Parameters_Module.py:
+						 0.0
+					Parameters_Module.pyc:
+						 0.0
+					Paths_Module.py:
+						 0.0
+					Paths_Module.pyc:
+						 0.0
+					__init__.py:
+						 0.0
+
+				__init__.pyc:
+					 0.0
+				nets:
+					SqueezeNet.py:
+						 0.0
+					SqueezeNet.pyc:
+						 0.0
+					SqueezeNet_Aruco1.py:
+						 0.0
+					SqueezeNet_Aruco1.pyc:
+						 0.0
+					SqueezeNet_mod.pyc:
+						 0.0
+					SqueezeNet_mod1.pyc:
+						 0.0
+					SqueezeNet_original.py:
+						 0.0
+					SqueezeNetmod.pyc:
+						 0.0
+					Z2ColorBatchNorm.py:
+						 0.0
+					__init__.py:
+						 0.0
+					__init__.pyc:
+						 0.0
+
+
+
+		26Jul17_09h41m37s:
+			pytorch3:
+				Train_SqueezeNet:
+					Activity_Module.py:
+						 0.0
+					Activity_Module.pyc:
+						 0.0
+					Batch_Module.py:
+						 0.01
+					Batch_Module.pyc:
+						 0.01
+					Data_Module.py:
+						 0.0
+					Data_Module.pyc:
+						 0.0
+					Loss_Record_Module.py:
+						 0.0
+					Loss_Record_Module.pyc:
+						 0.0
+					Main.py:
+						 0.0
+					Main2.py:
+						 0.0
+					Names_Module.py:
+						 0.0
+					Names_Module.pyc:
+						 0.0
+					Network_Module.py:
+						 0.0
+					Network_Module.pyc:
+						 0.0
+					Parameters_Module.py:
+						 0.0
+					Parameters_Module.pyc:
+						 0.0
+					Paths_Module.py:
+						 0.0
+					Paths_Module.pyc:
+						 0.0
+					__init__.py:
+						 0.0
+
+				__init__.pyc:
+					 0.0
+				nets:
+					SqueezeNet.py:
+						 0.0
+					SqueezeNet.pyc:
+						 0.0
+					SqueezeNet_Aruco1.py:
+						 0.0
+					SqueezeNet_Aruco1.pyc:
+						 0.0
+					SqueezeNet_mod.pyc:
+						 0.0
+					SqueezeNet_mod1.pyc:
+						 0.0
+					SqueezeNet_original.py:
+						 0.0
+					SqueezeNetmod.pyc:
+						 0.0
+					Z2ColorBatchNorm.py:
+						 0.0
+					__init__.py:
+						 0.0
+					__init__.pyc:
+						 0.0
+
+
+
+		..58)
+
+	data_moment_loss_records.pkl:
+		 65.33
+	loss_history:
+		train_loss_record:
+			Purpose.txt:
+				 0.0
+			add.fun:
+				 0.0
+			ctr.pkl:
+				 0.0
+			ctr_list.pkl:
+				 0.01
+			graph.fun:
+				 0.0
+			loss_ctr.pkl:
+				 0.0
+			loss_list.pkl:
+				 0.03
+			loss_sum.pkl:
+				 0.0
+			loss_timer.pkl:
+				 0.0
+			t0.pkl:
+				 0.0
+			timestamp_list.pkl:
+				 0.01
+			type.txt:
+				 0.0
+
+		val_loss_record:
+			Purpose.txt:
+				 0.0
+			add.fun:
+				 0.0
+			ctr.pkl:
+				 0.0
+			ctr_list.pkl:
+				 0.0
+			graph.fun:
+				 0.0
+			loss_ctr.pkl:
+				 0.0
+			loss_list.pkl:
+				 0.0
+			loss_sum.pkl:
+				 0.0
+			loss_timer.pkl:
+				 0.0
+			t0.pkl:
+				 0.0
+			timestamp_list.pkl:
+				 0.0
+			type.txt:
+				 0.0
+
+
+	weights:
+		save_file_LCR_pt3_27Jul17_18h18m20s.infer:
+			 2.97
+		save_file_LCR_pt3_27Jul17_18h48m21s.infer:
+			 2.97
+		save_file_LCR_pt3_27Jul17_19h18m24s.infer:
+			 2.97
+		save_file_LCR_pt3_27Jul17_19h48m29s.infer:
+			 2.97
+		save_file_LCR_pt3_27Jul17_20h18m34s.infer:
+			 2.97
+		save_file_LCR_pt3_27Jul17_20h48m48s.infer:
+			 2.97
+		save_file_LCR_pt3_27Jul17_21h18m56s.infer:
+			 2.97
+		save_file_LCR_pt3_27Jul17_21h49m07s.infer:
+			 2.97
+		save_file_LCR_pt3_27Jul17_22h19m18s.infer:
+			 2.97
+		save_file_LCR_pt3_27Jul17_22h49m28s.infer:
+			 2.97
+		save_file_LCR_pt3_27Jul17_23h19m39s.infer:
+			 2.97
+		save_file_LCR_pt3_27Jul17_23h49m49s.infer:
+			 2.97
+		save_file_LCR_pt3_28Jul17_00h19m59s.infer:
+			 2.97
+		save_file_LCR_pt3_28Jul17_00h50m09s.infer:
+			 2.97
+		save_file_LCR_pt3_28Jul17_01h20m20s.infer:
+			 2.97
+		save_file_LCR_pt3_28Jul17_01h50m31s.infer:
+			 2.97
+		save_file_LCR_pt3_28Jul17_02h20m43s.infer:
+			 2.97
+		save_file_LCR_pt3_28Jul17_02h50m53s.infer:
+			 2.97
+		save_file_LCR_pt3_28Jul17_03h21m04s.infer:
+			 2.97
+		save_file_LCR_pt3_28Jul17_03h51m15s.infer:
+			 2.97
+		save_file_LCR_pt3_28Jul17_04h21m26s.infer:
+			 2.97
+		save_file_LCR_pt3_28Jul17_04h51m37s.infer:
+			 2.97
+		save_file_LCR_pt3_28Jul17_05h21m47s.infer:
+			 2.97
+		save_file_LCR_pt3_28Jul17_05h51m59s.infer:
+			 2.97
+		..27)
+
+	weights_30:
+		save_file_LCR_pt3_22Jul17_17h45m28s.infer:
+			 2.97
+		save_file_LCR_pt3_22Jul17_18h15m29s.infer:
+			 2.97
+		save_file_LCR_pt3_22Jul17_18h45m31s.infer:
+			 2.97
+		save_file_LCR_pt3_22Jul17_19h15m35s.infer:
+			 2.97
+		save_file_LCR_pt3_22Jul17_19h45m39s.infer:
+			 2.97
+		save_file_LCR_pt3_22Jul17_20h15m42s.infer:
+			 2.97
+		save_file_LCR_pt3_22Jul17_20h45m46s.infer:
+			 2.97
+		save_file_LCR_pt3_22Jul17_21h15m50s.infer:
+			 2.97
+		save_file_LCR_pt3_22Jul17_21h45m54s.infer:
+			 2.97
+		save_file_LCR_pt3_22Jul17_22h15m57s.infer:
+			 2.97
+		save_file_LCR_pt3_22Jul17_22h46m01s.infer:
+			 2.97
+		save_file_LCR_pt3_22Jul17_23h16m04s.infer:
+			 2.97
+		save_file_LCR_pt3_22Jul17_23h46m08s.infer:
+			 2.97
+		save_file_LCR_pt3_23Jul17_00h16m11s.infer:
+			 2.97
+		save_file_LCR_pt3_23Jul17_00h46m15s.infer:
+			 2.97
+		save_file_LCR_pt3_23Jul17_01h16m19s.infer:
+			 2.97
+		save_file_LCR_pt3_23Jul17_01h46m22s.infer:
+			 2.97
+		save_file_LCR_pt3_23Jul17_02h16m26s.infer:
+			 2.97
+		save_file_LCR_pt3_23Jul17_02h46m29s.infer:
+			 2.97
+		save_file_LCR_pt3_23Jul17_03h16m33s.infer:
+			 2.97
+		save_file_LCR_pt3_23Jul17_03h46m36s.infer:
+			 2.97
+		save_file_LCR_pt3_23Jul17_04h16m40s.infer:
+			 2.97
+		save_file_LCR_pt3_23Jul17_04h46m43s.infer:
+			 2.97
+		save_file_LCR_pt3_23Jul17_05h16m47s.infer:
+			 2.97
+		..210)
+
+
+Train_SqueezeNet_indoor_aruco__2:
+	Activity_Module.py:
+		 0.0
+	Activity_Module.pyc:
+		 0.0
+	Batch_Module.py:
+		 0.01
+	Data_Module.py:
+		 0.0
+	Loss_Record_Module.py:
+		 0.0
+	Loss_Record_Module.pyc:
+		 0.0
+	Main.py:
+		 0.0
+	Names_Module.py:
+		 0.0
+	Names_Module.pyc:
+		 0.0
+	Network_Module.py:
+		 0.0
+	Network_Module.pyc:
+		 0.0
+	Parameters_Module.py:
+		 0.0
+	Parameters_Module.pyc:
+		 0.0
+	Paths_Module.py:
+		 0.0
+	Paths_Module.pyc:
+		 0.0
+	__init__.py:
+		 0.0
+
+Untitled Folder:
+
+W.pkl:
+	 19.31
+W2.pkl:
+	 0.67
+W3.pkl:
+	 6.7
+W4.pkl:
+	 2.8
+aruco_post_demo:
+	Mr_Purple_2017-10-03-15-16-51:
+		flip_images.h5py:
+			 377.37
+		left_timestamp_metadata_right_ts.h5py:
+			 1.03
+		original_timestamp_data.h5py:
+			 380.47
+
+	Mr_Purple_2017-10-03-15-54-18:
+		flip_images.h5py:
+			 592.69
+		left_timestamp_metadata_right_ts.h5py:
+			 1.62
+		original_timestamp_data.h5py:
+			 597.36
+
+	Mr_Purple_2017-10-03-16-04-37:
+		flip_images.h5py:
+			 773.69
+		left_timestamp_metadata_right_ts.h5py:
+			 2.1
+		original_timestamp_data.h5py:
+			 779.62
+
+	Mr_Purple_2017-10-03-16-11-13:
+		flip_images.h5py:
+			 967.02
+		left_timestamp_metadata_right_ts.h5py:
+			 2.63
+		original_timestamp_data.h5py:
+			 974.54
+
+	Mr_Purple_2017-10-03-16-20-41:
+		flip_images.h5py:
+			 1053.83
+		left_timestamp_metadata_right_ts.h5py:
+			 2.86
+		original_timestamp_data.h5py:
+			 1061.99
+
+	Mr_Purple_2017-10-03-16-40-20:
+		flip_images.h5py:
+			 1380.82
+		left_timestamp_metadata_right_ts.h5py:
+			 3.74
+		original_timestamp_data.h5py:
+			 1391.54
+
+	h5py:
+		Mr_Lt_Blue_2017-09-23-17-10-51:
+			flip_images.h5py:
+				 2945.59
+			left_timestamp_metadata_right_ts.h5py:
+				 7.97
+			original_timestamp_data.h5py:
+				 2968.93
+
+		Mr_Lt_Blue_2017-09-25-08-44-33:
+			flip_images.h5py:
+				 953.66
+			left_timestamp_metadata_right_ts.h5py:
+				 2.59
+			original_timestamp_data.h5py:
+				 961.11
+
+		Mr_Lt_Blue_2017-09-25-08-51-36:
+			flip_images.h5py:
+				 751.14
+			left_timestamp_metadata_right_ts.h5py:
+				 2.04
+			original_timestamp_data.h5py:
+				 756.94
+
+		Mr_Lt_Blue_2017-09-25-08-58-26:
+			flip_images.h5py:
+				 1073.11
+			left_timestamp_metadata_right_ts.h5py:
+				 2.91
+			original_timestamp_data.h5py:
+				 1080.92
+
+		Mr_Lt_Blue_2017-09-25-09-08-27:
+			flip_images.h5py:
+				 423.57
+			left_timestamp_metadata_right_ts.h5py:
+				 1.16
+			original_timestamp_data.h5py:
+				 426.98
+
+		Mr_Lt_Blue_2017-09-25-09-13-19:
+			flip_images.h5py:
+				 3955.24
+			left_timestamp_metadata_right_ts.h5py:
+				 10.7
+			original_timestamp_data.h5py:
+				 3986.18
+
+		Mr_Lt_Blue_2017-09-29-12-32-01:
+			flip_images.h5py:
+				 1190.96
+			left_timestamp_metadata_right_ts.h5py:
+				 3.23
+			original_timestamp_data.h5py:
+				 1200.19
+
+		Mr_Lt_Blue_2017-09-29-12-40-43:
+			flip_images.h5py:
+				 630.78
+			left_timestamp_metadata_right_ts.h5py:
+				 1.72
+			original_timestamp_data.h5py:
+				 635.78
+
+		Mr_Lt_Blue_2017-09-29-12-52-26:
+			flip_images.h5py:
+				 216.12
+			left_timestamp_metadata_right_ts.h5py:
+				 0.6
+			original_timestamp_data.h5py:
+				 217.73
+
+		Mr_Lt_Blue_2017-09-29-13-01-06:
+			flip_images.h5py:
+				 3344.08
+			left_timestamp_metadata_right_ts.h5py:
+				 9.05
+			original_timestamp_data.h5py:
+				 3370.35
+
+		Mr_Lt_Blue_2017-09-29-13-22-23:
+			flip_images.h5py:
+				 536.72
+			left_timestamp_metadata_right_ts.h5py:
+				 1.46
+			original_timestamp_data.h5py:
+				 540.96
+
+		Mr_Purple_2017-09-23-17-10-53:
+			flip_images.h5py:
+				 2969.66
+			left_timestamp_metadata_right_ts.h5py:
+				 8.04
+			original_timestamp_data.h5py:
+				 2993.48
+
+		Mr_Purple_2017-09-25-08-44-37:
+			flip_images.h5py:
+				 968.91
+			left_timestamp_metadata_right_ts.h5py:
+				 2.63
+			original_timestamp_data.h5py:
+				 976.64
+
+		Mr_Purple_2017-09-25-08-51-38:
+			flip_images.h5py:
+				 865.9
+			left_timestamp_metadata_right_ts.h5py:
+				 2.35
+			original_timestamp_data.h5py:
+				 872.77
+
+		Mr_Purple_2017-09-25-08-58-27:
+			flip_images.h5py:
+				 866.52
+			left_timestamp_metadata_right_ts.h5py:
+				 2.36
+			original_timestamp_data.h5py:
+				 872.89
+
+		Mr_Purple_2017-09-25-09-08-29:
+			flip_images.h5py:
+				 645.8
+			left_timestamp_metadata_right_ts.h5py:
+				 1.76
+			original_timestamp_data.h5py:
+				 650.78
+
+		Mr_Purple_2017-09-25-09-13-22:
+			flip_images.h5py:
+				 3989.17
+			left_timestamp_metadata_right_ts.h5py:
+				 10.79
+			original_timestamp_data.h5py:
+				 4020.33
+
+		Mr_Purple_2017-09-29-12-20-41:
+			flip_images.h5py:
+				 1203.37
+			left_timestamp_metadata_right_ts.h5py:
+				 3.27
+			original_timestamp_data.h5py:
+				 1212.7
+
+		Mr_Purple_2017-09-29-12-32-03:
+			flip_images.h5py:
+				 1254.88
+			left_timestamp_metadata_right_ts.h5py:
+				 3.4
+			original_timestamp_data.h5py:
+				 1264.37
+
+		Mr_Purple_2017-09-29-12-40-44:
+			flip_images.h5py:
+				 1608.5
+			left_timestamp_metadata_right_ts.h5py:
+				 4.36
+			original_timestamp_data.h5py:
+				 1621.01
+
+		Mr_Purple_2017-09-29-12-52-28:
+			flip_images.h5py:
+				 199.26
+			left_timestamp_metadata_right_ts.h5py:
+				 0.55
+			original_timestamp_data.h5py:
+				 200.72
+
+		Mr_Purple_2017-09-29-12-55-08:
+			left_timestamp_metadata_right_ts.h5py:
+				 0.02
+			original_timestamp_data.h5py:
+				 99.25
+
+		Mr_Purple_2017-09-29-13-01-09:
+			flip_images.h5py:
+				 3294.24
+			left_timestamp_metadata_right_ts.h5py:
+				 8.91
+			original_timestamp_data.h5py:
+				 3319.79
+
+		Mr_Purple_2017-09-29-13-22-25:
+			flip_images.h5py:
+				 635.76
+			left_timestamp_metadata_right_ts.h5py:
+				 1.73
+			original_timestamp_data.h5py:
+				 640.67
+
+		..35)
+
+
+aruco_raised11_5Nov2017_Marker_xy_dic.pkl:
+	 0.01
+bair_car_data_Main_Dataset:
+	h5py:
+
+	hdf5:
+
+	meta:
+		caffe2_z2_color_direct_Smyth_tape_18Feb17_14h04m26s_Mr_Orange:
+			Bag_Folder.pkl:
+				 4.99
+			left_image_bound_to_data.pkl:
+				 1.76
+			preprocessed_data.pkl:
+				 3.41
+
+		caffe2_z2_color_direct_Smyth_tape_18Feb17_14h21m06s_Mr_Orange:
+			Bag_Folder.pkl:
+				 10.89
+			left_image_bound_to_data.pkl:
+				 3.87
+			preprocessed_data.pkl:
+				 7.44
+
+		caffe2_z2_color_direct_Smyth_tape_18Feb17_14h55m58s_Mr_Orange:
+			Bag_Folder.pkl:
+				 3.59
+			left_image_bound_to_data.pkl:
+				 1.26
+			preprocessed_data.pkl:
+				 2.43
+
+		caffe2_z2_color_direct_Smyth_tape_18Feb17_15h10m06s_Mr_Orange:
+			Bag_Folder.pkl:
+				 3.07
+			left_image_bound_to_data.pkl:
+				 1.07
+			preprocessed_data.pkl:
+				 2.06
+
+		caffe2_z2_color_direct_Smyth_tape_18Feb17_15h22m13s_Mr_Orange:
+			Bag_Folder.pkl:
+				 3.56
+			left_image_bound_to_data.pkl:
+				 1.26
+			preprocessed_data.pkl:
+				 2.41
+
+		caffe2_z2_color_direct_Smyth_tape_18Feb17_15h36m55s_Mr_Orange:
+			Bag_Folder.pkl:
+				 6.3
+			left_image_bound_to_data.pkl:
+				 2.25
+			preprocessed_data.pkl:
+				 4.32
+
+		caffe2_z2_color_direct_Smyth_tape_18Feb17_16h29m12s_Mr_Orange:
+			Bag_Folder.pkl:
+				 6.15
+			left_image_bound_to_data.pkl:
+				 2.31
+			preprocessed_data.pkl:
+				 4.39
+
+		caffe_direct_Smyth_tape_16Jan17_16h52m24s_Mr_Silver:
+			Bag_Folder.pkl:
+				 1.8
+			left_image_bound_to_data.pkl:
+				 0.67
+			preprocessed_data.pkl:
+				 1.3
+
+		caffe_direct_Smyth_tape_16Jan17_17h02m46s_Mr_Silver:
+			Bag_Folder.pkl:
+				 6.02
+			left_image_bound_to_data.pkl:
+				 2.2
+			preprocessed_data.pkl:
+				 4.24
+
+		caffe_direct_Smyth_tape_16Jan17_17h21m39s_Mr_Silver:
+			Bag_Folder.pkl:
+				 2.18
+			left_image_bound_to_data.pkl:
+				 0.79
+			preprocessed_data.pkl:
+				 1.53
+
+		caffe_direct_local_01Dec16_17h04m44s_Mr_Teal:
+			Bag_Folder.pkl:
+				 28.03
+			left_image_bound_to_data.pkl:
+				 17.71
+			preprocessed_data.pkl:
+				 43.82
+
+		caffe_direct_local_sidewalks_05Dec16_15h03m35s_Mr_Blue:
+			Bag_Folder.pkl:
+				 21.31
+			left_image_bound_to_data.pkl:
+				 13.4
+			preprocessed_data.pkl:
+				 33.31
+
+		caffe_z2_color_caffe2_direct_local_13Feb17_16h47m42s_Mr_Orange:
+			Bag_Folder.pkl:
+				 11.36
+			left_image_bound_to_data.pkl:
+				 4.23
+			preprocessed_data.pkl:
+				 8.08
+
+		caffe_z2_color_direct_Smyth_tape_15Feb17_14h05m45s_Mr_Orange:
+			Bag_Folder.pkl:
+				 4.06
+			left_image_bound_to_data.pkl:
+				 1.5
+			preprocessed_data.pkl:
+				 2.87
+
+		caffe_z2_color_direct_Smyth_tape_15Feb17_14h16m50s_Mr_Black:
+			Bag_Folder.pkl:
+				 9.3
+			left_image_bound_to_data.pkl:
+				 3.43
+			preprocessed_data.pkl:
+				 6.46
+
+		caffe_z2_color_direct_Smyth_tape_15Feb17_14h20m08s_Mr_Orange:
+			Bag_Folder.pkl:
+				 3.35
+			left_image_bound_to_data.pkl:
+				 1.24
+			preprocessed_data.pkl:
+				 2.39
+
+		caffe_z2_color_direct_Smyth_tape_15Feb17_14h41m22s_Mr_Orange:
+			Bag_Folder.pkl:
+				 17.02
+			left_image_bound_to_data.pkl:
+				 6.09
+			preprocessed_data.pkl:
+				 11.76
+
+		caffe_z2_color_direct_Smyth_tape_15Feb17_14h54m26s_Mr_Black:
+			Bag_Folder.pkl:
+				 2.4
+			left_image_bound_to_data.pkl:
+				 0.86
+			preprocessed_data.pkl:
+				 1.63
+
+		caffe_z2_color_direct_Smyth_tape_15Feb17_15h10m29s_Mr_Black:
+			Bag_Folder.pkl:
+				 14.66
+			left_image_bound_to_data.pkl:
+				 5.35
+			preprocessed_data.pkl:
+				 10.12
+
+		caffe_z2_color_direct_Smyth_tape_15Feb17_15h43m08s_Mr_Orange:
+			Bag_Folder.pkl:
+				 8.82
+			left_image_bound_to_data.pkl:
+				 3.17
+			preprocessed_data.pkl:
+				 6.08
+
+		caffe_z2_color_direct_Smyth_tape_15Feb17_16h27m33s_Mr_Black:
+			Bag_Folder.pkl:
+				 21.22
+			left_image_bound_to_data.pkl:
+				 7.73
+			preprocessed_data.pkl:
+				 14.76
+
+		caffe_z2_color_direct_Smyth_tape_15Feb17_16h29m06s_Mr_Orange:
+			Bag_Folder.pkl:
+				 21.06
+			left_image_bound_to_data.pkl:
+				 7.65
+			preprocessed_data.pkl:
+				 14.82
+
+		caffe_z2_color_direct_Smyth_tape_single_transmitter_11Feb17_13h40m21s_Mr_Orange:
+			Bag_Folder.pkl:
+				 1.44
+			left_image_bound_to_data.pkl:
+				 0.55
+			preprocessed_data.pkl:
+				 1.07
+
+		caffe_z2_color_direct_Smyth_tape_single_transmitter_11Feb17_13h40m25s_Mr_Black:
+			Bag_Folder.pkl:
+				 1.62
+			left_image_bound_to_data.pkl:
+				 0.62
+			preprocessed_data.pkl:
+				 1.2
+
+		..204)
+
+	run_labels:
+		run_labels_20Feb17_13h09m53s.pkl:
+			 0.02
+		run_labels_20Feb17_15h46m12s.pkl:
+			 0.02
+		run_labels_20Feb17_15h50m49s.pkl:
+			 0.02
+		run_labels_20Feb17_16h07m00s.pkl:
+			 0.02
+		run_labels_20Feb17_16h07m33s.pkl:
+			 0.02
+		run_labels_20Feb17_16h08m28s.pkl:
+			 0.02
+		run_labels_20Feb17_16h09m32s.pkl:
+			 0.02
+		run_labels_20Feb17_16h12m32s.pkl:
+			 0.02
+		run_labels_20Feb17_16h15m33s.pkl:
+			 0.02
+		run_labels_20Feb17_16h15m50s.pkl:
+			 0.02
+		run_labels_20Feb17_16h19m49s.pkl:
+			 0.02
+		run_labels_20Feb17_16h21m58s.pkl:
+			 0.02
+		run_labels_20Feb17_16h22m03s.pkl:
+			 0.02
+		run_labels_23Apr17_09h12m41s.pkl:
+			 0.02
+		run_labels_23Apr17_09h12m53s.pkl:
+			 0.02
+		run_labels_23Apr17_09h14m12s.pkl:
+			 0.02
+		run_labels_23Apr17_09h14m26s.pkl:
+			 0.02
+		run_labels_23Apr17_09h14m39s.pkl:
+			 0.02
+		run_labels_23Apr17_09h14m43s.pkl:
+			 0.02
+		run_labels_23Apr17_09h25m06s.pkl:
+			 0.02
+		run_labels_23Apr17_09h31m21s.pkl:
+			 0.02
+		run_labels_23Apr17_09h32m41s.pkl:
+			 0.02
+		run_labels_23Apr17_09h33m05s.pkl:
+			 0.02
+		run_labels_23Apr17_09h33m44s.pkl:
+			 0.02
+		..40)
+
+
+bair_car_data_new_28April2017:
+	Aruco_Steering_Trajectories:
+		caffe2_z2_color_direct_local_11Apr17_15h25m02s_Mr_Silver.pkl:
+			 23.35
+		caffe2_z2_color_direct_local_11Apr17_15h29m09s_Mr_Blue.pkl:
+			 10.78
+		caffe2_z2_color_direct_local_11Apr17_22h14m05s_Mr_Yellow.pkl:
+			 46.12
+		direct_Fern_aruco_1_11Apr17_15h47m09s_Mr_Blue.pkl:
+			 34.86
+		direct_Fern_aruco_1_11Apr17_16h25m09s_Mr_Blue.pkl:
+			 58.14
+		direct_Fern_aruco_1_11Apr17_17h04m16s_Mr_Orange.pkl:
+			 67.95
+		direct_Fern_aruco_1_11Apr17_17h17m16s_Mr_Blue.pkl:
+			 92.59
+		direct_Fern_aruco_1_11Apr17_22h59m32s_Mr_Yellow.pkl:
+			 17.72
+		direct_Fern_aruco_1_11Apr17_23h24m50s_Mr_Yellow.pkl:
+			 94.64
+		direct_Fern_aruco_1_14Apr17_13h33m11s_Mr_Blue.pkl:
+			 16.53
+		direct_Fern_aruco_1_14Apr17_13h45m40s_Mr_Blue.pkl:
+			 79.95
+		direct_Fern_aruco_1_14Apr17_20h17m10s_Mr_Yellow.pkl:
+			 7.74
+		direct_Fern_aruco_1_14Apr17_20h24m03s_Mr_Yellow.pkl:
+			 29.87
+		direct_Fern_aruco_1_14Apr17_21h14m26s_Mr_Yellow.pkl:
+			 96.83
+		direct_caffe_Fern_aruco_15Apr17_20h42m44s_Mr_Yellow.pkl:
+			 11.77
+		direct_rewrite_test_10May17_19h41m52s_Mr_Orange.pkl_sidewalk:
+			 84.78
+		direct_rewrite_test_20Apr17_16h27m38s_Mr_Black.pkl_sidewalk:
+			 43.03
+		direct_rewrite_test_21Apr17_12h58m58s_Mr_Silver.pkl:
+			 20.37
+		direct_rewrite_test_21Apr17_13h36m18s_Mr_Silver.pkl:
+			 9.04
+		direct_rewrite_test_21Apr17_14h21m44s_Mr_Silver.pkl:
+			 7.31
+		direct_rewrite_test_21Apr17_14h30m28s_Mr_Silver.pkl:
+			 5.56
+		direct_rewrite_test_21Apr17_14h35m09s_Mr_Silver.pkl:
+			 10.23
+		direct_rewrite_test_21Apr17_16h13m00s_Mr_Silver.pkl:
+			 33.95
+		direct_rewrite_test_21Apr17_16h34m12s_Mr_Silver.pkl:
+			 20.31
+		..225)
+
+	Aruco_Steering_Trajectories.pkl:
+		 898.38
+	all_steer.pkl:
+		 70.15
+	hdf5:
+		runs:
+			caffe2_z2_color_direct_Smyth_tape_02Mar17_15h44m01s_Mr_Orange.hdf5:
+				 2069.32
+			caffe2_z2_color_direct_Smyth_tape_02Mar17_16h26m00s_Mr_Orange.hdf5:
+				 7752.18
+			caffe2_z2_color_direct_local_01Jan13_00h01m07s_Mr_Yellow_A.hdf5:
+				 194.33
+			caffe2_z2_color_direct_local_01Jan13_00h01m07s_Mr_Yellow_B.hdf5:
+				 70.07
+			caffe2_z2_color_direct_local_11Apr17_14h16m42s_Mr_Silver.hdf5:
+				 123.35
+			caffe2_z2_color_direct_local_11Apr17_15h25m02s_Mr_Silver.hdf5:
+				 175.84
+			caffe2_z2_color_direct_local_11Apr17_15h29m09s_Mr_Blue.hdf5:
+				 449.88
+			caffe2_z2_color_direct_local_11Apr17_22h14m05s_Mr_Yellow.hdf5:
+				 1293.59
+			caffe2_z2_color_direct_local_31Dec12_16h01m08s_Mr_Blue.hdf5:
+				 159.97
+			caffe2_z2_color_direct_local_31Dec12_16h09m17s_Mr_Orange.hdf5:
+				 197.57
+			caffe_direct_rewrite_test_24Apr17_14h07m06s_Mr_Blue.hdf5:
+				 5336.55
+			direct_Fern_aruco_1_11Apr17_15h47m09s_Mr_Blue.hdf5:
+				 1532.9
+			direct_Fern_aruco_1_11Apr17_16h25m09s_Mr_Blue.hdf5:
+				 2997.77
+			direct_Fern_aruco_1_11Apr17_17h04m16s_Mr_Orange.hdf5:
+				 5257.27
+			direct_Fern_aruco_1_11Apr17_17h17m16s_Mr_Blue.hdf5:
+				 5632.23
+			direct_Fern_aruco_1_11Apr17_22h59m32s_Mr_Yellow.hdf5:
+				 940.11
+			direct_Fern_aruco_1_11Apr17_23h24m50s_Mr_Yellow.hdf5:
+				 5560.46
+			direct_Fern_aruco_1_14Apr17_13h33m11s_Mr_Blue.hdf5:
+				 291.41
+			direct_Fern_aruco_1_14Apr17_13h45m40s_Mr_Blue.hdf5:
+				 4795.77
+			direct_Fern_aruco_1_14Apr17_14h38m24s_Mr_Blue.hdf5:
+				 5426.94
+			direct_Fern_aruco_1_14Apr17_16h04m17s_Mr_Blue.hdf5:
+				 3237.57
+			direct_Fern_aruco_1_14Apr17_20h17m10s_Mr_Yellow.hdf5:
+				 5.32
+			direct_Fern_aruco_1_14Apr17_20h24m03s_Mr_Yellow.hdf5:
+				 1390.28
+			direct_Fern_aruco_1_14Apr17_21h14m26s_Mr_Yellow.hdf5:
+				 5178.57
+			..279)
+
+		segment_metadata:
+			caffe2_z2_color_direct_Smyth_tape_02Mar17_15h44m01s_Mr_Orange.all_valid_data_moments.pkl:
+				 0.31
+			caffe2_z2_color_direct_Smyth_tape_02Mar17_15h44m01s_Mr_Orange.high_steer_data_moments.pkl:
+				 0.22
+			caffe2_z2_color_direct_Smyth_tape_02Mar17_15h44m01s_Mr_Orange.low_steer_data_moments.pkl:
+				 0.1
+			caffe2_z2_color_direct_Smyth_tape_02Mar17_15h44m01s_Mr_Orange.state_hist_list.pkl:
+				 0.01
+			caffe2_z2_color_direct_Smyth_tape_02Mar17_16h26m00s_Mr_Orange.all_valid_data_moments.pkl:
+				 1.19
+			caffe2_z2_color_direct_Smyth_tape_02Mar17_16h26m00s_Mr_Orange.high_steer_data_moments.pkl:
+				 0.58
+			caffe2_z2_color_direct_Smyth_tape_02Mar17_16h26m00s_Mr_Orange.low_steer_data_moments.pkl:
+				 0.61
+			caffe2_z2_color_direct_Smyth_tape_02Mar17_16h26m00s_Mr_Orange.state_hist_list.pkl:
+				 0.01
+			caffe2_z2_color_direct_local_01Jan13_00h01m07s_Mr_Yellow_A.all_valid_data_moments.pkl:
+				 0.03
+			caffe2_z2_color_direct_local_01Jan13_00h01m07s_Mr_Yellow_A.high_steer_data_moments.pkl:
+				 0.03
+			caffe2_z2_color_direct_local_01Jan13_00h01m07s_Mr_Yellow_A.low_steer_data_moments.pkl:
+				 0.0
+			caffe2_z2_color_direct_local_01Jan13_00h01m07s_Mr_Yellow_A.state_hist_list.pkl:
+				 0.0
+			caffe2_z2_color_direct_local_01Jan13_00h01m07s_Mr_Yellow_B.all_valid_data_moments.pkl:
+				 0.01
+			caffe2_z2_color_direct_local_01Jan13_00h01m07s_Mr_Yellow_B.high_steer_data_moments.pkl:
+				 0.01
+			caffe2_z2_color_direct_local_01Jan13_00h01m07s_Mr_Yellow_B.low_steer_data_moments.pkl:
+				 0.0
+			caffe2_z2_color_direct_local_01Jan13_00h01m07s_Mr_Yellow_B.state_hist_list.pkl:
+				 0.0
+			caffe2_z2_color_direct_local_11Apr17_14h16m42s_Mr_Silver.all_valid_data_moments.pkl:
+				 0.02
+			caffe2_z2_color_direct_local_11Apr17_14h16m42s_Mr_Silver.high_steer_data_moments.pkl:
+				 0.01
+			caffe2_z2_color_direct_local_11Apr17_14h16m42s_Mr_Silver.low_steer_data_moments.pkl:
+				 0.01
+			caffe2_z2_color_direct_local_11Apr17_14h16m42s_Mr_Silver.state_hist_list.pkl:
+				 0.0
+			caffe2_z2_color_direct_local_11Apr17_15h25m02s_Mr_Silver.all_valid_data_moments.pkl:
+				 0.03
+			caffe2_z2_color_direct_local_11Apr17_15h25m02s_Mr_Silver.high_steer_data_moments.pkl:
+				 0.02
+			caffe2_z2_color_direct_local_11Apr17_15h25m02s_Mr_Silver.low_steer_data_moments.pkl:
+				 0.0
+			caffe2_z2_color_direct_local_11Apr17_15h25m02s_Mr_Silver.state_hist_list.pkl:
+				 0.0
+			..1106)
+
+		segment_metadata_:
+			caffe2_z2_color_direct_Smyth_tape_02Mar17_15h44m01s_Mr_Orange.high_steer.pkl:
+				 0.22
+			caffe2_z2_color_direct_Smyth_tape_02Mar17_15h44m01s_Mr_Orange.low_steer.pkl:
+				 0.1
+			caffe2_z2_color_direct_Smyth_tape_02Mar17_15h44m01s_Mr_Orange.state_hist_list.pkl:
+				 0.01
+			caffe2_z2_color_direct_Smyth_tape_02Mar17_16h26m00s_Mr_Orange.high_steer.pkl:
+				 0.58
+			caffe2_z2_color_direct_Smyth_tape_02Mar17_16h26m00s_Mr_Orange.low_steer.pkl:
+				 0.61
+			caffe2_z2_color_direct_Smyth_tape_02Mar17_16h26m00s_Mr_Orange.state_hist_list.pkl:
+				 0.01
+			caffe2_z2_color_direct_local_01Jan13_00h01m07s_Mr_Yellow_A.high_steer.pkl:
+				 0.03
+			caffe2_z2_color_direct_local_01Jan13_00h01m07s_Mr_Yellow_A.low_steer.pkl:
+				 0.0
+			caffe2_z2_color_direct_local_01Jan13_00h01m07s_Mr_Yellow_A.state_hist_list.pkl:
+				 0.0
+			caffe2_z2_color_direct_local_01Jan13_00h01m07s_Mr_Yellow_B.high_steer.pkl:
+				 0.01
+			caffe2_z2_color_direct_local_01Jan13_00h01m07s_Mr_Yellow_B.low_steer.pkl:
+				 0.0
+			caffe2_z2_color_direct_local_01Jan13_00h01m07s_Mr_Yellow_B.state_hist_list.pkl:
+				 0.0
+			caffe2_z2_color_direct_local_11Apr17_14h16m42s_Mr_Silver.high_steer.pkl:
+				 0.01
+			caffe2_z2_color_direct_local_11Apr17_14h16m42s_Mr_Silver.low_steer.pkl:
+				 0.01
+			caffe2_z2_color_direct_local_11Apr17_14h16m42s_Mr_Silver.state_hist_list.pkl:
+				 0.0
+			caffe2_z2_color_direct_local_11Apr17_15h25m02s_Mr_Silver.high_steer.pkl:
+				 0.02
+			caffe2_z2_color_direct_local_11Apr17_15h25m02s_Mr_Silver.low_steer.pkl:
+				 0.0
+			caffe2_z2_color_direct_local_11Apr17_15h25m02s_Mr_Silver.state_hist_list.pkl:
+				 0.0
+			caffe2_z2_color_direct_local_11Apr17_15h29m09s_Mr_Blue.high_steer.pkl:
+				 0.06
+			caffe2_z2_color_direct_local_11Apr17_15h29m09s_Mr_Blue.low_steer.pkl:
+				 0.01
+			caffe2_z2_color_direct_local_11Apr17_15h29m09s_Mr_Blue.state_hist_list.pkl:
+				 0.0
+			caffe2_z2_color_direct_local_11Apr17_22h14m05s_Mr_Yellow.high_steer.pkl:
+				 0.14
+			caffe2_z2_color_direct_local_11Apr17_22h14m05s_Mr_Yellow.low_steer.pkl:
+				 0.06
+			caffe2_z2_color_direct_local_11Apr17_22h14m05s_Mr_Yellow.state_hist_list.pkl:
+				 0.01
+			..830)
+
+
+	meta:
+		caffe2_z2_color_direct_Smyth_tape_02Mar17_15h44m01s_Mr_Orange:
+			Bag_Folder.pkl:
+				 8.6
+			left_image_bound_to_data.pkl:
+				 3.34
+			preprocessed_data.pkl:
+				 6.43
+
+		caffe2_z2_color_direct_Smyth_tape_02Mar17_16h26m00s_Mr_Orange:
+			Bag_Folder.pkl:
+				 21.88
+			left_image_bound_to_data.pkl:
+				 8.16
+			preprocessed_data.pkl:
+				 15.69
+
+		caffe2_z2_color_direct_local_01Jan13_00h01m07s_Mr_Yellow:
+			marker_data.pkl:
+				 49.62
+			trajectory.pkl:
+				 2.66
+
+		caffe2_z2_color_direct_local_01Jan13_00h01m07s_Mr_Yellow_A:
+			Bag_Folder.pkl:
+				 0.99
+			left_image_bound_to_data.pkl:
+				 0.39
+			marker_data.pkl:
+				 39.18
+			preprocessed_data.pkl:
+				 0.77
+			traj.pkl:
+				 0.46
+			trajectory.pkl:
+				 1.97
+
+		caffe2_z2_color_direct_local_01Jan13_00h01m07s_Mr_Yellow_B:
+			Bag_Folder.pkl:
+				 2.24
+			left_image_bound_to_data.pkl:
+				 0.92
+			marker_data.pkl:
+				 22.42
+			preprocessed_data.pkl:
+				 1.76
+			traj.pkl:
+				 1.1
+			trajectory.pkl:
+				 1.32
+
+		caffe2_z2_color_direct_local_11Apr17_14h16m42s_Mr_Silver:
+			Bag_Folder.pkl:
+				 3.72
+			left_image_bound_to_data.pkl:
+				 2.55
+			marker_data.pkl:
+				 55.61
+			preprocessed_data.pkl:
+				 17.49
+			traj.pkl:
+				 1.5
+			trajectory.pkl:
+				 4.93
+
+		caffe2_z2_color_direct_local_11Apr17_15h25m02s_Mr_Silver:
+			Bag_Folder.pkl:
+				 4.33
+			left_image_bound_to_data.pkl:
+				 2.96
+			marker_data.pkl:
+				 33.33
+			preprocessed_data.pkl:
+				 7.9
+			traj.pkl:
+				 1.75
+			trajectory.pkl:
+				 4.01
+
+		caffe2_z2_color_direct_local_11Apr17_15h29m09s_Mr_Blue:
+			Bag_Folder.pkl:
+				 2.14
+			left_image_bound_to_data.pkl:
+				 1.4
+			marker_data.pkl:
+				 36.26
+			preprocessed_data.pkl:
+				 3.78
+			traj.pkl:
+				 0.82
+			trajectory.pkl:
+				 2.36
+
+		caffe2_z2_color_direct_local_11Apr17_22h14m05s_Mr_Yellow:
+			Bag_Folder.pkl:
+				 7.53
+			left_image_bound_to_data.pkl:
+				 2.98
+			marker_data.pkl:
+				 199.59
+			preprocessed_data.pkl:
+				 5.74
+			traj.pkl:
+				 3.56
+			trajectory.pkl:
+				 12.87
+
+		caffe2_z2_color_direct_local_31Dec12_16h01m08s_Mr_Blue:
+			Bag_Folder.pkl:
+				 6.36
+			left_image_bound_to_data.pkl:
+				 4.37
+			marker_data.pkl:
+				 62.86
+			preprocessed_data.pkl:
+				 11.76
+			traj.pkl:
+				 2.57
+			trajectory.pkl:
+				 5.4
+
+		caffe2_z2_color_direct_local_31Dec12_16h01m08s_Mr_Orange:
+			Bag_Folder.pkl:
+				 3.45
+			left_image_bound_to_data.pkl:
+				 2.55
+			preprocessed_data.pkl:
+				 6.37
+
+		caffe2_z2_color_direct_local_31Dec12_16h09m17s_Mr_Orange:
+			Bag_Folder.pkl:
+				 1.6
+			left_image_bound_to_data.pkl:
+				 1.14
+			preprocessed_data.pkl:
+				 2.96
+
+		caffe_direct_rewrite_test_24Apr17_14h07m06s_Mr_Blue:
+			Bag_Folder.pkl:
+				 20.94
+			left_image_bound_to_data.pkl:
+				 13.48
+			marker_data.pkl:
+				 317.59
+			preprocessed_data.pkl:
+				 39.95
+			traj.pkl:
+				 7.94
+			trajectory.pkl:
+				 22.56
+
+		direct_Fern_aruco_1_11Apr17_15h47m09s_Mr_Blue:
+			Bag_Folder.pkl:
+				 6.99
+			left_image_bound_to_data.pkl:
+				 4.57
+			marker_data.pkl:
+				 140.89
+			preprocessed_data.pkl:
+				 12.35
+			traj.pkl:
+				 2.69
+			trajectory.pkl:
+				 7.89
+
+		direct_Fern_aruco_1_11Apr17_16h25m09s_Mr_Blue:
+			Bag_Folder.pkl:
+				 11.66
+			left_image_bound_to_data.pkl:
+				 7.55
+			marker_data.pkl:
+				 289.86
+			preprocessed_data.pkl:
+				 21.46
+			traj.pkl:
+				 4.45
+			trajectory.pkl:
+				 13.51
+
+		direct_Fern_aruco_1_11Apr17_17h04m16s_Mr_Orange:
+			Bag_Folder.pkl:
+				 14.02
+			left_image_bound_to_data.pkl:
+				 8.74
+			marker_data.pkl:
+				 309.45
+			preprocessed_data.pkl:
+				 23.66
+			traj.pkl:
+				 5.15
+			trajectory.pkl:
+				 15.14
+
+		direct_Fern_aruco_1_11Apr17_17h17m16s_Mr_Blue:
+			Bag_Folder.pkl:
+				 18.65
+			left_image_bound_to_data.pkl:
+				 11.97
+			marker_data.pkl:
+				 423.84
+			preprocessed_data.pkl:
+				 34.37
+			traj.pkl:
+				 7.05
+			trajectory.pkl:
+				 21.06
+
+		direct_Fern_aruco_1_11Apr17_22h59m32s_Mr_Yellow:
+			Bag_Folder.pkl:
+				 2.93
+			left_image_bound_to_data.pkl:
+				 1.12
+			marker_data.pkl:
+				 110.8
+			preprocessed_data.pkl:
+				 2.12
+			traj.pkl:
+				 1.33
+			trajectory.pkl:
+				 5.35
+
+		direct_Fern_aruco_1_11Apr17_23h24m50s_Mr_Yellow:
+			Bag_Folder.pkl:
+				 15.74
+			left_image_bound_to_data.pkl:
+				 5.94
+			marker_data.pkl:
+				 587.89
+			preprocessed_data.pkl:
+				 11.31
+			traj.pkl:
+				 7.1
+			trajectory.pkl:
+				 29.35
+
+		direct_Fern_aruco_1_14Apr17_13h14m20s_Mr_Blue:
+			marker_data.pkl:
+				 6.7
+			trajectory.pkl:
+				 1.21
+
+		direct_Fern_aruco_1_14Apr17_13h33m11s_Mr_Blue:
+			Bag_Folder.pkl:
+				 3.15
+			left_image_bound_to_data.pkl:
+				 2.13
+			marker_data.pkl:
+				 46.46
+			preprocessed_data.pkl:
+				 5.77
+			traj.pkl:
+				 1.25
+			trajectory.pkl:
+				 3.81
+
+		direct_Fern_aruco_1_14Apr17_13h45m40s_Mr_Blue:
+			Bag_Folder.pkl:
+				 16.05
+			left_image_bound_to_data.pkl:
+				 10.31
+			marker_data.pkl:
+				 249.21
+			preprocessed_data.pkl:
+				 27.91
+			traj.pkl:
+				 6.07
+			trajectory.pkl:
+				 16.73
+
+		direct_Fern_aruco_1_14Apr17_14h38m24s_Mr_Blue:
+			Bag_Folder.pkl:
+				 21.83
+			left_image_bound_to_data.pkl:
+				 14.17
+			marker_data.pkl:
+				 312.67
+			preprocessed_data.pkl:
+				 38.52
+			traj.pkl:
+				 8.34
+			trajectory.pkl:
+				 24.25
+
+		direct_Fern_aruco_1_14Apr17_16h04m17s_Mr_Blue:
+			Bag_Folder.pkl:
+				 26.03
+			left_image_bound_to_data.pkl:
+				 17.42
+			marker_data.pkl:
+				 359.2
+			preprocessed_data.pkl:
+				 46.97
+			traj.pkl:
+				 10.26
+			trajectory.pkl:
+				 29.59
+
+		..177)
+
+	older:
+		meta_Mr_Silver_problems:
+			direct_rewrite_test_20Apr17_13h29m44s_Mr_Silver:
+				left_image_bound_to_data.pkl:
+					 10.13
+				preprocessed_data.pkl:
+					 30.24
+
+			direct_rewrite_test_21Apr17_11h02m16s_Mr_Silver:
+				left_image_bound_to_data.pkl:
+					 1.63
+				preprocessed_data.pkl:
+					 4.53
+
+			direct_rewrite_test_21Apr17_14h52m38s_Mr_Silver:
+				left_image_bound_to_data.pkl:
+					 1.48
+				preprocessed_data.pkl:
+					 4.63
+
+
+
+	run_labels:
+		run_labels_13May17_14h12m31s.pkl:
+			 0.01
+		run_labels_13May17_14h14m46s.pkl:
+			 0.01
+		run_labels_13May17_14h19m46s.pkl:
+			 0.01
+		run_labels_25May17_21h47m42s.pkl:
+			 0.01
+		run_labels_25May17_21h47m58s.pkl:
+			 0.01
+		run_labels_25May17_21h48m09s.pkl:
+			 0.01
+		run_labels_25May17_21h50m08s.pkl:
+			 0.01
+		run_labels_25May17_21h50m11s.pkl:
+			 0.01
+		run_labels_25May17_21h58m35s.pkl:
+			 0.01
+		run_labels_25May17_21h59m02s.pkl:
+			 0.01
+		run_labels_25May17_22h00m14s.pkl:
+			 0.01
+		run_labels_25May17_22h00m42s.pkl:
+			 0.01
+		run_labels_25May17_22h01m56s.pkl:
+			 0.01
+		run_labels_25May17_22h02m09s.pkl:
+			 0.01
+		run_labels_25May17_22h13m03s.pkl:
+			 0.01
+		run_labels_25May17_22h13m11s.pkl:
+			 0.01
+		run_labels_25May17_22h14m25s.pkl:
+			 0.01
+		run_labels_25May17_22h14m29s.pkl:
+			 0.01
+		run_labels_25May17_22h15m39s.pkl:
+			 0.01
+		run_labels_25May17_22h16m49s.pkl:
+			 0.01
+		run_labels_25May17_22h17m13s.pkl:
+			 0.01
+		run_labels_25May17_22h19m45s.pkl:
+			 0.01
+		run_labels_25May17_22h20m14s.pkl:
+			 0.01
+		run_labels_25May17_22h21m13s.pkl:
+			 0.01
+		..129)
+
+	train_all_steer.pkl:
+		 66.65
+	val_all_steer.pkl:
+		 3.51
+
+bdd_car_data_14Sept2017_circle:
+	Aruco_Steering_Trajectories:
+		Mr_Blue_2017-09-14-20-07-05.pkl:
+			 0.2
+		Mr_Blue_2017-09-14-20-17-42.pkl:
+			 0.9
+		Mr_Lt_Blue_2017-09-14-18-10-09.pkl:
+			 0.66
+		Mr_Lt_Blue_2017-09-14-20-07-08.pkl:
+			 0.2
+		Mr_Lt_Blue_2017-09-14-20-17-47.pkl:
+			 0.89
+		Mr_Orange_2017-09-14-20-07-13.pkl:
+			 0.19
+		Mr_Orange_2017-09-14-20-17-44.pkl:
+			 0.89
+		Mr_Purple_2017-09-14-20-07-11.pkl:
+			 0.19
+		Mr_Purple_2017-09-14-20-17-48.pkl:
+			 0.77
+		Mr_Yellow_2017-09-14-20-07-06.pkl:
+			 0.2
+		Mr_Yellow_2017-09-14-20-17-45.pkl:
+			 0.91
+
+	Aruco_Steering_Trajectories.pkl:
+		 5.61
+	data_moments.pkl:
+		 7.21
+	data_moments_Mr_Black.pkl:
+		 0.0
+	data_moments_Mr_Blue.pkl:
+		 1.27
+	data_moments_Mr_Lt_Blue.pkl:
+		 1.97
+	data_moments_Mr_Orange.pkl:
+		 1.26
+	data_moments_Mr_Purple.pkl:
+		 1.12
+	data_moments_Mr_Yellow.pkl:
+		 1.27
+	data_moments_indexed.pkl:
+		 13.47
+	h5py:
+
+	heading_pause_data_moments_indexed.pkl:
+		 4.15
+	position_dictionaries:
+		Mr_Black_position_dictionary.pkl:
+			 0.0
+		Mr_Blue_position_dictionary.pkl:
+			 2.42
+		Mr_Lt_Blue_position_dictionary.pkl:
+			 4.18
+		Mr_Orange_position_dictionary.pkl:
+			 2.43
+		Mr_Purple_position_dictionary.pkl:
+			 2.16
+		Mr_Yellow_position_dictionary.pkl:
+			 2.42
+
+	runs_left_right_ts_dic.pkl:
+		 11.35
+	runs_left_timestamp_index_dic.pkl:
+		 6.48
+	runs_right_timestamp_index_dic.pkl:
+		 6.48
+	valid_timestamp_pairs.Mr_Black.pkl:
+		 0.0
+	valid_timestamp_pairs.Mr_Blue.pkl:
+		 0.38
+	valid_timestamp_pairs.Mr_Lt_Blue.pkl:
+		 0.61
+	valid_timestamp_pairs.Mr_Orange.pkl:
+		 0.38
+	valid_timestamp_pairs.Mr_Purple.pkl:
+		 0.34
+	valid_timestamp_pairs.Mr_Yellow.pkl:
+		 0.38
+	valid_timestamps.Mr_Black.pkl:
+		 0.0
+	valid_timestamps.Mr_Blue.pkl:
+		 0.31
+	..27)
+
+bdd_car_data_14Sept2017_whole_room:
+	Aruco_Steering_Trajectories:
+		Mr_Black_2017-09-14-15-48-26.pkl:
+			 0.19
+		Mr_Black_2017-09-14-15-57-55.pkl:
+			 0.64
+		Mr_Blue_2017-09-14-15-48-24.pkl:
+			 0.2
+		Mr_Blue_2017-09-14-15-57-55.pkl:
+			 0.66
+		Mr_Blue_2017-09-14-17-28-50.pkl:
+			 0.01
+		Mr_Blue_2017-09-14-17-31-26.pkl:
+			 0.75
+		Mr_Blue_2017-09-14-18-10-05.pkl:
+			 0.67
+		Mr_Lt_Blue_2017-09-14-15-48-32.pkl:
+			 0.2
+		Mr_Lt_Blue_2017-09-14-15-57-59.pkl:
+			 0.64
+		Mr_Lt_Blue_2017-09-14-17-28-55.pkl:
+			 0.81
+		Mr_Orange_2017-09-14-15-48-29.pkl:
+			 0.2
+		Mr_Orange_2017-09-14-15-57-57.pkl:
+			 0.64
+		Mr_Orange_2017-09-14-17-28-58.pkl:
+			 0.82
+		Mr_Orange_2017-09-14-18-10-12.pkl:
+			 0.67
+		Mr_Purple_2017-09-14-15-48-34.pkl:
+			 0.19
+		Mr_Purple_2017-09-14-15-58-01.pkl:
+			 0.66
+		Mr_Purple_2017-09-14-17-28-57.pkl:
+			 0.83
+		Mr_Purple_2017-09-14-18-10-10.pkl:
+			 0.68
+		Mr_Yellow_2017-09-14-15-52-40.pkl:
+			 0.08
+		Mr_Yellow_2017-09-14-16-04-47.pkl:
+			 0.44
+		Mr_Yellow_2017-09-14-17-28-54.pkl:
+			 0.86
+		Mr_Yellow_2017-09-14-18-10-07.pkl:
+			 0.68
+
+	Aruco_Steering_Trajectories.pkl:
+		 10.89
+	data_moments.pkl:
+		 13.8
+	data_moments_Mr_Black.pkl:
+		 0.96
+	data_moments_Mr_Blue.pkl:
+		 2.65
+	data_moments_Mr_Lt_Blue.pkl:
+		 1.91
+	data_moments_Mr_Orange.pkl:
+		 2.72
+	data_moments_Mr_Purple.pkl:
+		 2.75
+	data_moments_Mr_Yellow.pkl:
+		 2.4
+	data_moments_indexed.pkl:
+		 25.78
+	h5py:
+
+	heading_pause_data_moments_indexed.pkl:
+		 11.57
+	position_dictionaries:
+		Mr_Black_position_dictionary.pkl:
+			 3.76
+		Mr_Blue_position_dictionary.pkl:
+			 6.75
+		Mr_Lt_Blue_position_dictionary.pkl:
+			 5.15
+		Mr_Orange_position_dictionary.pkl:
+			 6.89
+		Mr_Purple_position_dictionary.pkl:
+			 6.9
+		Mr_Yellow_position_dictionary.pkl:
+			 5.94
+
+	runs_left_right_ts_dic.pkl:
+		 29.49
+	runs_left_timestamp_index_dic.pkl:
+		 16.85
+	runs_right_timestamp_index_dic.pkl:
+		 16.85
+	valid_timestamp_pairs.Mr_Black.pkl:
+		 0.29
+	valid_timestamp_pairs.Mr_Blue.pkl:
+		 0.8
+	valid_timestamp_pairs.Mr_Lt_Blue.pkl:
+		 0.57
+	valid_timestamp_pairs.Mr_Orange.pkl:
+		 0.82
+	valid_timestamp_pairs.Mr_Purple.pkl:
+		 0.83
+	valid_timestamp_pairs.Mr_Yellow.pkl:
+		 0.72
+	valid_timestamps.Mr_Black.pkl:
+		 0.23
+	valid_timestamps.Mr_Blue.pkl:
+		 0.64
+	..27)
+
+bdd_car_data_15Sept2017_circle:
+	Aruco_Steering_Trajectories:
+		Mr_Black_2017-09-15-13-26-59.pkl:
+			 0.08
+		Mr_Black_2017-09-15-13-58-40.pkl:
+			 0.09
+		Mr_Black_2017-09-15-14-04-22.pkl:
+			 0.47
+		Mr_Black_2017-09-15-15-57-44.pkl:
+			 0.61
+		Mr_Black_2017-09-15-16-16-01.pkl:
+			 1.17
+		Mr_Black_2017-09-15-17-14-19.pkl:
+			 0.45
+		Mr_Black_2017-09-15-17-38-41.pkl:
+			 0.56
+		Mr_Black_2017-09-15-18-23-06.pkl:
+			 0.47
+		Mr_Black_2017-09-15-19-26-49.pkl:
+			 0.47
+		Mr_Black_2017-09-15-20-05-17.pkl:
+			 0.56
+		Mr_Black_2017-09-15-20-42-50.pkl:
+			 0.33
+		Mr_Black_2017-09-15-21-07-25.pkl:
+			 0.43
+		Mr_Blue_2017-09-15-13-58-39.pkl:
+			 0.09
+		Mr_Blue_2017-09-15-14-04-20.pkl:
+			 0.46
+		Mr_Blue_2017-09-15-15-57-40.pkl:
+			 0.59
+		Mr_Blue_2017-09-15-16-19-15.pkl:
+			 1.06
+		Mr_Blue_2017-09-15-17-14-18.pkl:
+			 0.45
+		Mr_Blue_2017-09-15-17-38-39.pkl:
+			 0.54
+		Mr_Blue_2017-09-15-18-23-04.pkl:
+			 0.46
+		Mr_Blue_2017-09-15-19-26-47.pkl:
+			 0.49
+		Mr_Blue_2017-09-15-20-05-15.pkl:
+			 0.54
+		Mr_Blue_2017-09-15-20-42-49.pkl:
+			 0.02
+		Mr_Blue_2017-09-15-21-07-23.pkl:
+			 0.44
+		Mr_Lt_Blue_2017-09-15-13-31-06.pkl:
+			 0.63
+		..70)
+
+	Aruco_Steering_Trajectories.pkl:
+		 32.78
+	data_moments.pkl:
+		 41.76
+	data_moments_Mr_Black.pkl:
+		 6.7
+	data_moments_Mr_Blue.pkl:
+		 6.02
+	data_moments_Mr_Lt_Blue.pkl:
+		 7.23
+	data_moments_Mr_Orange.pkl:
+		 7.41
+	data_moments_Mr_Purple.pkl:
+		 7.07
+	data_moments_Mr_Yellow.pkl:
+		 6.08
+	data_moments_indexed.pkl:
+		 77.96
+	h5py:
+
+	heading_pause_data_moments_indexed.pkl:
+		 31.59
+	position_dictionaries:
+		Mr_Black_position_dictionary.pkl:
+			 15.38
+		Mr_Blue_position_dictionary.pkl:
+			 14.03
+		Mr_Lt_Blue_position_dictionary.pkl:
+			 16.8
+		Mr_Orange_position_dictionary.pkl:
+			 16.87
+		Mr_Purple_position_dictionary.pkl:
+			 15.66
+		Mr_Yellow_position_dictionary.pkl:
+			 15.62
+
+	runs_left_right_ts_dic.pkl:
+		 78.83
+	runs_left_timestamp_index_dic.pkl:
+		 45.03
+	runs_right_timestamp_index_dic.pkl:
+		 45.03
+	valid_timestamp_pairs.Mr_Black.pkl:
+		 1.99
+	valid_timestamp_pairs.Mr_Blue.pkl:
+		 1.8
+	valid_timestamp_pairs.Mr_Lt_Blue.pkl:
+		 2.17
+	valid_timestamp_pairs.Mr_Orange.pkl:
+		 2.22
+	valid_timestamp_pairs.Mr_Purple.pkl:
+		 2.12
+	valid_timestamp_pairs.Mr_Yellow.pkl:
+		 1.83
+	valid_timestamps.Mr_Black.pkl:
+		 1.6
+	valid_timestamps.Mr_Blue.pkl:
+		 1.44
+	..27)
+
+bdd_car_data_23Sept2017_circle11:
+	Aruco_Steering_Trajectories:
+		Mr_Lt_Blue_2017-09-23-17-10-51.pkl:
+			 1.08
+		Mr_Purple_2017-09-23-17-10-53.pkl:
+			 1.06
+		Mr_Yellow_2017-09-23-17-10-50.pkl:
+			 1.06
+
+	Aruco_Steering_Trajectories.pkl:
+		 2.94
+	data_moments.pkl:
+		 3.74
+	data_moments_Mr_Black.pkl:
+		 0.0
+	data_moments_Mr_Blue.pkl:
+		 0.0
+	data_moments_Mr_Lt_Blue.pkl:
+		 1.15
+	data_moments_Mr_Orange.pkl:
+		 0.0
+	data_moments_Mr_Purple.pkl:
+		 1.13
+	data_moments_Mr_Yellow.pkl:
+		 1.12
+	data_moments_indexed.pkl:
+		 7.09
+	h5py:
+
+	heading_pause_data_moments_indexed.pkl:
+		 2.05
+	position_dictionaries:
+		Mr_Lt_Blue_position_dictionary.pkl:
+			 1.56
+		Mr_Purple_position_dictionary.pkl:
+			 1.57
+		Mr_Yellow_position_dictionary.pkl:
+			 1.58
+
+	runs_left_right_ts_dic.pkl:
+		 3.94
+	runs_left_timestamp_index_dic.pkl:
+		 2.25
+	runs_right_timestamp_index_dic.pkl:
+		 2.25
+	valid_timestamp_pairs.Mr_Black.pkl:
+		 0.0
+	valid_timestamp_pairs.Mr_Blue.pkl:
+		 0.0
+	valid_timestamp_pairs.Mr_Lt_Blue.pkl:
+		 0.38
+	valid_timestamp_pairs.Mr_Orange.pkl:
+		 0.0
+	valid_timestamp_pairs.Mr_Purple.pkl:
+		 0.37
+	valid_timestamp_pairs.Mr_Yellow.pkl:
+		 0.37
+	valid_timestamps.Mr_Black.pkl:
+		 0.0
+	valid_timestamps.Mr_Blue.pkl:
+		 0.0
+	..27)
+
+bdd_car_data_29Sept2017_circle11:
+	h5py:
+		Mr_Purple_2017-09-29-12-20-41:
+			flip_images.h5py:
+				 1203.37
+			left_timestamp_metadata_right_ts.h5py:
+				 3.27
+			original_timestamp_data.h5py:
+				 1212.7
+
+
+
+..53)
 

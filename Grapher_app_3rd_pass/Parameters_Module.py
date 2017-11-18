@@ -7,7 +7,7 @@ _ = dictionary_access
 P = {}
 
 _(P,VERBOSE,equals,True)
-P[DATASET_PATHS] = ['/media/karlzipser/2_TB_Samsung/runs'] #['/home/karlzipser/Desktop/bdd_car_data_Tilden_1Oct2017']
+#P[DATASET_PATHS] = ['/home/karlzipser/Desktop/aruco_post_demo'] #['/home/karlzipser/Desktop/bdd_car_data_Tilden_1Oct2017']
 #P[DATASET_PATHS] = [opjm('rosbags/bdd_aruco_demo')]
 #P[DATASET_PATHS] = [opjD('bdd_car_data_July2017_LCR')]
 #P[DATASET_PATHS] = [opjm('ExtraDrive2/bdd_car_data_July2017_LCR')]
@@ -17,6 +17,7 @@ P[DATASET_PATHS] = ['/media/karlzipser/2_TB_Samsung/runs'] #['/home/karlzipser/D
 
 
 P[TOPICS] = {
+
 	steer:{maxval:80,		minval:20,		baseline:49.0,	color:(255,0,0)},
 	motor:{maxval:80,		minval:49,		baseline:49.0,	color:(0,255-32,32)},
 	state:{maxval:6,		minval:-10,		baseline:0,		color:(128,128,128)},
@@ -35,10 +36,11 @@ P[TOPICS] = {
 	aruco_position_y:{maxval:-4,minval:4,	baseline:0,		color:(0,100,155)},
 	#other_car_position_x:{maxval:-4,minval:4,	baseline:0,		color:(0,255,100)},
 	#other_car_position_y:{maxval:-4,minval:4,	baseline:0,		color:(0,255,100)},
+
 }
 P[VERTICAL_LINE_PROPORTION] = 0.5
 P[X_PIXEL_SIZE] = 1500
-P[Y_PIXEL_SIZE] = 1500#1100
+P[Y_PIXEL_SIZE] = 2000#1100
 P[SCREEN_X] = 20
 P[SCREEN_Y] = 40
 P[MOUSE_MOVE_TIME] = 0

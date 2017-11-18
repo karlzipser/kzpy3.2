@@ -62,13 +62,7 @@ def Img(xmin=None,xmax=None,ymin=None,ymax=None,xsize=None,ysize=None,data_type=
 
 
 
-base_graph = Img(
-	xmin=-2.5,
-	xmax=2.5,
-	ymin=-2.5,
-	ymax=2.5,
-	xsize=300,
-	ysize=300)
+
 
 """
 def mouse_event(event, x_, y_, buttons, user_param):

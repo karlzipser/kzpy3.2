@@ -20,7 +20,8 @@ def Camera_View_Field(*args):
 	nearest_marker_ = [None,999]
 	pts_ = []
 	a_ = [0,1]
-	h_ = [0.53,0]
+	#h_ = [0.53,0] # heading point
+	h_ = [0.1,0] # heading point
 	for m_ in Aruco_data['angles_to_center'].keys():
 		if m_ in P[MARKERS_TO_IGNORE]:
 			continue

@@ -1,4 +1,6 @@
 
+Sept. 2017
+
 sudo chmod -R 777 /media/karlzipser/rosbags
 
 rm /media/karlzipser/rosbags/*.active
@@ -29,6 +31,63 @@ python kzpy3/Localization_app/heading_pause_data_moments.py PATH '/home/karlzips
 
 
 
-
-
 python kzpy3/Train_app/Train_SqueezeNet_indoor_aruco__2/Main.py
+
+
+
+
+
+
+
+
+
+17 Nov. 2017
+
+
+it seems that the 'data_moments_indexed...' are the essential metadata paired with image data
+
+bdd_car_data_Sept2017_aruco_demo/
+	data_moments_indexed_1.pkl
+		len = 1855078
+		e.g.,
+			['Mr_Yellow_2017-09-04-18-41-24',
+ 			((1504575971.763, 8407), (1504575971.7720001, 8407)),
+			 ('Follow_Arena_Potential_Field', 1),
+ 			(98, 56)]
+ 		probably:
+ 			[run name,
+ 			((left timestamp, left index),(right timestamp, right index)),
+ 			(behavioralmode, direction),
+ 			(x,y)]
+
+
+
+python kzpy3/Localization_app/calculate_position_data.py BATCH True MARKERS circle H5PY /home/karlzipser/Desktop/bdd_car_data_29Sept2017_circle11/h5py
+
+	bdd_car_data_Sept2017_aruco_demo/h5py/Mr_Black_2017-09-02-13-27-30/
+		position_data.h5py
+			[u'ax', u'ay', u'hx', u'hy', u'o_meo', u't']
+
+
+	bdd_car_data_Sept2017_aruco_demo/position_dictionaries/
+		Mr_Black_position_dictionary.pkl
+			['ay', 'ax', 'hx', 'hy', 'o_meo']    each of these has timestamp and value
+
+python kzpy3/Localization_app/visualize_cars_with_gaussians__3.py BATCH True MARKERS circle DATA_FOLDER /home/karlzipser/Desktop/bdd_car_data_15Sept2017_circle
+
+
+
+
+
+
+
+
+python kzpy3/Localization_app/calculate_position_data.py BATCH True MARKERS circle11 H5PY '/home/karlzipser/Desktop/bdd_car_data_29Sept2017_circle11/h5py'
+
+python kzpy3/Localization_app/calculate_position_data.py BATCH True MARKERS circle11_half H5PY '/home/karlzipser/Desktop/half_raised_aruco/h5py'
+
+python kzpy3/Localization_app/calculate_position_data.py BATCH True MARKERS circle11_full H5PY '/home/karlzipser/Desktop/full_raised/h5py'
+
+
+
+python kzpy3/Localization_app/calculate_position_data2.py BATCH True H5PY /home/karlzipser/Desktop/bdd_car_data_29Sept2017_circle11/h5py

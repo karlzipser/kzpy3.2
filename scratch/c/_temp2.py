@@ -292,4 +292,62 @@ True
 
 
 
+
+isdir = os.path.isdir
+top = '/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo'
+D = {}
+assert(isdir(top))
+
+def folder_to_dic(D,top):
+	try:
+		D[fname(top)] = {}
+		items = sggo(top,'*')
+
+		for i in items:
+			if isdir(i):
+				
+				D[fname(top)][fname(i)] = {}
+				D[fname(top)][fname(i)] = folder_to_dic(D[fname(top)][fname(i)],i)
+			else:
+				D[fname(top)][fname(i)] = dp(os.path.getsize(i)/(10.0**6))
+	except Exception as e:
+		print("**********folder_to_dic Exception ***********************")
+		print(e.message, e.args)
+	return D[fname(top)]
+
+
+E = folder_to_dic(D,top)
+
+
+def ls_dic(D,tabs=0):
+	tabstr = ''
+	for i in range(tabs):
+		tabstr += '\t'
+	for k in D.keys():
+		if type(D[k]) != dict:
+			pd2s(tabstr,k,':',D[k])
+		else:
+			pd2s(tabstr,k,':')
+			ls_dic(D[k],tabs=tabs+1)
+				
+
+
+
+
+
+set(raise_aruco_1).intersection(set(bdd_car_data_Sept2017_aruco_demo))
+
+
+
+top = '/media/karlzipser/2_TB_Samsung/full_raised'#'/home/karlzipser/Desktop/raise_aruco_1'#'/home/karlzipser/Desktop/sorting_data'#'/media/karlzipser/2_TB_Samsung/sorting_data' #  
+D={};E=folder_to_dic(D,top)
+runs = []
+#for i in D.keys():
+for j in D.keys():
+	if 'h5py' in D[j]:
+		runs += D[j]['h5py'].keys()
+runs_on_external = runs
+#runs_on_computer = runs
+
+len(set(runs_on_external).intersection(set(runs_on_computer)))
 #EOF

@@ -764,7 +764,7 @@ def find_files_recursively(src,pattern,FILES_ONLY=False,DIRS_ONLY=False):
 			use_list = filenames+dirnames
 		for filename in fnmatch.filter(use_list, pattern):
 			file = opj(root,filename)
-			folder = pname(file).replace(place,'')
+			folder = pname(file).replace(src,'')
 			if folder not in folders:
 				folders[folder] = []
 			folders[folder].append(filename)
@@ -960,7 +960,7 @@ def zlst_to_str(lst,truncate=True,decimal_places=2,show_ends=2,depth=0,range_lst
 		lst_str += d2n(' (len=',original_len,')')
 	return lst_str
 
-def zdic_to_str(d,range_lst,depth=0,dic_show_ends=4,dic_truncate=True):
+def zdic_to_str(d,range_lst,depth=0,dic_show_ends=4,dic_truncate=True,show_depth=False,show_type=False):
 
 	dic_str_lst = []
 
@@ -991,8 +991,10 @@ def zdic_to_str(d,range_lst,depth=0,dic_show_ends=4,dic_truncate=True):
 		key = sorted_keys[i]
 		value = d[key]
 
-		dic_str_lst.append(d2n('\t'*depth,'<',i,'> ',key,':'))
-
+		if show_depth:
+			dic_str_lst.append(d2n('\t'*depth,'<',i,'> ',key,':'))
+		else:
+			dic_str_lst.append(d2n('\t'*depth,key,':'))
 		if isinstance(value,dict):
 			if len(range_lst) > 1:
 				dic_str_lst.append( zdic_to_str(value,range_lst[1:],depth=depth+1,dic_show_ends=dic_show_ends,dic_truncate=dic_truncate) )
@@ -1006,7 +1008,10 @@ def zdic_to_str(d,range_lst,depth=0,dic_show_ends=4,dic_truncate=True):
 			elif type(value) == str:
 				dic_str_lst.append(d2s('\t'*(depth+1),str(value)))
 			else:
-				dic_str_lst.append(d2s('\t'*(depth+1),str(value),type(value)))
+				if show_type:
+					dic_str_lst.append(d2s('\t'*(depth+1),str(value),type(value)))
+				else:
+					dic_str_lst.append(d2s('\t'*(depth+1),str(value)))
 	if this_range[1] < len(sorted_keys):
 		dic_str_lst.append(d2n('\t'*depth,'..',len(d)-1,')'))
 	dic_str = ""
