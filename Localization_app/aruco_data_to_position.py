@@ -13,7 +13,7 @@ for file_path in folder_paths:
 	if len(sggo(file_path,'aruco_position.h5py')) > 0:
 		pd2s(opj(file_path,'aruco_position.h5py'),'exists')
 		continue
-	try:
+	if True:#try:
 		spd2s(file_path)
 		O = h5r(opj(file_path,'original_timestamp_data.h5py'))
 		o = lo(opj(file_path,'aruco_data.pkl'))
@@ -94,7 +94,7 @@ for file_path in folder_paths:
 			for d in ['xy','hxy']:
 				G.create_dataset(s+'_'+d,data=Traj[s][d]['meo'])
 		G.close()
-	except Exception as e:
+	else:#except Exception as e:
 		print("********** this Exception ***********************")
 		print(e.message, e.args)
 

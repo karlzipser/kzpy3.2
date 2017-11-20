@@ -356,7 +356,7 @@ len(set(runs_on_external).intersection(set(runs_on_computer)))
 
 
 
-
+# 20 Nov. 2017
 
 O = h5r('/home/karlzipser/Desktop/direct_local_arena_16_17_Sept_with_aruco/direct_local_16Sep17_14h35m25s_Mr_Lt_Blue/original_timestamp_data.h5py')
 l = len(O['left_image']['vals'][:])
@@ -374,10 +374,36 @@ print timer.time() # = 0.260668992996
 
 
 
+folder = '/home/karlzipser/Desktop/bdd_car_data_14Sept2017_whole_room'
+Aruco_Steering_Trajectories = sggo(folder,'Aruco_Steering_Trajectories/*.pkl')
+
+for a in Aruco_Steering_Trajectories:
+	run_name = a.split('/')[-1].split('.')[0]
+	unix_str = d2s('mv',opj('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/h5py',run_name),opj(folder,'h5py'))
+	print unix_str
+	unix(unix_str,False)
 
 
 
+# 20 Nov. 2017
 
+folder = '/home/karlzipser/Desktop/full_raised'
+observer_folder = '/home/karlzipser/Desktop/full_raised_observer'
+runs = sggo(folder,'h5py/*')
+
+for a in runs:
+	run_name = fname(a)
+	F = h5r(opj(a,'left_timestamp_metadata_right_ts.h5py'))
+	print run_name,'state' in F.keys()
+	if 'state' in F.keys():
+		observer = False
+	else:
+		observer = True
+	F.close()
+	if observer:
+		unix_str = d2s('mv',a,opj(observer_folder,'h5py'))
+		print unix_str
+		unix(unix_str,False)
 
 
 

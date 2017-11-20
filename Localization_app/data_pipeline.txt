@@ -98,3 +98,4 @@ python kzpy3/Localization_app/calculate_position_data2.py BATCH True H5PY /home/
 19 Nov. 2017
 
 python kzpy3/Localization_app/aruco_data_to_position.py SRC '/home/karlzipser/Desktop/full_raised'
+python kzpy3/Localization_app/calculate_position_data2.py BATCH True H5PY /home/karlzipser/Desktop/full_raised/h5py
