@@ -114,6 +114,7 @@ while True:
 			P[ICONS][n_][Img] = P[IMAGE2]
 			P[ICONS][n_][show]()
 		ctrv = 0
+		
 		for topic_ in sorted(P[TOPICS].keys()):
 			if topic_ in L.keys():
 				vals_ = L[topic_][:]

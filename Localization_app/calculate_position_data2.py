@@ -68,12 +68,14 @@ def get_car_position_heading_validity(h5py_data_folder,graphics=False):
 	
 
 	pause_flag = False
-
+	######################
+	#
 	ax = na(meo(na(L[aruco_position_x][:]),45))
 	ay = na(meo(na(L[aruco_position_y][:]),45))
 	hx = na(meo(na(L[aruco_heading_x][:]),45))
 	hy = na(meo(na(L[aruco_heading_y][:]),45))
-
+	#
+	######################7777                                      
 	L.close()
 	O.close()
 

@@ -1657,7 +1657,20 @@ def raw_enter():
 	return raw_input('Hit enter to continue > ')
 
 
-
+def build_dic(key_lists):
+	D = {}
+	if len(key_lists) == 0:
+		return D
+	for k in key_lists[0]:
+		D[k] = build_dic(key_lists[1:])
+	return D
+def build_dic_list_leaves(key_lists):
+	D = {}
+	if len(key_lists) == 0:
+		return []
+	for k in key_lists[0]:
+		D[k] = build_dic_list_leaves(key_lists[1:])
+	return D	
 
 	
 #EOF

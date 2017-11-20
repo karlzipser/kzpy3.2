@@ -350,4 +350,45 @@ runs_on_external = runs
 #runs_on_computer = runs
 
 len(set(runs_on_external).intersection(set(runs_on_computer)))
+
+
+
+
+
+
+
+
+O = h5r('/home/karlzipser/Desktop/direct_local_arena_16_17_Sept_with_aruco/direct_local_16Sep17_14h35m25s_Mr_Lt_Blue/original_timestamp_data.h5py')
+l = len(O['left_image']['vals'][:])
+timer = Timer()
+for i in range(1000):
+	img = O['left_image']['vals'][np.random.randint(l)]
+print timer.time() # = 0.295176029205
+
+
+timer = Timer()
+for i in range(1000):
+	img = cv2.flip(O['left_image']['vals'][1500],1)
+print timer.time() # = 0.260668992996
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #EOF
+
+
+
