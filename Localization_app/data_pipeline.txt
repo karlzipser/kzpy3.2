@@ -91,3 +91,10 @@ python kzpy3/Localization_app/calculate_position_data.py BATCH True MARKERS circ
 
 
 python kzpy3/Localization_app/calculate_position_data2.py BATCH True H5PY /home/karlzipser/Desktop/bdd_car_data_29Sept2017_circle11/h5py
+
+
+
+
+19 Nov. 2017
+
+python kzpy3/Localization_app/aruco_data_to_position.py SRC '/home/karlzipser/Desktop/full_raised'

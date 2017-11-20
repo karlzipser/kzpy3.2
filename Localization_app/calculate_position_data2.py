@@ -20,7 +20,23 @@ def get_car_position_heading_validity(h5py_data_folder,graphics=False):
 	else:
 		L = h5r(opj(h5py_data_folder,'left_timestamp_metadata.h5py'))
 	O = h5r(opj(h5py_data_folder,'original_timestamp_data.h5py'))
-	print len(L['aruco_position_y'][:])
+	A = h5r(opj(h5py_data_folder,'aruco_position.h5py'))
+	print len(A['aruco_position_y'][:]),len(L['state'][:])
+
+	######################
+	#
+	ax = A[aruco_position_x][:]
+	ay = A[aruco_position_y][:]
+	hx = A[aruco_heading_x][:]
+	hy = A[aruco_heading_y][:]
+	heading_pause = A['heading_pause'][:]
+	#ax = na(meo(na(L[aruco_position_x][:]),45))
+	#ay = na(meo(na(L[aruco_position_y][:]),45))
+	#hx = na(meo(na(L[aruco_heading_x][:]),45))
+	#hy = na(meo(na(L[aruco_heading_y][:]),45))
+	#
+	###################### 
+
 	left_images = O[left_image][vals][:].copy()
 	left_images = left_images.mean(axis=3)
 	right_images = O[right_image][vals][:].copy()
@@ -42,8 +58,8 @@ def get_car_position_heading_validity(h5py_data_folder,graphics=False):
 	t = O[left_image][ts][:]
 
 
-
-	hp = L[heading_pause][:]
+	hp = heading_pause
+	#hp = L[heading_pause][:]
 	hp[hp<1]=0
 	hp2 = 1-hp
 	hp2[L[state][:]!=6] = 0
@@ -68,17 +84,10 @@ def get_car_position_heading_validity(h5py_data_folder,graphics=False):
 	
 
 	pause_flag = False
-	######################
-	#
-	ax = na(meo(na(L[aruco_position_x][:]),45))
-	ay = na(meo(na(L[aruco_position_y][:]),45))
-	hx = na(meo(na(L[aruco_heading_x][:]),45))
-	hy = na(meo(na(L[aruco_heading_y][:]),45))
-	#
-	######################7777                                      
+                                     
 	L.close()
 	O.close()
-
+	A.close()
 	return t,ax,ay,hx,hy,o_meo
 
 
@@ -99,7 +108,7 @@ if True:
 		#else:
 		if True:
 			print 'processing '+r
-			if True:#try:
+			try:
 				t,ax,ay,hx,hy,o_meo = get_car_position_heading_validity(r,graphics=False)
 
 				F = h5w(opj(r,'position_data.h5py'))
@@ -110,7 +119,7 @@ if True:
 				F.create_dataset('hy',data=hy)
 				F.create_dataset('o_meo',data=o_meo)
 				F.close()
-			else:#except Exception as e:
+			except Exception as e:
 				print("********** calculate_position_data.py: Exception ***********************")
 				print(e.message, e.args)
 
