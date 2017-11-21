@@ -61,9 +61,9 @@ marker_xys = []
 for i in range(len(markers_clockwise)):
 	a = marker_angles[i]
 	marker_angles_dic[markers_clockwise[i]] = a
-	x = 2*107/100.*np.sin(a)
-	y = 2*107/100.*np.cos(a)
-	marker_xys.append([x,y])
+	_x = 2*107/100.*np.sin(a)
+	_y = 2*107/100.*np.cos(a)
+	marker_xys.append([_x,_y])
 markers_xy_dic = {}
 assert(len(markers_clockwise) == len(marker_xys))
 for i in range(len(markers_clockwise)):

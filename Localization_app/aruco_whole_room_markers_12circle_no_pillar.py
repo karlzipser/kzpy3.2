@@ -1,6 +1,6 @@
 #!/usr/bin/env python 
 from kzpy3.vis2 import *
-
+import kzpy3.Grapher_app.Graph_Image_Module as Graph_Image_Module
 
 
 
@@ -61,9 +61,9 @@ marker_xys = []
 for i in range(len(markers_clockwise)):
 	a = marker_angles[i]
 	marker_angles_dic[markers_clockwise[i]] = a
-	x = 2*107/100.*np.sin(a)
-	y = 2*107/100.*np.cos(a)
-	marker_xys.append([x,y])
+	x_ = 2*107/100.*np.sin(a)
+	y_ = 2*107/100.*np.cos(a)
+	marker_xys.append([x_,y_])
 markers_xy_dic = {}
 assert(len(markers_clockwise) == len(marker_xys))
 for i in range(len(markers_clockwise)):
@@ -95,7 +95,7 @@ for k in Marker_xy_dic.keys():
 graphics = True
 
 if graphics and 'nvidia' not in opjh():
-	from kzpy3.Grapher_app.Graph_Image_Module import *
+	
 	pts = []
 	figure('arena');clf();plt_square();#xylim(-0.1,0.6,-0.1,0.6)#xysqlim(1.)
 	for k in Marker_xy_dic:
@@ -121,8 +121,8 @@ if graphics and 'nvidia' not in opjh():
 	y_min = -(6.03/2.0)
 	y_max = 6.03/2.0
 
-	Gi = Graph_Image(xmin,x_min,ymin,y_min,xmax,x_max,ymax,y_max,xsize,350,ysize,350)
-	Gi[ptsplot](x,pts[:,0],y,pts[:,1],color,(255,0,0))
+	Gi = Graph_Image_Module.Graph_Image(xmin,x_min,ymin,y_min,xmax,x_max,ymax,y_max,xsize,350,ysize,350)
+	Gi[ptsplot]('x',pts[:,0],'y',pts[:,1],color,(255,0,0))
 	mi(Gi[img],3)
 	figure(4)
 	pts = []
