@@ -203,9 +203,12 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 					if q in C['ax']:
 						ox = C['ax'][q]
 						oy = C['ay'][q]
+						ohx = C['hx'][q]-ox
+						ohy = C['hy'][q]-oy
+						ohx *= 5
+						ohy *= 5
 
 						car_angle,car_dist = angle_dist_to_car(ax[j],ay[j],hx[j],hy[j],ox,oy,half_angle)
-
 						other_car_in_view = False
 						if np.abs(car_angle) < half_angle or np.abs(car_angle) > (360-half_angle):
 							other_car_in_view = True
@@ -216,6 +219,22 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 							if min_car_dist > car_dist:
 								min_car_dist = car_dist
 								min_car_dist_angle = car_angle
+
+
+						car_angle,car_dist = angle_dist_to_car(ax[j],ay[j],hx[j],hy[j],ox-ohx,oy-ohy,half_angle)
+						other_car_in_view = False
+						if np.abs(car_angle) < half_angle or np.abs(car_angle) > (360-half_angle):
+							other_car_in_view = True
+						pix = Gi[floats_to_pixels](x,ox-ohx,y,oy-ohy)
+						iadd(g1,car_potential_image,pix)
+						if other_car_in_view:
+							iadd(g5,car_potential_image,pix)
+							if min_car_dist > car_dist:
+								min_car_dist = car_dist
+								min_car_dist_angle = car_angle
+
+
+
 				car_potential_image_255 = (255*z2o(car_potential_image)).astype(np.int)
 				Gi[img][:,:,0] = car_potential_image_255
 
