@@ -8,11 +8,12 @@
 ###############################
 """
 To preprocess rosbags, e.g.:
+
 python kzpy3/Data_app/Main.py SRC '/media/karlzipser/rosbags/Mr_Yellow_29July2017/new' DST '/media/karlzipser/ExtraDrive2/bdd_car_data_July2017_LCR/h5py'
 
-To convert from pkl representation of data, e.g.:
+				To convert from pkl representation of data, e.g.:
 
-python kzpy3/Data_app/Main.py DATA_SRC '/media/karlzipser/ExtraDrive2/bdd_car_data_July2017_regular'  DST '/media/karlzipser/ExtraDrive2/bdd_car_data_July2017_regular/h5py'
+				python kzpy3/Data_app/Main.py DATA_SRC '/media/karlzipser/ExtraDrive2/bdd_car_data_July2017_regular'  DST '/media/karlzipser/ExtraDrive2/bdd_car_data_July2017_regular/h5py'
 
 To change rosbags disk permissions: sudo chmod -R 777 /media/karlzipser/rosbags/
 
