@@ -32,7 +32,7 @@ for file_path in folder_paths:
 				try:
 					a,b,c,d=AT[step](one_frame_aruco_data,o[s+'_image_aruco']['vals'][i],p,P)
 					Traj[s]['xy']['indx'][i] = Ctr[s]; Ctr[s] += 1
-					Traj[s]['hxy']['vals'].append([a-c,b-d])
+					Traj[s]['hxy']['vals'].append([a,b])
 					Traj[s]['xy']['vals'].append([c,d])
 					Traj[s]['hxy']['ts'].append(o[s+'_image_aruco']['ts'][i])
 					Traj[s]['xy']['ts'].append(o[s+'_image_aruco']['ts'][i])
@@ -76,7 +76,6 @@ for file_path in folder_paths:
 			for s in ['left','right']:
 				m = []
 				for n in [0,1]:
-
 					v = na(Traj[s][d]['interp'])[:,n]
 					m.append(meo(v,30))
 				Traj[s][d]['meo'] = na(m).transpose()
@@ -87,8 +86,8 @@ for file_path in folder_paths:
 		G.create_dataset('ts',data=o['left_image_aruco']['ts'])
 		G.create_dataset('aruco_position_x',data=Traj['avg']['xy']['meo'][:,0])
 		G.create_dataset('aruco_position_y',data=Traj['avg']['xy']['meo'][:,1])
-		G.create_dataset('aruco_heading_x',data=(Traj['avg']['hxy']['meo'][:,0]+Traj['avg']['xy']['meo'][:,0]))
-		G.create_dataset('aruco_heading_y',data=(Traj['avg']['hxy']['meo'][:,1]+Traj['avg']['xy']['meo'][:,1]))
+		G.create_dataset('aruco_heading_x',data=Traj['avg']['hxy']['meo'][:,0])
+		G.create_dataset('aruco_heading_y',data=Traj['avg']['hxy']['meo'][:,1])
 		G.create_dataset('heading_pause',data=heading_pause)
 		for s in ['left','right']:
 			G.create_dataset(s+'_no_data',data=Traj[s]['no_data']['vals'])

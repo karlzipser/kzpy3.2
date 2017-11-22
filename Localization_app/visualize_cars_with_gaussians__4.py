@@ -8,7 +8,7 @@ data_folder = Args['DATA_FOLDER']
 if 'BATCH' in Args:
 	if Args['BATCH'] == 'True':
 		for color in ['Blue','Lt_Blue','Orange','Black','Yellow','Purple']:
-			os.system(d2s("xterm -hold -e python",opjh('kzpy3/Localization_app/visualize_cars_with_gaussians__3.py'),'DATA_FOLDER',data_folder,'CAR_NAME','Mr_'+color,'&'))
+			os.system(d2s("xterm -hold -e python",opjh('kzpy3/Localization_app/visualize_cars_with_gaussians__4.py'),'DATA_FOLDER',data_folder,'CAR_NAME','Mr_'+color,'&'))
 			pause(2)
 		raw_enter();
 		exit()
@@ -27,9 +27,9 @@ for k in Marker_xy_dic.keys():
 		pts.append(Marker_xy_dic[k])
 pts = na(pts)
 
-half_angle = 45
+half_angle = 60#45
 radius = 0.5
-the_delay = 1
+the_delay = 33
 bar_color = (255,0,0)
 robot_steer_gain = 1.0
 steer_momentum = 0.5
@@ -148,8 +148,8 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 	t = P['t'][:] #;print(len(t));raw_enter()
 	ax = P['ax'][:]
 	ay = P['ay'][:]
-	hx = P['hx'][:]
-	hy = P['hy'][:]
+	hx = P['hx'][:] - ax #!!!!!! NOTE, this is different from pre-demo convention
+	hy = P['hy'][:] - ay #!!!!!! NOTE, this is different from pre-demo convention
 	o_meo = P['o_meo'][:]
 
 	steer_prev = 49
@@ -167,6 +167,7 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 		Gi = Graph_Image_Module.Graph_Image(xmin,x_min,ymin,y_min,xmax,x_max,ymax,y_max,xsize,Gi_size,ysize,Gi_size)
 		potential_image = np.zeros((100,100))
 		car_potential_image = np.zeros((100,100))
+		g1 = Gaussian_2D(2)
 		g5 = Gaussian_2D(20)
 		g6 = Gaussian_2D(50)
 		for mult in ([1.0,1.0],[0.3,0.01],[0.1,0.03],[1.2,1.5]):
@@ -189,7 +190,8 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 		for i in range(0,len(left_images)-20):
 			min_car_dist = 99999
 			min_car_dist_angle = None
-			j=i+20
+			#j=i+20  !!!!! What was this for?
+			j = i
 			if o_meo[i] >1:
 
 				Gi[img] *= 0
@@ -201,13 +203,15 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 					if q in C['ax']:
 						ox = C['ax'][q]
 						oy = C['ay'][q]
+
 						car_angle,car_dist = angle_dist_to_car(ax[j],ay[j],hx[j],hy[j],ox,oy,half_angle)
 
 						other_car_in_view = False
 						if np.abs(car_angle) < half_angle or np.abs(car_angle) > (360-half_angle):
 							other_car_in_view = True
+						pix = Gi[floats_to_pixels](x,ox,y,oy)
+						iadd(g1,car_potential_image,pix)
 						if other_car_in_view:
-							pix = Gi[floats_to_pixels](x,ox,y,oy)
 							iadd(g6,car_potential_image,pix)
 							if min_car_dist > car_dist:
 								min_car_dist = car_dist
@@ -277,7 +281,13 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 
 				#figure(2);clf();ylim(0,1.1);plot(clock_gradient,'k');plot(potential_values/mx,'r.-');plot(potential_values_2/mx,'g.-');plot((potential_values-potential_values_2)/mx,'b.-');plt.title(d2s(steer,motor));spause()
 				Gi[ptsplot](x,na([ax[j]]),y,na([ay[j]]),color,(255,255,255))
-				Gi[ptsplot](x,na([hx[j]+ax[j]]),y,na([hy[j]+ay[j]]),color,(0,255,0))
+				Gi[ptsplot](x,na([4*hx[j]+ax[j]]),y,na([4*hy[j]+ay[j]]),color,(0,255,0))
+				"""
+				dx_ = hx[j]-ax[j]
+				dy_ = hy[j]-ay[j]
+				Gi[ptsplot](x,na([hx[j]+3*dx_]),y,na([hy[j]+3*dy_]),color,(0,255,0))
+				"""
+				#Gi[ptsplot](x,na([hx[j]]),y,na([hy[j]]),color,(0,255,255))
 				tmp = cv2.resize(Gi[img], (0,0), fx=6, fy=6, interpolation=0)
 				cv2.putText(tmp,d2s(direction,head_on),(50,50),cv2.FONT_HERSHEY_SIMPLEX,1.0,(255,255,255),1)
 				mci(tmp,scale=1,title='map',delay=the_delay);
