@@ -294,7 +294,7 @@ True
 
 
 isdir = os.path.isdir
-top = '/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo'
+top = '/home/karlzipser/Desktop/direct_local_arena_16_17_Sept_with_aruco_full_room_circle12'
 D = {}
 assert(isdir(top))
 
@@ -330,6 +330,62 @@ def ls_dic(D,tabs=0):
 			pd2s(tabstr,k,':')
 			ls_dic(D[k],tabs=tabs+1)
 				
+
+
+
+
+
+a.split('.')[-1]=='bag'
+
+
+
+
+
+
+def look_for_bag_files(D,Q,current,path=''):
+	path = opj(path,current)
+	for k in D.keys():
+		if type(D[k]) != dict:
+			if type(k) == str:
+				if k.split('.')[-1] == 'bag':
+					#print current,'---->',k
+					Q[current] = path
+		else:
+			look_for_bag_files(D[k],Q,k,path)	
+
+
+D={}
+ExtraDrive1 = folder_to_dic(D,'/media/karlzipser/ExtraDrive1')
+D={}
+ExtraDrive2 = folder_to_dic(D,'/media/karlzipser/ExtraDrive2')
+D={}
+ExtraDrive3 = folder_to_dic(D,'/media/karlzipser/ExtraDrive3')
+D={}
+ExtraDrive4 = folder_to_dic(D,'/media/karlzipser/ExtraDrive4')
+
+Q = {}
+look_for_bag_files(ExtraDrive1,Q,'/media/karlzipser/ExtraDrive1')
+look_for_bag_files(ExtraDrive2,Q,'/media/karlzipser/ExtraDrive2')
+look_for_bag_files(ExtraDrive3,Q,'/media/karlzipser/ExtraDrive3')
+look_for_bag_files(ExtraDrive4,Q,'/media/karlzipser/ExtraDrive4')
+
+
+runs = sggo('/home/karlzipser/Desktop/bdd_car_data_12Sept2017_whole_room/h5py/*' )
+
+found = 0
+not_found = 0
+
+for r in runs:
+	if fname(r) in Q:
+		found += 1
+	else:
+		not_found += 1
+		print fname(r)
+print found,not_found
+
+
+
+
 
 
 
@@ -374,7 +430,11 @@ print timer.time() # = 0.260668992996
 
 
 
-folder = '/home/karlzipser/Desktop/bdd_car_data_14Sept2017_whole_room'
+
+
+
+
+folder = '/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo_4'
 Aruco_Steering_Trajectories = sggo(folder,'Aruco_Steering_Trajectories/*.pkl')
 
 for a in Aruco_Steering_Trajectories:
@@ -382,6 +442,9 @@ for a in Aruco_Steering_Trajectories:
 	unix_str = d2s('mv',opj('/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo/h5py',run_name),opj(folder,'h5py'))
 	print unix_str
 	unix(unix_str,False)
+
+
+
 
 
 
