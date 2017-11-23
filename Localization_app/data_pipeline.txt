@@ -116,5 +116,19 @@ python kzpy3/Localization_app/aruco_data_to_position.py OBSERVER True SRC '/home
 
 python kzpy3/Localization_app/calculate_position_data2.py BATCH True STEP position_data OBSERVER True H5PY /home/karlzipser/Desktop/full_raised_observer/h5py
 
+23 Nov. 2017
 
+python kzpy3/Data_app/Main.py SRC '/media/karlzipser/2_TB_Samsung/ExtraDrive1/new' DST '/media/karlzipser/2_TB_Samsung/ExtraDrive1/h5py'
+
+python kzpy3/Data_app/Main.py SRC '/media/karlzipser/2_TB_Samsung_n2/ExtraDrive2/new' DST '/media/karlzipser/2_TB_Samsung_n2/ExtraDrive2/h5py'
+
+python kzpy3/Data_app/Main.py SRC '/media/karlzipser/1_TB_Samsung_n1/ExtraDrive3/new' DST '/media/karlzipser/1_TB_Samsung_n1/ExtraDrive3/h5py'
+
+python kzpy3/Data_app/Main.py SRC '/media/karlzipser/1_TB_Samsung_n2/ExtraDrive4/new' DST '/media/karlzipser/1_TB_Samsung_n2/ExtraDrive4/h5py'
+
+
+
+python kzpy3/Localization_app/calculate_position_data2.py BATCH True STEP position_dictionaries H5PY /home/karlzipser/Desktop/full_raised/h5py
+
+python kzpy3/Localization_app/visualize_cars_with_gaussians__4.py CAR_NAME Mr_Black DATA_FOLDER '/home/karlzipser/Desktop/full_raised'
 

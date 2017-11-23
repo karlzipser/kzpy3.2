@@ -41,7 +41,14 @@ if SRC in Args and DST in Args:
 	cprint('Preliminary check of '+bag_folders_src_)
 	cprint("	checking bag file sizes and run durations")
 
+	preexisting_processed_runs = []
+	for p in sggo(h5py_dst,'*'):
+		preexisting_processed_runs.append(fname(p))
+
 	for r in runs:
+		if fname(r) in preexisting_processed_runs:
+			pd2s(fname(r),'already processed.')
+			continue
 		bags = sgg(opj(r,'*.bag'))
 		cprint(d2s(tb,fname(r),len(bags)))
 		mtimes = []
@@ -64,6 +71,9 @@ if SRC in Args and DST in Args:
 
 	success = True
 	for r in runs:
+		if fname(r) in preexisting_processed_runs:
+			pd2s(fname(r),'already processed, skipping this run.')
+			continue
 		try:
 			Data_Module.Original_Timestamp_Data(bag_folder_path=r, h5py_path=h5py_dst)
 			#if P['ARUCO'] == 'True':

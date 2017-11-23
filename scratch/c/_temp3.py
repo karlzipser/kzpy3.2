@@ -42,3 +42,13 @@ for i in range(10000/3,13000/3,30/9):
 	plot([dx[i],dx[i]+dhx[i]],[dy[i],dy[i]+dhy[i]],'r')
 	plot(dx[i],dy[i],'r.')
 spause()
+
+
+
+
+# 23 Nov. 2017
+folders = sggo('/home/karlzipser/Desktop/full_raised_observer/h5py','*')
+for f in folders:
+	unix_str = d2s('ln -s',f,'/home/karlzipser/Desktop/full_raised/h5py')
+	print unix_str
+	unix(unix_str,False)

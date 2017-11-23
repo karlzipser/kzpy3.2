@@ -192,6 +192,7 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 			min_car_dist_angle = None
 			#j=i+20  !!!!! What was this for?
 			j = i
+			#print o_meo[i]
 			if o_meo[i] >1:
 
 				Gi[img] *= 0
@@ -364,6 +365,8 @@ for h5py_car_data_folder in sggo(h5py_folder,'*'):
 		Aruco_steering_trajectories = {}
 		run_name = fname(h5py_car_data_folder)
 		print run_name
+		#if run_name != 'Mr_Black_2017-10-23-11-53-40': #!!!!!!!!!!!!!!!!!!!! TEMP!!!!!!!!!!!!!!!!!!!!!!!!!!
+		#	continue
 		try:
 			for behavioral_mode in ['Direct_Arena_Potential_Field','Follow_Arena_Potential_Field']:
 				Aruco_steering_trajectories[behavioral_mode] = {}

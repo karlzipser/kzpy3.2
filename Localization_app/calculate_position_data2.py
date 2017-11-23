@@ -83,7 +83,7 @@ def get_car_position_heading_validity(h5py_data_folder,graphics=False):
 		mo_mask[mo_mask<53]=0
 		mo_mask[mo_mask>=53]=1.0
 		o = mo_mask*hp2*n
-	if False:
+	if True:
 		o = hp2*n
 	if Observer != 'True':
 		if 'cmd_motor' in L:
@@ -95,8 +95,9 @@ def get_car_position_heading_validity(h5py_data_folder,graphics=False):
 		else:
 			assert(False)
 	else:
-		spd2s('Observer car')
-		o = na(hp)*0 + 1.0
+		pass
+		#spd2s('Observer car')
+		#o = na(hp)*0 + 1.0
 
 
 
