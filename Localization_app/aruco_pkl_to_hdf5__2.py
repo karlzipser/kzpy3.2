@@ -107,7 +107,7 @@ for f in folders5:
 
 ##################################################################################
 #
-for car in ['Mr_Purple','Mr_Black','Mr_Blue','Mr_Lt_Blue','Mr_Orange','Mr_Yellow']:
+for car in P['CAR_LIST']:
 
 	all_left_timestamps = []
 	folders5 = sggo(data_path,'h5py','*')

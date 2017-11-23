@@ -9,10 +9,23 @@ data_path = Args['SRC']
 folder_paths = sggo(data_path,'h5py','*')
 #file_path = '/home/karlzipser/Desktop/full_raised/h5py/Mr_Lt_Blue_2017-10-23-12-28-27'
 
+MEO_Value = 30
+if 'OBSERVER' in Args:
+	if Args['OBSERVER'] == 'True':
+		spd2s('OBSERVER')
+		MEO_Value = 1000
+spd2s('MEO_Value =',MEO_Value)
+
 for file_path in folder_paths:
-	if len(sggo(file_path,'aruco_position.h5py')) > 0:
-		pd2s(opj(file_path,'aruco_position.h5py'),'exists')
-		continue
+	if False:
+		if len(sggo(file_path,'aruco_position.h5py')) > 0:
+			pd2s(opj(file_path,'aruco_position.h5py'),'exists')
+			continue
+	if True:
+		if len(sggo(file_path,'aruco_position.h5py')) > 0:
+			pd2s(opj(file_path,'aruco_position.h5py'),'exists, removing')
+			unix(d2s('rm',sggo(file_path,'aruco_position.h5py')[0]))
+
 	if True:#try:
 		spd2s(file_path)
 		O = h5r(opj(file_path,'original_timestamp_data.h5py'))
@@ -78,7 +91,7 @@ for file_path in folder_paths:
 				for n in [0,1]:
 
 					v = na(Traj[s][d]['interp'])[:,n]
-					m.append(meo(v,30))
+					m.append(meo(v,MEO_Value)) # MEO_Value
 				Traj[s][d]['meo'] = na(m).transpose()
 			Traj['avg'][d]['meo'] = (Traj['left'][d]['meo']+Traj['right'][d]['meo'])/2.0
 

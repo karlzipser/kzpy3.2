@@ -12,6 +12,7 @@ Marker_xy_dic = lo(opjD('aruco_raised11_5Nov2017_Marker_xy_dic.pkl'))
 #Marker_xy_dic = lo(opjD('aruco_12circle_20Nov2017_Marker_xy_dic.pkl'))
 #spd2s(Marker_xy_dic.keys())
 P = {}
+P['CAR_LIST'] = ['Mr_Purple','Mr_Black','Mr_Blue','Mr_Lt_Blue','Mr_Orange','Mr_Yellow','Mr_Silver_Orange','Mr_Silver_Orange_TX2_back']
 P[VERBOSE] = True
 P[GRAPHICS] = False
 P[ROS_LIVE] = True

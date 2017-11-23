@@ -96,15 +96,25 @@ python kzpy3/Localization_app/calculate_position_data2.py BATCH True H5PY /home/
 
 
 19 Nov. 2017
+python kzpy3/Localization_app/aruco_data_to_position.py OBSERVER True SRC '/home/karlzipser/Desktop/full_raised'
 
 python kzpy3/Localization_app/aruco_data_to_position.py SRC '/home/karlzipser/Desktop/full_raised'
 
-python kzpy3/Localization_app/calculate_position_data2.py CAR Mr_Black STEP one H5PY '/home/karlzipser/Desktop/temp/h5py'
+python kzpy3/Localization_app/calculate_position_data2.py CAR Mr_Black STEP position_data H5PY '/home/karlzipser/Desktop/temp/h5py'
 
-python kzpy3/Localization_app/calculate_position_data2.py CAR Mr_Black STEP two H5PY '/home/karlzipser/Desktop/temp/h5py'
+python kzpy3/Localization_app/calculate_position_data2.py CAR Mr_Black STEP position_dictionaries H5PY '/home/karlzipser/Desktop/temp/h5py'
 
 python kzpy3/Localization_app/aruco_pkl_to_hdf5__2.py PATH '/home/karlzipser/Desktop/bdd_car_data_14Sept2017_whole_room/' 
 
 python kzpy3/Localization_app/heading_pause_data_moments.py PATH '/home/karlzipser/Desktop/bdd_car_data_14Sept2017_whole_room/' 
 
 python kzpy3/Localization_app/visualize_cars_with_gaussians__4.py CAR_NAME Mr_Black DATA_FOLDER '/home/karlzipser/Desktop/temp'
+
+
+22 Nov. 2017
+python kzpy3/Localization_app/aruco_data_to_position.py OBSERVER True SRC '/home/karlzipser/Desktop/full_raised_observer'
+
+python kzpy3/Localization_app/calculate_position_data2.py BATCH True STEP position_data OBSERVER True H5PY /home/karlzipser/Desktop/full_raised_observer/h5py
+
+
+

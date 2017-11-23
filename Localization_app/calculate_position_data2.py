@@ -1,13 +1,22 @@
-from kzpy3.Grapher_app.Graph_Image_Module import *
+#import kzpy3.Grapher_app.Graph_Image_Module as Graph_Image_Module
+#import Parameters_Module
+from Parameters_Module import *
+#from vis2 import *
+
 
 h5py_data_folder = Args['H5PY']
 
+Observer = 'False'
+if 'OBSERVER' in Args:
+	if Args['OBSERVER'] == 'True':
+		spd2s('OBSERVER')
+		Observer = 'True'
 
 
 if 'BATCH' in Args:
 	if Args['BATCH'] == 'True':
-		for color in ['Blue','Lt_Blue','Orange','Black','Yellow','Purple','Silver_Orange','Silver_Orange_TX2_back']:
-			os.system(d2s("xterm -hold -fa monaco -fs 11 -e python kzpy3/Localization_app/calculate_position_data2.py CAR Mr_"+color,"STEP",Args['STEP'],"H5PY",h5py_data_folder,'&'))
+		for the_car in P['CAR_LIST']:
+			os.system(d2s("xterm -hold -fa monaco -fs 11 -e python kzpy3/Localization_app/calculate_position_data2.py CAR",the_car,"STEP",Args['STEP'],"OBSERVER",Observer,"H5PY",h5py_data_folder,'&'))
 	#raw_enter();
 	print('done!')
 	exit()
@@ -69,11 +78,28 @@ def get_car_position_heading_validity(h5py_data_folder,graphics=False):
 	if state in L:
 		hp2[L[state][:A_len]!=6] = 0
 
-	#mo_mask = L[motor][:A_len]*0.0+1.0 # in full_raised, motor signals not saved properly
-	#mo_mask[mo_mask<53]=0
-	#mo_mask[mo_mask>=53]=1.0
-	#o = mo_mask*hp2*n
-	o = hp2*n
+	if False:
+		mo_mask = L[motor][:A_len]*0.0+1.0 # in full_raised, motor signals not saved properly
+		mo_mask[mo_mask<53]=0
+		mo_mask[mo_mask>=53]=1.0
+		o = mo_mask*hp2*n
+	if False:
+		o = hp2*n
+	if Observer != 'True':
+		if 'cmd_motor' in L:
+			spd2s('cmd_motor is in L, assuming normal driving car')
+			mo_mask = L['cmd_motor'][:A_len]*0.0+1.0
+			mo_mask[mo_mask<53]=0
+			mo_mask[mo_mask>=53]=1.0
+			o = mo_mask*hp2*n
+		else:
+			assert(False)
+	else:
+		spd2s('Observer car')
+		o = na(hp)*0 + 1.0
+
+
+
 
 	p=[]
 	for q in o:
@@ -97,7 +123,7 @@ def get_car_position_heading_validity(h5py_data_folder,graphics=False):
 
 
 
-if Args['STEP'] == 'one':
+if Args['STEP'] == 'position_data':
 
 	#for car in ['Mr_Orange','Mr_Lt_Blue','Mr_Blue','Mr_Yellow','Mr_Black','Mr_Purple']:
 	#h5py_data_folder = '/home/karlzipser/Desktop/bdd_car_data_Sept2017_aruco_demo_2/h5py'
@@ -132,7 +158,7 @@ if Args['STEP'] == 'one':
 				raw_enter()
 
 
-elif Args['STEP'] == 'two':
+elif Args['STEP'] == 'position_dictionaries':
 
 	#for car in ['Mr_Orange','Mr_Lt_Blue','Mr_Blue','Mr_Yellow','Mr_Black','Mr_Purple']:
 
