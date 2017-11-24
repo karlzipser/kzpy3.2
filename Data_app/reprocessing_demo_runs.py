@@ -117,6 +117,82 @@ for k in ExtraDrive_aruco_bag_folders.keys():
 
 
 
+# 23 Nov. 2017
+all_runs = []
+runs = sggo('/home/karlzipser/Desktop/bair_car_data_new_28April2017/hdf5/runs','*')
+for r in runs:
+	if 'flip' not in r:
+		all_runs.append(fname(r).split('.')[0])
+
+so(all_runs,opjD('all_Fern_aruco_runs'))
+
+all_aruco_runs = lo('/home/karlzipser/Desktop/all_Fern_aruco_runs.pkl')
+ExtraDrive_bag_files = lo('/home/karlzipser/Desktop/ExtraDrive_bag_files.pkl')
+ExtraDrive_aruco_bag_folders = {}
+lacking = 0
+for a in all_aruco_runs:
+	if a in ExtraDrive_bag_files:
+		ExtraDrive_aruco_bag_folders[a] = ExtraDrive_bag_files[a]
+	else:
+		print 'lacking '+a
+		lacking += 1
+pd2s('lacked',dp(100.0*lacking/(1.0*len(all_aruco_runs))),'%')
+
+
+#
+##################################################
+# 24 Nov. 2017
+o=lo('/home/karlzipser/Desktop/BAIR_CAR_DATA_DISKS.pkl' )
+
+bair_car_data_disks = {}
+
+for p in o:
+	disk = p.keys()[0]
+	bair_car_data_disks[disk] = p[disk]
+
+Q = {}
+look_for_bag_files(bair_car_data_disks,Q,'/media/karlzipser')
+
+so(opjD('bair_car_data_disks_bag_files'),Q)
+
+bair_car_data_disks_bag_files = Q
+
+all_Fern_aruco_runs = lo('/home/karlzipser/Desktop/all_Fern_aruco_runs.pkl' )
+
+bair_car_data_bag_folders = {}
+lacking = 0
+for a in all_Fern_aruco_runs:
+	if a in bair_car_data_disks_bag_files:
+		bair_car_data_bag_folders[a] = bair_car_data_disks_bag_files[a]
+	else:
+		print 'lacking '+a
+		lacking += 1
+pd2s('lacked',dp(100.0*lacking/(1.0*len(all_Fern_aruco_runs))),'%')
+
+so(opjD('bair_car_data_bag_folders'),bair_car_data_bag_folders)
+
+disk_names = []
+for d in bair_car_data_bag_folders:
+	disk_names.append(bair_car_data_bag_folders[d].split('/')[3])
+disk_names = sorted(disk_names)
+print(set(disk_names)) # set(['bair_car_data_14', 'bair_car_data_16', 'bair_car_data_8', 'bair_car_data_12', 'bdd_data_11a'])
+#
+##################################################
+#
+
+dst_disk = '2_TB_Samsung_n3'
+src_disk = 'bair_car_data_8'
+bair_car_data_bag_folders = lo('/home/karlzipser/Desktop/bair_car_data_bag_folders.pkl' )
+for f in bag:
+	if src_disk in bair_car_data_bag_folders[f]:
+		unix_str = d2s('cp -r',bair_car_data_bag_folders[f],opjm(dst_disk,'new'))
+
+
+
+
+
+
+
 
 
 

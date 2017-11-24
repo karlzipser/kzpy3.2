@@ -312,7 +312,7 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 				cv2.putText(tmp,d2s(direction,head_on),(50,50),cv2.FONT_HERSHEY_SIMPLEX,1.0,(255,255,255),1)
 				mci(tmp,scale=1,title='map',delay=the_delay);
 				l_img = O[left_image][vals][i].copy()
-				l_img[:40,:,:] = 128
+				l_img[:47,:,:] = 128
 				tmp = cv2.resize(l_img, (0,0), fx=4, fy=4, interpolation=0)
 				apply_rect_to_img(tmp, steer, 0, 99, bar_color, bar_color, 0.9, 0.1, center=True, reverse=True, horizontal=True)
 				apply_rect_to_img(tmp, motor, 0, 99, bar_color, bar_color, 0.9, 0.1, center=True, reverse=True, horizontal=False)
@@ -365,8 +365,8 @@ for h5py_car_data_folder in sggo(h5py_folder,'*'):
 		Aruco_steering_trajectories = {}
 		run_name = fname(h5py_car_data_folder)
 		print run_name
-		#if run_name != 'Mr_Black_2017-10-23-11-53-40': #!!!!!!!!!!!!!!!!!!!! TEMP!!!!!!!!!!!!!!!!!!!!!!!!!!
-		#	continue
+		if run_name != 'Mr_Black_2017-10-23-11-53-40': #!!!!!!!!!!!!!!!!!!!! TEMP!!!!!!!!!!!!!!!!!!!!!!!!!!
+			continue
 		try:
 			for behavioral_mode in ['Direct_Arena_Potential_Field','Follow_Arena_Potential_Field']:
 				Aruco_steering_trajectories[behavioral_mode] = {}

@@ -52,3 +52,15 @@ for f in folders:
 	unix_str = d2s('ln -s',f,'/home/karlzipser/Desktop/full_raised/h5py')
 	print unix_str
 	unix(unix_str,False)
+
+
+
+folders = sggo('/home/karlzipser/Desktop/full_raised_observer/h5py','*')
+for f in folders:
+	unix_str = d2s('touch',opj(f,'observer.txt'))
+	print unix_str
+	unix(unix_str,False)
+
+
+
+
