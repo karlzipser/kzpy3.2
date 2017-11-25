@@ -130,5 +130,5 @@ python kzpy3/Data_app/Main.py SRC '/media/karlzipser/1_TB_Samsung_n2/ExtraDrive4
 
 python kzpy3/Localization_app/calculate_position_data2.py BATCH True STEP position_dictionaries H5PY /home/karlzipser/Desktop/full_raised/h5py
 
-python kzpy3/Localization_app/visualize_cars_with_gaussians__4.py CAR_NAME Mr_Black DATA_FOLDER '/home/karlzipser/Desktop/full_raised'
+python kzpy3/Localization_app/visualize_cars_with_gaussians__4.py CAR_NAME Mr_Black DATA_FOLDER /home/karlzipser/Desktop/full_raised
 

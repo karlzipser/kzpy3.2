@@ -1,14 +1,16 @@
 
 import kzpy3.Grapher_app.Graph_Image_Module as Graph_Image_Module
-
+from Parameters_Module import *
 from kzpy3.vis2 import *
 
 data_folder = Args['DATA_FOLDER']
 
+
+
 if 'BATCH' in Args:
 	if Args['BATCH'] == 'True':
-		for color in ['Blue','Lt_Blue','Orange','Black','Yellow','Purple']:
-			os.system(d2s("xterm -hold -e python",opjh('kzpy3/Localization_app/visualize_cars_with_gaussians__4.py'),'DATA_FOLDER',data_folder,'CAR_NAME','Mr_'+color,'&'))
+		for car in P['CAR_LIST']:
+			os.system(d2s("xterm -hold -e python",opjh('kzpy3/Localization_app/visualize_cars_with_gaussians__4.py'),'DATA_FOLDER',data_folder,'CAR_NAME',car,'&'))
 			pause(2)
 		raw_enter();
 		exit()
@@ -29,10 +31,10 @@ pts = na(pts)
 
 half_angle = 60#45
 radius = 0.5
-the_delay = 33
+the_delay = 100
 bar_color = (255,0,0)
-robot_steer_gain = 1.0
-steer_momentum = 0.5
+robot_steer_gain = 1.03125 # this is to correct for steer momentum of 0.75
+steer_momentum = 0.75
 display_timer = Timer(10)
 
 """
@@ -75,7 +77,7 @@ def angle_360_correction(angle):
 
 def get_headings(x_pos_input,y_pos_input,heading):
 	heading_floats = []
-	headings = arange(heading-45,heading+45,22.5/4.0).astype(np.int)
+	headings = arange(heading-45,heading+46,22.5/4.0).astype(np.int)
 	for a in headings:
 		b = angle_360_correction(int(a))
 		heading_floats.append(Pc[b])
@@ -121,19 +123,21 @@ def angle_to_marker(x_pos,y_pos,h_x,h_y,marker_id,Marker_xy_dic):
 	return angle_clockwise((h_x,h_y),(xy[0]-x_pos,xy[1]-y_pos))
 
 
-def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list,behavioral_mode,Aruco_steering_trajectories):
+def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list,behavioral_mode,Aruco_steering_trajectories,observer):
 	L = h5r(opj(h5py_car_data_folder,'left_timestamp_metadata_right_ts.h5py'))
 	O = h5r(opj(h5py_car_data_folder,'original_timestamp_data.h5py'))
-	P = h5r(opj(h5py_car_data_folder,'position_data.h5py'))
+	Q = h5r(opj(h5py_car_data_folder,'position_data.h5py'))
 
+	"""
 	left_images = O[left_image][vals][:].copy()
 	left_images = left_images.mean(axis=3)
 	right_images = O[right_image][vals][:].copy()
 	right_images = right_images.mean(axis=3)
+	"""
 	graphics = True
 	CA()
 	timer = Timer(0)
-
+	"""
 	n = [0]
 	for i in range(1,shape(left_images)[0]):
 		if i < len(right_images):
@@ -143,14 +147,14 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 		else:
 			ml = np.abs(left_images[i]-left_images[i-1]).mean()
 			n.append(ml)			
-
+	"""
 	pause_flag = False
-	t = P['t'][:] #;print(len(t));raw_enter()
-	ax = P['ax'][:]
-	ay = P['ay'][:]
-	hx = P['hx'][:] - ax #!!!!!! NOTE, this is different from pre-demo convention
-	hy = P['hy'][:] - ay #!!!!!! NOTE, this is different from pre-demo convention
-	o_meo = P['o_meo'][:]
+	t = Q['t'][:] #;print(len(t));raw_enter()
+	ax = Q['ax'][:]
+	ay = Q['ay'][:]
+	hx = Q['hx'][:] - ax #!!!!!! NOTE, this is different from pre-demo convention
+	hy = Q['hy'][:] - ay #!!!!!! NOTE, this is different from pre-demo convention
+	o_meo = Q['o_meo'][:]
 
 	steer_prev = 49
 
@@ -187,13 +191,14 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 		cv2.moveWindow('map',50,50)
 
 
-		for i in range(0,len(left_images)-20):
+		for i in range(0,len(O[left_image][vals])):
+
 			min_car_dist = 99999
 			min_car_dist_angle = None
 			#j=i+20  !!!!! What was this for?
 			j = i
 			#print o_meo[i]
-			if o_meo[i] >1:
+			if o_meo[i] >1 or observer:
 
 				Gi[img] *= 0
 				Gi[img][:,:,2] = potential_image_255
@@ -261,9 +266,12 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 				heading_new_2,heading_floats_2,x1_2,y1_2,potential_values_2 = get_best_heading(ax[j],ay[j],heading,radius/2.0,Gi)
 				heading_delta = (heading_new - heading)
 
-				steer = heading_delta*(-99.0/45)
-				steer = int((steer-49.0)*robot_steer_gain+49.0)
-
+				steer = 99-99*(heading_delta + 45)/(44+45.0)
+				#steer = (99-(45+heading_delta))/89.0*99.0
+				#steer = heading_delta*(-99.0/45)
+				#print int(steer)
+				#steer = int((steer-49.0)*robot_steer_gain+49.0)
+				
 				if behavioral_mode == 'Follow_Arena_Potential_Field':
 					if min_car_dist_angle != None:
 						if min_car_dist > 0.0:
@@ -274,10 +282,10 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 								ag = min_car_dist_angle -360
 								steer = 49-ag
 
+				steer = int((1.0-steer_momentum)*(steer-49)+steer_momentum*(steer_prev-49)+49)
+				steer = int((steer-49.0)*robot_steer_gain+49.0)
 				steer = min(99,steer)
 				steer = max(0,steer)
-				steer = int((1.0-steer_momentum)*steer+steer_momentum*steer_prev)
-
 					
 				steer_prev = steer
 
@@ -335,7 +343,7 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 					pause_flag = True
 	L.close()
 	O.close()
-	P.close()
+	Q.close()
 
 
 
@@ -352,9 +360,10 @@ car_name = Args['CAR_NAME']
 car_position_dictionaries = sggo(data_folder,'position_dictionaries/*.pkl')
 car_position_dic_list = []
 print('car_position_dictionaries...')
-for c in car_position_dictionaries:
-	if car_name not in c:
-		car_position_dic_list.append(lo(c))
+if True:
+	for c in car_position_dictionaries:
+		if car_name not in c:
+			car_position_dic_list.append(lo(c))
 print('...done')
 
 
@@ -365,7 +374,13 @@ for h5py_car_data_folder in sggo(h5py_folder,'*'):
 		Aruco_steering_trajectories = {}
 		run_name = fname(h5py_car_data_folder)
 		print run_name
+		if len(sggo(data_folder,'h5py',run_name,'observer.txt')) > 0:
+			observer = True
+			spd2s('Observer')
+		else:
+			observer = False
 		if run_name != 'Mr_Black_2017-10-23-11-53-40': #!!!!!!!!!!!!!!!!!!!! TEMP!!!!!!!!!!!!!!!!!!!!!!!!!!
+			spd2s("if run_name != Mr_Black_2017-10-23-11-53-40: continue")
 			continue
 		try:
 			for behavioral_mode in ['Direct_Arena_Potential_Field','Follow_Arena_Potential_Field']:
@@ -373,7 +388,7 @@ for h5py_car_data_folder in sggo(h5py_folder,'*'):
 				Aruco_steering_trajectories[behavioral_mode][0] = {}
 				Aruco_steering_trajectories[behavioral_mode][1] = {}
 				
-				get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list,behavioral_mode,Aruco_steering_trajectories)
+				get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list,behavioral_mode,Aruco_steering_trajectories,observer)
 
 			so(opj(data_folder,'Aruco_Steering_Trajectories',run_name),Aruco_steering_trajectories)
 			success_count += 1
