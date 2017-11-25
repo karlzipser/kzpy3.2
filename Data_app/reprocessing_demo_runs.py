@@ -183,10 +183,11 @@ print(set(disk_names)) # set(['bair_car_data_14', 'bair_car_data_16', 'bair_car_
 dst_disk = '2_TB_Samsung_n3'
 src_disk = 'bair_car_data_8'
 bair_car_data_bag_folders = lo('/home/karlzipser/Desktop/bair_car_data_bag_folders.pkl' )
-for f in bag:
+for f in bair_car_data_bag_folders:
 	if src_disk in bair_car_data_bag_folders[f]:
-		unix_str = d2s('cp -r',bair_car_data_bag_folders[f],opjm(dst_disk,'new'))
-
+		unix_str = d2s('ln -s',bair_car_data_bag_folders[f],opjm(dst_disk,'new'))
+		print unix_str
+		unix(unix_str,False)
 
 
 
