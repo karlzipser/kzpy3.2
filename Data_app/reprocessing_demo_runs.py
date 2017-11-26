@@ -189,15 +189,44 @@ for f in bair_car_data_bag_folders:
 		print unix_str
 		unix(unix_str,False)
 
+#
+##################################################
+#
+
+
+dst = opjm('2_TB_Samsung_n2')
+temp = sggo(dst,'ExtraDrive2','h5py','*')
+src_runs = []
+ctr=0
+for t in temp:
+	src_runs.append(fname(t))
+original_runs_dic = {}
+original_datasets = sgg(opjD('all_aruco','*'))
+for o in original_datasets:
+	original_runs_dic[o] = sggo(o,'h5py','*')
+
+
+runs_dic = {}
+for k in original_runs_dic.keys():
+	for r in original_runs_dic[k]:
+		runs_dic[fname(r)] = fname(k)
+
+for k in original_runs_dic.keys():
+	f = fname(k)
+	#unix(d2s('mkdir',opj(dst,f)),False)
+	for r in original_runs_dic[k]:
+		#pd2s(fname(r) ,'not in', 'src_runs')
+		if fname(r) not in src_runs:
+			pass#pd2s('lacking',opj(fname(k),fname(r)))
+		else:
+			pd2s('HAVE',opj(fname(k),fname(r)))
+			ctr+=1
 
 
 
 
 
-
-
-
-
+# rsync -ravL /media/karlzipser/1_TB_Samsung_n2/ExtraDrive4/h5py/* /media/karlzipser/2_TB_Samsung_n2/ExtraDrive2/h5py/
 
 
 

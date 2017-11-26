@@ -37,22 +37,8 @@ robot_steer_gain = 1.03125 # this is to correct for steer momentum of 0.75
 steer_momentum = 0.75
 display_timer = Timer(10)
 
-"""
-if desired_direction == 'clockwise':
-	dd = 0
-else:
-	dd = 1
-"""
-"""
-def other_car_in_view(ax,ay,hx,hy,ox,oy,half_angle):
-	#print ax,ay,hx,hy,ox,oy,half_angle
-	ac = angle_clockwise((hx,hy),(ox-ax,oy-ay))
-	if np.abs(ac) < half_angle or np.abs(ac) > (360-half_angle):
-		return True
-	return False
-"""
+
 def angle_dist_to_car(ax,ay,hx,hy,ox,oy,half_angle):
-	#print ax,ay,hx,hy,ox,oy,half_angle
 	car_angle = angle_clockwise((hx,hy),(ox-ax,oy-ay))
 	car_dist = np.sqrt((ax-ox)**2+(ay-oy)**2)
 	return car_angle,car_dist
@@ -95,7 +81,7 @@ def get_best_heading(x_pos,y_pos,heading,radius,Potential_graph):
 	potential_values = []
 	for i in rlen(x1):
 		p = Potential_graph[img][x1[i],y1[i],:].sum()
-		#Potential_graph[img][x1[i],y1[i],:] = 255
+
 		potential_values.append(p)
 		if p < min_potential:
 			min_potential = p
@@ -128,28 +114,13 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 	O = h5r(opj(h5py_car_data_folder,'original_timestamp_data.h5py'))
 	Q = h5r(opj(h5py_car_data_folder,'position_data.h5py'))
 
-	"""
-	left_images = O[left_image][vals][:].copy()
-	left_images = left_images.mean(axis=3)
-	right_images = O[right_image][vals][:].copy()
-	right_images = right_images.mean(axis=3)
-	"""
+
 	graphics = True
 	CA()
 	timer = Timer(0)
-	"""
-	n = [0]
-	for i in range(1,shape(left_images)[0]):
-		if i < len(right_images):
-			ml = np.abs(left_images[i]-left_images[i-1]).mean()
-			mr = np.abs(right_images[i]-right_images[i-1]).mean()
-			n.append((ml+mr)/2.0)
-		else:
-			ml = np.abs(left_images[i]-left_images[i-1]).mean()
-			n.append(ml)			
-	"""
+
 	pause_flag = False
-	t = Q['t'][:] #;print(len(t));raw_enter()
+	t = Q['t'][:] 
 	ax = Q['ax'][:]
 	ay = Q['ay'][:]
 	hx = Q['hx'][:] - ax #!!!!!! NOTE, this is different from pre-demo convention
@@ -175,12 +146,7 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 		g5 = Gaussian_2D(20)
 		g6 = Gaussian_2D(50)
 		for mult in ([1.0,1.0],[0.3,0.01],[0.1,0.03],[1.2,1.5]):
-			"""
-			if mult[0] == 1.0:
-				pts = pts_with_pillar
-			else:
-				pts = pts_with_no_pillar
-			"""
+
 			for p in pts:
 				pix = Gi[floats_to_pixels](x,[mult[0]*p[0]],y,[mult[0]*p[1]])
 				iadd(mult[1]*g5,potential_image,pix)
@@ -195,9 +161,9 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 
 			min_car_dist = 99999
 			min_car_dist_angle = None
-			#j=i+20  !!!!! What was this for?
+			#j=i+20  !!!!! What was this for?  This was a pre-demo correction for some live aruco analysis.
 			j = i
-			#print o_meo[i]
+
 			if o_meo[i] >1 or observer:
 
 				Gi[img] *= 0
@@ -259,18 +225,14 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 					direction = 'counter-clockwise'
 				else:
 					direction = 'clockwise'
-				#print(min_id,dp(min_dist,1),int(heading),direction,head_on,(dp(ax[j],1),dp(ay[j],1)))
-				#print(dp(min_car_dist,1),min_car_dist_angle)
+
 				
 				heading_new,heading_floats,x1,y1,potential_values = get_best_heading(ax[j],ay[j],heading,radius,Gi)
 				heading_new_2,heading_floats_2,x1_2,y1_2,potential_values_2 = get_best_heading(ax[j],ay[j],heading,radius/2.0,Gi)
 				heading_delta = (heading_new - heading)
 
 				steer = 99-99*(heading_delta + 45)/(44+45.0)
-				#steer = (99-(45+heading_delta))/89.0*99.0
-				#steer = heading_delta*(-99.0/45)
-				#print int(steer)
-				#steer = int((steer-49.0)*robot_steer_gain+49.0)
+
 				
 				if behavioral_mode == 'Follow_Arena_Potential_Field':
 					if min_car_dist_angle != None:
@@ -292,30 +254,16 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 				potential_values = 1.0*na(potential_values)
 				potential_values_2 = 1.0*na(potential_values_2)
 				mx = potential_values.max()
-				"""
-				if desired_direction == 'counter-clockwise':
-					clock_gradient = z2o(na(range(len(potential_values),0,-1)))
-				else:
-					clock_gradient = z2o(na(range(0,len(potential_values))))
-				if desired_direction != direction:
-					potential_values += 0.5*mx*clock_gradient
-					mx = potential_values.max()
-				"""
+
 				try:
 					motor = max(49,int(49+(65-49)*(0.8-potential_values.min()/(mx))))
 				except:
 					motor = 49
 					pd2s('motor = 49 error,',fname(h5py_car_data_folder),' t =',timer.time())
 
-				#figure(2);clf();ylim(0,1.1);plot(clock_gradient,'k');plot(potential_values/mx,'r.-');plot(potential_values_2/mx,'g.-');plot((potential_values-potential_values_2)/mx,'b.-');plt.title(d2s(steer,motor));spause()
 				Gi[ptsplot](x,na([ax[j]]),y,na([ay[j]]),color,(255,255,255))
 				Gi[ptsplot](x,na([4*hx[j]+ax[j]]),y,na([4*hy[j]+ay[j]]),color,(0,255,0))
-				"""
-				dx_ = hx[j]-ax[j]
-				dy_ = hy[j]-ay[j]
-				Gi[ptsplot](x,na([hx[j]+3*dx_]),y,na([hy[j]+3*dy_]),color,(0,255,0))
-				"""
-				#Gi[ptsplot](x,na([hx[j]]),y,na([hy[j]]),color,(0,255,255))
+
 				tmp = cv2.resize(Gi[img], (0,0), fx=6, fy=6, interpolation=0)
 				cv2.putText(tmp,d2s(direction,head_on),(50,50),cv2.FONT_HERSHEY_SIMPLEX,1.0,(255,255,255),1)
 				mci(tmp,scale=1,title='map',delay=the_delay);
@@ -335,7 +283,6 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 				Aruco_steering_trajectories[behavioral_mode][dd][t[i]] = {}
 				Aruco_steering_trajectories[behavioral_mode][dd][t[i]]['steer'] = steer
 				Aruco_steering_trajectories[behavioral_mode][dd][t[i]]['motor'] = motor
-				#print(behavioral_mode,dd,steer,t[i])
 			else:
 				if not pause_flag:
 					mci(128+0*O[left_image][vals][i],scale=4,title='left_image',delay=the_delay)
@@ -347,13 +294,10 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 
 
 
-#desired_direction = 'counter-clockwise'
 
 h5py_folder = opj(data_folder,'h5py')
 unix(d2s("mkdir -p",opj(data_folder,'Aruco_Steering_Trajectories')))
-#h5py_car_data_folder = opj(h5py_folder,'Mr_Blue_2017-09-02-14-55-25')#'Mr_Black_2017-09-04-17-05-28')#
-# python kzpy3/Localization_app/visualize_cars_with_gaussians.py
-#car_name ='Mr_Purple'# 'Mr_' + h5py_car_data_folder.split('/')[-1].split('_')[1]
+
 print Args
 car_name = Args['CAR_NAME']
 
