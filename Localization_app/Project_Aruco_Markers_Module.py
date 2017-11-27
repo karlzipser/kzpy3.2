@@ -13,6 +13,7 @@ na = np.array
 def Camera_View_Field(*args):
 	Args = args_to_dictionary(args)
 	Aruco_data = Args[aruco_data]
+	Marker_xy_dic = Args['MARKERS']
 	P = Args[p]
 	True
 	D = {}
@@ -93,7 +94,7 @@ def Camera_View_Field(*args):
 
 
 
-def Aruco_Trajectory():
+def Aruco_Trajectory(Marker_xy_dic):
 	D = {}
 	D[hx] = False
 	D[hy] = False
@@ -109,7 +110,7 @@ def Aruco_Trajectory():
 		one_frame_aruco_data_ = Args[one_frame_aruco_data]
 		P = Args[p]
 		True
-		CVF = Camera_View_Field(aruco_data,one_frame_aruco_data_, p,P)
+		CVF = Camera_View_Field(aruco_data,one_frame_aruco_data_, p,P, 'MARKERS',Marker_xy_dic)
 		min_error0_ = 9999
 		min_error1_ = 9999
 		min_error2_ = 9999

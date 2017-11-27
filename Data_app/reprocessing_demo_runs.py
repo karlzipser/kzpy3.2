@@ -200,6 +200,8 @@ src_runs = []
 ctr=0
 for t in temp:
 	src_runs.append(fname(t))
+
+
 original_runs_dic = {}
 original_datasets = sgg(opjD('all_aruco','*'))
 for o in original_datasets:
@@ -211,18 +213,45 @@ for k in original_runs_dic.keys():
 	for r in original_runs_dic[k]:
 		runs_dic[fname(r)] = fname(k)
 
+
+dst = '/home/karlzipser/Desktop/all_aruco_reprocessed'
 for k in original_runs_dic.keys():
 	f = fname(k)
-	#unix(d2s('mkdir',opj(dst,f)),False)
+	print f
+	unix(d2s('mkdir -p',opj(dst,f)),False)
+
+for k in original_runs_dic.keys():
+	f = fname(k)
 	for r in original_runs_dic[k]:
-		#pd2s(fname(r) ,'not in', 'src_runs')
-		if fname(r) not in src_runs:
-			pass#pd2s('lacking',opj(fname(k),fname(r)))
-		else:
-			pd2s('HAVE',opj(fname(k),fname(r)))
-			ctr+=1
+		print f,fname(r)
+		unix(d2s('mkdir -p',opj(dst,f,'h5py',fname(r))),False)
 
 
+original_runs_dic = {}
+original_datasets = sgg(opjD('all_aruco_reprocessed','*'))
+for o in original_datasets:
+	original_runs_dic[o] = sggo(o,'h5py','*')
+
+
+runs_dic = {}
+for k in original_runs_dic.keys():
+	for r in original_runs_dic[k]:
+		runs_dic[fname(r)] = fname(k)
+
+
+#src = opjm('2_TB_Samsung_n2')
+#src_runs = sggo(src,'ExtraDrive2','h5py','*')
+#src = opjm('2_TB_Samsung')
+#src_runs = sggo(src,'ExtraDrive1','h5py','*')
+src = opjm('1_TB_Samsung_n1')
+src_runs = sggo(src,'ExtraDrive3','h5py','*')
+
+
+for s in src_runs:
+	r = fname(s)
+	unix_str = d2s('ln -s',s,opj(dst,runs_dic[r],'h5py'))
+	print unix_str
+	unix(unix_str)
 
 
 

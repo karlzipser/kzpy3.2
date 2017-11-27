@@ -110,3 +110,26 @@ C = A()
 
 
 a = d[LEFT][MIDDLE][RIGHT]
+
+
+
+runs = sggo('/home/karlzipser/Desktop/all_aruco_ready/bdd_car_data_Sept2017_aruco_demo/h5py/*')
+run_names = {}
+for r in runs:
+	run_names[fname(r)] = True
+
+other_runs = {}
+new_o = []
+for p in o:
+	if p[0] not in run_names:
+		other_runs[p[0]] = True
+	else:
+		new_o.append(p)
+
+new_q = []
+other_runs2 = {}
+for r in q:
+	if r[0] not in run_names:
+		other_runs2[r[0]] = True
+	else:
+		new_q.append(r)

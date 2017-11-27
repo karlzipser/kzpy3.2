@@ -7,10 +7,11 @@ _ = dictionary_access
 #from aruco_home_4x4_markers import Marker_xy_dic
 #from aruco_whole_room_markers import Marker_xy_dic
 #from aruco_whole_room_markers_11circle_full_raised import Marker_xy_dic
-Marker_xy_dic = lo(opjD('aruco_raised11_5Nov2017_Marker_xy_dic.pkl'))
+#Marker_xy_dic = lo(opjD('aruco_raised11_5Nov2017_Marker_xy_dic.pkl'))
 #Marker_xy_dic = lo(opjD('whole_room_19Nov2017_Marker_xy_dic.pkl'))
 #Marker_xy_dic = lo(opjD('aruco_12circle_20Nov2017_Marker_xy_dic.pkl'))
 #spd2s(Marker_xy_dic.keys())
+
 P = {}
 P['CAR_LIST'] = ['Mr_Purple','Mr_Black','Mr_Blue','Mr_Lt_Blue','Mr_Orange','Mr_Yellow','Mr_Silver_Orange','Mr_Silver_Orange_TX2_back']
 P[VERBOSE] = True

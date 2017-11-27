@@ -132,3 +132,24 @@ python kzpy3/Localization_app/calculate_position_data2.py BATCH True STEP positi
 
 python kzpy3/Localization_app/visualize_cars_with_gaussians__4.py CAR_NAME Mr_Black DATA_FOLDER /home/karlzipser/Desktop/full_raised
 
+
+
+
+26 Nov 2017
+python kzpy3/Localization_app/aruco_data_to_position.py SRC '/home/karlzipser/Desktop/all_aruco_reprocessed/bdd_car_data_14Sept2017_whole_room' MARKERS '/home/karlzipser/Desktop/all_aruco_reprocessed/bdd_car_data_14Sept2017_whole_room/aruco_whole_room_19Nov2017_Marker_xy_dic.pkl' 
+
+python kzpy3/Localization_app/calculate_position_data2.py BATCH True STEP position_data H5PY '/home/karlzipser/Desktop/all_aruco_reprocessed/bdd_car_data_14Sept2017_whole_room/h5py'
+
+python kzpy3/Localization_app/calculate_position_data2.py BATCH True STEP position_dictionaries H5PY /home/karlzipser/Desktop/all_aruco_reprocessed/bdd_car_data_14Sept2017_whole_room/h5py
+
+
+
+
+
+
+
+python kzpy3/Localization_app/visualize_cars_with_gaussians__3b.py CAR_NAME Mr_Yellow MARKERS circle11 DATA_FOLDER '/home/karlzipser/Desktop/all_aruco/aruco_post_demo_circle11'
+python kzpy3/Localization_app/visualize_cars_with_gaussians__3b.py CAR_NAME Mr_Purple MARKERS circle11 DATA_FOLDER '/home/karlzipser/Desktop/all_aruco/aruco_post_demo_circle11'
+python kzpy3/Localization_app/visualize_cars_with_gaussians__3b.py CAR_NAME Mr_Lt_Blue MARKERS circle11 DATA_FOLDER '/home/karlzipser/Desktop/all_aruco/aruco_post_demo_circle11'
+
+python kzpy3/Localization_app/visualize_cars_with_gaussians__3c.py CAR_NAME Mr_Lt_Blue MARKERS circle11half DATA_FOLDER '/home/karlzipser/Desktop/all_aruco/half_raised_aruco'

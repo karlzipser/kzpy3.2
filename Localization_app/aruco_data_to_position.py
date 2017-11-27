@@ -9,6 +9,8 @@ data_path = Args['SRC']
 folder_paths = sggo(data_path,'h5py','*')
 #file_path = '/home/karlzipser/Desktop/full_raised/h5py/Mr_Lt_Blue_2017-10-23-12-28-27'
 
+Marker_xy_dic = lo(Args['MARKERS'])
+
 MEO_Value = 30
 if 'OBSERVER' in Args:
 	if Args['OBSERVER'] == 'True':
@@ -31,7 +33,7 @@ for file_path in folder_paths:
 		O = h5r(opj(file_path,'original_timestamp_data.h5py'))
 		o = lo(opj(file_path,'aruco_data.pkl'))
 
-		AT= Aruco_Trajectory()
+		AT= Aruco_Trajectory(Marker_xy_dic)
 
 		Traj = build_dic_list_leaves([['left','right','avg'],['xy','hxy','no_data'],['vals','ts','indx']])
 		for s in ['left','right']:
