@@ -10,7 +10,7 @@ data_folder = Args['DATA_FOLDER']
 if 'BATCH' in Args:
 	if Args['BATCH'] == 'True':
 		for car in P['CAR_LIST']:
-			os.system(d2s("xterm -hold -e python",opjh('kzpy3/Localization_app/visualize_cars_with_gaussians__4.py'),'DATA_FOLDER',data_folder,'CAR_NAME',car,'&'))
+			os.system(d2s("xterm -hold -e python",opjh('kzpy3/Localization_app/visualize_cars_with_gaussians__4_SmythFernwald.py'),'DATA_FOLDER',data_folder,'CAR_NAME',car,'&'))
 			pause(2)
 		raw_enter();
 		exit()
@@ -131,7 +131,7 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 
 	if graphics:
 		Gi_size = 100
-		m = 6
+		m = 10 # 6
 		spd2s('m set to 10 or 6, =',m,'depending on arena type')
 		
 		x_min = -m
@@ -169,7 +169,7 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 			if i >= len(o_meo):
 				spd2s("len(O[left_image][vals])",len(O[left_image][vals]),"len(o_meo)",len(o_meo))
 				continue
-			if o_meo[i]>1 or observer:
+			if True:#o_meo[i] >1 or observer:
 				print i
 				Gi[img] *= 0
 				Gi[img][:,:,2] = potential_image_255
@@ -213,8 +213,8 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 
 								other_car = True
 
-				#if other_car == False:
-				#	pass#continue # NOTE, DOES NOT HANDLE FOLLOW CASE
+				if other_car == False:
+					pass#continue # NOTE, DOES NOT HANDLE FOLLOW CASE
 
 				
 				car_potential_image_255 = (255*z2o(car_potential_image)).astype(np.int)

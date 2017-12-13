@@ -62,5 +62,21 @@ for f in folders:
 	unix(unix_str,False)
 
 
+o=h5r('/home/karlzipser/Desktop/all_aruco_ready/bdd_car_data_14Sept2017_whole_room/h5py/Mr_Black_2017-09-14-15-57-55/original_timestamp_data.h5py')
+ctr = 1
+for i in range(10000,11000):
+	imsave(opjD('temp_imgs',d2n(ctr,'.png')),o[left_image][vals][i])
+	ctr+=1
+
+
+a=na([1,2,3,4,5])
+for i in range(2000):
+	F = h5w(opjD('temp_many',d2n(i,'.h5py')))
+	F.create_dataset(vals,data=a)
+	F.close()
+
+Fs = {}
+for i in range(2000):
+	Fs[i] = h5r(opjD('temp_many',d2n(i,'.h5py')))
 
 

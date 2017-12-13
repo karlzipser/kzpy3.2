@@ -16,7 +16,7 @@ if 'OBSERVER' in Args:
 if 'BATCH' in Args:
 	if Args['BATCH'] == 'True':
 		for the_car in P['CAR_LIST']:
-			os.system(d2s("xterm -hold -fa monaco -fs 11 -e python kzpy3/Localization_app/calculate_position_data2.py CAR",the_car,"STEP",Args['STEP'],"OBSERVER",Observer,"H5PY",h5py_data_folder,'&'))
+			os.system(d2s("xterm -hold -fa monaco -fs 11 -e python kzpy3/Localization_app/calculate_position_data2_with_state_1.py CAR",the_car,"STEP",Args['STEP'],"OBSERVER",Observer,"H5PY",h5py_data_folder,'&'))
 	#raw_enter();
 	print('done!')
 	exit()
@@ -76,7 +76,9 @@ def get_car_position_heading_validity(h5py_data_folder,graphics=False):
 	hp[hp<1]=0
 	hp2 = 1-hp
 	if state in L:
-		hp2[L[state][:A_len]!=6] = 0 # Ignoring human driving, not necessarily wanted for Smyth-Fernwald
+		for qq in range(len(L[state][:A_len])):
+			if L[state][i] not in [1,6]:
+				hp2[i] = 0 # different from aruco case where human driving is ignored.
 
 	if False:
 		mo_mask = L[motor][:A_len]*0.0+1.0 # in full_raised, motor signals not saved properly
@@ -87,8 +89,14 @@ def get_car_position_heading_validity(h5py_data_folder,graphics=False):
 		o = hp2*n
 	if Observer != 'True':
 		if 'cmd_motor' in L:
-			spd2s('cmd_motor is in L, assuming normal driving car')
+			spd2s('cmd_motor is in L, assuming state 6 driving car')
 			mo_mask = L['cmd_motor'][:A_len]*0.0+1.0
+			mo_mask[mo_mask<53]=0
+			mo_mask[mo_mask>=53]=1.0
+			o = mo_mask*hp2*n
+		elif 'motor' in L:
+			spd2s('motor is in L, assuming human driving car')
+			mo_mask = L['motor'][:A_len]*0.0+1.0
 			mo_mask[mo_mask<53]=0
 			mo_mask[mo_mask>=53]=1.0
 			o = mo_mask*hp2*n

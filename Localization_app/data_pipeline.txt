@@ -153,3 +153,16 @@ python kzpy3/Localization_app/visualize_cars_with_gaussians__3b.py CAR_NAME Mr_P
 python kzpy3/Localization_app/visualize_cars_with_gaussians__3b.py CAR_NAME Mr_Lt_Blue MARKERS circle11 DATA_FOLDER '/home/karlzipser/Desktop/all_aruco/aruco_post_demo_circle11'
 
 python kzpy3/Localization_app/visualize_cars_with_gaussians__3c.py CAR_NAME Mr_Lt_Blue MARKERS circle11half DATA_FOLDER '/home/karlzipser/Desktop/all_aruco/half_raised_aruco'
+
+
+28 Nov 2017
+python kzpy3/Localization_app/aruco_data_to_position.py SRC '/media/karlzipser/2_TB_Samsung_n3/aruco_Smyth_Fern_experiment' MARKERS '/media/karlzipser/2_TB_Samsung_n3/aruco_Smyth_Fern_experiment/Marker_xy_dic_Smyth_Fern.pkl'
+
+python kzpy3/Localization_app/calculate_position_data2.py BATCH True STEP position_data H5PY '/media/karlzipser/2_TB_Samsung_n3/aruco_Smyth_Fern_experiment/h5py'
+
+python kzpy3/Localization_app/calculate_position_data2.py BATCH True STEP position_data H5PY '/media/karlzipser/2_TB_Samsung_n3/aruco_Smyth_Fern_experiment/h5py' OBSERVER True   # running in observer mode to deal with problem of using both mode 1 and 6, which aruco data is not set up for.
+
+
+python kzpy3/Localization_app/calculate_position_data2.py BATCH True STEP position_dictionaries H5PY /media/karlzipser/2_TB_Samsung_n3/aruco_Smyth_Fern_experiment/h5py
+
+python kzpy3/Localization_app/visualize_cars_with_gaussians__4.py CAR_NAME Mr_Yellow DATA_FOLDER /media/karlzipser/2_TB_Samsung_n3/aruco_Smyth_Fern_experiment

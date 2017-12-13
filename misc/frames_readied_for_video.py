@@ -44,6 +44,18 @@ def frames_to_video_with_ffmpeg(input_dir,img_range=()):
 	#unix('ffmpeg -r 15 -i '+temp_dir+'/%d.jpg -vcodec mpeg4 -b 14000k '+opjD(frames_folder)+'.avi')
 
 
+
+"""
+
+o=h5r('/home/karlzipser/Desktop/all_aruco_ready/bdd_car_data_14Sept2017_whole_room/h5py/Mr_Black_2017-09-14-15-57-55/original_timestamp_data.h5py')
+ctr = 1
+for i in range(10000,11000):
+	imsave(opjD('temp_imgs',d2n(ctr,'.png')),o[left_image][vals][i])
+	ctr+=1
+
+"""
+
+
 """
 ffmpeg  -r 15 -i %d.jpg output.gif
 

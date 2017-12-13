@@ -133,3 +133,116 @@ for r in q:
 		other_runs2[r[0]] = True
 	else:
 		new_q.append(r)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+try:
+	L.close()
+	print 'closed L'
+except:
+	print 'L not open'
+filename = '/media/karlzipser/2_TB_Samsung_n3/aruco_Smyth_Fern_experiment/h5py/direct_rewrite_test_14May17_02h49m07s_Mr_Yellow/left_timestamp_metadata_right_ts.h5py'
+L=h5r(filename)
+figure(1);clf()
+plot(L['motor'][:],'r.')#,',')
+plot(L['steer'][:],'k.')#,',')
+try:
+	plot(L['cmd_motor'][:],'b.')#,',')
+except:
+	'no cmd_motor'
+plot(10*L['state'][:],'g.')
+#L.close()
+
+
+
+
+
+def get_data_mask(state=None,motor=None,cmd_motor=None,human_use_states=[],cmd_use_states=[],min_motor=None,min_cmd_motor=None):
+	mask = 0 * state
+	cmd_mask = 0 * state
+	n = len(state)
+	for i in range(n):
+		if state[i] in human_use_states:
+			mask[i] = 1
+		elif state[i] in cmd_use_states:
+			cmd_mask[i] = 1
+		if state[i] in human_use_states:
+			if min_motor != None:
+				if motor[i] < min_motor:
+					mask[i] = 0
+		elif state[i] in cmd_use_states:
+			if min_cmd_motor != None:
+				if cmd_motor[i] < min_cmd_motor:
+					cmd_mask[i] = 0
+	return mask,cmd_mask
+
+
+mask,cmd_mask = get_data_mask(state=L[state][:],motor=L[motor][:],cmd_motor=L['cmd_motor'][:],cmd_use_states=[3,5,6,7],human_use_states=[1],min_motor=53,min_cmd_motor=53)
+t = L[ts][:]
+figure(1);clf()
+plot(t,mask*L['motor'][:],'r.')#,',')
+plot(t,mask*L['steer'][:],'k.')#,',')
+try:
+	plot(t,cmd_mask*L['cmd_steer'][:],'c.')#,',')
+	plot(t,cmd_mask*L['cmd_motor'][:],'b.')#,',')
+except:
+	'no cmd_motor'
+#plot(10*L['state'][:],'g.')
+
+
+
+P = h5r('/media/karlzipser/2_TB_Samsung_n3/aruco_Smyth_Fern_experiment/h5py/direct_rewrite_test_14May17_02h49m07s_Mr_Yellow/aruco_position.h5py')
+
+
+
+
+try:
+	P.close()
+except:
+	pass
+try:
+	L.close()
+except:
+	pass
+h5py_folder = '/media/karlzipser/2_TB_Samsung_n3/aruco_Smyth_Fern_experiment/h5py'#aruco_Smyth_Fern_experiment/h5py'
+runs = sggo(h5py_folder,'*')
+for r in runs:
+	P = h5r(opj(r,'position_data.h5py'))
+	L = h5r(opj(r,'left_timestamp_metadata_right_ts.h5py'))
+	figure(1);clf();plt_square();xysqlim(4.5)
+	state_ = L[state][:]
+	if motor in L.keys():
+		motor_ = L[motor][:]
+	else:
+		motor_ = 0*state_+49
+	if 'cmd_motor' in L.keys():
+		cmd_motor_ = L['cmd_motor'][:]
+	else:
+		cmd_motor_ = 0*state_+49
+
+	mask,cmd_mask = get_data_mask(state=state_,motor=motor_,cmd_motor=cmd_motor_,cmd_use_states=[3,5,6,7],human_use_states=[1],min_motor=53,min_cmd_motor=53)
+	m = mask + cmd_mask
+	m = m[:len(P['ax'][:])]
+	plot(m*P['ax'][:],m*P['ay'][:],'k,')
+	title(fname(r))
+	P.close()
+	L.close()
+	raw_enter()
+
+
+

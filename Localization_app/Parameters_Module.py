@@ -13,7 +13,7 @@ _ = dictionary_access
 #spd2s(Marker_xy_dic.keys())
 
 P = {}
-P['CAR_LIST'] = ['Mr_Purple','Mr_Black','Mr_Blue','Mr_Lt_Blue','Mr_Orange','Mr_Yellow','Mr_Silver_Orange','Mr_Silver_Orange_TX2_back']
+P['CAR_LIST'] = ['Mr_Purple','Mr_Black','Mr_Blue','Mr_Lt_Blue','Mr_Orange','Mr_Yellow','Mr_Silver_Orange','Mr_Silver_Orange_TX2_back','Mr_Silver']
 P[VERBOSE] = True
 P[GRAPHICS] = False
 P[ROS_LIVE] = True
