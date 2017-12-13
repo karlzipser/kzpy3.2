@@ -176,6 +176,11 @@ def get_data_mask(state=None,motor=None,cmd_motor=None,human_use_states=[],cmd_u
 	mask = 0 * state
 	cmd_mask = 0 * state
 	n = len(state)
+	# left image deltas
+	for i in range(1,n-1):
+		if state[i] != state[i-1]:
+			if state[i] != state[i+1]:
+				state[i] = state[i-1]
 	for i in range(n):
 		if state[i] in human_use_states:
 			mask[i] = 1
@@ -191,7 +196,7 @@ def get_data_mask(state=None,motor=None,cmd_motor=None,human_use_states=[],cmd_u
 					cmd_mask[i] = 0
 	return mask,cmd_mask
 
-
+"""
 mask,cmd_mask = get_data_mask(state=L[state][:],motor=L[motor][:],cmd_motor=L['cmd_motor'][:],cmd_use_states=[3,5,6,7],human_use_states=[1],min_motor=53,min_cmd_motor=53)
 t = L[ts][:]
 figure(1);clf()
@@ -203,11 +208,8 @@ try:
 except:
 	'no cmd_motor'
 #plot(10*L['state'][:],'g.')
-
-
-
 P = h5r('/media/karlzipser/2_TB_Samsung_n3/aruco_Smyth_Fern_experiment/h5py/direct_rewrite_test_14May17_02h49m07s_Mr_Yellow/aruco_position.h5py')
-
+"""
 
 
 
@@ -245,4 +247,15 @@ for r in runs:
 	raw_enter()
 
 
+
+original_cmd_deltas = 0*O['cmd_motor'][ts][:]
+for i in range(1,len(original_cmd_deltas)):
+	original_cmd_deltas[i] = O['cmd_motor'][ts][i] - O['cmd_motor'][ts][i-1]
+
+
+cmd_deltas_interp = np.interp(L[ts][:],O['cmd_motor'][ts],original_cmd_deltas)
+
+cmd_deltas_mask = 1.0*cmd_deltas_interp
+cmd_deltas_mask[cmd_deltas_mask>3*np.median(original_cmd_deltas)] = 0.0
+cmd_deltas_mask[cmd_deltas_mask>0] = 1.0
 
