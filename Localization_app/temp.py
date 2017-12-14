@@ -172,11 +172,33 @@ plot(10*L['state'][:],'g.')
 
 
 
-def get_data_mask(state=None,motor=None,cmd_motor=None,human_use_states=[],cmd_use_states=[],min_motor=None,min_cmd_motor=None):
+
+
+
+
+
+
+
+
+
+
+
+def get_data_mask(state=None,motor=None,cmd_motor=None,human_use_states=[],cmd_use_states=[],min_motor=None,min_cmd_motor=None,original_cmd_motor_ts=None,ts=None):
 	mask = 0 * state
 	cmd_mask = 0 * state
 	n = len(state)
-	# left image deltas
+	
+	original_cmd_deltas = 0*original_cmd_motor_ts
+	for i in range(1,len(original_cmd_deltas)-1):
+		a = original_cmd_motor_ts[i]
+		b = original_cmd_motor_ts[i-1]
+		c = original_cmd_motor_ts[i+1]
+		original_cmd_deltas[i] = (a-b+c-a)/2.0
+	cmd_deltas_interp = np.interp(ts,original_cmd_motor_ts,original_cmd_deltas)
+	cmd_deltas_mask = 1.0*cmd_deltas_interp
+	cmd_deltas_mask[cmd_deltas_mask>3*np.median(original_cmd_deltas)] = 0.0
+	cmd_deltas_mask[cmd_deltas_mask>0] = 1.0
+
 	for i in range(1,n-1):
 		if state[i] != state[i-1]:
 			if state[i] != state[i+1]:
@@ -185,7 +207,7 @@ def get_data_mask(state=None,motor=None,cmd_motor=None,human_use_states=[],cmd_u
 		if state[i] in human_use_states:
 			mask[i] = 1
 		elif state[i] in cmd_use_states:
-			cmd_mask[i] = 1
+			cmd_mask[i] = cmd_deltas_mask[i]
 		if state[i] in human_use_states:
 			if min_motor != None:
 				if motor[i] < min_motor:
@@ -196,22 +218,9 @@ def get_data_mask(state=None,motor=None,cmd_motor=None,human_use_states=[],cmd_u
 					cmd_mask[i] = 0
 	return mask,cmd_mask
 
-"""
-mask,cmd_mask = get_data_mask(state=L[state][:],motor=L[motor][:],cmd_motor=L['cmd_motor'][:],cmd_use_states=[3,5,6,7],human_use_states=[1],min_motor=53,min_cmd_motor=53)
-t = L[ts][:]
-figure(1);clf()
-plot(t,mask*L['motor'][:],'r.')#,',')
-plot(t,mask*L['steer'][:],'k.')#,',')
-try:
-	plot(t,cmd_mask*L['cmd_steer'][:],'c.')#,',')
-	plot(t,cmd_mask*L['cmd_motor'][:],'b.')#,',')
-except:
-	'no cmd_motor'
-#plot(10*L['state'][:],'g.')
-P = h5r('/media/karlzipser/2_TB_Samsung_n3/aruco_Smyth_Fern_experiment/h5py/direct_rewrite_test_14May17_02h49m07s_Mr_Yellow/aruco_position.h5py')
-"""
 
 
+problem_runs = []
 
 try:
 	P.close()
@@ -219,38 +228,86 @@ except:
 	pass
 try:
 	L.close()
+except:
+	pass
+try:
+	O.close()
 except:
 	pass
 h5py_folder = '/media/karlzipser/2_TB_Samsung_n3/aruco_Smyth_Fern_experiment/h5py'#aruco_Smyth_Fern_experiment/h5py'
 runs = sggo(h5py_folder,'*')
 for r in runs:
-	P = h5r(opj(r,'position_data.h5py'))
-	L = h5r(opj(r,'left_timestamp_metadata_right_ts.h5py'))
-	figure(1);clf();plt_square();xysqlim(4.5)
-	state_ = L[state][:]
-	if motor in L.keys():
-		motor_ = L[motor][:]
-	else:
-		motor_ = 0*state_+49
-	if 'cmd_motor' in L.keys():
-		cmd_motor_ = L['cmd_motor'][:]
-	else:
-		cmd_motor_ = 0*state_+49
+	try:
+		P = h5r(opj(r,'position_data.h5py'))
+		L = h5r(opj(r,'left_timestamp_metadata_right_ts.h5py'))
+		O = h5r(opj(r,'original_timestamp_data.h5py'))
+		figure(1);clf();plt_square();xysqlim(4.5)
+		state_ = L[state][:]
+		if motor in L.keys():
+			motor_ = L[motor][:]
+		else:
+			motor_ = 0*state_+49
+		if 'cmd_motor' in L.keys():
+			cmd_motor_ = L['cmd_motor'][:]
+		else:
+			cmd_motor_ = 0*state_+49
 
-	mask,cmd_mask = get_data_mask(state=state_,motor=motor_,cmd_motor=cmd_motor_,cmd_use_states=[3,5,6,7],human_use_states=[1],min_motor=53,min_cmd_motor=53)
-	m = mask + cmd_mask
-	m = m[:len(P['ax'][:])]
-	plot(m*P['ax'][:],m*P['ay'][:],'k,')
-	title(fname(r))
-	P.close()
-	L.close()
-	raw_enter()
+		mask,cmd_mask = get_data_mask(state=state_,motor=motor_,cmd_motor=cmd_motor_,cmd_use_states=[3,5,6,7],human_use_states=[1],min_motor=51,min_cmd_motor=0,original_cmd_motor_ts=O['cmd_motor'][ts][:],ts=L[ts][:])
+		m = mask + cmd_mask
+		m = m[:len(P['ax'][:])]
+		plot(m*P['ax'][:],m*P['ay'][:],'k,')
+		title(fname(r))
+		figure(2);clf()
+		plot(L[ts][:],L[state][:]+0.1,'g-')
+		plot(L[ts][:],mask,'r-')
+		plot(L[ts][:],cmd_mask,'b-')
+		
+		title(fname(r))
+		spause()
+		P.close()
+		L.close()
+		raw_enter()
+	except Exception as e:
+		print("********** Exception ***********************")
+		print(e.message, e.args)
+		print r
+		problem_runs.append(r)	
 
 
 
-original_cmd_deltas = 0*O['cmd_motor'][ts][:]
-for i in range(1,len(original_cmd_deltas)):
-	original_cmd_deltas[i] = O['cmd_motor'][ts][i] - O['cmd_motor'][ts][i-1]
+
+the_problem_runs = ['/media/karlzipser/2_TB_Samsung_n3/aruco_Smyth_Fern_experiment/h5py/direct_rewrite_test_21Apr17_16h50m20s_Mr_Silver',
+	 '/media/karlzipser/2_TB_Samsung_n3/aruco_Smyth_Fern_experiment/h5py/direct_rewrite_test_25Apr17_16h09m24s_Mr_Black',
+	 '/media/karlzipser/2_TB_Samsung_n3/aruco_Smyth_Fern_experiment/h5py/direct_rewrite_test_25Apr17_16h09m29s_Mr_Orange',
+	 '/media/karlzipser/2_TB_Samsung_n3/aruco_Smyth_Fern_experiment/h5py/direct_rewrite_test_30Apr17_22h21m02s_Mr_Yellow']
+
+
+
+
+
+
+
+
+
+
+
+L.close()
+O.close()
+L = h5r('/media/karlzipser/2_TB_Samsung_n3/aruco_Smyth_Fern_experiment/h5py/caffe2_z2_color_direct_local_31Dec12_16h01m08s_Mr_Blue/left_timestamp_metadata_right_ts.h5py')
+O = h5r('/media/karlzipser/2_TB_Samsung_n3/aruco_Smyth_Fern_experiment/h5py/caffe2_z2_color_direct_local_31Dec12_16h01m08s_Mr_Blue/original_timestamp_data.h5py')
+
+if False:
+	original_cmd_deltas = 0*O['cmd_motor'][ts][:]
+	for i in range(1,len(original_cmd_deltas)):
+		original_cmd_deltas[i] = O['cmd_motor'][ts][i] - O['cmd_motor'][ts][i-1]
+else:
+	original_cmd_deltas = 0*O['cmd_motor'][ts][:]
+	for i in range(1,len(original_cmd_deltas)-1):
+		a = O['cmd_motor'][ts][i]
+		b = O['cmd_motor'][ts][i-1]
+		c = O['cmd_motor'][ts][i+1]
+		original_cmd_deltas[i] = (a-b+c-a)/2.0
+
 
 
 cmd_deltas_interp = np.interp(L[ts][:],O['cmd_motor'][ts],original_cmd_deltas)
@@ -258,4 +315,8 @@ cmd_deltas_interp = np.interp(L[ts][:],O['cmd_motor'][ts],original_cmd_deltas)
 cmd_deltas_mask = 1.0*cmd_deltas_interp
 cmd_deltas_mask[cmd_deltas_mask>3*np.median(original_cmd_deltas)] = 0.0
 cmd_deltas_mask[cmd_deltas_mask>0] = 1.0
+
+plot(cmd_deltas_interp)
+plot(cmd_deltas_mask)
+
 
