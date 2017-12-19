@@ -1,0 +1,80 @@
+
+'/home/karlzipser/Desktop/all_aruco_ready/bdd_car_data_14Sept2017_whole_room/h5py' is the original version. Note,
+despite name, this is 12 circle.
+
+'/home/karlzipser/Desktop/all_aruco_reprocessed/bdd_car_data_14Sept2017_whole_room/h5py' is reprocessed version with similar but more curved trajectories. Note, need to find out good delay value for cmd_deltas, if any
+
+
+12/17/2017, 10:36am
+python kzpy3/Localization_app/aruco_data_to_position.py SRC '/home/karlzipser/Desktop/all_aruco_reprocessed/bdd_car_data_14Sept2017_circle'  MARKERS '/home/karlzipser/Desktop/all_aruco_reprocessed/bdd_car_data_14Sept2017_circle/aruco_12circle_20Nov2017_Marker_xy_dic.pkl'
+python kzpy3/Localization_app/aruco_data_to_position.py SRC '/home/karlzipser/Desktop/all_aruco_reprocessed/bdd_car_data_12Sept2017_whole_room'  MARKERS '/home/karlzipser/Desktop/all_aruco_reprocessed/bdd_car_data_12Sept2017_whole_room/aruco_whole_room_19Nov2017_Marker_xy_dic.pkl'
+python kzpy3/Localization_app/aruco_data_to_position.py SRC '/home/karlzipser/Desktop/all_aruco_reprocessed/bdd_car_data_15Sept2017_circle'  MARKERS '/home/karlzipser/Desktop/all_aruco_reprocessed/bdd_car_data_15Sept2017_circle/aruco_12circle_20Nov2017_Marker_xy_dic.pkl'
+python kzpy3/Localization_app/aruco_data_to_position.py SRC '/home/karlzipser/Desktop/all_aruco_reprocessed/aruco_post_demo_circle11'  MARKERS '/home/karlzipser/Desktop/all_aruco_reprocessed/aruco_post_demo_circle11/aruco_11circle_no_pillar_20Nov2017_Marker_xy_dic.pkl'
+
+to do:
+python kzpy3/Localization_app/calculate_position_data2.py BATCH True STEP position_data H5PY '/home/karlzipser/Desktop/all_aruco_reprocessed/bdd_car_data_12Sept2017_whole_room/h5py' 
+python kzpy3/Localization_app/calculate_position_data2.py BATCH True STEP position_data H5PY '/home/karlzipser/Desktop/all_aruco_reprocessed/bdd_car_data_14Sept2017_circle/h5py'
+python kzpy3/Localization_app/calculate_position_data2.py BATCH True STEP position_data H5PY '/home/karlzipser/Desktop/all_aruco_reprocessed/bdd_car_data_15Sept2017_circle/h5py' 
+python kzpy3/Localization_app/calculate_position_data2.py BATCH True STEP position_data H5PY '/home/karlzipser/Desktop/all_aruco_reprocessed/aruco_post_demo_circle11/h5py'
+
+I don't think we can use the reprocessed 12_Sept whole room because this in fact has two marker layouts and I don't know where the break is.
+
+The o_meo values are useless, but this could be okay is I create another file devoted to this.
+
+
+Recovered original September outputs from backup disk, will use these.
+
+
+
+
+Confusion about which run uses which marker setup: try looking at markers in aruco_data.pkl
+
+
+
+9-12 is whole room, 9-13 is circle12
+
+
+
+markers_clockwise_Smyth_Fern_arena
+	31Dec12
+		and
+	11Apr17
+		to
+	30Apr17
+
+
+markers_clockwise_whole_room
+	2017-09-02
+		to
+	2017-09-12
+
+
+markers_clockwise_12circle
+	2017-09-13
+		to
+	2017-09-15
+
+
+markers_clockwise_11circle
+	2017-09-23
+		to
+	2017-09-29
+
+
+markers_clockwise_11circle_half_raised
+	2017-10-03
+		only
+
+
+markers_clockwise_11circle_full_raised
+	2017-10-04
+		to
+	2017-10-25
+
+
+for indoor arenas:
+	if cmd_steer in L, use this as test for data, otherwise use state 6
+
+for outdoor arenas, use motor for state 1,3,5,7 and cmd_motor for state 6
+
+

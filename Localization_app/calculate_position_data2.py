@@ -87,13 +87,17 @@ def get_car_position_heading_validity(h5py_data_folder,graphics=False):
 		o = hp2*n
 	if Observer != 'True':
 		if 'cmd_motor' in L:
-			spd2s('cmd_motor is in L, assuming normal driving car')
+			spd2s('cmd_motor is in L, assuming normal driving car (all zero anyway)')
 			mo_mask = L['cmd_motor'][:A_len]*0.0+1.0
-			mo_mask[mo_mask<53]=0
+			mo_mask[mo_mask<53]=0 # these don't do anything because of above
 			mo_mask[mo_mask>=53]=1.0
 			o = mo_mask*hp2*n
 		else:
-			assert(False)
+			spd2s('cmd_motor is NOT in L, using motor but all zero anyway')
+			mo_mask = L['motor'][:A_len]*0.0+1.0
+			mo_mask[mo_mask<53]=0 # these don't do anything because of above
+			mo_mask[mo_mask>=53]=1.0
+			o = mo_mask*hp2*n
 	else:
 		pass
 		#spd2s('Observer car')
