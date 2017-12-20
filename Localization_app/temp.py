@@ -549,6 +549,8 @@ for d in range(1,31):
 
 
 def check_run_dates(folder,month,day_range):
+	if month < 10:
+		month = d2n(0,month)
 	runs = sggo(folder,'h5py','*')
 	for r in runs:
 		print r
@@ -563,3 +565,25 @@ def check_run_dates(folder,month,day_range):
 				success = True
 				break
 		assert(success)
+
+
+
+
+
+
+runs = sggo('/home/karlzipser/Desktop/other_aruco/full_raised_observer/h5py','*')
+for r in runs:
+	n = fname(r)
+	unix_str = d2s('mv',opj('/home/karlzipser/Desktop/all_aruco_reprocessed/full_raised/h5py',n),'/home/karlzipser/Desktop/all_aruco_reprocessed/full_raised_observer/h5py/')
+	print unix_str
+	unix(unix_str)
+
+
+
+
+
+
+
+
+
+
