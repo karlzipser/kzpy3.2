@@ -1,7 +1,8 @@
-
 import kzpy3.Grapher_app.Graph_Image_Module as Graph_Image_Module
 from Parameters_Module import *
 from kzpy3.vis2 import *
+import kzpy3.Localization_app.classify_arena as classify_arena
+import kzpy3.Localization_app.get_data_mask as get_data_mask
 
 data_folder = Args['DATA_FOLDER']
 
@@ -16,26 +17,7 @@ if 'BATCH' in Args:
 		exit()
 		assert(False)
 
-Marker_xy_dic = False
-pkl_files = sggo(data_folder,'*.pkl')
-for p in pkl_files:
-	if 'Marker_xy_dic' in p:
-		Marker_xy_dic = lo(p)
-		break
-assert(Marker_xy_dic != False)
-pts = []
-for k in Marker_xy_dic.keys():
-	if not is_number(k):
-		pts.append(Marker_xy_dic[k])
-pts = na(pts)
 
-half_angle = 60#45
-radius = 0.5
-the_delay = 1
-bar_color = (255,0,0)
-robot_steer_gain = 1.03125 # this is to correct for steer momentum of 0.75
-steer_momentum = 0.75
-display_timer = Timer(10)
 
 
 def angle_dist_to_car(ax,ay,hx,hy,ox,oy,half_angle):
@@ -88,10 +70,7 @@ def get_best_heading(x_pos,y_pos,heading,radius,Potential_graph):
 			min_potential_index = i
 	return headings[min_potential_index],heading_floats,x1,y1,potential_values
 
-Marker_xy_dic_numbers_only = {}
-for k in Marker_xy_dic.keys():
-	if is_number(k):
-		Marker_xy_dic_numbers_only[k] = Marker_xy_dic[k]
+
 def nearest_marker(x_pos,y_pos,Marker_xy_dic):
 	min_dist = 999999
 	min_id = None
@@ -110,9 +89,36 @@ def angle_to_marker(x_pos,y_pos,h_x,h_y,marker_id,Marker_xy_dic):
 
 
 def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list,behavioral_mode,Aruco_steering_trajectories,observer):
-	L = h5r(opj(h5py_car_data_folder,'left_timestamp_metadata_right_ts.h5py'))
-	O = h5r(opj(h5py_car_data_folder,'original_timestamp_data.h5py'))
-	Q = h5r(opj(h5py_car_data_folder,'aruco_position.h5py'))
+
+	if False: # original version
+		L = h5r(opj(h5py_car_data_folder,'left_timestamp_metadata_right_ts.h5py'))
+		O = h5r(opj(h5py_car_data_folder,'original_timestamp_data.h5py'))
+		P = h5r(opj(h5py_car_data_folder,'aruco_position.h5py'))
+
+	if True: # 12/23/17 version
+		P = h5r(opj(h5py_car_data_folder,'aruco_position.h5py'))
+		try:
+			L = h5r(opj(h5py_car_data_folder,'left_timestamp_metadata_right_ts.h5py'))
+		except:
+			L = h5r(opj(h5py_car_data_folder,'left_timestamp_metadata.h5py'))
+		O = h5r(opj(h5py_car_data_folder,'original_timestamp_data.h5py'))
+		state_ = L['state'][:]
+		if 'motor' in L.keys():
+			motor_ = L['motor'][:]
+		else:
+			motor_ = 0*state_+49
+		if 'cmd_motor' in L.keys():
+			cmd_motor_ = L['cmd_motor'][:]
+		else:
+			cmd_motor_ = 0*state_+49
+		if 'cmd_motor' in O:
+			cmd_motor_ts = O['cmd_motor'][ts][:]
+		else:
+			cmd_motor_ts = L[ts][:]
+		if False:
+			mask,cmd_mask = get_data_mask.get_data_mask(state=state_,motor=motor_,cmd_motor=cmd_motor_,cmd_use_states=[6],human_use_states=[],min_motor=99,min_cmd_motor=53,original_cmd_motor_ts=cmd_motor_ts,ts=L[ts][:])
+		else:
+			mask,cmd_mask = get_data_mask.get_data_mask(state=state_,motor=motor_,cmd_motor=cmd_motor_,cmd_use_states=[3,5,6,7],human_use_states=[1],min_motor=53,min_cmd_motor=53,original_cmd_motor_ts=cmd_motor_ts,ts=L[ts][:])
 
 
 	graphics = True
@@ -120,12 +126,15 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 	timer = Timer(0)
 
 	pause_flag = False
-	t = Q['ts'][:] 
-	ax = Q['aruco_position_x'][:]
-	ay = Q['aruco_position_y'][:]
-	hx = Q['aruco_heading_x'][:] - ax #!!!!!! NOTE, this is different from pre-demo convention
-	hy = Q['aruco_heading_y'][:] - ay #!!!!!! NOTE, this is different from pre-demo convention
-	#o_meo = Q['o_meo'][:]
+	t = P['ts'][:] 
+	ax = P['aruco_position_x'][:]
+	ay = P['aruco_position_y'][:]
+	hx = P['aruco_heading_x'][:] - ax #!!!!!! NOTE, this is different from pre-demo convention
+	hy = P['aruco_heading_y'][:] - ay #!!!!!! NOTE, this is different from pre-demo convention
+	#the_mask = P['the_mask'][:]
+	the_mask = mask + cmd_mask
+
+	figure(10);plot(the_mask);spause()
 
 	steer_prev = 49
 
@@ -166,11 +175,13 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 			#j=i+20  !!!!! What was this for?  This was a pre-demo correction for some live aruco analysis.
 			j = i
 
-			if i >= len(o_meo):
-				spd2s("len(O[left_image][vals])",len(O[left_image][vals]),"len(o_meo)",len(o_meo))
+			if i >= len(the_mask):
+				spd2s("len(O[left_image][vals])",len(O[left_image][vals]),"len(the_mask)",len(the_mask))
 				continue
-			if o_meo[i]>1 or observer:
-				print i
+
+			if the_mask[i]>0 or observer:
+				if False:
+					print i
 				Gi[img] *= 0
 				Gi[img][:,:,2] = potential_image_255
 
@@ -178,11 +189,11 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 				car_potential_image *= 0.0
 				other_car = False
 				for C in car_position_dic_list:
-					if q in C['ax']:
-						ox = C['ax'][q]
-						oy = C['ay'][q]
-						ohx = C['hx'][q]-ox
-						ohy = C['hy'][q]-oy
+					if q in C['aruco_position_x']:
+						ox = C['aruco_position_x'][q]
+						oy = C['aruco_position_y'][q]
+						ohx = C['aruco_heading_x'][q]-ox
+						ohy = C['aruco_heading_y'][q]-oy
 						ohx *= 5
 						ohy *= 5
 
@@ -300,10 +311,36 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 					pause_flag = True
 	L.close()
 	O.close()
-	Q.close()
+	P.close()
 
 
 
+
+
+Marker_xy_dic = False
+pkl_files = sggo(data_folder,'*.pkl')
+for p in pkl_files:
+	if 'Marker_xy_dic' in p:
+		Marker_xy_dic = lo(p)
+		break
+assert(Marker_xy_dic != False)
+pts = []
+for k in Marker_xy_dic.keys():
+	if not is_number(k):
+		pts.append(Marker_xy_dic[k])
+pts = na(pts)
+Marker_xy_dic_numbers_only = {}
+for k in Marker_xy_dic.keys():
+	if is_number(k):
+		Marker_xy_dic_numbers_only[k] = Marker_xy_dic[k]
+
+half_angle = 60#45
+radius = 0.5
+the_delay = 1
+bar_color = (255,0,0)
+robot_steer_gain = 1.03125 # this is to correct for steer momentum of 0.75
+steer_momentum = 0.75
+display_timer = Timer(10)
 
 h5py_folder = opj(data_folder,'h5py')
 unix(d2s("mkdir -p",opj(data_folder,'Aruco_Steering_Trajectories')))
@@ -311,13 +348,16 @@ unix(d2s("mkdir -p",opj(data_folder,'Aruco_Steering_Trajectories')))
 print Args
 car_name = Args['CAR_NAME']
 
-car_position_dictionaries = sggo(data_folder,'position_dictionaries/*.pkl')
+car_position_dictionaries = sggo(data_folder,'aruco_position_dictionaries/*.pkl')
 car_position_dic_list = []
 print('car_position_dictionaries...')
 if True:
 	for c in car_position_dictionaries:
+		print c
 		if car_name not in c:
 			car_position_dic_list.append(lo(c))
+			pd2s(c,'in car_position_dictionaries.')
+	raw_enter()
 print('...done')
 
 
