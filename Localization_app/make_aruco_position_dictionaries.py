@@ -40,3 +40,12 @@ if True:
 print('Done!')
 
 #EOF
+if False:
+	aruco_position_dictionaries_src_path = '/home/karlzipser/Desktop/all_aruco_reprocessed/full_raised_observer/aruco_position_dictionaries'
+	aruco_position_dictionaries_dst_path = '/home/karlzipser/Desktop/all_aruco_reprocessed/full_raised/aruco_position_dictionaries'
+	dics = sggo(aruco_position_dictionaries_src_path,'*.pkl')
+	pprint(dics)
+	for d in dics:
+		unix_str = d2s('ln -s',d,opj(aruco_position_dictionaries_dst_path,fname(d).replace('.pkl','_observer.pkl')))
+		print unix_str
+		unix(unix_str,False)

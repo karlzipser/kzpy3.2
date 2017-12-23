@@ -22,16 +22,17 @@ def display_trajectory(h5py_path=None,marker_pts=None,results=None,O=None,L=None
 		figure(2);clf()
 		min_len = min(len(P[ts][:]),len(P['heading_pause'][:]))
 		plot(P[ts][:min_len],P['heading_pause'][:min_len]+0.1,'k-')
-		plot(L[ts][:],L[state][:]+0.1,'g-')
-		plot(L[ts][:],mask,'r-')
-		#plot(L[ts][:],P[])
-		if 'cmd_motor' in L.keys():
-			plot(L[ts][:],cmd_mask,'b-')
-		#plot(L[ts][:],P['o_meo'][:len(L[ts][:])])
-		title(fname(r))
-		figure(3);clf()
-		plot(L[ts][:],L[motor][:]+0.1,'g-')
-		plot(L[ts][:],L['cmd_motor'][:],'r-')
+		if 'state' in L:
+			plot(L[ts][:],L[state][:]+0.1,'g-')
+			plot(L[ts][:],mask,'r-')
+			#plot(L[ts][:],P[])
+			if 'cmd_motor' in L.keys():
+				plot(L[ts][:],cmd_mask,'b-')
+			#plot(L[ts][:],P['o_meo'][:len(L[ts][:])])
+			title(fname(r))
+			figure(3);clf()
+			plot(L[ts][:],L[motor][:]+0.1,'g-')
+			plot(L[ts][:],L['cmd_motor'][:],'r-')
 		figure(4);clf()
 		mm = min(len(L[ts][:]),len(P['aruco_position_x'][:]))
 		plot(L[ts][:mm],P['aruco_position_x'][:mm],'g-')
@@ -70,38 +71,50 @@ if 'H5PY' in Args:
 	pts = get_marker_pts(h5py_folder)
 	runs = sggo(h5py_folder,'*')
 	for r in runs:
-		print r
-		results = classify_arena.classify_arena(lo(opj(r,'aruco_data.pkl'),noisy=False))
-		pd2s(fname(r),'\t\t',results)
-		P = h5r(opj(r,'aruco_position.h5py'))
 		try:
-			L = h5r(opj(r,'left_timestamp_metadata_right_ts.h5py'))
-		except:
-			L = h5r(opj(r,'left_timestamp_metadata.h5py'))
-		O = h5r(opj(r,'original_timestamp_data.h5py'))
-		state_ = L[state][:]
-		if motor in L.keys():
-			motor_ = L[motor][:]
-		else:
-			motor_ = 0*state_+49
-		if 'cmd_motor' in L.keys():
-			cmd_motor_ = L['cmd_motor'][:]
-		else:
-			cmd_motor_ = 0*state_+49
-		if 'cmd_motor' in O:
-			cmd_motor_ts = O['cmd_motor'][ts][:]
-		else:
-			cmd_motor_ts = L[ts][:]
-		if False:
-			mask,cmd_mask = get_data_mask.get_data_mask(state=state_,motor=motor_,cmd_motor=cmd_motor_,cmd_use_states=[6],human_use_states=[],min_motor=99,min_cmd_motor=53,original_cmd_motor_ts=cmd_motor_ts,ts=L[ts][:])
-		else:
-			mask,cmd_mask = get_data_mask.get_data_mask(state=state_,motor=motor_,cmd_motor=cmd_motor_,cmd_use_states=[3,5,6,7],human_use_states=[1],min_motor=53,min_cmd_motor=53,original_cmd_motor_ts=cmd_motor_ts,ts=L[ts][:])
-		display_trajectory(h5py_path=r,marker_pts=pts,results=results,O=O,L=L,P=P,mask=mask+cmd_mask)
-		P.close()
-		L.close()
-		O.close()
-		raw_enter()
-
+			print r
+			#results = classify_arena.classify_arena(lo(opj(r,'aruco_data.pkl'),noisy=False))
+			results = 'results'
+			pd2s(fname(r),'\t\t',results)
+			P = h5r(opj(r,'aruco_position.h5py'))
+			try:
+				L = h5r(opj(r,'left_timestamp_metadata_right_ts.h5py'))
+			except:
+				L = h5r(opj(r,'left_timestamp_metadata.h5py'))
+			O = h5r(opj(r,'original_timestamp_data.h5py'))
+			if 'state' in L:
+				state_ = L[state][:]
+			else:
+				state_ = 0*L[ts][:]+6
+			if motor in L.keys():
+				motor_ = L[motor][:]
+			else:
+				motor_ = 0*state_+49
+			if 'cmd_motor' in L.keys():
+				cmd_motor_ = L['cmd_motor'][:]
+			else:
+				cmd_motor_ = 0*state_+49
+			if 'cmd_motor' in O:
+				cmd_motor_ts = O['cmd_motor'][ts][:]
+			else:
+				cmd_motor_ts = L[ts][:]
+			if 'state' in L:
+				if False:
+					mask,cmd_mask = get_data_mask.get_data_mask(state=state_,motor=motor_,cmd_motor=cmd_motor_,cmd_use_states=[6],human_use_states=[],min_motor=99,min_cmd_motor=53,original_cmd_motor_ts=cmd_motor_ts,ts=L[ts][:])
+				else:
+					mask,cmd_mask = get_data_mask.get_data_mask(state=state_,motor=motor_,cmd_motor=cmd_motor_,cmd_use_states=[3,5,6,7],human_use_states=[1],min_motor=53,min_cmd_motor=53,original_cmd_motor_ts=cmd_motor_ts,ts=L[ts][:])
+			else:
+				mask = 0*L[ts][:]
+				cmd_mask = mask + 1.0
+			display_trajectory(h5py_path=r,marker_pts=pts,results=results,O=O,L=L,P=P,mask=mask+cmd_mask)
+			P.close()
+			L.close()
+			O.close()
+			raw_enter()
+		except Exception as e:
+			print("********** Exception if 'H5PY' in Args: ***********************")####
+			print(e.message, e.args)
+			print r
 
 
 if False:

@@ -10,6 +10,7 @@ data_folder = Args['DATA_FOLDER']
 
 if 'BATCH' in Args:
 	if Args['BATCH'] == 'True':
+		CA()
 		for car in P['CAR_LIST']:
 			os.system(d2s("xterm -hold -e python",opjh('kzpy3/Localization_app/visualize_cars_with_gaussians__4.py'),'DATA_FOLDER',data_folder,'CAR_NAME',car,'&'))
 			pause(2)
@@ -122,7 +123,7 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 
 
 	graphics = True
-	CA()
+	#CA()
 	timer = Timer(0)
 
 	pause_flag = False
@@ -134,7 +135,7 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 	#the_mask = P['the_mask'][:]
 	the_mask = mask + cmd_mask
 
-	figure(10);plot(the_mask);spause()
+	#figure(10);plot(the_mask);spause()
 
 	steer_prev = 49
 
