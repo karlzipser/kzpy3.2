@@ -548,6 +548,17 @@ for d in range(1,31):
 			pd2s(d,fname(r),'\t\t',results)
 
 
+# results = classify_arena(lo(opj(r,'aruco_data.pkl'),noisy=False))
+
+
+
+
+
+
+
+
+
+
 def check_run_dates(folder,month,day_range):
 	if month < 10:
 		month = d2n(0,month)
