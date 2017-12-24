@@ -12,8 +12,9 @@ if 'BATCH' in Args:
 	if Args['BATCH'] == 'True':
 		CA()
 		for car in P['CAR_LIST']:
-			os.system(d2s("xterm -hold -e python",opjh('kzpy3/Localization_app/visualize_cars_with_gaussians__4.py'),'DATA_FOLDER',data_folder,'CAR_NAME',car,'&'))
-			pause(2)
+			print car
+			os.system(d2s("xterm -hold -fa monaco -fs 11 -e python",opjh('kzpy3/Localization_app/visualize_cars_with_gaussians__aruco_position.py'),'USE_HUMAN_STATES',Args['USE_HUMAN_STATES'],'DATA_FOLDER',data_folder,'CAR_NAME',car,'&'))
+			pause(10)
 		raw_enter();
 		exit()
 		assert(False)
@@ -90,7 +91,7 @@ def angle_to_marker(x_pos,y_pos,h_x,h_y,marker_id,Marker_xy_dic):
 
 
 def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list,behavioral_mode,Aruco_steering_trajectories,observer):
-
+	car_name = Args['CAR_NAME']
 	if False: # original version
 		L = h5r(opj(h5py_car_data_folder,'left_timestamp_metadata_right_ts.h5py'))
 		O = h5r(opj(h5py_car_data_folder,'original_timestamp_data.h5py'))
@@ -116,10 +117,10 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 			cmd_motor_ts = O['cmd_motor'][ts][:]
 		else:
 			cmd_motor_ts = L[ts][:]
-		if False:
-			mask,cmd_mask = get_data_mask.get_data_mask(state=state_,motor=motor_,cmd_motor=cmd_motor_,cmd_use_states=[6],human_use_states=[],min_motor=99,min_cmd_motor=53,original_cmd_motor_ts=cmd_motor_ts,ts=L[ts][:])
-		else:
+		if Args['USE_HUMAN_STATES'] == 'True':
 			mask,cmd_mask = get_data_mask.get_data_mask(state=state_,motor=motor_,cmd_motor=cmd_motor_,cmd_use_states=[3,5,6,7],human_use_states=[1],min_motor=53,min_cmd_motor=53,original_cmd_motor_ts=cmd_motor_ts,ts=L[ts][:])
+		else:
+			mask,cmd_mask = get_data_mask.get_data_mask(state=state_,motor=motor_,cmd_motor=cmd_motor_,cmd_use_states=[6],human_use_states=[],min_motor=99,min_cmd_motor=53,original_cmd_motor_ts=cmd_motor_ts,ts=L[ts][:])
 
 
 	graphics = True
@@ -163,10 +164,10 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 				pix = Gi[floats_to_pixels](x,[mult[0]*p[0]],y,[mult[0]*p[1]])
 				iadd(mult[1]*g5,potential_image,pix)
 		potential_image_255 = (255*z2o(potential_image)).astype(np.int)
-		mci(128+0*Gi[img],scale=6,title='map');
-		mci(O[left_image][vals][0],scale=4,title='left_image')
-		cv2.moveWindow('left_image',700,50)
-		cv2.moveWindow('map',50,50)
+		mci(128+0*Gi[img],scale=6,title='map '+car_name);
+		mci(O[left_image][vals][0],scale=4,title='left_image '+car_name)
+		#cv2.moveWindow('left_image',700,50)
+		#cv2.moveWindow('map',50,50)
 
 
 		for i in range(0,len(O[left_image][vals])):
@@ -288,14 +289,14 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 
 				tmp = cv2.resize(Gi[img], (0,0), fx=6, fy=6, interpolation=0)
 				cv2.putText(tmp,d2s(direction,head_on),(50,50),cv2.FONT_HERSHEY_SIMPLEX,1.0,(255,255,255),1)
-				mci(tmp,scale=1,title='map',delay=the_delay);
+				mci(tmp,scale=1,title='map '+car_name,delay=the_delay);
 				l_img = O[left_image][vals][i].copy()
 				l_img[:52,:,:] = 128 #47
 				tmp = cv2.resize(l_img, (0,0), fx=4, fy=4, interpolation=0)
 				apply_rect_to_img(tmp, steer, 0, 99, bar_color, bar_color, 0.9, 0.1, center=True, reverse=True, horizontal=True)
 				apply_rect_to_img(tmp, motor, 0, 99, bar_color, bar_color, 0.9, 0.1, center=True, reverse=True, horizontal=False)
 				cv2.putText(tmp,d2s(steer,motor,direction,head_on),(50,50),cv2.FONT_HERSHEY_SIMPLEX,1.0,(255,255,255),1)
-				mci(tmp,scale=1,title='left_image',delay=the_delay)#;spause();
+				mci(tmp,scale=1,title='left_image '+car_name,delay=the_delay)#;spause();
 				pause_flag = False
 
 				if direction == 'clockwise':
@@ -307,7 +308,7 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 				Aruco_steering_trajectories[behavioral_mode][dd][t[i]]['motor'] = motor
 			else:
 				if not pause_flag:
-					mci(128+0*O[left_image][vals][i],scale=4,title='left_image',delay=the_delay)
+					mci(128+0*O[left_image][vals][i],scale=4,title='left_image '+car_name,delay=the_delay)
 					pause(0.5)
 					pause_flag = True
 	L.close()
@@ -358,7 +359,7 @@ if True:
 		if car_name not in c:
 			car_position_dic_list.append(lo(c))
 			pd2s(c,'in car_position_dictionaries.')
-	raw_enter()
+	#raw_enter()
 print('...done')
 
 
