@@ -142,7 +142,7 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 
 	if graphics:
 		Gi_size = 100
-		m = 6
+		m = 10
 		spd2s('m set to 10 or 6, =',m,'depending on arena type')
 		
 		x_min = -m
@@ -150,11 +150,11 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 		y_min = -m
 		y_max = m
 		time_counter = Timer(1/3.0)
-		cv2.destroyAllWindows()
+		
 		
 		Gi = Graph_Image_Module.Graph_Image(xmin,x_min,ymin,y_min,xmax,x_max,ymax,y_max,xsize,Gi_size,ysize,Gi_size)
-		potential_image = np.zeros((100,100))
-		car_potential_image = np.zeros((100,100))
+		potential_image = np.zeros((Gi_size,Gi_size))
+		car_potential_image = np.zeros((Gi_size,Gi_size))
 		g1 = Gaussian_2D(2)
 		g5 = Gaussian_2D(20)
 		g6 = Gaussian_2D(50)
@@ -169,8 +169,9 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 		#cv2.moveWindow('left_image',700,50)
 		#cv2.moveWindow('map',50,50)
 
+		range_max = min(len(O[left_image][vals]),len(ax))
 
-		for i in range(0,len(O[left_image][vals])):
+		for i in range(0,range_max):
 
 			min_car_dist = 99999
 			min_car_dist_angle = None
@@ -291,7 +292,10 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 				cv2.putText(tmp,d2s(direction,head_on),(50,50),cv2.FONT_HERSHEY_SIMPLEX,1.0,(255,255,255),1)
 				mci(tmp,scale=1,title='map '+car_name,delay=the_delay);
 				l_img = O[left_image][vals][i].copy()
-				l_img[:52,:,:] = 128 #47
+				
+				blank_height = 35#52
+				l_img[:blank_height,:,:] = 128 #47
+
 				tmp = cv2.resize(l_img, (0,0), fx=4, fy=4, interpolation=0)
 				apply_rect_to_img(tmp, steer, 0, 99, bar_color, bar_color, 0.9, 0.1, center=True, reverse=True, horizontal=True)
 				apply_rect_to_img(tmp, motor, 0, 99, bar_color, bar_color, 0.9, 0.1, center=True, reverse=True, horizontal=False)

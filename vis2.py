@@ -288,18 +288,23 @@ def frames_to_video_with_ffmpeg(input_dir,output_path,img_range=(),rate=30):
 
 
 def iadd(src,dst,xy,neg=False):
-    src_size = []
-    upper_corner = []
-    lower_corner = []
-    for i in [0,1]:
-        src_size.append(shape(src)[i])
-        upper_corner.append(int(xy[i]-src_size[i]/2.0))
-        lower_corner.append(int(xy[i]+src_size[i]/2.0))
-    if neg:
-        dst[upper_corner[0]:lower_corner[0],upper_corner[1]:lower_corner[1]] -= src
-    else:
-        dst[upper_corner[0]:lower_corner[0],upper_corner[1]:lower_corner[1]] += src
-    
+    try:
+        src_size = []
+        upper_corner = []
+        lower_corner = []
+        for i in [0,1]:
+            src_size.append(shape(src)[i])
+            upper_corner.append(int(xy[i]-src_size[i]/2.0))
+            lower_corner.append(int(xy[i]+src_size[i]/2.0))
+        if neg:
+            dst[upper_corner[0]:lower_corner[0],upper_corner[1]:lower_corner[1]] -= src
+        else:
+            dst[upper_corner[0]:lower_corner[0],upper_corner[1]:lower_corner[1]] += src
+    except Exception as e:
+        print("********** iadd(src,dst,xy,neg=False) Exception ***********************")
+        print(e.message, e.args)
+        print(time_str(mode='Pretty'))
+
 def isub(src,dst,xy):
     iadd(src,dst,xy,neg=True)
 

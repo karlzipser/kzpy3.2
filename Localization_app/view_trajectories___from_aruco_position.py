@@ -32,7 +32,8 @@ def display_trajectory(h5py_path=None,marker_pts=None,results=None,O=None,L=None
 			title(fname(r))
 			figure(3);clf()
 			plot(L[ts][:],L[motor][:]+0.1,'g-')
-			plot(L[ts][:],L['cmd_motor'][:],'r-')
+			if 'cmd_motor' in L.keys():
+				plot(L[ts][:],L['cmd_motor'][:],'r-')
 		figure(4);clf()
 		mm = min(len(L[ts][:]),len(P['aruco_position_x'][:]))
 		plot(L[ts][:mm],P['aruco_position_x'][:mm],'g-')
@@ -71,7 +72,7 @@ if 'H5PY' in Args:
 	pts = get_marker_pts(h5py_folder)
 	runs = sggo(h5py_folder,'*')
 	for r in runs:
-		try:
+		if True:#try:
 			print r
 			#results = classify_arena.classify_arena(lo(opj(r,'aruco_data.pkl'),noisy=False))
 			results = 'results'
@@ -111,7 +112,7 @@ if 'H5PY' in Args:
 			L.close()
 			O.close()
 			raw_enter()
-		except Exception as e:
+		else:#except Exception as e:
 			print("********** Exception if 'H5PY' in Args: ***********************")####
 			print(e.message, e.args)
 			print r
