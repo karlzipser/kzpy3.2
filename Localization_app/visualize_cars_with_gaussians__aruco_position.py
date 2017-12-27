@@ -142,7 +142,10 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 
 	if graphics:
 		Gi_size = 100
-		m = 10
+		if Args['USE_HUMAN_STATES'] == 'True':
+			m = 10
+		else:
+			m = 6
 		spd2s('m set to 10 or 6, =',m,'depending on arena type')
 		
 		x_min = -m
@@ -191,6 +194,7 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 				q = dp(t[j],1)
 				car_potential_image *= 0.0
 				other_car = False
+				other_car_in_view = False
 				for C in car_position_dic_list:
 					if q in C['aruco_position_x']:
 						ox = C['aruco_position_x'][q]
@@ -267,12 +271,16 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 							elif min_car_dist_angle -360 > -half_angle:
 								ag = min_car_dist_angle -360
 								steer = 49-ag
+							
 
 				steer = int((1.0-steer_momentum)*(steer-49)+steer_momentum*(steer_prev-49)+49)
 				steer = int((steer-49.0)*robot_steer_gain+49.0)
+				#print steer
 				steer = min(99,steer)
 				steer = max(0,steer)
-					
+				#if other_car_in_view:
+				#	print steer
+				#	raw_enter()
 				steer_prev = steer
 
 				potential_values = 1.0*na(potential_values)
@@ -299,7 +307,7 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 				tmp = cv2.resize(l_img, (0,0), fx=4, fy=4, interpolation=0)
 				apply_rect_to_img(tmp, steer, 0, 99, bar_color, bar_color, 0.9, 0.1, center=True, reverse=True, horizontal=True)
 				apply_rect_to_img(tmp, motor, 0, 99, bar_color, bar_color, 0.9, 0.1, center=True, reverse=True, horizontal=False)
-				cv2.putText(tmp,d2s(steer,motor,direction,head_on),(50,50),cv2.FONT_HERSHEY_SIMPLEX,1.0,(255,255,255),1)
+				cv2.putText(tmp,d2s(steer,motor,direction,head_on,behavioral_mode),(50,50),cv2.FONT_HERSHEY_SIMPLEX,1.0,(255,255,255),1)
 				mci(tmp,scale=1,title='left_image '+car_name,delay=the_delay)#;spause();
 				pause_flag = False
 
@@ -310,6 +318,8 @@ def get_car_position_heading_validity(h5py_car_data_folder,car_position_dic_list
 				Aruco_steering_trajectories[behavioral_mode][dd][t[i]] = {}
 				Aruco_steering_trajectories[behavioral_mode][dd][t[i]]['steer'] = steer
 				Aruco_steering_trajectories[behavioral_mode][dd][t[i]]['motor'] = motor
+				Aruco_steering_trajectories[behavioral_mode][dd][t[i]]['other_car_in_view'] = other_car_in_view
+				#print Aruco_steering_trajectories[behavioral_mode][dd][t[i]]['other_car']
 			else:
 				if not pause_flag:
 					mci(128+0*O[left_image][vals][i],scale=4,title='left_image '+car_name,delay=the_delay)
@@ -340,7 +350,7 @@ for k in Marker_xy_dic.keys():
 	if is_number(k):
 		Marker_xy_dic_numbers_only[k] = Marker_xy_dic[k]
 
-half_angle = 60#45
+half_angle = 52#60#45
 radius = 0.5
 the_delay = 1
 bar_color = (255,0,0)
