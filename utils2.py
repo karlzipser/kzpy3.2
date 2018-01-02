@@ -289,7 +289,7 @@ def load_obj(name,noisy=True):
 	with open(name + '.pkl', 'rb') as f:
 		o = pickle.load(f)
 		if noisy:
-			print(d2s('Loaded',name,'in',dp(timer.time()),'seconds.\r')),
+			print(d2s('. . . loaded',name,'in',dp(timer.time()),'seconds.\r')),
 			sys.stdout.flush()
 		return o
 lo = load_obj

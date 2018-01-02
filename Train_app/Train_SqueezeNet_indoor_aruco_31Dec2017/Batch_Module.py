@@ -111,13 +111,13 @@ def Batch(*args):
 			if not FLIP:
 				Data_moment[left][0] = F[left_image][vals][il0]
 				Data_moment[right][0] = F[right_image][vals][ir0]
-				Data_moment[left][1] = F[left_image][vals][il0+2] # note, two frames
-				Data_moment[right][1] = F[right_image][vals][ir0+2]
+				Data_moment[left][1] = F[left_image][vals][il0+1] # note, ONE frame
+				Data_moment[right][1] = F[right_image][vals][ir0+1]
 			else:
 				Data_moment[right][0] = F[left_image_flip][vals][il0]
 				Data_moment[left][0] = F['right_image_flip'][vals][ir0]
-				Data_moment[right][1] = F[left_image_flip][vals][il0+2]
-				Data_moment[left][1] = F['right_image_flip'][vals][ir0+2]
+				Data_moment[right][1] = F[left_image_flip][vals][il0+1]
+				Data_moment[left][1] = F['right_image_flip'][vals][ir0+1]
 
 			ctr += 1
 
@@ -294,19 +294,21 @@ def Batch(*args):
 				assert(False)
 			if mv[-3,0,0]:
 				dr = 'clockwise'
-			elif mv[-3,0,0]:
+			elif mv[-4,0,0]:
 				dr = 'counter-clockwise'
 			else:
 				assert(False)				
-			plt.title(d2s(bm,dr))
+			
 
 			figure('steer')
 			clf()
 			ylim(-0.05,1.05);xlim(0,len(tv))
 			plot([-1,10],[0.49,0.49],'k');plot(ov,'og'); plot(tv,'or'); plt.title(D[names][0])
+			plt.xlabel(d2s(bm,dr))
+
 			figure('metadata');clf()
 			plot(mv[-10:,0,0],'r.-')
-			plt.xlabel(d2s(bm,dr))
+			plt.title(d2s(bm,dr))
 
 
 			spause()

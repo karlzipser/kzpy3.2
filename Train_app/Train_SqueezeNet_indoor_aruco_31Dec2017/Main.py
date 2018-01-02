@@ -3,7 +3,7 @@
 import __main__ as main
 if not hasattr(main,'__file__'):
 	from kzpy3.utils2 import *
-	pythonpaths(['kzpy3','kzpy3/Train_app/Train_SqueezeNet_indoor_aruco','kzpy3/teg9'])
+	pythonpaths(['kzpy3','kzpy3/Train_app/Train_SqueezeNet_indoor_aruco_31Dec2017','kzpy3/teg9'])
 #
 ###############################
 from Parameters_Module import *
@@ -12,10 +12,26 @@ import Batch_Module
 import Network_Module
 exec(identify_file_str)
 
-_ = dictionary_access
+
+
+
 
 for a in Args.keys():
-    _(P,a,equals,_(Args,a)) #P[a] = Args[a]
+    P[a] = Args[a]
+
+
+
+
+
+
+
+
+
+
+#raw_enter()
+
+
+
 
 
 # save loss records for train and val, times and moment numbers
@@ -30,6 +46,10 @@ for folder in [code,current_code_dst_folder,loss_history,weights]:
 
 
 
+
+
+
+
 Network = Network_Module.Pytorch_Network()
 
 
@@ -39,7 +59,7 @@ Batch = Batch_Module.Batch(network,Network)
 
 while True:
 
-	try:
+	if True:#try:
 
 		Batch[clear]()
 
@@ -53,7 +73,7 @@ while True:
 
 		Network[save_net]()
 
-	except Exception as e:
+	else:#except Exception as e:
 		print("********** main loop Exception ***********************")
 		print(e.message, e.args)	
 	

@@ -166,37 +166,3 @@ python kzpy3/Localization_app/calculate_position_data2.py BATCH True STEP positi
 python kzpy3/Localization_app/calculate_position_data2.py BATCH True STEP position_dictionaries H5PY /media/karlzipser/2_TB_Samsung_n3/aruco_Smyth_Fern_experiment/h5py
 
 python kzpy3/Localization_app/visualize_cars_with_gaussians__4.py CAR_NAME Mr_Yellow DATA_FOLDER /media/karlzipser/2_TB_Samsung_n3/aruco_Smyth_Fern_experiment
-
-#
-#########################################################
-#
-
-2 January 2018
-
-created by Data_app:
-
-	.../experiment_name/h5py/run_name/aruco_data.pkl
-
-To turn aruco_data.pkl into aruco_position.h5py:
-
-$ python kzpy3/Localization_app/aruco_data_to_position.py SRC '/media/karlzipser/2_TB_Samsung_n3/aruco_Smyth_Fern_experiment' MARKERS '/media/karlzipser/2_TB_Samsung_n3/aruco_Smyth_Fern_experiment/Marker_xy_dic_Smyth_Fern.pkl'
-
-For the observer car case:
-
-$ python kzpy3/Localization_app/aruco_data_to_position.py SRC '/home/karlzipser/Desktop/all_aruco_reprocessed/full_raised_observer' OBSERVER True MARKERS '/home/karlzipser/Desktop/all_aruco_reprocessed/full_raised_observer/aruco_raised11_5Nov2017_Marker_xy_dic.pkl'
-
-To make the position dictionaries to relation positions of all cars driving simultaneously:
-
-$ python kzpy3/Localization_app/make_aruco_position_dictionaries.py H5PY '/media/karlzipser/2_TB_Samsung_n3/aruco_Smyth_Fern_experiment/h5py'
-
-To make the Aruco_Steering_Trajectories:
-
-$ python kzpy3/Localization_app/visualize_cars_with_gaussians__aruco_position.py DATA_FOLDER '/home/karlzipser/Desktop/all_aruco_reprocessed/bdd_car_data_14Sept2017_circle' BATCH True USE_HUMAN_STATES False
-
-To generate the data_moments_indexed.pkl files:
-
-$ python kzpy3/Localization_app/aruco_pkl_to_hdf5__3b.py PATH '/media/karlzipser/2_TB_Samsung_n3/aruco_Smyth_Fern_experiment'
-
-Hany way to view the data:
-
-$ python kzpy3/Localization_app/view_trajectories___from_aruco_position.py H5PY '/home/karlzipser/Desktop/all_aruco_reprocessed/full_raised_observer/h5py' USE_HUMAN_STATES False
