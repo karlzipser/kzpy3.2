@@ -26,6 +26,11 @@ P['LOSS_LIST_AVG'] = []
 
 loss_timer = Timer(60*5)
 
+reload_image_file_timer = Timer(60)
+reload_image_file_timer.trigger()
+
+
+
 frequency_timer = Timer(10.0)
 def Batch(*args):
 	Args = args_to_dictionary(args)
@@ -46,12 +51,60 @@ def Batch(*args):
 	CLOCKWISE = 0
 	COUNTER_C = 1
 
+	def _load_image_files():
+		spd2s('_load_image_files()')
+		All_image_files = {}
+
+		shuffled_keys = P['run_name_to_run_path'].keys()
+		random.shuffle(shuffled_keys)
+
+
+
+		for f in shuffled_keys[:300]:# P['run_name_to_run_path'].keys():#shuffled_keys[:3]:#P['run_name_to_run_path'].keys():
+			#spd2s(f)
+			All_image_files[f] = {}
+			if True:
+				try:
+					O = h5r(opj(P['run_name_to_run_path'][f],'original_timestamp_data.h5py'))
+					F = h5r(opj(P['run_name_to_run_path'][f],'flip_images.h5py'))
+					All_image_files[f]['normal'] = O
+					All_image_files[f]['flip'] = F
+					#print f
+				except Exception as e:
+					print("********** Exception ***********************")
+					print(e.message, e.args)
+
+		P['All_image_files'] = All_image_files
+		print(len(P['All_image_files']))
+
+
+
+	def _close_image_files():
+		spd2s('_close_image_files()')
+		for f in P['All_image_files']:
+			#spd2s(f)
+			try:
+				P['All_image_files'][f]['normal'].close()
+				P['All_image_files'][f]['flip'].close()
+			except Exception as e:
+				print("********** _close_image_files Exception ***********************")
+				print(e.message, e.args)
+
+
+
+
 	def _function_fill(*args):
 
-		global long_ctr,data_moments_indexed
+		global long_ctr,data_moments_indexed,reload_image_file_timer
 
 		Args = args_to_dictionary(args)
 		True
+
+		if reload_image_file_timer.check():
+			_close_image_files()
+			_load_image_files()
+			reload_image_file_timer.reset()
+
 		D[data_ids] = []
 		ctr = 0
 		while ctr < D[batch_size]:
@@ -65,63 +118,76 @@ def Batch(*args):
 			FLIP = random.choice([0,1])
 			dm = data_moments_indexed[long_ctr]; long_ctr += 1; ctr += 1
 			
-			Data_moment = {}
+			if dm['run_name'] in P['All_image_files']:
 
-			Data_moment['steer'] = zeros(90) + dm['steer']
-			if FLIP:
-				Data_moment['steer'] = 99 - Data_moment['steer']
-			new_motor = dm['motor']
-			new_motor -= 49
-			new_motor = max(0,new_motor)
-			new_motor *= 7.0
-			Data_moment['motor'] = zeros(90) + new_motor
-			Data_moment['labels'] = {}
-			for l in ['direct','follow','clockwise','counter-clockwise']:
-				Data_moment['labels'][l] = 0
-			Data_moment['name'] = dm['run_name']
-			direction = dm['counter_clockwise']
-			behavioral_mode = dm['behavioral_mode']
-			if behavioral_mode == 'Direct_Arena_Potential_Field':
-				Data_moment['labels']['direct'] = 1
-			elif behavioral_mode == 'Follow_Arena_Potential_Field':
-				Data_moment['labels']['follow'] = 1
+				Data_moment = {}
 
-			if not FLIP:
-				if direction == CLOCKWISE:
-					Data_moment['labels']['clockwise'] = 1
-				elif direction == COUNTER_C:
-					Data_moment['labels']['counter-clockwise'] = 1
-			else:
-				if direction == COUNTER_C:
-					Data_moment['labels']['clockwise'] = 1
-				elif direction == CLOCKWISE:
-					Data_moment['labels']['counter-clockwise'] = 1
+				Data_moment['steer'] = zeros(90) + dm['steer']
+				if FLIP:
+					Data_moment['steer'] = 99 - Data_moment['steer']
+				new_motor = dm['motor']
+				new_motor -= 49
+				new_motor = max(0,new_motor)
+				new_motor *= 7.0
+				Data_moment['motor'] = zeros(90) + new_motor
+				Data_moment['labels'] = {}
+				for l in ['direct','follow','clockwise','counter-clockwise']:
+					Data_moment['labels'][l] = 0
+				Data_moment['name'] = dm['run_name']
+				direction = dm['counter_clockwise']
+				behavioral_mode = dm['behavioral_mode']
+				if behavioral_mode == 'Direct_Arena_Potential_Field':
+					Data_moment['labels']['direct'] = 1
+				elif behavioral_mode == 'Follow_Arena_Potential_Field':
+					Data_moment['labels']['follow'] = 1
 
-			tl0 = dm['left_ts_index'][0]; il0 = dm['left_ts_index'][1]
-			tr0 = dm['right_ts_index'][0]; ir0 = dm['right_ts_index'][1]
+				if not FLIP:
+					if direction == CLOCKWISE:
+						Data_moment['labels']['clockwise'] = 1
+					elif direction == COUNTER_C:
+						Data_moment['labels']['counter-clockwise'] = 1
+				else:
+					if direction == COUNTER_C:
+						Data_moment['labels']['clockwise'] = 1
+					elif direction == CLOCKWISE:
+						Data_moment['labels']['counter-clockwise'] = 1
 
-			if FLIP:
-				F = All_image_files[Data_moment['name']]['flip']
-			else:
-				F = All_image_files[Data_moment['name']]['normal']
+				tl0 = dm['left_ts_index'][0]; il0 = dm['left_ts_index'][1]
+				tr0 = dm['right_ts_index'][0]; ir0 = dm['right_ts_index'][1]
 
-			Data_moment[left] = {}
-			Data_moment[right] = {}
 
-			if not FLIP:
-				Data_moment[left][0] = F[left_image][vals][il0]
-				Data_moment[right][0] = F[right_image][vals][ir0]
-				Data_moment[left][1] = F[left_image][vals][il0+1] # note, ONE frame
-				Data_moment[right][1] = F[right_image][vals][ir0+1]
-			else:
-				Data_moment[right][0] = F[left_image_flip][vals][il0]
-				Data_moment[left][0] = F['right_image_flip'][vals][ir0]
-				Data_moment[right][1] = F[left_image_flip][vals][il0+1]
-				Data_moment[left][1] = F['right_image_flip'][vals][ir0+1]
+				if FLIP:
+					F = P['All_image_files'][Data_moment['name']]['flip']
+				else:
+					F = P['All_image_files'][Data_moment['name']]['normal']
 
-			ctr += 1
+				Data_moment[left] = {}
+				Data_moment[right] = {}
 
-			_function_data_into_batch(data_moment,Data_moment)
+
+
+				if not FLIP:
+					if il0+1 < len(F[left_image][vals]) and ir0+1 < len(F[right_image][vals]):
+						Data_moment[left][0] = F[left_image][vals][il0]
+						Data_moment[right][0] = F[right_image][vals][ir0]
+						Data_moment[left][1] = F[left_image][vals][il0+1] # note, ONE frame
+						Data_moment[right][1] = F[right_image][vals][ir0+1]
+					else:
+						spd2s('if il0+1 < len(F[left_image][vals]) and ir0+1 < len(F[right_image][vals]): NOT TRUE!')
+						continue
+				else:
+					if il0+1 < len(F[left_image_flip][vals]) and ir0+1 < len(F['right_image_flip'][vals]):
+						Data_moment[right][0] = F[left_image_flip][vals][il0]
+						Data_moment[left][0] = F['right_image_flip'][vals][ir0]
+						Data_moment[right][1] = F[left_image_flip][vals][il0+1]
+						Data_moment[left][1] = F['right_image_flip'][vals][ir0+1]
+					else:
+						spd2s('if il0+1 < len(F[left_image_flip][vals]) and ir0+1 < len(F[right_image_flip][vals]): NOT TRUE!')
+						continue
+				ctr += 1
+
+				_function_data_into_batch(data_moment,Data_moment)
+					
 
 
 

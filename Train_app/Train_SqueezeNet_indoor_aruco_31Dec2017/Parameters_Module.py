@@ -50,7 +50,7 @@ if RESUME:
 
 P['run_name_to_run_path'] = {}
 P['data_moments_indexed'] = []
-P['All_image_files'] = None
+P['All_image_files'] = {}
 
 for e in sggo(P['experiments_folder'],'*'):
 	print e
@@ -66,24 +66,7 @@ for e in sggo(P['experiments_folder'],'*'):
 
 spd2s("len(P['data_moments_indexed']) =",len(P['data_moments_indexed']))
 
-All_image_files = {}
 
-folders5 = sgg('/home/karlzipser/Desktop/all_aruco_reprocessed/bdd_car_data_Sept2017_aruco_demo/h5py/*')
-
-for f in P['run_name_to_run_path'].keys():
-	print f
-	All_image_files[f] = {}
-	if True:
-		try:
-			O = h5r(opj(P['run_name_to_run_path'][f],'original_timestamp_data.h5py'))
-			F = h5r(opj(P['run_name_to_run_path'][f],'flip_images.h5py'))
-			All_image_files[f]['normal'] = O
-			All_image_files[f]['flip'] = F
-		except Exception as e:
-			print("********** Exception ***********************")
-			print(e.message, e.args)
-
-P['All_image_files'] = All_image_files
 
 
 
