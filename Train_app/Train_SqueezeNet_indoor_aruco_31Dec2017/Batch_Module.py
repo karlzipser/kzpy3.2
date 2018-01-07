@@ -24,9 +24,9 @@ long_ctr = -1
 P['LOSS_LIST'] = []
 P['LOSS_LIST_AVG'] = []
 
-loss_timer = Timer(60*5)
+loss_timer = P['loss_timer']
 
-reload_image_file_timer = Timer(60)
+reload_image_file_timer = P['reload_image_file_timer']
 reload_image_file_timer.trigger()
 
 
@@ -312,7 +312,7 @@ def Batch(*args):
 		nnutils.clip_grad_norm(D[network][net].parameters(), 1.0)
 		D[network][optimizer].step()
 		P['LOSS_LIST'].append(D[loss].data.cpu().numpy()[:].mean())
-		if len(P['LOSS_LIST']) > 10000:
+		if len(P['LOSS_LIST']) > P['LOSS_LIST_N']:
 			P['LOSS_LIST_AVG'].append(na(P['LOSS_LIST']).mean())
 			P['LOSS_LIST'] = []
 
@@ -347,6 +347,7 @@ def Batch(*args):
 			#img_saver['save']({'img':c})
 			if loss_timer.check():
 				figure('LOSS_LIST_AVG');clf();plot(P['LOSS_LIST_AVG'],'.')
+				spause()
 				loss_timer.reset()
 			Net_activity = Activity_Module.Net_Activity(activiations,D[network][net].A)
 

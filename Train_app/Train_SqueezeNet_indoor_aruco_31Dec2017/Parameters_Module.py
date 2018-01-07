@@ -8,14 +8,15 @@ import resource
 
 # the soft limit imposed by the current configuration
 # the hard limit imposed by the operating system.
+# ulimit -Sn 60000
 soft, hard = resource.getrlimit(resource.RLIMIT_NOFILE)
 print 'Soft limit is ', soft 
 
 # For the following line to run, you need to execute the Python script as root.
-resource.setrlimit(resource.RLIMIT_NOFILE, (60000, soft))
+#resource.setrlimit(resource.RLIMIT_NOFILE, (60000, soft))
 
-soft, hard = resource.getrlimit(resource.RLIMIT_NOFILE)
-print 'Soft limit is ', soft 
+#soft, hard = resource.getrlimit(resource.RLIMIT_NOFILE)
+#print 'Soft limit is ', soft 
 
 
 P = {}
@@ -38,16 +39,17 @@ P[N_STEPS] = 10
 P[STRIDE] = 9#3 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 P[NETWORK_OUTPUT_FOLDER] = opjD('net_indoors')
 P[SAVE_FILE_NAME] = 'net'
-P[save_net_timer] = Timer(60*5)
-P[print_timer] = Timer(4)
+P[save_net_timer] = Timer(60*20)
+P[print_timer] = Timer(10)
 P[TRAIN_TIME] = 60*10.0
 P[VAL_TIME] = 60*1.0
-P[RESUME] = True
+P[RESUME] = False
 if RESUME:
     P[INITIAL_WEIGHTS_FOLDER] = opj(P[NETWORK_OUTPUT_FOLDER],'weights')
     P[WEIGHTS_FILE_PATH] = most_recent_file_in_folder(P[INITIAL_WEIGHTS_FOLDER],['net'],[])	
-
-
+P['reload_image_file_timer'] = Timer(1*60)
+P['loss_timer'] = Timer(60*1)
+P['LOSS_LIST_N'] = 1000
 P['run_name_to_run_path'] = {}
 P['data_moments_indexed'] = []
 P['All_image_files'] = {}
