@@ -49,18 +49,24 @@ if RESUME:
     P[WEIGHTS_FILE_PATH] = most_recent_file_in_folder(P[INITIAL_WEIGHTS_FOLDER],['net'],[])	
 P['reload_image_file_timer'] = Timer(1*60)
 P['loss_timer'] = Timer(60*1)
-P['LOSS_LIST_N'] = 1000
+P['LOSS_LIST_N'] = 3000
 P['run_name_to_run_path'] = {}
 P['data_moments_indexed'] = []
-P['All_image_files'] = {}
+P['heading_pause_data_moments_indexed'] = []
+P['Loaded_image_files'] = {}
 
 for e in sggo(P['experiments_folder'],'*'):
 	print e
 	if fname(e)[0] == '_':
 		spd2s('Ignoring',e)
 		continue
+
 	d = lo(opj(e,'data_moments_indexed.pkl'))
 	P['data_moments_indexed'] += d
+
+	d = lo(opj(e,'heading_pause_data_moments_indexed.pkl'))
+	P['heading_pause_data_moments_indexed'] += d
+
 	for r in sggo(e,'h5py','*'):
 		assert(fname(r) not in P['run_name_to_run_path'])
 		P['run_name_to_run_path'][fname(r)] = r
