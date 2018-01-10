@@ -2,7 +2,7 @@ from Names_Module import *
 from kzpy3.utils2 import *
 exec(identify_file_str)
 
-
+# $ ulimit -Sn 60000
 
 import resource
 
@@ -10,7 +10,8 @@ import resource
 # the hard limit imposed by the operating system.
 # ulimit -Sn 60000
 soft, hard = resource.getrlimit(resource.RLIMIT_NOFILE)
-print 'Soft limit is ', soft 
+print 'Soft limit is ', soft
+assert(soft>=60000)
 
 # For the following line to run, you need to execute the Python script as root.
 #resource.setrlimit(resource.RLIMIT_NOFILE, (60000, soft))
@@ -61,8 +62,10 @@ for e in sggo(P['experiments_folder'],'*'):
 		spd2s('Ignoring',e)
 		continue
 
-	d = lo(opj(e,'data_moments_indexed.pkl'))
-	P['data_moments_indexed'] += d
+	_data_moments_indexed = lo(opj(e,'data_moments_indexed.pkl'))
+	for _dm in _data_moments_indexed:
+		if _dm['other_car_in_view'] == True:
+			P['data_moments_indexed'].append(_dm)
 
 	d = lo(opj(e,'heading_pause_data_moments_indexed.pkl'))
 	P['heading_pause_data_moments_indexed'] += d
@@ -71,8 +74,8 @@ for e in sggo(P['experiments_folder'],'*'):
 		assert(fname(r) not in P['run_name_to_run_path'])
 		P['run_name_to_run_path'][fname(r)] = r
 
-
 spd2s("len(P['data_moments_indexed']) =",len(P['data_moments_indexed']))
+spd2s("len(P['heading_pause_data_moments_indexed']) =",len(P['heading_pause_data_moments_indexed']))
 
 
 
@@ -84,6 +87,7 @@ Increase the Limit
 To increase the limit to 1080 use the following command:
 
 ulimit -Sn 1080
+
 
 You can change the hard limit too, ulimit -Hn 2040. ulimit -n 2040 changes 
 both the soft and hard limits to the same value. Once you change the hard limit, 

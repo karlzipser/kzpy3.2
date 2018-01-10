@@ -14,7 +14,7 @@ control_filter2 = 1.0/((arange(90)/60.0)**2+1.0); control_filter2[:5] = 0.0; con
 
 img_juggled = 0
 Loaded_image_files = P['Loaded_image_files']
-data_moments_indexed = P['data_moments_indexed']
+#data_moments_indexed = P['data_moments_indexed']
 data_moments_indexed_loaded = []
 
 DIRECT = 'Direct_Arena_Potential_Field'
@@ -78,12 +78,26 @@ def Batch(*args):
 
 		P['Loaded_image_files'] = Loaded_image_files
 
+		data_moments = []
+		data_moments += P['data_moments_indexed']
+		pd2s('1) len(data_moments) =',len(data_moments))
+		indicies = range(len(P['heading_pause_data_moments_indexed']))
+		random.shuffle(indicies)
+		num_heading_pause = int(min(0.1*len(data_moments),len(indicies)))
+		for i in range(num_heading_pause):
+			data_moments.append(P['heading_pause_data_moments_indexed'][indicies[i]])
+		pd2s('2) len(data_moments) =',len(data_moments))
+		#data_moments += P['heading_pause_data_moments_indexed']
+
+		#if random.random() > 0.8:
+		#	P['data_moments_indexed']
+
 		timer = Timer()
 		data_moments_indexed_loaded = []
-		for dm in data_moments_indexed:
+		for dm in data_moments:
 			if dm['run_name'] in P['Loaded_image_files']:
-				if dm['other_car_in_view'] == True:
-					data_moments_indexed_loaded.append(dm)
+				#if dm['other_car_in_view'] == True:
+				data_moments_indexed_loaded.append(dm)
 
 		random.shuffle(data_moments_indexed_loaded)
 
