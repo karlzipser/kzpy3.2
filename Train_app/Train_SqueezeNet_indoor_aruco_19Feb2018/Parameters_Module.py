@@ -26,15 +26,15 @@ P['experiments_folder'] = '/home/karlzipser/Desktop/all_aruco_reprocessed'
 
 
 P[GPU] = 1
-P[BATCH_SIZE] = 64
+P[BATCH_SIZE] = 512
 P[DISPLAY] = True
 P[VERBOSE] = True
-P[LOAD_ARUCO] = False
-P[BAIR_CAR_DATA_PATH] = opjD('bdd_car_data_Sept2017_aruco_demo')
+#P[LOAD_ARUCO] = False
+#P[BAIR_CAR_DATA_PATH] = opjD('bdd_car_data_Sept2017_aruco_demo')
 P[CODE_PATH] = CODE_PATH__
 P[IGNORE] = [reject_run,left,out1_in2]#,'Smyth','racing','local','Tilden','campus']
 P[REQUIRE_ONE] = []
-P[USE_STATES] = [1,3,5,6,7]
+P[USE_STATES] = [6]#[1,3,5,6,7]
 P[N_FRAMES] = 2
 P[N_STEPS] = 10
 P[STRIDE] = 9#3 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

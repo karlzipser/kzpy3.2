@@ -2,16 +2,16 @@ from Names_Module import *
 from kzpy3.utils2 import *
 exec(identify_file_str)
 
-spd2s('REMEMBER ulimit -Sn 60000')
+spd2s('REMEMBER ulimit -Sn 65000')
 
 import resource
 
 # the soft limit imposed by the current configuration
 # the hard limit imposed by the operating system.
-# ulimit -Sn 60000
+# ulimit -Sn 65000
 soft, hard = resource.getrlimit(resource.RLIMIT_NOFILE)
 print 'Soft limit is ', soft
-assert(soft>=60000)
+assert(soft>=65000)
 
 # For the following line to run, you need to execute the Python script as root.
 #resource.setrlimit(resource.RLIMIT_NOFILE, (60000, soft))

@@ -1672,5 +1672,13 @@ def build_dic_list_leaves(key_lists):
 		D[k] = build_dic_list_leaves(key_lists[1:])
 	return D	
 
-	
+
+def str_is_int(s):
+	try:
+		int(s)
+		return True
+	except:
+		return False
+
+
 #EOF
