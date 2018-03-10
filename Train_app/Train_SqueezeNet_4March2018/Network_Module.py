@@ -33,24 +33,11 @@ def Pytorch_Network():
         save_data = torch.load(_(P,WEIGHTS_FILE_PATH))
         _(D,net).load_state_dict(save_data[net])
         time.sleep(4)
-        #loss_record_loaded = zload_obj({'path':opjD('loss_record')})
-        #loss_record = {}
-        #for mode in ['train','val']:
-        #    loss_record[mode] = Utils.Loss_Record()
-        #    for k in loss_record_loaded[mode].keys():
-        #        if not callable(loss_record[mode][k]):
-        #            loss_record[mode][k] = loss_record_loaded[mode][k]
     else:
         pass
-        #loss_record = {}
-        #loss_record['train'] = Utils.Loss_Record()
-        #loss_record['val'] = Utils.Loss_Record()
     def _function_save_net():
-        #loss_record = d['loss_record']
         if P[save_net_timer].check():
             print('saving net state . . .')
-            #torch.save(net.state_dict(), opjD(P.save_file_name+time_str()+'.weights'))
-            # Save for inference (creates ['net'] and moves net to GPU #0)
             weights = {'net':D['net'].state_dict().copy()}
             for key in weights['net']:
                 weights['net'][key] = weights['net'][key].cuda(device=0)
@@ -61,7 +48,7 @@ def Pytorch_Network():
             so(opj(P[NETWORK_OUTPUT_FOLDER],'data_moment_loss_records'),D[data_moment_loss_record])
             print('. . . done saving.')
             P[save_net_timer].reset()
-    D[save_net] = _function_save_net
+    D['SAVE_NET'] = _function_save_net
    
     return D
 

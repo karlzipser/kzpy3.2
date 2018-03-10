@@ -56,26 +56,27 @@ P['data_moments_indexed'] = []
 P['heading_pause_data_moments_indexed'] = []
 P['Loaded_image_files'] = {}
 
-for e in sggo(P['experiments_folder'],'*'):
-	print e
-	if fname(e)[0] == '_':
-		spd2s('Ignoring',e)
-		continue
+if True:
+	for e in sggo(P['experiments_folder'],'*'):
+		print e
+		if fname(e)[0] == '_':
+			spd2s('Ignoring',e)
+			continue
 
-	_data_moments_indexed = lo(opj(e,'data_moments_indexed.pkl'))
-	for _dm in _data_moments_indexed:
-		if _dm['other_car_in_view'] == True:
-			P['data_moments_indexed'].append(_dm)
+		_data_moments_indexed = lo(opj(e,'data_moments_indexed.pkl'))
+		for _dm in _data_moments_indexed:
+			if _dm['other_car_in_view'] == True:
+				P['data_moments_indexed'].append(_dm)
 
-	d = lo(opj(e,'heading_pause_data_moments_indexed.pkl'))
-	P['heading_pause_data_moments_indexed'] += d
+		d = lo(opj(e,'heading_pause_data_moments_indexed.pkl'))
+		P['heading_pause_data_moments_indexed'] += d
 
-	for r in sggo(e,'h5py','*'):
-		assert(fname(r) not in P['run_name_to_run_path'])
-		P['run_name_to_run_path'][fname(r)] = r
+		for r in sggo(e,'h5py','*'):
+			assert(fname(r) not in P['run_name_to_run_path'])
+			P['run_name_to_run_path'][fname(r)] = r
 
-spd2s("len(P['data_moments_indexed']) =",len(P['data_moments_indexed']))
-spd2s("len(P['heading_pause_data_moments_indexed']) =",len(P['heading_pause_data_moments_indexed']))
+	spd2s("len(P['data_moments_indexed']) =",len(P['data_moments_indexed']))
+	spd2s("len(P['heading_pause_data_moments_indexed']) =",len(P['heading_pause_data_moments_indexed']))
 
 
 

@@ -9,8 +9,8 @@ import Activity_Module
 _ = dictionary_access
 
 
-control_filter1 = zeros(90); control_filter1[:5] = 1.0; control_filter1[5:10] = 0.5
-control_filter2 = 1.0/((arange(90)/60.0)**2+1.0); control_filter2[:5] = 0.0; control_filter2[5:10] = 0.5
+#control_filter1 = zeros(90); control_filter1[:5] = 1.0; control_filter1[5:10] = 0.5
+#control_filter2 = 1.0/((arange(90)/60.0)**2+1.0); control_filter2[:5] = 0.0; control_filter2[5:10] = 0.5
 
 img_juggled = 0
 Loaded_image_files = P['Loaded_image_files']
@@ -29,28 +29,23 @@ loss_timer = P['loss_timer']
 
 reload_image_file_timer = P['reload_image_file_timer']
 reload_image_file_timer.trigger()
-
-
-
 frequency_timer = Timer(10.0)
-def Batch(*args):
-	Args = args_to_dictionary(args)
-	D = {}
-	D[network] = Args[network]
-	True
-	_(D,batch_size,equals,P[BATCH_SIZE])
-	D[dic_type] = 'Batch'
-	D[purpose] = d2s(inspect.stack()[0][3],':','object to collect data for pytorch batch')
-	D[camera_data] = torch.FloatTensor().cuda()
-	D[metadata] = torch.FloatTensor().cuda()
-	D[target_data] = torch.FloatTensor().cuda()
-	D[names] = []
-	D[states] = []
 
-	DIRECT = 'Direct_Arena_Potential_Field'
-	FOLLOW = 'Follow_Arena_Potential_Field'
-	CLOCKWISE = 0
-	COUNTER_C = 1
+DIRECT = 'Direct_Arena_Potential_Field'
+FOLLOW = 'Follow_Arena_Potential_Field'
+CLOCKWISE = 0
+COUNTER_C = 1
+
+def Batch(the_network=None):
+	D = {}
+	D['network'] = the_network
+	True
+	D['batch_size'] = P[BATCH_SIZE]
+	D['camera_data'] = torch.FloatTensor().cuda()
+	D['metadata'] = torch.FloatTensor().cuda()
+	D['target_data'] = torch.FloatTensor().cuda()
+	D['names'] = []
+	D['states'] = []
 
 	def _load_image_files():
 		global data_moments_indexed_loaded
@@ -59,8 +54,6 @@ def Batch(*args):
 
 		shuffled_keys = P['run_name_to_run_path'].keys()
 		random.shuffle(shuffled_keys)
-
-
 
 		for f in shuffled_keys[:300]:# P['run_name_to_run_path'].keys():#shuffled_keys[:3]:#P['run_name_to_run_path'].keys():
 			#spd2s(f)
@@ -76,6 +69,11 @@ def Batch(*args):
 					print("********** Exception ***********************")
 					print(e.message, e.args)
 
+		"""
+		Be able to specify the mix of moments (e.g., 1.0  of normal, 0.1 of heading_pause, 0.5 of LCR, etc...)
+		"""
+
+
 		P['Loaded_image_files'] = Loaded_image_files
 
 		data_moments = []
@@ -87,10 +85,6 @@ def Batch(*args):
 		for i in range(num_heading_pause):
 			data_moments.append(P['heading_pause_data_moments_indexed'][indicies[i]])
 		pd2s('2) len(data_moments) =',len(data_moments))
-		#data_moments += P['heading_pause_data_moments_indexed']
-
-		#if random.random() > 0.8:
-		#	P['data_moments_indexed']
 
 		timer = Timer()
 		data_moments_indexed_loaded = []
@@ -227,11 +221,11 @@ def Batch(*args):
 		Data_moment = Args[data_moment]
 		True
 		if True:
-			D[names].insert(0,Data_moment[name]) # This to match torch.cat use below
+			D['names'].insert(0,Data_moment[name]) # This to match torch.cat use below
 		if True:
 			offset = np.random.randint(20)
 			list_camera_input = []
-			for t in range(D[network][net].N_FRAMES):
+			for t in range(D['network'][net].N_FRAMES):
 				for camerav in (left, right):
 					img = Data_moment[camerav][t]#[40:,:,:]
 					#if type(img_juggled) == int:
@@ -250,21 +244,21 @@ def Batch(*args):
 
 			camera_datav = torch.transpose(camera_datav, 0, 2)
 			camera_datav = torch.transpose(camera_datav, 1, 2)
-			D[camera_data] = torch.cat((torch.unsqueeze(camera_datav, 0), D[camera_data]), 0)
+			D['camera_data'] = torch.cat((torch.unsqueeze(camera_datav, 0), D['camera_data']), 0)
 
 
 		"""
 		# previous version
 		if True:
 			list_camera_input = []
-			for t in range(D[network][net].N_FRAMES):
+			for t in range(D['network'][net].N_FRAMES):
 				for camerav in (left, right):
 					list_camera_input.append(torch.from_numpy(Data_moment[camerav][t]))
 			camera_datav = torch.cat(list_camera_input, 2)
 			camera_datav = camera_datav.cuda().float()/255. - 0.5
 			camera_datav = torch.transpose(camera_datav, 0, 2)
 			camera_datav = torch.transpose(camera_datav, 1, 2)
-			D[camera_data] = torch.cat((torch.unsqueeze(camera_datav, 0), D[camera_data]), 0)
+			D['camera_data'] = torch.cat((torch.unsqueeze(camera_datav, 0), D['camera_data']), 0)
 
 
 		"""
@@ -286,12 +280,12 @@ def Batch(*args):
 
 			"""
 			if LCR in Data_moment[labels]:
-				#print data['states']
+				#print data[''states'']
 				for target_statev in [1,2,3]:
-					for i in range(0,len(Data_moment[states]),3): ###############!!!!!!!!!!!!!!!! temp, generalize
+					for i in range(0,len(Data_moment['states']),3): ###############!!!!!!!!!!!!!!!! temp, generalize
 						mode_ctrv += 1
 						#!!!!!!!! reverse concatinations so they are in normal order
-						if Data_moment[states][i] == target_statev:
+						if Data_moment['states'][i] == target_statev:
 							metadatav = torch.cat((one_matrixv, metadatav), 1)
 						else:
 							metadatav = torch.cat((zero_matrixv, metadatav), 1)
@@ -300,11 +294,11 @@ def Batch(*args):
 			for i in range(128 - mode_ctrv): # Concatenate zero matrices to fit the dataset
 				metadatav = torch.cat((zero_matrixv, metadatav), 1)
 
-			D[metadata] = torch.cat((metadatav, D[metadata]), 0)
+			D['metadata'] = torch.cat((metadatav, D['metadata']), 0)
 
 		if True:
-			sv = Data_moment[steer]
-			mv = Data_moment[motor]
+			sv = Data_moment['steer']
+			mv = Data_moment['motor']
 			rv = range(8,91,9)
 			#rv = range(2,31,3) # This depends on NUM_STEPS and STRIDE
 			sv = array(sv)[rv]
@@ -312,46 +306,46 @@ def Batch(*args):
 			steerv = torch.from_numpy(sv).cuda().float() / 99.
 			motorv = torch.from_numpy(mv).cuda().float() / 99.
 			target_datav = torch.unsqueeze(torch.cat((steerv, motorv), 0), 0)
-			D[target_data] = torch.cat((target_datav, D[target_data]), 0)
-			#D[states].append(Data_moment[states])
+			D['target_data'] = torch.cat((target_datav, D['target_data']), 0)
+			#D['states'].append(Data_moment['states'])
 
 
 
 	def _function_clear():
-		D[camera_data] = torch.FloatTensor().cuda()
-		D[metadata] = torch.FloatTensor().cuda()
-		D[target_data] = torch.FloatTensor().cuda()
-		D[states] = []
-		D[names] = []
-		D[outputs] = None
-		D[loss] = None
+		D['camera_data'] = torch.FloatTensor().cuda()
+		D['metadata'] = torch.FloatTensor().cuda()
+		D['target_data'] = torch.FloatTensor().cuda()
+		D['states'] = []
+		D['names'] = []
+		D['outputs'] = None
+		D['loss'] = None
 
 
 
 	def _function_forward():
 		True
-		Trial_loss_record = D[network][data_moment_loss_record]
-		D[network][optimizer].zero_grad()
-		D[outputs] = D[network][net](torch.autograd.Variable(D[camera_data]), torch.autograd.Variable(D[metadata])).cuda()
-		D[loss] = D[network][criterion](D[outputs], torch.autograd.Variable(D[target_data]))
+		Trial_loss_record = D['network'][data_moment_loss_record]
+		D['network'][optimizer].zero_grad()
+		D['outputs'] = D['network'][net](torch.autograd.Variable(D['camera_data']), torch.autograd.Variable(D['metadata'])).cuda()
+		D['loss'] = D['network'][criterion](D['outputs'], torch.autograd.Variable(D['target_data']))
 		"""
 		for bv in range(D[batch_size]):
 			id = D[data_ids][bv]
-			tv= D[target_data][bv].cpu().numpy()
-			ov = D[outputs][bv].data.cpu().numpy()
+			tv= D['target_data'][bv].cpu().numpy()
+			ov = D['outputs'][bv].data.cpu().numpy()
 			av = tv - ov
 			#Trial_loss_record[(id,tuple(tv),tuple(ov))] = np.sqrt(av * av).mean()
 			Trial_loss_record[id] = np.sqrt(av * av).mean()
-		D[network][rate_counter][step]()
+		D['network'][rate_counter][step]()
 		"""
 
 
 	def _function_backward():
 		True
-		D[loss].backward()
-		nnutils.clip_grad_norm(D[network][net].parameters(), 1.0)
-		D[network][optimizer].step()
-		P['LOSS_LIST'].append(D[loss].data.cpu().numpy()[:].mean())
+		D['loss'].backward()
+		nnutils.clip_grad_norm(D['network'][net].parameters(), 1.0)
+		D['network'][optimizer].step()
+		P['LOSS_LIST'].append(D['loss'].data.cpu().numpy()[:].mean())
 		if len(P['LOSS_LIST']) > P['LOSS_LIST_N']:
 			P['LOSS_LIST_AVG'].append(na(P['LOSS_LIST']).mean())
 			P['LOSS_LIST'] = []
@@ -365,13 +359,13 @@ def Batch(*args):
 		cv2.waitKey(1) # This is to keep cv2 windows alive
 		if P[print_timer].check() or Args[print_now]:
 
-			ov = D[outputs][0].data.cpu().numpy()
-			mv = D[metadata][0].cpu().numpy()
-			tv = D[target_data][0].cpu().numpy()
+			ov = D['outputs'][0].data.cpu().numpy()
+			mv = D['metadata'][0].cpu().numpy()
+			tv = D['target_data'][0].cpu().numpy()
 
-			print('Loss:',dp(D[loss].data.cpu().numpy()[0],5))
+			print('Loss:',dp(D['loss'].data.cpu().numpy()[0],5))
 			#print(o,t,D['data_ids'])
-			av = D[camera_data][0][:].cpu().numpy()
+			av = D['camera_data'][0][:].cpu().numpy()
 			bv = av.transpose(1,2,0)
 			hv = shape(av)[1]
 			wv = shape(av)[2]
@@ -382,14 +376,14 @@ def Batch(*args):
 			cv[-hv:,-wv:,:] = z2o(bv[:,:,6:9])
 			#mi(cv,'cameras');pause(0.000000001)
 			print(d2s('camera_data min,max =',av.min(),av.max()))
-			#print(D[states][-1])
+			#print(D['states'][-1])
 			#print shape(mv)
 			#img_saver['save']({'img':c})
 			if loss_timer.check():
 				figure('LOSS_LIST_AVG');clf();plot(P['LOSS_LIST_AVG'],'.')
 				spause()
 				loss_timer.reset()
-			Net_activity = Activity_Module.Net_Activity(activiations,D[network][net].A)
+			Net_activity = Activity_Module.Net_Activity(activiations,D['network'][net].A)
 
 			Net_activity[view](moment_index,0,delay,33, scales,{camera_input:3,pre_metadata_features:0,pre_metadata_features_metadata:2,post_metadata_features:4})
 
@@ -410,7 +404,7 @@ def Batch(*args):
 			figure('steer')
 			clf()
 			ylim(-0.05,1.05);xlim(0,len(tv))
-			plot([-1,10],[0.49,0.49],'k');plot(ov,'og'); plot(tv,'or'); plt.title(D[names][0])
+			plot([-1,10],[0.49,0.49],'k');plot(ov,'og'); plot(tv,'or'); plt.title(D['names'][0])
 			plt.xlabel(d2s(bm,dr))
 
 			figure('metadata');clf()
@@ -425,11 +419,11 @@ def Batch(*args):
 	
 	"""
 
-	D[fill] = _function_fill
-	D[clear] = _function_clear
-	D[forward] = _function_forward
-	D[backward] = _function_backward
-	D[display] = _function_display
+	D['FILL'] = _function_fill
+	D['CLEAR'] = _function_clear
+	D['FORWARD'] = _function_forward
+	D['BACKWARD'] = _function_backward
+	D['DISPLAY'] = _function_display
 	return D
 
 

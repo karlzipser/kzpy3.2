@@ -1,4 +1,5 @@
-#
+"""
+"""
 
 from Parameters_Module import *
 
@@ -16,31 +17,28 @@ import Network_Module
 exec(identify_file_str)
 
 
-
-
-for folder in ['weights']:
-	unix('mkdir -p '+opj(P[NETWORK_OUTPUT_FOLDER],folder))
+unix('mkdir -p '+opj(P[NETWORK_OUTPUT_FOLDER],'weights'))
 
 
 Network = Network_Module.Pytorch_Network()
 
-Batch = Batch_Module.Batch(network,Network)
+Batch = Batch_Module.Batch(the_network=Network)
 
 
 
 while True:
 
-	Batch[clear]()
+	Batch['CLEAR']()
 
-	Batch[fill](data,None, mode,None)
+	Batch['FILL'](data,None, mode,None)
 
-	Batch[forward]()
+	Batch['FORWARD']()
 
-	Batch[display]()
+	Batch['DISPLAY']()
 
-	Batch[backward]()
+	Batch['BACKWARD']()
 
-	Network[save_net]()
+	Network['SAVE_NET']()
 
 	
 	
