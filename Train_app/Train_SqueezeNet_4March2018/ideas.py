@@ -152,14 +152,6 @@ for location in locations:
 # making data moment lists like aruco data for older data
 
 """
-{'behavioral_mode': 'racing',
- 'left_ts_index': (1506212011.0179999, 4605),
- 'motor': 51,
- 'right_ts_index': (1506212011.0409999, 4605),
- 'run_name': 'Mr_Lt_Blue_2017-09-23-17-10-51',
- 'steer': 11}
-
-
 good data moment:
 	select time interval: value should be within 20 percent
 	80 percent of timepoint should be in state 1
@@ -177,24 +169,117 @@ First sample must be in state 1.
 """
 
 
-def get_good_data_moment_indicies(L=None,steps=0,time_tolerance=0,state_tolerance=0):
-	for i in range(0,len(L['ts'])-steps):
 
-		print L['state'][i]
 
-def is_this_a_good_data_moment(L=None,index=0,steps=0,time_percent_tolerance=0,state_percent_tolerance=0):
+
+
+
+
+def right_indicies_timestamps(F,n=5):
+	l_ts = F['left_image']['ts'][:]
+	r_ts = F['right_image']['ts'][:]
+	r_indicies = []
+	r_timestamps = []
+	ln = min(len(l_ts),len(r_ts))
+	test = []
+	for i in range(ln):
+		l = l_ts[i]
+		smallest_delta = 10
+		best_j = i
+		for j in range(i-n,i+n):
+			if j >= 0:
+				if j < ln:
+					delta = l_ts[i]-r_ts[j]
+					if abs(delta)<smallest_delta and delta<0:
+						smallest_delta = delta
+						best_j = j
+		test.append(best_j-i)
+		r_indicies.append(best_j)
+		r_timestamps.append(r_ts[best_j])
+	figure('test');clf()
+	hist(test)
+	return r_indicies,r_timestamps
+
+def is_this_a_good_data_moment(L=None,index=0,steps=0,time_proportion_tolerance=0,state_proportion_tolerance=0,min_initial_steps=0):
 	start_time = L['ts'][index]
 	end_time = L['ts'][index+steps-1]
 	d_time = end_time - start_time
 	expected_time = steps * 1/30.0
 	if abs(expected_time - d_time) > time_proportion_tolerance * expected_time:
-		return False
+		return 0
 
 	state_1s = 0
 	for i in range(index,index + steps):
-		if abs(L['state'] - 1.0) < 0.1:
+		if abs(L['state'][i] - 1.0) < 0.1:
 			state_1s += 1
+		else:
+			if i-index < min_initial_steps:
+				#pd2s('rejecting',i)
+				return 0
+
+	if state_1s / (1.0*steps) < state_proportion_tolerance:
+		return 0
+
+	return 1
+
+dataset_path = '/media/karlzipser/2_TB_Samsung/bair_car_data_Main_Dataset_part1'
+location = 'local'
+behavioral_mode = 'furtive'
+run_name = 'furtive_9August2016'
+
+#L=h5r('/media/karlzipser/2_TB_Samsung/bair_car_data_Main_Dataset_part1/Tilden/racing/h5py/'+run_name+'/left_timestamp_metadata.h5py' )
+try:
+	F.close()
+	L.close()
+except:
+	pass
+F=h5r(opj(dataset_path,location,behavioral_mode,'h5py',run_name,'original_timestamp_data.h5py'))
+L=h5r(opj(dataset_path,location,behavioral_mode,'h5py',run_name,'left_timestamp_metadata.h5py'))
+
+timer = Timer(5)
+results = []
+state = L['state'][:]
+num_steps = 20
+data_moments = []
+ts = L['ts'][:]
+r_indicies,r_timestamps = right_indicies_timestamps(F,n=60)
+#right_tsv = _assign_right_image_timestamps2(F)
+for i in range(len(ts)-num_steps):
+	timer.percent_message(i,len(ts)-num_steps)
+	r = is_this_a_good_data_moment(L=L,index=i,steps=num_steps,time_proportion_tolerance=0.1,state_proportion_tolerance=0.8,min_initial_steps=10)
+	results.append(r)
+	if r:
+		try:
+			data_moments.append(
+				{'behavioral_mode': behavioral_mode,
+				 'left_ts_index': (ts[i], i),
+				 'motor': L['motor'][i],
+				 'right_ts_index': (F['right_image']['ts'][r_indicies[i]],r_indicies[i]),#(right_tsv[i], i),
+				 'run_name': run_name,
+				 'steer': L['steer'][i]})
+		except:
+			pd2s('failed data_moments')
+figure('data moments');clf();ylim(-0.5,3.0)
+plot(state+0.02) 
+plot(L['left_ts_deltas'][:]*10)
+plot(results)
+spause()
+
+"""
+rl_deltas = []
+for d in data_moments:
+	rl_deltas.append(d['left_ts_index'][0]-d['right_ts_index'][0])
 
 
+r_indicies,r_timestamps=right_indicies_timestamps(F,n=60) 
+dlr=F['left_image']['ts'][:len(r_timestamps)]-r_timestamps
+figure(2);clf();hist(dlr)
+"""
+
+
+dm_test = []
+for d in data_moments:
+	dm_test.append(d['left_ts_index'][0]-d['right_ts_index'][0])
+figure(3);clf();hist(dm_test)
 
 
