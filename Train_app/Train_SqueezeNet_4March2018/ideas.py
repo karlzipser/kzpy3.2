@@ -99,6 +99,100 @@ for e in experiments:
 
 
 
+
+#############################################################################
+# dictionary version
+experiments = sggo('/home/karlzipser/Desktop/all_aruco_reprocessed/*')
+for e in experiments:
+	if fname(e)[0] == '_':
+		spd2s('ignoring',e)
+		continue
+	spd2s(e)
+
+	data_moments_folder = opj(e,'data_moments')
+	unix('mkdir -p '+data_moments_folder)
+	data_moments_indexed_file = opj(e,'data_moments_indexed.pkl')
+	heading_pause_data_moments_indexed_file = opj(e,'heading_pause_data_moments_indexed.pkl')
+
+
+	data_moments = lo(data_moments_indexed_file)
+	heading_pause_data_moments = lo(heading_pause_data_moments_indexed_file)
+
+	random.shuffle(data_moments)
+	random.shuffle(heading_pause_data_moments)
+
+
+	num_val = 0.1*len(data_moments)
+
+	val__direct__car_in_view = []
+	train__direct_car_in_view = []
+	val__direct__car_not_in_view = []
+	train__direct__car_not_in_view = []
+	val__follow__car_in_view = []
+	train__follow__car_in_view = []
+	val__follow__car_not_in_view = []
+	train__follow_car__not_in_view = []
+	ctr = 0
+
+	data_moments_dic = {}
+	data_moments_dic['val'] = {}
+	data_moments_dic['train'] = {}
+	data_moments_dic['val']['heading_pause'] = heading_pause_data_moments[:int(0.1*len(heading_pause_data_moments))]
+	data_moments_dic['train']['heading_pause'] = heading_pause_data_moments[int(0.1*len(heading_pause_data_moments)):]
+	data_moments_dic['val']['direct'] = {}
+	data_moments_dic['val']['follow'] = {}
+	data_moments_dic['val']['direct']['car_in_view'] = []
+	data_moments_dic['val']['direct']['car_not_in_view'] = []
+	data_moments_dic['val']['follow']['car_in_view'] = []
+	data_moments_dic['val']['follow']['car_not_in_view'] = []
+	data_moments_dic['train']['direct'] = {}
+	data_moments_dic['train']['follow'] = {}
+	data_moments_dic['train']['direct']['car_in_view'] = []
+	data_moments_dic['train']['direct']['car_not_in_view'] = []
+	data_moments_dic['train']['follow']['car_in_view'] = []
+	data_moments_dic['train']['follow']['car_not_in_view'] = []
+
+
+	for d in data_moments:
+		if d['behavioral_mode'] == 'Direct_Arena_Potential_Field':
+			if d['other_car_in_view']:
+				if ctr < num_val:
+					data_moments_dic['val']['direct']['car_in_view'].append(d)
+				else:
+					data_moments_dic['train']['direct']['car_in_view'].append(d)
+			else:
+				if ctr < num_val:
+					data_moments_dic['val']['direct']['car_not_in_view'].append(d)
+				else:
+					data_moments_dic['train']['direct']['car_not_in_view'].append(d)
+		elif d['behavioral_mode'] == 'Follow_Arena_Potential_Field':
+			if d['other_car_in_view']:
+				if ctr < num_val:
+					data_moments_dic['val']['follow']['car_in_view'].append(d)
+				else:
+					data_moments_dic['train']['follow']['car_in_view'].append(d)
+			else:
+				if ctr < num_val:
+					data_moments_dic['val']['follow']['car_not_in_view'].append(d)
+				else:
+					data_moments_dic['train']['follow']['car_not_in_view'].append(d)
+		else:
+			assert(False)
+		ctr += 1
+
+
+	so(opj(e,'data_moments_dic'),data_moments_dic)
+
+
+#
+#########################################################################
+
+
+
+
+
+
+
 # 9 March 2018, putting runs into location folders
 # part 1
 data_folder = '/media/karlzipser/2_TB_Samsung/bair_car_data_Main_Dataset_part1'
@@ -242,7 +336,7 @@ def right_indicies_timestamps(F,n=5):
 	hist(test);spause()
 	return r_indicies,r_timestamps
 
-
+"""
 def is_this_a_good_data_moment(L=None,index=0,steps=0,time_proportion_tolerance=0,state_proportion_tolerance=0,min_initial_steps=0):
 	start_time = L['ts'][index]
 	end_time = L['ts'][index+steps-1]
@@ -261,11 +355,39 @@ def is_this_a_good_data_moment(L=None,index=0,steps=0,time_proportion_tolerance=
 	if state_1s / (1.0*steps) < state_proportion_tolerance:
 		return 0
 	return 1
+"""
 
+def is_this_a_good_data_moment(L=None,index=0,steps=0,time_proportion_tolerance=0,state_proportion_tolerance=0,min_initial_steps=0,accepted_states=[1]):
+	start_time = L['ts'][index]
+	end_time = L['ts'][index+steps-1]
+	d_time = end_time - start_time
+	expected_time = steps * 1/30.0
+	if abs(expected_time - d_time) > time_proportion_tolerance * expected_time:
+		return 0
+	state_1s = 0
+	for i in range(index,index + steps):
+		if int(np.round(L['state'][i])) in accepted_states:
+			state_1s += 1
+		else:
+			if i-index < min_initial_steps:
+				return 0
+	if state_1s / (1.0*steps) < state_proportion_tolerance:
+		return 0
+	return 1
+
+
+
+"""
 
 def get_data_moments(dataset_path,location,behavioral_mode,run_name,num_steps):
-	F=h5r(opj(dataset_path,location,behavioral_mode,'h5py',run_name,'original_timestamp_data.h5py'))
-	L=h5r(opj(dataset_path,location,behavioral_mode,'h5py',run_name,'left_timestamp_metadata.h5py'))
+	# main dataset version
+	F_path = opj(dataset_path,location,behavioral_mode,'h5py',run_name,'original_timestamp_data.h5py')
+	print F_path
+	F=h5r(F_path)
+	try:
+		L=h5r(opj(dataset_path,location,behavioral_mode,'h5py',run_name,'left_timestamp_metadata.h5py'))
+	except:
+		L=h5r(opj(dataset_path,location,behavioral_mode,'h5py',run_name,'left_timestamp_metadata_right_ts.h5py'))
 	timer = Timer(5)
 	results = []
 	state = L['state'][:]
@@ -306,39 +428,160 @@ def get_data_moments(dataset_path,location,behavioral_mode,run_name,num_steps):
 	except:
 		pass
 	return data_moments
+"""
 
 
-locations_path = '/media/karlzipser/2_TB_Samsung_n2_/bair_car_data_Main_Dataset_part1/locations'
-#locations_path = '/media/karlzipser/2_TB_Samsung/bair_car_data_Main_Dataset_part1/locations'
-locations = sggo(locations_path,'*')
-num_steps = 90
-for l in locations:
-	location = fname(l)
-	behavioral_modes = sggo(l,'*')
-	for b in behavioral_modes:
-		Data_Moments = []
-		behavioral_mode = fname(b)
-		print location,behavioral_mode
-		runs = sggo(b,'h5py','*')
-		for r in runs:
-			run_name = fname(r)
-			pd2s('\t',run_name)
-			data_moments = get_data_moments(locations_path,location,behavioral_mode,run_name,num_steps)
-			Data_Moments += data_moments
-			pd2s('len data_moments =',len(data_moments))
-			pd2s('len Data_Moments =',len(Data_Moments))
-		so(Data_Moments,opj(b,'data_moments_right_ts'))
-		#raw_enter()
+def get_data_moments(dataset_path,location,behavioral_mode,run_name,num_steps):
+	# LCR dataset version
+	F_path = opj(dataset_path,location,behavioral_mode,'h5py',run_name,'original_timestamp_data.h5py')
+	print F_path
+	F=h5r(F_path)
+	try:
+		L=h5r(opj(dataset_path,location,behavioral_mode,'h5py',run_name,'left_timestamp_metadata.h5py'))
+	except:
+		L=h5r(opj(dataset_path,location,behavioral_mode,'h5py',run_name,'left_timestamp_metadata_right_ts.h5py'))
+	timer = Timer(5)
+	results = []
+	state = L['state'][:]
+	
+	data_moments = []
+	ts = L['ts'][:]
+	r_indicies,r_timestamps = right_indicies_timestamps(F,n=60)
+	assert(behavioral_mode == 'LCR')
+	if behavioral_mode == 'LCR':
+		accepted_states = [1,2,3]
+	else:
+		accepted_states = [1]
+
+	for i in range(len(ts)-num_steps):
+		timer.percent_message(i,len(ts)-num_steps)
+		r = is_this_a_good_data_moment(L=L,index=i,steps=num_steps,time_proportion_tolerance=0.2,state_proportion_tolerance=0.4,min_initial_steps=15,accepted_states=accepted_states)
+		results.append(r)
 		
+		if r:
+			#print behavioral_mode
+			try:
+				if True:#behavioral_mode == 'LCR':
+					#print int(np.round(L['state'][i])),L['state'][i]
+					s = int(np.round(L['state'][i]))
+					if s == 1:
+						behavioral_mode = 'center'
+					elif s == 2:
+						behavioral_mode = 'left'
+						#print 'left'
+					elif s == 3:
+						behavioral_mode = 'right'
+						#print 'right'
+					else:
+						print int(np.round(L['state'][i])),L['state'][i]
+						assert(False)
+				
+				data_moments.append(
+					{'behavioral_mode': behavioral_mode,
+					 'left_ts_index': (ts[i], i),
+					 'motor': L['motor'][i],
+					 'right_ts_index': (F['right_image']['ts'][r_indicies[i]],r_indicies[i]),#(right_tsv[i], i),
+					 'run_name': run_name,
+					 'steer': L['steer'][i]})
+				#if data_moments[-1]['behavioral_mode'] != 'center':
+				#	print data_moments[-1]['behavioral_mode']
+			except:
+				pd2s('failed data_moments')
+	figure('data moments');clf();ylim(-0.5,5.0)
+	plot(state+0.02) 
+	plot(L['left_ts_deltas'][:]*10)
+	plot(results)
+	plt.title(run_name)
+	spause()
 
+	dm_test = []
+	for d in data_moments:
+		dm_test.append(d['left_ts_index'][0]-d['right_ts_index'][0])
+	figure(3);clf();hist(dm_test);spause()
+	try:
+		F.close()
+		L.close()
+	except:
+		pass
+	return data_moments
+
+
+
+if False:
+	locations_path = '/media/karlzipser/2_TB_Samsung_n2_/bair_car_data_Main_Dataset_part1/locations'
+	#locations_path = '/media/karlzipser/2_TB_Samsung/bair_car_data_Main_Dataset_part1/locations'
+	locations = sggo(locations_path,'*')
+	num_steps = 90
+	for l in locations:
+		location = fname(l)
+		behavioral_modes = sggo(l,'*')
+		for b in behavioral_modes:
+			Data_Moments = []
+			behavioral_mode = fname(b)
+			print location,behavioral_mode
+			runs = sggo(b,'h5py','*')
+			for r in runs:
+				run_name = fname(r)
+				pd2s('\t',run_name)
+				print 1,locations_path,location,behavioral_mode,run_name,num_steps
+				data_moments = get_data_moments(locations_path,location,behavioral_mode,run_name,num_steps)
+				Data_Moments += data_moments
+				pd2s('len data_moments =',len(data_moments))
+				pd2s('len Data_Moments =',len(Data_Moments))
+			so(Data_Moments,opj(b,'data_moments_right_ts'))
+			#raw_enter()
+if True:
+	locations_path = '/home/karlzipser/Desktop/bdd_car_data_July2017_LCR/locations'
+	locations = sggo(locations_path,'*')
+	num_steps = 90
+	for l in locations:
+		location = fname(l)
+		behavioral_modes = sggo(l,'*')
+		for b in behavioral_modes:
+			Data_Moments = []
+			behavioral_mode = fname(b)
+			print location,behavioral_mode
+			runs = sggo(b,'h5py','*')
+			for r in runs:
+				run_name = fname(r)
+				pd2s('\t',run_name)
+				print 1,locations_path,location,behavioral_mode,run_name,num_steps
+				data_moments = get_data_moments(locations_path,location,behavioral_mode,run_name,num_steps)
+				Data_Moments += data_moments
+				pd2s('len data_moments =',len(data_moments))
+				pd2s('len Data_Moments =',len(Data_Moments))
+				#raw_enter()
+			so(Data_Moments,opj(b,'data_moments_right_ts'))
+			#raw_enter()		
+
+if False:
+	steer_hist = {}
+	steer_hist['center'] = []
+	steer_hist['left'] = []
+	steer_hist['right'] = []
+
+	for d in Data_Moments:
+		if d['behavioral_mode'] != 'center':
+			print d
+		steer_hist[d['behavioral_mode']].append(d['steer'])
+
+	for b in ['center','left','right']:
+		figure(b);clf();hist(steer_hist[b])
 
 #
 #############################################################################
 
+
+
+
+
+
+
 #############################################################################
 #
-locations_path = '/media/karlzipser/2_TB_Samsung_n2_/bair_car_data_Main_Dataset_part1/locations'
-locations_path = '/media/karlzipser/2_TB_Samsung_n2_/here/locations'
+#locations_path = '/media/karlzipser/2_TB_Samsung_n2_/bair_car_data_Main_Dataset_part1/locations'
+#locations_path = '/media/karlzipser/2_TB_Samsung_n2_/here/locations'
+locations_path = '/home/karlzipser/Desktop/bdd_car_data_July2017_LCR/locations'
 
 locations = sggo(locations_path,'*')
 for l in locations:
@@ -395,7 +638,7 @@ for d in o['train']['high_steer']:
 for d in o['train']['low_steer']:
 	ls.append(d['steer'])
 hist(hs)
-hist(ls)
+#hist(ls)
 
 
 

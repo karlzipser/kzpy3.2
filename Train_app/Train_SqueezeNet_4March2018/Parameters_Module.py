@@ -26,7 +26,7 @@ P['experiments_folder'] = '/home/karlzipser/Desktop/all_aruco_reprocessed'
 
 
 P[GPU] = 1
-P[BATCH_SIZE] = 64
+P[BATCH_SIZE] = 512
 P[DISPLAY] = True
 P[VERBOSE] = True
 P[LOAD_ARUCO] = False
@@ -44,12 +44,12 @@ P[save_net_timer] = Timer(60*20)
 P[print_timer] = Timer(10)
 P[TRAIN_TIME] = 60*10.0
 P[VAL_TIME] = 60*1.0
-P[RESUME] = True
+P[RESUME] = False
 if RESUME:
     P[INITIAL_WEIGHTS_FOLDER] = opj(P[NETWORK_OUTPUT_FOLDER],'weights')
     P[WEIGHTS_FILE_PATH] = most_recent_file_in_folder(P[INITIAL_WEIGHTS_FOLDER],['net'],[])	
 P['reload_image_file_timer'] = Timer(1*60)
-P['loss_timer'] = Timer(60*1)
+P['loss_timer'] = Timer(60*1/10)
 P['LOSS_LIST_N'] = 3000
 P['run_name_to_run_path'] = {}
 P['data_moments_indexed'] = []
