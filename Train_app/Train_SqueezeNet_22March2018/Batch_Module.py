@@ -6,33 +6,19 @@ import torch.nn.utils as nnutils
 import Activity_Module
 
 
-_ = dictionary_access
 
 
-#control_filter1 = zeros(90); control_filter1[:5] = 1.0; control_filter1[5:10] = 0.5
-#control_filter2 = 1.0/((arange(90)/60.0)**2+1.0); control_filter2[:5] = 0.0; control_filter2[5:10] = 0.5
-
-img_juggled = 0
-Loaded_image_files = P['Loaded_image_files']
-#data_moments_indexed = P['data_moments_indexed']
 data_moments_indexed_loaded = []
 
-DIRECT = 'Direct_Arena_Potential_Field'
-FOLLOW = 'Follow_Arena_Potential_Field'
-CLOCKWISE = 0
-COUNTER_C = 1
+
 long_ctr = -1
 P['LOSS_LIST'] = []
 P['LOSS_LIST_AVG'] = []
-
-loss_timer = P['loss_timer']
 
 reload_image_file_timer = P['reload_image_file_timer']
 reload_image_file_timer.trigger()
 frequency_timer = Timer(10.0)
 
-DIRECT = 'Direct_Arena_Potential_Field'
-FOLLOW = 'Follow_Arena_Potential_Field'
 CLOCKWISE = 0
 COUNTER_C = 1
 
@@ -40,63 +26,60 @@ def Batch(the_network=None):
 	D = {}
 	D['network'] = the_network
 	True
-	D['batch_size'] = P[BATCH_SIZE]
+	D['batch_size'] = P['BATCH_SIZE']
 	D['camera_data'] = torch.FloatTensor().cuda()
 	D['metadata'] = torch.FloatTensor().cuda()
 	D['target_data'] = torch.FloatTensor().cuda()
 	D['names'] = []
 	D['states'] = []
 
+
+
+
 	def _load_image_files():
 		global data_moments_indexed_loaded
 		spd2s('_load_image_files()')
-		Loaded_image_files = {}
+		P['Loaded_image_files'] = {}
 
 		shuffled_keys = P['run_name_to_run_path'].keys()
 		random.shuffle(shuffled_keys)
 
-		for f in shuffled_keys[:300]:# P['run_name_to_run_path'].keys():#shuffled_keys[:3]:#P['run_name_to_run_path'].keys():
-			#spd2s(f)
-			Loaded_image_files[f] = {}
+		for f in shuffled_keys[:P['max_num_runs_to_open']]:
+
+			P['Loaded_image_files'][f] = {}
 			if True:
 				try:
 					O = h5r(opj(P['run_name_to_run_path'][f],'original_timestamp_data.h5py'))
 					F = h5r(opj(P['run_name_to_run_path'][f],'flip_images.h5py'))
-					Loaded_image_files[f]['normal'] = O
-					Loaded_image_files[f]['flip'] = F
+					try:
+						L=h5r(opj(P['run_name_to_run_path'][f],'left_timestamp_metadata_right_ts.h5py'))
+					except:
+						L=h5r(opj(P['run_name_to_run_path'][f],'left_timestamp_metadata.h5py'))
+
+					P['Loaded_image_files'][f]['normal'] = O
+					P['Loaded_image_files'][f]['flip'] = F
+					P['Loaded_image_files'][f]['left_timestamp_metadata'] = L
 					#print f
 				except Exception as e:
 					print("********** Exception ***********************")
 					print(e.message, e.args)
 
-		"""
-		Be able to specify the mix of moments (e.g., 1.0  of normal, 0.1 of heading_pause, 0.5 of LCR, etc...)
-		"""
+		print(len(P['Loaded_image_files']))
 
 
-		P['Loaded_image_files'] = Loaded_image_files
 
-		data_moments = []
-		data_moments += P['data_moments_indexed']
-		pd2s('1) len(data_moments) =',len(data_moments))
-		indicies = range(len(P['heading_pause_data_moments_indexed']))
-		random.shuffle(indicies)
-		num_heading_pause = int(min(0.1*len(data_moments),len(indicies)))
-		for i in range(num_heading_pause):
-			data_moments.append(P['heading_pause_data_moments_indexed'][indicies[i]])
-		pd2s('2) len(data_moments) =',len(data_moments))
+		pd2s('1) len(P[data_moments_indexed]) =',len(P['data_moments_indexed']))
 
 		timer = Timer()
 		data_moments_indexed_loaded = []
-		for dm in data_moments:
+		for dm in P['data_moments_indexed']:
 			if dm['run_name'] in P['Loaded_image_files']:
-				#if dm['other_car_in_view'] == True:
 				data_moments_indexed_loaded.append(dm)
 
 		random.shuffle(data_moments_indexed_loaded)
 
-		print(timer.time(),len(data_moments_indexed_loaded))
-		print(len(P['Loaded_image_files']))
+		pd2s('index discovery time =',timer.time(),'len(data_moments_indexed_loaded) =',len(data_moments_indexed_loaded))
+	
 
 
 	def _close_image_files():
@@ -106,9 +89,11 @@ def Batch(the_network=None):
 			try:
 				P['Loaded_image_files'][f]['normal'].close()
 				P['Loaded_image_files'][f]['flip'].close()
+				P['Loaded_image_files'][f]['left_timestamp_metadata'].close()
 			except Exception as e:
 				print("********** _close_image_files Exception ***********************")
 				print(e.message, e.args)
+
 
 
 
@@ -125,108 +110,97 @@ def Batch(the_network=None):
 			_load_image_files()
 			reload_image_file_timer.reset()
 
-		D[data_ids] = []
+		#D[data_ids] = []
 		ctr = 0
-		while ctr < D[batch_size]:
+		while ctr < D['batch_size']:
 			if long_ctr == -1 or long_ctr >= len(data_moments_indexed_loaded):
 				long_ctr = 0
 				random.shuffle(data_moments_indexed_loaded)
 				spd2s('random.shuffle(data_moments_indexed_loaded)')
 			
-			
-			#b_ = ctr
 			FLIP = random.choice([0,1])
 			dm = data_moments_indexed_loaded[long_ctr]; long_ctr += 1; ctr += 1
 			
-			if True:#dm['run_name'] in P['Loaded_image_files']:
+			Data_moment = {}
 
-				#if (is_even(long_ctr) and dm['other_car_in_view'] == True) or ((not is_even(long_ctr)) and dm['other_car_in_view'] == False):
-				if True:#dm['other_car_in_view'] == True:
+			Data_moment['steer'] = zeros(90) + dm['steer']
+			if FLIP:
+				Data_moment['steer'] = 99 - Data_moment['steer']
+			new_motor = dm['motor']
+			new_motor -= 49
+			new_motor = max(0,new_motor)
+			new_motor *= 7.0
+			Data_moment['motor'] = zeros(90) + new_motor
+			Data_moment['labels'] = {}
+			for l in ['direct','follow','clockwise','counter-clockwise']:
+				Data_moment['labels'][l] = 0
+			Data_moment['name'] = dm['run_name']
+			direction = dm['counter_clockwise']
+			behavioral_mode = dm['behavioral_mode']
+			if behavioral_mode == 'Direct_Arena_Potential_Field':
+				Data_moment['labels']['direct'] = 1
+			elif behavioral_mode == 'Follow_Arena_Potential_Field':
+				Data_moment['labels']['follow'] = 1
 
+			if not FLIP:
+				if direction == CLOCKWISE:
+					Data_moment['labels']['clockwise'] = 1
+				elif direction == COUNTER_C:
+					Data_moment['labels']['counter-clockwise'] = 1
+			else:
+				if direction == COUNTER_C:
+					Data_moment['labels']['clockwise'] = 1
+				elif direction == CLOCKWISE:
+					Data_moment['labels']['counter-clockwise'] = 1
 
-					Data_moment = {}
-
-					Data_moment['steer'] = zeros(90) + dm['steer']
-					if FLIP:
-						Data_moment['steer'] = 99 - Data_moment['steer']
-					new_motor = dm['motor']
-					new_motor -= 49
-					new_motor = max(0,new_motor)
-					new_motor *= 7.0
-					Data_moment['motor'] = zeros(90) + new_motor
-					Data_moment['labels'] = {}
-					for l in ['direct','follow','clockwise','counter-clockwise']:
-						Data_moment['labels'][l] = 0
-					Data_moment['name'] = dm['run_name']
-					direction = dm['counter_clockwise']
-					behavioral_mode = dm['behavioral_mode']
-					if behavioral_mode == 'Direct_Arena_Potential_Field':
-						Data_moment['labels']['direct'] = 1
-					elif behavioral_mode == 'Follow_Arena_Potential_Field':
-						Data_moment['labels']['follow'] = 1
-
-					if not FLIP:
-						if direction == CLOCKWISE:
-							Data_moment['labels']['clockwise'] = 1
-						elif direction == COUNTER_C:
-							Data_moment['labels']['counter-clockwise'] = 1
-					else:
-						if direction == COUNTER_C:
-							Data_moment['labels']['clockwise'] = 1
-						elif direction == CLOCKWISE:
-							Data_moment['labels']['counter-clockwise'] = 1
-
-					tl0 = dm['left_ts_index'][0]; il0 = dm['left_ts_index'][1]
-					tr0 = dm['right_ts_index'][0]; ir0 = dm['right_ts_index'][1]
+			tl0 = dm['left_ts_index'][0]; il0 = dm['left_ts_index'][1]
+			tr0 = dm['right_ts_index'][0]; ir0 = dm['right_ts_index'][1]
 
 
-					if FLIP:
-						F = P['Loaded_image_files'][Data_moment['name']]['flip']
-					else:
-						F = P['Loaded_image_files'][Data_moment['name']]['normal']
+			if FLIP:
+				F = P['Loaded_image_files'][Data_moment['name']]['flip']
+			else:
+				F = P['Loaded_image_files'][Data_moment['name']]['normal']
 
-					Data_moment[left] = {}
-					Data_moment[right] = {}
+			Data_moment['left'] = {}
+			Data_moment['right'] = {}
 
 
 
-					if not FLIP:
-						if il0+1 < len(F[left_image][vals]) and ir0+1 < len(F[right_image][vals]):
-							Data_moment[left][0] = F[left_image][vals][il0]
-							Data_moment[right][0] = F[right_image][vals][ir0]
-							Data_moment[left][1] = F[left_image][vals][il0+1] # note, ONE frame
-							Data_moment[right][1] = F[right_image][vals][ir0+1]
-						else:
-							spd2s('if il0+1 < len(F[left_image][vals]) and ir0+1 < len(F[right_image][vals]): NOT TRUE!')
-							continue
-					else:
-						if il0+1 < len(F[left_image_flip][vals]) and ir0+1 < len(F['right_image_flip'][vals]):
-							Data_moment[right][0] = F[left_image_flip][vals][il0]
-							Data_moment[left][0] = F['right_image_flip'][vals][ir0]
-							Data_moment[right][1] = F[left_image_flip][vals][il0+1]
-							Data_moment[left][1] = F['right_image_flip'][vals][ir0+1]
-						else:
-							spd2s('if il0+1 < len(F[left_image_flip][vals]) and ir0+1 < len(F[right_image_flip][vals]): NOT TRUE!')
-							continue
-					ctr += 1
+			if not FLIP:
+				if il0+1 < len(F['left_image']['vals']) and ir0+1 < len(F['right_image']['vals']):
+					Data_moment['left'][0] = F['left_image']['vals'][il0]
+					Data_moment['right'][0] = F['right_image']['vals'][ir0]
+					Data_moment['left'][1] = F['left_image']['vals'][il0+1] # note, ONE frame
+					Data_moment['right'][1] = F['right_image']['vals'][ir0+1]
+				else:
+					spd2s('if il0+1 < len(F[left_image][vals]) and ir0+1 < len(F[right_image][vals]): NOT TRUE!')
+					continue
+			else:
+				if il0+1 < len(F['left_image_flip']['vals']) and ir0+1 < len(F['right_image_flip']['vals']):
+					Data_moment['right'][0] = F['left_image_flip']['vals'][il0]
+					Data_moment['left'][0] = F['right_image_flip']['vals'][ir0]
+					Data_moment['right'][1] = F['left_image_flip']['vals'][il0+1]
+					Data_moment['left'][1] = F['right_image_flip']['vals'][ir0+1]
+				else:
+					spd2s('if il0+1 < len(F[left_image_flip][vals]) and ir0+1 < len(F[right_image_flip][vals]): NOT TRUE!')
+					continue
+			ctr += 1
 
-					_function_data_into_batch(data_moment,Data_moment)
-					frequency_timer.freq()
+			_function_data_into_batch(Data_moment=Data_moment)
+			frequency_timer.freq()
 
 
 
-	def _function_data_into_batch(*args):
-		global img_juggled
-		Args = args_to_dictionary(args)
-		Data_moment = Args[data_moment]
-		True
+	def _function_data_into_batch(Data_moment=None):
+
 		if True:
-			D['names'].insert(0,Data_moment[name]) # This to match torch.cat use below
-		if True:
+			D['names'].insert(0,Data_moment['name']) # This to match torch.cat use below
+		if False:
 			offset = np.random.randint(20)
 			list_camera_input = []
-			for t in range(D['network'][net].N_FRAMES):
-				for camerav in (left, right):
+			for t in range(D['network']['net'].N_FRAMES):
+				for camerav in ('left', 'right'):
 					img = Data_moment[camerav][t]#[40:,:,:]
 					#if type(img_juggled) == int:
 					#	img_juggled = img.copy()
@@ -246,13 +220,11 @@ def Batch(the_network=None):
 			camera_datav = torch.transpose(camera_datav, 1, 2)
 			D['camera_data'] = torch.cat((torch.unsqueeze(camera_datav, 0), D['camera_data']), 0)
 
-
-		"""
 		# previous version
 		if True:
 			list_camera_input = []
-			for t in range(D['network'][net].N_FRAMES):
-				for camerav in (left, right):
+			for t in range(D['network']['net'].N_FRAMES):
+				for camerav in ('left', 'right'):
 					list_camera_input.append(torch.from_numpy(Data_moment[camerav][t]))
 			camera_datav = torch.cat(list_camera_input, 2)
 			camera_datav = camera_datav.cuda().float()/255. - 0.5
@@ -261,7 +233,7 @@ def Batch(the_network=None):
 			D['camera_data'] = torch.cat((torch.unsqueeze(camera_datav, 0), D['camera_data']), 0)
 
 
-		"""
+
 
 		if True:
 			mode_ctrv = 0
@@ -270,9 +242,9 @@ def Batch(the_network=None):
 			one_matrixv = torch.FloatTensor(1, 1, 23, 41).fill_(1).cuda()
 			for cur_labelv in ['follow', 'direct','clockwise','counter-clockwise']:
 
-				if cur_labelv in Data_moment[labels]:
+				if cur_labelv in Data_moment['labels']:
 
-					if Data_moment[labels][cur_labelv]:
+					if Data_moment['labels'][cur_labelv]:
 						
 						metadatav = torch.cat((one_matrixv, metadatav), 1);mode_ctrv += 1
 					else:
@@ -324,12 +296,12 @@ def Batch(the_network=None):
 
 	def _function_forward():
 		True
-		Trial_loss_record = D['network'][data_moment_loss_record]
-		D['network'][optimizer].zero_grad()
-		D['outputs'] = D['network'][net](torch.autograd.Variable(D['camera_data']), torch.autograd.Variable(D['metadata'])).cuda()
-		D['loss'] = D['network'][criterion](D['outputs'], torch.autograd.Variable(D['target_data']))
+		#Trial_loss_record = D['network'][data_moment_loss_record]
+		D['network']['optimizer'].zero_grad()
+		D['outputs'] = D['network']['net'](torch.autograd.Variable(D['camera_data']), torch.autograd.Variable(D['metadata'])).cuda()
+		D['loss'] = D['network']['criterion'](D['outputs'], torch.autograd.Variable(D['target_data']))
 		"""
-		for bv in range(D[batch_size]):
+		for bv in range(D['batch_size']):
 			id = D[data_ids][bv]
 			tv= D['target_data'][bv].cpu().numpy()
 			ov = D['outputs'][bv].data.cpu().numpy()
@@ -343,8 +315,8 @@ def Batch(the_network=None):
 	def _function_backward():
 		True
 		D['loss'].backward()
-		nnutils.clip_grad_norm(D['network'][net].parameters(), 1.0)
-		D['network'][optimizer].step()
+		nnutils.clip_grad_norm(D['network']['net'].parameters(), 1.0)
+		D['network']['optimizer'].step()
 		P['LOSS_LIST'].append(D['loss'].data.cpu().numpy()[:].mean())
 		if len(P['LOSS_LIST']) > P['LOSS_LIST_N']:
 			P['LOSS_LIST_AVG'].append(na(P['LOSS_LIST']).mean())
@@ -353,11 +325,11 @@ def Batch(the_network=None):
 
 	def _function_display(*args):
 		Args = args_to_dictionary(args)
-		if print_now not in Args:
-			Args[print_now] = False
+		if 'print_now' not in Args:
+			Args['print_now'] = False
 		True
 		cv2.waitKey(1) # This is to keep cv2 windows alive
-		if P[print_timer].check() or Args[print_now]:
+		if P['print_timer'].check() or Args['print_now']:
 
 			ov = D['outputs'][0].data.cpu().numpy()
 			mv = D['metadata'][0].cpu().numpy()
@@ -379,10 +351,14 @@ def Batch(the_network=None):
 			#print(D['states'][-1])
 			#print shape(mv)
 			#img_saver['save']({'img':c})
-			if loss_timer.check():
+			if P['loss_timer'].check():
 				figure('LOSS_LIST_AVG');clf();plot(P['LOSS_LIST_AVG'],'.')
 				spause()
-				loss_timer.reset()
+				P['loss_timer'].reset()
+
+			#Net_activity = Activity_Module.Net_Activity(activiations,D['network']['net'].A)
+
+			#Net_activity['view'](moment_index,0,delay,33, scales,{camera_input:3,pre_metadata_features:0,pre_metadata_features_metadata:2,post_metadata_features:4})
 			Net_activity = Activity_Module.Net_Activity('activiations',D['network']['net'].A)
 
 			Net_activity['view']('moment_index',0,'delay',33, 'scales',{'camera_input':3,'pre_metadata_features':0,'pre_metadata_features_metadata':2,'post_metadata_features':4})
@@ -414,7 +390,7 @@ def Batch(the_network=None):
 
 			spause()
 
-			P[print_timer].reset()
+			P['print_timer'].reset()
 	"""
 	
 	"""

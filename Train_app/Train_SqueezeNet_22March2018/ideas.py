@@ -692,11 +692,9 @@ for loc in locations:
 		for b in ['follow', 'heading_pause', 'direct']:
 			if b == 'heading_pause':
 				data_moments[t_v][l][b] += data_moments_dic_pkl[t_v][b]
-				print t_v,l,b
 			else:
 				for c in ['car_not_in_view', 'car_in_view']:
 					data_moments[t_v][l][b][c] += data_moments_dic_pkl[t_v][b][c]
-				print t_v,l,b,c
 Data_Moments['aruco'] = data_moments
 
 
@@ -753,42 +751,6 @@ for loc in locations:
 				data_moments[t_v][l][b] += data_moments_dic_pkl[t_v][h]
 Data_Moments['LCR'] = data_moments
 
-
-if False:
-	Data_Moments_train_val_lists = {}
-	Data_Moments_train_val_lists['train'] = []
-	Data_Moments_train_val_lists['val'] = []
-	for dset in ['main']:
-		for t_v in ['train','val']:
-			for l in Data_Moments[dset][t_v]:
-				for b in Data_Moments[dset][t_v][l]:
-					Data_Moments_train_val_lists[t_v] += Data_Moments[dset][t_v][l][b]
-
-
-
-
-
-if False:
-	for e in sggo(P['experiments_folder'],'*'):
-		print e
-		if fname(e)[0] == '_':
-			spd2s('Ignoring',e)
-			continue
-
-		_data_moments_indexed = lo(opj(e,'data_moments_indexed.pkl'))
-		for _dm in _data_moments_indexed:
-			if _dm['other_car_in_view'] == True:
-				P['data_moments_indexed'].append(_dm)
-
-		d = lo(opj(e,'heading_pause_data_moments_indexed.pkl'))
-		P['heading_pause_data_moments_indexed'] += d
-
-		for r in sggo(e,'h5py','*'):
-			assert(fname(r) not in P['run_name_to_run_path'])
-			P['run_name_to_run_path'][fname(r)] = r
-
-	spd2s("len(P['data_moments_indexed']) =",len(P['data_moments_indexed']))
-	spd2s("len(P['heading_pause_data_moments_indexed']) =",len(P['heading_pause_data_moments_indexed']))
 
 
 
