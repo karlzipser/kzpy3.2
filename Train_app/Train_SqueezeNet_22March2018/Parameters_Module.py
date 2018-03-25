@@ -23,11 +23,11 @@ P['STRIDE'] = 9#3 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 P['NETWORK_OUTPUT_FOLDER'] = opjD('net_indoors')
 P['SAVE_FILE_NAME'] = 'net'
 P['save_net_timer'] = Timer(60*20)
-P['print_timer'] = Timer(10)
+P['print_timer'] = Timer(3)
 P['frequency_timer'] = Timer(10.0)
 P['TRAIN_TIME'] = 60*10.0
 P['VAL_TIME'] = 60*1.0
-P['RESUME'] = True
+P['RESUME'] = False
 if P['RESUME']:
     P['INITIAL_WEIGHTS_FOLDER'] = opj(P['NETWORK_OUTPUT_FOLDER'],'weights')
     P['WEIGHTS_FILE_PATH'] = most_recent_file_in_folder(P['INITIAL_WEIGHTS_FOLDER'],['net'],[])	
@@ -68,21 +68,26 @@ def get_Data_moment(dm=None,FLIP=None):
 	Data_moment = {}
 	left_index = dm['left_ts_index'][1]
 	steer_len = len(P['Loaded_image_files'][dm['run_name']]['left_timestamp_metadata']['steer'])
-	if steer_len - left_index < 90:
-		print steer_len - left_index
-	#Data_moment['steer'] = zeros(90) + dm['steer']#P['Loaded_image_files'][dm['run_name']]['left_timestamp_metadata']['steer'][left_index:left_index+90] #zeros(90) + dm['steer']
-	Data_moment['steer'] = zeros(90)
-	mn = min(steer_len,left_index+90)
-	#Data_moment['steer'][:mn-steer_len] += P['Loaded_image_files'][dm['run_name']]['left_timestamp_metadata']['steer'][left_index:mn] #zeros(90) + dm['steer']
-	#clf();plot(Data_moment['steer']);spause()
-	#raw_enter()
+	data_len = min(steer_len - left_index,90)
+
+	if True:
+		if steer_len - left_index < 90:
+			print steer_len - left_index
+
+	for q in ['steer','motor']:	
+		Data_moment[q] = zeros(90) + 49
+		Data_moment[q][:data_len] = P['Loaded_image_files'][dm['run_name']]['left_timestamp_metadata'][q][left_index:left_index+data_len]
+
 	if FLIP:
 		Data_moment['steer'] = 99 - Data_moment['steer']
-	new_motor = dm['motor']
-	new_motor -= 49
-	new_motor = max(0,new_motor)
-	new_motor *= 7.0
-	Data_moment['motor'] = zeros(90) + new_motor
+	#new_motor = dm['motor']
+	Data_moment['motor'] -= 49
+	#Data_moment[q] = max(0,new_motor)
+	Data_moment['motor'] *= 7.0
+	Data_moment['motor'][Data_moment['motor']<0] = 0
+	Data_moment['motor'][Data_moment['motor']>99] = 99
+
+	#Data_moment['motor'] = zeros(90) + new_motor
 	Data_moment['labels'] = {}
 	for l in ['direct','follow']:
 		Data_moment['labels'][l] = 0

@@ -99,7 +99,7 @@ def Batch(the_network=None):
 
 		ctr = 0
 		while ctr < D['batch_size']:
-			try:
+			if True:#try:
 				if P['long_ctr'] == -1 or P['long_ctr'] >= len(P['data_moments_indexed_loaded']):
 					P['long_ctr'] = 0
 					random.shuffle(P['data_moments_indexed_loaded'])
@@ -154,7 +154,7 @@ def Batch(the_network=None):
 				D['target_data'] = torch.cat((target_datav, D['target_data']), 0)
 
 				P['frequency_timer'].freq()
-			except Exception as e:
+			else: #except Exception as e:
 				print("*** while ctr < D['batch_size']: ******* Exception ***********************")
 				print(e.message, e.args)
 
