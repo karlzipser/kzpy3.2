@@ -756,4 +756,33 @@ Data_Moments['LCR'] = data_moments
 
 
 
+
+
+
+########################################
+# get categorized run names
+runs_dic = {}
+data_folder = '/media/karlzipser/2_TB_Samsung_n2_/bair_car_data_Main_Dataset_part1/locations'
+locations = ['snow','campus','Tilden','home','local']
+ctr = 0
+for location in locations:
+	runs_dic[location] = {}
+	modes = sggo(opj(data_folder,location,'*'))
+	for m in modes:
+		runs_dic[location][fname(m)] = []
+		runs = sggo(opj(m,'h5py','*'))
+		for r in runs:
+			runs_dic[location][fname(m)].append(fname(r))
+			pd2s(location,fname(m),fname(r))
+			ctr += 1
+so(runs_dic,opjD('runs_dic'))
+#
+##########################################
+
+
+
+
+
+
+
 # EOF
