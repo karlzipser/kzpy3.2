@@ -67,7 +67,13 @@ from kzpy3.vis2 import *
 def get_Data_moment(dm=None,FLIP=None):
 	Data_moment = {}
 	left_index = dm['left_ts_index'][1]
-	Data_moment['steer'] = zeros(90) + dm['steer']#P['Loaded_image_files'][dm['run_name']]['left_timestamp_metadata']['steer'][left_index:left_index+90] #zeros(90) + dm['steer']
+	steer_len = len(P['Loaded_image_files'][dm['run_name']]['left_timestamp_metadata']['steer'])
+	if steer_len - left_index < 90:
+		print steer_len - left_index
+	#Data_moment['steer'] = zeros(90) + dm['steer']#P['Loaded_image_files'][dm['run_name']]['left_timestamp_metadata']['steer'][left_index:left_index+90] #zeros(90) + dm['steer']
+	Data_moment['steer'] = zeros(90)
+	mn = min(steer_len,left_index+90)
+	#Data_moment['steer'][:mn-steer_len] += P['Loaded_image_files'][dm['run_name']]['left_timestamp_metadata']['steer'][left_index:mn] #zeros(90) + dm['steer']
 	#clf();plot(Data_moment['steer']);spause()
 	#raw_enter()
 	if FLIP:
