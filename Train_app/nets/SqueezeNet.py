@@ -1,6 +1,6 @@
 from kzpy3.utils2 import *
 exec(identify_file_str)
-
+spd2s('Using SqueezeNet')
 import math
 import torch
 import torch.nn as nn
@@ -36,7 +36,7 @@ class SqueezeNet(nn.Module):
         super(SqueezeNet, self).__init__()
         self.A = {}
         self.lr = 0.01
-        self.momentum = 0.01
+        self.momentum = 0.0001
         self.N_FRAMES = 2
         self.N_STEPS = 10
         self.pre_metadata_features = nn.Sequential(

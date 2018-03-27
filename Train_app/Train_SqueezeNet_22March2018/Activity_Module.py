@@ -21,7 +21,7 @@ def Net_Activity(*args):
 
         D['activiations'][k] = Args['activiations'][k].data.cpu().numpy()
         D['imgs'][k] = {}
-        for moment_indexv in [0]:#in range(shape(D['activiations'][k])[0]):
+        for moment_indexv in [Args['batch_num']]:#in range(shape(D['activiations'][k])[0]):
             #print(k,moment_indexv)
             if k == 'final_output':
                 continue

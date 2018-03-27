@@ -128,15 +128,18 @@ def Batch(the_network=None):
 				mode_ctr = 0
 				metadata = torch.FloatTensor().cuda()
 
-				for cur_label in P['behavioral_modes']:#['follow', 'direct','clockwise','counter-clockwise']:
+				for cur_label in P['behavioral_modes']:
 
 					if cur_label in Data_moment['labels']:
+						#print cur_label,Data_moment['labels']
 
 						if Data_moment['labels'][cur_label]:
 							
 							metadata = torch.cat((one_matrix, metadata), 1);mode_ctr += 1
 						else:
 							metadata = torch.cat((zero_matrix, metadata), 1);mode_ctr += 1
+					else:
+						metadata = torch.cat((zero_matrix, metadata), 1);mode_ctr += 1
 
 				for i in range(128 - mode_ctr): # Concatenate zero matrices to fit the dataset
 					metadata = torch.cat((zero_matrix, metadata), 1)
@@ -145,7 +148,8 @@ def Batch(the_network=None):
 
 				sv = Data_moment['steer']
 				mv = Data_moment['motor']
-				rv = range(8,91,9)
+				#rv = range(8,91,9)
+				rv = range(10)
 				sv = array(sv)[rv]
 				mv = array(mv)[rv]
 				steerv = torch.from_numpy(sv).cuda().float() / 99.
@@ -187,7 +191,7 @@ def Batch(the_network=None):
 
 
 
-
+	na = np.array
 	def _function_backward():
 		True
 		D['loss'].backward()
@@ -201,49 +205,53 @@ def Batch(the_network=None):
 
 
 
-	def _function_display(*args):
-		Args = args_to_dictionary(args)
-		if 'print_now' not in Args:
-			Args['print_now'] = False
+	def _function_display():
+
 		True
 		cv2.waitKey(1) # This is to keep cv2 windows alive
-		if P['print_timer'].check() or Args['print_now']:
-			ov = D['outputs'][0].data.cpu().numpy()
-			mv = D['metadata'][0].cpu().numpy()
-			tv = D['target_data'][0].cpu().numpy()
-			print('Loss:',dp(D['loss'].data.cpu().numpy()[0],5))
-			av = D['camera_data'][0][:].cpu().numpy()
-			bv = av.transpose(1,2,0)
-			hv = shape(av)[1]
-			wv = shape(av)[2]
-			cv = zeros((10+hv*2,10+2*wv,3))
-			cv[:hv,:wv,:] = z2o(bv[:,:,3:6])
-			cv[:hv,-wv:,:] = z2o(bv[:,:,:3])
-			cv[-hv:,:wv,:] = z2o(bv[:,:,9:12])
-			cv[-hv:,-wv:,:] = z2o(bv[:,:,6:9])
-			print(d2s('camera_data min,max =',av.min(),av.max()))
-			if P['loss_timer'].check():
-				figure('LOSS_LIST_AVG');clf();plot(P['LOSS_LIST_AVG'],'.')
+		if P['print_timer'].check():
+			for i in [0]:#range(P['BATCH_SIZE']):
+				ov = D['outputs'][i].data.cpu().numpy()
+				mv = D['metadata'][i].cpu().numpy()
+				tv = D['target_data'][i].cpu().numpy()
+				print('Loss:',dp(D['loss'].data.cpu().numpy()[0],5))
+				av = D['camera_data'][i][:].cpu().numpy()
+
+				bv = av.transpose(1,2,0)
+				#figure('bv');clf()
+				#mi(bv[:,:,0:3],'bv')
+				hv = shape(av)[1]
+				wv = shape(av)[2]
+				cv = zeros((10+hv*2,10+2*wv,3))
+				cv[:hv,:wv,:] = z2o(bv[:,:,3:6])
+				cv[:hv,-wv:,:] = z2o(bv[:,:,:3])
+				cv[-hv:,:wv,:] = z2o(bv[:,:,9:12])
+				cv[-hv:,-wv:,:] = z2o(bv[:,:,6:9])
+				print(d2s(i,'camera_data min,max =',av.min(),av.max()))
+				if P['loss_timer'].check() and len(P['LOSS_LIST_AVG'])>5:
+					figure('LOSS_LIST_AVG');clf();plot(P['LOSS_LIST_AVG'][1:],'.')
+					spause()
+					P['loss_timer'].reset()
+				Net_activity = Activity_Module.Net_Activity('batch_num',i, 'activiations',D['network']['net'].A)
+				Net_activity['view']('moment_index',i,'delay',33, 'scales',{'camera_input':4,'pre_metadata_features':0,'pre_metadata_features_metadata':1,'post_metadata_features':2})
+				bm = 'unknown behavioral_mode'
+				for j in range(len(P['behavioral_modes'])):
+					if mv[-(j+1),0,0]:
+						bm = P['behavioral_modes'][j]
+
+
+				figure('steer')
+				clf()
+				plt.title(d2s(i))
+				ylim(-0.05,1.05);xlim(0,len(tv))
+				plot([-1,10],[0.49,0.49],'k');plot(ov,'og'); plot(tv,'or'); plt.title(D['names'][0])
+				plt.xlabel(d2s(bm))
+				figure('metadata');clf()
+				plot(mv[-10:,0,0],'r.-')
+				plt.title(d2s(bm,i))
 				spause()
-				P['loss_timer'].reset()
-			Net_activity = Activity_Module.Net_Activity('activiations',D['network']['net'].A)
-			Net_activity['view']('moment_index',0,'delay',33, 'scales',{'camera_input':1,'pre_metadata_features':0,'pre_metadata_features_metadata':1,'post_metadata_features':2})
-			if mv[-1,0,0]:
-				bm = 'follow'
-			elif mv[-2,0,0]:
-				bm = 'direct'
-			else:
-				assert(False)
-			figure('steer')
-			clf()
-			ylim(-0.05,1.05);xlim(0,len(tv))
-			plot([-1,10],[0.49,0.49],'k');plot(ov,'og'); plot(tv,'or'); plt.title(D['names'][0])
-			plt.xlabel(d2s(bm))
-			figure('metadata');clf()
-			plot(mv[-10:,0,0],'r.-')
-			plt.title(d2s(bm))
-			spause()
-			P['print_timer'].reset()
+				P['print_timer'].reset()
+
 
 
 	D['FILL'] = _function_fill
