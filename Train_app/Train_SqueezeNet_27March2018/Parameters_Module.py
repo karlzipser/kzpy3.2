@@ -11,7 +11,8 @@ assert(soft>=65000)
 
 P = {}
 P['max_num_runs_to_open'] = 300
-P['experiments_folder'] = '/media/karlzipser/2_TB_Samsung_n2_/bair_car_data_Main_Dataset_part1/locations'
+P['experiments_folders'] = ['/media/karlzipser/2_TB_Samsung_n2_/bair_car_data_Main_Dataset_part1/locations',
+	'/home/karlzipser/Desktop/bdd_car_data_July2017_LCR/locations']
 
 P['GPU'] = 1
 P['BATCH_SIZE'] = 64
@@ -23,7 +24,7 @@ P['N_STEPS'] = 10
 P['NETWORK_OUTPUT_FOLDER'] = opjD('net_indoors')
 P['SAVE_FILE_NAME'] = 'net'
 P['save_net_timer'] = Timer(60*20)
-P['print_timer'] = Timer(10)
+P['print_timer'] = Timer(60)
 P['frequency_timer'] = Timer(10.0)
 P['TRAIN_TIME'] = 60*10.0
 P['VAL_TIME'] = 60*1.0
@@ -31,7 +32,7 @@ P['RESUME'] = True
 if P['RESUME']:
     P['INITIAL_WEIGHTS_FOLDER'] = opj(P['NETWORK_OUTPUT_FOLDER'],'weights')
     P['WEIGHTS_FILE_PATH'] = most_recent_file_in_folder(P['INITIAL_WEIGHTS_FOLDER'],['net'],[])	
-P['reload_image_file_timer'] = Timer(1*60)
+P['reload_image_file_timer'] = Timer(5*60)
 P['loss_timer'] = Timer(60*1/10)
 P['LOSS_LIST_N'] = 30
 P['run_name_to_run_path'] = {}
@@ -39,42 +40,46 @@ P['data_moments_indexed'] = []
 P['heading_pause_data_moments_indexed'] = []
 P['Loaded_image_files'] = {}
 P['data_moments_indexed_loaded'] = []
-P['behavioral_modes'] = ['direct','follow','furtive','play']#,'left','right']
-
+P['behavioral_modes'] = ['direct','follow','furtive','play','left','right']
+P['current_batch'] = []
 
 
 if True:
-	locations = sggo(P['experiments_folder'],'*')
-	for location in locations:
-		print location
-		b_modes = sggo(location,'*')
-		print b_modes
-		for e in b_modes:
-			if fname(e) == 'racing':
-				continue
-			"""
-			if fname(e) == 'play':
-				continue
-			if fname(e) == 'follow':
-				continue
-			if fname(e) == 'furtive':
-				continue
-			"""
-			spd2s(fname(e))
-			_data_moments_indexed = lo(opj(e,'data_moments_dic.pkl'))
-			random.shuffle(_data_moments_indexed['train']['low_steer'])
-			high_len = len(_data_moments_indexed['train']['high_steer'])
-			_data_moments_indexed['train']['low_steer'] = _data_moments_indexed['train']['low_steer'][:high_len]
-			for h_l in ['high_steer','low_steer']:
-				for _dm in _data_moments_indexed['train'][h_l]:
-					if _dm['motor'] > 53:
-						P['data_moments_indexed'].append(_dm)
+	for experiments_folder in P['experiments_folders']:
+		locations = sggo(experiments_folder,'*')
+		for location in locations:
+			print location
+			b_modes = sggo(location,'*')
+			print b_modes
+			for e in b_modes:
+				if fname(e) == 'racing':
+					continue
+				"""
+				if fname(e) == 'play':
+					continue
+				if fname(e) == 'follow':
+					continue
+				if fname(e) == 'furtive':
+					continue
+				"""
+				spd2s(fname(e))
+				_data_moments_indexed = lo(opj(e,'data_moments_dic.pkl'))
+				random.shuffle(_data_moments_indexed['train']['low_steer'])
+				high_len = len(_data_moments_indexed['train']['high_steer'])
+				_data_moments_indexed['train']['low_steer'] = _data_moments_indexed['train']['low_steer'][:high_len]
+				for h_l in ['high_steer','low_steer']:
+					for _dm in _data_moments_indexed['train'][h_l]:
+						if _dm['behavioral_mode'] == 'center':
+							_dm['behavioral_mode'] = 'direct'
+						if _dm['motor'] > 53:
+							P['data_moments_indexed'].append(_dm)
 
-			for r in sggo(e,'h5py','*'):
-				print fname(r)
-				assert(fname(r) not in P['run_name_to_run_path'])
-				P['run_name_to_run_path'][fname(r)] = r
-			
+				for r in sggo(e,'h5py','*'):
+					print fname(r)
+					assert(fname(r) not in P['run_name_to_run_path'])
+					P['run_name_to_run_path'][fname(r)] = r
+				
+
 	spd2s("len(P['data_moments_indexed']) =",len(P['data_moments_indexed']))
 	spd2s("len(P['heading_pause_data_moments_indexed']) =",len(P['heading_pause_data_moments_indexed']))
 	#raw_enter()

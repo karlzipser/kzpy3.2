@@ -470,16 +470,16 @@ def make_flip_images(h5py_folder=None):
 		return None
 	O = h5r(opj(h5py_folder_,'original_timestamp_data.h5py'))
 	F = h5w(f_)
-	for topic_ in [left_image,right_image]:
+	for topic_ in ['left_image','right_image']:
 		flip_topic_ = topic_+'_flip'
 		pd2s('\t',topic_,'to',flip_topic_)
 		flip_images_ = []
-		for i_ in range(len(O[topic_][ts])):
-			flip_images_.append(cv2.flip(O[topic_][vals][i_],1))
+		for i_ in range(len(O[topic_]['ts'])):
+			flip_images_.append(cv2.flip(O[topic_]['vals'][i_],1))
 		flip_images_ = np.array(flip_images_)
 		Group = F.create_group(flip_topic_)
-		Group.create_dataset(ts,data=O[topic_][ts])
-		Group.create_dataset(vals,data=flip_images_)
+		Group.create_dataset('ts',data=O[topic_]['ts'])
+		Group.create_dataset('vals',data=flip_images_)
 	F.close()
 
 
@@ -489,5 +489,17 @@ if False:
 	for r_ in runs_:
 		spd2s(r_)
 		make_flip_images(h5py_folder,r_)
+
+
+if False:
+	experiments_folder = '/home/karlzipser/Desktop/bdd_car_data_July2017_LCR/locations'
+	locations = sggo(experiments_folder,'*')
+	for location in locations:
+		h5py_folder = opj(location,'LCR','h5py')
+		runs = sgg(opj(h5py_folder,'*'))
+		for r in runs:
+			spd2s(r)
+			make_flip_images(r)
+
 
 #EOF

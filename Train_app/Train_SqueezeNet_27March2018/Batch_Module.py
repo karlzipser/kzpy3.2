@@ -98,6 +98,7 @@ def Batch(the_network=None):
 			P['reload_image_file_timer'].reset()
 
 		ctr = 0
+		P['current_batch'] = []
 		while ctr < D['batch_size']:
 			if True:#try:
 				if P['long_ctr'] == -1 or P['long_ctr'] >= len(P['data_moments_indexed_loaded']):
@@ -107,12 +108,18 @@ def Batch(the_network=None):
 				
 				FLIP = random.choice([0,1])
 				dm = P['data_moments_indexed_loaded'][P['long_ctr']]; P['long_ctr'] += 1; ctr += 1
+
 				
 				Data_moment = get_Data_moment(dm=dm,FLIP=FLIP)
 
 				if Data_moment == False:
 					continue
 
+				if 'ctr' not in dm:
+					dm['ctr'] = 0
+				dm['ctr'] += 1
+				dm['loss'] = []
+				P['current_batch'].append(dm)
 				D['names'].insert(0,Data_moment['name']) # This to match torch.cat use below
 
 				list_camera_input = []
@@ -197,7 +204,12 @@ def Batch(the_network=None):
 		D['loss'].backward()
 		nnutils.clip_grad_norm(D['network']['net'].parameters(), 1.0)
 		D['network']['optimizer'].step()
+
 		P['LOSS_LIST'].append(D['loss'].data.cpu().numpy()[:].mean())
+		#print(len(P['current_batch']),P['BATCH_SIZE'])
+		assert(len(P['current_batch']) == P['BATCH_SIZE'])
+		for i in range(P['BATCH_SIZE']):
+			P['current_batch'][i]['loss'].append(P['LOSS_LIST'][-1])
 		if len(P['LOSS_LIST']) > P['LOSS_LIST_N']:
 			P['LOSS_LIST_AVG'].append(na(P['LOSS_LIST']).mean())
 			P['LOSS_LIST'] = []
@@ -239,7 +251,6 @@ def Batch(the_network=None):
 					if mv[-(j+1),0,0]:
 						bm = P['behavioral_modes'][j]
 
-
 				figure('steer')
 				clf()
 				plt.title(d2s(i))
@@ -249,9 +260,22 @@ def Batch(the_network=None):
 				figure('metadata');clf()
 				plot(mv[-10:,0,0],'r.-')
 				plt.title(d2s(bm,i))
-				spause()
+				
 				P['print_timer'].reset()
+			dm_ctrs = zeros(100)
+			loss_list = []
+			for j in range(len(P['data_moments_indexed'])):
+				if 'ctr' in P['data_moments_indexed'][j]:
+					dm_ctrs[P['data_moments_indexed'][j]['ctr']] += 1
+				else:
+					dm_ctrs[0] += 1
+				if 'loss' in P['data_moments_indexed'][j]:
+					if len(P['data_moments_indexed'][j]['loss']) > 0:
+						loss_list.append(P['data_moments_indexed'][j]['loss'][-1])
+			figure('dm_ctrs');clf();plot(dm_ctrs,'.-');xlim(0,10)
+			#figure('loss_list');clf();hist(loss_list)
 
+			spause()
 
 
 	D['FILL'] = _function_fill

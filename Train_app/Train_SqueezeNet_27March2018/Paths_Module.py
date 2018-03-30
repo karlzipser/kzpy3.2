@@ -1,7 +1,7 @@
 from kzpy3.utils2 import *
 
 CODE_PATH__ = opjh('kzpy3/Train_app')
-VERSION_PATH = 'Train_SqueezeNet_22March2018'
+VERSION_PATH = 'Train_SqueezeNet_27March2018'
 
 spd2s('Using',VERSION_PATH,'(make sure this is correct)')
 time.sleep(3)
