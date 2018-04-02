@@ -40,7 +40,7 @@ P['data_moments_indexed'] = []
 P['heading_pause_data_moments_indexed'] = []
 P['Loaded_image_files'] = {}
 P['data_moments_indexed_loaded'] = []
-P['behavioral_modes'] = ['direct','follow','furtive','play','left','right']
+P['behavioral_modes'] = ['direct','follow','furtive','play','left','right','heading_pause']
 P['current_batch'] = []
 
 
@@ -69,6 +69,7 @@ if True:
 				_data_moments_indexed['train']['low_steer'] = _data_moments_indexed['train']['low_steer'][:high_len]
 				for h_l in ['high_steer','low_steer']:
 					for _dm in _data_moments_indexed['train'][h_l]:
+						_dm['aruco'] = False
 						if _dm['behavioral_mode'] == 'center':
 							_dm['behavioral_mode'] = 'direct'
 						if _dm['motor'] > 53:
@@ -83,28 +84,36 @@ if True:
 	spd2s("len(P['data_moments_indexed']) =",len(P['data_moments_indexed']))
 	spd2s("len(P['heading_pause_data_moments_indexed']) =",len(P['heading_pause_data_moments_indexed']))
 	#raw_enter()
+if True:
+	for experiments_folder in ['/home/karlzipser/Desktop/all_aruco_reprocessed']:
+		experiments = sggo(experiments_folder,'*')
+		for experiment in experiments:
+			if fname(experiment)[0] == '_':
+				continue
+			spd2s(fname(experiment))
 
+			_data_moments_indexed = lo(opj(experiment,'data_moments_dic.pkl'))
 
+			for behavioral_mode in _data_moments_indexed['train'].keys():
+				if behavioral_mode != 'heading_pause':
+					for _dm in _data_moments_indexed['train'][behavioral_mode]['car_in_view']:
+						_dm['behavioral_mode'] = behavioral_mode
+						_dm['aruco'] = True
+						if _dm['motor'] > 53:
+							P['data_moments_indexed'].append(_dm)
+				else:
+					for _dm in _data_moments_indexed['train'][behavioral_mode]:
+						_dm['behavioral_mode'] = behavioral_mode
+						_dm['aruco'] = True
+						P['data_moments_indexed'].append(_dm)
 
-if False:
-	for e in sggo(P['experiments_folder'],'*'): #________________________________!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-		e = '/home/karlzipser/Desktop/all_aruco_reprocessed/bdd_car_data_15Sept2017_circle'
-		e = '/media/karlzipser/2_TB_Samsung_n2_/bair_car_data_Main_Dataset_part1/locations/campus/play'
-		print e
-		if fname(e)[0] == '_':
-			spd2s('Ignoring',e)
-			continue #________________________________!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			for r in sggo(experiment,'h5py','*'):
+				print fname(r)
+				assert(fname(r) not in P['run_name_to_run_path'])
+				P['run_name_to_run_path'][fname(r)] = r
+		
+				
 
-		_data_moments_indexed = lo(opj(e,'data_moments_dic.pkl'))
-
-		for _dm in _data_moments_indexed['train']['high_steer']:
-			P['data_moments_indexed'].append(_dm)
-
-		for r in sggo(e,'h5py','*'):
-
-			assert(fname(r) not in P['run_name_to_run_path'])
-			P['run_name_to_run_path'][fname(r)] = r
-		break
 	spd2s("len(P['data_moments_indexed']) =",len(P['data_moments_indexed']))
 	spd2s("len(P['heading_pause_data_moments_indexed']) =",len(P['heading_pause_data_moments_indexed']))
 
@@ -112,7 +121,9 @@ if False:
 
 
 
-#from kzpy3.vis2 import *
+
+
+
 def get_Data_moment(dm=None,FLIP=None):
 	Data_moment = {}
 	left_index = dm['left_ts_index'][1]
