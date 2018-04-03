@@ -242,8 +242,6 @@ def Batch(the_network=None):
 
 
 	def _function_display():
-
-		True
 		cv2.waitKey(1) # This is to keep cv2 windows alive
 		if P['print_timer'].check():
 			for i in [0]:#range(P['BATCH_SIZE']):
@@ -252,10 +250,7 @@ def Batch(the_network=None):
 				tv = D['target_data'][i].cpu().numpy()
 				print('Loss:',dp(D['loss'].data.cpu().numpy()[0],5))
 				av = D['camera_data'][i][:].cpu().numpy()
-
 				bv = av.transpose(1,2,0)
-				#figure('bv');clf()
-				#mi(bv[:,:,0:3],'bv')
 				hv = shape(av)[1]
 				wv = shape(av)[2]
 				cv = zeros((10+hv*2,10+2*wv,3))
@@ -274,7 +269,6 @@ def Batch(the_network=None):
 				for j in range(len(P['behavioral_modes'])):
 					if mv[-(j+1),0,0]:
 						bm = P['behavioral_modes'][j]
-
 				figure('steer')
 				clf()
 				plt.title(d2s(i))
@@ -284,7 +278,7 @@ def Batch(the_network=None):
 				figure('metadata');clf()
 				plot(mv[-10:,0,0],'r.-')
 				plt.title(d2s(bm,i))
-				
+				spause()
 				P['print_timer'].reset()
 			dm_ctrs = zeros(100)
 			loss_list = []
@@ -298,7 +292,63 @@ def Batch(the_network=None):
 						loss_list.append(P['data_moments_indexed'][j]['loss'][-1])
 			figure('dm_ctrs');clf();plot(dm_ctrs,'.-');xlim(0,10)
 			#figure('loss_list');clf();hist(loss_list)
+			spause()
 
+	def _function_display_each():
+		if P['DISPLAY_EACH']:
+			wait_time = 10000
+		else:
+			wait_time = 1
+		cv2.waitKey(wait_time) # This is to keep cv2 windows alive
+		if True:#P['print_timer'].check():
+			for i in range(P['BATCH_SIZE']):
+				ov = D['outputs'][i].data.cpu().numpy()
+				mv = D['metadata'][i].cpu().numpy()
+				tv = D['target_data'][i].cpu().numpy()
+				print('Loss:',dp(D['loss'].data.cpu().numpy()[0],5))
+				av = D['camera_data'][i][:].cpu().numpy()
+				bv = av.transpose(1,2,0)
+				hv = shape(av)[1]
+				wv = shape(av)[2]
+				cv = zeros((10+hv*2,10+2*wv,3))
+				cv[:hv,:wv,:] = z2o(bv[:,:,3:6])
+				cv[:hv,-wv:,:] = z2o(bv[:,:,:3])
+				cv[-hv:,:wv,:] = z2o(bv[:,:,9:12])
+				cv[-hv:,-wv:,:] = z2o(bv[:,:,6:9])
+				print(d2s(i,'camera_data min,max =',av.min(),av.max()))
+				if P['loss_timer'].check() and len(P['LOSS_LIST_AVG'])>5:
+					figure('LOSS_LIST_AVG');clf();plot(P['LOSS_LIST_AVG'][1:],'.')
+					spause()
+					P['loss_timer'].reset()
+				Net_activity = Activity_Module.Net_Activity('batch_num',i, 'activiations',D['network']['net'].A)
+				Net_activity['view']('moment_index',i,'delay',33, 'scales',{'camera_input':4,'pre_metadata_features':0,'pre_metadata_features_metadata':1,'post_metadata_features':2})
+				bm = 'unknown behavioral_mode'
+				for j in range(len(P['behavioral_modes'])):
+					if mv[-(j+1),0,0]:
+						bm = P['behavioral_modes'][j]
+				figure('steer')
+				clf()
+				plt.title(d2s(i))
+				ylim(-0.05,1.05);xlim(0,len(tv))
+				plot([-1,10],[0.49,0.49],'k');plot(ov,'og'); plot(tv,'or'); plt.title(D['names'][i])
+				plt.xlabel(d2s(bm))
+				figure('metadata');clf()
+				plot(mv[-10:,0,0],'r.-')
+				plt.title(d2s(bm,i))
+				spause()
+				raw_enter()
+			dm_ctrs = zeros(100)
+			loss_list = []
+			for j in range(len(P['data_moments_indexed'])):
+				if 'ctr' in P['data_moments_indexed'][j]:
+					dm_ctrs[P['data_moments_indexed'][j]['ctr']] += 1
+				else:
+					dm_ctrs[0] += 1
+				if 'loss' in P['data_moments_indexed'][j]:
+					if len(P['data_moments_indexed'][j]['loss']) > 0:
+						loss_list.append(P['data_moments_indexed'][j]['loss'][-1])
+			figure('dm_ctrs');clf();plot(dm_ctrs,'.-');xlim(0,10)
+			#figure('loss_list');clf();hist(loss_list)
 			spause()
 
 
@@ -306,55 +356,15 @@ def Batch(the_network=None):
 	D['CLEAR'] = _function_clear
 	D['FORWARD'] = _function_forward
 	D['BACKWARD'] = _function_backward
-	D['DISPLAY'] = _function_display
+	if P['DISPLAY_EACH']:
+		D['DISPLAY'] = _function_display_each
+	else:
+		D['DISPLAY'] = _function_display
 	return D
 
 
 
 
 
-#scales,{camera_input:2,post_metadata_features:4,pre_metadata_features:1},
-"""
-	def _function_data_into_batch(Data_moment=None):
 
-		D['names'].insert(0,Data_moment['name']) # This to match torch.cat use below
-
-		list_camera_input = []
-		for t in range(D['network']['net'].N_FRAMES):
-			for camera in ('left', 'right'):
-				list_camera_input.append(torch.from_numpy(Data_moment[camera][t]))
-		camera_data = torch.cat(list_camera_input, 2)
-		camera_data = camera_data.cuda().float()/255. - 0.5
-		camera_data = torch.transpose(camera_data, 0, 2)
-		camera_data = torch.transpose(camera_data, 1, 2)
-		D['camera_data'] = torch.cat((torch.unsqueeze(camera_data, 0), D['camera_data']), 0)
-
-		mode_ctr = 0
-		metadata = torch.FloatTensor().cuda()
-
-		for cur_label in P['behavioral_modes']:#['follow', 'direct','clockwise','counter-clockwise']:
-
-			if cur_label in Data_moment['labels']:
-
-				if Data_moment['labels'][cur_label]:
-					
-					metadata = torch.cat((one_matrix, metadata), 1);mode_ctr += 1
-				else:
-					metadata = torch.cat((zero_matrix, metadata), 1);mode_ctr += 1
-
-		for i in range(128 - mode_ctr): # Concatenate zero matrices to fit the dataset
-			metadata = torch.cat((zero_matrix, metadata), 1)
-
-		D['metadata'] = torch.cat((metadata, D['metadata']), 0)
-
-		sv = Data_moment['steer']
-		mv = Data_moment['motor']
-		rv = range(8,91,9)
-		sv = array(sv)[rv]
-		mv = array(mv)[rv]
-		steerv = torch.from_numpy(sv).cuda().float() / 99.
-		motorv = torch.from_numpy(mv).cuda().float() / 99.
-		target_datav = torch.unsqueeze(torch.cat((steerv, motorv), 0), 0)
-		D['target_data'] = torch.cat((target_datav, D['target_data']), 0)
-"""
 #EOF
