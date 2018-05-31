@@ -18,7 +18,7 @@ P['experiments_folders'] = ['/media/karlzipser/2_TB_Samsung_n2_/bair_car_data_Ma
 P['GPU'] = 0
 P['BATCH_SIZE'] = 64
 P['REQUIRE_ONE'] = []
-P['USE_STATES'] = [1,3,5,6,7]
+P['USE_STATES'] = [1,3,5,6,7] #!!!!!!!!!!!!!!!!!!!!! CHECK THIS OUT !!!!!!!!!!!!!!!!!!
 P['N_FRAMES'] = 2
 P['N_STEPS'] = 10
 #P['STRIDE'] = 9#3 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -41,9 +41,11 @@ P['data_moments_indexed'] = []
 P['heading_pause_data_moments_indexed'] = []
 P['Loaded_image_files'] = {}
 P['data_moments_indexed_loaded'] = []
-P['behavioral_modes'] = ['direct','follow','furtive','play','left','right','heading_pause']
+P['behavioral_modes_no_heading_pause'] = ['direct','follow','furtive','play','left','right']
+P['behavioral_modes'] = P['behavioral_modes_no_heading_pause']+['heading_pause']
 P['current_batch'] = []
 P['DISPLAY_EACH'] = False
+P['prediction_range'] = range(1,20,2)
 
 if True:
 	for experiments_folder in P['experiments_folders']:
@@ -89,8 +91,11 @@ if True:
 	#raw_enter()
 if True:
 	for experiments_folder in ['/home/karlzipser/Desktop/all_aruco_reprocessed']:
+
 		experiments = sggo(experiments_folder,'*')
 		for experiment in experiments:
+			#if 'Smyth' in experiment:
+			#	continue
 			if fname(experiment)[0] == '_':
 				continue
 			spd2s(fname(experiment))
@@ -115,6 +120,7 @@ if True:
 				print fname(r)
 				assert(fname(r) not in P['run_name_to_run_path'])
 				P['run_name_to_run_path'][fname(r)] = r
+			#break
 		
 				
 
@@ -165,6 +171,8 @@ def get_Data_moment(dm=None,FLIP=None):
 
 	for b in P['behavioral_modes']:
 		Data_moment['labels'][b] = 0
+	if behavioral_mode == 'heading_pause':
+		behavioral_mode = random.choice(P['behavioral_modes_no_heading_pause'])
 	Data_moment['labels'][behavioral_mode] = 1
 
 

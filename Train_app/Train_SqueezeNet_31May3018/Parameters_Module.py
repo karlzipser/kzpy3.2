@@ -18,14 +18,14 @@ P['experiments_folders'] = ['/media/karlzipser/2_TB_Samsung_n2_/bair_car_data_Ma
 P['GPU'] = 0
 P['BATCH_SIZE'] = 64
 P['REQUIRE_ONE'] = []
-P['USE_STATES'] = [1,3,5,6,7]
+P['USE_STATES'] = [1,3,5,6,7] #!!!!!!!!!!!!!!!!!!!!! CHECK THIS OUT !!!!!!!!!!!!!!!!!!
 P['N_FRAMES'] = 2
 P['N_STEPS'] = 10
 #P['STRIDE'] = 9#3 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 P['NETWORK_OUTPUT_FOLDER'] = opjD('net_indoors')
 P['SAVE_FILE_NAME'] = 'net'
 P['save_net_timer'] = Timer(60*20)
-P['print_timer'] = Timer(60)
+P['print_timer'] = Timer(10)
 P['frequency_timer'] = Timer(10.0)
 P['TRAIN_TIME'] = 60*10.0
 P['VAL_TIME'] = 60*1.0
@@ -41,11 +41,13 @@ P['data_moments_indexed'] = []
 P['heading_pause_data_moments_indexed'] = []
 P['Loaded_image_files'] = {}
 P['data_moments_indexed_loaded'] = []
-P['behavioral_modes'] = ['direct','follow','furtive','play','left','right','heading_pause']
+P['behavioral_modes_no_heading_pause'] = ['direct','follow','furtive','play','left','right']
+P['behavioral_modes'] = P['behavioral_modes_no_heading_pause']+['heading_pause']
 P['current_batch'] = []
 P['DISPLAY_EACH'] = False
+P['prediction_range'] = range(1,20,2)
 
-if True:
+if False:
 	for experiments_folder in P['experiments_folders']:
 		locations = sggo(experiments_folder,'*')
 		for location in locations:
@@ -87,26 +89,50 @@ if True:
 	spd2s("len(P['data_moments_indexed']) =",len(P['data_moments_indexed']))
 	spd2s("len(P['heading_pause_data_moments_indexed']) =",len(P['heading_pause_data_moments_indexed']))
 	#raw_enter()
+
 if True:
 	for experiments_folder in ['/home/karlzipser/Desktop/all_aruco_reprocessed']:
 		experiments = sggo(experiments_folder,'*')
+		ctr = 0
 		for experiment in experiments:
+			print experiment
+
+			#if 'Smyth' in experiment:
+			#	continue
 			if fname(experiment)[0] == '_':
 				continue
 			spd2s(fname(experiment))
-
+			if ctr > 0:
+				pd2s(ctr,'ctr>0')
+				#break
+			ctr += 1
 			_data_moments_indexed = lo(opj(experiment,'data_moments_dic.pkl'))
 
 			for behavioral_mode in _data_moments_indexed['train'].keys():
 				if behavioral_mode != 'heading_pause':
+					car_in_view_ctr = 0
 					for _dm in _data_moments_indexed['train'][behavioral_mode]['car_in_view']:
 						_dm['behavioral_mode'] = behavioral_mode
 						_dm['aruco'] = True
-						if _dm['motor'] > 53:
+						if _dm['motor'] > 50:
 							P['data_moments_indexed'].append(_dm)
+							car_in_view_ctr += 1
+
+					car_not_in_view_ctr = 0
+					random.shuffle(_data_moments_indexed['train'][behavioral_mode]['car_not_in_view'])
+					for _dm in _data_moments_indexed['train'][behavioral_mode]['car_not_in_view']:
+						if car_not_in_view_ctr > car_in_view_ctr: #len(_data_moments_indexed['train'][behavioral_mode]['car_in_view']):
+							print('ctr2 > car_in_view_ctr>')
+							break
+						_dm['behavioral_mode'] = behavioral_mode
+						_dm['aruco'] = True
+						if _dm['motor'] > 50:
+							P['data_moments_indexed'].append(_dm)
+							car_not_in_view_ctr += 1
+					print(car_in_view_ctr,car_not_in_view_ctr)				
 				else:
 					for _dm in _data_moments_indexed['train'][behavioral_mode]:
-						_dm['behavioral_mode'] = behavioral_mode
+						_dm['behavioral_mode'] = random.choice(['direct','follow']) #behavioral_mode
 						_dm['aruco'] = True
 						_dm['motor'] = 49
 						P['data_moments_indexed'].append(_dm)
@@ -115,6 +141,7 @@ if True:
 				print fname(r)
 				assert(fname(r) not in P['run_name_to_run_path'])
 				P['run_name_to_run_path'][fname(r)] = r
+			#break
 		
 				
 
@@ -165,6 +192,8 @@ def get_Data_moment(dm=None,FLIP=None):
 
 	for b in P['behavioral_modes']:
 		Data_moment['labels'][b] = 0
+	if behavioral_mode == 'heading_pause':
+		behavioral_mode = random.choice(P['behavioral_modes_no_heading_pause'])
 	Data_moment['labels'][behavioral_mode] = 1
 
 
