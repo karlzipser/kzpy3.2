@@ -18,14 +18,14 @@ P['experiments_folders'] = ['/media/karlzipser/2_TB_Samsung_n2_/bair_car_data_Ma
 P['GPU'] = 0
 P['BATCH_SIZE'] = 64
 P['REQUIRE_ONE'] = []
-P['USE_STATES'] = [1,3,5,6,7] #!!!!!!!!!!!!!!!!!!!!! CHECK THIS OUT !!!!!!!!!!!!!!!!!!
-P['N_FRAMES'] = 2
-P['N_STEPS'] = 10
+#P['USE_STATES'] = [1,3,5,6,7] #!!!!!!!!!!!!!!!!!!!!! CHECK THIS OUT !!!!!!!!!!!!!!!!!!
+#P['N_FRAMES'] = 2
+#P['N_STEPS'] = 10
 #P['STRIDE'] = 9#3 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-P['NETWORK_OUTPUT_FOLDER'] = opjD('net_indoors')
+P['NETWORK_OUTPUT_FOLDER'] = opjD('net_indoors_31May2018')
 P['SAVE_FILE_NAME'] = 'net'
 P['save_net_timer'] = Timer(60*20)
-P['print_timer'] = Timer(10)
+P['print_timer'] = Timer(60*5)
 P['frequency_timer'] = Timer(10.0)
 P['TRAIN_TIME'] = 60*10.0
 P['VAL_TIME'] = 60*1.0
@@ -45,9 +45,9 @@ P['behavioral_modes_no_heading_pause'] = ['direct','follow','furtive','play','le
 P['behavioral_modes'] = P['behavioral_modes_no_heading_pause']+['heading_pause']
 P['current_batch'] = []
 P['DISPLAY_EACH'] = False
-P['prediction_range'] = range(1,20,2)
+P['prediction_range'] = range(1,60,6)
 
-if False:
+if True:
 	for experiments_folder in P['experiments_folders']:
 		locations = sggo(experiments_folder,'*')
 		for location in locations:
@@ -90,6 +90,7 @@ if False:
 	spd2s("len(P['heading_pause_data_moments_indexed']) =",len(P['heading_pause_data_moments_indexed']))
 	#raw_enter()
 
+
 if True:
 	for experiments_folder in ['/home/karlzipser/Desktop/all_aruco_reprocessed']:
 		experiments = sggo(experiments_folder,'*')
@@ -114,6 +115,9 @@ if True:
 					for _dm in _data_moments_indexed['train'][behavioral_mode]['car_in_view']:
 						_dm['behavioral_mode'] = behavioral_mode
 						_dm['aruco'] = True
+						if _dm['behavioral_mode'] == 'direct':
+							if random.random() > 0.5:
+								_dm['behavioral_mode'] = 'furtive'
 						if _dm['motor'] > 50:
 							P['data_moments_indexed'].append(_dm)
 							car_in_view_ctr += 1
@@ -126,16 +130,22 @@ if True:
 							break
 						_dm['behavioral_mode'] = behavioral_mode
 						_dm['aruco'] = True
+						if _dm['behavioral_mode'] == 'direct':
+							if random.random() > 0.5:
+								_dm['behavioral_mode'] = 'furtive'
 						if _dm['motor'] > 50:
 							P['data_moments_indexed'].append(_dm)
 							car_not_in_view_ctr += 1
 					print(car_in_view_ctr,car_not_in_view_ctr)				
 				else:
-					for _dm in _data_moments_indexed['train'][behavioral_mode]:
-						_dm['behavioral_mode'] = random.choice(['direct','follow']) #behavioral_mode
-						_dm['aruco'] = True
-						_dm['motor'] = 49
-						P['data_moments_indexed'].append(_dm)
+					if _dm['motor'] < 52:
+						for _dm in _data_moments_indexed['train'][behavioral_mode]:
+							_dm['behavioral_mode'] = random.choice(['direct','follow']) #behavioral_mode
+							_dm['aruco'] = True
+							_dm['motor'] = 49
+							P['data_moments_indexed'].append(_dm)
+					else:
+						print _dm['motor']
 
 			for r in sggo(experiment,'h5py','*'):
 				print fname(r)
