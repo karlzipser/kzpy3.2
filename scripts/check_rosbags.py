@@ -26,3 +26,4 @@ while True:
 	except:
 
 		print('rosbags not found or other problem')
+		time.sleep(5)
