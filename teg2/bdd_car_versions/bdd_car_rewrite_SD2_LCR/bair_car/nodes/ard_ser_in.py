@@ -21,7 +21,7 @@ def assign_serial_connections(sers):
                 ser_str = ser.readline()
                 
                 exec('ser_tuple = list({0})'.format(ser_str))
-                if ser_tuple[0] in ['mse']:
+                if ser_tuple[0] in ['mse'] or is_number(ser_tuple[0]):
                     print(d2s('Port',ser.port,'is the MSE:',ser_str))
                     Arduinos['MSE'] = ser
                     break
