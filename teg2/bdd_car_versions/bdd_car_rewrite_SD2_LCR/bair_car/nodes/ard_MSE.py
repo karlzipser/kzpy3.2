@@ -30,7 +30,7 @@ def mse_write_publish(M,Arduinos,steer_pwm,motor_pwm):
 
 class State():
     def __init__(self,name,number,button_pwm_peak,M,Arduinos):
-        self.name = name
+        self.name = name;print self.name
         self.number = number
         self.button_pwm_peak = button_pwm_peak
         self.Arduinos = Arduinos
@@ -49,7 +49,7 @@ class Run_State(State):
     def __init__(self,name,number,button_pwm_peak,M,Arduinos):
         State.__init__(self,name,number,button_pwm_peak,M,Arduinos)
     def enter(self):
-        self.led()
+        selffenter()
         State.enter(self)
     def led(self):
         #if self.number in [3,5,6,7,8]:
