@@ -59,8 +59,8 @@ class Run_State(State):
         #print n
         #LED_signal = d2n('(',n*100+n*10+1001,')')
         LED_signal = d2n('(',self.M['data_saving']*10000+self.number,')')
+        print LED_signal
         if 'SIG' in self.Arduinos.keys():
-            print LED_signal
             self.Arduinos['SIG'].write(LED_signal)
 
 
