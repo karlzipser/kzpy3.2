@@ -49,7 +49,7 @@ class Run_State(State):
     def __init__(self,name,number,button_pwm_peak,M,Arduinos):
         State.__init__(self,name,number,button_pwm_peak,M,Arduinos)
     def enter(self):
-        selffenter()
+        #selffenter()
         State.enter(self)
     def led(self):
         #if self.number in [3,5,6,7,8]:
