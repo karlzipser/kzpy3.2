@@ -307,7 +307,7 @@ def run_loop(Arduinos,M,BUTTON_DELTA=50,):
         return
 
     
-    try:
+    if True:#try:
         if os.environ['STOP'] == 'True':
             assert(False)
         while M['Stop_Arduinos'] == False or not rospy.is_shutdown():
@@ -430,7 +430,7 @@ def run_loop(Arduinos,M,BUTTON_DELTA=50,):
                 #print((M['current_state'].number,M['steer_percent'],M['motor_percent'],M['state_transition_timer'].time()))
                 Arduinos['MSE'].write(M['smooth_write_str'])
             """
-    except Exception as e:
+    else:#except Exception as e:
         print("********** Exception ***********************")
         print(e.message, e.args)
         os.environ['STOP'] = 'True'
