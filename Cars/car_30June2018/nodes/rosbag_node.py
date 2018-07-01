@@ -6,9 +6,10 @@ import std_msgs.msg
 
 os.environ['STOP'] = 'False'
 
-exec_str = "from kzpy3.teg2.bdd_car_versions.bdd_car_rewrite_SD2.runtime_params import foldername"
-print("from rosbag_node.py doing: '"+exec_str+"'")
-exec(exec_str)
+#exec_str = "from kzpy3.teg2.bdd_car_versions.bdd_car_rewrite_SD2.runtime_params import foldername"
+#print("from rosbag_node.py doing: '"+exec_str+"'")
+#exec(exec_str)
+from runtime_parameters import foldername
 
 time.sleep(3)
 
