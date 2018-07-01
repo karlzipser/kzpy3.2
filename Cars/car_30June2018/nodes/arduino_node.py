@@ -24,19 +24,19 @@ reload_timer = Timer(30)
 M = {}
 
 
-M['acc2rd_threshold'] = rp.acc2rd_threshold
-M['gyro_freeze_threshold'] = rp.gyro_freeze_threshold
-M['acc_freeze_threshold_x'] = rp.acc_freeze_threshold_x
-M['acc_freeze_threshold_y_max'] = rp.acc_freeze_threshold_y_max
-M['acc_freeze_threshold_y_min'] = rp.acc_freeze_threshold_y_min
-M['acc_freeze_threshold_z'] = rp.acc_freeze_threshold_z
-M['motor_freeze_threshold'] = rp.motor_freeze_threshold
-M['steer_gain'] = rp.steer_gain
-M['motor_gain'] = rp.motor_gain
+#M['acc2rd_threshold'] = rp.acc2rd_threshold
+#M['gyro_freeze_threshold'] = rp.gyro_freeze_threshold
+#M['acc_freeze_threshold_x'] = rp.acc_freeze_threshold_x
+#M['acc_freeze_threshold_y_max'] = rp.acc_freeze_threshold_y_max
+#M['acc_freeze_threshold_y_min'] = rp.acc_freeze_threshold_y_min
+#M['acc_freeze_threshold_z'] = rp.acc_freeze_threshold_z
+#M['motor_freeze_threshold'] = rp.motor_freeze_threshold
+#M['steer_gain'] = rp.steer_gain
+#M['motor_gain'] = rp.motor_gain
 M['Stop_Arduinos'] = False
-M['PID_min_max'] = rp.PID_min_max
-M['aruco_evasion_active'] = 0
-M['n_avg_IMU'] = rp.n_avg_IMU
+#M['PID_min_max'] = rp.PID_min_max
+#M['aruco_evasion_active'] = 0
+#M['n_avg_IMU'] = rp.n_avg_IMU
 
 
 def caffe_steer_callback(msg):
