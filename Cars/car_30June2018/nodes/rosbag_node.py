@@ -3,6 +3,7 @@ from kzpy3.utils2 import *
 import os, sys, shutil, subprocess, time
 import rospy
 import std_msgs.msg
+import runtime_parameters as rp
 
 os.environ['STOP'] = 'False'
 
@@ -10,9 +11,9 @@ os.environ['STOP'] = 'False'
 #print("from rosbag_node.py doing: '"+exec_str+"'")
 #exec(exec_str)
 #from runtime_parameters import foldername
-import runtime_parameters as rp
+#import runtime_parameters as rp
 
-
+spd2s(rp.foldername)
 time.sleep(3)
 
 if __name__ == '__main__':
