@@ -106,6 +106,7 @@ def arduino_master_thread():
                 M['motor_freeze_threshold'] = rp.motor_freeze_threshold
                 M['PID_min_max'] = rp.PID_min_max
                 M['n_avg_IMU'] = rp.n_avg_IMU
+                M['Stop_Arduinos'] = False
 
             if git_pull_timer.check():
                 unix(opjh('kzpy3/kzpy3_git_pull.sh'))
