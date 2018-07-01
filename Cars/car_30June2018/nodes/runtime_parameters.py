@@ -1,14 +1,17 @@
-# This is used to specifiy caffe mode and data file name information
+# This is used to specifiy  mode and data file name information
 
 
 from kzpy3.utils2 import time_str
 from kzpy3.utils2 import opjh
 from kzpy3.utils2 import print_stars0
 from kzpy3.utils2 import print_stars1
+from kzpy3.utils2 import opjD
+from kzpy3.utils2 import opjm
 
 import os
 import numpy as np
-print_stars0();print(__file__);print_stars1()
+
+#print_stars0();print(__file__);print_stars1()
 computer_name = "MR_Unknown"
 try:  
    computer_name = os.environ["COMPUTER_NAME"]
@@ -19,37 +22,46 @@ except KeyError:
    """
 
 
+Car_IP_dic = {'Mr_Blue':'192.168.1.101',
+	'Mr_Black':'192.168.1.102',
+	'Mr_Orange':'192.168.1.103',
+	'Mr_Yellow':'192.168.1.104',
+	'Mr_Lt_Blue':'192.168.1.105',
+	'Mr_Purple':'192.168.1.106',
+	'Mr_TX2':'192.168.1.201'}
+Car_termcolor_dic = {'Mr_Blue':('blue','on_white'),
+	'Mr_Black':('grey','on_white'),
+	'Mr_Orange':('red','on_yellow'),
+	'Mr_Yellow':('yellow','on_grey'),
+	'Mr_Lt_Blue':('blue','on_cyan'),
+	'Mr_Purple':('magenta','on_white'),
+	'Mr_TX2':(255,200,150)}
+Car_num_dic = {'Mr_Blue':1.0,
+	'Mr_Black':2.0,
+	'Mr_Orange':3.0,
+	'Mr_Yellow':4.0,
+	'Mr_Lt_Blue':5.0,
+	'Mr_Purple':6.0,
+	'Mr_TX2':7.0}
 ####################### general car settings ################
 #
-for i in range(1):
-	print('*************' + computer_name + '***********')
+#weight_file_path = opjm('rosbags','net.infer')
+weight_file_path = opjh('pytorch_models','net.infer')
+require_Arudinos_MSE = True #!!!!!!!!!!!!!!!
+
+
 Direct = 1.
 Follow = 0.
 Play = 0.
 Furtive = 0.
 Caf = 0.0
 Racing = 0.0
-Location =  'local' #Smyth_tape'
 
-weight_file_path = opjh('pytorch_models','net.infer')
-require_Arudinos_MSE = True #!!!!!!!!!!!!!!!
-
-verbose = False
-use_caffe = True
 steer_gain = 1.0
 motor_gain = 1.0
-acc2rd_threshold = 150
+motor_offset = 5
 
-PID_min_max = [1.5,2.5]
-"""
-gyro_freeze_threshold = 150
-acc_freeze_threshold_x = 7
-acc_freeze_threshold_y_max = 15
-acc_freeze_threshold_y_min = 0
-acc_freeze_threshold_z = 7
-motor_freeze_threshold = 55
-n_avg_IMU = 10
-"""
+acc2rd_threshold = 150
 gyro_freeze_threshold = 150
 acc_freeze_threshold_x = 14
 acc_freeze_threshold_y_max = 30
@@ -57,116 +69,5 @@ acc_freeze_threshold_y_min = 0
 acc_freeze_threshold_z = 14
 motor_freeze_threshold = 55
 n_avg_IMU = 10
-#
-###################################################################
-
-####################### specific car settings ################
-#
-"""
-if computer_name == 'Mr_Orange':
-	#PID_min_max = [2.,3.]
-	#motor_gain = 1.0
-	Direct = 1.
-	Follow = 0.
-	Play = 0.
-	Furtive = 0.
-	pass
-if computer_name == 'Mr_Silver':
-	#motor_gain = 1.0
-	pass
-if computer_name == 'Mr_Blue':
-	#PID_min_max = [1.5,2.5]
-	#motor_gain = 1.0
-	pass
-if computer_name == 'Mr_Yellow':
-	#PID_min_max = [1,2]
-	#motor_gain = 0.9
-	Direct = 1.
-	Follow = 0.
-	Play = 0.
-	Furtive = 0.
-	Caf = 0.0
-	Racing = 0.0
-	pass
-if computer_name == 'Mr_Black':
-	#PID_min_max = [1.5,2.5]
-	#motor_gain = 1.0
-	pass
-if computer_name == 'Mr_White':
-	#motor_gain = 1.0
-	pass
-if computer_name == 'Mr_Teal':
-	#motor_gain = 1.0
-	pass
-if computer_name == 'Mr_Audi':
-	#motor_gain = 1.0
-	pass
-if computer_name == 'Mr_Purple':
-	#motor_gain = 1.0
-	pass
-if computer_name == 'Mr_LightBlue':
-	#motor_gain = 1.0
-	pass
-#if computer_name == 'Mr_Blue_Original':
-#	motor_gain = 0.5
-#	pass
-"""
-
-#
-###################################################################
-# motor_gain = 1.0 # override individual settings
-
-if Direct == 1:
-	task = 'direct'
-elif Play == 1:
-	task = 'play'
-elif Follow == 1:
-	task = 'follow'
-elif Furtive == 1:
-	task = 'furtive'
-elif Racing == 1:
-	task = 'racing'
-else:
-	assert(False)
-
-print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-foldername = ''
-if Follow == 1:
-	foldername = 'follow_'
-
-model_name = solver_file_path.split('/')[-2]
-
-if Caf == 1:
-	foldername = foldername + 'net_' + model_name +'_'
-
-foldername = foldername + task + '_'
-
-foldername = foldername + Location + '_'
-
-foldername = foldername + time_str() + '_'
-
-foldername = foldername + computer_name
-
-"""
-#
-###################################################################
-# Aruco code parameters
-
-ar_params={
-'ar_motor_command' : 49, # This is the resting command for stop
-'ar_max_left_steering_angle' : np.deg2rad(-130),
-'ar_max_right_steering_angle' : np.deg2rad(130),
-'ar_max_left_command' : 100,
-'ar_max_right_command' : 0,
-'ar_left_range' : 50,
-'ar_right_range' : 50,
-'ar_min_perceived_distance' : 9999,
-'ar_critical_distance' : 0.75,
-'ar_stop_distance' : 0.5,
-'ar_max_motor' : 70,
-'ar_min_motor' : 59,
-'ar_override_motor':49,
-'ar_override_steer':49 } # Full stop. Backwards is not considered
-"""        
 
 
