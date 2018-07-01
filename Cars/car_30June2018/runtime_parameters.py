@@ -135,7 +135,7 @@ elif Racing == 1:
 else:
 	assert(False)
 
-
+print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 foldername = ''
 if Follow == 1:
 	foldername = 'follow_'
