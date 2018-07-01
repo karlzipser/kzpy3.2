@@ -13,7 +13,7 @@ select opt in $OPTIONS; do
     ln -s ~/kzpy3/Cars/aruco_driver_17Sept2017_MSE_only ~/catkin_ws/src/bair_car
     ls -al ~/catkin_ws/src/bair_car
 
-   if [ "$opt" = "car_30June2018" ]; then
+   elif [ "$opt" = "car_30June2018" ]; then
     rm ~/catkin_ws/src/bair_car
     ln -s ~/kzpy3/Cars/car_30June2018 ~/catkin_ws/src/bair_car
     ls -al ~/catkin_ws/src/bair_car
