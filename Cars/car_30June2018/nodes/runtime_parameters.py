@@ -49,6 +49,7 @@ Car_num_dic = {'Mr_Blue':1.0,
 weight_file_path = opjh('pytorch_models','net.infer')
 require_Arudinos_MSE = True #!!!!!!!!!!!!!!!
 
+foldername = 'run_' + time_str()
 
 Direct = 1.
 Follow = 0.
