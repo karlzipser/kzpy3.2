@@ -9,8 +9,7 @@ import threading
 import std_msgs.msg
 import geometry_msgs.msg
 import rospy
-
-import kzpy3.teg2.bdd_car_versions.bdd_car_rewrite_SD2.runtime_params as rp
+import runtime_parameters as rp
 
 os.environ['STOP'] = 'False'
 
@@ -22,8 +21,9 @@ folder_display_timer = Timer(10)
 git_pull_timer = Timer(60)
 reload_timer = Timer(30)
 
-
 M = {}
+
+"""
 M['acc2rd_threshold'] = rp.acc2rd_threshold
 M['gyro_freeze_threshold'] = rp.gyro_freeze_threshold
 M['acc_freeze_threshold_x'] = rp.acc_freeze_threshold_x
@@ -37,6 +37,7 @@ M['Stop_Arduinos'] = False
 M['PID_min_max'] = rp.PID_min_max
 M['aruco_evasion_active'] = 0
 M['n_avg_IMU'] = rp.n_avg_IMU
+"""
 
 def caffe_steer_callback(msg):
     global M
@@ -93,9 +94,6 @@ def arduino_master_thread():
 
             if reload_timer.check():
                 reload(rp)
-                #reload(kzpy3.teg2.bdd_car_versions.bdd_car_rewrite.runtime_params)
-                #from kzpy3.teg2.bdd_car_versions.bdd_car_rewrite.runtime_params import *
-                #model_name_pub.publish(std_msgs.msg.String(weights_file_path))
                 reload_timer.reset()
                 M['steer_gain'] = rp.steer_gain
                 M['motor_gain'] = rp.motor_gain
@@ -113,7 +111,6 @@ def arduino_master_thread():
                 unix(opjh('kzpy3/kzpy3_git_pull.sh'))
                 git_pull_timer.reset()
 
-            #print M.keys()
             try:
                 pass
                 #print (shape(M['acc_lst']),M['acc_lst_mean'])
@@ -137,6 +134,7 @@ def arduino_master_thread():
 
 
 if 'MSE' in Arduinos:
+    print("MSE in Arduinos[].keys()")
     ard_MSE.setup(M,Arduinos)
     threading.Thread(target=arduino_mse_thread).start()
 else:
@@ -147,11 +145,17 @@ if 'IMU' in Arduinos.keys():
     print("'IMU' in Arduinos.keys()")
     ard_IMU.setup(M,Arduinos)
     threading.Thread(target=arduino_imu_thread).start()
+else:
+    print("!!!!!!!!!! 'IMU' not in Arduinos[] !!!!!!!!!!!")
+    raw_enter()
 
 if 'SIG' in Arduinos.keys():
-    'SIG' in Arduinos.keys()
+    print("MSE in Arduinos[].keys()")
     threading.Thread(target=arduino_sig_thread).start()
     ard_SIG.setup(M,Arduinos)
+else:
+    print("!!!!!!!!!! 'SIG' not in Arduinos[] !!!!!!!!!!!")
+    raw_enter()
 
 threading.Thread(target=arduino_master_thread).start()
 
@@ -161,3 +165,4 @@ while q not in ['q','Q']:
     q = raw_input('')
 
 stop_ros()
+

@@ -1,4 +1,4 @@
-# This is used to specifiy caffe mode and data file name information
+# This is used to specifiy  mode and data file name information
 
 
 from kzpy3.utils2 import time_str
@@ -61,5 +61,12 @@ steer_gain = 1.0
 motor_gain = 1.0
 motor_offset = 5
 
+gyro_freeze_threshold = 150
+acc_freeze_threshold_x = 14
+acc_freeze_threshold_y_max = 30
+acc_freeze_threshold_y_min = 0
+acc_freeze_threshold_z = 14
+motor_freeze_threshold = 55
+n_avg_IMU = 10
 
 

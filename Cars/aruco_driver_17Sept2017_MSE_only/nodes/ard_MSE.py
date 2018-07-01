@@ -2,8 +2,8 @@ import threading
 from kzpy3.utils2 import *
 import std_msgs.msg
 import rospy
-import kzpy3.teg2.bdd_car_versions.bdd_car_rewrite_SD2.runtime_params as rp
-#from kzpy3.teg2.bdd_car_versions.bdd_car_rewrite.runtime_params import *
+import runtime_parameters as rp
+
 
 lock = threading.Lock()
 
