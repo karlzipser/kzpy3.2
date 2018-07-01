@@ -23,7 +23,7 @@ reload_timer = Timer(30)
 
 M = {}
 
-"""
+
 M['acc2rd_threshold'] = rp.acc2rd_threshold
 M['gyro_freeze_threshold'] = rp.gyro_freeze_threshold
 M['acc_freeze_threshold_x'] = rp.acc_freeze_threshold_x
@@ -37,7 +37,7 @@ M['Stop_Arduinos'] = False
 M['PID_min_max'] = rp.PID_min_max
 M['aruco_evasion_active'] = 0
 M['n_avg_IMU'] = rp.n_avg_IMU
-"""
+
 
 def caffe_steer_callback(msg):
     global M
@@ -106,7 +106,7 @@ def arduino_master_thread():
                 M['motor_freeze_threshold'] = rp.motor_freeze_threshold
                 M['PID_min_max'] = rp.PID_min_max
                 M['n_avg_IMU'] = rp.n_avg_IMU
-                M['Stop_Arduinos'] = False
+
 
             if git_pull_timer.check():
                 unix(opjh('kzpy3/kzpy3_git_pull.sh'))
