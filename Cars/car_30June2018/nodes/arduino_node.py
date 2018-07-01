@@ -82,7 +82,7 @@ def arduino_sig_thread():
 def arduino_master_thread():
     #while M['Stop_Arduinos'] == False or not rospy.is_shutdown():
     
-    if true:#try:
+    if True:#try:
         if os.environ['STOP'] == 'True':
             stop_ros()
             assert(False)
