@@ -9,7 +9,9 @@ os.environ['STOP'] = 'False'
 #exec_str = "from kzpy3.teg2.bdd_car_versions.bdd_car_rewrite_SD2.runtime_params import foldername"
 #print("from rosbag_node.py doing: '"+exec_str+"'")
 #exec(exec_str)
-from runtime_parameters import foldername
+#from runtime_parameters import foldername
+import runtime_parameters as rp
+
 
 time.sleep(3)
 
@@ -27,7 +29,7 @@ if __name__ == '__main__':
 
     bag_rec_folder = sys.argv[1] # '/home/ubuntu/catkin_ws/src/bair_car/rosbags'
     bag_mv_folder = sys.argv[2] # '/media/ubuntu/3131-3031/rosbags'
-    bag_mv_folder = opj(bag_mv_folder,foldername)
+    bag_mv_folder = opj(bag_mv_folder,rp.foldername)
 
     unix('mkdir '+bag_mv_folder)
     #unix('mkdir  '+opj(bag_mv_folder,'.caf'))
