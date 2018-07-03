@@ -32,7 +32,7 @@ def run_loop(Arduinos,M):
 
             try:        
                 read_str = Arduinos['IMU'].readline()
-                print read_str
+                #print read_str
                 exec('imu_input = list({0})'.format(read_str))
                 #print imu_input
                 m = imu_input[0]
@@ -42,6 +42,7 @@ def run_loop(Arduinos,M):
                     M['acc_lst'].append(M['acc'])
                     if len(M['acc_lst']) > 1.5*M['n_avg_IMU']:
                         M['acc_lst'] = M['acc_lst'][-M['n_avg_IMU']:]
+                print M[m]
                 M[imu_dic[m]].publish(geometry_msgs.msg.Vector3(*M[m]))
 
 
