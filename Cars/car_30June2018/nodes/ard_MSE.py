@@ -21,10 +21,11 @@ def mse_write_publish(M,Arduinos,steer_pwm,motor_pwm):
     steer_pwm = apply_steer_pwm_gain(steer_pwm,M)
     motor_pwm = apply_motor_pwm_gain(motor_pwm,M)
     write_str = d2n( '(', int(steer_pwm), ',', int(motor_pwm+10000), ')')
+    print write_str
     Arduinos['MSE'].write(write_str)
     steer_percent = pwm_to_percent(M,M['steer_null'],steer_pwm,M['steer_max'],M['steer_min'])
     motor_percent = pwm_to_percent(M,M['motor_null'],motor_pwm,M['motor_max'],M['motor_min'])
-    print (steer_pwm,steer_percent)
+
     M['steer_pub'].publish(std_msgs.msg.Int32(steer_percent))
     M['motor_pub'].publish(std_msgs.msg.Int32(motor_percent))
     M['state_pub'].publish(std_msgs.msg.Int32(M['current_state'].number))
