@@ -2,6 +2,7 @@ import threading
 import rospy
 from kzpy3.utils2 import *
 import geometry_msgs.msg
+import runtime_parameters as rp
 
 imu_dic = {}
 imu_dic['gyro'] = 'gyro_pub'
@@ -14,9 +15,8 @@ def setup(M,Arduinos):
     for m in ['gyro','acc','head']:
         for d in ['_x_lst','_y_lst','_z_lst']:
             M[m+d] = []
-
-    
     M['acc_lst'] = []
+    M['n_avg_IMU'] = rp.n_avg_IMU
 
 
 
