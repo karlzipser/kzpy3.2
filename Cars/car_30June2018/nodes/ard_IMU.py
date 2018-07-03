@@ -30,7 +30,7 @@ def run_loop(Arduinos,M):
             assert(False)
         while M['Stop_Arduinos'] == False or not rospy.is_shutdown():
 
-            try:        
+            if True:#try:        
                 read_str = Arduinos['IMU'].readline()
                 #print read_str
                 exec('imu_input = list({0})'.format(read_str))
@@ -46,7 +46,7 @@ def run_loop(Arduinos,M):
                 M[imu_dic[m]].publish(geometry_msgs.msg.Vector3(*M[m]))
 
 
-            except Exception as e:
+            else:#except Exception as e:
                 pass #print e
         stop_ros()
     except Exception as e:
