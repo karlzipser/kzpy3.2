@@ -75,7 +75,7 @@ def IMU_run_loop(Arduinos,P):
     imu_dic['acc'] = 'acc_pub'
     imu_dic['head'] = 'gyro_heading_pub'
     print_timer = Timer(0.001)
-    Arduinos['IMU'].flushInput()
+    #Arduinos['IMU'].flushInput()
     while P['ABORT'] == False:
         try: 
             read_str = Arduinos['IMU'].readline()
@@ -84,7 +84,7 @@ def IMU_run_loop(Arduinos,P):
             P[m] = imu_input[1:4]
             if True and m == 'acc':# and print_timer.check():
                 print (m,P[m])
-                print_timer.reset()
+                #print_timer.reset()
             if False:
                 P[imu_dic[m]].publish(geometry_msgs.msg.Vector3(*P[m]))
         except Exception as e:
