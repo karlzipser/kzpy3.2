@@ -123,7 +123,7 @@ def SIG_run_loop(Arduinos,P):
 
 
 baudrate = 115200
-timeout = 0.05
+timeout = 0.5
 Arduinos = assign_serial_connections(get_arduino_serial_connections(baudrate,timeout))
 
 
