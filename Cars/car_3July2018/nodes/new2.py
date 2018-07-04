@@ -75,23 +75,30 @@ def IMU_run_loop(Arduinos,P):
     imu_dic['acc'] = 'acc_pub'
     imu_dic['head'] = 'gyro_heading_pub'
     print_timer = Timer(0.001)
-    #Arduinos['IMU'].flushInput()
+    Arduinos['IMU'].flushInput()
+    ctr = 0
     while P['ABORT'] == False:
         try: 
+            
             read_str = Arduinos['IMU'].readline()
-            print read_str
-            """
+            ctr += 1
+            #print read_str
+            
             exec('imu_input = list({0})'.format(read_str))       
             m = imu_input[0]
             P[m] = imu_input[1:4]
             if True and m == 'acc':# and print_timer.check():
-                print (m,P[m])
+                #print (m,P[m])
                 #print_timer.reset()
+                print P[m][1]
+                pass
+            
             if False:
                 P[imu_dic[m]].publish(geometry_msgs.msg.Vector3(*P[m]))
-            """
+            
         except Exception as e:
             pass
+    print ctr
 
 
 
@@ -116,7 +123,7 @@ def SIG_run_loop(Arduinos,P):
 
 
 baudrate = 115200
-timeout = 0.5
+timeout = 0.05
 Arduinos = assign_serial_connections(get_arduino_serial_connections(baudrate,timeout))
 
 
