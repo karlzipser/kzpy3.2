@@ -90,7 +90,7 @@ def IMU_run_loop(Arduinos,P):
             if True and m == 'acc':# and print_timer.check():
                 #print (m,P[m])
                 #print_timer.reset()
-                print P[m][1]
+                #print P[m][1]
                 pass
             
             if False:
