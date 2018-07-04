@@ -74,34 +74,29 @@ def IMU_run_loop(Arduinos,P):
     imu_dic['gyro'] = 'gyro_pub'
     imu_dic['acc'] = 'acc_pub'
     imu_dic['head'] = 'gyro_heading_pub'
-    print_timer = Timer(0.001)
     Arduinos['IMU'].flushInput()
     ctr = 0
+    flush_seconds = 0.5
+    flush_timer = Timer(flush_seconds)
+    ctr_timer = Timer()
     while P['ABORT'] == False:
-        try: 
-            
+        try:        
             read_str = Arduinos['IMU'].readline()
-            Arduinos['IMU'].flushInput()
-            
-            #print read_str
-            
+            if flush_timer.check():
+                Arduinos['IMU'].flushInput()
+                flush_timer.reset()            
             exec('imu_input = list({0})'.format(read_str))       
             m = imu_input[0]
             P[m] = imu_input[1:4]
-            if True and m == 'acc':# and print_timer.check():
+            if m == 'acc':
                 ctr += 1
-                #print (m,P[m])
-                #print_timer.reset()
-                #print P[m][1]
-                pass
-            #time.sleep(0.0001)
-            
+                P['acc_Hz'] = dp(ctr/ctr_timer.time(),1)
+                print P[m][1]            
             if False:
                 P[imu_dic[m]].publish(geometry_msgs.msg.Vector3(*P[m]))
-            
         except Exception as e:
             pass
-    print ctr
+
 
 
 
@@ -129,21 +124,23 @@ baudrate = 115200
 timeout = 0.5
 Arduinos = assign_serial_connections(get_arduino_serial_connections(baudrate,timeout))
 
+def arduino_imu_thread():
+    IMU_run_loop(Arduinos,P)
 
 if 'IMU' in Arduinos.keys():
     IMU_setup(Arduinos,P)
-    def arduino_imu_thread():
-        IMU_run_loop(Arduinos,P)
-    threading.Thread(target=arduino_imu_thread).start()
+    threading.Thread(target=IMU_run_loop,args=[Arduinos,P]).start()
 else:
     spd2s("!!!!!!!!!! 'IMU' not in Arduinos[] !!!!!!!!!!!")
 
+n_seconds = 10.0
+timer = Timer(n_seconds)
 
-
-timer = Timer(10)
 while not timer.check():
-    pass
+    time.sleep(0.2)
+    
 P['ABORT'] = True
+pd2s(P['acc_Hz'],'Hz')
 
 """
 q = raw_input('')
@@ -153,4 +150,5 @@ P['ABORT'] = True
 
 print P['ABORT']
 """
-P['ABORT'] = True
+0
+
