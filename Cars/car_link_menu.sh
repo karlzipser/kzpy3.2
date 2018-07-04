@@ -18,6 +18,12 @@ select opt in $OPTIONS; do
     ln -s ~/kzpy3/Cars/car_30June2018 ~/catkin_ws/src/bair_car
     ls -al ~/catkin_ws/src/bair_car
 
+
+   elif [ "$opt" = "car_3July2018" ]; then
+    rm ~/catkin_ws/src/bair_car
+    ln -s ~/kzpy3/Cars/car_3July2018 ~/catkin_ws/src/bair_car
+    ls -al ~/catkin_ws/src/bair_car
+
    elif [ "$opt" = "aruco_driver_16Sept2017" ]; then
     rm ~/catkin_ws/src/bair_car
     ln -s ~/kzpy3/Cars/aruco_driver_16Sept2017 ~/catkin_ws/src/bair_car
