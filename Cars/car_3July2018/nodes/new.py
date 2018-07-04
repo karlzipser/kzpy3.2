@@ -80,6 +80,7 @@ def IMU_run_loop(Arduinos,P):
         try: 
             read_str = Arduinos['IMU'].readline()
             print read_str
+            """
             exec('imu_input = list({0})'.format(read_str))       
             m = imu_input[0]
             P[m] = imu_input[1:4]
@@ -88,6 +89,7 @@ def IMU_run_loop(Arduinos,P):
                 #print_timer.reset()
             if False:
                 P[imu_dic[m]].publish(geometry_msgs.msg.Vector3(*P[m]))
+            """
         except Exception as e:
             pass
 
