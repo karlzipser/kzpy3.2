@@ -23,18 +23,30 @@ reload_timer = Timer(30)
 
 M = {}
 
+steer_gain = 1.0
+motor_gain = 1.0
+motor_offset = 5
 
-#M['acc2rd_threshold'] = rp.acc2rd_threshold
-#M['gyro_freeze_threshold'] = rp.gyro_freeze_threshold
-#M['acc_freeze_threshold_x'] = rp.acc_freeze_threshold_x
-#M['acc_freeze_threshold_y_max'] = rp.acc_freeze_threshold_y_max
-#M['acc_freeze_threshold_y_min'] = rp.acc_freeze_threshold_y_min
-#M['acc_freeze_threshold_z'] = rp.acc_freeze_threshold_z
+acc2rd_threshold = 150
+gyro_freeze_threshold = 150
+acc_freeze_threshold_x = 14
+acc_freeze_threshold_y_max = 30
+acc_freeze_threshold_y_min = 0
+acc_freeze_threshold_z = 14
+motor_freeze_threshold = 55
+n_avg_IMU = 10
+
+M['acc2rd_threshold'] = rp.acc2rd_threshold
+M['gyro_freeze_threshold'] = rp.gyro_freeze_threshold
+M['acc_freeze_threshold_x'] = rp.acc_freeze_threshold_x
+M['acc_freeze_threshold_y_max'] = rp.acc_freeze_threshold_y_max
+M['acc_freeze_threshold_y_min'] = rp.acc_freeze_threshold_y_min
+M['acc_freeze_threshold_z'] = rp.acc_freeze_threshold_z
 M['motor_freeze_threshold'] = rp.motor_freeze_threshold
-#M['steer_gain'] = rp.steer_gain
-#M['motor_gain'] = rp.motor_gain
+M['steer_gain'] = rp.steer_gain
+M['motor_gain'] = rp.motor_gain
 M['Stop_Arduinos'] = False
-#M['PID_min_max'] = rp.PID_min_max
+M['PID_min_max'] = rp.PID_min_max
 #M['aruco_evasion_active'] = 0
 #M['n_avg_IMU'] = rp.n_avg_IMU
 

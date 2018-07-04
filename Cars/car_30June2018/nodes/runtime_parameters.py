@@ -70,5 +70,6 @@ acc_freeze_threshold_y_min = 0
 acc_freeze_threshold_z = 14
 motor_freeze_threshold = 55
 n_avg_IMU = 10
+PID_min_max = [1.5,2.5]
 
 
