@@ -1,6 +1,14 @@
 from kzpy3.utils2 import *
 import threading
 
+"""
+This may be necessary:
+
+    sudo chmod 666 /dev/ttyACM*
+
+"""
+
+
 P = {}
 P['ABORT'] = False
 
@@ -56,46 +64,53 @@ def assign_serial_connections(sers):
 
 
 
-lock = threading.Lock()
-
-def setup(Arduinos,P):
-    for m in ['gyro','acc','head']:
-        for d in ['_x_lst','_y_lst','_z_lst']:
-            P[m+d] = []
 
 
+def IMU_setup(Arduinos,P):
+    pass
 
-
-
-def run_loop(Arduinos,P):
+def IMU_run_loop(Arduinos,P):
     imu_dic = {}
     imu_dic['gyro'] = 'gyro_pub'
     imu_dic['acc'] = 'acc_pub'
     imu_dic['head'] = 'gyro_heading_pub'
     print_timer = Timer(0.001)
     Arduinos['IMU'].flushInput()
-
     while P['ABORT'] == False:
         try: 
             read_str = Arduinos['IMU'].readline()
-            #print read_str
             exec('imu_input = list({0})'.format(read_str))       
             m = imu_input[0]
             P[m] = imu_input[1:4]
-            if m == 'acc' and print_timer.check():
+            if False and m == 'acc' and print_timer.check():
                 print (m,P[m])
                 print_timer.reset()
             if False:
                 P[imu_dic[m]].publish(geometry_msgs.msg.Vector3(*P[m]))
         except Exception as e:
-            pass #print e
+            pass
+
+
+
+def SIG_setup(Arduinos,P):
+    LED_signal = d2n('(10000)')
+    Arduinos['SIG'].write(LED_signal)
+
+def SIG_run_loop(Arduinos,P):
+    Arduinos['SIG'].flushInput()
+    while P['ABORT'] == False:
+        try: 
+            read_str = Arduinos['SIG'].readline()
+        except Exception as e:
+            pass
 
 
 
 
 
 
-#  [-0.12, 9.66, 1.55]
+
+
 
 baudrate = 115200
 timeout = 0.5
@@ -103,12 +118,14 @@ Arduinos = assign_serial_connections(get_arduino_serial_connections(baudrate,tim
 
 
 if 'IMU' in Arduinos.keys():
-    setup(Arduinos,P)
+    IMU_setup(Arduinos,P)
     def arduino_imu_thread():
-        run_loop(Arduinos,P)
+        IMU_run_loop(Arduinos,P)
     threading.Thread(target=arduino_imu_thread).start()
 else:
     spd2s("!!!!!!!!!! 'IMU' not in Arduinos[] !!!!!!!!!!!")
+
+
 
 timer = Timer(5)
 while not timer.check():
