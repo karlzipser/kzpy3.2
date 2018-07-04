@@ -82,7 +82,7 @@ def IMU_run_loop(Arduinos,P):
             exec('imu_input = list({0})'.format(read_str))       
             m = imu_input[0]
             P[m] = imu_input[1:4]
-            if False and m == 'acc' and print_timer.check():
+            if True and m == 'acc' and print_timer.check():
                 print (m,P[m])
                 print_timer.reset()
             if False:
