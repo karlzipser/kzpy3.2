@@ -11,6 +11,7 @@ This may be necessary:
 
 P = {}
 P['ABORT'] = False
+P['AGENT'] = 'human'
 
 def get_arduino_serial_connections(baudrate, timeout):
     from sys import platform
@@ -108,10 +109,10 @@ def IMU_run_loop(Arduinos,P):
 
 def MSE_setup(Arduinos,P):
     P['mse'] = {}
+    P['mse']['ctr'] = 0
     pass
 def MSE_run_loop(Arduinos,P):
     Arduinos['MSE'].flushInput()
-    ctr = 0
     flush_seconds = 0.5
     flush_timer = Timer(flush_seconds)
     ctr_timer = Timer()
@@ -128,11 +129,14 @@ def MSE_run_loop(Arduinos,P):
             P['mse']['motor_pwm'] = mse_input[3]
             P['mse']['encoder'] = mse_input[4]
             print('mse',P['mse'])
-            ctr += 1
-            P['mse']['Hz'] = dp(ctr/ctr_timer.time(),1)
-            P['mse']['ctr'] = ctr         
+            P['mse']['ctr'] += 1
+            P['mse']['Hz'] = dp(P['mse']['ctr']/ctr_timer.time(),1)
             if False:
                 P['mse_pub'].publish(geometry_msgs.msg.Vector3(*P[m]))
+            if P['AGENT'] == 'human':
+                write_str = d2n( '(', int(P['mse']['servo_pwm']), ',', int(P['mse']['motor_pwm']+10000), ')')
+            #print write_str
+            Arduinos['MSE'].write(write_str)
         except Exception as e:
             pass
 
@@ -145,12 +149,15 @@ def SIG_setup(Arduinos,P):
     Arduinos['SIG'].write(LED_signal)
 def SIG_run_loop(Arduinos,P):
     Arduinos['SIG'].flushInput()
+    flush_seconds = 0.5
+    flush_timer = Timer(flush_seconds)
     while P['ABORT'] == False:
         try: 
             read_str = Arduinos['SIG'].readline()
             print read_str
-            time.sleep(0.1)
-            Arduinos['SIG'].flushInput()
+            if flush_timer.check():
+                Arduinos['SIG'].flushInput()
+                flush_timer.reset()   
         except Exception as e:
             pass
 
@@ -173,13 +180,13 @@ if 'IMU' in Arduinos.keys():
     threading.Thread(target=IMU_run_loop,args=[Arduinos,P]).start()
 else:
     spd2s("!!!!!!!!!! 'IMU' not in Arduinos[] !!!!!!!!!!!")
-"""
+
 if 'SIG' in Arduinos.keys():
     SIG_setup(Arduinos,P)
     threading.Thread(target=SIG_run_loop,args=[Arduinos,P]).start()
 else:
     spd2s("!!!!!!!!!! 'SIG' not in Arduinos[] !!!!!!!!!!!")
-"""
+
 if 'MSE' in Arduinos.keys():
     MSE_setup(Arduinos,P)
     threading.Thread(target=MSE_run_loop,args=[Arduinos,P]).start()
@@ -187,22 +194,22 @@ else:
     spd2s("!!!!!!!!!! 'MSE' not in Arduinos[] !!!!!!!!!!!")
 
 
-
-n_seconds = 3.0
+"""
+n_seconds = 1.0
 timer = Timer(n_seconds)
 
 while not timer.check():
     time.sleep(0.2)
 P['ABORT'] = True
-
-
 """
+
+
 q = raw_input('')
 while q not in ['q','Q']:
     q = raw_input('')
 P['ABORT'] = True
 
-print P['ABORT']
-"""
-0
+print 'done.'
 
+
+#EOF
