@@ -1681,4 +1681,16 @@ def str_is_int(s):
 		return False
 
 
+def bound_value(the_value,the_min,the_max):
+	if the_value > the_max:
+		return the_max
+	elif the_value < the_min:
+		return the_min
+	else:
+		return the_value
+
+
+
+
+
 #EOF
