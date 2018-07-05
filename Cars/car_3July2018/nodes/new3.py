@@ -67,37 +67,47 @@ def assign_serial_connections(sers):
 
 
 def IMU_setup(Arduinos,P):
+    P['acc'] = {}
+    P['gyro'] = {}
+    P['head'] = {}
+    for k in ['acc','gyro','head']:
+        P[k]['ctr'] = 0
     pass
 def IMU_run_loop(Arduinos,P):
     imu_dic = {}
     imu_dic['gyro'] = 'gyro_pub'
     imu_dic['acc'] = 'acc_pub'
     imu_dic['head'] = 'gyro_heading_pub'
-    Arduinos['IMU'].flushInput()
-    ctr = 0
     flush_seconds = 0.5
     flush_timer = Timer(flush_seconds)
     ctr_timer = Timer()
+    Arduinos['IMU'].flushInput()
+
     while P['ABORT'] == False:
-        try:        
+        try:       
             read_str = Arduinos['IMU'].readline()
             if flush_timer.check():
                 Arduinos['IMU'].flushInput()
                 flush_timer.reset()            
             exec('imu_input = list({0})'.format(read_str))       
             m = imu_input[0]
-            P[m] = imu_input[1:4]
-            if m == 'acc':
-                ctr += 1
-                P['acc_Hz'] = dp(ctr/ctr_timer.time(),1)
-                print P[m][1]            
+            assert(m in ['acc','gyro','head'])
+            P[m]['x'] = imu_input[1]
+            P[m]['y'] = imu_input[2]
+            P[m]['z'] = imu_input[3]
+            print (m,P[m])
+            P[m]['ctr'] += 1
+            P[m]['Hz'] = dp(P[m]['ctr']/ctr_timer.time(),1)
+        
             if False:
                 P[imu_dic[m]].publish(geometry_msgs.msg.Vector3(*P[m]))
         except Exception as e:
+            #print e
             pass
 
 
 def MSE_setup(Arduinos,P):
+    P['mse'] = {}
     pass
 def MSE_run_loop(Arduinos,P):
     Arduinos['MSE'].flushInput()
@@ -113,10 +123,14 @@ def MSE_run_loop(Arduinos,P):
                 flush_timer.reset()            
             exec('mse_input = list({0})'.format(read_str))       
             assert(mse_input[0]=='mse')
-            P['mse'] = mse_input[1:]
+            P['mse']['button_pwm'] = mse_input[1]
+            P['mse']['servo_pwm'] = mse_input[2]
+            P['mse']['motor_pwm'] = mse_input[3]
+            P['mse']['encoder'] = mse_input[4]
             print('mse',P['mse'])
             ctr += 1
-            P['mse_Hz'] = dp(ctr/ctr_timer.time(),1)          
+            P['mse']['Hz'] = dp(ctr/ctr_timer.time(),1)
+            P['mse']['ctr'] = ctr         
             if False:
                 P['mse_pub'].publish(geometry_msgs.msg.Vector3(*P[m]))
         except Exception as e:
@@ -159,11 +173,13 @@ if 'IMU' in Arduinos.keys():
     threading.Thread(target=IMU_run_loop,args=[Arduinos,P]).start()
 else:
     spd2s("!!!!!!!!!! 'IMU' not in Arduinos[] !!!!!!!!!!!")
+"""
 if 'SIG' in Arduinos.keys():
     SIG_setup(Arduinos,P)
     threading.Thread(target=SIG_run_loop,args=[Arduinos,P]).start()
 else:
     spd2s("!!!!!!!!!! 'SIG' not in Arduinos[] !!!!!!!!!!!")
+"""
 if 'MSE' in Arduinos.keys():
     MSE_setup(Arduinos,P)
     threading.Thread(target=MSE_run_loop,args=[Arduinos,P]).start()
@@ -172,21 +188,14 @@ else:
 
 
 
-n_seconds = 10.0
+n_seconds = 3.0
 timer = Timer(n_seconds)
 
 while not timer.check():
     time.sleep(0.2)
 P['ABORT'] = True
 
-try:
-    pd2s('acc:',P['acc_Hz'],'Hz')
-except:
-    pass
-try:
-    pd2s('mse:',P['mse_Hz'],'Hz')
-except:
-    pass
+
 """
 q = raw_input('')
 while q not in ['q','Q']:
