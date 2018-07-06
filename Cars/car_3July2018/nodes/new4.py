@@ -10,12 +10,15 @@ This may be necessary:
 
 
 P = {}
-P['ABORT'] = False
-P['PAUSE'] = False
-P['AGENT'] = 'human'
 P['button_delta'] = 50
 P['human'] = {}
 P['network'] = {}
+
+if 'These parameters can change at runtime...':
+    P['ABORT'] = False
+    P['PAUSE'] = False
+    P['AGENT'] = 'human'
+
 
 def get_arduino_serial_connections(baudrate, timeout):
     from sys import platform
@@ -105,8 +108,11 @@ def IMU_run_loop(Arduinos,P):
             if False:
                 P[imu_dic[m]].publish(geometry_msgs.msg.Vector3(*P[m]))
         except Exception as e:
-            #print e
             pass
+
+
+
+
 
 
 def pwm_to_percent(null_pwm,current_pwm,max_pwm,min_pwm):
@@ -146,81 +152,92 @@ def MSE_run_loop(Arduinos,P):
     ctr_timer = Timer()
     while P['ABORT'] == False:
         if P['PAUSE'] == True:
-            #print('PAUSE')
             time.sleep(0.1)
             continue
-        try:        
-            read_str = Arduinos['MSE'].readline()
-            if flush_timer.check():
-                Arduinos['MSE'].flushInput()
-                flush_timer.reset()            
-            exec('mse_input = list({0})'.format(read_str))       
-            assert(mse_input[0]=='mse')
-            P['mse']['button_pwm'] = mse_input[1]
-            P['mse']['servo_pwm'] = mse_input[2]
-            P['mse']['motor_pwm'] = mse_input[3]
-            P['mse']['encoder'] = mse_input[4]
+        try:
+            if 'Read serial and translate to list...':
+                read_str = Arduinos['MSE'].readline()
+                if flush_timer.check():
+                    Arduinos['MSE'].flushInput()
+                    flush_timer.reset()
+                exec('mse_input = list({0})'.format(read_str))       
+                assert(mse_input[0]=='mse')
 
-            if P['mse']['servo_pwm_max'] < P['mse']['servo_pwm']:
-                P['mse']['servo_pwm_max'] = P['mse']['servo_pwm']
-            if P['mse']['servo_pwm_min'] > P['mse']['servo_pwm']:
-                P['mse']['servo_pwm_min'] = P['mse']['servo_pwm']
-            if P['mse']['motor_pwm_max'] < P['mse']['motor_pwm']:
-                P['mse']['motor_pwm_max'] = P['mse']['motor_pwm']
-            if P['mse']['motor_pwm_min'] > P['mse']['motor_pwm']:
-                P['mse']['motor_pwm_min'] = P['mse']['motor_pwm']
+            if 'Unpack mse list...':
+                P['mse']['button_pwm'] = mse_input[1]
+                P['mse']['servo_pwm'] = mse_input[2]
+                P['mse']['motor_pwm'] = mse_input[3]
+                P['mse']['encoder'] = mse_input[4]
 
             print('mse',P['mse'])
-            P['mse']['ctr'] += 1
-            P['mse']['Hz'] = dp(P['mse']['ctr']/ctr_timer.time(),1)
-            bpwm = P['mse']['button_pwm']
-            if np.abs(bpwm - 1900) < P['button_delta']:
-                bn = 1
-            elif np.abs(bpwm - 1700) < P['button_delta']:
-                bn = 2
-            elif np.abs(bpwm - 1424) < P['button_delta']:
-                bn = 3
-            elif np.abs(bpwm - 870) < P['button_delta']:
-                bn = 4
-            if P['mse']['button_number'] != bn:
-                P['mse']['button_timer'].reset()
-            P['mse']['button_number'] = bn
-            P['mse']['button_time'] = P['mse']['button_timer'].time()
 
-            if P['mse']['button_number'] == 4:
-                if P['mse']['button_time'] < 1.0:
-                    P['mse']['servo_pwm_null'] = P['mse']['servo_pwm']
-                    P['mse']['motor_pwm_null'] = P['mse']['motor_pwm']
+            if 'Deal with ctr and rate...':
+                P['mse']['ctr'] += 1
+                P['mse']['Hz'] = dp(P['mse']['ctr']/ctr_timer.time(),1)
+
+            if 'Assign button...':
+                bpwm = P['mse']['button_pwm']
+                if np.abs(bpwm - 1900) < P['button_delta']:
+                    bn = 1
+                elif np.abs(bpwm - 1700) < P['button_delta']:
+                    bn = 2
+                elif np.abs(bpwm - 1424) < P['button_delta']:
+                    bn = 3
+                elif np.abs(bpwm - 870) < P['button_delta']:
+                    bn = 4
+                if P['mse']['button_number'] != bn:
+                    P['mse']['button_timer'].reset()
+                P['mse']['button_number'] = bn
+                P['mse']['button_time'] = P['mse']['button_timer'].time()
+
+            if 'Deal with button 4 calibration...':
+                if P['mse']['button_number'] == 4:
+                    if P['mse']['button_time'] < 1.0:
+                        P['mse']['servo_pwm_null'] = P['mse']['servo_pwm']
+                        P['mse']['motor_pwm_null'] = P['mse']['motor_pwm']
+                    else:
+                        if P['mse']['servo_pwm_max'] < P['mse']['servo_pwm']:
+                            P['mse']['servo_pwm_max'] = P['mse']['servo_pwm']
+                        if P['mse']['servo_pwm_min'] > P['mse']['servo_pwm']:
+                            P['mse']['servo_pwm_min'] = P['mse']['servo_pwm']
+                        if P['mse']['motor_pwm_max'] < P['mse']['motor_pwm']:
+                            P['mse']['motor_pwm_max'] = P['mse']['motor_pwm']
+                        if P['mse']['motor_pwm_min'] > P['mse']['motor_pwm']:
+                            P['mse']['motor_pwm_min'] = P['mse']['motor_pwm']
+
+            if 'Deal with various agents...':
+                if 'First null out all agents...':
+                    for agent in ['human','network']:
+                        P[agent]['servo_pwm'] = P['mse']['servo_pwm_null']
+                        P[agent]['motor_pwm'] = P['mse']['motor_pwm_null']                   
+                        P[agent]['servo_percent'] = 49
+                        P[agent]['motor_percent'] = 49               
+                if P['AGENT'] == 'human':
+                    P['human']['servo_percent'] = pwm_to_percent(
+                        P['mse']['servo_pwm_null'],P['mse']['servo_pwm'],P['mse']['servo_pwm_max'],P['mse']['servo_pwm_min'])
+                    P['human']['motor_percent'] = pwm_to_percent(
+                        P['mse']['motor_pwm_null'],P['mse']['motor_pwm'],P['mse']['motor_pwm_max'],P['mse']['motor_pwm_min'])
+                    P['human']['servo_pwm'] = P['mse']['servo_pwm']
+                    P['human']['motor_pwm'] = P['mse']['motor_pwm']
                 else:
-                    if P['mse']['servo_pwm_max'] < P['mse']['servo_pwm']:
-                        P['mse']['servo_pwm_max'] = P['mse']['servo_pwm']
-                    if P['mse']['servo_pwm_min'] > P['mse']['servo_pwm']:
-                        P['mse']['servo_pwm_min'] = P['mse']['servo_pwm']
-                    if P['mse']['motor_pwm_max'] < P['mse']['motor_pwm']:
-                        P['mse']['motor_pwm_max'] = P['mse']['motor_pwm']
-                    if P['mse']['motor_pwm_min'] > P['mse']['motor_pwm']:
-                        P['mse']['motor_pwm_min'] = P['mse']['motor_pwm']                                   
-            if P['AGENT'] == 'human':
-                P['mse']['servo_percent'] = pwm_to_percent(
-                    P['mse']['servo_pwm_null'],P['mse']['servo_pwm'],P['mse']['servo_pwm_max'],P['mse']['servo_pwm_min'])
-                P['mse']['motor_percent'] = pwm_to_percent(
-                    P['mse']['motor_pwm_null'],P['mse']['motor_pwm'],P['mse']['motor_pwm_max'],P['mse']['motor_pwm_min'])
-            else:
-                assert(P['AGENT']=='network')
-                P['mse']['servo_percent'] = 70
-                P['mse']['motor_percent'] = 56
-            P['human']['servo_pwm'] = P['mse']['servo_pwm']
-            P['human']['motor_pwm'] = P['mse']['motor_pwm']
-            P['network']['servo_pwm'] = percent_to_pwm(
-                P['mse']['servo_percent'],P['mse']['servo_pwm_null'],P['mse']['servo_pwm_max'],P['mse']['servo_pwm_min'])
-            P['network']['motor_pwm'] = percent_to_pwm(
-                P['mse']['motor_percent'],P['mse']['motor_pwm_null'],P['mse']['motor_pwm_max'],P['mse']['motor_pwm_min'])
-            write_str = d2n( '(', int(P[P['AGENT']]['servo_pwm']), ',', int(P[P['AGENT']]['motor_pwm']+10000), ')')
-            if P['mse']['button_number'] != 4:
-                Arduinos['MSE'].write(write_str)
+                    assert(P['AGENT']=='network')
+                    P['network']['servo_percent'] = np.round((np.sin(P['mse']['button_time']/10.0)/2.0+0.5)*99)
+
+                    P['network']['servo_percent'] = bound_value(P['network']['servo_percent'],5,94)
+                    print P['network']['servo_percent']
+
+                    P['network']['motor_percent'] = 54
+                    P['network']['servo_pwm'] = percent_to_pwm(
+                        P['network']['servo_percent'],P['mse']['servo_pwm_null'],P['mse']['servo_pwm_max'],P['mse']['servo_pwm_min'])
+                    P['network']['motor_pwm'] = percent_to_pwm(
+                        P['network']['motor_percent'],P['mse']['motor_pwm_null'],P['mse']['motor_pwm_max'],P['mse']['motor_pwm_min'])
+
+            if 'Send servo/motor commands to Arduino...':
+                write_str = d2n( '(', int(P[P['AGENT']]['servo_pwm']), ',', int(P[P['AGENT']]['motor_pwm']+10000), ')')
+                if P['mse']['button_number'] != 4:
+                    Arduinos['MSE'].write(write_str)
         except Exception as e:
             pass
-
 
 
 
@@ -254,49 +271,51 @@ def SIG_run_loop(Arduinos,P):
 
 
 
+if 'Start Arduino threads...':
+    baudrate = 115200
+    timeout = 0.5
+    Arduinos = assign_serial_connections(get_arduino_serial_connections(baudrate,timeout))
 
-baudrate = 115200
-timeout = 0.5
-Arduinos = assign_serial_connections(get_arduino_serial_connections(baudrate,timeout))
+    if False:#'IMU' in Arduinos.keys():
+        IMU_setup(Arduinos,P)
+        threading.Thread(target=IMU_run_loop,args=[Arduinos,P]).start()
+    else:
+        spd2s("!!!!!!!!!! 'IMU' not in Arduinos[] !!!!!!!!!!!")
 
+    if False:#'SIG' in Arduinos.keys():
+        SIG_setup(Arduinos,P)
+        threading.Thread(target=SIG_run_loop,args=[Arduinos,P]).start()
+    else:
+        spd2s("!!!!!!!!!! 'SIG' not in Arduinos[] !!!!!!!!!!!")
 
-
-if 'IMU' in Arduinos.keys():
-    IMU_setup(Arduinos,P)
-    threading.Thread(target=IMU_run_loop,args=[Arduinos,P]).start()
-else:
-    spd2s("!!!!!!!!!! 'IMU' not in Arduinos[] !!!!!!!!!!!")
-
-if 'SIG' in Arduinos.keys():
-    SIG_setup(Arduinos,P)
-    threading.Thread(target=SIG_run_loop,args=[Arduinos,P]).start()
-else:
-    spd2s("!!!!!!!!!! 'SIG' not in Arduinos[] !!!!!!!!!!!")
-
-if 'MSE' in Arduinos.keys():
-    MSE_setup(Arduinos,P)
-    threading.Thread(target=MSE_run_loop,args=[Arduinos,P]).start()
-else:
-    spd2s("!!!!!!!!!! 'MSE' not in Arduinos[] !!!!!!!!!!!")
+    if 'MSE' in Arduinos.keys():
+        MSE_setup(Arduinos,P)
+        threading.Thread(target=MSE_run_loop,args=[Arduinos,P]).start()
+    else:
+        spd2s("!!!!!!!!!! 'MSE' not in Arduinos[] !!!!!!!!!!!")
 
 
 
 
 
 
+if 'Main loop...':
+    q = '_'
+    while q not in ['q','Q']:
+        q = raw_input('')
+        if q == ' ':
+            if P['PAUSE'] == False:
+                P['PAUSE'] = True
+            else:
+                P['PAUSE'] = False
+        elif q == 'h':
+            P['AGENT'] = 'human'
+        elif q == 'n':
+            P['AGENT'] = 'network'
 
+    P['ABORT'] = True
 
-q = raw_input('')
-while q not in ['q','Q']:
-    q = raw_input('')
-    if q == 'p':
-        P['PAUSE'] = True
-        #spd2s('PAUSE!!!!!!!')
-    elif q == ' ':
-        P['PAUSE'] = False
-P['ABORT'] = True
-
-print 'done.'
+    print 'done.'
 
 
 #EOF
