@@ -109,6 +109,27 @@ def IMU_run_loop(Arduinos,P):
             pass
 
 
+def pwm_to_percent(null_pwm,current_pwm,max_pwm,min_pwm):
+    current_pwm -= null_pwm
+    max_pwm -= null_pwm
+    min_pwm -= null_pwm
+    if current_pwm >= 0:
+        p = int(99*(1.0 + current_pwm/max_pwm)/2.0)
+    else:
+        p = int(99*(1.0 - current_pwm/min_pwm)/2.0)
+    if p > 99:
+        p = 99
+    if p < 0:
+        p = 0      
+    return p
+def percent_to_pwm(percent,null_pwm,max_pwm,min_pwm):
+    if percent >= 49:
+        p = (percent-50)/50.0 * (max_pwm-null_pwm) + null_pwm
+    else:
+        p = (percent-50)/50.0 * (null_pwm-min_pwm) + null_pwm
+    return p
+
+
 def MSE_setup(Arduinos,P):
     P['mse'] = {}
     P['mse']['ctr'] = 0
@@ -116,8 +137,8 @@ def MSE_setup(Arduinos,P):
     P['mse']['button_number'] = 0
     P['mse']['servo_pwm_max'] = 0
     P['mse']['motor_pwm_max'] = 0
-    P['mse']['servo_pwm_min'] = 9999
-    P['mse']['motor_pwm_min'] = 9999
+    P['mse']['servo_pwm_min'] = 99999
+    P['mse']['motor_pwm_min'] = 99999
 def MSE_run_loop(Arduinos,P):
     Arduinos['MSE'].flushInput()
     flush_seconds = 0.5
@@ -179,11 +200,21 @@ def MSE_run_loop(Arduinos,P):
                         P['mse']['motor_pwm_max'] = P['mse']['motor_pwm']
                     if P['mse']['motor_pwm_min'] > P['mse']['motor_pwm']:
                         P['mse']['motor_pwm_min'] = P['mse']['motor_pwm']                                   
-
+            if P['AGENT'] == 'human':
+                P['mse']['servo_percent'] = pwm_to_percent(
+                    P['mse']['servo_pwm_null'],P['mse']['servo_pwm'],P['mse']['servo_pwm_max'],P['mse']['servo_pwm_min'])
+                P['mse']['motor_percent'] = pwm_to_percent(
+                    P['mse']['motor_pwm_null'],P['mse']['motor_pwm'],P['mse']['motor_pwm_max'],P['mse']['motor_pwm_min'])
+            else:
+                assert(P['AGENT']=='network')
+                P['mse']['servo_percent'] = 70
+                P['mse']['motor_percent'] = 56
             P['human']['servo_pwm'] = P['mse']['servo_pwm']
             P['human']['motor_pwm'] = P['mse']['motor_pwm']
-            P['network']['servo_pwm'] = 1300
-            P['network']['motor_pwm'] = 1450
+            P['network']['servo_pwm'] = percent_to_pwm(
+                P['mse']['servo_percent'],P['mse']['servo_pwm_null'],P['mse']['servo_pwm_max'],P['mse']['servo_pwm_min'])
+            P['network']['motor_pwm'] = percent_to_pwm(
+                P['mse']['motor_percent'],P['mse']['motor_pwm_null'],P['mse']['motor_pwm_max'],P['mse']['motor_pwm_min'])
             write_str = d2n( '(', int(P[P['AGENT']]['servo_pwm']), ',', int(P[P['AGENT']]['motor_pwm']+10000), ')')
             if P['mse']['button_number'] != 4:
                 Arduinos['MSE'].write(write_str)
@@ -249,14 +280,10 @@ else:
     spd2s("!!!!!!!!!! 'MSE' not in Arduinos[] !!!!!!!!!!!")
 
 
-"""
-n_seconds = 1.0
-timer = Timer(n_seconds)
 
-while not timer.check():
-    time.sleep(0.2)
-P['ABORT'] = True
-"""
+
+
+
 
 
 q = raw_input('')
