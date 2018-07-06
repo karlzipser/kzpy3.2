@@ -192,15 +192,23 @@ def MSE_run_loop(Arduinos,P):
 
             if 'Deal with button 4 calibration...':
                 if P['mse']['button_number'] == 4:
-                    if P['mse']['button_time'] < 1.0:
-                        P['mse']['servo_pwm_null'] = P['mse']['servo_pwm'] # time averaging here
+                    if P['mse']['button_time'] < 0.1:
+                        P['mse']['servo_pwm_null'] = P['mse']['servo_pwm']
                         P['mse']['motor_pwm_null'] = P['mse']['motor_pwm']
+                        #print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+                    elif P['mse']['button_time'] < 1.0:
+                        #print "##########################################"
+                        s = P['SMOOTHING_PARAMETER_1']
+                        P['mse']['servo_pwm_null'] = (1.0-s)*P['mse']['servo_pwm'] + s*P['mse']['servo_pwm_null']
+                        P['mse']['motor_pwm_null'] = (1.0-s)*P['mse']['motor_pwm'] + s*P['mse']['motor_pwm_null']
                         P['mse']['servo_pwm_min'] = P['mse']['servo_pwm_null']
                         P['mse']['servo_pwm_max'] = P['mse']['servo_pwm_null']
                         P['mse']['motor_pwm_min'] = P['mse']['motor_pwm_null']
                         P['mse']['motor_pwm_max'] = P['mse']['motor_pwm_null']
                         P['human']['servo_pwm'] = P['mse']['servo_pwm_null']
                         P['human']['motor_pwm'] = P['mse']['motor_pwm_null']
+                        P['network']['servo_percent'] = 49
+                        P['network']['motor_percent'] = 49
                     else:
                         if P['mse']['servo_pwm_max'] < P['mse']['servo_pwm']:
                             P['mse']['servo_pwm_max'] = P['mse']['servo_pwm']
@@ -221,7 +229,7 @@ def MSE_run_loop(Arduinos,P):
                             P[agent]['servo_percent'] = 49
                             P[agent]['motor_percent'] = 49
                 if 'Then process current agent...':
-                    s = P['SMOOTHING_PARAMETER_1'] 
+                    s = P['SMOOTHING_PARAMETER_1']
                     if P['AGENT'] == 'human':
                         if 'Do smoothing of pwms...':
                             P['human']['servo_pwm'] = (1.0-s)*P['mse']['servo_pwm'] + s*P['human']['servo_pwm']
@@ -233,12 +241,13 @@ def MSE_run_loop(Arduinos,P):
                                 P['mse']['motor_pwm_null'],P['human']['motor_pwm'],P['mse']['motor_pwm_max'],P['mse']['motor_pwm_min'])
                     else:
                         assert(P['AGENT']=='network')
-                        P['network']['servo_percent'] = np.round((np.sin(P['mse']['button_time']/10.0)/2.0+0.5)*99)
+                        P['network']['servo_percent'] = (1.0-s)*np.round((np.sin(P['mse']['button_time']/10.0)/2.0+0.5)*99) + s*P['network']['servo_percent']
 
                         P['network']['servo_percent'] = bound_value(P['network']['servo_percent'],5,94)
                         print P['network']['servo_percent']
 
-                        P['network']['motor_percent'] = 59
+                        P['network']['motor_percent'] = (1.0-s)*59 + s*P['network']['motor_percent']
+
                         P['network']['servo_pwm'] = percent_to_pwm(
                             P['network']['servo_percent'],P['mse']['servo_pwm_null'],P['mse']['servo_pwm_max'],P['mse']['servo_pwm_min'])
                         P['network']['motor_pwm'] = percent_to_pwm(
