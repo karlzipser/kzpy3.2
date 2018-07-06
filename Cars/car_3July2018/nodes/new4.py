@@ -11,7 +11,9 @@ This may be necessary:
 
 P = {}
 P['ABORT'] = False
-P['AGENT'] = 'network'
+P['PAUSE'] = False
+P['AGENT'] = 'human'
+P['button_delta'] = 50
 P['human'] = {}
 P['network'] = {}
 
@@ -64,11 +66,6 @@ def assign_serial_connections(sers):
     return Arduinos
 
 
-
-
-
-
-
 def IMU_setup(Arduinos,P):
     P['acc'] = {}
     P['gyro'] = {}
@@ -87,6 +84,9 @@ def IMU_run_loop(Arduinos,P):
     Arduinos['IMU'].flushInput()
 
     while P['ABORT'] == False:
+        if P['PAUSE'] == True:
+            time.sleep(0.1)
+            continue
         try:       
             read_str = Arduinos['IMU'].readline()
             if flush_timer.check():
@@ -112,16 +112,22 @@ def IMU_run_loop(Arduinos,P):
 def MSE_setup(Arduinos,P):
     P['mse'] = {}
     P['mse']['ctr'] = 0
-    P['mse']['smoothed'] = {}
-    P['mse']['smoothed']['current'] = -1
-    P['mse']['smoothed']['previous'] = -1
-    pass
+    P['mse']['button_timer'] = Timer()
+    P['mse']['button_number'] = 0
+    P['mse']['servo_pwm_max'] = 0
+    P['mse']['motor_pwm_max'] = 0
+    P['mse']['servo_pwm_min'] = 9999
+    P['mse']['motor_pwm_min'] = 9999
 def MSE_run_loop(Arduinos,P):
     Arduinos['MSE'].flushInput()
     flush_seconds = 0.5
     flush_timer = Timer(flush_seconds)
     ctr_timer = Timer()
     while P['ABORT'] == False:
+        if P['PAUSE'] == True:
+            #print('PAUSE')
+            time.sleep(0.1)
+            continue
         try:        
             read_str = Arduinos['MSE'].readline()
             if flush_timer.check():
@@ -133,17 +139,54 @@ def MSE_run_loop(Arduinos,P):
             P['mse']['servo_pwm'] = mse_input[2]
             P['mse']['motor_pwm'] = mse_input[3]
             P['mse']['encoder'] = mse_input[4]
+
+            if P['mse']['servo_pwm_max'] < P['mse']['servo_pwm']:
+                P['mse']['servo_pwm_max'] = P['mse']['servo_pwm']
+            if P['mse']['servo_pwm_min'] > P['mse']['servo_pwm']:
+                P['mse']['servo_pwm_min'] = P['mse']['servo_pwm']
+            if P['mse']['motor_pwm_max'] < P['mse']['motor_pwm']:
+                P['mse']['motor_pwm_max'] = P['mse']['motor_pwm']
+            if P['mse']['motor_pwm_min'] > P['mse']['motor_pwm']:
+                P['mse']['motor_pwm_min'] = P['mse']['motor_pwm']
+
             print('mse',P['mse'])
             P['mse']['ctr'] += 1
             P['mse']['Hz'] = dp(P['mse']['ctr']/ctr_timer.time(),1)
-            if False:
-                P['mse_pub'].publish(geometry_msgs.msg.Vector3(*P[m]))
+            bpwm = P['mse']['button_pwm']
+            if np.abs(bpwm - 1900) < P['button_delta']:
+                bn = 1
+            elif np.abs(bpwm - 1700) < P['button_delta']:
+                bn = 2
+            elif np.abs(bpwm - 1424) < P['button_delta']:
+                bn = 3
+            elif np.abs(bpwm - 870) < P['button_delta']:
+                bn = 4
+            if P['mse']['button_number'] != bn:
+                P['mse']['button_timer'].reset()
+            P['mse']['button_number'] = bn
+            P['mse']['button_time'] = P['mse']['button_timer'].time()
+
+            if P['mse']['button_number'] == 4:
+                if P['mse']['button_time'] < 1.0:
+                    P['mse']['servo_pwm_null'] = P['mse']['servo_pwm']
+                    P['mse']['motor_pwm_null'] = P['mse']['motor_pwm']
+                else:
+                    if P['mse']['servo_pwm_max'] < P['mse']['servo_pwm']:
+                        P['mse']['servo_pwm_max'] = P['mse']['servo_pwm']
+                    if P['mse']['servo_pwm_min'] > P['mse']['servo_pwm']:
+                        P['mse']['servo_pwm_min'] = P['mse']['servo_pwm']
+                    if P['mse']['motor_pwm_max'] < P['mse']['motor_pwm']:
+                        P['mse']['motor_pwm_max'] = P['mse']['motor_pwm']
+                    if P['mse']['motor_pwm_min'] > P['mse']['motor_pwm']:
+                        P['mse']['motor_pwm_min'] = P['mse']['motor_pwm']                                   
+
             P['human']['servo_pwm'] = P['mse']['servo_pwm']
             P['human']['motor_pwm'] = P['mse']['motor_pwm']
             P['network']['servo_pwm'] = 1300
             P['network']['motor_pwm'] = 1450
             write_str = d2n( '(', int(P[P['AGENT']]['servo_pwm']), ',', int(P[P['AGENT']]['motor_pwm']+10000), ')')
-            Arduinos['MSE'].write(write_str)
+            if P['mse']['button_number'] != 4:
+                Arduinos['MSE'].write(write_str)
         except Exception as e:
             pass
 
@@ -159,7 +202,12 @@ def SIG_run_loop(Arduinos,P):
     flush_seconds = 0.5
     flush_timer = Timer(flush_seconds)
     while P['ABORT'] == False:
-        try: 
+        if P['PAUSE'] == True:
+            time.sleep(0.1)
+            continue
+        try:
+            LED_signal = d2n('(',10000+P['mse']['button_number'],')')
+            Arduinos['SIG'].write(LED_signal)
             read_str = Arduinos['SIG'].readline()
             print read_str
             if flush_timer.check():
@@ -214,6 +262,11 @@ P['ABORT'] = True
 q = raw_input('')
 while q not in ['q','Q']:
     q = raw_input('')
+    if q == 'p':
+        P['PAUSE'] = True
+        #spd2s('PAUSE!!!!!!!')
+    elif q == ' ':
+        P['PAUSE'] = False
 P['ABORT'] = True
 
 print 'done.'
