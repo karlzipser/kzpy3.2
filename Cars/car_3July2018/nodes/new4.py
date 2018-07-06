@@ -11,7 +11,9 @@ This may be necessary:
 
 P = {}
 P['ABORT'] = False
-P['AGENT'] = 'human'
+P['AGENT'] = 'network'
+P['human'] = {}
+P['network'] = {}
 
 def get_arduino_serial_connections(baudrate, timeout):
     from sys import platform
@@ -110,6 +112,9 @@ def IMU_run_loop(Arduinos,P):
 def MSE_setup(Arduinos,P):
     P['mse'] = {}
     P['mse']['ctr'] = 0
+    P['mse']['smoothed'] = {}
+    P['mse']['smoothed']['current'] = -1
+    P['mse']['smoothed']['previous'] = -1
     pass
 def MSE_run_loop(Arduinos,P):
     Arduinos['MSE'].flushInput()
@@ -133,12 +138,11 @@ def MSE_run_loop(Arduinos,P):
             P['mse']['Hz'] = dp(P['mse']['ctr']/ctr_timer.time(),1)
             if False:
                 P['mse_pub'].publish(geometry_msgs.msg.Vector3(*P[m]))
-            if P['AGENT'] == 'human':
-                write_str = d2n( '(', int(P['mse']['servo_pwm']), ',', int(P['mse']['motor_pwm']+10000), ')')
-            elif  P['AGENT'] == 'network':
-                write_str = d2n( '(', int(P['network']['servo_pwm']), ',', int(P['network']['motor_pwm']+10000), ')')                
-            else assert(False)
-            #print write_str
+            P['human']['servo_pwm'] = P['mse']['servo_pwm']
+            P['human']['motor_pwm'] = P['mse']['motor_pwm']
+            P['network']['servo_pwm'] = 1300
+            P['network']['motor_pwm'] = 1450
+            write_str = d2n( '(', int(P[P['AGENT']]['servo_pwm']), ',', int(P[P['AGENT']]['motor_pwm']+10000), ')')
             Arduinos['MSE'].write(write_str)
         except Exception as e:
             pass
