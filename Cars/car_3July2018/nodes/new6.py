@@ -101,12 +101,32 @@ def IMU_run_loop(Arduinos,P):
             P[m]['x'] = imu_input[1]
             P[m]['y'] = imu_input[2]
             P[m]['z'] = imu_input[3]
-            print (m,P[m])
+            #print (m,P[m])
+            #if m == 'acc':
+            #    print (m,P[m])
             P[m]['ctr'] += 1
             P[m]['Hz'] = dp(P[m]['ctr']/ctr_timer.time(),1)
         
             if False:
                 P[imu_dic[m]].publish(geometry_msgs.msg.Vector3(*P[m]))
+        except Exception as e:
+            pass
+
+
+
+
+
+def Printer_setup(P):
+    pass
+def Printer_run_loop(P):
+    while P['ABORT'] == False:
+        if P['PAUSE'] == True:
+            time.sleep(0.1)
+            continue
+        try:       
+            m = 'acc'
+            print (m,P[m],'mse',P['mse']['Hz'])
+            time.sleep(1/5.0)
         except Exception as e:
             pass
 
@@ -169,7 +189,7 @@ def MSE_run_loop(Arduinos,P):
                 P['mse']['motor_pwm'] = mse_input[3]
                 P['mse']['encoder'] = mse_input[4]
 
-            print('mse',P['mse'])
+            #print('mse',P['mse'])
 
             if 'Deal with ctr and rate...':
                 P['mse']['ctr'] += 1
@@ -276,10 +296,10 @@ def SIG_run_loop(Arduinos,P):
             LED_signal = d2n('(',10000+P['mse']['button_number'],')')
             Arduinos['SIG'].write(LED_signal)
             read_str = Arduinos['SIG'].readline()
-            print read_str
+            #print read_str
             if flush_timer.check():
                 Arduinos['SIG'].flushInput()
-                flush_timer.reset()   
+                flush_timer.reset()
         except Exception as e:
             pass
 
@@ -300,19 +320,24 @@ if 'Start Arduino threads...':
         threading.Thread(target=IMU_run_loop,args=[Arduinos,P]).start()
     else:
         spd2s("!!!!!!!!!! 'IMU' not in Arduinos[] !!!!!!!!!!!")
-
+    
     if 'SIG' in Arduinos.keys():
         SIG_setup(Arduinos,P)
         threading.Thread(target=SIG_run_loop,args=[Arduinos,P]).start()
     else:
         spd2s("!!!!!!!!!! 'SIG' not in Arduinos[] !!!!!!!!!!!")
-
+    
     if 'MSE' in Arduinos.keys():
         MSE_setup(Arduinos,P)
         threading.Thread(target=MSE_run_loop,args=[Arduinos,P]).start()
     else:
         spd2s("!!!!!!!!!! 'MSE' not in Arduinos[] !!!!!!!!!!!")
-
+    
+    
+    if 'Printer...':
+        Printer_setup(P)
+        threading.Thread(target=Printer_run_loop,args=[P]).start()
+    
 
 
 
