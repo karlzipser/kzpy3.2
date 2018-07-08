@@ -18,7 +18,7 @@ if 'These parameters can change at runtime...':
     P['ABORT'] = False
     P['PAUSE'] = False
     P['AGENT'] = 'human'
-    P['SMOOTHING_PARAMETER_1'] = 0.99
+    P['SMOOTHING_PARAMETER_1'] = 0.75
 
 def get_arduino_serial_connections(baudrate, timeout):
     from sys import platform
@@ -75,22 +75,28 @@ def IMU_setup(Arduinos,P):
     P['head'] = {}
     for k in ['acc','gyro','head']:
         P[k]['ctr'] = 0
+    print 'IMU_setup'
     pass
 def IMU_run_loop(Arduinos,P):
+    print 'IMU_run_loop'
     imu_dic = {}
     imu_dic['gyro'] = 'gyro_pub'
     imu_dic['acc'] = 'acc_pub'
     imu_dic['head'] = 'gyro_heading_pub'
     flush_seconds = 0.5
     flush_timer = Timer(flush_seconds)
-    ctr_timer = Timer()
+    time.sleep(0.1)
     Arduinos['IMU'].flushInput()
-
+    time.sleep(0.1)
+    Arduinos['IMU'].flushOutput()
+    ctr_timer = Timer()
     while P['ABORT'] == False:
+
         if P['PAUSE'] == True:
             time.sleep(0.1)
             continue
-        try:       
+        try:
+
             read_str = Arduinos['IMU'].readline()
             if flush_timer.check():
                 Arduinos['IMU'].flushInput()
@@ -123,11 +129,12 @@ def Printer_run_loop(P):
         if P['PAUSE'] == True:
             time.sleep(0.1)
             continue
-        try:       
+        #print 'Printer_run_loop'
+        if True:       
             m = 'acc'
-            print (m,P[m],'mse',P['mse']['Hz'])
-            time.sleep(1/5.0)
-        except Exception as e:
+            print (m,P[m])#,'mse',P['mse']['Hz'])
+            time.sleep(1/10.0)
+        else:#except Exception as e:
             pass
 
 
@@ -166,8 +173,11 @@ def MSE_setup(Arduinos,P):
     P['mse']['servo_pwm_min'] = 99999
     P['mse']['motor_pwm_min'] = 99999
 def MSE_run_loop(Arduinos,P):
+    time.sleep(0.1)
     Arduinos['MSE'].flushInput()
-    flush_seconds = 0.5
+    time.sleep(0.1)
+    Arduinos['MSE'].flushOutput()
+    flush_seconds = 0.25
     flush_timer = Timer(flush_seconds)
     ctr_timer = Timer()
     while P['ABORT'] == False:
@@ -179,6 +189,7 @@ def MSE_run_loop(Arduinos,P):
                 read_str = Arduinos['MSE'].readline()
                 if flush_timer.check():
                     Arduinos['MSE'].flushInput()
+                    Arduinos['MSE'].flushOutput()
                     flush_timer.reset()
                 exec('mse_input = list({0})'.format(read_str))       
                 assert(mse_input[0]=='mse')
@@ -264,8 +275,8 @@ def MSE_run_loop(Arduinos,P):
                         if 'Deal with smoothing of percentages, then translate to pwms...':
                             P['network']['servo_percent'] = (1.0-s)*np.round((np.cos(P['mse']['button_time']/10.0)/2.0+0.5)*99) + s*P['network']['servo_percent']
                             P['network']['servo_percent'] = bound_value(P['network']['servo_percent'],5,94)
-                            print P['network']['servo_percent']
-                            P['network']['motor_percent'] = (1.0-s)*59 + s*P['network']['motor_percent']
+                            #print P['network']['servo_percent']
+                            P['network']['motor_percent'] = (1.0-s)*56 + s*P['network']['motor_percent']
                             P['network']['servo_pwm'] = percent_to_pwm(
                                 P['network']['servo_percent'],P['mse']['servo_pwm_null'],P['mse']['servo_pwm_max'],P['mse']['servo_pwm_min'])
                             P['network']['motor_pwm'] = percent_to_pwm(
@@ -285,13 +296,18 @@ def SIG_setup(Arduinos,P):
     LED_signal = d2n('(10000)')
     Arduinos['SIG'].write(LED_signal)
 def SIG_run_loop(Arduinos,P):
+    time.sleep(0.1)
     Arduinos['SIG'].flushInput()
+    time.sleep(0.1)
+    Arduinos['SIG'].flushOutput()
     flush_seconds = 0.5
     flush_timer = Timer(flush_seconds)
+    #time.sleep(10000)
     while P['ABORT'] == False:
         if P['PAUSE'] == True:
             time.sleep(0.1)
             continue
+        time.sleep(0.001)
         try:
             LED_signal = d2n('(',10000+P['mse']['button_number'],')')
             Arduinos['SIG'].write(LED_signal)
@@ -299,6 +315,7 @@ def SIG_run_loop(Arduinos,P):
             #print read_str
             if flush_timer.check():
                 Arduinos['SIG'].flushInput()
+                Arduinos['SIG'].flushOutput()
                 flush_timer.reset()
         except Exception as e:
             pass
@@ -307,34 +324,38 @@ def SIG_run_loop(Arduinos,P):
 
 
 
-
-
+P['USE_SIG'] = True
+P['USE_IMU'] = True
+P['USE_MSE'] = True
+P['USE_PRINTER'] = True
 
 if 'Start Arduino threads...':
     baudrate = 115200
     timeout = 0.5
     Arduinos = assign_serial_connections(get_arduino_serial_connections(baudrate,timeout))
-
-    if 'IMU' in Arduinos.keys():
+    print 'here'
+    print Arduinos.keys()
+    if P['USE_IMU'] and 'IMU' in Arduinos.keys():
         IMU_setup(Arduinos,P)
         threading.Thread(target=IMU_run_loop,args=[Arduinos,P]).start()
     else:
         spd2s("!!!!!!!!!! 'IMU' not in Arduinos[] !!!!!!!!!!!")
     
-    if 'SIG' in Arduinos.keys():
+    if P['USE_SIG'] and 'SIG' in Arduinos.keys():
         SIG_setup(Arduinos,P)
         threading.Thread(target=SIG_run_loop,args=[Arduinos,P]).start()
     else:
         spd2s("!!!!!!!!!! 'SIG' not in Arduinos[] !!!!!!!!!!!")
     
-    if 'MSE' in Arduinos.keys():
+    if P['USE_MSE'] and 'MSE' in Arduinos.keys():
         MSE_setup(Arduinos,P)
         threading.Thread(target=MSE_run_loop,args=[Arduinos,P]).start()
     else:
         spd2s("!!!!!!!!!! 'MSE' not in Arduinos[] !!!!!!!!!!!")
     
     
-    if 'Printer...':
+    
+    if P['USE_PRINTER']:
         Printer_setup(P)
         threading.Thread(target=Printer_run_loop,args=[P]).start()
     
@@ -344,6 +365,7 @@ if 'Start Arduino threads...':
 
 
 if 'Main loop...':
+    print 'main loop'
     q = '_'
     while q not in ['q','Q']:
         q = raw_input('')
