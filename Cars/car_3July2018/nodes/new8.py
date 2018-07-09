@@ -302,7 +302,8 @@ def MSE_run_loop(Arduinos,P):
             if 'Send servo/motor commands to Arduino...':
                 write_str = d2n( '(', int(P[P['AGENT']]['servo_pwm']), ',', int(P[P['AGENT']]['motor_pwm']+10000), ')')
                 if P['mse']['button_number'] != 4:
-                    Arduinos['MSE'].write(write_str)
+                    if P['calibrated']:
+                        Arduinos['MSE'].write(write_str)
         except Exception as e:
             pass
     print 'end MSE_run_loop.'
