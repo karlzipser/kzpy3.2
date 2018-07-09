@@ -71,6 +71,7 @@ def assign_serial_connections(sers):
                 pass
         else:
             spd2s('Unable to identify port {0}'.format(ser.port))
+    print 'Finished scanning serial ports.'
     if 'MSE' not in Arduinos.keys():
         spd2s('MSE not found: Is transmitter turned on? Is MSE battery plugged in?')
         #P['ABORT'] = True
@@ -141,9 +142,10 @@ def Printer_run_loop(P):
             time.sleep(0.1)
             continue
         #print 'Printer_run_loop'
-        if True:       
-            m = 'acc'
-            print (m,P[m])#,'mse',P['mse']['Hz'])
+        if True:     
+            #m = 'acc'
+            for m in ['acc',P['AGENT']]:
+                print (m,P[m])#,'mse',P['mse']['Hz'])
             time.sleep(10/10.0)
         else:#except Exception as e:
             pass
@@ -263,10 +265,9 @@ def MSE_run_loop(Arduinos,P):
                             P['mse']['motor_pwm_max'] = P['mse']['motor_pwm']
                         if P['mse']['motor_pwm_min'] > P['mse']['motor_pwm']:
                             P['mse']['motor_pwm_min'] = P['mse']['motor_pwm']
-                        if P['mse']['servo_pwm_max'] - P['mse']['servo_pwm_min'] > 200:
-                            if P['mse']['motor_pwm_max'] - P['mse']['motor_pwm_min'] > 200:
+                        if P['mse']['servo_pwm_max'] - P['mse']['servo_pwm_min'] > 300:
+                            if P['mse']['motor_pwm_max'] - P['mse']['motor_pwm_min'] > 300:
                                 P['calibrated'] = True
-
 
             if 'Deal with various agents...':
                 if 'First null out non-current agent...':
@@ -366,6 +367,8 @@ def SIG_run_loop(Arduinos,P):
             LED_signal = d2s('(',led_num,')')
             if P['calibrated'] or P['mse']['button_number'] == 4:
                 Arduinos['SIG'].write(LED_signal)
+            else:
+                Arduinos['SIG'].write(LED_yellow_line)
             read_str = Arduinos['SIG'].readline()
             if flush_timer.check():
                 Arduinos['SIG'].flushInput()
