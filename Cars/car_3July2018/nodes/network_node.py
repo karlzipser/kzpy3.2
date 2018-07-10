@@ -46,6 +46,7 @@ rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_callback,queue
 
 q = '_'
 while q not in ['q','Q']:
+    print "In main loop (q-enter to quit)"
     time.sleep(0.1)
     q = raw_input('')
 

@@ -27,6 +27,7 @@ def static_vars(**kwargs):
 
 
 def init_model():
+    print "def init_model():"
     global solver, scale, nframes
     # Load PyTorch model
     save_data = torch.load(rp.weight_file_path)
@@ -55,7 +56,7 @@ def run_model(input, metadata):
     :param metadata: Formatted metadata from user input
     :return: Motor and Steering values
     """
-    
+    print "run_model"
     output = solver(input, Variable(metadata))  # Run the neural net
 
     if verbose:
@@ -102,6 +103,7 @@ def format_camera_data(left_list, right_list):
     :param r1: right camera data from time step 0
     :return: formatted camera data ready for input into pytorch z2color
     """
+    print "format_camera_data"
     camera_start = time.clock()
     half_img_height = int(shape(left_list[-1])[0]/2)
     listoftensors = []
@@ -126,6 +128,7 @@ def format_metadata(raw_metadata):
     Formats meta data from raw inputs from camera.
     :return:
     """
+    print "format_metadata"
     metadata = torch.FloatTensor()
     for mode in raw_metadata:
         metadata = torch.cat((torch.FloatTensor(1, 23, 41).fill_(mode), metadata), 0)
