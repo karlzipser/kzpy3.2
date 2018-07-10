@@ -29,12 +29,7 @@ if 'These parameters can change at runtime...':
     P['SMOOTHING_PARAMETER_1'] = 0.75
     P['BEHAVIORAL_MODE'] = 'direct'
 
- P['human_agent_pub'].publish(std_msgs.msg.Int32(human_val))              
- P['steer_pub'].publish(std_msgs.msg.Int32(P['human']['servo_percent']))
- P['motor_pub'].publish(std_msgs.msg.Int32(P['human']['motor_percent']))
- P['button_number_pub'].publish(std_msgs.msg.Int32(P['mse']['button_number'])
- P['behavioral_mode_pub'].publish(P['BEHAVIORAL_MODE'])
- P['encoder_pub'].publish(std_msgs.msg.Float32(P['mse']['encoder']))
+
 
 
 P['human_agent_pub'] = rospy.Publisher('human_agent', std_msgs.msg.Int32, queue_size=5) 
