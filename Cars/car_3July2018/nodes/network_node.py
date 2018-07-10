@@ -45,22 +45,25 @@ rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_callback,queue
 
 
 
-q = '_'
-while q not in ['q','Q']:
-    print "In main loop (q-enter to quit)"
-    time.sleep(0.1)
-    q = raw_input('')
+#q = '_'
+#while q not in ['q','Q']:
+    #print "In main loop (q-enter to quit)"
+    #time.sleep(0.1)
+    #q = raw_input('')
 
+main_timer = Timer(30)
+while main_timer.check() == False:
     if len(left_list) > nframes + 2:
         camera_data = net_utils.format_camera_data(left_list, right_list)
         metadata = net_utils.format_metadata((rp.Follow, rp.Direct))
         torch_motor, torch_steer = net_utils.run_model(camera_data, metadata)
-      
+        print "torch_motor, torch_steer = net_utils.run_model(camera_data, metadata)"
         #steer_cmd_pub.publish(std_msgs.msg.Int32(torch_steer))
         #motor_cmd_pub.publish(std_msgs.msg.Int32(torch_motor))
         print torch_steer,torch_motor
 print 'goodbye!'
-unix('kzpy3/kill_ros.sh')
+print "unix(opjh('kzpy3/kill_ros.sh'))"
+unix(opjh('kzpy3/kill_ros.sh'))
 
 
     
