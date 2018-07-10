@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+# node files need to be made executable with chmod
+
 from kzpy3.utils2 import *
 import threading
 
