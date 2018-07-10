@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 # This is used to specifiy  mode and data file name information
 
 from kzpy3.utils2 import *

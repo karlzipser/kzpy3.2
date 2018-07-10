@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from kzpy3.utils2 import *
 import threading
 
@@ -466,7 +468,7 @@ if 'Start Arduino threads...':
         threading.Thread(target=Printer_run_loop,args=[P]).start()
     
 
-"""
+
 
 
 
@@ -505,5 +507,5 @@ if 'Main loop...':
 
     print 'done.'
 
-
+"""
 #EOF
