@@ -86,7 +86,7 @@ echo "rrm;rlog"
 rrm
 rlog
 alias sb='cd;source ~/.bashrc'
-OPTIONS="screen rla rlanr rosbags git_pull reboot shutdown exit df car_link_menu"
+OPTIONS="exit screen rla rlanr rosbags git_pull reboot shutdown df car_link_menu"
 COLUMNS=12
 echo 'main menu'
 select opt in $OPTIONS; do
