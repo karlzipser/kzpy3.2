@@ -33,7 +33,7 @@ if 'These parameters can change at runtime...':
 
 
 P['human_agent_pub'] = rospy.Publisher('human_agent', std_msgs.msg.Int32, queue_size=5) 
-P['behavioral_mode_pub'] = rospy.Publisher('behavioral_mode', String, queue_size=5)
+P['behavioral_mode_pub'] = rospy.Publisher('behavioral_mode', std_msgs.msg.String, queue_size=5)
 P['button_number_pub'] = rospy.Publisher('button_number', std_msgs.msg.Int32, queue_size=5) 
 P['steer_pub'] = rospy.Publisher('steer', std_msgs.msg.Int32, queue_size=5) 
 P['motor_pub'] = rospy.Publisher('motor', std_msgs.msg.Int32, queue_size=5) 
