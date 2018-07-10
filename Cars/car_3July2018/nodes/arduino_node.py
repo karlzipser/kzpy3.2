@@ -30,6 +30,7 @@ if 'These parameters can change at runtime...':
     P['BEHAVIORAL_MODE'] = 'direct'
 
 
+rospy.init_node('run_arduino',anonymous=True)
 
 
 P['human_agent_pub'] = rospy.Publisher('human_agent', std_msgs.msg.Int32, queue_size=5) 
