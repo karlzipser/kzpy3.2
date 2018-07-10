@@ -22,6 +22,7 @@ rospy.init_node('listener',anonymous=True)
 
 left_list = []
 right_list = []
+nframes = 2 #figure out how to get this from network
 
 def right_callback(data):
     global left_list, right_list, solver
@@ -58,7 +59,8 @@ while q not in ['q','Q']:
         #steer_cmd_pub.publish(std_msgs.msg.Int32(torch_steer))
         #motor_cmd_pub.publish(std_msgs.msg.Int32(torch_motor))
         print torch_steer,torch_motor
-
+print 'goodbye!'
+unix('kzpy3/kill_ros.sh')
 
 
     
