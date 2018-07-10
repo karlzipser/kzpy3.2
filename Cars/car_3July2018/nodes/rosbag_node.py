@@ -11,7 +11,7 @@ os.environ['STOP'] = 'False'
 #print("from rosbag_node.py doing: '"+exec_str+"'")
 #exec(exec_str)
 #from runtime_parameters import foldername
-#import runtime_parameters as rp
+#import runtime_parameters as rp 
 
 spd2s(rp.foldername)
 time.sleep(3)
