@@ -509,6 +509,7 @@ if 'Main loop...':
     P['ABORT'] = True
 
     print 'done.'
-
+    print "unix(opjh('kzpy3/kill_ros.sh'))"
+    unix(opjh('kzpy3/kill_ros.sh'))
 """
 #EOF
