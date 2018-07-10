@@ -2,7 +2,7 @@
 
 OPTIONS="exit ls bdd_car_rewrite_SD2 bdd_car_rewrite_SD2_LCR bdd_car_rewrite_SD2_LCR_net 
   robot_car_1Sept2017 robot_car_observer1 robot_car_4Oct2017
-  aruco_driver_16Sept2017 aruco_driver_17Sept2017_MSE_only car_30June2018"
+  aruco_driver_16Sept2017 aruco_driver_17Sept2017_MSE_only car_30June2018 car_3July2018"
 COLUMNS=12
 echo 'car_link_menu:'
 select opt in $OPTIONS; do
