@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-# node files need to be made executable with chmod
 
 from kzpy3.utils2 import *
 import threading
@@ -9,6 +8,8 @@ import threading
 This may be necessary to access Arduinos when first starting:
 
     sudo chmod 666 /dev/ttyACM*
+
+node files need to be made executable with chmod, e.g., chmod a+x *.py
 
 """
 
