@@ -162,8 +162,10 @@ def IMU_run_loop(Arduinos,P):
                     P['ABORT'] = True
                     spd2s("\nP[",m,"]['Hz'] =",P[m]['Hz'])
             if True:
-                P[imu_dic[m]].publish(geometry_msgs.msg.Vector3(P[m]))
+                P[imu_dic[m]].publish(geometry_msgs.msg.Vector3(*P[m]))
         except Exception as e:
+            print("********** Exception ***********************")
+            print(e.message, e.args)
             pass
     print 'end IMU_run_loop.'
 
