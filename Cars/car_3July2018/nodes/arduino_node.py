@@ -151,7 +151,7 @@ def IMU_run_loop(Arduinos,P):
                 P[m]['x'] = imu_input[1]
                 P[m]['y'] = imu_input[2]
                 P[m]['z'] = imu_input[3]
-            P[m]['xyz'] = imu_input[1:4]
+            P[m]['xyz'] = np.array(imu_input[1:4])
             #print (m,P[m])
             #if m == 'acc':
             #    print (m,P[m])
