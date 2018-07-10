@@ -3,7 +3,9 @@
 
 from kzpy3.utils2 import *
 import threading
-
+import std_msgs.msg
+import geometry_msgs.msg
+import rospy
 """
 This may be necessary to access Arduinos when first starting:
 
@@ -26,6 +28,28 @@ if 'These parameters can change at runtime...':
     P['AGENT'] = 'human'
     P['SMOOTHING_PARAMETER_1'] = 0.75
     P['BEHAVIORAL_MODE'] = 'direct'
+
+ P['human_agent_pub'].publish(std_msgs.msg.Int32(human_val))              
+ P['steer_pub'].publish(std_msgs.msg.Int32(P['human']['servo_percent']))
+ P['motor_pub'].publish(std_msgs.msg.Int32(P['human']['motor_percent']))
+ P['button_number_pub'].publish(std_msgs.msg.Int32(P['mse']['button_number'])
+ P['behavioral_mode_pub'].publish(P['BEHAVIORAL_MODE'])
+ P['encoder_pub'].publish(std_msgs.msg.Float32(P['mse']['encoder']))
+
+
+P['human_agent_pub'] = rospy.Publisher('human_agent', std_msgs.msg.Int32, queue_size=5) 
+P['behavioral_mode_pub'] = rospy.Publisher('behavioral_mode', String, queue_size=5)
+P['button_number_pub'] = rospy.Publisher('button_number', std_msgs.msg.Int32, queue_size=5) 
+P['steer_pub'] = rospy.Publisher('steer', std_msgs.msg.Int32, queue_size=5) 
+P['motor_pub'] = rospy.Publisher('motor', std_msgs.msg.Int32, queue_size=5) 
+P['encoder_pub'] = rospy.Publisher('encoder', std_msgs.msg.Float32, queue_size=5)
+P['gyro_pub'] = rospy.Publisher('gyro', geometry_msgs.msg.Vector3, queue_size=100)
+P['gyro_heading_pub'] = rospy.Publisher('gyro_heading', geometry_msgs.msg.Vector3, queue_size=100)
+P['acc_pub'] = rospy.Publisher('acc', geometry_msgs.msg.Vector3, queue_size=100)
+
+
+
+
 
 def get_arduino_serial_connections(baudrate, timeout):
     from sys import platform
@@ -127,9 +151,11 @@ def IMU_run_loop(Arduinos,P):
             exec('imu_input = list({0})'.format(read_str))       
             m = imu_input[0]
             assert(m in ['acc','gyro','head'])
-            P[m]['x'] = imu_input[1]
-            P[m]['y'] = imu_input[2]
-            P[m]['z'] = imu_input[3]
+            if False:
+                P[m]['x'] = imu_input[1]
+                P[m]['y'] = imu_input[2]
+                P[m]['z'] = imu_input[3]
+            P[m]['xyz'] = imu_input[1:4]
             #print (m,P[m])
             #if m == 'acc':
             #    print (m,P[m])
@@ -139,7 +165,7 @@ def IMU_run_loop(Arduinos,P):
                 if P[m]['Hz'] < 60 or P[m]['Hz'] > 100:
                     P['ABORT'] = True
                     spd2s("\nP[",m,"]['Hz'] =",P[m]['Hz'])
-            if False:
+            if True:
                 P[imu_dic[m]].publish(geometry_msgs.msg.Vector3(*P[m]))
         except Exception as e:
             pass
@@ -336,6 +362,17 @@ def MSE_run_loop(Arduinos,P):
                 if P['mse']['button_number'] != 4:
                     if P['calibrated']:
                         Arduinos['MSE'].write(write_str)
+            if P['AGENT'] == 'human':
+                human_val = 1
+            else:
+                human_val = 0
+            P['human_agent_pub'].publish(std_msgs.msg.Int32(human_val))              
+            P['steer_pub'].publish(std_msgs.msg.Int32(P['human']['servo_percent']))
+            P['motor_pub'].publish(std_msgs.msg.Int32(P['human']['motor_percent']))
+            P['button_number_pub'].publish(std_msgs.msg.Int32(P['mse']['button_number'])
+            P['behavioral_mode_pub'].publish(P['BEHAVIORAL_MODE'])
+            P['encoder_pub'].publish(std_msgs.msg.Float32(P['mse']['encoder']))
+
         except Exception as e:
             pass
     print 'end MSE_run_loop.'
