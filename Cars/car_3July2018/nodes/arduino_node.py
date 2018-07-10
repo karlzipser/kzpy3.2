@@ -465,7 +465,7 @@ def SIG_run_loop(Arduinos,P):
 
 
 
-"""
+
 
 P['USE_SIG'] = True
 P['USE_IMU'] = True
@@ -543,5 +543,5 @@ if 'Main loop...':
     print 'done.'
     print "unix(opjh('kzpy3/kill_ros.sh'))"
     unix(opjh('kzpy3/kill_ros.sh'))
-"""
+
 #EOF
