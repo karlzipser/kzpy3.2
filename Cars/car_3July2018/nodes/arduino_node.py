@@ -428,7 +428,7 @@ def SIG_run_loop(Arduinos,P):
 
 
 
-
+"""
 
 P['USE_SIG'] = True
 P['USE_IMU'] = True
@@ -466,7 +466,7 @@ if 'Start Arduino threads...':
         threading.Thread(target=Printer_run_loop,args=[P]).start()
     
 
-
+"""
 
 
 
