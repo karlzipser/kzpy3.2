@@ -56,7 +56,7 @@ def run_model(input, metadata):
     :param metadata: Formatted metadata from user input
     :return: Motor and Steering values
     """
-    print "run_model"
+    #print "run_model"
     output = solver(input, Variable(metadata))  # Run the neural net
 
     if verbose:
@@ -86,10 +86,11 @@ def run_model(input, metadata):
     torch_steer = min(99, torch_steer)
 
     # Apply an IIR Filter
-    torch_motor = int((torch_motor + run_model.torch_motor_previous) / 2.0)
-    run_model.torch_motor_previous = torch_motor
-    torch_steer = int((torch_steer + run_model.torch_steer_previous) / 2.0)
-    run_model.torch_steer_previous = torch_steer
+    if False:
+        torch_motor = int((torch_motor + run_model.torch_motor_previous) / 2.0)
+        run_model.torch_motor_previous = torch_motor
+        torch_steer = int((torch_steer + run_model.torch_steer_previous) / 2.0)
+        run_model.torch_steer_previous = torch_steer
 
     return torch_motor, torch_steer
 
@@ -103,7 +104,7 @@ def format_camera_data(left_list, right_list):
     :param r1: right camera data from time step 0
     :return: formatted camera data ready for input into pytorch z2color
     """
-    print "format_camera_data"
+    #print "format_camera_data"
     camera_start = time.clock()
     half_img_height = int(shape(left_list[-1])[0]/2)
     listoftensors = []
@@ -128,7 +129,7 @@ def format_metadata(raw_metadata):
     Formats meta data from raw inputs from camera.
     :return:
     """
-    print "format_metadata"
+    #print "format_metadata"
     metadata = torch.FloatTensor()
     for mode in raw_metadata:
         metadata = torch.cat((torch.FloatTensor(1, 23, 41).fill_(mode), metadata), 0)

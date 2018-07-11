@@ -30,7 +30,22 @@ if 'These parameters can change at runtime...':
     P['BEHAVIORAL_MODE'] = 'direct'
 
 
+def cmd_steer_callback(msg):
+    global P
+    P['network']['servo_percent'] = msg.data
+
+def cmd_motor_callback(msg):
+    global P
+    P['network']['servo_percent'] = msg.data
+
 rospy.init_node('run_arduino',anonymous=True)
+
+rospy.Subscriber('cmd/steer', std_msgs.msg.Int32, callback=cmd_steer_callback)
+rospy.Subscriber('cmd/motor', std_msgs.msg.Int32, callback=cmd_motor_callback)
+
+
+
+
 
 
 P['human_agent_pub'] = rospy.Publisher('human_agent', std_msgs.msg.Int32, queue_size=5) 
@@ -346,10 +361,9 @@ def MSE_run_loop(Arduinos,P):
                     else:
                         assert(P['AGENT']=='network')
                         if 'Deal with smoothing of percentages, then translate to pwms...':
-
-                            P['network']['servo_percent'] = (1.0-s)*np.round((np.cos(P['mse']['button_time']/10.0)/2.0+0.5)*99) + s*P['network']['servo_percent']
-                            P['network']['servo_percent'] = bound_value(P['network']['servo_percent'],5,94)
-                            P['network']['motor_percent'] = (1.0-s)*56 + s*P['network']['motor_percent']
+                            #P['network']['servo_percent'] = (1.0-s)*np.round((np.cos(P['mse']['button_time']/10.0)/2.0+0.5)*99) + s*P['network']['servo_percent']
+                            #P['network']['servo_percent'] = bound_value(P['network']['servo_percent'],5,94)
+                            #P['network']['motor_percent'] = (1.0-s)*56 + s*P['network']['motor_percent']
                             P['network']['servo_pwm'] = percent_to_pwm(
                                 P['network']['servo_percent'],P['mse']['servo_pwm_null'],P['mse']['servo_pwm_max'],P['mse']['servo_pwm_min'])
                             P['network']['motor_pwm'] = percent_to_pwm(

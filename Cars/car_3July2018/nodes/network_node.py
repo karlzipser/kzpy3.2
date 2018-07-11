@@ -46,13 +46,7 @@ rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_callback,queue
 
 
 
-#q = '_'
-#while q not in ['q','Q']:
-    #print "In main loop (q-enter to quit)"
-    #time.sleep(0.1)
-    #q = raw_input('')
-"""
-main_timer = Timer(60)
+main_timer = Timer(60*60*24)
 while main_timer.check() == False:
     if len(left_list) > nframes + 2:
         camera_data = net_utils.format_camera_data(left_list, right_list)
@@ -65,7 +59,7 @@ while main_timer.check() == False:
 print 'goodbye!'
 print "unix(opjh('kzpy3/kill_ros.sh'))"
 unix(opjh('kzpy3/kill_ros.sh'))
-"""
+
 
 #EOF
 
