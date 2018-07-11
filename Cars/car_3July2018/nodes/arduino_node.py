@@ -464,6 +464,32 @@ def SIG_run_loop(Arduinos,P):
 
 
 
+def Printer_setup(P):
+    pass
+def Printer_run_loop(P):
+    while P['ABORT'] == False:
+        if P['PAUSE'] == True:
+            time.sleep(0.1)
+            continue
+        #print 'Printer_run_loop'
+        try:     
+            #m = 'acc'
+            print P['network']['servo_percent'],P['network']['motor_percent']
+            #for m in ['acc',P['AGENT']]:
+            #    print (m,P[m])#,'mse',P['mse']['Hz'])
+            time.sleep(1/10.0)
+        except Exception as e:
+            print("********** Printer_run_loop(P) Exception ***********************")
+            print(e.message, e.args)
+            pass
+
+
+
+
+
+
+
+
 
 
 
@@ -502,32 +528,6 @@ if 'Start Arduino threads...':
         Printer_setup(P)
         threading.Thread(target=Printer_run_loop,args=[P]).start()
     
-
-
-
-
-
-
-
-
-def Printer_setup(P):
-    pass
-def Printer_run_loop(P):
-    while P['ABORT'] == False:
-        if P['PAUSE'] == True:
-            time.sleep(0.1)
-            continue
-        #print 'Printer_run_loop'
-        try:     
-            #m = 'acc'
-            print P['network']['servo_percent'],P['network']['motor_percent']
-            #for m in ['acc',P['AGENT']]:
-            #    print (m,P[m])#,'mse',P['mse']['Hz'])
-            time.sleep(1/10.0)
-        except Exception as e:
-            print("********** Printer_run_loop(P) Exception ***********************")
-            print(e.message, e.args)
-            pass
 
 
 
