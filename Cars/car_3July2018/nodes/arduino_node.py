@@ -179,8 +179,8 @@ def IMU_run_loop(Arduinos,P):
             if True:
                 P[imu_dic[m]].publish(geometry_msgs.msg.Vector3(*P[m]['xyz']))
         except Exception as e:
-            print("********** IMU_run_loop(Arduinos,P) Exception ***********************")
-            print(e.message, e.args)
+            #print("********** IMU_run_loop(Arduinos,P) Exception ***********************")
+            #print(e.message, e.args)
             pass
     print 'end IMU_run_loop.'
 
@@ -207,8 +207,9 @@ def Printer_run_loop(P):
         #print 'Printer_run_loop'
         if True:     
             #m = 'acc'
-            for m in ['acc',P['AGENT']]:
-                print (m,P[m])#,'mse',P['mse']['Hz'])
+            print P['network']['servo_percent']
+            #for m in ['acc',P['AGENT']]:
+            #    print (m,P[m])#,'mse',P['mse']['Hz'])
             time.sleep(10/10.0)
         else:#except Exception as e:
             pass
