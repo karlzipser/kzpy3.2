@@ -284,7 +284,7 @@ def MSE_run_loop(Arduinos,P):
                         P['calibrated'] = False
                         P['mse']['servo_pwm_null'] = P['mse']['servo_pwm']
                         P['mse']['motor_pwm_null'] = P['mse']['motor_pwm']
-                    elif P['mse']['button_time'] < 1.0:
+                    elif P['mse']['button_time'] < 11.0:
                         s = P['SMOOTHING_PARAMETER_1']
                         P['mse']['servo_pwm_null'] = (1.0-s)*P['mse']['servo_pwm'] + s*P['mse']['servo_pwm_null']
                         P['mse']['motor_pwm_null'] = (1.0-s)*P['mse']['motor_pwm'] + s*P['mse']['motor_pwm_null']

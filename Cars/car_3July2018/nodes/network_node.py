@@ -66,7 +66,7 @@ while main_timer.check() == False:
             metadata = net_utils.format_metadata((rp.Follow, rp.Direct))
             torch_motor, torch_steer = net_utils.run_model(camera_data, metadata)
 
-            if 'Do smoothing of pwms...':
+            if 'Do smoothing of percents...':
                 current_steer = (1.0-s)*torch_steer + s*current_steer
                 current_motor = (1.0-s)*torch_motor + s*current_motor
 
