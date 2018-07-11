@@ -21,6 +21,7 @@ P['button_delta'] = 50
 P['human'] = {}
 P['network'] = {}
 P['calibrated'] = False
+P['network']['servo_percent'],P['network']['motor_percent'] = 49,49
 
 if 'These parameters can change at runtime...':
     P['ABORT'] = False
