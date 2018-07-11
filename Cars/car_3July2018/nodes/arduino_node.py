@@ -205,13 +205,15 @@ def Printer_run_loop(P):
             time.sleep(0.1)
             continue
         #print 'Printer_run_loop'
-        if True:     
+        try:     
             #m = 'acc'
             print P['network']['servo_percent']
             #for m in ['acc',P['AGENT']]:
             #    print (m,P[m])#,'mse',P['mse']['Hz'])
             time.sleep(10/10.0)
-        else:#except Exception as e:
+        except Exception as e:
+            print("********** Printer_run_loop(P) Exception ***********************")
+            print(e.message, e.args)
             pass
 
 
