@@ -67,8 +67,8 @@ def run_model(input, metadata):
     #torch_steer = 100 * output[0][9].data[0]
     torch_motor = 100 * output[0][11].data[0] ########################!!!!!!!!!!!!!!!!!!!!!
     torch_steer = 100 * output[0][2].data[0] ########################!!!!!!!!!!!!!!!!!!!!!
-    torch_motor /= 7.0
-    torch_motor += 49
+    #torch_motor /= 7.0
+    #torch_motor += 49
     #torch_motor = (torch_motor+nonlinear_motor(torch_motor))/2.0
 
     if verbose:
@@ -76,8 +76,8 @@ def run_model(input, metadata):
         print('Torch Prescale Steer: ' + str(torch_steer))
     
     # Scale Output
-    torch_motor = int((torch_motor - 49.) * rp.motor_gain + 49. + rp.motor_offset)
-    torch_steer = int((torch_steer - 49.) * rp.steer_gain + 49.)
+    #torch_motor = int((torch_motor - 49.) * rp.motor_gain + 49. + rp.motor_offset)
+    #torch_steer = int((torch_steer - 49.) * rp.steer_gain + 49.)
 
     # Bound the output
     torch_motor = max(0, torch_motor)
