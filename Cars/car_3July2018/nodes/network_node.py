@@ -45,6 +45,9 @@ rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_callback,queue
 
 
 
+current_steer = 49
+current_motor = 49
+s = 0.75
 
 main_timer = Timer(60*60*24)
 while main_timer.check() == False:
@@ -53,8 +56,15 @@ while main_timer.check() == False:
         metadata = net_utils.format_metadata((rp.Follow, rp.Direct))
         torch_motor, torch_steer = net_utils.run_model(camera_data, metadata)
         #print "torch_motor, torch_steer = net_utils.run_model(camera_data, metadata)"
-        steer_cmd_pub.publish(std_msgs.msg.Int32(torch_steer))
-        motor_cmd_pub.publish(std_msgs.msg.Int32(torch_motor))
+
+        if 'Do smoothing of pwms...':
+            current_steer = (1.0-s)*torch_steer + s*current_steer
+            current_motor = (1.0-s)*torch_steer + s*current_motor
+
+
+
+        steer_cmd_pub.publish(std_msgs.msg.Int32(current_steer))
+        motor_cmd_pub.publish(std_msgs.msg.Int32(current_motor))
         #print torch_steer,torch_motor
 print 'goodbye!'
 print "unix(opjh('kzpy3/kill_ros.sh'))"
