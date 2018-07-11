@@ -36,7 +36,7 @@ def cmd_steer_callback(msg):
 
 def cmd_motor_callback(msg):
     global P
-    P['network']['servo_percent'] = msg.data
+    P['network']['motor_percent'] = msg.data
 
 rospy.init_node('run_arduino',anonymous=True)
 
@@ -194,27 +194,6 @@ def IMU_run_loop(Arduinos,P):
 
 
 
-
-
-
-def Printer_setup(P):
-    pass
-def Printer_run_loop(P):
-    while P['ABORT'] == False:
-        if P['PAUSE'] == True:
-            time.sleep(0.1)
-            continue
-        #print 'Printer_run_loop'
-        try:     
-            #m = 'acc'
-            print P['network']['servo_percent']
-            #for m in ['acc',P['AGENT']]:
-            #    print (m,P[m])#,'mse',P['mse']['Hz'])
-            time.sleep(10/10.0)
-        except Exception as e:
-            print("********** Printer_run_loop(P) Exception ***********************")
-            print(e.message, e.args)
-            pass
 
 
 
@@ -522,6 +501,36 @@ if 'Start Arduino threads...':
         Printer_setup(P)
         threading.Thread(target=Printer_run_loop,args=[P]).start()
     
+
+
+
+
+
+
+
+
+def Printer_setup(P):
+    pass
+def Printer_run_loop(P):
+    while P['ABORT'] == False:
+        if P['PAUSE'] == True:
+            time.sleep(0.1)
+            continue
+        #print 'Printer_run_loop'
+        try:     
+            #m = 'acc'
+            print P['network']['servo_percent'],P['network']['motor_percent']
+            #for m in ['acc',P['AGENT']]:
+            #    print (m,P[m])#,'mse',P['mse']['Hz'])
+            time.sleep(1/10.0)
+        except Exception as e:
+            print("********** Printer_run_loop(P) Exception ***********************")
+            print(e.message, e.args)
+            pass
+
+
+
+
 
 
 
