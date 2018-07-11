@@ -68,7 +68,7 @@ while main_timer.check() == False:
 
             if 'Do smoothing of pwms...':
                 current_steer = (1.0-s)*torch_steer + s*current_steer
-                current_motor = (1.0-s)*torch_steer + s*current_motor
+                current_motor = (1.0-s)*torch_motor + s*current_motor
 
             adjusted_motor = rp.motor_gain*(current_motor-49) + rp.motor_offset + 49
 
