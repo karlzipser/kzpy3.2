@@ -40,8 +40,8 @@ Furtive = 0.
 Caf = 0.0
 Racing = 0.0
 
-motor_gain = 0.5
-motor_offset = 5
+motor_gain = 0.75
+motor_offset = 7
 
 
 
