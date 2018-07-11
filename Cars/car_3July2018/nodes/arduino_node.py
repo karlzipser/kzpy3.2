@@ -475,9 +475,10 @@ def Printer_run_loop(P):
         try:     
             #m = 'acc'
             print P['network']['servo_percent'],P['network']['motor_percent']
-            #for m in ['acc',P['AGENT']]:
-            #    print (m,P[m])#,'mse',P['mse']['Hz'])
-            time.sleep(1/10.0)
+            for m in ['acc',P['AGENT']]:
+                print (m,P[m])#,'mse',P['mse']['Hz'])
+            time.sleep(10/10.0)
+            pass
         except Exception as e:
             print("********** Printer_run_loop(P) Exception ***********************")
             print(e.message, e.args)
