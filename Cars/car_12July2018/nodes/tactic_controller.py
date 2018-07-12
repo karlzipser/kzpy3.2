@@ -163,37 +163,33 @@ def _calibrate_run_loop(D,RC,P):
                 D['servo_pwm_null'],RC['servo_pwm'],D['servo_pwm_max'],D['servo_pwm_min'])
             D['motor_percent'] = pwm_to_percent(
                 D['motor_pwm_null'],RC['motor_pwm'],D['motor_pwm_max'],D['motor_pwm_min'])
-        if True:#try:
-            if RC['button_number'] != 4:
-                #time.sleep(0.1)
-                continue
-            if RC['button_time'] < 0.1:
-                D['calibrated'] = False
-                D['servo_pwm_null'] = RC['servo_pwm']
-                D['motor_pwm_null'] = RC['motor_pwm']
-            elif RC['button_time'] < 1.0:
-                s = P['SMOOTHING_PARAMETER_1']
-                D['servo_pwm_null'] = (1.0-s)*RC['servo_pwm'] + s*D['servo_pwm_null']
-                D['motor_pwm_null'] = (1.0-s)*RC['motor_pwm'] + s*D['motor_pwm_null']
-                D['servo_pwm_min'] = D['servo_pwm_null']
-                D['servo_pwm_max'] = D['servo_pwm_null']
-                D['motor_pwm_min'] = D['motor_pwm_null']
-                D['motor_pwm_max'] = D['motor_pwm_null']
-            else:
-                if D['servo_pwm_max'] < RC['servo_pwm']:
-                    D['servo_pwm_max'] = RC['servo_pwm']
-                if D['servo_pwm_min'] > RC['servo_pwm']:
-                    D['servo_pwm_min'] = RC['servo_pwm']
-                if D['motor_pwm_max'] < RC['motor_pwm']:
-                    D['motor_pwm_max'] = RC['motor_pwm']
-                if D['motor_pwm_min'] > RC['motor_pwm']:
-                    D['motor_pwm_min'] = RC['motor_pwm']
-                if D['servo_pwm_max'] - D['servo_pwm_min'] > 300:
-                    if D['motor_pwm_max'] - D['motor_pwm_min'] > 300:
-                        D['calibrated'] = True
-        else:#except Exception as e:
-            print e
-            pass 
+        if RC['button_number'] != 4:
+            continue
+        if RC['button_time'] < 0.1:
+            D['calibrated'] = False
+            D['servo_pwm_null'] = RC['servo_pwm']
+            D['motor_pwm_null'] = RC['motor_pwm']
+        elif RC['button_time'] < 1.0:
+            s = P['SMOOTHING_PARAMETER_1']
+            D['servo_pwm_null'] = (1.0-s)*RC['servo_pwm'] + s*D['servo_pwm_null']
+            D['motor_pwm_null'] = (1.0-s)*RC['motor_pwm'] + s*D['motor_pwm_null']
+            D['servo_pwm_min'] = D['servo_pwm_null']
+            D['servo_pwm_max'] = D['servo_pwm_null']
+            D['motor_pwm_min'] = D['motor_pwm_null']
+            D['motor_pwm_max'] = D['motor_pwm_null']
+        else:
+            if D['servo_pwm_max'] < RC['servo_pwm']:
+                D['servo_pwm_max'] = RC['servo_pwm']
+            if D['servo_pwm_min'] > RC['servo_pwm']:
+                D['servo_pwm_min'] = RC['servo_pwm']
+            if D['motor_pwm_max'] < RC['motor_pwm']:
+                D['motor_pwm_max'] = RC['motor_pwm']
+            if D['motor_pwm_min'] > RC['motor_pwm']:
+                D['motor_pwm_min'] = RC['motor_pwm']
+            if D['servo_pwm_max'] - D['servo_pwm_min'] > 300:
+                if D['motor_pwm_max'] - D['motor_pwm_min'] > 300:
+                    D['calibrated'] = True
+ 
         if print_timer.check():
             pprint(D)
             print_timer.reset()           
