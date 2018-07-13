@@ -140,17 +140,17 @@ def _calibrate_run_loop(D,RC,P):
 
 
 A = {
-    'behavioral_modes':{
+    'behavioral_mode':{
         'direct':   {'button':1,'min':20,'max':60,'led':2001},
         'follow':   {'button':1,'min':0,'max':40,'led':2002},
         'furtive':  {'button':1,'min':60,'max':80,'led':2003},
         'play':     {'button':1,'min':80,'max':100,'led':2004}
         },
-    'agents':{
+    'agent':{
         'human':    {'button':2,'min':40,'max':100,'led':2005},
         'network':  {'button':2,'min':0,'max':40,'led':2006}
         },
-    'places':{
+    'place':{
         'local':    {'button':3,'min':40,'max':60,'led':2007},
         'home':     {'button':3,'min':20,'max':40,'led':2008},
         'Tilden':   {'button':3,'min':0,'max':20,'led':2009},
@@ -162,6 +162,8 @@ A = {
 
 def Selector_Mode(RC,P):
     D = {}
+    for theme in A.keys():
+        P[theme] = False
     threading.Thread(target=_selector_run_loop,args=[D,RC,P]).start()
     return D
 def _selector_run_loop(D,RC,P):
@@ -187,28 +189,25 @@ def _selector_run_loop(D,RC,P):
                         spd2s("P['selector_mode'] = 'menu_mode'")
                         time.sleep(0.001)
             elif P['selector_mode'] == 'menu_mode':
-                """
-                if RC['button_number'] == 3:
-                    if P['servo_percent']>60 and P['servo_percent']<70:
-                        if P['motor_percent'] > 80:
-                            spd2s('AAAAAAAAAAAAA')
-                            P['AAAAAAAAAAAAA'] = True
-                        else:
-                            print('aaaaaaaaaaaaa')
-                """
                 for theme in A.keys():
-                    for kind in A[theme].keys():
-                        if RC['button_number'] == A[theme][kind]['button']:
-                            if P['servo_percent']>A[theme][kind]['min'] and P['servo_percent']<A[theme][kind]['max']:
-                                if P['motor_percent'] > 80:
-                                    if print_timer.check():
-                                        pd2s(kind,'selected')
-                                        print_timer.reset()
-                                    P[theme] = kind
-                                else:
-                                    if print_timer.check():
-                                        print(kind)
-                                        print_timer.reset()                      
+                    if P[theme] == False:
+                        for kind in A[theme].keys():
+                            if RC['button_number'] == A[theme][kind]['button']:
+                                if P['servo_percent']>A[theme][kind]['min'] and P['servo_percent']<A[theme][kind]['max']:
+                                    if P['motor_percent'] > 80:
+                                        if print_timer.check():
+                                            pd2s(kind,'selected')
+                                            print_timer.reset()
+                                        P[theme] = kind
+                                    else:
+                                        if print_timer.check():
+                                            print(kind)
+                                            print_timer.reset()
+                    else:
+                        a_kind = a_key(A[theme])
+                        if RC['button_number'] == A[theme][a_kind]['button']:
+                            if P['motor_percent'] < 20:
+                                P[theme] = False
                 if print_timer.check():
                     pprint(P)
                     print_timer.reset()
