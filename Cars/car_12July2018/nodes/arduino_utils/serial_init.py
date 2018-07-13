@@ -55,27 +55,8 @@ def assign_serial_connections(sers):
     print 'Finished scanning serial ports.'
     if 'MSE' not in Arduinos.keys():
         spd2s('MSE not found: Is transmitter turned on? Is MSE battery plugged in?')
-        #P['ABORT'] = True
     return Arduinos
-def pwm_to_percent(null_pwm,current_pwm,max_pwm,min_pwm):
-    current_pwm -= null_pwm
-    max_pwm -= null_pwm
-    min_pwm -= null_pwm
-    if current_pwm >= 0:
-        p = 99*(1.0 + current_pwm/max_pwm)/2.0
-    else:
-        p = 99*(1.0 - current_pwm/min_pwm)/2.0
-    if p > 99:
-        p = 99
-    if p < 0:
-        p = 0      
-    return p
-def percent_to_pwm(percent,null_pwm,max_pwm,min_pwm):
-    if percent >= 49:
-        p = (percent-50)/50.0 * (max_pwm-null_pwm) + null_pwm
-    else:
-        p = (percent-50)/50.0 * (null_pwm-min_pwm) + null_pwm
-    return p
+
 
 
 
