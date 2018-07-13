@@ -12,6 +12,76 @@ P['ABORT'] = False
 
 
 
+
+
+
+"""
+LED_yellow_line = '(10005)'
+LED_red_X = '(10108)'
+def SIG_setup(Arduinos,P):
+    Arduinos['SIG'].write(LED_yellow_line)
+def SIG_run_loop(Arduinos,P):
+    time.sleep(0.1)
+    Arduinos['SIG'].flushInput()
+    time.sleep(0.1)
+    Arduinos['SIG'].flushOutput()
+    flush_seconds = 0.5
+    flush_timer = Timer(flush_seconds)
+    while P['ABORT'] == False:
+        #if P['PAUSE'] == True:
+        #    time.sleep(0.1)
+        #    continue
+        if 'This brief sleep to allows other threads to process; without this other threads run much too slowly...':
+            time.sleep(0.0001)
+        try:
+            led_num = 10000
+            if P['AGENT'] == 'human':
+                led_num += 100
+            else:
+                assert P['AGENT'] == 'network'
+                led_num += 200
+            if P['mse']['button_number'] == 4:
+                button_offset = 4
+            else:
+                if P['BEHAVIORAL_MODE'] == 'direct':
+                    offset = 0
+                elif P['BEHAVIORAL_MODE'] == 'follow':
+                    offset = 10
+                elif P['BEHAVIORAL_MODE'] == 'furtive':
+                    offset = 20
+                elif P['BEHAVIORAL_MODE'] == 'play':
+                    offset = 30
+                led_num += offset
+                if P['mse']['button_number'] == 1:
+                    button_offset = 2
+                elif P['mse']['button_number'] == 2:
+                    button_offset = 1
+                elif P['mse']['button_number'] == 3:
+                    button_offset = 3
+            led_num += button_offset
+            LED_signal = d2s('(',led_num,')')
+            if P['calibrated'] or P['mse']['button_number'] == 4:
+                Arduinos['SIG'].write(LED_signal)
+            else:
+                Arduinos['SIG'].write(LED_yellow_line)
+            read_str = Arduinos['SIG'].readline()
+            if flush_timer.check():
+                Arduinos['SIG'].flushInput()
+                Arduinos['SIG'].flushOutput()
+                flush_timer.reset()
+        except Exception as e:
+            pass
+    Arduinos['SIG'].write(LED_red_X)
+    print 'end SIG_run_loop.'
+"""
+
+
+
+
+
+
+
+
 def TACTIC_RC_controller(arduino,P):
     D = {}
     D['ctr'] = 0
@@ -141,21 +211,22 @@ def _calibrate_run_loop(D,RC,P):
 
 A = {
     'behavioral_mode':{
-        'direct':   {'button':1,'min':20,'max':60,'led':2001},
-        'follow':   {'button':1,'min':0,'max':40,'led':2002},
-        'furtive':  {'button':1,'min':60,'max':80,'led':2003},
-        'play':     {'button':1,'min':80,'max':100,'led':2004}
+        'direct':   {'button':1,'min':20,'max':60,'led':1},
+        'follow':   {'button':1,'min':0,'max':40,'led':2},
+        'furtive':  {'button':1,'min':60,'max':80,'led':3},
+        'play':     {'button':1,'min':80,'max':100,'led':4}
         },
     'agent':{
-        'human':    {'button':2,'min':40,'max':100,'led':2005},
-        'network':  {'button':2,'min':0,'max':40,'led':2006}
+        'human':    {'button':2,'min':40,'max':100,'led':6*100},
+        'network':  {'button':2,'min':0,'max':40,'led':7*100}
         },
     'place':{
-        'local':    {'button':3,'min':40,'max':60,'led':2007},
-        'home':     {'button':3,'min':20,'max':40,'led':2008},
-        'Tilden':   {'button':3,'min':0,'max':20,'led':2009},
-        'campus':   {'button':3,'min':60,'max':80,'led':2010},
-        'other':    {'button':3,'min':80,'max':100,'led':2011}
+        'local':    {'button':3,'min':40,'max':60,'led':8},
+        'home':     {'button':3,'min':20,'max':40,'led':9},
+        'Tilden':   {'button':3,'min':0,'max':20,'led':10},
+        'campus':   {'button':3,'min':60,'max':80,'led':11},
+        'arena':    {'button':3,'min':80,'max':100,'led':12},
+        'other':    {'button':3,'min':80,'max':100,'led':13}
         }   
     }
 
@@ -222,6 +293,7 @@ def _selector_run_loop(D,RC,P):
 
 
 P['USE_MSE'] = True
+P['USE_SIG'] = False
 
 if 'Start Arduino threads...':
     baudrate = 115200
@@ -235,6 +307,11 @@ if 'Start Arduino threads...':
         Selector_mode = Selector_Mode(Tactic_RC_controller,P)
     else:
         spd2s("!!!!!!!!!! 'MSE' not in Arduinos[] !!!!!!!!!!!")    
+    if P['USE_SIG'] and 'SIG' in Arduinos.keys():
+        SIG_setup(Arduinos,P)
+        threading.Thread(target=SIG_run_loop,args=[Arduinos,P]).start()
+    else:
+        spd2s("!!!!!!!!!! 'SIG' not in Arduinos[] !!!!!!!!!!!")
 
 
 
