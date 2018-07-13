@@ -139,8 +139,25 @@ def _calibrate_run_loop(D,RC,P):
     print 'end _calibrate_run_loop.'
 
 
-
-
+A = {
+    'behavioral_modes':{
+        'direct':   {'button':1,'min':20,'max':60,'led':2001},
+        'follow':   {'button':1,'min':0,'max':40,'led':2002},
+        'furtive':  {'button':1,'min':60,'max':80,'led':2003},
+        'play':     {'button':1,'min':80,'max':100,'led':2004}
+        },
+    'agents':{
+        'human':    {'button':2,'min':40,'max':100,'led':2005},
+        'network':  {'button':2,'min':0,'max':40,'led':2006}
+        },
+    'places':{
+        'local':    {'button':3,'min':40,'max':60,'led':2007},
+        'home':     {'button':3,'min':20,'max':40,'led':2008},
+        'Tilden':   {'button':3,'min':0,'max':20,'led':2009},
+        'campus':   {'button':3,'min':60,'max':80,'led':2010},
+        'other':    {'button':3,'min':80,'max':100,'led':2011}
+        }   
+    }
 
 
 def Selector_Mode(RC,P):
@@ -149,7 +166,7 @@ def Selector_Mode(RC,P):
     return D
 def _selector_run_loop(D,RC,P):
     print "_selector_run_loop"
-    print_timer = Timer(0.5)
+    print_timer = Timer(0.25)
     while P['ABORT'] == False:
         #print "_selector_run_loop"
         try:
@@ -170,6 +187,7 @@ def _selector_run_loop(D,RC,P):
                         spd2s("P['selector_mode'] = 'menu_mode'")
                         time.sleep(0.001)
             elif P['selector_mode'] == 'menu_mode':
+                """
                 if RC['button_number'] == 3:
                     if P['servo_percent']>60 and P['servo_percent']<70:
                         if P['motor_percent'] > 80:
@@ -177,8 +195,22 @@ def _selector_run_loop(D,RC,P):
                             P['AAAAAAAAAAAAA'] = True
                         else:
                             print('aaaaaaaaaaaaa')
+                """
+                for theme in A.keys():
+                    for kind in A[theme].keys():
+                        if RC['button_number'] == A[theme][kind]['button']:
+                            if P['servo_percent']>A[theme][kind]['min'] and P['servo_percent']<A[theme][kind]['max']:
+                                if P['motor_percent'] > 80:
+                                    if print_timer.check():
+                                        pd2s(kind,'selected')
+                                        print_timer.reset()
+                                    P[theme] = kind
+                                else:
+                                    if print_timer.check():
+                                        print(kind)
+                                        print_timer.reset()                      
                 if print_timer.check():
-                    print(P['selector_mode'])
+                    pprint(P)
                     print_timer.reset()
         except:
             pass        
