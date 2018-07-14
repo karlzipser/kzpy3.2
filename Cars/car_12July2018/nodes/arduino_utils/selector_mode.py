@@ -62,6 +62,8 @@ def Selector_Mode(RC,P):
     for theme in A.keys():
         P[theme] = False
     threading.Thread(target=_selector_run_loop,args=[D,RC,P]).start()
+    P['selector_mode'] = 'menu_mode'
+    P['LED_number']['current'] = select_mode_led_num
     return D
 
 def _selector_run_loop(D,RC,P):

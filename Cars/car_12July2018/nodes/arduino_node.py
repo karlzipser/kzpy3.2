@@ -16,7 +16,7 @@ Parameters['calibrated'] = False
 Parameters['SMOOTHING_PARAMETER_1'] = 0.75
 Parameters['ABORT'] = False
 Parameters['USE_MSE'] = True
-Parameters['USE_SIG'] = False
+Parameters['USE_SIG'] = True
 Parameters['USE_IMU'] = False
 Parameters['agent'] = 'human'
 Parameters['agent_choice'] = Parameters['agent']
@@ -26,6 +26,7 @@ Parameters['LED_number'] = {}
 Parameters['LED_number']['previous'] = 0
 Parameters['LED_number']['current'] = 0
 Parameters['CALIBRATION_START_TIME'] = 3.0
+
 
 if 'Start Arduino threads...':
     baudrate = 115200
@@ -37,6 +38,7 @@ if 'Start Arduino threads...':
         Tactic_RC_controller = TACTIC_RC_controller(Arduinos['MSE'],Parameters)
         Calibration_mode = Calibration_Mode(Tactic_RC_controller,Parameters)
         Selector_mode = Selector_Mode(Tactic_RC_controller,Parameters)
+        LED_display = LED_Display(Arduinos['SIG'],Parameters)
     else:
         spd2s("!!!!!!!!!! 'MSE' not in Arduinos[] !!!!!!!!!!!")
 
