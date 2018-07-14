@@ -19,8 +19,12 @@ Parameters['USE_MSE'] = True
 Parameters['USE_SIG'] = False
 Parameters['USE_IMU'] = False
 Parameters['agent'] = 'human'
+Parameters['agent_choice'] = Parameters['agent']
 Parameters['servo_percent'] = 49
 Parameters['motor_percent'] = 49
+Parameters['LED_number'] = {}
+Parameters['LED_number']['previous'] = 0
+Parameters['LED_number']['current'] = 0
 
 if 'Start Arduino threads...':
     baudrate = 115200

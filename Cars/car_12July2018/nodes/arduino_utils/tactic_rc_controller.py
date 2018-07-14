@@ -103,6 +103,7 @@ def pwm_to_percent(null_pwm,current_pwm,max_pwm,min_pwm):
     if p < 0:
         p = 0      
     return p
+    
 def percent_to_pwm(percent,null_pwm,max_pwm,min_pwm):
     if percent >= 49:
         p = (percent-50)/50.0 * (max_pwm-null_pwm) + null_pwm
