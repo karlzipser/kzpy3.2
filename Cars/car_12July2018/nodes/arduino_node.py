@@ -5,9 +5,10 @@ python kzpy3/Cars/car_12July2018/nodes/arduino_node.py
 from kzpy3.utils2 import *
 import threading
 from arduino_utils.serial_init import *
-from arduino_utils.tactic_controller import *
+from arduino_utils.tactic_rc_controller import *
 from arduino_utils.calibration_mode import *
 from arduino_utils.selector_mode import *
+from arduino_utils.led_display import *
 
 
 Parameters = {}
@@ -16,6 +17,10 @@ Parameters['SMOOTHING_PARAMETER_1'] = 0.75
 Parameters['ABORT'] = False
 Parameters['USE_MSE'] = True
 Parameters['USE_SIG'] = False
+Parameters['USE_IMU'] = False
+Parameters['agent'] = 'human'
+Parameters['servo_percent'] = 49
+Parameters['motor_percent'] = 49
 
 if 'Start Arduino threads...':
     baudrate = 115200
@@ -23,15 +28,15 @@ if 'Start Arduino threads...':
     Arduinos = assign_serial_connections(get_arduino_serial_connections(baudrate,timeout))
     print Arduinos.keys()
 
-    if P['USE_MSE'] and 'MSE' in Arduinos.keys():
+    if Parameters['USE_MSE'] and 'MSE' in Arduinos.keys():
         Tactic_RC_controller = TACTIC_RC_controller(Arduinos['MSE'],Parameters)
         Calibration_mode = Calibration_Mode(Tactic_RC_controller,Parameters)
         Selector_mode = Selector_Mode(Tactic_RC_controller,Parameters)
     else:
-        spd2s("!!!!!!!!!! 'MSE' not in Arduinos[] !!!!!!!!!!!")    
-    if P['USE_SIG'] and 'SIG' in Arduinos.keys():
-        SIG_setup(Arduinos,Parameters)
-        threading.Thread(target=SIG_run_loop,args=[Arduinos,Parameters]).start()
+        spd2s("!!!!!!!!!! 'MSE' not in Arduinos[] !!!!!!!!!!!")
+
+    if Parameters['USE_SIG'] and 'SIG' in Arduinos.keys():
+        LED_display = LED_Display(Arduinos['SIG'],Parameters)
     else:
         spd2s("!!!!!!!!!! 'SIG' not in Arduinos[] !!!!!!!!!!!")
 

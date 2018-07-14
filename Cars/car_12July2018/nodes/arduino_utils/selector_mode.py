@@ -1,23 +1,54 @@
+from kzpy3.utils2 import *
+import threading
+
+
+STRAIGHT = 1
+LEFT = 2
+RIGHT = 3
+SELECTED = 1
+NOT_SELECTED = 2
+
+DIRECT = 1
+FOLLOW = 2
+FURTIVE = 3
+PLAY = 4
+
+CALIBRATE = 5
+DRIVE_MODE = 15
+SELECT_MODE = 16
+
+
+HUMAN = 6
+NETWORK = 7
+
+LOCAL = 8
+HOME = 9
+TILDEN = 10
+CAMPUS = 11
+ARENA = 12
+OTHER = 13
+
+AGENT = 14
 
 
 A = {
-    'behavioral_mode':{
-        'direct':   {'button':1,'min':20,'max':60,'led':1},
-        'follow':   {'button':1,'min':0,'max':40,'led':2},
-        'furtive':  {'button':1,'min':60,'max':80,'led':3},
-        'play':     {'button':1,'min':80,'max':100,'led':4}
+    'behavioral_mode_choice':{
+        'direct':   {'button':1,'min':20,'max':60,'led':DIRECT},
+        'follow':   {'button':1,'min':0,'max':40,'led':FOLLOW},
+        'furtive':  {'button':1,'min':60,'max':80,'led':FURTIVE},
+        'play':     {'button':1,'min':80,'max':100,'led':PLAY}
         },
-    'agent':{
-        'human':    {'button':2,'min':40,'max':100,'led':6*100},
-        'network':  {'button':2,'min':0,'max':40,'led':7*100}
+    'agent_choice':{
+        'human':    {'button':2,'min':40,'max':100,'led':HUMAN},
+        'network':  {'button':2,'min':0,'max':40,'led':NETWORK}
         },
-    'place':{
-        'local':    {'button':3,'min':40,'max':60,'led':8},
-        'home':     {'button':3,'min':20,'max':40,'led':9},
-        'Tilden':   {'button':3,'min':0,'max':20,'led':10},
-        'campus':   {'button':3,'min':60,'max':80,'led':11},
-        'arena':    {'button':3,'min':80,'max':100,'led':12},
-        'other':    {'button':3,'min':80,'max':100,'led':13}
+    'place_choice':{
+        'local':    {'button':3,'min':40,'max':60,'led':LOCAL},
+        'home':     {'button':3,'min':20,'max':40,'led':HOME},
+        'Tilden':   {'button':3,'min':0,'max':20,'led':TILDEN},
+        'campus':   {'button':3,'min':60,'max':80,'led':CAMPUS},
+        'arena':    {'button':3,'min':80,'max':90,'led':ARENA},
+        'other':    {'button':3,'min':90,'max':100,'led':OTHER}
         }   
     }
 
@@ -28,6 +59,7 @@ def Selector_Mode(RC,P):
         P[theme] = False
     threading.Thread(target=_selector_run_loop,args=[D,RC,P]).start()
     return D
+
 def _selector_run_loop(D,RC,P):
     print "_selector_run_loop"
     print_timer = Timer(0.25)
@@ -58,12 +90,18 @@ def _selector_run_loop(D,RC,P):
                                 if P['servo_percent']>A[theme][kind]['min'] and P['servo_percent']<A[theme][kind]['max']:
                                     if P['motor_percent'] > 80:
                                         if print_timer.check():
+                                            if theme == 'place_choice' or theme == 'behavioral_mode_choice':
+                                                print SELECTED,A['agent_choice'][P['agent']]['led'],A[theme][kind]['led']
+                                            elif theme == 'agent_choice':
+                                                print SELECTED,A['agent_choice']['kind']['led'],AGENT
                                             pd2s(kind,'selected')
                                             print_timer.reset()
                                         P[theme] = kind
                                     else:
                                         if print_timer.check():
-                                            print(kind)
+                                            print NOT_SELECTED,A['agent_choice'][P['agent']]['led'],A[theme][kind]['led']
+                                            print(kind) 
+                                            print P['agent'],A['agent_choice']
                                             print_timer.reset()
                     else:
                         a_kind = a_key(A[theme])
@@ -71,10 +109,10 @@ def _selector_run_loop(D,RC,P):
                             if P['motor_percent'] < 20:
                                 P[theme] = False
                 if print_timer.check():
-                    pprint(P)
+                    #pprint(P)
                     print_timer.reset()
-        except:
-            pass        
-    print 'end _calibrate_run_loop.'
-
+        except Exception as e:
+            print("********** _selector_run_loop Exception ***********************")
+            print(e.message, e.args)       
+    print 'end _selector_run_loop.'
 

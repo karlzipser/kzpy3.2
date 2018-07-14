@@ -1,7 +1,7 @@
 from kzpy3.utils2 import *
 import threading
 
-def TACTIC_RC_controller(arduino,P):
+def LED_Display(arduino,P):
     D = {}
     D['ctr'] = 0
     D['button_delta'] = 50
@@ -12,10 +12,10 @@ def TACTIC_RC_controller(arduino,P):
         P['servo_pwm_smooth'] = 1000
         P['motor_pwm_smooth'] = 1000
         P['selector_mode'] = False
-    threading.Thread(target=_TACTIC_RC_controller_run_loop,args=[D,P]).start()
+    threading.Thread(target=_LED_Display_run_loop,args=[D,P]).start()
     return D
     
-def _TACTIC_RC_controller_run_loop(D,P):
+def _LED_Display_run_loop(D,P):
     print('_TACTIC_RC_controller_run_loop')
     time.sleep(0.1)
     D['arduino'].flushInput()
@@ -82,8 +82,8 @@ def _TACTIC_RC_controller_run_loop(D,P):
                             D['arduino'].write(write_str)
             # ros publish here
             if print_timer.check():
-                #pprint(P)
-                #pprint(D)
+                pprint(P)
+                pprint(D)
                 print_timer.reset()
         except Exception as e:
             print e

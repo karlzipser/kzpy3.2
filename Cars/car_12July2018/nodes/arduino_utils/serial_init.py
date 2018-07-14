@@ -1,9 +1,6 @@
 #!/usr/bin/env python
 from kzpy3.utils2 import *
 
-
-
-
 def get_arduino_serial_connections(baudrate, timeout):
     from sys import platform
     if platform == "linux" or platform == "linux2":
@@ -22,6 +19,7 @@ def get_arduino_serial_connections(baudrate, timeout):
         except:
             pass
     return sers
+    
 def assign_serial_connections(sers):
     Arduinos = {}
     for ser in sers:
