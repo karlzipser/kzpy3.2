@@ -25,6 +25,7 @@ Parameters['motor_percent'] = 49
 Parameters['LED_number'] = {}
 Parameters['LED_number']['previous'] = 0
 Parameters['LED_number']['current'] = 0
+Parameters['CALIBRATION_START_TIME'] = 3.0
 
 if 'Start Arduino threads...':
     baudrate = 115200

@@ -1,7 +1,7 @@
 from kzpy3.utils2 import *
 import threading
 
-BUTTON_4 = 2
+
 STRAIGHT = 1
 LEFT = 2
 RIGHT = 3
@@ -21,6 +21,7 @@ SELECT_MODE = 16
 
 HUMAN = 6
 NETWORK = 7
+BUTTON_4 = 8
 
 LOCAL = 8
 HOME = 9
@@ -30,6 +31,10 @@ ARENA = 12
 OTHER = 13
 
 AGENT = 14
+
+callibrate_led_num = 20805
+drive_mode_led_num = 20815
+select_mode_led_num = 20816
 
 A = {
     'behavioral_mode_choice':{
@@ -68,13 +73,21 @@ def _selector_run_loop(D,RC,P):
                 time.sleep(0.01)
             P['LED_number']['previous'] = P['LED_number']['current']
             if RC['button_number'] == 4:
-                if RC['button_time'] < 3.0:
+                if RC['button_time'] < P['CALIBRATION_START_TIME']:
                     if P['servo_percent'] < 10:
                         P['selector_mode'] = 'drive_mode'
+                        P['LED_number']['current'] = drive_mode_led_num
                         time.sleep(0.001)
                     elif P['servo_percent'] > 90:
                         P['selector_mode'] = 'menu_mode'
+                        P['LED_number']['current'] = select_mode_led_num
                         time.sleep(0.001)
+                    elif P['selector_mode'] == 'drive_mode':
+                        P['LED_number']['current'] = drive_mode_led_num
+                    elif P['selector_mode'] == 'menu_mode':
+                        P['LED_number']['current'] = select_mode_led_num
+                else:
+                    P['LED_number']['current'] = callibrate_led_num
             elif P['selector_mode'] == 'menu_mode':
                 for theme in A.keys():
                     if P[theme] == False:
@@ -109,7 +122,8 @@ def _selector_run_loop(D,RC,P):
             elif P['selector_mode'] == 'drive_mode':
                 pass
             if print_timer.check():
-                print(P['LED_number']['current'])
+                if P['LED_number']['current'] != 0:
+                    print(P['LED_number']['current'])
                 print_timer.reset()
         else:#except Exception as e:
             print("********** _selector_run_loop Exception ***********************")
