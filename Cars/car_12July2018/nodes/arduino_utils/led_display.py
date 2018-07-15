@@ -8,6 +8,7 @@ def LED_Display(arduino,P):
     return D
     
 def _LED_Display_run_loop(D,P):
+    run_timer = Timer()
     print('_LED_Display_run_loop')
     time.sleep(0.1)
     D['arduino'].flushInput()
@@ -17,20 +18,19 @@ def _LED_Display_run_loop(D,P):
     flush_timer = Timer(flush_seconds)
     print_timer = Timer(1)
     write_timer = Timer(0.1)
+    frequency_timer = Timer(1)
     while P['ABORT'] == False:
+        frequency_timer.freq(name='_LED_Display_run_loop')
         if 'Brief sleep to allow other threads to process...':
-            time.sleep(0.01)
+            time.sleep(0.03)
         try:
-            if 'Read serial and translate to list...':
-                #read_str = D['arduino'].readline()
+            if 'Flush input and output...':
                 if flush_timer.check():
                     D['arduino'].flushInput()
                     D['arduino'].flushOutput()
                     flush_timer.reset()
             if write_timer.check():
-                #if P['LED_number']['write'] == False:
                 D['arduino'].write(d2n('(',P['LED_number']['current'],')'))
-                #P['LED_number']['write'] == True
                 write_timer.reset()
             if print_timer.check():
                 pass
@@ -39,5 +39,5 @@ def _LED_Display_run_loop(D,P):
         except Exception as e:
             print e
             pass            
-    print 'end _LED_Display_run_loop.'
+    print d2s('end _LED_Display_run_loop, ran for',dp(run_timer.time(),1),'seconds')
 

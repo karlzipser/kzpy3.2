@@ -68,10 +68,21 @@ def Selector_Mode(RC,P):
     threading.Thread(target=_selector_run_loop,args=[D,RC,P]).start()
     return D
 
+
+
+
+
+
+
+
 def _selector_run_loop(D,RC,P):
     print "_selector_run_loop"
     print_timer = Timer(0.1)
+    frequency_timer = Timer(1)
     while P['ABORT'] == False:
+        frequency_timer.freq(name='_selector_run_loop')
+        if 'Brief sleep to allow other threads to process...':
+            time.sleep(0.1)
         #print_timer.message(d2s('behavioral_mode_choice:',P['behavioral_mode_choice'],'agent_choice:',P['agent_choice'],'place_choice:',P['place_choice']))
         if not P['calibrated']:#################################################
             if RC['button_number'] == 4:

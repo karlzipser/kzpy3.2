@@ -618,11 +618,14 @@ class Timer:
 		self.count = 0
 	def trigger(self):
 		self.start_time = 0
-	def freq(self):
+	def freq(self,name='',do_print=True):
 		self.count += 1
 		if self.check():
-			spd2s('Frequency = ',self.count/self.time(),'Hz')
+			value = self.count/self.time()
+			if do_print:
+				pd2s(name,'frequency =',dp(value,2),'Hz')
 			self.reset()
+			return value
 	def message(self,message_str,color='grey',flush=False):
 		if self.check():
 			print(message_str+'\r'),

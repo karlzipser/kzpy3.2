@@ -9,14 +9,16 @@ def _calibrate_run_loop(D,RC,P):
     print "_calibrate_run_loop"
     print_timer = Timer(0.1)
     P['calibrated'] = False
+    frequency_timer = Timer(1)
     while P['ABORT'] == False:
+        frequency_timer.freq(name='_calibrate_run_loop')
         if 'Brief sleep to allow other threads to process...':
-            time.sleep(0.0001)
+            time.sleep(0.02)
         if RC['button_number'] != 4:
-            time.sleep(0.001)
+            time.sleep(0.1)
             continue
         if RC['button_time'] < P['CALIBRATION_NULL_START_TIME']:
-            time.sleep(0.001)
+            time.sleep(0.01)
             continue
         if True:
             if RC['button_time'] < P['CALIBRATION_NULL_START_TIME']+0.1:

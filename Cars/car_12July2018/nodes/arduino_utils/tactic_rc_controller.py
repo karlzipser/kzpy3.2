@@ -21,10 +21,12 @@ def _TACTIC_RC_controller_run_loop(D,P):
     D['arduino'].flushInput()
     time.sleep(0.1)
     D['arduino'].flushOutput()
+    D['Hz'] = 0
     flush_seconds = 0.25
     flush_timer = Timer(flush_seconds)
+    frequency_timer = Timer(1)
     ctr_timer = Timer()
-    print_timer = Timer(1)
+    #print_timer = Timer(1)
     while P['ABORT'] == False:
         if 'Brief sleep to allow other threads to process...':
             time.sleep(0.01)
@@ -43,9 +45,9 @@ def _TACTIC_RC_controller_run_loop(D,P):
                 D['motor_pwm'] = mse_input[3]
                 D['encoder'] = mse_input[4]
             if 'Deal with ctr and rate...':
-                D['ctr'] += 1
-                D['Hz'] = dp(D['ctr']/ctr_timer.time(),1)
-                print_timer.message(d2s(D['Hz']))
+                #D['ctr'] += 1
+                #D['Hz'] = dp(D['ctr']/ctr_timer.time(),1)
+                #print_timer.message(d2s(D['Hz']))
                 if ctr_timer.time() > 5:
                     if D['Hz'] < 30 or D['Hz'] > 100:
                         P['ABORT'] = True
@@ -82,10 +84,14 @@ def _TACTIC_RC_controller_run_loop(D,P):
                         if P['selector_mode'] == 'drive_mode':
                             D['arduino'].write(write_str)
             # ros publish here
-            if print_timer.check():
+            
+            Hz = frequency_timer.freq(name='_TACTIC_RC_controller_run_loop')
+            if is_number(Hz):
+                D['Hz'] = Hz
+            #if print_timer.check():
                 #pprint(P)
                 #pprint(D)
-                print_timer.reset()
+                #print_timer.reset()
         except Exception as e:
             print '_TACTIC_RC_controller_run_loop',e
             pass            

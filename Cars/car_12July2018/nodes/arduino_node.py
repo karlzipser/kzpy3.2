@@ -18,8 +18,8 @@ Parameters['ABORT'] = False
 Parameters['USE_MSE'] = True
 Parameters['USE_SIG'] = True
 Parameters['USE_IMU'] = False
-Parameters['agent'] = 'human'
-Parameters['agent_choice'] = Parameters['agent']
+#Parameters['agent'] = 'human'
+Parameters['agent_choice'] = 'human' #Parameters['agent']
 Parameters['servo_percent'] = 49
 Parameters['motor_percent'] = 49
 Parameters['LED_number'] = {}
@@ -39,11 +39,10 @@ if 'Start Arduino threads...':
         Tactic_RC_controller = TACTIC_RC_controller(Arduinos['MSE'],Parameters)
         Calibration_mode = Calibration_Mode(Tactic_RC_controller,Parameters)
         Selector_mode = Selector_Mode(Tactic_RC_controller,Parameters)
-        LED_display = LED_Display(Arduinos['SIG'],Parameters)
     else:
         spd2s("!!!!!!!!!! 'MSE' not in Arduinos[] !!!!!!!!!!!")
-
     if Parameters['USE_SIG'] and 'SIG' in Arduinos.keys():
+        pass
         LED_display = LED_Display(Arduinos['SIG'],Parameters)
     else:
         spd2s("!!!!!!!!!! 'SIG' not in Arduinos[] !!!!!!!!!!!")
