@@ -19,7 +19,7 @@ def _LED_Display_run_loop(D,P):
     write_timer = Timer(0.1)
     while P['ABORT'] == False:
         if 'Brief sleep to allow other threads to process...':
-            time.sleep(0.0001)
+            time.sleep(0.01)
         try:
             if 'Read serial and translate to list...':
                 #read_str = D['arduino'].readline()

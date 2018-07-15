@@ -27,7 +27,7 @@ def _TACTIC_RC_controller_run_loop(D,P):
     print_timer = Timer(1)
     while P['ABORT'] == False:
         if 'Brief sleep to allow other threads to process...':
-            time.sleep(0.0001)
+            time.sleep(0.01)
         try:
             if 'Read serial and translate to list...':
                 read_str = D['arduino'].readline()
@@ -45,6 +45,7 @@ def _TACTIC_RC_controller_run_loop(D,P):
             if 'Deal with ctr and rate...':
                 D['ctr'] += 1
                 D['Hz'] = dp(D['ctr']/ctr_timer.time(),1)
+                print_timer.message(d2s(D['Hz']))
                 if ctr_timer.time() > 5:
                     if D['Hz'] < 30 or D['Hz'] > 100:
                         P['ABORT'] = True
@@ -86,7 +87,7 @@ def _TACTIC_RC_controller_run_loop(D,P):
                 #pprint(D)
                 print_timer.reset()
         except Exception as e:
-            print e
+            print '_TACTIC_RC_controller_run_loop',e
             pass            
     print 'end _TACTIC_RC_controller_run_loop.'
 
