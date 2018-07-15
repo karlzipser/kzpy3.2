@@ -44,14 +44,8 @@ def _TACTIC_RC_controller_run_loop(D,P):
                 D['servo_pwm'] = mse_input[2]
                 D['motor_pwm'] = mse_input[3]
                 D['encoder'] = mse_input[4]
-            if 'Deal with ctr and rate...':
-                #D['ctr'] += 1
-                #D['Hz'] = dp(D['ctr']/ctr_timer.time(),1)
-                #print_timer.message(d2s(D['Hz']))
-                if ctr_timer.time() > 5:
-                    if D['Hz'] < 30 or D['Hz'] > 100:
-                        P['ABORT'] = True
-                        spd2s("\nD['Hz'] =",D['Hz'])
+
+
             if 'Assign button...':
                 bpwm = D['button_pwm']
                 if np.abs(bpwm - 1900) < D['button_delta']:
@@ -88,10 +82,10 @@ def _TACTIC_RC_controller_run_loop(D,P):
             Hz = frequency_timer.freq(name='_TACTIC_RC_controller_run_loop')
             if is_number(Hz):
                 D['Hz'] = Hz
-            #if print_timer.check():
-                #pprint(P)
-                #pprint(D)
-                #print_timer.reset()
+                if ctr_timer.time() > 5:
+                        if Hz < 30 or Hz > 90:
+                            spd2s('MSE Hz =',Hz,'...aborting...')
+                            P['ABORT'] = True
         except Exception as e:
             print '_TACTIC_RC_controller_run_loop',e
             pass            

@@ -16,41 +16,40 @@ def _IMU_run_loop(D,P):
     imu_dic['gyro'] = 'gyro_pub'
     imu_dic['acc'] = 'acc_pub'
     imu_dic['head'] = 'gyro_heading_pub'
-    flush_seconds = 0.5
+    flush_seconds = 0.1
     flush_timer = Timer(flush_seconds)
     time.sleep(0.1)
     D['arduino'].flushInput()
     time.sleep(0.1)
     D['arduino'].flushOutput()
     ctr_timer = Timer()
-    frequency_timer = Timer(1)
-    print_timer = Timer(1)
+    frequency_timers = {'acc':Timer(1),'gyro':Timer(1),'head':Timer(1)}
+    print_timer = Timer(0.1)
     while P['ABORT'] == False:
         if 'Brief sleep to allow other threads to process...':
-            time.sleep(0.0001)
+            time.sleep(0.001)
         try:
             read_str = D['arduino'].readline()
             if flush_timer.check():
-                D['arduino'].flushInput()
+                D['arduino'].flushInput();D['arduino'].flushOutput()
                 flush_timer.reset()            
             exec('imu_input = list({0})'.format(read_str))       
             m = imu_input[0]
             assert(m in ['acc','gyro','head'])
-            Hz = frequency_timer.freq(name='_IMU_run_loop')
-            if is_number(Hz):
+            Hz = frequency_timers[m].freq(name=m,do_print=False)
+            if is_number(Hz) and m == 'acc':
                 P[m]['Hz'] = Hz
+                if Hz < 60 or Hz > 90:
+                    if ctr_timer.time() > 5:
+                        spd2s(m,'Hz =',Hz,'...aborting...')
+                        P['ABORT'] = True
             P[m]['xyz'] = imu_input[1:4]
-            #P[m]['ctr'] += 1
-            #P[m]['Hz'] = dp(P[m]['ctr']/ctr_timer.time(),1)
-            if ctr_timer.time() > 5:
-                if P[m]['Hz'] < 60 or P[m]['Hz'] > 100:
-                    P['ABORT'] = True
-                    spd2s("\nP[",m,"]['Hz'] =",P[m]['Hz'])
             if False:
                 P[imu_dic[m]].publish(geometry_msgs.msg.Vector3(*P[m]['xyz']))
             if True:
                 if print_timer.check():
-                    print m,P[m]
+                    #print P['acc']['xyz'],P['gyro']['xyz'],P['head']['xyz'],P['acc']['Hz']
+                    print P['gyro']['xyz'],P['acc']['Hz']
                     print_timer.reset()
         except Exception as e:
             #print("********** IMU_run_loop(Arduinos,P) Exception ***********************")

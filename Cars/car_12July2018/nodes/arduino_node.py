@@ -16,8 +16,8 @@ Parameters = {}
 Parameters['calibrated'] = False
 Parameters['SMOOTHING_PARAMETER_1'] = 0.75
 Parameters['ABORT'] = False
-Parameters['USE_MSE'] = False
-Parameters['USE_SIG'] = False
+Parameters['USE_MSE'] = True
+Parameters['USE_SIG'] = True
 Parameters['USE_IMU'] = True
 #Parameters['agent'] = 'human'
 Parameters['agent_choice'] = 'human' #Parameters['agent']
@@ -32,9 +32,10 @@ Parameters['CALIBRATION_START_TIME'] = 4.0
 
 if 'Start Arduino threads...':
     baudrate = 115200
-    timeout = 0.5
+    timeout = 0.1
     Arduinos = assign_serial_connections(get_arduino_serial_connections(baudrate,timeout))
-    print Arduinos.keys()
+    #print Arduinos.keys()
+    #print 'here'
 
     if Parameters['USE_MSE'] and 'MSE' in Arduinos.keys():
         Tactic_RC_controller = TACTIC_RC_controller(Arduinos['MSE'],Parameters)
@@ -53,7 +54,7 @@ if 'Start Arduino threads...':
     else:
         spd2s("!!!!!!!!!! 'IMU' not in Arduinos[] !!!!!!!!!!!")
 
-
+# put in frequency controls
 
 if 'Main loop...':
     print 'main loop'
@@ -63,6 +64,7 @@ if 'Main loop...':
         if Parameters['ABORT']:
             break
         time.sleep(0.1)
+    Arduinos['SIG'].write('(11119)')
     Parameters['ABORT'] = True
     print 'done.'
 #    print "unix(opjh('kzpy3/kill_ros.sh'))"

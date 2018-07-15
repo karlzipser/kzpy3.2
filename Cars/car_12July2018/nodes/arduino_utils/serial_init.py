@@ -19,11 +19,16 @@ def get_arduino_serial_connections(baudrate, timeout):
         except:
             pass
     return sers
-    
+
+
+
 def assign_serial_connections(sers):
     Arduinos = {}
     for ser in sers:
+        timer = Timer(6) # see that this is a good value
         for _ in xrange(100):
+            if timer.check():
+                continue
             try:
                 ser_str = ser.readline()
                 
@@ -43,7 +48,7 @@ def assign_serial_connections(sers):
                 elif ser_tuple[0] in ['GPS2']:
                     print(d2s('Port',ser.port,'is the SIG:',ser_str))
                     if 'Keep this up to date...':
-                        print("\tusing 'LED_arduino_LCR_8July2018b.ino'")
+                        print("\tusing 'LED_arduino_LCR_13July2018b.ino'")
                     Arduinos['SIG'] = ser
                     break
             except:
