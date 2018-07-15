@@ -2,6 +2,11 @@ from kzpy3.utils2 import *
 import threading
 
 
+
+"""
+[orientation][blink][color][_,symbol]
+"""
+
 STRAIGHT = 1
 LEFT = 2
 RIGHT = 3
@@ -33,13 +38,6 @@ OTHER = 13
 AGENT = 14
 LINE = 15
 
-callibrate_led_num = 20805
-drive_mode_led_num = 20815
-select_mode_led_num = 20816
-
-[orientation][blink][color][_,symbol]
-
-
 A = {
     'behavioral_mode_choice':{
         'direct':   {'button':1,'min':20,'max':60,'led':DIRECT},
@@ -67,13 +65,47 @@ def Selector_Mode(RC,P):
         P[theme] = False
     threading.Thread(target=_selector_run_loop,args=[D,RC,P]).start()
     P['selector_mode'] = 'menu_mode'
-    P['LED_number']['current'] = select_mode_led_num
+    P['LED_number']['current'] = 11315
     return D
 
 def _selector_run_loop(D,RC,P):
     print "_selector_run_loop"
     print_timer = Timer(0.1)
     while P['ABORT'] == False:
+        if not P['calibrated']:
+            if RC['button_number'] == 4:
+                if RC['button_time'] < P['CALIBRATION_NULL_START_TIME']:
+                    P['LED_number']['current'] = 11316
+                elif RC['button_time'] >= P['CALIBRATION_NULL_START_TIME']:
+                    if RC['button_time'] < P['CALIBRATION_START_TIME']:
+                        P['LED_number']['current'] = 11105
+                    else:
+                        P['LED_number']['current'] = 11305
+            elif RC['button_number'] != 4:
+                P['LED_number']['current'] = 11315
+        elif P['calibrated']:
+            pass
+            if RC['button_number'] == 4:
+                if RC['button_time'] < P['CALIBRATION_START_TIME']:
+                    if P['servo_percent'] < 10:
+                        P['selector_mode'] = 'drive_mode'
+                    elif P['servo_percent'] > 90:
+                        P['selector_mode'] = 'menu_mode'
+                    if P['selector_mode'] == 'drive_mode':
+                        P['LED_number']['current'] = 11306
+                    elif P['selector_mode'] == 'menu_mode':
+                        P['LED_number']['current'] = 11307
+                elif RC['button_time'] >= P['CALIBRATION_START_TIME']:
+                    P['LED_number']['current'] = 11305
+            elif RC['button_number'] != 4:
+                if P['selector_mode'] == 'menu_mode':
+                    P['LED_number']['current'] = 11112 # temp
+                elif P['selector_mode'] == 'drive_mode':
+                    P['LED_number']['current'] = 11101 #temp
+
+
+"""
+
         if True:#try:
             if 'Brief sleep to allow other threads to process...':
                 time.sleep(0.01)
@@ -140,4 +172,4 @@ def _selector_run_loop(D,RC,P):
             print("********** _selector_run_loop Exception ***********************")
             print(e.message, e.args)       
     print 'end _selector_run_loop.'
-
+"""

@@ -15,15 +15,15 @@ def _calibrate_run_loop(D,RC,P):
         if RC['button_number'] != 4:
             time.sleep(0.001)
             continue
-        if RC['button_time'] < P['CALIBRATION_START_TIME']:
+        if RC['button_time'] < P['CALIBRATION_NULL_START_TIME']:
             time.sleep(0.001)
             continue
         if True:
-            if RC['button_time'] < P['CALIBRATION_START_TIME']+0.1:
+            if RC['button_time'] < P['CALIBRATION_NULL_START_TIME']+0.1:
                 P['calibrated'] = False
                 P['servo_pwm_null'] = RC['servo_pwm']
                 P['motor_pwm_null'] = RC['motor_pwm']
-            elif RC['button_time'] < P['CALIBRATION_START_TIME']+1.0:
+            elif RC['button_time'] < P['CALIBRATION_START_TIME']:
                 s = P['SMOOTHING_PARAMETER_1']
                 P['servo_pwm_null'] = (1.0-s)*RC['servo_pwm'] + s*P['servo_pwm_null']
                 P['motor_pwm_null'] = (1.0-s)*RC['motor_pwm'] + s*P['motor_pwm_null']
