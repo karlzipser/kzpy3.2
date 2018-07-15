@@ -6,38 +6,7 @@ import threading
 """
 [orientation][blink][color][_,symbol]
 """
-"""
-STRAIGHT = 1
-LEFT = 2
-RIGHT = 3
-SELECTED = 1
-NOT_SELECTED = 2
 
-
-DIRECT = 1
-FOLLOW = 2
-FURTIVE = 3
-PLAY = 4
-
-CALIBRATE = 5
-DRIVE_MODE = 15
-SELECT_MODE = 16
-
-
-HUMAN = 6
-NETWORK = 7
-BUTTON_4 = 8
-
-LOCAL = 8
-HOME = 9
-TILDEN = 10
-CAMPUS = 11
-ARENA = 12
-OTHER = 13
-
-AGENT = 14
-LINE = 15
-"""
 A = {
     'behavioral_mode_choice':{
         'direct':   {'button':1,'min':20,'max':60,'led':1},

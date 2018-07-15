@@ -9,15 +9,16 @@ from arduino_utils.tactic_rc_controller import *
 from arduino_utils.calibration_mode import *
 from arduino_utils.selector_mode import *
 from arduino_utils.led_display import *
+from arduino_utils.IMU_arduino import *
 
 
 Parameters = {}
 Parameters['calibrated'] = False
 Parameters['SMOOTHING_PARAMETER_1'] = 0.75
 Parameters['ABORT'] = False
-Parameters['USE_MSE'] = True
-Parameters['USE_SIG'] = True
-Parameters['USE_IMU'] = False
+Parameters['USE_MSE'] = False
+Parameters['USE_SIG'] = False
+Parameters['USE_IMU'] = True
 #Parameters['agent'] = 'human'
 Parameters['agent_choice'] = 'human' #Parameters['agent']
 Parameters['servo_percent'] = 49
@@ -46,6 +47,11 @@ if 'Start Arduino threads...':
         LED_display = LED_Display(Arduinos['SIG'],Parameters)
     else:
         spd2s("!!!!!!!!!! 'SIG' not in Arduinos[] !!!!!!!!!!!")
+    if Parameters['USE_IMU'] and 'IMU' in Arduinos.keys():
+        pass
+        IMU_arduino = IMU_Arduino(Arduinos['IMU'],Parameters)
+    else:
+        spd2s("!!!!!!!!!! 'IMU' not in Arduinos[] !!!!!!!!!!!")
 
 
 
