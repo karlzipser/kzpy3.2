@@ -28,8 +28,8 @@ if False:
 	   export COMPUTER_NAME="Mr_Orange"
 	   """
 
-spd2s('reloading runtime_parameters.py')
-
+#spd2s('reloading runtime_parameters.py')
+print 'reloading runtime_parameters.py'
 ####################### general car settings ################
 #
 weight_file_path = opjh('pytorch_models','net.infer')
