@@ -78,7 +78,7 @@ while main_timer.check() == False:
     if not human_agent:
         if len(left_list) > nframes + 2:
             camera_data = net_utils.format_camera_data(left_list, right_list)
-            metadata = net_utils.format_metadata((follow, direct))
+            metadata = net_utils.format_metadata((play, furtive, follow, direct))
             torch_motor, torch_steer = net_utils.run_model(camera_data, metadata)
 
             if 'Do smoothing of percents...':
