@@ -7,7 +7,7 @@ def Calibration_Mode(rc_controller,P):
     return D
 def _calibrate_run_loop(D,RC,P):
     print "_calibrate_run_loop"
-    print_timer = Timer(0.1)
+    print_timer = Timer(1)
     P['calibrated'] = False
     frequency_timer = Timer(1)
     while P['ABORT'] == False:

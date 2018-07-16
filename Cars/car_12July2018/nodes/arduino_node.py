@@ -11,7 +11,6 @@ from arduino_utils.selector_mode import *
 from arduino_utils.led_display import *
 from arduino_utils.IMU_arduino import *
 
-
 Parameters = {}
 Parameters['calibrated'] = False
 Parameters['SMOOTHING_PARAMETER_1'] = 0.75
@@ -23,7 +22,7 @@ Parameters['agent_choice'] = 'human'
 Parameters['servo_percent'] = 49
 Parameters['motor_percent'] = 49
 Parameters['LED_number'] = {}
-Parameters['LED_number']['previous'] = 0
+#Parameters['LED_number']['previous'] = 0
 Parameters['LED_number']['current'] = 0
 Parameters['CALIBRATION_NULL_START_TIME'] = 3.0
 Parameters['CALIBRATION_START_TIME'] = 4.0
@@ -43,17 +42,17 @@ if 'Start Arduino threads...':
         Calibration_mode = Calibration_Mode(Tactic_RC_controller,Parameters)
         Selector_mode = Selector_Mode(Tactic_RC_controller,Parameters)
     else:
-        spd2s("!!!!!!!!!! 'MSE' not in Arduinos[] !!!!!!!!!!!")
+        spd2s("!!!!!!!!!! 'MSE' not in Arduinos[] or not using 'MSE' !!!!!!!!!!!")
     if Parameters['USE_SIG'] and 'SIG' in Arduinos.keys():
         pass
         LED_display = LED_Display(Arduinos['SIG'],Parameters)
     else:
-        spd2s("!!!!!!!!!! 'SIG' not in Arduinos[] !!!!!!!!!!!")
+        spd2s("!!!!!!!!!! 'SIG' not in Arduinos[] or not using 'SIG' !!!!!!!!!!!")
     if Parameters['USE_IMU'] and 'IMU' in Arduinos.keys():
         pass
         IMU_arduino = IMU_Arduino(Arduinos['IMU'],Parameters)
     else:
-        spd2s("!!!!!!!!!! 'IMU' not in Arduinos[] !!!!!!!!!!!")
+        spd2s("!!!!!!!!!! 'IMU' not in Arduinos[] or not using 'IMU' !!!!!!!!!!!")
 if 'Main loop...':
     print 'main loop'
     q = '_'
@@ -62,11 +61,12 @@ if 'Main loop...':
         if Parameters['ABORT']:
             break
         time.sleep(0.1)
-    Arduinos['SIG'].write('(11119)')
+    if 'SIG' in Arduinos:
+        Arduinos['SIG'].write('(11119)')
     Parameters['ABORT'] = True
     print 'done.'
     if Parameters['USE_ROS']:
-        print "unix(opjh('kzpy3/kill_ros.sh'))"
+        print "doing... unix(opjh('kzpy3/kill_ros.sh'))"
         unix(opjh('kzpy3/kill_ros.sh'))
 
 #EOF
