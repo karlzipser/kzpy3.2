@@ -24,7 +24,6 @@ rospy.init_node('listener',anonymous=True)
 left_list = []
 right_list = []
 nframes = 2 #figure out how to get this from network
-human_agent = 1
 
 def right_callback(data):
     global left_list, right_list, solver
@@ -38,45 +37,25 @@ def left_callback(data):
     if len(left_list) > nframes + 3:
         left_list = left_list[-(nframes + 3):]
     left_list.append(cimg)
-def human_agent_callback(msg):
-    global human_agent
-    human_agent = msg.data
 
 steer_cmd_pub = rospy.Publisher('cmd/steer', std_msgs.msg.Int32, queue_size=100)
 motor_cmd_pub = rospy.Publisher('cmd/motor', std_msgs.msg.Int32, queue_size=100)
 rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_callback,queue_size = 1)
 rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_callback,queue_size = 1)
-rospy.Subscriber('/bair_car/human_agent', std_msgs.msg.Int32, callback=human_agent_callback)
 
 
 
-reload_timer = Timer(30)
-current_steer = 49
-current_motor = 49
-s = 0.75
 
 main_timer = Timer(60*60*24)
 while main_timer.check() == False:
-    if reload_timer.check(): # put in thread?
-        reload(rp)
-        reload_timer.reset()
-    if not human_agent:
-        if len(left_list) > nframes + 2:
-            camera_data = net_utils.format_camera_data(left_list, right_list)
-            metadata = net_utils.format_metadata((rp.Follow, rp.Direct))
-            torch_motor, torch_steer = net_utils.run_model(camera_data, metadata)
-
-            if 'Do smoothing of percents...':
-                current_steer = (1.0-s)*torch_steer + s*current_steer
-                current_motor = (1.0-s)*torch_motor + s*current_motor
-
-            adjusted_motor = rp.motor_gain*(current_motor-49) + rp.motor_offset + 49
-
-            steer_cmd_pub.publish(std_msgs.msg.Int32(current_steer))
-            motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
-    else:
-        time.sleep(0.1)
-
+    if len(left_list) > nframes + 2:
+        camera_data = net_utils.format_camera_data(left_list, right_list)
+        metadata = net_utils.format_metadata((rp.Follow, rp.Direct))
+        torch_motor, torch_steer = net_utils.run_model(camera_data, metadata)
+        #print "torch_motor, torch_steer = net_utils.run_model(camera_data, metadata)"
+        steer_cmd_pub.publish(std_msgs.msg.Int32(torch_steer))
+        motor_cmd_pub.publish(std_msgs.msg.Int32(torch_motor))
+        #print torch_steer,torch_motor
 print 'goodbye!'
 print "unix(opjh('kzpy3/kill_ros.sh'))"
 unix(opjh('kzpy3/kill_ros.sh'))

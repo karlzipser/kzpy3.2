@@ -1,6 +1,4 @@
 #!/usr/bin/env python
-
-
 from kzpy3.utils2 import *
 import threading
 import std_msgs.msg
@@ -22,7 +20,6 @@ P['human'] = {}
 P['network'] = {}
 P['calibrated'] = False
 P['network']['servo_percent'],P['network']['motor_percent'] = 49,49
-
 if 'These parameters can change at runtime...':
     P['ABORT'] = False
     P['PAUSE'] = False
@@ -31,24 +28,18 @@ if 'These parameters can change at runtime...':
     P['BEHAVIORAL_MODE'] = 'direct'
 
 
+
+
+
 def cmd_steer_callback(msg):
     global P
     P['network']['servo_percent'] = msg.data
-
 def cmd_motor_callback(msg):
     global P
     P['network']['motor_percent'] = msg.data
-
 rospy.init_node('run_arduino',anonymous=True)
-
 rospy.Subscriber('cmd/steer', std_msgs.msg.Int32, callback=cmd_steer_callback)
 rospy.Subscriber('cmd/motor', std_msgs.msg.Int32, callback=cmd_motor_callback)
-
-
-
-
-
-
 P['human_agent_pub'] = rospy.Publisher('human_agent', std_msgs.msg.Int32, queue_size=5) 
 P['behavioral_mode_pub'] = rospy.Publisher('behavioral_mode', std_msgs.msg.String, queue_size=5)
 P['button_number_pub'] = rospy.Publisher('button_number', std_msgs.msg.Int32, queue_size=5) 
@@ -81,7 +72,6 @@ def get_arduino_serial_connections(baudrate, timeout):
         except:
             pass
     return sers
-
 def assign_serial_connections(sers):
     Arduinos = {}
     for ser in sers:
@@ -168,9 +158,6 @@ def IMU_run_loop(Arduinos,P):
                 P[m]['y'] = imu_input[2]
                 P[m]['z'] = imu_input[3]
             P[m]['xyz'] = imu_input[1:4]
-            #print (m,P[m])
-            #if m == 'acc':
-            #    print (m,P[m])
             P[m]['ctr'] += 1
             P[m]['Hz'] = dp(P[m]['ctr']/ctr_timer.time(),1)
             if ctr_timer.time() > 5:
@@ -344,9 +331,6 @@ def MSE_run_loop(Arduinos,P):
                     else:
                         assert(P['AGENT']=='network')
                         if 'Deal with smoothing of percentages, then translate to pwms...':
-                            #P['network']['servo_percent'] = (1.0-s)*np.round((np.cos(P['mse']['button_time']/10.0)/2.0+0.5)*99) + s*P['network']['servo_percent']
-                            #P['network']['servo_percent'] = bound_value(P['network']['servo_percent'],5,94)
-                            #P['network']['motor_percent'] = (1.0-s)*56 + s*P['network']['motor_percent']
                             P['network']['servo_pwm'] = percent_to_pwm(
                                 P['network']['servo_percent'],P['mse']['servo_pwm_null'],P['mse']['servo_pwm_max'],P['mse']['servo_pwm_min'])
                             P['network']['motor_pwm'] = percent_to_pwm(
@@ -389,7 +373,6 @@ def MSE_run_loop(Arduinos,P):
 
 LED_yellow_line = '(10005)'
 LED_red_X = '(10108)'
-
 def SIG_setup(Arduinos,P):
     Arduinos['SIG'].write(LED_yellow_line)
 def SIG_run_loop(Arduinos,P):
@@ -406,15 +389,12 @@ def SIG_run_loop(Arduinos,P):
         if 'This brief sleep to allows other threads to process; without this other threads run much too slowly...':
             time.sleep(0.0001)
         try:
-
             led_num = 10000
-
             if P['AGENT'] == 'human':
                 led_num += 100
             else:
                 assert P['AGENT'] == 'network'
                 led_num += 200
-
             if P['mse']['button_number'] == 4:
                 button_offset = 4
             else:
@@ -426,19 +406,14 @@ def SIG_run_loop(Arduinos,P):
                     offset = 20
                 elif P['BEHAVIORAL_MODE'] == 'play':
                     offset = 30
-
                 led_num += offset
-
                 if P['mse']['button_number'] == 1:
                     button_offset = 2
                 elif P['mse']['button_number'] == 2:
                     button_offset = 1
                 elif P['mse']['button_number'] == 3:
                     button_offset = 3
-
-
             led_num += button_offset
-
             LED_signal = d2s('(',led_num,')')
             if P['calibrated'] or P['mse']['button_number'] == 4:
                 Arduinos['SIG'].write(LED_signal)
@@ -471,7 +446,6 @@ def Printer_run_loop(P):
         if P['PAUSE'] == True:
             time.sleep(0.1)
             continue
-        #print 'Printer_run_loop'
         try:     
             #m = 'acc'
             print P['network']['servo_percent'],P['network']['motor_percent']
@@ -498,7 +472,6 @@ P['USE_SIG'] = True
 P['USE_IMU'] = True
 P['USE_MSE'] = True
 P['USE_PRINTER'] = True
-
 if 'Start Arduino threads...':
     baudrate = 115200
     timeout = 0.5
@@ -521,10 +494,7 @@ if 'Start Arduino threads...':
         MSE_setup(Arduinos,P)
         threading.Thread(target=MSE_run_loop,args=[Arduinos,P]).start()
     else:
-        spd2s("!!!!!!!!!! 'MSE' not in Arduinos[] !!!!!!!!!!!")
-    
-    
-    
+        spd2s("!!!!!!!!!! 'MSE' not in Arduinos[] !!!!!!!!!!!")    
     if P['USE_PRINTER']:
         Printer_setup(P)
         threading.Thread(target=Printer_run_loop,args=[P]).start()
@@ -539,7 +509,6 @@ if 'Start Arduino threads...':
 
 
 
-# put in tests for rate controls
 
 
 
@@ -567,10 +536,7 @@ if 'Main loop...':
             P['BEHAVIORAL_MODE'] = 'furtive'
         elif q == 'p':
             P['BEHAVIORAL_MODE'] = 'play'
-
-
     P['ABORT'] = True
-
     print 'done.'
     print "unix(opjh('kzpy3/kill_ros.sh'))"
     unix(opjh('kzpy3/kill_ros.sh'))

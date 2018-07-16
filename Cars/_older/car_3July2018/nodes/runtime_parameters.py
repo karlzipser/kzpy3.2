@@ -25,11 +25,13 @@ except KeyError:
    export COMPUTER_NAME="Mr_Orange"
    """
 
+spd2s('reloading runtime_parameters.py')
+
 ####################### general car settings ################
 #
 weight_file_path = opjh('pytorch_models','net.infer')
 
-foldername = 'run_' + time_str()
+foldername_prefix = 'run_'
 
 Direct = 1.
 Follow = 0.
@@ -38,10 +40,9 @@ Furtive = 0.
 Caf = 0.0
 Racing = 0.0
 
-#steer_gain = 1.0
-#motor_gain = 1.0
-#motor_offset = 0
+motor_gain = 1.0
+motor_offset = 0
 
 
 
-
+#EOF
