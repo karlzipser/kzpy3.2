@@ -69,8 +69,8 @@ if Parameters['USE_ROS']:
             human_val = 1
         else:
             human_val = 0           
-        P['steer_pub'].publish(std_msgs.msg.Int32(P['servo_percent']))
-        P['motor_pub'].publish(std_msgs.msg.Int32(P['motor_percent']))
+        P['steer_pub'].publish(std_msgs.msg.Int32(P['human']['servo_percent']))
+        P['motor_pub'].publish(std_msgs.msg.Int32(P['human']['motor_percent']))
         P['button_number_pub'].publish(std_msgs.msg.Int32(P['button_number']))
         P['behavioral_mode_pub'].publish(P['behavioral_mode_choice'])
         P['encoder_pub'].publish(std_msgs.msg.Float32(P['encoder']))
