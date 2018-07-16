@@ -75,6 +75,7 @@ def _TACTIC_RC_controller_run_loop(D,P):
             if 'Send servo/motor commands to Arduino...':
                 if P['agent_choice'] == 'human':
                     write_str = d2n( '(', int(P['servo_pwm_smooth']), ',', int(P['motor_pwm_smooth']+10000), ')')
+                    print write_str
                 elif P['agent_choice'] == 'network': # need to add smoothing
                     servo_pwm_smooth = percent_to_pwm(P['network']['servo_percent'],P['servo_pwm_null'],P['servo_pwm_max'],P['servo_pwm_min'])
                     motor_pwm_smooth = percent_to_pwm(P['network']['motor_percent'],P['motor_pwm_null'],P['motor_pwm_max'],P['motor_pwm_min'])
@@ -82,7 +83,7 @@ def _TACTIC_RC_controller_run_loop(D,P):
                 if D['button_number'] != 4:
                     if P['calibrated']:
                         if P['selector_mode'] == 'drive_mode':
-                            print write_str
+
                             D['arduino'].write(write_str)
             if P['USE_ROS']:
                 P['publish_MSE_data'](P)
