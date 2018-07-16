@@ -65,14 +65,13 @@ if Parameters['USE_ROS']:
         if P['agent_choice'] == 'human':
             human_val = 1
         else:
-            human_val = 0
-                    
+            human_val = 0           
         P['steer_pub'].publish(std_msgs.msg.Int32(P['human']['servo_percent']))
-        P['motor_pub'].publish(std_msgs.msg.Int32(P['human']['motor_percent']))
-        P['button_number_pub'].publish(std_msgs.msg.Int32(P['mse']['button_number']))
-        P['behavioral_mode_pub'].publish(P['behavioral_mode_choice'])
-        P['encoder_pub'].publish(std_msgs.msg.Float32(P['mse']['encoder']))
-        P['human_agent_pub'].publish(std_msgs.msg.Int32(human_val))
+        #P['motor_pub'].publish(std_msgs.msg.Int32(P['human']['motor_percent']))
+        #P['button_number_pub'].publish(std_msgs.msg.Int32(P['mse']['button_number']))
+        #P['behavioral_mode_pub'].publish(P['behavioral_mode_choice'])
+        #P['encoder_pub'].publish(std_msgs.msg.Float32(P['mse']['encoder']))
+        #P['human_agent_pub'].publish(std_msgs.msg.Int32(human_val))
 
     P['publish_IMU_data'] = publish_IMU_data
     P['publish_MSE_data'] = publish_MSE_data
