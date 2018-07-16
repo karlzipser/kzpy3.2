@@ -35,7 +35,7 @@ def _IMU_run_loop(P):
                 if Hz < 60 or Hz > 90:
                     if ctr_timer.time() > 5:
                         spd2s(m,'Hz =',Hz,'...aborting...')
-                        P['ABORT'] = True
+                        #P['ABORT'] = True
                     else:
                         pass#print 'ignoring IMU freq. error.'
             P[m]['xyz'] = imu_input[1:4]
