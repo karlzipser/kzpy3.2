@@ -61,7 +61,7 @@ if Parameters['USE_ROS']:
 
     print_timer = Timer(1)
     def publish_MSE_data(P):
-        if print_timer.message('publish_MSE_data')
+        print_timer.message('publish_MSE_data')
         if P['agent_choice'] == 'human':
             human_val = 1
         else:
