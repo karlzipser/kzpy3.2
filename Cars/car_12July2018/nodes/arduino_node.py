@@ -61,9 +61,9 @@ if 'Main loop...':
         if Parameters['ABORT']:
             break
         time.sleep(0.1)
-    if 'SIG' in Arduinos:
-        Arduinos['SIG'].write('(11119)')
-        time.sleep(0.5)
+    #if 'SIG' in Arduinos:
+    #    Arduinos['SIG'].write('(11119)')
+    #    time.sleep(0.5)
     Parameters['ABORT'] = True
     print 'done.'
     #if Parameters['USE_ROS']:
