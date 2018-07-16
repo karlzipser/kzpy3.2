@@ -69,9 +69,9 @@ def _TACTIC_RC_controller_run_loop(D,P):
                 P['motor_pwm_smooth'] = (1.0-s)*D['motor_pwm'] + s*P['motor_pwm_smooth']
             if P['calibrated'] == True:
                 P['human']['servo_percent'] = pwm_to_percent(
-                    P['servo_pwm_null'],D['servo_pwm_smooth'],P['servo_pwm_max'],P['servo_pwm_min'])
+                    P['servo_pwm_null'],P['servo_pwm_smooth'],P['servo_pwm_max'],P['servo_pwm_min'])
                 P['human']['motor_percent'] = pwm_to_percent(
-                    P['motor_pwm_null'],D['motor_pwm_smooth'],P['motor_pwm_max'],P['motor_pwm_min'])
+                    P['motor_pwm_null'],P['motor_pwm_smooth'],P['motor_pwm_max'],P['motor_pwm_min'])
             if 'Send servo/motor commands to Arduino...':
                 if P['agent_choice'] == 'human':
                     write_str = d2n( '(', int(P['servo_pwm_smooth']), ',', int(P['motor_pwm_smooth']+10000), ')')
