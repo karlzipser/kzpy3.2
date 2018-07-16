@@ -26,7 +26,7 @@ Parameters['LED_number'] = {}
 Parameters['LED_number']['current'] = 0
 Parameters['CALIBRATION_NULL_START_TIME'] = 3.0
 Parameters['CALIBRATION_START_TIME'] = 4.0
-Parameters['print_mse_freq'] = False
+Parameters['print_mse_freq'] = True
 Parameters['print_imu_freq'] = False
 Parameters['print_calibration_freq'] = False
 Parameters['print_selector_freq'] = False
@@ -65,8 +65,8 @@ if 'Main loop...':
         Arduinos['SIG'].write('(11119)')
     Parameters['ABORT'] = True
     print 'done.'
-    if Parameters['USE_ROS']:
-        print "doing... unix(opjh('kzpy3/kill_ros.sh'))"
-        unix(opjh('kzpy3/kill_ros.sh'))
+    #if Parameters['USE_ROS']:
+    #    print "doing... unix(opjh('kzpy3/kill_ros.sh'))"
+    #    unix(opjh('kzpy3/kill_ros.sh'))
 
 #EOF
