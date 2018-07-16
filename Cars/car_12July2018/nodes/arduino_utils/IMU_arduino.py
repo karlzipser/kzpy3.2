@@ -12,10 +12,6 @@ def IMU_Arduino(arduino,P):
 
 def _IMU_run_loop(D,P):
     print '_IMU_run_loop'
-    imu_dic = {}
-    imu_dic['gyro'] = 'gyro_pub'
-    imu_dic['acc'] = 'acc_pub'
-    imu_dic['head'] = 'gyro_heading_pub'
     flush_seconds = 0.1
     flush_timer = Timer(flush_seconds)
     time.sleep(0.1)
