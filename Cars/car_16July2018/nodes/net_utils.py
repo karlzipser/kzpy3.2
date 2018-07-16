@@ -131,10 +131,12 @@ def format_metadata(raw_metadata):
     """
     #print "format_metadata"
     metadata = torch.FloatTensor()
+    ctr = 0
     for mode in raw_metadata:
         metadata = torch.cat((torch.FloatTensor(1, 23, 41).fill_(mode), metadata), 0)
+        ctr += 1
     zero_matrix = torch.FloatTensor(1, 23, 41).zero_()
-    for i in range(126):
+    for i in range(128-ctr):
         metadata = torch.cat((zero_matrix, metadata), 0) 
     return metadata.cuda().unsqueeze(0)
 #
