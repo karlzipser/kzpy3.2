@@ -23,10 +23,10 @@ def get_arduino_serial_connections(baudrate, timeout):
 def assign_serial_connections(sers):
     Arduinos = {}
     for ser in sers:
-        timer = Timer(6) # see that this is a good value
+        #timer = Timer(6) # see that this is a good value
         for _ in xrange(100):
-            if timer.check():
-                continue
+            #if timer.check():
+            #    continue
             try:
                 ser_str = ser.readline()
                 
