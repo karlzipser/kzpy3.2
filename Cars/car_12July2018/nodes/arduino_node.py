@@ -56,7 +56,7 @@ if Parameters['USE_ROS']:
     imu_dic['acc'] = 'acc_pub'
     imu_dic['head'] = 'gyro_heading_pub'
 
-    def publish_MSE_data(m):
+    def publish_IMU_data(m):
         P[imu_dic[m]].publish(geometry_msgs.msg.Vector3(*P[m]['xyz']))
 
     def publish_MSE_data():
@@ -71,7 +71,8 @@ if Parameters['USE_ROS']:
         P['behavioral_mode_pub'].publish(P['behavioral_mode_choice'])
         P['encoder_pub'].publish(std_msgs.msg.Float32(P['mse']['encoder']))
 
-
+    P['publish_IMU_data'] = publish_IMU_data
+    P['publish_MSE_data'] = publish_MSE_data
 
 
 
