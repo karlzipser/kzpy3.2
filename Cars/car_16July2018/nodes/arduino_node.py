@@ -26,6 +26,8 @@ Parameters['print_led_freq'] = False
 Parameters['USE_ROS'] = using_linux()
 Parameters['human'] = {}
 Parameters['newtork'] = {}
+Parameters['newtork']['servo_percent'] = 49
+Parameters['newtork']['motor_percent'] = 49
 
 if Parameters['USE_ROS']:
     import std_msgs.msg
@@ -34,10 +36,10 @@ if Parameters['USE_ROS']:
     P = Parameters
     s = Parameters['SMOOTHING_PARAMETER_1']
     def cmd_steer_callback(msg):
-        #global P
+        global P
         P['network']['servo_percent'] = (1.0-s)*msg.data + s*P['network']['servo_percent']
     def cmd_motor_callback(msg):
-        #global P
+        global P
         P['network']['motor_percent'] = (1.0-s)*msg.data + s*P['network']['motor_percent']
     rospy.init_node('run_arduino',anonymous=True)
     rospy.Subscriber('cmd/steer', std_msgs.msg.Int32, callback=cmd_steer_callback)
