@@ -118,7 +118,7 @@ if 'Main loop...':
         time.sleep(0.1)
     Parameters['ABORT'] = True
     print 'done.'
-    if False:#Parameters['USE_ROS']:
+    if Parameters['USE_ROS']:
         print "doing... unix(opjh('kzpy3/kill_ros.sh'))"
         unix(opjh('kzpy3/kill_ros.sh'))
 

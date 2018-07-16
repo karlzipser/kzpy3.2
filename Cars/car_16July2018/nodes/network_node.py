@@ -25,6 +25,7 @@ left_list = []
 right_list = []
 nframes = 2 #figure out how to get this from network
 human_agent = 1
+behavioral_mode = 'direct'
 
 def right_callback(data):
     global left_list, right_list, solver
@@ -41,19 +42,33 @@ def left_callback(data):
 def human_agent_callback(msg):
     global human_agent
     human_agent = msg.data
+def behavioral_mode_callback(msg):
+    global behavioral_mode, direct, follow, furtive, play
+    behavioral_mode = msg.data
+    direct = 0.0
+    follow = 0.0
+    furtive = 0.0
+    play = 0.0
+    if behavioral_mode == 'direct':
+        direct = 1.0
+    elif behavioral_mode == 'follow':
+        follow = 1.0
+    elif behavioral_mode == 'furtive':
+        furtive = 1.0
+    elif behavioral_mode == 'play':
+        play = 1.0
 
 steer_cmd_pub = rospy.Publisher('cmd/steer', std_msgs.msg.Int32, queue_size=100)
 motor_cmd_pub = rospy.Publisher('cmd/motor', std_msgs.msg.Int32, queue_size=100)
 rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_callback,queue_size = 1)
 rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_callback,queue_size = 1)
 rospy.Subscriber('/bair_car/human_agent', std_msgs.msg.Int32, callback=human_agent_callback)
-
-
+rospy.Subscriber('/bair_car/behavioral_mode', std_msgs.msg.String, callback=behavioral_mode_callback)
 
 reload_timer = Timer(30)
 current_steer = 49
 current_motor = 49
-s = 0.75
+#s = 0.75
 
 main_timer = Timer(60*60*24)
 while main_timer.check() == False:
@@ -63,10 +78,10 @@ while main_timer.check() == False:
     if not human_agent:
         if len(left_list) > nframes + 2:
             camera_data = net_utils.format_camera_data(left_list, right_list)
-            metadata = net_utils.format_metadata((rp.Follow, rp.Direct))
+            metadata = net_utils.format_metadata((follow, direct))
             torch_motor, torch_steer = net_utils.run_model(camera_data, metadata)
 
-            if 'Do smoothing of percents...':
+            if False:#'Do smoothing of percents...':
                 current_steer = (1.0-s)*torch_steer + s*current_steer
                 current_motor = (1.0-s)*torch_motor + s*current_motor
 
