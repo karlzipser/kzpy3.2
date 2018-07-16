@@ -39,7 +39,7 @@ def _selector_run_loop(P):
     frequency_timer = Timer(1)
     while P['ABORT'] == False:
         frequency_timer.freq(name='_selector_run_loop',do_print=P['print_selector_freq'])
-        print_timer.message(d2s(P['behavioral_mode_choice'])
+        print_timer.message(d2s(P['behavioral_mode_choice']))
         if 'Brief sleep to allow other threads to process...':
             time.sleep(0.1)
         if not P['calibrated']:#################################################
