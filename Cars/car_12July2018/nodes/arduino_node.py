@@ -63,6 +63,7 @@ if 'Main loop...':
         time.sleep(0.1)
     if 'SIG' in Arduinos:
         Arduinos['SIG'].write('(11119)')
+        time.sleeo(0.1)
     Parameters['ABORT'] = True
     print 'done.'
     #if Parameters['USE_ROS']:
