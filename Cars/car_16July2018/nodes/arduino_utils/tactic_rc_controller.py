@@ -23,6 +23,7 @@ def _TACTIC_RC_controller_run_loop(P):
     flush_seconds = 0.25
     flush_timer = Timer(flush_seconds)
     frequency_timer = Timer(1)
+    print_timer = Timer(0.25)
     ctr_timer = Timer()
     while P['ABORT'] == False:
         if 'Brief sleep to allow other threads to process...':
@@ -79,6 +80,7 @@ def _TACTIC_RC_controller_run_loop(P):
                 if P['agent_choice'] == 'human':
                     write_str = d2n( '(', int(P['servo_pwm_smooth']), ',', int(P['motor_pwm_smooth']+10000), ')')
                 elif P['agent_choice'] == 'network':
+                    print_timer.message(d2n(P['time_since_button_4']))
                     if P['time_since_button_4'] > 1:
                         _servo_pwm = percent_to_pwm(P['network']['servo_percent'],P['servo_pwm_null'],P['servo_pwm_max'],P['servo_pwm_min'])
                         _motor_pwm = percent_to_pwm(P['network']['motor_percent'],P['motor_pwm_null'],P['motor_pwm_max'],P['motor_pwm_min'])
