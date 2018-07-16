@@ -7,22 +7,22 @@ import threading
 
 A = {
     'behavioral_mode_choice':{
-        'direct':   {'button':1,'min':20,'max':60,'led':1},
-        'follow':   {'button':1,'min':0,'max':40,'led':2},
-        'furtive':  {'button':1,'min':60,'max':80,'led':3},
-        'play':     {'button':1,'min':80,'max':100,'led':4}
+        'direct':   {'button':3,'min':40,'max':60,'led':1},
+        'follow':   {'button':3,'min':0,'max':40,'led':2},
+        'furtive':  {'button':3,'min':60,'max':80,'led':3},
+        'play':     {'button':3,'min':80,'max':100,'led':4}
         },
     'agent_choice':{
         'human':    {'button':2,'min':40,'max':100,'led':17},
         'network':  {'button':2,'min':0,'max':40,'led':18}
         },
     'place_choice':{
-        'local':    {'button':3,'min':40,'max':60,'led':8},
-        'home':     {'button':3,'min':20,'max':40,'led':9},
-        'Tilden':   {'button':3,'min':0,'max':20,'led':10},
-        'campus':   {'button':3,'min':60,'max':80,'led':11},
-        'arena':    {'button':3,'min':80,'max':90,'led':12},
-        'other':    {'button':3,'min':90,'max':100,'led':13}
+        'local':    {'button':1,'min':40,'max':60,'led':8},
+        'home':     {'button':1,'min':20,'max':40,'led':9},
+        'Tilden':   {'button':1,'min':0,'max':20,'led':10},
+        'campus':   {'button':1,'min':60,'max':80,'led':11},
+        'arena':    {'button':1,'min':80,'max':90,'led':12},
+        'other':    {'button':1,'min':90,'max':100,'led':13}
         }   
     }
 

@@ -1712,4 +1712,14 @@ def using_osx():
     return False
 
 
+def get_safe_name(name):
+    lst = []
+    for i in range(len(name)):
+        if name[i].isalnum():
+            lst.append(name[i])
+        else:
+            lst.append('_')
+    return "".join(lst)
+    
+
 #EOF

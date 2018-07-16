@@ -31,6 +31,26 @@ Parameters['network'] = {}
 Parameters['network']['servo_percent'] = 49
 Parameters['network']['motor_percent'] = 49
 
+if False:
+    ctr=1
+    rostopics = [{'name':'cmd/steer','type':'std_msgs.msg.Int32'},{'name':'cmd/motor','type':'std_msgs.msg.Int32'}]
+    name = 'cmd/steer'
+    msg = 49
+    extra = "\n#a comment\n"
+    callback_str = d2n("def callback_",get_safe_name(name),"(msg):",extra,"\n\tP['",name,"'] = msg")
+    rtype = 'std_msgs.msg.Int32'
+    callback = 'callback_1'
+    subscriber_str = d2n("rospy.Subscriber('",name,"', ",rtype,", callback=",callback)
+
+
+"""
+battery pods
+encoder adjustment
+attach body
+"""
+
+
+
 if Parameters['USE_ROS']:
     import std_msgs.msg
     import geometry_msgs.msg
@@ -64,9 +84,9 @@ if Parameters['USE_ROS']:
     def publish_IMU_data(P,m):
         P[imu_dic[m]].publish(geometry_msgs.msg.Vector3(*P[m]['xyz']))
 
-    print_timer = Timer(1)
+    #print_timer = Timer(1)
     def publish_MSE_data(P):
-        print_timer.message('publish_MSE_data')
+        #print_timer.message('publish_MSE_data')
         if P['agent_choice'] == 'human':
             human_val = 1
         else:
