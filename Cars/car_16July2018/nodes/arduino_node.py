@@ -27,9 +27,9 @@ Parameters['USE_ROS'] = using_linux()
 Parameters['human'] = {}
 Parameters['human']['servo_percent'] = 49
 Parameters['human']['motor_percent'] = 49
-Parameters['newtork'] = {}
-Parameters['newtork']['servo_percent'] = 49
-Parameters['newtork']['motor_percent'] = 49
+Parameters['network'] = {}
+Parameters['network']['servo_percent'] = 49
+Parameters['network']['motor_percent'] = 49
 
 if Parameters['USE_ROS']:
     import std_msgs.msg
