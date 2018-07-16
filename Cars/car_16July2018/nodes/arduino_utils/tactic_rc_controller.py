@@ -86,8 +86,8 @@ def _TACTIC_RC_controller_run_loop(P):
             Hz = frequency_timer.freq(name='_TACTIC_RC_controller_run_loop',do_print=P['print_mse_freq'])
             if is_number(Hz):
                 P['Hz'] = Hz
-                if ctr_timer.time() > 5 and P['button_number'] != 4:
-                    if Hz < 30 or Hz > 90:
+                if ctr_timer.time() > 5 and P['selector_mode'] == 'drive_mode':
+                    if Hz < 60 or Hz > 90:
                         spd2s('MSE Hz =',Hz,'...aborting...')
                         P['ABORT'] = True
         except Exception as e:
