@@ -26,7 +26,6 @@ def _TACTIC_RC_controller_run_loop(D,P):
     flush_timer = Timer(flush_seconds)
     frequency_timer = Timer(1)
     ctr_timer = Timer()
-    #print_timer = Timer(1)
     while P['ABORT'] == False:
         if 'Brief sleep to allow other threads to process...':
             time.sleep(0.01)
@@ -44,8 +43,6 @@ def _TACTIC_RC_controller_run_loop(D,P):
                 D['servo_pwm'] = mse_input[2]
                 D['motor_pwm'] = mse_input[3]
                 D['encoder'] = mse_input[4]
-
-
             if 'Assign button...':
                 bpwm = D['button_pwm']
                 if np.abs(bpwm - 1900) < D['button_delta']:
@@ -60,7 +57,6 @@ def _TACTIC_RC_controller_run_loop(D,P):
                     D['button_timer'].reset()
                 D['button_number'] = bn
                 D['button_time'] = D['button_timer'].time()
-
             if P['calibrated'] == True:
                 P['servo_percent'] = pwm_to_percent(
                     P['servo_pwm_null'],D['servo_pwm'],P['servo_pwm_max'],P['servo_pwm_min'])
@@ -79,13 +75,13 @@ def _TACTIC_RC_controller_run_loop(D,P):
                             D['arduino'].write(write_str)
             # ros publish here
             
-            Hz = frequency_timer.freq(name='_TACTIC_RC_controller_run_loop')
+            Hz = frequency_timer.freq(name='_TACTIC_RC_controller_run_loop',do_print=P['print_mse_freq'])
             if is_number(Hz):
                 D['Hz'] = Hz
                 if ctr_timer.time() > 5:
-                        if Hz < 30 or Hz > 90:
-                            spd2s('MSE Hz =',Hz,'...aborting...')
-                            P['ABORT'] = True
+                    if Hz < 30 or Hz > 90:
+                        spd2s('MSE Hz =',Hz,'...aborting...')
+                        P['ABORT'] = True
         except Exception as e:
             print '_TACTIC_RC_controller_run_loop',e
             pass            

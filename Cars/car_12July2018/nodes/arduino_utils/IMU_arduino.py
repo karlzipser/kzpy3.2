@@ -49,7 +49,8 @@ def _IMU_run_loop(D,P):
             if True:
                 if print_timer.check():
                     #print P['acc']['xyz'],P['gyro']['xyz'],P['head']['xyz'],P['acc']['Hz']
-                    print P['gyro']['xyz'],P['acc']['Hz']
+                    if P['print_selector_freq']:
+                        print P['gyro']['xyz'],P['acc']['Hz']
                     print_timer.reset()
         except Exception as e:
             #print("********** IMU_run_loop(Arduinos,P) Exception ***********************")

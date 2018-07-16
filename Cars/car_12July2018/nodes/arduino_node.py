@@ -19,8 +19,7 @@ Parameters['ABORT'] = False
 Parameters['USE_MSE'] = True
 Parameters['USE_SIG'] = True
 Parameters['USE_IMU'] = True
-#Parameters['agent'] = 'human'
-Parameters['agent_choice'] = 'human' #Parameters['agent']
+Parameters['agent_choice'] = 'human'
 Parameters['servo_percent'] = 49
 Parameters['motor_percent'] = 49
 Parameters['LED_number'] = {}
@@ -28,15 +27,17 @@ Parameters['LED_number']['previous'] = 0
 Parameters['LED_number']['current'] = 0
 Parameters['CALIBRATION_NULL_START_TIME'] = 3.0
 Parameters['CALIBRATION_START_TIME'] = 4.0
-
+Parameters['print_mse_freq'] = False
+Parameters['print_imu_freq'] = False
+Parameters['print_calibration_freq'] = False
+Parameters['print_selector_freq'] = False
+Parameters['print_led_freq'] = False
+Parameters['USE_ROS'] = True
 
 if 'Start Arduino threads...':
     baudrate = 115200
     timeout = 0.1
     Arduinos = assign_serial_connections(get_arduino_serial_connections(baudrate,timeout))
-    #print Arduinos.keys()
-    #print 'here'
-
     if Parameters['USE_MSE'] and 'MSE' in Arduinos.keys():
         Tactic_RC_controller = TACTIC_RC_controller(Arduinos['MSE'],Parameters)
         Calibration_mode = Calibration_Mode(Tactic_RC_controller,Parameters)
@@ -53,9 +54,6 @@ if 'Start Arduino threads...':
         IMU_arduino = IMU_Arduino(Arduinos['IMU'],Parameters)
     else:
         spd2s("!!!!!!!!!! 'IMU' not in Arduinos[] !!!!!!!!!!!")
-
-# put in frequency controls
-
 if 'Main loop...':
     print 'main loop'
     q = '_'
@@ -67,7 +65,8 @@ if 'Main loop...':
     Arduinos['SIG'].write('(11119)')
     Parameters['ABORT'] = True
     print 'done.'
-#    print "unix(opjh('kzpy3/kill_ros.sh'))"
-#    unix(opjh('kzpy3/kill_ros.sh'))
+    if Parameters['USE_ROS']:
+        print "unix(opjh('kzpy3/kill_ros.sh'))"
+        unix(opjh('kzpy3/kill_ros.sh'))
 
 #EOF

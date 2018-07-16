@@ -20,7 +20,7 @@ def _LED_Display_run_loop(D,P):
     write_timer = Timer(0.1)
     frequency_timer = Timer(1)
     while P['ABORT'] == False:
-        frequency_timer.freq(name='_LED_Display_run_loop')
+        frequency_timer.freq(name='_LED_Display_run_loop',do_print=P['print_led_freq'])
         if 'Brief sleep to allow other threads to process...':
             time.sleep(0.03)
         try:

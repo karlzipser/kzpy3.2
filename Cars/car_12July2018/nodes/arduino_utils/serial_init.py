@@ -20,8 +20,6 @@ def get_arduino_serial_connections(baudrate, timeout):
             pass
     return sers
 
-
-
 def assign_serial_connections(sers):
     Arduinos = {}
     for ser in sers:
