@@ -68,7 +68,7 @@ rospy.Subscriber('/bair_car/behavioral_mode', std_msgs.msg.String, callback=beha
 reload_timer = Timer(30)
 current_steer = 49
 current_motor = 49
-#s = 0.75
+s = 0.75 # maybe move to tactic
 
 main_timer = Timer(60*60*24)
 while main_timer.check() == False:
@@ -81,7 +81,7 @@ while main_timer.check() == False:
             metadata = net_utils.format_metadata((follow, direct))
             torch_motor, torch_steer = net_utils.run_model(camera_data, metadata)
 
-            if False:#'Do smoothing of percents...':
+            if 'Do smoothing of percents...':
                 current_steer = (1.0-s)*torch_steer + s*current_steer
                 current_motor = (1.0-s)*torch_motor + s*current_motor
 
