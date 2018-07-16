@@ -1,6 +1,9 @@
 from kzpy3.utils2 import *
 import threading
 
+import std_msgs.msg
+import rospy
+
 def TACTIC_RC_controller(arduino,P):
     D = {}
     D['ctr'] = 0
