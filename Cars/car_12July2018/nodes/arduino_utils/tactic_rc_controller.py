@@ -62,30 +62,24 @@ def _TACTIC_RC_controller_run_loop(D,P):
                 D['button_number'] = bn
                 P['button_number'] = D['button_number']
                 D['button_time'] = D['button_timer'].time()
-
+            if P['calibrated'] == True:
+                P['servo_percent'] = pwm_to_percent(
+                    P['servo_pwm_null'],D['servo_pwm'],P['servo_pwm_max'],P['servo_pwm_min'])
+                P['motor_percent'] = pwm_to_percent(
+                    P['motor_pwm_null'],D['motor_pwm'],P['motor_pwm_max'],P['motor_pwm_min'])
             if 'Do smoothing...':
                 s = P['SMOOTHING_PARAMETER_1']
                 P['servo_pwm_smooth'] = (1.0-s)*D['servo_pwm'] + s*P['servo_pwm_smooth']
                 P['motor_pwm_smooth'] = (1.0-s)*D['motor_pwm'] + s*P['motor_pwm_smooth']
-            if P['calibrated'] == True:
-                P['human']['servo_percent'] = pwm_to_percent(
-                    P['servo_pwm_null'],P['servo_pwm_smooth'],P['servo_pwm_max'],P['servo_pwm_min'])
-                P['human']['motor_percent'] = pwm_to_percent(
-                    P['motor_pwm_null'],P['motor_pwm_smooth'],P['motor_pwm_max'],P['motor_pwm_min'])
+
             if 'Send servo/motor commands to Arduino...':
-                if True:#P['agent_choice'] == 'human':
-                    write_str = d2n( '(', int(P['servo_pwm_smooth']), ',', int(P['motor_pwm_smooth']+10000), ')')
-                    print write_str,P['calibrated']
-                elif P['agent_choice'] == 'network': # need to add smoothing
-                    servo_pwm_smooth = percent_to_pwm(P['network']['servo_percent'],P['servo_pwm_null'],P['servo_pwm_max'],P['servo_pwm_min'])
-                    motor_pwm_smooth = percent_to_pwm(P['network']['motor_percent'],P['motor_pwm_null'],P['motor_pwm_max'],P['motor_pwm_min'])
-                    write_str = d2n( '(', int(servo_pwm_smooth), ',', int(motor_pwm_smooth+10000), ')')
+                write_str = d2n( '(', int(P['servo_pwm_smooth']), ',', int(P['motor_pwm_smooth']+10000), ')')
                 if D['button_number'] != 4:
                     if P['calibrated']:
                         if P['selector_mode'] == 'drive_mode':
-
                             D['arduino'].write(write_str)
             if P['USE_ROS']:
+                #P['steer_pub'].publish(std_msgs.msg.Int32(P['servo_percent']))
                 P['publish_MSE_data'](P)
             
             Hz = frequency_timer.freq(name='_TACTIC_RC_controller_run_loop',do_print=P['print_mse_freq'])
