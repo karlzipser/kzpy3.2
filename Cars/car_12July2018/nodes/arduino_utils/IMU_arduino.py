@@ -41,7 +41,7 @@ def _IMU_run_loop(D,P):
                         P['ABORT'] = True
             P[m]['xyz'] = imu_input[1:4]
             if P['USE_ROS']:
-                P['publish_IMU_data'](m)
+                P['publish_IMU_data'](P,m)
                 #P[imu_dic[m]].publish(geometry_msgs.msg.Vector3(*P[m]['xyz']))
             if print_timer.check():
                 #print P['acc']['xyz'],P['gyro']['xyz'],P['head']['xyz'],P['acc']['Hz']

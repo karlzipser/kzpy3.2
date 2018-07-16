@@ -56,10 +56,12 @@ if Parameters['USE_ROS']:
     imu_dic['acc'] = 'acc_pub'
     imu_dic['head'] = 'gyro_heading_pub'
 
-    def publish_IMU_data(m):
+    def publish_IMU_data(P,m):
         P[imu_dic[m]].publish(geometry_msgs.msg.Vector3(*P[m]['xyz']))
 
-    def publish_MSE_data():
+    print_timer = Timer(1)
+    def publish_MSE_data(P):
+        if print_timer.message('publish_MSE_data')
         if P['agent_choice'] == 'human':
             human_val = 1
         else:
