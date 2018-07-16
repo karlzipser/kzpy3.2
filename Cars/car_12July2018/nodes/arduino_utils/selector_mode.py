@@ -116,9 +116,9 @@ def _selector_run_loop(D,RC,P):
                                 color = 200
                             if RC['button_number'] == 1:
                                 orientation = 30000
-                            elif RC['button_number'] == 2:
-                                orientation = 10000
                             elif RC['button_number'] == 3:
+                                orientation = 10000
+                            elif RC['button_number'] == 2:
                                 orientation = 20000
                             P['LED_number']['current'] = orientation+color+A['behavioral_mode_choice'][P['behavioral_mode_choice']]['led']
 
