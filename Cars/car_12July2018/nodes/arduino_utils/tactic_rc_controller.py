@@ -82,6 +82,7 @@ def _TACTIC_RC_controller_run_loop(D,P):
                 if D['button_number'] != 4:
                     if P['calibrated']:
                         if P['selector_mode'] == 'drive_mode':
+                            print write_str
                             D['arduino'].write(write_str)
             if P['USE_ROS']:
                 P['publish_MSE_data'](P)
