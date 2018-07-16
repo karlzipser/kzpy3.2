@@ -73,7 +73,7 @@ def _TACTIC_RC_controller_run_loop(D,P):
                 P['human']['motor_percent'] = pwm_to_percent(
                     P['motor_pwm_null'],P['motor_pwm_smooth'],P['motor_pwm_max'],P['motor_pwm_min'])
             if 'Send servo/motor commands to Arduino...':
-                if P['agent_choice'] == 'human':
+                if True:#P['agent_choice'] == 'human':
                     write_str = d2n( '(', int(P['servo_pwm_smooth']), ',', int(P['motor_pwm_smooth']+10000), ')')
                     print write_str
                 elif P['agent_choice'] == 'network': # need to add smoothing
