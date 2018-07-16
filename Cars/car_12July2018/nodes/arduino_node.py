@@ -68,7 +68,7 @@ def publish_MSE_data(P):
         human_val = 0           
     P['steer_pub'].publish(std_msgs.msg.Int32(P['servo_percent']))
     P['motor_pub'].publish(std_msgs.msg.Int32(P['motor_percent']))
-    P['button_number_pub'].publish(std_msgs.msg.Int32(P['mse']['button_number']))
+    P['button_number_pub'].publish(std_msgs.msg.Int32(P['button_number']))
     P['behavioral_mode_pub'].publish(P['behavioral_mode_choice'])
     P['encoder_pub'].publish(std_msgs.msg.Float32(P['encoder']))
     P['human_agent_pub'].publish(std_msgs.msg.Int32(human_val))

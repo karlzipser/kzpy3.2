@@ -60,6 +60,7 @@ def _TACTIC_RC_controller_run_loop(D,P):
                 if D['button_number'] != bn:
                     D['button_timer'].reset()
                 D['button_number'] = bn
+                P['button_number'] = D['button_number']
                 D['button_time'] = D['button_timer'].time()
             if P['calibrated'] == True:
                 P['servo_percent'] = pwm_to_percent(
