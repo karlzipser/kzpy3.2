@@ -85,7 +85,7 @@ def _TACTIC_RC_controller_run_loop(D,P):
                         spd2s('MSE Hz =',Hz,'...aborting...')
                         P['ABORT'] = True
         except Exception as e:
-            #print '_TACTIC_RC_controller_run_loop',e
+            print '_TACTIC_RC_controller_run_loop',e
             pass            
     print 'end _TACTIC_RC_controller_run_loop.'
 
