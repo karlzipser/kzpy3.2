@@ -5,6 +5,7 @@ def TACTIC_RC_controller(P):
     P['button_delta'] = 50
     P['button_number'] = 0
     P['button_timer'] = Timer()
+    P['time_since_button_4'] = Timer()
     P['servo_pwm_smooth'] = 1000
     P['motor_pwm_smooth'] = 1000
     P['selector_mode'] = False
@@ -40,7 +41,6 @@ def _TACTIC_RC_controller_run_loop(P):
                 P['servo_pwm'] = mse_input[2]
                 P['motor_pwm'] = mse_input[3]
                 P['encoder'] = mse_input[4]
-                #P['encoder'] = P['encoder']
             if 'Assign button...':
                 bpwm = P['button_pwm']
                 if np.abs(bpwm - 1900) < P['button_delta']:
@@ -53,8 +53,9 @@ def _TACTIC_RC_controller_run_loop(P):
                     bn = 4
                 if P['button_number'] != bn:
                     P['button_timer'].reset()
+                if P['button_number'] == 4:
+                    P['time_since_button_4'].reset()
                 P['button_number'] = bn
-                #P['button_number'] = P['button_number']
                 P['button_time'] = P['button_timer'].time()
             """
             if P['calibrated'] == True:
@@ -78,9 +79,12 @@ def _TACTIC_RC_controller_run_loop(P):
                 if P['agent_choice'] == 'human':
                     write_str = d2n( '(', int(P['servo_pwm_smooth']), ',', int(P['motor_pwm_smooth']+10000), ')')
                 elif P['agent_choice'] == 'network':
-                    _servo_pwm = percent_to_pwm(P['network']['servo_percent'],P['servo_pwm_null'],P['servo_pwm_max'],P['servo_pwm_min'])
-                    _motor_pwm = percent_to_pwm(P['network']['motor_percent'],P['motor_pwm_null'],P['motor_pwm_max'],P['motor_pwm_min'])
-                    write_str = d2n( '(', int(_servo_pwm), ',', int(_motor_pwm+10000), ')')
+                    if P['time_since_button_4'] > 1:
+                        _servo_pwm = percent_to_pwm(P['network']['servo_percent'],P['servo_pwm_null'],P['servo_pwm_max'],P['servo_pwm_min'])
+                        _motor_pwm = percent_to_pwm(P['network']['motor_percent'],P['motor_pwm_null'],P['motor_pwm_max'],P['motor_pwm_min'])
+                        write_str = d2n( '(', int(_servo_pwm), ',', int(_motor_pwm+10000), ')')
+                    else:
+                        write_str = d2n( '(',49,',',49+10000,')')
                 if P['button_number'] != 4:
                     if P['calibrated']:
                         if P['selector_mode'] == 'drive_mode':
