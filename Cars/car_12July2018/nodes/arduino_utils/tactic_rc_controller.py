@@ -77,8 +77,8 @@ def _TACTIC_RC_controller_run_loop(D,P):
                         if P['selector_mode'] == 'drive_mode':
                             D['arduino'].write(write_str)
             if P['USE_ROS']:
-                P['steer_pub'].publish(std_msgs.msg.Int32(P['servo_percent']))
-                #P['publish_MSE_data'](P)
+                #P['steer_pub'].publish(std_msgs.msg.Int32(P['servo_percent']))
+                P['publish_MSE_data'](P)
             
             Hz = frequency_timer.freq(name='_TACTIC_RC_controller_run_loop',do_print=P['print_mse_freq'])
             if is_number(Hz):
