@@ -80,7 +80,7 @@ def _TACTIC_RC_controller_run_loop(P):
                 if P['agent_choice'] == 'human':
                     write_str = d2n( '(', int(P['servo_pwm_smooth']), ',', int(P['motor_pwm_smooth']+10000), ')')
                 elif P['agent_choice'] == 'network':
-                    if np.abs(P['human']['servo_percent']-49) > 4 or np.abs(P['human']['motor_percent']-49) > 4:
+                    if False:#np.abs(P['human']['servo_percent']-49) > 4 or np.abs(P['human']['motor_percent']-49) > 4:
                         write_str = d2n( '(', int(P['servo_pwm_smooth']), ',', int(P['motor_pwm_smooth']+10000), ')')
                         #P['time_since_button_4'].reset()
                         print_timer.message(d2s('Temporary human control control...',P['human']['servo_percent'],P['human']['motor_percent']))
