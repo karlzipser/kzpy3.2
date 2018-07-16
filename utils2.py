@@ -1693,7 +1693,23 @@ def bound_value(the_value,the_min,the_max):
 		return the_value
 
 
-
+def using_platform():
+    from sys import platform
+    if platform == "linux" or platform == "linux2":
+        return 'linux'
+    elif platform == "darwin":
+        return 'osx'
+    else:
+        spd2s('unknown system (not linux or osx)')
+        assert False
+def using_linux():
+    if using_platform() == 'linux':
+        return True
+    return False
+def using_osx():
+    if using_platform() == 'osx':
+        return True
+    return False
 
 
 #EOF
