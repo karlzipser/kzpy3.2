@@ -67,7 +67,8 @@ if using_linux():
     timer2 = Timer()
     while timer2.time() < 10:
         #print timer2.time()
-        timer.message(d2s("'/bair_car/steer' =",P['/bair_car/steer']))
+        for k in Rostopics.keys():
+            timer.message(d2s(k,"=",P[k]))
 
 
 
