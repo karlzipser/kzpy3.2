@@ -29,7 +29,7 @@ for s in subscriber_strs:
 print "#\n################"
 
 P = {}
-P['cmd/steer'] = 0
+P['/bair_car/cmd/steer'] = 0
 if using_linux():
     ################
     #
@@ -56,7 +56,7 @@ if using_linux():
     timer2 = Timer()
     while timer2.time() < 10:
         #print timer2.time()
-        timer.message(d2s("cmd/steer =",P['cmd/steer']))
+        timer.message(d2s("'/bair_car/cmd/steer' =",P['/bair_car/cmd/steer']))
 
 
 
