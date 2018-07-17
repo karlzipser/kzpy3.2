@@ -88,7 +88,7 @@ if using_linux():
             ctr = 0
             window.clear()
             for topic in Rostopics:
-                window.addstr(ctr, 0, d2s(topic[0],"=\t",P[B+topic[1]]))
+                window.addstr(ctr, 0, d2s(topic[0],"=\t",P[B+topic[0]]))
                 ctr += 1
                 window.refresh()
             time.sleep(0.1)
