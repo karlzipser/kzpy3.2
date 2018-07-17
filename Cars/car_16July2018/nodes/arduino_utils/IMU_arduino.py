@@ -32,7 +32,7 @@ def _IMU_run_loop(P):
             Hz = frequency_timers[m].freq(name=m,do_print=False)
             if is_number(Hz) and m == 'acc':
                 P['Hz'][m] = Hz
-                if Hz < 60 or Hz > 90:
+                if Hz < 30 or Hz > 90:
                     if ctr_timer.time() > 5:
                         spd2s(m,'Hz =',Hz,'...aborting...')
                         #P['ABORT'] = True
