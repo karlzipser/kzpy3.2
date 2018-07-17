@@ -67,9 +67,10 @@ if using_linux():
         exec(s)   
 
     P['ABORT'] = False
-    timer = Timer(0.1)
+    timer = Timer(0.5)
     def printer_thread():
         while not P['ABORT']:
+            time.sleep(0.01)
             for k in Rostopics.keys():
                 t = k.replace('/bair_car','')
                 timer.message(d2s(t,"=\t",P[k]))
@@ -84,6 +85,7 @@ if using_linux():
             break
         q = raw_input('')
         time.sleep(0.1)
+    P['ABORT'] = True
     print 'done.'
 
 
