@@ -4,14 +4,15 @@
 
 #from kzpy3.utils2 import *
 """
+*allow steer gain
+*paramterize which part of motor and steer vector is chosen
 *battery pods
 *encoder adjustment
 attach body
 improve body connector
 frequency min/max (longer than 1s period)
-*allow steer gain
-*paramterize which part of motor and steer vector is chosen
 save steer and motor min and maxes
+publish frequencies for all topics, figure out why acceleration is slowing down with network mode.
 """
 
 """

@@ -19,7 +19,7 @@ def _TACTIC_RC_controller_run_loop(P):
     P['Arduinos']['MSE'].flushInput()
     time.sleep(0.1)
     P['Arduinos']['MSE'].flushOutput()
-    P['Hz'] = 0
+    P['Hz']['mse'] = 0
     flush_seconds = 0.25
     flush_timer = Timer(flush_seconds)
     frequency_timer = Timer(1)
@@ -58,13 +58,7 @@ def _TACTIC_RC_controller_run_loop(P):
                     P['time_since_button_4'].reset()
                 P['button_number'] = bn
                 P['button_time'] = P['button_timer'].time()
-            """
-            if P['calibrated'] == True:
-                P['human']['servo_percent'] = pwm_to_percent(
-                    P['servo_pwm_null'],P['servo_pwm'],P['servo_pwm_max'],P['servo_pwm_min'])
-                P['human']['motor_percent'] = pwm_to_percent(
-                    P['motor_pwm_null'],P['motor_pwm'],P['motor_pwm_max'],P['motor_pwm_min'])
-            """
+
             if 'Do smoothing...':
                 s = P['HUMAN_SMOOTHING_PARAMETER_1']
                 P['servo_pwm_smooth'] = (1.0-s)*P['servo_pwm'] + s*P['servo_pwm_smooth']
@@ -100,7 +94,7 @@ def _TACTIC_RC_controller_run_loop(P):
             
             Hz = frequency_timer.freq(name='_TACTIC_RC_controller_run_loop',do_print=P['print_mse_freq'])
             if is_number(Hz):
-                P['Hz'] = Hz
+                P['Hz']['mse'] = Hz
                 if ctr_timer.time() > 5 and P['selector_mode'] == 'drive_mode':
                     if Hz < 30 or Hz > 90:
                         spd2s('MSE Hz =',Hz,'...aborting...')

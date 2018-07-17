@@ -30,6 +30,7 @@ Parameters['human']['motor_percent'] = 49
 Parameters['network'] = {}
 Parameters['network']['servo_percent'] = 49
 Parameters['network']['motor_percent'] = 49
+Parameters['Hz'] = {}
 
 if Parameters['USE_ROS']:
     import std_msgs.msg

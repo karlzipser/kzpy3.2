@@ -70,8 +70,12 @@ current_steer = 49
 current_motor = 49
 
 main_timer = Timer(60*60*24)
+frequency_timer = Timer(1.0)
 
 while not main_timer.check():
+    Hz = frequency_timer.freq(name='network',do_print=True)
+    if is_number(Hz):
+        P['Hz']['network'] = Hz
     if reload_timer.check(): # put in thread?
         reload(rp)
         reload_timer.reset()
