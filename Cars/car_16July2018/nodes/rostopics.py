@@ -5,8 +5,8 @@ import rospy
 
 
 Int = 'std_msgs.msg.Int32'
-Rostopics = {'cmd/steer':{'type':Int},
-    'cmd/motor':{'type':Int}
+Rostopics = {'/bair_car/cmd/steer':{'type':Int},
+    '/bair_car/cmd/motor':{'type':Int}
     }
 
 callback_strs = []
