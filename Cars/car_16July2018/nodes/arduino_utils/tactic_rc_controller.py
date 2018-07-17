@@ -41,7 +41,7 @@ def _TACTIC_RC_controller_run_loop(P):
                 P['button_pwm'] = mse_input[1]
                 P['servo_pwm'] = mse_input[2]
                 P['motor_pwm'] = mse_input[3]
-                P['encoder'] = dp(mse_input[4],2)
+                P['encoder'] = mse_input[4]
             if 'Assign button...':
                 bpwm = P['button_pwm']
                 if np.abs(bpwm - 1900) < P['button_delta']:

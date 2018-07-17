@@ -72,6 +72,8 @@ if using_linux():
     P['ABORT'] = False
     P['PAUSE'] = False
     timer = Timer(0.01)
+
+    """
     def printer_thread():
         while not P['ABORT']:
             time.sleep(0.01)
@@ -79,8 +81,20 @@ if using_linux():
                 continue
             for k in Rostopics.keys():
                 t = k.replace('/bair_car/','')
-                pd2s(t,"=\t",P[k])
+                pd2s(t,"=\t",dp2(P[k],1))
+    """
 
+    import curses
+    def pbar(window):
+        for j in range(100):
+            ctr = 0
+            for k in Rostopics.keys():
+                t = k.replace('/bair_car/','')
+                window.addstr(ctr, 0, d2s(t,"=\t",dp2(P[k],1)))
+                window.refresh()
+            time.sleep(0.1)
+    curses.wrapper(pbar)
+"""
     import threading
     threading.Thread(target=printer_thread,args=[]).start()
 
@@ -97,6 +111,6 @@ if using_linux():
         time.sleep(0.1)
     P['ABORT'] = True
     print 'done.'
-
+"""
 
 

@@ -5,16 +5,15 @@ https://docs.python.org/3/howto/curses.html
 https://github.com/pmbarrett314/curses-menu/tree/master/cursesmenu
 """
 
-if False:
+if True:
 	import curses
-
 	def pbar(window):
 		for j in range(100):
 		    for i in range(10):
-		        window.addstr(i, 10, d2s('xyz:',dp(np.random.rand(1),2)))
-		        #stdscr.addstr(0, 0, whstr, curses.color_pair(1))
+		        window.addstr(i, 0, d2s('xyz:',dp(np.random.rand(1),2)))
 		        window.refresh()
 		    time.sleep(0.1)
+		    k = window.getkey()
 	curses.wrapper(pbar)
 
 
@@ -35,7 +34,10 @@ if False:
 	wrapper(main)
 
 
-if True:
+
+
+
+if False:
 	import sys,os
 	import curses
 
