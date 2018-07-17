@@ -73,6 +73,7 @@ main_timer = Timer(60*60*24)
 frequency_timer = Timer(1.0)
 
 while not main_timer.check():
+    time.sleep(0.01)
     Hz = frequency_timer.freq(name='network',do_print=True)
     #if is_number(Hz):
     #    P['Hz']['network'] = Hz
