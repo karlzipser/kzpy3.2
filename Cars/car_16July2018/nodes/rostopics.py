@@ -83,10 +83,7 @@ if using_linux():
         if timer2.check():
             break
         q = raw_input('')
-        if P['ABORT']:
-            break
         time.sleep(0.1)
-    Parameters['ABORT'] = True
     print 'done.'
 
 
