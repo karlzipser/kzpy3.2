@@ -68,7 +68,7 @@ rospy.Subscriber('/bair_car/behavioral_mode', std_msgs.msg.String, callback=beha
 reload_timer = Timer(30)
 current_steer = 49
 current_motor = 49
-s = 0.75 # maybe move to tactic
+s = 0.0 # maybe move to tactic
 
 main_timer = Timer(60*60*24)
 while main_timer.check() == False:
