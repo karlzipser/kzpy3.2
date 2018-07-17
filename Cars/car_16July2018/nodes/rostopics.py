@@ -73,7 +73,7 @@ if using_linux():
     #
     ################
     """
-    timer = Timer(0.2)
+    timer = Timer(0.01)
     timer2 = Timer()
     while timer2.time() < 10:
         #print timer2.time()
