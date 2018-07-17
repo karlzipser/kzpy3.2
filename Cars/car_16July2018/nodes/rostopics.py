@@ -88,6 +88,7 @@ if using_linux():
     def pbar(window):
         while True:
             ctr = 0
+            window.clear()
             for k in sorted(Rostopics.keys()):
                 t = k.replace('/bair_car/','')
                 window.addstr(ctr, 0, d2s(t,"=\t",P[k]))
