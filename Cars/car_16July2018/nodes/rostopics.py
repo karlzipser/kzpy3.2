@@ -72,7 +72,7 @@ if using_linux():
         while not P['ABORT']:
             for k in Rostopics.keys():
                 t = k.replace('/bair_car','')
-                timer.message(d2s(t,"=\t",P[k]))
+                timer.message(d2s(t,"=\t",P[k].data))
 
     import threading
     threading.Thread(target=printer_thread,args=[]).start()
