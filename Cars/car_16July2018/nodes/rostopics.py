@@ -6,7 +6,7 @@ Int = 'std_msgs.msg.Int32'
 Float = 'std_msgs.msg.Float32'
 
 Rostopics = {'/bair_car/steer':{'type':Int},
-    #'/bair_car/motor':{'type':Int},
+    '/bair_car/motor':{'type':Int},
     '/bair_car/encoder':{'type':Float}
     }
 callback_strs = []
@@ -44,38 +44,10 @@ if using_linux():
         exec(c)
     for s in subscriber_strs:
         exec(s)   
-    """ 
-    ################
-    #
-    import std_msgs.msg
-    import geometry_msgs.msg
-    import rospy
-    rospy.init_node('rostopics',anonymous=True)
-    P = {}
-    P['/bair_car/encoder'] = 0
-    P['/bair_car/motor'] = 0
-    P['/bair_car/steer'] = 0
-    def callback__bair_car_encoder(msg):
-        P['/bair_car/encoder'] = msg
 
-    def callback__bair_car_motor(msg):
-        P['/bair_car/motor'] = msg
-
-    def callback__bair_car_steer(msg):
-        P['/bair_car/steer'] = msg
-
-    rospy.Subscriber('/bair_car/encoder', std_msgs.msg.Float32, callback=callback__bair_car_encoder)
-
-    rospy.Subscriber('/bair_car/motor', std_msgs.msg.Int32, callback=callback__bair_car_motor)
-
-    rospy.Subscriber('/bair_car/steer', std_msgs.msg.Int32, callback=callback__bair_car_steer)
-
-    #
-    ################
-    """
     timer = Timer(0.01)
     timer2 = Timer()
-    while timer2.time() < 10:
+    while timer2.time() < 30:
         #print timer2.time()
         for k in Rostopics.keys():
             timer.message(d2s(k,"=",P[k]))
