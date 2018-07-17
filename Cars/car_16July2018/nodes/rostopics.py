@@ -69,10 +69,10 @@ if using_linux():
     P['ABORT'] = False
     timer = Timer(0.001)
     def printer_thread():
-        while not P['ABORT']:
-        for k in Rostopics.keys():
-            t = k.replace('/bair_car','')
-            timer.message(d2s(t,"=\t",P[k]))
+            while not P['ABORT']:
+            for k in Rostopics.keys():
+                t = k.replace('/bair_car','')
+                timer.message(d2s(t,"=\t",P[k]))
     threading.Thread(target=printer_thread,args=[]).start()
 
     q = '_'
