@@ -78,7 +78,7 @@ if using_linux():
             if P['PAUSE']:
                 continue
             for k in Rostopics.keys():
-                t = k.replace('/bair_car','')
+                t = k.replace('/bair_car/','')
                 pd2s(t,"=\t",P[k])
 
     import threading
