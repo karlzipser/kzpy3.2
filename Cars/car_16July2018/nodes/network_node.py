@@ -68,10 +68,11 @@ rospy.Subscriber('/bair_car/behavioral_mode', std_msgs.msg.String, callback=beha
 reload_timer = Timer(30)
 current_steer = 49
 current_motor = 49
-s = 0.0 # maybe move to tactic
+s = rp.network_smoothing_parameter #0.0 # maybe move to tactic
 
 main_timer = Timer(60*60*24)
-while main_timer.check() == False:
+
+while not main_timer.check():
     if reload_timer.check(): # put in thread?
         reload(rp)
         reload_timer.reset()
@@ -86,8 +87,12 @@ while main_timer.check() == False:
                 current_motor = (1.0-s)*torch_motor + s*current_motor
 
             adjusted_motor = rp.motor_gain*(current_motor-49) + rp.motor_offset + 49
+            adjusted_steer = rp.steer_gain*(current_steer-49) + 49
 
-            steer_cmd_pub.publish(std_msgs.msg.Int32(current_steer))
+            adjusted_motor = bound_value(adjusted_motor,0,99)
+            adjusted_steer = bound_value(adjusted_steer,0,99)
+
+            steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
             motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
     else:
         time.sleep(0.1)

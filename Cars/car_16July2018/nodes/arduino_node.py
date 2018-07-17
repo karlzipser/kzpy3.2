@@ -6,7 +6,7 @@ from kzpy3.utils2 import *
 
 Parameters = {}
 Parameters['calibrated'] = False
-Parameters['SMOOTHING_PARAMETER_1'] = 0.75
+Parameters['HUMAN_SMOOTHING_PARAMETER_1'] = 0.75
 Parameters['ABORT'] = False
 Parameters['USE_MSE'] = True
 Parameters['USE_SIG'] = True

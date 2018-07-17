@@ -66,7 +66,7 @@ def _TACTIC_RC_controller_run_loop(P):
                     P['motor_pwm_null'],P['motor_pwm'],P['motor_pwm_max'],P['motor_pwm_min'])
             """
             if 'Do smoothing...':
-                s = P['SMOOTHING_PARAMETER_1']
+                s = P['HUMAN_SMOOTHING_PARAMETER_1']
                 P['servo_pwm_smooth'] = (1.0-s)*P['servo_pwm'] + s*P['servo_pwm_smooth']
                 P['motor_pwm_smooth'] = (1.0-s)*P['motor_pwm'] + s*P['motor_pwm_smooth']
 

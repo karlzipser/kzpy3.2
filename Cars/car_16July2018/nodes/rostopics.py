@@ -1,14 +1,33 @@
 from kzpy3.utils2 import *
 
-
-
-Int = 'std_msgs.msg.Int32'
-Float = 'std_msgs.msg.Float32'
-
+"""
 Rostopics = {'/bair_car/steer':{'type':Int},
     '/bair_car/motor':{'type':Int},
     '/bair_car/encoder':{'type':Float}
     }
+"""
+
+Int = 'std_msgs.msg.Int32'
+Float = 'std_msgs.msg.Float32'
+Vec3 = 'geometry_msgs.msg.Vector3'
+Str = 'std_msgs.msg.String'
+B = '/bair_car/'
+
+Rostopics = {B+'cmd/steer':{'type':Int},
+    B+'cmd/motor':{'type':Int},
+    B+'human_agent':{'type':Int},
+    B+'behavioral_mode':{'type':Str},
+    B+'button_number':{'type':Int}, 
+    B+'steer':{'type':Int},
+    B+'motor':{'type':Int},
+    B+'network_servo_percent':{'type':Int},
+    B+'network_motor_percent':{'type':Int},
+    B+'encoder':{'type':Float},
+    B+'gyro':{'type':Vec3},
+    B+'gyro_heading':{'type':Vec3},
+    B+'acc':{'type':Vec3}
+    }
+
 callback_strs = []
 subscriber_strs = []
 P_strs = ['P = {}']
@@ -35,6 +54,8 @@ for s in subscriber_strs:
     print s
 print "#\n################"
 
+
+
 if using_linux():
     exec(rosimport_str)
     exec(rospyinit_str)
@@ -45,12 +66,23 @@ if using_linux():
     for s in subscriber_strs:
         exec(s)   
 
-    timer = Timer(0.01)
-    timer2 = Timer()
-    while timer2.time() < 30:
-        #print timer2.time()
+    P['ABORT'] = False
+    timer = Timer(0.001)
+    def printer_thread():
+        while not P['ABORT']:
         for k in Rostopics.keys():
-            timer.message(d2s(k,"=",P[k]))
+            t = k.replace('/bair_car','')
+            timer.message(d2s(t,"=\t",P[k]))
+    threading.Thread(target=printer_thread,args=[]).start()
+
+    q = '_'
+    while q not in ['q','Q']:
+        q = raw_input('')
+        if Parameters['ABORT']:
+            break
+        time.sleep(0.1)
+    Parameters['ABORT'] = True
+    print 'done.'
 
 
 

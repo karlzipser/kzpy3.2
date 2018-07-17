@@ -63,8 +63,15 @@ def run_model(input, metadata):
         print(output)
 
     # Get latest prediction
-    torch_motor = 100 * output[0][19].data[0]
-    torch_steer = 100 * output[0][9].data[0]
+    if False:
+        torch_motor = 100 * output[0][19].data[0]
+        torch_steer = 100 * output[0][9].data[0]
+
+    torch_motor = 100 * output[0][10+rp.output_sample].data[0]
+    torch_steer = 100 * output[0][rp.output_sample].data[0]
+
+
+
     #torch_motor = 100 * output[0][11].data[0] ########################!!!!!!!!!!!!!!!!!!!!!
     #torch_steer = 100 * output[0][2].data[0] ########################!!!!!!!!!!!!!!!!!!!!!
     #torch_motor /= 7.0

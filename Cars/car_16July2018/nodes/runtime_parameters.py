@@ -9,8 +9,8 @@
 attach body
 improve body connector
 frequency min/max (longer than 1s period)
-allow steer gain
-paramterize which part of motor and steer vector is chosen
+*allow steer gain
+*paramterize which part of motor and steer vector is chosen
 save steer and motor min and maxes
 """
 
@@ -46,18 +46,11 @@ weight_file_path = opjh('pytorch_models','net.infer')
 
 foldername_prefix = 'run_'
 
-"""
-Direct = 1.
-Follow = 0.
-Play = 0.
-Furtive = 0.
-Caf = 0.0
-Racing = 0.0
-"""
-
+output_sample = 9 # >=0, <=9
+steer_gain = 1.0
 motor_gain = 1.0
 motor_offset = -2
-
+network_smoothing_parameter = 0.0
 
 
 #EOF
