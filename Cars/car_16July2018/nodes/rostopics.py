@@ -86,7 +86,7 @@ if using_linux():
 
     import curses
     def pbar(window):
-        for j in range(10000):
+        while True:
             ctr = 0
             for k in sorted(Rostopics.keys()):
                 t = k.replace('/bair_car/','')
