@@ -67,7 +67,7 @@ if using_linux():
         exec(s)   
 
     P['ABORT'] = False
-    timer = Timer(0.001)
+    timer = Timer(0.1)
     def printer_thread():
         while not P['ABORT']:
             for k in Rostopics.keys():
