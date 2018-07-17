@@ -73,7 +73,8 @@ if using_linux():
             for k in Rostopics.keys():
                 t = k.replace('/bair_car','')
                 timer.message(d2s(t,"=\t",P[k]))
-                
+
+    import threading
     threading.Thread(target=printer_thread,args=[]).start()
 
     q = '_'
