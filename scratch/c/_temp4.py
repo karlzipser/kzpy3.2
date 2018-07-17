@@ -35,7 +35,7 @@ if False:
 	wrapper(main)
 
 
-if False:
+if True:
 	import sys,os
 	import curses
 
@@ -153,7 +153,7 @@ if False:
 
 	curses.endwin()
 
-if True:
+if False:
 	#!/usr/bin/env python2                                                       
 
 	import curses                                                                
