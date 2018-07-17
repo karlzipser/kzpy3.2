@@ -87,7 +87,7 @@ if using_linux():
         if timer2.check():
             break
         q = raw_input('')
-        if q = ' ' and P['PAUSE']:
+        if q == ' ' and P['PAUSE']:
             P['PAUSE'] = False
         else:
             P['PAUSE'] = True
