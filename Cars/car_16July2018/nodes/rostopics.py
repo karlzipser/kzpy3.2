@@ -1,7 +1,5 @@
 from kzpy3.utils2 import *
-import std_msgs.msg
-import geometry_msgs.msg
-import rospy
+
 
 
 Int = 'std_msgs.msg.Int32'
@@ -32,27 +30,33 @@ print "#\n################"
 
 P = {}
 P['cmd/steer'] = 0
-################
-#
-rospy.init_node('rostopics',anonymous=True)
-def callback_cmd_steer(msg):
-    P['cmd/steer'] = msg
+if using_linux():
+    ################
+    #
+    import std_msgs.msg
+    import geometry_msgs.msg
+    import rospy
+    ################
+    #
+    rospy.init_node('rostopics',anonymous=True)
+    def callback__bair_car_cmd_motor(msg):
+        P['/bair_car/cmd/motor'] = msg
 
-def callback_cmd_motor(msg):
-    P['cmd/motor'] = msg
+    def callback__bair_car_cmd_steer(msg):
+        P['/bair_car/cmd/steer'] = msg
 
-rospy.Subscriber('cmd/steer', std_msgs.msg.Int32, callback=callback_cmd_steer)
+    rospy.Subscriber('/bair_car/cmd/motor', std_msgs.msg.Int32, callback=callback__bair_car_cmd_motor)
 
-rospy.Subscriber('cmd/motor', std_msgs.msg.Int32, callback=callback_cmd_motor)
+    rospy.Subscriber('/bair_car/cmd/steer', std_msgs.msg.Int32, callback=callback__bair_car_cmd_steer)
 
-#
-################
+    #
+    ################
 
-timer = Timer(0.2)
-timer2 = Timer()
-while timer2.time() < 30:
-    #print timer2.time()
-    timer.message(d2s("cmd/steer =",P['cmd/steer']))
+    timer = Timer(0.2)
+    timer2 = Timer()
+    while timer2.time() < 10:
+        #print timer2.time()
+        timer.message(d2s("cmd/steer =",P['cmd/steer']))
 
 
 
