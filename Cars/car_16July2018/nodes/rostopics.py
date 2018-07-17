@@ -13,19 +13,19 @@ Vec3 = 'geometry_msgs.msg.Vector3'
 Str = 'std_msgs.msg.String'
 B = '/bair_car/'
 
-Rostopics = {B+'cmd/steer':{'type':Int},
-    B+'cmd/motor':{'type':Int},
-    B+'human_agent':{'type':Int},
-    B+'behavioral_mode':{'type':Str},
-    B+'button_number':{'type':Int}, 
-    B+'steer':{'type':Int},
-    B+'motor':{'type':Int},
-    B+'network_servo_percent':{'type':Int},
-    B+'network_motor_percent':{'type':Int},
-    B+'encoder':{'type':Float},
-    #B+'gyro':{'type':Vec3},
-    #B+'gyro_heading':{'type':Vec3},
-    #B+'acc':{'type':Vec3}
+Rostopics = {#B+'cmd/steer':{'type':Int},
+    #B+'cmd/motor':{'type':Int},
+    #B+'human_agent':{'type':Int},
+    #B+'behavioral_mode':{'type':Str},
+    #B+'button_number':{'type':Int}, 
+    #B+'steer':{'type':Int},
+    #B+'motor':{'type':Int},
+    #B+'network_servo_percent':{'type':Int},
+    #B+'network_motor_percent':{'type':Int},
+    #B+'encoder':{'type':Float},
+    B+'gyro':{'type':Vec3},
+    B+'gyro_heading':{'type':Vec3},
+    B+'acc':{'type':Vec3}
     }
 
 callback_strs = []
@@ -37,7 +37,7 @@ for name in Rostopics.keys():
     else:
         extra = ''
     callback_name = 'callback_'+get_safe_name(name)
-    callback_strs.append(d2n("def ",callback_name,"(msg):",extra,"\n\tP['",name,"'] = msg.data\n"))
+    callback_strs.append(d2n("def ",callback_name,"(msg):",extra,"\n\tP['",name,"'] = msg.x\n"))
     subscriber_strs.append(d2n("rospy.Subscriber('",name,"', ",Rostopics[name]['type'],", callback=",callback_name,')\n'))
     P_strs.append(d2n("P['",name,"'] = 0"))
 rosimport_str = "import std_msgs.msg\nimport geometry_msgs.msg\nimport rospy"
