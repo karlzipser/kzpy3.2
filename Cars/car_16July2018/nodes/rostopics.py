@@ -31,6 +31,7 @@ for s in subscriber_strs:
 print "#\n################"
 
 P = {}
+P['cmd/steer'] = 0
 ################
 #
 rospy.init_node('rostopics',anonymous=True)
