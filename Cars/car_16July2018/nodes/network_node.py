@@ -68,7 +68,6 @@ rospy.Subscriber('/bair_car/behavioral_mode', std_msgs.msg.String, callback=beha
 reload_timer = Timer(30)
 current_steer = 49
 current_motor = 49
-s = rp.network_smoothing_parameter #0.0 # maybe move to tactic
 
 main_timer = Timer(60*60*24)
 
@@ -76,6 +75,8 @@ while not main_timer.check():
     if reload_timer.check(): # put in thread?
         reload(rp)
         reload_timer.reset()
+    s = rp.network_smoothing_parameter #0.0 # maybe move to tactic
+
     if not human_agent:
         if len(left_list) > nframes + 2:
             camera_data = net_utils.format_camera_data(left_list,right_list)
