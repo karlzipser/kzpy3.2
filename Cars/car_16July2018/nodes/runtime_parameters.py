@@ -46,7 +46,7 @@ Racing = 0.0
 """
 
 motor_gain = 1.0
-motor_offset = 0
+motor_offset = -2
 
 
 
