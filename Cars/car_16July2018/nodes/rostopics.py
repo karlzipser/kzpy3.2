@@ -1,7 +1,7 @@
 from kzpy3.utils2 import *
-#import std_msgs.msg
-#import geometry_msgs.msg
-#import rospy
+import std_msgs.msg
+import geometry_msgs.msg
+import rospy
 
 
 Int = 'std_msgs.msg.Int32'
@@ -50,7 +50,7 @@ rospy.Subscriber('cmd/motor', std_msgs.msg.Int32, callback=callback_cmd_motor)
 timer = Timer(0.2)
 timer2 = Timer()
 while timer2.time() < 30:
-    print timer2.time()
+    #print timer2.time()
     timer.message(d2s("cmd/steer =",P['cmd/steer']))
 
 
