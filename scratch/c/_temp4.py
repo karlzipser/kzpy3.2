@@ -13,7 +13,6 @@ if True:
 		        window.addstr(i, 0, d2s('xyz:',dp(np.random.rand(1),2)))
 		        window.refresh()
 		    time.sleep(0.1)
-		    k = window.getkey()
 	curses.wrapper(pbar)
 
 
