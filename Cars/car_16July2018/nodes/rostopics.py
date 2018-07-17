@@ -3,8 +3,8 @@ from kzpy3.utils2 import *
 
 
 Int = 'std_msgs.msg.Int32'
-Rostopics = {'/bair_car/cmd/steer':{'type':Int},
-    '/bair_car/cmd/motor':{'type':Int}
+Rostopics = {'/bair_car/steer':{'type':Int},
+    '/bair_car/motor':{'type':Int}
     }
 
 callback_strs = []
@@ -29,7 +29,7 @@ for s in subscriber_strs:
 print "#\n################"
 
 P = {}
-P['/bair_car/cmd/steer'] = 0
+P['/bair_car/steer'] = 0
 if using_linux():
     ################
     #
@@ -40,14 +40,14 @@ if using_linux():
     #
     rospy.init_node('rostopics',anonymous=True)
     def callback__bair_car_cmd_motor(msg):
-        P['/bair_car/cmd/motor'] = msg
+        P['/bair_car/motor'] = msg
 
     def callback__bair_car_cmd_steer(msg):
-        P['/bair_car/cmd/steer'] = msg
+        P['/bair_car/steer'] = msg
 
-    rospy.Subscriber('/bair_car/cmd/motor', std_msgs.msg.Int32, callback=callback__bair_car_cmd_motor)
+    rospy.Subscriber('/bair_car/motor', std_msgs.msg.Int32, callback=callback__bair_car_cmd_motor)
 
-    rospy.Subscriber('/bair_car/cmd/steer', std_msgs.msg.Int32, callback=callback__bair_car_cmd_steer)
+    rospy.Subscriber('/bair_car/steer', std_msgs.msg.Int32, callback=callback__bair_car_cmd_steer)
 
     #
     ################
@@ -56,7 +56,7 @@ if using_linux():
     timer2 = Timer()
     while timer2.time() < 10:
         #print timer2.time()
-        timer.message(d2s("'/bair_car/cmd/steer' =",P['/bair_car/cmd/steer']))
+        timer.message(d2s("'/bair_car/steer' =",P['/bair_car/steer']))
 
 
 
