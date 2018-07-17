@@ -6,9 +6,6 @@ from kzpy3.utils2 import *
 
 Int = 'std_msgs.msg.Int32'
 Rostopics = {'cmd/steer':{'type':Int},
-    'cmd/motor':{'type':Int},
-    'cmd/motor':{'type':Int},
-    'cmd/motor':{'type':Int},
     'cmd/motor':{'type':Int}
     }
 
@@ -32,3 +29,28 @@ for c in callback_strs:
 for s in subscriber_strs:
     print s
 print "#\n################"
+
+P = {}
+################
+#
+rospy.init_node('rostopics',anonymous=True)
+def callback_cmd_steer(msg):
+    P['cmd/steer'] = msg
+
+def callback_cmd_motor(msg):
+    P['cmd/motor'] = msg
+
+rospy.Subscriber('cmd/steer', std_msgs.msg.Int32, callback=callback_cmd_steer)
+
+rospy.Subscriber('cmd/motor', std_msgs.msg.Int32, callback=callback_cmd_motor)
+
+#
+################
+
+timer = Timer(0.2)
+timer2 = Timer()
+while timer2.time() < 30:
+    timer.message(d2s("cmd/steer =",P['cmd/steer']))
+
+
+
