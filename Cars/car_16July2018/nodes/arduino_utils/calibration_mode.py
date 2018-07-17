@@ -25,7 +25,7 @@ def _calibrate_run_loop(P):
                 P['servo_pwm_null'] = P['servo_pwm']
                 P['motor_pwm_null'] = P['motor_pwm']
             elif P['button_time'] < P['CALIBRATION_START_TIME']:
-                s = P['SMOOTHING_PARAMETER_1']
+                s = P['HUMAN_SMOOTHING_PARAMETER_1']
                 P['servo_pwm_null'] = (1.0-s)*P['servo_pwm'] + s*P['servo_pwm_null']
                 P['motor_pwm_null'] = (1.0-s)*P['motor_pwm'] + s*P['motor_pwm_null']
                 P['servo_pwm_min'] = P['servo_pwm_null']
