@@ -11,7 +11,7 @@ Rostopics = {'/bair_car/steer':{'type':Int},
     }
 callback_strs = []
 subscriber_strs = []
-P_strs = []
+P_strs = ['P = {}']
 for name in Rostopics.keys():
     if 'extra' in Rostopics[name].keys():
         extra = Rostopics[name]['extra']
@@ -36,6 +36,15 @@ for s in subscriber_strs:
 print "#\n################"
 
 if using_linux():
+    exec(rosimport_str)
+    exec(rospyinit_str)
+    for p in P_strs:
+        exec(p)
+    for c in callback_strs:
+        exec(c)
+    for s in subscriber_strs:
+        exec(s)   
+    """ 
     ################
     #
     import std_msgs.msg
@@ -63,7 +72,7 @@ if using_linux():
 
     #
     ################
-
+    """
     timer = Timer(0.2)
     timer2 = Timer()
     while timer2.time() < 10:
