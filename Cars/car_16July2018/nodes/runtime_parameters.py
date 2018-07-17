@@ -3,6 +3,16 @@
 # This is used to specifiy  mode and data file name information
 
 #from kzpy3.utils2 import *
+"""
+*battery pods
+*encoder adjustment
+attach body
+improve body connector
+frequency min/max (longer than 1s period)
+allow steer gain
+paramterize which part of motor and steer vector is chosen
+save steer and motor min and maxes
+"""
 
 """
 from kzpy3.utils2 import time_str

@@ -31,26 +31,6 @@ Parameters['network'] = {}
 Parameters['network']['servo_percent'] = 49
 Parameters['network']['motor_percent'] = 49
 
-if False:
-    ctr=1
-    rostopics = [{'name':'cmd/steer','type':'std_msgs.msg.Int32'},{'name':'cmd/motor','type':'std_msgs.msg.Int32'}]
-    name = 'cmd/steer'
-    msg = 49
-    extra = "\n#a comment\n"
-    callback_str = d2n("def callback_",get_safe_name(name),"(msg):",extra,"\n\tP['",name,"'] = msg")
-    rtype = 'std_msgs.msg.Int32'
-    callback = 'callback_1'
-    subscriber_str = d2n("rospy.Subscriber('",name,"', ",rtype,", callback=",callback)
-
-
-"""
-battery pods
-encoder adjustment
-attach body
-"""
-
-
-
 if Parameters['USE_ROS']:
     import std_msgs.msg
     import geometry_msgs.msg
@@ -58,10 +38,8 @@ if Parameters['USE_ROS']:
     P = Parameters
     s = Parameters['SMOOTHING_PARAMETER_1']
     def cmd_steer_callback(msg):
-        #global P
         P['network']['servo_percent'] = (1.0-s)*msg.data + s*P['network']['servo_percent']
     def cmd_motor_callback(msg):
-        #global P
         P['network']['motor_percent'] = (1.0-s)*msg.data + s*P['network']['motor_percent']
     rospy.init_node('run_arduino',anonymous=True)
     rospy.Subscriber('cmd/steer', std_msgs.msg.Int32, callback=cmd_steer_callback)
@@ -71,6 +49,8 @@ if Parameters['USE_ROS']:
     P['button_number_pub'] = rospy.Publisher('button_number', std_msgs.msg.Int32, queue_size=5) 
     P['steer_pub'] = rospy.Publisher('steer', std_msgs.msg.Int32, queue_size=5) 
     P['motor_pub'] = rospy.Publisher('motor', std_msgs.msg.Int32, queue_size=5) 
+    P['network_servo_percent_pub'] = rospy.Publisher('network_servo_percent', std_msgs.msg.Int32, queue_size=5) 
+    P['network_motor_percent_pub'] = rospy.Publisher('network_motor_percent', std_msgs.msg.Int32, queue_size=5) 
     P['encoder_pub'] = rospy.Publisher('encoder', std_msgs.msg.Float32, queue_size=5)
     P['gyro_pub'] = rospy.Publisher('gyro', geometry_msgs.msg.Vector3, queue_size=100)
     P['gyro_heading_pub'] = rospy.Publisher('gyro_heading', geometry_msgs.msg.Vector3, queue_size=100)
@@ -93,6 +73,8 @@ if Parameters['USE_ROS']:
             human_val = 0           
         P['steer_pub'].publish(std_msgs.msg.Int32(P['human']['servo_percent']))
         P['motor_pub'].publish(std_msgs.msg.Int32(P['human']['motor_percent']))
+        P['network_servo_percent_pub'].publish(std_msgs.msg.Int32(P['network']['servo_percent']))
+        P['network_motor_percent_pub'].publish(std_msgs.msg.Int32(P['network']['motor_percent']))
         P['button_number_pub'].publish(std_msgs.msg.Int32(P['button_number']))
         P['behavioral_mode_pub'].publish(d2s(P['behavioral_mode_choice']))
         P['encoder_pub'].publish(std_msgs.msg.Float32(P['encoder']))
