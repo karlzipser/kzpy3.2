@@ -86,11 +86,12 @@ if using_linux():
 
     import curses
     def pbar(window):
-        for j in range(100):
+        for j in range(10000):
             ctr = 0
             for k in Rostopics.keys():
                 t = k.replace('/bair_car/','')
                 window.addstr(ctr, 0, d2s(t,"=\t",P[k]))
+                ctr += 1
                 window.refresh()
             time.sleep(0.1)
     curses.wrapper(pbar)
