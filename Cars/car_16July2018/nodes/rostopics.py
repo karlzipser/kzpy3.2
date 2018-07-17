@@ -42,6 +42,7 @@ if using_linux():
     import geometry_msgs.msg
     import rospy
     rospy.init_node('rostopics',anonymous=True)
+    P = {}
     P['/bair_car/encoder'] = 0
     P['/bair_car/motor'] = 0
     P['/bair_car/steer'] = 0
