@@ -36,7 +36,7 @@ if Parameters['USE_ROS']:
     import geometry_msgs.msg
     import rospy
     P = Parameters
-    s = Parameters['SMOOTHING_PARAMETER_1']
+    s = Parameters['HUMAN_SMOOTHING_PARAMETER_1']
     def cmd_steer_callback(msg):
         P['network']['servo_percent'] = (1.0-s)*msg.data + s*P['network']['servo_percent']
     def cmd_motor_callback(msg):
