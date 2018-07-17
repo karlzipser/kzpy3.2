@@ -13,16 +13,16 @@ Vec3 = 'geometry_msgs.msg.Vector3'
 Str = 'std_msgs.msg.String'
 B = '/bair_car/'
 
-Rostopics = {#B+'cmd/steer':{'type':Int},
-    #B+'cmd/motor':{'type':Int},
-    #B+'human_agent':{'type':Int},
-    #B+'behavioral_mode':{'type':Str},
-    #B+'button_number':{'type':Int}, 
-    #B+'steer':{'type':Int},
-    #B+'motor':{'type':Int},
-    #B+'network_servo_percent':{'type':Int},
-    #B+'network_motor_percent':{'type':Int},
-    #B+'encoder':{'type':Float},
+Rostopics = {B+'cmd/steer':{'type':Int},
+    B+'cmd/motor':{'type':Int},
+    B+'human_agent':{'type':Int},
+    B+'behavioral_mode':{'type':Str},
+    B+'button_number':{'type':Int}, 
+    B+'steer':{'type':Int},
+    B+'motor':{'type':Int},
+    B+'network_servo_percent':{'type':Int},
+    B+'network_motor_percent':{'type':Int},
+    B+'encoder':{'type':Float},
     B+'gyro':{'type':Vec3},
     B+'gyro_heading':{'type':Vec3},
     B+'acc':{'type':Vec3}
