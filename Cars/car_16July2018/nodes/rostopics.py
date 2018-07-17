@@ -90,7 +90,7 @@ if using_linux():
             ctr = 0
             for k in Rostopics.keys():
                 t = k.replace('/bair_car/','')
-                window.addstr(ctr, 0, d2s(t,"=\t",dp2(P[k],1)))
+                window.addstr(ctr, 0, d2s(t,"=\t",dp(P[k],1)))
                 window.refresh()
             time.sleep(0.1)
     curses.wrapper(pbar)
