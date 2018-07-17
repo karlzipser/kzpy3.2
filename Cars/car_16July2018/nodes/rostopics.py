@@ -37,7 +37,10 @@ for name in Rostopics.keys():
     else:
         extra = ''
     callback_name = 'callback_'+get_safe_name(name)
-    callback_strs.append(d2n("def ",callback_name,"(msg):",extra,"\n\tP['",name,"'] = msg.x\n"))
+    if Rostopics[name]['type'] == Vec3:
+        callback_strs.append(d2n("def ",callback_name,"(msg):",extra,"\n\tP['",name,"'] = (msg.x,msg.y,msg.z)\n"))
+    else:
+        callback_strs.append(d2n("def ",callback_name,"(msg):",extra,"\n\tP['",name,"'] = msg.data\n"))
     subscriber_strs.append(d2n("rospy.Subscriber('",name,"', ",Rostopics[name]['type'],", callback=",callback_name,')\n'))
     P_strs.append(d2n("P['",name,"'] = 0"))
 rosimport_str = "import std_msgs.msg\nimport geometry_msgs.msg\nimport rospy"
