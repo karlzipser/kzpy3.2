@@ -6,7 +6,7 @@ Int = 'std_msgs.msg.Int32'
 Float = 'std_msgs.msg.Float32'
 
 Rostopics = {'/bair_car/steer':{'type':Int},
-    '/bair_car/motor':{'type':Int},
+    #'/bair_car/motor':{'type':Int},
     '/bair_car/encoder':{'type':Float}
     }
 callback_strs = []
