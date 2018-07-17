@@ -23,9 +23,9 @@ Rostopics = {B+'cmd/steer':{'type':Int},
     B+'network_servo_percent':{'type':Int},
     B+'network_motor_percent':{'type':Int},
     B+'encoder':{'type':Float},
-    B+'gyro':{'type':Vec3},
-    B+'gyro_heading':{'type':Vec3},
-    B+'acc':{'type':Vec3}
+    #B+'gyro':{'type':Vec3},
+    #B+'gyro_heading':{'type':Vec3},
+    #B+'acc':{'type':Vec3}
     }
 
 callback_strs = []
