@@ -87,9 +87,8 @@ if using_linux():
         while True:
             ctr = 0
             window.clear()
-            for k in sorted(Rostopics.keys()):
-                t = k.replace('/bair_car/','')
-                window.addstr(ctr, 0, d2s(t,"=\t",P[k]))
+            for topic in Rostopics:
+                window.addstr(ctr, 0, d2s(topic[0],"=\t",P[B+topic[1]]))
                 ctr += 1
                 window.refresh()
             time.sleep(0.1)
