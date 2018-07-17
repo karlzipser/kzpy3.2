@@ -86,7 +86,7 @@ echo "rrm;rlog"
 rrm
 rlog
 alias sb='cd;source ~/.bashrc'
-OPTIONS="exit screen rla rlanr rosbags git_pull reboot shutdown df car_link_menu"
+OPTIONS="exit screen rla rlanr rosbags git_pull reboot shutdown rostopics df car_link_menu"
 COLUMNS=12
 echo 'main menu'
 select opt in $OPTIONS; do
@@ -105,6 +105,8 @@ select opt in $OPTIONS; do
     ~/kzpy3/Cars/car_link_menu.sh
    elif [ "$opt" = "rosbags" ]; then
     check_rosbags.py
+   elif [ "$opt" = "rostopics" ]; then
+    python kzpy3/Cars/car_16July2018/nodes/rostopics.py
    elif [ "$opt" = "git_pull" ]; then
     cd ~/kzpy3
     git pull
