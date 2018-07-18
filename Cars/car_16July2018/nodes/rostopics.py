@@ -122,7 +122,10 @@ if using_linux():
             time.sleep(0.1)
             print(chr(27) + "[2J")
             for topic in Rostopics:
-                pd2s(topic[0],"=\t",P[B+topic[0]])
+                val = P[B+topic[0]]
+                if is_number(val),
+                    val = dp(val,2)
+                pd2s(topic[0],"=\t",val)
                 ctr += 1
                 if bag_timer.check():
                     bag_str = get_bag_info()
