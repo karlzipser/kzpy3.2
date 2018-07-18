@@ -69,9 +69,7 @@ if Parameters['USE_ROS']:
         P[imu_dic[m]].publish(geometry_msgs.msg.Vector3(*P[m]['xyz']))
         P['Hz_acc_pub'].publish(std_msgs.msg.Float32(P['Hz']['acc']))
 
-    #print_timer = Timer(1)
     def publish_MSE_data(P):
-        #print_timer.message('publish_MSE_data')
         if P['agent_choice'] == 'human':
             human_val = 1
         else:
@@ -89,6 +87,7 @@ if Parameters['USE_ROS']:
         P['encoder_pub'].publish(std_msgs.msg.Float32(P['encoder']))
         P['human_agent_pub'].publish(std_msgs.msg.Int32(human_val))
         P['drive_mode_pub'].publish(std_msgs.msg.Int32(drive_mode))
+        P['Hz_acc_pub'].publish(std_msgs.msg.Float32(P['Hz']['mse']))
 
     P['publish_IMU_data'] = publish_IMU_data
     P['publish_MSE_data'] = publish_MSE_data

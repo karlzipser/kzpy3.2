@@ -1,9 +1,6 @@
 from kzpy3.utils2 import *
 import threading
-if P['USE_ROS']:
-    import std_msgs.msg
-    import rospy
-    
+
 def IMU_Arduino(P):
     P['acc'] = {}
     P['gyro'] = {}
@@ -33,8 +30,6 @@ def _IMU_run_loop(P):
             exec('imu_input = list({0})'.format(read_str))       
             m = imu_input[0]
             assert(m in ['acc','gyro','head'])
-            if frequency_timer.check() and P['USE_ROS']:
-                P['Hz_acc_pub'].publish(std_msgs.msg.Float32(P['Hz']['acc']))
             Hz = frequency_timers[m].freq(name=m,do_print=False)
             if is_number(Hz) and m == 'acc':
                 P['Hz'][m] = Hz

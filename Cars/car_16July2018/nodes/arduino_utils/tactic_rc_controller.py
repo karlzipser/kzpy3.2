@@ -1,8 +1,5 @@
 from kzpy3.utils2 import *
 import threading
-if P['USE_ROS']:
-    import std_msgs.msg
-    import rospy
 
 def TACTIC_RC_controller(P):
     P['button_delta'] = 50
@@ -100,8 +97,7 @@ def _TACTIC_RC_controller_run_loop(P):
                         if P['selector_mode'] == 'drive_mode':
                             P['Arduinos']['MSE'].write(write_str)
             
-            if frequency_timer.check() and P['USE_ROS']:
-                P['Hz_mse_pub'].publish(std_msgs.msg.Float32(P['Hz']['mse']))
+                
             Hz = frequency_timer.freq(name='_TACTIC_RC_controller_run_loop',do_print=P['print_mse_freq'])
             if is_number(Hz):
                 P['Hz']['mse'] = Hz
