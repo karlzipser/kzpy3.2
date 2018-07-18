@@ -97,11 +97,11 @@ def exec_pub_publish_strs(pub_publish_strs):
 rosimport_str,rospyinit_str,P_subscribe_strs,callback_strs,subscriber_strs = get_ros_subscriber_strs(Rostopics_subscribe)
 exec_ros_subscriber_strs(rosimport_str,rospyinit_str,P_subscribe_strs,callback_strs,subscriber_strs)
 
-#pub_setup_strs,pub_publish_strs = get_ros_publisher_strs(Rostopics_publish,P)
-#exec_pub_setup_strs(pub_setup_strs)
-#exec_pub_publish_strs(pub_publish_strs)
+pub_setup_strs,pub_publish_strs = get_ros_publisher_strs(Rostopics_publish,P)
+exec_pub_setup_strs(pub_setup_strs)
+exec_pub_publish_strs(pub_publish_strs)
 
-raw_enter('start')
+raw_enter()
 
 
 
