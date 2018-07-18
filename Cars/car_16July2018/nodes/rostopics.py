@@ -49,22 +49,22 @@ def get_ros_subscriber_strs(Rostopics_subscribe):
     rospyinit_str = "rospy.init_node('rostopics',anonymous=True)"
     return rosimport_str,rospyinit_str,P_subscribe_strs,callback_strs,subscriber_strs
 
-def exec_ros_subscriber_strs(rosimport_str,rospyinit_str,P_subscribe_strs,callback_strs,subscriber_strs):
-    print "\n################\n#"
-    if using_linux(): exec(rosimport_str)
-    print rosimport_str
-    if using_linux(): exec(rospyinit_str)
-    print rospyinit_str
-    for p in P_subscribe_strs:
-        if using_linux(): exec(p)
-        print p
-    for c in callback_strs:
-        if using_linux(): exec(c)
-        print c
-    for s in subscriber_strs:
-        if using_linux(): exec(s)
-        print s
-    print "#\n################"
+#def exec_ros_subscriber_strs(rosimport_str,rospyinit_str,P_subscribe_strs,callback_strs,subscriber_strs):
+print "\n################\n#"
+if using_linux(): exec(rosimport_str)
+print rosimport_str
+if using_linux(): exec(rospyinit_str)
+print rospyinit_str
+for p in P_subscribe_strs:
+    if using_linux(): exec(p)
+    print p
+for c in callback_strs:
+    if using_linux(): exec(c)
+    print c
+for s in subscriber_strs:
+    if using_linux(): exec(s)
+    print s
+print "#\n################"
 
 
 
@@ -80,18 +80,18 @@ def get_ros_publisher_strs(Rostopics_publish,P):
         pub_publish_strs.append(d2n(pub_name,".publish(",rtype,"(",P[B+name],")"))
     return pub_setup_strs,pub_publish_strs
 
-def exec_pub_setup_strs(pub_setup_strs):
-    print "\n################\n#"
-    for p in pub_setup_strs:
-        if using_linux(): exec(p)
-        print p
-    print "#\n################"
-def exec_pub_publish_strs(pub_publish_strs):
-    print "\n################\n#"
-    for c in pub_publish_strs:
-        if pub_publish_strs(): exec(c)
-        print c
-    print "#\n################"
+#def exec_pub_setup_strs(pub_setup_strs):
+print "\n################\n#"
+for p in pub_setup_strs:
+    if using_linux(): exec(p)
+    print p
+print "#\n################"
+#def exec_pub_publish_strs(pub_publish_strs):
+print "\n################\n#"
+for c in pub_publish_strs:
+    if pub_publish_strs(): exec(c)
+    print c
+print "#\n################"
 
 
 rosimport_str,rospyinit_str,P_subscribe_strs,callback_strs,subscriber_strs = get_ros_subscriber_strs(Rostopics_subscribe)
