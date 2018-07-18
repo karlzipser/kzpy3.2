@@ -49,6 +49,32 @@ def get_ros_subscriber_strs(Rostopics_subscribe):
     rospyinit_str = "rospy.init_node('rostopics',anonymous=True)"
     return rosimport_str,rospyinit_str,P_subscribe_strs,callback_strs,subscriber_strs
 
+
+
+
+def get_ros_publisher_strs(Rostopics_publish,P):
+    pub_setup_strs = []
+    pub_publish_strs = []
+    for topic in Rostopics_publish:
+        name = topic[0]
+        rtype = topic[1]
+        pub_name = get_safe_name(name)+'_pub'
+        pub_setup_strs.append(d2n(pub_name," = rospy.Publisher('",name,"', ",rtype,", queue_size=100)"))
+        pub_publish_strs.append(d2n(pub_name,".publish(",rtype,"(",P[B+name],")"))
+    return pub_setup_strs,pub_publish_strs
+
+
+
+
+rosimport_str,rospyinit_str,P_subscribe_strs,callback_strs,subscriber_strs = get_ros_subscriber_strs(Rostopics_subscribe)
+#exec_ros_subscriber_strs(rosimport_str,rospyinit_str,P_subscribe_strs,callback_strs,subscriber_strs)
+
+pub_setup_strs,pub_publish_strs = get_ros_publisher_strs(Rostopics_publish,P)
+#exec_pub_setup_strs(pub_setup_strs)
+#exec_pub_publish_strs(pub_publish_strs)
+
+
+
 #def exec_ros_subscriber_strs(rosimport_str,rospyinit_str,P_subscribe_strs,callback_strs,subscriber_strs):
 print "\n################\n#"
 if using_linux(): exec(rosimport_str)
@@ -68,18 +94,6 @@ print "#\n################"
 
 
 
-
-def get_ros_publisher_strs(Rostopics_publish,P):
-    pub_setup_strs = []
-    pub_publish_strs = []
-    for topic in Rostopics_publish:
-        name = topic[0]
-        rtype = topic[1]
-        pub_name = get_safe_name(name)+'_pub'
-        pub_setup_strs.append(d2n(pub_name," = rospy.Publisher('",name,"', ",rtype,", queue_size=100)"))
-        pub_publish_strs.append(d2n(pub_name,".publish(",rtype,"(",P[B+name],")"))
-    return pub_setup_strs,pub_publish_strs
-
 #def exec_pub_setup_strs(pub_setup_strs):
 print "\n################\n#"
 for p in pub_setup_strs:
@@ -92,14 +106,6 @@ for c in pub_publish_strs:
     if pub_publish_strs(): exec(c)
     print c
 print "#\n################"
-
-
-rosimport_str,rospyinit_str,P_subscribe_strs,callback_strs,subscriber_strs = get_ros_subscriber_strs(Rostopics_subscribe)
-exec_ros_subscriber_strs(rosimport_str,rospyinit_str,P_subscribe_strs,callback_strs,subscriber_strs)
-
-pub_setup_strs,pub_publish_strs = get_ros_publisher_strs(Rostopics_publish,P)
-exec_pub_setup_strs(pub_setup_strs)
-exec_pub_publish_strs(pub_publish_strs)
 
 raw_enter()
 
