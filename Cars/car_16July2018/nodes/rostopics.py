@@ -23,7 +23,7 @@ Rostopics = [
     ('human_agent',Int),
     ('behavioral_mode',Str),
     ('button_number',Int),
-    ('drive_node',Int),
+    ('drive_mode',Int),
     ('encoder',Float),
     ('gyro',Vec3),
     ('gyro_heading',Vec3),

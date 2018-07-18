@@ -69,7 +69,7 @@ rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_callback,que
 rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_callback,queue_size = 1)
 rospy.Subscriber('/bair_car/human_agent', std_msgs.msg.Int32, callback=human_agent_callback)
 rospy.Subscriber('/bair_car/behavioral_mode', std_msgs.msg.String, callback=behavioral_mode_callback)
-rospy.Subscriber('/bair_car/drive_mode', std_msgs.msg.Int32, callback=cmd_steer_callback)
+rospy.Subscriber('/bair_car/drive_mode', std_msgs.msg.Int32, callback=drive_mode_callback)
 
 reload_timer = Timer(30)
 current_steer = 49
