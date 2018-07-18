@@ -55,7 +55,9 @@ def get_ros_subscriber_strs(Rostopics_subscribe):
 def get_ros_publisher_strs(Rostopics_publish,P):
     pub_setup_strs = []
     pub_publish_strs = []
+    P_publisher_strs = {}
     for topic in Rostopics_publish:
+        P[name] = 0
         name = topic[0]
         rtype = topic[1]
         pub_name = get_safe_name(name)+'_pub'
