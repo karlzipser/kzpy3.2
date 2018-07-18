@@ -69,13 +69,7 @@ def get_ros_publisher_strs(Rostopics_publish,P):
 rosimport_str,rospyinit_str,P_subscribe_strs,callback_strs,subscriber_strs = get_ros_subscriber_strs(Rostopics_subscribe)
 #exec_ros_subscriber_strs(rosimport_str,rospyinit_str,P_subscribe_strs,callback_strs,subscriber_strs)
 
-pub_setup_strs,pub_publish_strs = get_ros_publisher_strs(Rostopics_publish,P)
-#exec_pub_setup_strs(pub_setup_strs)
-#exec_pub_publish_strs(pub_publish_strs)
 
-
-
-#def exec_ros_subscriber_strs(rosimport_str,rospyinit_str,P_subscribe_strs,callback_strs,subscriber_strs):
 print "\n################\n#"
 if using_linux(): exec(rosimport_str)
 print rosimport_str
@@ -91,6 +85,17 @@ for s in subscriber_strs:
     if using_linux(): exec(s)
     print s
 print "#\n################"
+
+
+
+pub_setup_strs,pub_publish_strs = get_ros_publisher_strs(Rostopics_publish,P)
+#exec_pub_setup_strs(pub_setup_strs)
+#exec_pub_publish_strs(pub_publish_strs)
+
+
+
+#def exec_ros_subscriber_strs(rosimport_str,rospyinit_str,P_subscribe_strs,callback_strs,subscriber_strs):
+
 
 
 
