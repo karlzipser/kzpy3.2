@@ -1,6 +1,9 @@
 from kzpy3.utils2 import *
 import threading
-
+if P['USE_ROS']:
+    import std_msgs.msg
+    import rospy
+    
 def IMU_Arduino(P):
     P['acc'] = {}
     P['gyro'] = {}

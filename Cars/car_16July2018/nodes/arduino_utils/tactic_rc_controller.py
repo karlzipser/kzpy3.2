@@ -1,5 +1,8 @@
 from kzpy3.utils2 import *
 import threading
+if P['USE_ROS']:
+    import std_msgs.msg
+    import rospy
 
 def TACTIC_RC_controller(P):
     P['button_delta'] = 50
