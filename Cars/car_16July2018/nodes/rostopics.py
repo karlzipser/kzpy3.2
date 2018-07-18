@@ -1,11 +1,6 @@
 from kzpy3.utils2 import *
 
-"""
-Rostopics = {'/bair_car/steer':{'type':Int},
-    '/bair_car/motor':{'type':Int},
-    '/bair_car/encoder':{'type':Float}
-    }
-"""
+USE_CURSES = False
 
 Int = 'std_msgs.msg.Int32'
 Float = 'std_msgs.msg.Float32'
@@ -75,45 +70,26 @@ if using_linux():
     P['PAUSE'] = False
     timer = Timer(0.01)
 
-    """
-    def printer_thread():
-        while not P['ABORT']:
-            time.sleep(0.01)
-            if P['PAUSE']:
-                continue
-            for k in Rostopics.keys():
-                t = k.replace('/bair_car/','')
-                pd2s(t,"=\t",dp2(P[k],1))
-    """
 
-    import curses
-    def pbar(window):
+    if USE_CURSES:
+        import curses
+        def pbar(window):
+            while True:
+                ctr = 0
+                window.clear()
+                for topic in Rostopics:
+                    window.addstr(ctr, 0, d2s(topic[0],"=\t",P[B+topic[0]]))
+                    ctr += 1
+                    window.refresh()
+                time.sleep(0.1)
+        curses.wrapper(pbar)
+    else:
         while True:
             ctr = 0
-            window.clear()
+            print(chr(27) + "[2J")
             for topic in Rostopics:
-                window.addstr(ctr, 0, d2s(topic[0],"=\t",P[B+topic[0]]))
+                pd2s(topic[0],"=\t",P[B+topic[0]])
                 ctr += 1
-                window.refresh()
             time.sleep(0.1)
-    curses.wrapper(pbar)
-"""
-    import threading
-    threading.Thread(target=printer_thread,args=[]).start()
-
-    timer2 = Timer(60)
-    q = '_'
-    while q not in ['q','Q']:
-        if timer2.check():
-            break
-        q = raw_input('')
-        if q == ' ' and P['PAUSE']:
-            P['PAUSE'] = False
-        else:
-            P['PAUSE'] = True
-        time.sleep(0.1)
-    P['ABORT'] = True
-    print 'done.'
-"""
 
 
