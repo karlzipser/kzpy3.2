@@ -15,6 +15,20 @@ if False:
 			pd2s(np.random.rand(1),time.time())
 
 
+if False:
+    if USE_CURSES:
+        import curses
+        def pbar(window):
+            while True:
+
+                ctr = 0
+                window.clear()
+                for topic in Rostopics_subscribe:
+                    window.addstr(ctr, 0, d2s(topic[0],"=\t",P[B+topic[0]]))
+                    ctr += 1
+                    window.refresh()
+                time.sleep(0.1)
+        curses.wrapper(pbar)
 
 
 if True:
