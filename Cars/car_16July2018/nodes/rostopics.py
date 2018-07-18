@@ -123,7 +123,7 @@ if using_linux():
             print(chr(27) + "[2J")
             for topic in Rostopics:
                 val = P[B+topic[0]]
-                if is_number(val),
+                if is_number(val):
                     val = dp(val,2)
                 pd2s(topic[0],"=\t",val)
                 ctr += 1
