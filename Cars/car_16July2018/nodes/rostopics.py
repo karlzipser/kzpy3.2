@@ -29,7 +29,8 @@ Rostopics = [
     ('gyro_heading',Vec3),
     ('acc',Vec3),
     ('Hz_acc',Float),
-    ('Hz_mse',Float)
+    ('Hz_mse',Float),
+    ('Hz_network',Float)
     ]
 
 callback_strs = []

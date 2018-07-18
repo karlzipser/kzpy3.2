@@ -64,7 +64,7 @@ def behavioral_mode_callback(msg):
 
 steer_cmd_pub = rospy.Publisher('cmd/steer', std_msgs.msg.Int32, queue_size=100)
 motor_cmd_pub = rospy.Publisher('cmd/motor', std_msgs.msg.Int32, queue_size=100)
-network_Hz_pub = rospy.Publisher('network_Hz', std_msgs.msg.Float32, queue_size=5)
+Hz_network_pub = rospy.Publisher('Hz_network', std_msgs.msg.Float32, queue_size=5)
 rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_callback,queue_size = 1)
 rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_callback,queue_size = 1)
 rospy.Subscriber('/bair_car/human_agent', std_msgs.msg.Int32, callback=human_agent_callback)
@@ -77,6 +77,7 @@ current_motor = 49
 
 main_timer = Timer(60*60*24)
 frequency_timer = Timer(1.0)
+print_timer() = Timer(1)
 
 Hz = 0
 
@@ -91,6 +92,8 @@ while not main_timer.check():
         reload(rp)
         reload_timer.reset()
     s = rp.network_smoothing_parameter #0.0 # maybe move to tactic
+
+    print_timer.message(d2s('drive_mode =',drive_mode))
 
     if not human_agent and drive_mode == 1:
         if len(left_list) > nframes + 2:
