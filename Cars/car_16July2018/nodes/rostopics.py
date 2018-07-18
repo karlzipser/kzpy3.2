@@ -123,10 +123,10 @@ if using_linux():
             for topic in Rostopics:
                 pd2s(topic[0],"=\t",P[B+topic[0]])
                 ctr += 1
-            if bag_timer.check():
-                bag_str = get_bag_info()
-                print bag_str
-                bag_timer.reset()
-           time.sleep(0.1)
+                if bag_timer.check():
+                    bag_str = get_bag_info()
+                    print bag_str
+                    bag_timer.reset()
+            time.sleep(0.1)
 
 
