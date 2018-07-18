@@ -119,6 +119,7 @@ if using_linux():
         bag_str = ''
         while True:
             ctr = 0
+            time.sleep(0.1)
             print(chr(27) + "[2J")
             for topic in Rostopics:
                 pd2s(topic[0],"=\t",P[B+topic[0]])
@@ -127,6 +128,6 @@ if using_linux():
                     bag_str = get_bag_info()
                     print bag_str
                     bag_timer.reset()
-            time.sleep(0.1)
+            
 
 
