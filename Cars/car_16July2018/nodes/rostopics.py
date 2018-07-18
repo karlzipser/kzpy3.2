@@ -56,6 +56,36 @@ print "#\n################"
 
 
 
+
+def get_bag_info():
+
+    try:
+
+        latest_rosbag_folder = most_recent_file_in_folder(opj('/media',username,'rosbags'))
+
+        latest_rosbag = most_recent_file_in_folder(latest_rosbag_folder)
+
+        bag_num = fname(latest_rosbag).split('_')[-1]
+
+        bag_time = os.path.getmtime(latest_rosbag)
+
+        bag_time = int( time.time() - bag_time)
+
+        bag_size = os.path.getsize(latest_rosbag)
+
+        bag_size = dp(bag_size/1000000000.)
+
+        return_str = d2s(bag_num,bag_size,'GB',bag_time,'s',time_str('TimeShort'))
+
+        return return_str
+
+    except:
+
+        return 'rosbags not found or other problem'
+
+
+
+
 if using_linux():
     exec(rosimport_str)
     exec(rospyinit_str)
@@ -70,11 +100,13 @@ if using_linux():
     P['PAUSE'] = False
     timer = Timer(0.01)
 
+    bag_timer = Timer(5)
 
     if USE_CURSES:
         import curses
         def pbar(window):
             while True:
+
                 ctr = 0
                 window.clear()
                 for topic in Rostopics:
@@ -84,12 +116,16 @@ if using_linux():
                 time.sleep(0.1)
         curses.wrapper(pbar)
     else:
+        bag_str = ''
         while True:
             ctr = 0
             print(chr(27) + "[2J")
             for topic in Rostopics:
                 pd2s(topic[0],"=\t",P[B+topic[0]])
                 ctr += 1
-            time.sleep(0.1)
+            if bag_timer.check():
+                bag_str = get_bag_info()
+                print bag_str
+           time.sleep(0.1)
 
 
