@@ -111,7 +111,7 @@ print "#\n################"
 #def exec_pub_publish_strs(pub_publish_strs):
 print "\n################\n#"
 for c in pub_publish_strs:
-    if pub_publish_strs(): exec(c)
+    if using_linux(): exec(c)
     print c
 print "#\n################"
 
