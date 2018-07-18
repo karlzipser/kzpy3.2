@@ -84,7 +84,7 @@ Hz = 0
 while not main_timer.check():
     time.sleep(0.01)
     if frequency_timer.check():
-        network_Hz_pub.publish(std_msgs.msg.Float32(Hz))
+        Hz_network_pub.publish(std_msgs.msg.Float32(Hz))
     Hz = frequency_timer.freq(name='Hz_network',do_print=True)
     #if is_number(Hz):
     #    P['Hz']['network'] = Hz
