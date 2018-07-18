@@ -19,14 +19,17 @@ Rostopics = [
     ('cmd/steer',Int),
     ('cmd/motor',Int),
     ('network_servo_percent',Int),
-    ('network_motor_percent',Int),   
+    ('network_motor_percent',Int),  
     ('human_agent',Int),
     ('behavioral_mode',Str),
-    ('button_number',Int), 
+    ('button_number',Int),
+    ('drive_node',Int),
     ('encoder',Float),
     ('gyro',Vec3),
     ('gyro_heading',Vec3),
-    ('acc',Vec3)
+    ('acc',Vec3),
+    ('Hz_acc',Float),
+    ('Hz_mse',Float)
     ]
 
 callback_strs = []
