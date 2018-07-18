@@ -57,8 +57,9 @@ def get_ros_publisher_strs(Rostopics_publish,P):
     pub_publish_strs = []
     P_publisher_strs = {}
     for topic in Rostopics_publish:
-        P[name] = 0
+        
         name = topic[0]
+        P[name] = 0
         rtype = topic[1]
         pub_name = get_safe_name(name)+'_pub'
         pub_setup_strs.append(d2n(pub_name," = rospy.Publisher('",name,"', ",rtype,", queue_size=100)"))
