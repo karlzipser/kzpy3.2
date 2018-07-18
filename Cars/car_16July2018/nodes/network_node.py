@@ -77,7 +77,7 @@ current_motor = 49
 
 main_timer = Timer(60*60*24)
 frequency_timer = Timer(1.0)
-print_timer() = Timer(1)
+print_timer = Timer(1)
 
 Hz = 0
 
