@@ -126,8 +126,8 @@ if using_linux():
                 ctr += 1
                 if bag_timer.check():
                     bag_str = get_bag_info()
-                    print bag_str
                     bag_timer.reset()
+                print bag_str
             
 
 
