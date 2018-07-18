@@ -5,6 +5,18 @@ https://docs.python.org/3/howto/curses.html
 https://github.com/pmbarrett314/curses-menu/tree/master/cursesmenu
 """
 
+
+if False:
+	from kzpy3.utils2 import *
+	for j in range(10):
+		time.sleep(0.1)
+		print(chr(27) + "[2J")
+		for i in range(10):
+			pd2s(np.random.rand(1),time.time())
+
+
+
+
 if True:
 	import curses
 	def pbar(window):

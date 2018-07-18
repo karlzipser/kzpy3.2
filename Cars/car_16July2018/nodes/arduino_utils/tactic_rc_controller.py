@@ -96,16 +96,17 @@ def _TACTIC_RC_controller_run_loop(P):
                     if P['calibrated']:
                         if P['selector_mode'] == 'drive_mode':
                             P['Arduinos']['MSE'].write(write_str)
-            if P['USE_ROS']:
-                P['publish_MSE_data'](P)
             
+            if frequency_timer.check() and P['USE_ROS']:
+                P['Hz_mse_pub'].publish(std_msgs.msg.Float32(P['Hz']['mse']))
             Hz = frequency_timer.freq(name='_TACTIC_RC_controller_run_loop',do_print=P['print_mse_freq'])
             if is_number(Hz):
                 P['Hz']['mse'] = Hz
                 if ctr_timer.time() > 5 and P['selector_mode'] == 'drive_mode':
                     if Hz < 30 or Hz > 90:
                         spd2s('MSE Hz =',Hz,'...aborting...')
-                        #P['ABORT'] = True
+            if P['USE_ROS']:
+                P['publish_MSE_data'](P)           
         except Exception as e:
             print '_TACTIC_RC_controller_run_loop',e
             pass            

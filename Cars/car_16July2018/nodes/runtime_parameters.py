@@ -8,11 +8,11 @@
 *paramterize which part of motor and steer vector is chosen
 *battery pods
 *encoder adjustment
-attach body
-improve body connector
+*attach body
 frequency min/max (longer than 1s period)
 save steer and motor min and maxes
 publish frequencies for all topics, figure out why acceleration is slowing down with network mode.
+make topic printer without curses but with clear screen for iphone using screen
 """
 
 """

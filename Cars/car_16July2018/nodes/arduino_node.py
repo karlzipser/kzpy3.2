@@ -46,6 +46,7 @@ if Parameters['USE_ROS']:
     rospy.Subscriber('cmd/steer', std_msgs.msg.Int32, callback=cmd_steer_callback)
     rospy.Subscriber('cmd/motor', std_msgs.msg.Int32, callback=cmd_motor_callback)
     P['human_agent_pub'] = rospy.Publisher('human_agent', std_msgs.msg.Int32, queue_size=5) 
+    P['drive_mode_pub'] = rospy.Publisher('drive_mode', std_msgs.msg.Int32, queue_size=5) 
     P['behavioral_mode_pub'] = rospy.Publisher('behavioral_mode', std_msgs.msg.String, queue_size=5)
     P['button_number_pub'] = rospy.Publisher('button_number', std_msgs.msg.Int32, queue_size=5) 
     P['steer_pub'] = rospy.Publisher('steer', std_msgs.msg.Int32, queue_size=5) 
@@ -53,6 +54,8 @@ if Parameters['USE_ROS']:
     P['network_servo_percent_pub'] = rospy.Publisher('network_servo_percent', std_msgs.msg.Int32, queue_size=5) 
     P['network_motor_percent_pub'] = rospy.Publisher('network_motor_percent', std_msgs.msg.Int32, queue_size=5) 
     P['encoder_pub'] = rospy.Publisher('encoder', std_msgs.msg.Float32, queue_size=5)
+    P['Hz_acc_pub'] = rospy.Publisher('Hz_acc', std_msgs.msg.Float32, queue_size=5)
+    P['Hz_mse_pub'] = rospy.Publisher('Hz_mse', std_msgs.msg.Float32, queue_size=5)
     P['gyro_pub'] = rospy.Publisher('gyro', geometry_msgs.msg.Vector3, queue_size=100)
     P['gyro_heading_pub'] = rospy.Publisher('gyro_heading', geometry_msgs.msg.Vector3, queue_size=100)
     P['acc_pub'] = rospy.Publisher('acc', geometry_msgs.msg.Vector3, queue_size=100)
@@ -64,6 +67,7 @@ if Parameters['USE_ROS']:
 
     def publish_IMU_data(P,m):
         P[imu_dic[m]].publish(geometry_msgs.msg.Vector3(*P[m]['xyz']))
+        P['Hz_acc_pub'].publish(std_msgs.msg.Float32(P['Hz']['acc']))
 
     #print_timer = Timer(1)
     def publish_MSE_data(P):
@@ -71,7 +75,11 @@ if Parameters['USE_ROS']:
         if P['agent_choice'] == 'human':
             human_val = 1
         else:
-            human_val = 0           
+            human_val = 0
+        if P['selector_mode'] == 'drive_mode':
+            drive_mode = 1
+        else:
+            drive_mode = 0         
         P['steer_pub'].publish(std_msgs.msg.Int32(P['human']['servo_percent']))
         P['motor_pub'].publish(std_msgs.msg.Int32(P['human']['motor_percent']))
         P['network_servo_percent_pub'].publish(std_msgs.msg.Int32(P['network']['servo_percent']))
@@ -80,6 +88,7 @@ if Parameters['USE_ROS']:
         P['behavioral_mode_pub'].publish(d2s(P['behavioral_mode_choice']))
         P['encoder_pub'].publish(std_msgs.msg.Float32(P['encoder']))
         P['human_agent_pub'].publish(std_msgs.msg.Int32(human_val))
+        P['drive_mode_pub'].publish(std_msgs.msg.Int32(drive_mode))
 
     P['publish_IMU_data'] = publish_IMU_data
     P['publish_MSE_data'] = publish_MSE_data

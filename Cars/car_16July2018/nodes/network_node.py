@@ -26,6 +26,7 @@ right_list = []
 nframes = 2 #figure out how to get this from network
 human_agent = 1
 behavioral_mode = 'direct'
+drive_mode = 0
 
 def right_callback(data):
     global left_list, right_list, solver
@@ -42,6 +43,9 @@ def left_callback(data):
 def human_agent_callback(msg):
     global human_agent
     human_agent = msg.data
+def drive_mode_callback(msg):
+    global drive_mode
+    drive_mode = msg.data
 def behavioral_mode_callback(msg):
     global behavioral_mode, direct, follow, furtive, play
     behavioral_mode = msg.data
@@ -60,10 +64,12 @@ def behavioral_mode_callback(msg):
 
 steer_cmd_pub = rospy.Publisher('cmd/steer', std_msgs.msg.Int32, queue_size=100)
 motor_cmd_pub = rospy.Publisher('cmd/motor', std_msgs.msg.Int32, queue_size=100)
+network_Hz_pub = rospy.Publisher('network_Hz', std_msgs.msg.Float32, queue_size=5)
 rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_callback,queue_size = 1)
 rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_callback,queue_size = 1)
 rospy.Subscriber('/bair_car/human_agent', std_msgs.msg.Int32, callback=human_agent_callback)
 rospy.Subscriber('/bair_car/behavioral_mode', std_msgs.msg.String, callback=behavioral_mode_callback)
+rospy.Subscriber('/bair_car/drive_mode', std_msgs.msg.Int32, callback=cmd_steer_callback)
 
 reload_timer = Timer(30)
 current_steer = 49
@@ -72,8 +78,12 @@ current_motor = 49
 main_timer = Timer(60*60*24)
 frequency_timer = Timer(1.0)
 
+Hz = 0
+
 while not main_timer.check():
     time.sleep(0.01)
+    if frequency_timer.check():
+        network_Hz_pub.publish(std_msgs.msg.Float32(Hz))
     Hz = frequency_timer.freq(name='network',do_print=True)
     #if is_number(Hz):
     #    P['Hz']['network'] = Hz
@@ -82,7 +92,7 @@ while not main_timer.check():
         reload_timer.reset()
     s = rp.network_smoothing_parameter #0.0 # maybe move to tactic
 
-    if not human_agent:
+    if not human_agent and drive_mode == 1:
         if len(left_list) > nframes + 2:
             camera_data = net_utils.format_camera_data(left_list,right_list)
             metadata = net_utils.format_metadata((play,furtive,follow,direct))
