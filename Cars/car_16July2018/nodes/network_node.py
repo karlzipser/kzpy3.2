@@ -83,11 +83,11 @@ rospy.Subscriber('/bair_car/human_agent', std_msgs.msg.Int32, callback=human_age
 rospy.Subscriber('/bair_car/behavioral_mode', std_msgs.msg.String, callback=behavioral_mode_callback)
 rospy.Subscriber('/bair_car/drive_mode', std_msgs.msg.Int32, callback=drive_mode_callback)
 
-rospy.Subscriber('network_output_sample', std_msgs.msg.Int32, callback=callback_network_output_sample)
-rospy.Subscriber('network_motor_offset', std_msgs.msg.Int32, callback=callback_network_motor_offset)
-rospy.Subscriber('network_steer_gain', std_msgs.msg.Float32, callback=callback_network_steer_gain)
-rospy.Subscriber('network_motor_gain', std_msgs.msg.Float32, callback=callback_network_motor_gain)
-rospy.Subscriber('network_smoothing_parameter', std_msgs.msg.Float32, callback=callback_network_smoothing_parameter)
+rospy.Subscriber('/network_output_sample', std_msgs.msg.Int32, callback=callback_network_output_sample)
+rospy.Subscriber('/network_motor_offset', std_msgs.msg.Int32, callback=callback_network_motor_offset)
+rospy.Subscriber('/network_steer_gain', std_msgs.msg.Float32, callback=callback_network_steer_gain)
+rospy.Subscriber('/network_motor_gain', std_msgs.msg.Float32, callback=callback_network_motor_gain)
+rospy.Subscriber('/network_smoothing_parameter', std_msgs.msg.Float32, callback=callback_network_smoothing_parameter)
 
 
 reload_timer = Timer(30)
