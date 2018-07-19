@@ -26,6 +26,7 @@ nframes = 2 #figure out how to get this from network
 human_agent = 1
 behavioral_mode = 'direct'
 drive_mode = 0
+N = {}
 
 def right_callback(data):
     global left_list, right_list, solver
@@ -99,7 +100,7 @@ print_timer = Timer(1)
 
 Hz = 0
 
-N = {}
+
 N['network_output_sample'] = 4 # >=0, <=9
 N['network_steer_gain'] = 4.0
 N['network_motor_gain'] = 1.0
