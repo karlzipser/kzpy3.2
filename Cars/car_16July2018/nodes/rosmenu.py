@@ -16,6 +16,7 @@ Rostopics_publish = [('network_smoothing_parameter',Float),
 rosimport_str = "import std_msgs.msg\nimport geometry_msgs.msg\nimport rospy"
 rospyinit_str = "rospy.init_node('rostopics',anonymous=True)"
 
+P={}
 
 def get_ros_publisher_strs(Rostopics_publish,P,zero_Ps=False):
     pub_setup_strs = []
