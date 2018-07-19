@@ -91,7 +91,7 @@ raw_enter()
 bag_timer = Timer(5)
 bag_str = ''
 
-timer = Timer(5)
+timer = Timer(30)
 while True:
     if timer.check():
         raw_enter()
