@@ -80,9 +80,12 @@ while choice_number != -1:
         else:
             choice_number = int(choice_number)
             name = Rostopics_publish[choice_number][0]
-            P[name] = input(name+' value > ')
-            if Rostopics_publish[choice_number][1] == Int:
-                P[name] = int(P[name])
+            val = num_from_str(raw_input(name+' value > '))
+            if is_number(val):
+                P[name] = val
+                #P[name] = input(name+' value > ')
+                if Rostopics_publish[choice_number][1] == Int:
+                    P[name] = int(P[name])
         pub_setup_strs,pub_publish_strs = get_ros_publisher_strs(Rostopics_publish,P)
         #print "\n################\n#"
         for c in pub_publish_strs:

@@ -1722,4 +1722,15 @@ def get_safe_name(name):
     return "".join(lst)
     
 
+def num_from_str(s):
+	try:
+		return int(s)
+	except:
+		try:
+			return float(s)
+		except:
+			return 'String does not represent a number.'
+
+
+
 #EOF
