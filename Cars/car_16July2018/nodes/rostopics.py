@@ -116,6 +116,7 @@ for c in pub_publish_strs:
 print "#\n################"
 
 while True:
+    pprint(P)
     P[B+'network_output_sample'] = raw_input('value')
     pub_setup_strs,pub_publish_strs = get_ros_publisher_strs(Rostopics_publish,P)
     print "\n################\n#"
