@@ -61,6 +61,17 @@ def behavioral_mode_callback(msg):
     elif behavioral_mode == 'play':
         play = 1.0
 
+
+def callback_network_motor_offset(msg):
+        N['network_motor_offset'] = msg.data
+def callback_network_steer_gain(msg):
+        N['network_steer_gain'] = msg.data
+def callback_network_motor_gain(msg):
+        N['network_motor_gain'] = msg.data
+def callback_network_smoothing_parameter(msg):
+        N['network_smoothing_parameter'] = msg.data
+
+
 steer_cmd_pub = rospy.Publisher('cmd/steer', std_msgs.msg.Int32, queue_size=100)
 motor_cmd_pub = rospy.Publisher('cmd/motor', std_msgs.msg.Int32, queue_size=100)
 Hz_network_pub = rospy.Publisher('Hz_network', std_msgs.msg.Float32, queue_size=5)
@@ -69,8 +80,6 @@ rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_callback,queue
 rospy.Subscriber('/bair_car/human_agent', std_msgs.msg.Int32, callback=human_agent_callback)
 rospy.Subscriber('/bair_car/behavioral_mode', std_msgs.msg.String, callback=behavioral_mode_callback)
 rospy.Subscriber('/bair_car/drive_mode', std_msgs.msg.Int32, callback=drive_mode_callback)
-
-
 
 rospy.Subscriber('network_output_sample', std_msgs.msg.Int32, callback=callback_network_output_sample)
 rospy.Subscriber('network_motor_offset', std_msgs.msg.Int32, callback=callback_network_motor_offset)
