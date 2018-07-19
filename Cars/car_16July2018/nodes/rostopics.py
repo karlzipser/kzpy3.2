@@ -79,6 +79,7 @@ if using_linux(): exec(rosimport_str)
 print rosimport_str
 if using_linux(): exec(rospyinit_str)
 print rospyinit_str
+"""
 for p in P_subscribe_strs:
     if using_linux(): exec(p)
     print p
@@ -89,7 +90,7 @@ for s in subscriber_strs:
     if using_linux(): exec(s)
     print s
 print "#\n################"
-
+"""
 
 
 pub_setup_strs,pub_publish_strs = get_ros_publisher_strs(Rostopics_publish,P,zero_Ps=True)
