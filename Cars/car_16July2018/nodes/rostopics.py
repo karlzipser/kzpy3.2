@@ -89,44 +89,44 @@ for s in subscriber_strs:
 print "#\n################"
 
 
+if False:
+    pub_setup_strs,pub_publish_strs = get_ros_publisher_strs(Rostopics_publish,P,zero_Ps=True)
+    print "\n################\n#"
+    for p in pub_setup_strs:
+        if using_linux(): exec(p)
+        print p
+    print "#\n################"
+    print "\n################\n#"
+    for c in pub_publish_strs:
+        if using_linux(): exec(c)
+        print c
+    print "#\n################"
 
-pub_setup_strs,pub_publish_strs = get_ros_publisher_strs(Rostopics_publish,P,zero_Ps=True)
-print "\n################\n#"
-for p in pub_setup_strs:
-    if using_linux(): exec(p)
-    print p
-print "#\n################"
-print "\n################\n#"
-for c in pub_publish_strs:
-    if using_linux(): exec(c)
-    print c
-print "#\n################"
+    while True:
+        pprint(P)
+        ctr = 0
+        for topic in Rostopics_publish:
+            name = topic[0]
+            pd2s(ctr,')',name)
+            ctr += 1
+        choice_number = input('choice > ')
+        if is_number(choice_number):
+            if choice_number < 0:
+                continue
+            if choice_number+1 > len(Rostopics_publish):
+                continue
+            choice_number = int(choice_number)
+            name = Rostopics_publish[choice_number][0]
+            P[B+name] = input(name+' value > ')
+            pub_setup_strs,pub_publish_strs = get_ros_publisher_strs(Rostopics_publish,P)
+            print "\n################\n#"
+            for c in pub_publish_strs:
+                if using_linux(): exec(c)
+                print c
+            print "#\n################"
 
-while True:
-    pprint(P)
-    ctr = 0
-    for topic in Rostopics_publish:
-        name = topic[0]
-        pd2s(ctr,')',name)
-        ctr += 1
-    choice_number = input('choice > ')
-    if is_number(choice_number):
-        if choice_number < 0:
-            continue
-        if choice_number+1 > len(Rostopics_publish):
-            continue
-        choice_number = int(choice_number)
-        name = Rostopics_publish[choice_number][0]
-        P[B+name] = input(name+' value > ')
-        pub_setup_strs,pub_publish_strs = get_ros_publisher_strs(Rostopics_publish,P)
-        print "\n################\n#"
-        for c in pub_publish_strs:
-            if using_linux(): exec(c)
-            print c
-        print "#\n################"
-
-raw_enter()
-quit()
+    raw_enter()
+    quit()
 
 
 
