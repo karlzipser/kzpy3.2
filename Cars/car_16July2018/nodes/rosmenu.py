@@ -13,7 +13,7 @@ Rostopics_publish = [('network_smoothing_parameter',Float),
     ]
 
 rosimport_str = "import std_msgs.msg\nimport geometry_msgs.msg\nimport rospy"
-rospyinit_str = "rospy.init_node('rosmenu',anonymous=False)"
+rospyinit_str = "rospy.init_node('rosmenu',anonymous=True)"
 
 import default_values
 

@@ -32,7 +32,7 @@ Rostopics_subscribe = [
     ]
 
 rosimport_str = "import std_msgs.msg\nimport geometry_msgs.msg\nimport rospy"
-rospyinit_str = "rospy.init_node('rostopics',anonymous=False)"
+rospyinit_str = "rospy.init_node('rostopics',anonymous=True)"
 
 def get_ros_subscriber_strs(Rostopics_subscribe):
     callback_strs = []
