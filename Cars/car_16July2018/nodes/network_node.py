@@ -63,13 +63,13 @@ def behavioral_mode_callback(msg):
 
 
 def callback_network_motor_offset(msg):
-        N['network_motor_offset'] = msg.data
+    N['network_motor_offset'] = msg.data
 def callback_network_steer_gain(msg):
-        N['network_steer_gain'] = msg.data
+    N['network_steer_gain'] = msg.data
 def callback_network_motor_gain(msg):
-        N['network_motor_gain'] = msg.data
+    N['network_motor_gain'] = msg.data
 def callback_network_smoothing_parameter(msg):
-        N['network_smoothing_parameter'] = msg.data
+    N['network_smoothing_parameter'] = msg.data
 
 
 steer_cmd_pub = rospy.Publisher('cmd/steer', std_msgs.msg.Int32, queue_size=100)
