@@ -61,7 +61,8 @@ def behavioral_mode_callback(msg):
     elif behavioral_mode == 'play':
         play = 1.0
 
-
+def callback_network_output_sample(msg):
+    N['network_output_sample'] = msg.data
 def callback_network_motor_offset(msg):
     N['network_motor_offset'] = msg.data
 def callback_network_steer_gain(msg):
