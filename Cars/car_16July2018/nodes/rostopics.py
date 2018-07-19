@@ -87,7 +87,7 @@ def get_bag_info():
     except:
         return 'rosbags not found or other problem'
 
-
+raw_enter()
 bag_timer = Timer(5)
 bag_str = ''
 while True:
