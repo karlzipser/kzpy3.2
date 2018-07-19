@@ -4,7 +4,7 @@ Int = 'std_msgs.msg.Int32'
 Float = 'std_msgs.msg.Float32'
 Vec3 = 'geometry_msgs.msg.Vector3'
 Str = 'std_msgs.msg.String'
-B = '/bair_car/'
+B = ''# '/bair_car/'
 
 Rostopics_subscribe = [
     ('steer',Int),

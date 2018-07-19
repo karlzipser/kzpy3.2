@@ -4,7 +4,7 @@ Int = 'std_msgs.msg.Int32'
 Float = 'std_msgs.msg.Float32'
 Vec3 = 'geometry_msgs.msg.Vector3'
 Str = 'std_msgs.msg.String'
-B = '/bair_car/'
+B = ''# '/bair_car/'
 
 Rostopics_publish = [('network_smoothing_parameter',Float),
     ('network_output_sample',Int),
@@ -29,7 +29,7 @@ def get_ros_publisher_strs(Rostopics_publish,P,zero_Ps=False):
             P[B+name] = 0
         rtype = topic[1]
         pub_name = get_safe_name(name)+'_pub'
-        pub_setup_strs.append(d2n(pub_name," = rospy.Publisher('",B+name,"', ",rtype,", queue_size=100)"))
+        pub_setup_strs.append(d2n(pub_name," = rospy.Publisher('",name,"', ",rtype,", queue_size=100)"))
         pub_publish_strs.append(d2n(pub_name,".publish(",rtype,"(",P[B+name],"))"))
     return pub_setup_strs,pub_publish_strs
 
