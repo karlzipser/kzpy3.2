@@ -101,11 +101,10 @@ print_timer = Timer(1)
 Hz = 0
 
 
-N['network_output_sample'] = 4 # >=0, <=9
-N['network_steer_gain'] = 4.0
-N['network_motor_gain'] = 1.0
-N['network_motor_offset'] = -2
-N['network_smoothing_parameter'] = 0.0
+import default_values
+for k in default_values.Default.keys():
+    N[k] = default_values.Default[k]
+
 N['weight_file_path'] = opjh('pytorch_models','net.infer')
 
 net_utils.init_model(N)

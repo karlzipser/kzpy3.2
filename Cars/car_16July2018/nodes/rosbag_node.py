@@ -7,7 +7,7 @@ import runtime_parameters as rp
 
 os.environ['STOP'] = 'False'
 
-foldername_prefix = 'run_'
+foldername_prefix = os.environ["COMPUTER_NAME"] #'run_'
 
 spd2s()
 foldername = foldername_prefix + time_str()
