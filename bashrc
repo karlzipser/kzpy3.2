@@ -68,13 +68,12 @@ alias pgacp='cd ~/kzpy3; git pull; gacp; cd'
 #alias gckzpy3="git clone https://github.com/karlzipser/kzpy3.0.git"
 git config --global credential.helper "cache --timeout=86400"
 alias ipy="ipython --no-banner"
+
 export PYTHONPATH=~:$PYTHONPATH
-export PYTHONSTARTUP=~/kzpy3/vis2.py
+export PYTHONSTARTUP=~/kzpy3/utils2.py
 export PATH=~/kzpy3/scripts:$PATH
-export PATH=~/caffe/build/tools:$PATH
-export PYTHONPATH=~/caffe/python:$PYTHONPATH
-export PYTHONPATH=~/kzpy3/Sascha/data_analysis_14April2017:$PYTHONPATH
-export PATH=~/kzpy3/c:$PATH
+export PATH=~/kzpy3/scratch:$PATH
+export PATH=~/kzpy3/misc:$PATH
 
 alias Grapher='python ~/kzpy3/Grapher_app/Main.py'
 alias Grapher3='python ~/kzpy3/Grapher_app_3rd_pass/Main.py'
