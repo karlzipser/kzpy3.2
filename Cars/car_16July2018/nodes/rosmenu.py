@@ -58,6 +58,7 @@ choice_number = 0
 while choice_number != -1:
     #pprint(P)
     try:
+        print(chr(27) + "[2J")
         ctr = 0
         for topic in Rostopics_publish:
             pd2s(-1,')','quit',':')
@@ -81,11 +82,11 @@ while choice_number != -1:
             if Rostopics_publish[choice_number][1] == Int:
                 P[name] = int(P[name])
             pub_setup_strs,pub_publish_strs = get_ros_publisher_strs(Rostopics_publish,P)
-            print "\n################\n#"
+            #print "\n################\n#"
             for c in pub_publish_strs:
                 if using_linux(): exec(c)
-                print c
-            print "#\n################"
+                #print c
+            #print "#\n################"
     except Exception as e:
         print("********** rosmenu Exception ***********************")
         print(e.message, e.args)
