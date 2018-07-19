@@ -130,7 +130,7 @@ while True:
         if choice_number+1 > len(Rostopics_publish):
             continue
         choice_number = int(choice_number)
-        name = Rostopics_publish[choice_number]
+        name = Rostopics_publish[choice_number][0]
         P[B+name] = input(name+' value > ')
         pub_setup_strs,pub_publish_strs = get_ros_publisher_strs(Rostopics_publish,P)
         print "\n################\n#"
