@@ -68,10 +68,7 @@ def get_ros_publisher_strs(Rostopics_publish,P,zero_Ps=False):
     return pub_setup_strs,pub_publish_strs
 
 
-
-
 rosimport_str,rospyinit_str,P_subscribe_strs,callback_strs,subscriber_strs = get_ros_subscriber_strs(Rostopics_subscribe)
-#exec_ros_subscriber_strs(rosimport_str,rospyinit_str,P_subscribe_strs,callback_strs,subscriber_strs)
 
 
 print "\n################\n#"
@@ -94,23 +91,11 @@ print "#\n################"
 
 
 pub_setup_strs,pub_publish_strs = get_ros_publisher_strs(Rostopics_publish,P,zero_Ps=True)
-#exec_pub_setup_strs(pub_setup_strs)
-#exec_pub_publish_strs(pub_publish_strs)
-
-
-
-#def exec_ros_subscriber_strs(rosimport_str,rospyinit_str,P_subscribe_strs,callback_strs,subscriber_strs):
-
-
-
-
-#def exec_pub_setup_strs(pub_setup_strs):
 print "\n################\n#"
 for p in pub_setup_strs:
     if using_linux(): exec(p)
     print p
 print "#\n################"
-#def exec_pub_publish_strs(pub_publish_strs):
 print "\n################\n#"
 for c in pub_publish_strs:
     if using_linux(): exec(c)
@@ -144,8 +129,7 @@ raw_enter()
 quit()
 
 
-#steer_cmd_pub = rospy.Publisher('cmd/steer', std_msgs.msg.Int32, queue_size=100)
-#steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
+
 def get_bag_info():
     try:
         latest_rosbag_folder = most_recent_file_in_folder(opjm('rosbags'))
@@ -178,18 +162,6 @@ while True:
             bag_timer.reset()
     print bag_str
             
-"""
-USE_CURSES = False
-if using_linux():
-    exec(rosimport_str)
-    exec(rospyinit_str)
-    for p in P_subscribe_strs:
-        exec(p)
-    for c in callback_strs:
-        exec(c)
-    for s in subscriber_strs:
-        exec(s)   
-    timer = Timer(0.01)
-"""
+
 print 'done.'
 
