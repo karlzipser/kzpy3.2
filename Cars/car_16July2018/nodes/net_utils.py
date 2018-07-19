@@ -66,8 +66,8 @@ def run_model(input, metadata,N):
         torch_motor = 100 * output[0][19].data[0]
         torch_steer = 100 * output[0][9].data[0]
 
-    torch_motor = 100 * output[0][10+N['output_sample']].data[0]
-    torch_steer = 100 * output[0][N['output_sample']].data[0]
+    torch_motor = 100 * output[0][10+N['network_output_sample']].data[0]
+    torch_steer = 100 * output[0][N['network_output_sample']].data[0]
 
 
 

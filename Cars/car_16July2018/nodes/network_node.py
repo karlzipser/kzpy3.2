@@ -70,6 +70,15 @@ rospy.Subscriber('/bair_car/human_agent', std_msgs.msg.Int32, callback=human_age
 rospy.Subscriber('/bair_car/behavioral_mode', std_msgs.msg.String, callback=behavioral_mode_callback)
 rospy.Subscriber('/bair_car/drive_mode', std_msgs.msg.Int32, callback=drive_mode_callback)
 
+
+
+rospy.Subscriber('network_output_sample', std_msgs.msg.Int32, callback=callback_network_output_sample)
+rospy.Subscriber('network_motor_offset', std_msgs.msg.Int32, callback=callback_network_motor_offset)
+rospy.Subscriber('network_steer_gain', std_msgs.msg.Float32, callback=callback_network_steer_gain)
+rospy.Subscriber('network_motor_gain', std_msgs.msg.Float32, callback=callback_network_motor_gain)
+rospy.Subscriber('network_smoothing_parameter', std_msgs.msg.Float32, callback=callback_network_smoothing_parameter)
+
+
 reload_timer = Timer(30)
 current_steer = 49
 current_motor = 49
@@ -81,10 +90,10 @@ print_timer = Timer(1)
 Hz = 0
 
 N = {}
-N['output_sample'] = 4 # >=0, <=9
-N['steer_gain'] = 4.0
-N['motor_gain'] = 1.0
-N['motor_offset'] = -2
+N['network_output_sample'] = 4 # >=0, <=9
+N['network_steer_gain'] = 4.0
+N['network_motor_gain'] = 1.0
+N['network_motor_offset'] = -2
 N['network_smoothing_parameter'] = 0.0
 N['weight_file_path'] = opjh('pytorch_models','net.infer')
 
@@ -110,8 +119,8 @@ while not main_timer.check():
                 current_steer = (1.0-s)*torch_steer + s*current_steer
                 current_motor = (1.0-s)*torch_motor + s*current_motor
 
-            adjusted_motor = N['motor_gain']*(current_motor-49) + N['motor_offset'] + 49
-            adjusted_steer = N['steer_gain']*(current_steer-49) + 49
+            adjusted_motor = N['network_motor_gain']*(current_motor-49) + N['network_motor_offset'] + 49
+            adjusted_steer = N['network_steer_gain']*(current_steer-49) + 49
 
             adjusted_motor = bound_value(adjusted_motor,0,99)
             adjusted_steer = bound_value(adjusted_steer,0,99)

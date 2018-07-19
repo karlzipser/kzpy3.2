@@ -66,9 +66,9 @@ for p in P_subscribe_strs:
 for c in callback_strs:
     if using_linux(): exec(c)
     print c
-for s in subscriber_strs:
-    if using_linux(): exec(s)
-    print s
+#for s in subscriber_strs:
+#    if using_linux(): exec(s)
+#    print s
 print "#\n################"
 
 
