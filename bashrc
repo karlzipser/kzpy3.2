@@ -30,7 +30,7 @@ alias sopen="open -a /Applications/Sublime\ Text\ 2.app/"
 alias fixScreen='DISPLAY=:0 xrandr --output HDMI-0 --mode 1024x768'
 
 alias Mr_Blue='ssh nvidia@192.168.1.101'
-alias Mr_Black='ssh nvidia@192.168.1.102'
+alias Mr_Black='ssh nvidia@192.168.1.13'
 alias Mr_Orange='ssh nvidia@192.168.1.103'
 alias Mr_Yellow='ssh nvidia@192.168.1.104'
 alias Mr_Lt_Blue='ssh nvidia@192.168.1.105'
@@ -51,6 +51,14 @@ alias tx='Mr_TX2'
 
 alias kx='killall xterm'
 alias rosdo='sudo chmod -R 777 /media/karlzipser/rosbags*'
+
+alias ssx='screen -S SX'
+alias ssy='screen -S SY'
+alias ssz='screen -S SZ'
+alias srx='screen -r SX'
+alias sry='screen -r SY'
+alias srz='screen -r SZ'
+
 ######################## for .bashrc from MacBook #################
 #
 #export DISPLAY=:0.0

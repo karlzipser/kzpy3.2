@@ -102,10 +102,9 @@ Hz = 0
 
 
 import default_values
-for k in default_values.Default.keys():
-    N[k] = default_values.Default[k]
+for k in default_values.Network.keys():
+    N[k] = default_values.Network[k]
 
-N['weight_file_path'] = opjh('pytorch_models','net.infer')
 
 net_utils.init_model(N)
 

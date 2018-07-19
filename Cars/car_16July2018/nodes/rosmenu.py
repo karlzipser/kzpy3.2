@@ -25,8 +25,8 @@ def get_ros_publisher_strs(Rostopics_publish,P,initalize_Ps=False):
         
         name = topic[0]
         if initalize_Ps:
-            if name in default_values.Default.keys():
-                P[name] = default_values.Default[name]
+            if name in default_values.Network.keys():
+                P[name] = default_values.Network[name]
             else:
                 P[name] = 0
         rtype = topic[1]
@@ -69,24 +69,26 @@ while choice_number != -1:
                 pd2s(ctr,')',name,':',dp(P[name],2))
             ctr += 1
         choice_number = input('choice > ')
-        if choice_number == -1:
-            continue
-        if is_number(choice_number):
-            if choice_number < 0:
-                continue
-            if choice_number+1 > len(Rostopics_publish):
-                continue
+        if not is_number(choice_number):
+            pass
+        elif choice_number == -1:
+            pass
+        elif choice_number < 0:
+            pass
+        elif choice_number+1 > len(Rostopics_publish):
+            pass
+        else:
             choice_number = int(choice_number)
             name = Rostopics_publish[choice_number][0]
             P[name] = input(name+' value > ')
             if Rostopics_publish[choice_number][1] == Int:
                 P[name] = int(P[name])
-            pub_setup_strs,pub_publish_strs = get_ros_publisher_strs(Rostopics_publish,P)
-            #print "\n################\n#"
-            for c in pub_publish_strs:
-                if using_linux(): exec(c)
-                #print c
-            #print "#\n################"
+        pub_setup_strs,pub_publish_strs = get_ros_publisher_strs(Rostopics_publish,P)
+        #print "\n################\n#"
+        for c in pub_publish_strs:
+            if using_linux(): exec(c)
+            #print c
+        #print "#\n################"
     except Exception as e:
         print("********** rosmenu Exception ***********************")
         print(e.message, e.args)

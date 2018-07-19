@@ -91,10 +91,12 @@ raw_enter()
 bag_timer = Timer(5)
 bag_str = ''
 
-timer = Timer(30)
+timer = Timer(60*5)
 while True:
     if timer.check():
-        raw_enter()
+        q = raw_input('q to quit, enter to continue >>')
+        if q in ['q','Q']:
+            break
         timer.reset()
     ctr = 0
     time.sleep(0.1)

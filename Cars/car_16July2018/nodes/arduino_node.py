@@ -6,7 +6,6 @@ from kzpy3.utils2 import *
 
 Parameters = {}
 Parameters['calibrated'] = False
-Parameters['HUMAN_SMOOTHING_PARAMETER_1'] = 0.75
 Parameters['ABORT'] = False
 Parameters['USE_MSE'] = True
 Parameters['USE_SIG'] = True
@@ -31,6 +30,10 @@ Parameters['network'] = {}
 Parameters['network']['servo_percent'] = 49
 Parameters['network']['motor_percent'] = 49
 Parameters['Hz'] = {}
+
+import default_values
+for k in default_values.Mse.keys():
+    Parameters[k] = default_values.Mse[k]
 
 if Parameters['USE_ROS']:
     import std_msgs.msg
