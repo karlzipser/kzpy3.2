@@ -115,8 +115,17 @@ for c in pub_publish_strs:
     print c
 print "#\n################"
 
-raw_enter()
+while True:
+    P[B+'network_output_sample'] = raw_input('value')
+    pub_setup_strs,pub_publish_strs = get_ros_publisher_strs(Rostopics_publish,P)
+    print "\n################\n#"
+    for c in pub_publish_strs:
+        if using_linux(): exec(c)
+        print c
+    print "#\n################"
 
+raw_enter()
+quit()
 
 
 #steer_cmd_pub = rospy.Publisher('cmd/steer', std_msgs.msg.Int32, queue_size=100)

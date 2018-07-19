@@ -1656,8 +1656,8 @@ def find_nearest(array,value):
 	return array[idx]
 
 
-def raw_enter():
-	return raw_input('Hit enter to continue > ')
+def raw_enter(optional_str=''):
+	return raw_input(optional_str+'Hit enter to continue > ')
 
 
 def build_dic(key_lists):
