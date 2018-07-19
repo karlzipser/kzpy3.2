@@ -119,7 +119,8 @@ print "#\n################"
 while True:
     pprint(P)
     ctr = 0
-    for name in Rostopics_publish:
+    for topic in Rostopics_publish:
+        name = topic[0]
         pd2s(ctr,')',name)
         ctr += 1
     choice_number = input('choice > ')
@@ -130,7 +131,7 @@ while True:
             continue
         choice_number = int(choice_number)
         name = Rostopics_publish[choice_number]
-        P[B+name] = input('value > ')
+        P[B+name] = input(name+' value > ')
         pub_setup_strs,pub_publish_strs = get_ros_publisher_strs(Rostopics_publish,P)
         print "\n################\n#"
         for c in pub_publish_strs:
