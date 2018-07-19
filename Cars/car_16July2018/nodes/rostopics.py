@@ -23,14 +23,15 @@ Rostopics_subscribe = [
     ('acc',Vec3),
     ('Hz_acc',Float),
     ('Hz_mse',Float),
-    ('Hz_network',Float)
-    ]
-Rostopics_publish = [('network_smoothing_parameter',Float),
+    ('Hz_network',Float),
     ('network_output_sample',Int),
     ('network_motor_offset',Int),
     ('network_steer_gain',Float),
     ('network_motor_gain',Float)
     ]
+
+rosimport_str = "import std_msgs.msg\nimport geometry_msgs.msg\nimport rospy"
+rospyinit_str = "rospy.init_node('rostopics',anonymous=True)"
 
 def get_ros_subscriber_strs(Rostopics_subscribe):
     callback_strs = []
@@ -45,30 +46,11 @@ def get_ros_subscriber_strs(Rostopics_subscribe):
             callback_strs.append(d2n("def ",callback_name,"(msg):","\n\tP['",name,"'] = msg.data\n"))
         subscriber_strs.append(d2n("rospy.Subscriber('",name,"', ",topic[1],", callback=",callback_name,')\n'))
         P_subscribe_strs.append(d2n("P['",name,"'] = 0"))
-    rosimport_str = "import std_msgs.msg\nimport geometry_msgs.msg\nimport rospy"
-    rospyinit_str = "rospy.init_node('rostopics',anonymous=True)"
-    return rosimport_str,rospyinit_str,P_subscribe_strs,callback_strs,subscriber_strs
+
+    return P_subscribe_strs,callback_strs,subscriber_strs
 
 
-
-
-def get_ros_publisher_strs(Rostopics_publish,P,zero_Ps=False):
-    pub_setup_strs = []
-    pub_publish_strs = []
-    P_publisher_strs = {}
-    for topic in Rostopics_publish:
-        
-        name = topic[0]
-        if zero_Ps:
-            P[B+name] = 0
-        rtype = topic[1]
-        pub_name = get_safe_name(name)+'_pub'
-        pub_setup_strs.append(d2n(pub_name," = rospy.Publisher('",name,"', ",rtype,", queue_size=100)"))
-        pub_publish_strs.append(d2n(pub_name,".publish(",rtype,"(",P[B+name],"))"))
-    return pub_setup_strs,pub_publish_strs
-
-
-rosimport_str,rospyinit_str,P_subscribe_strs,callback_strs,subscriber_strs = get_ros_subscriber_strs(Rostopics_subscribe)
+P_subscribe_strs,callback_strs,subscriber_strs = get_ros_subscriber_strs(Rostopics_subscribe)
 
 
 print "\n################\n#"
@@ -87,46 +69,6 @@ for s in subscriber_strs:
     if using_linux(): exec(s)
     print s
 print "#\n################"
-
-
-if False:
-    pub_setup_strs,pub_publish_strs = get_ros_publisher_strs(Rostopics_publish,P,zero_Ps=True)
-    print "\n################\n#"
-    for p in pub_setup_strs:
-        if using_linux(): exec(p)
-        print p
-    print "#\n################"
-    print "\n################\n#"
-    for c in pub_publish_strs:
-        if using_linux(): exec(c)
-        print c
-    print "#\n################"
-
-    while True:
-        pprint(P)
-        ctr = 0
-        for topic in Rostopics_publish:
-            name = topic[0]
-            pd2s(ctr,')',name)
-            ctr += 1
-        choice_number = input('choice > ')
-        if is_number(choice_number):
-            if choice_number < 0:
-                continue
-            if choice_number+1 > len(Rostopics_publish):
-                continue
-            choice_number = int(choice_number)
-            name = Rostopics_publish[choice_number][0]
-            P[B+name] = input(name+' value > ')
-            pub_setup_strs,pub_publish_strs = get_ros_publisher_strs(Rostopics_publish,P)
-            print "\n################\n#"
-            for c in pub_publish_strs:
-                if using_linux(): exec(c)
-                print c
-            print "#\n################"
-
-    raw_enter()
-    quit()
 
 
 
