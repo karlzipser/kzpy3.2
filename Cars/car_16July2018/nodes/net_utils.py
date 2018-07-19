@@ -10,7 +10,6 @@ import torch
 import torch.nn as nn
 from torch.autograd import Variable
 from nets.squeezenet import SqueezeNet
-import runtime_parameters as rp
 
 verbose = False
 
@@ -26,12 +25,12 @@ def static_vars(**kwargs):
     return decorate
 
 
-def init_model():
+def init_model(N):
     print "def init_model():"
     global solver, scale, nframes
     # Load PyTorch model
-    save_data = torch.load(rp.weight_file_path)
-    print("Loaded "+rp.weight_file_path)
+    save_data = torch.load(N['weight_file_path'])
+    print("Loaded "+N['weight_file_path'])
     # Initializes Solver
     solver = SqueezeNet().cuda()
     solver.load_state_dict(save_data['net'])
@@ -40,14 +39,14 @@ def init_model():
     # Create scaling layer
     scale = nn.AvgPool2d(kernel_size=3, stride=2, padding=1).cuda()
 
-init_model()
+#init_model()
 
 
 
 
 
 @static_vars(torch_motor_previous=49, torch_steer_previous=49)
-def run_model(input, metadata):
+def run_model(input, metadata,N):
     """
     Runs neural net to get motor and steer data. Scales output to 0 to 100 and applies an IIR filter to smooth the
     performance.
@@ -67,8 +66,8 @@ def run_model(input, metadata):
         torch_motor = 100 * output[0][19].data[0]
         torch_steer = 100 * output[0][9].data[0]
 
-    torch_motor = 100 * output[0][10+rp.output_sample].data[0]
-    torch_steer = 100 * output[0][rp.output_sample].data[0]
+    torch_motor = 100 * output[0][10+N['output_sample']].data[0]
+    torch_steer = 100 * output[0][N['output_sample']].data[0]
 
 
 

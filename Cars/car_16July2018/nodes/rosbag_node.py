@@ -7,8 +7,10 @@ import runtime_parameters as rp
 
 os.environ['STOP'] = 'False'
 
+foldername_prefix = 'run_'
+
 spd2s()
-foldername = rp.foldername_prefix + time_str()
+foldername = foldername_prefix + time_str()
 time.sleep(3)
 
 if __name__ == '__main__':

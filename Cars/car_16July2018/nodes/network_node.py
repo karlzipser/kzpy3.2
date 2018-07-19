@@ -6,7 +6,6 @@ roslaunch bair_car bair_car.launch use_zed:=true record:=false
 """
 
 from kzpy3.utils2 import *
-import runtime_parameters as rp
 import net_utils
 ########################################################
 #          ROSPY SETUP SECTION
@@ -81,15 +80,23 @@ print_timer = Timer(1)
 
 Hz = 0
 
+N = {}
+N['output_sample'] = 4 # >=0, <=9
+N['steer_gain'] = 4.0
+N['motor_gain'] = 1.0
+N['motor_offset'] = -2
+N['network_smoothing_parameter'] = 0.0
+N['weight_file_path'] = opjh('pytorch_models','net.infer')
+
+net_utils.init_model(N)
+
 while not main_timer.check():
-    time.sleep(0.01)        
+    time.sleep(0.0001)        
     Hz = frequency_timer.freq(name='Hz_network',do_print=True)
     if is_number(Hz):
         Hz_network_pub.publish(std_msgs.msg.Float32(Hz))
-    if reload_timer.check(): # put in thread?
-        reload(rp)
-        reload_timer.reset()
-    s = rp.network_smoothing_parameter #0.0 # maybe move to tactic
+
+    s = N['network_smoothing_parameter']
 
     print_timer.message(d2s('network_node::drive_mode =',drive_mode))
 
@@ -97,14 +104,14 @@ while not main_timer.check():
         if len(left_list) > nframes + 2:
             camera_data = net_utils.format_camera_data(left_list,right_list)
             metadata = net_utils.format_metadata((play,furtive,follow,direct))
-            torch_motor, torch_steer = net_utils.run_model(camera_data, metadata)
+            torch_motor, torch_steer = net_utils.run_model(camera_data, metadata, N)
 
             if 'Do smoothing of percents...':
                 current_steer = (1.0-s)*torch_steer + s*current_steer
                 current_motor = (1.0-s)*torch_motor + s*current_motor
 
-            adjusted_motor = rp.motor_gain*(current_motor-49) + rp.motor_offset + 49
-            adjusted_steer = rp.steer_gain*(current_steer-49) + 49
+            adjusted_motor = N['motor_gain']*(current_motor-49) + N['motor_offset'] + 49
+            adjusted_steer = N['steer_gain']*(current_steer-49) + 49
 
             adjusted_motor = bound_value(adjusted_motor,0,99)
             adjusted_steer = bound_value(adjusted_steer,0,99)

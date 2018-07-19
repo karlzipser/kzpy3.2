@@ -43,15 +43,11 @@ if False:
 print 'reloading runtime_parameters.py'
 ####################### general car settings ################
 #
-weight_file_path = opjh('pytorch_models','net.infer')
 
-foldername_prefix = 'run_'
 
-output_sample = 4 # >=0, <=9
-steer_gain = 4.0
-motor_gain = 1.0
-motor_offset = -2
-network_smoothing_parameter = 0.0
+
+
+
 
 
 #EOF
