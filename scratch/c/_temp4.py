@@ -31,7 +31,7 @@ if False:
         curses.wrapper(pbar)
 
 
-if True:
+if False:
 	import curses
 	def pbar(window):
 		for j in range(100):
@@ -264,3 +264,37 @@ if False:
 
 	if __name__ == '__main__':                                                       
 	    curses.wrapper(MyApp)   
+
+
+
+if False:
+	import msvcrt
+	import time
+
+	def raw_input_with_timeout(prompt, timeout=30.0):
+	    finishat = time.time() + timeout
+	    result = []
+	    while True:
+	        if msvcrt.kbhit():
+	            result.append(msvcrt.getche())
+	            if result[-1] == '\r':   # or \n, whatever Win returns;-)
+	                return ''.join(result)
+	            time.sleep(0.1)          # just to yield to other processes/threads
+	        else:
+	            if time.time() > finishat:
+	                return None
+
+	import thread
+	import threading
+
+	def raw_input_with_timeout(prompt, timeout=30.0):
+	    print prompt,    
+	    timer = threading.Timer(timeout, thread.interrupt_main)
+	    astring = None
+	    try:
+	        timer.start()
+	        astring = raw_input(prompt)
+	    except KeyboardInterrupt:
+	        pass
+	    timer.cancel()
+	    return astring

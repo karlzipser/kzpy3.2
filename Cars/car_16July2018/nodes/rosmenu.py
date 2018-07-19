@@ -72,6 +72,6 @@ while True:
             if using_linux(): exec(c)
             print c
         print "#\n################"
-
+        # add exit choice.
 print 'done.'
 

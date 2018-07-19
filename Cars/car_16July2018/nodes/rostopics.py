@@ -86,11 +86,16 @@ def get_bag_info():
         return return_str
     except:
         return 'rosbags not found or other problem'
-
+#run for X seconds, then do a raw_enter(), or put in thread and watch for q quit.
 raw_enter()
 bag_timer = Timer(5)
 bag_str = ''
+
+timer = Timer(5)
 while True:
+    if timer.check():
+        raw_enter()
+        timer.reset()
     ctr = 0
     time.sleep(0.1)
     print(chr(27) + "[2J")
