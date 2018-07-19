@@ -4,30 +4,31 @@ Int = 'std_msgs.msg.Int32'
 Float = 'std_msgs.msg.Float32'
 Vec3 = 'geometry_msgs.msg.Vector3'
 Str = 'std_msgs.msg.String'
-B = ''# '/bair_car/'
 
+BC = '/bair_car/'
 Rostopics_subscribe = [
-    ('steer',Int),
-    ('motor',Int),
-    ('cmd/steer',Int),
-    ('cmd/motor',Int),
-    ('network_servo_percent',Int),
-    ('network_motor_percent',Int),  
-    ('human_agent',Int),
-    ('behavioral_mode',Str),
-    ('button_number',Int),
-    ('drive_mode',Int),
-    ('encoder',Float),
-    ('gyro',Vec3),
-    ('gyro_heading',Vec3),
-    ('acc',Vec3),
-    ('Hz_acc',Float),
-    ('Hz_mse',Float),
-    ('Hz_network',Float),
+    (BC+'steer',Int),
+    (BC+'motor',Int),
+    (BC+'cmd/steer',Int),
+    (BC+'cmd/motor',Int),
+    (BC+'network_servo_percent',Int),
+    (BC+'network_motor_percent',Int),  
+    (BC+'human_agent',Int),
+    (BC+'behavioral_mode',Str),
+    (BC+'button_number',Int),
+    (BC+'drive_mode',Int),
+    (BC+'encoder',Float),
+    (BC+'gyro',Vec3),
+    (BC+'gyro_heading',Vec3),
+    (BC+'acc',Vec3),
+    (BC+'Hz_acc',Float),
+    (BC+'Hz_mse',Float),
+    (BC+'Hz_network',Float),
     ('network_output_sample',Int),
     ('network_motor_offset',Int),
     ('network_steer_gain',Float),
-    ('network_motor_gain',Float)
+    ('network_motor_gain',Float),
+    ('network_smoothing_parameter',Float)
     ]
 
 rosimport_str = "import std_msgs.msg\nimport geometry_msgs.msg\nimport rospy"
@@ -38,7 +39,7 @@ def get_ros_subscriber_strs(Rostopics_subscribe):
     subscriber_strs = []
     P_subscribe_strs = ['P = {}']
     for topic in Rostopics_subscribe:
-        name = B+topic[0]
+        name = topic[0]
         callback_name = 'callback_'+get_safe_name(name)
         if topic[1] == Vec3:
             callback_strs.append(d2n("def ",callback_name,"(msg):","\n\tP['",name,"'] = (msg.x,msg.y,msg.z)\n"))
@@ -94,7 +95,7 @@ while True:
     time.sleep(0.1)
     print(chr(27) + "[2J")
     for topic in Rostopics_subscribe:
-        val = P[B+topic[0]]
+        val = P[topic[0]]
         if is_number(val):
             val = dp(val,2)
         pd2s(topic[0],"=\t",val)
