@@ -61,11 +61,7 @@ while True:
     ctr = 0
     for topic in Rostopics_publish:
         name = topic[0]
-        if is_number(P[B+name]):
-            val = P[B+name]
-        else:
-            val = P[B+name][1]
-        pd2s(ctr,')',name,':',dp([1],2))
+        pd2s(ctr,')',name,':',dp(P[B+name],2))
         ctr += 1
     choice_number = input('choice > ')
     if is_number(choice_number):
