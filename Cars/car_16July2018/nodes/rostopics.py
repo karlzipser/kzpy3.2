@@ -52,14 +52,15 @@ def get_ros_subscriber_strs(Rostopics_subscribe):
 
 
 
-def get_ros_publisher_strs(Rostopics_publish,P):
+def get_ros_publisher_strs(Rostopics_publish,P,zero_Ps=False):
     pub_setup_strs = []
     pub_publish_strs = []
     P_publisher_strs = {}
     for topic in Rostopics_publish:
         
         name = topic[0]
-        P[B+name] = 0
+        if zero_Ps:
+            P[B+name] = 0
         rtype = topic[1]
         pub_name = get_safe_name(name)+'_pub'
         pub_setup_strs.append(d2n(pub_name," = rospy.Publisher('",name,"', ",rtype,", queue_size=100)"))
@@ -91,7 +92,7 @@ print "#\n################"
 
 
 
-pub_setup_strs,pub_publish_strs = get_ros_publisher_strs(Rostopics_publish,P)
+pub_setup_strs,pub_publish_strs = get_ros_publisher_strs(Rostopics_publish,P,zero_Ps=True)
 #exec_pub_setup_strs(pub_setup_strs)
 #exec_pub_publish_strs(pub_publish_strs)
 
