@@ -118,13 +118,24 @@ print "#\n################"
 
 while True:
     pprint(P)
-    P[B+'network_output_sample'] = raw_input('value')
-    pub_setup_strs,pub_publish_strs = get_ros_publisher_strs(Rostopics_publish,P)
-    print "\n################\n#"
-    for c in pub_publish_strs:
-        if using_linux(): exec(c)
-        print c
-    print "#\n################"
+    ctr = 0
+    for name in Rostopics_publish:
+        pd2s(ctr,')',name)
+    choice_number = raw_input('choice > ')
+    if is_number(choice_number):
+        if choice_number < 0:
+            continue
+        if choice_number+1 > len(Rostopics_publish):
+            continue
+        choice_number = int(choice_number)
+        name = Rostopics_publish[choice_number]
+        P[B+name] = raw_input('value > ')
+        pub_setup_strs,pub_publish_strs = get_ros_publisher_strs(Rostopics_publish,P)
+        print "\n################\n#"
+        for c in pub_publish_strs:
+            if using_linux(): exec(c)
+            print c
+        print "#\n################"
 
 raw_enter()
 quit()
