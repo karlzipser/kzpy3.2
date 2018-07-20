@@ -142,6 +142,6 @@ if 'Main loop...':
     print 'done.'
     if Parameters['USE_ROS']:
         print "doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))"
-        unix(opjh('kzpy3/kill_ros.sh'))
+        unix(opjh('kzpy3/scripts/kill_ros.sh'))
 
 #EOF

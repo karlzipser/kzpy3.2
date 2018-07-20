@@ -86,7 +86,7 @@ def get_bag_info():
     except:
         return 'rosbags not found or other problem'
 #run for X seconds, then do a raw_enter(), or put in thread and watch for q quit.
-raw_enter()
+#raw_enter()
 bag_timer = Timer(5)
 bag_str = ''
 
