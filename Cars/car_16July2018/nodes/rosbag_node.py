@@ -54,11 +54,12 @@ if __name__ == '__main__':
                 save_pub.publish(std_msgs.msg.Int32(0))
                 
             rate.sleep()
-    except Exception as e:
-        print("********** Exception ***********************")
-        print(e.message, e.args)
-        print "rosbag_node.py Exception doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))"
-        unix(opjh('kzpy3/scripts/kill_ros.sh'))
+        except Exception as e:
+            print("********** Exception ***********************")
+            print(e.message, e.args)
+            print "rosbag_node.py Exception doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))"
+            unix(opjh('kzpy3/scripts/kill_ros.sh'))
+
     print "rosbag_node.py end doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))"
-        unix(opjh('kzpy3/scripts/kill_ros.sh'))
+    unix(opjh('kzpy3/scripts/kill_ros.sh'))
 
