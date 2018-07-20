@@ -15,7 +15,7 @@ verbose = False
 
 #nframes = 2 # default superseded by net
 
-print_timer = Timer(5)
+#print_timer = Timer(5)
 
 
 def static_vars(**kwargs):
