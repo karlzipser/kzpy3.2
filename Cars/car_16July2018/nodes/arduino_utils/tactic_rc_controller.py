@@ -86,7 +86,7 @@ def _TACTIC_RC_controller_run_loop(P):
                         _motor_pwm = percent_to_pwm(P['network']['motor_percent'],P['motor_pwm_null'],P['motor_pwm_max'],P['motor_pwm_min'])
                         write_str = d2n( '(', int(_servo_pwm), ',', int(_motor_pwm+10000), ')')
                     else:
-                        print_timer.message('Waiting before giving network control...')
+                        #print_timer.message('Waiting before giving network control...')
                         write_str = d2n( '(',49,',',49+10000,')')
                 if P['button_number'] != 4:
                     if P['calibrated']:
@@ -103,7 +103,7 @@ def _TACTIC_RC_controller_run_loop(P):
             if P['USE_ROS']:
                 P['publish_MSE_data'](P)           
         except Exception as e:
-            print '_TACTIC_RC_controller_run_loop',e
+            #print '_TACTIC_RC_controller_run_loop',e
             pass            
     print 'end _TACTIC_RC_controller_run_loop.'
 
