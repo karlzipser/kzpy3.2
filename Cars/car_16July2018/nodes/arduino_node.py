@@ -100,15 +100,16 @@ if Parameters['USE_ROS']:
             MSE_low_frequency_pub_timer.reset()
 
     def publish_No_Arduino_data(P):
-        spd2s('publish_No_Arduino_data(P)')
         human_val = 0
         drive_mode = 1
-        if No_Arduino_data_low_frequency_pub_timer.check():
-            P['behavioral_mode_pub'].publish('direct')
-            P['place_choice_pub'].publish('local')
-            P['human_agent_pub'].publish(std_msgs.msg.Int32(human_val))
-            P['drive_mode_pub'].publish(std_msgs.msg.Int32(drive_mode))
-            No_Arduino_data_low_frequency_pub_timer.reset()
+        while not P['ABORT']:
+            if No_Arduino_data_low_frequency_pub_timer.check():
+                spd2s('publish_No_Arduino_data(P)')
+                P['behavioral_mode_pub'].publish('direct')
+                P['place_choice_pub'].publish('local')
+                P['human_agent_pub'].publish(std_msgs.msg.Int32(human_val))
+                P['drive_mode_pub'].publish(std_msgs.msg.Int32(drive_mode))
+                No_Arduino_data_low_frequency_pub_timer.reset()
 
 
     P['publish_IMU_data'] = publish_IMU_data
