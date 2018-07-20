@@ -129,7 +129,7 @@ def format_camera_data(left_list, right_list):
     camera_data = camera_data.unsqueeze(0)
     camera_data = scale(Variable(camera_data))
     camera_data = scale(camera_data)
-    print_timer.message(d2s(shape(camera_data)))
+    print_timer.message("d2s(shape(camera_data)) =",d2s(shape(camera_data)))
     return camera_data
 
 
