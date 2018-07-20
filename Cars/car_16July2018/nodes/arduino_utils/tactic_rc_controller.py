@@ -25,11 +25,7 @@ def _TACTIC_RC_controller_run_loop(P):
     frequency_timer = Timer(1)
     print_timer = Timer(0.25)
     ctr_timer = Timer()
-    freq_timer = Timer(3) #####
     while P['ABORT'] == False:
-        if freq_timer.check(): ####
-            pprint(P['Hz']) ####
-            freq_timer.reset()
         if 'Brief sleep to allow other threads to process...':
             time.sleep(0.01)
         try:

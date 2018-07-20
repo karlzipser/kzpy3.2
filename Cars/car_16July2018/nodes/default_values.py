@@ -10,3 +10,4 @@ Network['weight_file_path'] = opjh('pytorch_models','net.infer')
 
 Mse = {}
 Mse['HUMAN_SMOOTHING_PARAMETER_1'] = 0.75
+

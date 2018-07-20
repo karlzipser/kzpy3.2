@@ -57,7 +57,7 @@
     <node name="rosbag_node" pkg="bair_car" type="rosbag_node.py" output="screen"
      args="$(find bair_car)/rosbags $(arg bagpath)" respawn="true" if="$(arg record)">
     </node>
-    
+    # put in all topics
     <arg name="rosbag_args"
      value="/$(arg car_name)/cmd/motor 
             /$(arg car_name)/cmd/steer
@@ -72,6 +72,17 @@
             /$(arg car_name)/human_agent
             /$(arg car_name)/behavioral_mode
             /$(arg car_name)/button_number
+            /$(arg car_name)/place_choice
+            /$(arg car_name)/drive_mode
+            /$(arg car_name)/Hz_acc
+            /$(arg car_name)/Hz_mse
+            /$(arg car_name)/Hz_network
+            /network_output_sample
+            /network_motor_offset
+            /network_steer_gain
+            /network_motor_gain
+            /network_output_sample
+            /network_smoothing_parameter
             /$(arg car_name)/zed/depth/camera_info 
             /$(arg car_name)/zed/depth/image_rect_color 
             /$(arg car_name)/zed/left/camera_info 

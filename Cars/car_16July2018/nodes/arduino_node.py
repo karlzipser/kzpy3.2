@@ -42,20 +42,19 @@ if Parameters['USE_ROS']:
     P = Parameters
     s = Parameters['HUMAN_SMOOTHING_PARAMETER_1']
     def cmd_steer_callback(msg):
-        P['network']['servo_percent'] = (1.0-s)*msg.data + s*P['network']['servo_percent']
+        P['network']['servo_percent'] = P['network']['servo_percent']
     def cmd_motor_callback(msg):
-        P['network']['motor_percent'] = (1.0-s)*msg.data + s*P['network']['motor_percent']
+        P['network']['motor_percent'] = P['network']['motor_percent']
     rospy.init_node('run_arduino',anonymous=True)
     rospy.Subscriber('cmd/steer', std_msgs.msg.Int32, callback=cmd_steer_callback)
     rospy.Subscriber('cmd/motor', std_msgs.msg.Int32, callback=cmd_motor_callback)
     P['human_agent_pub'] = rospy.Publisher('human_agent', std_msgs.msg.Int32, queue_size=5) 
     P['drive_mode_pub'] = rospy.Publisher('drive_mode', std_msgs.msg.Int32, queue_size=5) 
     P['behavioral_mode_pub'] = rospy.Publisher('behavioral_mode', std_msgs.msg.String, queue_size=5)
+    P['place_choice_pub'] = rospy.Publisher('place_choice', std_msgs.msg.String, queue_size=5)
     P['button_number_pub'] = rospy.Publisher('button_number', std_msgs.msg.Int32, queue_size=5) 
     P['steer_pub'] = rospy.Publisher('steer', std_msgs.msg.Int32, queue_size=5) 
     P['motor_pub'] = rospy.Publisher('motor', std_msgs.msg.Int32, queue_size=5) 
-    P['network_servo_percent_pub'] = rospy.Publisher('network_servo_percent', std_msgs.msg.Int32, queue_size=5) 
-    P['network_motor_percent_pub'] = rospy.Publisher('network_motor_percent', std_msgs.msg.Int32, queue_size=5) 
     P['encoder_pub'] = rospy.Publisher('encoder', std_msgs.msg.Float32, queue_size=5)
     P['Hz_acc_pub'] = rospy.Publisher('Hz_acc', std_msgs.msg.Float32, queue_size=5)
     P['Hz_mse_pub'] = rospy.Publisher('Hz_mse', std_msgs.msg.Float32, queue_size=5)
@@ -68,9 +67,15 @@ if Parameters['USE_ROS']:
     imu_dic['acc'] = 'acc_pub'
     imu_dic['head'] = 'gyro_heading_pub'
 
+    IMU_low_frequency_pub_timer = Timer(0.5)
+    MSE_low_frequency_pub_timer = Timer(0.5)
+
     def publish_IMU_data(P,m):
         P[imu_dic[m]].publish(geometry_msgs.msg.Vector3(*P[m]['xyz']))
-        P['Hz_acc_pub'].publish(std_msgs.msg.Float32(P['Hz']['acc']))
+        if IMU_low_frequency_pub_timer.check():
+            P['Hz_acc_pub'].publish(std_msgs.msg.Float32(P['Hz']['acc']))
+            IMU_low_frequency_pub_timer.reset()
+
 
     def publish_MSE_data(P):
         if P['agent_choice'] == 'human':
@@ -83,14 +88,15 @@ if Parameters['USE_ROS']:
             drive_mode = 0         
         P['steer_pub'].publish(std_msgs.msg.Int32(P['human']['servo_percent']))
         P['motor_pub'].publish(std_msgs.msg.Int32(P['human']['motor_percent']))
-        P['network_servo_percent_pub'].publish(std_msgs.msg.Int32(P['network']['servo_percent']))
-        P['network_motor_percent_pub'].publish(std_msgs.msg.Int32(P['network']['motor_percent']))
         P['button_number_pub'].publish(std_msgs.msg.Int32(P['button_number']))
-        P['behavioral_mode_pub'].publish(d2s(P['behavioral_mode_choice']))
         P['encoder_pub'].publish(std_msgs.msg.Float32(P['encoder']))
-        P['human_agent_pub'].publish(std_msgs.msg.Int32(human_val))
-        P['drive_mode_pub'].publish(std_msgs.msg.Int32(drive_mode))
-        P['Hz_mse_pub'].publish(std_msgs.msg.Float32(P['Hz']['mse']))
+        if MSE_low_frequency_pub_timer.check():
+            P['behavioral_mode_pub'].publish(d2s(P['behavioral_mode_choice']))
+            P['place_choice_pub'].publish(d2s(P['place_choice']))
+            P['human_agent_pub'].publish(std_msgs.msg.Int32(human_val))
+            P['drive_mode_pub'].publish(std_msgs.msg.Int32(drive_mode))
+            P['Hz_mse_pub'].publish(std_msgs.msg.Float32(P['Hz']['mse']))
+            MSE_low_frequency_pub_timer.reset()
 
     P['publish_IMU_data'] = publish_IMU_data
     P['publish_MSE_data'] = publish_MSE_data
@@ -135,7 +141,7 @@ if 'Main loop...':
     Parameters['ABORT'] = True
     print 'done.'
     if Parameters['USE_ROS']:
-        print "doing... unix(opjh('kzpy3/kill_ros.sh'))"
+        print "doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))"
         unix(opjh('kzpy3/kill_ros.sh'))
 
 #EOF

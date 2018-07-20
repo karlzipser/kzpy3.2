@@ -10,7 +10,7 @@ os.environ['STOP'] = 'False'
 foldername_prefix = os.environ["COMPUTER_NAME"] #'run_'
 
 spd2s()
-foldername = foldername_prefix + time_str()
+foldername = d2n(foldername_prefix,'_',time_str())
 time.sleep(3)
 
 if __name__ == '__main__':
