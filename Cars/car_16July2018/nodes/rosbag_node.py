@@ -3,7 +3,6 @@ from kzpy3.utils2 import *
 import os, sys, shutil, subprocess, time
 import rospy
 import std_msgs.msg
-import runtime_parameters as rp
 
 os.environ['STOP'] = 'False'
 
@@ -37,9 +36,6 @@ if __name__ == '__main__':
     rate = rospy.Rate(2.0)
 
     try:
-        if os.environ['STOP'] == 'True':
-            stop_ros()
-            assert(False)
         while not rospy.is_shutdown():
             save_pub.publish(std_msgs.msg.Int32(0))
             for f in os.listdir(bag_rec_folder):
@@ -61,8 +57,8 @@ if __name__ == '__main__':
     except Exception as e:
         print("********** Exception ***********************")
         print(e.message, e.args)
-        os.environ['STOP'] = 'True'
-        rospy.signal_shutdown(d2s(e.message,e.args))
-        stop_ros()
-    stop_ros()
+        print "rosbag_node.py Exception doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))"
+        unix(opjh('kzpy3/scripts/kill_ros.sh'))
+   print "rosbag_node.py end doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))"
+        unix(opjh('kzpy3/scripts/kill_ros.sh'))
 
