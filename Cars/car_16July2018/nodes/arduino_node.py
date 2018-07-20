@@ -100,6 +100,7 @@ if Parameters['USE_ROS']:
             MSE_low_frequency_pub_timer.reset()
 
     def publish_No_Arduino_data(P):
+        spd2s('publish_No_Arduino_data(P)')
         human_val = 0
         drive_mode = 1
         if No_Arduino_data_low_frequency_pub_timer.check():
@@ -132,6 +133,7 @@ if 'Start Arduino threads...':
         Selector_Mode(Parameters)
     else:
         spd2s("!!!!!!!!!! 'MSE' not in Arduinos[] or not using 'MSE' !!!!!!!!!!!")
+        publish_No_Arduino_data(P)
     if Parameters['USE_SIG'] and 'SIG' in Parameters['Arduinos'].keys():
         LED_Display(Parameters)
     else:
