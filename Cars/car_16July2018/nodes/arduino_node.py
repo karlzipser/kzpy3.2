@@ -42,9 +42,9 @@ if Parameters['USE_ROS']:
     P = Parameters
     s = Parameters['HUMAN_SMOOTHING_PARAMETER_1']
     def cmd_steer_callback(msg):
-        P['network']['servo_percent'] = P['network']['servo_percent']
+        P['network']['servo_percent'] = msg.data
     def cmd_motor_callback(msg):
-        P['network']['motor_percent'] = P['network']['motor_percent']
+        P['network']['motor_percent'] = msg.data
     rospy.init_node('run_arduino',anonymous=True)
     rospy.Subscriber('cmd/steer', std_msgs.msg.Int32, callback=cmd_steer_callback)
     rospy.Subscriber('cmd/motor', std_msgs.msg.Int32, callback=cmd_motor_callback)
