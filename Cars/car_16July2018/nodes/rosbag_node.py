@@ -59,6 +59,6 @@ if __name__ == '__main__':
         print(e.message, e.args)
         print "rosbag_node.py Exception doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))"
         unix(opjh('kzpy3/scripts/kill_ros.sh'))
-   print "rosbag_node.py end doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))"
+    print "rosbag_node.py end doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))"
         unix(opjh('kzpy3/scripts/kill_ros.sh'))
 
