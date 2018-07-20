@@ -103,12 +103,13 @@ if Parameters['USE_ROS']:
         spd2s('publish_No_Arduino_data(P)')
         human_val = 0
         drive_mode = 1
-        if No_Arduino_data_low_frequency_pub_timer.check():
-            P['behavioral_mode_pub'].publish('direct')
-            P['place_choice_pub'].publish('local')
-            P['human_agent_pub'].publish(std_msgs.msg.Int32(human_val))
-            P['drive_mode_pub'].publish(std_msgs.msg.Int32(drive_mode))
-            No_Arduino_data_low_frequency_pub_timer.reset()
+        while P['ABORT'] = False:
+            if No_Arduino_data_low_frequency_pub_timer.check():
+                P['behavioral_mode_pub'].publish('direct')
+                P['place_choice_pub'].publish('local')
+                P['human_agent_pub'].publish(std_msgs.msg.Int32(human_val))
+                P['drive_mode_pub'].publish(std_msgs.msg.Int32(drive_mode))
+                No_Arduino_data_low_frequency_pub_timer.reset()
 
 
     P['publish_IMU_data'] = publish_IMU_data
@@ -133,7 +134,7 @@ if 'Start Arduino threads...':
         Selector_Mode(Parameters)
     else:
         spd2s("!!!!!!!!!! 'MSE' not in Arduinos[] or not using 'MSE' !!!!!!!!!!!")
-        publish_No_Arduino_data(P)
+        publish_No_Arduino_data(Parameters)
     if Parameters['USE_SIG'] and 'SIG' in Parameters['Arduinos'].keys():
         LED_Display(Parameters)
     else:
