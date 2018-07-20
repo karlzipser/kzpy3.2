@@ -103,7 +103,7 @@ if Parameters['USE_ROS']:
         spd2s('publish_No_Arduino_data(P)')
         human_val = 0
         drive_mode = 1
-        while P['ABORT'] = False:
+        while not P['ABORT']:
             if No_Arduino_data_low_frequency_pub_timer.check():
                 P['behavioral_mode_pub'].publish('direct')
                 P['place_choice_pub'].publish('local')
