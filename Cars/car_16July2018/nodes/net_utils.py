@@ -15,6 +15,7 @@ verbose = False
 
 #nframes = 2 # default superseded by net
 
+print_timer = Timer(5)
 
 
 def static_vars(**kwargs):
@@ -100,6 +101,7 @@ def run_model(input, metadata,N):
 
     return torch_motor, torch_steer
 
+GREY_OUT_TOP_OF_IMAGE = False
 def format_camera_data(left_list, right_list):
     """
     Formats camera data from raw inputs from camera.
@@ -111,12 +113,13 @@ def format_camera_data(left_list, right_list):
     :return: formatted camera data ready for input into pytorch z2color
     """
     #print "format_camera_data"
-    camera_start = time.clock()
-    half_img_height = int(shape(left_list[-1])[0]/2)
+    #camera_start = time.clock()
+    #half_img_height = int(shape(left_list[-1])[0]/2)
     listoftensors = []
     for i in range(nframes):
         for side in (left_list, right_list):
-            side[-i - 1][:188,:,:] = 128  #*= 0 ####################!!!!!!!!!!!!!!!!!!!!!!!!!
+            if GREY_OUT_TOP_OF_IMAGE:
+                if side[-i - 1][:188,:,:] = 128  #*= 0 ####################!!!!!!!!!!!!!!!!!!!!!!!!!
             listoftensors.append(torch.from_numpy(side[-i - 1]))
     camera_data = torch.cat(listoftensors, 2)
    
@@ -126,7 +129,7 @@ def format_camera_data(left_list, right_list):
     camera_data = camera_data.unsqueeze(0)
     camera_data = scale(Variable(camera_data))
     camera_data = scale(camera_data)
-
+    print_timer.message(d2s(shape(camera_data)))
     return camera_data
 
 

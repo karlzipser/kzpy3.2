@@ -111,7 +111,7 @@ net_utils.init_model(N)
 
 while not main_timer.check():
     time.sleep(0.0001)
-    print_timer.message(d2s("N['network_steer_gain'] =",N['network_steer_gain']))
+    #print_timer.message(d2s("N['network_steer_gain'] =",N['network_steer_gain']))
     Hz = frequency_timer.freq(name='Hz_network',do_print=False)
     if is_number(Hz):
         if low_frequency_pub_timer.check():
@@ -120,7 +120,7 @@ while not main_timer.check():
 
     s = N['network_smoothing_parameter']
 
-    print_timer.message(d2s('network_node::drive_mode =',drive_mode))
+    #print_timer.message(d2s('network_node::drive_mode =',drive_mode))
 
     if not human_agent and drive_mode == 1:
         if len(left_list) > nframes + 2:
