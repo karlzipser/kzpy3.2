@@ -156,7 +156,8 @@ if 'Main loop...':
     Parameters['ABORT'] = True
     print 'done.'
     if Parameters['USE_ROS']:
-        P['drive_mode_pub'].publish(std_msgs.msg.Int32(-999))
+        print("P['drive_mode_pub'].publish(std_msgs.msg.Int32(-9))")
+        P['drive_mode_pub'].publish(std_msgs.msg.Int32(-9))
         print "doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))"
         time.sleep(0.5)
         unix(opjh('kzpy3/scripts/kill_ros.sh'))
