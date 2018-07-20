@@ -77,7 +77,7 @@ def _TACTIC_RC_controller_run_loop(P):
                     if np.abs(P['human']['motor_percent']-49) > 4:
                         write_str = d2n( '(', int(P['servo_pwm_smooth']), ',', int(P['motor_pwm_smooth']+10000), ')')
                         P['time_since_button_4'].reset()
-                        print_timer.message(d2s('Temporary human control control...',P['human']['servo_percent'],P['human']['motor_percent']))
+                        #print_timer.message(d2s('Temporary human control control...',P['human']['servo_percent'],P['human']['motor_percent']))
                     elif P['time_since_button_4'].time() > 2.0:
                         if np.abs(P['human']['servo_percent']-49) > 4:
                             _servo_pwm = P['servo_pwm_smooth']
