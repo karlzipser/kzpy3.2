@@ -69,6 +69,7 @@ if Parameters['USE_ROS']:
 
     IMU_low_frequency_pub_timer = Timer(0.5)
     MSE_low_frequency_pub_timer = Timer(0.5)
+    No_Arduino_data_low_frequency_pub_timer = Timer(0.5)
 
     def publish_IMU_data(P,m):
         P[imu_dic[m]].publish(geometry_msgs.msg.Vector3(*P[m]['xyz']))
@@ -98,9 +99,20 @@ if Parameters['USE_ROS']:
             P['Hz_mse_pub'].publish(std_msgs.msg.Float32(P['Hz']['mse']))
             MSE_low_frequency_pub_timer.reset()
 
+    def publish_No_Arduino_data(P):
+        human_val = 0
+        drive_mode = 1
+        if No_Arduino_data_low_frequency_pub_timer.check():
+            P['behavioral_mode_pub'].publish(d2s('direct')
+            P['place_choice_pub'].publish(d2s('local')
+            P['human_agent_pub'].publish(std_msgs.msg.Int32(human_val))
+            P['drive_mode_pub'].publish(std_msgs.msg.Int32(drive_mode))
+            No_Arduino_data_low_frequency_pub_timer.reset()
+
+
     P['publish_IMU_data'] = publish_IMU_data
     P['publish_MSE_data'] = publish_MSE_data
-
+    P['publish_No_Arduino_data'] = publish_No_Arduino_data
 
 import threading
 from arduino_utils.serial_init import *
