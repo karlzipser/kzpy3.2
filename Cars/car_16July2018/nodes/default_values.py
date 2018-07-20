@@ -11,3 +11,19 @@ Network['weight_file_path'] = opjh('pytorch_models','net.infer')
 Mse = {}
 Mse['HUMAN_SMOOTHING_PARAMETER_1'] = 0.75
 
+"""
+figure out how pytorch model works
+make new verwion based on dicts which I use in both training and driving
+make input format flexible (e.g., frames, metadat, etc)
+set up TX1 with monitor
+get workstation going
+avoid getting bogged down in non-essential coding
+have network output all behavioral trajectories
+	this reqires training a net using output of net to get non-data trajectories
+set up Sascha cars
+think about depth map, either from algorithim or camera
+figure out how to process bag data (there are two apps for this)
+think about smaller res network
+write down all images sizes
+find model used for demo
+"""
