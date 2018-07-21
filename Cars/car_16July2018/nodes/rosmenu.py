@@ -69,8 +69,10 @@ while choice_number != -1:
             name = topic[0]
             if topic[1] == Int:
                 pd2s(ctr,')',name,':',int(P[name]))
-            else:
+            elif topic[1] == Float:
                 pd2s(ctr,')',name,':',dp(P[name],2))
+            else:
+                pd2s(ctr,')',name,':',P[name])                
             ctr += 1
         choice_number = input('choice > ')
         if not is_number(choice_number):
