@@ -110,7 +110,7 @@ low_frequency_pub_timer2 = Timer(0.5)
 
 net_utils.init_model(N)
 
-while not drive_mode < 0:
+while not main_timer.check():
     time.sleep(0.0001)
     #print_timer.message(d2s("N['network_steer_gain'] =",N['network_steer_gain']))
     Hz = frequency_timer.freq(name='Hz_network',do_print=False)
