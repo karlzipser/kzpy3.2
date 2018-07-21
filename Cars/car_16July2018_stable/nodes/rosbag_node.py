@@ -4,15 +4,7 @@ import os, sys, shutil, subprocess, time
 import rospy
 import std_msgs.msg
 
-R = {}
-import default_values
-for k in default_values.Record.keys():
-    R[k] = default_values.Record[k]
 
-if not R['RECORD_DATA']:
-    spd2s('rosbag_node.py::Not recording data')
-    time.sleep(3600*24)
-    assert(False)
 
 
 foldername_prefix = os.environ["COMPUTER_NAME"] #'run_'
