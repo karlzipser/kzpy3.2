@@ -113,9 +113,9 @@ select opt in $OPTIONS; do
    elif [ "$opt" = "rosbags" ]; then
     check_rosbags.py
    elif [ "$opt" = "rostopics" ]; then
-    python kzpy3/Cars/car_16July2018/nodes/rostopics.py
+    python kzpy3/Cars/car_16July2018_stable/nodes/rostopics.py
    elif [ "$opt" = "rosmenu" ]; then
-    python kzpy3/Cars/car_16July2018/nodes/rosmenu.py
+    python kzpy3/Cars/car_16July2018_stable/nodes/rosmenu.py
    elif [ "$opt" = "git_pull" ]; then
     cd ~/kzpy3
     git pull
