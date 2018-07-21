@@ -11,9 +11,9 @@ Network['USE_NETWORK'] = False
 
 Mse = {}
 Mse['HUMAN_SMOOTHING_PARAMETER_1'] = 0.75
-Parameters['USE_MSE'] = True
-Parameters['USE_SIG'] = True
-Parameters['USE_IMU'] = True
+Mse['USE_MSE'] = True
+Mse['USE_SIG'] = True
+Mse['USE_IMU'] = True
 
 NO_Mse = {}
 NO_Mse['behavioral_mode_choice'] = 'furtive'
