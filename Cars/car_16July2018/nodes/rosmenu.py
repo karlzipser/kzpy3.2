@@ -60,8 +60,8 @@ while choice_number != -1:
     try:
         print(chr(27) + "[2J")
         ctr = 0
+        pd2s(-1,')','quit',':')
         for topic in Rostopics_publish:
-            pd2s(-1,')','quit',':')
             name = topic[0]
             if topic[1] == Int:
                 pd2s(ctr,')',name,':',int(P[name]))

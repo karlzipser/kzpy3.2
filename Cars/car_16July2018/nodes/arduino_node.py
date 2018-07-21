@@ -104,12 +104,10 @@ if Parameters['USE_ROS']:
         drive_mode = 1
         while P['ABORT'] == False:
             if No_Arduino_data_low_frequency_pub_timer.check():
-                #spd2s('publish_No_Arduino_data(P)')
-                P['behavioral_mode_pub'].publish(std_msgs.msg.String(default_values.Mse['behavioral_mode_choice'])) 
-                P['place_choice_pub'].publish(std_msgs.msg.String(default_values.Mse['place_choice']))
-                P['human_agent_pub'].publish(std_msgs.msg.Int32(0)) #(human_val))
-                P['drive_mode_pub'].publish(std_msgs.msg.Int32(1))  #(drive_mode))
-                #print "P['drive_mode_pub'].publish(std_msgs.msg.Int32(1)) "
+                P['behavioral_mode_pub'].publish(std_msgs.msg.String(default_values.NO_Mse['behavioral_mode_choice'])) 
+                P['place_choice_pub'].publish(std_msgs.msg.String(default_values.NO_Mse['place_choice']))
+                P['human_agent_pub'].publish(std_msgs.msg.Int32(human_val))
+                P['drive_mode_pub'].publish(std_msgs.msg.Int32(drive_mode))
                 No_Arduino_data_low_frequency_pub_timer.reset()
 
 
