@@ -142,7 +142,7 @@ while not drive_mode < 0:
             motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
 
         if low_frequency_pub_timer.check():
-            spd2s(adjusted_steer,adjusted_motor)
+            spd2s(adjusted_steer,adjusted_motor,drive_mode)
             low_frequency_pub_timer.reset()
     else:
         print 'network paused'
