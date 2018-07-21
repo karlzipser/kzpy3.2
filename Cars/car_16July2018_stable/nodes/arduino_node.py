@@ -7,9 +7,7 @@ from kzpy3.utils2 import *
 Parameters = {}
 Parameters['calibrated'] = False
 Parameters['ABORT'] = False
-Parameters['USE_MSE'] = True
-Parameters['USE_SIG'] = True
-Parameters['USE_IMU'] = True
+
 Parameters['agent_choice'] = 'human'
 Parameters['servo_percent'] = 49
 Parameters['motor_percent'] = 49

@@ -6,6 +6,13 @@ roslaunch bair_car bair_car.launch use_zed:=true record:=false
 """
 
 from kzpy3.utils2 import *
+import default_values
+for k in default_values.Network.keys():
+    N[k] = default_values.Network[k]
+if not N['USE_NETWORK']:
+    spd2s('network_node.py::not using network')
+    time.sleep(3600*24)
+    assert(False)
 import net_utils
 ########################################################
 #          ROSPY SETUP SECTION
@@ -106,9 +113,7 @@ print_timer = Timer(5)
 Hz = 0
 
 
-import default_values
-for k in default_values.Network.keys():
-    N[k] = default_values.Network[k]
+
 
 low_frequency_pub_timer = Timer(0.5)
 low_frequency_pub_timer2 = Timer(0.5)

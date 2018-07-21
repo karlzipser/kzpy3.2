@@ -7,13 +7,22 @@ Network['network_motor_gain'] = 0.75
 Network['network_motor_offset'] = 0
 Network['network_smoothing_parameter'] = 0.33
 Network['weight_file_path'] = opjh('pytorch_models','net.infer')
+Network['USE_NETWORK'] = False
 
 Mse = {}
 Mse['HUMAN_SMOOTHING_PARAMETER_1'] = 0.75
+Parameters['USE_MSE'] = True
+Parameters['USE_SIG'] = True
+Parameters['USE_IMU'] = True
 
 NO_Mse = {}
 NO_Mse['behavioral_mode_choice'] = 'furtive'
 NO_Mse['place_choice'] = 'Tilden'
+
+Record = {}
+Record['RECORD_DATA'] = True
+
+
 
 """
 -figure out how pytorch model works
