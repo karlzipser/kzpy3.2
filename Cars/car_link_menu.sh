@@ -11,7 +11,7 @@ select opt in $OPTIONS; do
     ln -s ~/kzpy3/Cars/car_21July2018 ~/catkin_ws/src/bair_car
     ls -al ~/catkin_ws/src/bair_car
 
-   if [ "$opt" = "car_16July2018_stable" ]; then
+   elif [ "$opt" = "car_16July2018_stable" ]; then
     rm ~/catkin_ws/src/bair_car
     ln -s ~/kzpy3/Cars/car_16July2018_stable ~/catkin_ws/src/bair_car
     ls -al ~/catkin_ws/src/bair_car
