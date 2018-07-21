@@ -37,7 +37,7 @@ def get_ros_publisher_strs(Rostopics_publish,P,initalize_Ps=False):
         pub_name = get_safe_name(name)+'_pub'
         pub_setup_strs.append(d2n(pub_name," = rospy.Publisher('",name,"', ",rtype,", queue_size=100)"))
         if rtype == Str:
-            val = d2s("'",P[name],"'")
+            val = d2n("'",P[name],"'")
         else:
             val = P[name]
         pub_publish_strs.append(d2n(pub_name,".publish(",rtype,"(",val,"))"))
@@ -65,7 +65,7 @@ print "#\n################"
 choice_number = 0
 while choice_number != -1:
     #pprint(P)
-    try:
+    if True:#try:
         print(chr(27) + "[2J")
         ctr = 0
         pd2s(-1,')','quit',':')
@@ -105,7 +105,7 @@ while choice_number != -1:
             if using_linux(): exec(c)
             #print c
         #print "#\n################"
-    except Exception as e:
+    else:#except Exception as e:
         print("********** rosmenu Exception ***********************")
         print(e.message, e.args)
 print 'done.'
