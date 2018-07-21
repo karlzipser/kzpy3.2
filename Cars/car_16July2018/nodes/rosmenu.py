@@ -36,7 +36,11 @@ def get_ros_publisher_strs(Rostopics_publish,P,initalize_Ps=False):
         rtype = topic[1]
         pub_name = get_safe_name(name)+'_pub'
         pub_setup_strs.append(d2n(pub_name," = rospy.Publisher('",name,"', ",rtype,", queue_size=100)"))
-        pub_publish_strs.append(d2n(pub_name,".publish(",rtype,"(",P[name],"))"))
+        if rtype == Str:
+            val = p2n("'",P[name],"'")
+        else:
+            val = P[name]
+        pub_publish_strs.append(d2n(pub_name,".publish(",rtype,"(",val,"))"))
     return pub_setup_strs,pub_publish_strs
 
 print "\n################\n#"
