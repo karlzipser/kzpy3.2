@@ -142,7 +142,7 @@ while not drive_mode < 0:
             steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
             motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
 
-        if low_frequency_pub_timer2.check():
+        if False:#low_frequency_pub_timer2.check():
             spd2s(adjusted_steer,adjusted_motor,drive_mode)
             low_frequency_pub_timer2.reset()
     else:

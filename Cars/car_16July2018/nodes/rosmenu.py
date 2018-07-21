@@ -12,8 +12,8 @@ Rostopics_publish = [('network_smoothing_parameter',Float),
     ('network_motor_offset',Int),
     ('network_steer_gain',Float),
     ('network_motor_gain',Float),
-    (BC+'behavioral_mode',Str),
-    (BC+'place_choice',Str)
+    (BC+'behavioral_mode_choice_from_menu',Str),
+    (BC+'place_choice_from_menu',Str)
     ]
 
 rosimport_str = "import std_msgs.msg\nimport geometry_msgs.msg\nimport rospy"
