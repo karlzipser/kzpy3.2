@@ -64,8 +64,8 @@ while choice_number != -1:
     try:
         print(chr(27) + "[2J")
         ctr = 0
+        pd2s(-1,')','quit',':')
         for topic in Rostopics_publish:
-            pd2s(-1,')','quit',':')
             name = topic[0]
             if topic[1] == Int:
                 pd2s(ctr,')',name,':',int(P[name]))
@@ -84,12 +84,15 @@ while choice_number != -1:
         else:
             choice_number = int(choice_number)
             name = Rostopics_publish[choice_number][0]
-            val = num_from_str(raw_input(name+' value > '))
+            the_raw_input = raw_input(name+' value > ')
+            val = num_from_str(the_raw_input)
             if is_number(val):
                 P[name] = val
                 #P[name] = input(name+' value > ')
                 if Rostopics_publish[choice_number][1] == Int:
                     P[name] = int(P[name])
+            else if Rostopics_publish[choice_number][1] == Str:
+                    P[name = the_raw_input
         pub_setup_strs,pub_publish_strs = get_ros_publisher_strs(Rostopics_publish,P)
         #print "\n################\n#"
         for c in pub_publish_strs:
