@@ -10,6 +10,8 @@ Network['weight_file_path'] = opjh('pytorch_models','net.infer')
 
 Mse = {}
 Mse['HUMAN_SMOOTHING_PARAMETER_1'] = 0.75
+Mse['behavioral_mode_choice'] = 'follow'
+Mse['place_choice'] = 'home'
 
 """
 figure out how pytorch model works

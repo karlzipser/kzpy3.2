@@ -99,26 +99,13 @@ if Parameters['USE_ROS']:
             P['Hz_mse_pub'].publish(std_msgs.msg.Float32(P['Hz']['mse']))
             MSE_low_frequency_pub_timer.reset()
 
-
-    def behavioral_mode_choice_from_menu_callback(msg):
-        b = msg.data
-        if b in ['direct','follow','furtive','play']:
-            P['behavioral_mode_choice'] = b
-    def place_choice_from_menu_callback(msg):
-        b = msg.data
-        if b in ['home','local','campus','Tilden','arena','other']:
-            P['place_choice'] = b
-
-    rospy.Subscriber('/bair_car/behavioral_mode_choice_from_menu', std_msgs.msg.String, callback=behavioral_mode_choice_from_menu_callback)
-    rospy.Subscriber('/bair_car/place_choice_from_menu', std_msgs.msg.String, callback=place_choice_from_menu_callback)
-
     def publish_No_Arduino_data(P):
         human_val = 0
         drive_mode = 1
         if No_Arduino_data_low_frequency_pub_timer.check():
             spd2s('publish_No_Arduino_data(P)')
-            P['behavioral_mode_pub'].publish(std_msgs.msg.String('direct')) #(P['behavioral_mode_choice']))
-            P['place_choice_pub'].publish(std_msgs.msg.String('home')) #(P['place_choice']))
+            P['behavioral_mode_pub'].publish(std_msgs.msg.String(default_values.Mse['behavioral_mode_choice'])) 
+            P['place_choice_pub'].publish(std_msgs.msg.String(default_values.Mse['place_choice']))
             P['human_agent_pub'].publish(std_msgs.msg.Int32(0)) #(human_val))
             P['drive_mode_pub'].publish(std_msgs.msg.Int32(1))  #(drive_mode))
             print "P['drive_mode_pub'].publish(std_msgs.msg.Int32(1)) "
