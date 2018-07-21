@@ -26,7 +26,7 @@ x11 on osx: https://www.xquartz.org/
 
 #from kzpy3.All_Names_Module import *
 import_list = ['os','os.path','shutil','scipy','scipy.io','string','glob','time','sys','datetime','random','cPickle','re',
-	'subprocess','serial','math','inspect','fnmatch','h5py','socket','getpass','numbers']#,'importlib']
+	'subprocess','threading','serial','math','inspect','fnmatch','h5py','socket','getpass','numbers']#,'importlib']
 import_from_list = [['FROM','pprint','pprint'],['FROM','scipy.optimize','curve_fit'],['FROM','termcolor','cprint']]
 import_as_list = [['AS','numpy','np'],['AS','cPickle','pickle']]
 
