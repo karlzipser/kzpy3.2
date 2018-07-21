@@ -24,6 +24,7 @@ def _TACTIC_RC_controller_run_loop(P):
     flush_timer = Timer(flush_seconds)
     frequency_timer = Timer(1)
     print_timer = Timer(0.25)
+    in_this_mode_timer = Timer()
     ctr_timer = Timer()
     while P['ABORT'] == False:
         if 'Brief sleep to allow other threads to process...':
@@ -73,19 +74,30 @@ def _TACTIC_RC_controller_run_loop(P):
             if 'Send servo/motor commands to Arduino...':
                 if P['agent_choice'] == 'human':
                     write_str = d2n( '(', int(P['servo_pwm_smooth']), ',', int(P['motor_pwm_smooth']+10000), ')')
+                    in_this_mode = False
                 elif P['agent_choice'] == 'network':
                     if np.abs(P['human']['motor_percent']-49) > 4:
+                        in_this_mode = False
                         write_str = d2n( '(', int(P['servo_pwm_smooth']), ',', int(P['motor_pwm_smooth']+10000), ')')
                         P['time_since_button_4'].reset()
                         print_timer.message(d2s('Temporary human control control...',P['human']['servo_percent'],P['human']['motor_percent']))###
+                    
                     elif P['time_since_button_4'].time() > 2.0:
+
+                        _servo_pwm = percent_to_pwm(P['network']['servo_percent'],P['servo_pwm_null'],P['servo_pwm_max'],P['servo_pwm_min'])
+
                         if np.abs(P['human']['servo_percent']-49) > 4:
-                            _servo_pwm = P['servo_pwm_smooth']
+                            if in_this_mode == False:
+                                in_this_mode = True
+                                in_this_mode_timer.reset()
+                            q = 1/in_this_mode_timer.time()
+                            _servo_pwm = (1-q)*P['servo_pwm_smooth'] + q*_servo_pwm
                         else:
-                            _servo_pwm = percent_to_pwm(P['network']['servo_percent'],P['servo_pwm_null'],P['servo_pwm_max'],P['servo_pwm_min'])
+                            in_this_mode = False
                         _motor_pwm = percent_to_pwm(P['network']['motor_percent'],P['motor_pwm_null'],P['motor_pwm_max'],P['motor_pwm_min'])
                         write_str = d2n( '(', int(_servo_pwm), ',', int(_motor_pwm+10000), ')')
                     else:
+                        in_this_mode = False
                         print_timer.message('Waiting before giving network control...') ############
                         write_str = d2n( '(',49,',',49+10000,')')
                 if P['button_number'] != 4:
