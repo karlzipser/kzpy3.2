@@ -121,6 +121,7 @@ if Parameters['USE_ROS']:
             P['place_choice_pub'].publish(std_msgs.msg.String('home')) #(P['place_choice']))
             P['human_agent_pub'].publish(std_msgs.msg.Int32(0)) #(human_val))
             P['drive_mode_pub'].publish(std_msgs.msg.Int32(1))  #(drive_mode))
+            print "P['drive_mode_pub'].publish(std_msgs.msg.Int32(1)) "
             No_Arduino_data_low_frequency_pub_timer.reset()
 
 
