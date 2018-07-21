@@ -90,7 +90,7 @@ def _TACTIC_RC_controller_run_loop(P):
                             if in_this_mode == False:
                                 in_this_mode = True
                                 in_this_mode_timer.reset()
-                            q = 1/(1.0+in_this_mode_timer.time())
+                            q = 1/(1.0+5*in_this_mode_timer.time())
                             print_timer.message(d2s(q,dp(in_this_mode_timer.time(),2)))
                             _servo_pwm = (1-q)*P['servo_pwm_smooth'] + q*_servo_pwm
                         else:
