@@ -3,9 +3,9 @@ from kzpy3.utils2 import *
 Network = {}
 Network['network_output_sample'] = 4 # >= 0, <= 9
 Network['network_steer_gain'] = 3.0
-Network['network_motor_gain'] = 0.75
+Network['network_motor_gain'] = 0.6
 Network['network_motor_offset'] = 0
-Network['network_smoothing_parameter'] = 0.33
+Network['network_smoothing_parameter'] = 0.75
 Network['weight_file_path'] = opjh('pytorch_models','net.infer')
 Network['USE_NETWORK'] = True
 
