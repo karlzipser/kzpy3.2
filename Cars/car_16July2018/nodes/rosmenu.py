@@ -5,7 +5,7 @@ Float = 'std_msgs.msg.Float32'
 Vec3 = 'geometry_msgs.msg.Vector3'
 Str = 'std_msgs.msg.String'
 
-BC = '/bair_car/'
+BC = 'bair_car/'
 
 Rostopics_publish = [('network_smoothing_parameter',Float),
     ('network_output_sample',Int),
