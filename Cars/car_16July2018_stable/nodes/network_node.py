@@ -7,6 +7,7 @@ roslaunch bair_car bair_car.launch use_zed:=true record:=false
 
 from kzpy3.utils2 import *
 import default_values
+N = {}
 for k in default_values.Network.keys():
     N[k] = default_values.Network[k]
 if not N['USE_NETWORK']:
@@ -30,7 +31,7 @@ left_list = []
 right_list = []
 nframes = 2 #figure out how to get this from network
 
-N = {}
+
 
 human_agent = 1
 behavioral_mode = 'direct'
