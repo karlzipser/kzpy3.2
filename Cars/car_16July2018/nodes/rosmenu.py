@@ -5,11 +5,15 @@ Float = 'std_msgs.msg.Float32'
 Vec3 = 'geometry_msgs.msg.Vector3'
 Str = 'std_msgs.msg.String'
 
+BC = '/bair_car/'
+
 Rostopics_publish = [('network_smoothing_parameter',Float),
     ('network_output_sample',Int),
     ('network_motor_offset',Int),
     ('network_steer_gain',Float),
-    ('network_motor_gain',Float)
+    ('network_motor_gain',Float),
+    (BC+'behavioral_mode',Str),
+    (BC+'place_choice',Str)
     ]
 
 rosimport_str = "import std_msgs.msg\nimport geometry_msgs.msg\nimport rospy"
