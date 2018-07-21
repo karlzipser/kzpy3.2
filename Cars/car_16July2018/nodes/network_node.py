@@ -106,6 +106,7 @@ for k in default_values.Network.keys():
     N[k] = default_values.Network[k]
 
 low_frequency_pub_timer = Timer(0.5)
+low_frequency_pub_timer2 = Timer(0.5)
 
 net_utils.init_model(N)
 
@@ -141,9 +142,9 @@ while not drive_mode < 0:
             steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
             motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
 
-        if low_frequency_pub_timer.check():
+        if low_frequency_pub_timer2.check():
             spd2s(adjusted_steer,adjusted_motor,drive_mode)
-            low_frequency_pub_timer.reset()
+            low_frequency_pub_timer2.reset()
     else:
         print 'network paused'
         time.sleep(0.1)
