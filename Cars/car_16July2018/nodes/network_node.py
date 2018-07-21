@@ -28,6 +28,11 @@ behavioral_mode = 'direct'
 drive_mode = 0
 N = {}
 
+direct = 0.0
+follow = 0.0
+furtive = 0.0
+play = 0.0
+    
 def right_callback(data):
     global left_list, right_list, solver
     cimg = bridge.imgmsg_to_cv2(data,"bgr8")
