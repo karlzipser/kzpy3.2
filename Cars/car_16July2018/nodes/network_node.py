@@ -112,7 +112,7 @@ net_utils.init_model(N)
 
 while not main_timer.check():
     time.sleep(0.0001)
-    #print_timer.message(d2s("N['network_steer_gain'] =",N['network_steer_gain']))
+    print_timer.message(d2s("N['network_steer_gain'] =",N['network_steer_gain']))
     Hz = frequency_timer.freq(name='Hz_network',do_print=False)
     if is_number(Hz):
         if low_frequency_pub_timer.check():
@@ -121,9 +121,9 @@ while not main_timer.check():
 
     s = N['network_smoothing_parameter']
 
-    #print_timer.message(d2s('network_node::drive_mode =',drive_mode))
+    print_timer.message(d2s('network_node::drive_mode =',drive_mode))
 
-    if not human_agent and drive_mode == 1:
+    if human_agent == 0 and drive_mode == 1:
         if len(left_list) > nframes + 2:
             camera_data = net_utils.format_camera_data(left_list,right_list)
             metadata = net_utils.format_metadata((play,furtive,follow,direct))
@@ -146,7 +146,7 @@ while not main_timer.check():
             spd2s(adjusted_steer,adjusted_motor,drive_mode, human_agent, behavioral_mode)
             low_frequency_pub_timer2.reset()
     else:
-        #print 'network paused'
+        print 'network paused'
         time.sleep(0.1)
 
 print 'goodbye!'
