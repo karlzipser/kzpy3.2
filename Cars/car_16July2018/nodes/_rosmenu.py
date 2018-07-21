@@ -5,11 +5,15 @@ Float = 'std_msgs.msg.Float32'
 Vec3 = 'geometry_msgs.msg.Vector3'
 Str = 'std_msgs.msg.String'
 
+BC = 'bair_car/'
+
 Rostopics_publish = [('network_smoothing_parameter',Float),
     ('network_output_sample',Int),
     ('network_motor_offset',Int),
     ('network_steer_gain',Float),
-    ('network_motor_gain',Float)
+    ('network_motor_gain',Float),
+    (BC+'behavioral_mode_choice_from_menu',Str),
+    (BC+'place_choice_from_menu',Str)
     ]
 
 rosimport_str = "import std_msgs.msg\nimport geometry_msgs.msg\nimport rospy"
@@ -32,7 +36,11 @@ def get_ros_publisher_strs(Rostopics_publish,P,initalize_Ps=False):
         rtype = topic[1]
         pub_name = get_safe_name(name)+'_pub'
         pub_setup_strs.append(d2n(pub_name," = rospy.Publisher('",name,"', ",rtype,", queue_size=100)"))
-        pub_publish_strs.append(d2n(pub_name,".publish(",rtype,"(",P[name],"))"))
+        if rtype == Str:
+            val = d2n(P[name])
+        else:
+            val = P[name]
+        pub_publish_strs.append(d2n(pub_name,".publish(",rtype,"(",val,"))"))
     return pub_setup_strs,pub_publish_strs
 
 print "\n################\n#"
@@ -57,16 +65,18 @@ print "#\n################"
 choice_number = 0
 while choice_number != -1:
     #pprint(P)
-    try:
+    if True:#try:
         print(chr(27) + "[2J")
         ctr = 0
+        pd2s(-1,')','quit',':')
         for topic in Rostopics_publish:
-            pd2s(-1,')','quit',':')
             name = topic[0]
             if topic[1] == Int:
                 pd2s(ctr,')',name,':',int(P[name]))
-            else:
+            elif topic[1] == Float:
                 pd2s(ctr,')',name,':',dp(P[name],2))
+            else:
+                pd2s(ctr,')',name,':',P[name])                
             ctr += 1
         choice_number = input('choice > ')
         if not is_number(choice_number):
@@ -80,19 +90,22 @@ while choice_number != -1:
         else:
             choice_number = int(choice_number)
             name = Rostopics_publish[choice_number][0]
-            val = num_from_str(raw_input(name+' value > '))
+            the_raw_input = raw_input(name+' value > ')
+            val = num_from_str(the_raw_input)
             if is_number(val):
                 P[name] = val
                 #P[name] = input(name+' value > ')
                 if Rostopics_publish[choice_number][1] == Int:
                     P[name] = int(P[name])
+            elif Rostopics_publish[choice_number][1] == Str:
+                P[name] = the_raw_input
         pub_setup_strs,pub_publish_strs = get_ros_publisher_strs(Rostopics_publish,P)
         #print "\n################\n#"
         for c in pub_publish_strs:
             if using_linux(): exec(c)
             #print c
         #print "#\n################"
-    except Exception as e:
+    else:#except Exception as e:
         print("********** rosmenu Exception ***********************")
         print(e.message, e.args)
 print 'done.'

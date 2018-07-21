@@ -12,7 +12,6 @@ import net_utils
 import roslib
 import std_msgs.msg
 import geometry_msgs.msg
-#import cv2
 from cv_bridge import CvBridge,CvBridgeError
 import rospy
 from sensor_msgs.msg import Image
@@ -23,15 +22,18 @@ rospy.init_node('listener',anonymous=True)
 left_list = []
 right_list = []
 nframes = 2 #figure out how to get this from network
+
+N = {}
+
 human_agent = 1
 behavioral_mode = 'direct'
 drive_mode = 0
-N = {}
-
 direct = 0.0
 follow = 0.0
 furtive = 0.0
 play = 0.0
+current_steer = 49
+current_motor = 49
     
 def right_callback(data):
     global left_list, right_list, solver
@@ -95,9 +97,7 @@ rospy.Subscriber('/network_motor_gain', std_msgs.msg.Float32, callback=callback_
 rospy.Subscriber('/network_smoothing_parameter', std_msgs.msg.Float32, callback=callback_network_smoothing_parameter)
 
 
-reload_timer = Timer(30)
-current_steer = 49
-current_motor = 49
+
 
 main_timer = Timer(60*60*24)
 frequency_timer = Timer(1.0)
