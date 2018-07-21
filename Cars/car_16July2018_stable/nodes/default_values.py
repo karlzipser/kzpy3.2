@@ -20,7 +20,7 @@ NO_Mse['behavioral_mode_choice'] = 'furtive'
 NO_Mse['place_choice'] = 'Tilden'
 
 Record = {}
-Record['RECORD_DATA'] = False
+Record['RECORD_DATA'] = True
 
 
 
