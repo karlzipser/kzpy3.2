@@ -11,7 +11,7 @@ for k in default_values.Record.keys():
 
 if not R['RECORD_DATA']:
     spd2s('rosbag_node.py::Not recording data')
-else
+else:
     foldername_prefix = os.environ["COMPUTER_NAME"] #'run_'
 
     foldername = d2n(foldername_prefix,'_',time_str())
