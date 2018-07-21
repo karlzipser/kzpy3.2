@@ -116,7 +116,7 @@ if Parameters['USE_ROS']:
         human_val = 0
         drive_mode = 1
         if No_Arduino_data_low_frequency_pub_timer.check():
-            #spd2s('publish_No_Arduino_data(P)')
+            spd2s('publish_No_Arduino_data(P)')
             P['behavioral_mode_pub'].publish(std_msgs.msg.String('direct')) #(P['behavioral_mode_choice']))
             P['place_choice_pub'].publish(std_msgs.msg.String('home')) #(P['place_choice']))
             P['human_agent_pub'].publish(std_msgs.msg.Int32(0)) #(human_val))
