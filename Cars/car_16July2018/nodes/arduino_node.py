@@ -108,20 +108,20 @@ if Parameters['USE_ROS']:
         b = msg.data
         if b in ['home','local','campus','Tilden','arena','other']:
             P['place_choice'] = b
+            
     rospy.Subscriber('/bair_car/behavioral_mode_choice_from_menu', std_msgs.msg.String, callback=behavioral_mode_choice_from_menu_callback)
     rospy.Subscriber('/bair_car/place_choice_from_menu', std_msgs.msg.String, callback=place_choice_from_menu_callback)
 
     def publish_No_Arduino_data(P):
         human_val = 0
         drive_mode = 1
-
-            if No_Arduino_data_low_frequency_pub_timer.check():
-                #spd2s('publish_No_Arduino_data(P)')
-                P['behavioral_mode_pub'].publish(std_msgs.msg.String(P['behavioral_mode_choice']))
-                P['place_choice_pub'].publish(std_msgs.msg.String(P['place_choice']))
-                P['human_agent_pub'].publish(std_msgs.msg.Int32(human_val))
-                P['drive_mode_pub'].publish(std_msgs.msg.Int32(drive_mode))
-                No_Arduino_data_low_frequency_pub_timer.reset()
+        if No_Arduino_data_low_frequency_pub_timer.check():
+            #spd2s('publish_No_Arduino_data(P)')
+            P['behavioral_mode_pub'].publish(std_msgs.msg.String(P['behavioral_mode_choice']))
+            P['place_choice_pub'].publish(std_msgs.msg.String(P['place_choice']))
+            P['human_agent_pub'].publish(std_msgs.msg.Int32(human_val))
+            P['drive_mode_pub'].publish(std_msgs.msg.Int32(drive_mode))
+            No_Arduino_data_low_frequency_pub_timer.reset()
 
 
     P['publish_IMU_data'] = publish_IMU_data
