@@ -77,7 +77,7 @@ def _TACTIC_RC_controller_run_loop(P):
                     if np.abs(P['human']['motor_percent']-49) > 4:
                         write_str = d2n( '(', int(P['servo_pwm_smooth']), ',', int(P['motor_pwm_smooth']+10000), ')')
                         P['time_since_button_4'].reset()
-                        #print_timer.message(d2s('Temporary human control control...',P['human']['servo_percent'],P['human']['motor_percent']))
+                        print_timer.message(d2s('Temporary human control control...',P['human']['servo_percent'],P['human']['motor_percent']))###
                     elif P['time_since_button_4'].time() > 2.0:
                         if np.abs(P['human']['servo_percent']-49) > 4:
                             _servo_pwm = P['servo_pwm_smooth']
@@ -86,7 +86,7 @@ def _TACTIC_RC_controller_run_loop(P):
                         _motor_pwm = percent_to_pwm(P['network']['motor_percent'],P['motor_pwm_null'],P['motor_pwm_max'],P['motor_pwm_min'])
                         write_str = d2n( '(', int(_servo_pwm), ',', int(_motor_pwm+10000), ')')
                     else:
-                        #print_timer.message('Waiting before giving network control...')
+                        print_timer.message('Waiting before giving network control...') ############
                         write_str = d2n( '(',49,',',49+10000,')')
                 if P['button_number'] != 4:
                     if P['calibrated']:
@@ -103,7 +103,7 @@ def _TACTIC_RC_controller_run_loop(P):
             if P['USE_ROS']:
                 P['publish_MSE_data'](P)           
         except Exception as e:
-            #print '_TACTIC_RC_controller_run_loop',e
+            print '_TACTIC_RC_controller_run_loop',e #######
             pass            
     print 'end _TACTIC_RC_controller_run_loop.'
 
