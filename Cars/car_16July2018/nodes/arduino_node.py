@@ -114,7 +114,6 @@ if Parameters['USE_ROS']:
 
     P['publish_IMU_data'] = publish_IMU_data
     P['publish_MSE_data'] = publish_MSE_data
-    P['publish_No_Arduino_data'] = publish_No_Arduino_data
 
 import threading
 from arduino_utils.serial_init import *
