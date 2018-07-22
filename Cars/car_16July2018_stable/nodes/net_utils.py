@@ -9,7 +9,7 @@ from nets.squeezenet import SqueezeNet
 def Torch_Network(N):
     D = {}
     D['save_data'] = torch.load(N['weight_file_path'])
-    print("Loaded "+N['weight_file_path'])
+    print("Torch_Network(N):: Loaded "+N['weight_file_path'])
     model_type = N['weight_file_path'].split('.')[-1]
     assert(model_type in ['SqueezeNet','z2_color'])
     if model_type == 'SqueezeNet':

@@ -122,6 +122,7 @@ print_timer = Timer(5)
 
 Hz = 0
 
+net_timer = timer(30)
 
 low_frequency_pub_timer = Timer(0.5)
 low_frequency_pub_timer2 = Timer(5)
@@ -130,7 +131,9 @@ low_frequency_pub_timer2 = Timer(5)
 
 
 while True:
-
+    if net_timer.check():
+        N['RELOAD_NET'] = True
+        net_timer.reset()
     if N['RELOAD_NET']: # temporary experiment
         N['RELOAD_NET'] = False
         Torch_network = net_utils.Torch_Network(N)
