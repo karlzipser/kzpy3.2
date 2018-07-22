@@ -6,7 +6,7 @@ Network['network_steer_gain'] = 3.0
 Network['network_motor_gain'] = 0.6
 Network['network_motor_offset'] = 0
 Network['network_smoothing_parameter'] = 0.75
-Network['weight_file_path'] = opjh('pytorch_models','epoch6goodnet.SqueezeNet')# 'net.infer')
+Network['weight_file_path'] = opjh('pytorch_models','epoch6goodnet.SqueezeNet')
 Network['USE_NETWORK'] = True
 Network['GREY_OUT_TOP_OF_IMAGE'] = False
 

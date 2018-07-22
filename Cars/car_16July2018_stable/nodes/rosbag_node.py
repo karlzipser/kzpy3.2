@@ -6,10 +6,10 @@ import std_msgs.msg
 
 """
 try:
-    unix(d2s('mkdir -p',opjm('rosbags','activce')))
+    unix(d2s('mkdir -p',opjm('rosbags','active')))
     unix(d2s('mkdir -p',opjm('rosbags','new')))
 except Exception as e:
-    print("*unix(d2s('mkdir -p',opjm('rosbags','activce')) Exception ***")
+    print("*unix(d2s('mkdir -p',opjm('rosbags','active')) Exception ***")
     print(e.message, e.args)
 """
 
@@ -23,7 +23,8 @@ if __name__ == '__main__':
     rospy.init_node('rosbag_node', anonymous=True)
     save_pub = rospy.Publisher('data_saving', std_msgs.msg.Int32, queue_size=100)
     
-    fl = gg(opjh('catkin_ws/src/bair_car/rosbags/*'))
+    #fl = gg(opjh('catkin_ws/src/bair_car/rosbags/*'))
+    fl = gg(opjm('rosbags/active/*.active'))
 
     for f in fl:
          os.remove(f)
