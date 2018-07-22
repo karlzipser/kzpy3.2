@@ -119,7 +119,7 @@ Hz = 0
 low_frequency_pub_timer = Timer(0.5)
 low_frequency_pub_timer2 = Timer(0.5)
 
-Torch_network = net_utils.Torch_Network(N)
+net_utils.init_model(N)
 
 while not main_timer.check():
     time.sleep(0.0001)
@@ -137,9 +137,9 @@ while not main_timer.check():
     drive_mode = 1
     if human_agent == 0 and drive_mode == 1:
         if len(left_list) > nframes + 2:
-            camera_data = Torch_network['format_camera_data'](left_list,right_list)
-            metadata = Torch_network['format_metadata']((play,furtive,follow,direct))
-            torch_motor, torch_steer = Torch_network['run_model'](camera_data, metadata, N)
+            camera_data = net_utils.format_camera_data(left_list,right_list)
+            metadata = net_utils.format_metadata((play,furtive,follow,direct))
+            torch_motor, torch_steer = net_utils.run_model(camera_data, metadata, N)
 
             if 'Do smoothing of percents...':
                 current_steer = (1.0-s)*torch_steer + s*current_steer

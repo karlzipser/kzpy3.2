@@ -8,6 +8,7 @@ Network['network_motor_offset'] = 0
 Network['network_smoothing_parameter'] = 0.75
 Network['weight_file_path'] = opjh('pytorch_models','net.infer')
 Network['USE_NETWORK'] = True
+Network['GREY_OUT_TOP_OF_IMAGE'] = False
 
 Mse = {}
 Mse['HUMAN_SMOOTHING_PARAMETER_1'] = 0.75
