@@ -6,7 +6,7 @@ Network['network_steer_gain'] = 3.0
 Network['network_motor_gain'] = 0.6
 Network['network_motor_offset'] = 0
 Network['network_smoothing_parameter'] = 0.75
-Network['weight_file_path'] = opjh('pytorch_models','net.infer')
+Network['weight_file_path'] = opjh('pytorch_models','epoch6goodnet')# 'net.infer')
 Network['USE_NETWORK'] = True
 Network['GREY_OUT_TOP_OF_IMAGE'] = False
 
@@ -25,6 +25,7 @@ NO_Mse['place_choice'] = 'Tilden'
 
 
 """
+http://wiki.ros.org/rostopic
 -be able to change model during runtime
 	publish model name string, then check if it changes and if so, load new weights assuming model form is the same.
 -make input format flexible (e.g., frames, metadat, etc)
