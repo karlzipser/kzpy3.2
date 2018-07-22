@@ -30,6 +30,6 @@ txt.append('\telse')
 txt.append('\t\techo bad option')
 txt.append('\tfi')
 txt.append('done')
-list_of_strings_to_txt_file(opjD('temp.sh'),txt)
+list_of_strings_to_txt_file(opjh('kzpy3/Cars/car_16July2018_stable/scripts/net_menu.sh'),txt)
 
 

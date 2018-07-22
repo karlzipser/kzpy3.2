@@ -80,7 +80,7 @@ echo "rrm;rlog"
 rrm
 rlog
 alias sb='cd;source ~/.bashrc'
-OPTIONS="exit screen rla rlanr rosbags git_pull reboot shutdown rostopics rosmenu df car_link_menu"
+OPTIONS="exit screen rla rlanr rosbags git_pull reboot shutdown rostopics rosmenu net_menu df car_link_menu"
 COLUMNS=12
 echo 'main menu'
 select opt in $OPTIONS; do
@@ -97,6 +97,8 @@ select opt in $OPTIONS; do
     rrm;rlog;roslaunch bair_car bair_car.launch use_zed:=true record:=true
    elif [ "$opt" = "car_link_menu" ]; then
     ~/kzpy3/Cars/car_link_menu.sh
+    elif [ "$opt" = "net_menu" ]; then
+      bash ~/kzpy3/Cars/car_16July2018_stable/scripts/net_menu.sh
    elif [ "$opt" = "rosbags" ]; then
     check_rosbags.py
    elif [ "$opt" = "rostopics" ]; then
