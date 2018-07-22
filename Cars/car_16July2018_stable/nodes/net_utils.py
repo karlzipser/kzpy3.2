@@ -16,7 +16,7 @@ def Torch_Network(N):
     D['nframes'] = D['solver'].N_FRAMES
     D['scale'] = nn.AvgPool2d(kernel_size=3, stride=2, padding=1).cuda()
 
-    def _run_model(input,metadata):
+    def _run_model(input,metadata,N):
         output = D['solver'](input, Variable(metadata))
         torch_motor = 100 * output[0][10+N['network_output_sample']].data[0]
         torch_steer = 100 * output[0][N['network_output_sample']].data[0]
