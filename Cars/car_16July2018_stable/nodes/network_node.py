@@ -78,8 +78,13 @@ def behavioral_mode_callback(msg):
         play = 1.0
 
 def network_weights_name_callback(msg):
-    #N['weight_file_path'] 
-    default_values.Weights['weight_file_path'] = msg.data
+    s = msg.data
+    if s != N['weight_file_path']:
+        N['weight_file_path'] = s
+        N['RELOAD_NET'] = True
+    else:
+        N['RELOAD_NET'] = False
+
 
 def callback_network_output_sample(msg):
     N['network_output_sample'] = msg.data
@@ -100,6 +105,7 @@ rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_callback,que
 rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_callback,queue_size = 1)
 rospy.Subscriber('/bair_car/human_agent', std_msgs.msg.Int32, callback=human_agent_callback)
 rospy.Subscriber('/bair_car/behavioral_mode', std_msgs.msg.String, callback=behavioral_mode_callback)
+rospy.Subscriber('/bair_car/network_weights_name', std_msgs.msg.String, callback=network_weights_name_callback)
 rospy.Subscriber('/bair_car/drive_mode', std_msgs.msg.Int32, callback=drive_mode_callback)
 
 rospy.Subscriber('/network_output_sample', std_msgs.msg.Int32, callback=callback_network_output_sample)
@@ -110,26 +116,27 @@ rospy.Subscriber('/network_smoothing_parameter', std_msgs.msg.Float32, callback=
 
 
 
-
-main_timer = Timer(60*60*24)
+N['RELOAD_NET'] = True
 frequency_timer = Timer(1.0)
 print_timer = Timer(5)
 
 Hz = 0
 
 
-
-
 low_frequency_pub_timer = Timer(0.5)
-low_frequency_pub_timer2 = Timer(0.5)
-unix('kzpy3/Cars/car_link_menu.sh')
-time.sleep(5)
-print('HERE')
-Torch_network = net_utils.Torch_Network(N)
+low_frequency_pub_timer2 = Timer(5)
 
-while not main_timer.check():
-    time.sleep(0.0001)
-    print_timer.message(d2s("N['network_steer_gain'] =",N['network_steer_gain']))#######
+#Torch_network = net_utils.Torch_Network(N)
+
+
+while True:
+
+    if N['RELOAD_NET']: # temporary experiment
+        N['RELOAD_NET'] = False
+        Torch_network = net_utils.Torch_Network(N)
+
+    time.sleep(0.001)
+    #print_timer.message(d2s("N['network_steer_gain'] =",N['network_steer_gain']))#######
     Hz = frequency_timer.freq(name='Hz_network',do_print=False)
     if is_number(Hz):
         if low_frequency_pub_timer.check():
@@ -138,7 +145,7 @@ while not main_timer.check():
 
     s = N['network_smoothing_parameter']
 
-    print_timer.message(d2s('network_node::drive_mode =',drive_mode))#######
+    #print_timer.message(d2s('network_node::drive_mode =',drive_mode))#######
 
     if human_agent == 0 and drive_mode == 1:
         if len(left_list) > nframes + 2:
@@ -160,6 +167,7 @@ while not main_timer.check():
             motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
 
         if low_frequency_pub_timer2.check():
+            pd2s("N['weight_file_path'] =",N['weight_file_path'])
             #spd2s(adjusted_steer,adjusted_motor,drive_mode, human_agent, behavioral_mode)
             low_frequency_pub_timer2.reset()
     else:

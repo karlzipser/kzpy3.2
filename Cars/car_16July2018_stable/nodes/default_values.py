@@ -16,6 +16,11 @@ Mse['USE_MSE'] = True
 Mse['USE_SIG'] = True
 Mse['USE_IMU'] = True
 
+NO_Mse = {}
+NO_Mse['behavioral_mode_choice'] = 'furtive'
+NO_Mse['place_choice'] = 'Tilden'
+
+"""
 Weights = {}
 Weights["weight_file_directories"] = [opjh('pytorch_models'),opjm('pytorch_modes')]
 Weights["weight_file_paths"] = []
@@ -23,19 +28,14 @@ for w in Weights["weight_file_directories"]:
     Weights["weight_file_paths"] += sggo(w,'*.SqueezeNet')
 Weights['weight_file_path'] = opjh('pytorch_models','epoch6goodnet.SqueezeNet')
 assert Weights['weight_file_path'] in Weights["weight_file_paths"]
-
-NO_Mse = {}
-NO_Mse['behavioral_mode_choice'] = 'furtive'
-NO_Mse['place_choice'] = 'Tilden'
-
-
+"""
 
 
 
 """
 arduino_node should 1-time publish model name, with script publishing rest, and network_node subscribing
 
-            unix(d2s("rostopic pub -1 /bair_car/behavioral_mode std_msgs/String", 'adjusted_steer'))
+            rostopic pub -1 /bair_car/behavioral_mode std_msgs/String the_string
 
 http://wiki.ros.org/rostopic
 -be able to change model during runtime
