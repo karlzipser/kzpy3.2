@@ -122,7 +122,9 @@ Hz = 0
 
 low_frequency_pub_timer = Timer(0.5)
 low_frequency_pub_timer2 = Timer(0.5)
-
+unix('kzpy3/Cars/car_link_menu.sh')
+time.sleep(5)
+print('HERE')
 Torch_network = net_utils.Torch_Network(N)
 
 while not main_timer.check():
