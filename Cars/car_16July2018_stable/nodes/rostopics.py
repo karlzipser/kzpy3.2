@@ -92,7 +92,7 @@ bag_str = ''
 
 timer = Timer(60*5)
 while True:
-    if timer.check():
+    if False:#timer.check():
         q = raw_input('q to quit, enter to continue >>')
         if q in ['q','Q']:
             break

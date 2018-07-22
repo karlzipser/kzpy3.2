@@ -1,6 +1,6 @@
 #! //anaconda/bin/python
 
-from kzpy3.utils import *
+from kzpy3.utils2 import *
 import argparse
 
 

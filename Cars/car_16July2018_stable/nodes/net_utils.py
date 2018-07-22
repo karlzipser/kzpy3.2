@@ -62,10 +62,5 @@ def Torch_Network(N):
 
     return D
 
-if False:
-    weight_file_directories = [opjh('pytorch_models'),opjm('pytorch_modes')]
-    weight_file_paths = []
-    for w in weight_file_directories:
-        weight_file_paths += sggo(w,'*.SqueezeNet')
 
 
