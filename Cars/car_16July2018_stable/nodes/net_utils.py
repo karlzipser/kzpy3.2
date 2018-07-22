@@ -11,7 +11,7 @@ def Torch_Network(N):
     D['save_data'] = torch.load(N['weight_file_path'])
     print("Loaded "+N['weight_file_path'])
     D['solver'] = SqueezeNet().cuda()
-    D['solver'].load_state_dict(save_data['net'])
+    D['solver'].load_state_dict(D['save_data']['net'])
     D['solver'].eval()
     D['nframes'] = D['solver'].N_FRAMES
     D['scale'] = nn.AvgPool2d(kernel_size=3, stride=2, padding=1).cuda()
