@@ -14,6 +14,7 @@ Rostopics_subscribe = [
     (BC+'human_agent',Int),
     (BC+'behavioral_mode',Str),
     (BC+'place_choice',Str),
+    (BC+'network_weights_name',Str),
     (BC+'button_number',Int),
     (BC+'drive_mode',Int),
     (BC+'encoder',Float),

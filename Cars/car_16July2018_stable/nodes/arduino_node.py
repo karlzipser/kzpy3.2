@@ -49,6 +49,7 @@ if Parameters['USE_ROS']:
     P['human_agent_pub'] = rospy.Publisher('human_agent', std_msgs.msg.Int32, queue_size=5) 
     P['drive_mode_pub'] = rospy.Publisher('drive_mode', std_msgs.msg.Int32, queue_size=5) 
     P['behavioral_mode_pub'] = rospy.Publisher('behavioral_mode', std_msgs.msg.String, queue_size=5)
+    P['network_weights_name_pub'] = rospy.Publisher('network_weights_name', std_msgs.msg.String, queue_size=5)
     P['place_choice_pub'] = rospy.Publisher('place_choice', std_msgs.msg.String, queue_size=5)
     P['button_number_pub'] = rospy.Publisher('button_number', std_msgs.msg.Int32, queue_size=5) 
     P['steer_pub'] = rospy.Publisher('steer', std_msgs.msg.Int32, queue_size=5) 
@@ -67,7 +68,9 @@ if Parameters['USE_ROS']:
 
     IMU_low_frequency_pub_timer = Timer(0.5)
     MSE_low_frequency_pub_timer = Timer(0.5)
+    MSE_very_low_frequency_pub_timer = Timer(2)
     No_Arduino_data_low_frequency_pub_timer = Timer(0.5)
+    No_Arduino_data_very_low_frequency_pub_timer = Timer(2)
 
     def publish_IMU_data(P,m):
         P[imu_dic[m]].publish(geometry_msgs.msg.Vector3(*P[m]['xyz']))
@@ -96,17 +99,23 @@ if Parameters['USE_ROS']:
             P['drive_mode_pub'].publish(std_msgs.msg.Int32(drive_mode))
             P['Hz_mse_pub'].publish(std_msgs.msg.Float32(P['Hz']['mse']))
             MSE_low_frequency_pub_timer.reset()
-
+        if MSE_very_low_frequency_pub_timer.check():
+            P['network_weights_name_pub'].publish(std_msgs.msg.String(default_values.Weights['weight_file_path']))
+            MSE_very_low_frequency_pub_timer.reset()
     def publish_No_Arduino_data(P):
         human_val = 0
         drive_mode = 1
         while P['ABORT'] == False:
+            time.sleep(0.001)
             if No_Arduino_data_low_frequency_pub_timer.check():
                 P['behavioral_mode_pub'].publish(std_msgs.msg.String(default_values.NO_Mse['behavioral_mode_choice'])) 
                 P['place_choice_pub'].publish(std_msgs.msg.String(default_values.NO_Mse['place_choice']))
                 P['human_agent_pub'].publish(std_msgs.msg.Int32(human_val))
                 P['drive_mode_pub'].publish(std_msgs.msg.Int32(drive_mode))
                 No_Arduino_data_low_frequency_pub_timer.reset()
+            if No_Arduino_data_very_low_frequency_pub_timer.check():
+                P['network_weights_name_pub'].publish(std_msgs.msg.String(default_values.Weights['weight_file_path']))
+                No_Arduino_data_very_low_frequency_pub_timer.reset()
 
 
     P['publish_IMU_data'] = publish_IMU_data

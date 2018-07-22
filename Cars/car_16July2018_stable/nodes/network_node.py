@@ -77,6 +77,9 @@ def behavioral_mode_callback(msg):
     elif behavioral_mode == 'play':
         play = 1.0
 
+def network_weights_name_callback(msg):
+    N['weight_file_path'] = msg.data
+
 def callback_network_output_sample(msg):
     N['network_output_sample'] = msg.data
 def callback_network_motor_offset(msg):
