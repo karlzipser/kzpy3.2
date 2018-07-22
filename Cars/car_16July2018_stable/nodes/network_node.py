@@ -40,6 +40,8 @@ direct = 0.0
 follow = 0.0
 furtive = 0.0
 play = 0.0
+left = 0.0
+right = 0.0.
 current_steer = 49
 current_motor = 49
     
@@ -77,6 +79,17 @@ def behavioral_mode_callback(msg):
     elif behavioral_mode == 'play':
         play = 1.0
 
+def button_number_callback(msg):
+    global left,right
+    button_number = msg.data
+    left = 0.0
+    right = 0.0
+    if button_number == 3:
+        right = 1.0
+    elif button_number == 1:
+        left = 1.0
+
+
 def network_weights_name_callback(msg):
     s = msg.data
     if s != N['weight_file_path']:
@@ -107,7 +120,7 @@ rospy.Subscriber('/bair_car/human_agent', std_msgs.msg.Int32, callback=human_age
 rospy.Subscriber('/bair_car/behavioral_mode', std_msgs.msg.String, callback=behavioral_mode_callback)
 rospy.Subscriber('/bair_car/network_weights_name', std_msgs.msg.String, callback=network_weights_name_callback)
 rospy.Subscriber('/bair_car/drive_mode', std_msgs.msg.Int32, callback=drive_mode_callback)
-
+rospy.Subscriber('/bair_car/button_number', std_msgs.msg.Int32, callback=button_number_callback)
 rospy.Subscriber('/network_output_sample', std_msgs.msg.Int32, callback=callback_network_output_sample)
 rospy.Subscriber('/network_motor_offset', std_msgs.msg.Int32, callback=callback_network_motor_offset)
 rospy.Subscriber('/network_steer_gain', std_msgs.msg.Float32, callback=callback_network_steer_gain)
@@ -149,7 +162,7 @@ while True:
     if human_agent == 0 and drive_mode == 1:
         if len(left_list) > nframes + 2:
             camera_data = Torch_network['format_camera_data'](left_list,right_list)
-            metadata = Torch_network['format_metadata']((play,furtive,follow,direct))
+            metadata = Torch_network['format_metadata']((right,left,play,furtive,follow,direct))
             torch_motor, torch_steer = Torch_network['run_model'](camera_data, metadata, N)
 
             if 'Do smoothing of percents...':
