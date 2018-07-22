@@ -41,7 +41,7 @@ follow = 0.0
 furtive = 0.0
 play = 0.0
 left = 0.0
-right = 0.0.
+right = 0.0
 current_steer = 49
 current_motor = 49
     
