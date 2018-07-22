@@ -39,4 +39,10 @@ http://wiki.ros.org/rostopic
 -think about smaller res network
 -write down all images sizes
 -find model used for demo
+
+q=gg(opjh('kzpy3/Cars/*'))
+for p in q:
+	if os.path.isdir(p):
+		print p
+
 """

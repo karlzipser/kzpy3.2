@@ -7,7 +7,6 @@ alias rrm='rm ~/catkin_ws/src/bair_car/rosbags/*'
 alias rlog='rm -r ~/.ros/log/*'
 alias rla='rrm;rlog;rm ~/Desktop/Mr*.txt;roslaunch bair_car bair_car.launch use_zed:=true record:=true' 
 alias rlanr='rrm;rlog;roslaunch bair_car bair_car.launch use_zed:=true record:=false' 
-alias rlab='(rla 3>&1 1>&2 2>&3 | grep -v "slMat2cvMat: mat type currently not supported 0 0") 3>&1 1>&2 2>&3'
 alias rgy='rostopic echo /bair_car/gyro'
 alias rgp='rostopic echo /bair_car/gps'
 alias rac='rostopic echo /bair_car/acc'
@@ -17,15 +16,10 @@ alias ren='rostopic echo /bair_car/encoder'
 alias rcd='cd /media/nvidia/rosbags'
 alias ssd='sudo shutdown -h now'
 alias srb='sudo reboot'
-alias killros='killall python && killall roslaunch && killall record'
 alias rcn='echo $COMPUTER_NAME'
 alias rivl='rosrun image_view image_view image:=/bair_car/zed/left/image_rect_color'
 alias rivr='rosrun image_view image_view image:=/bair_car/zed/right/image_rect_color'
-alias rlat='rostopic echo /bair_car/GPS2_lat'
-alias rstat='python ~/kzpy3/teg_older/teg7/data/rosstatus.py'
-alias test_caffe='cd ~/caffe; build/tools/caffe time --model=models/bvlc_alexnet/deploy.prototxt --gpu=0'
 alias zed_explorer='/usr/local/zed/tools/ZED\ Explorer'
-alias sopen="open -a /Applications/Sublime\ Text\ 2.app/"
 
 alias fixScreen='DISPLAY=:0 xrandr --output HDMI-0 --mode 1024x768'
 
@@ -40,6 +34,7 @@ alias Mr_Forward192='ssh nvidia@192.168.1.107'
 alias Mr_Forward10='ssh nvidia@10.0.0.107'
 alias Mr_Back192='ssh nvidia@192.168.1.201'
 alias Mr_Back10='ssh nvidia@10.0.0.201'
+alias Mr_Plain='ssh nvidia@192.168.1.11'
 
 alias bu='Mr_Blue'
 alias bk='Mr_Black'
@@ -61,11 +56,8 @@ alias srz='screen -r SZ'
 
 ######################## for .bashrc from MacBook #################
 #
-#export DISPLAY=:0.0
 alias gacp="git add .;git commit -m 'gacp';git push origin master"
 alias pgacp='cd ~/kzpy3; git pull; gacp; cd'
-#alias gp3="~/kzpy3/kzpy3_git_pull.sh"
-#alias gckzpy3="git clone https://github.com/karlzipser/kzpy3.0.git"
 git config --global credential.helper "cache --timeout=86400"
 alias ipy="ipython --no-banner"
 
@@ -84,11 +76,6 @@ alias Localization='python ~/kzpy3/Localization_app/Main.py'
 if [ "$(whoami)" == "nvidia" ]
 then
 echo Hi $COMPUTER_NAME on Jetson
-#export ROS_IP=0.0.0.0 # Listen on any interface
-#echo "cd ~/kzpy3;git pull;cd"
-#cd ~/kzpy3
-#git pull
-#cd
 echo "rrm;rlog"
 rrm
 rlog
