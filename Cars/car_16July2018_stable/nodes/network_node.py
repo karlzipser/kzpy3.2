@@ -133,8 +133,7 @@ while not main_timer.check():
     s = N['network_smoothing_parameter']
 
     print_timer.message(d2s('network_node::drive_mode =',drive_mode))#######
-    human_agent = 0
-    drive_mode = 1
+
     if human_agent == 0 and drive_mode == 1:
         if len(left_list) > nframes + 2:
             camera_data = Torch_network['format_camera_data'](left_list,right_list)
