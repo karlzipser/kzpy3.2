@@ -91,7 +91,7 @@
             /$(arg car_name)/zed/right/image_rect_color
             /$(arg car_name)/left_right" />
     <node pkg="rosbag" type="record" name="rosbag_record_all"
-          args="--split --size=1024 -b 2048 --lz4 -o $(find bair_car)/rosbags/$(arg car_name) $(arg rosbag_args)"
+          args="--split --size=1024 -b 2048 --lz4 -o /media/nvidia/rosbags/active/$(arg car_name) $(arg rosbag_args)"
           respawn="false"
           if="$(arg record)" >
     </node>
