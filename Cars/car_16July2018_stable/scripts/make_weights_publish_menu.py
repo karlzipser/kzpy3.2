@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+
+from kzpy3.utils2 import *
 
 weight_file_directories = [opjh('pytorch_models'),opjm('pytorch_modes')]
 weight_file_paths = []
