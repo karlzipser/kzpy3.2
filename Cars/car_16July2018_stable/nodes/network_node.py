@@ -78,7 +78,8 @@ def behavioral_mode_callback(msg):
         play = 1.0
 
 def network_weights_name_callback(msg):
-    N['weight_file_path'] = msg.data
+    #N['weight_file_path'] 
+    default_values.Weights['weight_file_path'] = msg.data
 
 def callback_network_output_sample(msg):
     N['network_output_sample'] = msg.data
