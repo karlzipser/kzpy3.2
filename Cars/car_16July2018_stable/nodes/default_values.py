@@ -25,6 +25,8 @@ NO_Mse['place_choice'] = 'Tilden'
 
 
 """
+            unix(d2s("rostopic pub -1 /bair_car/behavioral_mode std_msgs/String", 'adjusted_steer'))
+
 http://wiki.ros.org/rostopic
 -be able to change model during runtime
 	publish model name string, then check if it changes and if so, load new weights assuming model form is the same.

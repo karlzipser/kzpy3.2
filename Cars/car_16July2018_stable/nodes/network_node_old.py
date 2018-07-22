@@ -154,7 +154,6 @@ while not main_timer.check():
             steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
             motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
 
-            unix(d2s("rostopic pub -1 /bair_car/behavioral_mode std_msgs/String", 'adjusted_steer'))
 
         if low_frequency_pub_timer2.check():
             #spd2s(adjusted_steer,adjusted_motor,drive_mode, human_agent, behavioral_mode)
