@@ -6,13 +6,13 @@ import std_msgs.msg
 
 
 try:
-    unix(d2s('mkdir -p',opjm('rosbags','activce'))
-    unix(d2s('mkdir -p',opjm('rosbags','new'))
+    unix(d2s('mkdir -p',opjm('rosbags','activce')))
+    unix(d2s('mkdir -p',opjm('rosbags','new')))
 except Exception as e:
     print("*unix(d2s('mkdir -p',opjm('rosbags','activce')) Exception ***")
     print(e.message, e.args)
 
-    
+
 
 foldername_prefix = os.environ["COMPUTER_NAME"] #'run_'
 
