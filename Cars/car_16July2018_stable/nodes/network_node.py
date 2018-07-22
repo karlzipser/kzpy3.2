@@ -122,7 +122,7 @@ print_timer = Timer(5)
 
 Hz = 0
 
-net_timer = timer(30)
+net_timer = Timer(30)
 
 low_frequency_pub_timer = Timer(0.5)
 low_frequency_pub_timer2 = Timer(5)
