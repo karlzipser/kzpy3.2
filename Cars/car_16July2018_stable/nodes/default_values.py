@@ -25,19 +25,17 @@ NO_Mse['place_choice'] = 'Tilden'
 
 
 """
--figure out how pytorch model works
--make new verwion based on dicts which I use in both training and driving
+-be able to change model during runtime
+	publish model name string, then check if it changes and if so, load new weights assuming model form is the same.
 -make input format flexible (e.g., frames, metadat, etc)
 -get workstation going
 -avoid getting bogged down in non-essential coding
 -have network output all behavioral trajectories
 	this reqires training a net using output of net to get non-data trajectories
 -timestamp network output predictions so that these can be used in real time.
--set up Sascha cars
 -think about depth map, either from algorithim or camera
 -figure out how to process bag data (there are two apps for this)
 -think about smaller res network
 -write down all images sizes
 -find model used for demo
--display images of various scales in real time as demo
 """
