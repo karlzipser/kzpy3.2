@@ -24,7 +24,7 @@ alias zed_explorer='/usr/local/zed/tools/ZED\ Explorer'
 alias fixScreen='DISPLAY=:0 xrandr --output HDMI-0 --mode 1024x768'
 
 alias Mr_Blue='ssh nvidia@192.168.1.101'
-alias Mr_Black='ssh nvidia@192.168.1.13'
+alias Mr_Black='ssh nvidia@192.168.1.102'
 alias Mr_Orange='ssh nvidia@192.168.1.103'
 alias Mr_Yellow='ssh nvidia@192.168.1.104'
 alias Mr_Lt_Blue='ssh nvidia@192.168.1.105'
@@ -34,7 +34,7 @@ alias Mr_Forward192='ssh nvidia@192.168.1.107'
 alias Mr_Forward10='ssh nvidia@10.0.0.107'
 alias Mr_Back192='ssh nvidia@192.168.1.201'
 alias Mr_Back10='ssh nvidia@10.0.0.201'
-alias Mr_Plain='ssh nvidia@192.168.1.11'
+alias Mr_Plain='ssh nvidia@192.168.1.101'
 
 alias bu='Mr_Blue'
 alias bk='Mr_Black'
@@ -127,3 +127,6 @@ date
 
 
 # chmod -R 744 xyz
+
+
+#EOF
