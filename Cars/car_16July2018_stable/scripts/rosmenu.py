@@ -79,8 +79,8 @@ while choice_number != 1:
                 elif choice_number < 1:
                     message = "bad option"
                 elif choice_number+2 > len(Rostopics_publish):
+                message = "bad option"
                 """
-            message = "bad option"
         elif choice_number == 1:
             pass
         else:
@@ -91,7 +91,6 @@ while choice_number != 1:
             val = num_from_str(raw_input(d2n(name,'(',current_val,') new value > ')))
             if is_number(val):
                 P[name] = val
-                #P[name] = input(name+' value > ')
                 if Rostopics_publish[index_number][1] == Int:
                     P[name] = int(P[name])
         pub_setup_strs,pub_publish_strs = get_ros_publisher_strs(Rostopics_publish,P)
