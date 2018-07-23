@@ -16,6 +16,9 @@ if '/Users/' in home_path:
 if MacOSX:
     matplotlib.use(u'MacOSX')
 
+if username == 'nvidia':
+    matplotlib.use(u'TkAgg')
+
 
 ###########
 '''
