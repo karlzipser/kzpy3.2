@@ -9,10 +9,12 @@ except:
 
 
 
-if using_osx:
+MacOSX = False
+if '/Users/' in home_path:
+    MacOSX = True
+
+if MacOSX:
     matplotlib.use(u'MacOSX')
-#else:
-#    matplotlib.use(u'TkAgg')
 
 
 ###########
