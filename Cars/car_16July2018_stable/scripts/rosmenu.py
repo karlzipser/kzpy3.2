@@ -63,7 +63,7 @@ while choice_number != 1:
             print(chr(27) + "[2J")
         do_clear = True
         ctr = 2
-        pd2s(1,')','exit')
+        print d2n(1,')','exit')
         for topic in Rostopics_publish:
             name = topic[0]
             if topic[1] == Int:
@@ -72,17 +72,11 @@ while choice_number != 1:
                 print d2n(ctr,')',name,': ',dp(P[name],2))
             ctr += 1
         choice_number = input('#? ')
-        if not is_number(choice_number):
-            print "bad option"#pass#print "not is_number(choice_number)"
-            do_clear
+        if not is_number(choice_number) or choice_number < 1 or choice_number+2 > len(Rostopics_publish):
+            print "bad option" 
+            do_clear = False
         elif choice_number == 1:
             pass
-            """
-            elif choice_number < 1:
-                print "choice_number < 1"
-            elif choice_number+2 > len(Rostopics_publish):
-                print "choice_number+2 > len(Rostopics_publish)"
-            """
         else:
             index_number = int(choice_number)-2
             name = Rostopics_publish[index_number][0]
@@ -94,11 +88,8 @@ while choice_number != 1:
                 if Rostopics_publish[index_number][1] == Int:
                     P[name] = int(P[name])
         pub_setup_strs,pub_publish_strs = get_ros_publisher_strs(Rostopics_publish,P)
-        #print "\n################\n#"
         for c in pub_publish_strs:
             if using_linux(): exec(c)
-            #print c
-        #print "#\n################"
     except Exception as e:
         print("********** rosmenu Exception ***********************")
         print(e.message, e.args)
