@@ -54,14 +54,12 @@ for c in pub_publish_strs:
     print c
 print "#\n################"
 
-do_clear = True
+message = False
 choice_number = 0
 while choice_number != 1:
-    #pprint(P)
     try:
-        if do_clear:
-            print(chr(27) + "[2J")
-        do_clear = True
+        print(chr(27) + "[2J")
+
         ctr = 2
         print d2n(1,')','exit')
         for topic in Rostopics_publish:
@@ -71,13 +69,15 @@ while choice_number != 1:
             else:
                 print d2n(ctr,')',name,': ',dp(P[name],2))
             ctr += 1
+        if message:
+            print message
         choice_number = input('#? ')
-        if not is_number(choice_number) or choice_number < 1 or choice_number+2 > len(Rostopics_publish):
-            print "bad option" 
-            do_clear = False
+        if not is_number(choice_number):# or choice_number < 1 or choice_number+2 > len(Rostopics_publish):
+            message = "bad option"
         elif choice_number == 1:
             pass
         else:
+            message = False
             index_number = int(choice_number)-2
             name = Rostopics_publish[index_number][0]
             current_val = P[name]
