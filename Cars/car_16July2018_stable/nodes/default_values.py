@@ -49,5 +49,6 @@ export DISPLAY=:0.0
 from kzpy3.vis2 import *
 mi(np.random.random((100,100)))
 
+
 3840x2160
 """
