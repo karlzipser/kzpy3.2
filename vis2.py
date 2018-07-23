@@ -7,14 +7,12 @@ except:
     print("Couldn't import cv2")
 
 
-MacOSX = False
-if '/Users/' in home_path:
-    MacOSX = True
 
-if MacOSX:
+
+if using_osx:
     matplotlib.use(u'MacOSX')
-else:
-    matplotlib.use(u'TkAgg')
+#else:
+#    matplotlib.use(u'TkAgg')
 
 
 ###########

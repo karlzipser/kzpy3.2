@@ -79,7 +79,8 @@ def Net_Activity(*args):
             imgv = cv2.cvtColor(imgv,color_modev)
             imgv = cv2.resize(imgv, (0,0), fx=scalev, fy=scalev, interpolation=0)
             mi(imgv,k)
-            cv2.imshow(k,imgv)
+            spause()
+            #cv2.imshow(k,imgv)
             #key_ = mci(imgv,color_mode=cv2.COLOR_RGB2BGR,delay=1,title=k) # new
 
         cv2.waitKey(delayv)
