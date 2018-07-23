@@ -6,7 +6,7 @@ spd2s('REMEMBER ulimit -Sn 65000')
 import resource
 soft, hard = resource.getrlimit(resource.RLIMIT_NOFILE)
 print 'Soft limit is ', soft
-assert(soft>=65000)
+#assert(soft>=65000)
 
 
 P = {}
@@ -47,7 +47,7 @@ P['current_batch'] = []
 P['DISPLAY_EACH'] = False
 P['prediction_range'] = range(1,60,6)
 
-if True:
+if False:
 	for experiments_folder in P['experiments_folders']:
 		locations = sggo(experiments_folder,'*')
 		for location in locations:
@@ -91,7 +91,7 @@ if True:
 	#raw_enter()
 
 
-if True:
+if False:
 	for experiments_folder in ['/home/karlzipser/Desktop/all_aruco_reprocessed']:
 		experiments = sggo(experiments_folder,'*')
 		ctr = 0
