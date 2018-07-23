@@ -83,7 +83,7 @@ while choice_number != 1:
             index_number = int(choice_number)-1
             name = Rostopics_publish[index_number][0]
             current_val = Rostopics_publish[index_number][1]
-            val = num_from_str(raw_input(d2n(name,'(',current_val,') new value > '))
+            val = num_from_str(raw_input(d2n(name,'(',current_val,') new value > ')))
             if is_number(val):
                 P[name] = val
                 #P[name] = input(name+' value > ')
