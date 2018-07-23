@@ -83,7 +83,7 @@ def Net_Activity(*args):
             cv2.imshow(k,imgv)
             #key_ = mci(imgv,color_mode=cv2.COLOR_RGB2BGR,delay=1,title=k) # new
 
-        cv2.waitKey(delayv)
+        #cv2.waitKey(delayv)
     D['view'] = _function_view
     return D
 
