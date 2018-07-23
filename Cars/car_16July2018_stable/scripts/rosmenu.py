@@ -73,12 +73,12 @@ while choice_number != 1:
             print "not is_number(choice_number)"
         elif choice_number == 1:
             pass
-        """
-        elif choice_number < 1:
-            print "choice_number < 1"
-        elif choice_number+2 > len(Rostopics_publish):
-            print "choice_number+2 > len(Rostopics_publish)"
-        """
+            """
+            elif choice_number < 1:
+                print "choice_number < 1"
+            elif choice_number+2 > len(Rostopics_publish):
+                print "choice_number+2 > len(Rostopics_publish)"
+            """
         else:
             index_number = int(choice_number)-1
             name = Rostopics_publish[index_number][0]
