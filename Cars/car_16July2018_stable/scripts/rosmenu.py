@@ -61,13 +61,13 @@ while choice_number != 1:
         print(chr(27) + "[2J")
 
         ctr = 2
-        print d2n(1,')','exit')
+        print '1) exit'
         for topic in Rostopics_publish:
             name = topic[0]
             if topic[1] == Int:
-                print d2n(ctr,')',name,': ',int(P[name]))
+                print d2n(ctr,') ',name,': ',int(P[name]))
             else:
-                print d2n(ctr,')',name,': ',dp(P[name],2))
+                print d2n(ctr,') ',name,': ',dp(P[name],2))
             ctr += 1
         if message:
             print message
@@ -93,5 +93,5 @@ while choice_number != 1:
     except Exception as e:
         print("********** rosmenu Exception ***********************")
         print(e.message, e.args)
-print 'done.'
+#print 'done.'
 
