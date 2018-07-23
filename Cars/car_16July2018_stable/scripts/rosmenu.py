@@ -94,4 +94,4 @@ while choice_number != 1:
         print("********** rosmenu Exception ***********************")
         print(e.message, e.args)
 #print 'done.'
-
+print(chr(27) + "[2J")
