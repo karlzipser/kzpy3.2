@@ -149,7 +149,9 @@ if 'Start Arduino threads...':
     else:
         spd2s("!!!!!!!!!! 'IMU' not in Arduinos[] or not using 'IMU' !!!!!!!!!!!")
 
-
+while True:
+    time.sleep(5)
+"""    
 if 'Main loop...':
     print 'main loop'
     q = '_'
@@ -166,5 +168,5 @@ if 'Main loop...':
         print "doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))"
         time.sleep(0.5)
         unix(opjh('kzpy3/scripts/kill_ros.sh'))
-
+"""
 #EOF
