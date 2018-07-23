@@ -1,0 +1,1 @@
+/Users/karlzipser/kzpy3/Train_app/Train_SqueezeNet_31May3018/Activity_Module.py
