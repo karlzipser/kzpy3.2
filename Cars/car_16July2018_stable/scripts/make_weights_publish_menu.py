@@ -2,7 +2,7 @@
 
 from kzpy3.utils2 import *
 
-weight_file_directories = [opjh('pytorch_models'),opjm('pytorch_modes')]
+weight_file_directories = [opjh('pytorch_models'),opjm('rosbags/pytorch_models')]
 weight_file_paths = []
 for w in weight_file_directories:
     weight_file_paths += sggo(w,'*.SqueezeNet')
@@ -21,7 +21,7 @@ txt.append("\tCOLUMNS=12")
 if_str = 'if'
 for w in weight_file_paths:
    txt.append(d2n("\t",if_str," [ \"$opt\" = '",fname(w),"' ]; then"))
-   txt.append(d2n("\t\techo ",w))
+   txt.append(d2n("\t\techo ",fname(w)))
    txt.append(d2n("\t\trostopic pub -1 /bair_car/network_weights_name std_msgs/String ",w))
    if_str = 'elif'
 txt.append(d2n("\telif [ \"$opt\" = 'exit' ]; then"))
