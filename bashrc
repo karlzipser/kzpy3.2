@@ -62,7 +62,7 @@ git config --global credential.helper "cache --timeout=86400"
 alias ipy="ipython --no-banner"
 
 export PYTHONPATH=~:$PYTHONPATH
-export PYTHONPATH=~/kzpy3/Train_app/Train_SqueezeNet_31May3018:$PYTHONPATH
+#export PYTHONPATH=~/kzpy3/Train_app/Train_SqueezeNet_31May3018:$PYTHONPATH
 export PYTHONSTARTUP=~/kzpy3/utils2.py
 export PATH=~/kzpy3/scripts:$PATH
 export PATH=~/kzpy3/scratch:$PATH

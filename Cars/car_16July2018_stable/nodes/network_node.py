@@ -142,7 +142,7 @@ low_frequency_pub_timer2 = Timer(5)
 #Torch_network = net_utils.Torch_Network(N)
 
 
-import Activity_Module 
+from Train_SqueezeNet_31May3018_copy import Activity_Module 
 
 
 while True:
