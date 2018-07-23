@@ -13,6 +13,8 @@ if '/Users/' in home_path:
 
 if MacOSX:
     matplotlib.use(u'MacOSX')
+else:
+    matplotlib.use(u'TkAgg')
 
 
 ###########
