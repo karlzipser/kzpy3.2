@@ -152,10 +152,12 @@ while True:
         Torch_network = net_utils.Torch_Network(N)
 
     if low_frequency_pub_timer2.check():
+        """
         if True:
             Net_activity = Activity_Module.Net_Activity('batch_num',0, 'activiations',Torch_network['solver'].A)
             Net_activity['view']('moment_index',0,'delay',1, 'scales',{'camera_input':4,'pre_metadata_features':0,'pre_metadata_features_metadata':1,'post_metadata_features':2})
             print "Net_activity = Activity_Module.Net_Activity('batch_num',0, 'activiations',Torch_network['solver'].A)"
+        """
         low_frequency_pub_timer2.reset()
 
 
@@ -190,7 +192,7 @@ while True:
             steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
             motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
 
-        if False:#low_frequency_pub_timer2.check():
+        if True:#low_frequency_pub_timer2.check():
             #mi(np.random.random((100,100)));spause()
             Net_activity = Activity_Module.Net_Activity('batch_num',0, 'activiations',Torch_network['solver'].A)
             Net_activity['view']('moment_index',0,'delay',1, 'scales',{'camera_input':1,'pre_metadata_features':0,'pre_metadata_features_metadata':1,'post_metadata_features':1})
