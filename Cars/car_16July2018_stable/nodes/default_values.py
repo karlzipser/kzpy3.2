@@ -21,27 +21,15 @@ NO_Mse['behavioral_mode_choice'] = 'furtive'
 NO_Mse['place_choice'] = 'Tilden'
 
 """
-Weights = {}
-Weights["weight_file_directories"] = [opjh('pytorch_models'),opjm('pytorch_modes')]
-Weights["weight_file_paths"] = []
-for w in Weights["weight_file_directories"]:
-    Weights["weight_file_paths"] += sggo(w,'*.SqueezeNet')
-Weights['weight_file_path'] = opjh('pytorch_models','epoch6goodnet.SqueezeNet')
-assert Weights['weight_file_path'] in Weights["weight_file_paths"]
-"""
+https://stackoverflow.com/questions/29232438/bash-check-if-var-is-in-number-range
+https://stackoverflow.com/questions/806906/how-do-i-test-if-a-variable-is-a-number-in-bash
+https://unix.stackexchange.com/questions/157960/input-two-numbers-and-add-them-when-a-is-typed-subtract-when-s-is-typed
+https://stackoverflow.com/questions/34171568/return-value-from-python-script-to-shell-script
 
-
-
-"""
-arduino_node should 1-time publish model name, with script publishing rest, and network_node subscribing
-
-            rostopic pub -1 /bair_car/behavioral_mode std_msgs/String the_string
+     rostopic pub -1 /bair_car/behavioral_mode std_msgs/String the_string
 
 http://wiki.ros.org/rostopic
--be able to change model during runtime
-	publish model name string, then check if it changes and if so, load new weights assuming model form is the same.
 -make input format flexible (e.g., frames, metadat, etc)
--get workstation going
 -avoid getting bogged down in non-essential coding
 -have network output all behavioral trajectories
 	this reqires training a net using output of net to get non-data trajectories
@@ -50,7 +38,6 @@ http://wiki.ros.org/rostopic
 -figure out how to process bag data (there are two apps for this)
 -think about smaller res network
 -write down all images sizes
--find model used for demo
 
 q=gg(opjh('kzpy3/Cars/*'))
 for p in q:
