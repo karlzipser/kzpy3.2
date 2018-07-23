@@ -137,7 +137,7 @@ Hz = 0
 
 
 low_frequency_pub_timer = Timer(0.5)
-low_frequency_pub_timer2 = Timer(5)
+low_frequency_pub_timer2 = Timer(0.1)
 
 #Torch_network = net_utils.Torch_Network(N)
 if True:
