@@ -48,6 +48,7 @@ def Net_Activity(*args):
         else:
             delayv = 33       
         True
+        ctr = 0
         for k in D['imgs'].keys():
             if k == 'final_output':
                 continue
@@ -81,8 +82,9 @@ def Net_Activity(*args):
             #mi(imgv,k)
             #spause()
             cv2.imshow(k,imgv)
+            cv2.moveWindow(k, 100*ctr,100);
             #key_ = mci(imgv,color_mode=cv2.COLOR_RGB2BGR,delay=1,title=k) # new
-
+            ctr += 1
         #cv2.waitKey(delayv)
     D['view'] = _function_view
     return D
