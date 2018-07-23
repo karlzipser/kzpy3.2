@@ -51,4 +51,10 @@ mi(np.random.random((100,100)))
 
 
 3840x2160
+
+
+
+
+nmcli radio wifi off
+nmcli radio wifi on
 """
