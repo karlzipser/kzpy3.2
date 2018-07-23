@@ -72,7 +72,11 @@ while choice_number != 1:
         if message:
             print message
         choice_number = input('#? ')
-        if not is_number(choice_number):# or choice_number < 1 or choice_number+2 > len(Rostopics_publish):
+        if not is_number(choice_number):
+            message = "bad option"
+        elif choice_number < 1:
+            message = "bad option"
+        elif choice_number+2 > len(Rostopics_publish):
             message = "bad option"
         elif choice_number == 1:
             pass
