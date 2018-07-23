@@ -190,14 +190,14 @@ while True:
             steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
             motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
 
-        if low_frequency_pub_timer2.check():
-            mi(np.random.random((100,100)));spause()
+        if True:#low_frequency_pub_timer2.check():
+            #mi(np.random.random((100,100)));spause()
             Net_activity = Activity_Module.Net_Activity('batch_num',0, 'activiations',Torch_network['solver'].A)
             Net_activity['view']('moment_index',0,'delay',1, 'scales',{'camera_input':4,'pre_metadata_features':0,'pre_metadata_features_metadata':1,'post_metadata_features':2})
-            pd2s("N['weight_file_path'] =",N['weight_file_path'])
-            mi(np.random.random((100,100)));spause()
+            #pd2s("N['weight_file_path'] =",N['weight_file_path'])
+            spause()
             #spd2s(adjusted_steer,adjusted_motor,drive_mode, human_agent, behavioral_mode)
-            low_frequency_pub_timer2.reset()
+            #low_frequency_pub_timer2.reset()
     else:
         #print 'network paused'
         time.sleep(0.1)
