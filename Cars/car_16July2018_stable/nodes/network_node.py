@@ -70,14 +70,15 @@ def behavioral_mode_callback(msg):
     follow = 0.0
     furtive = 0.0
     play = 0.0
-    if behavioral_mode == 'direct':
-        direct = 1.0
-    elif behavioral_mode == 'follow':
-        follow = 1.0
-    elif behavioral_mode == 'furtive':
-        furtive = 1.0
-    elif behavioral_mode == 'play':
-        play = 1.0
+    if not (right or left):
+        if behavioral_mode == 'direct':
+            direct = 1.0
+        elif behavioral_mode == 'follow':
+            follow = 1.0
+        elif behavioral_mode == 'furtive':
+            furtive = 1.0
+        elif behavioral_mode == 'play':
+            play = 1.0
 
 def button_number_callback(msg):
     global left,right
