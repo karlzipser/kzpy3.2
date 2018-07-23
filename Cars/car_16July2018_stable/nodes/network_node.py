@@ -141,7 +141,7 @@ low_frequency_pub_timer2 = Timer(5)
 
 #Torch_network = net_utils.Torch_Network(N)
 
-
+import cv2
 from Train_SqueezeNet_31May3018_copy import Activity_Module 
 
 
@@ -152,8 +152,8 @@ while True:
 
     if low_frequency_pub_timer2.check():
         Net_activity = Activity_Module.Net_Activity('batch_num',0, 'activiations',Torch_network['solver'].A)
-        Net_activity['view']('moment_index',0,'delay',33, 'scales',{'camera_input':4,'pre_metadata_features':0,'pre_metadata_features_metadata':1,'post_metadata_features':2})
-        print "        Net_activity = Activity_Module.Net_Activity('batch_num',0, 'activiations',Torch_network['solver'].A)"
+        Net_activity['view']('moment_index',0,'delay',1, 'scales',{'camera_input':4,'pre_metadata_features':0,'pre_metadata_features_metadata':1,'post_metadata_features':2})
+        print "Net_activity = Activity_Module.Net_Activity('batch_num',0, 'activiations',Torch_network['solver'].A)"
         low_frequency_pub_timer2.reset()
 
 
