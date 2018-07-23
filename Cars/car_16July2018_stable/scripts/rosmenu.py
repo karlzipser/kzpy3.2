@@ -70,7 +70,7 @@ while choice_number != 1:
             ctr += 1
         choice_number = input('choice > ')
         if not is_number(choice_number):
-            print "not is_number(choice_number)"
+            pass#print "not is_number(choice_number)"
         elif choice_number == 1:
             pass
             """
@@ -80,9 +80,9 @@ while choice_number != 1:
                 print "choice_number+2 > len(Rostopics_publish)"
             """
         else:
-            index_number = int(choice_number)-1
+            index_number = int(choice_number)-2
             name = Rostopics_publish[index_number][0]
-            current_val = Rostopics_publish[index_number][1]
+            current_val = P[name]
             val = num_from_str(raw_input(d2n(name,'(',current_val,') new value > ')))
             if is_number(val):
                 P[name] = val
