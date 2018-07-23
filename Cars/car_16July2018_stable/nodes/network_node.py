@@ -193,7 +193,7 @@ while True:
         if True:#low_frequency_pub_timer2.check():
             #mi(np.random.random((100,100)));spause()
             Net_activity = Activity_Module.Net_Activity('batch_num',0, 'activiations',Torch_network['solver'].A)
-            Net_activity['view']('moment_index',0,'delay',1, 'scales',{'camera_input':1,'pre_metadata_features':0,'pre_metadata_features_metadata':1,'post_metadata_features':2})
+            Net_activity['view']('moment_index',0,'delay',1, 'scales',{'camera_input':1,'pre_metadata_features':0,'pre_metadata_features_metadata':1,'post_metadata_features':1})
             #pd2s("N['weight_file_path'] =",N['weight_file_path'])
             spause()
             #spd2s(adjusted_steer,adjusted_motor,drive_mode, human_agent, behavioral_mode)

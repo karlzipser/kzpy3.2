@@ -63,7 +63,7 @@ def Net_Activity(*args):
                 continue
                 """
             elif k == 'camera_input':
-                color_modev = cv2.COLOR_RGB2BGR
+                color_modev = cv2.COLOR_BGR2RGB #cv2.COLOR_RGB2BGR
             else:
                 color_modev = cv2.COLOR_GRAY2BGR
             scalev = 1
