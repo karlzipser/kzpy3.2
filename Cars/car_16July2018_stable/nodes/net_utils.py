@@ -5,7 +5,7 @@ import torch
 import torch.nn as nn
 from torch.autograd import Variable
 #from nets.squeezenet import SqueezeNet
-from nets.SqueezeNet import SqueezeNet
+from nets.SqueezeNet_ import SqueezeNet
 
 spd2s("!!!!! note change on 22 July 2018: from nets.SqueezeNet import SqueezeNet !!!!");time.sleep(3)
 
