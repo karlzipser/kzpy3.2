@@ -86,7 +86,53 @@ echo Hi $COMPUTER_NAME on Jetson
 echo "rrm;rlog"
 rrm
 rlog
+alias sb='cd;source ~/.bashrc'
+OPTIONS="exit screen rla rlanr rosbags git_pull reboot shutdown rostopics rosmenu net_menu df car_link_menu"
+COLUMNS=12
+echo 'main menu'
+select opt in $OPTIONS; do
+   COLUMNS=12
+   if [ "$opt" = "reboot" ]; then
+    echo "Rebooting . . ."
+    sudo reboot
+   elif [ "$opt" = "shutdown" ]; then
+    echo "Shutting down . . ."
+    ssd
+   elif [ "$opt" = "rlanr" ]; then
+    rrm;rlog;roslaunch bair_car bair_car.launch use_zed:=true record:=false car_name:=$COMPUTER_NAME
+   elif [ "$opt" = "rla" ]; then
+    rrm;rlog;roslaunch bair_car bair_car.launch use_zed:=true record:=true
+   elif [ "$opt" = "car_link_menu" ]; then
+    ~/kzpy3/Cars/car_link_menu.sh
+    elif [ "$opt" = "net_menu" ]; then
+      bash ~/kzpy3/Cars/car_16July2018_stable/scripts/net_menu.sh
+   elif [ "$opt" = "rosbags" ]; then
+    check_rosbags.py
+   elif [ "$opt" = "rostopics" ]; then
+    python ~/catkin_ws/src/bair_car/scripts/rostopics.py
+   elif [ "$opt" = "rosmenu" ]; then
+    python ~/catkin_ws/src/bair_car/scripts/rosmenu.py
+   elif [ "$opt" = "git_pull" ]; then
+    cd ~/kzpy3
+    git pull
+    cd
+   elif [ "$opt" = "screen" ]; then
+    screen 
+   elif [ "$opt" = "exit" ]; then
+    break 
+   elif [ "$opt" = "df" ]; then
+    df 
+   else
+    #clear
+    echo bad option
+   fi
+done
+fi
 
+date
+
+
+# chmod -R 744 xyz
 
 
 #EOF

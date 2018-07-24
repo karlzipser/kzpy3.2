@@ -158,7 +158,7 @@ while True:
 
 
 
-    print left,center,right
+    #print left,center,right
     time.sleep(0.001)
     #print_timer.message(d2s("N['network_steer_gain'] =",N['network_steer_gain']))#######
     Hz = frequency_timer.freq(name='Hz_network',do_print=False)
