@@ -152,6 +152,7 @@ if N['visualize_activations']:
 
 
 while True:
+    prin 'AA'
     if N['RELOAD_NET']: # temporary experiment
         N['RELOAD_NET'] = False
         Torch_network = net_utils.Torch_Network(N)
@@ -173,11 +174,13 @@ while True:
     #print_timer.message(d2s('network_node::drive_mode =',drive_mode))#######
 
     if human_agent == 0 and drive_mode == 1:
+        print 'A'
         if len(left_list) > nframes + 2:
             camera_data = Torch_network['format_camera_data'](left_list,right_list)
             metadata = Torch_network['format_metadata']((direct,follow,furtive,play,left,right)) #((right,left,play,furtive,follow,direct))
+            print 'B'
             torch_motor, torch_steer = Torch_network['run_model'](camera_data, metadata, N)
-
+            print 'C'
             if 'Do smoothing of percents...':
                 current_steer = (1.0-s)*torch_steer + s*current_steer
                 current_motor = (1.0-s)*torch_motor + s*current_motor
