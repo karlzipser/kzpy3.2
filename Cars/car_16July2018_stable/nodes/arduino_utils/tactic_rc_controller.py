@@ -60,10 +60,12 @@ def _TACTIC_RC_controller_run_loop(P):
                 P['button_number'] = bn
                 P['button_time'] = P['button_timer'].time()
 
+
+
                 P['left'] = 0
                 P['right'] = 0
                 P['center'] = 0
-                if P['selector_mode'] == drive_mode:
+                if P['selector_mode'] == 'drive_mode':
                     if P['button_number'] == 3:
                         P['right'] = 1
                     elif button_number == 1:
