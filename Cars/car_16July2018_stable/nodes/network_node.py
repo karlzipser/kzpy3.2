@@ -188,6 +188,8 @@ while True:
             adjusted_motor = bound_value(adjusted_motor,0,99)
             adjusted_steer = bound_value(adjusted_steer,0,99)
 
+            print adjusted_steer,adjusted_motor
+
             steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
             motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
 
@@ -202,7 +204,7 @@ while True:
             #low_frequency_pub_timer2.reset()
     else:
         print 'network paused'
-        time.sleep(0.1)
+        time.sleep(1)
 
 print 'goodbye!'
 print "unix(opjh('kzpy3/kill_ros.sh'))"
