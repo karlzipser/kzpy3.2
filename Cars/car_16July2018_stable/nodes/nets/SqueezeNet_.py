@@ -78,7 +78,7 @@ class SqueezeNet(nn.Module):
                     m.bias.data.zero_()
 
 
-    def forward(self, x, metadata):
+    def forward_multi(self, x, metadata):
         self.A['camera_input'] = x
         self.A['pre_metadata_features'] = self.pre_metadata_features(self.A['camera_input'])
         for i in range(3):
@@ -90,7 +90,7 @@ class SqueezeNet(nn.Module):
 
 
 
-    def forward_(self, x, metadata):
+    def forward(self, x, metadata):
         self.A['camera_input'] = x
         self.A['pre_metadata_features'] = self.pre_metadata_features(self.A['camera_input'])
         self.A['pre_metadata_features_metadata'] = torch.cat((self.A['pre_metadata_features'], metadata), 1)
