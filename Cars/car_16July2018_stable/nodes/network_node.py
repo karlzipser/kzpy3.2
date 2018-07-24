@@ -4,7 +4,7 @@ reed to run roslaunch first, e.g.,
 
 roslaunch bair_car bair_car.launch use_zed:=true record:=false
 """
-
+spd2s("HERE!!")
 from kzpy3.utils2 import *
 import default_values
 N = {}
@@ -15,6 +15,7 @@ if not N['USE_NETWORK']:
     time.sleep(3600*24)
     assert(False)
 import net_utils
+spd2s("HERE!!!!")
 ########################################################
 #          ROSPY SETUP SECTION
 import roslib
@@ -43,7 +44,7 @@ right = 0
 center = 0
 current_steer = 49
 current_motor = 49
-    
+spd2s("HERE!!!!!!!")
 def right_callback(data):
     global left_list, right_list, solver
     cimg = bridge.imgmsg_to_cv2(data,"bgr8")
@@ -78,7 +79,7 @@ def behavioral_mode_callback(msg):
             furtive = 1.0
         elif behavioral_mode == 'play':
             play = 1.0
-
+spd2s("HERE!!!!!!!")
 def button_number_callback(msg):
     global button_number
     button_number = msg.data
@@ -101,7 +102,7 @@ def network_weights_name_callback(msg):
     else:
         N['RELOAD_NET'] = False
 
-
+spd2s("HERE!!!!!!!")
 def callback_network_output_sample(msg):
     N['network_output_sample'] = msg.data
 def callback_network_motor_offset(msg):
