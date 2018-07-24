@@ -4,8 +4,9 @@ reed to run roslaunch first, e.g.,
 
 roslaunch bair_car bair_car.launch use_zed:=true record:=false
 """
-spd2s("HERE!!")
+
 from kzpy3.utils2 import *
+spd2s("HERE!!")
 import default_values
 N = {}
 for k in default_values.Network.keys():
