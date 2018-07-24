@@ -201,7 +201,7 @@ while True:
             #spd2s(adjusted_steer,adjusted_motor,drive_mode, human_agent, behavioral_mode)
             #low_frequency_pub_timer2.reset()
     else:
-        #print 'network paused'
+        print 'network paused'
         time.sleep(0.1)
 
 print 'goodbye!'
