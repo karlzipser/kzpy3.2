@@ -87,12 +87,13 @@ def button_number_callback(msg):
     left = 0
     right = 0
     center = 0
-    if button_number == 3:
-        right = 1
-    elif button_number == 1:
-        left = 1
-    elif button_number == 2:
-        center = 1
+    if drive_mode:
+        if button_number == 3:
+            right = 1
+        elif button_number == 1:
+            left = 1
+        elif button_number == 2:
+            center = 1
 
 
 
