@@ -153,7 +153,7 @@ if N['visualize_activations']:
 
 
 while True:
-    prin 'AA'
+    print 'AA'
     if N['RELOAD_NET']: # temporary experiment
         N['RELOAD_NET'] = False
         Torch_network = net_utils.Torch_Network(N)
