@@ -80,6 +80,18 @@ class SqueezeNet(nn.Module):
     def forward(self, x, metadata):
         self.A['camera_input'] = x
         self.A['pre_metadata_features'] = self.pre_metadata_features(self.A['camera_input'])
+        for i in range(3):
+            self.A['pre_metadata_features_metadata'] = torch.cat((self.A['pre_metadata_features'], metadata), 1)
+            self.A['post_metadata_features'] = self.post_metadata_features(self.A['pre_metadata_features_metadata'])
+            self.A['final_output'] = self.final_output(self.A['post_metadata_features'])
+            self.A['final_output'] = self.A['final_output'].view(self.A['final_output'].size(0), -1)
+        return self.A['final_output']
+
+
+
+    def forward_(self, x, metadata):
+        self.A['camera_input'] = x
+        self.A['pre_metadata_features'] = self.pre_metadata_features(self.A['camera_input'])
         self.A['pre_metadata_features_metadata'] = torch.cat((self.A['pre_metadata_features'], metadata), 1)
         self.A['post_metadata_features'] = self.post_metadata_features(self.A['pre_metadata_features_metadata'])
         self.A['final_output'] = self.final_output(self.A['post_metadata_features'])
