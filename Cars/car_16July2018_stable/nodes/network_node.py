@@ -80,7 +80,7 @@ def behavioral_mode_callback(msg):
             play = 1.0
 
 def button_number_callback(msg):
-    global left,right,center
+    global button_number
     button_number = msg.data
 
 def right_callback(msg):
@@ -158,7 +158,7 @@ while True:
 
 
 
-
+    print left,center,right
     time.sleep(0.001)
     #print_timer.message(d2s("N['network_steer_gain'] =",N['network_steer_gain']))#######
     Hz = frequency_timer.freq(name='Hz_network',do_print=False)
@@ -166,7 +166,7 @@ while True:
         if low_frequency_pub_timer.check():
             Hz_network_pub.publish(std_msgs.msg.Float32(Hz))
             low_frequency_pub_timer.reset()
-            print left,center,right
+
 
     s = N['network_smoothing_parameter']
 

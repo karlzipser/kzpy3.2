@@ -97,7 +97,7 @@ if Parameters['USE_ROS']:
         P['left_pub'].publish(std_msgs.msg.Int32(P['left']))
         P['right_pub'].publish(std_msgs.msg.Int32(P['right']))
         P['center_pub'].publish(std_msgs.msg.Int32(P['center']))
-        print 'B',P['left'],P['right'],P['center']
+        #print 'B',P['left'],P['right'],P['center']
         P['encoder_pub'].publish(std_msgs.msg.Float32(P['encoder']))
         if MSE_low_frequency_pub_timer.check():
             P['behavioral_mode_pub'].publish(d2s(P['behavioral_mode_choice']))
