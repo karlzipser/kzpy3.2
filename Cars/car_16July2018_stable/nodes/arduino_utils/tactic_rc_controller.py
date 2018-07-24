@@ -72,7 +72,7 @@ def _TACTIC_RC_controller_run_loop(P):
                         P['left'] = 1
                     elif P['button_number'] == 2:
                         P['center'] = 1
-
+                print P['left'],P['right'],P['center']
             if 'Do smoothing...':
                 s = P['HUMAN_SMOOTHING_PARAMETER_1']
                 P['servo_pwm_smooth'] = (1.0-s)*P['servo_pwm'] + s*P['servo_pwm_smooth']
