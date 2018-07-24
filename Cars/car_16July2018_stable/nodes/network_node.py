@@ -178,7 +178,8 @@ while True:
         if len(left_list) > nframes + 2:
             camera_data = Torch_network['format_camera_data'](left_list,right_list)
             metadata = Torch_network['format_metadata']((direct,follow,furtive,play,left,right)) #((right,left,play,furtive,follow,direct))
-            torch_motor, torch_steer = Torch_network['run_model'](camera_data, metadata, N)
+            for i in range(3):
+                torch_motor, torch_steer = Torch_network['run_model'](camera_data, metadata, N)
 
             if 'Do smoothing of percents...':
                 current_steer = (1.0-s)*torch_steer + s*current_steer

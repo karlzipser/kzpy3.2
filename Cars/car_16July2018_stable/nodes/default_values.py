@@ -55,9 +55,11 @@ mi(np.random.random((100,100)))
 
 3840x2160
 
-
-
-
 nmcli radio wifi off
 nmcli radio wifi on
+
+-make playback with LCR visualization; timestamp predictions, show current and past ones, in different grays
+-train network to output all three predictinos
+-work on 2 zed car, give it back standard rear axel; setup tx2 as forward jetson; work out ethernet connection
+-see about running models in threads
 """
