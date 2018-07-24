@@ -1,7 +1,7 @@
 from kzpy3.utils2 import *
 exec(identify_file_str)
-spd2s('Using SqueezeNet under car_16July2018_stable!!!!!!!!!!!!!!!!!!')
-time.sleep(3)
+spd2s('Using SqueezeNet_ under car_16July2018_stable!!!!!!!!!!!!!!!!!!')
+#time.sleep(3)
 import math
 import torch
 import torch.nn as nn
@@ -34,7 +34,7 @@ class Fire(nn.Module):
 class SqueezeNet(nn.Module):
 
     def __init__(self):
-        super(SqueezeNet, self).__init__()
+        super(SqueezeNet_aaa, self).__init__()
         self.A = {}
         self.lr = 0.01
         self.momentum = 0.001 #0.0001

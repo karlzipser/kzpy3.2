@@ -29,6 +29,7 @@ https://stackoverflow.com/questions/806906/how-do-i-test-if-a-variable-is-a-numb
 https://unix.stackexchange.com/questions/157960/input-two-numbers-and-add-them-when-a-is-typed-subtract-when-s-is-typed
 https://stackoverflow.com/questions/34171568/return-value-from-python-script-to-shell-script
 https://askubuntu.com/questions/639100/how-to-get-connection-to-both-wifi-as-well-as-lan-in-ubuntu-14-04-lts
+https://www.programcreek.com/python/example/107643/torch.nn.Conv1d
 
      rostopic pub -1 /bair_car/behavioral_mode std_msgs/String the_string
 
@@ -63,4 +64,5 @@ nmcli radio wifi on
 -train network to output all three predictinos
 -work on 2 zed car, give it back standard rear axel; setup tx2 as forward jetson; work out ethernet connection
 -see about running models in threads
+
 """
