@@ -7,7 +7,8 @@ Network['network_motor_gain'] = 0.6
 Network['network_motor_offset'] = 0
 Network['network_smoothing_parameter'] = 0.75
 #Network['weight_file_path'] = opjh('pytorch_models','epoch6goodnet.SqueezeNet')
-Network['weight_file_path'] = opjh('pytorch_models','net_17Sep17_17h21m35s.SqueezeNet')
+#Network['weight_file_path'] = opjh('pytorch_models','net_17Sep17_17h21m35s.SqueezeNet')
+Network['weight_file_path'] = opjh('pytorch_models','net_10Jun18_00h00m45s.SqueezeNet')
 Network['USE_NETWORK'] = True
 Network['GREY_OUT_TOP_OF_IMAGE'] = False
 
@@ -26,6 +27,7 @@ https://stackoverflow.com/questions/29232438/bash-check-if-var-is-in-number-rang
 https://stackoverflow.com/questions/806906/how-do-i-test-if-a-variable-is-a-number-in-bash
 https://unix.stackexchange.com/questions/157960/input-two-numbers-and-add-them-when-a-is-typed-subtract-when-s-is-typed
 https://stackoverflow.com/questions/34171568/return-value-from-python-script-to-shell-script
+https://askubuntu.com/questions/639100/how-to-get-connection-to-both-wifi-as-well-as-lan-in-ubuntu-14-04-lts
 
      rostopic pub -1 /bair_car/behavioral_mode std_msgs/String the_string
 
