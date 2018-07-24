@@ -40,8 +40,9 @@ direct = 0.0
 follow = 0.0
 furtive = 0.0
 play = 0.0
-left = 0.0
-right = 0.0
+left = 0
+right = 0
+center = 0
 current_steer = 49
 current_motor = 49
     
@@ -81,14 +82,18 @@ def behavioral_mode_callback(msg):
             play = 1.0
 
 def button_number_callback(msg):
-    global left,right
+    global left,right,center
     button_number = msg.data
-    left = 0.0
-    right = 0.0
+    left = 0
+    right = 0
+    center = 0
     if button_number == 3:
-        right = 1.0
+        right = 1
     elif button_number == 1:
-        left = 1.0
+        left = 1
+    elif button_number == 2:
+        center = 1
+
 
 
 def network_weights_name_callback(msg):
@@ -114,6 +119,9 @@ def callback_network_smoothing_parameter(msg):
 
 steer_cmd_pub = rospy.Publisher('cmd/steer', std_msgs.msg.Int32, queue_size=100)
 motor_cmd_pub = rospy.Publisher('cmd/motor', std_msgs.msg.Int32, queue_size=100)
+left_cmd_pub = rospy.Publisher('cmd/left', std_msgs.msg.Int32, queue_size=100)
+right_cmd_pub = rospy.Publisher('cmd/right', std_msgs.msg.Int32, queue_size=100)
+center_cmd_pub = rospy.Publisher('cmd/center', std_msgs.msg.Int32, queue_size=100)
 Hz_network_pub = rospy.Publisher('Hz_network', std_msgs.msg.Float32, queue_size=5)
 rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_callback,queue_size = 1)
 rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_callback,queue_size = 1)
@@ -184,6 +192,10 @@ while True:
 
             steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
             motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
+
+            left_cmd_pub.publish(std_msgs.msg.Int32(left))
+            right_cmd_pub.publish(std_msgs.msg.Int32(right))
+            center_cmd_pub.publish(std_msgs.msg.Int32(center))
 
         if N['visualize_activations']:#low_frequency_pub_timer2.check():
             #mi(np.random.random((100,100)));spause()
