@@ -82,7 +82,6 @@ class SqueezeNet(nn.Module):
         self.A['camera_input'] = x
         self.A['pre_metadata_features'] = self.pre_metadata_features(self.A['camera_input'])
         for i in range(3):
-            print(i)
             self.A['pre_metadata_features_metadata'] = torch.cat((self.A['pre_metadata_features'], metadata), 1)
             self.A['post_metadata_features'] = self.post_metadata_features(self.A['pre_metadata_features_metadata'])
             self.A['final_output'] = self.final_output(self.A['post_metadata_features'])
