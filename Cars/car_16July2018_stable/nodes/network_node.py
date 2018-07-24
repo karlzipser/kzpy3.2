@@ -166,6 +166,7 @@ while True:
         if low_frequency_pub_timer.check():
             Hz_network_pub.publish(std_msgs.msg.Float32(Hz))
             low_frequency_pub_timer.reset()
+            print left,center,right
 
     s = N['network_smoothing_parameter']
 
