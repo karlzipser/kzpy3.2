@@ -34,7 +34,7 @@ class Fire(nn.Module):
 class SqueezeNet(nn.Module):
 
     def __init__(self):
-        super(Timer, self).__init__()
+        super(int, self).__init__()
         self.A = {}
         self.lr = 0.01
         self.momentum = 0.001 #0.0001
