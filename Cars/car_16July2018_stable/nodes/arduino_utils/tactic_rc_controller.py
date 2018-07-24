@@ -68,9 +68,9 @@ def _TACTIC_RC_controller_run_loop(P):
                 if P['selector_mode'] == 'drive_mode':
                     if P['button_number'] == 3:
                         P['right'] = 1
-                    elif button_number == 1:
+                    elif P['button_number'] == 1:
                         P['left'] = 1
-                    elif button_number == 2:
+                    elif P['button_number'] == 2:
                         P['center'] = 1
 
             if 'Do smoothing...':
