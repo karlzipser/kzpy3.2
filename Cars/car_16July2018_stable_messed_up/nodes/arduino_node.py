@@ -52,6 +52,9 @@ if Parameters['USE_ROS']:
     #P['network_weights_name_pub'] = rospy.Publisher('network_weights_name', std_msgs.msg.String, queue_size=5)
     P['place_choice_pub'] = rospy.Publisher('place_choice', std_msgs.msg.String, queue_size=5)
     P['button_number_pub'] = rospy.Publisher('button_number', std_msgs.msg.Int32, queue_size=5) 
+    P['left_pub'] = rospy.Publisher('left', std_msgs.msg.Int32, queue_size=5) 
+    P['right_pub'] = rospy.Publisher('right', std_msgs.msg.Int32, queue_size=5) 
+    P['center_pub'] = rospy.Publisher('center', std_msgs.msg.Int32, queue_size=5) 
     P['steer_pub'] = rospy.Publisher('steer', std_msgs.msg.Int32, queue_size=5) 
     P['motor_pub'] = rospy.Publisher('motor', std_msgs.msg.Int32, queue_size=5) 
     P['encoder_pub'] = rospy.Publisher('encoder', std_msgs.msg.Float32, queue_size=5)
@@ -91,6 +94,10 @@ if Parameters['USE_ROS']:
         P['steer_pub'].publish(std_msgs.msg.Int32(P['human']['servo_percent']))
         P['motor_pub'].publish(std_msgs.msg.Int32(P['human']['motor_percent']))
         P['button_number_pub'].publish(std_msgs.msg.Int32(P['button_number']))
+        P['left_pub'].publish(std_msgs.msg.Int32(P['left']))
+        P['right_pub'].publish(std_msgs.msg.Int32(P['right']))
+        P['center_pub'].publish(std_msgs.msg.Int32(P['center']))
+        #print 'B',P['left'],P['right'],P['center']
         P['encoder_pub'].publish(std_msgs.msg.Float32(P['encoder']))
         if MSE_low_frequency_pub_timer.check():
             P['behavioral_mode_pub'].publish(d2s(P['behavioral_mode_choice']))

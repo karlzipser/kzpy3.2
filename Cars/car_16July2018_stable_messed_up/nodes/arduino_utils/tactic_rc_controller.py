@@ -60,6 +60,19 @@ def _TACTIC_RC_controller_run_loop(P):
                 P['button_number'] = bn
                 P['button_time'] = P['button_timer'].time()
 
+
+
+                P['left'] = 0
+                P['right'] = 0
+                P['center'] = 0
+                if P['selector_mode'] == 'drive_mode':
+                    if P['button_number'] == 3:
+                        P['right'] = 1
+                    elif P['button_number'] == 1:
+                        P['left'] = 1
+                    elif P['button_number'] == 2:
+                        P['center'] = 1
+                #print P['left'],P['right'],P['center']
             if 'Do smoothing...':
                 s = P['HUMAN_SMOOTHING_PARAMETER_1']
                 P['servo_pwm_smooth'] = (1.0-s)*P['servo_pwm'] + s*P['servo_pwm_smooth']
@@ -91,7 +104,7 @@ def _TACTIC_RC_controller_run_loop(P):
                                 in_this_mode = True
                                 in_this_mode_timer.reset()
                             q = 1/(1.0+5*in_this_mode_timer.time())
-                            print_timer.message(d2s(q,dp(in_this_mode_timer.time(),2)))
+                            #print_timer.message(d2s(q,dp(in_this_mode_timer.time(),2)))
                             _servo_pwm = (1-q)*P['servo_pwm_smooth'] + q*_servo_pwm
                         else:
                             in_this_mode = False

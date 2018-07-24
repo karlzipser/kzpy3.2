@@ -1,7 +1,6 @@
 from kzpy3.utils2 import *
 exec(identify_file_str)
-spd2s('Using SqueezeNet_ under car_16July2018_stable!!!!!!!!!!!!!!!!!!')
-#time.sleep(3)
+spd2s('Using SqueezeNet !!!!!!!!!!!!!!!!!!')
 import math
 import torch
 import torch.nn as nn
@@ -76,18 +75,6 @@ class SqueezeNet(nn.Module):
                     init.kaiming_uniform(m.weight.data)
                 if m.bias is not None:
                     m.bias.data.zero_()
-
-
-    def forward_multi(self, x, metadata):
-        self.A['camera_input'] = x
-        self.A['pre_metadata_features'] = self.pre_metadata_features(self.A['camera_input'])
-        for i in range(3):
-            self.A['pre_metadata_features_metadata'] = torch.cat((self.A['pre_metadata_features'], metadata), 1)
-            self.A['post_metadata_features'] = self.post_metadata_features(self.A['pre_metadata_features_metadata'])
-            self.A['final_output'] = self.final_output(self.A['post_metadata_features'])
-            self.A['final_output'] = self.A['final_output'].view(self.A['final_output'].size(0), -1)
-        return self.A['final_output']
-
 
 
     def forward(self, x, metadata):
