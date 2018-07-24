@@ -177,6 +177,7 @@ while True:
 
     if human_agent == 0 and drive_mode == 1:
         print 'A'
+        pd2s("len(left_list) =",len(left_list))
         if len(left_list) > nframes + 2:
             camera_data = Torch_network['format_camera_data'](left_list,right_list)
             metadata = Torch_network['format_metadata']((direct,follow,furtive,play,left,right)) #((right,left,play,furtive,follow,direct))
