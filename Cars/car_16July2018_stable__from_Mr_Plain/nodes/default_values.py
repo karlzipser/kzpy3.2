@@ -64,8 +64,5 @@ nmcli radio wifi on
 -train network to output all three predictinos
 -work on 2 zed car, give it back standard rear axel; setup tx2 as forward jetson; work out ethernet connection
 -see about running models in threads
--learn encoder values 
--consider not bringing images together until after some procesing
-
 
 """
