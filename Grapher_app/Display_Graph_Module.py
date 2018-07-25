@@ -188,7 +188,8 @@ def Display_Graph(*args):
 			camera_img_ =  D[topics][left_image][vals][-1].copy()
 			cx_ = (P[Y_PIXEL_SIZE]-P[CAMERA_SCALE]*shape(camera_img_)[0])
 			cy_ = (P[X_PIXEL_SIZE]-P[CAMERA_SCALE]*shape(camera_img_)[1])
-			angles_to_center, angles_surfaces, distances_marker, markers = Angle_Dict_Creator.get_angles_and_distance(camera_img_)
+			if False: #disable Aruco
+				angles_to_center, angles_surfaces, distances_marker, markers = Angle_Dict_Creator.get_angles_and_distance(camera_img_)
 			for i_ in rlen(markers):
 				
 				xy_ = markers[i_].corners_xy[0].mean(axis=0)
@@ -199,7 +200,9 @@ def Display_Graph(*args):
 				if P[SHOW_MARKER_ID]:
 					num_ = markers[i_].marker_id
 				else:
-					num_ = int(np.degrees(angles_to_center[markers[i_].marker_id])/2)
+					num_ = 0
+					if False: #disable Aruco
+						num_ = int(np.degrees(angles_to_center[markers[i_].marker_id])/2)
 				cv2.putText(
 					camera_img_,
 					d2n(markers[i_].marker_id),#num_),
