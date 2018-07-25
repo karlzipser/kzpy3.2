@@ -9,7 +9,7 @@ P['SINGLE_VALUE_TOPICS'] = ['steer','state','motor','potential_collision','encod
 
 P['VECTOR3_TOPICS'] = ['acc','gyro','gps','gyro_heading','other_car_position']
 
-P['MEO_PARAMS'] = {'acc_x':50,'acc_y':50,'acc_z':50,'gyro_x':50,'gyro_y':50,'gyro_z':50,'gyro_heading_x':50,'gyro_heading_y':50,'gyro_heading_z':50,'encoder':200})
+P['MEO_PARAMS'] = {'acc_x':50,'acc_y':50,'acc_z':50,'gyro_x':50,'gyro_y':50,'gyro_z':50,'gyro_heading_x':50,'gyro_heading_y':50,'gyro_heading_z':50,'encoder':200}
 
 P['USE_ARUCO'] = False
 
