@@ -67,7 +67,7 @@ if Parameters['USE_ROS']:
     imu_dic['head'] = 'gyro_heading_pub'
 
     IMU_low_frequency_pub_timer = Timer(0.5)
-    MSE_low_frequency_pub_timer = Timer(0.5)
+    MSE_low_frequency_pub_timer = Timer(0.1)
     MSE_very_low_frequency_pub_timer = Timer(2)
     No_Arduino_data_low_frequency_pub_timer = Timer(0.5)
     No_Arduino_data_very_low_frequency_pub_timer = Timer(2)
@@ -93,7 +93,12 @@ if Parameters['USE_ROS']:
         P['button_number_pub'].publish(std_msgs.msg.Int32(P['button_number']))
         P['encoder_pub'].publish(std_msgs.msg.Float32(P['encoder']))
         if MSE_low_frequency_pub_timer.check():
-            P['behavioral_mode_pub'].publish(d2s(P['behavioral_mode_choice']))
+            if P['button_number'] == 1:
+                behavioral_mode_choice = 'left'
+            elif P['button_number'] == 3:
+                behavioral_mode_choice = 'right'
+            else behavioral_mode_choice = P['behavioral_mode_choice']
+            P['behavioral_mode_pub'].publish(d2s(behavioral_mode_choice))
             P['place_choice_pub'].publish(d2s(P['place_choice']))
             P['human_agent_pub'].publish(std_msgs.msg.Int32(human_val))
             P['drive_mode_pub'].publish(std_msgs.msg.Int32(drive_mode))

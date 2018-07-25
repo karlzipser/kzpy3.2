@@ -64,36 +64,31 @@ def drive_mode_callback(msg):
     global drive_mode
     drive_mode = msg.data
 def behavioral_mode_callback(msg):
-    global behavioral_mode, direct, follow, furtive, play,left,right
+    global behavioral_mode, direct, follow, furtive, play
     behavioral_mode = msg.data
     direct = 0.0
     follow = 0.0
     furtive = 0.0
     play = 0.0
-    left = 0.0
-    right = 0.0
-    if behavioral_mode == 'left':
-        left = 1.0
-    if behavioral_mode == 'right':
-        right = 1.0
-    elif behavioral_mode == 'direct':
-        direct = 1.0
-    elif behavioral_mode == 'follow':
-        follow = 1.0
-    elif behavioral_mode == 'furtive':
-        furtive = 1.0
-    elif behavioral_mode == 'play':
-        play = 1.0
+    if not (right or left):
+        if behavioral_mode == 'direct':
+            direct = 1.0
+        elif behavioral_mode == 'follow':
+            follow = 1.0
+        elif behavioral_mode == 'furtive':
+            furtive = 1.0
+        elif behavioral_mode == 'play':
+            play = 1.0
 
-def button_number_callback(msg):
-    global left,right
-    button_number = msg.data
-    left = 0.0
-    right = 0.0
-    if button_number == 3:
-        right = 1.0
-    elif button_number == 1:
-        left = 1.0
+
+
+def left_callback(msg):
+    global left
+    left = msg.data
+def left_callback(msg):
+    global left
+    left = msg.data
+
 
 
 def network_weights_name_callback(msg):
@@ -127,6 +122,8 @@ rospy.Subscriber('/bair_car/behavioral_mode', std_msgs.msg.String, callback=beha
 rospy.Subscriber('/bair_car/network_weights_name', std_msgs.msg.String, callback=network_weights_name_callback)
 rospy.Subscriber('/bair_car/drive_mode', std_msgs.msg.Int32, callback=drive_mode_callback)
 rospy.Subscriber('/bair_car/button_number', std_msgs.msg.Int32, callback=button_number_callback)
+rospy.Subscriber('/bair_car/left', std_msgs.msg.Int32, callback=left_callback)
+rospy.Subscriber('/bair_car/right', std_msgs.msg.Int32, callback=right_callback)
 rospy.Subscriber('/network_output_sample', std_msgs.msg.Int32, callback=callback_network_output_sample)
 rospy.Subscriber('/network_motor_offset', std_msgs.msg.Int32, callback=callback_network_motor_offset)
 rospy.Subscriber('/network_steer_gain', std_msgs.msg.Float32, callback=callback_network_steer_gain)
