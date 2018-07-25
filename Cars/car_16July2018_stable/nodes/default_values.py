@@ -66,6 +66,7 @@ nmcli radio wifi on
 -see about running models in threads
 -learn encoder values 
 -consider not bringing images together until after some procesing
-
+-find LCR data
+-net with color vs motion for two camerass in initial layers
 
 """

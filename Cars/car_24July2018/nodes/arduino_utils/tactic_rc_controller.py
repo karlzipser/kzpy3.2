@@ -23,7 +23,7 @@ def _TACTIC_RC_controller_run_loop(P):
     flush_seconds = 0.25
     flush_timer = Timer(flush_seconds)
     frequency_timer = Timer(1)
-    print_timer = Timer(0.25)
+    print_timer = Timer(1)
     in_this_mode_timer = Timer()
     ctr_timer = Timer()
     while P['ABORT'] == False:
@@ -91,7 +91,7 @@ def _TACTIC_RC_controller_run_loop(P):
                                 in_this_mode = True
                                 in_this_mode_timer.reset()
                             q = 1/(1.0+5*in_this_mode_timer.time())
-                            print_timer.message(d2s(q,dp(in_this_mode_timer.time(),2)))
+                            #print_timer.message(d2s(q,dp(in_this_mode_timer.time(),2)))
                             _servo_pwm = (1-q)*P['servo_pwm_smooth'] + q*_servo_pwm
                         else:
                             in_this_mode = False

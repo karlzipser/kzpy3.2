@@ -1,6 +1,7 @@
 from kzpy3.utils2 import *
 exec(identify_file_str)
-spd2s('Using SqueezeNet !!!!!!!!!!!!!!!!!!')
+spd2s('Using SqueezeNet_ under car_16July2018_stable!!!!!!!!!!!!!!!!!!')
+#time.sleep(3)
 import math
 import torch
 import torch.nn as nn
@@ -75,6 +76,8 @@ class SqueezeNet(nn.Module):
                     init.kaiming_uniform(m.weight.data)
                 if m.bias is not None:
                     m.bias.data.zero_()
+
+
 
 
     def forward(self, x, metadata):

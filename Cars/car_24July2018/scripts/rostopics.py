@@ -10,7 +10,7 @@ Rostopics_subscribe = [
     (BC+'steer',Int),
     (BC+'motor',Int),
     (BC+'cmd/steer',Int),
-    (BC+'cmd/motor',Int), 
+    (BC+'cmd/motor',Int),
     (BC+'human_agent',Int),
     (BC+'behavioral_mode',Str),
     (BC+'place_choice',Str),
