@@ -207,7 +207,7 @@ def make_flip_images(h5py_folder=None):
 		return None
 	O = h5r(opj(h5py_folder_,'original_timestamp_data.h5py'))
 	F = h5w(f_)
-	for topic_ in [''left_image'',''right_image'']:
+	for topic_ in ['left_image','right_image']:
 		flip_topic_ = topic_+'_flip'
 		pd2s('\t',topic_,'to',flip_topic_)
 		flip_images_ = []
