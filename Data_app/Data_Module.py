@@ -33,8 +33,8 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 	for v in all_topics_:
 		bair_all_topics_.append('/bair_car/'+v)
 	Rename = {}
-	Rename['zed/left/image_rect_color'] = ''left_image''
-	Rename['zed/right/image_rect_color'] = ''right_image''
+	Rename['zed/left/image_rect_color'] = 'left_image'
+	Rename['zed/right/image_rect_color'] = 'right_image'
 	Rename['cmd/heading_pause'] = 'heading_pause'
 	Rename['cmd/car_in_range'] = 'car_in_range'
 	Rename['cmd/motor'] = 'cmd_motor'
