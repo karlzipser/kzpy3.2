@@ -121,7 +121,7 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 		Group.create_dataset('ts',data=D[topic_]['ts'])
 		Group.create_dataset('vals',data=D[topic_]['vals'])
 	F.close()
-	P['USE_ARUCO']:
+	if P['USE_ARUCO']:
 		so(opj(h5py_pathv,run_namev,'aruco_data.pkl'),DA)
 	return(D)
 
@@ -223,35 +223,34 @@ def make_flip_images(h5py_folder=None):
 
 if P['USE_ARUCO']:
 	import kzpy3.misc.data_analysis.Angle_Dict_Creator as Angle_Dict_Creator
+	def _get_aruco_data(img=None):
+		Q = {}
+		if True:#try:
+			mm = {}
+			angles_to_center_more = {}
+			angles_surfaces_more = {}
+			distances_marker_more = {}
+			for r in range(2):
+				angles_to_center, angles_surfaces, distances_marker, markers = Angle_Dict_Creator.get_angles_and_distance(img,borderColor=None)
+				for k in angles_to_center.keys():
+					if k not in angles_to_center_more.keys():
+						angles_to_center_more[k] = []
+						angles_surfaces_more[k] = []
+						distances_marker_more[k] = []
+					angles_to_center_more[k].append(angles_to_center[k])
+					angles_surfaces_more[k].append(angles_surfaces[k])
+					distances_marker_more[k].append(distances_marker[k])
+			for k in angles_to_center_more.keys():
+				angles_to_center[k] = na(angles_to_center_more[k]).mean()
+				angles_surfaces[k] = na(angles_surfaces_more[k]).mean() #!!!
+				distances_marker[k] = na(distances_marker_more[k]).mean() #!!!
 
-def _get_aruco_data(img=None):
-	Q = {}
-	if True:#try:
-		mm = {}
-		angles_to_center_more = {}
-		angles_surfaces_more = {}
-		distances_marker_more = {}
-		for r in range(2):
-			angles_to_center, angles_surfaces, distances_marker, markers = Angle_Dict_Creator.get_angles_and_distance(img,borderColor=None)
-			for k in angles_to_center.keys():
-				if k not in angles_to_center_more.keys():
-					angles_to_center_more[k] = []
-					angles_surfaces_more[k] = []
-					distances_marker_more[k] = []
-				angles_to_center_more[k].append(angles_to_center[k])
-				angles_surfaces_more[k].append(angles_surfaces[k])
-				distances_marker_more[k].append(distances_marker[k])
-		for k in angles_to_center_more.keys():
-			angles_to_center[k] = na(angles_to_center_more[k]).mean()
-			angles_surfaces[k] = na(angles_surfaces_more[k]).mean() #!!!
-			distances_marker[k] = na(distances_marker_more[k]).mean() #!!!
-
-		Q = {'angles_to_center':angles_to_center,'angles_surfaces':angles_surfaces,'distances_marker':distances_marker}
-	else:#except Exception as e:
-		print("********** Exception 123 ***********************")
-		print(e.message, e.args)
-		#timer.message(d2s(i,'views =',views,int(100*i/(1.0*n)),'%'),color='white')
-	return Q
+			Q = {'angles_to_center':angles_to_center,'angles_surfaces':angles_surfaces,'distances_marker':distances_marker}
+		else:#except Exception as e:
+			print("********** Exception 123 ***********************")
+			print(e.message, e.args)
+			#timer.message(d2s(i,'views =',views,int(100*i/(1.0*n)),'%'),color='white')
+		return Q
 
 
 

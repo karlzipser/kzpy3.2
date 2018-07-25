@@ -85,6 +85,6 @@ nmcli radio wifi on
 (right,-7,green)
 (right,-8,green)
 
-
+-if a net gets trajectory predictions plus velocity estimate, it can choose which output point to use.
 
 """
