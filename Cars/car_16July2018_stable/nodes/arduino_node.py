@@ -97,7 +97,8 @@ if Parameters['USE_ROS']:
                 behavioral_mode_choice = 'left'
             elif P['button_number'] == 3:
                 behavioral_mode_choice = 'right'
-            else behavioral_mode_choice = P['behavioral_mode_choice']
+            else:
+                behavioral_mode_choice = P['behavioral_mode_choice']
             P['behavioral_mode_pub'].publish(d2s(behavioral_mode_choice))
             P['place_choice_pub'].publish(d2s(P['place_choice']))
             P['human_agent_pub'].publish(std_msgs.msg.Int32(human_val))
