@@ -1,7 +1,8 @@
 from Parameters_Module import *
 from vis2 import *
 import Graph_Image_Module
-import kzpy3.data_analysis.Angle_Dict_Creator as Angle_Dict_Creator
+if P['USE_ROS']:
+	import kzpy3.misc.aruco_data_analysis.Angle_Dict_Creator as Angle_Dict_Creator
 exec(identify_file_str)
 
 _ = dictionary_access
@@ -188,7 +189,7 @@ def Display_Graph(*args):
 			camera_img_ =  D[topics][left_image][vals][-1].copy()
 			cx_ = (P[Y_PIXEL_SIZE]-P[CAMERA_SCALE]*shape(camera_img_)[0])
 			cy_ = (P[X_PIXEL_SIZE]-P[CAMERA_SCALE]*shape(camera_img_)[1])
-			if False:
+			if P['USE_ROS']:
 				angles_to_center, angles_surfaces, distances_marker, markers = Angle_Dict_Creator.get_angles_and_distance(camera_img_)
 				for i_ in rlen(markers):
 					

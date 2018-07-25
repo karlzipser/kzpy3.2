@@ -68,5 +68,23 @@ nmcli radio wifi on
 -consider not bringing images together until after some procesing
 -find LCR data
 -net with color vs motion for two camerass in initial layers
+-set up arena?
+-figure out why raised arena always yields heading pause.
+-back up training data
+
+(left,-1,red)
+(left,-1,green)
+(left,-1,blue)
+(left,-2,green)
+(right,-1,green)
+(right,-2,green)
+(right,-3,green)
+(right,-4,green)
+(right,-5,green)
+(right,-6,green)
+(right,-7,green)
+(right,-8,green)
+
+
 
 """

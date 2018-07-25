@@ -13,7 +13,7 @@ python kzpy3/Data_app/Main.py SRC '/media/karlzipser/rosbags/Mr_Yellow_29July201
 
 				To convert from pkl representation of data, e.g.:
 
-				python kzpy3/Data_app/Main.py 'DATA_SRC' '/media/karlzipser/ExtraDrive2/bdd_car_data_July2017_regular'  DST '/media/karlzipser/ExtraDrive2/bdd_car_data_July2017_regular/h5py'
+				python kzpy3/Data_app/Main.py DATA_SRC '/media/karlzipser/ExtraDrive2/bdd_car_data_July2017_regular'  DST '/media/karlzipser/ExtraDrive2/bdd_car_data_July2017_regular/h5py'
 
 To change rosbags disk permissions: sudo chmod -R 777 /media/karlzipser/rosbags/
 
@@ -29,9 +29,9 @@ for a in Args.keys():
 
 print(Args)
 
-if 'SRC' in Args and 'DST' in Args:
-	bag_folders_src_ = Args['SRC']
-	h5py_dst = Args['DST']
+if SRC in Args and DST in Args:
+	bag_folders_src_ = Args[SRC]
+	h5py_dst = Args[DST]
 	assert_disk_locations(bag_folders_src_)
 	runs = sgg(opj(bag_folders_src_,'*'))
 	#print(bag_folders_src_)
@@ -76,6 +76,8 @@ if 'SRC' in Args and 'DST' in Args:
 			continue
 		try:
 			Data_Module.Original_Timestamp_Data(bag_folder_path=r, h5py_path=h5py_dst)
+			#if P['ARUCO'] == 'True':
+			#	spd2s('aruco!')
 			Data_Module.make_flip_images(h5py_folder=opj(h5py_dst,fname(r)))
 			Data_Module.Left_Timestamp_Metadata(run_name=fname(r), h5py_path=h5py_dst)
 		except Exception as e:
@@ -87,8 +89,26 @@ if 'SRC' in Args and 'DST' in Args:
 			os.rename(bag_folders_src_,opj(pname(bag_folders_src_),'processed_'+time_str()))
 
 
-elif 'DATA_SRC' in Args and 'DST' in Args:
-	spd2s('This functionality removed, see original Data_app.')
+elif DATA_SRC in Args and DST in Args:
+	data_src_ = Args[DATA_SRC]
+	h5py_dst_ = Args[DST]
+	True
+
+	runs = sggo(data_src_,'meta','*')
+	print(data_src_)
+	assert(len(runs) > 0)
+	for r in runs:
+		try:
+			Data_Module.Original_Timestamp_Data_from_preprocessed_data_pkl(
+				preprocessed_datafile_path,opj(r,'preprocessed_data.pkl'),
+				h5py_path,h5py_dst_,
+				rgb_1to4_path,opj(data_src_,'rgb_1to4',fname(r)))
+			Data_Module.Left_Timestamp_Metadata(run_name,fname(r), h5py_path,h5py_dst_)
+		except Exception as e:
+			print("********** elif DATA_SRC in Args and DST in Args: Exception ***********************")
+			print(e.message, e.args)	
+
+
 
 
 #EOF

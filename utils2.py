@@ -57,7 +57,7 @@ for im in import_list + import_from_list + import_as_list:
 				print('Failed to import '+im[1]+' as '+im[2])           
 
 #print("*** Note, kzpy3/teg2/bashrc now does: 'export PYTHONSTARTUP=~/kzpy3/vis2.py' ***")
-
+exit
 
 ####################################
 # exception format:

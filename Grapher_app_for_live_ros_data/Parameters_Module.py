@@ -5,7 +5,7 @@ exec(identify_file_str)
 _ = dictionary_access
 
 P = {}
-
+P['USE_ROS'] = False
 _(P,VERBOSE,equals,True)
 P[DATASET_PATHS] = [ '/media/karlzipser/rosbags/bair_car_2017-10-04-14-09-42_0.bag' ]
 #P[DATASET_PATHS] = [ opjm('rosbags/Mr_Lt_Blue_16_50_29Aug2017/processed2/Mr_Lt_Blue_16_50_29Aug2017')]

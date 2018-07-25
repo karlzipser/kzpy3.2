@@ -1,3 +1,6 @@
+spd2s("Are you sure you want to use All_Names_Module.py ?")
+raw_enter()
+
 use_wordsv = """
 
 XMIN XMAX YMIN YMAX DATA_TYPE XSIZE YSIZE IMG XSCALE YSCALE FLOATS_TO_PIXELS PIXEL_TO_FLOAT PTS_PLOT

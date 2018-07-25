@@ -74,9 +74,8 @@ export PATH=~/kzpy3/scripts:$PATH
 export PATH=~/kzpy3/scratch:$PATH
 export PATH=~/kzpy3/misc:$PATH
 
-alias Grapher='python ~/kzpy3/Grapher_app/Main.py'
-alias Grapher3='python ~/kzpy3/Grapher_app_3rd_pass/Main.py'
-alias Car_Data='python ~/kzpy3/Car_Data_app/Main.py'
+alias Grapher='python ~/kzpy3/Grapher_app_for_preprocessed_data/Main.py'
+alias Grapher_live='python ~/kzpy3/Grapher_app_for_live_ros_data/Main.py'
 alias Train='python ~/kzpy3/Train_app/Main.py'
 alias Localization='python ~/kzpy3/Localization_app/Main.py'
 
