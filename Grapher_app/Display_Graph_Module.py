@@ -188,27 +188,25 @@ def Display_Graph(*args):
 			camera_img_ =  D[topics][left_image][vals][-1].copy()
 			cx_ = (P[Y_PIXEL_SIZE]-P[CAMERA_SCALE]*shape(camera_img_)[0])
 			cy_ = (P[X_PIXEL_SIZE]-P[CAMERA_SCALE]*shape(camera_img_)[1])
-			if False: #disable Aruco
+			if False:
 				angles_to_center, angles_surfaces, distances_marker, markers = Angle_Dict_Creator.get_angles_and_distance(camera_img_)
-			for i_ in rlen(markers):
-				
-				xy_ = markers[i_].corners_xy[0].mean(axis=0)
-				#xy_ += np.array([cy_-10,cx_-10])
-				
-				xy_=tuple(xy_.astype(np.int))
-				
-				if P[SHOW_MARKER_ID]:
-					num_ = markers[i_].marker_id
-				else:
-					num_ = 0
-					if False: #disable Aruco
+				for i_ in rlen(markers):
+					
+					xy_ = markers[i_].corners_xy[0].mean(axis=0)
+					#xy_ += np.array([cy_-10,cx_-10])
+					
+					xy_=tuple(xy_.astype(np.int))
+					
+					if P[SHOW_MARKER_ID]:
+						num_ = markers[i_].marker_id
+					else:
 						num_ = int(np.degrees(angles_to_center[markers[i_].marker_id])/2)
-				cv2.putText(
-					camera_img_,
-					d2n(markers[i_].marker_id),#num_),
-					xy_,
-					cv2.FONT_HERSHEY_SIMPLEX,
-					0.5,(0,255,0),1) 
+					cv2.putText(
+						camera_img_,
+						d2n(markers[i_].marker_id),#num_),
+						xy_,
+						cv2.FONT_HERSHEY_SIMPLEX,
+						0.5,(0,255,0),1) 
 			#print(dp(np.array(angles_to_center),1))
 			#D[insert_camera_image](camera,D[topics][left_image][vals], img_index,-1)#D[timestamp_to_left_image][ts_from_pixel_])
 			D[base_graph][img][cx_-10:-10,cy_-10:-10,:] = camera_img_
