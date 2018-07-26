@@ -73,8 +73,8 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 			timestampv = round(m_[2].to_time(),3) # millisecond resolution
 			assert(is_number(timestampv))
 			topic_ = m_[0].replace('/bair_car/','')
-			if topic_ in string_topics:
-				print m_[0],m_[1]
+			#if topic_ in string_topics:
+			#	print m_[0],m_[1]
 			if 'zed' in m_[0]:
 				valv = bridge.imgmsg_to_cv2(m_[1],"rgb8")
 				if P['USE_ARUCO']:
@@ -82,9 +82,9 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 					valv = cv2.resize(valv, (0,0), fx=0.25, fy=0.25)
 					DA[Rename[topic_]+'_aruco']['ts'].append(timestampv) 			
 					DA[Rename[topic_]+'_aruco']['vals'].append(ad)
-			#elif m_[0] in string_topics:
-			#	valv = m_[1].data
-			#	print valv
+			elif topic_ in string_topics:
+				valv = P['string_to_num_dic'][topic_][m_[1].data]
+				print topic_,m_[1].data,valv
 			elif hasattr(m_[1], 'data'):
 				if is_number(m_[1].data):
 					valv = m_[1].data
