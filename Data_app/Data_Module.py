@@ -73,7 +73,7 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 			timestampv = round(m_[2].to_time(),3) # millisecond resolution
 			assert(is_number(timestampv))
 			topic_ = m_[0].replace('/bair_car/','')
-			print m_[0],m[1]
+			print m_[0],m_[1]
 			if 'zed' in m_[0]:
 				valv = bridge.imgmsg_to_cv2(m_[1],"rgb8")
 				if P['USE_ARUCO']:
