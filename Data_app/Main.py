@@ -82,7 +82,7 @@ if 'SRC' in Args and 'DST' in Args:
 			print("**********for r in runs: Exception ***********************")
 			print(e.message, e.args)
 			success = False
-	if success:
+	if False:#success:
 		if fname(bag_folders_src_) == 'new':
 			os.rename(bag_folders_src_,opj(pname(bag_folders_src_),'processed_'+time_str()))
 
