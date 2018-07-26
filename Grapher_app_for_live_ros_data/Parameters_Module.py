@@ -1,5 +1,5 @@
 from Paths_Module import *
-from All_Names_Module import *
+from misc.All_Names_Module import *
 exec(identify_file_str)
 
 _ = dictionary_access

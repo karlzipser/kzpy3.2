@@ -1,5 +1,7 @@
+from kzpy3.utils2 import *
+
 spd2s("Are you sure you want to use All_Names_Module.py ?")
-raw_enter()
+#raw_enter()
 
 use_wordsv = """
 

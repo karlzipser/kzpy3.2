@@ -69,7 +69,7 @@ show_menu_ = True
 first_time_ = True
 
 while True:
-	try:
+	if True:#try:
 		run_name_ = P[ICONS][P[CURRENT_ICON_NAME]][name]
 		l_ = opj(P[ICONS][P[CURRENT_ICON_NAME]][path],'left_timestamp_metadata_right_ts.h5py')
 		if len(sgg(l_)) == 0:
@@ -163,7 +163,7 @@ while True:
 					(P[MOUSE_X],0),
 					(P[MOUSE_X],int(P[Y_PIXEL_SIZE]/2)),
 					(255,0,0))
-
+			
 			time_from_pixel_ = I[topic_][pixel_to_float](xint,ref_xv, yint,0)[0]
 			ts_from_pixel_ = find_nearest(ts_,time_from_pixel_)
 			cv2.putText(
@@ -279,7 +279,7 @@ while True:
 			if clicked_:
 				clicked_ = False
 				break
-	except Exception as e:
+	else:#except Exception as e:
 		print("********** loop Exception ***********************")
 		print(e.message, e.args)
 		print('run name = '+run_name_)

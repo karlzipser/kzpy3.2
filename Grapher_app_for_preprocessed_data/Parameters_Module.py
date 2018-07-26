@@ -1,5 +1,5 @@
 from Paths_Module import *
-from All_Names_Module import *
+from misc.All_Names_Module import *
 exec(identify_file_str)
 
 _ = dictionary_access
@@ -34,7 +34,9 @@ P[TOPICS] = {
 	car_in_range:{maxval:1,minval:0,	baseline:0,		color:(255,0,0)},
 	aruco_position_x:{maxval:-4,minval:4,	baseline:0,		color:(0,0,255)},
 	aruco_position_y:{maxval:-4,minval:4,	baseline:0,		color:(0,100,155)},
-	#other_car_position_x:{maxval:-4,minval:4,	baseline:0,		color:(0,255,100)},
+	'behavioral_mode':{maxval:6,minval:0,	baseline:0,		color:(0,255,0)},
+	'drive_mode':{maxval:1,minval:0,	baseline:0,		color:(255,0,0)},
+	'human_agent':{maxval:1,minval:6,	baseline:0,		color:(0,0,255)},
 	#other_car_position_y:{maxval:-4,minval:4,	baseline:0,		color:(0,255,100)},
 	
 }

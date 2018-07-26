@@ -77,9 +77,9 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 			#	print m_[0],m_[1]
 			if 'zed' in m_[0]:
 				valv = bridge.imgmsg_to_cv2(m_[1],"rgb8")
+				valv = cv2.resize(valv, (0,0), fx=0.25, fy=0.25)
 				if P['USE_ARUCO']:
 					ad = _get_aruco_data(valv)
-					valv = cv2.resize(valv, (0,0), fx=0.25, fy=0.25)
 					DA[Rename[topic_]+'_aruco']['ts'].append(timestampv) 			
 					DA[Rename[topic_]+'_aruco']['vals'].append(ad)
 			elif topic_ in string_topics:
@@ -122,7 +122,7 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 	F = h5w(file_path)
 	pd2s('Topics:')
 	for topic_ in D.keys():
-		print topic_
+		#print topic_
 		pd2s('\t',topic_,len(D[topic_]['ts']))
 		Group = F.create_group(topic_)
 		Group.create_dataset('ts',data=D[topic_]['ts'])
@@ -200,7 +200,7 @@ def Left_Timestamp_Metadata(run_name=None,h5py_path=None):
 	left_ts_deltasv = 0.0 * L['ts'][:]
 	for iv in range(1,len(L['ts'][:])):
 		left_ts_deltasv[iv] = L['ts'][iv] - L['ts'][iv-1]
-	L.create_dataset(left_ts_deltas,data=left_ts_deltasv)
+	L.create_dataset('left_ts_deltas',data=left_ts_deltasv)
 	L.close()
 
 

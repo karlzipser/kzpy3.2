@@ -43,11 +43,10 @@ if 'SRC' in Args and 'DST' in Args:
 
 	
 	preexisting_processed_runs = []
-	""" 
-	!!!!!!!!! TEMP
+
 	for p in sggo(h5py_dst,'*'):
 		preexisting_processed_runs.append(fname(p))
-	"""
+	
 	for r in runs:
 		if fname(r) in preexisting_processed_runs:
 			pd2s(fname(r),'already processed.')
@@ -85,7 +84,7 @@ if 'SRC' in Args and 'DST' in Args:
 			print("**********for r in runs: Exception ***********************")
 			print(e.message, e.args)
 			success = False
-	if False:#success:
+	if success:
 		if fname(bag_folders_src_) == 'new':
 			os.rename(bag_folders_src_,opj(pname(bag_folders_src_),'processed_'+time_str()))
 

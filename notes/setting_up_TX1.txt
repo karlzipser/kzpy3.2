@@ -334,3 +334,10 @@ On kzpy3 master, chmod a+x teg2/bdd_car_versions/bdd_car_rewrite_SD1/bair_car/no
 
 
 https://www.stereolabs.com/developers/calib/?SN=${serial_number
+
+
+
+
+
+Zed output = (376, 672, 3)
+network input = (94, 168, 3)
