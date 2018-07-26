@@ -86,5 +86,8 @@ nmcli radio wifi on
 (right,-8,green)
 
 -if a net gets trajectory predictions plus velocity estimate, it can choose which output point to use.
-
+-not that authorized_keys has moved, fix this on cars.
+-figure out how to backup data, how to preprocess LCR and new left-center-right
+-label new data folders
+-have a 'stop' behavioral mode controlled by transmitter to get non-aruco heading pause data
 """

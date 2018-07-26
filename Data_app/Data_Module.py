@@ -77,8 +77,8 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 				if P['USE_ARUCO']:
 					ad = _get_aruco_data(valv)
 					valv = cv2.resize(valv, (0,0), fx=0.25, fy=0.25)
-					DA[Rename[topic_]+'_aruco'][ts].append(timestampv) 			
-					DA[Rename[topic_]+'_aruco'][vals].append(ad)
+					DA[Rename[topic_]+'_aruco']['ts'].append(timestampv) 			
+					DA[Rename[topic_]+'_aruco']['vals'].append(ad)
 			elif hasattr(m_[1], 'data'):
 				if is_number(m_[1].data):
 					valv = m_[1].data
@@ -105,7 +105,7 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 			if shape(D[k_]['vals'])[1] == 3:
 				D[k_]['vals'] = np.array(D[k_]['vals'])
 				ctr_ = 0
-				for q_ in [x,y,z]:
+				for q_ in ['x','y','z']:
 					new_key_ = k_+'_'+q_
 					D[new_key_] = {}
 					D[new_key_]['ts'] = D[k_]['ts']
@@ -140,7 +140,7 @@ def _assign_right_image_timestamps2(F):
 			else:
 				v = k[i+1]
 			interp_dic[j/1000.] = v
-	lv = F['left_image'][ts][:]
+	lv = F['left_image']['ts'][:]
 	rv = []
 	for iv in rlen(lv):
 		#print iv
