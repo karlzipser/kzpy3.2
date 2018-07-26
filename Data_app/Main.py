@@ -41,10 +41,11 @@ if 'SRC' in Args and 'DST' in Args:
 	cprint('Preliminary check of '+bag_folders_src_)
 	cprint("	checking bag file sizes and run durations")
 
+	"""
 	preexisting_processed_runs = []
 	for p in sggo(h5py_dst,'*'):
 		preexisting_processed_runs.append(fname(p))
-
+	"""
 	for r in runs:
 		if fname(r) in preexisting_processed_runs:
 			pd2s(fname(r),'already processed.')

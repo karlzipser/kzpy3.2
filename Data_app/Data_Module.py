@@ -190,9 +190,9 @@ def Left_Timestamp_Metadata(run_name=None,h5py_path=None):
 			if len(F[k_]['ts']) > 0:
 				print('\tprocessing '+k_)
 				L.create_dataset(k_,data=np.interp(L['ts'][:],F[k_]['ts'][:],F[k_]['vals'][:]))
-				if k_ in P[MEO_PARAMS]:
+				if k_ in P['MEO_PARAMS']:
 					L.create_dataset(k_+'_meo',  
-						data=np.interp(L['ts'][:],F[k_]['ts'][:],meo(F[k_]['vals'][:],P[MEO_PARAMS][k_])))
+						data=np.interp(L['ts'][:],F[k_]['ts'][:],meo(F[k_]['vals'][:],P['MEO_PARAMS'][k_])))
 	if 'state' in L:
 		if len(L['state']) > 0:
 			L[state][:]=L[state][:].astype(int)
