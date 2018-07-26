@@ -74,11 +74,11 @@ if 'SRC' in Args and 'DST' in Args:
 		if fname(r) in preexisting_processed_runs:
 			pd2s(fname(r),'already processed, skipping this run.')
 			continue
-		try:
+		if True:#try:
 			Data_Module.Original_Timestamp_Data(bag_folder_path=r, h5py_path=h5py_dst)
 			Data_Module.make_flip_images(h5py_folder=opj(h5py_dst,fname(r)))
 			Data_Module.Left_Timestamp_Metadata(run_name=fname(r), h5py_path=h5py_dst)
-		except Exception as e:
+		else:#except Exception as e:
 			print("**********for r in runs: Exception ***********************")
 			print(e.message, e.args)
 			success = False
