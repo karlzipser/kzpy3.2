@@ -28,7 +28,8 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 	image_topicsv = ['zed/left/image_rect_color','zed/right/image_rect_color']
 	single_value_topicsv = P['SINGLE_VALUE_TOPICS']
 	vector3_topicsv = P['VECTOR3_TOPICS']
-	all_topics_ = image_topicsv + single_value_topicsv + vector3_topicsv
+	string_topics = P['STRING_TOPICS']
+	all_topics_ = image_topicsv + single_value_topicsv + vector3_topicsv + string_topics
 	bair_all_topics_ = []
 	for v in all_topics_:
 		bair_all_topics_.append('/bair_car/'+v)
@@ -79,6 +80,9 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 					valv = cv2.resize(valv, (0,0), fx=0.25, fy=0.25)
 					DA[Rename[topic_]+'_aruco']['ts'].append(timestampv) 			
 					DA[Rename[topic_]+'_aruco']['vals'].append(ad)
+			elif m_[0] in string_topics:
+				valv = m_[1].data
+				print valv
 			elif hasattr(m_[1], 'data'):
 				if is_number(m_[1].data):
 					valv = m_[1].data
@@ -176,7 +180,7 @@ def Left_Timestamp_Metadata(run_name=None,h5py_path=None):
 
 	right_tsv = _assign_right_image_timestamps2(F)
 
-	L.create_dataset(right_ts,data=np.array(right_tsv))
+	L.create_dataset('right_ts',data=np.array(right_tsv))
 
 	for k_ in sorted(F.keys()):
 		if k_ != 'left_image' and k_ != 'right_image':
