@@ -7,7 +7,7 @@ def identify_bagfiles(volume_name=''):
 	    for filename in [f for f in filenames if f.endswith(".bag")]:
 	    	if not (filename in Bagfiles):
 	    		Bagfiles[filename] = []
-	    	new_dirpath = dirpath.relpace(opjm(volume_name),'')
+	    	new_dirpath = dirpath.replace(opjm(volume_name),'')
 	    	Bagfiles[filename].append(opj(new_dirpath,filename))
 	    	print Bagfiles[filename][-1]
 	return Bagfiles
