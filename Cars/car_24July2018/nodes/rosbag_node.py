@@ -56,8 +56,9 @@ if __name__ == '__main__':
                 start = time.time()
                 subprocess.call(['mv', f_rec, f_mv])
                 elapsed = time.time() - start
-                unix('rm '+opj(bag_rec_folder,'*.bag')) # 27 Nov 2016, to remove untransferred bags
-                print('Done in {0} secs\n'.format(elapsed))
+                if len(sggo(bag_rec_folder,'*.bag')) > 0:
+                    unix('rm '+opj(bag_rec_folder,'*.bag')) # 27 Nov 2016, to remove untransferred bags
+                #print('Done in {0} secs\n'.format(elapsed))
                 save_pub.publish(std_msgs.msg.Int32(0))
                 
             rate.sleep()

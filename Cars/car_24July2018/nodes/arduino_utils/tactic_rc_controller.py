@@ -100,7 +100,7 @@ def _TACTIC_RC_controller_run_loop(P):
                         write_str = d2n( '(', int(_servo_pwm), ',', int(_motor_pwm+10000), ')')
                     else:
                         in_this_mode = False
-                        print_timer.message('Waiting before giving network control...') ############
+                        #print_timer.message('Waiting before giving network control...') ############
                         write_str = d2n( '(',49,',',49+10000,')')
                 if P['button_number'] != 4:
                     if P['calibrated']:
