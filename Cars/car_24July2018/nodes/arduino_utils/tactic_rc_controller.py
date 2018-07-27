@@ -25,7 +25,7 @@ def _TACTIC_RC_controller_run_loop(P):
     frequency_timer = Timer(1)
     print_timer = Timer(1)
     in_this_mode_timer = Timer()
-    very_low_freq_timer = Timer(1)
+    very_low_freq_timer = Timer(30)
     ctr_timer = Timer()
     while P['ABORT'] == False:
         if 'Brief sleep to allow other threads to process...':
@@ -121,7 +121,7 @@ def _TACTIC_RC_controller_run_loop(P):
                 pd2s('servo:',P['servo_pwm_min'],P['servo_pwm_null'],P['servo_pwm_max'],'motor:',P['motor_pwm_min'],P['motor_pwm_null'],P['motor_pwm_max'])
 
         except Exception as e:
-            print '_TACTIC_RC_controller_run_loop',e #######
+            #print '_TACTIC_RC_controller_run_loop',e #######
             pass            
     print 'end _TACTIC_RC_controller_run_loop.'
 
