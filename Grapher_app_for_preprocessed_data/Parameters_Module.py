@@ -55,7 +55,7 @@ P[ICONS] = []
 P[MAX_ICONS_PER_ROW] = 14
 P[CV2_KEY_COMMANDS] = {
 	'p':("P[START_TIME] -= P[REAL_TIME_DTV]; P[END_TIME] -= P[REAL_TIME_DTV]",
-		"Time step forward,real time"),
+		"Time step forward, 2xreal time"),
 	'm':("P[START_TIME] -= P[REAL_TIME_DTV]/2.0; P[END_TIME] -= P[REAL_TIME_DTV]/2.0",
 		"Time step forward,real time"),
 	'l':("P[START_TIME] -= dt_; P[END_TIME] -= dt_",
@@ -63,7 +63,7 @@ P[CV2_KEY_COMMANDS] = {
 	'h':("P[START_TIME] += dt_; P[END_TIME] += dt_",
 		"Time step back"),
 	'u':("P[START_TIME] += P[REAL_TIME_DTV]; P[END_TIME] += P[REAL_TIME_DTV]",
-		"Time step back, real time"),
+		"Time step back, 2xreal time"),
 	'v':("P[START_TIME] += P[REAL_TIME_DTV]/2.0; P[END_TIME] += P[REAL_TIME_DTV]/2.0",
 		"Time step back, real time"),
 	'j':("P[START_TIME] += 100.0*dt_; P[END_TIME] -= 100.0*dt_",
