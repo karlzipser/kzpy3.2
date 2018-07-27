@@ -9,7 +9,7 @@ def identify_bagfiles(volume=''):
 	    		Bags[filename] = []
 	    	new_dirpath = dirpath.replace(opjm(volume),'')
 	    	Bags[filename].append(opj(new_dirpath,filename))
-	    	print Bags[filename][-1]
+	    	#print Bags[filename][-1]
 	Bagfiles = {'bags':Bags,'volume':volume}
 	return Bagfiles
 
@@ -17,13 +17,17 @@ B1 = identify_bagfiles(volume='model_car_data_A1')
 B2 = identify_bagfiles(volume='model_car_data_A2')
 
 Bags = {}
+ctr = 0
 for B in [B1,B2]:
 	for k in B.keys():
 		if not (k in Bags):
 			Bags[k] = 0
 		Bags[k] += 1
+		ctr += 1
 
 for k in Bags.keys():
 	if Bags[k] < 2:
-		print k
+		pd2s(k,'!!!')
+
+print ctr
 
