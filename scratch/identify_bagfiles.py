@@ -19,9 +19,9 @@ B2 = identify_bagfiles(volume='model_car_data_A2')
 Bags = {}
 for B in [B1,B2]:
 	for k in B.keys():
-    	if not (k in Bags):
-    		Bags[k] = 0
-    	Bags[k] += 1
+		if not (k in Bags):
+			Bags[k] = 0
+		Bags[k] += 1
 
 for k in Bags.keys():
 	if Bags[k] < 2:
