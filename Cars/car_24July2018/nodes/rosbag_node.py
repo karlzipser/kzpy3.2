@@ -49,7 +49,7 @@ if __name__ == '__main__':
                 if '.bag' != os.path.splitext(f)[1]:
                     continue
                 save_pub.publish(std_msgs.msg.Int32(1) )
-                print('Moving {0}'.format(f))
+                #print('Moving {0}'.format(f))
                 f_rec = os.path.join(bag_rec_folder, f)
                 f_mv = os.path.join(bag_mv_folder, f)
                 # shutil.copy(f_rec, f_mv)

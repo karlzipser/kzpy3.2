@@ -117,10 +117,10 @@ if Parameters['USE_ROS']:
 
             P['servo_pwm_min_pub'].publish(std_msgs.msg.Int32(P['servo_pwm_min']))
             P['servo_pwm_max_pub'].publish(std_msgs.msg.Int32(P['servo_pwm_max']))
-            P['servo_pwm_null_pub'].publish(std_msgs.msg.Int32(P['servo_pwm_null']))
+            P['servo_pwm_null_pub'].publish(std_msgs.msg.Int32(int(P['servo_pwm_null'])))
             P['motor_pwm_min_pub'].publish(std_msgs.msg.Int32(P['motor_pwm_min']))
             P['motor_pwm_max_pub'].publish(std_msgs.msg.Int32(P['motor_pwm_max']))
-            P['motor_pwm_null_pub'].publish(std_msgs.msg.Int32(P['motor_pwm_null']))
+            P['motor_pwm_null_pub'].publish(std_msgs.msg.Int32(int(P['motor_pwm_null'])))
 
             MSE_low_frequency_pub_timer.reset()
 
