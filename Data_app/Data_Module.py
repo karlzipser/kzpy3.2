@@ -83,8 +83,9 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 					DA[Rename[topic_]+'_aruco']['ts'].append(timestampv) 			
 					DA[Rename[topic_]+'_aruco']['vals'].append(ad)
 			elif topic_ in string_topics:
+				#print topic_,type(m_[1].data),m_[1].data
 				valv = P['string_to_num_dic'][topic_][m_[1].data]
-				print topic_,m_[1].data,valv
+				#print valv
 			elif hasattr(m_[1], 'data'):
 				if is_number(m_[1].data):
 					valv = m_[1].data

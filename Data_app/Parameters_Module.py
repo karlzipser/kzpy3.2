@@ -15,7 +15,7 @@ P['VECTOR3_TOPICS'] = ['acc','gyro','gps','gyro_heading','other_car_position']
 
 P['STRING_TOPICS'] = ['behavioral_mode','place_choice']
 
-P['string_to_num_dic'] = {'behavioral_mode':{'direct':1,'follow':2,'furtive':3,'play':4,'left':5,'right':6},'place_choice':{'local':1,'home':2,'Tilden':3,'campus':4,'arena':5,'other':6}}
+P['string_to_num_dic'] = {'behavioral_mode':{'False':0,'direct':2,'follow':4,'furtive':5,'play':6,'left':3,'right':1},'place_choice':{'False':0,'local':1,'home':2,'Tilden':3,'campus':4,'arena':5,'other':6}}
 
 P['MEO_PARAMS'] = {'acc_x':50,'acc_y':50,'acc_z':50,'gyro_x':50,'gyro_y':50,'gyro_z':50,'gyro_heading_x':50,'gyro_heading_y':50,'gyro_heading_z':50,'encoder':200}
 
