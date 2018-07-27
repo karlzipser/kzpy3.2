@@ -64,6 +64,7 @@ alias srz='screen -r SZ'
 #
 alias gacp="git add .;git commit -m 'gacp';git push origin master"
 alias pgacp='cd ~/kzpy3; git pull; gacp; cd'
+alias pgp='cd ~/kzpy3; git pull; cd'
 git config --global credential.helper "cache --timeout=86400"
 alias ipy="ipython --no-banner"
 
