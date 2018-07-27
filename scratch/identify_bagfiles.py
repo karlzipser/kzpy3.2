@@ -13,8 +13,8 @@ def identify_bagfiles(volume=''):
 	Bagfiles = {'bags':Bags,'volume':volume}
 	return Bagfiles
 
-B1 = identify_bagfiles(volume='model_car_data_A1')
-B2 = identify_bagfiles(volume='model_car_data_A2')
+B1 = identify_bagfiles(volume='model_car_data_A1')['bags']
+B2 = identify_bagfiles(volume='model_car_data_A2')['bags']
 
 Bags = {}
 ctr = 0
