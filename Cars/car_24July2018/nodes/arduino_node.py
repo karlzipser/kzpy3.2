@@ -61,6 +61,13 @@ if Parameters['USE_ROS']:
     P['gyro_heading_pub'] = rospy.Publisher('gyro_heading', geometry_msgs.msg.Vector3, queue_size=100)
     P['acc_pub'] = rospy.Publisher('acc', geometry_msgs.msg.Vector3, queue_size=100)
 
+    P['servo_pwm_min_pub'] = rospy.Publisher('servo_pwm_min', std_msgs.msg.Int32, queue_size=5) 
+    P['servo_pwm_max_pub'] = rospy.Publisher('servo_pwm_max', std_msgs.msg.Int32, queue_size=5) 
+    P['servo_pwm_null_pub'] = rospy.Publisher('servo_pwm_null', std_msgs.msg.Int32, queue_size=5) 
+    P['motor_pwm_min_pub'] = rospy.Publisher('motor_pwm_min', std_msgs.msg.Int32, queue_size=5) 
+    P['motor_pwm_null_pub'] = rospy.Publisher('motor_pwm_null', std_msgs.msg.Int32, queue_size=5) 
+    P['motor_pwm_max_pub'] = rospy.Publisher('motor_pwm_max', std_msgs.msg.Int32, queue_size=5) 
+
     imu_dic = {}
     imu_dic['gyro'] = 'gyro_pub'
     imu_dic['acc'] = 'acc_pub'
@@ -90,6 +97,9 @@ if Parameters['USE_ROS']:
             drive_mode = 0         
         P['steer_pub'].publish(std_msgs.msg.Int32(P['human']['servo_percent']))
         P['motor_pub'].publish(std_msgs.msg.Int32(P['human']['motor_percent']))
+
+
+
         P['button_number_pub'].publish(std_msgs.msg.Int32(P['button_number']))
         P['encoder_pub'].publish(std_msgs.msg.Float32(P['encoder']))
         if MSE_low_frequency_pub_timer.check():
@@ -104,7 +114,16 @@ if Parameters['USE_ROS']:
             P['human_agent_pub'].publish(std_msgs.msg.Int32(human_val))
             P['drive_mode_pub'].publish(std_msgs.msg.Int32(drive_mode))
             P['Hz_mse_pub'].publish(std_msgs.msg.Float32(P['Hz']['mse']))
+
+            P['servo_pwm_min_pub'].publish(std_msgs.msg.Int32(P['servo_pwm_min']))
+            P['servo_pwm_max_pub'].publish(std_msgs.msg.Int32(P['servo_pwm_max']))
+            P['servo_pwm_null_pub'].publish(std_msgs.msg.Int32(P['servo_pwm_null']))
+            P['motor_pwm_min_pub'].publish(std_msgs.msg.Int32(P['motor_pwm_min']))
+            P['motor_pwm_max_pub'].publish(std_msgs.msg.Int32(P['motor_pwm_max']))
+            P['motor_pwm_null_pub'].publish(std_msgs.msg.Int32(P['motor_pwm_null']))
+
             MSE_low_frequency_pub_timer.reset()
+
         if MSE_very_low_frequency_pub_timer.check():
             #P['network_weights_name_pub'].publish(std_msgs.msg.String(default_values.Weights['weight_file_path']))
             MSE_very_low_frequency_pub_timer.reset()
