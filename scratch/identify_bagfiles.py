@@ -26,7 +26,7 @@ for B in [B1,B2]:
 		ctr += 1
 
 for k in Bags.keys():
-	if Bags[k] < 3:
+	if Bags[k] < 2:
 		pd2s(k,'!!!')
 
 print ctr
