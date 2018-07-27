@@ -90,4 +90,6 @@ nmcli radio wifi on
 -figure out how to backup data, how to preprocess LCR and new left-center-right
 -label new data folders
 -have a 'stop' behavioral mode controlled by transmitter to get non-aruco heading pause data
+-note the need to fix baseline problem with LCR files from June, and check that same problem isn't happening now
+
 """
