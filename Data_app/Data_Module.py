@@ -195,7 +195,7 @@ def Left_Timestamp_Metadata(run_name=None,h5py_path=None):
 						data=np.interp(L['ts'][:],F[k_]['ts'][:],meo(F[k_]['vals'][:],P['MEO_PARAMS'][k_])))
 	if 'state' in L:
 		if len(L['state']) > 0:
-			L[state][:]=L[state][:].astype(int)
+			L['state'][:]=L['state'][:].astype(int)
 
 	left_ts_deltasv = 0.0 * L['ts'][:]
 	for iv in range(1,len(L['ts'][:])):
