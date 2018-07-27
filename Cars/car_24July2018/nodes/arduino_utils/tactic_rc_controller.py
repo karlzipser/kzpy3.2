@@ -25,7 +25,7 @@ def _TACTIC_RC_controller_run_loop(P):
     frequency_timer = Timer(1)
     print_timer = Timer(1)
     in_this_mode_timer = Timer()
-    very_low_freq_timer = Timer(30)
+    very_low_freq_timer = Timer(1)
     ctr_timer = Timer()
     while P['ABORT'] == False:
         if 'Brief sleep to allow other threads to process...':
@@ -67,8 +67,8 @@ def _TACTIC_RC_controller_run_loop(P):
                 P['motor_pwm_smooth'] = (1.0-s)*P['motor_pwm'] + s*P['motor_pwm_smooth']
 
             if P['calibrated'] == True:
-                P['human']['servo_percent'] = servo_pwm_to_percent(P['servo_pwm_smooth'])
-                P['human']['motor_percent'] = motor_pwm_to_percent(P['motor_pwm_smooth'])
+                P['human']['servo_percent'] = servo_pwm_to_percent(P['servo_pwm_smooth'],P)
+                P['human']['motor_percent'] = motor_pwm_to_percent(P['motor_pwm_smooth'],P)
 
             if 'Send servo/motor commands to Arduino...':
                 if P['agent_choice'] == 'human':
@@ -77,15 +77,15 @@ def _TACTIC_RC_controller_run_loop(P):
                 elif P['agent_choice'] == 'network':
                     if np.abs(P['human']['motor_percent']-49) > 4:
                         in_this_mode = False
-                        _servo_pwm = servo_percent_to_pwm(P['human']['servo_percent'])
-                        _motor_pwm = motor_percent_to_pwm(P['human']['motor_percent'])
+                        _servo_pwm = servo_percent_to_pwm(P['human']['servo_percent'],P)
+                        _motor_pwm = motor_percent_to_pwm(P['human']['motor_percent'],P)
                         write_str = d2n( '(', int(_servo_pwm), ',', int(_motor_pwm+10000), ')')
                         P['time_since_button_4'].reset()
                         print_timer.message(d2s('Temporary human control control...',P['human']['servo_percent'],P['human']['motor_percent']))###
                     
                     elif P['time_since_button_4'].time() > 2.0:
 
-                        _servo_pwm = servo_percent_to_pwm(P['network']['servo_percent'])
+                        _servo_pwm = servo_percent_to_pwm(P['network']['servo_percent'],P)
 
                         if np.abs(P['human']['servo_percent']-49) > 4:
                             if in_this_mode == False:
@@ -96,7 +96,7 @@ def _TACTIC_RC_controller_run_loop(P):
                             _servo_pwm = (1-q)*P['servo_pwm_smooth'] + q*_servo_pwm
                         else:
                             in_this_mode = False
-                        _motor_pwm = motor_percent_to_pwm(P['network']['motor_percent'])
+                        _motor_pwm = motor_percent_to_pwm(P['network']['motor_percent'],P)
                         write_str = d2n( '(', int(_servo_pwm), ',', int(_motor_pwm+10000), ')')
                     else:
                         in_this_mode = False
@@ -146,16 +146,16 @@ def percent_to_pwm(percent,null_pwm,max_pwm,min_pwm):
         p = (percent-50)/50.0 * (null_pwm-min_pwm) + null_pwm
     return p
 
-def servo_pwm_to_percent(current_pwm):
+def servo_pwm_to_percent(current_pwm,P):
     return pwm_to_percent(P['servo_pwm_null'],current_pwm,P['servo_pwm_max'],P['servo_pwm_min'])
 
-def motor_pwm_to_percent(current_pwm):
+def motor_pwm_to_percent(current_pwm,P):
     return pwm_to_percent(P['motor_pwm_null'],current_pwm,P['motor_pwm_max'],P['motor_pwm_min'])
 
-def servo_percent_to_pwm(percent):
+def servo_percent_to_pwm(percent,P):
     return percent_to_pwm(percent,P['servo_pwm_null'],P['servo_pwm_max'],P['servo_pwm_min'])
 
-def motor_percent_to_pwm(percent):
+def motor_percent_to_pwm(percent,P):
     return percent_to_pwm(percent,P['motor_pwm_null'],P['motor_pwm_max'],P['motor_pwm_min'])
 
 #EOF
