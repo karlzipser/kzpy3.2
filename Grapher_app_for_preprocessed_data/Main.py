@@ -120,7 +120,7 @@ while True:
 				topic_ = P['TOPICS'][topic_name]
 				if topic_ in L.keys():
 					vals_ = L[topic_][:]
-					if P['TOPICS'][topic_][''minval''] == ''minval'':
+					if P['TOPICS'][topic_]['minval'] == 'minval':
 						ymin_ = min(vals_)
 					else:
 						ymin_ = P['TOPICS'][topic_]['minval']
