@@ -42,8 +42,8 @@ assert_disk_locations(P['DATASET_PATH'])
 #for dataset_path_ in P['DATASET_PATHS']:
 for dataset_path_ in [P['DATASET_PATH']]:
 	print dataset_path_
-	#h5py_runs_ += sggo(dataset_path_,'h5py','*')
-	h5py_runs_ += sggo(dataset_path_,'*')
+	h5py_runs_ += sggo(dataset_path_,'h5py','*')
+	#h5py_runs_ += sggo(dataset_path_,'*')
 
 icon_row_counter_ = 0
 icon_column_counter_ = 0
