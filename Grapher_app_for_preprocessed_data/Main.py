@@ -144,10 +144,10 @@ while True:
 						'Img',P['IMAGE2'])
 					P['IMAGE3'] = I[topic_]
 					if topic_ == 'acc_y':
-						baseline_valsv = 'baseline'_with_tics_ + _(P,'TOPICS',topic_,'baseline') #P['TOPICS'][topic_]['baseline']
+						baseline_valsv = baseline_with_tics_ + _(P,'TOPICS',topic_,'baseline') #P['TOPICS'][topic_]['baseline']
 						baseline_colorv = (255,255,255)
 					else:
-						baseline_valsv = zero_'baseline'v_ + _(P,'TOPICS',topic_,'baseline') #P['TOPICS'][topic_]['baseline']
+						baseline_valsv = zero_baselinev_ + _(P,'TOPICS',topic_,'baseline') #P['TOPICS'][topic_]['baseline']
 						baseline_colorv = (64,64,64)
 					#for i in rlen(baseline_valsv):
 					#	if np.mod(ts_[i],10) == 0:
