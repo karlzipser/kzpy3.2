@@ -57,7 +57,8 @@ def _selector_run_loop(P):
             if P['button_number'] == 4:
                 if P['button_time'] < P['CALIBRATION_START_TIME']:
                     if P['human']['motor_percent'] < 10:
-                        spd2s("P['human']['motor_percent'] < 10, ABORTING!!!!!")
+                        spd2s("P['human']['motor_percent'] < 10, ABORTING, REBOOTING!!!!!")
+                        unix('sudo reboot')
                         P['ABORT'] = True
                     elif P['human']['servo_percent'] < 10:
                         P['selector_mode'] = 'drive_mode'
