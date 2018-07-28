@@ -27,6 +27,7 @@ Parameters['human']['motor_percent'] = 49
 Parameters['network'] = {}
 Parameters['network']['servo_percent'] = 49
 Parameters['network']['motor_percent'] = 49
+Parameters['IMU_SMOOTHING_PARAMETER'] = 0.99
 Parameters['Hz'] = {}
 
 import default_values
@@ -187,7 +188,7 @@ if 'Main loop...':
     print 'done.'
     if Parameters['USE_ROS']:
         print("P['drive_mode_pub'].publish(std_msgs.msg.Int32(-9))")
-        P['drive_mode_pub'].publish(std_msgs.msg.Int32(-9))
+        Parameters['drive_mode_pub'].publish(std_msgs.msg.Int32(-9))
         print "doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))"
         time.sleep(0.5)
         unix(opjh('kzpy3/scripts/kill_ros.sh'))
