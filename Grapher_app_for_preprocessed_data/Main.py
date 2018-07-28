@@ -185,7 +185,7 @@ while True:
 				(int(P['VERTICAL_LINE_PROPORTION']*P['X_PIXEL_SIZE']),0),
 				(int(P['VERTICAL_LINE_PROPORTION']*P['X_PIXEL_SIZE']),int(P['Y_PIXEL_SIZE']/2)),
 				(0,0,255))
-			if not mouse_red_zone_warning_timer_.'check'():
+			if not mouse_red_zone_warning_timer_.check():
 				cv2.putText(
 					I[topic_]['img'],
 					"Mouse in red zone, cannot use 'key' commands",
@@ -197,7 +197,7 @@ while True:
 			camera_img_ = O['left_image']['vals'][img_index_][:]
 			cx_ = (P['Y_PIXEL_SIZE']-P['CAMERA_SCALE']*shape(camera_img_)[0])
 			cy_ = (P['X_PIXEL_SIZE']-P['CAMERA_SCALE']*shape(camera_img_)[1])
-			I[topic_]['img'][cx_-10:-10,cy_-10:-10,:] = cv2.resize(camera_'img'_, (0,0), fx=4, fy=4)
+			I[topic_]['img'][cx_-10:-10,cy_-10:-10,:] = cv2.resize(camera_img_, (0,0), fx=4, fy=4)
 			if P['MOUSE_IN_RED_ZONE'] == True:
 				cv2.rectangle(I[topic_]['img'],(cy_-10,cx_-10),(P['X_PIXEL_SIZE']-3-10,P['Y_PIXEL_SIZE']-3-10), (255,0,0), 3)
 
@@ -210,7 +210,7 @@ while True:
 			for n_ in P['ICONS']:
 				if n_ == P['CURRENT_ICON_NAME']:
 					icon_ = P['ICONS'][n_]
-					cv2.rectangle(I[topic_]['img'],(icon_[''y''],icon_[''x'']),(icon_[''y'']+icon_['height'],icon_[''x'']+icon_['width']), (200,200,200), 3)
+					cv2.rectangle(I[topic_]['img'],(icon_['y'],icon_['x']),(icon_['y']+icon_['height'],icon_['x']+icon_['width']), (200,200,200), 3)
 					break
 			#####################################################################
 			#
@@ -218,7 +218,7 @@ while True:
 			#
 			#####################################################################
 			
-			if img_index_timer_.'check'():
+			if img_index_timer_.check():
 				display_ratev = max(img_index_list_)-min(img_index_list_)
 				img_index_list_ = []
 				img_index_timer_.reset()
