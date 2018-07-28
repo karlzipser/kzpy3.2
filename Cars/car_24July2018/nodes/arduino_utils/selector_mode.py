@@ -56,7 +56,10 @@ def _selector_run_loop(P):
         elif P['calibrated']:####################################################
             if P['button_number'] == 4:
                 if P['button_time'] < P['CALIBRATION_START_TIME']:
-                    if P['human']['servo_percent'] < 10:
+                    if P['human']['motor_percent'] < 10:
+                        spd2s("P['human']['motor_percent'] < 10, ABORTING!!!!!")
+                        P['ABORT'] = True
+                    elif P['human']['servo_percent'] < 10:
                         P['selector_mode'] = 'drive_mode'
                     elif P['human']['servo_percent'] > 90:
                         P['selector_mode'] = 'menu_mode'
