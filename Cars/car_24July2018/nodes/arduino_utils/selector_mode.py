@@ -7,14 +7,14 @@ import threading
 
 A = {
     'behavioral_mode_choice':{
-        'direct':   {'button':3,'min':40,'max':60,'led':1},
-        'follow':   {'button':3,'min':0,'max':40,'led':2},
-        'furtive':  {'button':3,'min':60,'max':80,'led':3},
-        'play':     {'button':3,'min':80,'max':100,'led':4}
+        'direct':   {'button':2,'min':40,'max':60,'led':1},
+        'follow':   {'button':2,'min':0,'max':40,'led':2},
+        'furtive':  {'button':2,'min':60,'max':80,'led':3},
+        'play':     {'button':2,'min':80,'max':100,'led':4}
         },
     'agent_choice':{
-        'human':    {'button':2,'min':40,'max':100,'led':17},
-        'network':  {'button':2,'min':0,'max':40,'led':18}
+        'human':    {'button':3,'min':40,'max':100,'led':17},
+        'network':  {'button':3,'min':0,'max':40,'led':18}
         },
     'place_choice':{
         'local':    {'button':1,'min':40,'max':60,'led':8},
