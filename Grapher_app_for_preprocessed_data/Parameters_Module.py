@@ -16,8 +16,20 @@ _(P,VERBOSE,equals,True)
 #P[DATASET_PATHS] = ['/media/karlzipser/ExtraDrive4/bdd_car_data_free_driving_cars']
 
 
-P[TOPICS] = {
+_topics_list = [
+	[ steer,{maxval:80,		minval:20,		baseline:49.0,	color:(255,0,0)}		],
+	[ motor,{maxval:80,		minval:49,		baseline:49.0,	color:(0,255-32,32)}	],
+	[ state,{maxval:6,		minval:-10,		baseline:0,		color:(128,128,128)}	]]
+P['TOPICS_NAMES_LIST'] = []
+P['TOPICS'] = {}
+for t in _topics_list:
+	name = t[0]
+	dic = t[1]
+	P['TOPICS_NAMES_LIST'].append(t[0])
+	P['TOPICS'][name] = dic
+
 	
+"""
 	steer:{maxval:80,		minval:20,		baseline:49.0,	color:(255,0,0)},
 	motor:{maxval:80,		minval:49,		baseline:49.0,	color:(0,255-32,32)},
 	state:{maxval:6,		minval:-10,		baseline:0,		color:(128,128,128)},
@@ -40,6 +52,8 @@ P[TOPICS] = {
 	#other_car_position_y:{maxval:-4,minval:4,	baseline:0,		color:(0,255,100)},
 	
 }
+"""
+
 P[VERTICAL_LINE_PROPORTION] = 0.5
 P[X_PIXEL_SIZE] = 1500
 P[Y_PIXEL_SIZE] = 2000#1100
