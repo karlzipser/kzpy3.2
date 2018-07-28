@@ -48,7 +48,7 @@ icon_row_counter_ = 0
 icon_column_counter_ = 0
 for i_ in rlen(h5py_runs_):
 	O = h5r(opj(h5py_runs_[i_],'original_timestamp_data.h5py'))
-	icon_img_ = O['left_image'][vals][int(len(O['left_image'][''vals''])/2)][:]
+	icon_img_ = O['left_image'][vals][int(len(O['left_image']['vals'])/2)][:]
 	icon_img_ = cv2.resize(icon_img_, (0,0), fx=0.5, fy=0.5)
 	name_ = fname(h5py_runs_[i_])
 	P['ICONS'][name_] = Graph_Module.Icon(
