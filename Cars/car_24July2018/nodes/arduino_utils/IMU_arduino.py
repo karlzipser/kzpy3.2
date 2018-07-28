@@ -37,8 +37,9 @@ def _IMU_run_loop(P):
                 for i in range(3):
                     acc_smoothed[i] = (1.0-s)*imu_input[i+1] + s*acc_smoothed[i]
                 if acc_smoothed[1] < -9.0:
-                    spd2s('acc_smoothed[1] < -9.0, ABORTING!!!!!')
+                    spd2s('acc_smoothed[1] < -9.0, ABORTING, REBOOTING!!!!!')
                     P['ABORT'] = True
+                    unix('sudo reboot')
                 if is_number(Hz):
                     P['Hz'][m] = Hz
                     if Hz < 30 or Hz > 90:
