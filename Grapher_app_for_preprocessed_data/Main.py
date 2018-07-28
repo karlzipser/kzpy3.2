@@ -214,7 +214,7 @@ while True:
 					break
 			#####################################################################
 			#
-			key_ = mci(P['IMAGE2']['img'],color_mode=cv2.COLOR_RGB2BGR,'delay'=33,title=topic_)
+			key_ = mci(P['IMAGE2']['img'],color_mode=cv2.COLOR_RGB2BGR,delay=33,title=topic_)
 			#
 			#####################################################################
 			
