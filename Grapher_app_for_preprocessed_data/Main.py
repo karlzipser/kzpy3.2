@@ -24,7 +24,7 @@ exec(identify_file_str)
 _ = dictionary_access
 
 for a in Args.keys():
-	_(P,'a',equals,_(Args,'a'))
+	_(P,a,equals,_(Args,a))
 
 #cv2.destroyAllWindows()
 #mci(P['IMAGE2']['img'],title='steer')
@@ -36,7 +36,7 @@ P['ICONS'] = {}
 
 h5py_runs_ = []
 #assert_disk_locations(P['DATASET_PATHS'])
-pprint(P)
+#pprint(P)
 assert_disk_locations(P['DATASET_PATH'])
 
 #for dataset_path_ in P['DATASET_PATHS']:
