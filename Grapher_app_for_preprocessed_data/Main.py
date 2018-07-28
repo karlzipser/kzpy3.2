@@ -139,8 +139,8 @@ while True:
 						'ysize',P['Y_PIXEL_SIZE'],
 						'xmin',P['START_TIME'],
 						'xmax',P['END_TIME'],
-						'ymin','ymin'_,
-						'ymax','ymax'_,
+						'ymin',ymin_,
+						'ymax',ymax_,
 						'Img',P['IMAGE2'])
 					P['IMAGE3'] = I[topic_]
 					if topic_ == 'acc_y':
@@ -152,7 +152,7 @@ while True:
 					#for i in rlen(baseline_valsv):
 					#	if np.mod(ts_[i],10) == 0:
 					#		baseline_valsv[i] = 1
-					I[topic_]['ptsplot']('x',ts_, 'y',baseline_valsv, 'color',baseline_'color'v)
+					I[topic_]['ptsplot']('x',ts_, 'y',baseline_valsv, 'color',baseline_colorv)
 					I[topic_]['ptsplot']('x',ts_, 'y',vals_, 'color',P['TOPICS'][topic_]['color'])
 			if np.abs(P['MOUSE_Y']-P['Y_PIXEL_SIZE']*0.45) > 35:
 				ref_xv = int(P['VERTICAL_LINE_PROPORTION']*P['X_PIXEL_SIZE'])
