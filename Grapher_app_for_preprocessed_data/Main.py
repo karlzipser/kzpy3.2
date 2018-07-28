@@ -36,6 +36,7 @@ P['ICONS'] = {}
 
 h5py_runs_ = []
 #assert_disk_locations(P['DATASET_PATHS'])
+pprint(P)
 assert_disk_locations(P['DATASET_PATH'])
 
 #for dataset_path_ in P['DATASET_PATHS']:
