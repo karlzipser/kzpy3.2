@@ -275,7 +275,7 @@ while True:
 					icon_['clicked'] = False
 					clicked_ = True
 					P['VERTICAL_LINE_PROPORTION']=0.5
-					P['START_TIME'],P['END_TIME'] = P['START_TIME'_INIT],P['END_TIME_INIT']
+					P['START_TIME'],P['END_TIME'] = P['START_TIME_INIT'],P['END_TIME_INIT']
 					ymin_,ymax_ = ymin_init_,ymax_init_
 					show_menu_ = True
 			if clicked_:
