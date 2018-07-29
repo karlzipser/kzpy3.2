@@ -11,8 +11,8 @@ assert(soft>=65000)
 
 P = {}
 P['max_num_runs_to_open'] = 300
-P['experiments_folders'] = ['/media/karlzipser/2_TB_Samsung_n2_/bair_car_data_Main_Dataset_part1/locations',
-	'/home/karlzipser/Desktop/bdd_car_data_July2017_LCR/locations']
+P['experiments_folders'] = [opjm('2_TB_Samsung_n2_/bair_car_data_Main_Dataset_part1/locations'),
+	opjD('bdd_car_data_July2017_LCR/locations')]
 #P['experiments_folders'] = ['/home/karlzipser/Desktop/bdd_car_data_July2017_LCR/locations']
 
 P['GPU'] = 0
@@ -92,7 +92,7 @@ if True:
 
 
 if True:
-	for experiments_folder in ['/home/karlzipser/Desktop/all_aruco_reprocessed']:
+	for experiments_folder in [opjD('all_aruco_reprocessed')]:
 		experiments = sggo(experiments_folder,'*')
 		ctr = 0
 		for experiment in experiments:
