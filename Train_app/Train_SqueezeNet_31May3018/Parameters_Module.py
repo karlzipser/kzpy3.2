@@ -12,12 +12,12 @@ assert(soft>=65000)
 P = {}
 P['max_num_runs_to_open'] = 300
 
-P['experiments_folders'] = [#opjm('2_TB_Samsung_n2_/bair_car_data_Main_Dataset_part1/locations'),
-	#opjD('bdd_car_data_July2017_LCR/locations'),
-	opjm('preprocessed_1/model_car_data_June2018_LRC/locations'),
-	opjm('preprocessed_1/model_car_data_July2018_lcr/locations')]
+P['experiments_folders'] = [opjm('2_TB_Samsung_n2_/bair_car_data_Main_Dataset_part1/locations'),
+	opjD('bdd_car_data_July2017_LCR/locations'),
+	opjm('preprocessed_1/model_car_data_June2018_LCR/locations'),
+	opjm('preprocessed_1/model_car_data_July2018_lrc/locations')]
 
-P['aruco_experiments_folders'] = [] #[opjD('all_aruco_reprocessed')]
+P['aruco_experiments_folders'] = [opjD('all_aruco_reprocessed')]
 
 
 P['GPU'] = 0
@@ -26,7 +26,7 @@ P['REQUIRE_ONE'] = []
 P['NETWORK_OUTPUT_FOLDER'] = opjD('net_29July2018')#opjD('net_indoors_31May2018')
 P['SAVE_FILE_NAME'] = 'net'
 P['save_net_timer'] = Timer(60*20)
-P['print_timer'] = Timer(60*5)
+P['print_timer'] = Timer(30)
 P['frequency_timer'] = Timer(10.0)
 P['TRAIN_TIME'] = 60*10.0
 P['VAL_TIME'] = 60*1.0
@@ -51,12 +51,20 @@ P['prediction_range'] = range(1,60,6)
 
 if True:
 	for experiments_folder in P['experiments_folders']:
+		if fname(experiments_folder)[0] == '_':
+			continue
+		print experiments_folder
 		locations = sggo(experiments_folder,'*')
 		for location in locations:
+			if fname(location)[0] == '_':
+				spd2s('ignoring',location)
+				continue
 			print location
 			b_modes = sggo(location,'*')
 			print b_modes
 			for e in b_modes:
+				if fname(e)[0] == '_':
+					continue
 				if fname(e) == 'racing':
 					continue
 				"""
