@@ -1,5 +1,5 @@
 from kzpy3.vis2 import *
-import get_data_moments__LCR.get_data_moments__LCR_dataset_version as get_data_moments
+from get_data_moments__LCR import get_data_moments__LCR_dataset_version as get_data_moments
 
 def make_data_moments_dics(locations_path=''):
 
