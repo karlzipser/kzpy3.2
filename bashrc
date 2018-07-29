@@ -60,6 +60,9 @@ alias srx='screen -r SX'
 alias sry='screen -r SY'
 alias srz='screen -r SZ'
 
+alias pGraph='python kzpy3/Grapher_app_for_preprocessed_data/Main.py'
+alias rGraph='python kzpy3/Grapher_app_for_live_ros_data/Main.py'
+
 ######################## for .bashrc from MacBook #################
 #
 alias gacp="git add .;git commit -m 'gacp';git push origin master"

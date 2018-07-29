@@ -54,7 +54,7 @@ else:
 for C in D['correcctions']:
 	topic = C['topic']
 	if topic not in D['corrected_data']:
-		print topic
+		pd2s("doing D['corrected_data'][topic] = L[topic][:] for",topic)
 		D['corrected_data'][topic] = L[topic][:]
 	data = D['corrected_data'][topic]
 
@@ -87,7 +87,7 @@ for C in D['correcctions']:
 	topics_dic[C['topic']] = True
 
 for topic in topics_dic.keys():
-	print topic
+	pd2s('data = L[topic] for',topic)
 	data = L[topic]
 	data[...] = D['corrected_data'][topic]
 L.close()
