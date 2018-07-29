@@ -29,6 +29,15 @@ D2 = {'file':opjh('Desktop2','direct_home_LCR_16Jun18_20h22m37s_Mr_Silver_Green/
 	'corrected_data':{}
 	}
 
+D = {'file':opjh('Desktop2','direct_home_LCR_07Jun18_16h47m05s_Mr_Green_Silver/left_timestamp_metadata_right_ts.h5py'),
+	'correcctions':[
+		{'topic':'state','start':0,'stop':0,'value':4,'type':'int','op':'eql'},
+		{'topic':'motor','start':0,'stop':0,'value':0,'type':'int','op':'add'},
+		{'topic':'steer','start':0,'stop':0,'value':0,'type':'int','op':'add'},
+		],
+	'corrected_data':{}
+	}
+
 try:
   L
 except NameError:
