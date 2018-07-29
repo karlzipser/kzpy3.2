@@ -4,12 +4,6 @@ from kzpy3.vis2 import *
 Extracted from 'get_data_moments_plus_other_task_2017.py', originally named 'ideas.py'
 """
 
-def unit_test():
-	"""
-	change path etc as necessary.
-	"""
-	data_moments = get_data_moments__LCR_dataset_version(opjm('preprocessed_1','locations','local','LCR',,90))
-
 def get_data_moments__LCR_dataset_version(dataset_path,location,behavioral_mode,run_name,num_steps):
 	# LCR dataset version
 	F_path = opj(dataset_path,location,behavioral_mode,'h5py',run_name,'original_timestamp_data.h5py')
