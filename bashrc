@@ -83,13 +83,15 @@ alias Grapher_live='python ~/kzpy3/Grapher_app_for_live_ros_data/Main.py'
 alias Train='python ~/kzpy3/Train_app/Main.py'
 alias Localization='python ~/kzpy3/Localization_app/Main.py'
 
+alias sb='cd;source ~/.bashrc'
+
+
 if [ "$(whoami)" == "nvidia" ]
 then
 echo Hi $COMPUTER_NAME on Jetson
 echo "rrm;rlog"
 rrm
 rlog
-alias sb='cd;source ~/.bashrc'
 OPTIONS="exit screen rla rlanr rosbags git_pull reboot shutdown rostopics rosmenu net_menu df car_link_menu"
 COLUMNS=12
 echo 'main menu'
