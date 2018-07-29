@@ -18,14 +18,14 @@ _(P,VERBOSE,equals,True)
 
 P[TOPICS] = {
 	
-	#steer:{maxval:80,		minval:20,		baseline:49.0,	color:(255,0,0)},
-	#motor:{maxval:80,		minval:49,		baseline:49.0,	color:(0,255-32,32)},
+	steer:{maxval:80,		minval:20,		baseline:49.0,	color:(255,0,0)},
+	motor:{maxval:80,		minval:49,		baseline:49.0,	color:(0,255-32,32)},
 	'cmd_steer':{maxval:80,		minval:20,		baseline:49.0,	color:(255,0,0)},
 	'cmd_motor':{maxval:80,		minval:49,		baseline:49.0,	color:(0,255,0)},
 	'drive_mode':{maxval:1,		minval:-10,		baseline:0,	color:(255,255,255)},
 	'human_agent':{maxval:1,		minval:-10,		baseline:0,	color:(0,255,255)},
-	#state:{maxval:6,		minval:-10,		baseline:0,		color:(128,128,128)},
-	#encoder:{maxval:4,		minval:-4,		baseline:0,		color:(0,128,128)},
+	state:{maxval:6,		minval:-10,		baseline:0,		color:(128,128,128)},
+	encoder:{maxval:4,		minval:-4,		baseline:0,		color:(0,128,128)},
 	#acc_x:{maxval:10,		minval:-10,		baseline:0,		color:(128,128,0)},
 	#acc_y:{maxval:10,		minval:-10,		baseline:0,		color:(128-32,128+32,0)},
 	#acc_z:{maxval:10-9.80,	minval:-10,		baseline:0,		color:(128-64,128+64,0)},
@@ -33,7 +33,7 @@ P[TOPICS] = {
 	#gyro_y:{maxval:180,		minval:-180,	baseline:0,		color:(128-32,128+32,0)},
 	#gyro_z:{maxval:180,		minval:-180,	baseline:0,		color:(128-64,128+64,0)},
 	#gyro_heading_x:{maxval:(2*360),minval:-360,	baseline:0,		color:(255,200,200)},
-	#left_ts_deltas:{maxval:0.5,minval:0,	baseline:0,		color:(255,255,255)},
+	left_ts_deltas:{maxval:0.5,minval:0,	baseline:0,		color:(255,255,255)},
 	#heading_pause:{maxval:1,minval:0,	baseline:0,		color:(255,255,19)},
 	#car_in_range:{maxval:1,minval:0,	baseline:0,		color:(255,0,0)},
 	#aruco_position_x:{maxval:-4,minval:4,	baseline:0,		color:(0,0,255)},
