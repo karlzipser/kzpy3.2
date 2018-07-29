@@ -1,25 +1,29 @@
 from kzpy3.vis2 import *
-from get_data_moments__LCR import get_data_moments__LCR_dataset_version as get_data_moments
+import get_data_moments
 
 def make_data_moments_dics(locations_path=''):
 
-	if True:
+	if False:
 		#locations_path = '/home/karlzipser/Desktop/bdd_car_data_July2017_LCR/locations'
 		locations = sggo(locations_path,'*')
 		num_steps = 90
 		for l in locations:
 			location = fname(l)
+			if location[0] == '_':
+				continue
 			behavioral_modes = sggo(l,'*')
 			for b in behavioral_modes:
-				Data_Moments = []
 				behavioral_mode = fname(b)
+				if behavioral_mode[0] == '_':
+					continue
+				Data_Moments = []
 				print location,behavioral_mode
 				runs = sggo(b,'h5py','*')
 				for r in runs:
 					run_name = fname(r)
 					pd2s('\t',run_name)
 					print 1,locations_path,location,behavioral_mode,run_name,num_steps
-					data_moments = get_data_moments(locations_path,location,behavioral_mode,run_name,num_steps)
+					data_moments = get_data_moments.get_data_moments(locations_path,location,behavioral_mode,run_name,num_steps)
 					Data_Moments += data_moments
 					pd2s('len data_moments =',len(data_moments))
 					pd2s('len Data_Moments =',len(Data_Moments))
@@ -100,7 +104,7 @@ def make_data_moments_dics(locations_path=''):
 				ctr += 1
 
 			so(opj(e,'data_moments_dic'),data_moments_dic)
-			os.remove('data_moments_indexed_file')
+			os.remove(data_moments_indexed_file)
 
 
 
