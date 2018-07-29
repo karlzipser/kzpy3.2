@@ -60,8 +60,11 @@ alias srx='screen -r SX'
 alias sry='screen -r SY'
 alias srz='screen -r SZ'
 
-alias pGraph='python kzpy3/Grapher_app_for_preprocessed_data/Main.py'
-alias rGraph='python kzpy3/Grapher_app_for_live_ros_data/Main.py'
+alias Data='python ~/kzpy3/Data_app/Main.py'
+alias pGraph='python ~/kzpy3/Grapher_app_for_preprocessed_data/Main.py'
+alias rGraph='python ~/kzpy3/Grapher_app_for_live_ros_data/Main.py'
+alias Train='python ~/kzpy3/Train_app/Train_SqueezeNet_31May3018/Main.py'
+alias Localization='python ~/kzpy3/Localization_app/Main.py'
 
 ######################## for .bashrc from MacBook #################
 #
@@ -72,16 +75,12 @@ git config --global credential.helper "cache --timeout=86400"
 alias ipy="ipython --no-banner"
 
 export PYTHONPATH=~:$PYTHONPATH
-#export PYTHONPATH=~/kzpy3/Train_app/Train_SqueezeNet_31May3018:$PYTHONPATH
 export PYTHONSTARTUP=~/kzpy3/utils2.py
 export PATH=~/kzpy3/scripts:$PATH
 export PATH=~/kzpy3/scratch:$PATH
 export PATH=~/kzpy3/misc:$PATH
 
-alias Grapher='python ~/kzpy3/Grapher_app_for_preprocessed_data/Main.py'
-alias Grapher_live='python ~/kzpy3/Grapher_app_for_live_ros_data/Main.py'
-alias Train='python ~/kzpy3/Train_app/Main.py'
-alias Localization='python ~/kzpy3/Localization_app/Main.py'
+
 
 alias sb='cd;source ~/.bashrc'
 
