@@ -53,7 +53,7 @@ def _IMU_run_loop(P):
             if P['USE_ROS']:
                 P['publish_IMU_data'](P,m)
             if print_timer.check():
-                pd2s(dp(acc_smoothed[0],1),dp(acc_smoothed[1],1),dp(acc_smoothed[2],1))
+                #pd2s(dp(acc_smoothed[0],1),dp(acc_smoothed[1],1),dp(acc_smoothed[2],1))
                 #print P['acc']['xyz'],P['gyro']['xyz'],P['head']['xyz'],P['acc']['Hz']
                 #if P['print_imu_freq']:
                 #    print P['gyro']['xyz'],P['acc']['Hz']
