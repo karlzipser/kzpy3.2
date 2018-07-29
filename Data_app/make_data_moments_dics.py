@@ -1,7 +1,7 @@
 from kzpy3.vis2 import *
 import get_data_moments__LCR.get_data_moments__LCR_dataset_version as get_data_moments
 
-def_make_data_moments_dics(locations_path='')
+def_make_data_moments_dics(locations_path=''):
 
 	if True:
 		#locations_path = '/home/karlzipser/Desktop/bdd_car_data_July2017_LCR/locations'
