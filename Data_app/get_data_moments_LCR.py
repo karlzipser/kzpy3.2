@@ -28,7 +28,7 @@ def get_data_moments__LCR_dataset_version(dataset_path,location,behavioral_mode,
 
 	for i in range(len(ts)-num_steps):
 		timer.percent_message(i,len(ts)-num_steps)
-		r = is_this_a_good_data_moment(L=L,index=i,steps=num_steps,time_proportion_tolerance=0.2,state_proportion_tolerance=0.4,min_initial_steps=15,accepted_states=accepted_states)
+		r = is_this_a_good_data_moment(L=L,index=i,steps=num_steps,time_proportion_tolerance=0.2,state_proportion_tolerance=0.4,min_initial_steps=15,accepted_states=accepted_states,motor_threshold=52)
 		results.append(r)
 		
 		if r:
@@ -105,7 +105,7 @@ def right_indicies_timestamps(F,n=5):
 	hist(test);spause()
 	return r_indicies,r_timestamps
 
-def is_this_a_good_data_moment(L=None,index=0,steps=0,time_proportion_tolerance=0,state_proportion_tolerance=0,min_initial_steps=0,accepted_states=[1]):
+def is_this_a_good_data_moment(L=None,index=0,steps=0,time_proportion_tolerance=0,state_proportion_tolerance=0,min_initial_steps=0,accepted_states=[],motor_threshold=0):
 	start_time = L['ts'][index]
 	end_time = L['ts'][index+steps-1]
 	d_time = end_time - start_time
@@ -119,6 +119,8 @@ def is_this_a_good_data_moment(L=None,index=0,steps=0,time_proportion_tolerance=
 		else:
 			if i-index < min_initial_steps:
 				return 0
+		if L['state'][i] < motor_threshold:
+			return 0
 	if state_1s / (1.0*steps) < state_proportion_tolerance:
 		return 0
 	return 1
