@@ -52,10 +52,10 @@ def get_data_moments__LCR_dataset_version(dataset_path,location,behavioral_mode,
 				data_moments.append(
 					{'behavioral_mode': behavioral_mode,
 					 'left_ts_index': (ts[i], i),
-					 'motor': L['motor'][i],
+					 'motor': np.int(np.round(L['motor'][i])),
 					 'right_ts_index': (F['right_image']['ts'][r_indicies[i]],r_indicies[i]),#(right_tsv[i], i),
 					 'run_name': run_name,
-					 'steer': L['steer'][i]})
+					 'steer': np.int(np.round(L['steer'][i]))})
 				#if data_moments[-1]['behavioral_mode'] != 'center':
 				#	print data_moments[-1]['behavioral_mode']
 			except:
