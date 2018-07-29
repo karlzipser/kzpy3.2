@@ -3,7 +3,7 @@ import get_data_moments
 
 def make_data_moments_dics(locations_path=''):
 
-	if False:
+	if True:
 		#locations_path = '/home/karlzipser/Desktop/bdd_car_data_July2017_LCR/locations'
 		locations = sggo(locations_path,'*')
 		num_steps = 90
@@ -62,6 +62,9 @@ def make_data_moments_dics(locations_path=''):
 
 	locations = sggo(locations_path,'*')
 	for l in locations:
+		if fname(l)[0] == '_':
+			spd2s('ignoring',l)
+			continue:
 		behavioral_modes = sggo(l,'*')
 		for e in behavioral_modes:
 			if fname(e)[0] == '_':

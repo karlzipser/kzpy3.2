@@ -1732,5 +1732,11 @@ def num_from_str(s):
 			return 'String does not represent a number.'
 
 
+def intr(n):
+	return np.int(np.round(n))
 
+
+
+
+	
 #EOF

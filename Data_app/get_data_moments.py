@@ -7,12 +7,15 @@ Extracted from 'get_data_moments_plus_other_task_2017.py', originally named 'ide
 def get_data_moments(dataset_path,location,behavioral_mode,run_name,num_steps):
 	if behavioral_mode == 'LCR':
 		return get_data_moments__LCR_dataset_version(dataset_path,location,behavioral_mode,run_name,num_steps)
+	elif behavioral_mode == 'left_right_center':
+		return get_data_moments__left_right_center_dataset_version(dataset_path,location,behavioral_mode,run_name,num_steps)
 	else:
 		spd2s('???')
 		assert False
 
 def get_data_moments__LCR_dataset_version(dataset_path,location,behavioral_mode,run_name,num_steps):
 	# LCR dataset version
+	assert(behavioral_mode == 'LCR')
 	F_path = opj(dataset_path,location,behavioral_mode,'h5py',run_name,'original_timestamp_data.h5py')
 	print F_path
 	F=h5r(F_path)
@@ -86,7 +89,8 @@ def get_data_moments__LCR_dataset_version(dataset_path,location,behavioral_mode,
 	return data_moments
 
 def get_data_moments__left_right_center_dataset_version(dataset_path,location,behavioral_mode,run_name,num_steps):
-	# LCR dataset version
+	# left_right_center dataset version
+	assert(behavioral_mode == 'left_right_center')
 	F_path = opj(dataset_path,location,behavioral_mode,'h5py',run_name,'original_timestamp_data.h5py')
 	print F_path
 	F=h5r(F_path)
@@ -96,16 +100,13 @@ def get_data_moments__left_right_center_dataset_version(dataset_path,location,be
 		L=h5r(opj(dataset_path,location,behavioral_mode,'h5py',run_name,'left_timestamp_metadata_right_ts.h5py'))
 	timer = Timer(5)
 	results = []
-	state = L['state'][:]
+	drive_state = L['drive_mode'][:] * L['human_agent'][:]
 	
 	data_moments = []
 	ts = L['ts'][:]
 	r_indicies,r_timestamps = right_indicies_timestamps(F,n=60)
-	assert(behavioral_mode == 'left_right_center')
-	if behavioral_mode == 'left_right_center':
-		accepted_states = [1,2,3]
-	else:
-		accepted_states = [1]
+	
+	accepted_states = [1]
 
 	for i in range(len(ts)-num_steps):
 		timer.percent_message(i,len(ts)-num_steps)
@@ -116,19 +117,18 @@ def get_data_moments__left_right_center_dataset_version(dataset_path,location,be
 			#print behavioral_mode
 			try:
 				if True:#behavioral_mode == 'LCR':
-					#print int(np.round(L['state'][i])),L['state'][i]
-					s = int(np.round(L['state'][i]))
-					if s == 1:
-						behavioral_mode = 'center'
-					elif s == 2:
-						behavioral_mode = 'left'
-						#print 'left'
-					elif s == 3:
-						behavioral_mode = 'right'
-						#print 'right'
-					else:
-						print int(np.round(L['state'][i])),L['state'][i]
-						assert(False)
+					if intr(drive_state[i]) == 1:
+						L_behavioral_mode = intr(L['behavioral_mode'][i])
+						#'direct':2,'left':3,'right':1
+						if L_behavioral_mode == 1:
+							behavioral_mode = 'right'
+						elif L_behavioral_mode == 2:
+							behavioral_mode = 'center'
+						elif L_behavioral_mode == 3:
+							behavioral_mode = 'left'							
+						else:
+							spd2s(L['behavioral_mode'][i])
+							continue
 				
 				data_moments.append(
 					{'behavioral_mode': behavioral_mode,
