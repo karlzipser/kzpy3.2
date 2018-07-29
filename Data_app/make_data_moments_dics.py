@@ -64,7 +64,7 @@ def make_data_moments_dics(locations_path=''):
 	for l in locations:
 		if fname(l)[0] == '_':
 			spd2s('ignoring',l)
-			continue:
+			continue
 		behavioral_modes = sggo(l,'*')
 		for e in behavioral_modes:
 			if fname(e)[0] == '_':
