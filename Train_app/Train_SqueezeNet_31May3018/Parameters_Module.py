@@ -11,17 +11,18 @@ assert(soft>=65000)
 
 P = {}
 P['max_num_runs_to_open'] = 300
-P['experiments_folders'] = [opjm('2_TB_Samsung_n2_/bair_car_data_Main_Dataset_part1/locations'),
-	opjD('bdd_car_data_July2017_LCR/locations')]
-#P['experiments_folders'] = ['/home/karlzipser/Desktop/bdd_car_data_July2017_LCR/locations']
+
+P['experiments_folders'] = [#opjm('2_TB_Samsung_n2_/bair_car_data_Main_Dataset_part1/locations'),
+	#opjD('bdd_car_data_July2017_LCR/locations'),
+	opjm('preprocessed_1/model_car_data_June2018_LRC'),
+	opjm('preprocessed_1/model_car_data_July2018_lcr')]
+
+P['aruco_experiments_folders'] = [] #[opjD('all_aruco_reprocessed')]
+
 
 P['GPU'] = 0
 P['BATCH_SIZE'] = 64
 P['REQUIRE_ONE'] = []
-#P['USE_STATES'] = [1,3,5,6,7] #!!!!!!!!!!!!!!!!!!!!! CHECK THIS OUT !!!!!!!!!!!!!!!!!!
-#P['N_FRAMES'] = 2
-#P['N_STEPS'] = 10
-#P['STRIDE'] = 9#3 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 P['NETWORK_OUTPUT_FOLDER'] = opjD('net_indoors_31May2018')
 P['SAVE_FILE_NAME'] = 'net'
 P['save_net_timer'] = Timer(60*20)
@@ -42,6 +43,7 @@ P['heading_pause_data_moments_indexed'] = []
 P['Loaded_image_files'] = {}
 P['data_moments_indexed_loaded'] = []
 P['behavioral_modes_no_heading_pause'] = ['direct','follow','furtive','play','left','right']
+# note, 'center' is not included in P['behavioral_modes_no_heading_pause'] because 'center' is converted to 'direct' below.
 P['behavioral_modes'] = P['behavioral_modes_no_heading_pause']+['heading_pause']
 P['current_batch'] = []
 P['DISPLAY_EACH'] = False
@@ -92,7 +94,7 @@ if True:
 
 
 if True:
-	for experiments_folder in [opjD('all_aruco_reprocessed')]:
+	for experiments_folder in P['aruco_experiments_folders']:
 		experiments = sggo(experiments_folder,'*')
 		ctr = 0
 		for experiment in experiments:
