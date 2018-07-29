@@ -24,7 +24,7 @@ P[TOPICS] = {
 	'cmd_motor':{maxval:80,		minval:49,		baseline:49.0,	color:(0,255,0)},
 	'drive_mode':{maxval:1,		minval:-10,		baseline:0,	color:(255,255,255)},
 	'human_agent':{maxval:1,		minval:-10,		baseline:0,	color:(0,255,255)},
-	state:{maxval:6,		minval:-10,		baseline:0,		color:(128,128,128)},
+	state:{maxval:6,		minval:-10,		baseline:0,		color:(255,255,128)},
 	encoder:{maxval:4,		minval:-4,		baseline:0,		color:(0,128,128)},
 	#acc_x:{maxval:10,		minval:-10,		baseline:0,		color:(128,128,0)},
 	#acc_y:{maxval:10,		minval:-10,		baseline:0,		color:(128-32,128+32,0)},
