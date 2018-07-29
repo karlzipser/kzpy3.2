@@ -119,7 +119,7 @@ def is_this_a_good_data_moment(L=None,index=0,steps=0,time_proportion_tolerance=
 		else:
 			if i-index < min_initial_steps:
 				return 0
-		if L['state'][i] < motor_threshold:
+		if L['motor'][i] < motor_threshold:
 			return 0
 	if state_1s / (1.0*steps) < state_proportion_tolerance:
 		return 0
