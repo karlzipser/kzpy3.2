@@ -17,7 +17,7 @@ P['experiments_folders'] = [opjm('2_TB_Samsung_n2_/bair_car_data_Main_Dataset_pa
 	opjm('preprocessed_1b/model_car_data_June2018_LCR/locations'),
 	opjm('preprocessed_1b/model_car_data_July2018_lrc/locations')]
 
-P['aruco_experiments_folders'] = []#[opjD('all_aruco_reprocessed')]
+P['aruco_experiments_folders'] = [opjD('all_aruco_reprocessed')]
 
 
 P['GPU'] = 0
