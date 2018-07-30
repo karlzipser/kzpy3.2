@@ -184,7 +184,8 @@ def get_Data_moment(dm=None,FLIP=None):
 	if True:
 		if steer_len - left_index < 90:
 			print steer_len - left_index
-	
+	if dm['run_name'] in ['follow_Tilden_LCR_1Oct17_15h_approx_Mr_Green_Silver','follow_Tilden_LCR_1Oct17_16h00m00s_Mr_Green_Silver','play_Tilden_01Oct17_15h36m16s_Mr_Silver_Green']:
+		cprint(dm['run_name'],'red')
 	for q in ['steer','motor']:	
 		Data_moment[q] = zeros(90) + 49
 		if behavioral_mode != 'heading_pause':
