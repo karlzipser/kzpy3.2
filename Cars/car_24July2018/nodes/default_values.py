@@ -14,7 +14,7 @@ Network['GREY_OUT_TOP_OF_IMAGE'] = False
 Network['visualize_activations'] = False
 
 Mse = {}
-Mse['HUMAN_SMOOTHING_PARAMETER_1'] = 0.99
+Mse['HUMAN_SMOOTHING_PARAMETER_1'] = 0.75
 Mse['USE_MSE'] = True
 Mse['USE_SIG'] = True
 Mse['USE_IMU'] = True

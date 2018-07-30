@@ -27,7 +27,7 @@ Parameters['human']['motor_percent'] = 49
 Parameters['network'] = {}
 Parameters['network']['servo_percent'] = 49
 Parameters['network']['motor_percent'] = 49
-Parameters['IMU_SMOOTHING_PARAMETER'] = 0.8
+Parameters['IMU_SMOOTHING_PARAMETER'] = 0.99
 Parameters['Hz'] = {}
 
 import default_values
