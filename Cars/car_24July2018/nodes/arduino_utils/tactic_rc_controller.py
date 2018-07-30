@@ -128,7 +128,9 @@ def _TACTIC_RC_controller_run_loop(P):
             if P['USE_ROS']:
                 P['publish_MSE_data'](P)
 
-            print_timer.message(compare_percents_and_pwms(P))
+            if print_timer.check():
+                compare_percents_and_pwms(P)
+                print_timer.reset()
 
             if very_low_freq_timer.check():
                 pd2s('servo:',int(P['servo_pwm_min']),int(P['servo_pwm_null']),int(P['servo_pwm_max']),'motor:',int(P['motor_pwm_min']),int(P['motor_pwm_null']),int(P['motor_pwm_max']))
@@ -178,8 +180,8 @@ def compare_percents_and_pwms(P):
             s_from_percent = servo_percent_to_pwm(P['human']['servo_percent'],P)
             m_pwm = P['human']['motor_pwm_smooth']
             m_from_percent = motor_percent_to_pwm(P['human']['motor_percent'],P)
-            return dp(s_from_percent/(0.01+s_pwm),2),dp(m_from_percent/(0.01+m_pwm),2)
-    return ''
+            print dp(s_from_percent/(0.01+s_pwm),2),dp(m_from_percent/(0.01+m_pwm),2)
+
 
 
 
