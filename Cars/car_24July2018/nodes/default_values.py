@@ -92,4 +92,15 @@ nmcli radio wifi on
 -have a 'stop' behavioral mode controlled by transmitter to get non-aruco heading pause data
 -note the need to fix baseline problem with LCR files from June, and check that same problem isn't happening now
 
+http://wiki.ros.org/ROS/NetworkSetup
+https://answers.ros.org/question/90536/ros-remote-master-can-see-topics-but-no-data/
+export ROS_MASTER_URI=http://192.168.1.20:11311
+make sure master's ip and name (tegra-ubuntu) are in /etc/hosts
+on master, export ROS_IP=0.0.0.0 # Listen on any interface
+
+ipaddr_ = "http://192.168.1.20:11311"
+print(d2s('Setting ROS_MASTER_URI to',ipaddr_))
+os.environ["ROS_MASTER_URI"] = ipaddr_
+os.environ["ROS_IP"] = "0.0.0.0"
+
 """
