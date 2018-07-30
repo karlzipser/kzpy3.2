@@ -129,7 +129,7 @@ def _TACTIC_RC_controller_run_loop(P):
                 P['publish_MSE_data'](P)
 
             if print_timer.check():
-                compare_percents_and_pwms(P)
+                #compare_percents_and_pwms(P)
                 print_timer.reset()
 
             if very_low_freq_timer.check():
