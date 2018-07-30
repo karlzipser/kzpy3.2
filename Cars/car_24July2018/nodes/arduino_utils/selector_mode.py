@@ -75,7 +75,7 @@ def _selector_run_loop(P):
                 if P['selector_mode'] == 'menu_mode':
                     for theme in A.keys():
                         if P[theme] == False:
-                            print_timer.message(d2s(P['human']['motor_percent']))
+                            #print_timer.message(d2s(P['human']['motor_percent']))
                             for kind in A[theme].keys():
                                 if P['button_number'] == A[theme][kind]['button']:
                                     if P['human']['servo_percent']>A[theme][kind]['min'] and P['human']['servo_percent']<A[theme][kind]['max']:
