@@ -19,8 +19,8 @@ try:
     os.remove(temp_file)
 except:
     while not rospy.is_shutdown():
-        print('not saving data')
-        time.sleep(1)
+        pd2s('not saving data',time_str())
+        time.sleep(30)
 
 foldername_prefix = os.environ["COMPUTER_NAME"] #'run_'
 
