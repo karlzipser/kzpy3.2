@@ -97,12 +97,10 @@ if Parameters['USE_ROS']:
         else:
             drive_mode = 0         
         P['steer_pub'].publish(std_msgs.msg.Int32(P['human']['servo_percent']))
-        P['motor_pub'].publish(std_msgs.msg.Int32(P['human']['motor_percent']))
-
-
-
+        P['motor_pub'].publish(std_msgs.msg.Int32(P['human']['motor_percent'])
         P['button_number_pub'].publish(std_msgs.msg.Int32(P['button_number']))
         P['encoder_pub'].publish(std_msgs.msg.Float32(P['encoder']))
+
         if MSE_low_frequency_pub_timer.check():
             if P['button_number'] == 1:
                 behavioral_mode_choice = 'left'
@@ -111,21 +109,19 @@ if Parameters['USE_ROS']:
             else:
                 behavioral_mode_choice = P['behavioral_mode_choice']
             P['behavioral_mode_pub'].publish(d2s(behavioral_mode_choice))
-            P['place_choice_pub'].publish(d2s(P['place_choice']))
             P['human_agent_pub'].publish(std_msgs.msg.Int32(human_val))
             P['drive_mode_pub'].publish(std_msgs.msg.Int32(drive_mode))
             P['Hz_mse_pub'].publish(std_msgs.msg.Float32(P['Hz']['mse']))
+            MSE_low_frequency_pub_timer.reset()
 
+        if MSE_very_low_frequency_pub_timer.check():
+            P['place_choice_pub'].publish(d2s(P['place_choice']))
             P['servo_pwm_min_pub'].publish(std_msgs.msg.Int32(P['servo_pwm_min']))
             P['servo_pwm_max_pub'].publish(std_msgs.msg.Int32(P['servo_pwm_max']))
             P['servo_pwm_null_pub'].publish(std_msgs.msg.Int32(int(P['servo_pwm_null'])))
             P['motor_pwm_min_pub'].publish(std_msgs.msg.Int32(P['motor_pwm_min']))
             P['motor_pwm_max_pub'].publish(std_msgs.msg.Int32(P['motor_pwm_max']))
             P['motor_pwm_null_pub'].publish(std_msgs.msg.Int32(int(P['motor_pwm_null'])))
-
-            MSE_low_frequency_pub_timer.reset()
-
-        if MSE_very_low_frequency_pub_timer.check():
             #P['network_weights_name_pub'].publish(std_msgs.msg.String(default_values.Weights['weight_file_path']))
             MSE_very_low_frequency_pub_timer.reset()
     def publish_No_Arduino_data(P):
