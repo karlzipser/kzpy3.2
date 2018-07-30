@@ -94,6 +94,7 @@ nmcli radio wifi on
 
 http://wiki.ros.org/ROS/NetworkSetup
 https://answers.ros.org/question/90536/ros-remote-master-can-see-topics-but-no-data/
+https://answers.ros.org/question/118576/rostopic-publish-message-to-remote-machine/
 export ROS_MASTER_URI=http://192.168.1.20:11311
 make sure master's ip and name (tegra-ubuntu) are in /etc/hosts
 on master, export ROS_IP=0.0.0.0 # Listen on any interface
