@@ -14,8 +14,9 @@ P['max_num_runs_to_open'] = 300
 
 P['experiments_folders'] = [#opjm('2_TB_Samsung_n2_/bair_car_data_Main_Dataset_part1/locations'),
 	#opjD('bdd_car_data_July2017_LCR/locations'),
-	opjm('preprocessed_1/model_car_data_June2018_LCR/locations'),
-	opjm('preprocessed_1/model_car_data_July2018_lrc/locations')]
+	opjm('preprocessed_1b/model_car_data_June2018_LCR/locations'),
+	opjm('preprocessed_1b/model_car_data_July2018_lrc/locations'),
+	opjm('preprocessed_1b/bdd_car_data_Tilden_1Oct2017/locations')]
 
 P['aruco_experiments_folders'] = []#[opjD('all_aruco_reprocessed')]
 
