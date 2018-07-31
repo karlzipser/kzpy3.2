@@ -13,6 +13,14 @@ except Exception as e:
     print(e.message, e.args)
 """
 
+try:
+    temp_file = opjm('rosbags/__temp__')
+    unix('touch '+temp_file)
+    os.remove(temp_file)
+except:
+    while not rospy.is_shutdown():
+        pd2s('not saving data',time_str())
+        time.sleep(30)
 
 foldername_prefix = os.environ["COMPUTER_NAME"] #'run_'
 
