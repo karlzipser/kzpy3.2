@@ -20,11 +20,11 @@ USING_PARAMIKO = False
 try:
     if os.environ['PARAMIKO_TARGET_IP']:
         import paramiko
-        """
+        
         sshclient = paramiko.SSHClient()
         sshclient.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         sshclient.connect(os.environ['PARAMIKO_TARGET_IP'],username='nvidia')
-        """
+
         spd2s('Using paramiko.')
         command_counter = 0
         paramiko_path = opjD('paramiko')
@@ -212,6 +212,7 @@ while True:
             if USING_PARAMIKO:
                 filename = d2p(command_counter,int(adjusted_steer),int(adjusted_motor),'cmd')
                 print filename
+                command_counter += 1
                 #sshclient.exec_command(d2n('touch ',path,filename))
 
 
