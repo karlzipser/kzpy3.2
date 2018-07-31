@@ -15,6 +15,25 @@ if not N['USE_NETWORK']:
     time.sleep(3600*24)
     assert(False)
 import net_utils
+
+USING_PARAMIKO = False
+try:
+    if os.environ['PARAMIKO_TARGET_IP']:
+        import paramiko
+        """
+        sshclient = paramiko.SSHClient()
+        sshclient.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        sshclient.connect(os.environ['PARAMIKO_TARGET_IP'],username='nvidia')
+        """
+        spd2s('Using paramiko.')
+        command_counter = 0
+        paramiko_path = opjD('paramiko')
+        USING_PARAMIKO = True
+except Exception as e:
+        print("********** paramiko Exception ***********************")
+        print(e.message, e.args)
+#
+
 ########################################################
 #          ROSPY SETUP SECTION
 import roslib
@@ -189,6 +208,12 @@ while True:
 
             steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
             motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
+
+            if USING_PARAMIKO:
+                filename = d2p(command_counter,int(adjusted_steer),int(adjusted_motor),'cmd')
+                print filename
+                #sshclient.exec_command(d2n('touch ',path,filename))
+
 
         if N['visualize_activations']:#low_frequency_pub_timer2.check():
             #mi(np.random.random((100,100)));spause()

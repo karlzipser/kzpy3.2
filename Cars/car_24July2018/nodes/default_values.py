@@ -20,8 +20,8 @@ Mse['USE_SIG'] = True
 Mse['USE_IMU'] = True
 
 NO_Mse = {}
-NO_Mse['behavioral_mode_choice'] = 'furtive'
-NO_Mse['place_choice'] = 'Tilden'
+NO_Mse['behavioral_mode_choice'] = 'direct'
+NO_Mse['place_choice'] = 'home'
 
 """
 https://stackoverflow.com/questions/29232438/bash-check-if-var-is-in-number-range
@@ -103,5 +103,12 @@ ipaddr_ = "http://192.168.1.20:11311"
 print(d2s('Setting ROS_MASTER_URI to',ipaddr_))
 os.environ["ROS_MASTER_URI"] = ipaddr_
 os.environ["ROS_IP"] = "0.0.0.0"
+
+on publisher (.101)
+export ROS_IP=192.168.1.101
+roscore 
+in /etc/hosts "192.168.1.50 laptop", the name laptop being important it seems. Get this by typing 'hostname' on command line.
+on subscriber machine, ROS_IP='' [do not set] (may not be necessary)
+
 
 """
