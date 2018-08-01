@@ -241,7 +241,7 @@ while True:
                             os.remove(f)
                         if type(latest_paramiko_message) == str:
                             if seconds_old < 0.1:
-                                print latest_paramiko_message,dp(seconds_old,3)
+                                #print latest_paramiko_message,dp(seconds_old,3)
                                 components = latest_paramiko_message.split('.')
                                 paramiko_steer = num_from_str(components[0])
                                 paramiko_motor = num_from_str(components[1])
@@ -254,15 +254,17 @@ while True:
                                                     if paramiko_motor >= 0:
                                                         if paramiko_motor < 100:
                                                             paramiko_values_good = True
+                            """
                             else:
                                 paramiko_steer,paramiko_motor = 49,49
                                 paramiko_values_good = True # good in the sense that they can be used 
                             if paramiko_values_good:
-                                pd2s('(',paramiko_steer,',',paramiko_motor,')')
+                            """
+                            pd2s('(',paramiko_steer,',',paramiko_motor,')\t(',adjusted_steer,',',adjusted_motor,')')
                     except Exception as e:
                         pass
-                        print("********** if RECEIVE_STEER_MOTOR_FROM_PARAMIKO: Exception ***********************")
-                        print(e.message, e.args)
+                        #print("********** if RECEIVE_STEER_MOTOR_FROM_PARAMIKO: Exception ***********************")
+                        #print(e.message, e.args)
 
 
 
