@@ -231,10 +231,8 @@ while True:
                             os.remove(f)
                         print latest_paramiko_message
                         if type(latest_paramiko_message) == str:
-                            print seconds_old
-                            if seconds_old < 1:
-
-                                print latest_paramiko_message
+                            if seconds_old < 0.1:
+                                print latest_paramiko_message,dp(seconds_old,3)
                                 components = latest_paramiko_message.split('.')
                                 paramiko_steer = num_from_str(components[0])
                                 paramiko_motor = num_from_str(components[1])
@@ -248,7 +246,7 @@ while True:
                                                         if paramiko_motor < 100:
                                                             paramiko_values_good = True  
                                 if paramiko_values_good:
-                                    print paramiko_steer,paramiko_motor
+                                    pd2s('(',paramiko_steer,',',paramiko_motor,')')
                     except Exception as e:
                         pass
                         #print("********** paramiko Exception ***********************")
