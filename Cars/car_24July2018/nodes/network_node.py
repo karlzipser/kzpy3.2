@@ -229,6 +229,8 @@ while True:
             #
             if 'This is the paramiko runtime section':
 
+                paramiko_steer,paramiko_motor = 49,49
+
                 if RECEIVE_STEER_MOTOR_FROM_PARAMIKO:
                     try:
                         paramiko_values_good = False
