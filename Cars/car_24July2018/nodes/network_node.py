@@ -213,7 +213,7 @@ while True:
                 filename = d2p(command_counter,int(adjusted_steer),int(adjusted_motor),'cmd')
                 print filename
                 command_counter += 1
-                #sshclient.exec_command(d2n('touch ',path,filename))
+                sshclient.exec_command(d2n('touch ',opj(paramiko_path,filename)))
 
 
         if N['visualize_activations']:#low_frequency_pub_timer2.check():
