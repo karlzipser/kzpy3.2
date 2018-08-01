@@ -20,10 +20,10 @@ USING_PARAMIKO = False
 try:
     if os.environ['PARAMIKO_TARGET_IP']:
         import paramiko
-        
+        qqq='nvidia'
         sshclient = paramiko.SSHClient()
         sshclient.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        sshclient.connect(os.environ['PARAMIKO_TARGET_IP'],username='nvidia')
+        sshclient.connect(os.environ['PARAMIKO_TARGET_IP'],username='nvidia',password=qqq)
 
         spd2s('Using paramiko.')
         command_counter = 0
