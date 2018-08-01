@@ -220,10 +220,11 @@ while True:
             #################################################################################
             #
             if 'This is the paramiko runtime section':
+
                 if True:#RECEIVE_STEER_MOTOR_FROM_PARAMIKO:
                     print RECEIVE_STEER_MOTOR_FROM_PARAMIKO
                     try:
-                        latest_paramiko_message, = fname(most_recent_file_in_folder(opjD('paramiko')))#,return_age_in_seconds=True)
+                        latest_paramiko_message = fname(most_recent_file_in_folder(opjD('paramiko')))#,return_age_in_seconds=True)
                         print latest_paramiko_message
                         if type(latest_paramiko_message) == str:
                             #print seconds_old
@@ -250,6 +251,15 @@ while True:
                         pass
                         #print("********** paramiko Exception ***********************")
                         #print(e.message, e.args)
+
+
+                if SEND_STEER_MOTOR_WITH_PARAMIKO:
+                    filename = d2p(int(adjusted_steer),int(adjusted_motor),'cmd')
+                    paramiko_freq_timer.freq(filename)
+                    #paramiko_command_counter += 1
+                    sshclient.exec_command(d2n('touch ',opj(paramiko_path,filename)))
+
+
             #
             #################################################################################
             
@@ -259,11 +269,6 @@ while True:
 
 
 
-            if SEND_STEER_MOTOR_WITH_PARAMIKO:
-                filename = d2p(int(adjusted_steer),int(adjusted_motor),'cmd')
-                paramiko_freq_timer.freq(filename)
-                #paramiko_command_counter += 1
-                sshclient.exec_command(d2n('touch ',opj(paramiko_path,filename)))
 
 
 
