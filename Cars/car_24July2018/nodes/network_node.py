@@ -215,18 +215,19 @@ while True:
             adjusted_motor = bound_value(adjusted_motor,0,99)
             adjusted_steer = bound_value(adjusted_steer,0,99)
 
-            print adjusted_steer,adjusted_motor
+            #print adjusted_steer,adjusted_motor
 
             #################################################################################
             #
-            if False:#'This is the paramiko runtime section':
-                if RECEIVE_STEER_MOTOR_FROM_PARAMIKO:
+            if 'This is the paramiko runtime section':
+                if True:#RECEIVE_STEER_MOTOR_FROM_PARAMIKO:
+                    print RECEIVE_STEER_MOTOR_FROM_PARAMIKO
                     try:
-                        latest_paramiko_message,seconds_old = fname(most_recent_file_in_folder(opjD('paramiko')),return_age_in_seconds=True)
+                        latest_paramiko_message, = fname(most_recent_file_in_folder(opjD('paramiko')))#,return_age_in_seconds=True)
                         print latest_paramiko_message
                         if type(latest_paramiko_message) == str:
-                            print seconds_old
-                            if seconds_old < 0.1:
+                            #print seconds_old
+                            if True:#seconds_old < 0.1:
                                 _files = glob.glob(opjD('paramiko','*'))
                                 for f in _files:
                                     os.remove(f)
@@ -256,11 +257,15 @@ while True:
             steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
             motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
 
+
+
             if SEND_STEER_MOTOR_WITH_PARAMIKO:
                 filename = d2p(int(adjusted_steer),int(adjusted_motor),'cmd')
                 paramiko_freq_timer.freq(filename)
                 #paramiko_command_counter += 1
                 sshclient.exec_command(d2n('touch ',opj(paramiko_path,filename)))
+
+
 
 
         if N['visualize_activations']:#low_frequency_pub_timer2.check():
