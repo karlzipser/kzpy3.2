@@ -22,6 +22,7 @@ if 'This is the paramiko setup section':
     SEND_STEER_MOTOR_WITH_PARAMIKO = False
     try:
         if os.environ['PARAMIKO_TARGET_IP']:
+            os.environ['PARAMIKO_TARGET_IP']
             import paramiko
             qqq='nvidia'
             sshclient = paramiko.SSHClient()
@@ -34,8 +35,8 @@ if 'This is the paramiko setup section':
             SEND_STEER_MOTOR_WITH_PARAMIKO = True
     except Exception as e:
         pass
-        #print("********** paramiko Exception ***********************")
-        #print(e.message, e.args)
+        print("********** paramiko Exception ***********************")
+        print(e.message, e.args)
     RECEIVE_STEER_MOTOR_FROM_PARAMIKO = False
     if SEND_STEER_MOTOR_WITH_PARAMIKO == False:
         RECEIVE_STEER_MOTOR_FROM_PARAMIKO = True
@@ -254,6 +255,7 @@ while True:
                         #print(e.message, e.args)
 
 
+                
                 if SEND_STEER_MOTOR_WITH_PARAMIKO:
                     filename = d2p(int(adjusted_steer),int(adjusted_motor),'cmd')
                     paramiko_freq_timer.freq(filename)
