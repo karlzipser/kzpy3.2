@@ -292,12 +292,20 @@ while True:
                     elif paramiko_motor < N['motor_reverse_threshold'] and adjusted_motor > N['motor_reverse_threshold']:
                         DRIVE_FORWARD == True
                 if DRIVE_FORWARD == False:
-                    adjusted_motor = bound_value(99-paramiko_motor,0,99)
-                    adjusted_steer = bound_value(99-paramiko_steer,0,99)
+                    #adjusted_motor = bound_value(99-paramiko_motor,0,99)
+                    #adjusted_steer = bound_value(99-paramiko_steer,0,99)
+                    adjusted_motor = bound_value(paramiko_motor,0,99)
+                    adjusted_steer = bound_value(paramiko_steer,0,99)
             #
             #################################################################################
 
-            pd2s('[',DRIVE_FORWARD,adjusted_steer,',',adjusted_motor,']')
+            if DRIVE_FORWARD:
+                _m = '['
+                _n = ']'
+            else
+                _m = '<'
+                _n = '>'
+            pd2s(_m,DRIVE_FORWARD,adjusted_steer,',',adjusted_motor,_n)
 
 
             #################################################################################
