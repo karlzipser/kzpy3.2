@@ -30,8 +30,9 @@ try:
         spd2s('Using paramiko to send steer/motor signals to',os.environ['PARAMIKO_TARGET_IP'])
         SEND_STEER_MOTOR_WITH_PARAMIKO = True
 except Exception as e:
-        print("********** paramiko Exception ***********************")
-        print(e.message, e.args)
+    pass
+    #print("********** paramiko Exception ***********************")
+    #print(e.message, e.args)
 #
 RECEIVE_STEER_MOTOR_FROM_PARAMIKO = False
 if SEND_STEER_MOTOR_WITH_PARAMIKO == False:
@@ -231,9 +232,10 @@ while True:
                         if paramiko_values_good:
                             print paramiko_steer,paramiko_motor
                 except Exception as e:
-                        print("********** paramiko Exception ***********************")
-                        print(e.message, e.args)
-                                     
+                    pass
+                    #print("********** paramiko Exception ***********************")
+                    #print(e.message, e.args)
+
 
             steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
             motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
