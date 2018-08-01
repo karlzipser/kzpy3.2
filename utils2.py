@@ -537,7 +537,7 @@ def memory():
 
 
 
-def most_recent_file_in_folder(path,str_elements=[],ignore_str_elements=[]):
+def most_recent_file_in_folder(path,str_elements=[],ignore_str_elements=[],return_mtime=False):
 	files = gg(opj(path,'*'))
 	if len(files) == 0:
 		return None
@@ -562,7 +562,10 @@ def most_recent_file_in_folder(path,str_elements=[],ignore_str_elements=[]):
 		mtimes[os.path.getmtime(c)] = c
 	mt = sorted(mtimes.keys())[-1]
 	c = mtimes[mt]
-	return c
+	if return_mtime:
+		return c,mt
+	else:
+		return c
 
 
 def a_key(dic):
