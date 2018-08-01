@@ -27,6 +27,7 @@ try:
 
         spd2s('Using paramiko.')
         command_counter = 0
+        paramiko_freq_timer = Timer(5)
         paramiko_path = opjD('paramiko')
         USING_PARAMIKO = True
 except Exception as e:
@@ -211,7 +212,7 @@ while True:
 
             if USING_PARAMIKO:
                 filename = d2p(command_counter,int(adjusted_steer),int(adjusted_motor),'cmd')
-                print filename
+                paramiko_freq_timer.freq(filename)
                 command_counter += 1
                 sshclient.exec_command(d2n('touch ',opj(paramiko_path,filename)))
 
