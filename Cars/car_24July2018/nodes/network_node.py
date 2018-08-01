@@ -16,27 +16,33 @@ if not N['USE_NETWORK']:
     assert(False)
 import net_utils
 
-SEND_STEER_MOTOR_WITH_PARAMIKO = False
-try:
-    if os.environ['PARAMIKO_TARGET_IP']:
-        import paramiko
-        qqq='nvidia'
-        sshclient = paramiko.SSHClient()
-        sshclient.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        sshclient.connect(os.environ['PARAMIKO_TARGET_IP'],username='nvidia',password=qqq)
-        #paramiko_command_counter = 0
-        paramiko_freq_timer = Timer(5)
-        paramiko_path = opjD('paramiko')
-        spd2s('Using paramiko to send steer/motor signals to',os.environ['PARAMIKO_TARGET_IP'])
-        SEND_STEER_MOTOR_WITH_PARAMIKO = True
-except Exception as e:
-    pass
-    #print("********** paramiko Exception ***********************")
-    #print(e.message, e.args)
+#################################################################################
 #
-RECEIVE_STEER_MOTOR_FROM_PARAMIKO = False
-if SEND_STEER_MOTOR_WITH_PARAMIKO == False:
-    RECEIVE_STEER_MOTOR_FROM_PARAMIKO = True
+if 'This is the paramiko setup section':
+    SEND_STEER_MOTOR_WITH_PARAMIKO = False
+    try:
+        if os.environ['PARAMIKO_TARGET_IP']:
+            import paramiko
+            qqq='nvidia'
+            sshclient = paramiko.SSHClient()
+            sshclient.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+            sshclient.connect(os.environ['PARAMIKO_TARGET_IP'],username='nvidia',password=qqq)
+            #paramiko_command_counter = 0
+            paramiko_freq_timer = Timer(5)
+            paramiko_path = opjD('paramiko')
+            spd2s('Using paramiko to send steer/motor signals to',os.environ['PARAMIKO_TARGET_IP'])
+            SEND_STEER_MOTOR_WITH_PARAMIKO = True
+    except Exception as e:
+        pass
+        #print("********** paramiko Exception ***********************")
+        #print(e.message, e.args)
+    RECEIVE_STEER_MOTOR_FROM_PARAMIKO = False
+    if SEND_STEER_MOTOR_WITH_PARAMIKO == False:
+        RECEIVE_STEER_MOTOR_FROM_PARAMIKO = True
+#
+#################################################################################
+
+
 ########################################################
 #          ROSPY SETUP SECTION
 import roslib
@@ -209,33 +215,38 @@ while True:
             adjusted_motor = bound_value(adjusted_motor,0,99)
             adjusted_steer = bound_value(adjusted_steer,0,99)
 
-            if RECEIVE_STEER_MOTOR_FROM_PARAMIKO:
-                try:
-                    latest_paramiko_message = fname(most_recent_file_in_folder(opjD('paramiko')))
-                    if type(latest_paramiko_message) == str:
-                        _files = glob.glob(opjD('paramiko','*'))
-                        for f in _files:
-                            os.remove(f)
-                        print latest_paramiko_message
-                        components = latest_paramiko_message.split('.')
-                        paramiko_steer = num_from_str(components[0])
-                        paramiko_motor = num_from_str(components[1])
-                        paramiko_values_good = False
-                        if components[2] == 'cmd':
-                            if type(paramiko_steer) == int:
-                                if paramiko_steer >= 0:
-                                    if paramiko_steer < 100:
-                                        if type(paramiko_motor) == int:
-                                            if paramiko_motor >= 0:
-                                                if paramiko_motor < 100:
-                                                    paramiko_values_good = True  
-                        if paramiko_values_good:
-                            print paramiko_steer,paramiko_motor
-                except Exception as e:
-                    pass
-                    #print("********** paramiko Exception ***********************")
-                    #print(e.message, e.args)
-
+            #################################################################################
+            #
+            if 'This is the paramiko runtime section':
+                if RECEIVE_STEER_MOTOR_FROM_PARAMIKO:
+                    try:
+                        latest_paramiko_message = fname(most_recent_file_in_folder(opjD('paramiko')))
+                        if type(latest_paramiko_message) == str:
+                            _files = glob.glob(opjD('paramiko','*'))
+                            for f in _files:
+                                os.remove(f)
+                            print latest_paramiko_message
+                            components = latest_paramiko_message.split('.')
+                            paramiko_steer = num_from_str(components[0])
+                            paramiko_motor = num_from_str(components[1])
+                            paramiko_values_good = False
+                            if components[2] == 'cmd':
+                                if type(paramiko_steer) == int:
+                                    if paramiko_steer >= 0:
+                                        if paramiko_steer < 100:
+                                            if type(paramiko_motor) == int:
+                                                if paramiko_motor >= 0:
+                                                    if paramiko_motor < 100:
+                                                        paramiko_values_good = True  
+                            if paramiko_values_good:
+                                print paramiko_steer,paramiko_motor
+                    except Exception as e:
+                        pass
+                        #print("********** paramiko Exception ***********************")
+                        #print(e.message, e.args)
+            #
+            #################################################################################
+            
 
             steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
             motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
