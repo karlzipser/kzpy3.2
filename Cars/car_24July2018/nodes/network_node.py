@@ -215,9 +215,11 @@ while True:
             adjusted_motor = bound_value(adjusted_motor,0,99)
             adjusted_steer = bound_value(adjusted_steer,0,99)
 
+            print adjusted_steer,adjusted_motor
+
             #################################################################################
             #
-            if 'This is the paramiko runtime section':
+            if False:#'This is the paramiko runtime section':
                 if RECEIVE_STEER_MOTOR_FROM_PARAMIKO:
                     try:
                         latest_paramiko_message,seconds_old = fname(most_recent_file_in_folder(opjD('paramiko')),return_age_in_seconds=True)
