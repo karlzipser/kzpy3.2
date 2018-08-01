@@ -221,7 +221,9 @@ while True:
                 if RECEIVE_STEER_MOTOR_FROM_PARAMIKO:
                     try:
                         latest_paramiko_message,seconds_old = fname(most_recent_file_in_folder(opjD('paramiko')),return_age_in_seconds=True)
+                        print latest_paramiko_message
                         if type(latest_paramiko_message) == str:
+                            print seconds_old
                             if seconds_old < 0.1:
                                 _files = glob.glob(opjD('paramiko','*'))
                                 for f in _files:
