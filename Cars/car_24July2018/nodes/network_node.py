@@ -225,14 +225,14 @@ while True:
                     try:
                         the_file,seconds_old = most_recent_file_in_folder(opjD('paramiko'),return_age_in_seconds=True)
                         latest_paramiko_message = fname(the_file)
-                        
+                        _files = glob.glob(opjD('paramiko','*'))
+                        for f in _files:
+                            os.remove(f)
                         print latest_paramiko_message
                         if type(latest_paramiko_message) == str:
                             print seconds_old
                             if seconds_old < 1:
-                                _files = glob.glob(opjD('paramiko','*'))
-                                for f in _files:
-                                    os.remove(f)
+
                                 print latest_paramiko_message
                                 components = latest_paramiko_message.split('.')
                                 paramiko_steer = num_from_str(components[0])
