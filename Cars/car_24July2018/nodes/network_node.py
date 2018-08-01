@@ -185,7 +185,7 @@ if N['visualize_activations']:
     from Train_SqueezeNet_31May3018_copy import Activity_Module 
 
 DRIVE_FORWARD = True
-reverse_timer = Timer(1)
+reverse_timer = Timer(10)
 
 while True:
     if N['RELOAD_NET']: # temporary experiment
