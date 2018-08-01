@@ -19,6 +19,7 @@ import net_utils
 #################################################################################
 #
 if 'This is the paramiko setup section':
+    paramiko_steer,paramiko_motor = 49,49
     SEND_STEER_MOTOR_WITH_PARAMIKO = False
     try:
         if os.environ['PARAMIKO_TARGET_IP']:
@@ -229,7 +230,7 @@ while True:
             #
             if 'This is the paramiko runtime section':
 
-                paramiko_steer,paramiko_motor = 49,49
+                
 
                 if RECEIVE_STEER_MOTOR_FROM_PARAMIKO:
                     try:
