@@ -223,7 +223,7 @@ while True:
 
                 if RECEIVE_STEER_MOTOR_FROM_PARAMIKO:
                     try:
-                        the_file,seconds_old = most_recent_file_in_folder(opjD('paramiko',return_age_in_seconds=True))
+                        the_file,seconds_old = most_recent_file_in_folder(opjD('paramiko'),return_age_in_seconds=True)
                         latest_paramiko_message = fname(the_file)
                         
                         print latest_paramiko_message
