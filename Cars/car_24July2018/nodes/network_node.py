@@ -185,7 +185,7 @@ if N['visualize_activations']:
     from Train_SqueezeNet_31May3018_copy import Activity_Module 
 
 DRIVE_FORWARD = True
-reverse_timer = Timer(10)
+reverse_timer = Timer(1)
 
 while True:
     if N['RELOAD_NET']: # temporary experiment
@@ -282,13 +282,14 @@ while True:
             
             if RECEIVE_STEER_MOTOR_FROM_PARAMIKO:
                 if DRIVE_FORWARD == True:
+                    reverse_timer.reset()
                     if adjusted_motor < N['motor_reverse_threshold']:
                         #pd2s(paramiko_motor, '>', N['motor_reverse_threshold'],'?')
                         if paramiko_motor > N['motor_reverse_threshold']:
                             #print 'B'
                             DRIVE_FORWARD = False
                             #print 'reset'
-                            reverse_timer.reset()
+                            #reverse_timer.reset()
                 if DRIVE_FORWARD == False:
                     if reverse_timer.check():
                         DRIVE_FORWARD = True
