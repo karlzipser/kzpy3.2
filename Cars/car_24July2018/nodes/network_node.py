@@ -283,7 +283,7 @@ while True:
             if RECEIVE_STEER_MOTOR_FROM_PARAMIKO:
                 if DRIVE_FORWARD == True:
                     if adjusted_motor < N['motor_reverse_threshold']:
-                        pd2s(paramiko_motor, '>' N['motor_reverse_threshold'],'?')
+                        pd2s(paramiko_motor, '>', N['motor_reverse_threshold'],'?')
                         if paramiko_motor > N['motor_reverse_threshold']:
                             print 'B'
                             DRIVE_FORWARD = False
