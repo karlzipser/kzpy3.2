@@ -210,24 +210,25 @@ while True:
 
             if RECEIVE_STEER_MOTOR_FROM_PARAMIKO:
                 latest_paramiko_message = fname(most_recent_file_in_folder(opjD('paramiko')))
-                _files = glob.glob(opjD('paramiko','*'))
-                for f in _files:
-                    os.remove(f)
-                print latest_paramiko_message
-                components = latest_paramiko_message.split('.')
-                paramiko_steer = num_from_str(components[0])
-                paramiko_motor = num_from_str(components[1])
-                paramiko_values_good = False
-                if components[2] == 'cmd':
-                    if type(paramiko_steer) == int:
-                        if paramiko_steer >= 0:
-                            if paramiko_steer < 100:
-                                if type(paramiko_motor) == int:
-                                    if paramiko_motor >= 0:
-                                        if paramiko_motor < 100:
-                                            paramiko_values_good = True  
-                if paramiko_values_good:
-                    print paramiko_steer,paramiko_motor                        
+                if type(latest_paramiko_message) == str:
+                    _files = glob.glob(opjD('paramiko','*'))
+                    for f in _files:
+                        os.remove(f)
+                    print latest_paramiko_message
+                    components = latest_paramiko_message.split('.')
+                    paramiko_steer = num_from_str(components[0])
+                    paramiko_motor = num_from_str(components[1])
+                    paramiko_values_good = False
+                    if components[2] == 'cmd':
+                        if type(paramiko_steer) == int:
+                            if paramiko_steer >= 0:
+                                if paramiko_steer < 100:
+                                    if type(paramiko_motor) == int:
+                                        if paramiko_motor >= 0:
+                                            if paramiko_motor < 100:
+                                                paramiko_values_good = True  
+                    if paramiko_values_good:
+                        print paramiko_steer,paramiko_motor                        
 
             steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
             motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
