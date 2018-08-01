@@ -302,7 +302,7 @@ while True:
             if DRIVE_FORWARD:
                 _m = '['
                 _n = ']'
-            else
+            else:
                 _m = '<'
                 _n = '>'
             pd2s(_m,DRIVE_FORWARD,adjusted_steer,',',adjusted_motor,_n)
