@@ -229,7 +229,7 @@ while True:
                         _files = glob.glob(opjD('paramiko','*'))
                         for f in _files:
                             os.remove(f)
-                        print latest_paramiko_message
+                        #print latest_paramiko_message
                         if type(latest_paramiko_message) == str:
                             if seconds_old < 0.1:
                                 print latest_paramiko_message,dp(seconds_old,3)
