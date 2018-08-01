@@ -217,8 +217,8 @@ while True:
                 current_steer = (1.0-s)*torch_steer + s*current_steer
                 current_motor = (1.0-s)*torch_motor + s*current_motor
 
-            adjusted_motor = N['network_motor_gain']*(current_motor-49) + N['network_motor_offset'] + 49
-            adjusted_steer = N['network_steer_gain']*(current_steer-49) + 49
+            adjusted_motor = int(N['network_motor_gain']*(current_motor-49) + N['network_motor_offset'] + 49)
+            adjusted_steer = int(N['network_steer_gain']*(current_steer-49) + 49)
 
             adjusted_motor = bound_value(adjusted_motor,0,99)
             adjusted_steer = bound_value(adjusted_steer,0,99)
@@ -282,14 +282,14 @@ while True:
             
             if RECEIVE_STEER_MOTOR_FROM_PARAMIKO:
                 if DRIVE_FORWARD == True:
-                    if adjusted_motor < 55:
-                        if paramiko_motor > 55:
+                    if adjusted_motor < N['motor_reverse_threshold']:
+                        if paramiko_motor > N['motor_reverse_threshold']:
                             DRIVE_FORWARD = False
                             reverse_timer.reset()
                 elif DRIVE_FORWARD == False:
                     if reverse_timer.check():
                         DRIVE_FORWARD == True
-                    elif paramiko_motor < 55 and adjusted_motor > 55:
+                    elif paramiko_motor < N['motor_reverse_threshold'] and adjusted_motor > N['motor_reverse_threshold']:
                         DRIVE_FORWARD == True
                 if DRIVE_FORWARD == False:
                     adjusted_motor = bound_value(99-paramiko_motor,0,99)
@@ -297,6 +297,7 @@ while True:
             #
             #################################################################################
 
+            pd2s('[',DRIVE_FORWARD,adjusted_steer,',',adjusted_motor,']')
 
 
             #################################################################################
