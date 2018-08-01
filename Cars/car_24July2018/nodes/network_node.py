@@ -243,10 +243,10 @@ while True:
                                                             paramiko_values_good = True  
                                 if paramiko_values_good:
                                     print paramiko_steer,paramiko_motor
-                        except Exception as e:
-                            pass
-                            #print("********** paramiko Exception ***********************")
-                            #print(e.message, e.args)
+                    except Exception as e:
+                        pass
+                        #print("********** paramiko Exception ***********************")
+                        #print(e.message, e.args)
             #
             #################################################################################
             
