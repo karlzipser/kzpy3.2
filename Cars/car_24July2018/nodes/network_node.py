@@ -24,10 +24,10 @@ if 'This is the paramiko setup section':
         if os.environ['PARAMIKO_TARGET_IP']:
             os.environ['PARAMIKO_TARGET_IP']
             import paramiko
-            qqq='nvidia'
+
             sshclient = paramiko.SSHClient()
             sshclient.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-            sshclient.connect(os.environ['PARAMIKO_TARGET_IP'],username='nvidia',password=qqq)
+            sshclient.connect(os.environ['PARAMIKO_TARGET_IP'],username='nvidia')
             #paramiko_command_counter = 0
             paramiko_freq_timer = Timer(5)
             paramiko_path = opjD('paramiko')
@@ -255,7 +255,7 @@ while True:
                         #print(e.message, e.args)
 
 
-                
+
                 if SEND_STEER_MOTOR_WITH_PARAMIKO:
                     filename = d2p(int(adjusted_steer),int(adjusted_motor),'cmd')
                     paramiko_freq_timer.freq(filename)
