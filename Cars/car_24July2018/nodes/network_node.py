@@ -289,11 +289,11 @@ while True:
                             reverse_timer.reset()
                 if DRIVE_FORWARD == False:
                     if reverse_timer.check():
-                        DRIVE_FORWARD == True
-                        print 'A'
+                        DRIVE_FORWARD = True
+                        #print 'A'
                     if paramiko_motor < N['motor_reverse_threshold'] and adjusted_motor > N['motor_reverse_threshold']:
-                        DRIVE_FORWARD == True
-                        print 'B'
+                        DRIVE_FORWARD = True
+                        #print 'B'
                 if DRIVE_FORWARD == False:
                     #adjusted_motor = bound_value(99-paramiko_motor,0,99)
                     #adjusted_steer = bound_value(99-paramiko_steer,0,99)
