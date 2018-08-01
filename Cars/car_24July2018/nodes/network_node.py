@@ -28,18 +28,23 @@ if 'This is the paramiko setup section':
             sshclient = paramiko.SSHClient()
             sshclient.set_missing_host_key_policy(paramiko.AutoAddPolicy())
             sshclient.connect(os.environ['PARAMIKO_TARGET_IP'],username='nvidia')
-            #paramiko_command_counter = 0
             paramiko_freq_timer = Timer(5)
             paramiko_path = opjD('paramiko')
             spd2s('Using paramiko to send steer/motor signals to',os.environ['PARAMIKO_TARGET_IP'])
             SEND_STEER_MOTOR_WITH_PARAMIKO = True
     except Exception as e:
         pass
-        print("********** paramiko Exception ***********************")
+        print("********** PARAMIKO_TARGET_IP Exception ***********************")
         print(e.message, e.args)
     RECEIVE_STEER_MOTOR_FROM_PARAMIKO = False
-    if SEND_STEER_MOTOR_WITH_PARAMIKO == False:
-        RECEIVE_STEER_MOTOR_FROM_PARAMIKO = True
+    try:
+        if os.environ['RECEIVE_STEER_MOTOR_FROM_PARAMIKO'] == 'True':
+            if SEND_STEER_MOTOR_WITH_PARAMIKO == False:
+                RECEIVE_STEER_MOTOR_FROM_PARAMIKO = True
+    except Exception as e:
+        pass
+        print("********** RECEIVE_STEER_MOTOR_FROM_PARAMIKO Exception ***********************")
+        print(e.message, e.args)
 #
 #################################################################################
 
@@ -179,6 +184,8 @@ if N['visualize_activations']:
     from kzpy3.vis2 import *
     from Train_SqueezeNet_31May3018_copy import Activity_Module 
 
+DRIVE_FORWARD = True
+reverse_timer = Timer(1)
 
 while True:
     if N['RELOAD_NET']: # temporary experiment
@@ -224,12 +231,12 @@ while True:
 
                 if RECEIVE_STEER_MOTOR_FROM_PARAMIKO:
                     try:
+                        paramiko_values_good = False
                         the_file,seconds_old = most_recent_file_in_folder(opjD('paramiko'),return_age_in_seconds=True)
                         latest_paramiko_message = fname(the_file)
                         _files = glob.glob(opjD('paramiko','*'))
                         for f in _files:
                             os.remove(f)
-                        #print latest_paramiko_message
                         if type(latest_paramiko_message) == str:
                             if seconds_old < 0.1:
                                 print latest_paramiko_message,dp(seconds_old,3)
@@ -244,29 +251,56 @@ while True:
                                                 if type(paramiko_motor) == int:
                                                     if paramiko_motor >= 0:
                                                         if paramiko_motor < 100:
-                                                            paramiko_values_good = True  
-                                if paramiko_values_good:
-                                    pd2s('(',paramiko_steer,',',paramiko_motor,')')
+                                                            paramiko_values_good = True
+                            else:
+                                paramiko_steer,paramiko_motor = 49,49
+                                paramiko_values_good = True # good in the sense that they can be used 
+                            if paramiko_values_good:
+                                pd2s('(',paramiko_steer,',',paramiko_motor,')')
                     except Exception as e:
                         pass
-                        #print("********** paramiko Exception ***********************")
-                        #print(e.message, e.args)
+                        print("********** if RECEIVE_STEER_MOTOR_FROM_PARAMIKO: Exception ***********************")
+                        print(e.message, e.args)
 
 
 
-                if SEND_STEER_MOTOR_WITH_PARAMIKO:
-                    filename = d2p(int(adjusted_steer),int(adjusted_motor),'cmd')
-                    paramiko_freq_timer.freq(filename)
-                    #paramiko_command_counter += 1
-                    sshclient.exec_command(d2n('touch ',opj(paramiko_path,filename)))
+                elif SEND_STEER_MOTOR_WITH_PARAMIKO:
+                    try:
+                        filename = d2p(int(adjusted_steer),int(adjusted_motor),'cmd')
+                        paramiko_freq_timer.freq(filename)
+                        sshclient.exec_command(d2n('touch ',opj(paramiko_path,filename)))
+                    except Exception as e:
+                        pass
+                        print("********** elif SEND_STEER_MOTOR_WITH_PARAMIKO: Exception ***********************")
+                        print(e.message, e.args)
 
 
+            
+            if RECEIVE_STEER_MOTOR_FROM_PARAMIKO:
+                if DRIVE_FORWARD == True:
+                    if adjusted_motor < 55:
+                        if paramiko_motor > 55:
+                            DRIVE_FORWARD = False
+                            reverse_timer.reset()
+                elif DRIVE_FORWARD == False:
+                    if reverse_timer.check():
+                        DRIVE_FORWARD == True
+                    elif paramiko_motor < 55 and adjusted_motor > 55:
+                        DRIVE_FORWARD == True
+                if DRIVE_FORWARD == False:
+                    adjusted_motor = bound_value(99-paramiko_motor,0,99)
+                    adjusted_steer = bound_value(99-paramiko_steer,0,99)
             #
             #################################################################################
-            
 
+
+
+            #################################################################################
+            #
             steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
             motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
+            #
+            #################################################################################
 
 
 
