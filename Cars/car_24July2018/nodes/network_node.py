@@ -286,10 +286,10 @@ while True:
                         if paramiko_motor > N['motor_reverse_threshold']:
                             DRIVE_FORWARD = False
                             reverse_timer.reset()
-                elif DRIVE_FORWARD == False:
+                if DRIVE_FORWARD == False:
                     if reverse_timer.check():
                         DRIVE_FORWARD == True
-                    elif paramiko_motor < N['motor_reverse_threshold'] and adjusted_motor > N['motor_reverse_threshold']:
+                    if paramiko_motor < N['motor_reverse_threshold'] and adjusted_motor > N['motor_reverse_threshold']:
                         DRIVE_FORWARD == True
                 if DRIVE_FORWARD == False:
                     #adjusted_motor = bound_value(99-paramiko_motor,0,99)
