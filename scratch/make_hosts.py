@@ -7,7 +7,7 @@ host_ip_dic = {
 	'Mr_New':103
 }
 
-host = 'Mr_Plain'
+host = os.environ('COMPUTER_NAME')
 
 host_list = [
 	(127.0.0.1,'localhost'),
