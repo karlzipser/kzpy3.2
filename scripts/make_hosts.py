@@ -19,4 +19,4 @@ for h in sorted(host_ip_dic.keys()):
 	if h != host:
 		host_list.append(host_ip_dic[host],host)
 
-pprint host_list
+pprint(host_list)
