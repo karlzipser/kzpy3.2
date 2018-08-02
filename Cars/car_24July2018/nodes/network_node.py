@@ -296,14 +296,14 @@ while True:
                     if reverse_timer.check():
                         DRIVE_FORWARD = True
                         #
-                    if paramiko_motor < N['motor_reverse_threshold'] and adjusted_motor > N['motor_reverse_threshold']:
+                    if False and paramiko_motor < N['motor_reverse_threshold'] and adjusted_motor > N['motor_reverse_threshold']:
                         DRIVE_FORWARD = True
                         #
                 if DRIVE_FORWARD == False:
-                    adjusted_motor = bound_value(99-paramiko_motor,0,99)
-                    adjusted_steer = bound_value(99-paramiko_steer,0,99)
-                    #adjusted_motor = bound_value(paramiko_motor,0,99)
-                    #adjusted_steer = bound_value(paramiko_steer,0,99)
+                    #adjusted_motor = bound_value(99-paramiko_motor,0,99)
+                    #adjusted_steer = bound_value(99-paramiko_steer,0,99)
+                    adjusted_motor = bound_value(paramiko_motor,0,99)
+                    adjusted_steer = bound_value(paramiko_steer,0,99)
             #
             #################################################################################
 
@@ -313,7 +313,7 @@ while True:
             else:
                 _m = '<'
                 _n = '>'
-            pd2s(_m,DRIVE_FORWARD,adjusted_steer,',',adjusted_motor,_n,dp(reverse_timer.time(),1))
+            pd2s(_m,DRIVE_FORWARD,adjusted_steer,',',adjusted_motor,_n,dp(reverse_timer.time(),1),SEND_STEER_MOTOR_WITH_PARAMIKO,RECEIVE_STEER_MOTOR_FROM_PARAMIKO)
 
 
             #################################################################################
