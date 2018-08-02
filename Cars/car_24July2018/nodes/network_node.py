@@ -300,9 +300,9 @@ while True:
                         DRIVE_FORWARD = True
                         #
                 if DRIVE_FORWARD == False:
-                    #adjusted_motor = bound_value(99-paramiko_motor,0,99)
+                    adjusted_motor = bound_value(99-paramiko_motor,0,99)
                     #adjusted_steer = bound_value(99-paramiko_steer,0,99)
-                    adjusted_motor = bound_value(paramiko_motor,0,99)
+                    #adjusted_motor = bound_value(paramiko_motor,0,99)
                     adjusted_steer = bound_value(paramiko_steer,0,99)
             #
             #################################################################################
