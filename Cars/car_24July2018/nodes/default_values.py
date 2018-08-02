@@ -12,7 +12,7 @@ Network['weight_file_path'] = opjh('pytorch_models','net_10Jun18_00h00m45s.Squee
 Network['USE_NETWORK'] = True
 Network['GREY_OUT_TOP_OF_IMAGE'] = False
 Network['visualize_activations'] = False
-Network['motor_reverse_threshold'] = 51
+Network['motor_reverse_threshold'] = 55
 
 Mse = {}
 Mse['HUMAN_SMOOTHING_PARAMETER_1'] = 0.75
