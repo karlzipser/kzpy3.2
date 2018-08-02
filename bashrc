@@ -87,6 +87,8 @@ alias sb='cd;source ~/.bashrc'
 
 if [ "$(whoami)" == "nvidia" ]
 then
+export $COMPUTER_NAME = $HOSTNAME
+PS1="HOSTNAME:: \WS "
 echo Hi $COMPUTER_NAME on Jetson
 echo "rrm;rlog"
 rrm
