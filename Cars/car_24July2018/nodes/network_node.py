@@ -42,6 +42,7 @@ if 'This is the paramiko setup section':
         if os.environ['RECEIVE_STEER_MOTOR_FROM_PARAMIKO'] == 'True':
             if SEND_STEER_MOTOR_WITH_PARAMIKO == False:
                 RECEIVE_STEER_MOTOR_FROM_PARAMIKO = True
+                spd2s('Using paramiko to receive steer/motor signals because',"os.environ['RECEIVE_STEER_MOTOR_FROM_PARAMIKO'] =",os.environ['RECEIVE_STEER_MOTOR_FROM_PARAMIKO'])
     except Exception as e:
         pass
         print("********** RECEIVE_STEER_MOTOR_FROM_PARAMIKO Exception ***********************")
@@ -242,7 +243,7 @@ while True:
                             os.remove(f)
                         if type(latest_paramiko_message) == str:
                             if seconds_old < 0.1:
-                                #print latest_paramiko_message,dp(seconds_old,3)
+                                print latest_paramiko_message,dp(seconds_old,3)
                                 components = latest_paramiko_message.split('.')
                                 paramiko_steer = num_from_str(components[0])
                                 paramiko_motor = num_from_str(components[1])
