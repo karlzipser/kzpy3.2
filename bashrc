@@ -76,10 +76,10 @@ export PATH=~/kzpy3:$PATH
 #export RECEIVE_STEER_MOTOR_FROM_PARAMIKO='True'
 
 
-sudo rm /etc/hosts
-rm ~/hosts
-make_hosts.py
-sudo ln -s ~/hosts /etc/hosts
+#sudo rm /etc/hosts
+#rm ~/hosts
+make_hosts.py &
+#sudo ln -s ~/hosts /etc/hosts
 
 
 
