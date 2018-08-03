@@ -30,4 +30,4 @@ print ""
 for h in host_list:
 	print h
 print ""
-pd2s("Saved 'hosts' to",host_file_path,'\b. Make sure to ln -s it to /etc/hosts.\n')
+pd2s("make_hosts.py saved 'hosts' to",host_file_path,'\b.\n')

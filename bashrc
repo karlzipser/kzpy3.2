@@ -23,33 +23,6 @@ alias zed_explorer='/usr/local/zed/tools/ZED\ Explorer'
 
 alias fixScreen='DISPLAY=:0 xrandr --output HDMI-0 --mode 1024x768'
 
-alias Mr_Blue='ssh nvidia@192.168.1.101'
-alias Mr_Orange='ssh nvidia@192.168.1.103'
-alias Mr_Yellow='ssh nvidia@192.168.1.104'
-alias Mr_Lt_Blue='ssh nvidia@192.168.1.105'
-alias Mr_Purple='ssh nvidia@192.168.1.106'
-alias Mr_TX2='ssh nvidia@192.168.1.201'
-alias Mr_Forward192='ssh nvidia@192.168.1.107'
-alias Mr_Forward10='ssh nvidia@10.0.0.107'
-alias Mr_Back192='ssh nvidia@192.168.1.201'
-alias Mr_Back10='ssh nvidia@10.0.0.201'
-
-alias Mr_Black='ssh nvidia@192.168.1.102'
-alias Mr_Plain='ssh nvidia@192.168.1.101'
-alias eMr_Black='ssh -X nvidia@192.168.1.112'
-alias eMr_Plain='ssh -X nvidia@192.168.1.111'
-
-alias pn='Mr_Plain'
-alias epn='eMr_Plain'
-alias bk='Mr_Black'
-alias ebk='eMr_Black'
-
-alias or='Mr_Orange'
-alias ye='Mr_Yellow'
-alias lt='Mr_Lt_Blue'
-alias pu='Mr_Purple'
-alias tx='Mr_TX2'
-
 alias kx='killall xterm'
 alias rosdo='sudo chmod -R 777 /media/karlzipser/rosbags*'
 
@@ -84,7 +57,8 @@ export PATH=~/kzpy3/misc:$PATH
 
 alias sb='cd;source ~/.bashrc'
 
-
+#######################################################
+#
 if [ "$(whoami)" == "nvidia" ]
 then
 
@@ -154,11 +128,12 @@ select opt in $OPTIONS; do
    fi
 done
 fi
+#
+#######################################################
 
 date
 
 
-# chmod -R 744 xyz
 
 
 #EOF
