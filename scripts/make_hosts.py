@@ -15,7 +15,7 @@ host_ip_dic = {
 	'Mr_Blue_Back':120
 }
 
-host_list = [
+host_list = [ time_str(),
 	d2s('127.0.0.1','localhost'),
 	d2s(base_ip+str(host_ip_dic[host]),host)
 	]
