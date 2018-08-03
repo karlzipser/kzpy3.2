@@ -2,7 +2,6 @@
 
 from kzpy3.utils2 import *
 
-os.environ['COMPUTER_NAME'] = 'Mr_Plain'
 
 host_file_path = opjh('hosts')
 host = os.environ['COMPUTER_NAME']
