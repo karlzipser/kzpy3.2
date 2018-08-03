@@ -25,9 +25,9 @@ for h in sorted(host_ip_dic.keys()):
 		host_list.append(d2s(base_ip+str(host_ip_dic[h]),h))
 
 list_of_strings_to_txt_file(host_file_path,host_list)
-unix(d2s('more',host_file_path))
-print ""
-for h in host_list:
-	print h
-print ""
-pd2s("make_hosts.py saved 'hosts' to",host_file_path,'\b.\n')
+#unix(d2s('more',host_file_path))
+#print ""
+#for h in host_list:
+#	print h
+#print ""
+#pd2s("make_hosts.py saved 'hosts' to",host_file_path,'\b.\n')
