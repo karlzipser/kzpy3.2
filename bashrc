@@ -87,8 +87,21 @@ alias sb='cd;source ~/.bashrc'
 
 if [ "$(whoami)" == "nvidia" ]
 then
-export $COMPUTER_NAME = $HOSTNAME
-PS1="HOSTNAME:: \WS "
+
+
+
+export COMPUTER_NAME=$HOSTNAME
+PS1="$COMPUTER_NAME> \W $ "
+source /opt/ros/kinetic/setup.bash
+source ~/catkin_ws/devel/setup.bash
+export PYTHONPATH=~:$PYTHONPATH
+export PYTHONPATH=~/kzpy3:$PYTHONPATH
+export PATH=~/kzpy3/utils:$PATH
+export PATH=~/kzpy3:$PATH
+#export PARAMIKO_TARGET_IP='192.168.1.103'
+#export RECEIVE_STEER_MOTOR_FROM_PARAMIKO='True'
+
+
 echo Hi $COMPUTER_NAME on Jetson
 echo "rrm;rlog"
 rrm
