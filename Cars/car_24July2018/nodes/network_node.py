@@ -288,7 +288,7 @@ while True:
                     reverse_timer.reset()
                     if adjusted_motor < N['motor_reverse_threshold']:
                         #pd2s(paramiko_motor, '>', N['motor_reverse_threshold'],'?')
-                        if paramiko_motor > N['motor_reverse_threshold']:
+                        if True:#paramiko_motor > N['motor_reverse_threshold']:
                             #print 'B'
                             DRIVE_FORWARD = False
                             #print 'reset'
