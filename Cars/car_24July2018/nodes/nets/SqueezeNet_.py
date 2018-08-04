@@ -1,8 +1,5 @@
 from kzpy3.utils2 import *
 exec(identify_file_str)
-spd2s('Using SqueezeNet_ under car_16July2018_stable!!!!!!!!!!!!!!!!!!')
-#time.sleep(3)
-import math
 import torch
 import torch.nn as nn
 import torch.nn.init as init
@@ -89,6 +86,18 @@ class SqueezeNet(nn.Module):
         self.A['final_output'] = self.A['final_output'].view(self.A['final_output'].size(0), -1)
         return self.A['final_output']
 
+
+    def forward_multi(self, x, metadata_versions_list):
+        self.A['camera_input'] = x
+        self.A['pre_metadata_features'] = self.pre_metadata_features(self.A['camera_input'])
+        self.A['final_output_list'] = []
+        for metadata in metadata_versions_list:
+            self.A['pre_metadata_features_metadata'] = torch.cat((self.A['pre_metadata_features'], metadata), 1)
+            self.A['post_metadata_features'] = self.post_metadata_features(self.A['pre_metadata_features_metadata'])
+            self.A['final_output'] = self.final_output(self.A['post_metadata_features'])
+            self.A['final_output'] = self.A['final_output'].view(self.A['final_output'].size(0), -1)
+            self.A['final_output_list'] += list(self.A['final_output'])
+        return self.A['final_output_list']
 
 
 def unit_test():

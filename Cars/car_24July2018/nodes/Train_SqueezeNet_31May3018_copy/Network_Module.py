@@ -19,7 +19,7 @@ def Pytorch_Network():
     D['criterion'] = torch.nn.MSELoss().cuda()
     D['optimizer'] = torch.optim.Adadelta(D['net'].parameters())
     D['data_moment_loss_record'] = {}
-    D['rate_counter'] = Rate_Counter('batch_size',P['BATCH_SIZE'])
+    #D['rate_counter'] = Rate_Counter('batch_size',P['BATCH_SIZE'])
     if P['RESUME']:
         cprint(d2s('Resuming with',P['WEIGHTS_FILE_PATH']),'red')
         save_data = torch.load(P['WEIGHTS_FILE_PATH'])

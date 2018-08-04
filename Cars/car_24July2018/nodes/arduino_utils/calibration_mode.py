@@ -1,5 +1,5 @@
 from kzpy3.utils2 import *
-import threading
+exec(identify_file_str)
 
 def Calibration_Mode(P):
     threading.Thread(target=_calibrate_run_loop,args=[P]).start()

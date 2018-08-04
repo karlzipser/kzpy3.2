@@ -3,6 +3,7 @@ from kzpy3.utils2 import *
 import os, sys, shutil, subprocess, time
 import rospy
 import std_msgs.msg
+exec(identify_file_str)
 
 """
 try:

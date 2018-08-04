@@ -3,6 +3,7 @@
 python kzpy3/Cars/car_16July2018/nodes/arduino_node.py
 """
 from kzpy3.utils2 import *
+exec(identify_file_str)
 
 Parameters = {}
 Parameters['calibrated'] = False
@@ -143,7 +144,6 @@ if Parameters['USE_ROS']:
     P['publish_IMU_data'] = publish_IMU_data
     P['publish_MSE_data'] = publish_MSE_data
 
-import threading
 from arduino_utils.serial_init import *
 from arduino_utils.tactic_rc_controller import *
 from arduino_utils.calibration_mode import *

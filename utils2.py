@@ -191,6 +191,7 @@ def str_contains(st,str_list):
 		if not s in st:
 			return False
 	return True
+	
 def str_contains_one(st,str_list):
 	for s in str_list:
 		if s in st:
@@ -248,18 +249,18 @@ def spd2s(*args):
 	s_ = ""
 	for q_ in range(len(d_)+4):
 		s_ += "*"
-	cprint(s_+'\n*')#,'yellow')
-	cprint('* '+d_)#,'yellow')
-	cprint('*\n'+s_)#,'yellow')
+	cprint(s_+'\n*','yellow')
+	cprint('* '+d_,'yellow')
+	cprint('*\n'+s_,'yellow')
 def srpd2s(*args):
 	d_ = d2s(*args)
 	l_ = len(d_)
 	s_ = ""
 	for q_ in range(len(d_)+4):
 		s_ += "*"
-	cprint(s_+'\n*')#,'red')
-	cprint('* '+d_)#,'red')
-	cprint('*\n'+s_)#(,'red')
+	cprint(s_+'\n*','red')
+	cprint('* '+d_,'red')
+	cprint('*\n'+s_,'red')
 
 def dp(f,n=2):
 	"""
@@ -303,12 +304,12 @@ def so(arg1,arg2):
 	assert(False)
 
 
-
+"""
 def psave(dic,data_path_key,path):
 	save_obj(dic[data_path_key],opj(path,data_path_key))
 def pload(dic,data_path_key,path):
 	dic[data_path_key] = load_obj(opj(path,data_path_key))
-
+"""
 
 def txt_file_to_list_of_strings(path_and_filename):
 	f = open(path_and_filename,"r") #opens file with name of "test.txt"
@@ -316,11 +317,21 @@ def txt_file_to_list_of_strings(path_and_filename):
 	for line in f:
 		str_lst.append(line.strip('\n'))
 	return str_lst
+
 def list_of_strings_to_txt_file(path_and_filename,str_lst,write_mode="w"):
 	f = open(path_and_filename,write_mode)
 	for s in str_lst:
 		f.write(s+'\n')
 	f.close()
+
+
+def text_to_file(f,t):
+	list_of_strings_to_txt_file(f,t.split('\n'))
+
+
+def file_to_text(f):
+	return '\n'.join(txt_file_to_list_of_strings(f))
+
 
 
 def rebin(a, shape):
@@ -337,6 +348,7 @@ def dict_to_sorted_list(d):
 	for k in ks:
 		l.append(d[k])
 	return l
+
 def get_sorted_keys_and_data(dict):
 	skeys = sorted(dict.keys())
 	sdata = []
@@ -403,7 +415,7 @@ def time_str(mode='FileSafe'):
 	if mode=='TimeShort':
 	   return now.strftime('%H:%M')
 
-
+"""
 def zrn(c,verify=False,show_only=False):
 	f = opjh('kzpy3/scratch/2015/12/scratch_script.py')
 	t = txt_file_to_list_of_strings(f)
@@ -419,7 +431,7 @@ def zrn(c,verify=False,show_only=False):
 				exec(v[c],globals())
 		else:
 			exec(v[c],globals())
-
+"""
 
 
 def getClipboardData():
@@ -438,8 +450,9 @@ def setClipboardData(data):
 	retcode = p.wait()
 scd = setClipboardData
 
-def say(t):
-	unix('say --interactive=/green -r 200 '+t)
+def say(t,rate=150):
+	spd2s(t)
+	unix(d2s('say --interactive=/green -r',rate,t))
 
 
 
@@ -464,8 +477,11 @@ def restore_Desktop(src):
 	for i in l:
 		shutil.move(opjh(src,i),opjD(''))
 
-def advance(lst,e):
-	lst.pop(0)
+def advance(lst,e,min_len=1):
+	if len(lst) < min_len:
+		pass
+	else:
+		lst.pop(0)
 	lst.append(e)
 
 
@@ -484,56 +500,56 @@ def kill_ps(process_name_to_kill):
 		unix(d2s('kill',p))
 
 
+if False:
+	def serial_ports():
+		""" Lists serial port names
 
-def serial_ports():
-	""" Lists serial port names
+			:raises EnvironmentError:
+				On unsupported or unknown platforms
+			:returns:
+				A list of the serial ports available on the system
 
-		:raises EnvironmentError:
-			On unsupported or unknown platforms
-		:returns:
-			A list of the serial ports available on the system
+			http://stackoverflow.com/questions/12090503/listing-available-com-ports-with-python
+		"""
+		if sys.platform.startswith('win'):
+			ports = ['COM%s' % (i + 1) for i in range(256)]
+		elif sys.platform.startswith('linux') or sys.platform.startswith('cygwin'):
+			# this excludes your current terminal "/dev/tty"
+			ports = glob.glob('/dev/tty[A-Za-z]*')
+		elif sys.platform.startswith('darwin'):
+			ports = glob.glob('/dev/tty.*')
+		else:
+			raise EnvironmentError('Unsupported platform')
 
-		http://stackoverflow.com/questions/12090503/listing-available-com-ports-with-python
-	"""
-	if sys.platform.startswith('win'):
-		ports = ['COM%s' % (i + 1) for i in range(256)]
-	elif sys.platform.startswith('linux') or sys.platform.startswith('cygwin'):
-		# this excludes your current terminal "/dev/tty"
-		ports = glob.glob('/dev/tty[A-Za-z]*')
-	elif sys.platform.startswith('darwin'):
-		ports = glob.glob('/dev/tty.*')
-	else:
-		raise EnvironmentError('Unsupported platform')
-
-	result = []
-	for port in ports:
-		try:
-			s = serial.Serial(port)
-			s.close()
-			result.append(port)
-		except (OSError, serial.SerialException):
-			pass
-	return result
+		result = []
+		for port in ports:
+			try:
+				s = serial.Serial(port)
+				s.close()
+				result.append(port)
+			except (OSError, serial.SerialException):
+				pass
+		return result
 
 
 
-def memory():
-	"""
-	Get node total memory and memory usage
-	http://stackoverflow.com/questions/17718449/determine-free-ram-in-python
-	"""
-	with open('/proc/meminfo', 'r') as mem:
-		ret = {}
-		tmp = 0
-		for i in mem:
-			sline = i.split()
-			if str(sline[0]) == 'MemTotal:':
-				ret['total'] = int(sline[1])
-			elif str(sline[0]) in ('MemFree:', 'Buffers:', 'Cached:'):
-				tmp += int(sline[1])
-		ret['free'] = tmp
-		ret['used'] = int(ret['total']) - int(ret['free'])
-	return ret
+	def memory():
+		"""
+		Get node total memory and memory usage
+		http://stackoverflow.com/questions/17718449/determine-free-ram-in-python
+		"""
+		with open('/proc/meminfo', 'r') as mem:
+			ret = {}
+			tmp = 0
+			for i in mem:
+				sline = i.split()
+				if str(sline[0]) == 'MemTotal:':
+					ret['total'] = int(sline[1])
+				elif str(sline[0]) in ('MemFree:', 'Buffers:', 'Cached:'):
+					tmp += int(sline[1])
+			ret['free'] = tmp
+			ret['used'] = int(ret['total']) - int(ret['free'])
+		return ret
 
 
 
@@ -793,240 +809,240 @@ def find_index_of_closest(val,lst):
 
 
 
+if False:
+	##################################
+	#
 
-##################################
-#
-
-ZD_Dictionary = None
-ZD_Dictionary_name = '<no name>'
-ZD_dic_show_ends = 24
-
-
-def zaccess(d,alst,truncate=True,dic_show_ends=4):
-	print(zdic_to_str(d,alst,truncate,dic_show_ends))
-	for a in alst:
-		#print a,d
-		if type(d) != dict:
-			break
-		d = d[sorted(d.keys())[a]]
-	return d
-
-def zds(d,dic_show_ends,*alst):
-	alst = list(alst)
-	assert(dic_show_ends>1)
-	if len(alst) == 0:
-		print("zds(d,dic_show_ends,*alst), but len(alst) == 0")
-	print(zdic_to_str(d,alst,False,dic_show_ends))
+	ZD_Dictionary = None
+	ZD_Dictionary_name = '<no name>'
+	ZD_dic_show_ends = 24
 
 
+	def zaccess(d,alst,truncate=True,dic_show_ends=4):
+		print(zdic_to_str(d,alst,truncate,dic_show_ends))
+		for a in alst:
+			#print a,d
+			if type(d) != dict:
+				break
+			d = d[sorted(d.keys())[a]]
+		return d
 
-def _zdl(d,dic_show_ends,*alst):
-	alst = list(alst)
-	assert(dic_show_ends>1)
-	if len(alst) == 0:
-		print("zds(d,dic_show_ends,*alst), but len(alst) == 0")
-	list_of_strings_to_txt_file(opjh('kzpy3','zdl.txt'),zdic_to_str(d,alst,False,dic_show_ends).split('\n'))
+	def zds(d,dic_show_ends,*alst):
+		alst = list(alst)
+		assert(dic_show_ends>1)
+		if len(alst) == 0:
+			print("zds(d,dic_show_ends,*alst), but len(alst) == 0")
+		print(zdic_to_str(d,alst,False,dic_show_ends))
 
 
 
-
-def zdl(d,dic_show_ends,*alst):
-	"""
-	https://stackoverflow.com/questions/2749796/how-to-get-the-original-variable-name-of-variable-passed-to-a-function
-	"""
-	"""
-	import inspect
-	frame = inspect.currentframe()
-	frame = inspect.getouterframes(frame)[1]
-	string = inspect.getframeinfo(frame[0]).code_context[0].strip()
-	args = string[string.find('(') + 1:-1].split(',')
-	names = []
-	for i in args:
-		if i.find('=') != -1:
-			names.append(i.split('=')[1].strip())
-		else:
-			names.append(i)
-	"""
-	alst = list(alst)
-	assert(dic_show_ends>1)
-	if len(alst) == 0:
-		print("zds(d,dic_show_ends,*alst), but len(alst) == 0")
-	dic_str = zdic_to_str(d,alst,False,dic_show_ends)
-	ks = []
-	for a in alst:
-		if type(d) != dict:
-			break
-		k = sorted(d.keys())[a]
-		d = d[k]
-		ks.append(k)
-	out_str = ">> "+ZD_Dictionary_name #names[0]
-	for k in ks:
-		if is_number(k) or type(k) == tuple:
-			out_str += '['+str(k)+']'
-		else:
-			out_str += "['"+k+"']"
-	cprint(out_str,'yellow')
-	list_of_strings_to_txt_file(opjh('kzpy3','zdl.txt'),[out_str,ZD_Dictionary_name]+dic_str.split('\n'))
-
-
-def zdset(d,dic_show_ends=24):
-	import inspect
-	frame = inspect.currentframe()
-	frame = inspect.getouterframes(frame)[1]
-	string = inspect.getframeinfo(frame[0]).code_context[0].strip()
-	args = string[string.find('(') + 1:-1].split(',')
-	names = []
-	for i in args:
-		if i.find('=') != -1:
-			names.append(i.split('=')[1].strip())
-		else:
-			names.append(i)
-	global ZD_Dictionary,ZD_Dictionary_name,ZD_dic_show_ends
-	ZD_Dictionary = d
-	ZD_Dictionary_name = names[0]
-	ZD_dic_show_ends = dic_show_ends
+	def _zdl(d,dic_show_ends,*alst):
+		alst = list(alst)
+		assert(dic_show_ends>1)
+		if len(alst) == 0:
+			print("zds(d,dic_show_ends,*alst), but len(alst) == 0")
+		list_of_strings_to_txt_file(opjh('kzpy3','zdl.txt'),zdic_to_str(d,alst,False,dic_show_ends).split('\n'))
 
 
 
 
-def zd(*alst):
-	alst = list(alst)
-	if len(alst) == 0:
-		alst = [-1]
-	zdl(ZD_Dictionary,ZD_dic_show_ends,*alst)
-
-
-def zda(d,dic_show_ends,*alst):
-	"""
-	https://stackoverflow.com/questions/2749796/how-to-get-the-original-variable-name-of-variable-passed-to-a-function
-	"""
-	import inspect
-	frame = inspect.currentframe()
-	frame = inspect.getouterframes(frame)[1]
-	string = inspect.getframeinfo(frame[0]).code_context[0].strip()
-	args = string[string.find('(') + 1:-1].split(',')
-	names = []
-	for i in args:
-		if i.find('=') != -1:
-			names.append(i.split('=')[1].strip())
-		else:
-			names.append(i)
-
-	zds(d,dic_show_ends,*alst)
-	ks = []
-	for a in alst:
-		if type(d) != dict:
-			break
-		k = sorted(d.keys())[a]
-		d = d[k]
-		ks.append(k)
-	out_str = ">> "+names[0]
-	for k in ks:
-		if is_number(k):
-			out_str += '['+str(k)+']'
-		else:
-			out_str += "['"+k+"']"
-	cprint(out_str,'yellow')
-	return d
-
-
-def zlst_truncate(lst,show_ends=2):
-	if show_ends == 0:
-		return []
-	if len(lst) > 2*show_ends:
-		out_lst = lst[:show_ends] + ['...'] + lst[-show_ends:]
-	else:
-		out_lst = lst
-	return out_lst
-
-def zlst_to_str(lst,truncate=True,decimal_places=2,show_ends=2,depth=0,range_lst=[-2]):
-	original_len = -1
-	if truncate:
-		original_len = len(lst)
-		lst = zlst_truncate(lst,show_ends=show_ends)
-	lst_str = d2n('\t'*(depth),"[")
-	for i in range(len(lst)):
-		e = lst[i]
-		if type(e) == str:
-			lst_str += e
-		elif type(e) == int:
-			lst_str += str(e)
-		elif is_number(e):
-			lst_str += str(dp(e,decimal_places))
-		elif type(e) == list:
-			lst_str += zlst_to_str(e,truncate=truncate,decimal_places=decimal_places,show_ends=show_ends)
-		elif type(e) == dict:
-			lst_str += zdic_to_str(e,range_lst,depth=depth+1)# zlst_to_str(e,truncate=truncate,decimal_places=decimal_places,show_ends=show_ends)
-		else:
-			lst_str += '???'
-		if i < len(lst)-1:
-			lst_str += ' '
-	lst_str += ']'
-	if original_len > 0:
-		lst_str += d2n(' (len=',original_len,')')
-	return lst_str
-
-def zdic_to_str(d,range_lst,depth=0,dic_show_ends=4,dic_truncate=True,show_depth=False,show_type=False):
-
-	dic_str_lst = []
-
-	sorted_keys = sorted(d.keys())
-	
-	this_range = range_lst[0]
-	
-	if type(this_range) == int:
-		if this_range < 0:
-			neg_two = False
-			if this_range == -2:
-				neg_two = True
-			if dic_truncate:
-				this_range = [0,min(dic_show_ends,len(sorted_keys))]
+	def zdl(d,dic_show_ends,*alst):
+		"""
+		https://stackoverflow.com/questions/2749796/how-to-get-the-original-variable-name-of-variable-passed-to-a-function
+		"""
+		"""
+		import inspect
+		frame = inspect.currentframe()
+		frame = inspect.getouterframes(frame)[1]
+		string = inspect.getframeinfo(frame[0]).code_context[0].strip()
+		args = string[string.find('(') + 1:-1].split(',')
+		names = []
+		for i in args:
+			if i.find('=') != -1:
+				names.append(i.split('=')[1].strip())
 			else:
-				this_range = [0,len(sorted_keys)]
-			if neg_two:
-				range_lst = range_lst + [-2]
-		else:
-			this_range = [this_range,this_range+1]
-
-	if this_range[0] > 0:
-		dic_str_lst.append(d2n('\t'*depth,'<0> ...'))
-
-	for i in range(this_range[0],this_range[1]):
-		if i >= len(sorted_keys):
-			return
-		key = sorted_keys[i]
-		value = d[key]
-
-		if show_depth:
-			dic_str_lst.append(d2n('\t'*depth,'<',i,'> ',key,':'))
-		else:
-			dic_str_lst.append(d2n('\t'*depth,key,':'))
-		if isinstance(value,dict):
-			if len(range_lst) > 1:
-				dic_str_lst.append( zdic_to_str(value,range_lst[1:],depth=depth+1,dic_show_ends=dic_show_ends,dic_truncate=dic_truncate) )
+				names.append(i)
+		"""
+		alst = list(alst)
+		assert(dic_show_ends>1)
+		if len(alst) == 0:
+			print("zds(d,dic_show_ends,*alst), but len(alst) == 0")
+		dic_str = zdic_to_str(d,alst,False,dic_show_ends)
+		ks = []
+		for a in alst:
+			if type(d) != dict:
+				break
+			k = sorted(d.keys())[a]
+			d = d[k]
+			ks.append(k)
+		out_str = ">> "+ZD_Dictionary_name #names[0]
+		for k in ks:
+			if is_number(k) or type(k) == tuple:
+				out_str += '['+str(k)+']'
 			else:
-				dic_str_lst.append(d2n('\t'*(depth+1),'...'))
-		else:
-			if type(value) == list:
-				dic_str_lst.append(zlst_to_str(value,depth=depth+1,range_lst=range_lst[1:]))
-			elif type(value) == np.ndarray:
-				dic_str_lst.append(zlst_to_str(list(value),depth=depth+1,range_lst=range_lst[1:]))
-			elif type(value) == str:
-				dic_str_lst.append(d2s('\t'*(depth+1),str(value)))
+				out_str += "['"+k+"']"
+		cprint(out_str,'yellow')
+		list_of_strings_to_txt_file(opjh('kzpy3','zdl.txt'),[out_str,ZD_Dictionary_name]+dic_str.split('\n'))
+
+
+	def zdset(d,dic_show_ends=24):
+		import inspect
+		frame = inspect.currentframe()
+		frame = inspect.getouterframes(frame)[1]
+		string = inspect.getframeinfo(frame[0]).code_context[0].strip()
+		args = string[string.find('(') + 1:-1].split(',')
+		names = []
+		for i in args:
+			if i.find('=') != -1:
+				names.append(i.split('=')[1].strip())
 			else:
-				if show_type:
-					dic_str_lst.append(d2s('\t'*(depth+1),str(value),type(value)))
+				names.append(i)
+		global ZD_Dictionary,ZD_Dictionary_name,ZD_dic_show_ends
+		ZD_Dictionary = d
+		ZD_Dictionary_name = names[0]
+		ZD_dic_show_ends = dic_show_ends
+
+
+
+
+	def zd(*alst):
+		alst = list(alst)
+		if len(alst) == 0:
+			alst = [-1]
+		zdl(ZD_Dictionary,ZD_dic_show_ends,*alst)
+
+
+	def zda(d,dic_show_ends,*alst):
+		"""
+		https://stackoverflow.com/questions/2749796/how-to-get-the-original-variable-name-of-variable-passed-to-a-function
+		"""
+		import inspect
+		frame = inspect.currentframe()
+		frame = inspect.getouterframes(frame)[1]
+		string = inspect.getframeinfo(frame[0]).code_context[0].strip()
+		args = string[string.find('(') + 1:-1].split(',')
+		names = []
+		for i in args:
+			if i.find('=') != -1:
+				names.append(i.split('=')[1].strip())
+			else:
+				names.append(i)
+
+		zds(d,dic_show_ends,*alst)
+		ks = []
+		for a in alst:
+			if type(d) != dict:
+				break
+			k = sorted(d.keys())[a]
+			d = d[k]
+			ks.append(k)
+		out_str = ">> "+names[0]
+		for k in ks:
+			if is_number(k):
+				out_str += '['+str(k)+']'
+			else:
+				out_str += "['"+k+"']"
+		cprint(out_str,'yellow')
+		return d
+
+
+	def zlst_truncate(lst,show_ends=2):
+		if show_ends == 0:
+			return []
+		if len(lst) > 2*show_ends:
+			out_lst = lst[:show_ends] + ['...'] + lst[-show_ends:]
+		else:
+			out_lst = lst
+		return out_lst
+
+	def zlst_to_str(lst,truncate=True,decimal_places=2,show_ends=2,depth=0,range_lst=[-2]):
+		original_len = -1
+		if truncate:
+			original_len = len(lst)
+			lst = zlst_truncate(lst,show_ends=show_ends)
+		lst_str = d2n('\t'*(depth),"[")
+		for i in range(len(lst)):
+			e = lst[i]
+			if type(e) == str:
+				lst_str += e
+			elif type(e) == int:
+				lst_str += str(e)
+			elif is_number(e):
+				lst_str += str(dp(e,decimal_places))
+			elif type(e) == list:
+				lst_str += zlst_to_str(e,truncate=truncate,decimal_places=decimal_places,show_ends=show_ends)
+			elif type(e) == dict:
+				lst_str += zdic_to_str(e,range_lst,depth=depth+1)# zlst_to_str(e,truncate=truncate,decimal_places=decimal_places,show_ends=show_ends)
+			else:
+				lst_str += '???'
+			if i < len(lst)-1:
+				lst_str += ' '
+		lst_str += ']'
+		if original_len > 0:
+			lst_str += d2n(' (len=',original_len,')')
+		return lst_str
+
+	def zdic_to_str(d,range_lst,depth=0,dic_show_ends=4,dic_truncate=True,show_depth=False,show_type=False):
+
+		dic_str_lst = []
+
+		sorted_keys = sorted(d.keys())
+		
+		this_range = range_lst[0]
+		
+		if type(this_range) == int:
+			if this_range < 0:
+				neg_two = False
+				if this_range == -2:
+					neg_two = True
+				if dic_truncate:
+					this_range = [0,min(dic_show_ends,len(sorted_keys))]
 				else:
-					dic_str_lst.append(d2s('\t'*(depth+1),str(value)))
-	if this_range[1] < len(sorted_keys):
-		dic_str_lst.append(d2n('\t'*depth,'..',len(d)-1,')'))
-	dic_str = ""
-	for d in dic_str_lst:
-		dic_str += d + "\n"
+					this_range = [0,len(sorted_keys)]
+				if neg_two:
+					range_lst = range_lst + [-2]
+			else:
+				this_range = [this_range,this_range+1]
 
-	return dic_str
-#
-#############################
+		if this_range[0] > 0:
+			dic_str_lst.append(d2n('\t'*depth,'<0> ...'))
+
+		for i in range(this_range[0],this_range[1]):
+			if i >= len(sorted_keys):
+				return
+			key = sorted_keys[i]
+			value = d[key]
+
+			if show_depth:
+				dic_str_lst.append(d2n('\t'*depth,'<',i,'> ',key,':'))
+			else:
+				dic_str_lst.append(d2n('\t'*depth,key,':'))
+			if isinstance(value,dict):
+				if len(range_lst) > 1:
+					dic_str_lst.append( zdic_to_str(value,range_lst[1:],depth=depth+1,dic_show_ends=dic_show_ends,dic_truncate=dic_truncate) )
+				else:
+					dic_str_lst.append(d2n('\t'*(depth+1),'...'))
+			else:
+				if type(value) == list:
+					dic_str_lst.append(zlst_to_str(value,depth=depth+1,range_lst=range_lst[1:]))
+				elif type(value) == np.ndarray:
+					dic_str_lst.append(zlst_to_str(list(value),depth=depth+1,range_lst=range_lst[1:]))
+				elif type(value) == str:
+					dic_str_lst.append(d2s('\t'*(depth+1),str(value)))
+				else:
+					if show_type:
+						dic_str_lst.append(d2s('\t'*(depth+1),str(value),type(value)))
+					else:
+						dic_str_lst.append(d2s('\t'*(depth+1),str(value)))
+		if this_range[1] < len(sorted_keys):
+			dic_str_lst.append(d2n('\t'*depth,'..',len(d)-1,')'))
+		dic_str = ""
+		for d in dic_str_lst:
+			dic_str += d + "\n"
+
+		return dic_str
+	#
+	#############################
 
 
 
@@ -1057,7 +1073,7 @@ def h5w(filename):
 
 
 
-
+"""
 def XX(in_str):
 	eqn = in_str.split('=')
 	var_name = eqn[0].replace(' ','')
@@ -1078,7 +1094,7 @@ def remove_functions_from_dic(d):
 	for k in d.keys():
 		if callable(d[k]):
 			d[k] = 'FUNCTION_PLACEHOLDER'
-
+"""
 
 
 def even_len(d):
@@ -1131,12 +1147,7 @@ def translate_args(d):
 
 
 
-def text_to_file(d):
-	txt = d['txt']
-	path = d['path']
 
-	with open(path, "w") as text_file:
-		text_file.write("{0}".format(txt))
 
 
 
@@ -1283,39 +1294,6 @@ def blank_dic(d):
 	return D""")
 
 
-def blank_file():
-	print("""
-from kzpy3.utils2 import *
-pythonpaths(['kzpy3'])
-from vis2 import *
-
-
-translation_dic = {'a':'apples','b':'build','c':'cats','d':'dogs'}
-if __name__ == "__main__" and '__file__' in vars():
-	argument_dictionary = args_to_dic({  'pargs':sys.argv[1:]  })
-else:
-	print('Running this within interactive python.')
-	argument_dictionary = args_to_dic({  'pargs':"-a -1 -b 4 -c [1,2,9] -d {1:5,2:4}"  })
-argument_dictionary = translate_args(
-	{'argument_dictionary':argument_dictionary,
-	'translation_dic':translation_dic})
-print(argument_dictionary)
-
-
-		""")
-	blank_dic()
-	print("""
-
-if False:
-	try:
-		pass
-	except Exception as e:
-		print("********** Exception ***********************")
-		print(e.message, e.args)
-
-#EOF
-	""")
-
 
 def array_to_int_list(a):
 	l = []
@@ -1327,13 +1305,6 @@ def array_to_int_list(a):
 
 
 
-def text_to_file(d):
-	txt = d['txt']
-	path = d['path']
-	True
-	with open(path, "w") as text_file:
-		text_file.write("{0}".format(txt))
-
 
 
 def img_to_img_uint8(d):
@@ -1342,7 +1313,7 @@ def img_to_img_uint8(d):
 	return (255.0*z2o(img)).astype(np.uint8)
 
 
-
+"""
 def zsave_obj(d):
 	obj = d['obj']
 	path = d['path']
@@ -1362,10 +1333,10 @@ def zsave_obj(d):
 			zsave_obj({ 'obj':obj[k], 'path':opj(path,k) })
 	else:
 		save_obj(obj,path)
+"""
 
 
-
-
+"""
 def zload_obj(d):
 	path = d['path']
 	True
@@ -1413,9 +1384,9 @@ def zload_obj(d):
 
 	#raw_input('hit enter')
 	return obj
+"""
 
-
-
+"""
 def zrestore_functions(d):
 	src = d['src']
 	dst = d['dst']
@@ -1427,10 +1398,10 @@ def zrestore_functions(d):
 			restore_functions({'src':src[k],'dst':dst[k]})
 		else:
 			pass
-
+"""
 			
 
-
+"""
 def stop_ros():
 	#M['Stop_Arduinos'] = True
 	#rospy.signal_shutdown("M[Stop_Arduinos] = True")
@@ -1438,7 +1409,7 @@ def stop_ros():
 	#time.sleep(1)
 	unix(opjh('kzpy3/kill_ros.sh'))
 	#assert(False)
-
+"""
 
 
 
@@ -1501,7 +1472,7 @@ def nice_print_dic(d):
 		pd2s(tb,k,'=',dic[k])
 	print('')
 """
-
+"""
 def nice_print_dic(*args):
 	if len(args) == 1 and type(args[0]) == dict:
 		d = args[0]
@@ -1519,6 +1490,7 @@ def nice_print_dic(*args):
 		for k in sk:
 			pd2s(tb,k,':',dic[k])
 		print('')
+"""
 
 
 
@@ -1529,73 +1501,72 @@ def nice_print_dic(*args):
 
 
 
-dic_exec_str = """
-Args = args_to_dictionary(args)
-for k in keys_:
-	if type(k) == str:
-		assert(k in Args)
-		exec(k+'='+"'"+k+"'")
-	elif type(k) == list:
-		exec(k[0]+'='+"'"+k[0]+"'")
-		if k[0] not in Args:
-			Args[k[0]] = k[1]
-del keys_
-			"""
+if False:
 
+	dic_exec_str = """
+	Args = args_to_dictionary(args)
+	for k in keys_:
+		if type(k) == str:
+			assert(k in Args)
+			exec(k+'='+"'"+k+"'")
+		elif type(k) == list:
+			exec(k[0]+'='+"'"+k[0]+"'")
+			if k[0] not in Args:
+				Args[k[0]] = k[1]
+	del keys_
+				"""
 
-equals = 'equals__'
-nothing = 'nothing__'
-plus_equals = 'plus_equals__'
+	equals = 'equals__'
+	nothing = 'nothing__'
+	plus_equals = 'plus_equals__'
 
-def dictionary_access(*args):
-	"""
-	# dictionary access
-	# e.g.,
-	W={1:{2:{3:4},100:[1,2,3]}}
-	print(W)
-	print(da(W,1,2))
-	da(W,1,2,equals,9)
-	print(W)
-	print(da(W,1,2))
-	"""
-	Q = args[0]
-	assert(type(Q)==dict)
-	range_end = len(args)
-	right_hand_side = nothing
-	if len(args) > 3:
-		if args[-2] in [equals,plus_equals]:
-			right_hand_side = args[-1]
-			range_end = len(args)-2
-	for i in range(1,range_end):
-		k = args[i]
-		assert(type(k) in [str,int,bool,float,tuple])
-		if k not in Q:
-			Q[k] = {}
-		if i == range_end-1:
-			if right_hand_side != nothing:
-				if args[-2] == equals:
-					Q[k] = right_hand_side
-				elif args[-2] == plus_equals:
-					Q[k] += right_hand_side
+	def dictionary_access(*args):
+		"""
+		# dictionary access
+		# e.g.,
+		W={1:{2:{3:4},100:[1,2,3]}}
+		print(W)
+		print(da(W,1,2))
+		da(W,1,2,equals,9)
+		print(W)
+		print(da(W,1,2))
+		"""
+		Q = args[0]
+		assert(type(Q)==dict)
+		range_end = len(args)
+		right_hand_side = nothing
+		if len(args) > 3:
+			if args[-2] in [equals,plus_equals]:
+				right_hand_side = args[-1]
+				range_end = len(args)-2
+		for i in range(1,range_end):
+			k = args[i]
+			assert(type(k) in [str,int,bool,float,tuple])
+			if k not in Q:
+				Q[k] = {}
+			if i == range_end-1:
+				if right_hand_side != nothing:
+					if args[-2] == equals:
+						Q[k] = right_hand_side
+					elif args[-2] == plus_equals:
+						Q[k] += right_hand_side
+					return
+			#print(type(k),type(Q[k]))
+			Q = Q[k]
+		return Q
+	da = dictionary_access
+
+	def zdprint(*args):
+		keys_ = ['dic',['depth',-2]]
+		exec(dic_exec_str)
+		if True:
+			if len(Args[dic]) == 0:
+				print('empty dictionary')
 				return
-		#print(type(k),type(Q[k]))
-		Q = Q[k]
-	return Q
-da = dictionary_access
-
-
-
-def zdprint(*args):
-	keys_ = ['dic',['depth',-2]]
-	exec(dic_exec_str)
-	if True:
-		if len(Args[dic]) == 0:
-			print('empty dictionary')
-			return
-		zdset(Args[dic])
-		zd(Args[depth])
-		txt_lst = txt_file_to_list_of_strings(opjh('kzpy3','zdl.txt'))
-		print('\n'.join(txt_lst))
+			zdset(Args[dic])
+			zd(Args[depth])
+			txt_lst = txt_file_to_list_of_strings(opjh('kzpy3','zdl.txt'))
+			print('\n'.join(txt_lst))
 
 
 
@@ -1625,7 +1596,7 @@ cprint('******** '+__file__+' ********','yellow')
 
 
 
-
+"""
 def Rate_Counter(*args):
 	Args = args_to_dictionary(args)
 	D = {}
@@ -1647,7 +1618,7 @@ def Rate_Counter(*args):
 			D['rate_ctr'] = 0
 	D['step'] = _function_step
 	return D
-
+"""
 
 
 
@@ -1662,7 +1633,7 @@ def find_nearest(array,value):
 def raw_enter(optional_str=''):
 	return raw_input(optional_str+'Hit enter to continue > ')
 
-
+"""
 def build_dic(key_lists):
 	D = {}
 	if len(key_lists) == 0:
@@ -1677,7 +1648,7 @@ def build_dic_list_leaves(key_lists):
 	for k in key_lists[0]:
 		D[k] = build_dic_list_leaves(key_lists[1:])
 	return D	
-
+"""
 
 def str_is_int(s):
 	try:

@@ -1,5 +1,5 @@
 from kzpy3.vis2 import *
-
+exec(identify_file_str)
 
 import roslib
 import std_msgs.msg

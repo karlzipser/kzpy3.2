@@ -6,6 +6,7 @@ import torch.nn as nn
 from torch.autograd import Variable
 #from nets.squeezenet import SqueezeNet
 from nets.SqueezeNet_ import SqueezeNet
+exec(identify_file_str)
 
 spd2s("!!!!! note change on 22 July 2018: from nets.SqueezeNet import SqueezeNet !!!!");time.sleep(3)
 
@@ -23,9 +24,9 @@ def Torch_Network(N):
     D['scale'] = nn.AvgPool2d(kernel_size=3, stride=2, padding=1).cuda()
 
     def _run_model(input,metadata,N):
-        output = D['solver'](input, Variable(metadata))
-        torch_motor = 100 * output[0][10+N['network_output_sample']].data[0]
-        torch_steer = 100 * output[0][N['network_output_sample']].data[0]
+        D['output'] = D['solver'](input, Variable(metadata))
+        torch_motor = 100 * D['output'][0][10+N['network_output_sample']].data[0]
+        torch_steer = 100 * D['output'][0][N['network_output_sample']].data[0]
         torch_motor = max(0, torch_motor)
         torch_steer = max(0, torch_steer)
         torch_motor = min(99, torch_motor)

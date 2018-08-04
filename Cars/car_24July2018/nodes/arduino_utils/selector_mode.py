@@ -1,5 +1,5 @@
 from kzpy3.utils2 import *
-import threading
+exec(identify_file_str)
 
 """
 [orientation][blink][color][_,symbol]
@@ -34,7 +34,7 @@ def Selector_Mode(P):
     threading.Thread(target=_selector_run_loop,args=[P]).start()
 
 def _selector_run_loop(P):
-    print "_selector_run_loop"
+    CS_("_selector_run_loop","selector_mode.py")
     print_timer = Timer(0.1)
     frequency_timer = Timer(1)
     while P['ABORT'] == False:

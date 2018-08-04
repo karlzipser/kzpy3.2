@@ -1,4 +1,5 @@
 from kzpy3.utils2 import *
+exec(identify_file_str)
 
 Network = {}
 Network['network_output_sample'] = 4 # >= 0, <= 9
@@ -111,5 +112,8 @@ roscore
 in /etc/hosts "192.168.1.50 laptop", the name laptop being important it seems. Get this by typing 'hostname' on command line.
 on subscriber machine, ROS_IP='' [do not set] (may not be necessary)
 
+
+-make driving mode with drive and collision
+-set up arena
 
 """

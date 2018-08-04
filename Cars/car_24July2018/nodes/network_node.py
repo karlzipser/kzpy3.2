@@ -1,12 +1,8 @@
 #!/usr/bin/env python
-"""
-reed to run roslaunch first, e.g.,
-
-roslaunch bair_car bair_car.launch use_zed:=true record:=false
-"""
-
 from kzpy3.utils2 import *
 import default_values
+exec(identify_file_str)
+
 N = {}
 for k in default_values.Network.keys():
     N[k] = default_values.Network[k]
@@ -80,25 +76,27 @@ left = 0.0
 right = 0.0
 current_steer = 49
 current_motor = 49
-    
+
+def send_image_to_list(lst,data):
+    cimg = bridge.imgmsg_to_cv2(data,"bgr8")
+    advance(lst,cimg,nframes + 3)  
+
 def right_callback(data):
-    global left_list, right_list, solver
-    cimg = bridge.imgmsg_to_cv2(data,"bgr8")
-    if len(right_list) > nframes + 3:
-        right_list = right_list[-(nframes + 3):]
-    right_list.append(cimg)
+    global right_list
+    send_image_to_list(right_list,data)
+
 def left_callback(data):
-    global left_list, right_list
-    cimg = bridge.imgmsg_to_cv2(data,"bgr8")
-    if len(left_list) > nframes + 3:
-        left_list = left_list[-(nframes + 3):]
-    left_list.append(cimg)
+    global left_list
+    send_image_to_list(left_list,data)
+
 def human_agent_callback(msg):
     global human_agent
     human_agent = msg.data
+
 def drive_mode_callback(msg):
     global drive_mode
     drive_mode = msg.data
+    
 def behavioral_mode_callback(msg):
     global behavioral_mode, direct, follow, furtive, play,left,right
     behavioral_mode = msg.data
@@ -214,6 +212,9 @@ while True:
             camera_data = Torch_network['format_camera_data'](left_list,right_list)
             metadata = Torch_network['format_metadata']((direct,follow,furtive,play,left,right)) #((right,left,play,furtive,follow,direct))
             torch_motor, torch_steer = Torch_network['run_model'](camera_data, metadata, N)
+            """
+            Torch_network['output'] should contain full output array of network
+            """
 
             if 'Do smoothing of percents...':
                 current_steer = (1.0-s)*torch_steer + s*current_steer
@@ -301,7 +302,8 @@ while True:
                         #
                 if DRIVE_FORWARD == False:
                     adjusted_motor = bound_value(99-paramiko_motor,0,99)
-                    adjusted_steer = bound_value(99-paramiko_steer,0,99)
+                    adjusted_steer = bound_value(99-adjusted_steer,0,99)                    
+                    #adjusted_steer = bound_value(99-paramiko_steer,0,99)
                     #adjusted_motor = bound_value(paramiko_motor,0,99)
                     #adjusted_steer = bound_value(paramiko_steer,0,99)
             #

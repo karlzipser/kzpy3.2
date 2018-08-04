@@ -1,5 +1,5 @@
 from kzpy3.utils2 import *
-import threading
+exec(identify_file_str)
 
 def TACTIC_RC_controller(P):
     P['button_delta'] = 50
