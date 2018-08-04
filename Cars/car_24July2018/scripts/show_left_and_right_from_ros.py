@@ -51,7 +51,7 @@ low_frequency_pub_timer2 = Timer(0.5)
 net_utils.init_model(N) 
 
 while not main_timer.check():
-	if len(left_list) > 2:
+    if len(left_list) > 2:
         time.sleep(0/60.)
         key_ = mci(left_list[-1],color_mode=cv2.COLOR_RGB2BGR,delay=1,title='topics')
 
