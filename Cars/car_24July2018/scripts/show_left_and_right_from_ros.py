@@ -48,7 +48,7 @@ print_timer = Timer(5)
 low_frequency_pub_timer = Timer(0.5)
 low_frequency_pub_timer2 = Timer(0.5)
 
-net_utils.init_model(N) 
+#net_utils.init_model(N) 
 
 while not main_timer.check():
     if len(left_list) > 2:
