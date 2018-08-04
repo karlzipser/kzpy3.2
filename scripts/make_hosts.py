@@ -15,6 +15,7 @@ host_ip_dic = {
 	'Mr_Blue_Back':120
 }
 
+alias_list = []
 host_list = [ d2s('#',time_str()),
 	d2s('127.0.0.1','localhost'),
 	d2s(base_ip+str(host_ip_dic[host]),host)
@@ -23,8 +24,9 @@ host_list = [ d2s('#',time_str()),
 for h in sorted(host_ip_dic.keys()):
 	if h != host:
 		host_list.append(d2s(base_ip+str(host_ip_dic[h]),h))
-
+		alias_list.append(d2n("alias ",h,"='ssh ", base_ip+str(host_ip_dic[h]),"'"))
 list_of_strings_to_txt_file(host_file_path,host_list)
+list_of_strings_to_txt_file(opjh('ssh_aliases'),alias_list)
 #unix(d2s('more',host_file_path))
 #print ""
 #for h in host_list:

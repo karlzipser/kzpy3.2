@@ -118,4 +118,6 @@ on subscriber machine, ROS_IP='' [do not set] (may not be necessary)
 -set up TX2 for data collection car and collect depth data
 -collect l,c,r outputs of network, use output with max motor value.
 -harden Mr_Blue
+https://www.danielandrade.net/2016/10/30/interfacing-two-adafruit-mma8451-via-i2c/
+
 """
