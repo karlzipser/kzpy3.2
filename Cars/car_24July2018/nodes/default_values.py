@@ -13,7 +13,7 @@ Network['weight_file_path'] = opjh('pytorch_models','net_10Jun18_00h00m45s.Squee
 Network['USE_NETWORK'] = True
 Network['GREY_OUT_TOP_OF_IMAGE'] = False
 Network['visualize_activations'] = False
-Network['motor_reverse_threshold'] = 55
+Network['motor_reverse_threshold'] = 64
 
 Mse = {}
 Mse['HUMAN_SMOOTHING_PARAMETER_1'] = 0.75
@@ -115,5 +115,7 @@ on subscriber machine, ROS_IP='' [do not set] (may not be necessary)
 
 -make driving mode with drive and collision
 -set up arena
-
+-set up TX2 for data collection car and collect depth data
+-collect l,c,r outputs of network, use output with max motor value.
+-harden Mr_Blue
 """
