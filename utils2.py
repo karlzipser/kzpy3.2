@@ -74,6 +74,7 @@ stars1_ = '\n*\n**********************'
 tb = '\t'
 tb_ = '\t'
 
+na = np.array
 
 def print_stars(n=1):
 	for i in range(n):
