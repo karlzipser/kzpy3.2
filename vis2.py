@@ -714,7 +714,7 @@ def Click_Data(**Args):
     """
     _ = {}
     _['X'],_['Y'] = 0,0
-    _[X_PREV],_[Y_PREV] = _['X'],_['Y']
+    _['X_PREV'],_['Y_PREV'] = _['X'],_['Y']
     fig = Args['FIG']
     
     def _callback(event):
@@ -725,12 +725,12 @@ def Click_Data(**Args):
         fig.canvas.callbacks.connect('button_press_event', _callback)
         xy_list = []
         while len(xy_list) < num_pts:
-            while _[X_PREV] == _['X'] and _[Y_PREV] == _['Y']:
+            while _['X_PREV'] == _['X'] and _['Y_PREV'] == _['Y']:
                 plt.pause(0.1)#;print '.'
-                if not (_[X_PREV] == _['X'] and _[Y_PREV] == _['Y']):
+                if not (_['X_PREV'] == _['X'] and _['Y_PREV'] == _['Y']):
                     print _['X'],_['Y']
                     xy_list.append([_['X'],_['Y']])
-                    _[X_PREV],_[Y_PREV] = _['X'],_['Y']
+                    _['X_PREV'],_['Y_PREV'] = _['X'],_['Y']
                     break
         return xy_list
     _[CLICK] = _click
