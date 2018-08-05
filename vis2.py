@@ -709,7 +709,7 @@ def Click_Data(**Args):
         fig = figure(1)
         plot([1,2,1,3,4],'b')
         Cdat = Click_Data(FIG=fig)
-        xy_list = Cdat[CLICK](NUM_PTS=6)
+        xy_list = Cdat['CLICK'](NUM_PTS=6)
         pts_plot(na(xy_list),'r')
     """
     _ = {}
@@ -733,7 +733,7 @@ def Click_Data(**Args):
                     _['X_PREV'],_['Y_PREV'] = _['X'],_['Y']
                     break
         return xy_list
-    _[CLICK] = _click
+    _['CLICK'] = _click
     return _
 
 
