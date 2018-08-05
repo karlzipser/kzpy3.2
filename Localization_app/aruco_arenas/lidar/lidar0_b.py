@@ -69,7 +69,7 @@ if False:
 
 
 Cdat = Click_Data(FIG=fig)
-xy_list = Cdat[CLICK](NUM_PTS=11)
+xy_list = Cdat['CLICK'](NUM_PTS=11)
 pts_plot(na(xy_list),'r')
 
 xy_list.append(xy_list[0])
