@@ -1,6 +1,8 @@
 #!/usr/bin/env python 
 from kzpy3.vis2 import *
-import kzpy3.Grapher_app.Graph_Image_Module as Graph_Image_Module
+from kzpy3.misc.All_Names_Module import *
+#import kzpy3.Grapher_app.Graph_Image_Module as Graph_Image_Module
+import kzpy3.Grapher_app_for_live_ros_data.Graph_Image_Module as Graph_Image_Module
 
 
 
@@ -94,7 +96,7 @@ for k in Marker_xy_dic.keys():
 
 graphics = True
 
-if graphics and 'nvidia' not in opjh():
+if graphics:# and 'nvidia' not in opjh():
 	#from kzpy3.Grapher_app.Graph_Image_Module import *
 	pts = []
 	figure('arena');clf();plt_square();#xylim(-0.1,0.6,-0.1,0.6)#xysqlim(1.)
@@ -131,7 +133,7 @@ if graphics and 'nvidia' not in opjh():
 			pts.append(Marker_xy_dic[k])
 	pts = na(pts)
 	pts_plot(pts,'r')
-	#raw_enter()
+	raw_enter()
 
 
 #EOF

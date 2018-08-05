@@ -1494,8 +1494,45 @@ def nice_print_dic(*args):
 
 
 
+equals = 'equals__'
+nothing = 'nothing__'
+plus_equals = 'plus_equals__'
 
-
+def dictionary_access(*args):
+	"""
+	# dictionary access
+	# e.g.,
+	W={1:{2:{3:4},100:[1,2,3]}}
+	print(W)
+	print(da(W,1,2))
+	da(W,1,2,equals,9)
+	print(W)
+	print(da(W,1,2))
+	"""
+	Q = args[0]
+	assert(type(Q)==dict)
+	range_end = len(args)
+	right_hand_side = nothing
+	if len(args) > 3:
+		if args[-2] in [equals,plus_equals]:
+			right_hand_side = args[-1]
+			range_end = len(args)-2
+	for i in range(1,range_end):
+		k = args[i]
+		assert(type(k) in [str,int,bool,float,tuple])
+		if k not in Q:
+			Q[k] = {}
+		if i == range_end-1:
+			if right_hand_side != nothing:
+				if args[-2] == equals:
+					Q[k] = right_hand_side
+				elif args[-2] == plus_equals:
+					Q[k] += right_hand_side
+				return
+		#print(type(k),type(Q[k]))
+		Q = Q[k]
+	return Q
+da = dictionary_access
 
 
 
@@ -1516,45 +1553,8 @@ if False:
 	del keys_
 				"""
 
-	equals = 'equals__'
-	nothing = 'nothing__'
-	plus_equals = 'plus_equals__'
 
-	def dictionary_access(*args):
-		"""
-		# dictionary access
-		# e.g.,
-		W={1:{2:{3:4},100:[1,2,3]}}
-		print(W)
-		print(da(W,1,2))
-		da(W,1,2,equals,9)
-		print(W)
-		print(da(W,1,2))
-		"""
-		Q = args[0]
-		assert(type(Q)==dict)
-		range_end = len(args)
-		right_hand_side = nothing
-		if len(args) > 3:
-			if args[-2] in [equals,plus_equals]:
-				right_hand_side = args[-1]
-				range_end = len(args)-2
-		for i in range(1,range_end):
-			k = args[i]
-			assert(type(k) in [str,int,bool,float,tuple])
-			if k not in Q:
-				Q[k] = {}
-			if i == range_end-1:
-				if right_hand_side != nothing:
-					if args[-2] == equals:
-						Q[k] = right_hand_side
-					elif args[-2] == plus_equals:
-						Q[k] += right_hand_side
-					return
-			#print(type(k),type(Q[k]))
-			Q = Q[k]
-		return Q
-	da = dictionary_access
+
 
 	def zdprint(*args):
 		keys_ = ['dic',['depth',-2]]

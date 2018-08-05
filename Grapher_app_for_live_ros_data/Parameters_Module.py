@@ -6,7 +6,7 @@ _ = dictionary_access
 
 P = {}
 P['USE_ROS'] = False
-_(P,VERBOSE,equals,True)
+_(P,VERBOSE,'equals',True)
 P[DATASET_PATHS] = [ '/media/karlzipser/rosbags/bair_car_2017-10-04-14-09-42_0.bag' ]
 #P[DATASET_PATHS] = [ opjm('rosbags/Mr_Lt_Blue_16_50_29Aug2017/processed2/Mr_Lt_Blue_16_50_29Aug2017')]
 #P[DATASET_PATHS] = [opjD('bdd_car_data_July2017_LCR')]

@@ -1,4 +1,4 @@
-
+from kzpy3.vis2 import *
 if False:
 	"""
 	KERNEL=="ttyUSB*", MODE="0666"
