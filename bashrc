@@ -46,6 +46,7 @@ alias pgacp='cd ~/kzpy3; git pull; gacp; cd'
 alias pgp='cd ~/kzpy3; git pull; cd'
 git config --global credential.helper "cache --timeout=86400"
 alias ipy="ipython --no-banner"
+alias td2="mv ~/Desktop/* ~/Desktop2/"
 
 export PYTHONPATH=~:$PYTHONPATH
 export PYTHONSTARTUP=~/kzpy3/utils2.py
