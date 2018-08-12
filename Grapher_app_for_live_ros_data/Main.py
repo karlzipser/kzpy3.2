@@ -25,7 +25,11 @@ exec(identify_file_str)
 _ = dictionary_access
 
 for a in Args.keys():
-	P[a] = Args[a]
+	ar = Args[a]
+	if str_is_int(ar):
+		P[a] = int(ar)
+	else:
+		P[a] = ar
 
 P[X_PIXEL_SIZE_INIT],P[Y_PIXEL_SIZE_INIT] = P[X_PIXEL_SIZE],P[Y_PIXEL_SIZE]
 
