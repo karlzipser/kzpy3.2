@@ -1,7 +1,7 @@
 
 from kzpy3.vis2 import *
 
-i
+
 import roslib
 import std_msgs.msg
 import geometry_msgs.msg
