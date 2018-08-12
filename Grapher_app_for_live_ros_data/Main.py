@@ -92,7 +92,7 @@ from sensor_msgs.msg import Image
 exec(identify_file_str)
 bridge = CvBridge()
 
-
+rospy.init_node('listener',anonymous=True)
 
 
 
@@ -160,8 +160,24 @@ def right_image__callback(data):
 	R[right_image]['vals'].append( bridge.imgmsg_to_cv2(data,"rgb8") )
 
 
+_flex_names = []
+for fb in ['f','b']:
+    for lr in ['l','r']:
+        for i in [0,1]:
+            _flex_names.append(d2n('x',fb,lr,i))
 
-rospy.init_node('listener',anonymous=True)
+for f in _flex_names:
+	s = """
+def FLEX__callback(msg):
+	R['FLEX']['ts'].append(time.time())
+	R['FLEX']['vals'].append(msg.data)
+rospy.Subscriber('/bair_car/FLEX', std_msgs.msg.Int32, callback=FLEX__callback)
+	"""
+	exec_str = s.replace('FLEX',f)
+	exec(exec_str)
+
+
+
 
 rospy.Subscriber('/bair_car/steer', std_msgs.msg.Int32, callback=steer__callback)
 rospy.Subscriber('/bair_car/motor', std_msgs.msg.Int32, callback=motor__callback)
