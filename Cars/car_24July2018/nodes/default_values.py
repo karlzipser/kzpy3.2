@@ -25,6 +25,12 @@ NO_Mse = {}
 NO_Mse['behavioral_mode_choice'] = 'direct'
 NO_Mse['place_choice'] = 'home'
 
+flex_names = []
+for fb in ['f','b']:
+    for lr in ['l','r']:
+        for i in [0,1]:
+            flex_names.append(d2n('x',fb,lr,i))
+
 """
 https://stackoverflow.com/questions/29232438/bash-check-if-var-is-in-number-range
 https://stackoverflow.com/questions/806906/how-do-i-test-if-a-variable-is-a-number-in-bash

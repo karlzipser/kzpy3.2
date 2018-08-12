@@ -45,7 +45,7 @@ def assign_serial_connections(P,sers):
 
                 #################
                 #
-                elif ser_tuple[0] in ['xfl','xfr','xbl','xbr']:
+                elif ser_tuple[0] in flex_names:
                     print(d2s('Port',ser.port,'is the FLEX:',ser_str))
                     P['Arduinos']['FLEX'] = ser
                     break

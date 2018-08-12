@@ -1,12 +1,8 @@
 from kzpy3.utils2 import *
 exec(identify_file_str)
 
-flex_names = []
+from default_values import flex_names
 
-for fb in ['f','b']:
-    for lr in ['l','r']:
-        for i in [0,1]:
-            flex_names.append(d2n('x',fb,lr,i))
 
 
 def IMU_Arduino(P):
