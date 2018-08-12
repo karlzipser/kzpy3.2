@@ -96,13 +96,19 @@ rospy.init_node('listener',anonymous=True)
 
 
 
+_flex_names = []
+for fb in ['f','b']:
+    for lr in ['l','r']:
+        for i in [0,1]:
+            _flex_names.append(d2n('x',fb,lr,i))
+            
 R = {}
 for topic_ in ['steer', 'motor', 'state', 'encoder',
 	'acc_x','acc_y','acc_z',
 	'gyro_x','gyro_y','gyro_z',
 	gyro_heading_x,gyro_heading_y,gyro_heading_z,
 	left_image,right_image
-	]:
+	]+_flex_names:
 	R[topic_] = {'ts':[],'vals':[]}
 
 
@@ -160,11 +166,6 @@ def right_image__callback(data):
 	R[right_image]['vals'].append( bridge.imgmsg_to_cv2(data,"rgb8") )
 
 
-_flex_names = []
-for fb in ['f','b']:
-    for lr in ['l','r']:
-        for i in [0,1]:
-            _flex_names.append(d2n('x',fb,lr,i))
 
 for f in _flex_names:
 	s = """
