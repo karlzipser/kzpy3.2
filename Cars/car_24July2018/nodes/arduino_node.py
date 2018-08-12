@@ -182,6 +182,10 @@ if 'Start Arduino threads...':
         IMU_Arduino(Parameters)
     else:
         spd2s("!!!!!!!!!! 'IMU' not in Arduinos[] or not using 'IMU' !!!!!!!!!!!")
+    if 'FLEX' in Parameters['Arduinos'].keys():
+        FLEX_Arduino(Parameters)
+    else:
+        spd2s("!!!!!!!!!! 'FLEX' not in Arduinos[] or not using 'FLEX' !!!!!!!!!!!")
 
   
 if 'Main loop...':

@@ -5,7 +5,7 @@ from default_values import flex_names
 
 
 
-def IMU_Arduino(P):
+def FLEX_Arduino(P):
     for f in flex_names:
         P[f] = {}
     threading.Thread(target=_FLEX_run_loop,args=[P]).start()
@@ -35,12 +35,12 @@ def _FLEX_run_loop(P):
                 P['Arduinos']['FLEX'].flushInput();P['Arduinos']['FLEX'].flushOutput()
                 flush_timer.reset()            
             exec('flex_input = list({0})'.format(read_str))       
-            m = imu_input[0]
+            m = flex_input[0]
             assert(m in flex_names)
             Hz = frequency_timers[m].freq(name=m,do_print=False)
             if False:#m == 'acc':
                 for i in range(3):
-                    acc_smoothed[i] = (1.0-s)*imu_input[i+1] + s*acc_smoothed[i]
+                    acc_smoothed[i] = (1.0-s)*flex_input[i+1] + s*acc_smoothed[i]
                 if acc_smoothed[1] < -9.0:
                     spd2s('acc_smoothed[1] < -9.0, ABORTING, SHUTTING DOWN!!!!!')
                     P['ABORT'] = True
@@ -54,7 +54,7 @@ def _FLEX_run_loop(P):
                             #P['ABORT'] = True
                         else:
                             pass#print 'ignoring IMU freq. error.'
-            P[m] = imu_input[1]
+            P[m] = flex_input[1]
             if P['USE_ROS']:
                 P['publish_FLEX_data'](P,m)
             if print_timer.check():
