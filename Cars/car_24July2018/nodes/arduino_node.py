@@ -70,13 +70,13 @@ if Parameters['USE_ROS']:
     P['motor_pwm_null_pub'] = rospy.Publisher('motor_pwm_null', std_msgs.msg.Int32, queue_size=5) 
     P['motor_pwm_max_pub'] = rospy.Publisher('motor_pwm_max', std_msgs.msg.Int32, queue_size=5)
 
-
+    """
     for fb in ['f','b']:
         for lr in ['l','r']:
             for i in [0,1]:
-                name = d2n('x',fp,lr,i)
+                name = d2n('x',fb,lr,i)
                 P[d2n(name,'_pub')] = rospy.Publisher(name, std_msgs.msg.Int32, queue_size=5)
-
+    """
 
 
 
