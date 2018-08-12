@@ -94,19 +94,19 @@ if Parameters['USE_ROS']:
     No_Arduino_data_low_frequency_pub_timer = Timer(0.5)
     No_Arduino_data_very_low_frequency_pub_timer = Timer(2)
 
-    def publish_IMU_data(P,m):
+    def _publish_IMU_data(P,m):
         P[imu_dic[m]].publish(geometry_msgs.msg.Vector3(*P[m]['xyz']))
         if IMU_low_frequency_pub_timer.check():
             P['Hz_acc_pub'].publish(std_msgs.msg.Float32(P['Hz']['acc']))
             IMU_low_frequency_pub_timer.reset()
 
 
-    def publish_FLEX_data(P,m):
+    def _publish_FLEX_data(P,m):
         pd2s('publish',m)
         P[d2n(m,'_pub')].publish(std_msgs.msg.Int32(P[m]))
 
 
-    def publish_MSE_data(P):
+    def _publish_MSE_data(P):
         if P['agent_choice'] == 'human':
             human_val = 1
         else:
@@ -143,7 +143,7 @@ if Parameters['USE_ROS']:
             P['motor_pwm_null_pub'].publish(std_msgs.msg.Int32(int(P['motor_pwm_null'])))
             #P['network_weights_name_pub'].publish(std_msgs.msg.String(default_values.Weights['weight_file_path']))
             MSE_very_low_frequency_pub_timer.reset()
-    def publish_No_Arduino_data(P):
+    def _publish_No_Arduino_data(P):
         human_val = 0
         drive_mode = 1
         while P['ABORT'] == False:
@@ -159,9 +159,9 @@ if Parameters['USE_ROS']:
                 No_Arduino_data_very_low_frequency_pub_timer.reset()
 
 
-    P['publish_IMU_data'] = publish_IMU_data
-    P['publish_MSE_data'] = publish_MSE_data
-    P['publish_FLEX_data'] = publish_FLEX_data
+    P['publish_IMU_data'] = _publish_IMU_data
+    P['publish_MSE_data'] = _publish_MSE_data
+    P['publish_FLEX_data'] = _publish_FLEX_data
 
 
 if 'Start Arduino threads...':
@@ -174,7 +174,7 @@ if 'Start Arduino threads...':
         Selector_Mode(Parameters)
     else:
         spd2s("!!!!!!!!!! 'MSE' not in Arduinos[] or not using 'MSE' !!!!!!!!!!!")
-        threading.Thread(target=publish_No_Arduino_data,args=[Parameters]).start()
+        threading.Thread(target=_publish_No_Arduino_data,args=[Parameters]).start()
     if Parameters['USE_SIG'] and 'SIG' in Parameters['Arduinos'].keys():
         LED_Display(Parameters)
     else:
