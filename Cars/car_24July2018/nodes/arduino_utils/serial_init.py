@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 from kzpy3.utils2 import *
 exec(identify_file_str)
+from default_values import flex_names
 
 def get_arduino_serial_connections(baudrate, timeout):
     if using_linux():
