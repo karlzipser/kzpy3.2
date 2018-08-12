@@ -24,7 +24,7 @@ def Display_Graph(*args):
 	for i_ in rlen(ts_):
 		D[timestamp_to_left_image][ts_[i_]] = i_
 	D[end_time] = max(ts_)
-	D[start_time] = D[end_time]-60#min(ts_)
+	D[start_time] = D[end_time]-10#60#min(ts_)
 	D[reference_time] = (D[start_time]+D[end_time])/2.0
 	D[start_time_init],D[end_time_init] = D[start_time],D[end_time]
 	D[base_graph] = Graph_Image_Module.Graph_Image(
