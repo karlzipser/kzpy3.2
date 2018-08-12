@@ -253,6 +253,15 @@ def spd2s(*args):
 	cprint(s_+'\n*','yellow')
 	cprint('* '+d_,'yellow')
 	cprint('*\n'+s_,'yellow')
+def sbpd2s(*args):
+	d_ = d2s(*args)
+	l_ = len(d_)
+	s_ = ""
+	for q_ in range(len(d_)+4):
+		s_ += "*"
+	cprint(s_+'\n*','blue')
+	cprint('* '+d_,'blue')
+	cprint('*\n'+s_,'blue')
 def srpd2s(*args):
 	d_ = d2s(*args)
 	l_ = len(d_)

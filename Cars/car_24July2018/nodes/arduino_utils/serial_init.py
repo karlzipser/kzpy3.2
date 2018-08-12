@@ -3,6 +3,9 @@ from kzpy3.utils2 import *
 exec(identify_file_str)
 from default_values import flex_names
 
+print flex_names
+time.sleep(10)
+
 def get_arduino_serial_connections(baudrate, timeout):
     if using_linux():
         arduino_serial_prefix = 'ttyACM'
@@ -24,6 +27,7 @@ def assign_serial_connections(P,sers):
         for _ in xrange(100):
             try:
                 ser_str = ser.readline()
+                print ser_str
                 exec('ser_tuple = list({0})'.format(ser_str))
                 if ser_tuple[0] in ['mse']:
                     print(d2s('Port',ser.port,'is the MSE:',ser_str))
@@ -57,7 +61,7 @@ def assign_serial_connections(P,sers):
             except:
                 pass
         else:
-            spd2s('Unable to identify port {0}'.format(ser.port))
+            CS_('Unable to identify port {0}'.format(ser.port))
     print 'Finished scanning serial ports.'
     if 'MSE' not in P['Arduinos'].keys():
         spd2s('MSE not found: Is transmitter turned on? Is MSE battery plugged in?')
