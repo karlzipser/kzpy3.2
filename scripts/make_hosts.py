@@ -12,7 +12,8 @@ host_ip_dic = {
 	'Mr_New':103,
 	'Mr_Black':11,
 	'Mr_Blue':121,
-	'Mr_Blue_Back':120
+	'Mr_Blue_Back':120,
+	'laptop':50
 }
 
 alias_list = []

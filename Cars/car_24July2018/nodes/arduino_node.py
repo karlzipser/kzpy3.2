@@ -68,7 +68,18 @@ if Parameters['USE_ROS']:
     P['servo_pwm_null_pub'] = rospy.Publisher('servo_pwm_null', std_msgs.msg.Int32, queue_size=5) 
     P['motor_pwm_min_pub'] = rospy.Publisher('motor_pwm_min', std_msgs.msg.Int32, queue_size=5) 
     P['motor_pwm_null_pub'] = rospy.Publisher('motor_pwm_null', std_msgs.msg.Int32, queue_size=5) 
-    P['motor_pwm_max_pub'] = rospy.Publisher('motor_pwm_max', std_msgs.msg.Int32, queue_size=5) 
+    P['motor_pwm_max_pub'] = rospy.Publisher('motor_pwm_max', std_msgs.msg.Int32, queue_size=5)
+
+
+    for fb in ['f','b']:
+        for lr in ['l','r']:
+            for i in [0,1]:
+                name = d2n('x',fp,lr,i)
+                P[d2n(name,'_pub')] = rospy.Publisher(name, std_msgs.msg.Int32, queue_size=5)
+
+
+
+
 
     imu_dic = {}
     imu_dic['gyro'] = 'gyro_pub'
@@ -86,6 +97,11 @@ if Parameters['USE_ROS']:
         if IMU_low_frequency_pub_timer.check():
             P['Hz_acc_pub'].publish(std_msgs.msg.Float32(P['Hz']['acc']))
             IMU_low_frequency_pub_timer.reset()
+
+
+    def publish_FLEX_data(P,m):
+        for i in rlen(P[m]):
+            P[d2n(m,i,'_pub')].publish(std_msgs.msg.Int32(P[m][i]))
 
 
     def publish_MSE_data(P):
