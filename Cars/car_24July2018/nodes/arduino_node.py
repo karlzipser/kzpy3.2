@@ -102,7 +102,6 @@ if Parameters['USE_ROS']:
 
 
     def _publish_FLEX_data(P,m):
-        pd2s('publish',m)
         P[d2n(m,'_pub')].publish(std_msgs.msg.Int32(P[m]))
 
 
