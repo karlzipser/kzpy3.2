@@ -27,7 +27,7 @@ P[TOPICS] = {
 	gyro_heading_x:{maxval:360,minval:-180,	baseline:0,		color:(255,200,200)},
 	left_ts_deltas:{maxval:0.1,minval:0,	baseline:0,		color:(0,0,255)},
 	'xfl0':{maxval:500,		minval:-100,	baseline:0,		color:(255,0,0)},
-	'xfl1':{maxval:500,		minval:-100,	baseline:0,		color:(0,255,0)},
+	'xfl1':{maxval:200,		minval:-100,	baseline:0,		color:(0,255,0)},
 	}
 #P[VERTICAL_LINE_PROPORTION] = 0.5
 P[X_PIXEL_SIZE] = 800
