@@ -17,25 +17,25 @@ bridge = CvBridge()
 
 
 R = {}
-for topic_ in ['steer'
+for topic_ in ['cmd_steer'
 	]:
 	R[topic_] = {'ts':[0],'vals':[49]}
 
 
 def steer__callback(msg):
-	R['steer']['ts'].append(time.time())
-	R['steer']['vals'].append(msg.data)
+	R['cmd_steer']['ts'].append(time.time())
+	R['cmd_steer']['vals'].append(msg.data)
 
 
 rospy.init_node('listener',anonymous=True)
 
-rospy.Subscriber('/bair_car/steer', std_msgs.msg.Int32, callback=steer__callback)
+rospy.Subscriber('/bair_car/cmd/steer', std_msgs.msg.Int32, callback=steer__callback)
 
 
 
 
 while True:
-	print R['steer']['vals'][-1]
+	print R['cmd_steer']['vals'][-1]
 	time.sleep(0.2)
 
 
