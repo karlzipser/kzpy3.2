@@ -161,6 +161,7 @@ if Parameters['USE_ROS']:
 
     P['publish_IMU_data'] = publish_IMU_data
     P['publish_MSE_data'] = publish_MSE_data
+    P['publish_FLEX_data'] = publish_FLEX_data
 
 
 if 'Start Arduino threads...':
