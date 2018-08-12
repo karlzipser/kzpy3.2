@@ -35,7 +35,7 @@ rospy.Subscriber('/bair_car/steer', std_msgs.msg.Int32, callback=steer__callback
 
 
 while True:
-	print R['steer']['val'][-1]
+	print R['steer']['vals'][-1]
 	time.sleep(0.2)
 
 
