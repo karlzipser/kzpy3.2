@@ -19,7 +19,7 @@ bridge = CvBridge()
 R = {}
 for topic_ in ['steer'
 	]:
-	R[topic_] = {'ts':[],'vals':[]}
+	R[topic_] = {'ts':[0],'vals':[49]}
 
 
 def steer__callback(msg):
