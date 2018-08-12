@@ -3,6 +3,15 @@
 python kzpy3/Cars/car_16July2018/nodes/arduino_node.py
 """
 from kzpy3.utils2 import *
+
+from arduino_utils.serial_init import *
+from arduino_utils.tactic_rc_controller import *
+from arduino_utils.calibration_mode import *
+from arduino_utils.selector_mode import *
+from arduino_utils.led_display import *
+from arduino_utils.IMU_arduino import *
+from arduino_utils.FLEX_arduino import *
+
 exec(identify_file_str)
 
 Parameters = {}
@@ -70,16 +79,9 @@ if Parameters['USE_ROS']:
     P['motor_pwm_null_pub'] = rospy.Publisher('motor_pwm_null', std_msgs.msg.Int32, queue_size=5) 
     P['motor_pwm_max_pub'] = rospy.Publisher('motor_pwm_max', std_msgs.msg.Int32, queue_size=5)
 
-    """
-    for fb in ['f','b']:
-        for lr in ['l','r']:
-            for i in [0,1]:
-                name = d2n('x',fb,lr,i)
-                P[d2n(name,'_pub')] = rospy.Publisher(name, std_msgs.msg.Int32, queue_size=5)
-    """
-
-
-
+    
+    for name in flex_names:
+        P[d2n(name,'_pub')] = rospy.Publisher(name,std_msgs.msg.Int32,queue_size=5)
 
     imu_dic = {}
     imu_dic['gyro'] = 'gyro_pub'
@@ -100,8 +102,7 @@ if Parameters['USE_ROS']:
 
 
     def publish_FLEX_data(P,m):
-        for i in rlen(P[m]):
-            P[d2n(m,i,'_pub')].publish(std_msgs.msg.Int32(P[m][i]))
+        P[d2n(m,'_pub')].publish(std_msgs.msg.Int32(P[m]))
 
 
     def publish_MSE_data(P):
@@ -160,12 +161,6 @@ if Parameters['USE_ROS']:
     P['publish_IMU_data'] = publish_IMU_data
     P['publish_MSE_data'] = publish_MSE_data
 
-from arduino_utils.serial_init import *
-from arduino_utils.tactic_rc_controller import *
-from arduino_utils.calibration_mode import *
-from arduino_utils.selector_mode import *
-from arduino_utils.led_display import *
-from arduino_utils.IMU_arduino import *
 
 if 'Start Arduino threads...':
     baudrate = 115200

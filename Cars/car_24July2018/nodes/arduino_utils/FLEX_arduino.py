@@ -1,7 +1,13 @@
 from kzpy3.utils2 import *
 exec(identify_file_str)
 
-flex_names = ['xfl','xfr','xbl','xbr']
+flex_names = []
+
+for fb in ['f','b']:
+    for lr in ['l','r']:
+        for i in [0,1]:
+            flex_names.append(d2n('x',fb,lr,i))
+
 
 def IMU_Arduino(P):
     for f in flex_names:
@@ -52,7 +58,7 @@ def _FLEX_run_loop(P):
                             #P['ABORT'] = True
                         else:
                             pass#print 'ignoring IMU freq. error.'
-            P[m]['front_to_back_list'] = imu_input[1:]
+            P[m] = imu_input[1]
             if P['USE_ROS']:
                 P['publish_FLEX_data'](P,m)
             if print_timer.check():
