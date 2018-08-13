@@ -6,7 +6,7 @@ _ = dictionary_access
 
 P = {}
 P['USE_ARUCO'] = False
-P['USE_IMAGES'] = True
+P['USE_IMAGES'] = False
 
 P[TOPICS] = {
 	steer:{maxval:80,		minval:20,		baseline:49.0,	color:(255,0,0)},
