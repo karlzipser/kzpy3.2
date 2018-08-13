@@ -154,7 +154,12 @@ while True:
 		if len(R[topic_]['ts']) > P[TOPIC_STEPS_LIMIT]:
 			for m_ in ['ts','vals']:
 				R[topic_][m_] = R[topic_][m_][-P[TOPIC_STEPS_LIMIT]:]
-	D = Display_Graph_Module.Display_Graph(topics,R)
-	D[show]()
+	try:
+		D = Display_Graph_Module.Display_Graph(topics,R)
+		D[show]()
+	except Exception as e:
+		print("********** Main.py Exception ***********************")
+		print(e.message, e.args)
+
 
 #EOF
