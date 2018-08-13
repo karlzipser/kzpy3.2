@@ -21,8 +21,8 @@ def Display_Graph(*args):
 		ts_ = D[topics][left_image][ts][:]
 	else:
 		ts_ = D[topics][acc_x][ts][:]
-	for i_ in rlen(ts_):
-		D[timestamp_to_left_image][ts_[i_]] = i_
+	##for i_ in rlen(ts_):
+	##	D[timestamp_to_left_image][ts_[i_]] = i_
 	D[end_time] = max(ts_)
 	D[start_time] = D[end_time]-P['TIME_RANGE']   #10#60#min(ts_)
 	D[reference_time] = (D[start_time]+D[end_time])/2.0
@@ -177,7 +177,7 @@ def Display_Graph(*args):
 			ref_time_ = (D[start_time]+D[end_time])/2.0 - D[start_time]
 		True
 		D[reference_time] = D[end_time]#find_nearest(np.array(D[topics][left_image][ts][:]),ref_time_+D[start_time])   #D[topics][left_image][ts][0])
-		img_index_ = D[timestamp_to_left_image][D[reference_time]]
+		##img_index_ = D[timestamp_to_left_image][D[reference_time]]
 		D[base_graph][img] *= 0
 		D[graph_topics]()
 		vertical_line_proportion_ = (D[reference_time]-D[start_time])/(D[end_time]-D[start_time])
@@ -185,7 +185,7 @@ def Display_Graph(*args):
 		D[dt] = (D[start_time]-D[end_time])*0.001
 		 
 		#D[insert_camera_image](camera,D[topics][left_image][vals], img_index, img_index_)#D[timestamp_to_left_image][ts_from_pixel_])
-		if left_image in D[topics]:
+		if False:#left_image in D[topics]:
 			camera_img_ =  D[topics][left_image][vals][-1].copy()
 			cx_ = (P[Y_PIXEL_SIZE]-P[CAMERA_SCALE]*shape(camera_img_)[0])
 			cy_ = (P[X_PIXEL_SIZE]-P[CAMERA_SCALE]*shape(camera_img_)[1])
