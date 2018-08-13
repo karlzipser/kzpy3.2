@@ -109,10 +109,10 @@ def left_image__callback(data):
 	R[left_image]['ts'].append(time.time())
 	R[left_image]['vals'].append( bridge.imgmsg_to_cv2(data,"rgb8") )
 
-if False:
-	def right_image__callback(data):
-		R[right_image]['ts'].append(time.time())
-		R[right_image]['vals'].append( bridge.imgmsg_to_cv2(data,"rgb8") )
+
+def right_image__callback(data):
+	R[right_image]['ts'].append(time.time())
+	R[right_image]['vals'].append( bridge.imgmsg_to_cv2(data,"rgb8") )
 
 for f in _flex_names:
 	s = """
@@ -132,8 +132,9 @@ rospy.Subscriber('/bair_car/acc', geometry_msgs.msg.Vector3, callback=acc__callb
 rospy.Subscriber('/bair_car/gyro', geometry_msgs.msg.Vector3, callback=gyro__callback)
 rospy.Subscriber('/bair_car/gyro_heading', geometry_msgs.msg.Vector3, callback=gyro_heading__callback)
 if P['USE_IMAGES']:
-	rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_image__callback,queue_size = 1)
-	if False:	
+	if False:
+		rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_image__callback,queue_size = 1)
+	if True:	
 		rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_image__callback,queue_size = 1)
 
 
