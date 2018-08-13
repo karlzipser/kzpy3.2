@@ -140,7 +140,7 @@ if P['USE_IMAGES']:
 
 print('Make sure this has been done if necessary, e.g.:\n\texport ROS_MASTER_URI=http://nvidia@192.168.1.11:11311')
 timer=Timer(0)
-while len(R['steer']['ts']) < 10 or len(R['left_image']['ts'] < 1):
+while len(R['steer']['ts']) < 10 and len(R['left_image']['ts'] < 1):
 	print('waiting for ROS data . . .')
 	pause(0.5)
 while True:
