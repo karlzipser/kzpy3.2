@@ -17,7 +17,7 @@ def Display_Graph(*args):
 	#print D[topics].keys()
 	
 	D[timestamp_to_left_image] = {}
-	if left_image in D[topics]:
+	if False:#left_image in D[topics]:
 		ts_ = D[topics][left_image][ts][:]
 	else:
 		ts_ = D[topics][acc_x][ts][:]
