@@ -113,9 +113,9 @@ def Display_Graph(*args):
 		Args = args_to_dictionary(args)
 		True
 		ctr_ = 0
-		for topic_ in sorted(D[topics].keys()):#P['topic_keys_sorted']:#.keys():#sorted(D[topics].keys()):
+		for topic_ in P['topic_keys_sorted']:# sorted(D[topics].keys()):#P['topic_keys_sorted']:#.keys():#sorted(D[topics].keys()):
 
-			if topic_ in P[TOPICS]:
+			if topic_ in P[TOPICS] and topic_ in D[topics]:
 
 				vals_ = np.array(D[topics][topic_][vals][:])
 				ts_ = np.array(D[topics][topic_][ts][:])
