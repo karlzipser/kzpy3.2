@@ -187,8 +187,8 @@ rospy.Subscriber('/bair_car/encoder', std_msgs.msg.Float32, callback=encoder__ca
 rospy.Subscriber('/bair_car/acc', geometry_msgs.msg.Vector3, callback=acc__callback)
 rospy.Subscriber('/bair_car/gyro', geometry_msgs.msg.Vector3, callback=gyro__callback)
 rospy.Subscriber('/bair_car/gyro_heading', geometry_msgs.msg.Vector3, callback=gyro_heading__callback)
-rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_image__callback,queue_size = 1)
-rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_image__callback,queue_size = 1)
+#rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_image__callback,queue_size = 1)
+#rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_image__callback,queue_size = 1)
 
 
 
@@ -202,10 +202,11 @@ while len(R['steer']['ts']) < 100:
 	pause(0.5)
 while True:
 	timer.reset()
-	for m_ in ['ts','vals']:
-		if left_image in R:
-			R[left_image][m_] = R[left_image][m_][-1:]
-			R[right_image][m_] = R[left_image][m_][-1:]
+	if False:
+		for m_ in ['ts','vals']:
+			if left_image in R:
+				R[left_image][m_] = R[left_image][m_][-1:]
+				R[right_image][m_] = R[left_image][m_][-1:]
 	for topic_ in R.keys():
 		#print len(R[topic_]['ts']),P[TOPIC_STEPS_LIMIT]
 		if len(R[topic_]['ts']) > P[TOPIC_STEPS_LIMIT]:
