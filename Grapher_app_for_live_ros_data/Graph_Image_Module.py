@@ -5,9 +5,6 @@ from Parameters_Module import *
 from vis2 import *
 exec(identify_file_str)
 
-
-
-
 _ = dictionary_access
 
 def Graph_Image(*args):
@@ -69,7 +66,6 @@ def Graph_Image(*args):
 		D[xscale] = D[xsize]/(1.0*D[xmax]-D[xmin])
 		D[yscale] = D[ysize]/(1.0*D[ymax]-D[ymin])
 		x_,y_ = D[floats_to_pixels](x,x_,y,y_,NO_REVERSE,no_reverse)
-		#print(x_,y_)
 		indicies_ = np.where(np.logical_and(y_>=0, y_<D[xsize]))
 		x_ = x_[indicies_]
 		y_ = y_[indicies_]        
@@ -80,97 +76,5 @@ def Graph_Image(*args):
 		D[img][x_,y_,:] = color_
 	D[ptsplot] = _function_pts_plot
 	return D
-
-
-
-
-"""
-def mouse_event(event, x_, y_, buttons, user_param):
-	P[MOUSE_X] = x_
-	P[MOUSE_Y] = y_
-	if event == cv2.EVENT_MOUSEMOVE:
-		P[MOUSE_MOVE_TIME] = time.time()
-	elif event == cv2.EVENT_LBUTTONDOWN:
-		#if y_ < P[Y_MOUSE_RANGE_PROPORTION] * P[Y_PIXEL_SIZE]:
-		_do_center_time('center_time',_(P,IMAGE3,pixel_to_float)(xint,x_, yint,0)[0])
-		for nv in P[ICONS].keys():
-			P[ICONS][nv][check](x,x_, y,y_)
-
-
-def _do_center_time(*args):
-	Args = args_to_dictionary(args)
-	center_timev = Args['center_time']
-	True
-	time_width_ = P[END_TIME] - P[START_TIME]
-	P[START_TIME] = center_timev - time_width_/2
-	P[END_TIME] = center_timev + time_width_/2
-
-
-
-
-
-
-
-def Icon(*args):
-	Args = args_to_dictionary(args)
-	D = {}
-	D[x] = int(Args[x])
-	D[y] = int(Args[y])
-	D[img] = Args[img]
-	D[path] = Args[path]
-	D[Img] = Args[Img]
-	D[name] = Args[name]
-	True
-	D[width] = shape(D[img])[0]
-	D[height] = shape(D[img])[1]
-	D[click_time] = False
-	D[clicked] = False
-	def _function_check(*args):
-		Args = args_to_dictionary(args)
-		x_ = Args[y]
-		y_ = Args[x]
-		#pd2s('checking',D[name],(x_,y_),'vs',(D[x],D[y]))
-		True
-		if x_ >= D[x]:
-			if x_ <= D[x]+D[width]:
-				if y_ >= D[y]:
-					if y_ <= D[y]+D[height]:
-						D[click_time] = time.time()
-						D[clicked] = True
-						print(D[name]+ ' clicked')
-	def _function_show():
-		True
-		D[Img][img][D[x]:D[x]+D[width],D[y]:D[y]+D[height],:] = D[img]
-	D[check] = _function_check
-	D[show] = _function_show
-	return D
-
-"""
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 #EOF

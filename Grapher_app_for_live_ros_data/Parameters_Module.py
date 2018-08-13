@@ -5,14 +5,9 @@ exec(identify_file_str)
 _ = dictionary_access
 
 P = {}
-P['USE_ROS'] = False
-_(P,VERBOSE,'equals',True)
-P[DATASET_PATHS] = [ '/media/karlzipser/rosbags/bair_car_2017-10-04-14-09-42_0.bag' ]
-#P[DATASET_PATHS] = [ opjm('rosbags/Mr_Lt_Blue_16_50_29Aug2017/processed2/Mr_Lt_Blue_16_50_29Aug2017')]
-#P[DATASET_PATHS] = [opjD('bdd_car_data_July2017_LCR')]
-#P[DATASET_PATHS] = [opjm('ExtraDrive2/bdd_car_data_July2017_LCR')]
-#P[DATASET_PATHS] = [opjm('ExtraDrive2/bair_car_data_Main_Dataset')]
-#P[DATASET_PATHS] = [opjm('ExtraDrive2/bdd_car_data_July2017_regular')]
+P['USE_ARUCO'] = False
+P['USE_IMAGES'] = True
+
 P[TOPICS] = {
 	steer:{maxval:80,		minval:20,		baseline:49.0,	color:(255,0,0)},
 	motor:{maxval:80,		minval:49,		baseline:49.0,	color:(0,255-32,32)},
@@ -29,30 +24,40 @@ P[TOPICS] = {
 	'xfl0':{maxval:100,		minval:-50,	baseline:0,		color:(255,0,0)},
 	'xfl1':{maxval:100,		minval:-50,	baseline:0,		color:(0,255,0)},
 	'xfr0':{maxval:100,		minval:-50,	baseline:0,		color:(255,0,0)},
-	'xfr1':{maxval:100,		minval:-50,	baseline:0,		color:(0,255,0)},
-	'xbl0':{maxval:100,		minval:-50,	baseline:0,		color:(255,0,0)},
-	'xbl1':{maxval:100,		minval:-50,	baseline:0,		color:(0,255,0)},
-	'xbr0':{maxval:100,		minval:-50,	baseline:0,		color:(255,0,0)},
-	'xbr1':{maxval:100,		minval:-50,	baseline:0,		color:(0,255,0)},
-	}
-#P[VERTICAL_LINE_PROPORTION] = 0.5
+	'xfr1':{maxval:100,		minval:-50,	baseline:0,		color:(255,255,0)},
+	'xbl0':{maxval:100,		minval:-50,	baseline:0,		color:(255,0,255)},
+	'xbl1':{maxval:100,		minval:-50,	baseline:0,		color:(0,255,255)},
+	'xbr0':{maxval:100,		minval:-50,	baseline:0,		color:(255,0,255)},
+	'xbr1':{maxval:100,		minval:-50,	baseline:0,		color:(255,255,255)},
+}
+P['topic_keys_sorted'] = [
+	steer,
+	motor,
+	acc_x,
+	acc_y,
+	acc_z,
+	gyro_x,
+	gyro_y,
+	gyro_z,
+	gyro_heading_x,
+	left_ts_deltas,
+	encoder,
+	'xfl0',
+	'xfl1',
+	'xfr0',
+	'xfr1',
+	'xbl0',
+	'xbl1',
+	'xbr0',
+	'xbr1'
+]
+
 P[X_PIXEL_SIZE] = 800
 P[Y_PIXEL_SIZE] = 800
 P[SCREEN_X] = 20
 P[SCREEN_Y] = 40
 P[CAMERA_SCALE] = 1
 P[SHOW_MARKER_ID] = False
-"""
-P[MOUSE_MOVE_TIME] = 0
-P[MOUSE_X] = 0
-P[MOUSE_Y] = 0
-P[REAL_TIME_DTV] = -2/30.
-
-P[Y_MOUSE_RANGE_PROPORTION] = 0.5
-P[ICONS] = []
-P[MAX_ICONS_PER_ROW] = 14
-"""
-
 P[TOPIC_STEPS_LIMIT] = 5000
 P['TIME_RANGE'] = 15
 

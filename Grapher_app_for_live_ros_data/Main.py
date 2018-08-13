@@ -33,55 +33,6 @@ for a in Args.keys():
 
 P[X_PIXEL_SIZE_INIT],P[Y_PIXEL_SIZE_INIT] = P[X_PIXEL_SIZE],P[Y_PIXEL_SIZE]
 
-
-
-"""
-##########################################
-#
-h5py_run_path = '/home/karlzipser/Desktop/bdd_car_data_July2017_LCR/h5py/direct_Tilden_LCR_23Jul17_10h27m34s_Mr_Yellow'
-l_ = opj(h5py_run_path,'left_timestamp_metadata.h5py')
-o_  = opj(h5py_run_path,'original_timestamp_data.h5py')
-#
-##########################################
-#   left-timestamp bound data
-L = h5r(l_)
-O = h5r(o_ )
-OO = {}
-for topic_ in P[TOPICS].keys():
-	if topic_ in L.keys():
-		OO[topic_] = {}
-		OO[topic_]['ts'] = L['ts'][:]
-		OO[topic_]['vals'] = L[topic_][:]
-OO[left_image] = {}
-OO[left_image]['ts'] = L['ts'][:]
-OO[left_image]['vals'] = O[left_image]['vals']
-#
-#########################################
-
-"""
-
-
-
-
-
-
-"""
-if __name__ == '__main__':
-
-	
-	D = Display_Graph_Module.Display_Graph(topics,OO)
-	timer=Timer(0)
-	while True:
-		timer.reset()
-		D[show]()
-		print timer.time()
-"""
-
-
-
-
-
-
 import roslib
 import std_msgs.msg
 import geometry_msgs.msg
@@ -93,8 +44,6 @@ exec(identify_file_str)
 bridge = CvBridge()
 
 rospy.init_node('listener',anonymous=True)
-
-
 
 _flex_names = []
 for fb in ['f','b']:
@@ -156,16 +105,14 @@ def gyro_heading__callback(msg):
 	R[gyro_heading_z]['ts'].append(t_)
 	R[gyro_heading_z]['vals'].append(msg.z)
 
-
 def left_image__callback(data):
 	R[left_image]['ts'].append(time.time())
 	R[left_image]['vals'].append( bridge.imgmsg_to_cv2(data,"rgb8") )
 
-def right_image__callback(data):
-	R[right_image]['ts'].append(time.time())
-	R[right_image]['vals'].append( bridge.imgmsg_to_cv2(data,"rgb8") )
-
-
+if False:
+	def right_image__callback(data):
+		R[right_image]['ts'].append(time.time())
+		R[right_image]['vals'].append( bridge.imgmsg_to_cv2(data,"rgb8") )
 
 for f in _flex_names:
 	s = """
@@ -177,9 +124,6 @@ rospy.Subscriber('/bair_car/FLEX', std_msgs.msg.Int32, callback=FLEX__callback)
 	exec_str = s.replace('FLEX',f)
 	exec(exec_str)
 
-
-
-
 rospy.Subscriber('/bair_car/steer', std_msgs.msg.Int32, callback=steer__callback)
 rospy.Subscriber('/bair_car/motor', std_msgs.msg.Int32, callback=motor__callback)
 rospy.Subscriber('/bair_car/state', std_msgs.msg.Int32, callback=state__callback)
@@ -187,51 +131,29 @@ rospy.Subscriber('/bair_car/encoder', std_msgs.msg.Float32, callback=encoder__ca
 rospy.Subscriber('/bair_car/acc', geometry_msgs.msg.Vector3, callback=acc__callback)
 rospy.Subscriber('/bair_car/gyro', geometry_msgs.msg.Vector3, callback=gyro__callback)
 rospy.Subscriber('/bair_car/gyro_heading', geometry_msgs.msg.Vector3, callback=gyro_heading__callback)
-#rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_image__callback,queue_size = 1)
-#rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_image__callback,queue_size = 1)
+if P['USE_IMAGES']:
+	rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_image__callback,queue_size = 1)
+	if False:	
+		rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_image__callback,queue_size = 1)
 
 
-
-
-
-
-print('Make sure this has been done if necessary:\n\texport ROS_MASTER_URI=http://nvidia@192.168.1.11:11311')
+print('Make sure this has been done if necessary, e.g.:\n\texport ROS_MASTER_URI=http://nvidia@192.168.1.11:11311')
 timer=Timer(0)
-while len(R['steer']['ts']) < 100:
+while len(R['steer']['ts']) < 10:
 	print('waiting for ROS data . . .')
 	pause(0.5)
 while True:
 	timer.reset()
-	if False:
+	if P['USE_IMAGES']:
 		for m_ in ['ts','vals']:
 			if left_image in R:
 				R[left_image][m_] = R[left_image][m_][-1:]
 				R[right_image][m_] = R[left_image][m_][-1:]
 	for topic_ in R.keys():
-		#print len(R[topic_]['ts']),P[TOPIC_STEPS_LIMIT]
 		if len(R[topic_]['ts']) > P[TOPIC_STEPS_LIMIT]:
 			for m_ in ['ts','vals']:
 				R[topic_][m_] = R[topic_][m_][-P[TOPIC_STEPS_LIMIT]:]
 	D = Display_Graph_Module.Display_Graph(topics,R)
-	D[show]()#start_time,D[end_time]-10)
-	#print timer.time()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#EOF
+	D[show]()
 
 #EOF

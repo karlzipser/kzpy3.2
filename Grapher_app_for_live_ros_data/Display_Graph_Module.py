@@ -1,7 +1,7 @@
 from Parameters_Module import *
 from vis2 import *
 import Graph_Image_Module
-if P['USE_ROS']:
+if P['USE_ARUCO']:
 	import kzpy3.misc.aruco_data_analysis.Angle_Dict_Creator as Angle_Dict_Creator
 exec(identify_file_str)
 
@@ -17,12 +17,11 @@ def Display_Graph(*args):
 	#print D[topics].keys()
 	
 	D[timestamp_to_left_image] = {}
-	if False:#left_image in D[topics]:
+	if P['USE_IMAGES'] and left_image in D[topics]:
 		ts_ = D[topics][left_image][ts][:]
 	else:
 		ts_ = D[topics][acc_x][ts][:]
-	##for i_ in rlen(ts_):
-	##	D[timestamp_to_left_image][ts_[i_]] = i_
+
 	D[end_time] = max(ts_)
 	D[start_time] = D[end_time]-P['TIME_RANGE']   #10#60#min(ts_)
 	D[reference_time] = (D[start_time]+D[end_time])/2.0
@@ -34,11 +33,6 @@ def Display_Graph(*args):
 		ymax,100,
 		xsize,P[X_PIXEL_SIZE],
 		ysize,P[Y_PIXEL_SIZE])
-	#D[zero_baseline] = 0*ts_
-	#D[baseline_with_tics] = D[zero_baseline].copy()
-	#for i in rlen(D[baseline_with_tics]):
-	#	if np.mod(int(ts_[i]),10.0) == 0:
-	#		D[baseline_with_tics][i] = 1.0
 
 	def _function_vertical_line(*args):
 		Args = args_to_dictionary(args)
@@ -57,7 +51,7 @@ def Display_Graph(*args):
 		camera_ = Args[camera]
 		img_index_ = Args[img_index]
 		True
-		if False:
+		if P['USE_IMAGES']:
 			camera_img_ = camera_[img_index_][:]
 			cx_ = (P[Y_PIXEL_SIZE]-P[CAMERA_SCALE]*shape(camera_img_)[0])
 			cy_ = (P[X_PIXEL_SIZE]-P[CAMERA_SCALE]*shape(camera_img_)[1])
@@ -104,7 +98,6 @@ def Display_Graph(*args):
 		elif key_ == ord('h'): D[start_time] += dt_; D[end_time] += dt_
 		elif key_ == ord(' '): D[start_time],D[end_time] = D[start_time_init],D[end_time_init];
 
-
 		if False: #not key_decoded_:
 			if key_ != -1:
 				try:
@@ -116,12 +109,11 @@ def Display_Graph(*args):
 					#print(e.message, e.args)
 	D[process_key_commands] = _function_process_key_commands
 	
-
 	def _function_graph_topics(*args):
 		Args = args_to_dictionary(args)
 		True
 		ctr_ = 0
-		for topic_ in sorted(D[topics].keys()):
+		for topic_ in D['topic_keys_sorted']:#.keys():#sorted(D[topics].keys()):
 
 			if topic_ in P[TOPICS]:
 
@@ -158,7 +150,6 @@ def Display_Graph(*args):
 				I[topic_][ptsplot](x,ts_, y,baseline_vals_, color,baseline_color_)
 	D[graph_topics] = _function_graph_topics
 
-
 	def _function_show(*args):
 		"""
 		Note, the input is in terms of t0 = 0, but the data is time since The Epoch.
@@ -185,11 +176,11 @@ def Display_Graph(*args):
 		D[dt] = (D[start_time]-D[end_time])*0.001
 		 
 		#D[insert_camera_image](camera,D[topics][left_image][vals], img_index, img_index_)#D[timestamp_to_left_image][ts_from_pixel_])
-		if False:#left_image in D[topics]:
+		if P['USE_IMAGES'] and left_image in D[topics]:
 			camera_img_ =  D[topics][left_image][vals][-1].copy()
 			cx_ = (P[Y_PIXEL_SIZE]-P[CAMERA_SCALE]*shape(camera_img_)[0])
 			cy_ = (P[X_PIXEL_SIZE]-P[CAMERA_SCALE]*shape(camera_img_)[1])
-			if P['USE_ROS']:
+			if P['USE_ARUCO']:
 				angles_to_center, angles_surfaces, distances_marker, markers = Angle_Dict_Creator.get_angles_and_distance(camera_img_)
 				for i_ in rlen(markers):
 					
@@ -216,37 +207,6 @@ def Display_Graph(*args):
 		D[process_key_commands](key,key_)
 	D[show] = _function_show
 
-
-
 	return D
-
-			
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 #EOF
