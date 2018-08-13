@@ -488,8 +488,11 @@ def restore_Desktop(src):
 		shutil.move(opjh(src,i),opjD(''))
 
 def advance(lst,e,min_len=1):
-	if len(lst) < min_len:
+	len_lst = len(lst)
+	if len_lst < min_len:
 		pass
+	elif len_lst > 1.2*min_len:
+		lst = lst[-min_len:]
 	else:
 		lst.pop(0)
 	lst.append(e)

@@ -1,6 +1,8 @@
 from kzpy3.utils2 import *
 exec(identify_file_str)
 
+#encoder_list_min_length = 5
+
 def TACTIC_RC_controller(P):
     P['button_delta'] = 50
     P['button_number'] = 0
@@ -9,6 +11,7 @@ def TACTIC_RC_controller(P):
     P['servo_pwm_smooth'] = 1000
     P['motor_pwm_smooth'] = 1000
     P['selector_mode'] = False
+    #P['encoder_list'] = list(zeros(encoder_list_min_length))
 
     threading.Thread(target=_TACTIC_RC_controller_run_loop,args=[P]).start()
     #return P
@@ -44,6 +47,9 @@ def _TACTIC_RC_controller_run_loop(P):
                 P['servo_pwm'] = mse_input[2]
                 P['motor_pwm'] = mse_input[3]
                 P['encoder'] = mse_input[4]
+                #advance(P['encoder_list'],P['encoder'],min_len=encoder_list_min_length)
+                #P['encoder_median'] = np.median()
+
             if 'Assign button...':
                 bpwm = P['button_pwm']
                 if np.abs(bpwm - 1900) < P['button_delta']:
@@ -67,7 +73,7 @@ def _TACTIC_RC_controller_run_loop(P):
 
             P['servo_pwm_smooth'] = (1.0-s)*P['servo_pwm'] + s*P['servo_pwm_smooth']
             P['motor_pwm_smooth'] = (1.0-s)*P['motor_pwm'] + s*P['motor_pwm_smooth']
-
+            P['encoder_smooth'] = (1.0-s)*P['encoder'] + s*P['encoder_smooth']
 
             if P['calibrated'] == True:
                 P['human']['servo_percent'] = servo_pwm_to_percent(P['servo_pwm_smooth'],P)
@@ -106,6 +112,11 @@ def _TACTIC_RC_controller_run_loop(P):
                         in_this_mode = False
 
                     _motor_pwm = motor_percent_to_pwm(P['network']['motor_percent'],P)
+                    if False:
+                        _motor_pwm = motor_percent_to_pwm( pid(P['network']['motor_percent'],P) )
+                    # insert PID here, motor 60% = 1.4 m/s, measure wheel circumferance,
+                    # num magnets, use P['encoder'], maybe median of -5: of list of values
+                    ###
                     write_str = d2n( '(', int(_servo_pwm), ',', int(_motor_pwm+10000), ')')
                 else:
                     in_this_mode = False
