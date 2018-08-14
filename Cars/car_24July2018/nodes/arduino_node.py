@@ -39,6 +39,12 @@ Parameters['network']['servo_percent'] = 49
 Parameters['network']['motor_percent'] = 49
 Parameters['IMU_SMOOTHING_PARAMETER'] = 0.99
 Parameters['Hz'] = {}
+Parameters['servo_pwm_null'] = 1450
+Parameters['motor_pwm_null'] = Parameters['servo_pwm_null']
+Parameters['servo_pwm_min'] = Parameters['servo_pwm_null']
+Parameters['servo_pwm_max'] = Parameters['servo_pwm_null']
+Parameters['motor_pwm_min'] = Parameters['servo_pwm_null']
+Parameters['motor_pwm_max'] = Parameters['servo_pwm_null']
 
 import default_values
 for k in default_values.Mse.keys():
