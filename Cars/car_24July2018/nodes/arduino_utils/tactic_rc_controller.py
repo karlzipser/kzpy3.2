@@ -30,7 +30,7 @@ def _TACTIC_RC_controller_run_loop(P):
     in_this_mode_timer = Timer()
     very_low_freq_timer = Timer(30)
     ctr_timer = Timer()
-    #Pid_processing = Pid_Processing(P)
+    Pid_processing = Pid_Processing(P)
     while P['ABORT'] == False:
         if 'Brief sleep to allow other threads to process...':
             time.sleep(0.01)
@@ -200,9 +200,10 @@ def compare_percents_and_pwms(P):
 #P={}
 #P['encoder'] = 3
 
-def Pid_Processing(P,slope=(60-49)/3.0,gain=0.1):
+def Pid_Processing(P):#,slope=(60-49)/3.0,gain=0.1):
     D = {}
     D['pid_motor_percent'] = 0
+    """
     def _do(motor_value):
         encoder_target = (motor_value-49.0) /slope
         #print encoder_target
@@ -210,6 +211,7 @@ def Pid_Processing(P,slope=(60-49)/3.0,gain=0.1):
         #print D['pid_motor_percent']
         return D['pid_motor_percent']
     D['do'] = _do
+    """
     return D
 #_pid_motor_percent = Pid_processing['pid'](60)
 
