@@ -30,7 +30,7 @@ def _TACTIC_RC_controller_run_loop(P):
     in_this_mode_timer = Timer()
     very_low_freq_timer = Timer(30)
     ctr_timer = Timer()
-    Pid_processing = Pid_Processing(P)
+    #Pid_processing = Pid_Processing(P)
     while P['ABORT'] == False:
         if 'Brief sleep to allow other threads to process...':
             time.sleep(0.01)
@@ -112,9 +112,9 @@ def _TACTIC_RC_controller_run_loop(P):
                         _servo_pwm = servo_percent_to_pwm(P['network']['servo_percent'],P)
                         in_this_mode = False
 
-                    if False:
-                        _motor_pwm = motor_percent_to_pwm(P['network']['motor_percent'],P)
                     if True:
+                        _motor_pwm = motor_percent_to_pwm(P['network']['motor_percent'],P)
+                    if False:
                         _motor_pwm = motor_percent_to_pwm( Pid_processing['do'](P['network']['motor_percent']) )
                     # insert PID here, motor 60% = 1.4 m/s, measure wheel circumferance,
                     # num magnets, use P['encoder'], maybe median of -5: of list of values
@@ -199,6 +199,7 @@ def compare_percents_and_pwms(P):
 
 #P={}
 #P['encoder'] = 3
+"""
 def Pid_Processing(P,slope=(60-49)/3.0,gain=0.1):
     D = {}
     D['pid_motor_percent'] = 0
@@ -211,7 +212,7 @@ def Pid_Processing(P,slope=(60-49)/3.0,gain=0.1):
     D['do'] = _do
     return D
 #_pid_motor_percent = Pid_processing['pid'](60)
-
+"""
 
 
 """
