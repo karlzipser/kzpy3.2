@@ -210,6 +210,7 @@ def Pid_Processing(P):
         #print encoder_target
         D['pid_motor_percent'] += gain * (encoder_target - P['encoder'])#_smooth'])
         #print D['pid_motor_percent']
+        print(motor_value,D['pid_motor_percent'])
         return D['pid_motor_percent']
     D['do'] = _do
     """
