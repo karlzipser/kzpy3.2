@@ -6,7 +6,7 @@ alias rls='ls -al /media/nvidia/rosbags'
 alias rrm='rm ~/catkin_ws/src/bair_car/rosbags/*'
 alias rlog='rm -r ~/.ros/log/*'
 alias rla='rrm;rlog;rm ~/Desktop/Mr*.txt;roslaunch bair_car bair_car.launch use_zed:=true record:=true' 
-alias rlanr='rrm;rlog;roslaunch bair_car bair_car.launch use_zed:=true record:=false' 
+alias rlanz='rrm;rlog;rm ~/Desktop/Mr*.txt;roslaunch bair_car bair_car.launch use_zed:=false record:=true' 
 alias rgy='rostopic echo /bair_car/gyro'
 alias rgp='rostopic echo /bair_car/gps'
 alias rac='rostopic echo /bair_car/acc'
@@ -88,7 +88,7 @@ echo Hi $COMPUTER_NAME on Jetson
 echo "rrm;rlog"
 rrm
 rlog
-OPTIONS="exit screen rla rlanr rosbags git_pull reboot shutdown rostopics rosmenu net_menu df car_link_menu"
+OPTIONS="exit screen rla rlanz rosbags git_pull reboot shutdown rostopics rosmenu net_menu df car_link_menu"
 COLUMNS=12
 echo 'main menu'
 select opt in $OPTIONS; do
@@ -99,8 +99,8 @@ select opt in $OPTIONS; do
    elif [ "$opt" = "shutdown" ]; then
     echo "Shutting down . . ."
     ssd
-   elif [ "$opt" = "rlanr" ]; then
-    rrm;rlog;roslaunch bair_car bair_car.launch use_zed:=true record:=false car_name:=$COMPUTER_NAME
+   elif [ "$opt" = "rlanz" ]; then
+    rlanz
    elif [ "$opt" = "rla" ]; then
     rrm;rlog;roslaunch bair_car bair_car.launch use_zed:=true record:=true
    elif [ "$opt" = "car_link_menu" ]; then
