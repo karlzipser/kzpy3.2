@@ -144,7 +144,7 @@ def _TACTIC_RC_controller_run_loop(P):
 
             if print_timer.check():
                 #print write_str
-                print(motor_value,dp(D['pid_motor_percent'],1),dp(P['encoder'],1))
+                print(P['network']['motor_percent'],dp(Pid_processing['pid_motor_percent'],1),dp(P['encoder'],1))
                 print_timer.reset()
 
             if very_low_freq_timer.check():
