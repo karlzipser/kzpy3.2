@@ -200,14 +200,15 @@ def compare_percents_and_pwms(P):
 #P={}
 #P['encoder'] = 3
 
-def Pid_Processing(P):#,slope=(60-49)/3.0,gain=0.1):
+def Pid_Processing(P):
+    slope=(60-49)/3.0
+    gain=0.1
     D = {}
     D['pid_motor_percent'] = 0
-    """
     def _do(motor_value):
-        encoder_target = (motor_value-49.0) /slope
+        encoder_target = (motor_value-49.0) / slope
         #print encoder_target
-        D['pid_motor_percent'] += gain * (encoder_target - P['encoder_smooth'])
+        D['pid_motor_percent'] += gain * (encoder_target - P['encoder'])#_smooth'])
         #print D['pid_motor_percent']
         return D['pid_motor_percent']
     D['do'] = _do
