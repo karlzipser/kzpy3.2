@@ -5,7 +5,7 @@ def Calibration_Mode(P):
     threading.Thread(target=_calibrate_run_loop,args=[P]).start()
 
 def _calibrate_run_loop(P):
-    print "_calibrate_run_loop"
+    CS_("_calibrate_run_loop")
     print_timer = Timer(1)
     P['calibrated'] = False
     frequency_timer = Timer(1)
