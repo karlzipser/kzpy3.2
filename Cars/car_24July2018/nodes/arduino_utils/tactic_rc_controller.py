@@ -30,6 +30,7 @@ def _TACTIC_RC_controller_run_loop(P):
     in_this_mode_timer = Timer()
     very_low_freq_timer = Timer(30)
     ctr_timer = Timer()
+    Pid_processing = Pid_Processing(P)
     while P['ABORT'] == False:
         if 'Brief sleep to allow other threads to process...':
             time.sleep(0.01)
@@ -111,9 +112,10 @@ def _TACTIC_RC_controller_run_loop(P):
                         _servo_pwm = servo_percent_to_pwm(P['network']['servo_percent'],P)
                         in_this_mode = False
 
-                    _motor_pwm = motor_percent_to_pwm(P['network']['motor_percent'],P)
                     if False:
-                        _motor_pwm = motor_percent_to_pwm( pid(P['network']['motor_percent'],P) )
+                        _motor_pwm = motor_percent_to_pwm(P['network']['motor_percent'],P)
+                    if True:
+                        _motor_pwm = motor_percent_to_pwm( Pid_processing['do'](P['network']['motor_percent']) )
                     # insert PID here, motor 60% = 1.4 m/s, measure wheel circumferance,
                     # num magnets, use P['encoder'], maybe median of -5: of list of values
                     ###
@@ -194,6 +196,42 @@ def compare_percents_and_pwms(P):
             print dp(s_from_percent/(0.01+s_pwm),2),dp(m_from_percent/(0.01+m_pwm),2)
 
 
+
+#P={}
+#P['encoder'] = 3
+def Pid_Processing(P,slope=(60-49)/3.0,gain=0.1):
+    D = {}
+    D['pid_motor_percent'] = 0
+    def _do(motor_value):
+        encoder_target = (motor_value-49.0) /slope
+        #print encoder_target
+        D['pid_motor_percent'] += gain * (encoder_target - P['encoder_smooth'])
+        #print D['pid_motor_percent']
+        return D['pid_motor_percent']
+    D['do'] = _pid
+    return D
+#_pid_motor_percent = Pid_processing['pid'](60)
+
+
+
+"""
+def pid_processing(M):
+    if M['PID'][0] < 0:
+        M['pid_motor_pwm'] = M['smooth_motor']
+    else:
+        if M['current_state'].state_transition_timer.time() > 0.0:
+            if not 'pid_motor_pwm' in M:
+                M['pid_motor_pwm'] = M['smooth_motor']
+            pid_low = M['PID'][0]
+            pid_high = M['PID'][1]
+            pid_mid = (pid_low+pid_high)/2.0
+            if M['encoder_lst'][-1] > pid_high:
+                M['pid_motor_pwm'] -= 10*np.abs(M['encoder_lst'][-1]-pid_mid)/100.0
+            elif M['encoder_lst'][-1] < pid_low:
+                M['pid_motor_pwm'] += 10*np.abs(M['encoder_lst'][-1]-pid_mid)/100.0
+        else:
+            M['pid_motor_pwm'] = M['smooth_motor']
+"""
 
 
 

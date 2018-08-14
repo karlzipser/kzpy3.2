@@ -126,4 +126,12 @@ on subscriber machine, ROS_IP='' [do not set] (may not be necessary)
 -harden Mr_Blue
 https://www.danielandrade.net/2016/10/30/interfacing-two-adafruit-mma8451-via-i2c/
 
+http://forums.trossenrobotics.com/tutorials/how-to-diy-128/get-position-feedback-from-a-standard-hobby-servo-3279/
+
+http://forums.trossenrobotics.com/tutorials/how-to-diy-128/cheap-battery-monitor-using-resistive-voltage-divider-3264/
+
 """
+
+
+
+
