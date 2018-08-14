@@ -201,7 +201,7 @@ def compare_percents_and_pwms(P):
 
 
 
-def Pid_Processing(slope=(60-49)/1.0,gain=0.1)
+def Pid_Processing(slope=(60-49)/3.0,gain=0.1):
     D = {}
     D['pid_motor_percent'] = 49
     def _do(motor_value,encoder):
