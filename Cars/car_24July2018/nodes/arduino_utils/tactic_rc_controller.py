@@ -11,6 +11,8 @@ def TACTIC_RC_controller(P):
     P['servo_pwm_smooth'] = 1000
     P['motor_pwm_smooth'] = 1000
     P['selector_mode'] = False
+    P['encoder_smooth'] = 0.0
+
 
     threading.Thread(target=_TACTIC_RC_controller_run_loop,args=[P]).start()
     #return P
@@ -206,7 +208,7 @@ def Pid_Processing(P):
     def _do(motor_value):
         encoder_target = (motor_value-49.0) / slope
         #print encoder_target
-        D['pid_motor_percent'] += gain * (encoder_target - P['encoder'])#_smooth'])
+        D['pid_motor_percent'] += gain * (encoder_target - P['encoder_smooth'])
         #print D['pid_motor_percent']
         print(motor_value,D['pid_motor_percent'])
         return D['pid_motor_percent']
