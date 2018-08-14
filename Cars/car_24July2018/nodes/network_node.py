@@ -308,14 +308,14 @@ while True:
                     #adjusted_steer = bound_value(paramiko_steer,0,99)
             #
             #################################################################################
-
-            if DRIVE_FORWARD:
-                _m = '['
-                _n = ']'
-            else:
-                _m = '<'
-                _n = '>'
-            pd2s(_m,DRIVE_FORWARD,adjusted_steer,',',adjusted_motor,_n,dp(reverse_timer.time(),1),SEND_STEER_MOTOR_WITH_PARAMIKO,RECEIVE_STEER_MOTOR_FROM_PARAMIKO)
+            if False:
+                if DRIVE_FORWARD:
+                    _m = '['
+                    _n = ']'
+                else:
+                    _m = '<'
+                    _n = '>'
+                pd2s(_m,DRIVE_FORWARD,adjusted_steer,',',adjusted_motor,_n,dp(reverse_timer.time(),1),SEND_STEER_MOTOR_WITH_PARAMIKO,RECEIVE_STEER_MOTOR_FROM_PARAMIKO)
 
 
             #################################################################################
