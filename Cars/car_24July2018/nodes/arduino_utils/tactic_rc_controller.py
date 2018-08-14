@@ -144,6 +144,7 @@ def _TACTIC_RC_controller_run_loop(P):
 
             if print_timer.check():
                 #print write_str
+                print(motor_value,dp(D['pid_motor_percent'],1),dp(P['encoder'],1))
                 print_timer.reset()
 
             if very_low_freq_timer.check():
@@ -201,14 +202,13 @@ def compare_percents_and_pwms(P):
 
 
 def Pid_Processing(P):
-    slope=(60-49)/3.0
-    gain=0.1
+    slope=(60-49)/1.0
+    gain=0.01
     D = {}
-    D['pid_motor_percent'] = 0
+    D['pid_motor_percent'] = 49
     def _do(motor_value):
         encoder_target = (motor_value-49.0) / slope
-        D['pid_motor_percent'] += gain * (encoder_target - P['encoder_smooth'])
-        print(motor_value,D['pid_motor_percent'])
+        D['pid_motor_percent'] += -gain * (encoder_target - P['encoder'])
         return D['pid_motor_percent']
     D['do'] = _do
     return D
