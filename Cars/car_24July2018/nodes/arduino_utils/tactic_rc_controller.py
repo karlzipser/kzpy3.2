@@ -11,7 +11,6 @@ def TACTIC_RC_controller(P):
     P['servo_pwm_smooth'] = 1000
     P['motor_pwm_smooth'] = 1000
     P['selector_mode'] = False
-    P['encoder_list'] = list(zeros(encoder_list_min_length))
 
     threading.Thread(target=_TACTIC_RC_controller_run_loop,args=[P]).start()
     #return P
