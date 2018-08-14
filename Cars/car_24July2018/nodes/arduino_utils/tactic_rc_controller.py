@@ -197,8 +197,7 @@ def compare_percents_and_pwms(P):
 
 
 
-#P={}
-#P['encoder'] = 3
+
 
 def Pid_Processing(P):
     slope=(60-49)/3.0
@@ -213,30 +212,6 @@ def Pid_Processing(P):
         print(motor_value,D['pid_motor_percent'])
         return D['pid_motor_percent']
     D['do'] = _do
-    """
-    return D
-#_pid_motor_percent = Pid_processing['pid'](60)
-
-
-
-"""
-def pid_processing(M):
-    if M['PID'][0] < 0:
-        M['pid_motor_pwm'] = M['smooth_motor']
-    else:
-        if M['current_state'].state_transition_timer.time() > 0.0:
-            if not 'pid_motor_pwm' in M:
-                M['pid_motor_pwm'] = M['smooth_motor']
-            pid_low = M['PID'][0]
-            pid_high = M['PID'][1]
-            pid_mid = (pid_low+pid_high)/2.0
-            if M['encoder_lst'][-1] > pid_high:
-                M['pid_motor_pwm'] -= 10*np.abs(M['encoder_lst'][-1]-pid_mid)/100.0
-            elif M['encoder_lst'][-1] < pid_low:
-                M['pid_motor_pwm'] += 10*np.abs(M['encoder_lst'][-1]-pid_mid)/100.0
-        else:
-            M['pid_motor_pwm'] = M['smooth_motor']
-"""
 
 
 
