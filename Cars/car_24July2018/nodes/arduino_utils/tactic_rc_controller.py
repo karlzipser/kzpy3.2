@@ -208,7 +208,7 @@ def Pid_Processing(P,slope=(60-49)/3.0,gain=0.1):
         D['pid_motor_percent'] += gain * (encoder_target - P['encoder_smooth'])
         #print D['pid_motor_percent']
         return D['pid_motor_percent']
-    D['do'] = _pid
+    D['do'] = _do
     return D
 #_pid_motor_percent = Pid_processing['pid'](60)
 
