@@ -113,9 +113,9 @@ def _TACTIC_RC_controller_run_loop(P):
                         _servo_pwm = servo_percent_to_pwm(P['network']['servo_percent'],P)
                         in_this_mode = False
 
-                    if False:
-                        _motor_pwm = motor_percent_to_pwm(P['network']['motor_percent'],P)
                     if True:
+                        _motor_pwm = motor_percent_to_pwm(P['network']['motor_percent'],P)
+                    if False:
                         _motor_pwm = motor_percent_to_pwm( Pid_processing['do'](P['network']['motor_percent'],P['encoder_smooth']), P )
                     # insert PID here, motor 60% = 1.4 m/s, measure wheel circumferance,
                     # num magnets, use P['encoder'], maybe median of -5: of list of values
