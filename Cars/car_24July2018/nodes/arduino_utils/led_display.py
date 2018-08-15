@@ -36,9 +36,9 @@ def _LED_Display_run_loop(P):
                     pass
                     print_timer.reset()
                 time.sleep(0.001)
-        except Exception as e:
-            print e
-            pass
+            except Exception as e:
+                print e
+                pass
     P['Arduinos']['SIG'].write('(-11119)')         
     print d2s('end _LED_Display_run_loop, ran for',dp(run_timer.time(),1),'seconds')
 
