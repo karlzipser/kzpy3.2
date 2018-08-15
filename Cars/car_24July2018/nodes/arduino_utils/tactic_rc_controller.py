@@ -88,7 +88,7 @@ def _TACTIC_RC_controller_run_loop(P):
                 in_this_mode = False
 
 
-            elif P['agent_choice'] == 'network' and P['selector_mode'] == 'drive_mode'::
+            elif P['agent_choice'] == 'network' and P['selector_mode'] == 'drive_mode':
                 if np.abs(P['human']['motor_percent']-49) > 4:
                     in_this_mode = False
                     #_servo_pwm = servo_percent_to_pwm(P['human']['servo_percent'],P)
