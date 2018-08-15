@@ -32,8 +32,8 @@ P[TOPICS] = {
 }
 P['topic_keys_sorted'] = [
 
-#	steer,
-#	motor,
+	steer,
+	motor,
 #	acc_x,
 #	acc_y,
 #	acc_z,
@@ -42,15 +42,15 @@ P['topic_keys_sorted'] = [
 #	gyro_z,
 #	gyro_heading_x,
 #	left_ts_deltas,
-#	encoder,
-	'xfl0',
-	'xfl1',
-	'xfr0',
-	'xfr1',
-	'xbl0',
-	'xbl1',
-	'xbr0',
-	'xbr1'
+	encoder,
+#	'xfl0',
+#	'xfl1',
+#	'xfr0',
+#	'xfr1',
+#	'xbl0',
+#	'xbl1',
+#	'xbr0',
+#	'xbr1'
 ]
 
 P[X_PIXEL_SIZE] = 800
