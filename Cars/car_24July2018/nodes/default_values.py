@@ -4,8 +4,8 @@ exec(identify_file_str)
 Network = {}
 Network['network_output_sample'] = 4 # >= 0, <= 9
 Network['network_steer_gain'] = 3.0
-Network['network_motor_gain'] = 0.25
-Network['network_motor_offset'] = 6
+Network['network_motor_gain'] = 1.0
+Network['network_motor_offset'] = 0
 Network['network_smoothing_parameter'] = 0.75
 #Network['weight_file_path'] = opjh('pytorch_models','epoch6goodnet.SqueezeNet')
 #Network['weight_file_path'] = opjh('pytorch_models','net_17Sep17_17h21m35s.SqueezeNet')
@@ -27,7 +27,7 @@ NO_Mse['place_choice'] = 'home'
 
 flex_names = []
 for fb in ['f','b']:
-    for lr in ['l','r']:
+    for lr in ['l','r','c']:
         for i in [0,1]:
             flex_names.append(d2n('x',fb,lr,i))
 
