@@ -10,7 +10,7 @@ P['USE_IMAGES'] = False
 
 P[TOPICS] = {
 	steer:{maxval:80,		minval:20,		baseline:49.0,	color:(255,0,0)},
-	cmd_steer:{maxval:80,		minval:20,		baseline:49.0,	color:(255,128,0)},
+	'cmd_steer':{maxval:80,		minval:20,		baseline:49.0,	color:(255,128,0)},
 	motor:{maxval:80,		minval:49,		baseline:49.0,	color:(0,255-32,32)},
 	state:{maxval:6,		minval:-10,		baseline:0,		color:(128,128,128)},
 	encoder:{maxval:4,		minval:0,		baseline:0,		color:(0,128,128)},
@@ -38,7 +38,7 @@ P['topic_keys_sorted'] = [
 	gyro_x,
 	gyro_y,
 	gyro_z,
-	cmd_steer,
+	'cmd_steer',
 	steer,
 	motor,
 
