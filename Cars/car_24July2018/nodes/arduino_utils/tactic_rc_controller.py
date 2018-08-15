@@ -201,7 +201,7 @@ def compare_percents_and_pwms(P):
 
 
 
-def Pid_Processing(slope=(60-49)/3.0,gain=0.05,encoder_max=4.0,delta_max=0.05,pid_motor_percent=99):
+def Pid_Processing(slope=(60-49)/3.0,gain=0.05,encoder_max=4.0,delta_max=0.05,pid_motor_percent_max=99,pid_motor_percent_max=0):
     D = {}
     D['pid_motor_percent'] = 49
     def _do(motor_value,encoder):
@@ -213,7 +213,8 @@ def Pid_Processing(slope=(60-49)/3.0,gain=0.05,encoder_max=4.0,delta_max=0.05,pi
         else:
             delta = max(delta,-delta_max)
         D['pid_motor_percent'] += delta
-        D['pid_motor_percent'] = min(D['pid_motor_percent'],99)
+        D['pid_motor_percent'] = min(D['pid_motor_percent'],pid_motor_percent_max)
+        D['pid_motor_percent'] = max(D['pid_motor_percent'],pid_motor_percent_min)
         return D['pid_motor_percent']
     D['do'] = _do
     return D
