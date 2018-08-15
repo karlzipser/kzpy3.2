@@ -132,7 +132,7 @@ rospy.Subscriber('/bair_car/acc', geometry_msgs.msg.Vector3, callback=acc__callb
 rospy.Subscriber('/bair_car/gyro', geometry_msgs.msg.Vector3, callback=gyro__callback)
 rospy.Subscriber('/bair_car/gyro_heading', geometry_msgs.msg.Vector3, callback=gyro_heading__callback)
 if P['USE_IMAGES']:
-	if False:
+	if True:
 		rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_image__callback,queue_size = 1)
 	if True:	
 		rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_image__callback,queue_size = 1)

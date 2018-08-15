@@ -12,7 +12,7 @@ Network['network_smoothing_parameter'] = 0.75
 Network['weight_file_path'] = opjh('pytorch_models','net_10Jun18_00h00m45s.SqueezeNet')
 Network['USE_NETWORK'] = True
 Network['GREY_OUT_TOP_OF_IMAGE'] = False
-Network['USE_LAST_IMAGE_ONLY'] = False
+Network['USE_LAST_IMAGE_ONLY'] = True
 Network['visualize_activations'] = False
 Network['motor_reverse_threshold'] = 64
 
