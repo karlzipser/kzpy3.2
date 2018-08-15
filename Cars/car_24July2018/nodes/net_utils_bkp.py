@@ -7,9 +7,6 @@ from torch.autograd import Variable
 #from nets.squeezenet import SqueezeNet
 from nets.SqueezeNet_ import SqueezeNet
 exec(identify_file_str)
-#import default_values
-
-
 
 spd2s("!!!!! note change on 22 July 2018: from nets.SqueezeNet import SqueezeNet !!!!");time.sleep(3)
 
@@ -41,11 +38,8 @@ def Torch_Network(N):
         for i in range(D['nframes']):
             for side in (left_list, right_list):
                 if N['GREY_OUT_TOP_OF_IMAGE']:
-                    side[-i - 1][:188,:,:] = 128
-                if N['USE_LAST_IMAGE_ONLY']:
-                    listoftensors.append(torch.from_numpy(side[-1]))
-                else:
-                    listoftensors.append(torch.from_numpy(side[-i - 1]))
+                    side[-i - 1][:188,:,:] = 128 
+                listoftensors.append(torch.from_numpy(side[-i - 1]))
         camera_data = torch.cat(listoftensors, 2)
         camera_data = camera_data.cuda().float()/255. - 0.5
         camera_data = torch.transpose(camera_data, 0, 2)
