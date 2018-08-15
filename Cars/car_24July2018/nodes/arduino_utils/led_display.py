@@ -20,21 +20,22 @@ def _LED_Display_run_loop(P):
         frequency_timer.freq(name='_LED_Display_run_loop',do_print=P['print_led_freq'])
         if 'Brief sleep to allow other threads to process...':
             time.sleep(0.03)
-        try:
-            """
-            if 'Flush input and output...':
-                if flush_timer.check():
-                    P['Arduinos']['SIG'].flushInput()
-                    P['Arduinos']['SIG'].flushOutput()
-                    flush_timer.reset()
-            """
-            if write_timer.check():
-                P['Arduinos']['SIG'].write(d2n('(-',P['LED_number']['current'],')'))
-                write_timer.reset()
-            if print_timer.check():
-                pass
-                print_timer.reset()
-            time.sleep(0.001)
+        if False:
+            try:
+                """
+                if 'Flush input and output...':
+                    if flush_timer.check():
+                        P['Arduinos']['SIG'].flushInput()
+                        P['Arduinos']['SIG'].flushOutput()
+                        flush_timer.reset()
+                """
+                if write_timer.check():
+                    P['Arduinos']['SIG'].write(d2n('(-',P['LED_number']['current'],')'))
+                    write_timer.reset()
+                if print_timer.check():
+                    pass
+                    print_timer.reset()
+                time.sleep(0.001)
         except Exception as e:
             print e
             pass

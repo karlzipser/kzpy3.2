@@ -32,7 +32,7 @@ def assign_serial_connections(P,sers):
                 if ser_tuple[0] in ['mse']:
                     print(d2s('Port',ser.port,'is the MSE:',ser_str))
                     if 'Keep this up to date...':
-                        print("\tusing 'motor_servo_minimal_3July2018_test.ino'")
+                        print("\tusing 'motor_servo_minimal_3July2018_test.ino' NOT")
                     P['Arduinos']['MSE'] = ser
                     P['Arduinos']['SIG'] = P['Arduinos']['MSE']
                     break
