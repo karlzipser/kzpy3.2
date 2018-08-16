@@ -45,6 +45,9 @@ Parameters['servo_pwm_min'] = Parameters['servo_pwm_null']
 Parameters['servo_pwm_max'] = Parameters['servo_pwm_null']
 Parameters['motor_pwm_min'] = Parameters['servo_pwm_null']
 Parameters['motor_pwm_max'] = Parameters['servo_pwm_null']
+Parameters['behavioral_mode_choice'] = 'direct'
+Parameters['agent_choice'] = 'human'
+Parameters['place_choice'] = 'local'
 
 import default_values
 for k in default_values.Mse.keys():

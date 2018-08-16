@@ -131,8 +131,10 @@ def _TACTIC_RC_controller_run_loop(P):
 
             if P['button_number'] != 4:
                 if P['calibrated']:
+                    print(write_str)
                     if P['selector_mode'] == 'drive_mode':
-                        P['Arduinos']['MSE'].write(write_str)
+                        pass
+                        #P['Arduinos']['MSE'].write(write_str)
             
                 
             Hz = frequency_timer.freq(name='_TACTIC_RC_controller_run_loop',do_print=P['print_mse_freq'])

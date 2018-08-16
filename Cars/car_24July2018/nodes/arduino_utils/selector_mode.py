@@ -28,11 +28,9 @@ A = {
 
 def Selector_Mode(P):
     for theme in A.keys():
-        P[theme] = False
+        if theme not in P:
+            P[theme] = False
 
-    P['behavioral_mode_choice'] = 'direct'
-    P['agent_choice'] = 'human'
-    P['place_choice'] = 'local'
     P['selector_mode'] = 'menu_mode'
     P['LED_number']['current'] = 11315
     threading.Thread(target=_selector_run_loop,args=[P]).start()
