@@ -37,8 +37,8 @@ Parameters['place_choice'] = 'local'
 
 Network = {}
 Network['network_output_sample'] = 4 # >= 0, <= 9
-Network['network_steer_gain'] = 3.0
-Network['network_camera_gain'] = 3.0
+Network['network_steer_gain'] = 1.0
+Network['network_camera_gain'] = 1.0
 Network['network_motor_gain'] = 1.0
 Network['network_motor_offset'] = 0
 Network['network_smoothing_parameter'] = 0.75
