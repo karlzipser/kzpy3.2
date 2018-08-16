@@ -9,7 +9,8 @@ import Activity_Module
 P['data_moments_indexed_loaded'] = []
 P['long_ctr'] = -1
 P['LOSS_LIST'] = []
-P['LOSS_LIST_AVG'] = []
+if 'LOSS_LIST_AVG' not in P:
+	P['LOSS_LIST_AVG'] = []
 P['reload_image_file_timer'].trigger()
 zero_matrix = torch.FloatTensor(1, 1, 23, 41).zero_().cuda()
 one_matrix = torch.FloatTensor(1, 1, 23, 41).fill_(1).cuda()
@@ -280,17 +281,21 @@ def Batch(the_network=None):
 				plt.title(d2s(bm,i))
 				spause()
 				P['print_timer'].reset()
-			dm_ctrs = zeros(100)
+			dm_ctrs_max = 100
+			dm_ctrs = zeros(dm_ctrs_max)
 			loss_list = []
 			for j in range(len(P['data_moments_indexed'])):
 				if 'ctr' in P['data_moments_indexed'][j]:
-					dm_ctrs[P['data_moments_indexed'][j]['ctr']] += 1
+					k = P['data_moments_indexed'][j]['ctr']
+					if k < dm_ctrs_max:
+						dm_ctrs[k] += 1
 				else:
 					dm_ctrs[0] += 1
 				if 'loss' in P['data_moments_indexed'][j]:
 					if len(P['data_moments_indexed'][j]['loss']) > 0:
 						loss_list.append(P['data_moments_indexed'][j]['loss'][-1])
 			figure('dm_ctrs');clf();plot(dm_ctrs,'.-');xlim(0,10)
+			P['dm_ctrs'] = dm_ctrs
 			#figure('loss_list');clf();hist(loss_list)
 			spause()
 

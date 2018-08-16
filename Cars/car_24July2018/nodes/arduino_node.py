@@ -14,42 +14,11 @@ from arduino_utils.FLEX_arduino import *
 
 exec(identify_file_str)
 
-Parameters = {}
-Parameters['calibrated'] = False
-Parameters['ABORT'] = False
-
-Parameters['agent_choice'] = 'human'
-Parameters['servo_percent'] = 49
-Parameters['motor_percent'] = 49
-Parameters['LED_number'] = {}
-Parameters['LED_number']['current'] = 0
-Parameters['CALIBRATION_NULL_START_TIME'] = 3.0
-Parameters['CALIBRATION_START_TIME'] = 4.0
-Parameters['print_mse_freq'] = False
-Parameters['print_imu_freq'] = False
-Parameters['print_calibration_freq'] = False
-Parameters['print_selector_freq'] = False
-Parameters['print_led_freq'] = False
-Parameters['USE_ROS'] = using_linux()
-Parameters['human'] = {}
-Parameters['human']['servo_percent'] = 49
-Parameters['human']['motor_percent'] = 49
-Parameters['network'] = {}
-Parameters['network']['servo_percent'] = 49
-Parameters['network']['motor_percent'] = 49
-Parameters['IMU_SMOOTHING_PARAMETER'] = 0.99
-Parameters['Hz'] = {}
-Parameters['servo_pwm_null'] = 1450
-Parameters['motor_pwm_null'] = Parameters['servo_pwm_null']
-Parameters['servo_pwm_min'] = Parameters['servo_pwm_null']
-Parameters['servo_pwm_max'] = Parameters['servo_pwm_null']
-Parameters['motor_pwm_min'] = Parameters['servo_pwm_null']
-Parameters['motor_pwm_max'] = Parameters['servo_pwm_null']
-Parameters['behavioral_mode_choice'] = 'direct'
-Parameters['agent_choice'] = 'human'
-Parameters['place_choice'] = 'local'
 
 import default_values
+
+Parameters = default_values.Parameters
+
 for k in default_values.Mse.keys():
     Parameters[k] = default_values.Mse[k]
 
@@ -57,44 +26,43 @@ if Parameters['USE_ROS']:
     import std_msgs.msg
     import geometry_msgs.msg
     import rospy
-    P = Parameters
     s = Parameters['HUMAN_SMOOTHING_PARAMETER_1']
     def cmd_steer_callback(msg):
-        P['network']['servo_percent'] = msg.data
+        Parameters['network']['servo_percent'] = msg.data
     def cmd_camera_callback(msg):
-        P['network']['camera_percent'] = msg.data
+        Parameters['network']['camera_percent'] = msg.data
     def cmd_motor_callback(msg):
-        P['network']['motor_percent'] = msg.data
+        Parameters['network']['motor_percent'] = msg.data
     rospy.init_node('run_arduino',anonymous=True)
     rospy.Subscriber('cmd/steer', std_msgs.msg.Int32, callback=cmd_steer_callback)
     rospy.Subscriber('cmd/camera', std_msgs.msg.Int32, callback=cmd_camera_callback)
     rospy.Subscriber('cmd/motor', std_msgs.msg.Int32, callback=cmd_motor_callback)
 
-    P['human_agent_pub'] = rospy.Publisher('human_agent', std_msgs.msg.Int32, queue_size=5) 
-    P['drive_mode_pub'] = rospy.Publisher('drive_mode', std_msgs.msg.Int32, queue_size=5) 
-    P['behavioral_mode_pub'] = rospy.Publisher('behavioral_mode', std_msgs.msg.String, queue_size=5)
-    #P['network_weights_name_pub'] = rospy.Publisher('network_weights_name', std_msgs.msg.String, queue_size=5)
-    P['place_choice_pub'] = rospy.Publisher('place_choice', std_msgs.msg.String, queue_size=5)
-    P['button_number_pub'] = rospy.Publisher('button_number', std_msgs.msg.Int32, queue_size=5) 
-    P['steer_pub'] = rospy.Publisher('steer', std_msgs.msg.Int32, queue_size=5) 
-    P['motor_pub'] = rospy.Publisher('motor', std_msgs.msg.Int32, queue_size=5) 
-    P['encoder_pub'] = rospy.Publisher('encoder', std_msgs.msg.Float32, queue_size=5)
-    P['Hz_acc_pub'] = rospy.Publisher('Hz_acc', std_msgs.msg.Float32, queue_size=5)
-    P['Hz_mse_pub'] = rospy.Publisher('Hz_mse', std_msgs.msg.Float32, queue_size=5)
-    P['gyro_pub'] = rospy.Publisher('gyro', geometry_msgs.msg.Vector3, queue_size=100)
-    P['gyro_heading_pub'] = rospy.Publisher('gyro_heading', geometry_msgs.msg.Vector3, queue_size=100)
-    P['acc_pub'] = rospy.Publisher('acc', geometry_msgs.msg.Vector3, queue_size=100)
+    Parameters['human_agent_pub'] = rospy.Publisher('human_agent', std_msgs.msg.Int32, queue_size=5) 
+    Parameters['drive_mode_pub'] = rospy.Publisher('drive_mode', std_msgs.msg.Int32, queue_size=5) 
+    Parameters['behavioral_mode_pub'] = rospy.Publisher('behavioral_mode', std_msgs.msg.String, queue_size=5)
+    #Parameters['network_weights_name_pub'] = rospy.Publisher('network_weights_name', std_msgs.msg.String, queue_size=5)
+    Parameters['place_choice_pub'] = rospy.Publisher('place_choice', std_msgs.msg.String, queue_size=5)
+    Parameters['button_number_pub'] = rospy.Publisher('button_number', std_msgs.msg.Int32, queue_size=5) 
+    Parameters['steer_pub'] = rospy.Publisher('steer', std_msgs.msg.Int32, queue_size=5) 
+    Parameters['motor_pub'] = rospy.Publisher('motor', std_msgs.msg.Int32, queue_size=5) 
+    Parameters['encoder_pub'] = rospy.Publisher('encoder', std_msgs.msg.Float32, queue_size=5)
+    Parameters['Hz_acc_pub'] = rospy.Publisher('Hz_acc', std_msgs.msg.Float32, queue_size=5)
+    Parameters['Hz_mse_pub'] = rospy.Publisher('Hz_mse', std_msgs.msg.Float32, queue_size=5)
+    Parameters['gyro_pub'] = rospy.Publisher('gyro', geometry_msgs.msg.Vector3, queue_size=100)
+    Parameters['gyro_heading_pub'] = rospy.Publisher('gyro_heading', geometry_msgs.msg.Vector3, queue_size=100)
+    Parameters['acc_pub'] = rospy.Publisher('acc', geometry_msgs.msg.Vector3, queue_size=100)
 
-    P['servo_pwm_min_pub'] = rospy.Publisher('servo_pwm_min', std_msgs.msg.Int32, queue_size=5) 
-    P['servo_pwm_max_pub'] = rospy.Publisher('servo_pwm_max', std_msgs.msg.Int32, queue_size=5) 
-    P['servo_pwm_null_pub'] = rospy.Publisher('servo_pwm_null', std_msgs.msg.Int32, queue_size=5) 
-    P['motor_pwm_min_pub'] = rospy.Publisher('motor_pwm_min', std_msgs.msg.Int32, queue_size=5) 
-    P['motor_pwm_null_pub'] = rospy.Publisher('motor_pwm_null', std_msgs.msg.Int32, queue_size=5) 
-    P['motor_pwm_max_pub'] = rospy.Publisher('motor_pwm_max', std_msgs.msg.Int32, queue_size=5)
+    Parameters['servo_pwm_min_pub'] = rospy.Publisher('servo_pwm_min', std_msgs.msg.Int32, queue_size=5) 
+    Parameters['servo_pwm_max_pub'] = rospy.Publisher('servo_pwm_max', std_msgs.msg.Int32, queue_size=5) 
+    Parameters['servo_pwm_null_pub'] = rospy.Publisher('servo_pwm_null', std_msgs.msg.Int32, queue_size=5) 
+    Parameters['motor_pwm_min_pub'] = rospy.Publisher('motor_pwm_min', std_msgs.msg.Int32, queue_size=5) 
+    Parameters['motor_pwm_null_pub'] = rospy.Publisher('motor_pwm_null', std_msgs.msg.Int32, queue_size=5) 
+    Parameters['motor_pwm_max_pub'] = rospy.Publisher('motor_pwm_max', std_msgs.msg.Int32, queue_size=5)
 
     from default_values import flex_names
     for name in flex_names:
-        P[d2n(name,'_pub')] = rospy.Publisher(name,std_msgs.msg.Int32,queue_size=5)
+        Parameters[d2n(name,'_pub')] = rospy.Publisher(name,std_msgs.msg.Int32,queue_size=5)
 
     imu_dic = {}
     imu_dic['gyro'] = 'gyro_pub'
@@ -107,73 +75,73 @@ if Parameters['USE_ROS']:
     No_Arduino_data_low_frequency_pub_timer = Timer(0.5)
     No_Arduino_data_very_low_frequency_pub_timer = Timer(2)
 
-    def _publish_IMU_data(P,m):
-        P[imu_dic[m]].publish(geometry_msgs.msg.Vector3(*P[m]['xyz']))
+    def _publish_IMU_data(Parameters,m):
+        Parameters[imu_dic[m]].publish(geometry_msgs.msg.Vector3(*Parameters[m]['xyz']))
         if IMU_low_frequency_pub_timer.check():
-            P['Hz_acc_pub'].publish(std_msgs.msg.Float32(P['Hz']['acc']))
+            Parameters['Hz_acc_pub'].publish(std_msgs.msg.Float32(Parameters['Hz']['acc']))
             IMU_low_frequency_pub_timer.reset()
 
 
-    def _publish_FLEX_data(P,m):
-        P[d2n(m,'_pub')].publish(std_msgs.msg.Int32(P[m]))
+    def _publish_FLEX_data(Parameters,m):
+        Parameters[d2n(m,'_pub')].publish(std_msgs.msg.Int32(Parameters[m]))
 
 
-    def _publish_MSE_data(P):
-        if P['agent_choice'] == 'human':
+    def _publish_MSE_data(Parameters):
+        if Parameters['agent_choice'] == 'human':
             human_val = 1
         else:
             human_val = 0
-        if P['selector_mode'] == 'drive_mode':
+        if Parameters['selector_mode'] == 'drive_mode':
             drive_mode = 1
         else:
             drive_mode = 0         
-        P['steer_pub'].publish(std_msgs.msg.Int32(P['human']['servo_percent']))
-        P['motor_pub'].publish(std_msgs.msg.Int32(P['human']['motor_percent']))
-        P['button_number_pub'].publish(std_msgs.msg.Int32(P['button_number']))
-        P['encoder_pub'].publish(std_msgs.msg.Float32(P['encoder']))
+        Parameters['steer_pub'].publish(std_msgs.msg.Int32(Parameters['human']['servo_percent']))
+        Parameters['motor_pub'].publish(std_msgs.msg.Int32(Parameters['human']['motor_percent']))
+        Parameters['button_number_pub'].publish(std_msgs.msg.Int32(Parameters['button_number']))
+        Parameters['encoder_pub'].publish(std_msgs.msg.Float32(Parameters['encoder']))
 
         if MSE_low_frequency_pub_timer.check():
-            if P['button_number'] == 1:
+            if Parameters['button_number'] == 1:
                 behavioral_mode_choice = 'left'
-            elif P['button_number'] == 3:
+            elif Parameters['button_number'] == 3:
                 behavioral_mode_choice = 'right'
             else:
-                behavioral_mode_choice = P['behavioral_mode_choice']
-            P['behavioral_mode_pub'].publish(d2s(behavioral_mode_choice))
-            P['human_agent_pub'].publish(std_msgs.msg.Int32(human_val))
-            P['drive_mode_pub'].publish(std_msgs.msg.Int32(drive_mode))
-            P['Hz_mse_pub'].publish(std_msgs.msg.Float32(P['Hz']['mse']))
+                behavioral_mode_choice = Parameters['behavioral_mode_choice']
+            Parameters['behavioral_mode_pub'].publish(d2s(behavioral_mode_choice))
+            Parameters['human_agent_pub'].publish(std_msgs.msg.Int32(human_val))
+            Parameters['drive_mode_pub'].publish(std_msgs.msg.Int32(drive_mode))
+            Parameters['Hz_mse_pub'].publish(std_msgs.msg.Float32(Parameters['Hz']['mse']))
             MSE_low_frequency_pub_timer.reset()
 
         if MSE_very_low_frequency_pub_timer.check():
-            P['place_choice_pub'].publish(d2s(P['place_choice']))
-            P['servo_pwm_min_pub'].publish(std_msgs.msg.Int32(P['servo_pwm_min']))
-            P['servo_pwm_max_pub'].publish(std_msgs.msg.Int32(P['servo_pwm_max']))
-            P['servo_pwm_null_pub'].publish(std_msgs.msg.Int32(int(P['servo_pwm_null'])))
-            P['motor_pwm_min_pub'].publish(std_msgs.msg.Int32(P['motor_pwm_min']))
-            P['motor_pwm_max_pub'].publish(std_msgs.msg.Int32(P['motor_pwm_max']))
-            P['motor_pwm_null_pub'].publish(std_msgs.msg.Int32(int(P['motor_pwm_null'])))
-            #P['network_weights_name_pub'].publish(std_msgs.msg.String(default_values.Weights['weight_file_path']))
+            Parameters['place_choice_pub'].publish(d2s(Parameters['place_choice']))
+            Parameters['servo_pwm_min_pub'].publish(std_msgs.msg.Int32(Parameters['servo_pwm_min']))
+            Parameters['servo_pwm_max_pub'].publish(std_msgs.msg.Int32(Parameters['servo_pwm_max']))
+            Parameters['servo_pwm_null_pub'].publish(std_msgs.msg.Int32(int(Parameters['servo_pwm_null'])))
+            Parameters['motor_pwm_min_pub'].publish(std_msgs.msg.Int32(Parameters['motor_pwm_min']))
+            Parameters['motor_pwm_max_pub'].publish(std_msgs.msg.Int32(Parameters['motor_pwm_max']))
+            Parameters['motor_pwm_null_pub'].publish(std_msgs.msg.Int32(int(Parameters['motor_pwm_null'])))
+            #Parameters['network_weights_name_pub'].publish(std_msgs.msg.String(default_values.Weights['weight_file_path']))
             MSE_very_low_frequency_pub_timer.reset()
-    def _publish_No_Arduino_data(P):
+    def _publish_No_Arduino_data(Parameters):
         human_val = 0
         drive_mode = 1
-        while P['ABORT'] == False:
+        while Parameters['ABORT'] == False:
             time.sleep(0.001)
             if No_Arduino_data_low_frequency_pub_timer.check():
-                P['behavioral_mode_pub'].publish(std_msgs.msg.String(default_values.NO_Mse['behavioral_mode_choice'])) 
-                P['place_choice_pub'].publish(std_msgs.msg.String(default_values.NO_Mse['place_choice']))
-                P['human_agent_pub'].publish(std_msgs.msg.Int32(human_val))
-                P['drive_mode_pub'].publish(std_msgs.msg.Int32(drive_mode))
+                Parameters['behavioral_mode_pub'].publish(std_msgs.msg.String(default_values.NO_Mse['behavioral_mode_choice'])) 
+                Parameters['place_choice_pub'].publish(std_msgs.msg.String(default_values.NO_Mse['place_choice']))
+                Parameters['human_agent_pub'].publish(std_msgs.msg.Int32(human_val))
+                Parameters['drive_mode_pub'].publish(std_msgs.msg.Int32(drive_mode))
                 No_Arduino_data_low_frequency_pub_timer.reset()
             if No_Arduino_data_very_low_frequency_pub_timer.check():
-                #P['network_weights_name_pub'].publish(std_msgs.msg.String(default_values.Weights['weight_file_path']))
+                #Parameters['network_weights_name_pub'].publish(std_msgs.msg.String(default_values.Weights['weight_file_path']))
                 No_Arduino_data_very_low_frequency_pub_timer.reset()
 
 
-    P['publish_IMU_data'] = _publish_IMU_data
-    P['publish_MSE_data'] = _publish_MSE_data
-    P['publish_FLEX_data'] = _publish_FLEX_data
+    Parameters['publish_IMU_data'] = _publish_IMU_data
+    Parameters['publish_MSE_data'] = _publish_MSE_data
+    Parameters['publish_FLEX_data'] = _publish_FLEX_data
 
 
 if 'Start Arduino threads...':
@@ -212,7 +180,7 @@ if 'Main loop...':
     Parameters['ABORT'] = True
     print 'done.'
     if Parameters['USE_ROS']:
-        print("P['drive_mode_pub'].publish(std_msgs.msg.Int32(-9))")
+        print("Parameters['drive_mode_pub'].publish(std_msgs.msg.Int32(-9))")
         Parameters['drive_mode_pub'].publish(std_msgs.msg.Int32(-9))
         print "doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))"
         time.sleep(0.5)

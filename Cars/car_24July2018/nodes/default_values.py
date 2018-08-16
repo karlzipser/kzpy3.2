@@ -1,6 +1,40 @@
 from kzpy3.utils2 import *
 exec(identify_file_str)
 
+Parameters = {}
+Parameters['calibrated'] = False
+Parameters['ABORT'] = False
+Parameters['agent_choice'] = 'human'
+Parameters['servo_percent'] = 49
+Parameters['motor_percent'] = 49
+Parameters['LED_number'] = {}
+Parameters['LED_number']['current'] = 0
+Parameters['CALIBRATION_NULL_START_TIME'] = 3.0
+Parameters['CALIBRATION_START_TIME'] = 4.0
+Parameters['print_mse_freq'] = False
+Parameters['print_imu_freq'] = False
+Parameters['print_calibration_freq'] = False
+Parameters['print_selector_freq'] = False
+Parameters['print_led_freq'] = False
+Parameters['USE_ROS'] = using_linux()
+Parameters['human'] = {}
+Parameters['human']['servo_percent'] = 49
+Parameters['human']['motor_percent'] = 49
+Parameters['network'] = {}
+Parameters['network']['servo_percent'] = 49
+Parameters['network']['motor_percent'] = 49
+Parameters['IMU_SMOOTHING_PARAMETER'] = 0.99
+Parameters['Hz'] = {}
+Parameters['servo_pwm_null'] = 1450
+Parameters['motor_pwm_null'] = Parameters['servo_pwm_null']
+Parameters['servo_pwm_min'] = Parameters['servo_pwm_null']
+Parameters['servo_pwm_max'] = Parameters['servo_pwm_null']
+Parameters['motor_pwm_min'] = Parameters['servo_pwm_null']
+Parameters['motor_pwm_max'] = Parameters['servo_pwm_null']
+Parameters['behavioral_mode_choice'] = 'direct'
+Parameters['agent_choice'] = 'human'
+Parameters['place_choice'] = 'local'
+
 Network = {}
 Network['network_output_sample'] = 4 # >= 0, <= 9
 Network['network_steer_gain'] = 3.0

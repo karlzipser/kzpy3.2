@@ -12,10 +12,7 @@ def TACTIC_RC_controller(P):
     P['motor_pwm_smooth'] = 1000
     P['selector_mode'] = False
     P['encoder_smooth'] = 0.0
-
-
     threading.Thread(target=_TACTIC_RC_controller_run_loop,args=[P]).start()
-    #return P
     
 def _TACTIC_RC_controller_run_loop(P):
     print('_TACTIC_RC_controller_run_loop')
@@ -31,7 +28,9 @@ def _TACTIC_RC_controller_run_loop(P):
     in_this_mode_timer = Timer()
     very_low_freq_timer = Timer(30)
     ctr_timer = Timer()
-    Pid_processing = Pid_Processing()
+    Pid_processing_motor = Pid_Processing_Motor()
+    Pid_processing_steer = Pid_Processing_Steer()
+
     while P['ABORT'] == False:
         if 'Brief sleep to allow other threads to process...':
             time.sleep(0.01)
@@ -49,8 +48,6 @@ def _TACTIC_RC_controller_run_loop(P):
                 P['servo_pwm'] = mse_input[2]
                 P['motor_pwm'] = mse_input[3]
                 P['encoder'] = mse_input[4]
-                #advance(P['encoder_list'],P['encoder'],min_len=encoder_list_min_length)
-                #P['encoder_median'] = np.median()
 
             if 'Assign button...':
                 bpwm = P['button_pwm']
@@ -84,19 +81,15 @@ def _TACTIC_RC_controller_run_loop(P):
 
 
             if P['agent_choice'] == 'human':
-                write_str = d2n( '(', int(P['servo_pwm_smooth']), ',', int(P['servo_pwm_smooth']+5000), ',', int(P['motor_pwm_smooth']+10000), ')')
+                write_str = get_write_str(P['servo_pwm_smooth'],P['servo_pwm_smooth'],P['motor_pwm_smooth'])
                 in_this_mode = False
 
 
             elif P['agent_choice'] == 'network' and P['selector_mode'] == 'drive_mode':
                 if np.abs(P['human']['motor_percent']-49) > 4:
                     in_this_mode = False
-                    #_servo_pwm = servo_percent_to_pwm(P['human']['servo_percent'],P)
-                    #_motor_pwm = motor_percent_to_pwm(P['human']['motor_percent'],P)
-                    #write_str = d2n( '(', int(_servo_pwm), ',', int(_motor_pwm+10000), ')')
-                    write_str = d2n( '(', int(P['servo_pwm_smooth']), ',', int(P['servo_pwm_smooth']+5000), ',', int(P['motor_pwm_smooth']+10000), ')')
+                    write_str = get_write_str(P['servo_pwm_smooth'],P['servo_pwm_smooth'],P['motor_pwm_smooth'])
                     P['time_since_button_4'].reset()
-                    #print_timer.message(d2s('Temporary human control control...',P['human']['servo_percent'],P['human']['motor_percent']))###
                 
                 elif P['time_since_button_4'].time() > 2.0:
 
@@ -107,26 +100,28 @@ def _TACTIC_RC_controller_run_loop(P):
                             in_this_mode = True
                             in_this_mode_timer.reset()
                         q = 1/(1.0+5*in_this_mode_timer.time())
-                        #print_timer.message(d2s(q,dp(in_this_mode_timer.time(),2)))
                         _servo_pwm = (1-q)*P['servo_pwm_smooth'] + q*_servo_pwm
                         _camera_pwm = _servo_pwm
                     else:
-                        _servo_pwm = servo_percent_to_pwm(P['network']['servo_percent'],P)
+                        _camera_pwm = servo_percent_to_pwm(P['network']['camera_percent'],P)
+                        if False:
+                            _servo_pwm = servo_percent_to_pwm(P['network']['servo_percent'],P)
+                        if True:
+                            _servo_pwm = servo_percent_to_pwm( Pid_processing_steer['do'](P['network']['servo_percent'],P['network']['camera_percent']), P )
+            
                         _camera_pwm = servo_percent_to_pwm(P['network']['camera_percent'],P)
                         in_this_mode = False
 
                     if False:
                         _motor_pwm = motor_percent_to_pwm(P['network']['motor_percent'],P)
                     if True:
-                        _motor_pwm = motor_percent_to_pwm( Pid_processing['do'](P['network']['motor_percent'],P['encoder_smooth']), P )
-                    # insert PID here, motor 60% = 1.4 m/s, measure wheel circumferance,
-                    # num magnets, use P['encoder'], maybe median of -5: of list of values
-                    ###
-                    write_str = d2n( '(', int(_servo_pwm), ',', int(_camera_pwm+5000), ',',int(_motor_pwm+10000), ')')
+                        _motor_pwm = motor_percent_to_pwm( Pid_processing_motor['do'](P['network']['motor_percent'],P['encoder_smooth']), P )
+            
+                    write_str = get_write_str(_servo_pwm,_camera_pwm,_motor_pwm)
                 else:
                     in_this_mode = False
                     #print_timer.message('Waiting before giving network control...') ############
-                    write_str = d2n( '(',int(P['servo_pwm_null']),',',int(P['servo_pwm_null'])+5000,',',int(P['motor_pwm_null'])+10000,')')
+                    write_str = get_write_str(P['servo_pwm_null']),P['servo_pwm_null'],P['motor_pwm_null'])
 
 
             if P['button_number'] != 4:
@@ -157,6 +152,9 @@ def _TACTIC_RC_controller_run_loop(P):
             print '_TACTIC_RC_controller_run_loop',e #######
             pass            
     print 'end _TACTIC_RC_controller_run_loop.'
+
+def get_write_str(servo_pwm,camera_pwm,motor_pwm):
+    return d2n( '(',int(servo_pwm),',',int(camera_pwm+5000),',',int(motor_pwm+10000),')' )
 
 def pwm_to_percent(null_pwm,current_pwm,max_pwm,min_pwm):
     current_pwm -= null_pwm
@@ -204,7 +202,7 @@ def compare_percents_and_pwms(P):
 
 
 
-def Pid_Processing(slope=(60-49)/3.0,gain=0.05,encoder_max=4.0,delta_max=0.05,pid_motor_percent_max=99,pid_motor_percent_min=0):
+def Pid_Processing_Motor(slope=(60-49)/3.0,gain=0.05,encoder_max=4.0,delta_max=0.05,pid_motor_percent_max=99,pid_motor_percent_min=0):
     D = {}
     D['pid_motor_percent'] = 49
     def _do(motor_value,encoder):
@@ -221,6 +219,29 @@ def Pid_Processing(slope=(60-49)/3.0,gain=0.05,encoder_max=4.0,delta_max=0.05,pi
         return D['pid_motor_percent']
     D['do'] = _do
     return D
+
+def Pid_Processing_Steer(gain=0.05,delta_max=0.05,pid_steer_percent_max=99,pid_steer_percent_min=0):
+    D = {}
+    D['pid_steer_percent'] = 49
+    def _do(steer_value,camera_value):
+        steer_target = camera_value
+        delta = gain * (steer_target - camera_value)
+        if delta > 0:
+            delta = min(delta,delta_max)
+        else:
+            delta = max(delta,-delta_max)
+        D['pid_steer_percent'] += delta
+        D['pid_steer_percent'] = min(D['pid_steer_percent'],pid_steer_percent_max)
+        D['pid_steer_percent'] = max(D['pid_steer_percent'],pid_steer_percent_min)
+        return D['pid_steer_percent']
+    D['do'] = _do
+    return D
+
+
+
+
+
+
 
 
 
