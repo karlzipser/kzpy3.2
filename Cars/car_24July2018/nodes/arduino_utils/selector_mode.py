@@ -29,7 +29,8 @@ A = {
 def Selector_Mode(P):
     for theme in A.keys():
         P[theme] = False
-    P['behavioral_mode_choice'] = 'direct'\
+
+    P['behavioral_mode_choice'] = 'direct'
     P['agent_choice'] = 'human'
     P['place_choice'] = 'local'
     P['selector_mode'] = 'menu_mode'
