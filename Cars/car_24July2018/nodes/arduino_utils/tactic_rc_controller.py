@@ -121,14 +121,17 @@ def _TACTIC_RC_controller_run_loop(P):
                 else:
                     in_this_mode = False
                     #print_timer.message('Waiting before giving network control...') ############
-                    write_str = get_write_str(P['servo_pwm_null']),P['servo_pwm_null'],P['motor_pwm_null'])
+                    write_str = get_write_str(P['servo_pwm_null'],P['servo_pwm_null'],P['motor_pwm_null'])
 
 
             if P['button_number'] != 4:
                 if P['calibrated']:
                     print(write_str)
                     if P['selector_mode'] == 'drive_mode':
-                        P['Arduinos']['MSE'].write(write_str)
+                        if False:
+                            P['Arduinos']['MSE'].write(write_str)
+                        
+
             
                 
             Hz = frequency_timer.freq(name='_TACTIC_RC_controller_run_loop',do_print=P['print_mse_freq'])

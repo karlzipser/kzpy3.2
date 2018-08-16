@@ -24,7 +24,7 @@ alias zed_explorer='/usr/local/zed/tools/ZED\ Explorer'
 alias fixScreen='DISPLAY=:0 xrandr --output HDMI-0 --mode 1024x768'
 
 alias kx='killall xterm'
-alias rosdo='sudo chmod -R 777 /media/karlzipser/rosbags*'
+alias rosdo="sudo chmod -R 777 /media/$(whoami)/rosbags*"
 
 alias ssx='screen -S SX'
 alias ssy='screen -S SY'
