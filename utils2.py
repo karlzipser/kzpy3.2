@@ -460,8 +460,9 @@ def setClipboardData(data):
 	retcode = p.wait()
 scd = setClipboardData
 
-def say(t,rate=150):
-	spd2s(t)
+def say(t,rate=150,print_text=True):
+	if print_text:
+		spd2s(t)
 	unix(d2s('say --interactive=/green -r',rate,t))
 
 

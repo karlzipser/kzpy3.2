@@ -228,8 +228,7 @@ def Pid_Processing_Steer(gain=0.05,delta_max=0.05,pid_steer_percent_max=99,pid_s
     D = {}
     D['pid_steer_percent'] = 49
     def _do(steer_value,camera_value):
-        steer_target = camera_value
-        delta = -gain * (steer_target - camera_value)
+        delta = gain * (camera_value - steer_value)
         if delta > 0:
             delta = min(delta,delta_max)
         else:
