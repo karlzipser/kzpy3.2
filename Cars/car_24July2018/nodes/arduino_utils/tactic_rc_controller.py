@@ -84,7 +84,7 @@ def _TACTIC_RC_controller_run_loop(P):
 
 
             if P['agent_choice'] == 'human':
-                write_str = d2n( '(', int(P['servo_pwm_smooth']), int(P['servo_pwm_smooth']+5000), ',', int(P['motor_pwm_smooth']+10000), ')')
+                write_str = d2n( '(', int(P['servo_pwm_smooth']), ',', int(P['servo_pwm_smooth']+5000), ',', int(P['motor_pwm_smooth']+10000), ')')
                 in_this_mode = False
 
 
