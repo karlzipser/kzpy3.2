@@ -58,11 +58,15 @@ if Parameters['USE_ROS']:
     s = Parameters['HUMAN_SMOOTHING_PARAMETER_1']
     def cmd_steer_callback(msg):
         P['network']['servo_percent'] = msg.data
+    def cmd_camera_callback(msg):
+        P['network']['camera_percent'] = msg.data
     def cmd_motor_callback(msg):
         P['network']['motor_percent'] = msg.data
     rospy.init_node('run_arduino',anonymous=True)
     rospy.Subscriber('cmd/steer', std_msgs.msg.Int32, callback=cmd_steer_callback)
+    rospy.Subscriber('cmd/camera', std_msgs.msg.Int32, callback=cmd_camera_callback)
     rospy.Subscriber('cmd/motor', std_msgs.msg.Int32, callback=cmd_motor_callback)
+
     P['human_agent_pub'] = rospy.Publisher('human_agent', std_msgs.msg.Int32, queue_size=5) 
     P['drive_mode_pub'] = rospy.Publisher('drive_mode', std_msgs.msg.Int32, queue_size=5) 
     P['behavioral_mode_pub'] = rospy.Publisher('behavioral_mode', std_msgs.msg.String, queue_size=5)

@@ -84,7 +84,7 @@ def _TACTIC_RC_controller_run_loop(P):
 
 
             if P['agent_choice'] == 'human':
-                write_str = d2n( '(', int(P['servo_pwm_smooth']), ',', int(P['motor_pwm_smooth']+10000), ')')
+                write_str = d2n( '(', int(P['servo_pwm_smooth']), int(P['servo_pwm_smooth']+5000), ',', int(P['motor_pwm_smooth']+10000), ')')
                 in_this_mode = False
 
 
@@ -94,7 +94,7 @@ def _TACTIC_RC_controller_run_loop(P):
                     #_servo_pwm = servo_percent_to_pwm(P['human']['servo_percent'],P)
                     #_motor_pwm = motor_percent_to_pwm(P['human']['motor_percent'],P)
                     #write_str = d2n( '(', int(_servo_pwm), ',', int(_motor_pwm+10000), ')')
-                    write_str = d2n( '(', int(P['servo_pwm_smooth']), ',', int(P['motor_pwm_smooth']+10000), ')')
+                    write_str = d2n( '(', int(P['servo_pwm_smooth']), ',', int(P['servo_pwm_smooth']+5000), ',', int(P['motor_pwm_smooth']+10000), ')')
                     P['time_since_button_4'].reset()
                     #print_timer.message(d2s('Temporary human control control...',P['human']['servo_percent'],P['human']['motor_percent']))###
                 
@@ -109,8 +109,10 @@ def _TACTIC_RC_controller_run_loop(P):
                         q = 1/(1.0+5*in_this_mode_timer.time())
                         #print_timer.message(d2s(q,dp(in_this_mode_timer.time(),2)))
                         _servo_pwm = (1-q)*P['servo_pwm_smooth'] + q*_servo_pwm
+                        _camera_pwm = _servo_pwm
                     else:
                         _servo_pwm = servo_percent_to_pwm(P['network']['servo_percent'],P)
+                        _camera_pwm = servo_percent_to_pwm(P['network']['camera_percent'],P)
                         in_this_mode = False
 
                     if False:
@@ -120,11 +122,11 @@ def _TACTIC_RC_controller_run_loop(P):
                     # insert PID here, motor 60% = 1.4 m/s, measure wheel circumferance,
                     # num magnets, use P['encoder'], maybe median of -5: of list of values
                     ###
-                    write_str = d2n( '(', int(_servo_pwm), ',', int(_motor_pwm+10000), ')')
+                    write_str = d2n( '(', int(_servo_pwm), ',', int(_camera_pwm+5000), ',',int(_motor_pwm+10000), ')')
                 else:
                     in_this_mode = False
                     #print_timer.message('Waiting before giving network control...') ############
-                    write_str = d2n( '(',49,',',49+10000,')')
+                    write_str = d2n( '(',49,',',49+5000,49+10000,')') #?? this make no sense
 
 
             if P['button_number'] != 4:
