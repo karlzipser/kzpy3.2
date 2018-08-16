@@ -128,7 +128,7 @@ def _TACTIC_RC_controller_run_loop(P):
                 if P['calibrated']:
                     print(write_str)
                     if P['selector_mode'] == 'drive_mode':
-                        if False:
+                        if True:
                             P['Arduinos']['MSE'].write(write_str)
                         pass
                         
