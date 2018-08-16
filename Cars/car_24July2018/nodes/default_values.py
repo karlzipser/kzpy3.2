@@ -7,6 +7,8 @@ Network['network_steer_gain'] = 3.0
 Network['network_motor_gain'] = 1.0
 Network['network_motor_offset'] = 0
 Network['network_smoothing_parameter'] = 0.75
+Network['network_servo_smoothing_parameter'] = .975
+
 #Network['weight_file_path'] = opjh('pytorch_models','epoch6goodnet.SqueezeNet')
 #Network['weight_file_path'] = opjh('pytorch_models','net_17Sep17_17h21m35s.SqueezeNet')
 Network['weight_file_path'] = opjh('pytorch_models','net_10Jun18_00h00m45s.SqueezeNet')
