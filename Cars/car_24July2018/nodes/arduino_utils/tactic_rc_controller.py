@@ -130,6 +130,7 @@ def _TACTIC_RC_controller_run_loop(P):
                     if P['selector_mode'] == 'drive_mode':
                         if False:
                             P['Arduinos']['MSE'].write(write_str)
+                        pass
                         
 
             
