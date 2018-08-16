@@ -33,6 +33,7 @@ def _TACTIC_RC_controller_run_loop(P):
     ctr_timer = Timer()
     Pid_processing = Pid_Processing()
     sig_write_timer = Timer(0.1)
+    led_number_previous = 0
     while P['ABORT'] == False:
         if 'Brief sleep to allow other threads to process...':
             time.sleep(0.01)
@@ -152,8 +153,9 @@ def _TACTIC_RC_controller_run_loop(P):
                 pd2s('servo:',int(P['servo_pwm_min']),int(P['servo_pwm_null']),int(P['servo_pwm_max']),'motor:',int(P['motor_pwm_min']),int(P['motor_pwm_null']),int(P['motor_pwm_max']))
                 very_low_freq_timer.reset()
 
-            if sig_write_timer.check():
+            if sig_write_timer.check() and P['LED_number']['current'] != led_number_previous:
                 P['Arduinos']['MSE'].write(d2n('(',-1*P['LED_number']['current'],')'))
+                led_number_previous = P['LED_number']['current']
                 sig_write_timer.reset()
         except Exception as e:
             print '_TACTIC_RC_controller_run_loop',e #######
