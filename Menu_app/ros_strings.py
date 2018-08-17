@@ -49,7 +49,6 @@ def get_ros_subscriber_strs(Rostopics_subscribe_to):
         subscription_strs.append("""rospy.Subscriber('"""+raw_name+"""',"""+rtype+""", callback="""+safe_name+"""_callback)\n""")
     return subscription_strs
 
-subscription_strs = get_ros_subscriber_strs(Topics)
-list_of_strings_to_txt_file(opjh('temp.py'),subscription_strs)
+
 
 #EOF
