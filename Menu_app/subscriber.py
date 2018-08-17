@@ -4,7 +4,7 @@ from kzpy3.Menu_app.ros_strings import *
 
 Topics = [
     ('/bair_car/servo_feedback',Float),
-    ('/bair_car/cmd/motor',Int),
+    ('/bair_car/motor',Int),
 ]
 
 subscription_strs = get_ros_subscriber_strs(Topics)
