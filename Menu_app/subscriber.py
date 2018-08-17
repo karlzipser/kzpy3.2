@@ -26,7 +26,7 @@ print('recording...')
 timer = Timer(1.0)
 while not timer.check():
     for t in R.keys():
-        R_avg[t] + = R[t]
+        R_avg[t] += R[t]
     ctr += 1
 for t in R.keys():
     R_avg[t] /= (1.0*ctr)
