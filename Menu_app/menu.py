@@ -37,7 +37,7 @@ def menu(Topics,menu_path):
     message = False
     choice_number = 0
     while choice_number != 1:
-        if:#try:
+        if True:#try:
             
             clear_screen()
 
