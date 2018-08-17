@@ -84,14 +84,14 @@ def _TACTIC_RC_controller_run_loop(P):
 
 
             if P['agent_choice'] == 'human':
-                write_str = get_write_str(P['servo_pwm_smooth'],P['servo_pwm_smooth'],P['motor_pwm_smooth'])
+                write_str = get_write_str(P['servo_pwm_smooth'],P['servo_pwm_smooth'],P['motor_pwm_smooth'],P)
                 in_this_mode = False
 
 
             elif P['agent_choice'] == 'network' and P['selector_mode'] == 'drive_mode':
                 if np.abs(P['human']['motor_percent']-49) > 4:
                     in_this_mode = False
-                    write_str = get_write_str(P['servo_pwm_smooth'],P['servo_pwm_smooth'],P['motor_pwm_smooth'])
+                    write_str = get_write_str(P['servo_pwm_smooth'],P['servo_pwm_smooth'],P['motor_pwm_smooth'],P)
                     P['time_since_button_4'].reset()
                 
                 elif P['time_since_button_4'].time() > 2.0:
@@ -120,11 +120,11 @@ def _TACTIC_RC_controller_run_loop(P):
                     if True:
                         _motor_pwm = motor_percent_to_pwm( Pid_processing_motor['do'](P['network']['motor_percent'],P['encoder_smooth']), P )
             
-                    write_str = get_write_str(_servo_pwm,_camera_pwm,_motor_pwm)
+                    write_str = get_write_str(_servo_pwm,_camera_pwm,_motor_pwm,P)
                 else:
                     in_this_mode = False
                     #print_timer.message('Waiting before giving network control...') ############
-                    write_str = get_write_str(P['servo_pwm_null'],P['servo_pwm_null'],P['motor_pwm_null'])
+                    write_str = get_write_str(P['servo_pwm_null'],P['servo_pwm_null'],P['motor_pwm_null'],P)
 
 
             if P['button_number'] != 4:
@@ -160,7 +160,7 @@ def _TACTIC_RC_controller_run_loop(P):
             pass            
     print 'end _TACTIC_RC_controller_run_loop.'
 
-def get_write_str(servo_pwm,camera_pwm,motor_pwm):
+def get_write_str(servo_pwm,camera_pwm,motor_pwm,P):
     return d2n( '(',int(P['servo_pwm_smooth_manual_offset']+servo_pwm),',',int(P['camera_pwm_manual_offset']+camera_pwm+5000),',',int(motor_pwm+10000),')' )
 
 def pwm_to_percent(null_pwm,current_pwm,max_pwm,min_pwm):
