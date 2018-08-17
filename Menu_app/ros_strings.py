@@ -46,7 +46,7 @@ def get_ros_subscriber_strs(Rostopics_subscribe_to):
         raw_name = topic[0]
         safe_name = get_safe_name(raw_name)
         rtype = topic[1]
-        subscription_strs.append("""def """+safe_name+"""_callback(msg):\n\tR['"""+raw_name+"""''] = msg.data\n""")
+        subscription_strs.append("""def """+safe_name+"""_callback(msg):\n\tR['"""+raw_name+"""'] = msg.data\n""")
         subscription_strs.append("""rospy.Subscriber('"""+raw_name+"""',"""+rtype+""", callback="""+safe_name+"""_callback)\n""")
     return subscription_strs
 
