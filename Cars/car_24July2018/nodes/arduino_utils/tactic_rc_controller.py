@@ -175,10 +175,7 @@ def pwm_to_percent(null_pwm,current_pwm,max_pwm,min_pwm):
         p = 99*(1.0 + current_pwm/max_pwm)/2.0
     else:
         p = 99*(1.0 - current_pwm/min_pwm)/2.0
-    if p > 99:
-        p = 99
-    if p < 0:
-        p = 0      
+    p = bound_value(p,0,99)     
     return p
     
 def percent_to_pwm(percent,null_pwm,max_pwm,min_pwm):
@@ -211,7 +208,7 @@ def compare_percents_and_pwms(P):
 
 
 def servo_feedback_to_percent(current_feedback,P):
-    return pwm_to_percent(P['servo_feedback_center'],current_feedback,P['servo_feedback_right'],P['servo_feedback_left'])
+    return pwm_to_percent(float(P['servo_feedback_center']),float(current_feedback),float(P['servo_feedback_right']),float(P['servo_feedback_left']))
 
 
 
