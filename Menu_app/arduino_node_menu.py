@@ -1,7 +1,7 @@
 from kzpy3.utils2 import *
 from kzpy3.Menu_app.menu import *
 
-menu_path = opjh('.menu','network_node')
+menu_path = opjh('.menu','arduino_node')
 
 Topics = [
     ('servo_feedback_left',Int),
@@ -11,5 +11,5 @@ Topics = [
 
 if __name__ == '__main__':
     menu(Topics,menu_path)
-    
+
 #EOF
