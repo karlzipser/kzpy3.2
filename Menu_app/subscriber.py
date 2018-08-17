@@ -18,8 +18,12 @@ for t in R.keys():
     R_avg[t] = 0
 """
 
+timer = Timer(1.0)
+while not timer.check():
+    print R
+    time.sleep(0.1)
 
-print(R)
+raw_enter()
 """
 raw_enter('Ready to start? ')
 time.sleep(0.5)
@@ -30,6 +34,7 @@ while not timer.check():
     for t in R.keys():
         R_avg[t] += R[t]
     ctr += 1
+    time.sleep(0.01)
 for t in R.keys():
     R_avg[t] /= (1.0*ctr)
 
