@@ -7,8 +7,8 @@ Topics = [
     ('servo_feedback_left',0,Int),
     ('servo_feedback_right',0,Int),
     ('servo_feedback_center',0,Int),
-    ('servo_pwm_smooth_manual_offset',50,Int),
-    ('camera_pwm_manual_offset',0,Int)
+    ('servo_pwm_smooth_manual_offset',200,Int),
+    ('camera_pwm_manual_offset',-450,Int)
 ]
 
 if __name__ == '__main__':

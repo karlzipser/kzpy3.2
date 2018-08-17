@@ -98,7 +98,7 @@ def load_R(menu_path):
         unix(d2n('rm ',opj(menu_path,'ready')))
         return R
     else:
-        pd2s('Could not load from',menu_path)
+        #pd2s('Could not load from',menu_path)
         return None
 
 #EOF
