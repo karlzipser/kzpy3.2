@@ -190,7 +190,7 @@ def _load_menu_data(menu_path,Parameters):
         else:
             time.sleep(0.1)
 menu_path = opjh('.menu','arduino_node')
-threading.Thread(target=_load_menu_data=[menu_path,Parameters]).start()
+threading.Thread(target=_load_menu_data,args=[menu_path,Parameters]).start()
 
 if 'Main loop...':
     print 'main loop'
