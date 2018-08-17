@@ -129,7 +129,7 @@ def _TACTIC_RC_controller_run_loop(P):
 
             if P['button_number'] != 4:
                 if P['calibrated']:
-                    print(write_str)
+                    #print(write_str)
                     if P['selector_mode'] == 'drive_mode':
                         if True:
                             P['Arduinos']['MSE'].write(write_str)
@@ -148,7 +148,7 @@ def _TACTIC_RC_controller_run_loop(P):
                 P['publish_MSE_data'](P)
 
             if print_timer.check():
-                #print write_str
+                print write_str
                 print(P['network']['motor_percent'],dp(Pid_processing_motor['pid_motor_percent'],1),dp(P['encoder_smooth'],1))
                 print_timer.reset()
 
