@@ -9,7 +9,7 @@ Rostopics_publish = [('network_smoothing_parameter',Float),
     ('network_output_sample',Int),
     ('network_motor_offset',Int),
     ('network_steer_gain',Float),
-    ('network_motor_gain',Float)
+    ('network_motor_gain',Float),
     ('servo_pwm_smooth_manual_offset',Int)
     ]
 
