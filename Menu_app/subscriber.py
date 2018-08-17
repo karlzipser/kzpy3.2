@@ -24,7 +24,7 @@ R_avg = {}
 ctr = 0
 for t in R.keys():
     R_avg[t] = 0
-    
+
 raw_enter()
 
 raw_enter('Ready to start? ')
@@ -41,7 +41,7 @@ for t in R.keys():
     R_avg[t] /= (1.0*ctr)
 
 print('done.')
-pprint(R)
+pprint(R_avg)
 
 raw_enter()
 
