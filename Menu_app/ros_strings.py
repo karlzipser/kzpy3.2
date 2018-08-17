@@ -8,6 +8,7 @@ Str = 'std_msgs.msg.String'
 rosimport_str = "import std_msgs.msg\nimport geometry_msgs.msg\nimport rospy"
 rospyinit_str = "rospy.init_node('a________b',anonymous=True)"
 
+R = {}
 
 def get_ros_publisher_strs(Rostopics_to_publish,R,Values_src_dic,initalize_Rs=False):
     pub_setup_strs = []
@@ -45,7 +46,7 @@ def get_ros_subscriber_strs(Rostopics_subscribe_to):
         raw_name = topic[0]
         safe_name = get_safe_name(raw_name)
         rtype = topic[1]
-        subscription_strs.append("""def """+safe_name+"""_callback(msg):\n\tR["""+safe_name+"""] = msg.data\n""")
+        subscription_strs.append("""def """+safe_name+"""_callback(msg):\n\tR["""+raw_name+"""] = msg.data\n""")
         subscription_strs.append("""rospy.Subscriber('"""+raw_name+"""',"""+rtype+""", callback="""+safe_name+"""_callback)\n""")
     return subscription_strs
 
