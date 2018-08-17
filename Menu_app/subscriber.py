@@ -52,5 +52,17 @@ pprint(Left_right_center)
 
 {'/bair_car/motor': 48.0, '/bair_car/servo_feedback': 266.1818181818182}
 {'/bair_car/motor': 48.0, '/bair_car/servo_feedback': 265.1818181818182}
+
+
+
+{'center': {'/bair_car/motor': 46.0, '/bair_car/servo_feedback': 269.92},
+ 'left': {'/bair_car/motor': 45.63, '/bair_car/servo_feedback': 194.37},
+ 'right': {'/bair_car/motor': 45.64, '/bair_car/servo_feedback': 358.96}}
+
+{'center': {'/bair_car/motor': 45.13, '/bair_car/servo_feedback': 269.74},
+ 'left': {'/bair_car/motor': 45.79, '/bair_car/servo_feedback': 193.18},
+ 'right': {'/bair_car/motor': 45.31, '/bair_car/servo_feedback': 357.79}}
+ 
+
 """
 #EOF

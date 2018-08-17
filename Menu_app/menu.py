@@ -37,7 +37,7 @@ def menu(Topics,menu_path):
     message = False
     choice_number = 0
     while choice_number != 1:
-        try:
+        if:#try:
             
             clear_screen()
 
@@ -83,7 +83,7 @@ def menu(Topics,menu_path):
                 so(R,opj(menu_path,'R.pkl'))
                 unix('touch '+opj(menu_path,'ready'))
 
-        except Exception as e:
+        else:#except Exception as e:
             print("********** rosmenu.py Exception ***********************")
             print(e.message, e.args)
 
