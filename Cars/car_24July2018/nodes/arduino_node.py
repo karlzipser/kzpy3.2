@@ -189,6 +189,8 @@ def _load_menu_data(menu_path,Parameters):
             timer.reset()
         else:
             time.sleep(0.1)
+            
+        spd2s(Parameters['servo_pwm_smooth_manual_offset'])
         Parameters['servo_pwm_smooth_manual_offset'] = 0
 menu_path = opjh('.menu','arduino_node')
 threading.Thread(target=_load_menu_data,args=[menu_path,Parameters]).start()
