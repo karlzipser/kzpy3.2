@@ -19,6 +19,7 @@ for t in R.keys():
 
 
 print(R)
+"""
 raw_enter('Ready to start? ')
 time.sleep(0.5)
 print('recording...')
@@ -33,7 +34,7 @@ for t in R.keys():
 
 print('done.')
 pprint(R)
-
+"""
 raw_enter()
 
 
