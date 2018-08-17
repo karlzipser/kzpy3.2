@@ -138,13 +138,16 @@ def rlen(a):
 	return range(len(a))
 
 PRINT_COMMENTS = True
-def CS_(comment,section=''):
+def CS_(comment,section='',say_comment=False):
 	stri = '# - '
 	if len(section) > 0:
 		stri = stri + section + ': '
 	stri = stri + comment
 	if PRINT_COMMENTS:
 		cprint(stri,'red','on_green')
+	if say_comment:
+		if using_osx():
+			say(comment,rate=250,print_text=False)
 
 
 def zeroToOneRange(m):
