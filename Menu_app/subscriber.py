@@ -13,10 +13,9 @@ Topics = [
 
 subscription_strs = get_ros_subscriber_strs(Topics)
 
-pprint(subscription_strs)
-
-list_of_strings_to_txt_file(opjh('temp_.py'),[rosimport_str,rospyinit_str]+subscription_strs)
+for c in [rosimport_str,rospyinit_str]+subscription_strs:
+    if using_linux(): exec(c)
 raw_enter()
-from temp_ import *
+
 
 #EOF
