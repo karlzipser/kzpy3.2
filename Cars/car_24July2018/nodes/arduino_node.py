@@ -180,7 +180,7 @@ from kzpy3.Menu_app.menu import load_R as load_R
 
 def _load_menu_data(menu_path,Parameters):
     timer = Timer(0.5)
-    while Parameters['ABORT'] = False:
+    while Parameters['ABORT'] == False:
         if timer.check():
             R = load_R(menu_path)
             if type(R) == dict:
