@@ -75,6 +75,8 @@ def _TACTIC_RC_controller_run_loop(P):
             P['motor_pwm_smooth'] = (1.0-s)*P['motor_pwm'] + s*P['motor_pwm_smooth']
             P['encoder_smooth'] = (1.0-s)*P['encoder'] + s*P['encoder_smooth']
 
+            P['servo_pwm_smooth'] += P['servo_pwm_smooth_manual_offset']
+
             if P['calibrated'] == True:
                 P['human']['servo_percent'] = servo_pwm_to_percent(P['servo_pwm_smooth'],P)
                 P['human']['motor_percent'] = motor_pwm_to_percent(P['motor_pwm_smooth'],P)

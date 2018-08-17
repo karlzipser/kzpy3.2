@@ -10,6 +10,7 @@ Rostopics_publish = [('network_smoothing_parameter',Float),
     ('network_motor_offset',Int),
     ('network_steer_gain',Float),
     ('network_motor_gain',Float)
+    ('servo_pwm_smooth_manual_offset',Int)
     ]
 
 rosimport_str = "import std_msgs.msg\nimport geometry_msgs.msg\nimport rospy"

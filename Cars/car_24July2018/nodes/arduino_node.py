@@ -33,10 +33,16 @@ if Parameters['USE_ROS']:
         Parameters['network']['camera_percent'] = msg.data
     def cmd_motor_callback(msg):
         Parameters['network']['motor_percent'] = msg.data
+    def callback_servo_pwm_smooth_manual_offset(msg):
+        Parameters['servo_pwm_smooth_manual_offset'] = msg.data
+
     rospy.init_node('run_arduino',anonymous=True)
     rospy.Subscriber('cmd/steer', std_msgs.msg.Int32, callback=cmd_steer_callback)
     rospy.Subscriber('cmd/camera', std_msgs.msg.Int32, callback=cmd_camera_callback)
     rospy.Subscriber('cmd/motor', std_msgs.msg.Int32, callback=cmd_motor_callback)
+    rospy.Subscriber('/servo_pwm_smooth_manual_offset', std_msgs.msg.Int32, callback=callback_servo_pwm_smooth_manual_offset)
+
+
 
     Parameters['human_agent_pub'] = rospy.Publisher('human_agent', std_msgs.msg.Int32, queue_size=5) 
     Parameters['drive_mode_pub'] = rospy.Publisher('drive_mode', std_msgs.msg.Int32, queue_size=5) 
