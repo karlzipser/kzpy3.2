@@ -20,12 +20,11 @@ while not timer.check():
     print R
     time.sleep(0.1)
 
-R_avg = {}
-ctr = 0
-for t in R.keys():
-    R_avg[t] = 0
-
 for direction in ['left', 'right', 'center']:
+    R_avg = {}
+    ctr = 0
+    for t in R.keys():
+        R_avg[t] = 0
     raw_enter(d2n('Turn to ',direction,'. Ready to start? '))
     time.sleep(0.5)
     print('recording...')
