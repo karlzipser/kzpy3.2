@@ -113,7 +113,7 @@ def _TACTIC_RC_controller_run_loop(P):
                         if False:
                             _servo_pwm = servo_percent_to_pwm(P['network']['servo_percent'],P)
                         if True:
-                            _servo_pwm = servo_percent_to_pwm( Pid_processing_steer['do'](P['network']['servo_percent'],P['network']['camera_percent']), P )
+                            _servo_pwm = servo_percent_to_pwm( Pid_processing_steer['do'](P['network']['servo_feedback_percent'],P['network']['camera_percent']), P )
             
                         _camera_pwm = servo_percent_to_pwm(P['network']['camera_percent'],P)
                         in_this_mode = False
@@ -208,7 +208,7 @@ def compare_percents_and_pwms(P):
 
 
 def servo_feedback_to_percent(current_feedback,P):
-    return pwm_to_percent(float(P['servo_feedback_center']),float(current_feedback),float(P['servo_feedback_right']),float(P['servo_feedback_left']))
+    return int(99-pwm_to_percent(float(P['servo_feedback_center']),float(current_feedback),float(P['servo_feedback_right']),float(P['servo_feedback_left'])))
 
 
 
@@ -234,8 +234,8 @@ def Pid_Processing_Motor(slope=(60-49)/3.0,gain=0.05,encoder_max=4.0,delta_max=0
 def Pid_Processing_Steer(gain=0.05,delta_max=0.05,pid_steer_percent_max=99,pid_steer_percent_min=0):
     D = {}
     D['pid_steer_percent'] = 49
-    def _do(steer_value,camera_value):
-        delta = gain * (camera_value - D['pid_steer_percent'])
+    def _do(camera_value,servo_feedback_percent):
+        delta = gain * (camera_value - servo_feedback_percent)
         if delta > 0:
             delta = min(delta,delta_max)
         else:
