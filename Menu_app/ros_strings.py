@@ -6,7 +6,7 @@ Vec3 = 'geometry_msgs.msg.Vector3'
 Str = 'std_msgs.msg.String'
 
 rosimport_str = "import std_msgs.msg\nimport geometry_msgs.msg\nimport rospy"
-rospyinit_str = "rospy.init_node('________',anonymous=True)"
+rospyinit_str = "rospy.init_node('a________b',anonymous=True)"
 
 
 def get_ros_publisher_strs(Rostopics_to_publish,R,Values_src_dic,initalize_Rs=False):
