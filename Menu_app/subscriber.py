@@ -18,8 +18,8 @@ for t in R.keys():
     R_avg[t] = 0
 
 
-
-raw_enter('Eeady to start? Hit enter...')
+print(R)
+raw_enter('Ready to start? ')
 time.sleep(0.5)
 print('recording...')
 
