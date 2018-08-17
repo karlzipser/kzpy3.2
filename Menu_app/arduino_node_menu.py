@@ -6,7 +6,8 @@ menu_path = opjh('.menu','arduino_node')
 Topics = [
     ('servo_feedback_left',0,Int),
     ('servo_feedback_right',0,Int),
-    ('servo_feedback_center',0,Int)
+    ('servo_feedback_center',0,Int),
+    ('servo_pwm_smooth_manual_offset',0,Int)
 ]
 
 if __name__ == '__main__':
