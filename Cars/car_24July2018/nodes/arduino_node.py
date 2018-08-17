@@ -47,11 +47,12 @@ if Parameters['USE_ROS']:
     Parameters['steer_pub'] = rospy.Publisher('steer', std_msgs.msg.Int32, queue_size=5) 
     Parameters['motor_pub'] = rospy.Publisher('motor', std_msgs.msg.Int32, queue_size=5) 
     Parameters['encoder_pub'] = rospy.Publisher('encoder', std_msgs.msg.Float32, queue_size=5)
+    Parameters['servo_feedback_pub'] = rospy.Publisher('servo_feedback', std_msgs.msg.Int32, queue_size=5) 
     Parameters['Hz_acc_pub'] = rospy.Publisher('Hz_acc', std_msgs.msg.Float32, queue_size=5)
     Parameters['Hz_mse_pub'] = rospy.Publisher('Hz_mse', std_msgs.msg.Float32, queue_size=5)
-    Parameters['gyro_pub'] = rospy.Publisher('gyro', geometry_msgs.msg.Vector3, queue_size=100)
-    Parameters['gyro_heading_pub'] = rospy.Publisher('gyro_heading', geometry_msgs.msg.Vector3, queue_size=100)
-    Parameters['acc_pub'] = rospy.Publisher('acc', geometry_msgs.msg.Vector3, queue_size=100)
+    Parameters['gyro_pub'] = rospy.Publisher('gyro', geometry_msgs.msg.Vector3, queue_size=10)
+    Parameters['gyro_heading_pub'] = rospy.Publisher('gyro_heading', geometry_msgs.msg.Vector3, queue_size=10)
+    Parameters['acc_pub'] = rospy.Publisher('acc', geometry_msgs.msg.Vector3, queue_size=10)
 
     Parameters['servo_pwm_min_pub'] = rospy.Publisher('servo_pwm_min', std_msgs.msg.Int32, queue_size=5) 
     Parameters['servo_pwm_max_pub'] = rospy.Publisher('servo_pwm_max', std_msgs.msg.Int32, queue_size=5) 
@@ -99,6 +100,7 @@ if Parameters['USE_ROS']:
         Parameters['motor_pub'].publish(std_msgs.msg.Int32(Parameters['human']['motor_percent']))
         Parameters['button_number_pub'].publish(std_msgs.msg.Int32(Parameters['button_number']))
         Parameters['encoder_pub'].publish(std_msgs.msg.Float32(Parameters['encoder']))
+        Parameters['servo_feedback_pub'].publish(std_msgs.msg.Int32(Parameters['servo_feedback']))
 
         if MSE_low_frequency_pub_timer.check():
             if Parameters['button_number'] == 1:
