@@ -3,7 +3,7 @@ from kzpy3.Menu_app.ros_strings import *
 
 
 Topics = [
-    ('/bair_car/servo_feedback',Float),
+    ('/bair_car/servo_feedback',Int),
     ('/bair_car/motor',Int),
 ]
 
