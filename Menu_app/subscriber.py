@@ -12,7 +12,11 @@ Topics = [
 ]
 
 subscription_strs = get_ros_subscriber_strs(Topics)
+
+pprint(subscription_strs)
+
 list_of_strings_to_txt_file(opjh('temp_.py'),[rosimport_str,rospyinit_str]+subscription_strs)
+raw_enter()
 from temp_ import *
 
 #EOF
