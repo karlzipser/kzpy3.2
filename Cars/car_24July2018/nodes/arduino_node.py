@@ -179,7 +179,7 @@ if 'Start Arduino threads...':
 from kzpy3.Menu_app.menu import load_R as load_R
 
 def _load_menu_data(menu_path,Parameters):
-    timer = Timer(0.5):
+    timer = Timer(0.5)
     while Parameters['ABORT'] = False:
         if timer.check():
             R = load_R(menu_path)
