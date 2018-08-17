@@ -34,8 +34,14 @@ Parameters['motor_pwm_max'] = Parameters['servo_pwm_null']
 Parameters['behavioral_mode_choice'] = 'direct'
 Parameters['agent_choice'] = 'human'
 Parameters['place_choice'] = 'local'
+
 Parameters['servo_pwm_smooth_manual_offset'] = 0
 Parameters['camera_pwm_manual_offset'] = 0
+Parameters['servo_feedback_center'] = 270
+Parameters['servo_feedback_left'] = 193
+Parameters['servo_feedback_right'] = 358
+
+ 
 
 Network = {}
 Network['network_output_sample'] = 4 # >= 0, <= 9

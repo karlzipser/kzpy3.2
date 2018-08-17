@@ -24,7 +24,7 @@ def _TACTIC_RC_controller_run_loop(P):
     flush_seconds = 0.25
     flush_timer = Timer(flush_seconds)
     frequency_timer = Timer(1)
-    print_timer = Timer(1)
+    print_timer = Timer(0.1)
     in_this_mode_timer = Timer()
     very_low_freq_timer = Timer(30)
     ctr_timer = Timer()
@@ -80,6 +80,9 @@ def _TACTIC_RC_controller_run_loop(P):
             if P['calibrated'] == True:
                 P['human']['servo_percent'] = servo_pwm_to_percent(P['servo_pwm_smooth'],P)
                 P['human']['motor_percent'] = motor_pwm_to_percent(P['motor_pwm_smooth'],P)
+
+            P['servo_feedback_percent'] = servo_feedback_to_percent(P['servo_feedback'],P)
+
 
 
 
@@ -148,8 +151,9 @@ def _TACTIC_RC_controller_run_loop(P):
                 P['publish_MSE_data'](P)
 
             if print_timer.check():
-                print write_str
-                print(P['network']['motor_percent'],dp(Pid_processing_motor['pid_motor_percent'],1),dp(P['encoder_smooth'],1))
+                #print write_str
+                pd2s(P['human']['servo_percent'],P['servo_feedback_percent'])
+                #print(P['network']['motor_percent'],dp(Pid_processing_motor['pid_motor_percent'],1),dp(P['encoder_smooth'],1))
                 print_timer.reset()
 
             if very_low_freq_timer.check():
@@ -205,6 +209,9 @@ def compare_percents_and_pwms(P):
             m_from_percent = motor_percent_to_pwm(P['human']['motor_percent'],P)
             print dp(s_from_percent/(0.01+s_pwm),2),dp(m_from_percent/(0.01+m_pwm),2)
 
+
+def servo_feedback_to_percent(current_feedback,P):
+    return pwm_to_percent(P['servo_feedback_center'],current_feedback,P['servo_feedback_right'],P['servo_feedback_left'])
 
 
 

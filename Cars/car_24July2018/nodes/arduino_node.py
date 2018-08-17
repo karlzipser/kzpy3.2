@@ -183,7 +183,7 @@ def _load_menu_data(menu_path,Parameters):
     while Parameters['ABORT'] == False:
         if timer.check():
             R = load_R(menu_path)
-            spd2s(R)
+            #spd2s(R)
             if type(R) == dict:
                 for t in R.keys():
                     Parameters[t] = R[t]
