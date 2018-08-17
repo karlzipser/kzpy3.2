@@ -178,7 +178,6 @@ if 'Start Arduino threads...':
 
 from kzpy3.Menu_app.menu import load_R as load_R
 
-Parameters['servo_pwm_smooth_manual_offset'] = 0
 def _load_menu_data(menu_path,Parameters):
     timer = Timer(0.5)
     while Parameters['ABORT'] == False:
