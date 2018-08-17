@@ -14,7 +14,7 @@ for c in [rosimport_str,rospyinit_str]+subscription_strs:
 
 
 for i in range(1000):
-    print R[]
+    print R
 
 raw_enter()
 
