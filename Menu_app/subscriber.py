@@ -18,7 +18,7 @@ for t in R.keys():
     R_avg[t] = 0
 
 
-timer = Timer(1.0)
+timer = Timer(5.0)
 while not timer.check():
     print R
     time.sleep(0.1)
