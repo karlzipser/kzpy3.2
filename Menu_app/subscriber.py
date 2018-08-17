@@ -26,7 +26,7 @@ for t in R.keys():
     R_avg[t] = 0
 
 for direction in ['left', 'right', 'center']:
-    raw_enter(d2n('Turn to ',direction,'. Ready to start? ')
+    raw_enter(d2n('Turn to ',direction,'. Ready to start? '))
     time.sleep(0.5)
     print('recording...')
 
