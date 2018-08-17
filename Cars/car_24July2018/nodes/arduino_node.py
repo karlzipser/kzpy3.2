@@ -178,11 +178,13 @@ if 'Start Arduino threads...':
 
 from kzpy3.Menu_app.menu import load_R as load_R
 
+Parameters['servo_pwm_smooth_manual_offset'] = 0
 def _load_menu_data(menu_path,Parameters):
     timer = Timer(0.5)
     while Parameters['ABORT'] == False:
         if timer.check():
             R = load_R(menu_path)
+            spd2s(R)
             if type(R) == dict:
                 for t in R.keys():
                     Parameters[t] = R[t]
@@ -191,7 +193,7 @@ def _load_menu_data(menu_path,Parameters):
             time.sleep(0.1)
             
         spd2s(Parameters['servo_pwm_smooth_manual_offset'])
-        Parameters['servo_pwm_smooth_manual_offset'] = 0
+        #Parameters['servo_pwm_smooth_manual_offset'] = 0
 menu_path = opjh('.menu','arduino_node')
 threading.Thread(target=_load_menu_data,args=[menu_path,Parameters]).start()
 
