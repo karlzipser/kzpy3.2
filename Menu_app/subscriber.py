@@ -11,11 +11,12 @@ subscription_strs = get_ros_subscriber_strs(Topics)
 
 for c in [rosimport_str,rospyinit_str]+subscription_strs:
     if using_linux(): exec(c)
-
+"""
 R_avg = {}
 ctr = 0
 for t in R.keys():
     R_avg[t] = 0
+"""
 
 
 print(R)
