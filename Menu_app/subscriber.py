@@ -43,7 +43,7 @@ for direction in ['left', 'right', 'center']:
     print('done.')
     pprint(R_avg)
     raw_enter()
-
+pprint(Left_right_center)
 """
 {'/bair_car/motor': 45.73737373737374, '/bair_car/servo_feedback': 371.34343434343435}
 {'/bair_car/motor': 45.0, '/bair_car/servo_feedback': 371.6161616161616}
