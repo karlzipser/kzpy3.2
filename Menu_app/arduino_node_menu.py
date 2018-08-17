@@ -4,9 +4,9 @@ from kzpy3.Menu_app.menu import *
 menu_path = opjh('.menu','arduino_node')
 
 Topics = [
-    ('servo_feedback_left',Int),
-    ('servo_feedback_right',Int),
-    ('servo_feedback_center',Int)
+    ('servo_feedback_left',0,Int),
+    ('servo_feedback_right',0,Int),
+    ('servo_feedback_center',0,Int)
 ]
 
 if __name__ == '__main__':
