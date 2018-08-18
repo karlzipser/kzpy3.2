@@ -152,7 +152,7 @@ def _TACTIC_RC_controller_run_loop(P):
 
             if print_timer.check():
                 #print write_str
-                pd2s(P['human']['servo_percent'],P['servo_feedback_percent'])
+                pd2s(int(P['human']['servo_percent']),P['servo_feedback_percent'],int(P['network']['camera_percent']))
                 #print(P['network']['motor_percent'],dp(Pid_processing_motor['pid_motor_percent'],1),dp(P['encoder_smooth'],1))
                 print_timer.reset()
 
@@ -208,7 +208,7 @@ def compare_percents_and_pwms(P):
 
 
 def servo_feedback_to_percent(current_feedback,P):
-    return int(pwm_to_percent(float(P['servo_feedback_center']),float(current_feedback),float(P['servo_feedback_right']),float(P['servo_feedback_left'])))
+    return 99-int(pwm_to_percent(float(P['servo_feedback_center']),float(current_feedback),float(P['servo_feedback_right']),float(P['servo_feedback_left'])))
 
 
 
