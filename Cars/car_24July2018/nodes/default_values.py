@@ -42,8 +42,8 @@ Parameters['behavioral_mode_choice'] = 'direct'
 Parameters['agent_choice'] = 'human'
 Parameters['place_choice'] = 'local'
 
-Parameters['servo_pwm_smooth_manual_offset'] = 0
-Parameters['camera_pwm_manual_offset'] = 0
+Parameters['servo_pwm_smooth_manual_offset'] = 150
+Parameters['camera_pwm_manual_offset'] = -500
 Parameters['servo_feedback_center'] = 214
 Parameters['servo_feedback_right'] = 140
 Parameters['servo_feedback_left'] = 294

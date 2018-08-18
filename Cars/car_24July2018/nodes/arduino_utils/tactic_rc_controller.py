@@ -120,7 +120,7 @@ def _TACTIC_RC_controller_run_loop(P):
                                 _servo_percent = P['servo_feedback_percent']
                             else:
                                 _servo_percent = P['network']['servo_percent']
-                            _servo_pwm = servo_percent_to_pwm( Pid_processing_steer['do'](P['network']['camera_percent'],_servo_percent, P ))
+                            _servo_pwm = servo_percent_to_pwm( Pid_processing_steer['do'](P['network']['camera_percent'],_servo_percent ))
             
                         _camera_pwm = servo_percent_to_pwm(P['network']['camera_percent'],P)
                         in_this_mode = False
@@ -128,7 +128,7 @@ def _TACTIC_RC_controller_run_loop(P):
                     if False:
                         _motor_pwm = motor_percent_to_pwm(P['network']['motor_percent'],P)
                     if True:
-                        _motor_pwm = motor_percent_to_pwm( Pid_processing_motor['do'](P['network']['motor_percent'],P['encoder_smooth']), P )
+                        _motor_pwm = motor_percent_to_pwm( Pid_processing_motor['do'](P['network']['motor_percent'],P['encoder_smooth']))
             
                     write_str = get_write_str(_servo_pwm,_camera_pwm,_motor_pwm,P)
                 else:
