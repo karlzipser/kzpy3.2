@@ -113,9 +113,9 @@ def _TACTIC_RC_controller_run_loop(P):
                         _camera_pwm = _servo_pwm
                     else:
                         _camera_pwm = servo_percent_to_pwm(P['network']['camera_percent'],P)
-                        if False:
-                            _servo_pwm = servo_percent_to_pwm(P['network']['servo_percent'],P)
                         if True:
+                            _servo_pwm = servo_percent_to_pwm(P['network']['servo_percent'],P)
+                        if False:
                             if P['use_servo_feedback']:
                                 _servo_percent = P['servo_feedback_percent']
                             else:
