@@ -6,6 +6,14 @@ exec(identify_file_str)
 N = {}
 for k in default_values.Network.keys():
     N[k] = default_values.Network[k]
+
+import kzpy3.Menu_app.menu
+menu_path = opjh('.menu','network_node')
+unix('mkdir -p '+menu_path)
+unix(d2s('rm',opj(menu_path,'ready')))
+threading.Thread(target=kzpy3.Menu_app.menu.load_menu_data,args=[menu_path,N]).start()
+
+
 if not N['USE_NETWORK']:
     spd2s('network_node.py::not using network')
     time.sleep(3600*24)
@@ -130,7 +138,7 @@ def button_number_callback(msg):
     elif button_number == 1:
         left = 1.0
 
-
+"""
 def network_weights_name_callback(msg):
     s = msg.data
     if s != N['weight_file_path']:
@@ -138,8 +146,9 @@ def network_weights_name_callback(msg):
         N['RELOAD_NET'] = True
     else:
         N['RELOAD_NET'] = False
+"""
 
-
+"""
 def callback_network_output_sample(msg):
     N['network_output_sample'] = msg.data
 def callback_network_motor_offset(msg):
@@ -150,7 +159,7 @@ def callback_network_motor_gain(msg):
     N['network_motor_gain'] = msg.data
 def callback_network_smoothing_parameter(msg):
     N['network_smoothing_parameter'] = msg.data
-
+"""
 
 camera_cmd_pub = rospy.Publisher('cmd/camera', std_msgs.msg.Int32, queue_size=100)
 steer_cmd_pub = rospy.Publisher('cmd/steer', std_msgs.msg.Int32, queue_size=100)
@@ -160,15 +169,16 @@ rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_callback,que
 rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_callback,queue_size = 1)
 rospy.Subscriber('/bair_car/human_agent', std_msgs.msg.Int32, callback=human_agent_callback)
 rospy.Subscriber('/bair_car/behavioral_mode', std_msgs.msg.String, callback=behavioral_mode_callback)
-rospy.Subscriber('/bair_car/network_weights_name', std_msgs.msg.String, callback=network_weights_name_callback)
+#rospy.Subscriber('/bair_car/network_weights_name', std_msgs.msg.String, callback=network_weights_name_callback)
 rospy.Subscriber('/bair_car/drive_mode', std_msgs.msg.Int32, callback=drive_mode_callback)
 rospy.Subscriber('/bair_car/button_number', std_msgs.msg.Int32, callback=button_number_callback)
+"""
 rospy.Subscriber('/network_output_sample', std_msgs.msg.Int32, callback=callback_network_output_sample)
 rospy.Subscriber('/network_motor_offset', std_msgs.msg.Int32, callback=callback_network_motor_offset)
 rospy.Subscriber('/network_steer_gain', std_msgs.msg.Float32, callback=callback_network_steer_gain)
 rospy.Subscriber('/network_motor_gain', std_msgs.msg.Float32, callback=callback_network_motor_gain)
 rospy.Subscriber('/network_smoothing_parameter', std_msgs.msg.Float32, callback=callback_network_smoothing_parameter)
-
+"""
 
 
 N['RELOAD_NET'] = True

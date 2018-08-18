@@ -1587,6 +1587,13 @@ if False:
 
 
 
+def str_is_int(s):
+	try:
+		int(s)
+		return True
+	except:
+		return False
+
 #####################################################
 #
 if True:#username != 'nvidia':
@@ -1602,6 +1609,13 @@ if True:#username != 'nvidia':
 			else:
 				exec('Args[\''+k+'\'] = '+temp[k])
 		del temp
+		Arguments = {}
+		for a in Args.keys():
+			ar = Args[a]
+			if str_is_int(ar):
+				Arguments[a] = int(ar)
+			else:
+				Arguments[a] = ar
 
 identify_file_str = """
 if '__file__' not in locals():
@@ -1666,13 +1680,6 @@ def build_dic_list_leaves(key_lists):
 		D[k] = build_dic_list_leaves(key_lists[1:])
 	return D	
 """
-
-def str_is_int(s):
-	try:
-		int(s)
-		return True
-	except:
-		return False
 
 
 def bound_value(the_value,the_min,the_max):

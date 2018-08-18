@@ -1,6 +1,13 @@
 from kzpy3.utils2 import *
 exec(identify_file_str)
 
+"""
+def _expose(A,names):
+	B = {}
+	for name in names:
+		B[name] = A[name]
+	return B
+"""
 Parameters = {}
 Parameters['calibrated'] = False
 Parameters['ABORT'] = False
@@ -40,16 +47,70 @@ Parameters['camera_pwm_manual_offset'] = 0
 Parameters['servo_feedback_center'] = 214
 Parameters['servo_feedback_right'] = 140
 Parameters['servo_feedback_left'] = 294
+
 Parameters['network']['camera_percent'] = 49
 
+Parameters['HUMAN_SMOOTHING_PARAMETER_1'] = 0.75
+Parameters['USE_MSE'] = True
+Parameters['USE_SIG'] = True
+Parameters['USE_IMU'] = True
+
+Parameters['pid_motor_slope'] = (60-49)/3.0
+Parameters['pid_motor_gain'] = 0.05
+Parameters['pid_encoder_max'] = 4.0
+Parameters['pid_motor_encoder_max'] = 4.0
+Parameters['pid_motor_delta_max']= 0.05
+Parameters['pid_motor_percent_max']= 99
+Parameters['pid_motor_percent_min']= 0
+Parameters['pid_steer_gain']= 0.05
+Parameters['pid_steer_delta_max']= 0.05
+Parameters['pid_steer_steer_percent_max']= 99
+Parameters['pid_steer_steer_percent_min'] = 0
+Parameters['use_servo_feedback'] = 0
+
+Parameters['to_expose'] = [
+	'print_mse_freq',
+	'print_imu_freq',
+	'print_calibration_freq',
+	'print_selector_freq',
+	'print_led_freq',
+	'USE_ROS',
+	'IMU_SMOOTHING_PARAMETER',
+	'Hz',
+	'behavioral_mode_choice',
+	'agent_choice',
+	'place_choice',
+	'servo_pwm_smooth_manual_offset',
+	'camera_pwm_manual_offset',
+	'servo_feedback_center',
+	'servo_feedback_right',
+	'servo_feedback_left',
+	'pid_motor_slope',
+	'pid_motor_gain',
+	'pid_encoder_max',
+	'pid_motor_delta_max',
+	'pid_motor_percent_max',
+	'pid_motor_percent_min',
+	'pid_steer_gain',
+	'pid_steer_delta_max',
+	'pid_steer_steer_percent_max',
+	'pid_steer_steer_percent_min',
+	'use_servo_feedback'
+]
+
+
+
+
 Network = {}
+Network['ABORT'] = False
 Network['network_output_sample'] = 4 # >= 0, <= 9
 Network['network_steer_gain'] = 1.0
 Network['network_camera_gain'] = 1.0
 Network['network_motor_gain'] = 1.0
 Network['network_motor_offset'] = 0
 Network['network_smoothing_parameter'] = 0.75
-Network['network_servo_smoothing_parameter'] = .975
+Network['network_servo_smoothing_parameter'] = .75
+
 
 #Network['weight_file_path'] = opjh('pytorch_models','epoch6goodnet.SqueezeNet')
 #Network['weight_file_path'] = opjh('pytorch_models','net_17Sep17_17h21m35s.SqueezeNet')
@@ -60,11 +121,21 @@ Network['USE_LAST_IMAGE_ONLY'] = True
 Network['visualize_activations'] = False
 Network['motor_reverse_threshold'] = 64
 
-Mse = {}
-Mse['HUMAN_SMOOTHING_PARAMETER_1'] = 0.75
-Mse['USE_MSE'] = True
-Mse['USE_SIG'] = True
-Mse['USE_IMU'] = True
+Network['to_expose'] = [
+	'network_output_sample',
+	'network_steer_gain',
+	'network_camera_gain',
+	'network_motor_gain',
+	'network_motor_offset',
+	'network_smoothing_parameter',
+	'network_servo_smoothing_parameter',
+	'weight_file_path',
+	'USE_NETWORK',
+	'GREY_OUT_TOP_OF_IMAGE',
+	'USE_LAST_IMAGE_ONLY',
+	'visualize_activations',
+	'motor_reverse_threshold'
+]
 
 NO_Mse = {}
 NO_Mse['behavioral_mode_choice'] = 'direct'

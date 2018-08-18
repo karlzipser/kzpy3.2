@@ -12,6 +12,7 @@ def TACTIC_RC_controller(P):
     P['motor_pwm_smooth'] = 1000
     P['selector_mode'] = False
     P['encoder_smooth'] = 0.0
+    P['network']['camera_percent'] = 49 # why I'm not sure
     threading.Thread(target=_TACTIC_RC_controller_run_loop,args=[P]).start()
     
 def _TACTIC_RC_controller_run_loop(P):
@@ -115,7 +116,11 @@ def _TACTIC_RC_controller_run_loop(P):
                         if False:
                             _servo_pwm = servo_percent_to_pwm(P['network']['servo_percent'],P)
                         if True:
-                            _servo_pwm = servo_percent_to_pwm( Pid_processing_steer['do'](P['network']['camera_percent'],P['servo_feedback_percent']), P )
+                            if P['use_servo_feedback']:
+                                _servo_percent = P['servo_feedback_percent'])
+                            else:
+                                _servo_percent = P['network']['servo_percent']
+                            _servo_pwm = servo_percent_to_pwm( Pid_processing_steer['do'](P['network']['camera_percent'],_servo_percent, P )
             
                         _camera_pwm = servo_percent_to_pwm(P['network']['camera_percent'],P)
                         in_this_mode = False
@@ -215,36 +220,38 @@ def servo_feedback_to_percent(current_feedback,P):
 
 
 
-def Pid_Processing_Motor(slope=(60-49)/3.0,gain=0.05,encoder_max=4.0,delta_max=0.05,pid_motor_percent_max=99,pid_motor_percent_min=0):
+def Pid_Processing_Motor():#slope=(60-49)/3.0,gain=0.05,encoder_max=4.0,delta_max=0.05,pid_motor_percent_max=99,pid_motor_percent_min=0):
     D = {}
     D['pid_motor_percent'] = 49
     def _do(motor_value,encoder):
-        encoder_target = (motor_value-49.0) / slope
-        encoder_target = min(encoder_target,encoder_max)
-        delta = gain * (encoder_target - encoder)
+        encoder_target = (motor_value-49.0) / P['pid_motor_slope']
+        encoder_target = min(encoder_target,P['pid_motor_encoder_max'])
+        delta = P['pid_motor_gain'] * (encoder_target - encoder)
         if delta > 0:
-            delta = min(delta,delta_max)
+            delta = min(delta,P['pid_motor_delta_max'])
         else:
-            delta = max(delta,-delta_max)
+            delta = max(delta,-P['pid_motor_delta_max'])
         D['pid_motor_percent'] += delta
-        D['pid_motor_percent'] = min(D['pid_motor_percent'],pid_motor_percent_max)
-        D['pid_motor_percent'] = max(D['pid_motor_percent'],pid_motor_percent_min)
+        D['pid_motor_percent'] = min(D['pid_motor_percent'],P['pid_motor_percent_max'])
+        D['pid_motor_percent'] = max(D['pid_motor_percent'],P['pid_steer_steer_percent_min'])
         return D['pid_motor_percent']
     D['do'] = _do
     return D
 
-def Pid_Processing_Steer(gain=0.05,delta_max=0.05,pid_steer_percent_max=99,pid_steer_percent_min=0):
+
+
+def Pid_Processing_Steer():#gain=0.05,delta_max=0.05,pid_steer_percent_max=99,pid_steer_percent_min=0):
     D = {}
     D['pid_steer_percent'] = 49
     def _do(camera_value,servo_feedback_percent):
-        delta = gain * (camera_value - servo_feedback_percent)
+        delta = P['pid_steer_gain'] * (camera_value - servo_feedback_percent)
         if delta > 0:
-            delta = min(delta,delta_max)
+            delta = min(delta,P['pid_steer_delta_max'])
         else:
-            delta = max(delta,-delta_max)
+            delta = max(delta,-P['pid_steer_delta_max'])
         D['pid_steer_percent'] += delta
-        D['pid_steer_percent'] = min(D['pid_steer_percent'],pid_steer_percent_max)
-        D['pid_steer_percent'] = max(D['pid_steer_percent'],pid_steer_percent_min)
+        D['pid_steer_percent'] = min(D['pid_steer_percent'],P['pid_steer_steer_percent_max'])
+        D['pid_steer_percent'] = max(D['pid_steer_percent'],P['pid_steer_steer_percent_min'])
         return D['pid_steer_percent']
     D['do'] = _do
     return D

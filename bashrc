@@ -88,7 +88,7 @@ echo Hi $COMPUTER_NAME on Jetson
 echo "rrm;rlog"
 rrm
 rlog
-OPTIONS="exit screen rla rlanz rosbags git_pull reboot shutdown rostopics rosmenu net_menu df car_link_menu"
+OPTIONS="exit screen rla rlanz rosbags git_pull reboot shutdown rostopics arduino_node_menu network_node_menu df car_link_menu"
 COLUMNS=12
 echo 'main menu'
 select opt in $OPTIONS; do
@@ -111,8 +111,10 @@ select opt in $OPTIONS; do
     check_rosbags.py
    elif [ "$opt" = "rostopics" ]; then
     python ~/catkin_ws/src/bair_car/scripts/rostopics.py
-   elif [ "$opt" = "rosmenu" ]; then
-    python ~/catkin_ws/src/bair_car/scripts/rosmenu.py
+   elif [ "$opt" = "arduino_node_menu" ]; then
+    python ~/kzpy3/Menu_app/node_menu.py NODE arduino
+   elif [ "$opt" = "network_node_menu" ]; then
+    python ~/kzpy3/Menu_app/node_menu.py NODE network
    elif [ "$opt" = "git_pull" ]; then
     cd ~/kzpy3
     git pull

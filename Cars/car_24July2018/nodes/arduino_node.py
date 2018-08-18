@@ -19,8 +19,15 @@ import default_values
 
 Parameters = default_values.Parameters
 
-for k in default_values.Mse.keys():
-    Parameters[k] = default_values.Mse[k]
+#for k in default_values.Mse.keys():
+#    Parameters[k] = default_values.Mse[k]
+
+import kzpy3.Menu_app.menu
+menu_path = opjh('.menu','arduino_node')
+unix('mkdir -p '+menu_path)
+unix(d2s('rm',opj(menu_path,'ready')))
+#kzpy3.Menu_app.menu.load_menu_data(menu_path,Parameters)#,first_load=False)
+threading.Thread(target=kzpy3.Menu_app.menu.load_menu_data,args=[menu_path,Parameters]).start()
 
 if Parameters['USE_ROS']:
     import std_msgs.msg
@@ -176,9 +183,8 @@ if 'Start Arduino threads...':
     else:
         spd2s("!!!!!!!!!! 'FLEX' not in Arduinos[] or not using 'FLEX' !!!!!!!!!!!")
 
-from kzpy3.Menu_app.menu import load_R as load_R
-
-def _load_menu_data(menu_path,Parameters):
+"""
+def load_menu_data(menu_path,Parameters,first_load=False):
     timer = Timer(0.5)
     while Parameters['ABORT'] == False:
         if timer.check():
@@ -190,11 +196,8 @@ def _load_menu_data(menu_path,Parameters):
             timer.reset()
         else:
             time.sleep(0.1)
+"""
             
-        #spd2s(Parameters['servo_pwm_smooth_manual_offset'])
-        #Parameters['servo_pwm_smooth_manual_offset'] = 0
-menu_path = opjh('.menu','arduino_node')
-threading.Thread(target=_load_menu_data,args=[menu_path,Parameters]).start()
 
 if 'Main loop...':
     print 'main loop'
