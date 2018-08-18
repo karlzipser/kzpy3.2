@@ -120,7 +120,7 @@ def _TACTIC_RC_controller_run_loop(P):
                                 _servo_percent = P['servo_feedback_percent']
                             else:
                                 _servo_percent = P['network']['servo_percent']
-                            _servo_pwm = servo_percent_to_pwm( Pid_processing_steer['do'](P['network']['camera_percent'],_servo_percent ),P)
+                            _servo_pwm = servo_percent_to_pwm( Pid_processing_steer['do'](P['network']['camera_percent'],_servo_percent,P ),P)
             
                         _camera_pwm = servo_percent_to_pwm(P['network']['camera_percent'],P)
                         in_this_mode = False
@@ -128,7 +128,7 @@ def _TACTIC_RC_controller_run_loop(P):
                     if False:
                         _motor_pwm = motor_percent_to_pwm(P['network']['motor_percent'],P)
                     if True:
-                        _motor_pwm = motor_percent_to_pwm( Pid_processing_motor['do'](P['network']['motor_percent'],P['encoder_smooth']),P)
+                        _motor_pwm = motor_percent_to_pwm( Pid_processing_motor['do'](P['network']['motor_percent'],P['encoder_smooth'],P),P)
             
                     write_str = get_write_str(_servo_pwm,_camera_pwm,_motor_pwm,P)
                 else:
@@ -223,7 +223,7 @@ def servo_feedback_to_percent(current_feedback,P):
 def Pid_Processing_Motor():#slope=(60-49)/3.0,gain=0.05,encoder_max=4.0,delta_max=0.05,pid_motor_percent_max=99,pid_motor_percent_min=0):
     D = {}
     D['pid_motor_percent'] = 49
-    def _do(motor_value,encoder):
+    def _do(motor_value,encoder,P):
         encoder_target = (motor_value-49.0) / P['pid_motor_slope']
         encoder_target = min(encoder_target,P['pid_motor_encoder_max'])
         delta = P['pid_motor_gain'] * (encoder_target - encoder)
@@ -243,7 +243,7 @@ def Pid_Processing_Motor():#slope=(60-49)/3.0,gain=0.05,encoder_max=4.0,delta_ma
 def Pid_Processing_Steer():#gain=0.05,delta_max=0.05,pid_steer_percent_max=99,pid_steer_percent_min=0):
     D = {}
     D['pid_steer_percent'] = 49
-    def _do(camera_value,servo_feedback_percent):
+    def _do(camera_value,servo_feedback_percent,P):
         delta = P['pid_steer_gain'] * (camera_value - servo_feedback_percent)
         if delta > 0:
             delta = min(delta,P['pid_steer_delta_max'])
