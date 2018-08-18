@@ -38,8 +38,8 @@ Parameters['place_choice'] = 'local'
 Parameters['servo_pwm_smooth_manual_offset'] = 0
 Parameters['camera_pwm_manual_offset'] = 0
 Parameters['servo_feedback_center'] = 270
-Parameters['servo_feedback_left'] = 193
-Parameters['servo_feedback_right'] = 358
+Parameters['servo_feedback_right'] = 193
+Parameters['servo_feedback_left'] = 358
 
  
 
