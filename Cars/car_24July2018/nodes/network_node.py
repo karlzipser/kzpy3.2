@@ -215,9 +215,9 @@ while True:
             Hz_network_pub.publish(std_msgs.msg.Float32(Hz))
             low_frequency_pub_timer.reset()
 
-    s1 = N['network_smoothing_parameter']
+    s1 = N['network_motor_smoothing_parameter']
     s2 = N['network_servo_smoothing_parameter']
-
+    s3 = N['network_camera_smoothing_parameter']
     #print_timer.message(d2s('network_node::drive_mode =',drive_mode))#######
 
     if human_agent == 0 and drive_mode == 1:
@@ -230,7 +230,7 @@ while True:
             """
 
             if 'Do smoothing of percents...':
-                current_camera = (1.0-s1)*torch_steer + s1*current_steer
+                current_camera = (1.0-s3)*torch_steer + s3*current_steer
                 current_steer = (1.0-s2)*torch_steer + s2*current_steer
                 current_motor = (1.0-s1)*torch_motor + s1*current_motor
 
@@ -333,7 +333,7 @@ while True:
 
             #################################################################################
             #
-            camera_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
+            camera_cmd_pub.publish(std_msgs.msg.Int32(adjusted_camera))
             steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
             motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
             #

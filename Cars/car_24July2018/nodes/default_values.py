@@ -96,6 +96,7 @@ Parameters['to_expose'] = [
 	'pid_steer_steer_percent_max',
 	'pid_steer_steer_percent_min',
 	'use_servo_feedback'
+	'Hz'
 ]
 
 
@@ -108,9 +109,10 @@ Network['network_steer_gain'] = 1.0
 Network['network_camera_gain'] = 1.0
 Network['network_motor_gain'] = 1.0
 Network['network_motor_offset'] = 0
-Network['network_smoothing_parameter'] = 0.75
-Network['network_servo_smoothing_parameter'] = .75
-
+#Network['network_smoothing_parameter'] = 0.75
+Network['network_servo_smoothing_parameter'] = 0.75
+Network['network_motor_smoothing_parameter'] = 0.75
+Network['network_camera_smoothing_parameter'] = 0.75
 
 #Network['weight_file_path'] = opjh('pytorch_models','epoch6goodnet.SqueezeNet')
 #Network['weight_file_path'] = opjh('pytorch_models','net_17Sep17_17h21m35s.SqueezeNet')
@@ -127,8 +129,9 @@ Network['to_expose'] = [
 	'network_camera_gain',
 	'network_motor_gain',
 	'network_motor_offset',
-	'network_smoothing_parameter',
 	'network_servo_smoothing_parameter',
+	'network_motor_smoothing_parameter',
+	'network_camera_smoothing_parameter',
 	'weight_file_path',
 	'USE_NETWORK',
 	'GREY_OUT_TOP_OF_IMAGE',
