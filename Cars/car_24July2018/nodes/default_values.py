@@ -40,8 +40,7 @@ Parameters['camera_pwm_manual_offset'] = 0
 Parameters['servo_feedback_center'] = 214
 Parameters['servo_feedback_right'] = 140
 Parameters['servo_feedback_left'] = 294
-
- 
+Parameters['network']['camera_percent'] = 0
 
 Network = {}
 Network['network_output_sample'] = 4 # >= 0, <= 9
