@@ -87,10 +87,9 @@ def _TACTIC_RC_controller_run_loop(P):
 
 
             if P['agent_choice'] == 'human':
-                if False:
-                    write_str = get_write_str(P['servo_pwm_smooth'],P['servo_pwm_smooth'],P['motor_pwm_smooth'],P)
-                _servo_pwm = servo_percent_to_pwm( Pid_processing_steer['do'](P['network']['camera_percent'],P['human']['servo_percent']), P )
-                write_str = get_write_str(_servo_pwm,P['servo_pwm_smooth'],P['motor_pwm_smooth'],P)
+                write_str = get_write_str(P['servo_pwm_smooth'],P['servo_pwm_smooth'],P['motor_pwm_smooth'],P)
+                #_servo_pwm = servo_percent_to_pwm( Pid_processing_steer['do'](P['network']['camera_percent'],P['human']['servo_percent']), P )
+                #write_str = get_write_str(_servo_pwm,P['servo_pwm_smooth'],P['motor_pwm_smooth'],P)
                 in_this_mode = False
 
 
