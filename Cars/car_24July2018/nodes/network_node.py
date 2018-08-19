@@ -207,7 +207,7 @@ DRIVE_FORWARD = True
 reverse_timer = Timer(1)
 #image_sample_timer = Timer(5)
 
-while not P['ABORT']:
+while True:#not P['ABORT']:
     if N['RELOAD_NET']: # temporary experiment
         N['RELOAD_NET'] = False
         Torch_network = net_utils.Torch_Network(N)
