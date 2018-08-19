@@ -6,12 +6,17 @@ exec(identify_file_str)
 N = {}
 for k in default_values.Network.keys():
     N[k] = default_values.Network[k]
+P = {}
 
 import kzpy3.Menu_app.menu
 menu_path = opjh('.menu','network_node')
 unix('mkdir -p '+menu_path)
 unix(d2s('rm',opj(menu_path,'ready')))
 threading.Thread(target=kzpy3.Menu_app.menu.load_menu_data,args=[menu_path,N]).start()
+menu_path = opjh('.menu','arduino_node')
+unix('mkdir -p '+menu_path)
+unix(d2s('rm',opj(menu_path,'ready')))
+threading.Thread(target=kzpy3.Menu_app.menu.load_menu_data,args=[menu_path,P]).start()
 
 
 if not N['USE_NETWORK']:
@@ -200,19 +205,22 @@ if N['visualize_activations']:
 
 DRIVE_FORWARD = True
 reverse_timer = Timer(1)
-image_sample_timer = Timer(5)
+#image_sample_timer = Timer(5)
 
-while True:
+while not P['ABORT']:
     if N['RELOAD_NET']: # temporary experiment
         N['RELOAD_NET'] = False
         Torch_network = net_utils.Torch_Network(N)
 
-
+    print len(left_list)
+    """
     if image_sample_timer.check():
         img = left_list[1]
         print(img[0:20,0,0])
         print np.sum(img[0:100,0,0])
         image_sample_timer.reset()
+    """
+
 
     time.sleep(0.001)
     #print_timer.message(d2s("N['network_steer_gain'] =",N['network_steer_gain']))#######
