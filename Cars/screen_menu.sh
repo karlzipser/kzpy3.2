@@ -1,9 +1,9 @@
 #!/bin/bash
 
-alias ssx='screen -S SX'
+alias ssx=''
 alias ssy='screen -S SY'
 alias ssz='screen -S SZ'
-alias srx='screen -r SX'
+alias srx=''
 alias sry='screen -r SY'
 alias srz='screen -r SZ'
 
@@ -13,17 +13,17 @@ echo 'car_link_menu:'
 select opt in $OPTIONS; do
    COLUMNS=12
    if [ "$opt" = "ssx" ]; then
-    ssx
+    screen -S SX
    elif [ "$opt" = "ssy" ]; then
-    ssy
+    screen -S SY
    elif [ "$opt" = "ssz" ]; then
-    ssz
+    screen -S SZ
    elif [ "$opt" = "srx" ]; then
-    srx
+    screen -r SX
    elif [ "$opt" = "sry" ]; then
-    sry
+    screen -r SY
    elif [ "$opt" = "srz" ]; then
-    srz
+    screen -r SZ
    elif [ "$opt" = "exit" ]; then
     break 
    else
