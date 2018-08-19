@@ -213,7 +213,7 @@ while True:#not P['ABORT']:
         N['RELOAD_NET'] = False
         Torch_network = net_utils.Torch_Network(N)
 
-    print len(left_list)
+    #print len(left_list)
     if node_timer.time() > 10:
         if len(left_list) == 0:
             CS_("empty image list aft 30s, ABORTING, rebooting!!!!!")
@@ -223,7 +223,7 @@ while True:#not P['ABORT']:
     if len(left_list) > 0:
         if image_sample_timer.check():
             img = left_list[1]
-            print(img[0:20,0,0])
+            print(img[0:15,0,0])
             print np.sum(img[0:100,0,0])
             image_sample_timer.reset()
 
