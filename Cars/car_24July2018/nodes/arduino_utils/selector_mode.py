@@ -62,12 +62,12 @@ def _selector_run_loop(P):
                         CS_("P['human']['motor_percent'] < 10, ABORTING, SHUTTING DOWN!!!!!")
                         P['ABORT'] = True
                         time.sleep(0.01)
-                        unix('sudo shutdown -h now')
+                        #unix('sudo shutdown -h now')
                     elif P['human']['motor_percent'] > 90:
-                        CS_("P['human']['motor_percent'] < 10, ABORTING, rebooting!!!!!")
+                        CS_("P['human']['motor_percent'] > 90, ABORTING, rebooting!!!!!")
                         P['ABORT'] = True
                         time.sleep(0.01)
-                        unix('sudo reboot')
+                        #unix('sudo reboot')
                     elif P['human']['servo_percent'] < 10:
                         P['selector_mode'] = 'drive_mode'
                     elif P['human']['servo_percent'] > 90:
