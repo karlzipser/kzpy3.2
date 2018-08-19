@@ -69,14 +69,14 @@ Parameters['pid_steer_steer_percent_min'] = 0
 Parameters['use_servo_feedback'] = 0
 
 Parameters['to_expose'] = [
-	'print_mse_freq',
-	'print_imu_freq',
-	'print_calibration_freq',
-	'print_selector_freq',
-	'print_led_freq',
-	'USE_ROS',
+	#'print_mse_freq',
+	#'print_imu_freq',
+	#'print_calibration_freq',
+	#'print_selector_freq',
+	#'print_led_freq',
+	#'USE_ROS',
 	'IMU_SMOOTHING_PARAMETER',
-	'Hz',
+	#'Hz',
 	'behavioral_mode_choice',
 	'agent_choice',
 	'place_choice',
@@ -96,7 +96,6 @@ Parameters['to_expose'] = [
 	'pid_steer_steer_percent_max',
 	'pid_steer_steer_percent_min',
 	'use_servo_feedback'
-	'Hz'
 ]
 
 
@@ -105,12 +104,12 @@ Parameters['to_expose'] = [
 Network = {}
 Network['ABORT'] = False
 Network['network_output_sample'] = 4 # >= 0, <= 9
-Network['network_steer_gain'] = 1.0
+Network['network_steer_gain'] = 3.0
 Network['network_camera_gain'] = 1.0
 Network['network_motor_gain'] = 1.0
 Network['network_motor_offset'] = 0
 #Network['network_smoothing_parameter'] = 0.75
-Network['network_servo_smoothing_parameter'] = 0.75
+Network['network_servo_smoothing_parameter'] = 0.95
 Network['network_motor_smoothing_parameter'] = 0.75
 Network['network_camera_smoothing_parameter'] = 0.75
 
@@ -248,6 +247,10 @@ https://www.danielandrade.net/2016/10/30/interfacing-two-adafruit-mma8451-via-i2
 http://forums.trossenrobotics.com/tutorials/how-to-diy-128/get-position-feedback-from-a-standard-hobby-servo-3279/
 
 http://forums.trossenrobotics.com/tutorials/how-to-diy-128/cheap-battery-monitor-using-resistive-voltage-divider-3264/
+
+https://www.hackster.io/SHAHIR_nasar/simple-homemade-flex-sensor-ff54f0
+https://www.instructables.com/id/DIY-Flex-Sensor-Under-1-/
+
 
 """
 
