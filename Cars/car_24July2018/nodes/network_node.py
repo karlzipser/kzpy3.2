@@ -86,6 +86,8 @@ right = 0.0
 current_steer = 49
 current_motor = 49
 
+
+
 def send_image_to_list(lst,data):
     cimg = bridge.imgmsg_to_cv2(data,"bgr8")
     advance(lst,cimg,nframes + 3)  
@@ -198,6 +200,7 @@ if N['visualize_activations']:
 
 DRIVE_FORWARD = True
 reverse_timer = Timer(1)
+image_sample_timer = Timer(1)
 
 while True:
     if N['RELOAD_NET']: # temporary experiment
@@ -205,7 +208,10 @@ while True:
         Torch_network = net_utils.Torch_Network(N)
 
 
-
+    if image_sample_timer.check():
+        img = left_list[1]
+        print(img[0:20,0,0])
+        image_sample_timer.reset()
 
     time.sleep(0.001)
     #print_timer.message(d2s("N['network_steer_gain'] =",N['network_steer_gain']))#######
