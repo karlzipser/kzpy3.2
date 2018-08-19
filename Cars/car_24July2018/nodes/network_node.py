@@ -205,7 +205,7 @@ if N['visualize_activations']:
 
 DRIVE_FORWARD = True
 reverse_timer = Timer(1)
-#image_sample_timer = Timer(5)
+image_sample_timer = Timer(5)
 
 while True:#not P['ABORT']:
     if N['RELOAD_NET']: # temporary experiment
@@ -213,13 +213,14 @@ while True:#not P['ABORT']:
         Torch_network = net_utils.Torch_Network(N)
 
     print len(left_list)
-    """
-    if image_sample_timer.check():
-        img = left_list[1]
-        print(img[0:20,0,0])
-        print np.sum(img[0:100,0,0])
-        image_sample_timer.reset()
-    """
+    
+    if len(left_list) > 0:
+        if image_sample_timer.check():
+            img = left_list[1]
+            print(img[0:20,0,0])
+            print np.sum(img[0:100,0,0])
+            image_sample_timer.reset()
+
 
 
     time.sleep(0.001)
