@@ -119,7 +119,7 @@ select opt in $OPTIONS; do
     cd ~/kzpy3
     git pull
     cd
-   elif [ "$opt" = "screen" ]; then
+   elif [ "$opt" = "screens" ]; then
     screen 
    elif [ "$opt" = "exit" ]; then
     break 
