@@ -120,7 +120,7 @@ select opt in $OPTIONS; do
     git pull
     cd
    elif [ "$opt" = "screens" ]; then
-    screen 
+    bash ~/kzpy3/Cars/screen_menu.sh
    elif [ "$opt" = "exit" ]; then
     break 
    elif [ "$opt" = "df" ]; then
