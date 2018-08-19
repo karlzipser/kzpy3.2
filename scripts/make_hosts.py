@@ -6,13 +6,15 @@ from kzpy3.utils2 import *
 host_file_path = opjh('hosts')
 host = os.environ['COMPUTER_NAME']
 
-base_ip = '192.168.1.'
+#base_ip = '192.168.1.'
+base_ip = '172.20.10.'
 host_ip_dic = {
 	'Mr_Plain':101,
 	'Mr_New':103,
 	'Mr_Black':11,
 	'Mr_Blue':121,
-	'Mr_Blue_Back':120,
+	#'Mr_Blue_Back':120,
+	'Mr_Blue_Back':2,
 	'laptop':50
 }
 
