@@ -11,7 +11,6 @@ OPTIONS="exit ssx ssy ssz srx sry srz"
 COLUMNS=12
 echo 'screens menu:'
 select opt in $OPTIONS; do
-  echo 'screens menu:'
    COLUMNS=12
    if [ "$opt" = "ssx" ]; then
     screen -S SX
