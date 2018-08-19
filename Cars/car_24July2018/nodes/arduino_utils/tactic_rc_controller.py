@@ -12,7 +12,7 @@ def TACTIC_RC_controller(P):
     P['motor_pwm_smooth'] = 1000
     P['selector_mode'] = False
     P['encoder_smooth'] = 0.0
-    P['network']['camera_percent'] = 49 # why I'm not sure
+    P['network']['camera_percent'] = 49
     threading.Thread(target=_TACTIC_RC_controller_run_loop,args=[P]).start()
     
 def _TACTIC_RC_controller_run_loop(P):

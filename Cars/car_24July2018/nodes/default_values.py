@@ -9,6 +9,7 @@ def _expose(A,names):
 	return B
 """
 Parameters = {}
+Parameters['car_name'] = os.environ["COMPUTER_NAME"]
 Parameters['calibrated'] = False
 Parameters['ABORT'] = False
 Parameters['agent_choice'] = 'human'
@@ -42,13 +43,15 @@ Parameters['behavioral_mode_choice'] = 'direct'
 Parameters['agent_choice'] = 'human'
 Parameters['place_choice'] = 'local'
 
-Parameters['servo_pwm_smooth_manual_offset'] = 150
-Parameters['camera_pwm_manual_offset'] = -500
-Parameters['servo_feedback_center'] = 214
-Parameters['servo_feedback_right'] = 140
-Parameters['servo_feedback_left'] = 294
-
-Parameters['network']['camera_percent'] = 49
+if Parameters['car_name'] == 'Mr_Blue_Back':
+	Parameters['servo_pwm_smooth_manual_offset'] = 150
+	Parameters['camera_pwm_manual_offset'] = -500
+	#Parameters['servo_feedback_center'] = 214
+	#Parameters['servo_feedback_right'] = 140
+	#Parameters['servo_feedback_left'] = 294
+else:
+	Parameters['servo_pwm_smooth_manual_offset'] = 0
+	Parameters['camera_pwm_manual_offset'] = 0	
 
 Parameters['HUMAN_SMOOTHING_PARAMETER_1'] = 0.75
 Parameters['USE_MSE'] = True
@@ -82,20 +85,20 @@ Parameters['to_expose'] = [
 	'place_choice',
 	'servo_pwm_smooth_manual_offset',
 	'camera_pwm_manual_offset',
-	'servo_feedback_center',
-	'servo_feedback_right',
-	'servo_feedback_left',
+	#'servo_feedback_center',
+	#'servo_feedback_right',
+	#'servo_feedback_left',
 	'pid_motor_slope',
 	'pid_motor_gain',
 	'pid_encoder_max',
 	'pid_motor_delta_max',
 	'pid_motor_percent_max',
-	'pid_motor_percent_min',
-	'pid_steer_gain',
-	'pid_steer_delta_max',
-	'pid_steer_steer_percent_max',
-	'pid_steer_steer_percent_min',
-	'use_servo_feedback'
+	'pid_motor_percent_min'
+	#'pid_steer_gain',
+	#'pid_steer_delta_max',
+	#'pid_steer_steer_percent_max',
+	#'pid_steer_steer_percent_min',
+	#'use_servo_feedback'
 ]
 
 
@@ -104,9 +107,9 @@ Parameters['to_expose'] = [
 Network = {}
 Network['ABORT'] = False
 Network['network_output_sample'] = 4 # >= 0, <= 9
-Network['network_steer_gain'] = 3.0
-Network['network_camera_gain'] = 1.0
-Network['network_motor_gain'] = 1.0
+Network['network_steer_gain'] = 6.0
+Network['network_camera_gain'] = 6.0
+Network['network_motor_gain'] = 0.5
 Network['network_motor_offset'] = 0
 #Network['network_smoothing_parameter'] = 0.75
 Network['network_servo_smoothing_parameter'] = 0.95
@@ -130,13 +133,12 @@ Network['to_expose'] = [
 	'network_motor_offset',
 	'network_servo_smoothing_parameter',
 	'network_motor_smoothing_parameter',
-	'network_camera_smoothing_parameter',
-	'weight_file_path',
-	'USE_NETWORK',
-	'GREY_OUT_TOP_OF_IMAGE',
-	'USE_LAST_IMAGE_ONLY',
-	'visualize_activations',
-	'motor_reverse_threshold'
+	'network_camera_smoothing_parameter'
+	#'weight_file_path',
+	#'USE_NETWORK',
+	#'GREY_OUT_TOP_OF_IMAGE',
+	'USE_LAST_IMAGE_ONLY'
+	#'visualize_activations'
 ]
 
 NO_Mse = {}
@@ -251,6 +253,7 @@ http://forums.trossenrobotics.com/tutorials/how-to-diy-128/cheap-battery-monitor
 https://www.hackster.io/SHAHIR_nasar/simple-homemade-flex-sensor-ff54f0
 https://www.instructables.com/id/DIY-Flex-Sensor-Under-1-/
 
+https://www.tekrevue.com/tip/how-to-create-a-4gbs-ram-disk-in-mac-os-x/
 
 """
 
