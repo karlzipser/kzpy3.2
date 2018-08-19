@@ -1,5 +1,12 @@
 #!/bin/bash
 
+alias ssx='screen -S SX'
+alias ssy='screen -S SY'
+alias ssz='screen -S SZ'
+alias srx='screen -r SX'
+alias sry='screen -r SY'
+alias srz='screen -r SZ'
+
 OPTIONS="exit ssx ssy ssz srx sry srz"
 COLUMNS=12
 echo 'car_link_menu:'
