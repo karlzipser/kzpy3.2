@@ -214,7 +214,7 @@ while True:#not P['ABORT']:
         Torch_network = net_utils.Torch_Network(N)
 
     print len(left_list)
-    if node_timer.time() > 30:
+    if node_timer.time() > 10:
         if len(left_list) == 0:
             CS_("empty image list aft 30s, ABORTING, rebooting!!!!!")
             #P['ABORT'] = True
