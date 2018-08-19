@@ -206,6 +206,7 @@ if N['visualize_activations']:
 DRIVE_FORWARD = True
 reverse_timer = Timer(1)
 image_sample_timer = Timer(5)
+node_timer = Timer()
 
 while True:#not P['ABORT']:
     if N['RELOAD_NET']: # temporary experiment
@@ -213,7 +214,12 @@ while True:#not P['ABORT']:
         Torch_network = net_utils.Torch_Network(N)
 
     print len(left_list)
-    
+    if node_timer.time() > 30:
+        if len(left_list) == 0:
+            CS_("empty image list aft 30s, ABORTING, rebooting!!!!!")
+            #P['ABORT'] = True
+            time.sleep(0.01)
+            unix('sudo reboot')
     if len(left_list) > 0:
         if image_sample_timer.check():
             img = left_list[1]
