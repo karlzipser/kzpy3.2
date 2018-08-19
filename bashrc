@@ -88,7 +88,7 @@ echo Hi $COMPUTER_NAME on Jetson
 echo "rrm;rlog"
 rrm
 rlog
-OPTIONS="exit screen rla rlanz rosbags git_pull reboot shutdown rostopics arduino_node_menu network_node_menu df car_link_menu"
+OPTIONS="exit screens rla rlanz rosbags git_pull reboot shutdown rostopics arduino_node_menu network_node_menu df car_link_menu"
 COLUMNS=12
 echo 'main menu'
 select opt in $OPTIONS; do
