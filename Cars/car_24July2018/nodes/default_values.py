@@ -1,14 +1,24 @@
 from kzpy3.utils2 import *
 exec(identify_file_str)
 
-"""
-def _expose(A,names):
-	B = {}
-	for name in names:
-		B[name] = A[name]
-	return B
-"""
+def EXIT(restart=False,shutdown=True,kill_ros=True,_file_=''):
+	rospy.signal_shutdown(d2s("default_values.EXIT(...) from"_file_,)
+	CS_("""rospy.signal_shutdown("EXIT")""",_file_)
+	if kill_ros:
+		CS_("doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))",_file_)
+		time.sleep(0.01)
+		unix(opjh('kzpy3/scripts/kill_ros.sh'))
+	if shutdown:
+		CS_("SHUTTING DOWN!!!!!",_file_)
+		time.sleep(0.01)
+		unix('sudo shutdown -h now')
+	if restart:
+		CS_("RESTARTING!!!!!",_file_)
+		time.sleep(0.01)
+		unix('sudo reboot')
+
 Parameters = {}
+Parameters['acc triggers'] = 'shutdown'
 Parameters['car_name'] = os.environ["COMPUTER_NAME"]
 Parameters['calibrated'] = False
 Parameters['ABORT'] = False

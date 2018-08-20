@@ -32,7 +32,8 @@ def _TACTIC_RC_controller_run_loop(P):
     Pid_processing_motor = Pid_Processing_Motor()
     Pid_processing_steer = Pid_Processing_Steer()
 
-    while P['ABORT'] == False:
+    while (not P['ABORT']) and (not rospy.is_shutdown()):
+        
         if 'Brief sleep to allow other threads to process...':
             time.sleep(0.01)
         try:

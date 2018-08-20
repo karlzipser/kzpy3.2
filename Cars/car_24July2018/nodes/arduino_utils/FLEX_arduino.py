@@ -26,7 +26,7 @@ def _FLEX_run_loop(P):
     print_timer = Timer(0.1)
     P['Hz']['flex'] = 0
     #s = P['IMU_SMOOTHING_PARAMETER']
-    while P['ABORT'] == False:
+    while (not P['ABORT']) and (not rospy.is_shutdown()):
         if 'Brief sleep to allow other threads to process...':
             time.sleep(0.001)
         try:
@@ -38,22 +38,6 @@ def _FLEX_run_loop(P):
             m = flex_input[0]
             assert(m in flex_names)
             Hz = frequency_timers[m].freq(name=m,do_print=False)
-            if False:#m == 'acc':
-                for i in range(3):
-                    acc_smoothed[i] = (1.0-s)*flex_input[i+1] + s*acc_smoothed[i]
-                if acc_smoothed[1] < -9.0:
-                    spd2s('acc_smoothed[1] < -9.0, ABORTING, SHUTTING DOWN!!!!!')
-                    P['ABORT'] = True
-                    time.sleep(0.01)
-                    unix('sudo shutdown -h now')
-                if is_number(Hz):
-                    P['Hz'][m] = Hz
-                    if Hz < 30 or Hz > 90:
-                        if ctr_timer.time() > 5:
-                            spd2s(m,'Hz =',Hz,'...aborting...')
-                            #P['ABORT'] = True
-                        else:
-                            pass#print 'ignoring IMU freq. error.'
             P[m] = flex_input[1]
             if P['USE_ROS']:
                 P['publish_FLEX_data'](P,m)

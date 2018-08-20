@@ -32,7 +32,7 @@ unix('mkdir -p /media/nvidia/rosbags/active')
 unix('mkdir -p /media/nvidia/rosbags/new')
 
 if __name__ == '__main__':
-    rospy.init_node('rosbag_node', anonymous=True)
+    rospy.init_node('rosbag_node',anonymous=True,disable_signal=True)
     save_pub = rospy.Publisher('data_saving', std_msgs.msg.Int32, queue_size=100)
     
     #fl = gg(opjh('catkin_ws/src/bair_car/rosbags/*'))
@@ -72,14 +72,10 @@ if __name__ == '__main__':
                     unix('rm '+opj(bag_rec_folder,'*.bag')) # 27 Nov 2016, to remove untransferred bags
                 #print('Done in {0} secs\n'.format(elapsed))
                 save_pub.publish(std_msgs.msg.Int32(0))
-                
             rate.sleep()
     except Exception as e:
         print("********** Exception ***********************")
-        print(e.message, e.args)
-        print "rosbag_node.py Exception doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))"
-        unix(opjh('kzpy3/scripts/kill_ros.sh'))
+        default_values.EXIT(restart=False,shutdown=False,kill_ros=True,_file_=__file__)
 
-    print "rosbag_node.py end doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))"
-    unix(opjh('kzpy3/scripts/kill_ros.sh'))
+    default_values.EXIT(restart=False,shutdown=False,kill_ros=True,_file_=__file__)
 

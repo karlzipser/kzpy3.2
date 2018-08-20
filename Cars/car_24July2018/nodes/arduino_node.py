@@ -19,14 +19,10 @@ import default_values
 
 Parameters = default_values.Parameters
 
-#for k in default_values.Mse.keys():
-#    Parameters[k] = default_values.Mse[k]
-
 import kzpy3.Menu_app.menu
 menu_path = opjh('.menu','arduino_node')
 unix('mkdir -p '+menu_path)
 unix(d2s('rm',opj(menu_path,'ready')))
-#kzpy3.Menu_app.menu.load_menu_data(menu_path,Parameters)#,first_load=False)
 threading.Thread(target=kzpy3.Menu_app.menu.load_menu_data,args=[menu_path,Parameters]).start()
 
 if Parameters['USE_ROS']:
@@ -40,10 +36,8 @@ if Parameters['USE_ROS']:
         Parameters['network']['camera_percent'] = msg.data
     def cmd_motor_callback(msg):
         Parameters['network']['motor_percent'] = msg.data
-    #def callback_servo_pwm_smooth_manual_offset(msg):
-    #    Parameters['servo_pwm_smooth_manual_offset'] = msg.data
 
-    rospy.init_node('run_arduino',anonymous=True)
+    rospy.init_node('run_arduino',anonymous=True,disable_signal=True)
     rospy.Subscriber('cmd/steer', std_msgs.msg.Int32, callback=cmd_steer_callback)
     rospy.Subscriber('cmd/camera', std_msgs.msg.Int32, callback=cmd_camera_callback)
     rospy.Subscriber('cmd/motor', std_msgs.msg.Int32, callback=cmd_motor_callback)
@@ -141,7 +135,7 @@ if Parameters['USE_ROS']:
     def _publish_No_Arduino_data(Parameters):
         human_val = 0
         drive_mode = 1
-        while Parameters['ABORT'] == False:
+        while (not P['ABORT']) and (not rospy.is_shutdown())
             time.sleep(0.001)
             if No_Arduino_data_low_frequency_pub_timer.check():
                 Parameters['behavioral_mode_pub'].publish(std_msgs.msg.String(default_values.NO_Mse['behavioral_mode_choice'])) 
@@ -182,38 +176,20 @@ if 'Start Arduino threads...':
         FLEX_Arduino(Parameters)
     else:
         spd2s("!!!!!!!!!! 'FLEX' not in Arduinos[] or not using 'FLEX' !!!!!!!!!!!")
-
-"""
-def load_menu_data(menu_path,Parameters,first_load=False):
-    timer = Timer(0.5)
-    while Parameters['ABORT'] == False:
-        if timer.check():
-            R = load_R(menu_path)
-            #spd2s(R)
-            if type(R) == dict:
-                for t in R.keys():
-                    Parameters[t] = R[t]
-            timer.reset()
-        else:
-            time.sleep(0.1)
-"""
             
 
 if 'Main loop...':
     print 'main loop'
     q = '_'
-    while q not in ['q','Q']:
-        q = raw_input('')
-        if Parameters['ABORT']:
-            break
-        time.sleep(0.1)
-    Parameters['ABORT'] = True
-    print 'done.'
-    if Parameters['USE_ROS']:
-        print("Parameters['drive_mode_pub'].publish(std_msgs.msg.Int32(-9))")
-        Parameters['drive_mode_pub'].publish(std_msgs.msg.Int32(-9))
-        print "doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))"
-        time.sleep(0.5)
-        unix(opjh('kzpy3/scripts/kill_ros.sh'))
+    try:
+        while q not in ['q','Q']:
+            q = raw_input('')
+            if Parameters['ABORT']:
+                break
+            time.sleep(0.1)
+        default_values.EXIT(restart=False,shutdown=False,kill_ros=True,__file__)
+    except Exception as e:
+        CS_(d2s('Main loop exception',e))
+
 
 #EOF

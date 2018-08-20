@@ -39,7 +39,9 @@ def _selector_run_loop(P):
     CS_("_selector_run_loop","selector_mode.py")
     print_timer = Timer(0.1)
     frequency_timer = Timer(1)
-    while P['ABORT'] == False:
+
+    while (P['ABORT'] == False) and (not rospy.is_shutdown()):
+        
         frequency_timer.freq(name='_selector_run_loop',do_print=P['print_selector_freq'])
         #print_timer.message(d2s(P['behavioral_mode_choice']))
         if 'Brief sleep to allow other threads to process...':
@@ -59,15 +61,13 @@ def _selector_run_loop(P):
             if P['button_number'] == 4:
                 if P['button_time'] < P['CALIBRATION_START_TIME']:
                     if P['human']['motor_percent'] < 10:
-                        CS_("P['human']['motor_percent'] < 10, ABORTING, SHUTTING DOWN!!!!!")
+                        CS_("P['human']['motor_percent'] < 10, ABORTING, SHUTTING DOWN!!!!!",__file__)
                         P['ABORT'] = True
-                        time.sleep(0.01)
-                        unix('sudo shutdown -h now')
+                        default_values.EXIT(restart=False,shutdown=True,kill_ros=True,_file_=__file__)
                     elif P['human']['motor_percent'] > 90:
                         CS_("P['human']['motor_percent'] > 90, ABORTING, rebooting!!!!!")
                         P['ABORT'] = True
-                        time.sleep(0.01)
-                        unix('sudo reboot')
+                        default_values.EXIT(restart=True,shutdown=False,kill_ros=True,_file_=__file__)
                     elif P['human']['servo_percent'] < 10:
                         P['selector_mode'] = 'drive_mode'
                     elif P['human']['servo_percent'] > 90:

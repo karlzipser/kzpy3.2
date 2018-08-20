@@ -9,7 +9,7 @@ def _calibrate_run_loop(P):
     print_timer = Timer(1)
     P['calibrated'] = False
     frequency_timer = Timer(1)
-    while P['ABORT'] == False:
+    while (not P['ABORT']) and (not rospy.is_shutdown()):
         frequency_timer.freq(name='_calibrate_run_loop',do_print=P['print_calibration_freq'])
         if 'Brief sleep to allow other threads to process...':
             time.sleep(0.02)

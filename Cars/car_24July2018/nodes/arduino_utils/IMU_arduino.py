@@ -21,7 +21,7 @@ def _IMU_run_loop(P):
     print_timer = Timer(0.1)
     P['Hz']['acc'] = 0
     s = P['IMU_SMOOTHING_PARAMETER']
-    while P['ABORT'] == False:
+    while (not P['ABORT']) and (not rospy.is_shutdown()):
         if 'Brief sleep to allow other threads to process...':
             time.sleep(0.001)
         try:
@@ -39,8 +39,7 @@ def _IMU_run_loop(P):
                 if acc_smoothed[1] < -9.0:
                     spd2s('acc_smoothed[1] < -9.0, ABORTING, SHUTTING DOWN!!!!!')
                     P['ABORT'] = True
-                    time.sleep(0.01)
-                    unix('sudo shutdown -h now')
+                    default_values.EXIT(restart=False,shutdown=True,kill_ros=True,_file_=__file__)
                 if is_number(Hz):
                     P['Hz'][m] = Hz
                     if Hz < 30 or Hz > 90:

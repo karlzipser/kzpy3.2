@@ -16,7 +16,7 @@ def _LED_Display_run_loop(P):
     print_timer = Timer(1)
     write_timer = Timer(0.1)
     frequency_timer = Timer(1)
-    while P['ABORT'] == False:
+    while (not P['ABORT']) and (not rospy.is_shutdown()):
         frequency_timer.freq(name='_LED_Display_run_loop',do_print=P['print_led_freq'])
         if 'Brief sleep to allow other threads to process...':
             time.sleep(0.03)
