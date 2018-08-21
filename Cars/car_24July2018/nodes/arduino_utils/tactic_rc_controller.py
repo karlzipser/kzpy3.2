@@ -143,7 +143,8 @@ def _TACTIC_RC_controller_run_loop(P):
                 pd2s('servo:',int(P['servo_pwm_min']),int(P['servo_pwm_null']),int(P['servo_pwm_max']),'motor:',int(P['motor_pwm_min']),int(P['motor_pwm_null']),int(P['motor_pwm_max']))
                 very_low_freq_timer.reset()
         except Exception as e:
-            print '_TACTIC_RC_controller_run_loop',e
+            if False:
+                print '_TACTIC_RC_controller_run_loop',e
             pass            
     print 'end _TACTIC_RC_controller_run_loop.'
 
