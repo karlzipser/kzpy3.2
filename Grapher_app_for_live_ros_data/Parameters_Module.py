@@ -46,17 +46,17 @@ P['topic_keys_sorted'] = [
 
 #	gyro_heading_x,
 #	left_ts_deltas,
-	encoder,
-	'xfl0',
-	'xfl1',
+	#encoder,
+	#'xfl0',
+	#'xfl1',
 	'xfc0',
 	'xan0',
-	'xfr0',
-	'xfr1',
-	'xbl0',
-	'xbl1',
-	'xbr0',
-	'xbr1',
+	#'xfr0',
+	#'xfr1',
+	#'xbl0',
+	#'xbl1',
+	#'xbr0',
+	#'xbr1',
 ]
 
 P[X_PIXEL_SIZE] = 800
