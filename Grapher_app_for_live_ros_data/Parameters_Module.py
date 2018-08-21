@@ -24,7 +24,7 @@ P[TOPICS] = {
 	left_ts_deltas:{maxval:0.1,minval:0,	baseline:0,		color:(0,0,255)},
 	'xfl0':{maxval:100,		minval:-50,	baseline:0,		color:(255,0,0)},
 	'xfl1':{maxval:100,		minval:-50,	baseline:0,		color:(0,255,0)},
-	'xfc0':{maxval:100,		minval:-50,	baseline:0,		color:(0,255,0)},
+	'xfc0':{maxval:100,		minval:-50,	baseline:0,		color:(255,255,255)},
 	'xan0':{maxval:100,		minval:-50,	baseline:0,		color:(0,255,0)},
 	'xfr0':{maxval:100,		minval:-50,	baseline:0,		color:(255,0,0)},
 	'xfr1':{maxval:100,		minval:-50,	baseline:0,		color:(255,255,0)},

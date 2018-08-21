@@ -119,7 +119,7 @@ Parameters['to_expose'] = [
 	'pid_encoder_max',
 	'pid_motor_delta_max',
 	'pid_motor_percent_max',
-	'pid_motor_percent_min'
+	'pid_motor_percent_min',
 ]
 
 Network = {}
@@ -147,8 +147,8 @@ Network['to_expose'] = [
 	'network_motor_offset',
 	'network_servo_smoothing_parameter',
 	'network_motor_smoothing_parameter',
-	'network_camera_smoothing_parameter'
-	'USE_LAST_IMAGE_ONLY'
+	'network_camera_smoothing_parameter',
+	'USE_LAST_IMAGE_ONLY',
 ]
 
 NO_Mse = {}
