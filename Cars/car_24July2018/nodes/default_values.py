@@ -2,7 +2,7 @@ from kzpy3.utils2 import *
 exec(identify_file_str)
 
 def EXIT(restart=False,shutdown=True,kill_ros=True,_file_=''):
-	rospy.signal_shutdown(d2s("default_values.EXIT(...) from"_file_,))
+	rospy.signal_shutdown(d2s("default_values.EXIT(...) from",_file_,))
 	CS_("""rospy.signal_shutdown("EXIT")""",_file_)
 	if kill_ros:
 		CS_("doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))",_file_)
