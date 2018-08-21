@@ -1,5 +1,6 @@
 from kzpy3.utils2 import *
 exec(identify_file_str)
+import rospy
 
 def EXIT(restart=False,shutdown=True,kill_ros=True,_file_=''):
 	rospy.signal_shutdown(d2s("default_values.EXIT(...) from",_file_,))
