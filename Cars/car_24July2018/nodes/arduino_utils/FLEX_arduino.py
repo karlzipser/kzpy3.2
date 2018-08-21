@@ -1,9 +1,10 @@
 from kzpy3.utils2 import *
 exec(identify_file_str)
+from default_values import flex_names
 import rospy
 
-def FLEX_Arduino(P):
 
+def FLEX_Arduino(P):
     threading.Thread(target=_FLEX_run_loop,args=[P]).start()
 
 def _FLEX_run_loop(P):
