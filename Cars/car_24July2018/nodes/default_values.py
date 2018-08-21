@@ -98,12 +98,12 @@ Parameters['gyro'] = {}
 Parameters['head'] = {}
 
 
-_flex_names = []
+flex_names = []
 for fb in ['f','b']:
     for lr in ['l','r','c']:
         for i in [0,1]:
-            _flex_names.append(d2n('x',fb,lr,i))
-for f in _flex_names:
+            flex_names.append(d2n('x',fb,lr,i))
+for f in flex_names:
     Parameters[f] = {}
 
 Parameters['to_expose'] = [
