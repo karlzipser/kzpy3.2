@@ -24,7 +24,7 @@ def ros_publish(Dic,topic_list):
 	setup_str = setup_str.replace('NODE_NAME',node_name)
 	return setup_str
 
-def get_ros_topic_str(raw_name,rtype,subscribe,publish):
+def get_ros_topic_str(raw_name,rtype,subscribe,publish,callback_replace):
 	print subscribe,publish
 	topic_str = """\n
 DIC_NAME['RAW_NAME'] = {}
@@ -32,10 +32,15 @@ DIC_NAME['RAW_NAME']['ts'] = 0
 DIC_NAME['RAW_NAME']['val'] = 0"""
 	if subscribe:
 		topic_str += """
-def _SAFE_NAME_callback__(msg):
+def _SAFE_NAME_callback__(msg):"""
+		if callback_replace:
+			topic_str += callback_replace
+		else:
+			topic_str += """
 	DIC_NAME['RAW_NAME']['ts'] = time.time()
 	DIC_NAME['RAW_NAME']['val'] = msg.data
-rospy.Subscriber('RAW_NAME',RTYPE, callback=_SAFE_NAME_callback__)"""
+			"""
+		topic_str += """rospy.Subscriber('RAW_NAME',RTYPE, callback=_SAFE_NAME_callback__)"""
 	if publish:
 		topic_str += """
 DIC_NAME['RAW_NAME']['type'] = RTYPE
@@ -48,7 +53,7 @@ DIC_NAME['RAW_NAME']['pub'] = rospy.Publisher('RAW_NAME',DIC_NAME['RAW_NAME']['t
 	topic_str = topic_str.replace('RTYPE',rtype)
 	return topic_str
 
-def get_ros_strs(dic_name,Topics):
+def get_ros_strs(dic_name,Topics,Callback_replace):
 
 	ros_setup_str = get_ros_setup_str(node_name='network_node')
 
@@ -70,7 +75,11 @@ def get_ros_strs(dic_name,Topics):
 					subscribe = True
 				if 'p' in q[1]:
 					publish = True
-			ros_topics_str += get_ros_topic_str(raw_name,rtype,subscribe,publish)
+			if raw_name in Callback_replace:
+				callback_replace = Callback_replace[raw_name]
+			else:
+				callback_replace = False
+			ros_topics_str += get_ros_topic_str(raw_name,rtype,subscribe,publish,callback_replace)
 
 
 	ros_strs = ros_setup_str + ros_topics_str + "\n#\n#############################################"
@@ -83,17 +92,23 @@ def get_ros_strs(dic_name,Topics):
 
 Topics = {
 	'std_msgs.msg.Int32':[
-    	'/bair_car/servo_feedback p',
-    	'/bair_car/cmd/motor s',
+    	'/bair_car/servo_feedback s',
+    	'/bair_car/cmd/motor p',
     ],
     'std_msgs.msg.Float32':[
     	'/bair_car/encoder sp',
     ],
 }
 
-ros_strs = get_ros_strs(dic_name='Parameters',Topics=Topics)
+Callback_replace = {'/bair_car/servo_feedback':"""
+	global servo_feedback_list
+	servo_feedback_list.append(msg.data)
+"""
+}
 
-text_to_file(opjD('rostemp.py'),ros_strs)
+ros_strs = get_ros_strs(dic_name='Parameters',Topics=Topics,Callback_replace=Callback_replace)
+
+text_to_file(opjh('kzpy3/__pyignore_folder__/rostemp.py'),ros_strs)
 
 if False:
 	for s in ros_strs.split('\n'):

@@ -98,9 +98,9 @@ def button_number_callback(msg):
     elif button_number == 1:
         left = 1.0
 
-camera_cmd_pub = rospy.Publisher('cmd/camera', std_msgs.msg.Int32, queue_size=100)
-steer_cmd_pub = rospy.Publisher('cmd/steer', std_msgs.msg.Int32, queue_size=100)
-motor_cmd_pub = rospy.Publisher('cmd/motor', std_msgs.msg.Int32, queue_size=100)
+camera_cmd_pub = rospy.Publisher('cmd/camera', std_msgs.msg.Int32, queue_size=5)
+steer_cmd_pub = rospy.Publisher('cmd/steer', std_msgs.msg.Int32, queue_size=5)
+motor_cmd_pub = rospy.Publisher('cmd/motor', std_msgs.msg.Int32, queue_size=5)
 Hz_network_pub = rospy.Publisher('Hz_network', std_msgs.msg.Float32, queue_size=5)
 rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_callback,queue_size = 1)
 rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_callback,queue_size = 1)
@@ -124,13 +124,9 @@ reverse_timer = Timer(1)
 image_sample_timer = Timer(5)
 node_timer = Timer()
 
-N['RELOAD_NET'] = True
-if False:
-    Torch_network = net_utils.Torch_Network(N)
+Torch_network = net_utils.Torch_Network(N)
+
 while not rospy.is_shutdown():
-    if N['RELOAD_NET']: # temporary experiment
-        N['RELOAD_NET'] = False
-        Torch_network = net_utils.Torch_Network(N)
 
     if node_timer.time() > 10:
         if len(left_list) == 0:
