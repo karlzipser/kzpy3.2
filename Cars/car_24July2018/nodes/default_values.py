@@ -263,6 +263,12 @@ https://www.instructables.com/id/DIY-Flex-Sensor-Under-1-/
 https://www.tekrevue.com/tip/how-to-create-a-4gbs-ram-disk-in-mac-os-x/
 
 https://answers.ros.org/question/239968/how-do-you-implement-a-rospy-keyboardinterrupt-without-killing-the-node/
+
+need to:
+fix wheel encoder
+add second wheel encoder
+move and reverse some flex sensors
+make battery packs
 """
 
 

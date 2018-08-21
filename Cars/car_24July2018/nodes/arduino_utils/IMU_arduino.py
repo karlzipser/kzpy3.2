@@ -52,7 +52,7 @@ def _IMU_run_loop(P):
                 print_timer.reset()
         except Exception as e:
             pass
-    print 'end IMU_run_loop.'
+    print 'end _IMU_run_loop.'
 
 
 
