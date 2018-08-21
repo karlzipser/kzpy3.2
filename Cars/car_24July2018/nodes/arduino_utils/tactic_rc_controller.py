@@ -135,7 +135,8 @@ def _TACTIC_RC_controller_run_loop(P):
                 P['publish_MSE_data'](P)
 
             if print_timer.check():
-                pd2s(int(P['human']['servo_percent']),P['servo_feedback_percent'],int(P['network']['camera_percent']))
+                if False:
+                    pd2s(int(P['human']['servo_percent']),P['servo_feedback_percent'],int(P['network']['camera_percent']))
                 print_timer.reset()
 
             if very_low_freq_timer.check():
