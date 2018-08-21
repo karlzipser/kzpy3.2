@@ -45,20 +45,7 @@ bridge = CvBridge()
 
 rospy.init_node('listener',anonymous=True)
 
-_flex_names = []
-for fb in ['f','b']:
-    for lr in ['l','r']:
-        for i in [0,1]:
-            _flex_names.append(d2n('x',fb,lr,i))
-            
-R = {}
-for topic_ in ['cmd_steer','steer', 'motor', 'state', 'encoder',
-	'acc_x','acc_y','acc_z',
-	'gyro_x','gyro_y','gyro_z',
-	gyro_heading_x,gyro_heading_y,gyro_heading_z,
-	left_image,right_image
-	]+_flex_names:
-	R[topic_] = {'ts':[],'vals':[]}
+
 
 
 def steer__callback(msg):

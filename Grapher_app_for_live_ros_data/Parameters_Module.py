@@ -8,6 +8,22 @@ P = {}
 P['USE_ARUCO'] = False
 P['USE_IMAGES'] = False
 
+flex_names = []
+for fb in ['f','b']:
+    for lr in ['l','r','c']:
+        for i in [0,1]:
+            flex_names.append(d2n('x',fb,lr,i))
+flex_names.append('xan0')
+            
+R = {}
+for topic_ in ['cmd_steer','steer', 'motor', 'state', 'encoder',
+	'acc_x','acc_y','acc_z',
+	'gyro_x','gyro_y','gyro_z',
+	gyro_heading_x,gyro_heading_y,gyro_heading_z,
+	left_image,right_image
+	]+flex_names:
+	R[topic_] = {'ts':[],'vals':[]}
+
 P[TOPICS] = {
 	steer:{maxval:80,		minval:20,		baseline:49.0,	color:(255,0,0)},
 	'cmd_steer':{maxval:80,		minval:20,		baseline:49.0,	color:(255,255,254)},
