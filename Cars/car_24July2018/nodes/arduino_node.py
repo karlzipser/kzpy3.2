@@ -175,7 +175,7 @@ if 'Main loop...':
             if Parameters['ABORT']:
                 break
             time.sleep(0.1)
-        default_values.EXIT(restart=False,shutdown=False,kill_ros=True,__file__)
+        default_values.EXIT(restart=False,shutdown=False,kill_ros=True,_file_=__file__)
     except Exception as e:
         CS_(d2s('Main loop exception',e))
 
