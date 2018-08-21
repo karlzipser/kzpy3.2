@@ -14,7 +14,6 @@ from arduino_utils.FLEX_arduino import *
 
 exec(identify_file_str)
 
-
 import default_values
 
 Parameters = default_values.Parameters
@@ -29,7 +28,7 @@ if Parameters['USE_ROS']:
     import std_msgs.msg
     import geometry_msgs.msg
     import rospy
-    s = Parameters['HUMAN_SMOOTHING_PARAMETER_1']
+
     def cmd_steer_callback(msg):
         Parameters['network']['servo_percent'] = msg.data
     def cmd_camera_callback(msg):
@@ -41,14 +40,10 @@ if Parameters['USE_ROS']:
     rospy.Subscriber('cmd/steer', std_msgs.msg.Int32, callback=cmd_steer_callback)
     rospy.Subscriber('cmd/camera', std_msgs.msg.Int32, callback=cmd_camera_callback)
     rospy.Subscriber('cmd/motor', std_msgs.msg.Int32, callback=cmd_motor_callback)
-    #rospy.Subscriber('/servo_pwm_smooth_manual_offset', std_msgs.msg.Int32, callback=callback_servo_pwm_smooth_manual_offset)
-
-
 
     Parameters['human_agent_pub'] = rospy.Publisher('human_agent', std_msgs.msg.Int32, queue_size=5) 
     Parameters['drive_mode_pub'] = rospy.Publisher('drive_mode', std_msgs.msg.Int32, queue_size=5) 
     Parameters['behavioral_mode_pub'] = rospy.Publisher('behavioral_mode', std_msgs.msg.String, queue_size=5)
-    #Parameters['network_weights_name_pub'] = rospy.Publisher('network_weights_name', std_msgs.msg.String, queue_size=5)
     Parameters['place_choice_pub'] = rospy.Publisher('place_choice', std_msgs.msg.String, queue_size=5)
     Parameters['button_number_pub'] = rospy.Publisher('button_number', std_msgs.msg.Int32, queue_size=5) 
     Parameters['steer_pub'] = rospy.Publisher('steer', std_msgs.msg.Int32, queue_size=5) 
@@ -89,10 +84,8 @@ if Parameters['USE_ROS']:
             Parameters['Hz_acc_pub'].publish(std_msgs.msg.Float32(Parameters['Hz']['acc']))
             IMU_low_frequency_pub_timer.reset()
 
-
     def _publish_FLEX_data(Parameters,m):
         Parameters[d2n(m,'_pub')].publish(std_msgs.msg.Int32(Parameters[m]))
-
 
     def _publish_MSE_data(Parameters):
         if Parameters['agent_choice'] == 'human':
@@ -130,7 +123,6 @@ if Parameters['USE_ROS']:
             Parameters['motor_pwm_min_pub'].publish(std_msgs.msg.Int32(Parameters['motor_pwm_min']))
             Parameters['motor_pwm_max_pub'].publish(std_msgs.msg.Int32(Parameters['motor_pwm_max']))
             Parameters['motor_pwm_null_pub'].publish(std_msgs.msg.Int32(int(Parameters['motor_pwm_null'])))
-            #Parameters['network_weights_name_pub'].publish(std_msgs.msg.String(default_values.Weights['weight_file_path']))
             MSE_very_low_frequency_pub_timer.reset()
     def _publish_No_Arduino_data(Parameters):
         human_val = 0
@@ -144,14 +136,11 @@ if Parameters['USE_ROS']:
                 Parameters['drive_mode_pub'].publish(std_msgs.msg.Int32(drive_mode))
                 No_Arduino_data_low_frequency_pub_timer.reset()
             if No_Arduino_data_very_low_frequency_pub_timer.check():
-                #Parameters['network_weights_name_pub'].publish(std_msgs.msg.String(default_values.Weights['weight_file_path']))
                 No_Arduino_data_very_low_frequency_pub_timer.reset()
-
 
     Parameters['publish_IMU_data'] = _publish_IMU_data
     Parameters['publish_MSE_data'] = _publish_MSE_data
     Parameters['publish_FLEX_data'] = _publish_FLEX_data
-
 
 if 'Start Arduino threads...':
     baudrate = 115200
@@ -177,7 +166,6 @@ if 'Start Arduino threads...':
     else:
         spd2s("!!!!!!!!!! 'FLEX' not in Arduinos[] or not using 'FLEX' !!!!!!!!!!!")
             
-
 if 'Main loop...':
     print 'main loop'
     q = '_'
@@ -190,6 +178,5 @@ if 'Main loop...':
         default_values.EXIT(restart=False,shutdown=False,kill_ros=True,__file__)
     except Exception as e:
         CS_(d2s('Main loop exception',e))
-
 
 #EOF

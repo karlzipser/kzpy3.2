@@ -2,6 +2,7 @@ from kzpy3.utils2 import *
 exec(identify_file_str)
 
 """
+coding:
 [orientation][blink][color][_,symbol]
 """
 
@@ -43,7 +44,6 @@ def _selector_run_loop(P):
     while (P['ABORT'] == False) and (not rospy.is_shutdown()):
         
         frequency_timer.freq(name='_selector_run_loop',do_print=P['print_selector_freq'])
-        #print_timer.message(d2s(P['behavioral_mode_choice']))
         if 'Brief sleep to allow other threads to process...':
             time.sleep(0.1)
         if not P['calibrated']:#################################################
@@ -82,7 +82,6 @@ def _selector_run_loop(P):
                 if P['selector_mode'] == 'menu_mode':
                     for theme in A.keys():
                         if P[theme] == False:
-                            #print_timer.message(d2s(P['human']['motor_percent']))
                             for kind in A[theme].keys():
                                 if P['button_number'] == A[theme][kind]['button']:
                                     if P['human']['servo_percent']>A[theme][kind]['min'] and P['human']['servo_percent']<A[theme][kind]['max']:
@@ -135,3 +134,4 @@ def _selector_run_loop(P):
                             P['LED_number']['current'] = orientation+color+A['behavioral_mode_choice'][P['behavioral_mode_choice']]['led']
 
 
+#EOF

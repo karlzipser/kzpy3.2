@@ -2,9 +2,6 @@ from kzpy3.utils2 import *
 exec(identify_file_str)
 
 def IMU_Arduino(P):
-    P['acc'] = {}
-    P['gyro'] = {}
-    P['head'] = {}
     threading.Thread(target=_IMU_run_loop,args=[P]).start()
 
 def _IMU_run_loop(P):
@@ -45,21 +42,14 @@ def _IMU_run_loop(P):
                     if Hz < 30 or Hz > 90:
                         if ctr_timer.time() > 5:
                             spd2s(m,'Hz =',Hz,'...aborting...')
-                            #P['ABORT'] = True
                         else:
-                            pass#print 'ignoring IMU freq. error.'
+                            pass
             P[m]['xyz'] = imu_input[1:4]
             if P['USE_ROS']:
                 P['publish_IMU_data'](P,m)
             if print_timer.check():
-                #pd2s(dp(acc_smoothed[0],1),dp(acc_smoothed[1],1),dp(acc_smoothed[2],1))
-                #print P['acc']['xyz'],P['gyro']['xyz'],P['head']['xyz'],P['acc']['Hz']
-                #if P['print_imu_freq']:
-                #    print P['gyro']['xyz'],P['acc']['Hz']
                 print_timer.reset()
         except Exception as e:
-            #print("********** IMU_run_loop(Arduinos,P) Exception ***********************")
-            #print(e.message, e.args)
             pass
     print 'end IMU_run_loop.'
 

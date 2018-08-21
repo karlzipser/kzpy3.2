@@ -1,18 +1,8 @@
 from kzpy3.utils2 import *
 exec(identify_file_str)
 
-#encoder_list_min_length = 5
-
 def TACTIC_RC_controller(P):
-    P['button_delta'] = 50
-    P['button_number'] = 0
-    P['button_timer'] = Timer()
-    P['time_since_button_4'] = Timer()
-    P['servo_pwm_smooth'] = 1000
-    P['motor_pwm_smooth'] = 1000
-    P['selector_mode'] = False
-    P['encoder_smooth'] = 0.0
-    P['network']['camera_percent'] = 49
+
     threading.Thread(target=_TACTIC_RC_controller_run_loop,args=[P]).start()
     
 def _TACTIC_RC_controller_run_loop(P):
@@ -21,7 +11,6 @@ def _TACTIC_RC_controller_run_loop(P):
     P['Arduinos']['MSE'].flushInput()
     time.sleep(0.1)
     P['Arduinos']['MSE'].flushOutput()
-    P['Hz']['mse'] = 0
     flush_seconds = 0.25
     flush_timer = Timer(flush_seconds)
     frequency_timer = Timer(1)
@@ -86,14 +75,9 @@ def _TACTIC_RC_controller_run_loop(P):
             P['servo_feedback_percent'] = servo_feedback_to_percent(P['servo_feedback'],P)
 
 
-
-
             if P['agent_choice'] == 'human':
                 write_str = get_write_str(P['servo_pwm_smooth'],P['servo_pwm_smooth'],P['motor_pwm_smooth'],P)
-                #_servo_pwm = servo_percent_to_pwm( Pid_processing_steer['do'](P['network']['camera_percent'],P['human']['servo_percent']), P )
-                #write_str = get_write_str(_servo_pwm,P['servo_pwm_smooth'],P['motor_pwm_smooth'],P)
                 in_this_mode = False
-
 
             elif P['agent_choice'] == 'network' and P['selector_mode'] == 'drive_mode':
                 if np.abs(P['human']['motor_percent']-49) > 4:
@@ -102,8 +86,6 @@ def _TACTIC_RC_controller_run_loop(P):
                     P['time_since_button_4'].reset()
                 
                 elif P['time_since_button_4'].time() > 2.0:
-
-                    
 
                     if np.abs(P['human']['servo_percent']-49) > 4:
                         if in_this_mode == False:
@@ -134,21 +116,14 @@ def _TACTIC_RC_controller_run_loop(P):
                     write_str = get_write_str(_servo_pwm,_camera_pwm,_motor_pwm,P)
                 else:
                     in_this_mode = False
-                    #print_timer.message('Waiting before giving network control...') ############
                     write_str = get_write_str(P['servo_pwm_null'],P['servo_pwm_null'],P['motor_pwm_null'],P)
-
 
             if P['button_number'] != 4:
                 if P['calibrated']:
-                    #print(write_str)
                     if P['selector_mode'] == 'drive_mode':
                         if True:
                             P['Arduinos']['MSE'].write(write_str)
-                        pass
                         
-
-            
-                
             Hz = frequency_timer.freq(name='_TACTIC_RC_controller_run_loop',do_print=P['print_mse_freq'])
             if is_number(Hz):
                 P['Hz']['mse'] = Hz
@@ -159,16 +134,14 @@ def _TACTIC_RC_controller_run_loop(P):
                 P['publish_MSE_data'](P)
 
             if print_timer.check():
-                #print write_str
                 pd2s(int(P['human']['servo_percent']),P['servo_feedback_percent'],int(P['network']['camera_percent']))
-                #print(P['network']['motor_percent'],dp(Pid_processing_motor['pid_motor_percent'],1),dp(P['encoder_smooth'],1))
                 print_timer.reset()
 
             if very_low_freq_timer.check():
                 pd2s('servo:',int(P['servo_pwm_min']),int(P['servo_pwm_null']),int(P['servo_pwm_max']),'motor:',int(P['motor_pwm_min']),int(P['motor_pwm_null']),int(P['motor_pwm_max']))
                 very_low_freq_timer.reset()
         except Exception as e:
-            print '_TACTIC_RC_controller_run_loop',e #######
+            print '_TACTIC_RC_controller_run_loop',e
             pass            
     print 'end _TACTIC_RC_controller_run_loop.'
 
@@ -214,12 +187,8 @@ def compare_percents_and_pwms(P):
             m_from_percent = motor_percent_to_pwm(P['human']['motor_percent'],P)
             print dp(s_from_percent/(0.01+s_pwm),2),dp(m_from_percent/(0.01+m_pwm),2)
 
-
 def servo_feedback_to_percent(current_feedback,P):
     return 99-int(pwm_to_percent(float(P['servo_feedback_center']),float(current_feedback),float(P['servo_feedback_right']),float(P['servo_feedback_left'])))
-
-
-
 
 def Pid_Processing_Motor():#slope=(60-49)/3.0,gain=0.05,encoder_max=4.0,delta_max=0.05,pid_motor_percent_max=99,pid_motor_percent_min=0):
     D = {}
@@ -239,8 +208,6 @@ def Pid_Processing_Motor():#slope=(60-49)/3.0,gain=0.05,encoder_max=4.0,delta_ma
     D['do'] = _do
     return D
 
-
-
 def Pid_Processing_Steer():#gain=0.05,delta_max=0.05,pid_steer_percent_max=99,pid_steer_percent_min=0):
     D = {}
     D['pid_steer_percent'] = 49
@@ -256,13 +223,5 @@ def Pid_Processing_Steer():#gain=0.05,delta_max=0.05,pid_steer_percent_max=99,pi
         return D['pid_steer_percent']
     D['do'] = _do
     return D
-
-
-
-
-
-
-
-
 
 #EOF

@@ -3,9 +3,6 @@ from kzpy3.utils2 import *
 exec(identify_file_str)
 from default_values import flex_names
 
-
-
-
 def get_arduino_serial_connections(baudrate, timeout):
     if using_linux():
         arduino_serial_prefix = 'ttyACM'
@@ -67,8 +64,4 @@ def assign_serial_connections(P,sers):
         spd2s('MSE not found: Is transmitter turned on? Is MSE battery plugged in?')
     #return Arduinos
 
-
-
-
-
-
+#EOF

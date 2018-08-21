@@ -5,15 +5,6 @@ import rospy
 import std_msgs.msg
 exec(identify_file_str)
 
-"""
-try:
-    unix(d2s('mkdir -p',opjm('rosbags','active')))
-    unix(d2s('mkdir -p',opjm('rosbags','new')))
-except Exception as e:
-    print("*unix(d2s('mkdir -p',opjm('rosbags','active')) Exception ***")
-    print(e.message, e.args)
-"""
-
 try:
     temp_file = opjm('rosbags/__temp__')
     unix('touch '+temp_file)
@@ -34,8 +25,6 @@ unix('mkdir -p /media/nvidia/rosbags/new')
 if __name__ == '__main__':
     rospy.init_node('rosbag_node',anonymous=True,disable_signal=True)
     save_pub = rospy.Publisher('data_saving', std_msgs.msg.Int32, queue_size=100)
-    
-    #fl = gg(opjh('catkin_ws/src/bair_car/rosbags/*'))
     fl = gg(opjm('rosbags/active/*.active'))
 
     for f in fl:
@@ -61,16 +50,13 @@ if __name__ == '__main__':
                 if '.bag' != os.path.splitext(f)[1]:
                     continue
                 save_pub.publish(std_msgs.msg.Int32(1) )
-                #print('Moving {0}'.format(f))
                 f_rec = os.path.join(bag_rec_folder, f)
                 f_mv = os.path.join(bag_mv_folder, f)
-                # shutil.copy(f_rec, f_mv)
                 start = time.time()
                 subprocess.call(['mv', f_rec, f_mv])
                 elapsed = time.time() - start
                 if len(sggo(bag_rec_folder,'*.bag')) > 0:
                     unix('rm '+opj(bag_rec_folder,'*.bag')) # 27 Nov 2016, to remove untransferred bags
-                #print('Done in {0} secs\n'.format(elapsed))
                 save_pub.publish(std_msgs.msg.Int32(0))
             rate.sleep()
     except Exception as e:

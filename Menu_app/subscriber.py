@@ -1,16 +1,28 @@
 from kzpy3.utils2 import *
 from kzpy3.Menu_app.ros_strings import *
 
-
 Topics = [
     ('/bair_car/servo_feedback',Int),
     ('/bair_car/motor',Int),
 ]
 
-subscription_strs = get_ros_subscriber_strs(Topics)
+dic_name = 'Parameters'
 
-for c in [rosimport_str,rospyinit_str]+subscription_strs:
-    if using_linux(): exec(c)
+a = ros_start_strs = get_ros_start_strs(node_name)
+b = subscription_strs = get_ros_subscriber_strs(Topics,dic_name)
+c = get_ros_publisher_strs(Topics)
+
+d = a+b+c
+
+list_of_strings_to_txt_file(opjD('temp.py'),d)
+
+
+for e in d:
+    exec(e)
+
+
+
+list_of_strings_to_txt_file(opjD('temp.py'),d)
 
 
 Left_right_center = {}

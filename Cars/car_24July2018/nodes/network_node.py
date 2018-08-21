@@ -6,7 +6,6 @@ exec(identify_file_str)
 N = {}
 for k in default_values.Network.keys():
     N[k] = default_values.Network[k]
-P = {}
 
 import kzpy3.Menu_app.menu
 menu_path = opjh('.menu','network_node')
@@ -21,7 +20,6 @@ if not N['USE_NETWORK']:
 
 import net_utils
 
-        ROSPY SETUP SECTION
 import roslib
 import std_msgs.msg
 import geometry_msgs.msg

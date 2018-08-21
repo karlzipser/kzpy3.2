@@ -2,7 +2,7 @@ from kzpy3.utils2 import *
 exec(identify_file_str)
 
 def EXIT(restart=False,shutdown=True,kill_ros=True,_file_=''):
-	rospy.signal_shutdown(d2s("default_values.EXIT(...) from"_file_,)
+	rospy.signal_shutdown(d2s("default_values.EXIT(...) from"_file_,))
 	CS_("""rospy.signal_shutdown("EXIT")""",_file_)
 	if kill_ros:
 		CS_("doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))",_file_)
@@ -81,38 +81,44 @@ Parameters['pid_steer_steer_percent_max']= 99
 Parameters['pid_steer_steer_percent_min'] = 0
 Parameters['use_servo_feedback'] = 0
 
+Parameters['button_delta'] = 50
+Parameters['button_number'] = 0
+Parameters['button_timer'] = Timer()
+Parameters['time_since_button_4'] = Timer()
+Parameters['servo_pwm_smooth'] = 1000
+Parameters['motor_pwm_smooth'] = 1000
+Parameters['selector_mode'] = False
+Parameters['encoder_smooth'] = 0.0
+Parameters['network']['camera_percent'] = 49
+Parameters['Hz']['mse'] = 0
+Parameters['calibrated'] = False
+Parameters['acc'] = {}
+Parameters['gyro'] = {}
+Parameters['head'] = {}
+
+
+_flex_names = []
+for fb in ['f','b']:
+    for lr in ['l','r','c']:
+        for i in [0,1]:
+            _flex_names.append(d2n('x',fb,lr,i))
+for f in _flex_names:
+    Parameters[f] = {}
+
 Parameters['to_expose'] = [
-	#'print_mse_freq',
-	#'print_imu_freq',
-	#'print_calibration_freq',
-	#'print_selector_freq',
-	#'print_led_freq',
-	#'USE_ROS',
 	'IMU_SMOOTHING_PARAMETER',
-	#'Hz',
 	'behavioral_mode_choice',
 	'agent_choice',
 	'place_choice',
 	'servo_pwm_smooth_manual_offset',
 	'camera_pwm_manual_offset',
-	#'servo_feedback_center',
-	#'servo_feedback_right',
-	#'servo_feedback_left',
 	'pid_motor_slope',
 	'pid_motor_gain',
 	'pid_encoder_max',
 	'pid_motor_delta_max',
 	'pid_motor_percent_max',
 	'pid_motor_percent_min'
-	#'pid_steer_gain',
-	#'pid_steer_delta_max',
-	#'pid_steer_steer_percent_max',
-	#'pid_steer_steer_percent_min',
-	#'use_servo_feedback'
 ]
-
-
-
 
 Network = {}
 Network['ABORT'] = False
@@ -121,13 +127,9 @@ Network['network_steer_gain'] = 6.0
 Network['network_camera_gain'] = 6.0
 Network['network_motor_gain'] = 0.5
 Network['network_motor_offset'] = 0
-#Network['network_smoothing_parameter'] = 0.75
 Network['network_servo_smoothing_parameter'] = 0.95
 Network['network_motor_smoothing_parameter'] = 0.75
 Network['network_camera_smoothing_parameter'] = 0.75
-
-#Network['weight_file_path'] = opjh('pytorch_models','epoch6goodnet.SqueezeNet')
-#Network['weight_file_path'] = opjh('pytorch_models','net_17Sep17_17h21m35s.SqueezeNet')
 Network['weight_file_path'] = opjh('pytorch_models','net_10Jun18_00h00m45s.SqueezeNet')
 Network['USE_NETWORK'] = True
 Network['GREY_OUT_TOP_OF_IMAGE'] = False
@@ -144,22 +146,13 @@ Network['to_expose'] = [
 	'network_servo_smoothing_parameter',
 	'network_motor_smoothing_parameter',
 	'network_camera_smoothing_parameter'
-	#'weight_file_path',
-	#'USE_NETWORK',
-	#'GREY_OUT_TOP_OF_IMAGE',
 	'USE_LAST_IMAGE_ONLY'
-	#'visualize_activations'
 ]
 
 NO_Mse = {}
 NO_Mse['behavioral_mode_choice'] = 'direct'
 NO_Mse['place_choice'] = 'home'
 
-flex_names = []
-for fb in ['f','b']:
-    for lr in ['l','r','c']:
-        for i in [0,1]:
-            flex_names.append(d2n('x',fb,lr,i))
 
 """
 https://stackoverflow.com/questions/29232438/bash-check-if-var-is-in-number-range
@@ -265,6 +258,7 @@ https://www.instructables.com/id/DIY-Flex-Sensor-Under-1-/
 
 https://www.tekrevue.com/tip/how-to-create-a-4gbs-ram-disk-in-mac-os-x/
 
+https://answers.ros.org/question/239968/how-do-you-implement-a-rospy-keyboardinterrupt-without-killing-the-node/
 """
 
 

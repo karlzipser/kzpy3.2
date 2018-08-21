@@ -7,7 +7,6 @@ def Calibration_Mode(P):
 def _calibrate_run_loop(P):
     CS_("_calibrate_run_loop")
     print_timer = Timer(1)
-    P['calibrated'] = False
     frequency_timer = Timer(1)
     while (not P['ABORT']) and (not rospy.is_shutdown()):
         frequency_timer.freq(name='_calibrate_run_loop',do_print=P['print_calibration_freq'])
@@ -47,6 +46,5 @@ def _calibrate_run_loop(P):
                     if P['motor_pwm_max'] - P['motor_pwm_min'] > 300:
                         P['calibrated'] = True
         if print_timer.check():
-            #pprint(P)
             print_timer.reset()           
     print 'end _calibrate_run_loop.'
