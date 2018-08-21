@@ -1,4 +1,5 @@
 ## General (from caffe .gitignore)
+_ignore_folder_/*
 Icon?
 .DS_Store
 *.caffemodel
