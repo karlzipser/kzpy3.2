@@ -32,27 +32,27 @@ P[TOPICS] = {
 	'xbr1':{maxval:100,		minval:-50,	baseline:0,		color:(255,255,255)},
 }
 P['topic_keys_sorted'] = [
-	acc_x,
-	acc_y,
-	acc_z,
-	gyro_x,
-	gyro_y,
-	gyro_z,
+	#acc_x,
+	#acc_y,
+	#acc_z,
+	#gyro_x,
+	#gyro_y,
+	#gyro_z,
 	'cmd_steer',
-	steer,
-	motor,
+#	steer,
+#	motor,
 
 #	gyro_heading_x,
 #	left_ts_deltas,
-	encoder
-#	'xfl0',
-#	'xfl1',
-#	'xfr0',
-#	'xfr1',
-#	'xbl0',
-#	'xbl1',
-#	'xbr0',
-#	'xbr1'
+	encoder,
+	'xfl0',
+	'xfl1',
+	'xfr0',
+	'xfr1',
+	'xbl0',
+	'xbl1',
+	'xbr0',
+	'xbr1',
 ]
 
 P[X_PIXEL_SIZE] = 800
