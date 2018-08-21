@@ -6,9 +6,12 @@ def EXIT(restart=False,shutdown=True,kill_ros=True,_file_=''):
 	rospy.signal_shutdown(d2s("default_values.EXIT(...) from",_file_,))
 	CS_("""rospy.signal_shutdown("EXIT")""",_file_)
 	if kill_ros:
+		"""
 		CS_("doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))",_file_)
 		time.sleep(0.01)
 		unix(opjh('kzpy3/scripts/kill_ros.sh'))
+		"""
+		pass
 	if shutdown:
 		CS_("SHUTTING DOWN!!!!!",_file_)
 		time.sleep(0.01)
@@ -57,9 +60,9 @@ Parameters['place_choice'] = 'local'
 if Parameters['car_name'] == 'Mr_Blue_Back':
 	Parameters['servo_pwm_smooth_manual_offset'] = 150
 	Parameters['camera_pwm_manual_offset'] = -500
-	#Parameters['servo_feedback_center'] = 214
-	#Parameters['servo_feedback_right'] = 140
-	#Parameters['servo_feedback_left'] = 294
+	Parameters['servo_feedback_center'] = 214
+	Parameters['servo_feedback_right'] = 140
+	Parameters['servo_feedback_left'] = 294
 else:
 	Parameters['servo_pwm_smooth_manual_offset'] = 0
 	Parameters['camera_pwm_manual_offset'] = 0	
