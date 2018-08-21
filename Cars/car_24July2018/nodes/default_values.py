@@ -104,6 +104,8 @@ for fb in ['f','b']:
     for lr in ['l','r','c']:
         for i in [0,1]:
             flex_names.append(d2n('x',fb,lr,i))
+flex_names.append('xan0')
+
 for f in flex_names:
     Parameters[f] = {}
 
