@@ -24,17 +24,23 @@ def ros_publish(Dic,topic_list):
 	setup_str = setup_str.replace('NODE_NAME',node_name)
 	return setup_str
 
-def get_ros_topic_str(raw_name,rtype):
+def get_ros_topic_str(raw_name,rtype,subscribe,publish):
 	topic_str = """
 DIC_NAME['RAW_NAME'] = {}
+"""
+	if subscribe:
+		topic_str += """
 def _SAFE_NAME_callback__(msg):
 	DIC_NAME['RAW_NAME']['ts'] = time.time()
 	DIC_NAME['RAW_NAME']['val'] = msg.data
 rospy.Subscriber('RAW_NAME',RTYPE, callback=_SAFE_NAME_callback__)
+		"""
+	if publish:
+		topic_str += """
 DIC_NAME['RAW_NAME']['type'] = RTYPE
 DIC_NAME['RAW_NAME']['pub'] = rospy.Publisher('RAW_NAME',DIC_NAME['RAW_NAME']['type'], queue_size=5)
 
-	"""
+		"""
 	safe_name = get_safe_name(raw_name)
 	topic_str = topic_str.replace('RAW_NAME',raw_name)
 	topic_str = topic_str.replace('SAFE_NAME',safe_name)
@@ -48,8 +54,19 @@ def get_ros_strs(dic_name,Topics):
 	ros_topics_str = ""
 
 	for rtype in Topics:
-		for raw_name in Topics[rtype]:
-			ros_topics_str += get_ros_topic_str(raw_name,rtype)
+		for raw_name_plus in Topics[rtype]:
+			q = raw_name_plus.split(' ')
+			if len(q) == 1:
+				raw_name = q
+				subscribe = True
+				publish = True
+			else:
+				raw_name = q[0]
+				if 's' in q[1]:
+					subscribe = True
+				if 'p' in q[1]:
+					publish = True
+			ros_topics_str += get_ros_topic_str(raw_name,rtype,subscribe,publish)
 
 
 	ros_strs = ros_setup_str + ros_topics_str + "\n#\n#############################################"
@@ -62,9 +79,9 @@ def get_ros_strs(dic_name,Topics):
 
 Topics = {
 	'std_msgs.msg.Int32':[
-    	'/bair_car/servo_feedback',
-    	'/bair_car/cmd/motor',
-    	'/bair_car/cmd/motor',
+    	'/bair_car/servo_feedback sp',
+    	'/bair_car/cmd/motor s',
+    	'/bair_car/cmd/motor p',
     	'/bair_car/cmd/motor',
     	'/bair_car/cmd/motor',
     	'/bair_car/cmd/motor',
