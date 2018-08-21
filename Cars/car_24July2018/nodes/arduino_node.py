@@ -127,7 +127,7 @@ if Parameters['USE_ROS']:
     def _publish_No_Arduino_data(Parameters):
         human_val = 0
         drive_mode = 1
-        while (not P['ABORT']) and (not rospy.is_shutdown())
+        while (not P['ABORT']) and (not rospy.is_shutdown()):
             time.sleep(0.001)
             if No_Arduino_data_low_frequency_pub_timer.check():
                 Parameters['behavioral_mode_pub'].publish(std_msgs.msg.String(default_values.NO_Mse['behavioral_mode_choice'])) 
