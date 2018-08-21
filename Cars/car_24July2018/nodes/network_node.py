@@ -133,12 +133,13 @@ while not rospy.is_shutdown():
         if len(left_list) == 0:
             CS_("empty image list after 30s, ABORTING, rebooting!!!!!")
             default_values.EXIT(restart=False,shutdown=False,kill_ros=True,_file_=__file__)
-    if len(left_list) > 0:
-        if image_sample_timer.check():
-            img = left_list[1]
-            print(img[0:15,0,0])
-            print np.sum(img[0:100,0,0])
-            image_sample_timer.reset()
+    if False:
+        if len(left_list) > 0:
+            if image_sample_timer.check():
+                img = left_list[1]
+                print(img[0:15,0,0])
+                print np.sum(img[0:100,0,0])
+                image_sample_timer.reset()
 
     time.sleep(0.001)
     Hz = frequency_timer.freq(name='Hz_network',do_print=False)
