@@ -140,7 +140,9 @@ def _TACTIC_RC_controller_run_loop(P):
                 print_timer.reset()
 
             if very_low_freq_timer.check():
-                pd2s('servo:',int(P['servo_pwm_min']),int(P['servo_pwm_null']),int(P['servo_pwm_max']),'motor:',int(P['motor_pwm_min']),int(P['motor_pwm_null']),int(P['motor_pwm_max']))
+                pass
+                if False:
+                    pd2s('servo:',int(P['servo_pwm_min']),int(P['servo_pwm_null']),int(P['servo_pwm_max']),'motor:',int(P['motor_pwm_min']),int(P['motor_pwm_null']),int(P['motor_pwm_max']))
                 very_low_freq_timer.reset()
         except Exception as e:
             if False:

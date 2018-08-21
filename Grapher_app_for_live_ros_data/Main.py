@@ -105,7 +105,7 @@ def right_image__callback(data):
 	R[right_image]['ts'].append(time.time())
 	R[right_image]['vals'].append( bridge.imgmsg_to_cv2(data,"rgb8") )
 
-for f in _flex_names:
+for f in flex_names:
 	s = """
 def FLEX__callback(msg):
 	R['FLEX']['ts'].append(time.time())
