@@ -131,8 +131,8 @@ while not rospy.is_shutdown():
 
     if node_timer.time() > 10:
         if len(left_list) == 0:
-            CS_("empty image list aft 30s, ABORTING, rebooting!!!!!")
-            default_values.EXIT(restart=True,shutdown=False,kill_ros=True,_file_=__file__)
+            CS_("empty image list after 30s, ABORTING, rebooting!!!!!")
+            default_values.EXIT(restart=False,shutdown=False,kill_ros=True,_file_=__file__)
     if len(left_list) > 0:
         if image_sample_timer.check():
             img = left_list[1]
