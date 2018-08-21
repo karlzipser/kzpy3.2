@@ -28,7 +28,7 @@ import rospy
 from sensor_msgs.msg import Image
 bridge = CvBridge()
 
-rospy.init_node('listener',anonymous=True,disable_signal=True)
+rospy.init_node('network_node',anonymous=True,disable_signals=True)
 
 left_list = []
 right_list = []

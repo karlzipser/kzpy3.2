@@ -36,7 +36,7 @@ if Parameters['USE_ROS']:
     def cmd_motor_callback(msg):
         Parameters['network']['motor_percent'] = msg.data
 
-    rospy.init_node('run_arduino',anonymous=True,disable_signal=True)
+    rospy.init_node('run_arduino',anonymous=True,disable_signals=True)
     rospy.Subscriber('cmd/steer', std_msgs.msg.Int32, callback=cmd_steer_callback)
     rospy.Subscriber('cmd/camera', std_msgs.msg.Int32, callback=cmd_camera_callback)
     rospy.Subscriber('cmd/motor', std_msgs.msg.Int32, callback=cmd_motor_callback)

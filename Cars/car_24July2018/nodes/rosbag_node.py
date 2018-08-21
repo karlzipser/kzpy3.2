@@ -23,7 +23,7 @@ unix('mkdir -p /media/nvidia/rosbags/active')
 unix('mkdir -p /media/nvidia/rosbags/new')
 
 if __name__ == '__main__':
-    rospy.init_node('rosbag_node',anonymous=True,disable_signal=True)
+    rospy.init_node('rosbag_node',anonymous=True,disable_signals=True)
     save_pub = rospy.Publisher('data_saving', std_msgs.msg.Int32, queue_size=100)
     fl = gg(opjm('rosbags/active/*.active'))
 
