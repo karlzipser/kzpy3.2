@@ -2,6 +2,7 @@
 from kzpy3.utils2 import *
 import default_values
 exec(identify_file_str)
+import rospy
 
 N = {}
 for k in default_values.Network.keys():

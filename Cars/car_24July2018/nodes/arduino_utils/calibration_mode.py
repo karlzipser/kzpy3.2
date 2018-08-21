@@ -1,5 +1,6 @@
 from kzpy3.utils2 import *
 exec(identify_file_str)
+import rospy
 
 def Calibration_Mode(P):
     threading.Thread(target=_calibrate_run_loop,args=[P]).start()

@@ -1,5 +1,6 @@
 from kzpy3.utils2 import *
 exec(identify_file_str)
+import rospy
 
 def TACTIC_RC_controller(P):
 

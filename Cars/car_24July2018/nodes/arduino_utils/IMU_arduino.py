@@ -1,5 +1,6 @@
 from kzpy3.utils2 import *
 exec(identify_file_str)
+import rospy
 
 def IMU_Arduino(P):
     threading.Thread(target=_IMU_run_loop,args=[P]).start()

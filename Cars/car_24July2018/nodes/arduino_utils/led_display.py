@@ -1,5 +1,6 @@
 from kzpy3.utils2 import *
 exec(identify_file_str)
+import rospy
 
 def LED_Display(P):
     threading.Thread(target=_LED_Display_run_loop,args=[P]).start()

@@ -6,6 +6,7 @@ import torch.nn as nn
 from torch.autograd import Variable
 from nets.SqueezeNet_ import SqueezeNet
 exec(identify_file_str)
+import rospy
 
 spd2s("!!!!! note: from nets.SqueezeNet_ import SqueezeNet !!!!");time.sleep(3)
 
