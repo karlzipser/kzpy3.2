@@ -1,5 +1,5 @@
 ## General (from caffe .gitignore)
-_pyignore_folder_/*.py
+__pyignore_folder__/*.py
 Icon?
 .DS_Store
 *.caffemodel
