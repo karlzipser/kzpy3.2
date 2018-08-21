@@ -49,6 +49,8 @@ P['topic_keys_sorted'] = [
 	encoder,
 	'xfl0',
 	'xfl1',
+	'xfc0',
+	'xan0',
 	'xfr0',
 	'xfr1',
 	'xbl0',
