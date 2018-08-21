@@ -25,23 +25,24 @@ def ros_publish(Dic,topic_list):
 	return setup_str
 
 def get_ros_topic_str(raw_name,rtype,subscribe,publish):
-	topic_str = """
+	print subscribe,publish
+	topic_str = """\n
 DIC_NAME['RAW_NAME'] = {}
-"""
+DIC_NAME['RAW_NAME']['ts'] = 0
+DIC_NAME['RAW_NAME']['val'] = 0"""
 	if subscribe:
 		topic_str += """
 def _SAFE_NAME_callback__(msg):
 	DIC_NAME['RAW_NAME']['ts'] = time.time()
 	DIC_NAME['RAW_NAME']['val'] = msg.data
-rospy.Subscriber('RAW_NAME',RTYPE, callback=_SAFE_NAME_callback__)
-		"""
+rospy.Subscriber('RAW_NAME',RTYPE, callback=_SAFE_NAME_callback__)"""
 	if publish:
 		topic_str += """
 DIC_NAME['RAW_NAME']['type'] = RTYPE
-DIC_NAME['RAW_NAME']['pub'] = rospy.Publisher('RAW_NAME',DIC_NAME['RAW_NAME']['type'], queue_size=5)
-
-		"""
+DIC_NAME['RAW_NAME']['pub'] = rospy.Publisher('RAW_NAME',DIC_NAME['RAW_NAME']['type'], queue_size=5)"""
 	safe_name = get_safe_name(raw_name)
+	print topic_str
+	print type(topic_str)
 	topic_str = topic_str.replace('RAW_NAME',raw_name)
 	topic_str = topic_str.replace('SAFE_NAME',safe_name)
 	topic_str = topic_str.replace('RTYPE',rtype)
@@ -55,9 +56,12 @@ def get_ros_strs(dic_name,Topics):
 
 	for rtype in Topics:
 		for raw_name_plus in Topics[rtype]:
+			subscribe = False
+			publish = False
 			q = raw_name_plus.split(' ')
+			print q
 			if len(q) == 1:
-				raw_name = q
+				raw_name = q[0]
 				subscribe = True
 				publish = True
 			else:
@@ -79,31 +83,17 @@ def get_ros_strs(dic_name,Topics):
 
 Topics = {
 	'std_msgs.msg.Int32':[
-    	'/bair_car/servo_feedback sp',
+    	'/bair_car/servo_feedback p',
     	'/bair_car/cmd/motor s',
-    	'/bair_car/cmd/motor p',
-    	'/bair_car/cmd/motor',
-    	'/bair_car/cmd/motor',
-    	'/bair_car/cmd/motor',
     ],
     'std_msgs.msg.Float32':[
-    	'/bair_car/encoder',
-    	'/bair_car/cmd/motor',
-    	'/bair_car/cmd/motor',
-    	'/bair_car/cmd/motor',
-    	'/bair_car/cmd/motor',
-    	'/bair_car/cmd/motor',
-    	'/bair_car/cmd/motor',
-    	'/bair_car/cmd/motor',
-    	'/bair_car/cmd/motor',
-    	'/bair_car/cmd/motor',
-    	'/bair_car/cmd/motor',
+    	'/bair_car/encoder sp',
     ],
 }
 
 ros_strs = get_ros_strs(dic_name='Parameters',Topics=Topics)
 
-text_to_file(opjh('.menu/rostemp.py'),ros_strs)
+text_to_file(opjD('rostemp.py'),ros_strs)
 
 if False:
 	for s in ros_strs.split('\n'):
