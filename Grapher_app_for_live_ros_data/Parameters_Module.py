@@ -75,8 +75,8 @@ P['topic_keys_sorted'] = [
 	'xbr1',
 ]
 
-P[X_PIXEL_SIZE] = 1600
-P[Y_PIXEL_SIZE] = 800
+P[X_PIXEL_SIZE] = 800
+P[Y_PIXEL_SIZE] = 1600
 P[SCREEN_X] = 20
 P[SCREEN_Y] = 40
 P[CAMERA_SCALE] = 1
