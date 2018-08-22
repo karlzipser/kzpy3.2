@@ -78,6 +78,16 @@
             /$(arg car_name)/Hz_acc
             /$(arg car_name)/Hz_mse
             /$(arg car_name)/Hz_network
+            /$(arg car_name)/xfl0
+            /$(arg car_name)/xfl1
+            /$(arg car_name)/xfc0
+            /$(arg car_name)/xan0
+            /$(arg car_name)/xfr0
+            /$(arg car_name)/xfr1
+            /$(arg car_name)/xbl0
+            /$(arg car_name)/xbl1
+            /$(arg car_name)/xbr0
+            /$(arg car_name)/xbr1
             /network_output_sample
             /network_motor_offset
             /network_steer_gain
