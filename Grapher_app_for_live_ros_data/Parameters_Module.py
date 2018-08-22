@@ -50,9 +50,9 @@ P[TOPICS] = {
 	'xbr1':{maxval:100,		minval:-50,	baseline:0,		color:(255,255,255)},
 }
 P['topic_keys_sorted'] = [
-	#acc_x,
-	#acc_y,
-	#acc_z,
+	acc_x,
+	acc_y,
+	acc_z,
 	#gyro_x,
 	#gyro_y,
 	#gyro_z,
@@ -62,7 +62,7 @@ P['topic_keys_sorted'] = [
 
 #	gyro_heading_x,
 #	left_ts_deltas,
-	#encoder,
+	encoder,
 	#'xfl0',
 	#'xfl1',
 	'xfc0',
