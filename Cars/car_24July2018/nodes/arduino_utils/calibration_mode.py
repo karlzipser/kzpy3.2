@@ -3,24 +3,6 @@ exec(identify_file_str)
 import rospy
 
 
-                P['servo_pwm_null'] = (1.0-s)*P['servo_pwm'] + s*P['servo_pwm_null']
-                P['motor_pwm_null'] = (1.0-s)*P['motor_pwm'] + s*P['motor_pwm_null']
-                P['servo_pwm_min'] = P['servo_pwm_null']
-                P['servo_pwm_max'] = P['servo_pwm_null']
-                P['motor_pwm_min'] = P['motor_pwm_null']
-                P['motor_pwm_max'] = P['motor_pwm_null']
-                P['servo_pwm_smooth'] = P['servo_pwm_null']
-                P['motor_pwm_smooth'] = P['motor_pwm_null']
-            else:
-                if P['servo_pwm_max'] < P['servo_pwm']:
-                    P['servo_pwm_max'] = P['servo_pwm']
-                if P['servo_pwm_min'] > P['servo_pwm']:
-                    P['servo_pwm_min'] = P['servo_pwm']
-                if P['motor_pwm_max'] < P['motor_pwm']:
-                    P['motor_pwm_max'] = P['motor_pwm']
-                if P['motor_pwm_min'] > P['motor_pwm']:
-                    P['motor_pwm_min'] = P['motor_pwm']
-
 cal_types = ['servo_pwm_null','servo_pwm_min','servo_pwm_max','motor_pwm_null','motor_pwm_min','motor_pwm_max']
 
 def Calibration_Mode(P):
@@ -39,7 +21,7 @@ def _calibrate_run_loop(P):
             if first_time_here:
                 try:
                     Cal = lo(opjD('calibrations.pkl'))
-                else:
+                except:
                     Cal = {}
                     for c in cal_types:
                         Cal[c] = []

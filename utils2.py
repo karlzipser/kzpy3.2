@@ -1734,7 +1734,13 @@ def intr(n):
 	return np.int(np.round(n))
 
 
-
+try:
+	import rospy
+	HAVE_ROS = True
+	cprint('HAVE_ROS = True','red','on_green')
+except:
+	HAVE_ROS = False
+	cprint('HAVE_ROS = False','red','on_green')
 
 	
 #EOF
