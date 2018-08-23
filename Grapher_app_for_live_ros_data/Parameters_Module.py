@@ -58,7 +58,7 @@ P['topic_keys_sorted'] = [
 	gyro_x,
 	gyro_y,
 	gyro_z,
-	'cmd_steer',
+	'cmd/steer',
 	steer,
 	#motor,
 	#gyro_heading_x,
