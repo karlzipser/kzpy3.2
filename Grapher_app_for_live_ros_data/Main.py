@@ -53,8 +53,8 @@ def steer__callback(msg):
 	R['steer']['vals'].append(msg.data)
 
 def cmd_steer__callback(msg):
-	R['steer']['ts'].append(time.time())
-	R['steer']['vals'].append(msg.data)
+	R['cmd/steer']['ts'].append(time.time())
+	R['cmd/steer']['vals'].append(msg.data)
 
 def motor__callback(msg):
 	R['motor']['ts'].append(time.time())
