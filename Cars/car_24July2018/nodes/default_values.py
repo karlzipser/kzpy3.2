@@ -265,10 +265,14 @@ https://www.tekrevue.com/tip/how-to-create-a-4gbs-ram-disk-in-mac-os-x/
 https://answers.ros.org/question/239968/how-do-you-implement-a-rospy-keyboardinterrupt-without-killing-the-node/
 
 need to:
-fix wheel encoder
+√fix wheel encoder
 add second wheel encoder
 move and reverse some flex sensors
 make battery packs
+have it so body does not have to be on to play disk. Need releasable clib on usb3 cable
+second LED to: show bagfile count, show wifi status, other critical things
+fix wheel and camera alignment
+record C calibration settings
 """
 
 
