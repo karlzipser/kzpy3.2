@@ -139,7 +139,8 @@ while not rospy.is_shutdown():
 
     if node_timer.time() > 10:
         if len(left_list) == 0:
-            CS_("empty image list after 30s, ABORTING, rebooting!!!!!")
+            for i in range(5):
+                CS_("empty image list after 30s, ABORTING, rebooting!!!!!",emphasis=True)
             default_values.EXIT(restart=False,shutdown=False,kill_ros=True,_file_=__file__)
     if False:
         if len(left_list) > 0:
@@ -192,15 +193,14 @@ while not rospy.is_shutdown():
                 #assert left+right+center==1.0
                 if left:
                     print('left')
-                    print "current_camera = 99"
+                    adjusted_camera = 99
                 elif right:
-                    print "current_camera = 0"
+                    adjusted_camera = 0
                     print('right')
-                elif center:
-                    print "current_camera = 49"
+                else center:
+                    adjusted_camera = 49
                     print('center')
-                else:
-                    print 'not left, right or center'
+
 
 
             adjusted_motor = bound_value(adjusted_motor,0,99)

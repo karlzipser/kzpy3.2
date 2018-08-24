@@ -138,13 +138,16 @@ def rlen(a):
 	return range(len(a))
 
 PRINT_COMMENTS = True
-def CS_(comment,section='',say_comment=False):
+def CS_(comment,section='',say_comment=False,emphasis=False):
 	stri = '# - '
 	if len(section) > 0:
 		stri = stri + section + ': '
 	stri = stri + comment
 	if PRINT_COMMENTS:
-		cprint(stri,attrs=['bold'],color='white',on_color='on_grey')#cprint(stri,'red','on_green')
+		if not emphasis:
+			cprint(stri,attrs=['bold'],color='white',on_color='on_grey')#cprint(stri,'red','on_green')
+		else:
+			cprint(stri,attrs=['bold','blink'],color='white',on_color='on_grey')
 	if say_comment:
 		if using_osx():
 			say(comment,rate=250,print_text=False)
