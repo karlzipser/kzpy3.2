@@ -197,11 +197,9 @@ while not rospy.is_shutdown():
                 elif right:
                     adjusted_camera = 0
                     print('right')
-                else center:
+                else:
                     adjusted_camera = 49
                     print('center')
-
-
 
             adjusted_motor = bound_value(adjusted_motor,0,99)
             adjusted_steer = bound_value(adjusted_steer,0,99)
