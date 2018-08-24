@@ -183,7 +183,7 @@ while not rospy.is_shutdown():
 
             if button_just_changed:
                 button_just_changed = False
-                assert left+right+center==1.0
+                #assert left+right+center==1.0
                 if left:
                     print('left')
                     current_camera = 99
