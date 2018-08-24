@@ -187,16 +187,17 @@ while not rospy.is_shutdown():
 
 
             if button_just_changed:
+                print "button_just_changed"
                 button_just_changed = False
                 #assert left+right+center==1.0
                 if left:
                     print('left')
-                    current_camera = 99
+                    print "current_camera = 99"
                 elif right:
-                    current_camera = 0
+                    print "current_camera = 0"
                     print('right')
                 elif center:
-                    current_camera = 49
+                    print "current_camera = 49"
                     print('center')
                 else:
                     print 'not left, right or center'
