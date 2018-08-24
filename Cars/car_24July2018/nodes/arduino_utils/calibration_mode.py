@@ -26,7 +26,7 @@ def _calibrate_run_loop(P):
                     for c in cal_types:
                         Cal[c] = []
                 for c in cal_types:
-                   Cal[c].append(P[c])
+                   Cal[c].append(int(P[c]))
                 so(Cal,opjD('calibrations.pkl'))
                 first_time_here = False
             time.sleep(0.1)
