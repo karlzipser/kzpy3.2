@@ -194,7 +194,7 @@ while not rospy.is_shutdown():
                     current_camera = 49
                     print('center')
                 else:
-                    assert(False)
+                    print 'not left, right or center'
 
             adjusted_motor = bound_value(adjusted_motor,0,99)
             adjusted_steer = bound_value(adjusted_steer,0,99)
