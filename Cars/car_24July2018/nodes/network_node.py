@@ -45,7 +45,7 @@ play = 0.0
 left = 0.0
 right = 0.0
 center = 0.0
-button_number_previous = 0
+button_number_previous = -9999
 button_timer = Timer()
 current_steer = 49
 current_motor = 49
@@ -96,7 +96,8 @@ def behavioral_mode_callback(msg):
 def button_number_callback(msg):
     global left,right
     button_number = msg.data
-    if button_number_previous != button_number:
+    if button_number != button_number_previous:
+        button_number_previous = button_number
         button_just_changed = True
         button_timer.reset()
     left = 0.0
