@@ -172,7 +172,7 @@ while not rospy.is_shutdown():
 
 
             if 'Do smoothing of percents...':
-                current_camera = (1.0-s3)*torch_steer + s3*current_steer
+                current_camera = (1.0-s3)*torch_steer + s3*current_camera
                 current_steer = (1.0-s2)*torch_steer + s2*current_steer
                 current_motor = (1.0-s1)*torch_motor + s1*current_motor
 
