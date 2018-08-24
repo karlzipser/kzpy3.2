@@ -116,13 +116,15 @@ print_timer = Timer(5)
 Hz = 0
 
 low_frequency_pub_timer = Timer(0.5)
-if N['visualize_activations']:
-    import cv2
-    from kzpy3.vis2 import *
-    from Train_SqueezeNet_31May3018_copy import Activity_Module
-DRIVE_FORWARD = True
+if False:
+    if N['visualize_activations']:
+        import cv2
+        from kzpy3.vis2 import *
+        from Train_SqueezeNet_31May3018_copy import Activity_Module
+    DRIVE_FORWARD = True
 reverse_timer = Timer(1)
 image_sample_timer = Timer(5)
+
 node_timer = Timer()
 
 Torch_network = net_utils.Torch_Network(N)

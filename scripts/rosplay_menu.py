@@ -1,12 +1,5 @@
 from kzpy3.utils2 import *
 
-try:
-	import rospy
-	HAVE_ROS = True
-	cprint('HAVE_ROS = True','red','on_green')
-except:
-	HAVE_ROS = False
-	cprint('HAVE_ROS = False','red','on_green')
 if HAVE_ROS:
 	os.system('rostopic list > '+opjD('rostopic_list.txt'))
 else:

@@ -144,7 +144,7 @@ def CS_(comment,section='',say_comment=False):
 		stri = stri + section + ': '
 	stri = stri + comment
 	if PRINT_COMMENTS:
-		cprint(stri,'red','on_green')
+		cprint(stri,attrs=['bold'],color='white',on_color='on_grey')#cprint(stri,'red','on_green')
 	if say_comment:
 		if using_osx():
 			say(comment,rate=250,print_text=False)
@@ -1737,10 +1737,10 @@ def intr(n):
 try:
 	import rospy
 	HAVE_ROS = True
-	cprint('HAVE_ROS = True','red','on_green')
+	CS_('HAVE_ROS = True')
 except:
 	HAVE_ROS = False
-	cprint('HAVE_ROS = False','red','on_green')
+	CS_('HAVE_ROS = False')
 
 	
 #EOF

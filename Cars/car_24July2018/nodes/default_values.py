@@ -197,28 +197,16 @@ nmcli radio wifi on
 
 -make playback with LCR visualization; timestamp predictions, show current and past ones, in different grays
 -train network to output all three predictinos
--work on 2 zed car, give it back standard rear axel; setup tx2 as forward jetson; work out ethernet connection
+√ -work on 2 zed car, give it back standard rear axel; setup tx2 as forward jetson; work out ethernet connection
 -see about running models in threads
 -learn encoder values 
 -consider not bringing images together until after some procesing
--find LCR data
--net with color vs motion for two camerass in initial layers
+√-find LCR data
+-net with color vs motion for two cameras in initial layers
 -set up arena?
 -figure out why raised arena always yields heading pause.
--back up training data
+√-back up training data
 
-(left,-1,red)
-(left,-1,green)
-(left,-1,blue)
-(left,-2,green)
-(right,-1,green)
-(right,-2,green)
-(right,-3,green)
-(right,-4,green)
-(right,-5,green)
-(right,-6,green)
-(right,-7,green)
-(right,-8,green)
 
 -if a net gets trajectory predictions plus velocity estimate, it can choose which output point to use.
 -not that authorized_keys has moved, fix this on cars.
@@ -233,46 +221,45 @@ https://answers.ros.org/question/118576/rostopic-publish-message-to-remote-machi
 export ROS_MASTER_URI=http://192.168.1.20:11311
 make sure master's ip and name (tegra-ubuntu) are in /etc/hosts
 on master, export ROS_IP=0.0.0.0 # Listen on any interface
-
 ipaddr_ = "http://192.168.1.20:11311"
 print(d2s('Setting ROS_MASTER_URI to',ipaddr_))
 os.environ["ROS_MASTER_URI"] = ipaddr_
-os.environ["ROS_IP"] = "0.0.0.0"
-
+os.environ["ROS_IP"] = "0.0.0.0"			
 on publisher (.101)
 export ROS_IP=192.168.1.101
 roscore 
 in /etc/hosts "192.168.1.50 laptop", the name laptop being important it seems. Get this by typing 'hostname' on command line.
 on subscriber machine, ROS_IP='' [do not set] (may not be necessary)
 
-
 -make driving mode with drive and collision
 -set up arena
 -set up TX2 for data collection car and collect depth data
 -collect l,c,r outputs of network, use output with max motor value.
--harden Mr_Blue
+√ -harden Mr_Blue
 https://www.danielandrade.net/2016/10/30/interfacing-two-adafruit-mma8451-via-i2c/
-
 http://forums.trossenrobotics.com/tutorials/how-to-diy-128/get-position-feedback-from-a-standard-hobby-servo-3279/
-
 http://forums.trossenrobotics.com/tutorials/how-to-diy-128/cheap-battery-monitor-using-resistive-voltage-divider-3264/
-
 https://www.hackster.io/SHAHIR_nasar/simple-homemade-flex-sensor-ff54f0
 https://www.instructables.com/id/DIY-Flex-Sensor-Under-1-/
-
 https://www.tekrevue.com/tip/how-to-create-a-4gbs-ram-disk-in-mac-os-x/
-
 https://answers.ros.org/question/239968/how-do-you-implement-a-rospy-keyboardinterrupt-without-killing-the-node/
 
 need to:
-√fix wheel encoder
+√ fix wheel encoder
 add second wheel encoder
 move and reverse some flex sensors
 make battery packs
-have it so body does not have to be on to play disk. Need releasable clib on usb3 cable
+√ have it so body does not have to be on to play disk. Need releasable clip on usb3 cable
 second LED to: show bagfile count, show wifi status, other critical things
 fix wheel and camera alignment
 record C calibration settings
+
+2nd LED:
+	count bag files (64 red, then green the yellow)
+	list working arduinos
+	wifi status
+
+Revisit tx1 to tx1 ros networking.
 """
 
 
