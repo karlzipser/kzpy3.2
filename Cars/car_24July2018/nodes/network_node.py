@@ -47,6 +47,7 @@ right = 0.0
 center = 0.0
 button_number_previous = -9999
 button_timer = Timer()
+current_camera = 49
 current_steer = 49
 current_motor = 49
 button_just_changed = False
