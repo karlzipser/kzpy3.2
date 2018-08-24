@@ -9,7 +9,7 @@ def menu(Topics,menu_path):
     choice_number = 0
     Number_name_binding = {}
     while choice_number != 1:
-        if True:#try:
+        try:
             
             clear_screen()
 
@@ -52,7 +52,7 @@ def menu(Topics,menu_path):
                 so(Topics,opj(menu_path,'Topics.pkl'))
                 unix('touch '+opj(menu_path,'ready'))
 
-        else:#except Exception as e:
+        except Exception as e:
             print("********** rosmenu.py Exception ***********************")
             print(e.message, e.args)
 

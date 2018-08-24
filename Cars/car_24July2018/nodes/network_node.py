@@ -44,8 +44,12 @@ furtive = 0.0
 play = 0.0
 left = 0.0
 right = 0.0
+center = 0.0
+button_number_previous = 0
+button_timer = Timer()
 current_steer = 49
 current_motor = 49
+button_just_changed = False
 
 def send_image_to_list(lst,data):
     cimg = bridge.imgmsg_to_cv2(data,"bgr8")
@@ -92,12 +96,18 @@ def behavioral_mode_callback(msg):
 def button_number_callback(msg):
     global left,right
     button_number = msg.data
+    if button_number_previous != button_number:
+        button_just_changed = True
+        button_timer.reset()
     left = 0.0
     right = 0.0
+    center = 0.0
     if button_number == 3:
         right = 1.0
     elif button_number == 1:
         left = 1.0
+    else:
+        center = 1.0
 
 camera_cmd_pub = rospy.Publisher('cmd/camera', std_msgs.msg.Int32, queue_size=5)
 steer_cmd_pub = rospy.Publisher('cmd/steer', std_msgs.msg.Int32, queue_size=5)
@@ -116,12 +126,7 @@ print_timer = Timer(5)
 Hz = 0
 
 low_frequency_pub_timer = Timer(0.5)
-if False:
-    if N['visualize_activations']:
-        import cv2
-        from kzpy3.vis2 import *
-        from Train_SqueezeNet_31May3018_copy import Activity_Module
-    DRIVE_FORWARD = True
+
 reverse_timer = Timer(1)
 image_sample_timer = Timer(5)
 
@@ -163,10 +168,23 @@ while not rospy.is_shutdown():
             Torch_network['output'] should contain full output array of network
             """
 
+
             if 'Do smoothing of percents...':
                 current_camera = (1.0-s3)*torch_steer + s3*current_steer
                 current_steer = (1.0-s2)*torch_steer + s2*current_steer
                 current_motor = (1.0-s1)*torch_motor + s1*current_motor
+
+            if button_just_changed:
+                button_just_changed = False
+                assert left+right+center==1.0
+                if left:
+                    current_camera = 99
+                elif right:
+                    current_camera = 0
+                elif center:
+                    current_camera = 49
+                else:
+                    assert(False)
 
             adjusted_motor = int(N['network_motor_gain']*(current_motor-49) + N['network_motor_offset'] + 49)
             adjusted_steer = int(N['network_steer_gain']*(current_steer-49) + 49)
