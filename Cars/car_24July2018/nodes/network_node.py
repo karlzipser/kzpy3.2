@@ -94,7 +94,7 @@ def behavioral_mode_callback(msg):
         play = 1.0
 
 def button_number_callback(msg):
-    global left,right
+    global left,right,button_number_previous,button_just_changed
     button_number = msg.data
     if button_number != button_number_previous:
         button_number_previous = button_number
