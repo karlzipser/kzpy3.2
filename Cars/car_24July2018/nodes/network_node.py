@@ -200,7 +200,7 @@ while not rospy.is_shutdown():
                     print('center')
                 else:
                     print 'not left, right or center'
->>>>>>> 7c8ac19b07ef85ee98b0cad137ba80612302c501
+
 
             adjusted_motor = bound_value(adjusted_motor,0,99)
             adjusted_steer = bound_value(adjusted_steer,0,99)
