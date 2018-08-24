@@ -125,21 +125,37 @@ Parameters['to_expose'] = [
 ]
 
 Network = {}
-Network['ABORT'] = False
-Network['network_output_sample'] = 4 # >= 0, <= 9
-Network['network_steer_gain'] = 8.0
-Network['network_camera_gain'] = 8.0
-Network['network_motor_gain'] = 1.0
-Network['network_motor_offset'] = 0
-Network['network_servo_smoothing_parameter'] = 0.95
-Network['network_motor_smoothing_parameter'] = 0.75
-Network['network_camera_smoothing_parameter'] = 0.75
-Network['weight_file_path'] = opjh('pytorch_models','net_10Jun18_00h00m45s.SqueezeNet')
-Network['USE_NETWORK'] = True
-Network['GREY_OUT_TOP_OF_IMAGE'] = False
-Network['USE_LAST_IMAGE_ONLY'] = True
-Network['visualize_activations'] = False
-#Network['motor_reverse_threshold'] = 64
+if False:
+	Network['ABORT'] = False
+	Network['network_output_sample'] = 4 # >= 0, <= 9
+	Network['network_steer_gain'] = 8.0
+	Network['network_camera_gain'] = 8.0
+	Network['network_motor_gain'] = 1.0
+	Network['network_motor_offset'] = 0
+	Network['network_servo_smoothing_parameter'] = 0.95
+	Network['network_motor_smoothing_parameter'] = 0.75
+	Network['network_camera_smoothing_parameter'] = 0.75
+	Network['weight_file_path'] = opjh('pytorch_models','net_10Jun18_00h00m45s.SqueezeNet')
+	Network['USE_NETWORK'] = True
+	Network['GREY_OUT_TOP_OF_IMAGE'] = False
+	Network['USE_LAST_IMAGE_ONLY'] = True
+	Network['visualize_activations'] = False
+if True:
+	Network['ABORT'] = False
+	Network['network_output_sample'] = 4 # >= 0, <= 9
+	Network['network_steer_gain'] = 4.0
+	Network['network_camera_gain'] = 4.0
+	Network['network_motor_gain'] = 0.333
+	Network['network_motor_offset'] = 0
+	Network['network_servo_smoothing_parameter'] = 0.95
+	Network['network_motor_smoothing_parameter'] = 0.75
+	Network['network_camera_smoothing_parameter'] = 0.75
+	Network['weight_file_path'] = opjh('pytorch_models','net_10Jun18_00h00m45s.SqueezeNet')
+	Network['USE_NETWORK'] = True
+	Network['GREY_OUT_TOP_OF_IMAGE'] = False
+	Network['USE_LAST_IMAGE_ONLY'] = True
+	Network['visualize_activations'] = False
+	#Network['motor_reverse_threshold'] = 64
 
 Network['to_expose'] = [
 	'network_output_sample',
