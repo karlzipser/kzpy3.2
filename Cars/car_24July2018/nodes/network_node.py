@@ -176,7 +176,19 @@ while not rospy.is_shutdown():
                 current_steer = (1.0-s2)*torch_steer + s2*current_steer
                 current_motor = (1.0-s1)*torch_motor + s1*current_motor
 
-
+            if button_just_changed:
+                print "button_just_changed"
+                button_just_changed = False
+                #assert left+right+center==1.0
+                if left:
+                    print('left')
+                    current_camera = 99
+                elif right:
+                    current_camera = 0
+                    print('right')
+                else:
+                    current_camera = 49
+                    print('center')
 
             adjusted_motor = int(N['network_motor_gain']*(current_motor-49) + N['network_motor_offset'] + 49)
             adjusted_steer = int(N['network_steer_gain']*(current_steer-49) + 49)
@@ -184,22 +196,10 @@ while not rospy.is_shutdown():
 
 
 
-            print left,right
+            #print left,right
 
 
-            if button_just_changed:
-                print "button_just_changed"
-                button_just_changed = False
-                #assert left+right+center==1.0
-                if left:
-                    print('left')
-                    adjusted_camera = 99
-                elif right:
-                    adjusted_camera = 0
-                    print('right')
-                else:
-                    adjusted_camera = 49
-                    print('center')
+
 
             adjusted_motor = bound_value(adjusted_motor,0,99)
             adjusted_steer = bound_value(adjusted_steer,0,99)
