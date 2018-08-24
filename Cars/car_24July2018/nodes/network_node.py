@@ -181,11 +181,11 @@ while not rospy.is_shutdown():
             adjusted_steer = int(N['network_steer_gain']*(current_steer-49) + 49)
             adjusted_camera = int(N['network_camera_gain']*(current_camera-49) + 49)
 
-<<<<<<< HEAD
+
 
             print left,right
 
-=======
+
             if button_just_changed:
                 button_just_changed = False
                 #assert left+right+center==1.0
