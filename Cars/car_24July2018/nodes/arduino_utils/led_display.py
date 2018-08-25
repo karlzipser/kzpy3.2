@@ -29,28 +29,28 @@ def _LED_Display_run_loop(P):
                 P['Arduinos']['SIG'].flushOutput()
                 flush_timer.reset()
             exec('gps_input = list({0})'.format(read_str)) 
-            pd2s("Start:",gps_input) 
+            #pd2s("Start:",gps_input) 
             if type(gps_input) != list:
                 continue
             if len(gps_input) != 8:
                 continue
             if gps_input[0]!='GPS3':
                 continue
-            print 'a'
+            #print 'a'
             P['GPS_latitudeDegrees'] = gps_input[1]
-            print 'b'
+            #print 'b'
             P['GPS_longitudeDegrees'] = gps_input[2]
-            print 'c'
+            #print 'c'
             P['GPS_speed'] = gps_input[3]
-            print 'd'
+            #print 'd'
             P['GPS_angle'] = gps_input[4]
-            print 'e'
+            #print 'e'
             P['GPS_altitude'] = gps_input[5]
-            print 'f'
+            #print 'f'
             P['GPS_fixquality'] = gps_input[6]
-            print 'g'
+            #print 'g'
             P['GPS_satellites'] = gps_input[7]
-            print 'h'        
+            #print 'h'        
             if P['USE_ROS']:
                 P['publish_GPS_data'](P)
             if write_timer.check():
@@ -73,6 +73,7 @@ def _LED_Display_run_loop(P):
                 if wifi_status:
                     write_num += 500
                 P['Arduinos']['SIG'].write(d2n('(',-write_num,')'))
+                pd2s("P['Arduinos']['SIG'].write(d2n('(',-write_num,')')) =",P['Arduinos']['SIG'].write(d2n('(',-write_num,')')))
                 bag_timer.reset()
 
             if print_timer.check():
