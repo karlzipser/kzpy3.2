@@ -271,11 +271,15 @@ fix wheel and camera alignment
 record C calibration settings
 
 2nd LED:
-	count bag files (64 red, then green the yellow)
+	count bag files (64 red, then green the yellow) or write text
 	list working arduinos
 	wifi status
+	network status
 
 Revisit tx1 to tx1 ros networking.
+
+
+
 """
 
 

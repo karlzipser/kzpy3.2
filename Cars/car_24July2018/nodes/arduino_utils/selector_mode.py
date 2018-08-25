@@ -29,13 +29,15 @@ A = {
         }   
     }
 
+initial_line = 10315 #11315
+
 def Selector_Mode(P):
     for theme in A.keys():
         if theme not in P:
             P[theme] = False
 
     P['selector_mode'] = 'menu_mode'
-    P['LED_number']['current'] = 11315
+    P['LED_number']['current'] = initial_line
     threading.Thread(target=_selector_run_loop,args=[P]).start()
 
 def _selector_run_loop(P):
@@ -58,7 +60,7 @@ def _selector_run_loop(P):
                     else:
                         P['LED_number']['current'] = 11305
             elif P['button_number'] != 4:
-                P['LED_number']['current'] = 11315
+                P['LED_number']['current'] = initial_line
         elif P['calibrated']:####################################################
             if P['button_number'] == 4:
                 if P['button_time'] < P['CALIBRATION_START_TIME']:
@@ -119,7 +121,7 @@ def _selector_run_loop(P):
                         all_themes_set = True
                         for theme in A.keys():
                             if P[theme] == False:
-                                P['LED_number']['current'] = 11315
+                                P['LED_number']['current'] = initial_line
                                 all_themes_set = False
                         if all_themes_set:
                             agent_choice = P['agent_choice']
