@@ -29,8 +29,13 @@ def _LED_Display_run_loop(P):
                 P['Arduinos']['SIG'].flushOutput()
                 flush_timer.reset()
             exec('gps_input = list({0})'.format(read_str)) 
-            print gps_input     
-            assert(gps_input[0]=='GPS3')
+            pd2s("Start:",gps_input) 
+            if type(gps_input) != list:
+                continue
+            if len(gps_input) != 8:
+                continue
+            if gps_input[0]!='GPS3':
+                continue
             print 'a'
             P['GPS_latitudeDegrees'] = gps_input[1]
             print 'b'
