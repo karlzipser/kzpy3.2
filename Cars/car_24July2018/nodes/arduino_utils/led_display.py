@@ -43,8 +43,22 @@ def _LED_Display_run_loop(P):
                 P['Arduinos']['SIG'].write(d2n('(',P['LED_number']['current'],')'))
                 write_timer.reset()
             elif bag_timer.check():
-                 num_bagfiles = len(sggo(most_recent_file_in_folder(opjm('rosbags/new')),'*.bag'))
-                P['Arduinos']['SIG'].write(d2n('(',-num_bagfiles,')'))
+                num_bag_files = 0
+                GPS_status = 0
+                wifi_status = 0
+                num_arduinos = 0
+                for a in ['MSE','IMU','SIG','FLEX']:
+                    if a in P['Arduinos']:
+                        num_arduinos += 1
+                num_bag_files = len(sggo(most_recent_file_in_folder(opjm('rosbags/new')),'*.bag'))
+                if P['GPS_fixquality'] > 0:
+                    GPS_status = 1
+                if internet_on():
+                    wifi_status = 1
+                write_num = 10000*GPS_status+num_arduinos*1000+num_bagfiles
+                if wifi_status:
+                    write_num += 500
+                P['Arduinos']['SIG'].write(d2n('(',-write_num,')'))
                 bag_timer.reset()
 
             if print_timer.check():
