@@ -38,7 +38,7 @@ def _LED_Display_run_loop(P):
             P['GPS_fixquality'] = gps_input[6]
             P['GPS_satellites'] = gps_input[7]           
             if P['USE_ROS']:
-                P['publish_GPS_data'](P,m)
+                P['publish_GPS_data'](P)
             if write_timer.check():
                 P['Arduinos']['SIG'].write(d2n('(',P['LED_number']['current'],')'))
                 write_timer.reset()
