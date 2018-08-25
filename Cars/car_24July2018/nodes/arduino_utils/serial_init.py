@@ -39,7 +39,7 @@ def assign_serial_connections(P,sers):
                         print("\tusing 'acc.ino'")
                     P['Arduinos']['IMU'] = ser
                     break
-                elif ser_tuple[0] in ['GPS2']:
+                elif ser_tuple[0] in ['GPS3']:
                     print(d2s('Port',ser.port,'is the SIG:',ser_str))
                     if 'Keep this up to date...':
                         print("\tusing 'LED_arduino_LCR_13July2018b.ino'")
