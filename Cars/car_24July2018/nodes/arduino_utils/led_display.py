@@ -56,7 +56,7 @@ def _LED_Display_run_loop(P):
             if write_timer.check():
                 P['Arduinos']['SIG'].write(d2n('(',P['LED_number']['current'],')'))
                 write_timer.reset()
-            elif bag_timer.check():
+            if bag_timer.check():
                 num_bag_files = 0
                 GPS_status = 0
                 wifi_status = 0
