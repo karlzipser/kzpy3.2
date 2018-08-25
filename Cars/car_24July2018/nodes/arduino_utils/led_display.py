@@ -58,7 +58,7 @@ def _LED_Display_run_loop(P):
                 write_timer.reset()
             if bag_timer.check():
                 num_bag_files = 0
-                GPS_status = 0
+                GPS_status = 1
                 wifi_status = 0
                 num_arduinos = 0
                 for a in ['MSE','IMU','SIG','FLEX']:
@@ -66,7 +66,7 @@ def _LED_Display_run_loop(P):
                         num_arduinos += 1
                 num_bag_files = len(sggo(most_recent_file_in_folder(opjm('rosbags/new')),'*.bag'))
                 if P['GPS_fixquality'] > 0:
-                    GPS_status = 1
+                    GPS_status = 2
                 if internet_on():
                     wifi_status = 1
                 print(GPS_status,num_arduinos,wifi_status,num_bag_files)
