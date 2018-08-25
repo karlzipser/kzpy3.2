@@ -3,12 +3,12 @@
 from kzpy3.utils2 import *
 
 if HAVE_ROS:
-	os.system(d2s("touch",opjD('rostopic_list.txt')))
+	#os.system(d2s("touch",opjD('rostopic_list.txt')))
 	os.system('rostopic list > '+opjD('rostopic_list.txt'))
 else:
 	os.system('ls > '+opjD('rostopic_list1.txt'))
 
-rl = txt_file_to_list_of_strings(opjD('rostopic_list1.txt'))
+rl = txt_file_to_list_of_strings(opjD('rostopic_list.txt'))
 
 pd2s('1 ) exit')
 for i in range(len(rl)):
