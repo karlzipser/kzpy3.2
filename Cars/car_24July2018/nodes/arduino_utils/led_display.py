@@ -69,7 +69,7 @@ def _LED_Display_run_loop(P):
                     GPS_status = 1
                 if internet_on():
                     wifi_status = 1
-                write_num = 10000*GPS_status+num_arduinos*1000+num_bagfiles
+                write_num = 10000*GPS_status+num_arduinos*1000+num_bag_files
                 if wifi_status:
                     write_num += 500
                 P['Arduinos']['SIG'].write(d2n('(',-write_num,')'))
