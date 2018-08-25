@@ -3,7 +3,7 @@
 from kzpy3.utils2 import *
 
 if HAVE_ROS:
-	touch opjD('rostopic_list.txt'))
+	os.system(d2s("touch",opjD('rostopic_list.txt')))
 	os.system('rostopic list > '+opjD('rostopic_list.txt'))
 else:
 	os.system('ls > '+opjD('rostopic_list1.txt'))
