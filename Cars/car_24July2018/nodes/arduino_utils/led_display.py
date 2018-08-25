@@ -31,13 +31,21 @@ def _LED_Display_run_loop(P):
             exec('gps_input = list({0})'.format(read_str)) 
             print gps_input     
             assert(gps_input[0]=='GPS3')
+            print 'a'
             P['GPS_latitudeDegrees'] = gps_input[1]
+            print 'b'
             P['GPS_longitudeDegrees'] = gps_input[2]
+            print 'c'
             P['GPS_speed'] = gps_input[3]
+            print 'd'
             P['GPS_angle'] = gps_input[4]
+            print 'e'
             P['GPS_altitude'] = gps_input[5]
+            print 'f'
             P['GPS_fixquality'] = gps_input[6]
-            P['GPS_satellites'] = gps_input[7]           
+            print 'g'
+            P['GPS_satellites'] = gps_input[7]
+            print 'h'        
             if P['USE_ROS']:
                 P['publish_GPS_data'](P)
             if write_timer.check():
@@ -67,7 +75,7 @@ def _LED_Display_run_loop(P):
                 print_timer.reset()
             time.sleep(0.001)
         except Exception as e:
-            pd2s("led_display.p exception",e)
+            pd2s("led_display.py Exception:",e)
             pass
     P['Arduinos']['SIG'].write('(11119)')         
     print d2s('end _LED_Display_run_loop, ran for',dp(run_timer.time(),1),'seconds')
