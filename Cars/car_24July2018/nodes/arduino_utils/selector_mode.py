@@ -77,11 +77,11 @@ def _selector_run_loop(P):
                     elif P['human']['servo_percent'] > 90:
                         P['selector_mode'] = 'menu_mode'
                     if P['selector_mode'] == 'drive_mode':
-                        P['LED_number']['current'] = 11306
+                        P['LED_number']['current'] = 10306
                     elif P['selector_mode'] == 'menu_mode':
-                        P['LED_number']['current'] = 11307
+                        P['LED_number']['current'] = 10307
                 elif P['button_time'] >= P['CALIBRATION_START_TIME']:
-                    P['LED_number']['current'] = 11305
+                    P['LED_number']['current'] = 10305
             elif P['button_number'] != 4:
                 if P['selector_mode'] == 'menu_mode':
                     for theme in A.keys():

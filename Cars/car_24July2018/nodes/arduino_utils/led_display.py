@@ -43,7 +43,7 @@ def _LED_Display_run_loop(P):
                 P['Arduinos']['SIG'].write(d2n('(',P['LED_number']['current'],')'))
                 write_timer.reset()
             elif bag_timer.check():
-                 num_bagfiles = len(sggo(most_recent_file_in_folder(opjm('new'),'*.bag')))
+                 num_bagfiles = len(sggo(most_recent_file_in_folder(opjm('rosbags/new')),'*.bag'))
                 P['Arduinos']['SIG'].write(d2n('(',-num_bagfiles,')'))
                 bag_timer.reset()
 
