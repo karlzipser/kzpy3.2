@@ -55,13 +55,20 @@ Parameters['Hz_mse_pub'] = rospy.Publisher('Hz_mse', std_msgs.msg.Float32, queue
 Parameters['gyro_pub'] = rospy.Publisher('gyro', geometry_msgs.msg.Vector3, queue_size=10)
 Parameters['gyro_heading_pub'] = rospy.Publisher('gyro_heading', geometry_msgs.msg.Vector3, queue_size=10)
 Parameters['acc_pub'] = rospy.Publisher('acc', geometry_msgs.msg.Vector3, queue_size=10)
-
 Parameters['servo_pwm_min_pub'] = rospy.Publisher('servo_pwm_min', std_msgs.msg.Int32, queue_size=5) 
 Parameters['servo_pwm_max_pub'] = rospy.Publisher('servo_pwm_max', std_msgs.msg.Int32, queue_size=5) 
 Parameters['servo_pwm_null_pub'] = rospy.Publisher('servo_pwm_null', std_msgs.msg.Int32, queue_size=5) 
 Parameters['motor_pwm_min_pub'] = rospy.Publisher('motor_pwm_min', std_msgs.msg.Int32, queue_size=5) 
 Parameters['motor_pwm_null_pub'] = rospy.Publisher('motor_pwm_null', std_msgs.msg.Int32, queue_size=5) 
 Parameters['motor_pwm_max_pub'] = rospy.Publisher('motor_pwm_max', std_msgs.msg.Int32, queue_size=5)
+
+Parameters['GPS_latitudeDegrees_pub'] = rospy.Publisher('GPS_latitudeDegrees', std_msgs.msg.Float64, queue_size=5)
+Parameters['GPS_longitudeDegrees_pub'] = rospy.Publisher('GPS_longitudeDegrees', std_msgs.msg.Float64, queue_size=5)
+Parameters['GPS_speed_pub'] = rospy.Publisher('GPS_speed', std_msgs.msg.Float32, queue_size=5)
+Parameters['GPS_angle_pub'] = rospy.Publisher('GPS_angle', std_msgs.msg.Float32, queue_size=5)
+Parameters['GPS_altitude_pub'] = rospy.Publisher('GPS_altitude', std_msgs.msg.Float32, queue_size=5)
+Parameters['GPS_fixquality_pub'] = rospy.Publisher('GPS_fixquality', std_msgs.msg.Int32, queue_size=5)
+Parameters['GPS_satellites_pub'] = rospy.Publisher('GPS_satellites', std_msgs.msg.Int32, queue_size=5)
 
 from default_values import flex_names
 for name in flex_names:
@@ -86,6 +93,15 @@ def _publish_IMU_data(Parameters,m):
 
 def _publish_FLEX_data(Parameters,m):
     Parameters[d2n(m,'_pub')].publish(std_msgs.msg.Int32(Parameters[m]))
+
+def _publish_GPS_data(Parameters):
+    Parameters['GPS_latitudeDegrees_pub'].publish(std_msgs.msg.Float64(Parameters['GPS_latitudeDegrees']))
+    Parameters['GPS_longitudeDegrees_pub'].publish(std_msgs.msg.Float64(Parameters['GPS_longitudeDegrees']))
+    Parameters['GPS_speed_pub'].publish(std_msgs.msg.Float32(Parameters['GPS_speed']))
+    Parameters['GPS_angle_pub'].publish(std_msgs.msg.Float32(Parameters['GPS_angle']))
+    Parameters['GPS_altitude_pub'].publish(std_msgs.msg.Float32(Parameters['GPS_altitude']))
+    Parameters['GPS_fixquality_pub'].publish(std_msgs.msg.Int32(Parameters['GPS_fixquality']))
+    Parameters['GPS_satellites_pub'].publish(std_msgs.msg.Int32(Parameters['GPS_satellites']))
 
 def _publish_MSE_data(Parameters):
     if Parameters['agent_choice'] == 'human':
@@ -141,6 +157,7 @@ def _publish_No_Arduino_data(Parameters):
 Parameters['publish_IMU_data'] = _publish_IMU_data
 Parameters['publish_MSE_data'] = _publish_MSE_data
 Parameters['publish_FLEX_data'] = _publish_FLEX_data
+Parameters['publish_GPS_data'] = _publish_GPS_data
 
 if 'Start Arduino threads...':
     baudrate = 115200

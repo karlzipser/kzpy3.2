@@ -63,7 +63,6 @@
             /$(arg car_name)/cmd/steer
             /$(arg car_name)/encoder
             /$(arg car_name)/servo_feedback
-            /$(arg car_name)/gps
             /$(arg car_name)/gyro
             /$(arg car_name)/gyro_heading
             /$(arg car_name)/acc
@@ -88,6 +87,13 @@
             /$(arg car_name)/xbl1
             /$(arg car_name)/xbr0
             /$(arg car_name)/xbr1
+            /$(arg car_name)/GPS_latitudeDegrees
+            /$(arg car_name)/GPS_longitudeDegrees
+            /$(arg car_name)/GPS_speed
+            /$(arg car_name)/GPS_angle
+            /$(arg car_name)/GPS_altitude
+            /$(arg car_name)/GPS_fixquality
+            /$(arg car_name)/GPS_satellites
             /network_output_sample
             /network_motor_offset
             /network_steer_gain

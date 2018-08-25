@@ -181,10 +181,12 @@ while not rospy.is_shutdown():
                 #print "button_just_changed"
                 button_just_changed = False
                 if left:
+                    pass
                     #print('left')
-                    current_camera = 99
+                    #current_camera = 99
                 elif right:
-                    current_camera = 0
+                    pass
+                    #current_camera = 0
                     #print('right')
                 else:
                     current_camera = 49
