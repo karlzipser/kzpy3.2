@@ -6,27 +6,19 @@ from torch.autograd import Variable
 from kzpy3.vis2 import *
 clear_screen()
 
-P={}
+
 
 class Z2ColorBatchNorm(nn.Module):
     def __init__(self):
         super(Z2ColorBatchNorm, self).__init__()
-
         self.lr = 0.1
         self.momentum = 0.1
-
         self.conv1 = nn.Conv1d(in_channels=1, out_channels=50, kernel_size=6, stride=2, groups=1)
         self.conv2 = nn.Conv1d(in_channels=50, out_channels=20, kernel_size=6, stride=2, groups=1)
         self.avg = nn.AvgPool1d(kernel_size=18, stride=19)
-        self.ip1 = nn.Linear(in_features=3, out_features=3)
-        
-        self.ip2 = nn.Linear(in_features=3, out_features=1)
-
         nn.init.normal_(self.conv1.weight, std=1.0)
         nn.init.normal_(self.conv2.weight, std=1.0)
-        nn.init.xavier_normal_(self.ip1.weight)
-        nn.init.xavier_normal_(self.ip2.weight)
-
+    self.P={}
     def forward(self, x):
         P['input'] = x.data.numpy()
         x = self.conv1(x)
@@ -55,7 +47,7 @@ def unit_test():
     Z = Z2ColorBatchNorm()
     t = torch.randn(2,1,150)
     Z.forward(Variable(t))
-    pprint(P)
+    pprint(Z.P)
 
 
 unit_test()
