@@ -18,6 +18,7 @@ def _LED_Display_run_loop(P):
     write_timer = Timer(0.1)
     bag_timer = Timer(0.25)
     frequency_timer = Timer(1)
+    exec(threading_str)
     while (not P['ABORT']) and (not rospy.is_shutdown()):
         frequency_timer.freq(name='_LED_Display_run_loop',do_print=P['print_led_freq'])
         if 'Brief sleep to allow other threads to process...':
@@ -67,7 +68,10 @@ def _LED_Display_run_loop(P):
                 num_bag_files = len(sggo(most_recent_file_in_folder(opjm('rosbags/new')),'*.bag'))
                 if P['GPS_fixquality'] > 0:
                     GPS_status = 2
-                if internet_on():
+                if False:
+                    if internet_on():
+                        wifi_status = 1
+                if P['internet_on']:
                     wifi_status = 1
                 print(GPS_status,num_arduinos,wifi_status,num_bag_files)
                 write_num = 10000*GPS_status+num_arduinos*1000+num_bag_files

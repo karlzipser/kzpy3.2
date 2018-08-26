@@ -61,6 +61,7 @@
     <arg name="rosbag_args"
      value="/$(arg car_name)/cmd/motor 
             /$(arg car_name)/cmd/steer
+            /$(arg car_name)/cmd/camera
             /$(arg car_name)/encoder
             /$(arg car_name)/servo_feedback
             /$(arg car_name)/gyro
