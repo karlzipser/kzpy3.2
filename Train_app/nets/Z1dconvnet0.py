@@ -13,8 +13,8 @@ class Z1dconvnet0(nn.Module):
         super(Z1dconvnet0, self).__init__()
         self.lr = 0.1
         self.momentum = 0.1
-        self.conv1 = nn.Conv1d(in_channels=12, out_channels=50, kernel_size=6, stride=2, groups=1)
-        self.conv2 = nn.Conv1d(in_channels=50, out_channels=20, kernel_size=6, stride=2, groups=1)
+        self.conv1 = nn.Conv1d(in_channels=12, out_channels=64, kernel_size=6, stride=2, groups=1)
+        self.conv2 = nn.Conv1d(in_channels=64, out_channels=20, kernel_size=6, stride=2, groups=1)
         self.avg = nn.AvgPool1d(kernel_size=18, stride=19)
         nn.init.normal_(self.conv1.weight, std=1.0)
         nn.init.normal_(self.conv2.weight, std=1.0)
@@ -34,7 +34,7 @@ class Z1dconvnet0(nn.Module):
         P['avg'] = x.data.numpy()
         x = F.relu(x)
         P['avg_relu'] = x.data.numpy()
-        if True:
+        if False:
             mi(P['conv1'][0],'conv1-0')
             mi(P['conv1'][1],'conv1-1')
             mi(P['conv2'][0],'conv2-0')
@@ -51,5 +51,5 @@ def unit_test():
     pprint(Z.P)
 
 
-unit_test()
-raw_enter()
+#unit_test()
+#raw_enter()
