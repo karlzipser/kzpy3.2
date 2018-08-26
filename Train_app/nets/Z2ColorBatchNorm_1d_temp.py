@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.nn.init as initialization
 from torch.autograd import Variable
-from kzpy3.utils2 import *
+from kzpy3.vis2 import *
 clear_screen()
 
 P={}
@@ -15,12 +15,15 @@ class Z2ColorBatchNorm(nn.Module):
         self.lr = 0.1
         self.momentum = 0.1
 
-        self.conv1 = nn.Conv1d(in_channels=1, out_channels=3, kernel_size=3, stride=1, groups=1)
+        self.conv1 = nn.Conv1d(in_channels=1, out_channels=50, kernel_size=6, stride=2, groups=1)
+        self.conv2 = nn.Conv1d(in_channels=50, out_channels=20, kernel_size=6, stride=2, groups=1)
+        self.avg = nn.AvgPool1d(kernel_size=18, stride=19)
         self.ip1 = nn.Linear(in_features=3, out_features=3)
         
         self.ip2 = nn.Linear(in_features=3, out_features=1)
 
-        nn.init.normal_(self.conv1.weight, std=0.1)
+        nn.init.normal_(self.conv1.weight, std=1.0)
+        nn.init.normal_(self.conv2.weight, std=1.0)
         nn.init.xavier_normal_(self.ip1.weight)
         nn.init.xavier_normal_(self.ip2.weight)
 
@@ -28,24 +31,32 @@ class Z2ColorBatchNorm(nn.Module):
         P['input'] = x.data.numpy()
         x = self.conv1(x)
         P['conv1'] = x.data.numpy()
-        
         x = F.relu(x)
-        P['conv1/relu'] = x.data.numpy()
-        x = x.view(-1, 3)
-        P['x.view'] = x.data.numpy()
-        x = F.relu(self.ip1(x))
-        P['F.relu(self.ip1(x))'] = x.data.numpy()
-        x = self.ip2(x)
-        P['ip2'] = x.data.numpy()
-        
+        P['conv1_relu'] = x.data.numpy()
+        x = self.conv2(x)
+        P['conv2'] = x.data.numpy()
+        x = F.relu(x)
+        P['conv2_relu'] = x.data.numpy()
+        x = self.avg(x)
+        P['avg'] = x.data.numpy()
+        x = F.relu(x)
+        P['avg_relu'] = x.data.numpy()
+        if True:
+            mi(P['conv1'][0],'conv1-0')
+            mi(P['conv1'][1],'conv1-1')
+            mi(P['conv2'][0],'conv2-0')
+            mi(P['conv2'][1],'conv2-1')
+            mi(P['avg'][0],'avg-0')
+            mi(P['avg'][1],'avg-1')
         return x
 
 
 def unit_test():
     Z = Z2ColorBatchNorm()
-    t = torch.randn(2,1,5)
-    Z.forward(t)#Variable(t))
+    t = torch.randn(2,1,150)
+    Z.forward(Variable(t))
     pprint(P)
 
 
 unit_test()
+raw_enter()

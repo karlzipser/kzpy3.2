@@ -226,36 +226,34 @@ def plt_square():
     plt.draw()
 
 
+try:
+    def function_close_all_windows():
+        plt.close('all')
+        cv2.destroyAllWindows()
+    CA = function_close_all_windows
 
-def function_close_all_windows():
-    plt.close('all')
-    cv2.destroyAllWindows()
-CA = function_close_all_windows
-
-
-
-
-
-def mci(img,delay=33,title='mci',scale=1.0,color_mode=cv2.COLOR_RGB2BGR):
-    img = cv2.cvtColor(img,color_mode)
-    scale_img = cv2.resize(img, (0,0), fx=scale, fy=scale, interpolation=0)
-    cv2.imshow(title,scale_img)
-    k = cv2.waitKey(delay)
-    return k
+    def mci(img,delay=33,title='mci',scale=1.0,color_mode=cv2.COLOR_RGB2BGR):
+        img = cv2.cvtColor(img,color_mode)
+        scale_img = cv2.resize(img, (0,0), fx=scale, fy=scale, interpolation=0)
+        cv2.imshow(title,scale_img)
+        k = cv2.waitKey(delay)
+        return k
 
 
-def mcia(img_block,delay=33,title='mcia',scale=1.0,color_mode=cv2.COLOR_RGB2BGR):
-    assert(len(shape(img_block)) == 4)
-    for i in range(shape(img_block)[0]):
-        k = mci(img_block[i,:,:,:],delay=delay,title=title,scale=scale,color_mode=color_mode)
-        if k == ord('q'):
-            return
+    def mcia(img_block,delay=33,title='mcia',scale=1.0,color_mode=cv2.COLOR_RGB2BGR):
+        assert(len(shape(img_block)) == 4)
+        for i in range(shape(img_block)[0]):
+            k = mci(img_block[i,:,:,:],delay=delay,title=title,scale=scale,color_mode=color_mode)
+            if k == ord('q'):
+                return
 
 
-def mcia_folder(path,delay=33,title='mcia_folder',scale=1.0,color_mode=cv2.COLOR_RGB2BGR):
-    l=load_img_folder_to_list(path)
-    mcia(array(l),delay=delay,title=title,scale=scale,color_mode=cv2.COLOR_RGB2BGR)
+    def mcia_folder(path,delay=33,title='mcia_folder',scale=1.0,color_mode=cv2.COLOR_RGB2BGR):
+        l=load_img_folder_to_list(path)
+        mcia(array(l),delay=delay,title=title,scale=scale,color_mode=cv2.COLOR_RGB2BGR)
 
+except:
+    print("Don't have cv2")
 
 def frames_to_video_with_ffmpeg(input_dir,output_path,img_range=(),rate=30):
     if input_dir[-1] == '/':
