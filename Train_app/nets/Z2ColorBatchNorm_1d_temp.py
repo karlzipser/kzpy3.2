@@ -8,9 +8,9 @@ clear_screen()
 
 
 
-class Z2ColorBatchNorm(nn.Module):
+class Z1dconvnet0(nn.Module):
     def __init__(self):
-        super(Z2ColorBatchNorm, self).__init__()
+        super(Z1dconvnet0, self).__init__()
         self.lr = 0.1
         self.momentum = 0.1
         self.conv1 = nn.Conv1d(in_channels=1, out_channels=50, kernel_size=6, stride=2, groups=1)
