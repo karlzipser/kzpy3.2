@@ -5,12 +5,12 @@ exec(identify_file_str)
 try:
 	q = raw_input('load __local__ parameters? (y/n)')
 	if q == 'y':
-		from __local__.Parameters_Module__local_.py import *
+		from kzpy3.Grapher_app_for_preprocessed_data.__local__.Parameters_Module__local_.py import *
 except:
 	print('__local__.Parameters_Module__local_.py not found')
 
 if q != 'y':
-		
+
 	_ = dictionary_access
 
 	P = {}
