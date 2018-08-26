@@ -7,12 +7,7 @@ if not hasattr(main,'__file__'):
 #
 ###############################
 from Parameters_Module import *
-try:
-	q = raw_input('load __local__ parameters? (y/n)')
-	if q == 'y':
-		from __local__.Parameters_Module__local_.py import *
-except:
-	print('__local__.Parameters_Module__local_.py not found')
+
 
 
 from kzpy3.vis2 import *
