@@ -1,6 +1,6 @@
 ## General (from caffe .gitignore)
 __pyignore_folder__/*.py
-~/kzpy3/Grapher_app_for_preprocessed_data/__local__/*.py 
+*._local_.py 
 Icon?
 .DS_Store
 *.caffemodel
