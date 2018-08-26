@@ -15,7 +15,7 @@ class Z2ColorBatchNorm(nn.Module):
         self.N_STEPS = 10
 
         self.conv1 = nn.Conv1d(in_channels=10, out_channels=1, kernel_size=1, stride=1, groups=1)
-        #self.conv1_pool = nn.MaxPool1d(kernel_size=1, stride=1)
+        #self.conv1_pool = nn.MaxPool1d(kernel_size=1, stride=1) 
         #self.conv1_pool_norm = nn.BatchNorm2d(1)
 
         self.ip1 = nn.Linear(in_features=1, out_features=1)
