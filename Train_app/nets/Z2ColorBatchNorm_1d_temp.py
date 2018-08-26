@@ -13,7 +13,7 @@ class Z1dconvnet0(nn.Module):
         super(Z1dconvnet0, self).__init__()
         self.lr = 0.1
         self.momentum = 0.1
-        self.conv1 = nn.Conv1d(in_channels=1, out_channels=50, kernel_size=6, stride=2, groups=1)
+        self.conv1 = nn.Conv1d(in_channels=12, out_channels=50, kernel_size=6, stride=2, groups=1)
         self.conv2 = nn.Conv1d(in_channels=50, out_channels=20, kernel_size=6, stride=2, groups=1)
         self.avg = nn.AvgPool1d(kernel_size=18, stride=19)
         nn.init.normal_(self.conv1.weight, std=1.0)
@@ -45,8 +45,8 @@ class Z1dconvnet0(nn.Module):
 
 
 def unit_test():
-    Z = Z2ColorBatchNorm()
-    t = torch.randn(2,1,150)
+    Z = Z1dconvnet0()
+    t = torch.randn(2,12,150)
     Z.forward(Variable(t))
     pprint(Z.P)
 
