@@ -1764,13 +1764,20 @@ def __internet_on_thread(P_):
 		P_['ABORT'] = False
 	if 'internet_on' not in P_:
 		P_['internet_on'] = False
-	while P_['ABORT'] == False
-		if timer.check():
-			P['internet_on'] = internet_on()
-			timer.reset()
-		else:
-			time.sleep(1)
-threading_str = """threading.Thread(target=__internet_on_thread,args=[P,]).start()"""
+	try:
+		while P_['ABORT'] == False:
+			if timer.check():
+				P_['internet_on'] = internet_on()
+				timer.reset()
+			else:
+				time.sleep(1)
+	except Exception as e:
+		srpd2s("__internet_on_thread",e)
+		time.sleep(1)
+
+__internet_on_threading_exec_str = """threading.Thread(target=__internet_on_thread,args=[P_,]).start()"""
+if False:
+	exec(d2s("P_={};",__internet_on_threading_exec_str))
 
 def clear_screen():
     print(chr(27) + "[2J")
