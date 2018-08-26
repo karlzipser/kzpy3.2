@@ -5,7 +5,7 @@ exec(identify_file_str)
 try:
 	q = raw_input('load __local__ parameters? (y/n)')
 	if q == 'y':
-		from kzpy3.Grapher_app_for_preprocessed_data.__local__.Parameters_Module__local_.py import *
+		from kzpy3.Grapher_app_for_preprocessed_data.__local__.Parameters_Module__local_ import *
 except:
 	print('__local__.Parameters_Module__local_.py not found')
 
