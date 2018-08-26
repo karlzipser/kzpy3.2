@@ -18,8 +18,9 @@ class Z2ColorBatchNorm(nn.Module):
         self.avg = nn.AvgPool1d(kernel_size=18, stride=19)
         nn.init.normal_(self.conv1.weight, std=1.0)
         nn.init.normal_(self.conv2.weight, std=1.0)
-    self.P={}
+        self.P={}
     def forward(self, x):
+        P = self.P
         P['input'] = x.data.numpy()
         x = self.conv1(x)
         P['conv1'] = x.data.numpy()
