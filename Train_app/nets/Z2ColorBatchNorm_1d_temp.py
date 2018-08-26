@@ -28,7 +28,7 @@ class Z2ColorBatchNorm(nn.Module):
         P['input'] = x.data.numpy()
         x = self.conv1(x)
         P['conv1'] = x.data.numpy()
-        """
+        
         x = F.relu(x)
         P['conv1/relu'] = x.data.numpy()
         x = x.view(-1, 3)
@@ -37,15 +37,13 @@ class Z2ColorBatchNorm(nn.Module):
         P['F.relu(self.ip1(x))'] = x.data.numpy()
         x = self.ip2(x)
         P['ip2'] = x.data.numpy()
-        """
+        
         return x
 
 
 def unit_test():
     Z = Z2ColorBatchNorm()
     t = torch.randn(2,1,5)
-    #print t
-    print "----"
     Z.forward(t)#Variable(t))
     pprint(P)
 
