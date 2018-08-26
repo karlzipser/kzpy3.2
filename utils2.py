@@ -1757,4 +1757,8 @@ def internet_on():
 	except urllib2.URLError as err: 
 		return False
 
+def clear_screen():
+    print(chr(27) + "[2J")
+
+
 #EOF
