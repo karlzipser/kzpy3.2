@@ -56,7 +56,7 @@ Parameters['agent_choice'] = 'human'
 Parameters['place_choice'] = 'local'
 
 if Parameters['car_name'] == 'Mr_Blue_Back':
-	Parameters['servo_pwm_smooth_manual_offset'] = 100
+	Parameters['servo_pwm_smooth_manual_offset'] = 200
 	Parameters['camera_pwm_manual_offset'] = -500
 	Parameters['servo_feedback_center'] = 214
 	Parameters['servo_feedback_right'] = 140
@@ -125,7 +125,7 @@ Parameters['to_expose'] = [
 ]
 
 Network = {}
-if False:
+if True:
 	Network['ABORT'] = False
 	Network['network_output_sample'] = 4 # >= 0, <= 9
 	Network['network_steer_gain'] = 8.0
@@ -140,7 +140,7 @@ if False:
 	Network['GREY_OUT_TOP_OF_IMAGE'] = False
 	Network['USE_LAST_IMAGE_ONLY'] = True
 	Network['visualize_activations'] = False
-if True:
+if False:
 	Network['ABORT'] = False
 	Network['network_output_sample'] = 4 # >= 0, <= 9
 	Network['network_steer_gain'] = 2.0

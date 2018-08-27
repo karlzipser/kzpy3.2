@@ -78,7 +78,7 @@ def _LED_Display_run_loop(P):
                 if wifi_status:
                     write_num += 500
                 P['Arduinos']['SIG'].write(d2n('(',-write_num,')'))
-                pd2s("P['Arduinos']['SIG'].write(d2n('(',-write_num,')')) =",-write_num)
+                #pd2s("P['Arduinos']['SIG'].write(d2n('(',-write_num,')')) =",-write_num)
                 bag_timer.reset()
 
             if print_timer.check():
