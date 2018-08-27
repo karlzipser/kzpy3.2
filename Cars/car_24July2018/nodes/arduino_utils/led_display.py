@@ -73,7 +73,7 @@ def _LED_Display_run_loop(P):
                         wifi_status = 1
                 if P['internet_on']:
                     wifi_status = 1
-                print(GPS_status,num_arduinos,wifi_status,num_bag_files)
+                #print(GPS_status,num_arduinos,wifi_status,num_bag_files)
                 write_num = 10000*GPS_status+num_arduinos*1000+num_bag_files
                 if wifi_status:
                     write_num += 500
