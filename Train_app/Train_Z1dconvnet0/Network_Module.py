@@ -12,6 +12,7 @@ try:
     HAVE_GPU = True
 except:
     HAVE_GPU = False
+HAVE_GPU = False
 
 if HAVE_GPU:
     torch.cuda.set_device(0)
@@ -83,7 +84,7 @@ def Pytorch_Network():
     def _function_backward():
         try:
             D['loss'].backward()
-            nnutils.clip_grad_norm_(D['net'].parameters(), 1.0)
+            nnutils.clip_grad_norm(D['net'].parameters(), 1.0)
             D['optimizer'].step()
 
             """

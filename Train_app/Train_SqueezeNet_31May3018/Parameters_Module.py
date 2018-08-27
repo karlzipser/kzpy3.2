@@ -13,8 +13,8 @@ P = {}
 P['max_num_runs_to_open'] = 300
 
 P['experiments_folders'] = [#opjm('2_TB_Samsung_n2_/bair_car_data_Main_Dataset_part1/locations'),
-	opjD('bdd_car_data_July2017_LCR/locations')]#,
-	#opjm('preprocessed_1b/model_car_data_June2018_LCR/locations'),
+	#opjD('bdd_car_data_July2017_LCR/locations'),
+	opjm('preprocessed_1b/model_car_data_June2018_LCR/locations')]
 	#opjm('preprocessed_1b/model_car_data_July2018_lrc/locations')]
 
 P['aruco_experiments_folders'] = []#[opjD('all_aruco_reprocessed')]
@@ -25,17 +25,17 @@ P['BATCH_SIZE'] = 64
 P['REQUIRE_ONE'] = []
 P['NETWORK_OUTPUT_FOLDER'] = opjD('net_16Aug2018')#opjD('net_indoors_31May2018')
 P['SAVE_FILE_NAME'] = 'net'
-P['save_net_timer'] = Timer(60*20)
+P['save_net_timer'] = Timer(60*10)
 P['print_timer'] = Timer(30)
 P['frequency_timer'] = Timer(10.0)
-P['TRAIN_TIME'] = 60*10.0
+P['TRAIN_TIME'] = 60*5.0
 P['VAL_TIME'] = 60*1.0
 P['RESUME'] = True
 if P['RESUME']:
     P['INITIAL_WEIGHTS_FOLDER'] = opj(P['NETWORK_OUTPUT_FOLDER'],'weights')
     P['WEIGHTS_FILE_PATH'] = most_recent_file_in_folder(P['INITIAL_WEIGHTS_FOLDER'],['net'],[])	
 P['reload_image_file_timer'] = Timer(5*60)
-P['loss_timer'] = Timer(60*1/10)
+P['loss_timer'] = Timer(60*10/10)
 P['LOSS_LIST_N'] = 30
 P['run_name_to_run_path'] = {}
 P['data_moments_indexed'] = []
@@ -48,7 +48,7 @@ P['behavioral_modes'] = P['behavioral_modes_no_heading_pause']+['heading_pause']
 P['current_batch'] = []
 P['DISPLAY_EACH'] = False
 P['prediction_range'] = range(1,60,6)
-
+P['gray_out_random_value'] = 0.0
 if True:
 	for experiments_folder in P['experiments_folders']:
 		if fname(experiments_folder)[0] == '_':

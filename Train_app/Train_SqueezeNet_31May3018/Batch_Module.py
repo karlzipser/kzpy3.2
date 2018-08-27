@@ -126,7 +126,7 @@ def Batch(the_network=None):
 
 
 
-				if dm['aruco'] or random.random()<0.25:
+				if dm['aruco'] or random.random()<P['gray_out_random_value']:
 					offset = np.random.randint(20)
 					list_camera_input = []
 					for t in range(D['network']['net'].N_FRAMES):

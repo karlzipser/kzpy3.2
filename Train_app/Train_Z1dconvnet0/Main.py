@@ -32,7 +32,7 @@ topics = [
  u'xfr1',
 ]
 
-L = h5r(opjm('transfer/flex_sensors_Aug2018/h5py/Mr_Blue_Back_24Aug18_18h49m37s/left_timestamp_metadata_right_ts.h5py'))
+L = h5r(opjm('rosbags/flex_sensors_Aug2018/h5py/Mr_Blue_Back_24Aug18_18h49m37s/left_timestamp_metadata_right_ts.h5py'))
 M = {}
 for t in topics+['motor','steer']:
 	M[t] = zscore(L[t][:])

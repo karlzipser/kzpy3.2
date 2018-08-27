@@ -16,8 +16,8 @@ class Z1dconvnet0(nn.Module):
         self.conv1 = nn.Conv1d(in_channels=12, out_channels=64, kernel_size=6, stride=2, groups=1)
         self.conv2 = nn.Conv1d(in_channels=64, out_channels=20, kernel_size=6, stride=2, groups=1)
         self.avg = nn.AvgPool1d(kernel_size=18, stride=19)
-        nn.init.normal_(self.conv1.weight, std=1.0)
-        nn.init.normal_(self.conv2.weight, std=1.0)
+        nn.init.normal(self.conv1.weight, std=1.0)
+        nn.init.normal(self.conv2.weight, std=1.0)
         self.P={}
     def forward(self, x):
         P = self.P
