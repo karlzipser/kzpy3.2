@@ -6,17 +6,28 @@ import torch.nn.utils as nnutils
 from kzpy3.Train_app.nets.Z1dconvnet0 import Z1dconvnet0
 exec(identify_file_str)
 
-torch.set_default_tensor_type('torch.FloatTensor') 
-#torch.cuda.set_device(P['GPU'])
-#torch.cuda.device(P['GPU'])
+torch.set_default_tensor_type('torch.FloatTensor')
+try:
+    unix('nvidia-smi',print_stdout=True)
+    HAVE_GPU = True
+except:
+    HAVE_GPU = False
+
+if HAVE_GPU:
+    torch.cuda.set_device(0)
+    torch.cuda.device(0)
 
 
 def Pytorch_Network():
     D = {}
     True
+    if HAVE_GPU:
+        D['net'] = Z1dconvnet0().cuda()
+        D['criterion'] = torch.nn.MSELoss().cuda()
+    else:
+        D['net'] = Z1dconvnet0()#.cuda()
+        D['criterion'] = torch.nn.MSELoss()#.cuda()
 
-    D['net'] = Z1dconvnet0()#.cuda()
-    D['criterion'] = torch.nn.MSELoss()#.cuda()
     D['optimizer'] = torch.optim.Adadelta(D['net'].parameters())
 
     if False:#P['RESUME']:
@@ -40,7 +51,10 @@ def Pytorch_Network():
                 unix(d2s('mkdir -p',opj(P['NETWORK_OUTPUT_FOLDER'],folder)))
             weights = {'net':D['net'].state_dict().copy()}
             for key in weights['net']:
-                weights['net'][key] = weights['net'][key]#.cuda(device=0)
+                if HAVE_GPU:
+                    weights['net'][key] = weights['net'][key].cuda(device=0)
+                else:
+                    weights['net'][key] = weights['net'][key]#.cuda(device=0)
             torch.save(weights, opj(P['NETWORK_OUTPUT_FOLDER'],'weights',P['SAVE_FILE_NAME']+'_'+time_str()+'.infer'))
             so(P['LOSS_LIST_AVG'],opj(P['NETWORK_OUTPUT_FOLDER'],'loss',P['SAVE_FILE_NAME']+'_'+time_str()+'.loss_avg'))
             so(P['dm_ctrs'],opj(P['NETWORK_OUTPUT_FOLDER'],'dm_ctrs',P['SAVE_FILE_NAME']+'_'+time_str()+'.dm_ctrs'))

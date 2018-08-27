@@ -49,39 +49,43 @@ ctr = 0
 target_index_range = na(range(0,30,3))
 timeindex_offset = 0#10000
 while True:
-	for time_index in range(timeindex_offset+num_input_timesteps,timeindex_offset+len(L['acc_x'][:]-num_input_timesteps)):
-		#print time_index
-		
-		
-		for batch in range(num_minibatches):
-			_topic_ctr = 0
-			for t in topics:
-				#print _topic_ctr
-				the_input[batch,_topic_ctr,:] = torch.from_numpy(L[t][(-num_input_timesteps+time_index):time_index])
-				_topic_ctr += 1
-			motor = list(L['motor'][time_index+target_index_range])
-			steer = list(L['steer'][time_index+target_index_range])
-			#assert(len(motor)==10)
-			#assert(len(steer)==10)
+	try:
+		for time_index in range(timeindex_offset+num_input_timesteps,timeindex_offset+len(L['acc_x'][:]-num_input_timesteps)):
+			#print time_index
 			
-			#print(shape(np.concatenate([steer,motor])))
-			the_target[batch,0:20,0]=torch.from_numpy(na(steer+motor))#np.concatenate([steer,motor]))
-			#figure(2);plot(the_target)
+			
+			for batch in range(num_minibatches):
+				_topic_ctr = 0
+				for t in topics:
+					#print _topic_ctr
+					the_input[batch,_topic_ctr,:] = torch.from_numpy(L[t][(-num_input_timesteps+time_index):time_index])
+					_topic_ctr += 1
+				motor = list(L['motor'][time_index+target_index_range])
+				steer = list(L['steer'][time_index+target_index_range])
+				#assert(len(motor)==10)
+				#assert(len(steer)==10)
+				
+				#print(shape(np.concatenate([steer,motor])))
+				the_target[batch,0:20,0]=torch.from_numpy(na(steer+motor))#np.concatenate([steer,motor]))
+				#figure(2);plot(the_target)
 
-		Network['forward'](the_input,the_target)
-		Network['backward']()
-		ctr += 1
-		if display_timer.check():
-			#print ctr
-			figure(1);clf();ylim(-6,6);plot(motor);plot(steer)#;spause();
-			for l in ['input','conv1','conv2','avg']:
-				n = Network['net'].P[l][0]
-				#n[0,0],n[0,0] = 6,-6
-				#print shape(n)
-				mi(n,l)
-			
-			spause()
-			#raw_enter()
-			display_timer.reset()
+			Network['forward'](the_input,the_target)
+			Network['backward']()
+			ctr += 1
+			if display_timer.check():
+				#print ctr
+				figure(1);clf();ylim(-6,6);plot(motor);plot(steer)#;spause();
+				for l in ['input','conv1','conv2','avg']:
+					n = Network['net'].P[l][0]
+					#n[0,0],n[0,0] = 6,-6
+					#print shape(n)
+					mi(n,l)
+				
+				spause()
+				#raw_enter()
+				display_timer.reset()
+	except Exception as e:
+		pd2s("Main.py Exception",e)
+
 
 #EOF
