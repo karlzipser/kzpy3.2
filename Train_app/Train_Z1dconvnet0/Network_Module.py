@@ -51,13 +51,16 @@ def Pytorch_Network():
 
     D['SAVE_NET'] = _function_save_net
     
-
+    loss_timer = Timer(10)
     def _function_forward(the_input,the_target):
         #Trial_loss_record = D['network'][data_moment_loss_record]
         #the_input = (torch.from_numpy(the_input)).float();the_target = (torch.from_numpy(the_target)).float();
         D['optimizer'].zero_grad()
         D['outputs'] = D['net'](torch.autograd.Variable(the_input))
         D['loss'] = D['criterion'](D['outputs'],torch.autograd.Variable(the_target))
+        if loss_timer.check():
+            print D['loss']
+            loss_timer.reset()
 
     D['forward'] = _function_forward
 

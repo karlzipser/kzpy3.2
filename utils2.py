@@ -131,8 +131,12 @@ def opjh(*args):
 def opjD(*args):
 	return opjh('Desktop',opj(*args))
 def opjm(*args):
-	media_path = opj('/media',username)
-	return opj(media_path,opj(*args))
+	if not using_osx():
+		media_path = opj('/media',username)
+		return opj(media_path,opj(*args))
+	else:
+		media_path = '/Volumes'
+		return opj(media_path,opj(*args))
 
 def rlen(a):
 	return range(len(a))

@@ -32,8 +32,8 @@ class Z1dconvnet0(nn.Module):
         P['conv2_relu'] = x.data.numpy()
         x = self.avg(x)
         P['avg'] = x.data.numpy()
-        x = F.relu(x)
-        P['avg_relu'] = x.data.numpy()
+        #x = F.relu(x)
+        #P['avg_relu'] = x.data.numpy()
         if False:
             mi(P['conv1'][0],'conv1-0')
             mi(P['conv1'][1],'conv1-1')
