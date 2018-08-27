@@ -18,7 +18,7 @@ def _LED_Display_run_loop(P):
     write_timer = Timer(0.1)
     bag_timer = Timer(0.25)
     frequency_timer = Timer(1)
-    threading.Thread(target=__internet_on_thread,args=[P,]).start()
+    threading.Thread(target=internet_on_thread,args=[P,]).start()
     while (not P['ABORT']) and (not rospy.is_shutdown()):
         frequency_timer.freq(name='_LED_Display_run_loop',do_print=P['print_led_freq'])
         if 'Brief sleep to allow other threads to process...':

@@ -1757,7 +1757,7 @@ def internet_on():
 	except urllib2.URLError as err: 
 		return False
 
-def __internet_on_thread(P_):
+def internet_on_thread(P_):
 	spd2s("__internet_on_thread")
 	timer = Timer(2)
 	if 'ABORT' not in P_:
@@ -1775,9 +1775,9 @@ def __internet_on_thread(P_):
 		srpd2s("__internet_on_thread",e)
 		time.sleep(1)
 
-__internet_on_threading_exec_str = """threading.Thread(target=__internet_on_thread,args=[P_,]).start()"""
+internet_on_threading_exec_str = """threading.Thread(target=internet_on_thread,args=[P_,]).start()"""
 if False:
-	exec(d2s("P_={};",__internet_on_threading_exec_str))
+	exec(d2s("P_={};",internet_on_threading_exec_str))
 
 def clear_screen():
     print(chr(27) + "[2J")
