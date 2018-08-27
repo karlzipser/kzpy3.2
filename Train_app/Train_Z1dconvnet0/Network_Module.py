@@ -12,7 +12,7 @@ try:
     HAVE_GPU = True
 except:
     HAVE_GPU = False
-HAVE_GPU = False
+#HAVE_GPU = False
 
 if HAVE_GPU:
     torch.cuda.set_device(0)
