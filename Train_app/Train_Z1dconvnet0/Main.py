@@ -1,3 +1,24 @@
+	if False:
+	#!/usr/bin/env python
+	"""
+	python kzpy3/Cars/car_16July2018/nodes/arduino_node.py
+	"""
+	from kzpy3.utils2 import *
+
+	exec(identify_file_str)
+
+	import default_values
+
+	Parameters = default_values.Parameters
+
+	import kzpy3.Menu_app.menu
+	menu_path = opjh('kzpy3/Train_app/Train_Z1dconvnet0/__local__')
+	unix('mkdir -p '+menu_path)
+	unix(d2s('rm',opj(menu_path,'ready')))
+	threading.Thread(target=kzpy3.Menu_app.menu.load_menu_data,args=[menu_path,Parameters]).start()
+
+
+
 from kzpy3.vis2 import *
 import torch
 
@@ -40,7 +61,7 @@ L.close()
 L = M
 num_topics = len(topics)
 num_minibatches = 2
-num_input_timesteps = 150
+num_input_timesteps = 60#150
 the_input = torch.FloatTensor(num_minibatches,num_topics,num_input_timesteps).zero_().cuda()
 the_target = torch.FloatTensor(num_minibatches,20,1).zero_().cuda()
 #zero_matrix = torch.FloatTensor(1, 1, 23, 41).zero_().cuda()
@@ -79,7 +100,10 @@ while True:
 			ctr += 1
 			if display_timer.check():
 				#print ctr
-				#figure(1);clf();ylim(-6,6);plot(motor);plot(steer)#;spause();
+				figure(1);clf();ylim(-6,6);plot(motor);plot(steer)#;spause();
+				avg_pool = Network['net'].C['avg pool'][0].data.cpu().numpy()
+				plot(avg_pool[0:10],'r.-')
+				plot(avg_pool[10:20],'b.-')
 				for l in ['input','conv1/relu','conv2/relu','conv3','avg pool']:
 					n = Network['net'].C[l][0].data.cpu().numpy()
 					#n[0,0],n[0,0] = 6,-6

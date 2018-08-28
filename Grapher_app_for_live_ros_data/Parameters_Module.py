@@ -6,7 +6,7 @@ _ = dictionary_access
 
 P = {}
 P['USE_ARUCO'] = False
-P['USE_IMAGES'] = False
+P['USE_IMAGES'] = True
 
 flex_names = []
 for fb in ['f','b']:
