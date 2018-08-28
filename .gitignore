@@ -1,5 +1,6 @@
 ## General (from caffe .gitignore)
-*__local_.py 
+*__local_.py
+ready
 *.pkl
 Icon?
 .DS_Store
