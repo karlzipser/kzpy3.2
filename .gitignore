@@ -1,5 +1,6 @@
 ## General (from caffe .gitignore)
 *__local_.py 
+*.pkl
 Icon?
 .DS_Store
 *.caffemodel

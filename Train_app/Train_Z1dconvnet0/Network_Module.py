@@ -1,5 +1,5 @@
 #from Parameters_Module import *
-from kzpy3.utils2 import *
+from kzpy3.utils3 import *
 srpd2s('HERE!')
 import torch
 import torch.nn.utils as nnutils
@@ -7,11 +7,7 @@ from kzpy3.Train_app.nets.Z1dconvnet0 import Z1dconvnet0
 exec(identify_file_str)
 
 torch.set_default_tensor_type('torch.FloatTensor')
-try:
-    unix('nvidia-smi',print_stdout=True)
-    HAVE_GPU = True
-except:
-    HAVE_GPU = False
+
 #HAVE_GPU = False
 
 if HAVE_GPU:

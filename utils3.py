@@ -2,11 +2,53 @@ from __future__ import print_function  # print('me') instead of print 'me'
 from __future__ import division  # 1/2 == 0.5, not 0
 
 import_list = ['os','os.path','shutil','scipy','scipy.io','string','glob','time','sys','datetime','random','re',
-	'subprocess','threading','serial','inspect','fnmatch','h5py','socket','getpass','numbers']#,'importlib']
+	'subprocess','threading','serial','inspect','fnmatch','h5py','socket','getpass','numbers','math']#,'importlib']
 import_from_list = [['FROM','pprint','pprint'],['FROM','termcolor','cprint']]
 import_as_list = [['AS','numpy','np'],['AS','cPickle','pickle']]
 
-'math',
+
+
+####################################
+# exception format:
+if False:
+	try:
+		pass
+	except Exception as e:
+		print("********** Exception ***********************")
+		print(e.message, e.args)
+	# https://stackoverflow.com/questions/1278705/python-when-i-catch-an-exception-how-do-i-get-the-type-file-and-line-number
+	try:
+	    raise NotImplementedError("No error")
+	except Exception as e:
+	    exc_type, exc_obj, exc_tb = sys.exc_info()
+	    file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+	    CS_('Exception!',emphasis=True)
+	    CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+
+	try:
+	    raise NotImplementedError("No error")
+	except Exception as e:
+		exec(EXCEPT_STR)
+		raw_enter()
+	    
+EXCEPT_STR = """
+exc_type, exc_obj, exc_tb = sys.exc_info()
+file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+CS_('Exception!',emphasis=True)
+CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+"""
+
+def print_exception_format():
+	print("""
+try:
+    raise NotImplementedError("No error")
+except Exception as e:
+	exec(EXCEPT_STR)
+	raw_enter()
+		""")
+#
+####################################
+
 
 for im in import_list + import_from_list + import_as_list:
 	if type(im) == str:
@@ -34,19 +76,7 @@ for im in import_list + import_from_list + import_as_list:
 				pass
 				print('Failed to import '+im[1]+' as '+im[2])           
 
-#print("*** Note, kzpy3/teg2/bashrc now does: 'export PYTHONSTARTUP=~/kzpy3/vis2.py' ***")
 
-
-####################################
-# exception format:
-if False:
-	try:
-		pass
-	except Exception as e:
-		print("********** Exception ***********************")
-		print(e.message, e.args)
-#
-####################################
 
 
 na = np.array
@@ -128,6 +158,7 @@ def CS_(comment,section='',say_comment=False,emphasis=False):
 		if using_osx():
 			say(comment,rate=250,print_text=False)
 
+CS_('imported kzpy3.utils3')
 
 def zeroToOneRange(m):
 	min_n = 1.0*np.min(m)
@@ -890,6 +921,12 @@ def using_osx():
         return True
     return False
 
+if using_osx():
+	CS_('using OS X')
+elif using_linux():
+	CS_('using linux')
+else:
+	CS_('using UNKNOWN system')
 
 def get_safe_name(name):
     lst = []
@@ -922,6 +959,14 @@ try:
 except:
 	HAVE_ROS = False
 	CS_('HAVE_ROS = False')
+
+try:
+    unix('nvidia-smi',print_stdout=True)
+    HAVE_GPU = True
+    CS_('HAVE_GPU = True')
+except:
+    HAVE_GPU = False
+    CS_('HAVE_GPU = False')
 
 
 def internet_on():
@@ -957,6 +1002,7 @@ if False: # as example
 	threading.Thread(target=internet_on_thread,args=[P,]).start()
 
 
+
 def clear_screen():
     print(chr(27) + "[2J")
 
@@ -967,6 +1013,8 @@ def get_files_sorted_by_mtime(path_specification):
 	for f in files:
 		Mtimes[f] = os.path.getmtime(f)
 	return sorted(Mtimes.items(), key=lambda x:x[1])
+
+
 
 
 #EOF

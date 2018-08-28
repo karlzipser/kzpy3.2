@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.nn.init as initialization
 from torch.autograd import Variable
-from kzpy3.vis2 import *
+from kzpy3.vis3 import *
 clear_screen()
 
 
