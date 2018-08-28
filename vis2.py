@@ -5,7 +5,7 @@ try:
     import cv2
 except:
     print("Couldn't import cv2")
-
+from scipy.optimize import curve_fit
 
 
 

@@ -49,7 +49,8 @@ alias ipy="ipython --no-banner"
 alias td2="mv ~/Desktop/* ~/Desktop2/"
 
 export PYTHONPATH=~:$PYTHONPATH
-export PYTHONSTARTUP=~/kzpy3/utils2.py
+#export PYTHONSTARTUP=~/kzpy3/utils2.py
+export PYTHONSTARTUP=~/kzpy3/utils2_minimal.py
 export PATH=~/kzpy3/scripts:$PATH
 export PATH=~/kzpy3/scratch:$PATH
 export PATH=~/kzpy3/misc:$PATH
