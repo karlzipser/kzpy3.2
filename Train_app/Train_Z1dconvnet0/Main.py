@@ -7,6 +7,7 @@ import kzpy3.Train_app.Train_Z1dconvnet0.default_values as default_values
 import kzpy3.Train_app.Train_Z1dconvnet0.Network_Module as Network_Module
 exec(identify_file_str)
 
+#rsync -ravLp --exclude='flip*' --exclude='original*' /media/karlzipser/rosbags/flex_sensors_Aug2018/* /media/karlzipser/rosbags/flex_sensors_Aug2018_bkp/
 """
 P = default_values.P
 menu_path = P['The menu path.']
@@ -17,7 +18,7 @@ unix(d2s('touch',opj(menu_path,'ready')))
 threading.Thread(target=kzpy3.Menu_app.menu.load_menu_data,args=[menu_path,P]).start()
 """
 
-Network = Network_Module.Pytorch_Network(weights_file_path=opjD('flex_net_0/weights'),network_output_folder=opjD('flex_net_0/weights'),safe_file_name="sfn")
+Network = Network_Module.Pytorch_Network(weights_file_path=most_recent_file_in_folder(opjD('flex_net_0/weights/weights'),['sfn'],[]),network_output_folder=opjD('flex_net_0/weights'),safe_file_name="sfn")
 ###stop
 topics = [
  u'acc_x',
@@ -38,11 +39,12 @@ topics = [
  u'xfr0',
  u'xfr1',
 ]
+
 num_topics = len(topics)
 num_minibatches = 2
 num_input_timesteps = 60
 
-list_of_h5py_folders = sggo('/media/karlzipser/rosbags/flex_sensors_Aug2018/*')#h5py/*')
+list_of_h5py_folders = sggo('/media/karlzipser/rosbags/flex_sensors_Aug2018_bkp/*')#h5py/*')
 M = {}
 for t in topics:
 	M[t] = na([])
@@ -60,6 +62,7 @@ for f in list_of_h5py_folders:
 			for t in M.keys():
 				M_temp[t] = L[t][:] #if topic not in file, this will raise exception, avoiding adding partial data to M.
 			for t in M.keys():
+				print('adding '+t)
 				M[t] = np.concatenate((M[t],M_temp[t]),axis=None)
 				#figure(d2s(t,':',fname(r)));clf();plot(M[t])
 			#raw_enter()
@@ -70,15 +73,18 @@ for f in list_of_h5py_folders:
 			L.close()
 		except:
 			exec(EXCEPT_STR)
-	#for t in M.keys():
-	#	figure(d2s(t,': all runs'));clf();plot(M[t])
-	#raw_enter()
-	#CA()
+	for t in M.keys():
+		figure(d2s(t,': all runs'));clf();plot(M[t])
+	raw_enter()
+	CA()
 
 L={}
 for t in M.keys():
 	L[t] = zscore(M[t][:])
-
+for t in M.keys():
+	figure(d2s(t,': all runs'));clf();plot(L[t])
+raw_enter()
+CA()
 
 
 the_input = torch.FloatTensor(num_minibatches,num_topics,num_input_timesteps).zero_().cuda()

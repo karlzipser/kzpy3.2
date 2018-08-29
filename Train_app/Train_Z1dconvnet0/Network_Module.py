@@ -15,7 +15,7 @@ def Pytorch_Network(weights_file_path,network_output_folder,safe_file_name,resum
     D = {}
     D['loss list'],D['loss list average'] = [],[]
     D['loss timer'] = Timer(10)
-    D['save net timer'] = Timer(60*20)
+    D['save net timer'] = Timer(60*2)
     if HAVE_GPU:
         D['net'] = Z1dconvnet0().cuda()
         D['criterion'] = torch.nn.MSELoss().cuda()
