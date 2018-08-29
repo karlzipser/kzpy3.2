@@ -7,7 +7,6 @@ import_from_list = [['FROM','pprint','pprint'],['FROM','termcolor','cprint']]
 import_as_list = [['AS','numpy','np'],['AS','cPickle','pickle']]
 
 
-
 ####################################
 # exception format:
 if False:
@@ -108,6 +107,16 @@ def sgg(d):
 def sggo(d,*args):
 	a = opj(d,*args)
 	return sgg(a)
+def get_files_sorted_by_mtime(path_specification):
+	files = sggo(path_specification)
+	Mtimes = {}
+	for f in files:
+		Mtimes[f] = os.path.getmtime(f)
+	return sorted(Mtimes.items(), key=lambda x:x[1])
+def tsggo(d,*args):
+	a = opj(d,*args)
+	#CS_(a)
+	return get_files_sorted_by_mtime(a)
 
 shape = np.shape
 randint = np.random.randint
@@ -132,6 +141,8 @@ def opjh(*args):
 	return opj(home_path,opj(*args))
 def opjD(*args):
 	return opjh('Desktop',opj(*args))
+def opjk(*args):
+	return opjh('kzpy3',opj(*args))
 def opjm(*args):
 	if not using_osx():
 		media_path = opj('/media',username)
@@ -429,6 +440,34 @@ def say(t,rate=150,print_text=True):
 
 
 
+###start
+def code_to_code_str(path,start=-1,stop=-1):
+	code = txt_file_to_list_of_strings(path)
+	if start == 'symbols':
+		for i in range(len(code)):
+			if code[i] == '#'+'#'+'#'+'start':
+				start = i+1
+				srpd2s('found start',start)
+			if code[i] == '#'+'#'+'#'+'stop':
+				stop = i+1
+				srpd2s('found stop',i)
+	elif (start<0):
+		start,stop = input('start,stop ')
+		for i in range(len(code)):
+			pd2s(i,')',code[i])
+	srpd2s('code_to_clipboard(code,',start,stop,')')
+	code_to_clipboard(code,start,stop)
+
+def code_to_clipboard(code,start,stop):
+	import pyperclip
+	code_str = '\n'.join(code[start:stop])
+	cprint(code_str,'yellow')
+	if using_osx():
+		setClipboardData(code_str)
+	else:
+		pyperclip.copy(code_str)
+	print('\nOkay, it is in the clipboard')
+###stop
 
 
 
@@ -1007,12 +1046,7 @@ def clear_screen():
     print(chr(27) + "[2J")
 
 
-def get_files_sorted_by_mtime(path_specification):
-	files = sggo(path_specification)
-	Mtimes = {}
-	for f in files:
-		Mtimes[f] = os.path.getmtime(f)
-	return sorted(Mtimes.items(), key=lambda x:x[1])
+spd2s('imported',__file__)
 
 
 

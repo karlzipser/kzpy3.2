@@ -37,7 +37,10 @@ def Pytorch_Network(weights_file_path,network_output_folder,safe_file_name,resum
     except:
         cprint('Training network from random weights','red')
         D['optimizer'] = torch.optim.Adadelta(D['net'].parameters())
-        exec(EXCEPT_STR)
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        CS_('Exception!',emphasis=True)
+        CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
 
 
     def _function_save_net():
@@ -63,12 +66,13 @@ def Pytorch_Network(weights_file_path,network_output_folder,safe_file_name,resum
 
 
     def _function_forward(the_input,the_target):
+        pass
         D['optimizer'].zero_grad()
         D['outputs'] = D['net'](torch.autograd.Variable(the_input))
         D['loss'] = D['criterion'](D['outputs'],torch.autograd.Variable(the_target))
-        if D['loss timer'].check():
-            print D['loss']
-            D['loss timer'].reset()
+        #if D['loss timer'].check():
+        #    print D['loss']
+        #    D['loss timer'].reset()
 
     D['forward'] = _function_forward
 
@@ -85,7 +89,11 @@ def Pytorch_Network(weights_file_path,network_output_folder,safe_file_name,resum
         except Exception as e:
             print("********** Exception ****** def _function_backward(): failed!!!! *****************")
             print(e.message, e.args)
-            exec(EXCEPT_STR)
+            #exec(EXCEPT_STR)
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            CS_('Exception!',emphasis=True)
+            CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
 
     D['backward'] = _function_backward
 
