@@ -21,9 +21,16 @@ def _TACTIC_RC_controller_run_loop(P):
     ctr_timer = Timer()
     Pid_processing_motor = Pid_Processing_Motor()
     Pid_processing_steer = Pid_Processing_Steer()
+    time_since_successful_read_from_arduino = Timer();_timer = Timer(0.2)
 
     while (not P['ABORT']) and (not rospy.is_shutdown()):
-        
+
+        if time_since_successful_read_from_arduino.time() > 1.0:
+            _timer.message(d2s("time_since_successful_read_from_arduino.time()",time_since_successful_read_from_arduino.time()))
+        if time_since_successful_read_from_arduino.time() > 2.0:
+            CS_("time_since_successful_read_from_arduino.time() > 2, ABORT",emphasis=True)
+            default_values.EXIT(restart=False,shutdown=False,kill_ros=True,_file_=__file__)
+
         if 'Brief sleep to allow other threads to process...':
             time.sleep(0.01)
         try:
@@ -59,6 +66,7 @@ def _TACTIC_RC_controller_run_loop(P):
                 P['button_number'] = bn
                 P['button_time'] = P['button_timer'].time()
 
+            time_since_successful_read_from_arduino.reset()
 
             s = P['HUMAN_SMOOTHING_PARAMETER_1']
 

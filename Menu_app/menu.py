@@ -17,7 +17,9 @@ def menu(Topics,path):
             Number_name_binding[ctr]='exit';print d2n(' ',ctr,') ',Number_name_binding[ctr]);ctr+=1
             Number_name_binding[ctr]='load';print d2n(' ',ctr,') ',Number_name_binding[ctr]);ctr+=1
             Number_name_binding[ctr]='save';print d2n(' ',ctr,') ',Number_name_binding[ctr]);ctr+=1
-            Number_name_binding[ctr]='add';print d2n(' ',ctr,') ',Number_name_binding[ctr])
+            Number_name_binding[ctr]='add';print d2n(' ',ctr,') ',Number_name_binding[ctr]);ctr+=1
+            Number_name_binding[ctr]='hide';print d2n(' ',ctr,') ',Number_name_binding[ctr]);ctr+=1
+            Number_name_binding[ctr]='expose';print d2n(' ',ctr,') ',Number_name_binding[ctr])
 
             first = True
             if 'to_expose' in Topics:
@@ -82,6 +84,7 @@ def menu(Topics,path):
                 filename = d2n('Topics.',description,'.pkl')
                 so(Topics,opj(path,filename))
                 message = d2s('saved',filename)
+                save_topics(Topics,path)
 
 
             elif choice_number == Name_number_binding['add']:
@@ -92,6 +95,37 @@ def menu(Topics,path):
                     assert(False)
                 Topics[topic_name] = None
                 message = d2s('added topic',topic_name)
+                save_topics(Topics,path)
+                    
+
+            elif choice_number == Name_number_binding['hide']:
+                message = 'topic not hidden'
+                hide_number = input('\tnumber to hide #? ')
+                topic_name = Number_name_binding[hide_number]
+                Topics['to_hide'].append(topic_name)
+                Topics['to_expose'] = []
+                for k in Topics.keys():
+                    if k not in Topics['to_hide']:
+                        Topics['to_expose'].append(k)
+                message = d2s('topic',topic_name,'hidden')
+                save_topics(Topics,path)
+                    
+
+            elif choice_number == Name_number_binding['expose']:
+                message = 'topic not exposed'
+                #expose_name = input('\tname to expose #? ')
+                ctr2 = 1
+                for f in Topics['to_hide']:
+                    print d2n('\t',ctr2,') ',f)
+                    ctr2 += 1
+                expose_number = input('\tnumber to expose #? ')
+                expose_name = Topics['to_hide'][expose_number-1]
+                if expose_name in Topics['to_hide']:
+                    Topics['to_hide'].remove(expose_name)
+                if expose_name not in Topics['to_expose']:
+                    Topics['to_expose'].append(expose_name)
+                message = d2s('topic',expose_name,'exposed')
+                save_topics(Topics,path)
                     
             else:
                 name = Number_name_binding[choice_number]

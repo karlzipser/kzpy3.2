@@ -10,12 +10,11 @@ else:
 
 rl = txt_file_to_list_of_strings(opjD('rostopic_list.txt'))
 
-
+pd2s('1 ) exit')
+for i in range(len(rl)):
+	pd2s(i+2,')',rl[i])
 done = False
 while not done:
-	pd2s('1 ) exit')
-	for i in range(len(rl)):
-		pd2s(i+2,')',rl[i])
 	try:
 		n = input('select number--> ')
 		assert type(n) == int

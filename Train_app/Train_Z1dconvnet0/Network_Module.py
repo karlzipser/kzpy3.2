@@ -1,6 +1,4 @@
-#from Parameters_Module import *
 from kzpy3.utils3 import *
-srpd2s('HERE!')
 import torch
 import torch.nn.utils as nnutils
 from kzpy3.Train_app.nets.Z1dconvnet0 import Z1dconvnet0
@@ -8,97 +6,86 @@ exec(identify_file_str)
 
 torch.set_default_tensor_type('torch.FloatTensor')
 
-#HAVE_GPU = False
-
 if HAVE_GPU:
     torch.cuda.set_device(0)
     torch.cuda.device(0)
 
 
-def Pytorch_Network():
+def Pytorch_Network(weights_file_path,network_output_folder,safe_file_name,resuming=True,loss_list_n=30):
     D = {}
-    True
+    D['loss list'],D['loss list average'] = [],[]
+    D['loss timer'] = Timer(10)
+    D['save net timer'] = Timer(60*20)
     if HAVE_GPU:
         D['net'] = Z1dconvnet0().cuda()
         D['criterion'] = torch.nn.MSELoss().cuda()
     else:
         D['net'] = Z1dconvnet0()#.cuda()
         D['criterion'] = torch.nn.MSELoss()#.cuda()
-
-    D['optimizer'] = torch.optim.Adadelta(D['net'].parameters())
-
-    if False:#P['RESUME']:
-        cprint(d2s('Resuming with',P['WEIGHTS_FILE_PATH']),'red')
-        save_data = torch.load(P['WEIGHTS_FILE_PATH'])
+    try:
+        assert resuming == True
+        cprint(d2s('Resuming with',weights_file_path,'red'))
+        save_data = torch.load(weights_file_path)
         D['net'].load_state_dict(save_data['net'])
-        P['LOSS_LIST_AVG'] = lo( most_recent_file_in_folder( opj(P['NETWORK_OUTPUT_FOLDER'],'loss') ) )
-        try:
-            D['optimizer'].load_state_dict(torch.load(most_recent_file_in_folder(opj(P['NETWORK_OUTPUT_FOLDER'],'optimizer'))))
-        except:
-            print 'unable load_state of optimizer'
-            D['optimizer'] = torch.optim.Adadelta(D['net'].parameters())
+        D['loss list average'] = lo(most_recent_file_in_folder(opj(network_output_folder,'loss')))
+        #try:
+        D['optimizer'].load_state_dict(torch.load(most_recent_file_in_folder(opj(network_output_folder,'optimizer'))))
+        #except:
+        #    print 'unable load_state of optimizer'
+        #    D['optimizer'] = torch.optim.Adadelta(D['net'].parameters())
         time.sleep(4)
-    else:
+    except:
         cprint('Training network from random weights','red')
+        D['optimizer'] = torch.optim.Adadelta(D['net'].parameters())
+        exec(EXCEPT_STR)
+
 
     def _function_save_net():
-        if P['save_net_timer'].check():
+        if D['save net timer'].check():
             print('saving net state . . .')
             for folder in ['weights','loss','dm_ctrs','state_dict','optimizer']:
-                unix(d2s('mkdir -p',opj(P['NETWORK_OUTPUT_FOLDER'],folder)))
+                unix(d2s('mkdir -p',opj(network_output_folder,folder)))
             weights = {'net':D['net'].state_dict().copy()}
             for key in weights['net']:
                 if HAVE_GPU:
                     weights['net'][key] = weights['net'][key].cuda(device=0)
                 else:
                     weights['net'][key] = weights['net'][key]#.cuda(device=0)
-            torch.save(weights, opj(P['NETWORK_OUTPUT_FOLDER'],'weights',P['SAVE_FILE_NAME']+'_'+time_str()+'.infer'))
-            so(P['LOSS_LIST_AVG'],opj(P['NETWORK_OUTPUT_FOLDER'],'loss',P['SAVE_FILE_NAME']+'_'+time_str()+'.loss_avg'))
-            so(P['dm_ctrs'],opj(P['NETWORK_OUTPUT_FOLDER'],'dm_ctrs',P['SAVE_FILE_NAME']+'_'+time_str()+'.dm_ctrs'))
-            torch.save(D['optimizer'].state_dict(), opj(P['NETWORK_OUTPUT_FOLDER'],'optimizer',P['SAVE_FILE_NAME']+'_'+time_str()+'.optimizer_state'))
-            torch.save(D['net'].state_dict(), opj(P['NETWORK_OUTPUT_FOLDER'],'state_dict',P['SAVE_FILE_NAME']+'_'+time_str()+'.state_dict'))
+            torch.save(weights, opj(network_output_folder,'weights',safe_file_name+'_'+time_str()+'.infer'))
+            so(D['loss list average'],opj(network_output_folder,'loss',safe_file_name+'_'+time_str()+'.loss_avg'))
+            #so(P['dm_ctrs'],opj(network_output_folder,'dm_ctrs',safe_file_name+'_'+time_str()+'.dm_ctrs'))
+            torch.save(D['optimizer'].state_dict(), opj(network_output_folder,'optimizer',safe_file_name+'_'+time_str()+'.optimizer_state'))
+            torch.save(D['net'].state_dict(), opj(network_output_folder,'state_dict',safe_file_name+'_'+time_str()+'.state_dict'))
             print('. . . done saving.')
-            P['save_net_timer'].reset()
+            D['save net timer'].reset()
 
-    D['SAVE_NET'] = _function_save_net
-    
-    loss_timer = Timer(10)
+    D['save net'] = _function_save_net
+
+
     def _function_forward(the_input,the_target):
-        #Trial_loss_record = D['network'][data_moment_loss_record]
-        #the_input = (torch.from_numpy(the_input)).float();the_target = (torch.from_numpy(the_target)).float();
         D['optimizer'].zero_grad()
         D['outputs'] = D['net'](torch.autograd.Variable(the_input))
         D['loss'] = D['criterion'](D['outputs'],torch.autograd.Variable(the_target))
-        if loss_timer.check():
+        if D['loss timer'].check():
             print D['loss']
-            loss_timer.reset()
+            D['loss timer'].reset()
 
     D['forward'] = _function_forward
 
 
-    #na = np.array
     def _function_backward():
         try:
             D['loss'].backward()
             nnutils.clip_grad_norm(D['net'].parameters(), 1.0)
-            D['optimizer'].step()
-
-            """
-            P['LOSS_LIST'].append(D['loss'].data.cpu().numpy()[:].mean())
-        
-            try:
-                assert(len(P['current_batch']) == P['BATCH_SIZE'])
-            except:
-                print(len(P['current_batch']),P['BATCH_SIZE'])
-            for i in range(P['BATCH_SIZE']):
-                P['current_batch'][i]['loss'].append(P['LOSS_LIST'][-1])
-            if len(P['LOSS_LIST']) > P['LOSS_LIST_N']:
-                P['LOSS_LIST_AVG'].append(na(P['LOSS_LIST']).mean())
-                P['LOSS_LIST'] = []
-            """
+            D['optimizer'].step()    
+            D['loss list'].append(D['loss'].data.cpu().numpy()[:].mean())
+            if len(D['loss list']) > loss_list_n:
+                D['loss list average'].append(na(D['loss list']).mean())
+                D['loss list'] = []
         except Exception as e:
             print("********** Exception ****** def _function_backward(): failed!!!! *****************")
             print(e.message, e.args)
+            exec(EXCEPT_STR)
 
     D['backward'] = _function_backward
 
