@@ -17,13 +17,13 @@ exec(identify_file_str)
 import default_values
 
 Parameters = default_values.Parameters
-
+"""
 import kzpy3.Menu_app.menu
 menu_path = opjh('.menu','arduino_node')
 unix('mkdir -p '+menu_path)
 unix(d2s('rm',opj(menu_path,'ready')))
 threading.Thread(target=kzpy3.Menu_app.menu.load_menu_data,args=[menu_path,Parameters]).start()
-
+"""
 
 import std_msgs.msg
 import geometry_msgs.msg
