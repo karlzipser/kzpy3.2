@@ -95,6 +95,7 @@ def menu(Topics,path):
                     message = topic_name +' already in Topics. ' + message
                     assert(False)
                 Topics[topic_name] = None
+                Topics['to_expose'].append(topic_name)
                 message = d2s('added topic',topic_name)
                 save_topics(Topics,path)
                     
@@ -105,9 +106,12 @@ def menu(Topics,path):
                 topic_name = Number_name_binding[hide_number]
                 Topics['to_hide'].append(topic_name)
                 #Topics['to_expose'] = []
-                for k in Topics.keys():
-                    if k not in Topics['to_hide']:
-                        Topics['to_expose'].append(k)
+                #for k in Topics.keys():
+                #    if k not in Topics['to_hide']:
+                #        Topics['to_expose'].append(k)
+                for k in Topics['to_hide']:
+                    if k in Topics['to_expose']:
+                        Topics['to_expose'].remove(k)
                 message = d2s('topic',topic_name,'hidden')
                 save_topics(Topics,path)
                     
