@@ -181,7 +181,7 @@ if __name__ == '__main__':
     path = Arguments['path']
     if 'default' in Arguments.keys():
         import kzpy3.Train_app.Train_Z1dconvnet0.default_values as default_values
-        Topics = default_values.Parameters 
+        Topics = default_values.P
     else:
         try:
             Topics = load_Topics(path,first_load=True)
