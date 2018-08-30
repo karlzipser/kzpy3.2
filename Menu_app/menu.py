@@ -179,10 +179,14 @@ python kzpy3/Menu_app/menu.py path ~/kzpy3/Train_app/Train_Z1dconvnet0/__local__
 
 if __name__ == '__main__':
     path = Arguments['path']
-    try:
-        Topics = load_Topics(path,first_load=True)
-    except:
-        Topics = {}
+    if 'default' in Arguments.keys():
+        import kzpy3.kzpy3.Train_app.Train_Z1dconvnet0.default_values as default_values
+        Topics = default_values.Parameters 
+    else:
+        try:
+            Topics = load_Topics(path,first_load=True)
+        except:
+            Topics = {}
     menu(Topics,path)
 
 #EOF
