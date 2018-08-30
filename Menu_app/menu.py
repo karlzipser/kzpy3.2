@@ -2,15 +2,18 @@ from kzpy3.utils3 import *
 
 def menu(Topics,path):
 
-    message = False
-    choice_number = 0
-    Number_name_binding = {}
-    Name_number_binding = {}
+
+
 
     while choice_number != 1:
 
+        message = False
+        choice_number = 0
+
         try:
-            
+            Number_name_binding = {}
+            Name_number_binding = {}
+
             clear_screen()
 
             ctr = 1
@@ -179,7 +182,10 @@ python kzpy3/Menu_app/menu.py path ~/kzpy3/Train_app/Train_Z1dconvnet0/__local__
 
 if __name__ == '__main__':
     path = Arguments['path']
-    Topics = load_Topics(path,first_load=True)
+    try:
+        Topics = load_Topics(path,first_load=True)
+    except:
+        Topics = {}
     menu(Topics,path)
 
 #EOF
