@@ -1049,7 +1049,7 @@ def clear_screen():
 spd2s('imported',__file__)
 
 def percent_disk_free(disk):
-	statvfs = os.statvfs(opjh())
+	statvfs = os.statvfs(disk)
 	size_of_filesystem_in_bytes = statvfs.f_frsize * statvfs.f_blocks     # Size of filesystem in bytes
 	#print statvfs.f_frsize * statvfs.f_bfree      # Actual number of free bytes
 	number_of_free_bytes_that_ordinary_users_have = statvfs.f_frsize * statvfs.f_bavail     # Number of free bytes that ordinary users
