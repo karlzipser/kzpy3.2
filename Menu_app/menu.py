@@ -4,12 +4,13 @@ def menu(Topics,path):
 
     message = False
     choice_number = 0
-
+    Number_name_binding = {}
+    Name_number_binding = {}
+            
     while choice_number != 1:
 
         try:
-            Number_name_binding = {}
-            Name_number_binding = {}
+
 
             clear_screen()
 
