@@ -1,4 +1,4 @@
-from kzpy3.vis2 import *
+from kzpy3.vis3 import *
 exec(identify_file_str)
 
 import roslib

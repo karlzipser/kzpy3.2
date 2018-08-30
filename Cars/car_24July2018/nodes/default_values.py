@@ -1,4 +1,4 @@
-from kzpy3.utils2 import *
+from kzpy3.utils3 import *
 exec(identify_file_str)
 import rospy
 
@@ -128,8 +128,8 @@ Network = {}
 if True:
 	Network['ABORT'] = False
 	Network['network_output_sample'] = 0 # >= 0, <= 9
-	Network['network_steer_gain'] = 4.0
-	Network['network_camera_gain'] = 6.0
+	Network['network_steer_gain'] = 6.0
+	Network['network_camera_gain'] = 3.0
 	Network['network_motor_gain'] = 0.8
 	Network['network_motor_offset'] = 0
 	Network['network_servo_smoothing_parameter'] = 0.85

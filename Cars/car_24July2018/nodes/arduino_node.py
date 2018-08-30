@@ -2,7 +2,7 @@
 """
 python kzpy3/Cars/car_16July2018/nodes/arduino_node.py
 """
-from kzpy3.utils2 import *
+from kzpy3.utils3 import *
 
 from arduino_utils.serial_init import *
 from arduino_utils.tactic_rc_controller import *
