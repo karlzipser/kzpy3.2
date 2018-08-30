@@ -104,7 +104,7 @@ def menu(Topics,path):
                 hide_number = input('\tnumber to hide #? ')
                 topic_name = Number_name_binding[hide_number]
                 Topics['to_hide'].append(topic_name)
-                Topics['to_expose'] = []
+                #Topics['to_expose'] = []
                 for k in Topics.keys():
                     if k not in Topics['to_hide']:
                         Topics['to_expose'].append(k)
