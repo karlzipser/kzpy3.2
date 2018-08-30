@@ -110,6 +110,7 @@ flex_names.append('xan0')
 
 for f in flex_names:
     Parameters[f] = {}
+Parameters['to_hide'] = []
 
 Parameters['to_expose'] = [
 	'IMU_SMOOTHING_PARAMETER',
@@ -127,6 +128,7 @@ Parameters['to_expose'] = [
 ]
 
 Network = {}
+Network['to_hide'] = []
 Network['The menu path.'] = opjk('Cars/car_24July2018/nodes/__local__/network')
 if True:
 	Network['ABORT'] = False
