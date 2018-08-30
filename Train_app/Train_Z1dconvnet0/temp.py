@@ -12,7 +12,7 @@ unix(d2s('rm',opj(menu_path,'ready')))
 threading.Thread(target=kzpy3.Menu_app.menu.load_menu_data,args=[menu_path,Parameters]).start()
 
 
-while P['ABORT'] == False:
+while Parameters['ABORT'] == False:
 	print memory()
 	time.sleep(1)
 
