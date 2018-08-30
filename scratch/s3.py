@@ -1,4 +1,5 @@
-from kzpy3.utils3 import *
+from kzpy3.vis3 import *
+"""
 if False:
 
 	D1 = {'file':opjh('Desktop2','Mr_Black_25Jul18_14h29m56s_local_lrc/left_timestamp_metadata_right_ts.h5py'),
@@ -98,7 +99,7 @@ if False:
 
 
 
-if True:
+if False:
 	buttons = {
 		1:'sidewalk',
 		2:'grass',
@@ -122,11 +123,75 @@ if True:
 			b = 1
 		if b == -1:
 			break
-		
+"""
+
+if False:
+	figure(1)
+	L=h5r('/Volumes/transfer/flex_sensors_Aug2018/h5py/Mr_Blue_Back_23Aug18_18h24m30s/left_timestamp_metadata_right_ts.h5py')
+
+	for i in range(3000,len(L['gyro_heading_x'][:]),10):
+		clf()
+		ylim(-50,100)
+		plot(L['gyro_heading_x'][i:i+90]-L['gyro_heading_x'][i+45],'b.')
+		plot(L['cmd_steer'][i:i+90],'r.')
+		plot(L['steer'][i:i+90],'go')
+		plot([0,90],[49,49],'k')
+		plot([0,90],[0,0],'k')
+		plt.pause(0.1)
+ 
+if True:
+	figure(1);cl()
+	L=h5r('/Volumes/transfer/flex_sensors_Aug2018/h5py/Mr_Blue_Back_23Aug18_18h24m30s/left_timestamp_metadata_right_ts.h5py')
+
+	for i in range(3000,len(L['gyro_heading_x'][:]),10):
+		#clf()
+		ylim(-50,100)
+		plot(L['gyro_heading_x'][i:i+90]-L['gyro_heading_x'][i+45],'b.')
+		plot(L['cmd_steer'][i:i+90],'r.')
+		plot(L['steer'][i:i+90],'go')
+		plot([0,90],[49,49],'k')
+		plot([0,90],[0,0],'k')
+		plt.pause(0.1)
 
 
-
+plot(L['GPS_latitudeDegrees'],L['GPS_longitudeDegrees'],'.')
 ###stop
 #EOF
+
+from gmplot import gmplot
+
+# Place map
+gmap = gmplot.GoogleMapPlotter(latitudes[10000], longitudes[10000], 13)
+"""
+# Polygon
+golden_gate_park_lats, golden_gate_park_lons = zip(*[
+    (37.771269, -122.511015),
+    (37.773495, -122.464830),
+    (37.774797, -122.454538),
+    (37.771988, -122.454018),
+    (37.773646, -122.440979),
+    (37.772742, -122.440797),
+    (37.771096, -122.453889),
+    (37.768669, -122.453518),
+    (37.766227, -122.460213),
+    (37.764028, -122.510347),
+    (37.771269, -122.511015)
+    ])
+gmap.plot(golden_gate_park_lats, golden_gate_park_lons, 'cornflowerblue', edge_width=10)
+
+# Scatter points
+top_attraction_lats, top_attraction_lons = zip(*[
+    (37.769901, -122.498331),
+    (37.768645, -122.475328),
+    (37.771478, -122.468677),
+    (37.769867, -122.466102),
+    (37.767187, -122.467496),
+    (37.770104, -122.470436)
+    ])
+"""
+grange = range(60000,70000,5)
+gmap.scatter(L['GPS_latitudeDegrees'][grange],L['GPS_longitudeDegrees'][grange], '#3B0B39', size=1, marker=False)
+gmap.draw(opjD("my_map0.html"))
+
 
 
