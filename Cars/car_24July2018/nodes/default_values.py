@@ -53,7 +53,7 @@ Parameters['servo_pwm_max'] = Parameters['servo_pwm_null']
 Parameters['motor_pwm_min'] = Parameters['servo_pwm_null']
 Parameters['motor_pwm_max'] = Parameters['servo_pwm_null']
 Parameters['behavioral_mode_choice'] = 'direct'
-Parameters['agent_choice'] = 'human'
+#Parameters['agent_choice'] = 'human'
 Parameters['place_choice'] = 'local'
 
 if Parameters['car_name'] == 'Mr_Blue_Back':
