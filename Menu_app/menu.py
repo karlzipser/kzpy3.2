@@ -185,7 +185,7 @@ if __name__ == '__main__':
         if 'Topics' in Arguments.keys():
             if Arguments['Topics'] == 'arduino':
                 Topics = default_values.Parameters
-            elsif Arguments['Topics'] == 'network':
+            elif Arguments['Topics'] == 'network':
                 Topics = default_values.Network
             else:
                 assert False
