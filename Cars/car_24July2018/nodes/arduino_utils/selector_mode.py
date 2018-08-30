@@ -128,7 +128,10 @@ def _selector_run_loop(P):
                             if agent_choice == 'human':
                                 color = 100
                             elif agent_choice == 'network':
-                                color = 200
+                                if P['temporary_human_control'] == False:
+                                    color = 200
+                                else:
+                                    color = 100
                             if P['button_number'] == 3:
                                 orientation = 30000
                             elif P['button_number'] == 2:

@@ -20,11 +20,12 @@ def EXIT(restart=False,shutdown=True,kill_ros=True,_file_=''):
 		unix('sudo reboot')
 
 Parameters = {}
+Parameters['temporary_human_control'] = False
 Parameters['acc triggers'] = 'shutdown'
 Parameters['car_name'] = os.environ["COMPUTER_NAME"]
 Parameters['calibrated'] = False
 Parameters['ABORT'] = False
-Parameters['agent_choice'] = 'human'
+Parameters['agent_choice'] = 'network'
 Parameters['servo_percent'] = 49
 Parameters['motor_percent'] = 49
 Parameters['LED_number'] = {}

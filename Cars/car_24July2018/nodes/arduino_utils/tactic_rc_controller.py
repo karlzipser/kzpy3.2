@@ -83,13 +83,15 @@ def _TACTIC_RC_controller_run_loop(P):
 
             P['servo_feedback_percent'] = servo_feedback_to_percent(P['servo_feedback'],P)
 
-
+            P['temporary_human_control'] = False
+            
             if P['agent_choice'] == 'human':
                 write_str = get_write_str(P['servo_pwm_smooth'],P['servo_pwm_smooth'],P['motor_pwm_smooth'],P)
                 in_this_mode = False
 
             elif P['agent_choice'] == 'network' and P['selector_mode'] == 'drive_mode':
                 if np.abs(P['human']['motor_percent']-49) > 4:
+                    P['temporary_human_control'] = True
                     in_this_mode = False
                     write_str = get_write_str(P['servo_pwm_smooth'],P['servo_pwm_smooth'],P['motor_pwm_smooth'],P)
                     P['time_since_button_4'].reset()
@@ -97,6 +99,7 @@ def _TACTIC_RC_controller_run_loop(P):
                 elif P['time_since_button_4'].time() > 2.0:
 
                     if np.abs(P['human']['servo_percent']-49) > 4:
+                        P['temporary_human_control'] = True
                         if in_this_mode == False:
                             in_this_mode = True
                             in_this_mode_timer.reset()
