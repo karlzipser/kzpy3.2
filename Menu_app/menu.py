@@ -2,13 +2,10 @@ from kzpy3.utils3 import *
 
 def menu(Topics,path):
 
-
-
+    message = False
+    choice_number = 0
 
     while choice_number != 1:
-
-        message = False
-        choice_number = 0
 
         try:
             Number_name_binding = {}
