@@ -98,7 +98,7 @@ Parameters['calibrated'] = False
 Parameters['acc'] = {}
 Parameters['gyro'] = {}
 Parameters['head'] = {}
-Parameters['The menu path.'] = opjk('Cars/car_24July2018/nodes/__local__')
+Parameters['The menu path.'] = opjk('Cars/car_24July2018/nodes/__local__/arduino')
 
 
 flex_names = []
@@ -127,6 +127,7 @@ Parameters['to_expose'] = [
 ]
 
 Network = {}
+Network['The menu path.'] = opjk('Cars/car_24July2018/nodes/__local__/network')
 if True:
 	Network['ABORT'] = False
 	Network['network_output_sample'] = 0 # >= 0, <= 9
