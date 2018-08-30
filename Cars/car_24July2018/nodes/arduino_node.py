@@ -19,7 +19,7 @@ import default_values
 Parameters = default_values.Parameters
 
 import kzpy3.Menu_app.menu
-menu_path = opjh('.menu','arduino_node')
+menu_path = Parameters['The menu path.']
 unix('mkdir -p '+menu_path)
 unix(d2s('rm',opj(menu_path,'ready')))
 threading.Thread(target=kzpy3.Menu_app.menu.load_menu_data,args=[menu_path,Parameters]).start()
