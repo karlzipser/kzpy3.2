@@ -6,10 +6,10 @@ def menu(Topics,path):
     choice_number = 0
     Number_name_binding = {}
     Name_number_binding = {}
-            
+
     while choice_number != 1:
 
-        try:
+        if True:#try:
 
 
             clear_screen()
@@ -136,7 +136,7 @@ def menu(Topics,path):
                 save_topics(Topics,path)
                 message = 'changed '+name
 
-        except Exception as e:
+        else:#except Exception as e:
             print("********** rosmenu.py Exception ***********************")
             print(e.message, e.args)
             exec(EXCEPT_STR)
