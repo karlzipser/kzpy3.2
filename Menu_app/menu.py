@@ -162,12 +162,20 @@ def save_topics(Topics,path):
     text_to_file(opj(path,'ready'),'')
     #unix('touch '+opj(path,'ready'))
 
+def print_exposed(Topics):
+    print ''
+    for name in Topics.keys():
+        print d2n(name,': ',Topics[name],'  '),
+        cprint(type(Topics[name]).__name__,'grey')
+    print ''
+    
 def load_Topics(path,first_load=False):
     r = sggo(path,'ready')
     if len(r) > 1:
         CS_('Warning, more than one ready in '+path)
     if len(r) == 1 or first_load:
         Topics = lo(opjh(path,'Topics.pkl'))
+        print_exposed(Topics)
         if len(r) == 1:
             try:
                 os.remove(opj(path,'ready'))
@@ -189,6 +197,8 @@ def load_menu_data(path,Parameters,first_load=False):
             timer.reset()
         else:
             time.sleep(0.1)
+
+
 
 """
 e.g.
