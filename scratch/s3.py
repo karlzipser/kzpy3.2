@@ -157,7 +157,7 @@ if True:
 plot(L['GPS_latitudeDegrees'],L['GPS_longitudeDegrees'],'.')
 ###stop
 #EOF
-
+# https://github.com/vgm64/gmplot
 from gmplot import gmplot
 
 # Place map
