@@ -307,13 +307,18 @@ def load_obj(name,noisy=True):
 		return o
 lo = load_obj
 def so(arg1,arg2):
-	if type(arg1) == str and type(arg2) != str:
-		save_obj(arg2,arg1)
-		return
-	if type(arg2) == str and type(arg1) != str:
-		save_obj(arg1,arg2)
-		return
-	assert(False)
+	try:
+		if type(arg1) == str and type(arg2) != str:
+			save_obj(arg2,arg1)
+			return
+		if type(arg2) == str and type(arg1) != str:
+			save_obj(arg1,arg2)
+			return
+		if type(arg2) == str and type(arg1) == str:
+			pd2s('def so(arg1,arg2): both args cannot be strings')
+		assert(False)
+	except:
+		exec(EXCEPT_STR)
 
 
 
@@ -1075,6 +1080,11 @@ def memory():
 		ret['free'] = tmp
 		ret['used'] = int(ret['total']) - int(ret['free'])
 	return ret
-	
+
+
+
+
+
+
 #EOF
 
