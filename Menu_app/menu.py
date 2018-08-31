@@ -148,8 +148,8 @@ def menu(Topics,path):
 
 
 def save_topics(Topics,path):
-    os.remove(d2n('rm ',opj(path,'ready')))
-    os.remove(d2n('rm ',opj(path,'Topics.pkl')))
+    os.remove(opj(path,'ready'))
+    os.remove(path,'Topics.pkl'))
     #unix(d2n('rm ',opj(path,'ready')))
     #unix(d2n('rm ',opj(path,'Topics.pkl')))
     so(Topics,opj(path,'Topics.pkl'))
@@ -163,7 +163,7 @@ def load_Topics(path,first_load=False):
     if len(r) == 1 or first_load:
         Topics = lo(opjh(path,'Topics.pkl'))
         if len(r) == 1:
-            os.remove(d2n('rm ',opj(path,'ready')))
+            os.remove(opj(path,'ready'))
             #unix(d2n('rm ',opj(path,'ready')))
         return Topics
     else:
