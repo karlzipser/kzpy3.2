@@ -148,10 +148,13 @@ def menu(Topics,path):
 
 
 def save_topics(Topics,path):
-    unix(d2n('rm ',opj(path,'ready')))
-    unix(d2n('rm ',opj(path,'Topics.pkl')))
+    os.remove(d2n('rm ',opj(path,'ready')))
+    os.remove(d2n('rm ',opj(path,'Topics.pkl')))
+    #unix(d2n('rm ',opj(path,'ready')))
+    #unix(d2n('rm ',opj(path,'Topics.pkl')))
     so(Topics,opj(path,'Topics.pkl'))
-    unix('touch '+opj(path,'ready'))
+    text_to_file(opjD('ready'),'')
+    #unix('touch '+opj(path,'ready'))
 
 def load_Topics(path,first_load=False):
     r = sggo(path,'ready')
@@ -160,7 +163,8 @@ def load_Topics(path,first_load=False):
     if len(r) == 1 or first_load:
         Topics = lo(opjh(path,'Topics.pkl'))
         if len(r) == 1:
-            unix(d2n('rm ',opj(path,'ready')))
+            os.remove(d2n('rm ',opj(path,'ready')))
+            #unix(d2n('rm ',opj(path,'ready')))
         return Topics
     else:
         return None
