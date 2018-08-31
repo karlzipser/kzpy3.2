@@ -611,6 +611,7 @@ class Timer:
 				pd2s(name,'frequency =',dp(value,2),'Hz')
 			self.reset()
 			return value
+		return False
 	def message(self,message_str,color='grey',flush=False):
 		if self.check():
 			print(message_str+'\r'),
