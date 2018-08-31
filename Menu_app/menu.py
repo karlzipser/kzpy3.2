@@ -153,7 +153,7 @@ def save_topics(Topics,path):
     #unix(d2n('rm ',opj(path,'ready')))
     #unix(d2n('rm ',opj(path,'Topics.pkl')))
     so(Topics,opj(path,'Topics.pkl'))
-    text_to_file(opj(path,'ready',''))
+    text_to_file(opj(path,'ready'),'')
     #unix('touch '+opj(path,'ready'))
 
 def load_Topics(path,first_load=False):
