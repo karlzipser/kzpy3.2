@@ -163,7 +163,10 @@ def load_Topics(path,first_load=False):
     if len(r) == 1 or first_load:
         Topics = lo(opjh(path,'Topics.pkl'))
         if len(r) == 1:
-            os.remove(opj(path,'ready'))
+            try:
+                os.remove(opj(path,'ready'))
+            except:
+                pass
             #unix(d2n('rm ',opj(path,'ready')))
         return Topics
     else:
