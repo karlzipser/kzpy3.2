@@ -164,11 +164,11 @@ def save_topics(Topics,path):
 
 def print_exposed(Topics):
     print ''
-    for name in Topics.keys():
+    for name in Topics['to_expose']:
         print d2n(name,': ',Topics[name],'  '),
         cprint(type(Topics[name]).__name__,'grey')
     print ''
-    
+
 def load_Topics(path,first_load=False):
     r = sggo(path,'ready')
     if len(r) > 1:
