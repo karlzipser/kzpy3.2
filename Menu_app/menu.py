@@ -152,7 +152,7 @@ def save_topics(Topics,path):
     os.remove(opj(path,'Topics.pkl'))
     #unix(d2n('rm ',opj(path,'ready')))
     #unix(d2n('rm ',opj(path,'Topics.pkl')))
-    so(Topics,opj(path,'Topics.pkl')
+    so(Topics,opj(path,'Topics.pkl'))
     text_to_file(opjD('ready'),'')
     #unix('touch '+opj(path,'ready'))
 
