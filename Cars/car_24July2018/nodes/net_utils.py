@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from kzpy3.utils2 import *
+from kzpy3.utils3 import *
 import torch
 import torch.nn as nn
 from torch.autograd import Variable

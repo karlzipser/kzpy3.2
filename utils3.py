@@ -1049,8 +1049,32 @@ def clear_screen():
 
 spd2s('imported',__file__)
 
+def percent_disk_free(disk):
+	statvfs = os.statvfs(disk)
+	size_of_filesystem_in_bytes = statvfs.f_frsize * statvfs.f_blocks     # Size of filesystem in bytes
+	#print statvfs.f_frsize * statvfs.f_bfree      # Actual number of free bytes
+	number_of_free_bytes_that_ordinary_users_have = statvfs.f_frsize * statvfs.f_bavail     # Number of free bytes that ordinary users
+	percent_free = int(100*number_of_free_bytes_that_ordinary_users_have/size_of_filesystem_in_bytes)
+	return percent_free
 
 
-
+def memory():
+	"""
+	Get node total memory and memory usage
+	http://stackoverflow.com/questions/17718449/determine-free-ram-in-python
+	"""
+	with open('/proc/meminfo', 'r') as mem:
+		ret = {}
+		tmp = 0
+		for i in mem:
+			sline = i.split()
+			if str(sline[0]) == 'MemTotal:':
+				ret['total'] = int(sline[1])
+			elif str(sline[0]) in ('MemFree:', 'Buffers:', 'Cached:'):
+				tmp += int(sline[1])
+		ret['free'] = tmp
+		ret['used'] = int(ret['total']) - int(ret['free'])
+	return ret
+	
 #EOF
 

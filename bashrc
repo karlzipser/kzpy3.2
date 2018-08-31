@@ -113,9 +113,11 @@ select opt in $OPTIONS; do
    elif [ "$opt" = "rostopics" ]; then
     python ~/catkin_ws/src/bair_car/scripts/rostopics.py
    elif [ "$opt" = "arduino_node_menu" ]; then
-    python ~/kzpy3/Menu_app/node_menu.py NODE arduino
+    python kzpy3/Menu_app/menu.py path ~/kzpy3/Cars/car_24July2018/nodes/__local__/arduino/ default 1 Topics arduino
+    #python ~/kzpy3/Menu_app/node_menu.py NODE arduino
    elif [ "$opt" = "network_node_menu" ]; then
-    python ~/kzpy3/Menu_app/node_menu.py NODE network
+    python kzpy3/Menu_app/menu.py path ~/kzpy3/Cars/car_24July2018/nodes/__local__/network/ default 1 Topics network
+    #python ~/kzpy3/Menu_app/node_menu.py NODE network
    elif [ "$opt" = "git_pull" ]; then
     cd ~/kzpy3
     git pull

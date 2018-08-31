@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from kzpy3.utils2 import *
+from kzpy3.utils3 import *
 import default_values
 exec(identify_file_str)
 import rospy
@@ -9,7 +9,7 @@ for k in default_values.Network.keys():
     N[k] = default_values.Network[k]
 
 import kzpy3.Menu_app.menu
-menu_path = opjh('.menu','network_node')
+menu_path = N['The menu path.']
 unix('mkdir -p '+menu_path)
 unix(d2s('rm',opj(menu_path,'ready')))
 threading.Thread(target=kzpy3.Menu_app.menu.load_menu_data,args=[menu_path,N]).start()
@@ -142,7 +142,7 @@ while not rospy.is_shutdown():
         if len(left_list) == 0:
             for i in range(5):
                 CS_("empty image list after 30s, ABORTING, rebooting!!!!!",emphasis=True)
-            default_values.EXIT(restart=False,shutdown=False,kill_ros=True,_file_=__file__)
+            #default_values.EXIT(restart=False,shutdown=False,kill_ros=True,_file_=__file__)
     if False:
         if len(left_list) > 0:
             if image_sample_timer.check():

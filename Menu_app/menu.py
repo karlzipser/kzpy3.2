@@ -10,7 +10,8 @@ def menu(Topics,path):
     while choice_number != 1:
 
         try:
-            
+
+
             clear_screen()
 
             ctr = 1
@@ -94,6 +95,7 @@ def menu(Topics,path):
                     message = topic_name +' already in Topics. ' + message
                     assert(False)
                 Topics[topic_name] = None
+                Topics['to_expose'].append(topic_name)
                 message = d2s('added topic',topic_name)
                 save_topics(Topics,path)
                     
@@ -103,10 +105,13 @@ def menu(Topics,path):
                 hide_number = input('\tnumber to hide #? ')
                 topic_name = Number_name_binding[hide_number]
                 Topics['to_hide'].append(topic_name)
-                Topics['to_expose'] = []
-                for k in Topics.keys():
-                    if k not in Topics['to_hide']:
-                        Topics['to_expose'].append(k)
+                #Topics['to_expose'] = []
+                #for k in Topics.keys():
+                #    if k not in Topics['to_hide']:
+                #        Topics['to_expose'].append(k)
+                for k in Topics['to_hide']:
+                    if k in Topics['to_expose']:
+                        Topics['to_expose'].remove(k)
                 message = d2s('topic',topic_name,'hidden')
                 save_topics(Topics,path)
                     
@@ -139,14 +144,30 @@ def menu(Topics,path):
             print("********** rosmenu.py Exception ***********************")
             print(e.message, e.args)
             exec(EXCEPT_STR)
-            #raw_enter()
+            raw_enter()
 
 
 def save_topics(Topics,path):
-    unix(d2n('rm ',opj(path,'ready')))
-    unix(d2n('rm ',opj(path,'Topics.pkl')))
+    try:
+        os.remove(opj(path,'ready'))
+    except:
+        pass
+    try:
+        os.remove(opj(path,'Topics.pkl'))
+    except:
+        pass
+    #unix(d2n('rm ',opj(path,'ready')))
+    #unix(d2n('rm ',opj(path,'Topics.pkl')))
     so(Topics,opj(path,'Topics.pkl'))
-    unix('touch '+opj(path,'ready'))
+    text_to_file(opj(path,'ready'),'')
+    #unix('touch '+opj(path,'ready'))
+
+def print_exposed(Topics):
+    print ''
+    for name in Topics['to_expose']:
+        print d2n(name,': ',Topics[name],'  '),
+        cprint(type(Topics[name]).__name__,'grey')
+    print ''
 
 def load_Topics(path,first_load=False):
     r = sggo(path,'ready')
@@ -154,8 +175,13 @@ def load_Topics(path,first_load=False):
         CS_('Warning, more than one ready in '+path)
     if len(r) == 1 or first_load:
         Topics = lo(opjh(path,'Topics.pkl'))
+        print_exposed(Topics)
         if len(r) == 1:
-            unix(d2n('rm ',opj(path,'ready')))
+            try:
+                os.remove(opj(path,'ready'))
+            except:
+                pass
+            #unix(d2n('rm ',opj(path,'ready')))
         return Topics
     else:
         return None
@@ -172,14 +198,30 @@ def load_menu_data(path,Parameters,first_load=False):
         else:
             time.sleep(0.1)
 
+
+
 """
 e.g.
-python kzpy3/Menu_app/menu.py path ~/kzpy3/Train_app/Train_Z1dconvnet0/__local__/
+python kzpy3/Menu_app/menu.py path ~/kzpy3/Train_app/Train_Z1dconvnet0/__local__/arduino/ default 1 Topics arduino
+python kzpy3/Menu_app/menu.py path ~/kzpy3/Train_app/Train_Z1dconvnet0/__local__/network/ default 1 Topics network
 """
 
 if __name__ == '__main__':
     path = Arguments['path']
-    Topics = load_Topics(path,first_load=True)
+    if 'default' in Arguments.keys():
+        import kzpy3.Cars.car_24July2018.nodes.default_values as default_values
+        if 'Topics' in Arguments.keys():
+            if Arguments['Topics'] == 'arduino':
+                Topics = default_values.Parameters
+            elif Arguments['Topics'] == 'network':
+                Topics = default_values.Network
+            else:
+                assert False
+    else:
+        try:
+            Topics = load_Topics(path,first_load=True)
+        except:
+            Topics = {}
     menu(Topics,path)
 
 #EOF

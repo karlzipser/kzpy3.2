@@ -1,4 +1,4 @@
-from kzpy3.utils2 import *
+from kzpy3.utils3 import *
 exec(identify_file_str)
 import rospy
 
@@ -20,11 +20,12 @@ def EXIT(restart=False,shutdown=True,kill_ros=True,_file_=''):
 		unix('sudo reboot')
 
 Parameters = {}
+Parameters['temporary_human_control'] = False
 Parameters['acc triggers'] = 'shutdown'
 Parameters['car_name'] = os.environ["COMPUTER_NAME"]
 Parameters['calibrated'] = False
 Parameters['ABORT'] = False
-Parameters['agent_choice'] = 'human'
+Parameters['agent_choice'] = 'network'
 Parameters['servo_percent'] = 49
 Parameters['motor_percent'] = 49
 Parameters['LED_number'] = {}
@@ -52,7 +53,7 @@ Parameters['servo_pwm_max'] = Parameters['servo_pwm_null']
 Parameters['motor_pwm_min'] = Parameters['servo_pwm_null']
 Parameters['motor_pwm_max'] = Parameters['servo_pwm_null']
 Parameters['behavioral_mode_choice'] = 'direct'
-Parameters['agent_choice'] = 'human'
+#Parameters['agent_choice'] = 'human'
 Parameters['place_choice'] = 'local'
 
 if Parameters['car_name'] == 'Mr_Blue_Back':
@@ -97,6 +98,7 @@ Parameters['calibrated'] = False
 Parameters['acc'] = {}
 Parameters['gyro'] = {}
 Parameters['head'] = {}
+Parameters['The menu path.'] = opjk('Cars/car_24July2018/nodes/__local__/arduino')
 
 
 flex_names = []
@@ -108,6 +110,7 @@ flex_names.append('xan0')
 
 for f in flex_names:
     Parameters[f] = {}
+Parameters['to_hide'] = []
 
 Parameters['to_expose'] = [
 	'IMU_SMOOTHING_PARAMETER',
@@ -125,11 +128,13 @@ Parameters['to_expose'] = [
 ]
 
 Network = {}
+Network['to_hide'] = []
+Network['The menu path.'] = opjk('Cars/car_24July2018/nodes/__local__/network')
 if True:
 	Network['ABORT'] = False
 	Network['network_output_sample'] = 0 # >= 0, <= 9
-	Network['network_steer_gain'] = 4.0
-	Network['network_camera_gain'] = 6.0
+	Network['network_steer_gain'] = 6.0
+	Network['network_camera_gain'] = 2.0
 	Network['network_motor_gain'] = 0.8
 	Network['network_motor_offset'] = 0
 	Network['network_servo_smoothing_parameter'] = 0.85

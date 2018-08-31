@@ -1,4 +1,4 @@
-from kzpy3.utils2 import *
+from kzpy3.utils3 import *
 exec(identify_file_str)
 import rospy
 
@@ -74,7 +74,10 @@ def _LED_Display_run_loop(P):
                 if P['internet_on']:
                     wifi_status = 1
                 #print(GPS_status,num_arduinos,wifi_status,num_bag_files)
-                write_num = 10000*GPS_status+num_arduinos*1000+num_bag_files
+                if percent_disk_free(opjm('rosbags')) < 5:
+                    write_num = 11119
+                else:
+                    write_num = 10000*GPS_status+num_arduinos*1000+num_bag_files
                 if wifi_status:
                     write_num += 500
                 P['Arduinos']['SIG'].write(d2n('(',-write_num,')'))

@@ -2,7 +2,7 @@
 """
 python kzpy3/Cars/car_16July2018/nodes/arduino_node.py
 """
-from kzpy3.utils2 import *
+from kzpy3.utils3 import *
 
 from arduino_utils.serial_init import *
 from arduino_utils.tactic_rc_controller import *
@@ -19,7 +19,7 @@ import default_values
 Parameters = default_values.Parameters
 
 import kzpy3.Menu_app.menu
-menu_path = opjh('.menu','arduino_node')
+menu_path = Parameters['The menu path.']
 unix('mkdir -p '+menu_path)
 unix(d2s('rm',opj(menu_path,'ready')))
 threading.Thread(target=kzpy3.Menu_app.menu.load_menu_data,args=[menu_path,Parameters]).start()
