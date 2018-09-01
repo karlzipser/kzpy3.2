@@ -6,9 +6,9 @@ import torchvision.transforms as transforms
 from torch.autograd import Variable
 
 from kzpy3.Train_app.Train_Z1dconvnet0.prepare_data import *
-input_size = 60*8
+input_size = P['num_input_timesteps']*len(P['input_lst'])
 hidden_size = 500
-output_size = 10
+output_size = len(P['target_index_range'])*len(P['target_lst'])
 num_epochs = 50
 batch_size = 100
 learning_rate = 0.001
@@ -31,13 +31,18 @@ class Net(nn.Module):
 
 net = Net(input_size, hidden_size, output_size)
 
-# net.cuda()    # You can comment out this line to disable GPU
+#net.cuda()    # You can comment out this line to disable GPU
 
 criterion = nn.MSELoss()
 optimizer = torch.optim.Adadelta(net.parameters(),lr=learning_rate)
 
 inputs = torch.FloatTensor(batch_size,input_size).zero_()
 targets = torch.FloatTensor(batch_size,output_size).zero_()
+
+
+#the_input = torch.FloatTensor(num_minibatches,num_topics,num_input_timesteps).zero_().cuda()
+#the_target = torch.FloatTensor(num_minibatches,20,1).zero_().cuda()
+
 
 loss_timer = Timer(10)
 epoch_timer = Timer(15*60)
@@ -61,17 +66,15 @@ while True:
             IO[q] = na([])
             for t in P[q+'_lst']:
                 IO[q] = np.concatenate([IO[q],D[q][t]],axis=None)
-
-    #        inputs[i,:] = 
-    #    targets[i,:] = the_target[batch,0:20,0]=torch.from_numpy(na(target_steer+target_motor))
+        #print shape(IO['input']),shape(inputs)
+        inputs[i,:]=torch.from_numpy(IO['input'])
+        targets[i,:]=torch.from_numpy(IO['target'])
     optimizer.zero_grad()
-    outputs = net(inputs)
-    loss = criterion(outputs, targets)
+    outputs = net(torch.autograd.Variable(inputs))
+    loss = criterion(outputs,torch.autograd.Variable(targets))
     loss.backward()
+    nn.utils.clip_grad_norm(net.parameters(), 1.0)
     optimizer.step()
-
-
-
 
 
 

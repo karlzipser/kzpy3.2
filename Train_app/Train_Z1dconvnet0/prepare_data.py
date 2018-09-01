@@ -11,12 +11,14 @@ P['plot concatenated run data'] = False
 P['input_indicies'] = na(range(-P['num_input_timesteps'],0))
 P['target_index_range'] = na(range(0,30,3))
 P['timeindex_offset'] = 0
-P['dataset path'] = '/Volumes/transfer/flex_sensors_Aug2018/'
+if using_linux():
+	P['dataset path'] = '/media/karlzipser/rosbags/flex_sensors_Aug2018'
+else:
+	P['dataset path'] = '/Volumes/transfer/flex_sensors_Aug2018/'
 P['good_timestep_proportion'] = 0.8
 P['processed data location'] = 'Train_app/Train_Z1dconvnet0/__local__/'
 
-#list_of_h5py_folders = sggo('/media/karlzipser/rosbags/flex_sensors_Aug2018_bkp/*')#h5py/*')
-list_of_h5py_folders = sggo(P['dataset path'],'*')#h5py/*')
+list_of_h5py_folders = sggo(P['dataset path'],'*')
 
 P['topics'] = [
 	 'acc_x',
