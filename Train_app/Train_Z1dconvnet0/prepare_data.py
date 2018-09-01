@@ -5,6 +5,7 @@ exec(identify_file_str)
 clear_screen()
 #python kzpy3/Train_app/Train_Z1dconvnet0/prepare_data.py
 P = {}
+P['GPU'] = 1
 P['num_input_timesteps'] = 60
 P['plot individual run data'] = False
 P['plot concatenated run data'] = False
@@ -238,10 +239,10 @@ def display_data2(L,i,P):
 P['input_lst'] = [
 	'IMU_mag',
 	'encoder',
-	'cmd_steer',
-	'cmd_motor',
-	'motor',
-	'steer',
+	#'cmd_steer',
+	#'cmd_motor',
+	#'motor',
+	#'steer',
 	'xfc0',
 	'xfl0',
 	'xfl1',
@@ -249,8 +250,8 @@ P['input_lst'] = [
 	'xfr1',
 ]
 P['target_lst'] = [
-	'motor',
 	'steer',
+	'motor',
 ]
 def display_data3(D,P):
 	figure(d2s('data3'))

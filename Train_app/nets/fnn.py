@@ -6,12 +6,16 @@ import torchvision.transforms as transforms
 from torch.autograd import Variable
 
 from kzpy3.Train_app.Train_Z1dconvnet0.prepare_data import *
+
+torch.cuda.set_device(P['GPU'])
+torch.cuda.device(P['GPU'])
+
 input_size = P['num_input_timesteps']*len(P['input_lst'])
 hidden_size = 500
 output_size = len(P['target_index_range'])*len(P['target_lst'])
 num_epochs = 50
 batch_size = 100
-learning_rate = 0.001
+learning_rate = 0.1
 
 
 class Net(nn.Module):
@@ -29,15 +33,15 @@ class Net(nn.Module):
         return out
 
 
-net = Net(input_size, hidden_size, output_size)
+net = Net(input_size, hidden_size, output_size).cuda()
 
 #net.cuda()    # You can comment out this line to disable GPU
 
-criterion = nn.MSELoss()
+criterion = nn.MSELoss().cuda()
 optimizer = torch.optim.Adadelta(net.parameters(),lr=learning_rate)
 
-inputs = torch.FloatTensor(batch_size,input_size).zero_()
-targets = torch.FloatTensor(batch_size,output_size).zero_()
+inputs = torch.FloatTensor(batch_size,input_size).zero_().cuda()
+targets = torch.FloatTensor(batch_size,output_size).zero_().cuda()
 
 
 #the_input = torch.FloatTensor(num_minibatches,num_topics,num_input_timesteps).zero_().cuda()
@@ -46,21 +50,23 @@ targets = torch.FloatTensor(batch_size,output_size).zero_()
 
 loss_timer = Timer(10)
 epoch_timer = Timer(15*60)
+target_output_timer = Timer(1)
 loss_list = []
 CS_('Starting training...')
 while True:
     if epoch_timer.check():
         print 'epoch'
-        torch.save(net.state_dict(), 'fnn_model.pkl')
+        torch.save(net.state_dict(), opj(P['processed data location'],'fnn_model.pkl'))
         epoch_timer.reset()
     if loss_timer.check():
-        loss_list.append(loss.data.numpy())
-        CA()
+        loss_list.append(loss.data.cpu().numpy())
+        figure('loss')
+        clf()
         plot(loss_list,'.')
         spause()
         loss_timer.reset()
     for i in range(batch_size):
-        D = get_input_output_data(L,int(I['sig_sorted'][-np.random.randint(20000),0]),P)
+        D = get_input_output_data(L,int(I['sig_sorted'][-np.random.randint(80000),0]),P)
         IO = {}
         for q in ['input','target']:
             IO[q] = na([])
@@ -69,12 +75,26 @@ while True:
         #print shape(IO['input']),shape(inputs)
         inputs[i,:]=torch.from_numpy(IO['input'])
         targets[i,:]=torch.from_numpy(IO['target'])
+
     optimizer.zero_grad()
     outputs = net(torch.autograd.Variable(inputs))
     loss = criterion(outputs,torch.autograd.Variable(targets))
     loss.backward()
     nn.utils.clip_grad_norm(net.parameters(), 1.0)
     optimizer.step()
+
+    IO['output']= outputs[-1,:].data.cpu().numpy()
+    if target_output_timer.check():
+        figure('target output')
+        clf()
+        xylim(-11,11,-1,100)
+        plot([-12,12],[49,49],'k')
+        plot(range(-10,0),IO['target'][:10],'r.:')
+        plot(range(-10,0),IO['output'][:10],'r.-')
+        plot(range(0,10),IO['target'][10:],'b.:')
+        plot(range(0,10),IO['output'][10:],'b.-')
+        spause()
+        target_output_timer.reset()
 
 
 
