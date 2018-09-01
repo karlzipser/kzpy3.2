@@ -10,9 +10,12 @@ for k in default_values.Network.keys():
 
 import kzpy3.Menu_app.menu
 menu_path = N['The menu path.']
-unix('mkdir -p '+menu_path)
-unix(d2s('rm',opj(menu_path,'ready')))
-threading.Thread(target=kzpy3.Menu_app.menu.load_menu_data,args=[menu_path,N]).start()
+if not os.path.exists(menu_path):
+    os.makedirs(menu_path)
+try:
+    os.remove(opj(path,'ready'))
+except:
+    passthreading.Thread(target=kzpy3.Menu_app.menu.load_menu_data,args=[menu_path,N]).start()
 
 if not N['USE_NETWORK']:
     spd2s('network_node.py::not using network')

@@ -20,8 +20,12 @@ Parameters = default_values.Parameters
 
 import kzpy3.Menu_app.menu
 menu_path = Parameters['The menu path.']
-unix('mkdir -p '+menu_path)
-unix(d2s('rm',opj(menu_path,'ready')))
+if not os.path.exists(menu_path):
+    os.makedirs(menu_path)
+try:
+    os.remove(opj(path,'ready'))
+except:
+    pass
 threading.Thread(target=kzpy3.Menu_app.menu.load_menu_data,args=[menu_path,Parameters]).start()
 
 

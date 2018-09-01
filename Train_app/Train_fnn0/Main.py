@@ -37,7 +37,7 @@ if P['resume from saved state']:
         latest_weights = most_recent_file_in_folder(opj(P['processed data location'],'weights'))
         saved_net = torch.load(latest_weights)
         net.load_state_dict(saved_net)
-        CS_('resuming with weight file',latest_weights)
+        CS_(d2s('resuming with weight file',latest_weights))
     except:
         exec(EXCEPT_STR)
 else:
@@ -57,7 +57,7 @@ CS_('Starting training...')
 while True:
     if epoch_timer.check():
         print 'epoch'
-        torch.save(net.state_dict(), opj(P['processed data location'],'weights'))
+        torch.save(net.state_dict(), opj(P['processed data location'],'weights',d2n('fnn_model.',time_str(),'.pkl')))
         epoch_timer.reset()
     if loss_timer.check():
         loss_list.append(loss.data.cpu().numpy())

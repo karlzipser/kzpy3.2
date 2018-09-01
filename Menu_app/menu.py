@@ -224,4 +224,35 @@ if __name__ == '__main__':
             Topics = {}
     menu(Topics,path)
 
+if __name__ == '__main__':
+    path = Arguments['path']
+    if 'Topics' in Arguments:
+        if (Arguments['Topics'] == 'arduino') or (Arguments['Topics'] == 'network'):
+            if 'default' in Arguments.keys():
+                import kzpy3.Cars.car_24July2018.nodes.default_values as default_values
+                if Arguments['Topics'] == 'arduino':
+                    Topics = default_values.Parameters
+                elif Arguments['Topics'] == 'network':
+                    Topics = default_values.Network
+                else:
+                    assert False
+            else:
+                try:
+                    Topics = load_Topics(path,first_load=True)
+                except:
+                    Topics = {}
+
+        elif Arguments['Topics'] == 'znn':
+            if 'default' in Arguments.keys():
+                import kzpy3/Train_app/Train_znn0.default_values as default_values
+                Topics = default_values.P
+    else:
+        try:
+            Topics = load_Topics(path,first_load=True)
+        except:
+            Topics = {}            
+    menu(Topics,path)
+
+
+
 #EOF
