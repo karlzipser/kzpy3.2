@@ -33,7 +33,7 @@ if False:
 EXCEPT_STR = """
 exc_type, exc_obj, exc_tb = sys.exc_info()
 file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-CS_('Exception!',emphasis=True)
+CS_('Exception!',exception=True,newline=False)
 CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
 """
 
@@ -155,16 +155,20 @@ def rlen(a):
 	return range(len(a))
 
 PRINT_COMMENTS = True
-def CS_(comment,section='',say_comment=False,emphasis=False):
-	stri = '# - '
-	if len(section) > 0:
-		stri = stri + section + ': '
+def CS_(comment,section='',say_comment=False,emphasis=False,exception=False,newline=True):
+	stri = '#  '
 	stri = stri + comment
+	if len(section) > 0:
+		stri += ' ('+section+')'
 	if PRINT_COMMENTS:
-		if not emphasis:
-			cprint(stri,attrs=['bold'],color='white',on_color='on_grey')#cprint(stri,'red','on_green')
+		if not emphasis and not exception:
+			cprint(stri,attrs=[],color='white',on_color='on_grey')#cprint(stri,'red','on_green')
+		elif exception:
+			cprint(stri,attrs=['blink','bold'],color='red',on_color='on_yellow')
 		else:
-			cprint(stri,attrs=['bold','blink'],color='white',on_color='on_grey')
+			cprint(stri,attrs=['bold','blink','reverse'],color='white',on_color='on_grey')
+		if newline:
+			print('\n')
 	if say_comment:
 		if using_osx():
 			say(comment,rate=250,print_text=False)
