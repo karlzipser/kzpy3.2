@@ -1,13 +1,14 @@
-from kzpy3.utils3 import *
+from kzpy3.vis3 import *
 import torch
 import torch.nn as nn
 import torchvision.datasets as dsets
 import torchvision.transforms as transforms
 from torch.autograd import Variable
 
+from kzpy3.Train_app.Train_Z1dconvnet0.prepare_data import *
 input_size = 60*8
 hidden_size = 500
-num_classes = 10
+output_size = 10
 num_epochs = 50
 batch_size = 100
 learning_rate = 0.001
@@ -15,11 +16,11 @@ learning_rate = 0.001
 
 class Net(nn.Module):
 
-    def __init__(self, input_size, hidden_size, num_classes):
+    def __init__(self, input_size, hidden_size, output_size):
         super(Net, self).__init__()
         self.fc1 = nn.Linear(input_size, hidden_size)
         self.relu = nn.ReLU()
-        self.fc2 = nn.Linear(hidden_size, num_classes)
+        self.fc2 = nn.Linear(hidden_size, output_size)
     
     def forward(self, x):
         out = self.fc1(x)
@@ -28,28 +29,50 @@ class Net(nn.Module):
         return out
 
 
-net = Net(input_size, hidden_size, num_classes)
+net = Net(input_size, hidden_size, output_size)
 
 # net.cuda()    # You can comment out this line to disable GPU
 
 criterion = nn.MSELoss()
 optimizer = torch.optim.Adadelta(net.parameters(),lr=learning_rate)
 
-images = torch.FloatTensor(60*8).zero_()
-labels = torch.FloatTensor(10).zero_()
+inputs = torch.FloatTensor(batch_size,input_size).zero_()
+targets = torch.FloatTensor(batch_size,output_size).zero_()
 
-for epoch in range(num_epochs):
-	
-	for i in range(batch_size):
-		optimizer.zero_grad()
-		outputs = net(images)
-		loss = criterion(outputs, labels)
-		loss.backward()
-		optimizer.step()
+loss_timer = Timer(10)
+epoch_timer = Timer(15*60)
+loss_list = []
+CS_('Starting training...')
+while True:
+    if epoch_timer.check():
+        print 'epoch'
+        torch.save(net.state_dict(), 'fnn_model.pkl')
+        epoch_timer.reset()
+    if loss_timer.check():
+        loss_list.append(loss.data.numpy())
+        CA()
+        plot(loss_list,'.')
+        spause()
+        loss_timer.reset()
+    for i in range(batch_size):
+        D = get_input_output_data(L,int(I['sig_sorted'][-np.random.randint(20000),0]),P)
+        IO = {}
+        for q in ['input','target']:
+            IO[q] = na([])
+            for t in P[q+'_lst']:
+                IO[q] = np.concatenate([IO[q],D[q][t]],axis=None)
 
-	pd2s('Epoch',epoch,loss.data[0])
+    #        inputs[i,:] = 
+    #    targets[i,:] = the_target[batch,0:20,0]=torch.from_numpy(na(target_steer+target_motor))
+    optimizer.zero_grad()
+    outputs = net(inputs)
+    loss = criterion(outputs, targets)
+    loss.backward()
+    optimizer.step()
 
 
-torch.save(net.state_dict(), 'fnn_model.pkl')
+
+
+
 
 

@@ -171,7 +171,7 @@ def get_good_input_time_indicies(L):
 	#assert len(good_input_time_indicies) == len(max_sig_values)
 	return max_sig_values
 
-
+"""
 def display_data(L,i,P):
 	figure(d2s('data'))
 	title(i)
@@ -201,7 +201,6 @@ def display_data(L,i,P):
 	 	plot(vals,color)
 	spause()
 
-
 def display_data2(L,i,P):
 	figure(d2s('data2'))
 	clf()
@@ -210,25 +209,10 @@ def display_data2(L,i,P):
 
 	for input_target in [0,1]:
 		if input_target == 0:
-			lst = [
-				'IMU_mag',
-				'encoder',
-				'cmd_steer',
-				'cmd_motor',
-				'motor',
-				'steer',
-				'xfc0',
-				'xfl0',
-				'xfl1',
-				'xfr0',
-				'xfr1',
-			]
+			
 			indicies = P['input_indicies']
 		else:
-			lst = [
-				'motor',
-				'steer',
-			]
+			lst = 
 			indicies = P['target_index_range']			
 		for t in lst:
 		 	if t[0] == 'x':
@@ -247,7 +231,25 @@ def display_data2(L,i,P):
 		 	plot(indicies,vals,color+'.-')
 	spause()
 
+"""
 
+P['input_lst'] = [
+	'IMU_mag',
+	'encoder',
+	'cmd_steer',
+	'cmd_motor',
+	'motor',
+	'steer',
+	'xfc0',
+	'xfl0',
+	'xfl1',
+	'xfr0',
+	'xfr1',
+]
+P['target_lst'] = [
+	'motor',
+	'steer',
+]
 def display_data3(D,P):
 	figure(d2s('data3'))
 	clf()
@@ -283,25 +285,10 @@ def get_input_output_data(L,i,P):
 	for input_target in ['input','target']:
 		D[input_target] = {}
 		if input_target == 'input':
-			lst = [
-				'IMU_mag',
-				'encoder',
-				'cmd_steer',
-				'cmd_motor',
-				'motor',
-				'steer',
-				'xfc0',
-				'xfl0',
-				'xfl1',
-				'xfr0',
-				'xfr1',
-			]
+			lst = P['input_lst']
 			indicies = P['input_indicies']
 		else:
-			lst = [
-				'motor',
-				'steer',
-			]
+			lst = P['target_lst']
 			indicies = P['target_index_range']		
 		for t in lst:
 			D[input_target][t] = L[t][i+indicies]
@@ -338,8 +325,8 @@ except:
 	I['sig_sorted'] = sig_sorted
 	so(I,opjk(P['processed data location'],'I.pkl'))
 
-
-for i in range(100): display_data_animate(L,int(sig_sorted[-np.random.randint(30000),0]),10,P)
+if False:
+	for i in range(100): display_data_animate(L,int(sig_sorted[-np.random.randint(30000),0]),10,P)
 
 
 """
