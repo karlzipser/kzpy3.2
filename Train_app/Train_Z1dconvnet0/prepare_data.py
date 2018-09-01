@@ -8,6 +8,7 @@ P = {}
 P['num_input_timesteps'] = 60
 P['plot individual run data'] = False
 P['plot concatenated run data'] = False
+P['input_indicies'] = na(range(-P['num_input_timesteps'],0))
 P['target_index_range'] = na(range(0,30,3))
 P['timeindex_offset'] = 0
 P['dataset path'] = '/Volumes/transfer/flex_sensors_Aug2018/'
@@ -18,13 +19,13 @@ P['processed data location'] = 'Train_app/Train_Z1dconvnet0/__local__/'
 list_of_h5py_folders = sggo(P['dataset path'],'*')#h5py/*')
 
 P['topics'] = [
-	 #u'acc_x',
-	 #u'acc_y',
-	 #u'acc_z',
+	 'acc_x',
+	 'acc_y',
+	 'acc_z',
 	 'encoder',
-	 #u'gyro_x',
-	 #u'gyro_y',
-	 #u'gyro_z',
+	 'gyro_x',
+	 'gyro_y',
+	 'gyro_z',
 	 'cmd_steer',
 	 'cmd_motor',
 	 'gyro_heading_x',
@@ -83,14 +84,17 @@ def get_raw_run_data(P):
 			L[t] = M[t][:]
 		else:
 			L[t] = zscore(M[t][:])
-
+	L['IMU_mag'] = 0*L['acc_x']
+	for t in ['acc_x','acc_y','acc_z','gyro_x','gyro_y','gyro_z',]:
+		L['IMU_mag'] += np.abs(L[t])
+	L['IMU_mag'] /= 6.0
 	a_topic = a_key(L)
 	for t in P['topics']:
 		pd2s('len(L[t] =',len(L[t]))
 		assert len(L[t]) == len(L[a_topic])
 
 	if P['plot concatenated run data']:
-		for t in M.keys():
+		for t in P['topics']:
 			figure(d2s(t,': all runs'));clf();plot(L[t])
 		raw_enter()
 		CA()
@@ -119,45 +123,196 @@ def Progress_animator(total_count,update_Hz=1.0):
 	return D
 
 
-def max_steer_or_motor_value(target_array):
-	return np.max(np.abs(target_array-49))
+#def max_steer_or_motor_value(target_array):
+#	return np.max(np.abs(target_array-49))
+def max_felx_signal(index_range,L):
+	max_sig = -5
+	for t in [
+		'xfc0',
+		'xfl0',
+		'xfl1',
+		'xfr0',
+		'xfr1',]:
+		msig = np.max(L[t][index_range])
+		if msig > max_sig:
+			max_sig = msig
+	return max_sig
+
 
 def get_good_input_time_indicies(L):
-	#import kzpy3.misc.progress
-	#pb = kzpy3.misc.progress.ProgressBar(len(L[P['topics'][0]]))
-	#progress_timer = Timer(0.1)
 	Pb = Progress_animator(total_count=len(L[P['topics'][0]]),update_Hz=10)
 	good_input_time_indicies = []
-	max_steer_values = []
-	max_motor_values = []
+	max_sig_values = []
+	i = 0
 	for i in range(len(L[P['topics'][0]])):
-		good_count = 0
 		try:
+			good_count = 0
 			for j in range(i-P['num_input_timesteps'],i):
 				if L['drive_mode'][j] > 0:
 					if L['human_agent'][j] < 1:
-						if np.abs(L['motor'][j]-49) < 5:
+						if (L['motor'][j]-49) < 5:
 							#print 'no motor'
-							if np.abs(L['steer'][j]-49) < 5:
+							#if np.abs(L['steer'][j]-49) < 5:
 								#pd2s(j,int(L['steer'][j]),int(L['motor'][j]),good_count)
-								good_count += 1
-								Pb['update'](i)
+							good_count += 1
+							Pb['update'](i)
 				#print i,j,good_count
+			#print good_count/(1.0*P['num_input_timesteps'])
 			if good_count/(1.0*P['num_input_timesteps']) > P['good_timestep_proportion']:
-				good_input_time_indicies.append(i)
-				max_steer_values.append(max_steer_or_motor_value(L['steer'][i+P['target_index_range']]))
-				max_motor_values.append(max_steer_or_motor_value(L['motor'][i+P['target_index_range']]))
+				max_sig_values.append([i,max_felx_signal(i+P['target_index_range'],L)])
+				#good_input_time_indicies.append(i)
+
+				#max_motor_values.append(max_steer_or_motor_value(L['motor'][i+P['target_index_range']]))
 				#pd2s(i,'succeeded')
 			#pd2s(i,'failed')
 		except:
 			exec(EXCEPT_STR)
 	Pb['update'](i);print('\n')
-	assert len(good_input_time_indicies) == len(max_steer_values)
-	assert len(good_input_time_indicies) == len(max_motor_values)
-	return good_input_time_indicies,max_steer_values,max_motor_values
+	#assert len(good_input_time_indicies) == len(max_sig_values)
+	return max_sig_values
 
 
+def display_data(L,i,P):
+	figure(d2s('data'))
+	title(i)
+	clf()
+	xylim(0,90,-50,100)
+	for t in [
+		'motor',
+		'steer',
+		'IMU_mag',
+		'xfc0',
+		'xfl0',
+		'xfl1',
+		'xfr0',
+		'xfr1',
+	]:
+	 	if t[0] == 'x':
+	 		color = 'k'
+	 	elif t == 'motor':
+	 		color = 'b'
+	 	elif t == 'steer':
+	 		color = 'r'
+	 	elif t == 'IMU_mag':
+	 		color = 'g'
+	 	vals = L[t][i-P['num_input_timesteps']/2:i+P['num_input_timesteps']/2+30]
+	 	if t == 'IMU_mag':
+	 		vals = 3*vals-20
+	 	plot(vals,color)
+	spause()
 
+
+def display_data2(L,i,P):
+	figure(d2s('data2'))
+	clf()
+	title(i)
+	xylim(np.min(P['input_indicies'])-3,np.max(P['target_index_range'])+3,-50,100)
+
+	for input_target in [0,1]:
+		if input_target == 0:
+			lst = [
+				'IMU_mag',
+				'encoder',
+				'cmd_steer',
+				'cmd_motor',
+				'motor',
+				'steer',
+				'xfc0',
+				'xfl0',
+				'xfl1',
+				'xfr0',
+				'xfr1',
+			]
+			indicies = P['input_indicies']
+		else:
+			lst = [
+				'motor',
+				'steer',
+			]
+			indicies = P['target_index_range']			
+		for t in lst:
+		 	if t[0] == 'x':
+		 		color = 'k'
+		 	elif t == 'motor':
+		 		color = 'b'
+		 	elif t == 'steer':
+		 		color = 'r'
+		 	elif t == 'IMU_mag':
+		 		color = 'g'
+		 	else:
+		 		color = 'c'
+		 	vals = L[t][i+indicies]
+		 	if t == 'IMU_mag':
+		 		vals = 3*vals-20
+		 	plot(indicies,vals,color+'.-')
+	spause()
+
+
+def display_data3(D,P):
+	figure(d2s('data3'))
+	clf()
+	title(i)
+	xylim(np.min(P['input_indicies'])-3,np.max(P['target_index_range'])+3,-50,100)
+
+	for input_target in [0,1]:
+		for input_target in ['input','target']:	
+			if input_target == 'input':
+				indicies = P['input_indicies']
+			else:
+				indicies = P['target_index_range']
+			for t in D[input_target].keys():
+			 	if t[0] == 'x':
+			 		color = 'k'
+			 	elif t == 'motor':
+			 		color = 'b'
+			 	elif t == 'steer':
+			 		color = 'r'
+			 	elif t == 'IMU_mag':
+			 		color = 'g'
+			 	else:
+			 		color = 'c'
+			 	vals = D[input_target][t]
+
+			 	plot(indicies,vals,color+'.-')
+	spause()
+
+
+def get_input_output_data(L,i,P):
+	D = {}
+
+	for input_target in ['input','target']:
+		D[input_target] = {}
+		if input_target == 'input':
+			lst = [
+				'IMU_mag',
+				'encoder',
+				'cmd_steer',
+				'cmd_motor',
+				'motor',
+				'steer',
+				'xfc0',
+				'xfl0',
+				'xfl1',
+				'xfr0',
+				'xfr1',
+			]
+			indicies = P['input_indicies']
+		else:
+			lst = [
+				'motor',
+				'steer',
+			]
+			indicies = P['target_index_range']		
+		for t in lst:
+			D[input_target][t] = L[t][i+indicies]
+	return D
+
+def display_data_animate(L,i,n,P):
+	CA()
+	for i in range(i-n,i+n,1):
+		D = get_input_output_data(L,i,P)
+		display_data3(D,P)
+		#time.sleep(1)
 
 try:
 	L = lo(opjk(P['processed data location'],'L.pkl'))
@@ -175,12 +330,16 @@ try:
 except:
 	#exec(EXCEPT_STR)
 	pd2s('making and saving I')
-	good_input_time_indicies,max_steer_values,max_motor_values = get_good_input_time_indicies(L)
+	max_sig_values = get_good_input_time_indicies(L)
 	I = {}
-	I['good_input_time_indicies'] = good_input_time_indicies
-	I['max_steer_values'] = max_steer_values
-	I['max_motor_values'] = max_motor_values
+	max_sig_values = na(max_sig_values)
+	sig_sorted = max_sig_values[max_sig_values[:,1].argsort()]
+	I['max_sig_values'] = max_sig_values
+	I['sig_sorted'] = sig_sorted
 	so(I,opjk(P['processed data location'],'I.pkl'))
+
+
+for i in range(100): display_data_animate(L,int(sig_sorted[-np.random.randint(30000),0]),10,P)
 
 
 """
