@@ -4,17 +4,18 @@ import torch.nn as nn
 import torchvision.datasets as dsets
 import torchvision.transforms as transforms
 from torch.autograd import Variable
+from prepare_data import *#from kzpy3.Train_app.Train_fnn1.prepare_data import *
+exec(identify_file_str)
 
-from kzpy3.Train_app.Train_fnn0.prepare_data import *
 
 torch.cuda.set_device(P['GPU'])
 torch.cuda.device(P['GPU'])
 
 input_size = P['num_input_timesteps']*len(P['input_lst'])
-hidden_size = 500
+hidden_size = P['hidden_size']#500
 output_size = len(P['target_index_range'])*len(P['target_lst'])
 num_epochs = 50
-batch_size = 100
+batch_size = P['batch_size']#100
 learning_rate = 0.1
 
 
@@ -32,16 +33,19 @@ class Net(nn.Module):
 
 
 net = Net(input_size, hidden_size, output_size).cuda()
+_random_weights = True
 if P['resume from saved state']:
     try:
         latest_weights = most_recent_file_in_folder(opj(P['processed data location'],'weights'))
         saved_net = torch.load(latest_weights)
         net.load_state_dict(saved_net)
-        CS_(d2s('resuming with weight file',latest_weights))
+        CS_(d2s('resuming with weight file',latest_weights),section=fname(__file__))
+        _random_weights = False
     except:
+        CS_(d2s('failed to load weights!'),section=fname(__file__),exception=True)
         exec(EXCEPT_STR)
-else:
-    CS_('training with random weights')
+if _random_weights:
+    CS_('training with random weights',fname(__file__))
 
 criterion = nn.MSELoss().cuda()
 optimizer = torch.optim.Adadelta(net.parameters(),lr=learning_rate)
@@ -53,7 +57,7 @@ loss_timer = Timer(10)
 epoch_timer = Timer(15*60)
 target_output_timer = Timer(1)
 loss_list = []
-CS_('Starting training...')
+CS_('Starting training...',fname(__file__))
 while True:
     if epoch_timer.check():
         print 'epoch'
@@ -67,7 +71,7 @@ while True:
         spause()
         loss_timer.reset()
     for i in range(batch_size):
-        D = get_input_output_data(L,int(I['sig_sorted'][-np.random.randint(80000),0]),P)
+        D = get_input_output_data(L,int(I['sig_sorted'][-np.random.randint(P['sig sorted value']),0]),P)
         IO = {}
         for q in ['input','target']:
             IO[q] = na([])

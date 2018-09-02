@@ -20,8 +20,8 @@ if using_linux():
 else:
 	P['dataset path'] = '/Volumes/transfer/flex_sensors_Aug2018/'
 P['good_timestep_proportion'] = 0.8
-P['processed data location'] = opjk('Train_app/Train_fnn1/__local__/')
-
+P['processed data location'] = opjk(pname(__file__),'__local__')##opjk(opjk('Train_app/Train_fnn1/__local__/')
+P['sig sorted value'] = 264000
 P['topics'] = [
 	 'acc_x',
 	 'acc_y',
@@ -64,3 +64,17 @@ P['target_lst'] = [
 	'steer',
 	'motor',
 ]
+
+P['values in filename'] = [
+	'hidden_size',
+	'batch_size',
+	'num_input_timesteps',
+	'target_index_range',
+	'input_lst',
+	'target_lst',
+]
+
+
+if False:
+	P['menu'] = {}
+	P['menu']['current location 1'] = [opjk('Train_app','Train_fnn1'),'c1']

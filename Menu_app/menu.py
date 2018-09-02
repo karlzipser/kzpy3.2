@@ -200,59 +200,80 @@ def load_menu_data(path,Parameters,first_load=False):
 
 
 
+
+
+
+if __name__ == '__main__':
+    module = Arguments['module']
+    CS_(module,'module')
+    default_values_file = module.split('.')[-1]# + '.py'
+    CS_(default_values_file,'default_values_file')
+    dic = Arguments['dic']
+    CS_(dic,'dic')
+    exec(d2s('import',module,'as',default_values_file))
+    exec(d2n('Topics = ',default_values_file,'.',dic))       
+    menu(Topics,module.replace('.','/'))
+
+
+
+python kzpy3/Menu_app/menu.py module kzpy3.Cars.car_24July2018.nodes.Default_values.arduino dic Parameters
+
+
+
 """
 e.g.
 python kzpy3/Menu_app/menu.py path ~/kzpy3/Train_app/Train_Z1dconvnet0/__local__/arduino/ default 1 Topics arduino
 python kzpy3/Menu_app/menu.py path ~/kzpy3/Train_app/Train_Z1dconvnet0/__local__/network/ default 1 Topics network
-"""
 
-if __name__ == '__main__':
-    path = Arguments['path']
-    if 'default' in Arguments.keys():
-        import kzpy3.Cars.car_24July2018.nodes.default_values as default_values
-        if 'Topics' in Arguments.keys():
-            if Arguments['Topics'] == 'arduino':
-                Topics = default_values.Parameters
-            elif Arguments['Topics'] == 'network':
-                Topics = default_values.Network
-            else:
-                assert False
-    else:
-        try:
-            Topics = load_Topics(path,first_load=True)
-        except:
-            Topics = {}
-    menu(Topics,path)
 
-if __name__ == '__main__':
-    path = Arguments['path']
-    if 'Topics' in Arguments:
-        if (Arguments['Topics'] == 'arduino') or (Arguments['Topics'] == 'network'):
-            if 'default' in Arguments.keys():
-                import kzpy3.Cars.car_24July2018.nodes.default_values as default_values
+if False:
+
+    if __name__ == '__main__':
+        path = Arguments['path']
+        if 'default' in Arguments.keys():
+            import kzpy3.Cars.car_24July2018.nodes.default_values as default_values
+            if 'Topics' in Arguments.keys():
                 if Arguments['Topics'] == 'arduino':
                     Topics = default_values.Parameters
                 elif Arguments['Topics'] == 'network':
                     Topics = default_values.Network
                 else:
                     assert False
-            else:
-                try:
-                    Topics = load_Topics(path,first_load=True)
-                except:
-                    Topics = {}
+        else:
+            try:
+                Topics = load_Topics(path,first_load=True)
+            except:
+                Topics = {}
+        menu(Topics,path)
 
-        elif Arguments['Topics'] == 'znn':
-            if 'default' in Arguments.keys():
-                import kzpy3/Train_app/Train_znn0.default_values as default_values
-                Topics = default_values.P
-    else:
-        try:
-            Topics = load_Topics(path,first_load=True)
-        except:
-            Topics = {}            
-    menu(Topics,path)
+    if __name__ == '__main__':
+        path = Arguments['path']
+        if 'Topics' in Arguments:
+            if (Arguments['Topics'] == 'arduino') or (Arguments['Topics'] == 'network'):
+                if 'default' in Arguments.keys():
+                    import kzpy3.Cars.car_24July2018.nodes.default_values as default_values
+                    if Arguments['Topics'] == 'arduino':
+                        Topics = default_values.Parameters
+                    elif Arguments['Topics'] == 'network':
+                        Topics = default_values.Network
+                    else:
+                        assert False
+                else:
+                    try:
+                        Topics = load_Topics(path,first_load=True)
+                    except:
+                        Topics = {}
 
-
-
+            elif Arguments['Topics'] == 'znn':
+                if 'default' in Arguments.keys():
+                    import kzpy3.Train_app.Train_znn0.default_values as default_values
+                    Topics = default_values.P
+        else:
+            try:
+                Topics = load_Topics(path,first_load=True)
+            except:
+                Topics = {}            
+        menu(Topics,path)
+"""
+True
 #EOF

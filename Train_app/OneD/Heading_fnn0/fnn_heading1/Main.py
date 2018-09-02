@@ -71,7 +71,7 @@ while True:
         spause()
         loss_timer.reset()
     for i in range(batch_size):
-        D = get_input_output_data(L,int(I['sig_sorted'][-np.random.randint(80000),0]),P)
+        D = get_input_output_data(L,int(I['sig_sorted'][-np.random.randint(P['sig sorted value']),0]),P)
         IO = {}
         for q in ['input','target']:
             IO[q] = na([])

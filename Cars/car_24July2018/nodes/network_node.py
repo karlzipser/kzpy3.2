@@ -223,7 +223,7 @@ while not rospy.is_shutdown():
         time.sleep(0.1)
 
 CS_('goodbye!',__file__)
-default_values.EXIT(restart=False,shutdown=False,kill_ros=True,_file_=__file__)
+#default_values.EXIT(restart=False,shutdown=False,kill_ros=True,_file_=__file__)
 
 
 
