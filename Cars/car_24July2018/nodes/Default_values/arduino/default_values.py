@@ -99,7 +99,7 @@ Parameters['acc'] = {}
 Parameters['gyro'] = {}
 Parameters['head'] = {}
 Parameters['The menu path.'] = opjk('Cars/car_24July2018/nodes/Default_values/arduino')
-
+Parameters['autostart menu'] = True
 
 flex_names = []
 for fb in ['f','b']:
@@ -113,6 +113,7 @@ for f in flex_names:
 Parameters['to_hide'] = []
 
 Parameters['to_expose'] = [
+	'ABORT',
 	'IMU_SMOOTHING_PARAMETER',
 	'behavioral_mode_choice',
 	'agent_choice',

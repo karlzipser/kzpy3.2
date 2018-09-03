@@ -6,25 +6,21 @@ import kzpy3.Menu_app.menu
 
 ############# start menu thread ############
 #
-__default_values_module_name__ = "kzpy3.Cars.car_24July2018.nodes.Default_values.network.default_values"
-__topics_dic_name__ = "Network"
-
+__default_values_module_name__ = "kzpy3.Cars.car_24July2018.nodes.Default_values.arduino.default_values"
+__topics_dic_name__ = "Parameters"
 exec(kzpy3.Menu_app.menu.__MENU_THREAD_EXEC_STR__.replace(
 	'__default_values_module_name__',__default_values_module_name__
 	).replace('__topics_dic_name__',__topics_dic_name__))
-
-if True:# Network['autostart menu']:
-	n = __default_values_module_name__.replace('.','/').replace('.default_values','')
-	os.system(d2n("gnome-terminal -x python kzpy3/Menu_app/menu.py path kzpy3/Cars/car_24July2018/nodes/Default_values/network dic Network"))
-
 #
 ############################################
 
 
 timer = Timer(5)
-while Network['ABORT'] == False:
-    q = raw_input()
-    if q == 'q':
-        Network['ABORT'] = True
+while Parameters['ABORT'] == False:
+    #q = raw_input()
+    #if q == 'q':
+    #    Parameters['ABORT'] = True
     timer.message(d2s('time.time()',time.time()))
+raw_enter('Done. ')
+
 #EOF

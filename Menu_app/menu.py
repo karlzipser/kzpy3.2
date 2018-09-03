@@ -1,13 +1,15 @@
 from kzpy3.utils3 import *
 
-def menu(Topics,path):
 
+
+def menu(Topics,path):
+    EXIT = False
     message = False
     choice_number = 0
     Number_name_binding = {}
     Name_number_binding = {}
 
-    while choice_number != 1:
+    while EXIT == False:
 
         try:
 
@@ -55,7 +57,7 @@ def menu(Topics,path):
                 message = "bad option"
 
             elif choice_number == Name_number_binding['exit']:
-                pass
+                EXIT = True
 
             elif choice_number == Name_number_binding['load']:
                 message = 'file not loaded'
@@ -211,39 +213,11 @@ def load_menu_data(path,Parameters,first_load=False):
         CS_('Exception!',exception=True,newline=False)
         CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
 
-
-if False:
-    __MENU_THREAD_EXEC_STR__ = """
-#exec(d2s("import",__default_values_module_name__,"as default_values"))
-#exec(d2n("Topics = default_values.",__topics_dic_name__))
-import __default_values_module_name__ as default_values
-Topics = default_values.__topics_dic_name__
-
-
-Topics['ABORT'] = False
-import kzpy3.Menu_app.menu
-
-menu_path = Topics['The menu path.']
-if not os.path.exists(menu_path):
-    os.makedirs(menu_path)
-try:
-    os.remove(opj(path,'ready'))
-except:
-    pass
-threading.Thread(target=kzpy3.Menu_app.menu.load_menu_data,args=[menu_path,Topics]).start()
-
-    """
-if True:
-    __MENU_THREAD_EXEC_STR__ = """
-#exec(d2s("import",__default_values_module_name__,"as default_values"))
-#exec(d2n("__topics_dic_name__ = default_values.",__topics_dic_name__))
+__MENU_THREAD_EXEC_STR__ = """
 import __default_values_module_name__ as default_values
 __topics_dic_name__ = default_values.__topics_dic_name__
-
-
 __topics_dic_name__['ABORT'] = False
 import kzpy3.Menu_app.menu
-
 menu_path = __topics_dic_name__['The menu path.']
 if not os.path.exists(menu_path):
     os.makedirs(menu_path)
@@ -252,9 +226,12 @@ try:
 except:
     pass
 threading.Thread(target=kzpy3.Menu_app.menu.load_menu_data,args=[menu_path,__topics_dic_name__]).start()
+if __topics_dic_name__['autostart menu']:
+    n = "__default_values_module_name__".replace('.','/').replace('/default_values','')
+    os.system(d2n("gnome-terminal -x python kzpy3/Menu_app/menu.py path ",n," dic __topics_dic_name__"))
 """
 
-if __name__ == '__main__':
+if __name__ == '__main__':# and EXIT == False:
     path = Arguments['path']
     module = path.replace('/','.').replace('.py','')
     CS_(module,'module')
@@ -263,67 +240,13 @@ if __name__ == '__main__':
     exec(d2n('import ',module,'.default_values as default_values'))
     exec(d2n('Topics = default_values.',dic))       
     menu(Topics,path)
+    raw_enter('Done. ')
+
 
 # python kzpy3/Menu_app/menu.py path ~/kzpy3/Cars/car_24July2018/nodes/__local__/arduino/ default 1 Topics arduino
 
 #CS_(d2c('e.g.','python kzpy3/Menu_app/menu.py module kzpy3.Cars.car_24July2018.nodes.Default_values.arduino dic Parameters'))
 
 
-
-"""
-e.g.
-python kzpy3/Menu_app/menu.py path ~/kzpy3/Train_app/Train_Z1dconvnet0/__local__/arduino/ default 1 Topics arduino
-python kzpy3/Menu_app/menu.py path ~/kzpy3/Train_app/Train_Z1dconvnet0/__local__/network/ default 1 Topics network
-
-
-if False:
-
-    if __name__ == '__main__':
-        path = Arguments['path']
-        if 'default' in Arguments.keys():
-            import kzpy3.Cars.car_24July2018.nodes.default_values as default_values
-            if 'Topics' in Arguments.keys():
-                if Arguments['Topics'] == 'arduino':
-                    Topics = default_values.Parameters
-                elif Arguments['Topics'] == 'network':
-                    Topics = default_values.Network
-                else:
-                    assert False
-        else:
-            try:
-                Topics = load_Topics(path,first_load=True)
-            except:
-                Topics = {}
-        menu(Topics,path)
-
-    if __name__ == '__main__':
-        path = Arguments['path']
-        if 'Topics' in Arguments:
-            if (Arguments['Topics'] == 'arduino') or (Arguments['Topics'] == 'network'):
-                if 'default' in Arguments.keys():
-                    import kzpy3.Cars.car_24July2018.nodes.default_values as default_values
-                    if Arguments['Topics'] == 'arduino':
-                        Topics = default_values.Parameters
-                    elif Arguments['Topics'] == 'network':
-                        Topics = default_values.Network
-                    else:
-                        assert False
-                else:
-                    try:
-                        Topics = load_Topics(path,first_load=True)
-                    except:
-                        Topics = {}
-
-            elif Arguments['Topics'] == 'znn':
-                if 'default' in Arguments.keys():
-                    import kzpy3.Train_app.Train_znn0.default_values as default_values
-                    Topics = default_values.P
-        else:
-            try:
-                Topics = load_Topics(path,first_load=True)
-            except:
-                Topics = {}            
-        menu(Topics,path)
-"""
 True
 #EOF
