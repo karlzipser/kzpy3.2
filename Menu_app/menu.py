@@ -59,7 +59,7 @@ def menu(Topics,path):
 
             elif choice_number == Name_number_binding['load']:
                 message = 'file not loaded'
-                files = get_files_sorted_by_mtime(opj(path,'*.pkl'))
+                files = get_files_sorted_by_mtime(opj(path,'__local__','*.pkl'))
 
                 files.reverse()
                 filenames = []
@@ -72,7 +72,7 @@ def menu(Topics,path):
 
                 filename = filenames[input('\tload #? ')-1]
 
-                Topics_loaded = lo(opj(path,filename))
+                Topics_loaded = lo(opj(path,'__local__',filename))
                 for t in Topics_loaded:
                     Topics[t] = Topics_loaded[t]
                 save_topics(Topics,path)
@@ -83,7 +83,7 @@ def menu(Topics,path):
                 description = get_safe_name(raw_input('\tshort description #? '))
                 assert(len(description)>0)
                 filename = d2n('Topics.',description,'.pkl')
-                so(Topics,opj(path,filename))
+                so(Topics,opj(path,'__local__',filename))
                 message = d2s('saved',filename)
                 save_topics(Topics,path)
 
@@ -149,17 +149,17 @@ def menu(Topics,path):
 
 def save_topics(Topics,path):
     try:
-        os.remove(opj(path,'ready'))
+        os.remove(opj(path,'__local__','ready'))
     except:
         pass
     try:
-        os.remove(opj(path,'Topics.pkl'))
+        os.remove(opj(path,'__local__','Topics.pkl'))
     except:
         pass
     #unix(d2n('rm ',opj(path,'ready')))
     #unix(d2n('rm ',opj(path,'Topics.pkl')))
-    so(Topics,opj(path,'Topics.pkl'))
-    text_to_file(opj(path,'ready'),'')
+    so(Topics,opj(path,'__local__','Topics.pkl'))
+    text_to_file(opj(path,'__local__','ready'),'')
     #unix('touch '+opj(path,'ready'))
 
 def print_exposed(Topics):
@@ -169,12 +169,18 @@ def print_exposed(Topics):
         cprint(type(Topics[name]).__name__,'grey')
     print ''
 
-def load_Topics(path,first_load=False):
+def load_Topics(input_path,first_load=False):
+    path = opj(input_path,'__local__')
+    #print path
+    #print(sggo(path,'*'))
     r = sggo(path,'ready')
+    #print r
     if len(r) > 1:
         CS_('Warning, more than one ready in '+path)
     if len(r) == 1 or first_load:
         Topics = lo(opjh(path,'Topics.pkl'))
+        #print 'Topics='
+        #print Topics
         print_exposed(Topics)
         if len(r) == 1:
             try:
@@ -188,35 +194,79 @@ def load_Topics(path,first_load=False):
 
 def load_menu_data(path,Parameters,first_load=False):
     timer = Timer(0.5)
-    while Parameters['ABORT'] == False:
-        if timer.check():
-            Topics = load_Topics(path,first_load)
-            if type(Topics) == dict:
-                for t in Topics.keys():
-                    Parameters[t] = Topics[t]
-            timer.reset()
-        else:
-            time.sleep(0.1)
+    try:
+        while Parameters['ABORT'] == False:
+            if timer.check():
+                Topics = load_Topics(path,first_load)
+                if type(Topics) == dict:
+                    for t in Topics.keys():
+                        Parameters[t] = Topics[t]
+                timer.reset()
+            else:
+                time.sleep(0.1)
+    except:
+        Parameters['ABORT'] = True
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        CS_('Exception!',exception=True,newline=False)
+        CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
 
 
+if False:
+    __MENU_THREAD_EXEC_STR__ = """
+#exec(d2s("import",__default_values_module_name__,"as default_values"))
+#exec(d2n("Topics = default_values.",__topics_dic_name__))
+import __default_values_module_name__ as default_values
+Topics = default_values.__topics_dic_name__
 
 
+Topics['ABORT'] = False
+import kzpy3.Menu_app.menu
 
+menu_path = Topics['The menu path.']
+if not os.path.exists(menu_path):
+    os.makedirs(menu_path)
+try:
+    os.remove(opj(path,'ready'))
+except:
+    pass
+threading.Thread(target=kzpy3.Menu_app.menu.load_menu_data,args=[menu_path,Topics]).start()
+
+    """
+if True:
+    __MENU_THREAD_EXEC_STR__ = """
+#exec(d2s("import",__default_values_module_name__,"as default_values"))
+#exec(d2n("__topics_dic_name__ = default_values.",__topics_dic_name__))
+import __default_values_module_name__ as default_values
+__topics_dic_name__ = default_values.__topics_dic_name__
+
+
+__topics_dic_name__['ABORT'] = False
+import kzpy3.Menu_app.menu
+
+menu_path = __topics_dic_name__['The menu path.']
+if not os.path.exists(menu_path):
+    os.makedirs(menu_path)
+try:
+    os.remove(opj(path,'ready'))
+except:
+    pass
+threading.Thread(target=kzpy3.Menu_app.menu.load_menu_data,args=[menu_path,__topics_dic_name__]).start()
+"""
 
 if __name__ == '__main__':
-    module = Arguments['module']
+    path = Arguments['path']
+    module = path.replace('/','.').replace('.py','')
     CS_(module,'module')
-    default_values_file = module.split('.')[-1]# + '.py'
-    CS_(default_values_file,'default_values_file')
     dic = Arguments['dic']
     CS_(dic,'dic')
-    exec(d2s('import',module,'as',default_values_file))
-    exec(d2n('Topics = ',default_values_file,'.',dic))       
-    menu(Topics,module.replace('.','/'))
+    exec(d2n('import ',module,'.default_values as default_values'))
+    exec(d2n('Topics = default_values.',dic))       
+    menu(Topics,path)
 
+# python kzpy3/Menu_app/menu.py path ~/kzpy3/Cars/car_24July2018/nodes/__local__/arduino/ default 1 Topics arduino
 
-
-python kzpy3/Menu_app/menu.py module kzpy3.Cars.car_24July2018.nodes.Default_values.arduino dic Parameters
+#CS_(d2c('e.g.','python kzpy3/Menu_app/menu.py module kzpy3.Cars.car_24July2018.nodes.Default_values.arduino dic Parameters'))
 
 
 

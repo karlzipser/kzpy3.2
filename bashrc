@@ -140,6 +140,9 @@ fi
 date
 
 
-
+export ccar='kzpy3/Cars/car_24July2018/nodes'
+export ctrain='kzpy3/Train_app'
+export cmenu='kzpy3/Menu_app'
+export cdata='kzpy3/Data_app'
 
 #EOF

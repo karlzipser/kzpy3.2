@@ -4,7 +4,7 @@ import rospy
 
 Network = {}
 Network['to_hide'] = []
-Network['The menu path.'] = opjk('Cars/car_24July2018/nodes/__local__/network')
+Network['The menu path.'] = opjk('Cars/car_24July2018/nodes/Default_values/network')
 if True:
 	Network['ABORT'] = False
 	Network['network_output_sample'] = 0 # >= 0, <= 9
@@ -36,7 +36,7 @@ if False:
 	Network['USE_LAST_IMAGE_ONLY'] = True
 	Network['visualize_activations'] = False
 	#Network['motor_reverse_threshold'] = 64
-
+Network['autostart menu'] = True
 Network['to_expose'] = [
 	'network_output_sample',
 	'network_steer_gain',

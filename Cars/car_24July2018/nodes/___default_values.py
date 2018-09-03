@@ -98,7 +98,7 @@ Parameters['calibrated'] = False
 Parameters['acc'] = {}
 Parameters['gyro'] = {}
 Parameters['head'] = {}
-Parameters['The menu path.'] = opjk('Cars/car_24July2018/nodes/__local__/arduino')
+Parameters['The menu path.'] = opjk('Cars/car_24July2018/nodes/Default_values/arduino')
 
 
 flex_names = []
@@ -125,6 +125,53 @@ Parameters['to_expose'] = [
 	'pid_motor_delta_max',
 	'pid_motor_percent_max',
 	'pid_motor_percent_min',
+]
+
+Network = {}
+Network['to_hide'] = []
+Network['The menu path.'] = opjk('Cars/car_24July2018/nodes/__local__/network')
+if True:
+	Network['ABORT'] = False
+	Network['network_output_sample'] = 0 # >= 0, <= 9
+	Network['network_steer_gain'] = 6.0
+	Network['network_camera_gain'] = 2.0
+	Network['network_motor_gain'] = 0.8
+	Network['network_motor_offset'] = 0
+	Network['network_servo_smoothing_parameter'] = 0.85
+	Network['network_motor_smoothing_parameter'] = 0.75
+	Network['network_camera_smoothing_parameter'] = 0.0
+	Network['weight_file_path'] = opjh('pytorch_models','net_10Jun18_00h00m45s.SqueezeNet')
+	Network['USE_NETWORK'] = True
+	Network['GREY_OUT_TOP_OF_IMAGE'] = False
+	Network['USE_LAST_IMAGE_ONLY'] = False
+	Network['visualize_activations'] = False
+if False:
+	Network['ABORT'] = False
+	Network['network_output_sample'] = 4 # >= 0, <= 9
+	Network['network_steer_gain'] = 2.0
+	Network['network_camera_gain'] = 2.0
+	Network['network_motor_gain'] = 0.333
+	Network['network_motor_offset'] = 0
+	Network['network_servo_smoothing_parameter'] = 0.95
+	Network['network_motor_smoothing_parameter'] = 0.75
+	Network['network_camera_smoothing_parameter'] = 0.75
+	Network['weight_file_path'] = opjh('pytorch_models','net_10Jun18_00h00m45s.SqueezeNet')
+	Network['USE_NETWORK'] = True
+	Network['GREY_OUT_TOP_OF_IMAGE'] = False
+	Network['USE_LAST_IMAGE_ONLY'] = True
+	Network['visualize_activations'] = False
+	#Network['motor_reverse_threshold'] = 64
+
+Network['to_expose'] = [
+	'network_output_sample',
+	'network_steer_gain',
+	'network_camera_gain',
+	'network_motor_gain',
+	'network_motor_offset',
+	'network_servo_smoothing_parameter',
+	'network_motor_smoothing_parameter',
+	'network_camera_smoothing_parameter',
+	'USE_LAST_IMAGE_ONLY',
 ]
 
 NO_Mse = {}
