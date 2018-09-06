@@ -36,19 +36,18 @@ def get_raw_run_data(P):
 				L.close()
 			except:
 				exec(EXCEPT_STR)
-		if P['plt/plot individual run data,']:
+		if P['plot individual run data']:
 			for t in P['topics']:
 				figure(d2s(t,': all runs'));clf();plot(M[t])
 			raw_enter()
 			CA()
 	L={}
-	S={}
+	
 	for t in P['dat/topics.']:
 		if t in ['drive_mode','human_agent','cmd_steer','cmd_motor','steer','motor']:
 			L[t] = M[t][:]
 		else:
-			S[t] = [0,0]
-			L[t],S[t][0],S[t][1] = zscore(M[t][:],all_values=True)
+			L[t] = zscore(M[t][:])
 	L['IMU_mag'] = 0*L['acc_x']
 	for t in ['acc_x','acc_y','acc_z','gyro_x','gyro_y','gyro_z',]:
 		L['IMU_mag'] += np.abs(L[t])
@@ -58,12 +57,12 @@ def get_raw_run_data(P):
 		pd2s('len(L[t] =',len(L[t]))
 		assert len(L[t]) == len(L[a_topic])
 
-	if P['plt/plot concatenated run data,']:
+	if P['plot concatenated run data']:
 		for t in P['topics']:
 			figure(d2s(t,': all runs'));clf();plot(L[t])
 		raw_enter()
 		CA()
-	return L,M,S
+	return L,M
 
 from kzpy3.misc.progress import ProgressBar
 
@@ -105,7 +104,7 @@ def max_felx_signal(index_range,L):
 
 
 def get_good_input_time_indicies(L):
-	Pb = Progress_animator(total_count=len(L[P['dat/topics.'][0]]),update_Hz=10)
+	Pb = Progress_animator(total_count=len(L[P['topics'][0]]),update_Hz=10)
 	good_input_time_indicies = []
 	max_sig_values = []
 	i = 0
@@ -195,11 +194,9 @@ try:
 except:
 	#exec(EXCEPT_STR)
 	pd2s('making and saving L and M')
-	L,M,S=get_raw_run_data(P)
+	L,M=get_raw_run_data(P)
 	so(L,opj(processed_data_location,'L.pkl'))
-	so(M,opj(processed_data_location,'M.pkl'))
-	so(S,opj(processed_data_location,'S.pkl'))
-	pprint(S)
+	so(M,opj(processed_data_location,'M.pkl'))	
 try:
 	I = lo(opj(processed_data_location,'I.pkl'))
 	pd2s('loaded I')

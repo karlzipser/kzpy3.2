@@ -2,16 +2,23 @@ from kzpy3.utils3 import *
 exec(identify_file_str)
 
 P = {}
+
+
 P['ABORT'] = False # this way in Menu_app
-P['autostart menu'] = True # this way in Menu_app
+P['LIVE'] = False
+P['TRAIN'] = not P['LIVE']
+
+P['autostart menu'] = False # this way in Menu_app
 P['cmd/resume from saved state.'] = True
 P['cmd/num epochs.'] = 50
-P['cmd/initalize net.'] = False
-P['cmd/start training,'] = False
+P['cmd/initalize net.'] = True
+P['cmd/start training,'] = True
 P['cmd/pause training,'] = False
 P['cmd/loss_timer,'] = Timer(10)
 P['cmd/epoch timer,'] = Timer(15*60)
 P['cmd/target output timer,'] = Timer(1)
+
+
 
 P['path/processed data location.'] = opjk(pname(__file__),'__local__')
 P['path/the menu path.'] = None
@@ -20,6 +27,8 @@ if using_linux():
 else:
 	P['path/dataset path.'] = '/Volumes/transfer/flex_sensors_Aug2018/'
 P['path/weight out path'] = None
+
+
 
 P['net/net!'] = None
 P['net/criterion!'] = None
@@ -32,12 +41,6 @@ P['net/hidden_size.'] = 250
 P['net/batch size.'] =100
 P['net/initial learning rate.'] = 0.1
 P['net/input lst.'] = [
-	'IMU_mag',
-	'encoder',
-	'cmd_steer',
-	'cmd_motor',
-	'motor',
-	'steer',
 	'xfc0',
 	'xfl0',
 	'xfl1',
@@ -90,7 +93,7 @@ P['dat/topics.'] = [
 	]
 
 
-
+"""
 P['values in filename.'] = [
 'net/hidden_size',
 'net/batch_size',
@@ -105,8 +108,11 @@ P['values in filename.'] = [
 	'net/input_lst',
 	'net/target_lst',
 ]
+"""
 
 P['sys/GPU.'] = 1
+
+
 
 P['to_expose'] = []  # this way in Menu_app
 P['to_hide'] = ['to_expose','to_hide']  # this way in Menu_app

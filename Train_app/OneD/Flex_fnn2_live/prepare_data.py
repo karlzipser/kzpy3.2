@@ -4,12 +4,12 @@ exec(identify_file_str)
 
 clear_screen()
 
-list_of_h5py_folders = sggo(P['dataset path'],'*')
+list_of_h5py_folders = sggo(P['path/dataset path.'],'*')
 
 def get_raw_run_data(P):
 	M = {}
 	M_temp = {}
-	for t in P['topics']:
+	for t in P['dat/topics.']:
 		M[t] = na([])
 
 	for f in list_of_h5py_folders:
@@ -20,7 +20,7 @@ def get_raw_run_data(P):
 			pd2s('\t',r)
 			try:
 				L = h5r(opj(r,'left_timestamp_metadata_right_ts.h5py'))
-				for t in P['topics']:
+				for t in P['dat/topics.']:
 					M_temp[t] = L[t][:] #if topic not in file, this will raise exception, avoiding adding partial data to M.
 				for t in P['topics']:
 					print('adding '+t)
@@ -43,7 +43,7 @@ def get_raw_run_data(P):
 			CA()
 	L={}
 	
-	for t in P['topics']:
+	for t in P['dat/topics.']:
 		if t in ['drive_mode','human_agent','cmd_steer','cmd_motor','steer','motor']:
 			L[t] = M[t][:]
 		else:
@@ -53,7 +53,7 @@ def get_raw_run_data(P):
 		L['IMU_mag'] += np.abs(L[t])
 	L['IMU_mag'] /= 6.0
 	a_topic = a_key(L)
-	for t in P['topics']:
+	for t in P['dat/topics.']:
 		pd2s('len(L[t] =',len(L[t]))
 		assert len(L[t]) == len(L[a_topic])
 
@@ -108,7 +108,7 @@ def get_good_input_time_indicies(L):
 	good_input_time_indicies = []
 	max_sig_values = []
 	i = 0
-	for i in range(len(L[P['topics'][0]])):
+	for i in range(len(L[P['dat/topics.'][0]])):
 		try:
 			good_count = 0
 			for j in range(i-P['num_input_timesteps'],i):
@@ -123,10 +123,10 @@ def get_good_input_time_indicies(L):
 				#print i,j,good_count
 			#print good_count/(1.0*P['num_input_timesteps'])
 			if good_count/(1.0*P['num_input_timesteps']) > P['good_timestep_proportion']:
-				max_sig_values.append([i,max_felx_signal(i+P['target_index_range'],L)])
+				max_sig_values.append([i,max_felx_signal(i+P['net/target index range.'],L)])
 				#good_input_time_indicies.append(i)
 
-				#max_motor_values.append(max_steer_or_motor_value(L['motor'][i+P['target_index_range']]))
+				#max_motor_values.append(max_steer_or_motor_value(L['motor'][i+P['net/target index range.']]))
 				#pd2s(i,'succeeded')
 			#pd2s(i,'failed')
 		except:
@@ -139,14 +139,14 @@ def display_data3(D,P):
 	figure(d2s('data3'))
 	clf()
 	title(i)
-	xylim(np.min(P['input_indicies'])-3,np.max(P['target_index_range'])+3,-50,100)
+	xylim(np.min(P['input_indicies'])-3,np.max(P['net/target index range.'])+3,-50,100)
 
 	for input_target in [0,1]:
 		for input_target in ['input','target']:	
 			if input_target == 'input':
-				indicies = P['input_indicies']
+				indicies = P['net/input indicies.']
 			else:
-				indicies = P['target_index_range']
+				indicies = P['net/target index range.']
 			for t in D[input_target].keys():
 			 	if t[0] == 'x':
 			 		color = 'k'
@@ -170,11 +170,11 @@ def get_input_output_data(L,i,P):
 	for input_target in ['input','target']:
 		D[input_target] = {}
 		if input_target == 'input':
-			lst = P['input_lst']
-			indicies = P['input_indicies']
+			lst = P['net/input lst.']
+			indicies = P['net/input indicies.']
 		else:
-			lst = P['target_lst']
-			indicies = P['target_index_range']		
+			lst = P['net/target lst.']
+			indicies = P['net/target index range.']		
 		for t in lst:
 			D[input_target][t] = L[t][i+indicies]
 	return D
@@ -186,18 +186,19 @@ def display_data_animate(L,i,n,P):
 		display_data3(D,P)
 		#time.sleep(1)
 
+processed_data_location = P['path/processed data location.']
 try:
-	L = lo(opj(P['processed data location'],'L.pkl'))
-	M = lo(opj(P['processed data location'],'M.pkl'))
+	L = lo(opj(processed_data_location,'L.pkl'))
+	M = lo(opj(processed_data_location,'M.pkl'))
 	pd2s('loaded L and M')
 except:
 	#exec(EXCEPT_STR)
 	pd2s('making and saving L and M')
 	L,M=get_raw_run_data(P)
-	so(L,opj(P['processed data location'],'L.pkl'))
-	so(M,opj(P['processed data location'],'M.pkl'))	
+	so(L,opj(processed_data_location,'L.pkl'))
+	so(M,opj(processed_data_location,'M.pkl'))	
 try:
-	I = lo(opj(P['processed data location'],'I.pkl'))
+	I = lo(opj(processed_data_location,'I.pkl'))
 	pd2s('loaded I')
 except:
 	#exec(EXCEPT_STR)
@@ -208,7 +209,7 @@ except:
 	sig_sorted = max_sig_values[max_sig_values[:,1].argsort()]
 	I['max_sig_values'] = max_sig_values
 	I['sig_sorted'] = sig_sorted
-	so(I,opj(P['processed data location'],'I.pkl'))
+	so(I,opj(processed_data_location,'I.pkl'))
 
 if False:
 	for i in range(100): display_data_animate(L,int(sig_sorted[-np.random.randint(30000),0]),10,P)

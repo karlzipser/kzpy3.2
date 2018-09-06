@@ -1,6 +1,6 @@
 from Parameters_Module import *
 exec(identify_file_str)
-from kzpy3.vis2 import *
+from kzpy3.vis3 import *
 import torch
 import torch.nn.utils as nnutils
 
@@ -20,6 +20,7 @@ def Net_Activity(*args):
     for k in Args['activiations'].keys():
 
         D['activiations'][k] = Args['activiations'][k].data.cpu().numpy()
+
         D['imgs'][k] = {}
         for moment_indexv in [Args['batch_num']]:#in range(shape(D['activiations'][k])[0]):
             #print(k,moment_indexv)
@@ -35,8 +36,15 @@ def Net_Activity(*args):
                 camera_arrayv = np.array([right_t0v,left_t0v,right_t1v,left_t1v])
                 D['imgs'][k][moment_indexv] = vis_square(camera_arrayv,padval=0.5)
             else:
-                D['imgs'][k][moment_indexv] = vis_square(D['activiations'][k][moment_indexv],padval=0.5)
-
+                num_channels = shape(D['activiations'][k])[1]        
+                print num_channels,shape(D['activiations'][k])[1]
+                for i in range(num_channels):
+                    if D['activiations'][k][moment_indexv,i,:,:].mean() != 0.0:
+                        if D['activiations'][k][moment_indexv,i,:,:].mean() != 1.0:
+                            D['activiations'][k][moment_indexv,i,:,:] = z2o(D['activiations'][k][moment_indexv,i,:,:])
+                    #mi(D['activiations'][k][moment_indexv,i,:,:],d2s(i,k))
+                D['imgs'][k][moment_indexv] = vis_square2(D['activiations'][k][moment_indexv],padval=0.5)
+                
     def _function_view(*args):
         Args = args_to_dictionary(args)
         if 'scales' in Args:
@@ -74,11 +82,15 @@ def Net_Activity(*args):
                 continue
             print(k,Args['moment_index'])
             imgv = D['imgs'][k][Args['moment_index']]
+            mi(imgv,k)
+            """
             imgv = z2o(imgv)*255
             imgv = imgv.astype(np.uint8)
             imgv = cv2.cvtColor(imgv,color_modev)
             imgv = cv2.resize(imgv, (0,0), fx=scalev, fy=scalev, interpolation=0)
             cv2.imshow(k,imgv)
+            """
+            
         cv2.waitKey(delayv)
     D['view'] = _function_view
     return D

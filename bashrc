@@ -70,7 +70,7 @@ export COMPUTER_NAME=$HOSTNAME
 PS1="$COMPUTER_NAME> \W $ "
 source /opt/ros/kinetic/setup.bash
 source ~/catkin_ws/devel/setup.bash
-export PYTHONPATH=~:$PYTHONPATH
+#export PYTHONPATH=~:$PYTHONPATH
 export PYTHONPATH=~/kzpy3:$PYTHONPATH
 export PATH=~/kzpy3/utils:$PATH
 export PATH=~/kzpy3:$PATH
@@ -144,5 +144,6 @@ export ccar='kzpy3/Cars/car_24July2018/nodes'
 export ctrain='kzpy3/Train_app'
 export cmenu='kzpy3/Menu_app'
 export cdata='kzpy3/Data_app'
+export PYTHONPATH=~/kzpy3:$PYTHONPATH
 
 #EOF

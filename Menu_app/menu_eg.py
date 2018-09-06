@@ -1,11 +1,11 @@
 from kzpy3.utils3 import *
-import kzpy3.Menu_app.menu
 
 #  python kzpy3/Menu_app/menu.py path kzpy3/Cars/car_24July2018/nodes/Default_values/arduino dic Parameters
 
 
 ############# start menu thread ############
 #
+import kzpy3.Menu_app.menu
 __default_values_module_name__ = "kzpy3.Cars.car_24July2018.nodes.Default_values.arduino.default_values"
 __topics_dic_name__ = "Parameters"
 exec(kzpy3.Menu_app.menu.__MENU_THREAD_EXEC_STR__.replace(

@@ -3,7 +3,10 @@ exec(identify_file_str)
 
 P = {}
 P['ABORT'] = False # this way in Menu_app
-P['autostart menu'] = True # this way in Menu_app
+P['LIVE'] = True
+P['TRAIN'] = not P['LIVE']
+P['autostart menu'] = False # this way in Menu_app
+P['autostart menu thread'] = False # this way in Menu_app
 P['cmd/resume from saved state.'] = True
 P['cmd/num epochs.'] = 50
 P['cmd/initalize net.'] = False
@@ -29,15 +32,9 @@ P['net/outputs!'] = None
 P['net/loss list!'] = []
 P['net/num input timesteps.'] = 60
 P['net/hidden_size.'] = 250
-P['net/batch size.'] =100
+P['net/batch size.'] = 1#100
 P['net/initial learning rate.'] = 0.1
 P['net/input lst.'] = [
-	'IMU_mag',
-	'encoder',
-	'cmd_steer',
-	'cmd_motor',
-	'motor',
-	'steer',
 	'xfc0',
 	'xfl0',
 	'xfl1',

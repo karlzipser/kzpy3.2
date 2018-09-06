@@ -6,6 +6,7 @@ import torchvision.transforms as transforms
 from torch.autograd import Variable
 from prepare_data import *#from kzpy3.Train_app.Train_fnn1.prepare_data import *
 exec(identify_file_str)
+
 """
 ############# start menu thread ############
 #

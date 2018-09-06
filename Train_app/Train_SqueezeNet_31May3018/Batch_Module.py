@@ -1,6 +1,6 @@
 from Parameters_Module import *
 exec(identify_file_str)
-from kzpy3.vis2 import *
+from kzpy3.vis3 import *
 import torch
 import torch.nn.utils as nnutils
 import Activity_Module
@@ -294,7 +294,7 @@ def Batch(the_network=None):
 				if 'loss' in P['data_moments_indexed'][j]:
 					if len(P['data_moments_indexed'][j]['loss']) > 0:
 						loss_list.append(P['data_moments_indexed'][j]['loss'][-1])
-			figure('dm_ctrs');clf();plot(dm_ctrs,'.-');xlim(0,10)
+			figure('dm_ctrs');clf();plot(dm_ctrs,'.-');xlim(0,100)
 			P['dm_ctrs'] = dm_ctrs
 			#figure('loss_list');clf();hist(loss_list)
 			spause()

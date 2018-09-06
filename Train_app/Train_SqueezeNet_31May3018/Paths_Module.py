@@ -1,4 +1,4 @@
-from kzpy3.utils2 import *
+from kzpy3.utils3 import *
 
 CODE_PATH__ = opjh('kzpy3/Train_app')
 VERSION_PATH = 'Train_SqueezeNet_31May2018'

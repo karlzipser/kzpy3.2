@@ -1,3 +1,4 @@
+###start
 from kzpy3.vis3 import *
 from default_values import *
 exec(identify_file_str)
@@ -22,12 +23,12 @@ def get_raw_run_data(P):
 				L = h5r(opj(r,'left_timestamp_metadata_right_ts.h5py'))
 				for t in P['dat/topics.']:
 					M_temp[t] = L[t][:] #if topic not in file, this will raise exception, avoiding adding partial data to M.
-				for t in P['topics']:
+				for t in P['dat/topics.']:
 					print('adding '+t)
 					M[t] = np.concatenate((M[t],M_temp[t]),axis=None)
-					if P['plot individual run data']:
-						figure(d2s(t,':',fname(r)));clf();plot(M[t])
-				if P['plot individual run data']:
+					if P['plt/plot individual run data,']:
+						figure(d2s(t,':',fname(r)));clf();plot(na(range(len(M[t])))/30.0/60.0,M[t])#plot(M[t])
+				if P['plt/plot individual run data,']:
 					raw_enter()
 					CA()
 			except:
@@ -36,19 +37,18 @@ def get_raw_run_data(P):
 				L.close()
 			except:
 				exec(EXCEPT_STR)
-		if P['plt/plot individual run data,']:
-			for t in P['topics']:
+		if False:#P['plt/plot individual run data,']:
+			for t in P['dat/topics.']:
 				figure(d2s(t,': all runs'));clf();plot(M[t])
 			raw_enter()
 			CA()
 	L={}
-	S={}
+	
 	for t in P['dat/topics.']:
-		if t in ['drive_mode','human_agent','cmd_steer','cmd_motor','steer','motor']:
+		if True:#t in ['drive_mode','human_agent','cmd_steer','cmd_motor','steer','motor']:
 			L[t] = M[t][:]
 		else:
-			S[t] = [0,0]
-			L[t],S[t][0],S[t][1] = zscore(M[t][:],all_values=True)
+			L[t] = zscore(M[t][:])
 	L['IMU_mag'] = 0*L['acc_x']
 	for t in ['acc_x','acc_y','acc_z','gyro_x','gyro_y','gyro_z',]:
 		L['IMU_mag'] += np.abs(L[t])
@@ -59,11 +59,11 @@ def get_raw_run_data(P):
 		assert len(L[t]) == len(L[a_topic])
 
 	if P['plt/plot concatenated run data,']:
-		for t in P['topics']:
-			figure(d2s(t,': all runs'));clf();plot(L[t])
+		for t in P['dat/topics.']:
+			figure(d2s(t,': all runs'));clf();plot(na(range(len(L[t])))/30.0/60.0,L[t])
 		raw_enter()
 		CA()
-	return L,M,S
+	return L,M
 
 from kzpy3.misc.progress import ProgressBar
 
@@ -111,8 +111,8 @@ def get_good_input_time_indicies(L):
 	i = 0
 	for i in range(len(L[P['dat/topics.'][0]])):
 		try:
-			good_count = 0
-			for j in range(i-P['num_input_timesteps'],i):
+			good_count = 0 
+			for j in range(i-P['net/num input timesteps.'],i):#!!!!!EXCEPTION
 				if L['drive_mode'][j] > 0:
 					if L['human_agent'][j] < 1:
 						if (L['motor'][j]-49) < 5:
@@ -123,7 +123,7 @@ def get_good_input_time_indicies(L):
 							Pb['update'](i)
 				#print i,j,good_count
 			#print good_count/(1.0*P['num_input_timesteps'])
-			if good_count/(1.0*P['num_input_timesteps']) > P['good_timestep_proportion']:
+			if good_count/(1.0*P['net/num input timesteps.']) > P['dat/good timestep proportion.']:
 				max_sig_values.append([i,max_felx_signal(i+P['net/target index range.'],L)])
 				#good_input_time_indicies.append(i)
 
@@ -140,7 +140,7 @@ def display_data3(D,P):
 	figure(d2s('data3'))
 	clf()
 	title(i)
-	xylim(np.min(P['input_indicies'])-3,np.max(P['net/target index range.'])+3,-50,100)
+	xylim(np.min(P['net/input indicies.'])-3,np.max(P['net/target index range.'])+3,-50,100)
 
 	for input_target in [0,1]:
 		for input_target in ['input','target']:	
@@ -195,11 +195,9 @@ try:
 except:
 	#exec(EXCEPT_STR)
 	pd2s('making and saving L and M')
-	L,M,S=get_raw_run_data(P)
+	L,M=get_raw_run_data(P)
 	so(L,opj(processed_data_location,'L.pkl'))
-	so(M,opj(processed_data_location,'M.pkl'))
-	so(S,opj(processed_data_location,'S.pkl'))
-	pprint(S)
+	so(M,opj(processed_data_location,'M.pkl'))	
 try:
 	I = lo(opj(processed_data_location,'I.pkl'))
 	pd2s('loaded I')
@@ -225,7 +223,7 @@ def get_print_exec_str(List_of_names,_locals_):
 	s += """ )" """
 	return s
 
-
+###stop
 
 
 #EOF

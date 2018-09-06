@@ -2,8 +2,11 @@ from kzpy3.utils3 import *
 exec(identify_file_str)
 
 P = {}
+
+
 P['ABORT'] = False # this way in Menu_app
-P['autostart menu'] = True # this way in Menu_app
+
+P['autostart menu'] = False # this way in Menu_app
 P['cmd/resume from saved state.'] = True
 P['cmd/num epochs.'] = 50
 P['cmd/initalize net.'] = False
@@ -13,13 +16,7 @@ P['cmd/loss_timer,'] = Timer(10)
 P['cmd/epoch timer,'] = Timer(15*60)
 P['cmd/target output timer,'] = Timer(1)
 
-P['path/processed data location.'] = opjk(pname(__file__),'__local__')
-P['path/the menu path.'] = None
-if using_linux():
-	P['path/dataset path.'] = '/media/karlzipser/rosbags/flex_sensors_Aug2018'
-else:
-	P['path/dataset path.'] = '/Volumes/transfer/flex_sensors_Aug2018/'
-P['path/weight out path'] = None
+P['path/weights file.'] = '/home/karlzipser/kzpy3/Train_app/OneD/Flex_fnn2/__local__/weights/'
 
 P['net/net!'] = None
 P['net/criterion!'] = None
@@ -29,7 +26,6 @@ P['net/outputs!'] = None
 P['net/loss list!'] = []
 P['net/num input timesteps.'] = 60
 P['net/hidden_size.'] = 250
-P['net/batch size.'] =100
 P['net/initial learning rate.'] = 0.1
 P['net/input lst.'] = [
 	'IMU_mag',
@@ -56,8 +52,8 @@ P['net/output size.'] = len(P['net/target index range.'])*len(P['net/target lst.
 
 
 
-P['plt/plot individual run data,'] = False
-P['plt/plot concatenated run data,'] = False
+P['plt/plot individual run data,'] = True
+P['plt/plot concatenated run data,'] = True
 
 
 
@@ -90,7 +86,7 @@ P['dat/topics.'] = [
 	]
 
 
-
+"""
 P['values in filename.'] = [
 'net/hidden_size',
 'net/batch_size',
@@ -105,8 +101,11 @@ P['values in filename.'] = [
 	'net/input_lst',
 	'net/target_lst',
 ]
+"""
 
 P['sys/GPU.'] = 1
+
+
 
 P['to_expose'] = []  # this way in Menu_app
 P['to_hide'] = ['to_expose','to_hide']  # this way in Menu_app

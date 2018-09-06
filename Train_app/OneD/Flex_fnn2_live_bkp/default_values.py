@@ -32,12 +32,6 @@ P['net/hidden_size.'] = 250
 P['net/batch size.'] =100
 P['net/initial learning rate.'] = 0.1
 P['net/input lst.'] = [
-	'IMU_mag',
-	'encoder',
-	'cmd_steer',
-	'cmd_motor',
-	'motor',
-	'steer',
 	'xfc0',
 	'xfl0',
 	'xfl1',

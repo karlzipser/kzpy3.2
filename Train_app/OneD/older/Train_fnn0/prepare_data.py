@@ -1,5 +1,5 @@
 from kzpy3.vis3 import *
-import kzpy3.Train_app.Train_fnn0.default_values as default_values
+import default_values
 exec(identify_file_str)
 
 P = default_values.P
@@ -44,12 +44,13 @@ def get_raw_run_data(P):
 			raw_enter()
 			CA()
 	L={}
-	
+	S={}
 	for t in P['topics']:
 		if t in ['drive_mode','human_agent','cmd_steer','cmd_motor','steer','motor']:
 			L[t] = M[t][:]
 		else:
-			L[t] = zscore(M[t][:])
+			S[t] = [0,0]
+			L[t],S[t][0],S[t][1] = zscore(M[t][:],all_values=True)
 	L['IMU_mag'] = 0*L['acc_x']
 	for t in ['acc_x','acc_y','acc_z','gyro_x','gyro_y','gyro_z',]:
 		L['IMU_mag'] += np.abs(L[t])
@@ -64,7 +65,7 @@ def get_raw_run_data(P):
 			figure(d2s(t,': all runs'));clf();plot(L[t])
 		raw_enter()
 		CA()
-	return L,M
+	return L,M,S
 
 from kzpy3.misc.progress import ProgressBar
 
@@ -195,9 +196,10 @@ try:
 except:
 	#exec(EXCEPT_STR)
 	pd2s('making and saving L and M')
-	L,M=get_raw_run_data(P)
+	L,M,S = get_raw_run_data(P)
 	so(L,opj(P['processed data location'],'L.pkl'))
-	so(M,opj(P['processed data location'],'M.pkl'))	
+	so(M,opj(P['processed data location'],'M.pkl'))
+	so(S,opj(P['processed data location'],'S.pkl'))
 try:
 	I = lo(opj(P['processed data location'],'I.pkl'))
 	pd2s('loaded I')

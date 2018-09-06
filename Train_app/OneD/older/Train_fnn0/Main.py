@@ -5,7 +5,7 @@ import torchvision.datasets as dsets
 import torchvision.transforms as transforms
 from torch.autograd import Variable
 
-from kzpy3.Train_app.Train_fnn0.prepare_data import *
+from prepare_data import *
 
 torch.cuda.set_device(P['GPU'])
 torch.cuda.device(P['GPU'])

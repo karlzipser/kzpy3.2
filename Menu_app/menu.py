@@ -17,12 +17,12 @@ def menu(Topics,path):
             clear_screen()
 
             ctr = 1
-            Number_name_binding[ctr]='exit';print d2n(' ',ctr,') ',Number_name_binding[ctr]);ctr+=1
-            Number_name_binding[ctr]='load';print d2n(' ',ctr,') ',Number_name_binding[ctr]);ctr+=1
-            Number_name_binding[ctr]='save';print d2n(' ',ctr,') ',Number_name_binding[ctr]);ctr+=1
-            Number_name_binding[ctr]='add';print d2n(' ',ctr,') ',Number_name_binding[ctr]);ctr+=1
-            Number_name_binding[ctr]='hide';print d2n(' ',ctr,') ',Number_name_binding[ctr]);ctr+=1
-            Number_name_binding[ctr]='expose';print d2n(' ',ctr,') ',Number_name_binding[ctr])
+            Number_name_binding[ctr]='exit';cprint(d2n(ctr,') ',Number_name_binding[ctr]),'yellow');ctr+=1
+            Number_name_binding[ctr]='load';cprint(d2n(ctr,') ',Number_name_binding[ctr]),'yellow');ctr+=1
+            Number_name_binding[ctr]='save';cprint(d2n(ctr,') ',Number_name_binding[ctr]),'yellow');ctr+=1
+            Number_name_binding[ctr]='add';cprint(d2n(ctr,') ',Number_name_binding[ctr]),'yellow');ctr+=1
+            Number_name_binding[ctr]='hide';cprint(d2n(ctr,') ',Number_name_binding[ctr]),'yellow');ctr+=1
+            Number_name_binding[ctr]='expose';cprint(d2n(ctr,') ',Number_name_binding[ctr]),'yellow')
 
             first = True
             if 'to_expose' in Topics:
@@ -30,7 +30,7 @@ def menu(Topics,path):
             else:
                 names_to_use = Topics.keys()
 
-            for name in names_to_use:
+            for name in sorted(names_to_use):
 
                 ctr += 1
 
@@ -41,8 +41,37 @@ def menu(Topics,path):
                     first = False
                 else:
                     q = ''
-                print d2n(q,ctr,') ',name,': ',Topics[name],'  '),
-                cprint(type(Topics[name]).__name__,'grey')
+                #print d2n(q,ctr,') ',name,': ',Topics[name],'  '),
+                #cprint(type(Topics[name]).__name__,'grey')
+                color_scheme = [
+                    ['cmd/',['red','on_white']],
+                    ['path/','blue'],
+                    ['net/',['white','on_green']],
+                    ['dat/','green'],
+                    ['cmd/',['red','on_white']],
+                    ['ABORT',['white','on_red']],
+                    ['plt/',['white','on_green']],
+                    ['sys/',['white','on_blue']],
+                    #['cmd/',['red','on_white']],
+                    #['cmd/',['red','on_white']],
+                ]
+                for c in color_scheme:
+                    #print c
+                    s = c[0]
+                    #print s
+                    if s not in name:
+                        continue
+                    cs = c[1]
+                    if type(cs) == list:
+                        cf,cb = cs[0],cs[1]
+                    else:
+                        cf,cb = cs,None
+                    cstr = d2n(q,ctr,') ',name,': ',Topics[name],'  ',type(Topics[name]).__name__)
+                    if cs != None:
+                        cprint(cstr,cf,cb)
+                    else:
+                        cprint(cstr,cf)
+                    break
 
             for n in Number_name_binding.keys():
                 Name_number_binding[Number_name_binding[n]] = n
@@ -138,7 +167,15 @@ def menu(Topics,path):
                 name = Number_name_binding[choice_number]
                 message = name+' value not changed'
                 current_val = Topics[name]
-                Topics[name] = input(d2n(name,'(',current_val,') new value > '))
+                if type(current_val) == bool:
+                    yes_no = raw_input(d2n(name,'(',current_val,') toggle value? (y/n) '))
+                    if yes_no == 'y':
+                        if Topics[name]:
+                            Topics[name] = False
+                        else:
+                            Topics[name] = True
+                else:    
+                    Topics[name] = input(d2n(name,'(',current_val,') new value > '))
                 save_topics(Topics,path)
                 message = 'changed '+name
 
@@ -166,6 +203,8 @@ def save_topics(Topics,path):
 
 def print_exposed(Topics):
     print ''
+    if 'to_expose' not in Topics:
+        Topics['to_expose'] = []
     for name in Topics['to_expose']:
         print d2n(name,': ',Topics[name],'  '),
         cprint(type(Topics[name]).__name__,'grey')
@@ -196,17 +235,20 @@ def load_Topics(input_path,first_load=False):
 
 def load_menu_data(path,Parameters,first_load=False):
     timer = Timer(0.5)
-    try:
+    if True:#try:
         while Parameters['ABORT'] == False:
             if timer.check():
                 Topics = load_Topics(path,first_load)
                 if type(Topics) == dict:
                     for t in Topics.keys():
-                        Parameters[t] = Topics[t]
+                        if '!' in t:
+                            pass
+                        else:
+                            Parameters[t] = Topics[t]
                 timer.reset()
             else:
                 time.sleep(0.1)
-    except:
+    else:#except:
         Parameters['ABORT'] = True
         exc_type, exc_obj, exc_tb = sys.exc_info()
         file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
@@ -218,7 +260,8 @@ import __default_values_module_name__ as default_values
 __topics_dic_name__ = default_values.__topics_dic_name__
 __topics_dic_name__['ABORT'] = False
 import kzpy3.Menu_app.menu
-menu_path = __topics_dic_name__['The menu path.']
+menu_path = "__default_values_module_name__".replace('.','/').replace('/default_values','')
+#menu_path = __topics_dic_name__['The menu path.']
 if not os.path.exists(menu_path):
     os.makedirs(menu_path)
 try:
@@ -227,8 +270,7 @@ except:
     pass
 threading.Thread(target=kzpy3.Menu_app.menu.load_menu_data,args=[menu_path,__topics_dic_name__]).start()
 if __topics_dic_name__['autostart menu']:
-    n = "__default_values_module_name__".replace('.','/').replace('/default_values','')
-    os.system(d2n("gnome-terminal -x python kzpy3/Menu_app/menu.py path ",n," dic __topics_dic_name__"))
+    os.system(d2n("gnome-terminal -x python kzpy3/Menu_app/menu.py path ",menu_path," dic __topics_dic_name__"))
 """
 
 if __name__ == '__main__':# and EXIT == False:
@@ -240,7 +282,8 @@ if __name__ == '__main__':# and EXIT == False:
     exec(d2n('import ',module,'.default_values as default_values'))
     exec(d2n('Topics = default_values.',dic))       
     menu(Topics,path)
-    raw_enter('Done. ')
+    raw_enter(__file__+' done. ')
+
 
 
 # python kzpy3/Menu_app/menu.py path ~/kzpy3/Cars/car_24July2018/nodes/__local__/arduino/ default 1 Topics arduino

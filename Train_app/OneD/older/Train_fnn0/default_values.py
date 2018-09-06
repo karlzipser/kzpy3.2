@@ -22,7 +22,7 @@ if using_linux():
 else:
 	P['dataset path'] = '/Volumes/transfer/flex_sensors_Aug2018/'
 P['good_timestep_proportion'] = 0.8
-P['processed data location'] = opjk('Train_app/Train_fnn0/__local__/')
+P['processed data location'] = opjk(pname(__file__),'__local__')
 
 P['topics'] = [
 	 'acc_x',

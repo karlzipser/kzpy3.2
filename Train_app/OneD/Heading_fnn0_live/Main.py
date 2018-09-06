@@ -6,6 +6,7 @@ import torchvision.transforms as transforms
 from torch.autograd import Variable
 from prepare_data import *#from kzpy3.Train_app.Train_fnn1.prepare_data import *
 exec(identify_file_str)
+
 """
 ############# start menu thread ############
 #
@@ -19,6 +20,24 @@ exec(kzpy3.Menu_app.menu.__MENU_THREAD_EXEC_STR__.replace(
 ############################################
 """
 
+"""
+{'acc_x': [-0.2, 1.1],
+ 'acc_y': [9.8, 1.1],
+ 'acc_z': [0.7, 1.2],
+ 'encoder': [1.7, 1.3],
+ 'gyro_heading_x': [213.7, 519.1],
+ 'gyro_heading_y': [-111.2, 177.1],
+ 'gyro_heading_z': [150.3, 202.4],
+ 'gyro_x': [-0.1, 10.7],
+ 'gyro_y': [0.1, 9.8],
+ 'gyro_z': [-0.1, 8.4],
+ 'xfc0': [-3.4, 157.1],
+ 'xfl0': [10.8, 45.5],
+ 'xfl1': [-41.1, 831.0],
+ 'xfr0': [23.0, 50.4],
+ 'xfr1': [-0.6, 24.5]}
+
+ """
 
 for k in P:
     k_short_safe = k.split('/')[-1].replace(' ','_').replace(',','__').replace('.','').replace('!','')
@@ -70,11 +89,15 @@ if P['cmd/initalize net.'] == True:
     if _random_weights:
         CS_('training with random weights',fname(__file__))
 
-    P['net/criterion!'] = nn.MSELoss().cuda()
-    P['net/optimizer!'] = torch.optim.Adadelta(P['net/net!'].parameters(),lr=initial_learning_rate)
+    if P['LIVE']:
+        assert _random_weights == False
 
     inputs = torch.FloatTensor(batch_size,input_size).zero_().cuda()
-    targets = torch.FloatTensor(batch_size,output_size).zero_().cuda()
+    if P['TRAIN']:
+        targets = torch.FloatTensor(batch_size,output_size).zero_().cuda()
+        P['net/criterion!'] = nn.MSELoss().cuda()
+        P['net/optimizer!'] = torch.optim.Adadelta(P['net/net!'].parameters(),lr=initial_learning_rate)
+
 
 
 

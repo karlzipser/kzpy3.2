@@ -155,24 +155,28 @@ def rlen(a):
 	return range(len(a))
 
 PRINT_COMMENTS = True
-def CS_(comment,section='',say_comment=False,emphasis=False,exception=False,newline=True):
-	stri = '#  '
-	stri = stri + comment
-	if len(section) > 0:
-		stri += ' ('+section+')'
-	if PRINT_COMMENTS:
-		if not emphasis and not exception:
-			cprint(stri,attrs=[],color='white',on_color='on_grey')#cprint(stri,'red','on_green')
-		elif exception:
-			cprint(stri,attrs=['blink','bold'],color='red',on_color='on_yellow')
-		else:
-			cprint(stri,attrs=['bold','blink','reverse'],color='white',on_color='on_grey')
-		if newline:
-			print('\n')
+def CS_(comment,section='',s='',say_comment=False,emphasis=False,exception=False,newline=True,print_comment=True):
+	if print_comment and PRINT_COMMENTS:
+		stri = '#  '
+		stri = stri + comment
+		if len(s) > len(section):
+			section = s
+		if len(section) > 0:
+			stri += ' ('+section+')'
+			if not emphasis and not exception:
+				cprint(stri,attrs=[],color='white',on_color='on_grey')#cprint(stri,'red','on_green')
+			elif exception:
+				cprint(stri,attrs=['blink','bold'],color='red',on_color='on_yellow')
+			else:
+				cprint(stri,attrs=['bold','blink','reverse'],color='white',on_color='on_grey')
+			if newline:
+				print('\n')
 	if say_comment:
 		if using_osx():
 			say(comment,rate=250,print_text=False)
-
+	return True
+	
+CS = CS_
 CS_('imported kzpy3.utils3')
 
 def zeroToOneRange(m):
@@ -290,16 +294,20 @@ def dp(f,n=2):
 	return f/(10.0**n)
    
 
-def save_obj(obj, name ):
+def save_obj(obj, name,noisy=True):
 	if name.endswith('.pkl'):
 		name = name[:-len('.pkl')]
 	with open(name + '.pkl', 'wb') as f:
 		pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
+	if noisy:
+		timer = Timer()
+		print(d2s('. . . saved',name+'.pkl in',dp(timer.time()),'seconds.\r')),
+		#sys.stdout.flush()
 def load_obj(name,noisy=True):
 	if noisy:
 		timer = Timer()
 		print(d2s('Loading',name,'. . .\r')),
-		sys.stdout.flush()
+		#sys.stdout.flush()
 	if name.endswith('.pkl'):
 		name = name[:-len('.pkl')]
 	assert_disk_locations(name+'.pkl')
@@ -307,16 +315,16 @@ def load_obj(name,noisy=True):
 		o = pickle.load(f)
 		if noisy:
 			print(d2s('. . . loaded in',dp(timer.time()),'seconds.\r')),
-			sys.stdout.flush()
+			#sys.stdout.flush()
 		return o
 lo = load_obj
-def so(arg1,arg2):
+def so(arg1,arg2,noisy=True):
 	try:
 		if type(arg1) == str and type(arg2) != str:
-			save_obj(arg2,arg1)
+			save_obj(arg2,arg1,noisy)
 			return
 		if type(arg2) == str and type(arg1) != str:
-			save_obj(arg1,arg2)
+			save_obj(arg1,arg2,noisy)
 			return
 		if type(arg2) == str and type(arg1) == str:
 			pd2s('def so(arg1,arg2): both args cannot be strings')
@@ -365,13 +373,18 @@ def dict_to_sorted_list(d):
 	return l
 
 
-def zscore(m,thresh=np.nan):
-	z = m - np.mean(m)
-	z /= np.std(m)
+def zscore(m,thresh=np.nan,all_values=False):
+	m_mean = np.mean(m)
+	z = m - m_mean
+	m_std = np.std(m)
+	z /= m_std
 	if not np.isnan(thresh):
 		z[z < -thresh] = -thresh
 		z[z > thresh] = thresh
-	return z
+	if all_values:
+		return z,m_mean,m_std
+	else:
+		return z
 
 """
 
@@ -449,9 +462,9 @@ def say(t,rate=150,print_text=True):
 
 
 
-###start
-def code_to_code_str(path,start=-1,stop=-1):
+def code_to_code_str(path,start='symbols'):#start=-1,stop=-1):
 	code = txt_file_to_list_of_strings(path)
+
 	if start == 'symbols':
 		for i in range(len(code)):
 			if code[i] == '#'+'#'+'#'+'start':
@@ -460,14 +473,17 @@ def code_to_code_str(path,start=-1,stop=-1):
 			if code[i] == '#'+'#'+'#'+'stop':
 				stop = i+1
 				srpd2s('found stop',i)
+
 	elif (start<0):
 		start,stop = input('start,stop ')
 		for i in range(len(code)):
 			pd2s(i,')',code[i])
 	srpd2s('code_to_clipboard(code,',start,stop,')')
-	code_to_clipboard(code,start,stop)
+	_code_to_clipboard(code,start,stop)
 
-def code_to_clipboard(code,start,stop):
+c2cs = code_to_code_str
+
+def _code_to_clipboard(code,start,stop):
 	import pyperclip
 	code_str = '\n'.join(code[start:stop])
 	cprint(code_str,'yellow')
@@ -476,7 +492,7 @@ def code_to_clipboard(code,start,stop):
 	else:
 		pyperclip.copy(code_str)
 	print('\nOkay, it is in the clipboard')
-###stop
+
 
 
 
@@ -624,7 +640,7 @@ class Timer:
 	def message(self,message_str,color='grey',flush=False):
 		if self.check():
 			print(message_str+'\r'),
-			sys.stdout.flush()
+			#sys.stdout.flush()
 			self.reset()
 	def percent_message(self,i,i_max,flush=False):
 		self.message(d2s(i,int(100*i/(1.0*i_max)),'%'),color='white')
