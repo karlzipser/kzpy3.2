@@ -58,18 +58,27 @@ if P['LIVE']:
             for i in [0,1]:
                 flex_names.append(d2n('x',fb,lr,i))
     flex_names.append('xan0')
-
+    R = {}
+    GC = 0
     for f in flex_names:
+        R[f] = {}
+        R[f]['ts'] = []
+        R[f]['vals'] = []
         s = """
 def FLEX__callback(msg):
-    R['FLEX']['ts'].append(time.time())
-    R['FLEX']['vals'].append(msg.data)
+\tglobal GC
+\tGC += 1
+\t#R['FLEX']['ts'].append(time.time())
+\t#R['FLEX']['vals'].append(msg.data)
+\tadvance(R['FLEX']['ts'],time.time(),min_len=P['net/num input timesteps.'])
+\tadvance(R['FLEX']['vals'],msg.data,min_len=P['net/num input timesteps.'])
 rospy.Subscriber('/bair_car/FLEX', std_msgs.msg.Int32, callback=FLEX__callback)
         """
         exec_str = s.replace('FLEX',f)
+        print exec_str
         exec(exec_str)
 
-
+rospy.init_node('listener',anonymous=True)
 
 
  
@@ -97,7 +106,9 @@ reminder_timer = Timer(10)
 reminder_timer.trigger()
 
 
-
+temp_timer = Timer(30)
+while False:#not temp_timer.check():
+    print R['xfc0']['vals'][-1]
 
 P['net/net!'] = Net(input_size, hidden_size, output_size).cuda()
 
@@ -130,7 +141,10 @@ if P['TRAIN']:
     targets = torch.FloatTensor(batch_size,output_size).zero_().cuda()
 
 
-
+if False:
+    bags = sggo("/media/karlzipser/rosbags/processed_26Aug18_14h16m09s/Mr_Blue_Back_25Aug18_17h02m58s/*.bag")
+    for b in bags:
+        unix(d2s('rosbag play',b))
 if P['TRAIN']:
     processed_data_location = P['path/processed data location.']
     CS_('Starting training...',fname(__file__))
@@ -152,7 +166,8 @@ if P['TRAIN']:
 while P['ABORT'] == False:
 
     for i in range(batch_size):
-        D = prepare_data.get_input_output_data(prepare_data.L,int(prepare_data.I['sig_sorted'][-np.random.randint(P['dat/sig sorted value,']),0]),P)
+        if P['TRAIN']:
+            D = prepare_data.get_input_output_data(prepare_data.L,int(prepare_data.I['sig_sorted'][-np.random.randint(P['dat/sig sorted value,']),0]),P)
         IO = {}
         io_list = ['input']
         if P['TRAIN']:
@@ -160,7 +175,15 @@ while P['ABORT'] == False:
         for q in io_list:
             IO[q] = na([])
             for t in P['net/'+q+' lst.']:
-                IO[q] = np.concatenate([IO[q],D[q][t]],axis=None)
+                if P['TRAIN']:
+                    IO[q] = np.concatenate([IO[q],D[q][t]],axis=None)
+                else:
+                    IO[q] = np.concatenate([IO[q],na(R[t]['vals'][-60:])],axis=None)
+                #print shape(IO[q])
+                IO[q] -= Mean_std[t][0]
+                #print shape(IO[q])
+                IO[q] /= Mean_std[t][1]
+                #print shape(IO[q])
         inputs[i,:]=torch.from_numpy(IO['input'])
         
     if P['TRAIN']:
@@ -198,7 +221,7 @@ while P['ABORT'] == False:
 
 
     IO['output']= P['net/outputs!'][-1,:].data.cpu().numpy()
-    if target_output_timer__.check():
+    if True:#target_output_timer__.check():
         figure('target output')
         clf()
         xylim(-11,11,-1,100)
