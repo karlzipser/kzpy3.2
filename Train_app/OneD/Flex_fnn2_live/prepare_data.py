@@ -22,7 +22,7 @@ def get_raw_run_data(P):
 				L = h5r(opj(r,'left_timestamp_metadata_right_ts.h5py'))
 				for t in P['dat/topics.']:
 					M_temp[t] = L[t][:] #if topic not in file, this will raise exception, avoiding adding partial data to M.
-				for t in P['topics']:
+				for t in P['dat/topics.']:
 					print('adding '+t)
 					M[t] = np.concatenate((M[t],M_temp[t]),axis=None)
 					if P['plt/plot individual run data,']:
@@ -37,7 +37,7 @@ def get_raw_run_data(P):
 			except:
 				exec(EXCEPT_STR)
 		if P['plt/plot individual run data,']:
-			for t in P['topics']:
+			for t in P['dat/topics.']:
 				figure(d2s(t,': all runs'));clf();plot(M[t])
 			raw_enter()
 			CA()
@@ -58,7 +58,7 @@ def get_raw_run_data(P):
 		assert len(L[t]) == len(L[a_topic])
 
 	if P['plt/plot concatenated run data,']:
-		for t in P['topics']:
+		for t in P['dat/topics.']:
 			figure(d2s(t,': all runs'));clf();plot(L[t])
 		raw_enter()
 		CA()
@@ -104,7 +104,7 @@ def max_felx_signal(index_range,L):
 
 
 def get_good_input_time_indicies(L):
-	Pb = Progress_animator(total_count=len(L[P['topics'][0]]),update_Hz=10)
+	Pb = Progress_animator(total_count=len(L[P['dat/topics.'][0]]),update_Hz=10)
 	good_input_time_indicies = []
 	max_sig_values = []
 	i = 0
