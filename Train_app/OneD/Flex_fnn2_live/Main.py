@@ -86,7 +86,7 @@ rospy.init_node('listener',anonymous=True)
  
 
 
-
+spd2s(username,P['sys/GPU.'])
 
 torch.cuda.set_device(P['sys/GPU.'])
 torch.cuda.device(P['sys/GPU.'])
