@@ -119,10 +119,13 @@ if P['cmd/resume from saved state.']:
     try:
         spd2s("P['cmd/resume from saved state.'] = True")
         latest_weights = most_recent_file_in_folder(opj(P['path/processed data location.'],'weights'))
-        print latest_weights
+        spd2s("latest_weights = ",latest_weights)
+        print 'A'
         saved_net = torch.load(latest_weights)
+        print 'B'
         P['net/net!'].load_state_dict(saved_net)
         spd2s(P['net/net!'])
+        print 'C'
         CS_(d2s('resuming with weight file',latest_weights),section=fname(__file__))
         _random_weights = False
     except:
@@ -135,7 +138,9 @@ if P['LIVE']:
 if _random_weights:
     CS_('training with random weights',fname(__file__))
 
+print 'D'
 inputs = torch.FloatTensor(batch_size,input_size).zero_().cuda()
+print 'E'
 if P['TRAIN']:
     P['net/criterion!'] = nn.MSELoss().cuda()
     P['net/optimizer!'] = torch.optim.Adadelta(P['net/net!'].parameters(),lr=initial_learning_rate)
@@ -165,7 +170,7 @@ if P['TRAIN']:
 
 
 while P['ABORT'] == False:
-
+    print 'F'
     for i in range(batch_size):
         if P['TRAIN']:
             D = prepare_data.get_input_output_data(prepare_data.L,int(prepare_data.I['sig_sorted'][-np.random.randint(P['dat/sig sorted value,']),0]),P)
