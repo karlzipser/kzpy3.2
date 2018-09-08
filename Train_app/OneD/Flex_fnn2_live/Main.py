@@ -1,8 +1,8 @@
 from kzpy3.vis3 import *
 import torch
 import torch.nn as nn
-import torchvision.datasets as dsets
-import torchvision.transforms as transforms
+#import torchvision.datasets as dsets
+#import torchvision.transforms as transforms
 from torch.autograd import Variable
 import prepare_data # import *#from kzpy3.Train_app.Train_fnn1.prepare_data import *
 P = prepare_data.P
