@@ -144,7 +144,8 @@ while not rospy.is_shutdown():
     if node_timer.time() > 10:
         if len(left_list) == 0:
             for i in range(5):
-                CS_("empty image list after 30s, ABORTING, rebooting!!!!!",emphasis=True)
+                pass
+                #CS_("empty image list after 30s, ABORTING, rebooting!!!!!",emphasis=True)
             #default_values.EXIT(restart=False,shutdown=False,kill_ros=True,_file_=__file__)
     if False:
         if len(left_list) > 0:
