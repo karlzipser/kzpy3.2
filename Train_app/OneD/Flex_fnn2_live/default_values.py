@@ -104,6 +104,8 @@ P['values in filename.'] = [
 ]
 
 P['sys/GPU.'] = 1
+if username == 'nvidia':
+	P['sys/GPU'] = 0
 
 P['to_expose'] = []  # this way in Menu_app
 P['to_hide'] = ['to_expose','to_hide']  # this way in Menu_app
