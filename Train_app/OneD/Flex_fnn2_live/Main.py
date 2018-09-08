@@ -4,8 +4,9 @@ import torch.nn as nn
 #import torchvision.datasets as dsets
 #import torchvision.transforms as transforms
 from torch.autograd import Variable
-import prepare_data # import *#from kzpy3.Train_app.Train_fnn1.prepare_data import *
-P = prepare_data.P
+from default_values import *
+#import prepare_data # import *#from kzpy3.Train_app.Train_fnn1.prepare_data import *
+#P = prepare_data.P
 exec(identify_file_str)
 for k in P:
     k_short_safe = k.split('/')[-1].replace(' ','_').replace(',','__').replace('.','').replace('!','')
