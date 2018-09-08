@@ -25,9 +25,9 @@ def get_raw_run_data(P):
 				for t in P['topics']:
 					print('adding '+t)
 					M[t] = np.concatenate((M[t],M_temp[t]),axis=None)
-					if P['plot individual run data']:
+					if P['plt/plot individual run data,']:
 						figure(d2s(t,':',fname(r)));clf();plot(M[t])
-				if P['plot individual run data']:
+				if P['plt/plot individual run data,']:
 					raw_enter()
 					CA()
 			except:
@@ -36,7 +36,7 @@ def get_raw_run_data(P):
 				L.close()
 			except:
 				exec(EXCEPT_STR)
-		if P['plot individual run data']:
+		if P['plt/plot individual run data,']:
 			for t in P['topics']:
 				figure(d2s(t,': all runs'));clf();plot(M[t])
 			raw_enter()
@@ -57,7 +57,7 @@ def get_raw_run_data(P):
 		pd2s('len(L[t] =',len(L[t]))
 		assert len(L[t]) == len(L[a_topic])
 
-	if P['plot concatenated run data']:
+	if P['plt/plot concatenated run data,']:
 		for t in P['topics']:
 			figure(d2s(t,': all runs'));clf();plot(L[t])
 		raw_enter()
