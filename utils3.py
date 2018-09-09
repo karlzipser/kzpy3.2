@@ -295,6 +295,7 @@ def dp(f,n=2):
    
 
 def save_obj(obj, name,noisy=True):
+	assert_disk_locations([pname(name)])
 	if name.endswith('.pkl'):
 		name = name[:-len('.pkl')]
 	with open(name + '.pkl', 'wb') as f:
@@ -304,6 +305,7 @@ def save_obj(obj, name,noisy=True):
 		print(d2s('. . . saved',name+'.pkl in',dp(timer.time()),'seconds.\r')),
 		#sys.stdout.flush()
 def load_obj(name,noisy=True):
+	assert_disk_locations([pname(name)])
 	if noisy:
 		timer = Timer()
 		print(d2s('Loading',name,'. . .\r')),
@@ -810,7 +812,7 @@ def assert_disk_locations(locations):
 
 
 
-def h5r(filename,assert_exists=False):
+def h5r(filename,assert_exists=True):
 	if assert_exists:
 		assert_disk_locations(filename)
 	return h5py.File(filename,'r')
