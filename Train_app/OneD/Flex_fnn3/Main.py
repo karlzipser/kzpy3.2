@@ -7,7 +7,7 @@ from torch.autograd import Variable
 from default_values import *
 import prepare_data # import *#from kzpy3.Train_app.Train_fnn1.prepare_data import *
 P = prepare_data.P
-raw_enter()
+#raw_enter()
 exec(identify_file_str)
 for k in P:
     k_short_safe = k.split('/')[-1].replace(' ','_').replace(',','__').replace('.','').replace('!','')
@@ -15,7 +15,6 @@ for k in P:
     print ex_str
     exec(ex_str)
 
-spd2s('HERE!!!!!!!!!!!!!!!!!!!!!')
 
 if P['autostart menu thread']:
     ############# start menu thread ############
@@ -80,7 +79,7 @@ rospy.Subscriber('/bair_car/FLEX', std_msgs.msg.Int32, callback=FLEX__callback)
         print exec_str
         exec(exec_str)
 
-rospy.init_node('listener',anonymous=True)
+    rospy.init_node('listener',anonymous=True)
 
 
  
@@ -88,9 +87,9 @@ rospy.init_node('listener',anonymous=True)
 
 
 spd2s(username,P['sys/GPU.'])
-
-torch.cuda.set_device(P['sys/GPU.'])
-torch.cuda.device(P['sys/GPU.'])
+if P['sys/use cuda']:
+    torch.cuda.set_device(P['sys/GPU.'])
+    torch.cuda.device(P['sys/GPU.'])
 
 class Net(nn.Module):
     def __init__(self, input_size, hidden_size, output_size):
@@ -112,7 +111,10 @@ temp_timer = Timer(30)
 while False:#not temp_timer.check():
     print R['xfc0']['vals'][-1]
 
-P['net/net!'] = Net(input_size, hidden_size, output_size).cuda()
+P['net/net!'] = Net(input_size, hidden_size, output_size)#.cuda()
+if P['sys/use cuda']:
+    P['net/net!'] = P['net/net!'].cuda()
+
 
 _random_weights = True
 spd2s(P['net/net!'])
@@ -140,12 +142,21 @@ if _random_weights:
     CS_('training with random weights',fname(__file__))
 
 print 'D'
-inputs = torch.FloatTensor(batch_size,input_size).zero_().cuda()
+inputs = torch.FloatTensor(batch_size,input_size).zero_()#.cuda()
+if P['sys/use cuda']:
+    inputs = inputs.cuda()
+
 print 'E'
 if P['TRAIN']:
-    P['net/criterion!'] = nn.MSELoss().cuda()
+    P['net/criterion!'] = nn.MSELoss()#.cuda()
+    if P['sys/use cuda']:
+        P['net/criterion!'] = P['net/criterion!'].cuda()
+
     P['net/optimizer!'] = torch.optim.Adadelta(P['net/net!'].parameters(),lr=initial_learning_rate)
-    targets = torch.FloatTensor(batch_size,output_size).zero_().cuda()
+
+    targets = torch.FloatTensor(batch_size,output_size).zero_()#.cuda()
+    if P['sys/use cuda']:
+        targets = targets.cuda()
 
 
 if False:
@@ -171,10 +182,13 @@ if P['TRAIN']:
 
 
 while P['ABORT'] == False:
-    print 'F'
+    #print 'F'
     for i in range(batch_size):
         if P['TRAIN']:
-            D = prepare_data.get_input_output_data(prepare_data.L,int(prepare_data.I['sig_sorted'][-np.random.randint(P['dat/sig sorted value,']),0]),P)
+            D = prepare_data.get_input_output_data(
+                prepare_data.L,
+                prepare_data.np.random.choice(prepare_data.usable_indicies),
+                P)
         IO = {}
         io_list = ['input']
         if P['TRAIN']:
@@ -187,9 +201,9 @@ while P['ABORT'] == False:
                 else:
                     IO[q] = np.concatenate([IO[q],na(R[t]['vals'][-60:])],axis=None)
                 #print shape(IO[q])
-                IO[q] -= Mean_std[t][0]
+                #IO[q] -= Mean_std[t][0]
                 #print shape(IO[q])
-                IO[q] /= Mean_std[t][1]
+                #IO[q] /= Mean_std[t][1]
                 #print shape(IO[q])
         inputs[i,:]=torch.from_numpy(IO['input'])
         
@@ -228,7 +242,7 @@ while P['ABORT'] == False:
 
 
     IO['output']= P['net/outputs!'][-1,:].data.cpu().numpy()
-    if True:#target_output_timer__.check():
+    if target_output_timer__.check():
         figure('target output')
         clf()
         xylim(-11,11,-1,100)

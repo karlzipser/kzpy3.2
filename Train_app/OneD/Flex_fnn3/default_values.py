@@ -3,7 +3,7 @@ exec(identify_file_str)
 
 P = {}
 P['ABORT'] = False # this way in Menu_app
-P['LIVE'] = True
+P['LIVE'] = False
 P['TRAIN'] = not P['LIVE']
 P['autostart menu'] = False # this way in Menu_app
 P['autostart menu thread'] = False # this way in Menu_app
@@ -12,9 +12,9 @@ P['cmd/num epochs.'] = 50
 P['cmd/initalize net.'] = False
 P['cmd/start training,'] = False
 P['cmd/pause training,'] = False
-P['cmd/loss_timer,'] = Timer(10)
+P['cmd/loss_timer,'] = Timer(30)
 P['cmd/epoch timer,'] = Timer(15*60)
-P['cmd/target output timer,'] = Timer(1)
+P['cmd/target output timer,'] = Timer(4)
 if True:#__file__ == '__file__':
 	P['path/processed data location.'] = opjk('Train_app/OneD/Flex_fnn3/__local__')
 	spd2s(P['path/processed data location.'])
@@ -25,7 +25,7 @@ P['path/the menu path.'] = None
 if using_linux():
 	P['path/dataset path.'] = '/media/karlzipser/rosbags/flex_sensors_Aug2018'
 else:
-	P['path/dataset path.'] = '/Volumes/transfer/flex_sensors_Aug2018/'
+	P['path/dataset path.'] = opjD('flex_sensors_Aug2018/')
 P['path/weight out path'] = None
 
 P['net/net!'] = None
@@ -89,11 +89,24 @@ P['dat/topics.'] = [
 	 'xfr0',
 	 'xfr1',
 	]
-"""
-for t in list(P['dat/topics.']):
-	P['dat/topics.'].append(t+'_baseline')
-	print P['dat/topics.']
-"""
+
+P['dat/flip_topics.'] = {
+	'xfc0':'xfc0',
+	'xfl0':'xfr0',
+	'xfl1':'xfr1',
+	'xfr0':'xfl0',
+	'xfr1':'xfl1',
+	}
+P['dat/baseline topics.'] = {
+	'xfc0':10,
+	'xfl0':10,
+	'xfl1':10,
+	'xfr0':10,
+	'xfr1':10,
+	}
+
+P['dat/smoothing values'] = {'raw':0.0,'smoothed':0.95,'baseline':0.9999}
+
 P['values in filename.'] = [
 'net/hidden_size',
 'net/batch_size',
@@ -109,9 +122,13 @@ P['values in filename.'] = [
 	'net/target_lst',
 ]
 
-P['sys/GPU.'] = 0
-if username == 'nvidia':
+P['sys/use cuda'] = False
+if P['sys/use cuda']:
 	P['sys/GPU.'] = 0
+	if username == 'nvidia':
+		P['sys/GPU.'] = 0
+else:
+	P['sys/GPU.'] = -1
 
 P['to_expose'] = []  # this way in Menu_app
 P['to_hide'] = ['to_expose','to_hide']  # this way in Menu_app

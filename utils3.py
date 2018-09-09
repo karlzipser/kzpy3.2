@@ -460,7 +460,7 @@ scd = setClipboardData
 def say(t,rate=150,print_text=True):
 	if print_text:
 		spd2s(t)
-	unix(d2s('say --interactive=/green -r',rate,t))
+	unix(d2s('say -v Susan --interactive=/green -r',rate,t))
 
 
 
@@ -804,7 +804,7 @@ def assert_disk_locations(locations):
 		if len(gg(l)) < 1:
 			srpd2s(d2s("Error:\n",l,"not available!"))
 			if len(l.split('/')) > 0:
-				spd2s('Could not find',pname(l),'!!!!!!!!!!')
+				spd2s('Could not find',l,'!!!!!!!!!!')
 				raise ValueError(d2s('Could not find',pname(l),'!!!!!!!!!!'))
 			#assert(False)
 		#print(d2s(l,'is there.\n'))
@@ -1106,6 +1106,24 @@ def memory():
 
 
 
+def Progress_animator(total_count,update_Hz=1.0,message=''):
+	from kzpy3.misc.progress import ProgressBar2
+	D = {}
+	D['progress'] = ProgressBar2(total_count,message=' '+message+': ') 
+	D['progress timer'] = Timer(1.0/(1.0*update_Hz))
+	def _update_function(current_count):
+		if True:
+			if D['progress timer'].check():
+				#print 'CCC'
+				assert current_count < total_count+1
+				D['progress'].animate(current_count)
+				D['progress timer'].reset()
+			else:
+				pass#time.sleep(0.1)
+		else:#except Exception as e:
+			pass
+	D['update'] = _update_function
+	return D
 
 
 #EOF

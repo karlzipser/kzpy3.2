@@ -8,119 +8,82 @@ clear_screen()
 
 list_of_h5py_folders = sggo(P['path/dataset path.'],'*')
 
+
+
 def get_raw_run_data(P):
-	M = {}
-	M_temp = {}
-	for t in P['dat/topics.']:
-		M[t] = na([])
-	Smoothing_values = {'data':0.9999,'baseline':0.9999}
-	print Smoothing_values
-	for f in list_of_h5py_folders:
-		print f
-		pd2s('h5py folder',f)
-		runs = sggo(f,'*')
-		for r in runs:
-			pd2s('\t',r)
-			try:
-				L = h5r(opj(r,'left_timestamp_metadata_right_ts.h5py'))
-				for t in P['dat/topics.']:
-					if 'baseline' in t:
-						s = Smoothing_values['baseline']
-					else:
-						s = Smoothing_values['data']
-					M_temp[t] = L[t][:] #if topic not in file, this will raise exception, avoiding adding partial data to M.
-					previous_value = M_temp[t][0]
-					for i in range(1,len(M_temp[t])):
-						if np.abs(M_temp[t][i]) > 500:
-							M_temp[t][i] = previous_value
-						else:
-							M_temp[t][i] = (1.0-s)*M_temp[t][i]+s*M_temp[t][i-1]
-						previous_value = M_temp[t][i]
-				for t in P['dat/topics.']:
-					print('adding '+t)
-					M[t] = np.concatenate((M[t],M_temp[t]),axis=None)
-					if P['plt/plot individual run data,']:
-						figure(d2s(t,':',fname(r)));clf();plot(M[t])
-				if P['plt/plot individual run data,']:
-					raw_enter()
-					CA()
-			except:
-				exec(EXCEPT_STR)
-			try:
-				L.close()
-			except:
-				exec(EXCEPT_STR)
-		if P['plt/plot individual run data,']:
+
+	S = {}
+
+	for smooth_type in P['dat/smoothing values']:
+		S[smooth_type] = {}
+		s = P['dat/smoothing values'][smooth_type]
+
+		for f in list_of_h5py_folders:
+			print f
+			pd2s('h5py folder',f)
+			runs = sggo(f,'*')
+
+			M = {}
 			for t in P['dat/topics.']:
-				figure(d2s(t,': all runs'));clf();plot(M[t])
-			raw_enter()
-			CA()
-	L={}
+				M[t] = na([])
+			for r in runs:
+				pd2s('\t',r)
+				try:
+					L = h5r(opj(r,'left_timestamp_metadata_right_ts.h5py'))
+					
+					M_temp = {}
+					
+					for t in P['dat/topics.']:
+						M_temp[t] = L[t][:] #if topic not in file, this will raise exception, avoiding adding partial data to M.
+						previous_value = M_temp[t][0]
+						for i in range(1,len(M_temp[t])):
+							if np.abs(M_temp[t][i]) > 500:
+								M_temp[t][i] = previous_value
+							else:
+								M_temp[t][i] = (1.0-s)*M_temp[t][i]+s*M_temp[t][i-1]
+							previous_value = M_temp[t][i]
+					for t in P['dat/topics.']:
+						print('adding '+t)
+						M[t] = np.concatenate((M[t],M_temp[t]),axis=None)
+						if P['plt/plot individual run data,']:
+							figure(d2s(t,smooth_type,':',fname(r)));clf();plot(M[t])
+					if P['plt/plot individual run data,']:
+						raw_enter()
+						CA()
+					S[smooth_type] = M
+				except:
+					exec(EXCEPT_STR)
+				try:
+					L.close()
+				except:
+					exec(EXCEPT_STR)
 	
+	S['baseline_corrected'] = {}
+	S['thresholds'] = {}
 	for t in P['dat/topics.']:
-		if t in ['drive_mode','human_agent','cmd_steer','cmd_motor','steer','motor']:
-			L[t] = M[t][:]
+		S['baseline_corrected'][t] = S['raw'][t]-S['baseline'][t]
+		if t[0] != 'x':
+			print t
 		else:
-			L[t] = M[t][:]#zscore(M[t][:])
-	L['IMU_mag'] = 0*L['acc_x']
-	for t in ['acc_x','acc_y','acc_z','gyro_x','gyro_y','gyro_z',]:
-		L['IMU_mag'] += np.abs(L[t])
-	L['IMU_mag'] /= 6.0
-	a_topic = a_key(L)
-	for t in P['dat/topics.']:
-		pd2s('len(L[t] =',len(L[t]))
-		assert len(L[t]) == len(L[a_topic])
-
-	if P['plt/plot concatenated run data,']:
+			S['thresholds'][t] = {}
+			Pb = Progress_animator(total_count=500,update_Hz=10,message=t)
+			for thresh in range(10,500,10):
+				Pb['update'](thresh)
+				S['thresholds'][t][thresh] = [i for i,v in enumerate(S['baseline_corrected'][t]) if v > thresh]
+	S['thresholds']['x_all'] = {}
+	for thresh in range(10,500,10):
+		S['thresholds']['x_all'][thresh] = []
 		for t in P['dat/topics.']:
-			figure(d2s(t,': all runs'));clf();plot(L[t])
-		raw_enter()
-		CA()
-	return L,M
-
-from kzpy3.misc.progress import ProgressBar
-
-def Progress_animator(total_count,update_Hz=1.0):
-	D = {}
-	#print 'AAA'
-	D['progress'] = ProgressBar(total_count) 
-	D['progress timer'] = Timer(1.0/(1.0*update_Hz))
-	def _update_function(current_count):
-		#print 'BBB'
-		if True:
-			if D['progress timer'].check():
-				#print 'CCC'
-				assert current_count < total_count+1
-				D['progress'].animate(current_count)
-				D['progress timer'].reset()
-			else:
-				pass#time.sleep(0.1)
-		else:#except Exception as e:
-			pass
-	D['update'] = _update_function
-	return D
+			if t[0] == 'x':
+				S['thresholds']['x_all'][thresh] += S['thresholds'][t][thresh]
+		S['thresholds']['x_all'][thresh] = list(set(S['thresholds']['x_all'][thresh]))
+	return S
 
 
-#def max_steer_or_motor_value(target_array):
-#	return np.max(np.abs(target_array-49))
-def max_felx_signal(index_range,L):
-	max_sig = -5
-	for t in [
-		'xfc0',
-		'xfl0',
-		'xfl1',
-		'xfr0',
-		'xfr1',]:
-		msig = np.max(L[t][index_range])
-		if msig > max_sig:
-			max_sig = msig
-	return max_sig
 
-###start
 def get_good_input_time_indicies(L):
-	Pb = Progress_animator(total_count=len(L[P['dat/topics.'][0]]),update_Hz=10)
+	Pb = Progress_animator(total_count=len(L[P['dat/topics.'][0]]),update_Hz=10,message='good_input_time_indicies')
 	good_input_time_indicies = []
-	max_sig_values = []
 	i = 0
 	for i in range(len(L[P['dat/topics.'][0]])):
 		try:
@@ -129,34 +92,41 @@ def get_good_input_time_indicies(L):
 				if L['drive_mode'][j] > 0:
 					if L['human_agent'][j] < 1:
 						if (L['motor'][j]-49) < 5:
-							#print 'no motor'
-							#if np.abs(L['steer'][j]-49) < 5:
-								#pd2s(j,int(L['steer'][j]),int(L['motor'][j]),good_count)
 							good_count += 1
 							#print good_count
 							Pb['update'](i)
-				#print i,j,good_count
-			#print good_count/(1.0*P['num_input_timesteps'])
 			if good_count/(1.0*P['net/num input timesteps.']) > P['dat/good timestep proportion.']:
-				max_sig_values.append([i,max_felx_signal(i+P['net/target index range.'],L)])
-				#print 'good'
+				good_input_time_indicies.append(i)
 			else:
 				pass#print 'bad'
-				#good_input_time_indicies.append(i)
-
-				#max_motor_values.append(max_steer_or_motor_value(L['motor'][i+P['net/target index range.']]))
-				#pd2s(i,'succeeded')
-			#pd2s(i,'failed')
 		except:
 			exec(EXCEPT_STR)
 	Pb['update'](i);print('\n')
-	#assert len(good_input_time_indicies) == len(max_sig_values)
-	return max_sig_values
-###stop
+	return good_input_time_indicies
+
+
+def assemble_training_data(S):
+	L = {}
+	for t in [ 
+		'xfc0',
+		'xfl0',
+		'xfl1',
+		'xfr0',
+		'xfr1',
+		]:
+		L[t] = S['baseline_corrected'][t] + 10.0 * np.random.randn(1)
+		L[t+'_flip'] = S['baseline_corrected'][P['dat/flip_topics.'][t]] + 10.0 * np.random.randn(1)
+	L['steer'] = S['raw']['steer'].copy()
+	L['steer_flip'] = 99 - S['raw']['steer']
+	L['motor'] = S['raw']['motor'].copy()
+	L['motor_flip'] = L['motor']
+	return L
+
+
+
 def display_data3(D,P):
 	figure(d2s('data3'))
 	clf()
-	title(i)
 	xylim(np.min(P['net/input indicies.'])-3,np.max(P['net/target index range.'])+3,-50,100)
 
 	for input_target in [0,1]:
@@ -184,7 +154,7 @@ def display_data3(D,P):
 
 def get_input_output_data(L,i,P):
 	D = {}
-
+	FLIP = random.choice([0,1])
 	for input_target in ['input','target']:
 		D[input_target] = {}
 		if input_target == 'input':
@@ -192,60 +162,62 @@ def get_input_output_data(L,i,P):
 			indicies = P['net/input indicies.']
 		else:
 			lst = P['net/target lst.']
-			indicies = P['net/target index range.']		
+			indicies = P['net/target index range.']
+		if FLIP == False:
+			flip_str = ''
+		else:
+			flip_str = '_flip'
 		for t in lst:
-			D[input_target][t] = L[t][i+indicies]
+			D[input_target][t] = L[t+flip_str][i+indicies]		
 	return D
+
 
 def display_data_animate(L,i,n,P):
 	CA()
-	for i in range(i-n,i+n,1):
+	for i in range(i-n,i+n,10):
 		D = get_input_output_data(L,i,P)
 		display_data3(D,P)
 		#time.sleep(1)
 
+
+
 processed_data_location = P['path/processed data location.']
 
-
 try:
-	L = lo(opj(processed_data_location,'L.pkl'))
-	M = lo(opj(processed_data_location,'M.pkl'))
-	pd2s('loaded L and M')
+	S = lo(opj(processed_data_location,'S.pkl'))
+	pd2s('loaded S')
 except:
 	#exec(EXCEPT_STR)
-	pd2s('making and saving L and M')
-	L,M = get_raw_run_data(P)
-	so(L,opj(processed_data_location,'L.pkl'))
-	so(M,opj(processed_data_location,'M.pkl'))
-
-"""
+	pd2s('making and saving S')
+	S = get_raw_run_data(P)
+	so(S,opj(processed_data_location,'S.pkl'))
 try:
 	I = lo(opj(processed_data_location,'I.pkl'))
 	pd2s('loaded I')
 except:
 	#exec(EXCEPT_STR)
 	pd2s('making and saving I')
-	max_sig_values = get_good_input_time_indicies(L)
-	I = {}
-	max_sig_values = na(max_sig_values)
-	sig_sorted = max_sig_values[max_sig_values[:,1].argsort()]
-	I['max_sig_values'] = max_sig_values
-	I['sig_sorted'] = sig_sorted
+	I = get_good_input_time_indicies(S['baseline_corrected'])
 	so(I,opj(processed_data_location,'I.pkl'))
-"""
+
+usable_indicies = list(set(I) and set(S['thresholds']['x_all'][30]))
+L = assemble_training_data(S)
+print len(usable_indicies),len(I),len(L['steer'])
+
+
 if False:
-	for i in range(100): display_data_animate(L,int(sig_sorted[-np.random.randint(30000),0]),10,P)
+	for i in range(100): display_data_animate(L,np.random.choice(usable_indicies),100,P)
 
 
 def get_print_exec_str(List_of_names,_locals_):
-	s = """ \b"pd2s("""
+	s = """pd2s("""
 	for l in List_of_names:
 		s += d2n("'",l," = ',",globals()[l],',')
-	s += """ )" """
+	s += """ )"""
 	return s
 
 
-
+CS_(np.random.choice(['ready','done','finished','complete']),say_comment=False)
 
 #EOF
 
