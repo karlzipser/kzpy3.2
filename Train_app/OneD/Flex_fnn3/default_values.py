@@ -12,9 +12,9 @@ P['cmd/num epochs.'] = 50
 P['cmd/initalize net.'] = False
 P['cmd/start training,'] = False
 P['cmd/pause training,'] = False
-P['cmd/loss_timer,'] = Timer(30)
+P['cmd/loss_timer,'] = Timer(120)
 P['cmd/epoch timer,'] = Timer(15*60)
-P['cmd/target output timer,'] = Timer(4)
+P['cmd/target output timer,'] = Timer(2)
 if True:#__file__ == '__file__':
 	P['path/processed data location.'] = opjk('Train_app/OneD/Flex_fnn3/__local__')
 	spd2s(P['path/processed data location.'])
@@ -36,7 +36,7 @@ P['net/outputs!'] = None
 P['net/loss list!'] = []
 P['net/num input timesteps.'] = 60
 P['net/hidden_size.'] = 250
-P['net/batch size.'] = 1#100
+P['net/batch size.'] = 1
 P['net/initial learning rate.'] = 0.1
 P['net/input lst.'] = [
 	'xfc0',

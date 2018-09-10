@@ -1,13 +1,10 @@
 
 from kzpy3.vis3 import *
-#from default_values import *
-from kzpy3.Train_app.OneD.Flex_fnn3.default_values import *
+from default_values import *
+#from kzpy3.Train_app.OneD.Flex_fnn3.default_values import *
 exec(identify_file_str)
 
-clear_screen()
-
-list_of_h5py_folders = sggo(P['path/dataset path.'],'*')
-
+#clear_screen()
 
 
 def get_raw_run_data(P):
@@ -15,17 +12,21 @@ def get_raw_run_data(P):
 	S = {}
 
 	for smooth_type in P['dat/smoothing values']:
+
 		S[smooth_type] = {}
 		s = P['dat/smoothing values'][smooth_type]
 
-		for f in list_of_h5py_folders:
-			print f
+		for f in sggo(P['path/dataset path.'],'*'):
+
 			pd2s('h5py folder',f)
+
 			runs = sggo(f,'*')
 
 			M = {}
+
 			for t in P['dat/topics.']:
 				M[t] = na([])
+
 			for r in runs:
 				pd2s('\t',r)
 				try:
@@ -114,10 +115,10 @@ def assemble_training_data(S):
 		'xfr0',
 		'xfr1',
 		]:
-		L[t] = S['baseline_corrected'][t] + 10.0 * np.random.randn(1)
-		L[t+'_flip'] = S['baseline_corrected'][P['dat/flip_topics.'][t]] + 10.0 * np.random.randn(1)
+		L[t] = S['baseline_corrected'][t]# + 10.0 * np.random.randn(1)
+		L[t+'_flip'] = S['baseline_corrected'][P['dat/flip_topics.'][t]]# + 10.0 * np.random.randn(1)
 	L['steer'] = S['raw']['steer'].copy()
-	L['steer_flip'] = 99 - S['raw']['steer']
+	L['steer_flip'] = 99-S['raw']['steer']
 	L['motor'] = S['raw']['motor'].copy()
 	L['motor_flip'] = L['motor']
 	return L
@@ -200,7 +201,7 @@ except:
 	I = get_good_input_time_indicies(S['baseline_corrected'])
 	so(I,opj(processed_data_location,'I.pkl'))
 
-usable_indicies = list(set(I) and set(S['thresholds']['x_all'][30]))
+usable_indicies = list(set(I) and set(S['thresholds']['x_all'][50]))
 L = assemble_training_data(S)
 print len(usable_indicies),len(I),len(L['steer'])
 
