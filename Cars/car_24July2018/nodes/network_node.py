@@ -5,8 +5,8 @@ exec(identify_file_str)
 import rospy
 
 N = {}
-for k in default_values.Network.keys():
-    N[k] = default_values.Network[k]
+for k in Default_values.network.default_values.Network.keys():
+    N[k] = Default_values.network.default_values.Network[k]
 
 import kzpy3.Menu_app.menu
 menu_path = N['The menu path.']
