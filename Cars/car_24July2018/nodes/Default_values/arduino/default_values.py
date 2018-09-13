@@ -98,7 +98,7 @@ Parameters['calibrated'] = False
 Parameters['acc'] = {}
 Parameters['gyro'] = {}
 Parameters['head'] = {}
-#Parameters['The menu path.'] = opjk('Cars/car_24July2018/nodes/Default_values/arduino')
+Parameters['The menu path.'] = opjk('Cars/car_24July2018/nodes/Default_values/arduino')
 Parameters['autostart menu'] = True
 
 
