@@ -9,14 +9,6 @@ def TACTIC_RC_controller(P):
     
 def _TACTIC_RC_controller_run_loop(P):
 
-    ###################################
-    #
-    P['servo_feedback_center'] = 49 #!!!!!!!! TEMP !!!!!!!!!!!
-    P['servo_feedback_right'] = 49
-    P['servo_feedback_left'] = 49
-    #
-    ####################################
-
 
     print('_TACTIC_RC_controller_run_loop')
     time.sleep(0.1)
@@ -31,7 +23,6 @@ def _TACTIC_RC_controller_run_loop(P):
     very_low_freq_timer = Timer(30)
     ctr_timer = Timer()
     Pid_processing_motor = Pid_Processing_Motor()
-    Pid_processing_steer = Pid_Processing_Steer()
     time_since_successful_read_from_arduino = Timer();_timer = Timer(0.2)
 
     while (not P['ABORT']) and (not rospy.is_shutdown()):
@@ -58,7 +49,6 @@ def _TACTIC_RC_controller_run_loop(P):
                 P['servo_pwm'] = mse_input[2]
                 P['motor_pwm'] = mse_input[3]
                 P['encoder'] = mse_input[4]
-                P['servo_feedback'] = 0#mse_input[5]
 
             if 'Assign button...':
                 bpwm = P['button_pwm']
@@ -92,7 +82,6 @@ def _TACTIC_RC_controller_run_loop(P):
                 P['human']['servo_percent'] = servo_pwm_to_percent(P['servo_pwm_smooth'],P)
                 P['human']['motor_percent'] = motor_pwm_to_percent(P['motor_pwm_smooth'],P)
 
-            P['servo_feedback_percent'] = servo_feedback_to_percent(P['servo_feedback'],P)
 
             P['temporary_human_control'] = False
             
@@ -121,13 +110,7 @@ def _TACTIC_RC_controller_run_loop(P):
                         _camera_pwm = servo_percent_to_pwm(P['network']['camera_percent'],P)
                         if True:
                             _servo_pwm = servo_percent_to_pwm(P['network']['servo_percent'],P)
-                        if False:
-                            if P['use_servo_feedback']:
-                                _servo_percent = P['servo_feedback_percent']
-                            else:
-                                _servo_percent = P['network']['servo_percent']
-                            _servo_pwm = servo_percent_to_pwm( Pid_processing_steer['do'](P['network']['camera_percent'],_servo_percent,P ),P)
-            
+
                         _camera_pwm = servo_percent_to_pwm(P['network']['camera_percent'],P)
                         in_this_mode = False
 
@@ -158,8 +141,6 @@ def _TACTIC_RC_controller_run_loop(P):
             print 'here!'
 
             if print_timer.check():
-                if False:
-                    pd2s(int(P['human']['servo_percent']),P['servo_feedback_percent'],int(P['network']['camera_percent']))
                 print_timer.reset()
 
             if very_low_freq_timer.check():
@@ -215,8 +196,6 @@ def compare_percents_and_pwms(P):
             m_from_percent = motor_percent_to_pwm(P['human']['motor_percent'],P)
             print dp(s_from_percent/(0.01+s_pwm),2),dp(m_from_percent/(0.01+m_pwm),2)
 
-def servo_feedback_to_percent(current_feedback,P):
-    return 99-int(pwm_to_percent(float(P['servo_feedback_center']),float(current_feedback),float(P['servo_feedback_right']),float(P['servo_feedback_left'])))
 
 def Pid_Processing_Motor():#slope=(60-49)/3.0,gain=0.05,encoder_max=4.0,delta_max=0.05,pid_motor_percent_max=99,pid_motor_percent_min=0):
     D = {}
@@ -236,20 +215,6 @@ def Pid_Processing_Motor():#slope=(60-49)/3.0,gain=0.05,encoder_max=4.0,delta_ma
     D['do'] = _do
     return D
 
-def Pid_Processing_Steer():#gain=0.05,delta_max=0.05,pid_steer_percent_max=99,pid_steer_percent_min=0):
-    D = {}
-    D['pid_steer_percent'] = 49
-    def _do(camera_value,servo_feedback_percent,P):
-        delta = P['pid_steer_gain'] * (camera_value - servo_feedback_percent)
-        if delta > 0:
-            delta = min(delta,P['pid_steer_delta_max'])
-        else:
-            delta = max(delta,-P['pid_steer_delta_max'])
-        D['pid_steer_percent'] += delta
-        D['pid_steer_percent'] = min(D['pid_steer_percent'],P['pid_steer_steer_percent_max'])
-        D['pid_steer_percent'] = max(D['pid_steer_percent'],P['pid_steer_steer_percent_min'])
-        return D['pid_steer_percent']
-    D['do'] = _do
-    return D
+
 
 #EOF
