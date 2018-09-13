@@ -37,7 +37,6 @@ def _TACTIC_RC_controller_run_loop(P):
         try:
             if 'Read serial and translate to list...':
                 read_str = P['Arduinos']['MSE'].readline()
-                print read_str
                 if flush_timer.check():
                     P['Arduinos']['MSE'].flushInput()
                     P['Arduinos']['MSE'].flushOutput()
@@ -50,7 +49,7 @@ def _TACTIC_RC_controller_run_loop(P):
                 P['motor_pwm'] = mse_input[3]
                 P['encoder'] = mse_input[4]
                 P['servo_feedback'] = mse_input[5]
-
+            print P['motor_pwm']
             if 'Assign button...':
                 bpwm = P['button_pwm']
                 if np.abs(bpwm - 1900) < P['button_delta']:
