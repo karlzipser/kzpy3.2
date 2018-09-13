@@ -109,6 +109,7 @@ def _publish_GPS_data(Parameters):
     Parameters['GPS_satellites_pub'].publish(std_msgs.msg.Int32(Parameters['GPS_satellites']))
 
 def _publish_MSE_data(Parameters):
+    print 'def _publish_MSE_data(Parameters)'
     if Parameters['agent_choice'] == 'human':
         human_val = 1
     else:
