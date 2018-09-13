@@ -8,6 +8,7 @@ N = {}
 for k in Default_values.network.default_values.Network.keys():
     N[k] = Default_values.network.default_values.Network[k]
 
+"""
 import kzpy3.Menu_app.menu
 menu_path = N['The menu path.']
 if not os.path.exists(menu_path):
@@ -16,6 +17,7 @@ try:
     os.remove(opj(path,'ready'))
 except:
     passthreading.Thread(target=kzpy3.Menu_app.menu.load_menu_data,args=[menu_path,N]).start()
+"""
 
 if not N['USE_NETWORK']:
     spd2s('network_node.py::not using network')

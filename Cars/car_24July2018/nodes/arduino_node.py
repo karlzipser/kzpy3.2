@@ -18,6 +18,7 @@ import Default_values.arduino.default_values
 
 Parameters = Default_values.arduino.default_values.Parameters
 
+"""
 import kzpy3.Menu_app.menu
 menu_path = Parameters['The menu path.']
 if not os.path.exists(menu_path):
@@ -27,7 +28,7 @@ try:
 except:
     pass
 threading.Thread(target=kzpy3.Menu_app.menu.load_menu_data,args=[menu_path,Parameters]).start()
-
+"""
 
 import std_msgs.msg
 import geometry_msgs.msg
