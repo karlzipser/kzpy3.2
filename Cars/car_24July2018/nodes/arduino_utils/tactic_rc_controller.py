@@ -30,7 +30,7 @@ def _TACTIC_RC_controller_run_loop(P):
             _timer.message(d2s("time_since_successful_read_from_arduino.time()",time_since_successful_read_from_arduino.time()))
         if time_since_successful_read_from_arduino.time() > 2.0:
             CS_("time_since_successful_read_from_arduino.time() > 2, ABORT",emphasis=True)
-            Default_values.arduino.default_values.EXIT(restart=False,shutdown=False,kill_ros=True,_file_=__file__)
+            #Default_values.arduino.default_values.EXIT(restart=False,shutdown=False,kill_ros=True,_file_=__file__)
 
         if 'Brief sleep to allow other threads to process...':
             time.sleep(0.01)
