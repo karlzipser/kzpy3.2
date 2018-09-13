@@ -16,7 +16,7 @@ exec(identify_file_str)
 
 import Default_values.arduino.default_values
 
-Parameters = default_values.Parameters
+Parameters = Default_values.arduino.default_values.Parameters
 
 import kzpy3.Menu_app.menu
 menu_path = Parameters['The menu path.']
