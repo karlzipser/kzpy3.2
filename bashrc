@@ -74,9 +74,6 @@ source ~/catkin_ws/devel/setup.bash
 export PYTHONPATH=~/kzpy3:$PYTHONPATH
 export PATH=~/kzpy3/utils:$PATH
 export PATH=~/kzpy3:$PATH
-#export PARAMIKO_TARGET_IP='192.168.1.103'
-#export RECEIVE_STEER_MOTOR_FROM_PARAMIKO='True'
-
 
 #sudo rm /etc/hosts
 #rm ~/hosts

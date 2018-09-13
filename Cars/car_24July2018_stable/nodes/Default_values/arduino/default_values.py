@@ -98,24 +98,15 @@ Parameters['calibrated'] = False
 Parameters['acc'] = {}
 Parameters['gyro'] = {}
 Parameters['head'] = {}
-Parameters['The menu path.'] = opjk('Cars/car_24July2018/nodes/Default_values/arduino')
+#Parameters['The menu path.'] = opjk('Cars/car_24July2018/nodes/Default_values/arduino')
 Parameters['autostart menu'] = True
 
-
-flex_names = [
-	'FL0',
-	'FL1',
-	'FL2',
-	'FL3',
-	'FR0',
-	'FR1',
-	'FR2',
-	'FR3',
-	'FC0',
-	'TC0',
-	'SL0',
-	'SR0',
-]
+flex_names = []
+for fb in ['f','b']:
+    for lr in ['l','r','c']:
+        for i in [0,1]:
+            flex_names.append(d2n('x',fb,lr,i))
+flex_names.append('xan0')
 
 for f in flex_names:
     Parameters[f] = {}

@@ -78,18 +78,16 @@
             /$(arg car_name)/Hz_acc
             /$(arg car_name)/Hz_mse
             /$(arg car_name)/Hz_network
-            /$(arg car_name)/FL0
-            /$(arg car_name)/FL1
-            /$(arg car_name)/FL2
-            /$(arg car_name)/FL3
-            /$(arg car_name)/FR0
-            /$(arg car_name)/FR1
-            /$(arg car_name)/FR2
-            /$(arg car_name)/FR3
-            /$(arg car_name)/FC0
-            /$(arg car_name)/TC0
-            /$(arg car_name)/SL0
-            /$(arg car_name)/SR0
+            /$(arg car_name)/xfl0
+            /$(arg car_name)/xfl1
+            /$(arg car_name)/xfc0
+            /$(arg car_name)/xan0
+            /$(arg car_name)/xfr0
+            /$(arg car_name)/xfr1
+            /$(arg car_name)/xbl0
+            /$(arg car_name)/xbl1
+            /$(arg car_name)/xbr0
+            /$(arg car_name)/xbr1
             /$(arg car_name)/GPS_latitudeDegrees
             /$(arg car_name)/GPS_longitudeDegrees
             /$(arg car_name)/GPS_speed
