@@ -67,11 +67,11 @@ def _selector_run_loop(P):
                     if P['human']['motor_percent'] < 10:
                         CS_("P['human']['motor_percent'] < 10, ABORTING, SHUTTING DOWN!!!!!",__file__)
                         P['ABORT'] = True
-                        default_values.EXIT(restart=False,shutdown=True,kill_ros=True,_file_=__file__)
+                        Default_values.arduino.default_values.EXIT(restart=False,shutdown=True,kill_ros=True,_file_=__file__)
                     elif P['human']['motor_percent'] > 90:
                         CS_("P['human']['motor_percent'] > 90, ABORTING, rebooting!!!!!")
                         P['ABORT'] = True
-                        default_values.EXIT(restart=True,shutdown=False,kill_ros=True,_file_=__file__)
+                        Default_values.arduino.default_values.EXIT(restart=True,shutdown=False,kill_ros=True,_file_=__file__)
                     elif P['human']['servo_percent'] < 10:
                         P['selector_mode'] = 'drive_mode'
                     elif P['human']['servo_percent'] > 90:
