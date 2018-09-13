@@ -32,12 +32,12 @@ P['net/hidden_size.'] = 250
 P['net/batch size.'] =100
 P['net/initial learning rate.'] = 0.1
 P['net/input lst.'] = [
-	'IMU_mag',
-	'encoder',
-	'cmd_steer',
-	'cmd_motor',
-	'motor',
-	'steer',
+#	'IMU_mag',
+#	'encoder',
+#	'cmd_steer',
+#	'cmd_motor',
+#	'motor',
+#	'steer',
 	'xfc0',
 	'xfl0',
 	'xfl1',
@@ -56,7 +56,7 @@ P['net/output size.'] = len(P['net/target index range.'])*len(P['net/target lst.
 
 
 
-P['plt/plot individual run data,'] = False
+P['plt/plot individual run data,'] = True
 P['plt/plot concatenated run data,'] = False
 
 
@@ -106,7 +106,7 @@ P['values in filename.'] = [
 	'net/target_lst',
 ]
 
-P['sys/GPU.'] = 1
+P['sys/GPU.'] = 0
 
 P['to_expose'] = []  # this way in Menu_app
 P['to_hide'] = ['to_expose','to_hide']  # this way in Menu_app

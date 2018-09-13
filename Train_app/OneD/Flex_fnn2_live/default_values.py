@@ -3,7 +3,7 @@ exec(identify_file_str)
 
 P = {}
 P['ABORT'] = False # this way in Menu_app
-P['LIVE'] = True
+P['LIVE'] = False
 P['TRAIN'] = not P['LIVE']
 P['autostart menu'] = False # this way in Menu_app
 P['autostart menu thread'] = False # this way in Menu_app
@@ -32,7 +32,7 @@ P['net/outputs!'] = None
 P['net/loss list!'] = []
 P['net/num input timesteps.'] = 60
 P['net/hidden_size.'] = 250
-P['net/batch size.'] = 1#100
+P['net/batch size.'] = 100
 P['net/initial learning rate.'] = 0.1
 P['net/input lst.'] = [
 	'xfc0',

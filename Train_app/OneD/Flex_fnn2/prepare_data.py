@@ -1,5 +1,5 @@
 from kzpy3.vis3 import *
-from default_values import *
+from kzpy3.Train_app.OneD.Flex_fnn2.default_values import *
 exec(identify_file_str)
 
 clear_screen()

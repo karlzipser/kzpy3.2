@@ -185,7 +185,7 @@ def get_input_output_data_(L,i,P):
 		for t in lst:
 
 			rand_offset = 0
-			if False:#t[0] == 'x':
+			if t[0] == 'x':
 
 				rand_offset = np.random.randint(-200,200)# 30*np.random.rand(1)
 				#print rand_offset

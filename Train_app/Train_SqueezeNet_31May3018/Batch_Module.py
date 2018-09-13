@@ -14,7 +14,11 @@ if 'LOSS_LIST_AVG' not in P:
 P['reload_image_file_timer'].trigger()
 zero_matrix = torch.FloatTensor(1, 1, 23, 41).zero_().cuda()
 one_matrix = torch.FloatTensor(1, 1, 23, 41).fill_(1).cuda()
-
+if False:
+	rnd = np.random.rand(1,1,23,41)
+	for x in range(23):
+		for y in range(41):
+			one_matrix[:,:,:,y] = torch.from_numpy(rnd[:,:,:,y])
 
 def Batch(the_network=None):
 	D = {}

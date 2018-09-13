@@ -5,8 +5,9 @@ import torch.nn as nn
 #import torchvision.transforms as transforms
 from torch.autograd import Variable
 from default_values import *
-#import prepare_data # import *#from kzpy3.Train_app.Train_fnn1.prepare_data import *
-#P = prepare_data.P
+if P['TRAIN']:
+    import prepare_data # import *#from kzpy3.Train_app.Train_fnn1.prepare_data import *
+    P = prepare_data.P
 exec(identify_file_str)
 for k in P:
     k_short_safe = k.split('/')[-1].replace(' ','_').replace(',','__').replace('.','').replace('!','')
@@ -79,7 +80,7 @@ rospy.Subscriber('/bair_car/FLEX', std_msgs.msg.Int32, callback=FLEX__callback)
         print exec_str
         exec(exec_str)
 
-rospy.init_node('listener',anonymous=True)
+    rospy.init_node('listener',anonymous=True)
 
 
  
@@ -169,8 +170,9 @@ if P['TRAIN']:
     so(opj(processed_data_location,'P',dfn),P)
 
 
+
 while P['ABORT'] == False:
-    print 'F'
+    #print 'F'
     for i in range(batch_size):
         if P['TRAIN']:
             D = prepare_data.get_input_output_data(prepare_data.L,int(prepare_data.I['sig_sorted'][-np.random.randint(P['dat/sig sorted value,']),0]),P)
@@ -186,10 +188,15 @@ while P['ABORT'] == False:
                 else:
                     IO[q] = np.concatenate([IO[q],na(R[t]['vals'][-60:])],axis=None)
                 #print shape(IO[q])
-                IO[q] -= Mean_std[t][0]
+                if P['LIVE']:
+                    IO[q] -= Mean_std[t][0]
+                    #print shape(IO[q])
+                    IO[q] /= Mean_std[t][1]
                 #print shape(IO[q])
-                IO[q] /= Mean_std[t][1]
-                #print shape(IO[q])
+        #figure('input')
+        #clf()
+        #plot(IO['input'])
+        #spause()
         inputs[i,:]=torch.from_numpy(IO['input'])
         
     if P['TRAIN']:
@@ -203,7 +210,10 @@ while P['ABORT'] == False:
         nn.utils.clip_grad_norm(P['net/net!'].parameters(), 1.0)
         P['net/optimizer!'].step()
 
-        if epoch_timer__.check():
+
+
+
+        if True: #epoch_timer__.check():
             spd2s(P['net/net!'])
             print 'epoch'
             P['path/weight out path'] = opj(processed_data_location,'weights',dfn+'.pkl')
@@ -217,6 +227,8 @@ while P['ABORT'] == False:
             srpd2s("torch.save(P['net/net!'].state_dict()",P['path/weight out path'],")")
             CS_("torch.save(P['net/net!'].state_dict()",P['path/weight out path'],")")
             epoch_timer__.reset()
+            raw_enter()
+
         if loss_timer__.check():
             P['net/loss list!'].append(P['net/loss!'].data.cpu().numpy())
             figure("P['net/loss!']")
@@ -226,8 +238,10 @@ while P['ABORT'] == False:
             loss_timer__.reset()
 
 
-    IO['output']= P['net/outputs!'][-1,:].data.cpu().numpy()
-    if True:#target_output_timer__.check():
+
+
+    IO['output'] = P['net/outputs!'][-1,:].data.cpu().numpy()
+    if P['LIVE'] or target_output_timer__.check():
         figure('target output')
         clf()
         xylim(-11,11,-1,100)

@@ -91,7 +91,7 @@ rospy.Subscriber('/bair_car/FLEX', std_msgs.msg.Int32, callback=FLEX__callback)
  
  
 
-
+"""
 ############################
 #
 spd2s(username,P['sys/GPU.'])
@@ -112,12 +112,12 @@ class Net(nn.Module):
         return out
 #
 ############################
-
-
-
-
-
 """
+
+
+
+
+
 ############################
 #
 class Net(nn.Module):
@@ -125,15 +125,15 @@ class Net(nn.Module):
         super(Net, self).__init__()
         self.lr = 0.1
         self.momentum = 0.00000001
-        i0=5
+        i0=8
         i1=20
         i2=20
         i3=20
         self.conv1 = nn.Conv1d(in_channels=i0, out_channels=i1, kernel_size=6, stride=2, groups=1)
-        self.conv2 = nn.Conv1d(in_channels=i1, out_channels=i2, kernel_size=6, stride=2, groups=1)
-        self.conv3 = nn.Conv1d(in_channels=i2, out_channels=i3, kernel_size=6, stride=2, groups=1)
-        self.ip1 = nn.Linear(in_features=80, out_features=20)
-        self.ip2 = nn.Linear(in_features=20, out_features=20)
+        #self.conv2 = nn.Conv1d(in_channels=i1, out_channels=i2, kernel_size=6, stride=2, groups=1)
+        #self.conv3 = nn.Conv1d(in_channels=i2, out_channels=i3, kernel_size=6, stride=2, groups=1)
+        #self.ip1 = nn.Linear(in_features=80, out_features=20)
+        self.ip2 = nn.Linear(in_features=20, out_features=output_size)
         #nn.init.normal(self.conv1.weight, std=1.0)
         #nn.init.normal(self.conv2.weight, std=1.0)
         #nn.init.normal(self.conv3.weight, std=1.0)
@@ -147,21 +147,21 @@ class Net(nn.Module):
         self.C['input'] = x
         self.C['conv1'] = self.conv1(self.C['input'])
         self.C['conv1/relu'] = F.relu(self.C['conv1'])
-        self.C['conv2'] = self.conv2(self.C['conv1/relu'])
-        self.C['conv2/relu'] = F.relu(self.C['conv2'])
-        self.C['conv3'] = self.conv2(self.C['conv2/relu'])
-        self.C['conv3/relu'] = F.relu(self.C['conv3'])
+        #self.C['conv2'] = self.conv2(self.C['conv1/relu'])
+        #self.C['conv2/relu'] = F.relu(self.C['conv2'])
+        #self.C['conv3'] = self.conv2(self.C['conv2/relu'])
+        #self.C['conv3/relu'] = F.relu(self.C['conv3'])
         #print self.C['conv3/relu'].size()
         #self.C['conv3/flat'] = self.C['conv3/relu'].view(self.C['conv3/relu'].size()[0],-1)
-        self.C['conv3/flat'] = self.C['conv3/relu'].view(-1,80)
-        self.C['ip1'] = self.ip1(self.C['conv3/flat'])
+        self.C['conv1/flat'] = self.C['conv1/relu'].view(-1,80)
+        self.C['ip1'] = self.ip1(self.C['conv1/flat'])
         #self.C['ip1/relu'] = F.relu(self.C['ip1'])
         #self.C['ip2'] = self.ip1(self.C['ip1/relu'])
         self.C['output'] = self.C['ip1']
         return self.C['output']
 #
 ############################
-"""
+
 
 
 
@@ -272,7 +272,7 @@ if P['TRAIN']:
 
 
 while P['ABORT'] == False:
-    try:
+    if True:#try:
         UI = {}
         for i in range(batch_size):
             UI[i] = np.random.randint(len(prepare_data.usable_indicies))
@@ -367,9 +367,9 @@ while P['ABORT'] == False:
                 plot(range(0,10),IO[io][10:],'b'+c)
             spause()
             target_output_timer__.reset()
-    except:
+    else:#except:
         exec(EXCEPT_STR)
-raw_enter(__file__+' done. ')
+        #raw_enter(__file__+' done. ')
 
 """
 1) get flex net controlling blue car
