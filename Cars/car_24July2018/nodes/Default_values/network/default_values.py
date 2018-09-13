@@ -15,7 +15,7 @@ if True:
 	Network['network_servo_smoothing_parameter'] = 0.85
 	Network['network_motor_smoothing_parameter'] = 0.75
 	Network['network_camera_smoothing_parameter'] = 0.0
-	Network['weight_file_path'] = opjD('link_to_weights_file')#opjh('pytorch_models','net_10Jun18_00h00m45s.SqueezeNet')
+	Network['weight_file_path'] = opjD('link_to_weights_file.SqueezeNet')#opjh('pytorch_models','net_10Jun18_00h00m45s.SqueezeNet')
 	Network['USE_NETWORK'] = True
 	Network['GREY_OUT_TOP_OF_IMAGE'] = False
 	Network['USE_LAST_IMAGE_ONLY'] = False
