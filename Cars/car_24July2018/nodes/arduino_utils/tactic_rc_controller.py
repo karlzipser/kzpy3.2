@@ -12,6 +12,8 @@ def _TACTIC_RC_controller_run_loop(P):
     ###################################
     #
     P['servo_feedback_center'] = 49 #!!!!!!!! TEMP !!!!!!!!!!!
+    P['servo_feedback_right'] = 49
+    P['servo_feedback_left'] = 49
     #
     ####################################
 
@@ -56,7 +58,7 @@ def _TACTIC_RC_controller_run_loop(P):
                 P['servo_pwm'] = mse_input[2]
                 P['motor_pwm'] = mse_input[3]
                 P['encoder'] = mse_input[4]
-                P['servo_feedback'] = mse_input[5]
+                P['servo_feedback'] = 0#mse_input[5]
 
             if 'Assign button...':
                 bpwm = P['button_pwm']
