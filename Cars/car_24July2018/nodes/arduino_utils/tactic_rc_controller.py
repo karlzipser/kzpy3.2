@@ -136,9 +136,8 @@ def _TACTIC_RC_controller_run_loop(P):
                 if ctr_timer.time() > 5 and P['selector_mode'] == 'drive_mode':
                     if Hz < 30 or Hz > 90:
                         spd2s('MSE Hz =',Hz,'...aborting...')
-            #if P['USE_ROS']:
-            P['publish_MSE_data'](P)
-            print 'here!'
+            if P['USE_ROS']:
+                P['publish_MSE_data'](P)
 
             if print_timer.check():
                 print_timer.reset()

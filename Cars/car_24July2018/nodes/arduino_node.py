@@ -108,7 +108,6 @@ def _publish_GPS_data(Parameters):
     Parameters['GPS_satellites_pub'].publish(std_msgs.msg.Int32(Parameters['GPS_satellites']))
 
 def _publish_MSE_data(Parameters):
-    print 'def _publish_MSE_data(Parameters)'
     if Parameters['agent_choice'] == 'human':
         human_val = 1
     else:
@@ -117,7 +116,6 @@ def _publish_MSE_data(Parameters):
         drive_mode = 1
     else:
         drive_mode = 0
-    print Parameters['human']['servo_percent']       
     Parameters['steer_pub'].publish(std_msgs.msg.Int32(Parameters['human']['servo_percent']))
     Parameters['motor_pub'].publish(std_msgs.msg.Int32(Parameters['human']['motor_percent']))
     Parameters['button_number_pub'].publish(std_msgs.msg.Int32(Parameters['button_number']))
