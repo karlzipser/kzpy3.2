@@ -74,7 +74,7 @@ Parameters['GPS_altitude_pub'] = rospy.Publisher('GPS_altitude', std_msgs.msg.Fl
 Parameters['GPS_fixquality_pub'] = rospy.Publisher('GPS_fixquality', std_msgs.msg.Int32, queue_size=5)
 Parameters['GPS_satellites_pub'] = rospy.Publisher('GPS_satellites', std_msgs.msg.Int32, queue_size=5)
 
-from default_values import flex_names
+from Default_values.arduino.default_values import flex_names
 for name in flex_names:
     Parameters[d2n(name,'_pub')] = rospy.Publisher(name,std_msgs.msg.Int32,queue_size=5)
 
@@ -150,8 +150,8 @@ def _publish_No_Arduino_data(Parameters):
     while (not Parameters['ABORT']) and (not rospy.is_shutdown()):
         time.sleep(0.001)
         if No_Arduino_data_low_frequency_pub_timer.check():
-            Parameters['behavioral_mode_pub'].publish(std_msgs.msg.String(default_values.NO_Mse['behavioral_mode_choice'])) 
-            Parameters['place_choice_pub'].publish(std_msgs.msg.String(default_values.NO_Mse['place_choice']))
+            Parameters['behavioral_mode_pub'].publish(std_msgs.msg.String(Default_values.arduino.default_values.NO_Mse['behavioral_mode_choice'])) 
+            Parameters['place_choice_pub'].publish(std_msgs.msg.String(Default_values.arduino.default_values.NO_Mse['place_choice']))
             Parameters['human_agent_pub'].publish(std_msgs.msg.Int32(human_val))
             Parameters['drive_mode_pub'].publish(std_msgs.msg.Int32(drive_mode))
             No_Arduino_data_low_frequency_pub_timer.reset()
@@ -196,7 +196,7 @@ if 'Main loop...':
             if Parameters['ABORT']:
                 break
             time.sleep(0.1)
-        default_values.EXIT(restart=False,shutdown=False,kill_ros=True,_file_=__file__)
+        Default_values.arduino.default_values.EXIT(restart=False,shutdown=False,kill_ros=True,_file_=__file__)
     except Exception as e:
         CS_(d2s('Main loop exception',e))
 CS_('End arduino_node.py main loop.')
