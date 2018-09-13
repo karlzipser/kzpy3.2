@@ -8,6 +8,14 @@ def TACTIC_RC_controller(P):
     threading.Thread(target=_TACTIC_RC_controller_run_loop,args=[P]).start()
     
 def _TACTIC_RC_controller_run_loop(P):
+
+    ###################################
+    #
+    P['servo_feedback_center'] = 49 #!!!!!!!! TEMP !!!!!!!!!!!
+    #
+    ####################################
+
+
     print('_TACTIC_RC_controller_run_loop')
     time.sleep(0.1)
     P['Arduinos']['MSE'].flushInput()
