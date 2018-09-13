@@ -29,20 +29,17 @@ def assign_serial_connections(P,sers):
                 exec('ser_tuple = list({0})'.format(ser_str))
                 if ser_tuple[0] in ['mse']:
                     print(d2s('Port',ser.port,'is the MSE:',ser_str))
-                    if 'Keep this up to date...':
-                        print("\tusing 'motor_servo_minimal_3July2018_test.ino'")
+                    print("\tusing 'motor_servo_encoder.ino'")
                     P['Arduinos']['MSE'] = ser
                     break
                 elif ser_tuple[0] in ['acc','gyro','head']:
                     print(d2s('Port',ser.port,'is the IMU:',ser_str))
-                    if 'Keep this up to date...':
-                        print("\tusing 'acc.ino'")
+                    print("\tusing 'acc.ino'")
                     P['Arduinos']['IMU'] = ser
                     break
                 elif ser_tuple[0] in ['GPS3']:
                     print(d2s('Port',ser.port,'is the SIG:',ser_str))
-                    if 'Keep this up to date...':
-                        print("\tusing 'LED_arduino_LCR_13July2018b.ino'")
+                    print("\tusing 'LED2_GPS3.ino'")
                     P['Arduinos']['SIG'] = ser
                     break
 
@@ -50,6 +47,7 @@ def assign_serial_connections(P,sers):
                 #
                 elif ser_tuple[0] in flex_names:
                     print(d2s('Port',ser.port,'is the FLEX:',ser_str))
+                    print("\tusing 'Flex_Sensors_0_12Sept2018.ino'")
                     P['Arduinos']['FLEX'] = ser
                     break
                 #
