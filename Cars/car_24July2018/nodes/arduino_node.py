@@ -14,7 +14,7 @@ from arduino_utils.FLEX_arduino import *
 
 exec(identify_file_str)
 
-import default_values
+import Default_values.arduino.default_values
 
 Parameters = default_values.Parameters
 
