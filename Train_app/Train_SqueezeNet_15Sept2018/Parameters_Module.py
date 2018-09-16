@@ -16,7 +16,7 @@ P['start time'] = time_str()
 P['max_num_runs_to_open'] = 300
 
 P['experiments_folders'] = [
-	opjm('2_TB_Samsung_n2_/bair_car_data_Main_Dataset_part1/locations'),#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	#opjm('2_TB_Samsung_n2_/bair_car_data_Main_Dataset_part1/locations'),#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	opjD('bdd_car_data_July2017_LCR/locations'),
 	opjm('preprocessed_1b/model_car_data_June2018_LCR/locations'),
 	opjm('preprocessed_1b/model_car_data_July2018_lrc/locations'),
@@ -28,7 +28,7 @@ P['aruco_experiments_folders'] = []#[opjD('all_aruco_reprocessed')]#!!!!!!!!!!!!
 P['GPU'] = 1 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 P['BATCH_SIZE'] = 64
 P['REQUIRE_ONE'] = []
-P['NETWORK_OUTPUT_FOLDER'] = opjD('net_7Sept2018')#opjD('net_16Aug2018')#opjD('net_16Aug2018')# #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+P['NETWORK_OUTPUT_FOLDER'] = opjD('net_15Sept2018')#opjD('net_16Aug2018')#opjD('net_16Aug2018')# #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 P['SAVE_FILE_NAME'] = 'net'
 P['save_net_timer'] = Timer(60*30)
 P['print_timer'] = Timer(30)
@@ -191,8 +191,11 @@ def get_Data_moment(dm=None,FLIP=None):
 			if steer_len - left_index < 90:
 				print steer_len - left_index
 
-		for q in ['steer','motor']:	
+		for q in ['steer','motor','gyro_heading_x','encoder_meo']:	
 			Data_moment[q] = zeros(90) + 49
+			if q not in P['Loaded_image_files'][dm['run_name']]['left_timestamp_metadata']:
+				pd2s(dm['run_name'],'lacks',q)
+				continue
 			if behavioral_mode != 'heading_pause':
 				Data_moment[q][:data_len] = P['Loaded_image_files'][dm['run_name']]['left_timestamp_metadata'][q][left_index:left_index+data_len]
 
@@ -214,10 +217,18 @@ def get_Data_moment(dm=None,FLIP=None):
 							Data_moment[q+past][:past_data_len] = 99-Data_moment[q+past][:past_data_len]
 						elif q == 'acc_x' or q == 'gyro_x' or q == 'gyro_y':
 							Data_moment[q+past][:past_data_len] = -1*Data_moment[q+past][:past_data_len]
+
+
+
+
+
+
+
 					
 
 		if FLIP:
 			Data_moment['steer'] = 99 - Data_moment['steer']
+			Data_moment['gyro_heading_x'] = -1.0*Data_moment['gyro_heading_x']
 
 
 		Data_moment['motor'][Data_moment['motor']<0] = 0

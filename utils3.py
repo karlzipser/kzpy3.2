@@ -156,6 +156,7 @@ def rlen(a):
 
 PRINT_COMMENTS = True
 def CS_(comment,section='',s='',say_comment=False,emphasis=False,exception=False,newline=True,print_comment=True):
+
 	if print_comment and PRINT_COMMENTS:
 		stri = '#  '
 		stri = stri + comment
@@ -163,14 +164,15 @@ def CS_(comment,section='',s='',say_comment=False,emphasis=False,exception=False
 			section = s
 		if len(section) > 0:
 			stri += ' ('+section+')'
-			if not emphasis and not exception:
-				cprint(stri,attrs=[],color='white',on_color='on_grey')#cprint(stri,'red','on_green')
-			elif exception:
-				cprint(stri,attrs=['blink','bold'],color='red',on_color='on_yellow')
-			else:
-				cprint(stri,attrs=['bold','blink','reverse'],color='white',on_color='on_grey')
-			if newline:
-				print('\n')
+		if not emphasis and not exception:
+			cprint(stri,attrs=[],color='white',on_color='on_grey')#cprint(stri,'red','on_green')
+		elif exception:
+			cprint(stri,attrs=['blink','bold'],color='red',on_color='on_yellow')
+		else:
+			cprint(stri,attrs=['bold','blink','reverse'],color='white',on_color='on_grey')
+			spd2s(comment)
+		if newline:
+			print('\n')
 	if say_comment:
 		if using_osx():
 			say(comment,rate=250,print_text=False)

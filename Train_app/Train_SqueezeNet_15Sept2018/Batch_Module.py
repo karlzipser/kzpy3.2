@@ -219,16 +219,69 @@ def Batch(the_network=None):
 
 				D['metadata'] = torch.cat((metadata, D['metadata']), 0)
 
+				"""
 				sv = Data_moment['steer']
 				mv = Data_moment['motor']
 				#rv = range(8,91,9)
 				rv = P['prediction_range'] #range(10)
 				sv = array(sv)[rv]
 				mv = array(mv)[rv]
-				steerv = torch.from_numpy(sv).cuda().float() / 99.
-				motorv = torch.from_numpy(mv).cuda().float() / 99.
-				target_datav = torch.unsqueeze(torch.cat((steerv, motorv), 0), 0)
-				D['target_data'] = torch.cat((target_datav, D['target_data']), 0)
+
+				target_data = torch.from_numpy(np.concatenate((sv,mv,sv,mv))/99.0).cuda()
+
+				D['target_data'] = torch.cat(target_data, D['target_data'], 0)
+				"""
+
+
+
+
+				if False:
+					sv = Data_moment['steer']
+					mv = Data_moment['motor']
+					#rv = range(8,91,9)
+					rv = P['prediction_range'] #range(10)
+					sv = array(sv)[rv]
+					mv = array(mv)[rv]
+					steerv0 = torch.from_numpy(sv).cuda().float() / 99.
+					motorv0 = torch.from_numpy(mv).cuda().float() / 99.
+					steerv1 = (99-torch.from_numpy(sv).cuda().float()) / 99.
+					motorv1 = (99-torch.from_numpy(mv).cuda().float()) / 99.
+					target_datav = torch.unsqueeze(torch.cat((steerv0, motorv0,steerv1, motorv1), 0), 0)
+					D['target_data'] = torch.cat((target_datav, D['target_data']), 0)
+
+
+
+				sv = Data_moment['steer']
+				mv = Data_moment['motor']
+				hv = Data_moment['gyro_heading_x']
+				ev = Data_moment['encoder_meo']
+
+				rv = P['prediction_range']
+
+				sv = array(sv)[rv]
+				mv = array(mv)[rv]
+				hv = array(hv)[rv]
+				ev = array(ev)[rv]
+
+				hv = hv - hv[0]
+
+				steer = torch.from_numpy(sv).cuda().float() / 99.
+				motor = torch.from_numpy(mv).cuda().float() / 99.
+				heading = (torch.from_numpy(hv).cuda().float()) / 90.0
+				encoder = (torch.from_numpy(ev).cuda().float()) / 5.0
+				target_data = torch.unsqueeze(torch.cat((steer,motor,heading,encoder), 0), 0)
+				D['target_data'] = torch.cat((target_data, D['target_data']), 0)
+
+
+
+
+
+
+
+
+
+
+
 
 				P['frequency_timer'].freq()
 			else: #except Exception as e:
@@ -306,6 +359,8 @@ def Batch(the_network=None):
 				ov = D['outputs'][i].data.cpu().numpy()
 				mv = D['metadata'][i].cpu().numpy()
 				tv = D['target_data'][i].cpu().numpy()
+				print len(ov),len(tv)
+				#raw_enter()
 				print('Loss:',dp(D['loss'].data.cpu().numpy()[0],5))
 				av = D['camera_data'][i][:].cpu().numpy()
 				bv = av.transpose(1,2,0)
@@ -330,8 +385,11 @@ def Batch(the_network=None):
 				figure('steer '+P['start time'])
 				clf()
 				plt.title(d2s(i))
-				ylim(-0.05,1.05);xlim(0,len(tv))
-				plot([-1,10],[0.49,0.49],'k');plot(ov,'og'); plot(tv,'or'); plt.title(D['names'][0])
+				ylim(-1.05,1.05);xlim(0,len(tv))
+				plot([-1,20],[0.49,0.49],'k');
+				plot([-1,20],[0.0,0.0],'k')
+				plot(ov,'og'); plot(tv,'or'); plt.title(D['names'][0])
+				
 				plt.xlabel(d2s(bm))
 				figure('metadata '+P['start time']);clf()
 				plot(mv[-10:,0,0],'r.-')
@@ -356,62 +414,6 @@ def Batch(the_network=None):
 			#figure('loss_list');clf();hist(loss_list)
 			spause()
 
-	def _function_display_each():
-		if P['DISPLAY_EACH']:
-			wait_time = 10000
-		else:
-			wait_time = 1
-		cv2.waitKey(wait_time) # This is to keep cv2 windows alive
-		if True:#P['print_timer'].check():
-			for i in range(P['BATCH_SIZE']):
-				ov = D['outputs'][i].data.cpu().numpy()
-				mv = D['metadata'][i].cpu().numpy()
-				tv = D['target_data'][i].cpu().numpy()
-				print('Loss:',dp(D['loss'].data.cpu().numpy()[0],5))
-				av = D['camera_data'][i][:].cpu().numpy()
-				bv = av.transpose(1,2,0)
-				hv = shape(av)[1]
-				wv = shape(av)[2]
-				cv = zeros((10+hv*2,10+2*wv,3))
-				cv[:hv,:wv,:] = z2o(bv[:,:,3:6])
-				cv[:hv,-wv:,:] = z2o(bv[:,:,:3])
-				cv[-hv:,:wv,:] = z2o(bv[:,:,9:12])
-				cv[-hv:,-wv:,:] = z2o(bv[:,:,6:9])
-				print(d2s(i,'camera_data min,max =',av.min(),av.max()))
-				if P['loss_timer'].check() and len(P['LOSS_LIST_AVG'])>5:
-					figure('LOSS_LIST_AVG '+P['start time']);clf();plot(P['LOSS_LIST_AVG'][1:],'.')
-					spause()
-					P['loss_timer'].reset()
-				Net_activity = Activity_Module.Net_Activity('batch_num',i, 'activiations',D['network']['net'].A)
-				Net_activity['view']('moment_index',i,'delay',33, 'scales',{'camera_input':4,'pre_metadata_features':0,'pre_metadata_features_metadata':1,'post_metadata_features':2})
-				bm = 'unknown behavioral_mode'
-				for j in range(len(P['behavioral_modes'])):
-					if mv[-(j+1),0,0]:
-						bm = P['behavioral_modes'][j]
-				figure('steer '+P['start time'])
-				clf()
-				plt.title(d2s(i))
-				ylim(-0.05,1.05);xlim(0,len(tv))
-				plot([-1,10],[0.49,0.49],'k');plot(ov,'og'); plot(tv,'or'); plt.title(D['names'][i])
-				plt.xlabel(d2s(bm))
-				figure('metadata '+P['start time']);clf()
-				plot(mv[-10:,0,0],'r.-')
-				plt.title(d2s(bm,i))
-				spause()
-				raw_enter()
-			dm_ctrs = zeros(100)
-			loss_list = []
-			for j in range(len(P['data_moments_indexed'])):
-				if 'ctr' in P['data_moments_indexed'][j]:
-					dm_ctrs[P['data_moments_indexed'][j]['ctr']] += 1
-				else:
-					dm_ctrs[0] += 1
-				if 'loss' in P['data_moments_indexed'][j]:
-					if len(P['data_moments_indexed'][j]['loss']) > 0:
-						loss_list.append(P['data_moments_indexed'][j]['loss'][-1])
-			figure('dm_ctrs '+P['start time']);clf();plot(dm_ctrs,'.-');xlim(0,10)
-			#figure('loss_list');clf();hist(loss_list)
-			spause()
 
 
 	D['FILL'] = _function_fill
