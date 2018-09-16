@@ -697,6 +697,10 @@ def start_at(t):
 try:
 	import numbers
 	def is_number(n):
+		if type(n) == bool:
+			return False
+		if type(n) == type(None):
+			return False
 		return isinstance(n,numbers.Number)
 except:
 	print("Don't have numbers module")

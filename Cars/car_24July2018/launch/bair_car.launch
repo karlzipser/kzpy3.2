@@ -63,7 +63,6 @@
             /$(arg car_name)/cmd/steer
             /$(arg car_name)/cmd/camera
             /$(arg car_name)/encoder
-            /$(arg car_name)/servo_feedback
             /$(arg car_name)/gyro
             /$(arg car_name)/gyro_heading
             /$(arg car_name)/acc

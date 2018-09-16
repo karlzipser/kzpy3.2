@@ -54,7 +54,6 @@ Parameters['button_number_pub'] = rospy.Publisher('button_number', std_msgs.msg.
 Parameters['steer_pub'] = rospy.Publisher('steer', std_msgs.msg.Int32, queue_size=5) 
 Parameters['motor_pub'] = rospy.Publisher('motor', std_msgs.msg.Int32, queue_size=5) 
 Parameters['encoder_pub'] = rospy.Publisher('encoder', std_msgs.msg.Float32, queue_size=5)
-Parameters['servo_feedback_pub'] = rospy.Publisher('servo_feedback', std_msgs.msg.Int32, queue_size=5) 
 Parameters['Hz_acc_pub'] = rospy.Publisher('Hz_acc', std_msgs.msg.Float32, queue_size=5)
 Parameters['Hz_mse_pub'] = rospy.Publisher('Hz_mse', std_msgs.msg.Float32, queue_size=5)
 Parameters['gyro_pub'] = rospy.Publisher('gyro', geometry_msgs.msg.Vector3, queue_size=10)
@@ -116,12 +115,11 @@ def _publish_MSE_data(Parameters):
     if Parameters['selector_mode'] == 'drive_mode':
         drive_mode = 1
     else:
-        drive_mode = 0         
+        drive_mode = 0
     Parameters['steer_pub'].publish(std_msgs.msg.Int32(Parameters['human']['servo_percent']))
     Parameters['motor_pub'].publish(std_msgs.msg.Int32(Parameters['human']['motor_percent']))
     Parameters['button_number_pub'].publish(std_msgs.msg.Int32(Parameters['button_number']))
     Parameters['encoder_pub'].publish(std_msgs.msg.Float32(Parameters['encoder']))
-    Parameters['servo_feedback_pub'].publish(std_msgs.msg.Int32(Parameters['servo_feedback']))
 
     if MSE_low_frequency_pub_timer.check():
         if Parameters['button_number'] == 1:
