@@ -52,7 +52,16 @@ P['behavioral_modes_no_heading_pause'] = ['direct','follow','furtive','play','le
 P['behavioral_modes'] = P['behavioral_modes_no_heading_pause']+['heading_pause']
 P['current_batch'] = []
 P['DISPLAY_EACH'] = False
-P['prediction_range'] = range(1,60,6)
+if False: # the standard before 15Sept2018
+	P['prediction_range'] = range(1,60,6)
+elif False:
+	P['prediction_range'] = range(1,70,7)
+	raw_enter(d2n("P['prediction_range'] = ",P['prediction_range'],', len = ',len(P['prediction_range']),', okay? '))
+elif True:
+	P['prediction_range'] = arange(1,90,9.8).astype(int)
+	raw_enter(d2n("P['prediction_range'] = ",P['prediction_range'],', len = ',len(P['prediction_range']),', okay? '))
+	# array([ 1, 10, 20, 30, 40, 50, 59, 69, 79, 89])
+	# len(a) = 10
 P['gray_out_random_value'] = 0.0
 if True:
 	for experiments_folder in P['experiments_folders']:
@@ -199,10 +208,10 @@ def get_Data_moment(dm=None,FLIP=None):
 			if behavioral_mode != 'heading_pause':
 				Data_moment[q][:data_len] = P['Loaded_image_files'][dm['run_name']]['left_timestamp_metadata'][q][left_index:left_index+data_len]
 
-		if False:
+		if True:
 			past_data_len = 3*23 # constrained by metadate image size
 			past = '_past'
-			for q in ['steer','motor','acc_x','acc_y','acc_z','gyro_x','gyro_y','gyro_z','encoder']:	
+			for q in ['encoder']:#'steer','motor','acc_x','acc_y','acc_z','gyro_x','gyro_y','gyro_z','encoder']:	
 				Data_moment[q+past] = zeros(past_data_len)
 				if behavioral_mode != 'heading_pause':
 					if left_index-past_data_len < 0:

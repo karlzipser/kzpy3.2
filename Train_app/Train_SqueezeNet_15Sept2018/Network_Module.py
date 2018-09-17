@@ -58,7 +58,7 @@ def Pytorch_Network():
                 CS_("loading "+P['WEIGHTS_FILE_PATH'])
 
 
-                if True:#'Temp!!!!!!!!!!!!!!!':
+                if False:#'Temp!!!!!!!!!!!!!!!':
                     raw_enter('This is STRANGE!!! ')
                     a=save_data['net']['final_output.1.bias'].cpu().numpy()
                     b=zeros(40)
