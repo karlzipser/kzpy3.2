@@ -16,7 +16,7 @@ P['start time'] = time_str()
 P['max_num_runs_to_open'] = 300
 
 P['experiments_folders'] = [
-	#opjm('2_TB_Samsung_n2_/bair_car_data_Main_Dataset_part1/locations'),#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	opjm('2_TB_Samsung_n2_/bair_car_data_Main_Dataset_part1/locations'),#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	opjD('bdd_car_data_July2017_LCR/locations'),
 	opjm('preprocessed_1b/model_car_data_June2018_LCR/locations'),
 	opjm('preprocessed_1b/model_car_data_July2018_lrc/locations'),
@@ -187,10 +187,13 @@ if True:
 
 
 
-
+P['lacking runs'] = {}
 
 def get_Data_moment(dm=None,FLIP=None):
+
 	try:
+		if dm['run_name'] in P['lacking runs']:
+			return False
 		Data_moment = {}
 		left_index = dm['left_ts_index'][1]
 		steer_len = len(P['Loaded_image_files'][dm['run_name']]['left_timestamp_metadata']['steer'])
@@ -204,7 +207,8 @@ def get_Data_moment(dm=None,FLIP=None):
 			Data_moment[q] = zeros(90) + 49
 			if q not in P['Loaded_image_files'][dm['run_name']]['left_timestamp_metadata']:
 				pd2s(dm['run_name'],'lacks',q)
-				continue
+				P['lacking runs'][dm['run_name']] = q
+				return False
 			if behavioral_mode != 'heading_pause':
 				Data_moment[q][:data_len] = P['Loaded_image_files'][dm['run_name']]['left_timestamp_metadata'][q][left_index:left_index+data_len]
 
