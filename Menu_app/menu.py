@@ -1,8 +1,10 @@
 from kzpy3.utils3 import *
 
-
-
 def menu(Topics,path):
+    if 'ABORT' not in Topics: Topics['ABORT'] = False
+    if 'autostart menu' not in Topics: Topics['autostart menu'] = False
+    if 'ABORT' not in Topics: Topics['to_hide'] = []
+    if 'ABORT' not in Topics: Topics['to_expose'] = []
     EXIT = False
     message = False
     choice_number = 0
@@ -31,7 +33,7 @@ def menu(Topics,path):
                 names_to_use = Topics.keys()
 
             for name in sorted(names_to_use):
-
+                
                 ctr += 1
 
                 Number_name_binding[ctr] = name
@@ -41,6 +43,7 @@ def menu(Topics,path):
                     first = False
                 else:
                     q = ''
+                q = ''
                 #print d2n(q,ctr,') ',name,': ',Topics[name],'  '),
                 #cprint(type(Topics[name]).__name__,'grey')
                 color_scheme = [
@@ -60,14 +63,16 @@ def menu(Topics,path):
                     s = c[0]
                     #print s
                     if s not in name:
-                        continue
+                        c = ['normal','normal']
                     cs = c[1]
                     if type(cs) == list:
                         cf,cb = cs[0],cs[1]
                     else:
                         cf,cb = cs,None
                     cstr = d2n(q,ctr,') ',name,': ',Topics[name],'  ',type(Topics[name]).__name__)
-                    if cs != None:
+                    if c[0] == 'normal':
+                        print(cstr)
+                    elif cs != None:
                         cprint(cstr,cf,cb)
                     else:
                         cprint(cstr,cf)
@@ -103,7 +108,7 @@ def menu(Topics,path):
 
                 filename = filenames[input('\tload #? ')-1]
 
-                Topics_loaded = lo(opj(path,'__local__',filename))
+                Topics_loaded = lo(opjh(path,'__local__',filename))
                 for t in Topics_loaded:
                     Topics[t] = Topics_loaded[t]
                 save_topics(Topics,path)
@@ -114,8 +119,9 @@ def menu(Topics,path):
                 description = get_safe_name(raw_input('\tshort description #? '))
                 assert(len(description)>0)
                 filename = d2n('Topics.',description,'.pkl')
-                so(Topics,opj(path,'__local__',filename))
-                message = d2s('saved',filename)
+                full_path = opjh(path,'__local__',filename)
+                so(Topics,full_path)
+                message = d2s('saved',full_path)
                 save_topics(Topics,path)
 
 
@@ -269,8 +275,9 @@ try:
 except:
     pass
 threading.Thread(target=kzpy3.Menu_app.menu.load_menu_data,args=[menu_path,__topics_dic_name__]).start()
-if __topics_dic_name__['autostart menu']:
-    os.system(d2n("gnome-terminal -x python kzpy3/Menu_app/menu.py path ",menu_path," dic __topics_dic_name__"))
+if 'autostart menu' in __topics_dic_name__:
+    if __topics_dic_name__['autostart menu']:
+        os.system(d2n("gnome-terminal -x python kzpy3/Menu_app/menu.py path ",menu_path," dic __topics_dic_name__"))
 """
 
 if __name__ == '__main__':# and EXIT == False:
@@ -280,10 +287,10 @@ if __name__ == '__main__':# and EXIT == False:
     dic = Arguments['dic']
     CS_(dic,'dic')
     exec(d2n('import ',module,'.default_values as default_values'))
-    exec(d2n('Topics = default_values.',dic))       
+    exec(d2n('Topics = default_values.',dic))
     menu(Topics,path)
     raw_enter(__file__+' done. ')
-
+    print 'done.'
 
 
 # python kzpy3/Menu_app/menu.py path ~/kzpy3/Cars/car_24July2018/nodes/__local__/arduino/ default 1 Topics arduino

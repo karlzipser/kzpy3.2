@@ -37,6 +37,7 @@ alias Data='python ~/kzpy3/Data_app/Main.py'
 alias pGraph='python ~/kzpy3/Grapher_app_for_preprocessed_data/Main.py'
 alias rGraph='python ~/kzpy3/Grapher_app_for_live_ros_data/Main.py'
 alias Train='ulimit -Sn 65000; python ~/kzpy3/Train_app/Train_SqueezeNet_31May3018/Main.py'
+alias Train_='ulimit -Sn 65000; python ~/kzpy3/Train_app/Train_SqueezeNet_31May3018_temp_sequential/Main.py'
 alias Train40='ulimit -Sn 65000; python ~/kzpy3/Train_app/Train_SqueezeNet_15Sept2018/Main.py'
 
 alias Localization='python ~/kzpy3/Localization_app/Main.py'

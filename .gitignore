@@ -1,6 +1,8 @@
 ## General (from caffe .gitignore)
 *__local_.py
 *.local.py
+*.net
+*.infer
 ready
 *.pkl
 Icon?

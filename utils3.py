@@ -180,6 +180,8 @@ def CS_(comment,section='',s='',say_comment=False,emphasis=False,exception=False
 	
 CS = CS_
 CS_('imported kzpy3.utils3')
+def cs(*args):
+	CS(d2s_spacer(args,spacer=' '))
 
 def zeroToOneRange(m):
 	min_n = 1.0*np.min(m)
