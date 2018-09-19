@@ -4,7 +4,7 @@ from kzpy3.utils2 import *
 
 
 host_file_path = opjh('hosts')
-host = os.environ['COMPUTER_NAME']
+host = os.environ['HOSTNAME']
 
 base_ip = '192.168.1.'
 #base_ip = '172.20.10.'
@@ -16,7 +16,7 @@ host_ip_dic = {
 	'Mr_Blue_Back':2,
 	'laptop':50,
 	'Mr_Purple':106,
-	'Mr_PurpleB0':12,
+	'Mr_B0':12,
 }
 
 alias_list = []
