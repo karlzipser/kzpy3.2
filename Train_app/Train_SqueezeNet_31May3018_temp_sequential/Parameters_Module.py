@@ -26,7 +26,7 @@ P['experiments_folders'] = [
 P['aruco_experiments_folders'] = []#[opjD('all_aruco_reprocessed')]#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-P['GPU'] = 1 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+P['GPU'] = 0 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 P['BATCH_SIZE'] = 64
 P['REQUIRE_ONE'] = []
 P['NETWORK_OUTPUT_FOLDER'] = opjk('Train_app','Train_SqueezeNet_31May3018_temp_sequential','__local__') #  'net_7Sept2018')#opjD('net_16Aug2018')#opjD('net_16Aug2018')# #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

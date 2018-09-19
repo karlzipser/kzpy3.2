@@ -52,11 +52,13 @@ def Net_Activity(*args):
                 D['imgs'][k][moment_indexv] = vis_square2(D['activiations'][k][moment_indexv],padval=0.5)
                 
     def _function_view(*args):
+        """
         Sizes = {
             'camera_input':(3,2),
             'pre_metadata_features_metadata':(3,3),
             'post_metadata_features':(2,2),
         }
+        """
         Args = args_to_dictionary(args)
         if 'scales' in Args:
             Scales = Args['scales']
@@ -93,13 +95,14 @@ def Net_Activity(*args):
                 continue
             print(k,Args['moment_index'])
             imgv = D['imgs'][k][Args['moment_index']]
+            """
             if k in Sizes:
                 figsize = Sizes[k]
             else:
                 figsize = False
+            """
             fig_name = d2s(k,P['start time'])
-            if figsize:
-                figure(fig_name,figsize=figsize)
+            figure(fig_name,figsize=(scalev,scalev))
             mi(imgv,fig_name)
             """
             imgv = z2o(imgv)*255

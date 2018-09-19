@@ -367,14 +367,14 @@ def Batch(the_network=None):
 				cv[-hv:,:wv,:] = z2o(bv[:,:,9:12])
 				cv[-hv:,-wv:,:] = z2o(bv[:,:,6:9])
 				print(d2s(i,'camera_data min,max =',av.min(),av.max()))
-				if P['loss_timer'].check() and len(P['LOSS_LIST_AVG'])>5:
+				if False:#P['loss_timer'].check() and len(P['LOSS_LIST_AVG'])>5:
 					figure('LOSS_LIST_AVG '+P['start time'],figsize=(3,8));clf();plot(P['LOSS_LIST_AVG'][1:],'.')
 					#figure('LOSS_LIST_AVG '+P['start time'],figsize=(1,6));clf();plot(P['LOSS_LIST_AVG'][1:],',')
 					spause()
 					P['loss_timer'].reset()
 				if True:
 					Net_activity = Activity_Module.Net_Activity('batch_num',i, 'activiations',D['network']['net'].A)
-					Net_activity['view']('moment_index',i,'delay',33, 'scales',{'camera_input':4,'pre_metadata_features':0,'pre_metadata_features_metadata':1,'post_metadata_features':2})
+					Net_activity['view']('moment_index',i,'delay',33, 'scales',{'camera_input':4,'pre_metadata_features':0,'pre_metadata_features_metadata':0,'post_metadata_features':0})
 				bm = 'unknown behavioral_mode'
 				for j in range(len(P['behavioral_modes'])):
 					if mv[-(j+1),0,0]:
@@ -404,7 +404,8 @@ def Batch(the_network=None):
 				if 'loss' in P['data_moments_indexed'][j]:
 					if len(P['data_moments_indexed'][j]['loss']) > 0:
 						loss_list.append(P['data_moments_indexed'][j]['loss'][-1])
-			figure('dm_ctrs '+P['start time'],figsize=(1,1));clf();plot(dm_ctrs,'.-');xlim(0,100)
+			if False:
+				figure('dm_ctrs '+P['start time'],figsize=(1,1));clf();plot(dm_ctrs,'.-');xlim(0,100)
 			P['dm_ctrs'] = dm_ctrs
 			#figure('loss_list');clf();hist(loss_list)
 			spause()

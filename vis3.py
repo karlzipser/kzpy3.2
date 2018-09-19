@@ -334,11 +334,11 @@ def isub(src,dst,xy):
 def pt_plot(xy,color='r'):
     plot(xy[0],xy[1],color+'.')
 
-def pts_plot(xys,color='r'):
+def pts_plot(xys,color='r',sym='.'):
     assert(len(color)==1)
     x = xys[:,0]
     y = xys[:,1]
-    plot(x,y,color+'.')
+    plot(x,y,color+sym)
 
         
 
