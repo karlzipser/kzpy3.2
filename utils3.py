@@ -1038,8 +1038,9 @@ except:
 try:
 	if username == 'nvidia':
 		pass
-    else:
-    	unix('nvidia-smi',print_stdout=True)
+	else:
+		unix('nvidia-smi',print_stdout=True)
+		
     HAVE_GPU = True
     CS_('HAVE_GPU = True')
 except:
