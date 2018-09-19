@@ -80,7 +80,7 @@ export PATH=~/kzpy3:$PATH
 
 #sudo rm /etc/hosts
 #rm ~/hosts
-make_hosts.py &
+#make_hosts.py &
 #sudo ln -s ~/hosts /etc/hosts
 
 
