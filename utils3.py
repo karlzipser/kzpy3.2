@@ -1036,13 +1036,13 @@ except:
 	CS_('HAVE_ROS = False')
 
 	try:
-		if username == 'nvidia':
-			pass
+		if username == 'nvidia' or:
+			HAVE_GPU = True
+			CS_('HAVE_GPU = True')
 		else:
 			unix('nvidia-smi',print_stdout=True)
-
-		HAVE_GPU = True
-		CS_('HAVE_GPU = True')
+			HAVE_GPU = True
+			CS_('HAVE_GPU = True')
 	except:
 		HAVE_GPU = False
 		CS_('HAVE_GPU = False')
