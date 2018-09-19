@@ -1036,6 +1036,7 @@ except:
 	CS_('HAVE_ROS = False')
 
 	try:
+		CS(username)
 		if username == 'nvidia':
 			HAVE_GPU = True
 			CS_('HAVE_GPU = True')
