@@ -65,75 +65,21 @@ alias sb='cd;source ~/.bashrc'
 #######################################################
 #
 if [ "$(whoami)" == "nvidia" ]
-then
+  then
+    export COMPUTER_NAME=$HOSTNAME
+    PS1="$COMPUTER_NAME> \W $ "
+    source /opt/ros/kinetic/setup.bash
+    source ~/catkin_ws/devel/setup.bash
+    #export PYTHONPATH=~:$PYTHONPATH
+    export PYTHONPATH=~/kzpy3:$PYTHONPATH
+    export PATH=~/kzpy3/utils:$PATH
+    export PATH=~/kzpy3:$PATH
 
-
-
-export COMPUTER_NAME=$HOSTNAME
-PS1="$COMPUTER_NAME> \W $ "
-source /opt/ros/kinetic/setup.bash
-source ~/catkin_ws/devel/setup.bash
-#export PYTHONPATH=~:$PYTHONPATH
-export PYTHONPATH=~/kzpy3:$PYTHONPATH
-export PATH=~/kzpy3/utils:$PATH
-export PATH=~/kzpy3:$PATH
-
-#sudo rm /etc/hosts
-#rm ~/hosts
-#make_hosts.py &
-echo "Not running make_hosts.py"
-#sudo ln -s ~/hosts /etc/hosts
-
-
-
-echo Hi $COMPUTER_NAME on Jetson
-echo "rrm;rlog"
-rrm
-rlog
-OPTIONS="exit screen rla rlanz rosbags git_pull reboot shutdown rostopics arduino_node_menu network_node_menu df car_link_menu"
-COLUMNS=12
-echo 'main menu'
-select opt in $OPTIONS; do
-   COLUMNS=12
-   if [ "$opt" = "reboot" ]; then
-    echo "Rebooting . . ."
-    sudo reboot
-   elif [ "$opt" = "shutdown" ]; then
-    echo "Shutting down . . ."
-    ssd
-   elif [ "$opt" = "rlanz" ]; then
-    rlanz
-   elif [ "$opt" = "rla" ]; then
-    rrm;rlog;roslaunch bair_car bair_car.launch use_zed:=true record:=true
-   elif [ "$opt" = "car_link_menu" ]; then
-    ~/kzpy3/Cars/car_link_menu.sh
-    elif [ "$opt" = "net_menu" ]; then
-      bash ~/kzpy3/Cars/car_16July2018_stable/scripts/net_menu.sh
-   elif [ "$opt" = "rosbags" ]; then
-    check_rosbags.py
-   elif [ "$opt" = "rostopics" ]; then
-    python ~/catkin_ws/src/bair_car/scripts/rostopics.py
-   elif [ "$opt" = "arduino_node_menu" ]; then
-    python kzpy3/Menu_app/menu.py path ~/kzpy3/Cars/car_24July2018/nodes/__local__/arduino/ default 1 Topics arduino
-    #python ~/kzpy3/Menu_app/node_menu.py NODE arduino
-   elif [ "$opt" = "network_node_menu" ]; then
-    python kzpy3/Menu_app/menu.py path ~/kzpy3/Cars/car_24July2018/nodes/__local__/network/ default 1 Topics network
-    #python ~/kzpy3/Menu_app/node_menu.py NODE network
-   elif [ "$opt" = "git_pull" ]; then
-    cd ~/kzpy3
-    git pull
-    cd
-   elif [ "$opt" = "screen" ]; then
-    screen # bash ~/kzpy3/Cars/screen_menu.sh
-   elif [ "$opt" = "exit" ]; then
-    break 
-   elif [ "$opt" = "df" ]; then
-    df 
-   else
-    #clear
-    echo bad option
-   fi
-done
+    sudo rm /etc/hosts
+    rm ~/hosts
+    make_hosts.py &
+    #echo "Not running make_hosts.py"
+    sudo ln -s ~/hosts /etc/hosts
 fi
 #
 #######################################################
