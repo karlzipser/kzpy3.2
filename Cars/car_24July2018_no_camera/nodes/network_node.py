@@ -225,9 +225,9 @@ while not rospy.is_shutdown():
             motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
 #*****
         if rand_timer.check():
-            random_motor = 58
+            random_motor = 56
             random_steer += (np.random.randint(10)-5)
-            random_motor = bound_value(random_steer,0,99)
+            random_steer = bound_value(random_steer,0,99)
             random_motor = bound_value(random_motor,0,99)
             rand_timer.reset()
         camera_cmd_pub.publish(std_msgs.msg.Int32(49))
