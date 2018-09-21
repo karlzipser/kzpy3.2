@@ -221,7 +221,7 @@ while not rospy.is_shutdown():
 #*****
         camera_cmd_pub.publish(std_msgs.msg.Int32(35))
         steer_cmd_pub.publish(std_msgs.msg.Int32(35))
-        motor_cmd_pub.publish(std_msgs.msg.Int32(54))
+        motor_cmd_pub.publish(std_msgs.msg.Int32(49))
 
 
 
