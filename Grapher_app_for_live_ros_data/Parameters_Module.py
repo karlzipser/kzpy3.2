@@ -40,6 +40,10 @@ P[TOPICS] = {
 	gyro_z:{maxval:60,		minval:-60,	baseline:0,		color:gyro_color},
 	gyro_heading_x:{maxval:360,minval:-180,	baseline:0,		color:(255,200,200)},
 	left_ts_deltas:{maxval:0.1,minval:0,	baseline:0,		color:(0,0,255)},
+}
+for f in flex_names:
+	P[TOPICS][f] = {maxval:20000,		minval:10000,	baseline:15000,		color:(255,255,255)}
+"""
 	'FL0':{maxval:20000,		minval:0,	baseline:0,		color:(255,255,255)},
 	'FL1':{maxval:20000,		minval:0,	baseline:0,		color:(255,255,255)},
 	'FL2':{maxval:20000,		minval:0,	baseline:0,		color:(255,255,255)},
@@ -48,6 +52,7 @@ P[TOPICS] = {
 	'FR1':{maxval:20000,		minval:0,	baseline:0,		color:(255,255,255)},
 	'FR2':{maxval:20000,		minval:0,	baseline:0,		color:(255,255,255)},
 	'FR3':{maxval:20000,		minval:0,	baseline:0,		color:(255,255,255)},
+"""
 }
 P['topic_keys_sorted'] = [
 	acc_x,
@@ -63,6 +68,9 @@ P['topic_keys_sorted'] = [
 	#gyro_heading_x,
 	#left_ts_deltas,
 	encoder,
+	]
+P['topic_keys_sorted'] += flex_names
+"""
 	'FL0',
 	'FL1',
 	'FL2',
@@ -71,7 +79,7 @@ P['topic_keys_sorted'] = [
 	'FR1',
 	'FR2',
 	'FR3',]
-
+"""
 P[X_PIXEL_SIZE] = 800
 P[Y_PIXEL_SIZE] = 1600
 P[SCREEN_X] = 20
