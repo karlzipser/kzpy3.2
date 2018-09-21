@@ -20,7 +20,7 @@ alias rcn='echo $COMPUTER_NAME'
 alias rivl='rosrun image_view image_view image:=/bair_car/zed/left/image_rect_color'
 alias rivr='rosrun image_view image_view image:=/bair_car/zed/right/image_rect_color'
 alias zed_explorer='/usr/local/zed/tools/ZED\ Explorer'
-alias rply='python ~/kzpy3/scripts/rosplay.py'
+alias rply='python ~/kzpy3/scripts/rosplay_menu.py'
 alias fixScreen='DISPLAY=:0 xrandr --output HDMI-0 --mode 1024x768'
 
 alias kx='killall xterm'
