@@ -32,7 +32,7 @@ P[TOPICS] = {
 	'cmd/motor':{maxval:80,		minval:20,		baseline:49.0,	color:(0,255,255)},
 	motor:{maxval:80,		minval:49,		baseline:49.0,	color:(0,0,255)},
 	state:{maxval:6,		minval:-10,		baseline:0,		color:(128,128,128)},
-	encoder:{maxval:4,		minval:0,		baseline:0,		color:(0,128,128)},
+	encoder:{maxval:4,		minval:0,		baseline:0,		color:(255,128,128)},
 	acc_x:{maxval:10,		minval:-10,		baseline:0,		color:acc_color},
 	acc_y:{maxval:10,		minval:-10,		baseline:0,		color:acc_color},
 	acc_z:{maxval:10-9.80,	minval:-10,		baseline:0,		color:acc_color},
@@ -54,7 +54,7 @@ for f in flex_names:
 	'FR2':{maxval:20000,		minval:0,	baseline:0,		color:(255,255,255)},
 	'FR3':{maxval:20000,		minval:0,	baseline:0,		color:(255,255,255)},
 """
-#}
+##}
 P['topic_keys_sorted'] = [
 	acc_x,
 	acc_y,
