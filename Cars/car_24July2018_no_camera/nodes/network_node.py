@@ -147,102 +147,25 @@ rand_timer = Timer(5)
 
 while not rospy.is_shutdown():
 
-    if False:
-        if node_timer.time() > 10:
-            if len(left_list) == 0:
-                for i in range(5):
-                    pass
-                    #CS_("empty image list after 30s, ABORTING, rebooting!!!!!",emphasis=True)
-                #default_values.EXIT(restart=False,shutdown=False,kill_ros=True,_file_=__file__)
-        
-        if len(left_list) > 0:
-            if image_sample_timer.check():
-                img = left_list[1]
-                print(img[0:15,0,0])
-                print np.sum(img[0:100,0,0])
-                image_sample_timer.reset()
-
-    time.sleep(0.001)
-    Hz = frequency_timer.freq(name='Hz_network',do_print=False)
-    if is_number(Hz):
-        if low_frequency_pub_timer.check():
-            Hz_network_pub.publish(std_msgs.msg.Float32(Hz))
-            low_frequency_pub_timer.reset()
-
-    s1 = N['network_motor_smoothing_parameter']
-    s2 = N['network_servo_smoothing_parameter']
-    s3 = N['network_camera_smoothing_parameter']
 
     if human_agent == 0 and drive_mode == 1:
         #*****
 
-        if False:
-            if len(left_list) > nframes + 2:
-                camera_data = Torch_network['format_camera_data'](left_list,right_list)
-                metadata = Torch_network['format_metadata']((direct,follow,furtive,play,left,right)) #((right,left,play,furtive,follow,direct))
-                torch_motor, torch_steer = Torch_network['run_model'](camera_data, metadata, N)
-                """
-                Torch_network['output'] should contain full output array of network
-                """
-
-
-                if 'Do smoothing of percents...':
-                    current_camera = (1.0-s3)*torch_steer + s3*current_camera
-                    current_steer = (1.0-s2)*torch_steer + s2*current_steer
-                    current_motor = (1.0-s1)*torch_motor + s1*current_motor
-
-                if button_just_changed:
-                    #print "button_just_changed"
-                    button_just_changed = False
-                    if left:
-                        pass
-                        #print('left')
-                        #current_camera = 99
-                    elif right:
-                        pass
-                        #current_camera = 0
-                        #print('right')
-                    else:
-                        current_camera = 49
-                        #print('center')
-
-                adjusted_motor = int(N['network_motor_gain']*(current_motor-49) + N['network_motor_offset'] + 49)
-                adjusted_steer = int(N['network_steer_gain']*(current_steer-49) + 49)
-                adjusted_camera = int(N['network_camera_gain']*(current_camera-49) + 49)
-
-
-
-                #print left,right
-
-
-
-
-                adjusted_motor = bound_value(adjusted_motor,0,99)
-                adjusted_steer = bound_value(adjusted_steer,0,99)
-                adjusted_camera = bound_value(adjusted_camera,0,99)
-
-            camera_cmd_pub.publish(std_msgs.msg.Int32(adjusted_camera))
-            steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
-            motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
 #*****
-    if rand_timer.check():
-        random_motor = 56
-        random_steer += (np.random.randint(10)-5)
-        random_steer = bound_value(random_steer,0,99)
-        random_motor = bound_value(random_motor,0,99)
-        rand_timer.reset()
-    camera_cmd_pub.publish(std_msgs.msg.Int32(49))
-    steer_cmd_pub.publish(std_msgs.msg.Int32(random_steer))
-    motor_cmd_pub.publish(std_msgs.msg.Int32(random_motor))
+        if rand_timer.check():
+            random_motor = 56
+            random_steer += (np.random.randint(10)-5)
+            random_steer = bound_value(random_steer,0,99)
+            random_motor = bound_value(random_motor,0,99)
+            rand_timer.reset()
+            print random_steer,random_motor
+        camera_cmd_pub.publish(std_msgs.msg.Int32(49))
+        steer_cmd_pub.publish(std_msgs.msg.Int32(random_steer))
+        motor_cmd_pub.publish(std_msgs.msg.Int32(random_motor))
 
-
-
-        if N['visualize_activations']:
-            Net_activity = Activity_Module.Net_Activity('batch_num',0, 'activiations',Torch_network['solver'].A)
-            Net_activity['view']('moment_index',0,'delay',1, 'scales',{'camera_input':1,'pre_metadata_features':0,'pre_metadata_features_metadata':1,'post_metadata_features':1})
-            cv2.waitKey(1)#spause()
 
     else:
+        print 'waiting...'
         time.sleep(0.1)
 
 CS_('goodbye!',__file__)
