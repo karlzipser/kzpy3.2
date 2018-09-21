@@ -53,7 +53,7 @@ for f in flex_names:
 	'FR2':{maxval:20000,		minval:0,	baseline:0,		color:(255,255,255)},
 	'FR3':{maxval:20000,		minval:0,	baseline:0,		color:(255,255,255)},
 """
-}
+#}
 P['topic_keys_sorted'] = [
 	acc_x,
 	acc_y,
