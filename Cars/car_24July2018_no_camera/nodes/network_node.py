@@ -220,7 +220,7 @@ while not rospy.is_shutdown():
             motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
 #*****
         camera_cmd_pub.publish(std_msgs.msg.Int32(35))
-        steer_cmd_pub.publish(std_msgs.msg.Int32(35))
+        steer_cmd_pub.publish(std_msgs.msg.Int32(53))
         motor_cmd_pub.publish(std_msgs.msg.Int32(58))
 
 
