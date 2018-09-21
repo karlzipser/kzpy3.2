@@ -147,13 +147,14 @@ rand_timer = Timer(5)
 
 while not rospy.is_shutdown():
 
-    if node_timer.time() > 10:
-        if len(left_list) == 0:
-            for i in range(5):
-                pass
-                #CS_("empty image list after 30s, ABORTING, rebooting!!!!!",emphasis=True)
-            #default_values.EXIT(restart=False,shutdown=False,kill_ros=True,_file_=__file__)
     if False:
+        if node_timer.time() > 10:
+            if len(left_list) == 0:
+                for i in range(5):
+                    pass
+                    #CS_("empty image list after 30s, ABORTING, rebooting!!!!!",emphasis=True)
+                #default_values.EXIT(restart=False,shutdown=False,kill_ros=True,_file_=__file__)
+        
         if len(left_list) > 0:
             if image_sample_timer.check():
                 img = left_list[1]
@@ -224,15 +225,15 @@ while not rospy.is_shutdown():
             steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
             motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
 #*****
-        if rand_timer.check():
-            random_motor = 56
-            random_steer += (np.random.randint(10)-5)
-            random_steer = bound_value(random_steer,0,99)
-            random_motor = bound_value(random_motor,0,99)
-            rand_timer.reset()
-        camera_cmd_pub.publish(std_msgs.msg.Int32(49))
-        steer_cmd_pub.publish(std_msgs.msg.Int32(random_steer))
-        motor_cmd_pub.publish(std_msgs.msg.Int32(random_motor))
+    if rand_timer.check():
+        random_motor = 56
+        random_steer += (np.random.randint(10)-5)
+        random_steer = bound_value(random_steer,0,99)
+        random_motor = bound_value(random_motor,0,99)
+        rand_timer.reset()
+    camera_cmd_pub.publish(std_msgs.msg.Int32(49))
+    steer_cmd_pub.publish(std_msgs.msg.Int32(random_steer))
+    motor_cmd_pub.publish(std_msgs.msg.Int32(random_motor))
 
 
 
