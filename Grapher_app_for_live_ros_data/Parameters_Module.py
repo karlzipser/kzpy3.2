@@ -16,7 +16,7 @@ for fb in ['F']:
 #flex_names.append('xan0')
             
 R = {}
-for topic_ in ['cmd/steer','steer', 'motor', 'state', 'encoder',
+for topic_ in ['cmd/steer','cmd/motor','steer', 'motor', 'state', 'encoder',
 	'acc_x','acc_y','acc_z',
 	'gyro_x','gyro_y','gyro_z',
 	gyro_heading_x,gyro_heading_y,gyro_heading_z,
@@ -28,7 +28,8 @@ acc_color = (255,255,0)
 gyro_color = (255,0,255)
 P[TOPICS] = {
 	steer:{maxval:80,		minval:20,		baseline:49.0,	color:(255,0,0)},
-	'cmd/steer':{maxval:80,		minval:20,		baseline:49.0,	color:(255,255,255)},
+	'cmd/steer':{maxval:80,		minval:20,		baseline:49.0,	color:(255,255,0)},
+	'cmd/motor':{maxval:80,		minval:20,		baseline:49.0,	color:(0,255,255)},
 	motor:{maxval:80,		minval:49,		baseline:49.0,	color:(0,0,255)},
 	state:{maxval:6,		minval:-10,		baseline:0,		color:(128,128,128)},
 	encoder:{maxval:4,		minval:0,		baseline:0,		color:(0,128,128)},

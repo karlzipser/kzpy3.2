@@ -56,6 +56,10 @@ def cmd_steer__callback(msg):
 	R['cmd/steer']['ts'].append(time.time())
 	R['cmd/steer']['vals'].append(msg.data)
 
+def cmd_motor__callback(msg):
+	R['cmd/motor']['ts'].append(time.time())
+	R['cmd/motor']['vals'].append(msg.data)
+
 def motor__callback(msg):
 	R['motor']['ts'].append(time.time())
 	R['motor']['vals'].append(msg.data)
@@ -117,6 +121,7 @@ rospy.Subscriber('/bair_car/FLEX', std_msgs.msg.Int32, callback=FLEX__callback)
 
 rospy.Subscriber('/bair_car/steer', std_msgs.msg.Int32, callback=steer__callback)
 rospy.Subscriber('/bair_car/cmd/steer', std_msgs.msg.Int32, callback=cmd_steer__callback)
+rospy.Subscriber('/bair_car/cmd/motor', std_msgs.msg.Int32, callback=cmd_motor__callback)
 rospy.Subscriber('/bair_car/motor', std_msgs.msg.Int32, callback=motor__callback)
 rospy.Subscriber('/bair_car/state', std_msgs.msg.Int32, callback=state__callback)
 rospy.Subscriber('/bair_car/encoder', std_msgs.msg.Float32, callback=encoder__callback)
