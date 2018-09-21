@@ -141,6 +141,9 @@ node_timer = Timer()
 
 Torch_network = net_utils.Torch_Network(N)
 
+#*****
+random_motor,random_steer = 49,49
+
 while not rospy.is_shutdown():
 
     if node_timer.time() > 10:
@@ -170,6 +173,7 @@ while not rospy.is_shutdown():
 
     if human_agent == 0 and drive_mode == 1:
         #*****
+
         if False:
             if len(left_list) > nframes + 2:
                 camera_data = Torch_network['format_camera_data'](left_list,right_list)
@@ -219,9 +223,13 @@ while not rospy.is_shutdown():
             steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
             motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
 #*****
-        camera_cmd_pub.publish(std_msgs.msg.Int32(35))
-        steer_cmd_pub.publish(std_msgs.msg.Int32(53))
-        motor_cmd_pub.publish(std_msgs.msg.Int32(58))
+        random_motor = 58
+        random_steer += (np.randint(10)-5)
+        random_motor = bound_value(random_steer,0,99)
+        random_motor = bound_value(random_motor,0,99)
+        camera_cmd_pub.publish(std_msgs.msg.Int32(49))
+        steer_cmd_pub.publish(std_msgs.msg.Int32(random_steer))
+        motor_cmd_pub.publish(std_msgs.msg.Int32(random_motor))
 
 
 
