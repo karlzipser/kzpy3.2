@@ -153,7 +153,7 @@ while not rospy.is_shutdown():
 
 #*****
         if rand_timer.check():
-            random_motor = 56
+            random_motor = 54
             random_steer += (np.random.randint(10)-5)
             random_steer = bound_value(random_steer,0,99)
             random_motor = bound_value(random_motor,0,99)
