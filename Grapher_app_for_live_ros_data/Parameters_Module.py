@@ -6,14 +6,14 @@ _ = dictionary_access
 
 P = {}
 P['USE_ARUCO'] = False
-P['USE_IMAGES'] = True
+P['USE_IMAGES'] = False
 
 flex_names = []
-for fb in ['f','b']:
-    for lr in ['l','r','c']:
-        for i in [0,1]:
-            flex_names.append(d2n('x',fb,lr,i))
-flex_names.append('xan0')
+for fb in ['F']:
+    for lr in ['L','R']:
+        for i in [0,1,2,3]:
+            flex_names.append(d2n(fb,lr,i))
+#flex_names.append('xan0')
             
 R = {}
 for topic_ in ['cmd/steer','steer', 'motor', 'state', 'encoder',
@@ -40,16 +40,15 @@ P[TOPICS] = {
 	gyro_z:{maxval:60,		minval:-60,	baseline:0,		color:gyro_color},
 	gyro_heading_x:{maxval:360,minval:-180,	baseline:0,		color:(255,200,200)},
 	left_ts_deltas:{maxval:0.1,minval:0,	baseline:0,		color:(0,0,255)},
-	'xfl0':{maxval:100,		minval:-50,	baseline:0,		color:(255,255,255)},
-	'xfl1':{maxval:100,		minval:-50,	baseline:0,		color:(255,255,255)},
-	'xfc0':{maxval:100,		minval:-50,	baseline:0,		color:(255,255,255)},
-	'xan0':{maxval:100,		minval:-50,	baseline:0,		color:(255,255,0)},
-	'xfr0':{maxval:100,		minval:-50,	baseline:0,		color:(255,255,255)},
-	'xfr1':{maxval:100,		minval:-50,	baseline:0,		color:(255,255,255)},
-	'xbl0':{maxval:100,		minval:-50,	baseline:0,		color:(255,255,255)},
-	'xbl1':{maxval:100,		minval:-50,	baseline:0,		color:(255,255,255)},
-	'xbr0':{maxval:100,		minval:-50,	baseline:0,		color:(255,255,255)},
-	'xbr1':{maxval:100,		minval:-50,	baseline:0,		color:(255,255,255)},
+	'FL0':{maxval:100,		minval:-50,	baseline:0,		color:(255,255,255)},
+	'FL1':{maxval:100,		minval:-50,	baseline:0,		color:(255,255,255)},
+	'FL2':{maxval:100,		minval:-50,	baseline:0,		color:(255,255,255)},
+	'FL3':{maxval:100,		minval:-50,	baseline:0,		color:(255,255,255)},
+	'FR0':{maxval:100,		minval:-50,	baseline:0,		color:(255,255,255)},
+	'FR1':{maxval:100,		minval:-50,	baseline:0,		color:(255,255,255)},
+	'FR2':{maxval:100,		minval:-50,	baseline:0,		color:(255,255,255)},
+	'FR3':{maxval:100,		minval:-50,	baseline:0,		color:(255,255,255)},
+
 }
 P['topic_keys_sorted'] = [
 	acc_x,
@@ -62,19 +61,16 @@ P['topic_keys_sorted'] = [
 	steer,
 	#motor,
 	#gyro_heading_x,
-	left_ts_deltas,
+	#left_ts_deltas,
 	encoder,
-	'xfl0',
-	'xfl1',
-	'xfc0',
-	'xan0',
-	'xfr0',
-	'xfr1',
-	'xbl0',
-	'xbl1',
-	'xbr0',
-	'xbr1',
-]
+	'FL0',
+	'FL1',
+	'FL2',
+	'FL3',
+	'FR0',
+	'FR1',
+	'FR2',
+	'FR3',]
 
 P[X_PIXEL_SIZE] = 800
 P[Y_PIXEL_SIZE] = 1600
