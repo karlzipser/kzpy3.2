@@ -43,7 +43,7 @@ P[TOPICS] = {
 	left_ts_deltas:{maxval:0.1,minval:0,	baseline:0,		color:(0,0,255)},
 }
 for f in flex_names:
-	P[TOPICS][f] = {maxval:13000,		minval:11000,	baseline:12000,		color:(255,255,255)}
+	P[TOPICS][f] = {maxval:3000,		minval:-100,	baseline:0,		color:(200,255,255)}
 """
 	'FL0':{maxval:20000,		minval:0,	baseline:0,		color:(255,255,255)},
 	'FL1':{maxval:20000,		minval:0,	baseline:0,		color:(255,255,255)},
