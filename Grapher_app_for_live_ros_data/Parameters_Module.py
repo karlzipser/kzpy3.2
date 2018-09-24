@@ -10,7 +10,7 @@ P['USE_IMAGES'] = False
 
 flex_names = []
 for fb in ['F']:
-    for lr in ['L','R']:
+    for lr in ['L','R','C']:
         for i in [0,1,2,3]:
             flex_names.append(d2n(fb,lr,i))
 #flex_names.append('xan0')
@@ -44,16 +44,7 @@ P[TOPICS] = {
 }
 for f in flex_names:
 	P[TOPICS][f] = {maxval:3000,		minval:-100,	baseline:0,		color:(200,255,255)}
-"""
-	'FL0':{maxval:20000,		minval:0,	baseline:0,		color:(255,255,255)},
-	'FL1':{maxval:20000,		minval:0,	baseline:0,		color:(255,255,255)},
-	'FL2':{maxval:20000,		minval:0,	baseline:0,		color:(255,255,255)},
-	'FL3':{maxval:20000,		minval:0,	baseline:0,		color:(255,255,255)},
-	'FR0':{maxval:20000,		minval:0,	baseline:0,		color:(255,255,255)},
-	'FR1':{maxval:20000,		minval:0,	baseline:0,		color:(255,255,255)},
-	'FR2':{maxval:20000,		minval:0,	baseline:0,		color:(255,255,255)},
-	'FR3':{maxval:20000,		minval:0,	baseline:0,		color:(255,255,255)},
-"""
+
 ##}
 P['topic_keys_sorted'] = [
 	acc_x,
@@ -71,16 +62,7 @@ P['topic_keys_sorted'] = [
 	encoder,
 	]
 P['topic_keys_sorted'] += flex_names
-"""
-	'FL0',
-	'FL1',
-	'FL2',
-	'FL3',
-	'FR0',
-	'FR1',
-	'FR2',
-	'FR3',]
-"""
+
 P[X_PIXEL_SIZE] = 800
 P[Y_PIXEL_SIZE] = 1600
 P[SCREEN_X] = 20
