@@ -20,7 +20,7 @@ P['experiments_folders'] = [
 	#opjD('bdd_car_data_July2017_LCR/locations'),
 	#opjm('preprocessed_1b/model_car_data_June2018_LCR/locations'),
 	#opjm('preprocessed_1b/model_car_data_July2018_lrc/locations'),
-	opjm("transfer/model_car_data_July2018_lrc/locations"),
+	opjD("model_car_data_July2018_lrc/locations"),
 ]
 
 P['aruco_experiments_folders'] = []#[opjD('all_aruco_reprocessed')]#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

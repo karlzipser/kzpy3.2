@@ -80,6 +80,9 @@ for im in import_list + import_from_list + import_as_list:
 
 na = np.array
 
+def beep():
+	print('\007')
+
 def print_stars(n=1):
 	for i in range(n):
 		print("""*************************************************""")

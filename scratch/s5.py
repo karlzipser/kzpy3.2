@@ -93,3 +93,33 @@ if True:
 			spause()
 			print i
 ###stop
+
+
+if False:
+    for i in range(100):
+        clear_screen()
+        teams_list = ["Man Utd", "Man City", "T Hotspur"]
+        data = np.random.rand(3,3)
+
+        row_format ="{:>15}" * (len(teams_list) + 1)
+        print row_format.format("", *teams_list)
+
+        for team, row in zip(teams_list, data):
+            print row_format.format(team, *row)
+        time.sleep(.1)
+
+
+    for i in range(100):
+        unix("cd /anaconda/bin/; play  -n synth 60 brownnoise vol 1 &")
+
+    CA()
+    random_steer = 49
+    random_steer_lst = []
+    for i in range(10000):
+        random_steer = np.random.randint(20,80)#-5)
+        random_steer = bound_value(random_steer,0,99)
+        random_steer_lst.append(random_steer)
+    from kzpy3.vis3 import *
+    hist(random_steer_lst)
+        
+#EOF
