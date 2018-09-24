@@ -42,9 +42,10 @@ P[TOPICS] = {
 	gyro_heading_x:{maxval:360,minval:-180,	baseline:0,		color:(255,200,200)},
 	left_ts_deltas:{maxval:0.1,minval:0,	baseline:0,		color:(0,0,255)},
 }
+ctr = 0
 for f in flex_names:
-	P[TOPICS][f] = {maxval:3000,		minval:-100,	baseline:0,		color:(200,255,255)}
-
+	P[TOPICS][f] = {maxval:3000,		minval:-100,	baseline:0,		color:(0+10*ctr,255,255)}
+	ctr += 1
 ##}
 P['topic_keys_sorted'] = [
 	acc_x,

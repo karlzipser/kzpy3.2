@@ -86,9 +86,9 @@
             /$(arg car_name)/FR2
             /$(arg car_name)/FR3
             /$(arg car_name)/FC0
-            /$(arg car_name)/TC0
-            /$(arg car_name)/SL0
-            /$(arg car_name)/SR0
+            /$(arg car_name)/FC1
+            /$(arg car_name)/FC2
+            /$(arg car_name)/FC3
             /$(arg car_name)/GPS_latitudeDegrees
             /$(arg car_name)/GPS_longitudeDegrees
             /$(arg car_name)/GPS_speed

@@ -112,9 +112,9 @@ flex_names = [
 	'FR2',
 	'FR3',
 	'FC0',
-	'TC0',
-	'SL0',
-	'SR0',
+	'FC1',
+	'FC2',
+	'FC3',
 ]
 
 for f in flex_names:
