@@ -44,7 +44,8 @@ P[TOPICS] = {
 }
 ctr = 0
 for f in flex_names:
-	P[TOPICS][f] = {maxval:3000,		minval:-100,	baseline:0,		color:(bound_value(20*ctr,0,255),255,255)}
+	c = bound_value(20*ctr,0,255)
+	P[TOPICS][f] = {maxval:3000,		minval:-100,	baseline:0,		color:(c,255-c,127)}
 	ctr += 1
 ##}
 P['topic_keys_sorted'] = [
