@@ -46,8 +46,7 @@ ctr = 0
 for f in flex_names:
 	if 'C' in f:
 		b = 0
-	elif:
-		'R' in f:
+	elif 'R' in f:
 		b = 128
 	elif 'L' in f:
 		b = 255
