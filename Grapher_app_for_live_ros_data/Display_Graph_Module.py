@@ -146,8 +146,10 @@ def Display_Graph(*args):
 				baseline_vals_ = 0*ts_ + P[TOPICS][topic_][baseline]
 				baseline_color_ = (64,64,64)
 
-				I[topic_][ptsplot](x,ts_, y,vals_, color,P[TOPICS][topic_][color])
 				I[topic_][ptsplot](x,ts_, y,baseline_vals_, color,baseline_color_)
+
+				I[topic_][ptsplot](x,ts_, y,vals_, color,P[TOPICS][topic_][color])
+				
 	D[graph_topics] = _function_graph_topics
 
 	def _function_show(*args):
