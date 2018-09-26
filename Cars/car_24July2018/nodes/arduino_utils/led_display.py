@@ -90,7 +90,10 @@ def _LED_Display_run_loop(P):
             time.sleep(0.001)
         except Exception as e:
             pd2s("led_display.py Exception:",e)
-            pass
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            CS_('Exception!',emphasis=True)
+            CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
     P['Arduinos']['SIG'].write('(11119)')         
     print d2s('end _LED_Display_run_loop, ran for',dp(run_timer.time(),1),'seconds')
 
