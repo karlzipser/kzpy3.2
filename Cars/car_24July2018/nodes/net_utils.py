@@ -11,18 +11,24 @@ import rospy
 spd2s("!!!!! note: from nets.SqueezeNet_ import SqueezeNet !!!!");time.sleep(3)
 
 def Torch_Network(N):
-    D = {}
-    D['save_data'] = torch.load(N['weight_file_path'])
-    print("Torch_Network(N):: Loaded "+N['weight_file_path'])
-    model_type = N['weight_file_path'].split('.')[-1]
-    assert(model_type in ['SqueezeNet','z2_color'])
-    if model_type == 'SqueezeNet':
-        D['solver'] = SqueezeNet().cuda()
-    D['solver'].load_state_dict(D['save_data']['net'])
-    D['solver'].eval()
-    D['nframes'] = D['solver'].N_FRAMES
-    D['scale'] = nn.AvgPool2d(kernel_size=3, stride=2, padding=1).cuda()
-
+    try:
+        D = {}
+        D['save_data'] = torch.load(N['weight_file_path'])
+        print("Torch_Network(N):: Loading "+N['weight_file_path'])
+        model_type = N['weight_file_path'].split('.')[-1]
+        assert(model_type in ['SqueezeNet','z2_color'])
+        if model_type == 'SqueezeNet':
+            D['solver'] = SqueezeNet().cuda()
+        D['solver'].load_state_dict(D['save_data']['net'])
+        D['solver'].eval()
+        print("Torch_Network(N):: Loading complete.")
+        D['nframes'] = D['solver'].N_FRAMES
+        D['scale'] = nn.AvgPool2d(kernel_size=3, stride=2, padding=1).cuda()
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        CS_('Exception!',emphasis=True)
+        CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)        
     def _run_model(input,metadata,N):
         D['output'] = D['solver'](input, Variable(metadata))
         torch_motor = 100 * D['output'][0][10+N['network_output_sample']].data[0]
