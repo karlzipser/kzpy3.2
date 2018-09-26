@@ -23,6 +23,7 @@ def _LED_Display_run_loop(P):
         frequency_timer.freq(name='_LED_Display_run_loop',do_print=P['print_led_freq'])
         if 'Brief sleep to allow other threads to process...':
             time.sleep(0.03)
+        continue
         try:
             read_str = P['Arduinos']['SIG'].readline()
             if flush_timer.check():
