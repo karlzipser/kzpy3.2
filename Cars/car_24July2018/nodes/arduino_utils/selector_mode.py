@@ -101,7 +101,7 @@ def _selector_run_loop(P):
                                             elif agent_choice == 'network':
                                                 color = 200
                                             P['LED_number']['current'] = 11000+color+A[theme][kind]['led']
-                                            cs('agent_choice =',agent_choice)
+                                            #cs('agent_choice =',agent_choice)
                         elif P[theme] != False:
                             kind = P[theme]
                             if P['button_number'] == A[theme][kind]['button']:

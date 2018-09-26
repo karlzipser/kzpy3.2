@@ -1,5 +1,5 @@
 clear
-
+echo "Start kzpy3/bashrc..."
 alias ls='ls -al'
 alias rhz='rostopic hz /bair_car/zed/left/image_rect_color'
 alias rls='ls -al /media/nvidia/rosbags'
@@ -93,4 +93,5 @@ export cmenu='kzpy3/Menu_app'
 export cdata='kzpy3/Data_app'
 export PYTHONPATH=~/kzpy3:$PYTHONPATH
 
+echo "...End kzpy3/bashrc"
 #EOF
