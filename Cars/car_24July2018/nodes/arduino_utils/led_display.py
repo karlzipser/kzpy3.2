@@ -95,6 +95,7 @@ def _LED_Display_run_loop(P):
             file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             CS_('Exception!',emphasis=True)
             CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+            time.sleep(1)
     P['Arduinos']['SIG'].write('(11119)')         
     print d2s('end _LED_Display_run_loop, ran for',dp(run_timer.time(),1),'seconds')
 
