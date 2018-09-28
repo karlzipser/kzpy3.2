@@ -29,9 +29,11 @@ alias rosdo="sudo chmod -R 777 /media/$(whoami)/rosbags*"
 alias ssx='screen -S SX'
 alias ssy='screen -S SY'
 alias ssz='screen -S SZ'
+alias ssa='screen -S SA'
 alias srx='screen -r SX'
 alias sry='screen -r SY'
 alias srz='screen -r SZ'
+alias sra='screen -r SA'
 
 alias Data='python ~/kzpy3/Data_app/Main.py'
 alias pGraph='python ~/kzpy3/Grapher_app_for_preprocessed_data/Main.py'
