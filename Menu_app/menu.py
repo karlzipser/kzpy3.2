@@ -10,13 +10,20 @@ def menu(Topics,path):
     choice_number = 0
     Number_name_binding = {}
     Name_number_binding = {}
+    """
+    if 'clear_screen' not in Topics:
+        Topics['clear_screen'] = True
+        Topics['to_expose'].append('clear_screen')
+    print Topics
+    raw_enter()
+    """
 
     while EXIT == False:
 
         try:
 
-
-            clear_screen()
+            if Topics['clear_screen']:
+                clear_screen()
 
             ctr = 1
             Number_name_binding[ctr]='exit';cprint(d2n(ctr,') ',Number_name_binding[ctr]),'yellow');ctr+=1
@@ -203,8 +210,8 @@ def save_topics(Topics,path):
         pass
     #unix(d2n('rm ',opj(path,'ready')))
     #unix(d2n('rm ',opj(path,'Topics.pkl')))
-    so(Topics,opj(path,'__local__','Topics.pkl'))
-    text_to_file(opj(path,'__local__','ready'),'')
+    so(Topics,opjh(path,'__local__','Topics.pkl'))
+    text_to_file(opjh(path,'__local__','ready'),'')
     #unix('touch '+opj(path,'ready'))
 
 def print_exposed(Topics):
@@ -289,7 +296,7 @@ if __name__ == '__main__':# and EXIT == False:
     exec(d2n('import ',module,'.default_values as default_values'))
     exec(d2n('Topics = default_values.',dic))
     menu(Topics,path)
-    raw_enter(__file__+' done. ')
+    #raw_enter(__file__+' done. ')
     print 'done.'
 
 

@@ -20,7 +20,7 @@ while M['ABORT'] == False:
     #q = raw_input()
     #if q == 'q':
     #    Parameters['ABORT'] = True
-    timer.message(d2s('time.time()',time.time()))
+    timer.message(d2s('time.time()',timer.time()))
 raw_enter('Done. ')
 
 #EOF
