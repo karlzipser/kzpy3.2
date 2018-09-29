@@ -19,7 +19,7 @@
             <node name="zed_wrapper_node" pkg="zed_wrapper" type="zed_wrapper_node" args="" output="screen">
 
             <param name="resolution"            value="3" />
-            <param name="quality"               value="4" />
+            <param name="quality"               value="0" />
             <param name="sensing_mode"          value="1" />
             <param name="frame_rate"            value="30" />
             <param name="odometry_DB"           value="" />
