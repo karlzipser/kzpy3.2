@@ -58,14 +58,16 @@ def _calibrate_run_loop(P):
                     P['motor_pwm_max'] = P['motor_pwm']
                 if P['motor_pwm_min'] > P['motor_pwm']:
                     P['motor_pwm_min'] = P['motor_pwm']
-                if P['servo_pwm_max'] - P['servo_pwm_min'] > 300:
-                    if P['motor_pwm_max'] - P['motor_pwm_min'] > 300:
+                if P['servo_pwm_max'] - P['servo_pwm_min'] > 100:#300:
+                    if P['motor_pwm_max'] - P['motor_pwm_min'] > 100:#300:
                         P['calibrated'] = True
                         first_time_here = True
+        """
         try:
             print P['servo_pwm'],P['servo_pwm_null'],P['servo_pwm_min'],P['servo_pwm_max'],P['servo_pwm_max'] - P['servo_pwm_min'],P['motor_pwm_max'] - P['motor_pwm_min'],P['calibrated']
         except:
             print 'print failed'
+        """
         if print_timer.check():
             print_timer.reset()           
     print 'end _calibrate_run_loop.'
