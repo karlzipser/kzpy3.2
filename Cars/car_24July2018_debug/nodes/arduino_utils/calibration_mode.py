@@ -63,7 +63,7 @@ def _calibrate_run_loop(P):
                         P['calibrated'] = True
                         first_time_here = True
 
-        print P['servo_pwm'],P['servo_pwm_null'],['servo_pwm_min'],['servo_pwm_max'])
+        print P['servo_pwm'],P['servo_pwm_null'],['servo_pwm_min'],['servo_pwm_max']
 
         if print_timer.check():
             print_timer.reset()           
