@@ -17,10 +17,7 @@ exec(kzpy3.Menu_app.menu.__MENU_THREAD_EXEC_STR__.replace(
 
 timer = Timer(5)
 while M['ABORT'] == False:
-    #q = raw_input()
-    #if q == 'q':
-    #    Parameters['ABORT'] = True
-    timer.message(d2s('time.time()',timer.time()))
-raw_enter('Done. ')
+	timer.message(d2s(M['a/a']))
+
 
 #EOF

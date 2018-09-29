@@ -1,8 +1,16 @@
 from kzpy3.utils3 import *
+"""
+e.g.,
+
+    python kzpy3/Menu_app/menu.py path kzpy3/Menu_app dic M
+
+"""
+
+
 
 def menu(Topics,path):
     if 'ABORT' not in Topics: Topics['ABORT'] = False
-    if 'autostart menu' not in Topics: Topics['autostart menu'] = False
+    if 'cmd/autostart menu' not in Topics: Topics['autostart menu'] = False
     if 'ABORT' not in Topics: Topics['to_hide'] = []
     if 'ABORT' not in Topics: Topics['to_expose'] = []
     EXIT = False
@@ -11,18 +19,18 @@ def menu(Topics,path):
     Number_name_binding = {}
     Name_number_binding = {}
     """
-    if 'clear_screen' not in Topics:
-        Topics['clear_screen'] = True
+    if 'cmd/clear_screen' not in Topics:
+        Topics['cmd/clear_screen'] = True
         Topics['to_expose'].append('clear_screen')
     print Topics
     raw_enter()
     """
 
-    while EXIT == False:
+    while EXIT == False and Topics['ABORT'] == False:
 
         try:
 
-            if Topics['clear_screen']:
+            if Topics['cmd/clear_screen']:
                 clear_screen()
 
             ctr = 1
@@ -69,7 +77,9 @@ def menu(Topics,path):
                     #print c
                     s = c[0]
                     #print s
-                    if s not in name:
+                    if name.isupper():
+                        c = ['cmd/',['red','on_white']]
+                    elif s not in name:
                         c = ['normal','normal']
                     cs = c[1]
                     if type(cs) == list:
@@ -215,6 +225,8 @@ def save_topics(Topics,path):
     #unix('touch '+opj(path,'ready'))
 
 def print_exposed(Topics):
+    if Topics['cmd/clear_screen']:
+        clear_screen()
     print ''
     if 'to_expose' not in Topics:
         Topics['to_expose'] = []
@@ -282,8 +294,8 @@ try:
 except:
     pass
 threading.Thread(target=kzpy3.Menu_app.menu.load_menu_data,args=[menu_path,__topics_dic_name__]).start()
-if 'autostart menu' in __topics_dic_name__:
-    if __topics_dic_name__['autostart menu']:
+if 'cmd/autostart menu' in __topics_dic_name__:
+    if __topics_dic_name__['cmd/autostart menu']:
         os.system(d2n("gnome-terminal -x python kzpy3/Menu_app/menu.py path ",menu_path," dic __topics_dic_name__"))
 """
 
@@ -297,7 +309,7 @@ if __name__ == '__main__':# and EXIT == False:
     exec(d2n('Topics = default_values.',dic))
     menu(Topics,path)
     #raw_enter(__file__+' done. ')
-    print 'done.'
+    print '\ndone.\n'
 
 
 # python kzpy3/Menu_app/menu.py path ~/kzpy3/Cars/car_24July2018/nodes/__local__/arduino/ default 1 Topics arduino
