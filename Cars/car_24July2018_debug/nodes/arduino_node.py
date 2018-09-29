@@ -120,7 +120,7 @@ def _publish_MSE_data(Parameters):
     Parameters['motor_pub'].publish(std_msgs.msg.Int32(Parameters['human']['motor_percent']))
     Parameters['button_number_pub'].publish(std_msgs.msg.Int32(Parameters['button_number']))
     Parameters['encoder_pub'].publish(std_msgs.msg.Float32(Parameters['encoder']))
-
+    pd2s(Parameters['human']['servo_percent'],Parameters['human']['motor_percent'],Parameters['human']['button_number'])
     if MSE_low_frequency_pub_timer.check():
         if Parameters['button_number'] == 1:
             behavioral_mode_choice = 'left'
