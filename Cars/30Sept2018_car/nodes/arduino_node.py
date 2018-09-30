@@ -91,9 +91,9 @@ No_Arduino_data_very_low_frequency_pub_timer = Timer(2)
 
 def _publish_IMU_data(Parameters,m):
     Parameters[imu_dic[m]].publish(geometry_msgs.msg.Vector3(*Parameters[m]['xyz']))
-    if IMU_low_frequency_pub_timer.check():
-        Parameters['Hz_acc_pub'].publish(std_msgs.msg.Float32(Parameters['Hz']['acc']))
-        IMU_low_frequency_pub_timer.reset()
+    #if IMU_low_frequency_pub_timer.check():
+    #    Parameters['Hz_acc_pub'].publish(std_msgs.msg.Float32(Parameters['Hz']['acc']))
+    #    IMU_low_frequency_pub_timer.reset()
 
 def _publish_FLEX_data(Parameters,m):
     Parameters[d2n(m,'_pub')].publish(std_msgs.msg.Int32(Parameters[m]))
