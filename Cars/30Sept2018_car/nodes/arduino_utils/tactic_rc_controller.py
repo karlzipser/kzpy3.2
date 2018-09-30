@@ -48,6 +48,7 @@ def _TACTIC_RC_controller_run_loop(P):
 
             if mse_input[0] in ['acc','gyro','head']:
                 #Hz = frequency_timers[m].freq(name=m,do_print=False)
+                m = mse_input[0]
                 if m == 'acc':
                     s = P['IMU_SMOOTHING_PARAMETER']
                     for i in range(3):
