@@ -178,6 +178,7 @@ def _TACTIC_RC_controller_run_loop(P):
     print 'end _TACTIC_RC_controller_run_loop.'
 
 def get_write_str(servo_pwm,camera_pwm,motor_pwm,P):
+    print 'get_write_str'
     ws = d2n( '(',
         int(P['servo_pwm_smooth_manual_offset']+servo_pwm),',',
         int(P['camera_pwm_manual_offset']+camera_pwm+5000),',',
