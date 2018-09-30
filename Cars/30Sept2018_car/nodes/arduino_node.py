@@ -9,7 +9,7 @@ from arduino_utils.tactic_rc_controller import *
 from arduino_utils.calibration_mode import *
 from arduino_utils.selector_mode import *
 from arduino_utils.led_display import *
-from arduino_utils.IMU_arduino import *
+#from arduino_utils.IMU_arduino import *
 from arduino_utils.FLEX_arduino import *
 
 exec(identify_file_str)
@@ -83,7 +83,7 @@ imu_dic['gyro'] = 'gyro_pub'
 imu_dic['acc'] = 'acc_pub'
 imu_dic['head'] = 'gyro_heading_pub'
 
-IMU_low_frequency_pub_timer = Timer(0.5)
+#IMU_low_frequency_pub_timer = Timer(0.5)
 MSE_low_frequency_pub_timer = Timer(0.1)
 MSE_very_low_frequency_pub_timer = Timer(2)
 No_Arduino_data_low_frequency_pub_timer = Timer(0.5)
@@ -173,18 +173,18 @@ if 'Start Arduino threads...':
     else:
         spd2s("!!!!!!!!!! 'MSE' not in Arduinos[] or not using 'MSE' !!!!!!!!!!!")
         threading.Thread(target=_publish_No_Arduino_data,args=[Parameters]).start()
-    if Parameters['USE_SIG'] and 'SIG' in Parameters['Arduinos'].keys():
-        LED_Display(Parameters)
-    else:
-        spd2s("!!!!!!!!!! 'SIG' not in Arduinos[] or not using 'SIG' !!!!!!!!!!!")
-    if Parameters['USE_IMU'] and 'IMU' in Parameters['Arduinos'].keys():
-        IMU_Arduino(Parameters)
-    else:
-        spd2s("!!!!!!!!!! 'IMU' not in Arduinos[] or not using 'IMU' !!!!!!!!!!!")
-    if 'FLEX' in Parameters['Arduinos'].keys():
-        FLEX_Arduino(Parameters)
-    else:
-        spd2s("!!!!!!!!!! 'FLEX' not in Arduinos[] or not using 'FLEX' !!!!!!!!!!!")
+    #if Parameters['USE_SIG'] and 'SIG' in Parameters['Arduinos'].keys():
+    #    LED_Display(Parameters)
+    #else:
+    #    spd2s("!!!!!!!!!! 'SIG' not in Arduinos[] or not using 'SIG' !!!!!!!!!!!")
+    #if Parameters['USE_IMU'] and 'IMU' in Parameters['Arduinos'].keys():
+    #    IMU_Arduino(Parameters)
+    #else:
+    #    spd2s("!!!!!!!!!! 'IMU' not in Arduinos[] or not using 'IMU' !!!!!!!!!!!")
+    #if 'FLEX' in Parameters['Arduinos'].keys():
+    #    FLEX_Arduino(Parameters)
+    #else:
+    #    spd2s("!!!!!!!!!! 'FLEX' not in Arduinos[] or not using 'FLEX' !!!!!!!!!!!")
             
 if 'Main loop...':
     print 'main loop'
