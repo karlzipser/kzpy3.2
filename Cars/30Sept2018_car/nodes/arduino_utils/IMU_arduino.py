@@ -10,9 +10,9 @@ def _IMU_run_loop(P):
     flush_seconds = 0.1
     flush_timer = Timer(flush_seconds)
     time.sleep(0.1)
-    P['Arduinos']['IMU'].flushInput()
+    P['Arduinos']['MSE'].flushInput()
     time.sleep(0.1)
-    P['Arduinos']['IMU'].flushOutput()
+    P['Arduinos']['MSE'].flushOutput()
     ctr_timer = Timer()
     frequency_timers = {'acc':Timer(1),'gyro':Timer(1),'head':Timer(1)}
     acc_smoothed = [0,0,0]
@@ -23,10 +23,10 @@ def _IMU_run_loop(P):
         if 'Brief sleep to allow other threads to process...':
             time.sleep(0.001)
         try:
-            read_str = P['Arduinos']['IMU'].readline()
-            if flush_timer.check():
-                P['Arduinos']['IMU'].flushInput();P['Arduinos']['IMU'].flushOutput()
-                flush_timer.reset()            
+            read_str = P['Arduinos']['MSE'].readline()
+            #if flush_timer.check():
+            #    P['Arduinos']['MSE'].flushInput();P['Arduinos']['MSE'].flushOutput()
+            #    flush_timer.reset()            
             exec('imu_input = list({0})'.format(read_str))       
             m = imu_input[0]
             assert(m in ['acc','gyro','head'])
