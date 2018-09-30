@@ -21,6 +21,7 @@ alias rivl='rosrun image_view image_view image:=/bair_car/zed/left/image_rect_co
 alias rivr='rosrun image_view image_view image:=/bair_car/zed/right/image_rect_color'
 alias zed_explorer='/usr/local/zed/tools/ZED\ Explorer'
 alias rply='python ~/kzpy3/scripts/rosplay_menu.py'
+alias rtps='python ~kzpy3/scripts/rostopics.py'
 alias pgacps='bash ~/kzpy3/scripts/pgacpssh.sh'
 alias fixScreen='DISPLAY=:0 xrandr --output HDMI-0 --mode 1024x768'
 
