@@ -185,7 +185,7 @@ def get_write_str(servo_pwm,camera_pwm,motor_pwm,P):
     ws = d2n( '(',
         int(P['servo_pwm_smooth_manual_offset']+servo_pwm),',',
         int(P['camera_pwm_manual_offset']+camera_pwm+5000),',',
-        int(motor_pwm+10000),','
+        int(motor_pwm+10000),',',
         int(P['Arduinos']['SIG/write']),
         ')' )
     print ws
