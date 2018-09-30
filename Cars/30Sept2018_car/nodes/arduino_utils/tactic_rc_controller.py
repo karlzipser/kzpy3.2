@@ -25,7 +25,7 @@ def _TACTIC_RC_controller_run_loop(P):
     Pid_processing_motor = Pid_Processing_Motor()
     time_since_successful_read_from_arduino = Timer();_timer = Timer(0.2)
     acc_smoothed = [0,0,0]
-    
+    _servo_pwm = -1
 
     while (not P['ABORT']) and (not rospy.is_shutdown()):
         if False:
@@ -97,7 +97,8 @@ def _TACTIC_RC_controller_run_loop(P):
 
                 P['servo_pwm_smooth'] = (1.0-s)*P['servo_pwm'] + s*P['servo_pwm_smooth']
                 P['motor_pwm_smooth'] = (1.0-s)*P['motor_pwm'] + s*P['motor_pwm_smooth']
-                P['encoder_smooth'] = (1.0-s)*P['encoder'] + s*P['encoder_smooth']
+                if 'encoder' in P:
+                    P['encoder_smooth'] = (1.0-s)*P['encoder'] + s*P['encoder_smooth']
 
                 #P['servo_pwm_smooth']
 
@@ -128,6 +129,8 @@ def _TACTIC_RC_controller_run_loop(P):
                             in_this_mode = True
                             in_this_mode_timer.reset()
                         q = 1/(1.0+5*in_this_mode_timer.time())
+                        if _servo_pwm < 0:
+                            _servo_pwm = P['servo_pwm_smooth']
                         _servo_pwm = (1-q)*P['servo_pwm_smooth'] + q*_servo_pwm
                         _camera_pwm = _servo_pwm
                     else:
@@ -182,7 +185,7 @@ def get_write_str(servo_pwm,camera_pwm,motor_pwm,P):
     ws = d2n( '(',
         int(P['servo_pwm_smooth_manual_offset']+servo_pwm),',',
         int(P['camera_pwm_manual_offset']+camera_pwm+5000),',',
-        int(motor_pwm+10000),
+        int(motor_pwm+10000),','
         int(P['Arduinos']['SIG/write']),
         ')' )
     print ws
