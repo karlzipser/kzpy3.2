@@ -29,7 +29,7 @@ def assign_serial_connections(P,sers):
                 print ser_str
                 exec('ser_tuple = list({0})'.format(ser_str))
                 if ser_tuple[0] in ['mse']:
-                    print(d2s('Port',ser.port,'is the MSE:',ser_str))
+                    spd2s('Port',ser.port,'is the MSE:',ser_str)
                     print("\tusing 'motor_servo_encoder.ino'")
                     P['Arduinos']['MSE'] = ser
                     break
