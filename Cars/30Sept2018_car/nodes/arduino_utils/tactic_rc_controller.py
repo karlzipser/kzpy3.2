@@ -43,16 +43,16 @@ def _TACTIC_RC_controller_run_loop(P):
                 P['Arduinos']['MSE'].flushInput()
                 P['Arduinos']['MSE'].flushOutput()
                 flush_timer.reset()
-            exec('mse_input = list({0})'.format(read_str))
+            exec('serial_input = list({0})'.format(read_str))
 
 
-            if mse_input[0] in ['acc','gyro','head']:
+            if serial_input[0] in ['acc','gyro','head']:
                 #Hz = frequency_timers[m].freq(name=m,do_print=False)
-                m = mse_input[0]
+                m = serial_input[0]
                 if m == 'acc':
                     s = P['IMU_SMOOTHING_PARAMETER']
                     for i in range(3):
-                        acc_smoothed[i] = (1.0-s)*imu_input[i+1] + s*acc_smoothed[i]
+                        acc_smoothed[i] = (1.0-s)*serial_input[i+1] + s*acc_smoothed[i]
                     if acc_smoothed[1] < -9.0:
                         spd2s('acc_smoothed[1] < -9.0, ABORTING, SHUTTING DOWN!!!!!')
                         P['ABORT'] = True
@@ -64,16 +64,16 @@ def _TACTIC_RC_controller_run_loop(P):
                     #            spd2s(m,'Hz =',Hz,'...aborting...')
                     #        else:
                     #            pass
-                P[m]['xyz'] = imu_input[1:4]
+                P[m]['xyz'] = serial_input[1:4]
                 if P['USE_ROS']:
                     P['publish_IMU_data'](P,m)
 
-            elif mse_input[0] == 'mse':
+            elif serial_input[0] == 'mse':
 
-                P['button_pwm'] = mse_input[1]
-                P['servo_pwm'] = mse_input[2]
-                P['motor_pwm'] = mse_input[3]
-                P['encoder'] = mse_input[4]
+                P['button_pwm'] = serial_input[1]
+                P['servo_pwm'] = serial_input[2]
+                P['motor_pwm'] = serial_input[3]
+                P['encoder'] = serial_input[4]
 
                 bpwm = P['button_pwm']
                 if np.abs(bpwm - 1900) < P['button_delta']:
