@@ -188,7 +188,7 @@ def get_write_str(servo_pwm,camera_pwm,motor_pwm,P):
         int(motor_pwm+10000),',',
         int(P['Arduinos']['SIG/write']),
         ')' )
-    print ws
+    cs(ws)
     return ws
 
 def pwm_to_percent(null_pwm,current_pwm,max_pwm,min_pwm):
