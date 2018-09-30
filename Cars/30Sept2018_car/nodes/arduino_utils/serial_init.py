@@ -22,7 +22,7 @@ def get_arduino_serial_connections(baudrate, timeout):
 def assign_serial_connections(P,sers):
     ctr = 0
     P['Arduinos'] = {}
-    P['Arduinos']['SIG/write'] = '(-11119)'
+    P['Arduinos']['SIG/write'] = -11119
     for ser in sers:
         for _ in xrange(100000):
             try:
