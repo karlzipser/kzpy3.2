@@ -20,7 +20,7 @@ def _TACTIC_RC_controller_run_loop(P):
     #frequency_timer = Timer(1)
     print_timer = Timer(0.1)
     in_this_mode_timer = Timer()
-    very_low_freq_timer = Timer(30)
+    #very_low_freq_timer = Timer(30)
     ctr_timer = Timer()
     Pid_processing_motor = Pid_Processing_Motor()
     time_since_successful_read_from_arduino = Timer();_timer = Timer(0.2)
@@ -38,7 +38,7 @@ def _TACTIC_RC_controller_run_loop(P):
         time.sleep(0.01)
         try:
             read_str = P['Arduinos']['MSE'].readline()
-            print read_str
+            #print read_str
             if flush_timer.check():
                 P['Arduinos']['MSE'].flushInput()
                 P['Arduinos']['MSE'].flushOutput()
@@ -166,11 +166,11 @@ def _TACTIC_RC_controller_run_loop(P):
             if print_timer.check():
                 print_timer.reset()
 
-            if very_low_freq_timer.check():
-                pass
-                if False:
-                    pd2s('servo:',int(P['servo_pwm_min']),int(P['servo_pwm_null']),int(P['servo_pwm_max']),'motor:',int(P['motor_pwm_min']),int(P['motor_pwm_null']),int(P['motor_pwm_max']))
-                very_low_freq_timer.reset()
+            #if very_low_freq_timer.check():
+            #    pass
+            #    if False:
+            #        pd2s('servo:',int(P['servo_pwm_min']),int(P['servo_pwm_null']),int(P['servo_pwm_max']),'motor:',int(P['motor_pwm_min']),int(P['motor_pwm_null']),int(P['motor_pwm_max']))
+            #    very_low_freq_timer.reset()
         except Exception as e:
             if True:
                 print '_TACTIC_RC_controller_run_loop',e
