@@ -38,6 +38,7 @@ def _TACTIC_RC_controller_run_loop(P):
         try:
             if 'Read serial and translate to list...':
                 read_str = P['Arduinos']['MSE'].readline()
+                print read_str
                 if flush_timer.check():
                     P['Arduinos']['MSE'].flushInput()
                     P['Arduinos']['MSE'].flushOutput()
