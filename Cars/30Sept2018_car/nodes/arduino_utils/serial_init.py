@@ -24,7 +24,7 @@ def assign_serial_connections(P,sers):
     P['Arduinos'] = {}
     P['Arduinos']['SIG/write'] = '(-11119)'
     for ser in sers:
-        for _ in xrange(100):
+        for _ in xrange(10000):
             try:
                 ser_str = ser.readline()
                 print ctr,ser_str
