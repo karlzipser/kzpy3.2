@@ -20,13 +20,15 @@ def get_arduino_serial_connections(baudrate, timeout):
     return sers
 
 def assign_serial_connections(P,sers):
+    ctr = 0
     P['Arduinos'] = {}
     P['Arduinos']['SIG/write'] = '(-11119)'
     for ser in sers:
         for _ in xrange(100):
             try:
                 ser_str = ser.readline()
-                print ser_str
+                print ctr,ser_str
+                ctr += 1
                 exec('ser_tuple = list({0})'.format(ser_str))
                 if ser_tuple[0] in ['mse']:
                     spd2s('Port',ser.port,'is the MSE:',ser_str)
