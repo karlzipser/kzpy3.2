@@ -28,16 +28,17 @@ def _TACTIC_RC_controller_run_loop(P):
     
 
     while (not P['ABORT']) and (not rospy.is_shutdown()):
-
-        if time_since_successful_read_from_arduino.time() > 1.0:
-            _timer.message(d2s("time_since_successful_read_from_arduino.time()",time_since_successful_read_from_arduino.time()))
-        if time_since_successful_read_from_arduino.time() > 2.0:
-            CS_("time_since_successful_read_from_arduino.time() > 2, ABORT",emphasis=True)
-            #Default_values.arduino.default_values.EXIT(restart=False,shutdown=False,kill_ros=True,_file_=__file__)
+        if False:
+            if time_since_successful_read_from_arduino.time() > 1.0:
+                _timer.message(d2s("time_since_successful_read_from_arduino.time()",time_since_successful_read_from_arduino.time()))
+            if time_since_successful_read_from_arduino.time() > 2.0:
+                CS_("time_since_successful_read_from_arduino.time() > 2, ABORT",emphasis=True)
+                #Default_values.arduino.default_values.EXIT(restart=False,shutdown=False,kill_ros=True,_file_=__file__)
 
         time.sleep(0.01)
         try:
             read_str = P['Arduinos']['MSE'].readline()
+            print read_str
             if flush_timer.check():
                 P['Arduinos']['MSE'].flushInput()
                 P['Arduinos']['MSE'].flushOutput()
