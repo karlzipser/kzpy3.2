@@ -17,7 +17,7 @@ def _TACTIC_RC_controller_run_loop(P):
     P['Arduinos']['MSE'].flushOutput()
     flush_seconds = 0.25
     flush_timer = Timer(flush_seconds)
-    frequency_timer = Timer(1)
+    #frequency_timer = Timer(1)
     print_timer = Timer(0.1)
     in_this_mode_timer = Timer()
     very_low_freq_timer = Timer(30)
@@ -46,7 +46,7 @@ def _TACTIC_RC_controller_run_loop(P):
 
 
             if mse_input[0] in ['acc','gyro','head']:
-                Hz = frequency_timers[m].freq(name=m,do_print=False)
+                #Hz = frequency_timers[m].freq(name=m,do_print=False)
                 if m == 'acc':
                     s = P['IMU_SMOOTHING_PARAMETER']
                     for i in range(3):
@@ -55,13 +55,13 @@ def _TACTIC_RC_controller_run_loop(P):
                         spd2s('acc_smoothed[1] < -9.0, ABORTING, SHUTTING DOWN!!!!!')
                         P['ABORT'] = True
                         default_values.EXIT(restart=False,shutdown=True,kill_ros=True,_file_=__file__)
-                    if is_number(Hz):
-                        P['Hz'][m] = Hz
-                        if Hz < 30 or Hz > 90:
-                            if ctr_timer.time() > 5:
-                                spd2s(m,'Hz =',Hz,'...aborting...')
-                            else:
-                                pass
+                    #if is_number(Hz):
+                    #    P['Hz'][m] = Hz
+                    #    if Hz < 30 or Hz > 90:
+                    #        if ctr_timer.time() > 5:
+                    #            spd2s(m,'Hz =',Hz,'...aborting...')
+                    #        else:
+                    #            pass
                 P[m]['xyz'] = imu_input[1:4]
                 if P['USE_ROS']:
                     P['publish_IMU_data'](P,m)
@@ -152,12 +152,12 @@ def _TACTIC_RC_controller_run_loop(P):
                         if True:
                             P['Arduinos']['MSE'].write(write_str)
                         
-            Hz = frequency_timer.freq(name='_TACTIC_RC_controller_run_loop',do_print=P['print_mse_freq'])
-            if is_number(Hz):
-                P['Hz']['mse'] = Hz
-                if ctr_timer.time() > 5 and P['selector_mode'] == 'drive_mode':
-                    if Hz < 30 or Hz > 90:
-                        spd2s('MSE Hz =',Hz,'...aborting...')
+            #Hz = frequency_timer.freq(name='_TACTIC_RC_controller_run_loop',do_print=P['print_mse_freq'])
+            #if is_number(Hz):
+            #    P['Hz']['mse'] = Hz
+            #    if ctr_timer.time() > 5 and P['selector_mode'] == 'drive_mode':
+            #        if Hz < 30 or Hz > 90:
+            #            spd2s('MSE Hz =',Hz,'...aborting...')
             if P['USE_ROS']:
                 P['publish_MSE_data'](P)
 
