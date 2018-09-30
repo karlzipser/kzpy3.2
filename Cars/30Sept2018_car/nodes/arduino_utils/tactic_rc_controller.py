@@ -24,6 +24,8 @@ def _TACTIC_RC_controller_run_loop(P):
     ctr_timer = Timer()
     Pid_processing_motor = Pid_Processing_Motor()
     time_since_successful_read_from_arduino = Timer();_timer = Timer(0.2)
+    acc_smoothed = [0,0,0]
+    
 
     while (not P['ABORT']) and (not rospy.is_shutdown()):
 
@@ -33,24 +35,44 @@ def _TACTIC_RC_controller_run_loop(P):
             CS_("time_since_successful_read_from_arduino.time() > 2, ABORT",emphasis=True)
             #Default_values.arduino.default_values.EXIT(restart=False,shutdown=False,kill_ros=True,_file_=__file__)
 
-        if 'Brief sleep to allow other threads to process...':
-            time.sleep(0.01)
+        time.sleep(0.01)
         try:
-            if 'Read serial and translate to list...':
-                read_str = P['Arduinos']['MSE'].readline()
-                if flush_timer.check():
-                    P['Arduinos']['MSE'].flushInput()
-                    P['Arduinos']['MSE'].flushOutput()
-                    flush_timer.reset()
-                exec('mse_input = list({0})'.format(read_str))       
-                assert(mse_input[0]=='mse')
-            if 'Unpack mse list...':
+            read_str = P['Arduinos']['MSE'].readline()
+            if flush_timer.check():
+                P['Arduinos']['MSE'].flushInput()
+                P['Arduinos']['MSE'].flushOutput()
+                flush_timer.reset()
+            exec('mse_input = list({0})'.format(read_str))
+
+
+            if mse_input[0] in ['acc','gyro','head']:
+                Hz = frequency_timers[m].freq(name=m,do_print=False)
+                if m == 'acc':
+                    s = P['IMU_SMOOTHING_PARAMETER']
+                    for i in range(3):
+                        acc_smoothed[i] = (1.0-s)*imu_input[i+1] + s*acc_smoothed[i]
+                    if acc_smoothed[1] < -9.0:
+                        spd2s('acc_smoothed[1] < -9.0, ABORTING, SHUTTING DOWN!!!!!')
+                        P['ABORT'] = True
+                        default_values.EXIT(restart=False,shutdown=True,kill_ros=True,_file_=__file__)
+                    if is_number(Hz):
+                        P['Hz'][m] = Hz
+                        if Hz < 30 or Hz > 90:
+                            if ctr_timer.time() > 5:
+                                spd2s(m,'Hz =',Hz,'...aborting...')
+                            else:
+                                pass
+                P[m]['xyz'] = imu_input[1:4]
+                if P['USE_ROS']:
+                    P['publish_IMU_data'](P,m)
+
+            elif mse_input[0] == 'mse':
+
                 P['button_pwm'] = mse_input[1]
                 P['servo_pwm'] = mse_input[2]
                 P['motor_pwm'] = mse_input[3]
                 P['encoder'] = mse_input[4]
 
-            if 'Assign button...':
                 bpwm = P['button_pwm']
                 if np.abs(bpwm - 1900) < P['button_delta']:
                     bn = 1
@@ -67,20 +89,20 @@ def _TACTIC_RC_controller_run_loop(P):
                 P['button_number'] = bn
                 P['button_time'] = P['button_timer'].time()
 
-            time_since_successful_read_from_arduino.reset()
+                time_since_successful_read_from_arduino.reset()
 
-            s = P['HUMAN_SMOOTHING_PARAMETER_1']
+                s = P['HUMAN_SMOOTHING_PARAMETER_1']
 
+                P['servo_pwm_smooth'] = (1.0-s)*P['servo_pwm'] + s*P['servo_pwm_smooth']
+                P['motor_pwm_smooth'] = (1.0-s)*P['motor_pwm'] + s*P['motor_pwm_smooth']
+                P['encoder_smooth'] = (1.0-s)*P['encoder'] + s*P['encoder_smooth']
 
-            P['servo_pwm_smooth'] = (1.0-s)*P['servo_pwm'] + s*P['servo_pwm_smooth']
-            P['motor_pwm_smooth'] = (1.0-s)*P['motor_pwm'] + s*P['motor_pwm_smooth']
-            P['encoder_smooth'] = (1.0-s)*P['encoder'] + s*P['encoder_smooth']
+                #P['servo_pwm_smooth']
 
-            P['servo_pwm_smooth']
+                if P['calibrated'] == True:
+                    P['human']['servo_percent'] = servo_pwm_to_percent(P['servo_pwm_smooth'],P)
+                    P['human']['motor_percent'] = motor_pwm_to_percent(P['motor_pwm_smooth'],P)
 
-            if P['calibrated'] == True:
-                P['human']['servo_percent'] = servo_pwm_to_percent(P['servo_pwm_smooth'],P)
-                P['human']['motor_percent'] = motor_pwm_to_percent(P['motor_pwm_smooth'],P)
 
 
             P['temporary_human_control'] = False
