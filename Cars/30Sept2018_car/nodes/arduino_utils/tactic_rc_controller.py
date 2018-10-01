@@ -19,7 +19,7 @@ def _TACTIC_RC_controller_run_loop(P):
     flush_timer = Timer(flush_seconds)
     print_timer = Timer(0.1)
     in_this_mode_timer = Timer()
-    //ctr_timer = Timer()
+    #ctr_timer = Timer()
     Pid_processing_motor = Pid_Processing_Motor()
     time_since_successful_read_from_arduino = Timer();_timer = Timer(0.2)
     _servo_pwm = -1
