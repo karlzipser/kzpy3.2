@@ -24,6 +24,8 @@ def _TACTIC_RC_controller_run_loop(P):
     time_since_successful_read_from_arduino = Timer();_timer = Timer(0.2)
     _servo_pwm = -1
 
+    P['Arduinos']['MSE'].write("(-1,-1,-1,-1,-1,-1,-1)")
+
     while (not P['ABORT']) and (not rospy.is_shutdown()):
 
         if False:
