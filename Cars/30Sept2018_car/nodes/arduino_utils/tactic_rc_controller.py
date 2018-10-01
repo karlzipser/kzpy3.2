@@ -17,10 +17,8 @@ def _TACTIC_RC_controller_run_loop(P):
     P['Arduinos']['MSE'].flushOutput()
     flush_seconds = 0.25
     flush_timer = Timer(flush_seconds)
-    #frequency_timer = Timer(1)
     print_timer = Timer(0.1)
     in_this_mode_timer = Timer()
-    #very_low_freq_timer = Timer(30)
     ctr_timer = Timer()
     Pid_processing_motor = Pid_Processing_Motor()
     time_since_successful_read_from_arduino = Timer();_timer = Timer(0.2)
@@ -33,7 +31,6 @@ def _TACTIC_RC_controller_run_loop(P):
                 _timer.message(d2s("time_since_successful_read_from_arduino.time()",time_since_successful_read_from_arduino.time()))
             if time_since_successful_read_from_arduino.time() > 2.0:
                 CS_("time_since_successful_read_from_arduino.time() > 2, ABORT",emphasis=True)
-                #Default_values.arduino.default_values.EXIT(restart=False,shutdown=False,kill_ros=True,_file_=__file__)
 
         time.sleep(0.01)
         try:
@@ -47,7 +44,6 @@ def _TACTIC_RC_controller_run_loop(P):
 
 
             if serial_input[0] in ['acc','gyro','head']:
-                #Hz = frequency_timers[m].freq(name=m,do_print=False)
                 m = serial_input[0]
                 if m == 'acc':
                     s = P['IMU_SMOOTHING_PARAMETER']
@@ -57,13 +53,7 @@ def _TACTIC_RC_controller_run_loop(P):
                         spd2s('acc_smoothed[1] < -9.0, ABORTING, SHUTTING DOWN!!!!!')
                         P['ABORT'] = True
                         default_values.EXIT(restart=False,shutdown=True,kill_ros=True,_file_=__file__)
-                    #if is_number(Hz):
-                    #    P['Hz'][m] = Hz
-                    #    if Hz < 30 or Hz > 90:
-                    #        if ctr_timer.time() > 5:
-                    #            spd2s(m,'Hz =',Hz,'...aborting...')
-                    #        else:
-                    #            pass
+
                 P[m]['xyz'] = serial_input[1:4]
                 if P['USE_ROS']:
                     P['publish_IMU_data'](P,m)
@@ -99,8 +89,6 @@ def _TACTIC_RC_controller_run_loop(P):
                 P['motor_pwm_smooth'] = (1.0-s)*P['motor_pwm'] + s*P['motor_pwm_smooth']
                 if 'encoder' in P:
                     P['encoder_smooth'] = (1.0-s)*P['encoder'] + s*P['encoder_smooth']
-
-                #P['servo_pwm_smooth']
 
                 if P['calibrated'] == True:
                     P['human']['servo_percent'] = servo_pwm_to_percent(P['servo_pwm_smooth'],P)
@@ -157,23 +145,13 @@ def _TACTIC_RC_controller_run_loop(P):
                         if True:
                             P['Arduinos']['MSE'].write(write_str)
                         
-            #Hz = frequency_timer.freq(name='_TACTIC_RC_controller_run_loop',do_print=P['print_mse_freq'])
-            #if is_number(Hz):
-            #    P['Hz']['mse'] = Hz
-            #    if ctr_timer.time() > 5 and P['selector_mode'] == 'drive_mode':
-            #        if Hz < 30 or Hz > 90:
-            #            spd2s('MSE Hz =',Hz,'...aborting...')
+
             if P['USE_ROS']:
                 P['publish_MSE_data'](P)
 
             if print_timer.check():
                 print_timer.reset()
 
-            #if very_low_freq_timer.check():
-            #    pass
-            #    if False:
-            #        pd2s('servo:',int(P['servo_pwm_min']),int(P['servo_pwm_null']),int(P['servo_pwm_max']),'motor:',int(P['motor_pwm_min']),int(P['motor_pwm_null']),int(P['motor_pwm_max']))
-            #    very_low_freq_timer.reset()
         except Exception as e:
             if True:
                 print '_TACTIC_RC_controller_run_loop',e
@@ -188,7 +166,7 @@ def get_write_str(servo_pwm,camera_pwm,motor_pwm,P):
         int(motor_pwm+10000),',',
         int(P['Arduinos']['SIG/write']),
         ')' )
-    #cs(ws)
+    cs(ws)
     return ws
 
 def pwm_to_percent(null_pwm,current_pwm,max_pwm,min_pwm):
