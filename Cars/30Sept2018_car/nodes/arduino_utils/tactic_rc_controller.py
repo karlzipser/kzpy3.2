@@ -144,6 +144,8 @@ def _TACTIC_RC_controller_run_loop(P):
                     if P['selector_mode'] == 'drive_mode':
                         if True:
                             P['Arduinos']['MSE'].write(write_str)
+            else:
+                P['Arduinos']['MSE'].write(get_write_str(P['servo_pwm_null'],P['servo_pwm_null'],P['motor_pwm_null'],P))
                         
 
             if P['USE_ROS']:
