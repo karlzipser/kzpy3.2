@@ -25,7 +25,7 @@ def _TACTIC_RC_controller_run_loop(P):
     _servo_pwm = -1
 
     while (not P['ABORT']) and (not rospy.is_shutdown()):
-
+        print P['LED_number']['current']
         if False:
             if time_since_successful_read_from_arduino.time() > 1.0:
                 _timer.message(d2s("time_since_successful_read_from_arduino.time()",time_since_successful_read_from_arduino.time()))
