@@ -25,7 +25,7 @@ def _TACTIC_RC_controller_run_loop(P):
     _servo_pwm = -1
 
     while (not P['ABORT']) and (not rospy.is_shutdown()):
-        print P['LED_number']['current']
+
         if False:
             if time_since_successful_read_from_arduino.time() > 1.0:
                 _timer.message(d2s("time_since_successful_read_from_arduino.time()",time_since_successful_read_from_arduino.time()))
@@ -165,6 +165,7 @@ def get_write_str(servo_pwm,camera_pwm,motor_pwm,P):
         int(motor_pwm+10000),',',
         -np.abs(P['LED_number']['current']),
         #int(P['Arduinos']['SIG/write']),
+        print P['LED_number']['current']
         ')' )
     #cs(ws)
     return ws
