@@ -50,7 +50,7 @@ def _calibrate_run_loop(P):
                 P['servo_pwm_smooth'] = P['servo_pwm_null']
                 P['motor_pwm_smooth'] = P['motor_pwm_null']
             else:
-                P['Arduinos']['MSE'].write("(-1,-1,-1,-1,-1,-1,-1)")
+                #P['Arduinos']['MSE'].write("(-1,-1,-1,-1,-1,-1,-1)")
                 if P['servo_pwm_max'] < P['servo_pwm']:
                     P['servo_pwm_max'] = P['servo_pwm']
                 if P['servo_pwm_min'] > P['servo_pwm']:
