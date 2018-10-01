@@ -46,7 +46,7 @@ def _selector_run_loop(P):
     frequency_timer = Timer(1)
 
     while (P['ABORT'] == False) and (not rospy.is_shutdown()):
-        
+        print P['LED_number']['current']
         frequency_timer.freq(name='_selector_run_loop',do_print=P['print_selector_freq'])
         if 'Brief sleep to allow other threads to process...':
             time.sleep(0.1)
