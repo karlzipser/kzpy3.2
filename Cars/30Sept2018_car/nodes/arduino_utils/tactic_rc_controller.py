@@ -157,7 +157,7 @@ def get_write_str(servo_pwm,camera_pwm,motor_pwm,P):
         int(P['servo_pwm_smooth_manual_offset']+servo_pwm),',',
         int(P['camera_pwm_manual_offset']+camera_pwm+5000),',',
         int(motor_pwm+10000),',',
-        P['LED_number']['current'],
+        -np.abs(P['LED_number']['current']),
         #int(P['Arduinos']['SIG/write']),
         ')' )
     #cs(ws)
