@@ -11,6 +11,7 @@ def _TACTIC_RC_controller_run_loop(P):
 
 
     print('_TACTIC_RC_controller_run_loop')
+    P['Arduinos']['SOUND'].write("(1929)")
     time.sleep(0.1)
     P['Arduinos']['MSE'].flushInput()
     time.sleep(0.1)
@@ -24,7 +25,7 @@ def _TACTIC_RC_controller_run_loop(P):
     time_since_successful_read_from_arduino = Timer();_timer = Timer(0.2)
     _servo_pwm = -1
 
-    P['Arduinos']['MSE'].write("(-1,-1,-1,-1,-1,-1,-1)")
+    P['Arduinos']['SOUND'].write("-1")
 
     P['button_number'] = 0
 
