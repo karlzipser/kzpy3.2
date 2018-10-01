@@ -66,7 +66,7 @@ else:
 	Parameters['servo_pwm_smooth_manual_offset'] = 0
 	Parameters['camera_pwm_manual_offset'] = 0	
 
-Parameters['HUMAN_SMOOTHING_PARAMETER_1'] = 0.75
+Parameters['HUMAN_SMOOTHING_PARAMETER_1'] = 0
 Parameters['USE_MSE'] = True
 Parameters['USE_SIG'] = True
 Parameters['USE_IMU'] = True
