@@ -19,13 +19,13 @@ def _TACTIC_RC_controller_run_loop(P):
     flush_timer = Timer(flush_seconds)
     print_timer = Timer(0.1)
     in_this_mode_timer = Timer()
-    ctr_timer = Timer()
+    //ctr_timer = Timer()
     Pid_processing_motor = Pid_Processing_Motor()
     time_since_successful_read_from_arduino = Timer();_timer = Timer(0.2)
-    acc_smoothed = [0,0,0]
     _servo_pwm = -1
 
     while (not P['ABORT']) and (not rospy.is_shutdown()):
+
         if False:
             if time_since_successful_read_from_arduino.time() > 1.0:
                 _timer.message(d2s("time_since_successful_read_from_arduino.time()",time_since_successful_read_from_arduino.time()))
@@ -44,16 +44,8 @@ def _TACTIC_RC_controller_run_loop(P):
 
 
             if serial_input[0] in ['acc','gyro','head']:
-                m = serial_input[0]
-                if m == 'acc':
-                    s = P['IMU_SMOOTHING_PARAMETER']
-                    for i in range(3):
-                        acc_smoothed[i] = (1.0-s)*serial_input[i+1] + s*acc_smoothed[i]
-                    if acc_smoothed[1] < -9.0:
-                        spd2s('acc_smoothed[1] < -9.0, ABORTING, SHUTTING DOWN!!!!!')
-                        P['ABORT'] = True
-                        default_values.EXIT(restart=False,shutdown=True,kill_ros=True,_file_=__file__)
 
+                m = serial_input[0]
                 P[m]['xyz'] = serial_input[1:4]
                 if P['USE_ROS']:
                     P['publish_IMU_data'](P,m)
@@ -87,8 +79,7 @@ def _TACTIC_RC_controller_run_loop(P):
 
                 P['servo_pwm_smooth'] = (1.0-s)*P['servo_pwm'] + s*P['servo_pwm_smooth']
                 P['motor_pwm_smooth'] = (1.0-s)*P['motor_pwm'] + s*P['motor_pwm_smooth']
-                if 'encoder' in P:
-                    P['encoder_smooth'] = (1.0-s)*P['encoder'] + s*P['encoder_smooth']
+                P['encoder_smooth'] = (1.0-s)*P['encoder'] + s*P['encoder_smooth']
 
                 if P['calibrated'] == True:
                     P['human']['servo_percent'] = servo_pwm_to_percent(P['servo_pwm_smooth'],P)
@@ -169,7 +160,7 @@ def get_write_str(servo_pwm,camera_pwm,motor_pwm,P):
         P['LED_number']['current'],
         #int(P['Arduinos']['SIG/write']),
         ')' )
-    cs(ws)
+    #cs(ws)
     return ws
 
 def pwm_to_percent(null_pwm,current_pwm,max_pwm,min_pwm):
