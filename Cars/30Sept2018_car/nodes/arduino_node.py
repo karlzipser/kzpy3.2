@@ -155,7 +155,7 @@ if 'Start Arduino threads...':
 
     if P['USE_MSE'] and 'MSE' in P['Arduinos'].keys():
         CS("!!!!!!!!!! found 'MSE' !!!!!!!!!!!",emphasis=True)
-        P['Arduinos']['MSE'].write("(-1)")
+        P['Arduinos']['MSE'].write("(-1,-1,-1,-1,-1,-1,-1)")
         # signal success with sound
         TACTIC_RC_controller(P)
         Calibration_Mode(P)
@@ -163,7 +163,7 @@ if 'Start Arduino threads...':
     else:
         # signal failure with sound
         CS("!!!!!!!!!! 'MSE' not in Arduinos[] or not using 'MSE' !!!!!!!!!!!",exception=True)
-        P['Arduinos']['MSE'].write("(-2)")
+        #P['Arduinos']['MSE'].write("(-2)")
         threading.Thread(target=_publish_No_Arduino_data,args=[P]).start()
 
             
