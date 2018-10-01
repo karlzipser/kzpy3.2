@@ -165,8 +165,8 @@ def get_write_str(servo_pwm,camera_pwm,motor_pwm,P):
         int(motor_pwm+10000),',',
         -np.abs(P['LED_number']['current']),
         #int(P['Arduinos']['SIG/write']),
-        print P['LED_number']['current']
         ')' )
+    print P['LED_number']['current']
     #cs(ws)
     return ws
 
