@@ -146,8 +146,8 @@ def _TACTIC_RC_controller_run_loop(P):
                 print_timer.reset()
 
         except Exception as e:
-            #if True:
-            #    print '_TACTIC_RC_controller_run_loop',e
+            if True:
+                print '_TACTIC_RC_controller_run_loop',e
             pass            
     print 'end _TACTIC_RC_controller_run_loop.'
 
@@ -160,7 +160,7 @@ def get_write_str(servo_pwm,camera_pwm,motor_pwm,P):
         -np.abs(P['LED_number']['current']),
         #int(P['Arduinos']['SIG/write']),
         ')' )
-    #cs(ws)
+    cs(ws)
     return ws
 
 def pwm_to_percent(null_pwm,current_pwm,max_pwm,min_pwm):
