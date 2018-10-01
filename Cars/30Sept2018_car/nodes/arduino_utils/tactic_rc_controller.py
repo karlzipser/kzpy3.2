@@ -35,7 +35,7 @@ def _TACTIC_RC_controller_run_loop(P):
         time.sleep(0.01)
         try:
             read_str = P['Arduinos']['MSE'].readline()
-            print read_str
+            #print read_str
             if flush_timer.check():
                 P['Arduinos']['MSE'].flushInput()
                 P['Arduinos']['MSE'].flushOutput()
@@ -164,7 +164,7 @@ def get_write_str(servo_pwm,camera_pwm,motor_pwm,P):
         -np.abs(P['LED_number']['current']),
         #int(P['Arduinos']['SIG/write']),
         ')' )
-    cs(ws)
+    #cs(ws)
     return ws
 
 def pwm_to_percent(null_pwm,current_pwm,max_pwm,min_pwm):
