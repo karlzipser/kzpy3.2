@@ -146,7 +146,7 @@ def _publish_No_Arduino_data(P):
 P['publish_IMU_data'] = _publish_IMU_data
 P['publish_MSE_data'] = _publish_MSE_data
 P['publish_FLEX_data'] = _publish_FLEX_data
-P['publish_GPS_data'] = _publish_GPS_data
+#P['publish_GPS_data'] = _publish_GPS_data
 
 if 'Start Arduino threads...':
     baudrate = 115200
