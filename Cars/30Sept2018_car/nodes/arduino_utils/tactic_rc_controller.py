@@ -26,6 +26,8 @@ def _TACTIC_RC_controller_run_loop(P):
 
     P['Arduinos']['MSE'].write("(-1,-1,-1,-1,-1,-1,-1)")
 
+    P['button_number'] = 0
+
     while (not P['ABORT']) and (not rospy.is_shutdown()):
 
         if False:
@@ -60,6 +62,7 @@ def _TACTIC_RC_controller_run_loop(P):
                 P['encoder'] = serial_input[4]
 
                 bpwm = P['button_pwm']
+                button_number_prev = P['button_number']
                 if np.abs(bpwm - 1900) < P['button_delta']:
                     bn = 1
                 elif np.abs(bpwm - 1700) < P['button_delta']:
@@ -72,7 +75,8 @@ def _TACTIC_RC_controller_run_loop(P):
                     P['button_timer'].reset()
                 if P['button_number'] == 4:
                     P['time_since_button_4'].reset()
-                    P['Arduinos']['MSE'].write("(-1,-1,-1,-1,-1,-1,-1)")
+                    if button_number_prev != 4:
+                        P['Arduinos']['MSE'].write("(-1,-1,-1,-1,-1,-1,-1)")
                 P['button_number'] = bn
                 P['button_time'] = P['button_timer'].time()
 
