@@ -64,13 +64,13 @@ def _calibrate_run_loop(P):
                         first_time_here = True
                         
         try:
-            print int(P['servo_pwm']),
+            print [int(P['servo_pwm']),
                 int(P['servo_pwm_null']),
                 int(P['servo_pwm_min']),
                 int(P['servo_pwm_max']),
                 int(P['servo_pwm_max'] - P['servo_pwm_min']),
                 int(P['motor_pwm_max'] - P['motor_pwm_min']),
-                P['calibrated']
+                P['calibrated'],]
         except:
             print 'calibration print failed'
 
