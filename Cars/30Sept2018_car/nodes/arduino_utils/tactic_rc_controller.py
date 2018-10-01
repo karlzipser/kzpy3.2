@@ -153,8 +153,8 @@ def _TACTIC_RC_controller_run_loop(P):
                 print_timer.reset()
 
         except Exception as e:
-            if True:
-                print '_TACTIC_RC_controller_run_loop',e
+            #if True:
+            #    print '_TACTIC_RC_controller_run_loop',e
             pass            
     print 'end _TACTIC_RC_controller_run_loop.'
 
@@ -164,7 +164,8 @@ def get_write_str(servo_pwm,camera_pwm,motor_pwm,P):
         int(P['servo_pwm_smooth_manual_offset']+servo_pwm),',',
         int(P['camera_pwm_manual_offset']+camera_pwm+5000),',',
         int(motor_pwm+10000),',',
-        int(P['Arduinos']['SIG/write']),
+        P['LED_number']['current'],
+        #int(P['Arduinos']['SIG/write']),
         ')' )
     cs(ws)
     return ws
