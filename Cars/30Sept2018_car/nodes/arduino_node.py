@@ -48,20 +48,6 @@ P['motor_pwm_min_pub'] = rospy.Publisher('motor_pwm_min', std_msgs.msg.Int32, qu
 P['motor_pwm_null_pub'] = rospy.Publisher('motor_pwm_null', std_msgs.msg.Int32, queue_size=5) 
 P['motor_pwm_max_pub'] = rospy.Publisher('motor_pwm_max', std_msgs.msg.Int32, queue_size=5)
 
-if False:
-    P['GPS_latitudeDegrees_pub'] = rospy.Publisher('GPS_latitudeDegrees', std_msgs.msg.Float64, queue_size=5)
-    P['GPS_longitudeDegrees_pub'] = rospy.Publisher('GPS_longitudeDegrees', std_msgs.msg.Float64, queue_size=5)
-    P['GPS_speed_pub'] = rospy.Publisher('GPS_speed', std_msgs.msg.Float32, queue_size=5)
-    P['GPS_angle_pub'] = rospy.Publisher('GPS_angle', std_msgs.msg.Float32, queue_size=5)
-    P['GPS_altitude_pub'] = rospy.Publisher('GPS_altitude', std_msgs.msg.Float32, queue_size=5)
-    P['GPS_fixquality_pub'] = rospy.Publisher('GPS_fixquality', std_msgs.msg.Int32, queue_size=5)
-    P['GPS_satellites_pub'] = rospy.Publisher('GPS_satellites', std_msgs.msg.Int32, queue_size=5)
-
-if False:
-    from Default_values.arduino.default_values import flex_names
-    for name in flex_names:
-        P[d2n(name,'_pub')] = rospy.Publisher(name,std_msgs.msg.Int32,queue_size=5)
-
 imu_dic = {}
 imu_dic['gyro'] = 'gyro_pub'
 imu_dic['acc'] = 'acc_pub'

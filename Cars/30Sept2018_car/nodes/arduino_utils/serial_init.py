@@ -52,7 +52,7 @@ def assign_serial_connections(P,sers):
 
     if 'MSE' not in P['Arduinos'].keys():
         spd2s('MSE not found: Is transmitter turned on? Is MSE battery plugged in?')
-        assert False
+        assert(False)
     #return Arduinos
 
 #EOF
