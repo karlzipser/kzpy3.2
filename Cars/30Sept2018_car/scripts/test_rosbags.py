@@ -24,4 +24,8 @@ while True:
 	print current_bag_number
 	answer = get_bag_info()
 	print answer
+	unix(d2s('rm'),opjD('bw.txt'))
+	unix(d2s('rostopic bw /bair_car/zed/left/image_rect_color >',opjD('bw.txt')))
+	time.sleep(2)
+	unix('killall rostopic')
 	time.sleep(1)

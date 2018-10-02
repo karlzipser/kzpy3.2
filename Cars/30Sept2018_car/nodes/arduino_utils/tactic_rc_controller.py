@@ -12,9 +12,9 @@ def _TACTIC_RC_controller_run_loop(P):
 
     print('_TACTIC_RC_controller_run_loop')
     if 'MSE' not in P['Arduinos']:
-        P['Arduinos']['SOUND'].write("(60)")
         assert False
-
+    if 'SOUND' not in P['Arduinos']:
+        assert False
     time.sleep(0.1)
     P['Arduinos']['MSE'].flushInput()
     time.sleep(0.1)
