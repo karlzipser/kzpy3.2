@@ -20,6 +20,8 @@ def EXIT(restart=False,shutdown=True,kill_ros=True,_file_=''):
 		unix('sudo reboot')
 
 P = {}
+P['zed_called'] = {}
+P['os1_called'] = {}
 P['temporary_human_control'] = False
 P['acc triggers'] = 'shutdown'
 P['car_name'] = os.environ["COMPUTER_NAME"]
