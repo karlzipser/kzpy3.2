@@ -33,6 +33,24 @@ threading.Thread(target=kzpy3.Menu_app.menu.load_menu_data,args=[menu_path,Param
 import std_msgs.msg
 import geometry_msgs.msg
 import rospy
+import sensor_msgs.msg
+
+zed_called = 0
+def zed_callback(data):
+    global zed_called
+    zed_called += 1
+
+os1_called = 0
+def os1_callback(data):
+    global os1_called
+    os1_called += 1
+    
+rospy.Subscriber("/os1_node/points",sensor_msgs.msg.PointCloud2,os1_callback,queue_size=1)
+rospy.Subscriber("/bair_car/zed/right/image_rect_color",sensor_msgs.msg.Image,zed_callback,queue_size=1)
+
+
+
+
 
 def cmd_steer_callback(msg):
     Parameters['network']['servo_percent'] = msg.data

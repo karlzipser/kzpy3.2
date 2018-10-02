@@ -17,6 +17,27 @@ P = Default_values.arduino.default_values.P
 import std_msgs.msg
 import geometry_msgs.msg
 import rospy
+import sensor_msgs.msg
+
+P['zed_called']['val'] = 0
+P['zed_called']['time'] = 0
+
+def zed_callback(data):
+    P['zed_called']['val'] += 1
+    P['zed_called']['time'] = time.time()
+
+P['os1_called']['val'] = 0
+P['os1_called']['time'] = 0
+
+def os1_callback(data):
+    P['os1_called']['val'] += 1
+    P['os1_called']['time'] = time.time()
+
+
+rospy.Subscriber("/os1_node/points",sensor_msgs.msg.PointCloud2,os1_callback,queue_size=1)
+rospy.Subscriber("/bair_car/zed/right/image_rect_color",sensor_msgs.msg.Image,zed_callback,queue_size=1)
+
+
 
 def cmd_steer_callback(msg):
     P['network']['servo_percent'] = msg.data
