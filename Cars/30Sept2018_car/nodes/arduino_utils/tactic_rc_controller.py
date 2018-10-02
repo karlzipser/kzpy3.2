@@ -41,9 +41,11 @@ def _TACTIC_RC_controller_run_loop(P):
                 P['Arduinos']['MSE'].flushInput()
                 P['Arduinos']['MSE'].flushOutput()
                 flush_timer.reset()
-            exec('serial_input = list({0})'.format(read_str))
 
-
+            try:
+                exec('serial_input = list({0})'.format(read_str))
+            except:
+                continue
             if serial_input[0] in ['acc','gyro','head']:
 
                 m = serial_input[0]
@@ -72,12 +74,12 @@ def _TACTIC_RC_controller_run_loop(P):
                     P['button_timer'].reset()
 
 
-
+                P['button_number'] = bn
 
                 if P['button_number'] == 4:
                     P['time_since_button_4'].reset()
 
-                P['button_number'] = bn
+                
 
                 P['button_time'] = P['button_timer'].time()
 
