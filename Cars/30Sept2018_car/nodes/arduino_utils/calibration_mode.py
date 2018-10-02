@@ -36,7 +36,7 @@ def _calibrate_run_loop(P):
     print_timer = Timer(1)
     frequency_timer = Timer(1)
     first_time_here = False
-    bandwidth_check_timer = Timer(60)
+    bandwidth_check_timer = Timer(10)
     bandwidth_check_timer.trigger()
     rosbag_check_timer = Timer(3)
     rosbag_check_timer.trigger()
@@ -62,6 +62,7 @@ def _calibrate_run_loop(P):
             else:
                 P['Arduinos']['SOUND'].write("30")
                 time.sleep(1)
+            cs(os1_points_bw)
             if len(os1_points_bw) == 0:
                 for i in range(3):
                     CS('No LIDAR!',exception=True)
@@ -70,6 +71,7 @@ def _calibrate_run_loop(P):
                 time.sleep(2)
             else:
                 P['Arduinos']['SOUND'].write("31")
+                bandwidth_check_timer = Timer(60)
                 time.sleep(1)
             bandwidth_check_timer.reset()
         frequency_timer.freq(name='_calibrate_run_loop',do_print=P['print_calibration_freq'])
