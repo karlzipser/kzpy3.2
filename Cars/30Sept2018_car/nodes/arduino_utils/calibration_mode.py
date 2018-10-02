@@ -51,7 +51,7 @@ def _calibrate_run_loop(P):
             unix(d2s('bash',opjk('Cars/30Sept2018_car/scripts/os1_bandwidth_tester.sh')))
             #zed_left_bw = txt_file_to_list_of_strings(opjD('left_image_rect_color_bw.txt'))
             os1_points_bw = unix(d2s("more",opjD('os1_node_points_bw.txt')))
-            
+            time.sleep(3)
             unix(d2s('bash',opjk('Cars/30Sept2018_car/scripts/zed_bandwidth_tester.sh')))
             zed_left_bw = unix(d2s("more",opjD('left_image_rect_color_bw.txt')))
             #os1_points_bw = txt_file_to_list_of_strings(opjD('os1_node_points_bw.txt'))
