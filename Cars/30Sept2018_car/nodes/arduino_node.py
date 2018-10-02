@@ -91,7 +91,6 @@ if 'Start Arduino threads...':
         CS("!!!!!!!!!! found 'MSE' !!!!!!!!!!!",emphasis=True)
         TACTIC_RC_controller(P)
         Calibration_Mode(P)
-        Selector_Mode(P)
     else:
         assert False
 
