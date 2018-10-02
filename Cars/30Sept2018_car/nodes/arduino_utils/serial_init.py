@@ -22,7 +22,6 @@ def get_arduino_serial_connections(baudrate, timeout):
 def assign_serial_connections(P,sers):
     ctr = 0
     P['Arduinos'] = {}
-    P['Arduinos']['SIG/write'] = -11119
     for ser in sers:
         for _ in xrange(100000):
             try:
@@ -34,15 +33,11 @@ def assign_serial_connections(P,sers):
                     spd2s('Port',ser.port,'is the MSE:',ser_str)
                     CS("\tusing 'motor_servo_encoder.ino'",exception=True)
                     P['Arduinos']['MSE'] = ser
-                    if 'SOUND' in P['Arduinos']:
-                        P['Arduinos']['SOUND'].write("(1929)")
                     break
                 elif ser_tuple[0] in ['sound']:
                     print(d2s('Port',ser.port,'is the SOUND:',ser_str))
                     print("\tusing '?.ino'")
                     P['Arduinos']['SOUND'] = ser
-                    if 'MSE' in P['Arduinos']:
-                        P['Arduinos']['SOUND'].write("(1929)")
                     break     
                 else:
                     continue               
@@ -74,6 +69,10 @@ def assign_serial_connections(P,sers):
         else:
             CS_('Unable to identify port {0}'.format(ser.port))
     print 'Finished scanning serial ports.'
+
+    if 'SOUND' in P['Arduinos'] and 'MSE' in P['Arduinos']:
+        P['Arduinos']['SOUND'].write("(1929)")
+
     if 'MSE' not in P['Arduinos'].keys():
         spd2s('MSE not found: Is transmitter turned on? Is MSE battery plugged in?')
     #return Arduinos
