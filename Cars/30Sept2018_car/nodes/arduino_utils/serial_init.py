@@ -41,29 +41,6 @@ def assign_serial_connections(P,sers):
                     break     
                 else:
                     continue               
-                """
-                elif ser_tuple[0] in ['acc','gyro','head']:
-                    print(d2s('Port',ser.port,'is the IMU:',ser_str))
-                    print("\tusing 'acc.ino'")
-                    P['Arduinos']['IMU'] = ser
-                    break
-                elif ser_tuple[0] in ['GPS3']:
-                    print(d2s('Port',ser.port,'is the SIG:',ser_str))
-                    print("\tusing 'LED2_GPS3.ino'")
-                    P['Arduinos']['SIG'] = ser
-                    break
-                #################
-                #
-                elif ser_tuple[0] in flex_names:
-                    print(d2s('Port',ser.port,'is the FLEX:',ser_str))
-                    print("\tusing 'Flex_Sensors_0_12Sept2018.ino'")
-                    P['Arduinos']['FLEX'] = ser
-                    break
-                #
-                #################
-                """
-
-
             except:
                 pass
         else:
@@ -75,6 +52,7 @@ def assign_serial_connections(P,sers):
 
     if 'MSE' not in P['Arduinos'].keys():
         spd2s('MSE not found: Is transmitter turned on? Is MSE battery plugged in?')
+        assert False
     #return Arduinos
 
 #EOF

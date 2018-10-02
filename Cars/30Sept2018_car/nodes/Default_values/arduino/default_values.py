@@ -19,87 +19,87 @@ def EXIT(restart=False,shutdown=True,kill_ros=True,_file_=''):
 		time.sleep(0.01)
 		unix('sudo reboot')
 
-Parameters = {}
-Parameters['temporary_human_control'] = False
-Parameters['acc triggers'] = 'shutdown'
-Parameters['car_name'] = os.environ["COMPUTER_NAME"]
-Parameters['calibrated'] = False
-Parameters['ABORT'] = False
-Parameters['agent_choice'] = 'network'
-Parameters['servo_percent'] = 49
-Parameters['motor_percent'] = 49
-Parameters['LED_number'] = {}
-Parameters['LED_number']['current'] = 0
-Parameters['CALIBRATION_NULL_START_TIME'] = 3.0
-Parameters['CALIBRATION_START_TIME'] = 4.0
-Parameters['print_mse_freq'] = False
-Parameters['print_imu_freq'] = False
-Parameters['print_calibration_freq'] = False
-Parameters['print_selector_freq'] = False
-Parameters['print_led_freq'] = False
-Parameters['USE_ROS'] = HAVE_ROS #using_linux()
-Parameters['human'] = {}
-Parameters['human']['servo_percent'] = 49
-Parameters['human']['motor_percent'] = 49
-Parameters['network'] = {}
-Parameters['network']['servo_percent'] = 49
-Parameters['network']['motor_percent'] = 49
-Parameters['IMU_SMOOTHING_PARAMETER'] = 0.95
-Parameters['Hz'] = {}
-Parameters['servo_pwm_null'] = 1450
-Parameters['motor_pwm_null'] = Parameters['servo_pwm_null']
-Parameters['servo_pwm_min'] = Parameters['servo_pwm_null']
-Parameters['servo_pwm_max'] = Parameters['servo_pwm_null']
-Parameters['motor_pwm_min'] = Parameters['servo_pwm_null']
-Parameters['motor_pwm_max'] = Parameters['servo_pwm_null']
-Parameters['behavioral_mode_choice'] = 'direct'
-#Parameters['agent_choice'] = 'human'
-Parameters['place_choice'] = 'local'
+P = {}
+P['temporary_human_control'] = False
+P['acc triggers'] = 'shutdown'
+P['car_name'] = os.environ["COMPUTER_NAME"]
+P['calibrated'] = False
+P['ABORT'] = False
+P['agent_choice'] = 'network'
+P['servo_percent'] = 49
+P['motor_percent'] = 49
+P['LED_number'] = {}
+P['LED_number']['current'] = 0
+P['CALIBRATION_NULL_START_TIME'] = 3.0
+P['CALIBRATION_START_TIME'] = 4.0
+P['print_mse_freq'] = False
+P['print_imu_freq'] = False
+P['print_calibration_freq'] = False
+P['print_selector_freq'] = False
+P['print_led_freq'] = False
+P['USE_ROS'] = HAVE_ROS #using_linux()
+P['human'] = {}
+P['human']['servo_percent'] = 49
+P['human']['motor_percent'] = 49
+P['network'] = {}
+P['network']['servo_percent'] = 49
+P['network']['motor_percent'] = 49
+P['IMU_SMOOTHING_PARAMETER'] = 0.95
+P['Hz'] = {}
+P['servo_pwm_null'] = 1450
+P['motor_pwm_null'] = P['servo_pwm_null']
+P['servo_pwm_min'] = P['servo_pwm_null']
+P['servo_pwm_max'] = P['servo_pwm_null']
+P['motor_pwm_min'] = P['servo_pwm_null']
+P['motor_pwm_max'] = P['servo_pwm_null']
+P['behavioral_mode_choice'] = 'direct'
+#P['agent_choice'] = 'human'
+P['place_choice'] = 'local'
 
-if Parameters['car_name'] == 'Mr_Blue_Back':
-	Parameters['servo_pwm_smooth_manual_offset'] = -30
-	Parameters['camera_pwm_manual_offset'] = -500
-	Parameters['servo_feedback_center'] = 214
-	Parameters['servo_feedback_right'] = 140
-	Parameters['servo_feedback_left'] = 294
+if P['car_name'] == 'Mr_Blue_Back':
+	P['servo_pwm_smooth_manual_offset'] = -30
+	P['camera_pwm_manual_offset'] = -500
+	P['servo_feedback_center'] = 214
+	P['servo_feedback_right'] = 140
+	P['servo_feedback_left'] = 294
 else:
-	Parameters['servo_pwm_smooth_manual_offset'] = 0
-	Parameters['camera_pwm_manual_offset'] = 0	
+	P['servo_pwm_smooth_manual_offset'] = 0
+	P['camera_pwm_manual_offset'] = 0	
 
-Parameters['HUMAN_SMOOTHING_PARAMETER_1'] = 0
-Parameters['USE_MSE'] = True
-Parameters['USE_SIG'] = True
-Parameters['USE_IMU'] = True
+P['HUMAN_SMOOTHING_PARAMETER_1'] = 0
+P['USE_MSE'] = True
+P['USE_SIG'] = True
+P['USE_IMU'] = True
 
-Parameters['pid_motor_slope'] = (60-49)/3.0
-Parameters['pid_motor_gain'] = 0.05
-Parameters['pid_encoder_max'] = 4.0
-Parameters['pid_motor_encoder_max'] = 4.0
-Parameters['pid_motor_delta_max']= 0.05
-Parameters['pid_motor_percent_max']= 99
-Parameters['pid_motor_percent_min']= 0
-Parameters['pid_steer_gain']= 0.05
-Parameters['pid_steer_delta_max']= 0.05
-Parameters['pid_steer_steer_percent_max']= 99
-Parameters['pid_steer_steer_percent_min'] = 0
-Parameters['use_servo_feedback'] = 0
+P['pid_motor_slope'] = (60-49)/3.0
+P['pid_motor_gain'] = 0.05
+P['pid_encoder_max'] = 4.0
+P['pid_motor_encoder_max'] = 4.0
+P['pid_motor_delta_max']= 0.05
+P['pid_motor_percent_max']= 99
+P['pid_motor_percent_min']= 0
+P['pid_steer_gain']= 0.05
+P['pid_steer_delta_max']= 0.05
+P['pid_steer_steer_percent_max']= 99
+P['pid_steer_steer_percent_min'] = 0
+P['use_servo_feedback'] = 0
 
-Parameters['button_delta'] = 50
-Parameters['button_number'] = 0
-Parameters['button_timer'] = Timer()
-Parameters['time_since_button_4'] = Timer()
-Parameters['servo_pwm_smooth'] = 1000
-Parameters['motor_pwm_smooth'] = 1000
-Parameters['selector_mode'] = False
-Parameters['encoder_smooth'] = 0.0
-Parameters['network']['camera_percent'] = 49
-Parameters['Hz']['mse'] = 0
-Parameters['calibrated'] = False
-Parameters['acc'] = {}
-Parameters['gyro'] = {}
-Parameters['head'] = {}
-Parameters['The menu path.'] = opjk('Cars/car_24July2018/nodes/Default_values/arduino')
-Parameters['autostart menu'] = True
+P['button_delta'] = 50
+P['button_number'] = 0
+P['button_timer'] = Timer()
+P['time_since_button_4'] = Timer()
+P['servo_pwm_smooth'] = 1000
+P['motor_pwm_smooth'] = 1000
+P['selector_mode'] = False
+P['encoder_smooth'] = 0.0
+P['network']['camera_percent'] = 49
+P['Hz']['mse'] = 0
+P['calibrated'] = False
+P['acc'] = {}
+P['gyro'] = {}
+P['head'] = {}
+P['The menu path.'] = opjk('Cars/car_24July2018/nodes/Default_values/arduino')
+P['autostart menu'] = True
 
 
 flex_names = [
@@ -118,10 +118,10 @@ flex_names = [
 ]
 
 for f in flex_names:
-    Parameters[f] = {}
-Parameters['to_hide'] = []
+    P[f] = {}
+P['to_hide'] = []
 
-Parameters['to_expose'] = [
+P['to_expose'] = [
 	'ABORT',
 	'IMU_SMOOTHING_PARAMETER',
 	'behavioral_mode_choice',
