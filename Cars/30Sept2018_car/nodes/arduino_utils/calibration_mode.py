@@ -3,6 +3,7 @@ exec(identify_file_str)
 import rospy
 
 
+
 cal_types = ['servo_pwm_null','servo_pwm_min','servo_pwm_max','motor_pwm_null','motor_pwm_min','motor_pwm_max']
 
 def Calibration_Mode(P):
@@ -14,7 +15,17 @@ def _calibrate_run_loop(P):
     print_timer = Timer(1)
     frequency_timer = Timer(1)
     first_time_here = False
+    bandwidth_check_timer = Timer(60)
+    bandwidth_check_timer.trigger()
+
     while (not P['ABORT']) and (not rospy.is_shutdown()):
+        if bandwidth_check_timer.check():
+            unix(d2s('bash',opjk('Cars/30Sept2018_car/scripts/bandwidth_tester.sh')))
+            zed_left_bw = txt_file_to_list_of_strings(opjD('left_image_rect_color_bw.txt'))
+            os1_points_bw = txt_file_to_list_of_strings(opjD('os1_node_points_bw.txt'))
+            print zed_left_bw
+            print os1_points_bw
+            bandwidth_check_timer.reset()
         frequency_timer.freq(name='_calibrate_run_loop',do_print=P['print_calibration_freq'])
         if 'Brief sleep to allow other threads to process...':
             time.sleep(0.02)
