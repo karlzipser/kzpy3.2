@@ -81,10 +81,9 @@ def _TACTIC_RC_controller_run_loop(P):
 
                 P['button_time'] = P['button_timer'].time()
 
-                if P['button_number'] == 1 and button_number_prev != 1:
-                    sbpd2s('HERE!!!!!!!!!!')
-                    P['Arduinos']['SOUND'].write("(1929)")
-
+                if P['button_number'] != button_number_prev:
+                    pd2s("P['button_number'] =",P['button_number']) 
+                    P['Arduinos']['SOUND'].write(d2n(""" "(""",P['button_number'],""")" """))
 
                 button_number_prev = P['button_number']
 
