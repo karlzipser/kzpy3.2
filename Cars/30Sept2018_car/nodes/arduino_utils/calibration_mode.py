@@ -2,6 +2,27 @@ from kzpy3.utils3 import *
 exec(identify_file_str)
 import rospy
 
+current_bag_number = 0
+
+def get_bag_info():
+    global current_bag_number
+    print 'get_bag_info'
+    try:
+        latest_rosbag_folder = most_recent_file_in_folder(opjm('rosbags'))
+        latest_rosbag = most_recent_file_in_folder(latest_rosbag_folder)
+        bag_num = int(fname(latest_rosbag).split('_')[-1].split('.')[0])
+        bag_size = os.path.getsize(latest_rosbag)
+        bag_size = dp(bag_size/1000000000.)
+        print latest_rosbag_folder,latest_rosbag,bag_num,bag_size,'current_bag_number=',current_bag_number
+        if (bag_num == current_bag_number+1) and bag_size > 0.5:
+            current_bag_number += 1
+            return True
+        else:
+            return False
+    except:
+        return False
+
+
 
 
 cal_types = ['servo_pwm_null','servo_pwm_min','servo_pwm_max','motor_pwm_null','motor_pwm_min','motor_pwm_max']
@@ -17,8 +38,14 @@ def _calibrate_run_loop(P):
     first_time_here = False
     bandwidth_check_timer = Timer(60)
     bandwidth_check_timer.trigger()
-
+    rosbag_check_timer = Timer(1)
+    rosbag_check_timer.trigger()
     while (not P['ABORT']) and (not rospy.is_shutdown()):
+        if rosbag_check_timer.check():
+            b = get_bag_info()
+            if b == True:
+                CS('new bag file',emphasis=True)
+            rosbag_check_timer.reset()
         if bandwidth_check_timer.check():
             unix(d2s('bash',opjk('Cars/30Sept2018_car/scripts/bandwidth_tester.sh')))
             zed_left_bw = txt_file_to_list_of_strings(opjD('left_image_rect_color_bw.txt'))
