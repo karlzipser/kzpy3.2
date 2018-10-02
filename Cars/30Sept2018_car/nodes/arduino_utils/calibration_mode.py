@@ -56,15 +56,19 @@ def _calibrate_run_loop(P):
             if len(zed_left_bw) == 0:
                 print """P['Arduinos']['SOUND'].write("60")"""
                 P['Arduinos']['SOUND'].write("60")
+                time.sleep(1)
             else:
                 print """P['Arduinos']['SOUND'].write("30")"""
                 P['Arduinos']['SOUND'].write("30")
+                time.sleep(1)
             if len(os1_points_bw) == 0:
                 print """P['Arduinos']['SOUND'].write("61")"""
                 P['Arduinos']['SOUND'].write("61")
+                time.sleep(1)
             else:
                 print """P['Arduinos']['SOUND'].write("31")"""
                 P['Arduinos']['SOUND'].write("31")
+                time.sleep(1)
             bandwidth_check_timer.reset()
         frequency_timer.freq(name='_calibrate_run_loop',do_print=P['print_calibration_freq'])
         if 'Brief sleep to allow other threads to process...':
