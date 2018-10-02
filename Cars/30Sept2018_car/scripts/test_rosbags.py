@@ -13,9 +13,9 @@ def get_bag_info():
 		print latest_rosbag_folder,latest_rosbag,bag_num,bag_size,'current_bag_number=',current_bag_number
 		if (bag_num == current_bag_number+1) and bag_size > 0.5:
 			current_bag_number += 1
-		return True
+			return True
 		else:
-		return False
+			return False
 	except:
 		return False
 
