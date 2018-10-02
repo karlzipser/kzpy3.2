@@ -63,7 +63,7 @@ def _TACTIC_RC_controller_run_loop(P):
                 P['encoder'] = serial_input[4]
 
                 bpwm = P['button_pwm']
-                button_number_prev = P['button_number']
+                
                 if np.abs(bpwm - 1900) < P['button_delta']:
                     bn = 1
                 elif np.abs(bpwm - 1700) < P['button_delta']:
@@ -84,6 +84,12 @@ def _TACTIC_RC_controller_run_loop(P):
                     P['time_since_button_4'].reset()
                 P['button_number'] = bn
                 P['button_time'] = P['button_timer'].time()
+
+
+
+                button_number_prev = P['button_number']
+                
+
 
                 time_since_successful_read_from_arduino.reset()
 
