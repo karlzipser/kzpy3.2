@@ -53,7 +53,7 @@ def _calibrate_run_loop(P):
             os1_points_bw = txt_file_to_list_of_strings(opjD('os1_node_points_bw.txt'))
             print 'left_image_rect_color_bw.txt',zed_left_bw
             print 'os1_node_points_bw.txt',os1_points_bw
-            if len(left_image_rect_color_bw) == 0:
+            if len(zed_left_bw) == 0:
                 P['Arduinos']['SOUND'].write("60")
             else:
                 P['Arduinos']['SOUND'].write("30")
