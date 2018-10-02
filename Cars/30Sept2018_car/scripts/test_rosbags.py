@@ -9,7 +9,7 @@ def get_bag_info():
         bag_num = int(fname(latest_rosbag).split('_')[-1].split('.')[0])
         bag_size = os.path.getsize(latest_rosbag)
         bag_size = dp(bag_size/1000000000.)
-        if (bag_num == current_bag_number+1) and bag_size > 1.0:
+        if (bag_num == current_bag_number+1) and bag_size > 0.5:
         	current_bag_number += 1
         	return True
         else:
@@ -18,5 +18,5 @@ def get_bag_info():
         return False
 
 while True:
-	time.sleep(1)
+	time.sleep(5)
 	print get_bag_info()
