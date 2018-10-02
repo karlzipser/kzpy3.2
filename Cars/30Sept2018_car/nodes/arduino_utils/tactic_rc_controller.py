@@ -28,6 +28,7 @@ def _TACTIC_RC_controller_run_loop(P):
     
 
     P['button_number'] = 0
+    button_number_prev = 0
 
     while (not P['ABORT']) and (not rospy.is_shutdown()):
 
@@ -71,16 +72,18 @@ def _TACTIC_RC_controller_run_loop(P):
                     P['button_timer'].reset()
 
 
-                if P['button_number'] == 1 and button_number_prev != 1:
-                    sbpd2s('HERE!!!!!!!!!!')
-                    P['Arduinos']['SOUND'].write("(1929)")
 
 
                 if P['button_number'] == 4:
                     P['time_since_button_4'].reset()
+
                 P['button_number'] = bn
+
                 P['button_time'] = P['button_timer'].time()
 
+                if P['button_number'] == 1 and button_number_prev != 1:
+                    sbpd2s('HERE!!!!!!!!!!')
+                    P['Arduinos']['SOUND'].write("(1929)")
 
 
                 button_number_prev = P['button_number']
