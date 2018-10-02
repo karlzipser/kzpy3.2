@@ -16,11 +16,11 @@ def get_bag_info():
         print latest_rosbag_folder,latest_rosbag,bag_num,bag_size,'current_bag_number=',current_bag_number
         if (bag_num == current_bag_number+1) and bag_size > 0.5:
             current_bag_number += 1
-            return True
+            return current_bag_number
         else:
-            return False
+            return 0
     except:
-        return False
+        return 0
 
 
 
@@ -38,20 +38,20 @@ def _calibrate_run_loop(P):
     first_time_here = False
     bandwidth_check_timer = Timer(60)
     bandwidth_check_timer.trigger()
-    rosbag_check_timer = Timer(1)
+    rosbag_check_timer = Timer(3)
     rosbag_check_timer.trigger()
     while (not P['ABORT']) and (not rospy.is_shutdown()):
         if rosbag_check_timer.check():
             b = get_bag_info()
-            if b == True:
-                CS('new bag file',emphasis=True)
+            if b > 0:
+                cs('new bag file',b)
             rosbag_check_timer.reset()
         if bandwidth_check_timer.check():
             unix(d2s('bash',opjk('Cars/30Sept2018_car/scripts/bandwidth_tester.sh')))
             zed_left_bw = txt_file_to_list_of_strings(opjD('left_image_rect_color_bw.txt'))
             os1_points_bw = txt_file_to_list_of_strings(opjD('os1_node_points_bw.txt'))
-            print zed_left_bw
-            print os1_points_bw
+            print 'left_image_rect_color_bw.txt',zed_left_bw
+            print 'os1_node_points_bw.txt',os1_points_bw
             bandwidth_check_timer.reset()
         frequency_timer.freq(name='_calibrate_run_loop',do_print=P['print_calibration_freq'])
         if 'Brief sleep to allow other threads to process...':
