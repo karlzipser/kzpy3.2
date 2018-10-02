@@ -45,7 +45,7 @@ def _calibrate_run_loop(P):
             b = get_bag_info()
             if b > 0:
                 cs('new bag file',b)
-                P['Arduinos']['SOUND'].write("1929")
+                P['Arduinos']['SOUND'].write("1930")
             rosbag_check_timer.reset()
         if bandwidth_check_timer.check():
             unix(d2s('bash',opjk('Cars/30Sept2018_car/scripts/bandwidth_tester.sh')))
@@ -63,7 +63,7 @@ def _calibrate_run_loop(P):
                 P['Arduinos']['SOUND'].write("30")
                 time.sleep(1)
             if len(os1_points_bw) == 0:
-                for i in range(2):
+                for i in range(3):
                     CS('No LIDAR!',exception=True)
                     P['Arduinos']['SOUND'].write("61")
                     time.sleep(2)
