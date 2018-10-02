@@ -31,13 +31,8 @@ def _TACTIC_RC_controller_run_loop(P):
 
     while (not P['ABORT']) and (not rospy.is_shutdown()):
 
-        if False:
-            if time_since_successful_read_from_arduino.time() > 1.0:
-                _timer.message(d2s("time_since_successful_read_from_arduino.time()",time_since_successful_read_from_arduino.time()))
-            if time_since_successful_read_from_arduino.time() > 2.0:
-                CS_("time_since_successful_read_from_arduino.time() > 2, ABORT",emphasis=True)
-
         time.sleep(0.01)
+
         try:
             read_str = P['Arduinos']['MSE'].readline()
             #print read_str
@@ -78,7 +73,7 @@ def _TACTIC_RC_controller_run_loop(P):
 
                 if P['button_number'] == 1:# and button_number_prev != 1:
                     spbd2s('HERE!!!!!!!!!!')
-                    P['Arduinos']['SOUND'].write("(1929)")
+                    #P['Arduinos']['SOUND'].write("(1929)")
 
 
                 if P['button_number'] == 4:

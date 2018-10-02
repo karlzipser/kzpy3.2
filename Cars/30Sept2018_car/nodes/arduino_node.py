@@ -69,7 +69,7 @@ def _publish_MSE_data(P):
         elif P['button_number'] == 3:
             behavioral_mode_choice = 'right'
         else:
-            behavioral_mode_choice = P['behavioral_mode_choice']
+            behavioral_mode_choice = 'direct'
         P['behavioral_mode_pub'].publish(d2s(behavioral_mode_choice))
         P['human_agent_pub'].publish(std_msgs.msg.Int32(1))
         if P['button_number'] == 4:
