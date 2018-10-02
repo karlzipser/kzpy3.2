@@ -30,4 +30,7 @@ while True:
 	print s1
 	print s2
 	print s3
+	unix(s1);raw_enter()
+	unix(s2);raw_enter()
+	unix(s3);raw_enter()
 	time.sleep(1)
