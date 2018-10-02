@@ -54,17 +54,17 @@ def _calibrate_run_loop(P):
             print 'left_image_rect_color_bw.txt',zed_left_bw
             print 'os1_node_points_bw.txt',os1_points_bw
             if len(zed_left_bw) == 0:
-                print """P['Arduinos']['SOUND'].write("60")"""
-                P['Arduinos']['SOUND'].write("60")
-                time.sleep(1)
+                for i in range(10):
+                    print """P['Arduinos']['SOUND'].write("60")"""
+                    time.sleep(2)
+                time.sleep(2)
             else:
                 print """P['Arduinos']['SOUND'].write("30")"""
                 P['Arduinos']['SOUND'].write("30")
                 time.sleep(1)
             if len(os1_points_bw) == 0:
-                print """P['Arduinos']['SOUND'].write("61")"""
-                P['Arduinos']['SOUND'].write("61")
-                time.sleep(1)
+                    print """P['Arduinos']['SOUND'].write("61")"""
+                    time.sleep(2)
             else:
                 print """P['Arduinos']['SOUND'].write("31")"""
                 P['Arduinos']['SOUND'].write("31")
