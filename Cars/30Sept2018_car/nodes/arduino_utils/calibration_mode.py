@@ -40,26 +40,30 @@ def _calibrate_run_loop(P):
     bandwidth_check_timer.trigger()
     rosbag_check_timer = Timer(3)
     rosbag_check_timer.trigger()
+    os1_okay = False
+    os1_called_prev = 100
+    zed_okay = False
+    zed_called_prev = 100    
     while (not P['ABORT']) and (not rospy.is_shutdown()):
+
+
         if rosbag_check_timer.check():
             b = get_bag_info()
             if b > 0:
                 cs('new bag file',b)
                 P['Arduinos']['SOUND'].write("1930")
             rosbag_check_timer.reset()
+
         if bandwidth_check_timer.check():
-            #unix(d2s('bash',opjk('Cars/30Sept2018_car/scripts/os1_bandwidth_tester.sh')))
-            #zed_left_bw = txt_file_to_list_of_strings(opjD('left_image_rect_color_bw.txt'))
-            #os1_points_bw = unix(d2s("more",opjD('os1_node_points_bw.txt')))
-            #time.sleep(3)
-            #unix(d2s('bash',opjk('Cars/30Sept2018_car/scripts/zed_bandwidth_tester.sh')))
-            #zed_left_bw = unix(d2s("more",opjD('left_image_rect_color_bw.txt')))
-            #os1_points_bw = txt_file_to_list_of_strings(opjD('os1_node_points_bw.txt'))
-            #print os1_points_bw
-            #print 'left_image_rect_color_bw.txt',zed_left_bw
-            #print 'os1_node_points_bw.txt',os1_points_bw
-            """
-            if len(zed_left_bw) < 2:
+
+            if P['zed_called']['val'] > zed_called_prev:
+                zed_okay = True
+                zed_called_prev = P['zed_called']['val']
+            if P['os1_called']['val'] > os1_called_prev:
+                os1_okay = True
+                os1_called_prev = P['os1_called']['val']
+
+            if not zed_okay:
                 for i in range(4):
                     CS('No ZED!',exception=True)
                     P['Arduinos']['SOUND'].write("60")
@@ -69,8 +73,7 @@ def _calibrate_run_loop(P):
                 P['Arduinos']['SOUND'].write("30")
                 time.sleep(1)
             
-            #cs(os1_points_bw)
-            if len(os1_points_bw) < 2:
+            if not os1_okay:
                 for i in range(3):
                     CS('No LIDAR!',exception=True)
                     P['Arduinos']['SOUND'].write("61")
@@ -78,12 +81,12 @@ def _calibrate_run_loop(P):
                 time.sleep(2)
             else:
                 P['Arduinos']['SOUND'].write("31")
+
+            if os1_okay and zed_okay:
                 bandwidth_check_timer = Timer(60)
-                time.sleep(1)
-            """
 
             bandwidth_check_timer.reset()
-        print(P['zed_called'],P['os1_called']) 
+        
         frequency_timer.freq(name='_calibrate_run_loop',do_print=P['print_calibration_freq'])
         if 'Brief sleep to allow other threads to process...':
             time.sleep(0.02)
