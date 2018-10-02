@@ -24,7 +24,7 @@ while True:
 	print current_bag_number
 	answer = get_bag_info()
 	print answer
-	s1 = d2s('rm'),opjD('bw.txt')
+	s1 = d2s('rm',opjD('bw.txt'))
 	s2 = d2s('rostopic bw /bair_car/zed/left/image_rect_color >',opjD('bw.txt'))
 	s3 = 'killall rostopic'
 	print s1
