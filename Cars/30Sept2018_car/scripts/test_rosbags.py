@@ -22,6 +22,6 @@ def get_bag_info():
 
 while True:
 	print current_bag_number
+	answer = get_bag_info()
+	print answer
 	time.sleep(1)
-
-	get_bag_info()
