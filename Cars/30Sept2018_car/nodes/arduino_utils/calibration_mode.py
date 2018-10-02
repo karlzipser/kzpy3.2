@@ -48,9 +48,11 @@ def _calibrate_run_loop(P):
                 P['Arduinos']['SOUND'].write("1930")
             rosbag_check_timer.reset()
         if bandwidth_check_timer.check():
-            unix(d2s('bash',opjk('Cars/30Sept2018_car/scripts/bandwidth_tester.sh')))
+            unix(d2s('bash',opjk('Cars/30Sept2018_car/scripts/os1_bandwidth_tester.sh')))
             #zed_left_bw = txt_file_to_list_of_strings(opjD('left_image_rect_color_bw.txt'))
             os1_points_bw = unix(d2s("more",opjD('os1_node_points_bw.txt')))
+            
+            unix(d2s('bash',opjk('Cars/30Sept2018_car/scripts/zed_bandwidth_tester.sh')))
             zed_left_bw = unix(d2s("more",opjD('left_image_rect_color_bw.txt')))
             #os1_points_bw = txt_file_to_list_of_strings(opjD('os1_node_points_bw.txt'))
             #print os1_points_bw
