@@ -34,11 +34,15 @@ def assign_serial_connections(P,sers):
                     spd2s('Port',ser.port,'is the MSE:',ser_str)
                     CS("\tusing 'motor_servo_encoder.ino'",exception=True)
                     P['Arduinos']['MSE'] = ser
+                    if 'SOUND' in P['Arduinos']:
+                        P['Arduinos']['SOUND'].write("(1929)")
                     break
                 elif ser_tuple[0] in ['sound']:
                     print(d2s('Port',ser.port,'is the SOUND:',ser_str))
                     print("\tusing '?.ino'")
                     P['Arduinos']['SOUND'] = ser
+                    if 'MSE' in P['Arduinos']:
+                        P['Arduinos']['SOUND'].write("(1929)")
                     break     
                 else:
                     continue               
