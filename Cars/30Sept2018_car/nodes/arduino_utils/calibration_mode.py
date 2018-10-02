@@ -6,14 +6,14 @@ current_bag_number = 0
 
 def get_bag_info():
     global current_bag_number
-    print 'get_bag_info'
+    #print 'get_bag_info'
     try:
         latest_rosbag_folder = most_recent_file_in_folder(opjm('rosbags'))
         latest_rosbag = most_recent_file_in_folder(latest_rosbag_folder)
         bag_num = int(fname(latest_rosbag).split('_')[-1].split('.')[0])
         bag_size = os.path.getsize(latest_rosbag)
         bag_size = dp(bag_size/1000000000.)
-        print latest_rosbag_folder,latest_rosbag,bag_num,bag_size,'current_bag_number=',current_bag_number
+        #print latest_rosbag_folder,latest_rosbag,bag_num,bag_size,'current_bag_number=',current_bag_number
         if (bag_num == current_bag_number+1) and bag_size > 0.5:
             current_bag_number += 1
             return current_bag_number
@@ -53,8 +53,14 @@ def _calibrate_run_loop(P):
             os1_points_bw = txt_file_to_list_of_strings(opjD('os1_node_points_bw.txt'))
             print 'left_image_rect_color_bw.txt',zed_left_bw
             print 'os1_node_points_bw.txt',os1_points_bw
-            if len(os1_points_bw) == 0:
+            if len(left_image_rect_color_bw) == 0:
                 P['Arduinos']['SOUND'].write("60")
+            else:
+                P['Arduinos']['SOUND'].write("30")
+            if len(os1_points_bw) == 0:
+                P['Arduinos']['SOUND'].write("61")
+            else:
+                P['Arduinos']['SOUND'].write("31")
             bandwidth_check_timer.reset()
         frequency_timer.freq(name='_calibrate_run_loop',do_print=P['print_calibration_freq'])
         if 'Brief sleep to allow other threads to process...':
