@@ -3,6 +3,7 @@ from kzpy3.utils3 import *
 current_bag_number = 0
 
 def get_bag_info():
+	global current_bag_number
 	print 'get_bag_info'
 	try:
 		latest_rosbag_folder = most_recent_file_in_folder(opjm('rosbags'))
@@ -20,5 +21,7 @@ def get_bag_info():
 		return False
 
 while True:
+	print current_bag_number
 	time.sleep(1)
-	print get_bag_info()
+
+	get_bag_info()
