@@ -45,6 +45,7 @@ def _calibrate_run_loop(P):
             b = get_bag_info()
             if b > 0:
                 cs('new bag file',b)
+                P['Arduinos']['SOUND'].write("1929")
             rosbag_check_timer.reset()
         if bandwidth_check_timer.check():
             unix(d2s('bash',opjk('Cars/30Sept2018_car/scripts/bandwidth_tester.sh')))
@@ -52,6 +53,8 @@ def _calibrate_run_loop(P):
             os1_points_bw = txt_file_to_list_of_strings(opjD('os1_node_points_bw.txt'))
             print 'left_image_rect_color_bw.txt',zed_left_bw
             print 'os1_node_points_bw.txt',os1_points_bw
+            if len(os1_points_bw) == 0:
+                P['Arduinos']['SOUND'].write("60")
             bandwidth_check_timer.reset()
         frequency_timer.freq(name='_calibrate_run_loop',do_print=P['print_calibration_freq'])
         if 'Brief sleep to allow other threads to process...':
