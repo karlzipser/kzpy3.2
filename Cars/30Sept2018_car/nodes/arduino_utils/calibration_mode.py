@@ -10,7 +10,7 @@ def Calibration_Mode(P):
 
 def _calibrate_run_loop(P):
     CS_("_calibrate_run_loop")
-    no_sound_yet = True
+    #no_sound_yet = True
     print_timer = Timer(1)
     frequency_timer = Timer(1)
     first_time_here = False
@@ -19,7 +19,7 @@ def _calibrate_run_loop(P):
         if 'Brief sleep to allow other threads to process...':
             time.sleep(0.02)
         if P['button_number'] != 4:
-            no_sound_yet = True
+            #no_sound_yet = True
             if first_time_here:
                 try:
                     Cal = lo(opjD('calibrations.pkl'))
@@ -52,9 +52,9 @@ def _calibrate_run_loop(P):
                 P['servo_pwm_smooth'] = P['servo_pwm_null']
                 P['motor_pwm_smooth'] = P['motor_pwm_null']
             else:
-                if no_sound_yet:
-                    P['Arduinos']['SOUND'].write("(1929)")
-                    no_sound_yet = False
+                #if no_sound_yet:
+                #    P['Arduinos']['SOUND'].write("(1929)")
+                #    no_sound_yet = False
                 if P['servo_pwm_max'] < P['servo_pwm']:
                     P['servo_pwm_max'] = P['servo_pwm']
                 if P['servo_pwm_min'] > P['servo_pwm']:
