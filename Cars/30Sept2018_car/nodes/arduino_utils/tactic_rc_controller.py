@@ -49,6 +49,7 @@ def _TACTIC_RC_controller_run_loop(P):
                 exec('serial_input = list({0})'.format(read_str))
             except:
                 continue
+                
             if serial_input[0] in ['acc','gyro','head']:
 
                 m = serial_input[0]
