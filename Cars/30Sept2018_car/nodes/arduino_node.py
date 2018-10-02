@@ -143,7 +143,7 @@ def _publish_No_Arduino_data(P):
         if No_Arduino_data_very_low_frequency_pub_timer.check():
             No_Arduino_data_very_low_frequency_pub_timer.reset()
 
-#P['publish_IMU_data'] = _publish_IMU_data
+P['publish_IMU_data'] = _publish_IMU_data
 P['publish_MSE_data'] = _publish_MSE_data
 #P['publish_FLEX_data'] = _publish_FLEX_data
 #P['publish_GPS_data'] = _publish_GPS_data
