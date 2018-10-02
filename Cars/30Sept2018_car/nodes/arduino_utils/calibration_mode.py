@@ -50,9 +50,9 @@ def _calibrate_run_loop(P):
         if bandwidth_check_timer.check():
             unix(d2s('bash',opjk('Cars/30Sept2018_car/scripts/bandwidth_tester.sh')))
             #zed_left_bw = txt_file_to_list_of_strings(opjD('left_image_rect_color_bw.txt'))
+            os1_points_bw = unix(d2s("more",opjD('os1_node_points_bw.txt')))
             zed_left_bw = unix(d2s("more",opjD('left_image_rect_color_bw.txt')))
             #os1_points_bw = txt_file_to_list_of_strings(opjD('os1_node_points_bw.txt'))
-            os1_points_bw = unix(d2s("more",opjD('os1_node_points_bw.txt')))
             #print os1_points_bw
             print 'left_image_rect_color_bw.txt',zed_left_bw
             print 'os1_node_points_bw.txt',os1_points_bw
