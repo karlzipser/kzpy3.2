@@ -82,8 +82,6 @@ def _TACTIC_RC_controller_run_loop(P):
 
                 if P['button_number'] == 4:
                     P['time_since_button_4'].reset()
-                    if button_number_prev != 4:
-                        P['Arduinos']['MSE'].write("(-1,-1,-1,-1,-1,-1,-1)")
                 P['button_number'] = bn
                 P['button_time'] = P['button_timer'].time()
 
