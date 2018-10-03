@@ -71,34 +71,6 @@
             /$(arg car_name)/button_number
             /$(arg car_name)/place_choice
             /$(arg car_name)/drive_mode
-            /$(arg car_name)/Hz_acc
-            /$(arg car_name)/Hz_mse
-            /$(arg car_name)/Hz_network
-            /$(arg car_name)/FL0
-            /$(arg car_name)/FL1
-            /$(arg car_name)/FL2
-            /$(arg car_name)/FL3
-            /$(arg car_name)/FR0
-            /$(arg car_name)/FR1
-            /$(arg car_name)/FR2
-            /$(arg car_name)/FR3
-            /$(arg car_name)/FC0
-            /$(arg car_name)/FC1
-            /$(arg car_name)/FC2
-            /$(arg car_name)/FC3
-            /$(arg car_name)/GPS_latitudeDegrees
-            /$(arg car_name)/GPS_longitudeDegrees
-            /$(arg car_name)/GPS_speed
-            /$(arg car_name)/GPS_angle
-            /$(arg car_name)/GPS_altitude
-            /$(arg car_name)/GPS_fixquality
-            /$(arg car_name)/GPS_satellites
-            /network_output_sample
-            /network_motor_offset
-            /network_steer_gain
-            /network_motor_gain
-            /network_output_sample
-            /network_smoothing_parameter
             /os1_node/points
             /$(arg car_name)/zed/depth/camera_info 
             /$(arg car_name)/zed/depth/image_rect_color 
@@ -106,7 +78,6 @@
             /$(arg car_name)/zed/left/image_rect_color 
             /$(arg car_name)/zed/right/camera_info 
             /$(arg car_name)/zed/right/image_rect_color
-            /$(arg car_name)/left_right" />
     <node pkg="rosbag" type="record" name="rosbag_record_all"
           args="--split --size=1024 -b 2048 --lz4 -o /media/nvidia/rosbags/active/$(arg car_name) $(arg rosbag_args)"
           respawn="false"
