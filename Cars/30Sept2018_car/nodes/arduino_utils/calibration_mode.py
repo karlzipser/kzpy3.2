@@ -6,14 +6,12 @@ current_bag_number = 0
 
 def get_bag_info():
     global current_bag_number
-    #print 'get_bag_info'
     try:
         latest_rosbag_folder = most_recent_file_in_folder(opjm('rosbags'))
         latest_rosbag = most_recent_file_in_folder(latest_rosbag_folder)
         bag_num = int(fname(latest_rosbag).split('_')[-1].split('.')[0])
         bag_size = os.path.getsize(latest_rosbag)
         bag_size = dp(bag_size/1000000000.)
-        #print latest_rosbag_folder,latest_rosbag,bag_num,bag_size,'current_bag_number=',current_bag_number
         if (bag_num == current_bag_number+1) and bag_size > 0.5:
             current_bag_number += 1
             return current_bag_number
@@ -21,11 +19,6 @@ def get_bag_info():
             return 0
     except:
         return 0
-
-
-
-
-cal_types = ['servo_pwm_null','servo_pwm_min','servo_pwm_max','motor_pwm_null','motor_pwm_min','motor_pwm_max']
 
 def Calibration_Mode(P):
     threading.Thread(target=_calibrate_run_loop,args=[P]).start()
@@ -35,10 +28,10 @@ def _calibrate_run_loop(P):
     no_sound_yet = True
     print_timer = Timer(1)
     frequency_timer = Timer(1)
-    first_time_here = False
     bandwidth_check_timer = Timer(10)
     bandwidth_check_timer.trigger()
     rosbag_check_timer = Timer(3)
+    rosbag_overdue_timer = Timer(45)
     rosbag_check_timer.trigger()
     os1_okay = False
     os1_called_prev = 100
@@ -52,7 +45,14 @@ def _calibrate_run_loop(P):
             if b > 0:
                 cs('new bag file',b)
                 P['Arduinos']['SOUND'].write("1930")
+                rosbag_overdue_timer.reset()
             rosbag_check_timer.reset()
+
+        if rosbag_overdue_timer.check():
+            CS('Rosbag overdu!',exception=True)
+            for i in range(10):
+                P['Arduinos']['SOUND'].write("60")
+                P['Arduinos']['SOUND'].write("61")
 
         if bandwidth_check_timer.check():
 
@@ -92,17 +92,6 @@ def _calibrate_run_loop(P):
             time.sleep(0.02)
         if P['button_number'] != 4:
             no_sound_yet = True
-            if first_time_here:
-                try:
-                    Cal = lo(opjD('calibrations.pkl'))
-                except:
-                    Cal = {}
-                    for c in cal_types:
-                        Cal[c] = []
-                for c in cal_types:
-                   Cal[c].append(int(P[c]))
-                so(Cal,opjD('calibrations.pkl'))
-                first_time_here = False
             time.sleep(0.1)
             continue
         if P['button_time'] < P['CALIBRATION_NULL_START_TIME']:
@@ -138,7 +127,6 @@ def _calibrate_run_loop(P):
                 if P['servo_pwm_max'] - P['servo_pwm_min'] > 300:
                     if P['motor_pwm_max'] - P['motor_pwm_min'] > 300:
                         P['calibrated'] = True
-                        first_time_here = True
                         
         try:
             print [int(P['servo_pwm']),
