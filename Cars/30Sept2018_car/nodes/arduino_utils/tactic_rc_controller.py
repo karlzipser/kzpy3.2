@@ -122,7 +122,7 @@ def _TACTIC_RC_controller_run_loop(P):
                 write_str = get_write_str(P['servo_pwm_smooth'],P['servo_pwm_smooth'],P['motor_pwm_smooth'],P)
                 in_this_mode = False
 
-            elif P['agent_choice'] == 'network' and P['selector_mode'] == 'drive_mode':
+            elif P['agent_choice'] == 'network' and P['button_number']<4:#P['selector_mode'] == 'drive_mode':
                 if np.abs(P['human']['motor_percent']-49) > 4:
                     P['temporary_human_control'] = True
                     in_this_mode = False
@@ -161,7 +161,7 @@ def _TACTIC_RC_controller_run_loop(P):
 
             if P['button_number'] != 4:
                 if P['calibrated']:
-                    if P['selector_mode'] == 'drive_mode':
+                    if True:#P['selector_mode'] == 'drive_mode':
                         if True:
                             P['Arduinos']['MSE'].write(write_str)
             else:
