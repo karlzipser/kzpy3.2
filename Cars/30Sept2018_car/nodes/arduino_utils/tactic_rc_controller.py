@@ -171,6 +171,7 @@ def _TACTIC_RC_controller_run_loop(P):
                 P['publish_MSE_data'](P)
 
             if print_timer.check():
+                print read_str
                 print write_str
                 #print('_TACTIC_RC_controller_run_loop')
                 print_timer.reset()
