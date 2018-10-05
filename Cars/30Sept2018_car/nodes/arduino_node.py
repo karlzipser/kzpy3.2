@@ -112,6 +112,16 @@ if 'Start Arduino threads...':
 
     if P['USE_MSE'] and 'MSE' in P['Arduinos'].keys():
         CS("!!!!!!!!!! found 'MSE' !!!!!!!!!!!",emphasis=True)
+        CS("!!!!!!!!!! found 'MSE' !!!!!!!!!!!",emphasis=True)
+        CS("!!!!!!!!!! found 'MSE' !!!!!!!!!!!",emphasis=True)
+        CS("!!!!!!!!!! found 'MSE' !!!!!!!!!!!",emphasis=True)
+        CS("!!!!!!!!!! found 'MSE' !!!!!!!!!!!",emphasis=True)
+        CS("!!!!!!!!!! found 'MSE' !!!!!!!!!!!",emphasis=True)
+        CS("!!!!!!!!!! found 'MSE' !!!!!!!!!!!",emphasis=True)
+        CS("!!!!!!!!!! found 'MSE' !!!!!!!!!!!",emphasis=True)
+        CS("!!!!!!!!!! found 'MSE' !!!!!!!!!!!",emphasis=True)
+        CS("!!!!!!!!!! found 'MSE' !!!!!!!!!!!",emphasis=True)
+        CS("!!!!!!!!!! found 'MSE' !!!!!!!!!!!",emphasis=True)
         TACTIC_RC_controller(P)
         Calibration_Mode(P)
     else:
