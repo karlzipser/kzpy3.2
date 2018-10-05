@@ -166,7 +166,7 @@ def _TACTIC_RC_controller_run_loop(P):
                             P['Arduinos']['MSE'].write(write_str)
             else:
                 write_str = get_write_str(P['servo_pwm_null'],P['servo_pwm_null'],P['motor_pwm_null'],P)
-                P['Arduinos']['MSE'].write(write_str)
+                #P['Arduinos']['MSE'].write(write_str)
                         
             #print write_str
 
