@@ -17,7 +17,7 @@ def _TACTIC_RC_controller_run_loop(P):
     #    pass
     #    #assert False
     time.sleep(0.1)
-    if False:
+    if True:
         P['Arduinos']['MSE'].flushInput()
         time.sleep(0.1)
         P['Arduinos']['MSE'].flushOutput()
@@ -33,6 +33,8 @@ def _TACTIC_RC_controller_run_loop(P):
     
 
     P['button_number'] = 0
+    bn = 0
+    
     button_number_prev = 0
 
     while (not P['ABORT']) and (not rospy.is_shutdown()):
@@ -42,7 +44,7 @@ def _TACTIC_RC_controller_run_loop(P):
         try:
             read_str = P['Arduinos']['MSE'].readline()
             #print read_str
-            if False:#flush_timer.check():
+            if True:#flush_timer.check():
                 P['Arduinos']['MSE'].flushInput()
                 P['Arduinos']['MSE'].flushOutput()
                 flush_timer.reset()
