@@ -33,7 +33,7 @@ def _TACTIC_RC_controller_run_loop(P):
     
 
     P['button_number'] = 0
-    bn = 4
+    bn = P['button_number']
 
     button_number_prev = 0
 
