@@ -17,11 +17,12 @@ def _TACTIC_RC_controller_run_loop(P):
     #    pass
     #    #assert False
     time.sleep(0.1)
-    P['Arduinos']['MSE'].flushInput()
-    time.sleep(0.1)
-    P['Arduinos']['MSE'].flushOutput()
-    flush_seconds = 0.25
-    flush_timer = Timer(flush_seconds)
+    if False:
+        P['Arduinos']['MSE'].flushInput()
+        time.sleep(0.1)
+        P['Arduinos']['MSE'].flushOutput()
+        flush_seconds = 0.25
+        flush_timer = Timer(flush_seconds)
     print_timer = Timer(0.1)
     in_this_mode_timer = Timer()
     #ctr_timer = Timer()
@@ -41,7 +42,7 @@ def _TACTIC_RC_controller_run_loop(P):
         try:
             read_str = P['Arduinos']['MSE'].readline()
             #print read_str
-            if flush_timer.check():
+            if False:#flush_timer.check():
                 P['Arduinos']['MSE'].flushInput()
                 P['Arduinos']['MSE'].flushOutput()
                 flush_timer.reset()
