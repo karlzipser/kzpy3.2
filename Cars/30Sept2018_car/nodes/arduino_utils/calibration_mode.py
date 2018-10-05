@@ -103,6 +103,7 @@ def _calibrate_run_loop(P):
         if P['button_time'] < P['CALIBRATION_NULL_START_TIME']:
             time.sleep(0.01)
             continue
+        print "calibration_mode.py A"
         if True:
             if P['button_time'] < P['CALIBRATION_NULL_START_TIME']+0.1:
                 P['calibrated'] = False
@@ -134,7 +135,7 @@ def _calibrate_run_loop(P):
                 if P['servo_pwm_max'] - P['servo_pwm_min'] > 300:
                     if P['motor_pwm_max'] - P['motor_pwm_min'] > 300:
                         P['calibrated'] = True
-                        
+        print "calibration_mode.py B"            
         try:
             print [int(P['servo_pwm']),
                 int(P['servo_pwm_null']),
@@ -145,7 +146,7 @@ def _calibrate_run_loop(P):
                 P['calibrated'],]
         except:
             print 'calibration print failed'
-
+        print "calibration_mode.py C"
         if print_timer.check():
             print_timer.reset()           
     print 'end _calibrate_run_loop.'
