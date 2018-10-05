@@ -165,7 +165,7 @@ def _TACTIC_RC_controller_run_loop(P):
                 write_str = get_write_str(P['servo_pwm_null'],P['servo_pwm_null'],P['motor_pwm_null'],P)
                 P['Arduinos']['MSE'].write(write_str)
                         
-            print write_str
+            #print write_str
 
             if P['USE_ROS']:
                 P['publish_MSE_data'](P)
