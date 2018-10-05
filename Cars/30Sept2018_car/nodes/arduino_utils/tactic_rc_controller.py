@@ -158,20 +158,22 @@ def _TACTIC_RC_controller_run_loop(P):
                 if P['calibrated']:
                     if P['selector_mode'] == 'drive_mode':
                         if True:
-                            print write_str
                             P['Arduinos']['MSE'].write(write_str)
             else:
-                P['Arduinos']['MSE'].write(get_write_str(P['servo_pwm_null'],P['servo_pwm_null'],P['motor_pwm_null'],P))
+                write_str = get_write_str(P['servo_pwm_null'],P['servo_pwm_null'],P['motor_pwm_null'],P)
+                P['Arduinos']['MSE'].write(write_str)
                         
+            print write_str
 
             if P['USE_ROS']:
                 P['publish_MSE_data'](P)
 
             if print_timer.check():
+                print('_TACTIC_RC_controller_run_loop')
                 print_timer.reset()
 
         except Exception as e:
-            
+            print('_TACTIC_RC_controller_run_loop')
             exc_type, exc_obj, exc_tb = sys.exc_info()
             file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             CS_('Exception!',emphasis=True)
