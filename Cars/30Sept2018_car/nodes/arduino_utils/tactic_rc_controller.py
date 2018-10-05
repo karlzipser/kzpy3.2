@@ -13,8 +13,9 @@ def _TACTIC_RC_controller_run_loop(P):
     print('_TACTIC_RC_controller_run_loop')
     if 'MSE' not in P['Arduinos']:
         assert False
-    if 'SOUND' not in P['Arduinos']:
-        assert False
+    #if 'SOUND' not in P['Arduinos']:
+    #    pass
+    #    #assert False
     time.sleep(0.1)
     P['Arduinos']['MSE'].flushInput()
     time.sleep(0.1)
@@ -90,8 +91,9 @@ def _TACTIC_RC_controller_run_loop(P):
                 P['button_time'] = P['button_timer'].time()
 
                 if P['button_number'] != button_number_prev:
-                    pd2s("P['button_number'] =",P['button_number']) 
-                    P['Arduinos']['SOUND'].write(d2n(""" "(""",P['button_number'],""")" """))
+                    pd2s("P['button_number'] =",P['button_number'])
+                    if 'SOUND' in P['Arduinos']:
+                        P['Arduinos']['SOUND'].write(d2n(""" "(""",P['button_number'],""")" """))
 
                 button_number_prev = P['button_number']
 
