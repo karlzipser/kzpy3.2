@@ -50,11 +50,12 @@ def _calibrate_run_loop(P):
             rosbag_check_timer.reset()
 
         if rosbag_overdue_timer.check():
-            CS('Rosbag overdu!',exception=True)
+            CS('Rosbag overdue!',exception=True)
             for i in range(10):
                 if 'SOUND' in P['Arduinos']:
                     P['Arduinos']['SOUND'].write("60")
                     P['Arduinos']['SOUND'].write("61")
+            rosbag_overdue_timer.reset()
 
         if bandwidth_check_timer.check():
 
