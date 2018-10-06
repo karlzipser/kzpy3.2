@@ -99,6 +99,7 @@ def _calibrate_run_loop(P):
         if P['button_number'] != 4:
             no_sound_yet = True
             time.sleep(0.1)
+            print 'Z'
             continue
         if P['button_time'] < P['CALIBRATION_NULL_START_TIME']:
             time.sleep(0.01)
