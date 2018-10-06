@@ -22,6 +22,9 @@ def EXIT(restart=False,shutdown=True,kill_ros=True,_file_=''):
 P = {}
 P['zed_called'] = {}
 P['os1_called'] = {}
+P['print_timer time'] = 0.5
+P['IMU/print_timer'] = Timer(P['print_timer time'])
+P['MSE/print_timer'] = Timer(P['print_timer time'])
 P['temporary_human_control'] = False
 P['acc triggers'] = 'shutdown'
 P['car_name'] = os.environ["COMPUTER_NAME"]

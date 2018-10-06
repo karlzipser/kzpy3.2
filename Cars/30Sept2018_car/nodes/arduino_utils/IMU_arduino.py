@@ -48,9 +48,10 @@ def _IMU_run_loop(P):
             P[m]['xyz'] = imu_input[1:4]
             if P['USE_ROS']:
                 P['publish_IMU_data'](P,m)
-            if print_timer.check():
+            if P['IMU/print_timer'].check():
                 pd2s('IMU:',read_str)
-                print_timer.reset()
+                P['IMU/print_timer'] = Timer(P['print_timer time'])
+
         except Exception as e:
             pass
     print 'end _IMU_run_loop.'

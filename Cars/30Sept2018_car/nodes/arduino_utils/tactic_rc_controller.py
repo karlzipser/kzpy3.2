@@ -167,13 +167,12 @@ def _TACTIC_RC_controller_run_loop(P):
             if P['USE_ROS']:
                 P['publish_MSE_data'](P)
 
-            if print_timer.check():
+            if P['MSE/print_timer'].check():
                 pd2s("MSE:",read_str)
                 if 'acc' in read_str:
                     print "!!!!!!!!!!!!!!!!!"
                 #print write_str
-                #print('_TACTIC_RC_controller_run_loop')
-                print_timer.reset()
+                P['MSE/print_timer'] = Timer(P['print_timer time'])
 
         except Exception as e:
             print('_TACTIC_RC_controller_run_loop')
