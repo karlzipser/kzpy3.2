@@ -118,8 +118,8 @@ if 'Start Arduino threads...':
     else:
         assert False
         
-    if Parameters['USE_IMU'] and 'IMU' in Parameters['Arduinos'].keys():
-        arduino_utils.IMU_arduino.IMU_Arduino(Parameters)
+    if Parameters['USE_IMU'] and 'IMU' in P['Arduinos'].keys():
+        arduino_utils.IMU_arduino.IMU_Arduino(P)
     else:
         CS("!!!!!!!!!! 'IMU' not in Arduinos[] or not using 'IMU' !!!!!!!!!!!",exception=True)
 
