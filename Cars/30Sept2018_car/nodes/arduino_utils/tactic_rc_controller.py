@@ -169,7 +169,9 @@ def _TACTIC_RC_controller_run_loop(P):
 
             if print_timer.check():
                 print read_str
-                print write_str
+                if 'acc' in read_str:
+                    print "!!!!!!!!!!!!!!!!!"
+                #print write_str
                 #print('_TACTIC_RC_controller_run_loop')
                 print_timer.reset()
 
