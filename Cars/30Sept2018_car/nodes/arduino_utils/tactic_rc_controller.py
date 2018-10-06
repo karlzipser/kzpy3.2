@@ -44,7 +44,7 @@ def _TACTIC_RC_controller_run_loop(P):
         try:
             read_str = P['Arduinos']['MSE'].readline()
             #print read_str
-            if True:#flush_timer.check():
+            if flush_timer.check():
                 P['Arduinos']['MSE'].flushInput()
                 P['Arduinos']['MSE'].flushOutput()
                 flush_timer.reset()
