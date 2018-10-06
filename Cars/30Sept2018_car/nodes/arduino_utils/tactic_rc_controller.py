@@ -56,14 +56,7 @@ def _TACTIC_RC_controller_run_loop(P):
             except:
                 continue
 
-            if serial_input[0] in ['acc','gyro','head']:
-
-                m = serial_input[0]
-                P[m]['xyz'] = serial_input[1:4]
-                if P['USE_ROS']:
-                    P['publish_IMU_data'](P,m)
-
-            elif serial_input[0] == 'mse':
+            if serial_input[0] == 'mse':
 
                 P['button_pwm'] = serial_input[1]
                 P['servo_pwm'] = serial_input[2]
