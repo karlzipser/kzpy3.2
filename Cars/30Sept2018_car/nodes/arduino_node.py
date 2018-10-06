@@ -7,6 +7,7 @@ from kzpy3.utils3 import *
 from arduino_utils.serial_init import *
 from arduino_utils.tactic_rc_controller import *
 from arduino_utils.calibration_mode import *
+import arduino_utils.IMU_arduino
 
 exec(identify_file_str)
 
@@ -110,22 +111,17 @@ if 'Start Arduino threads...':
     timeout = 0.1
     assign_serial_connections(P,get_arduino_serial_connections(baudrate,timeout))
 
-    if P['USE_MSE'] and 'MSE' in P['Arduinos'].keys():
-        CS("!!!!!!!!!! found 'MSE' !!!!!!!!!!!",emphasis=True)
-        CS("!!!!!!!!!! found 'MSE' !!!!!!!!!!!",emphasis=True)
-        CS("!!!!!!!!!! found 'MSE' !!!!!!!!!!!",emphasis=True)
-        CS("!!!!!!!!!! found 'MSE' !!!!!!!!!!!",emphasis=True)
-        CS("!!!!!!!!!! found 'MSE' !!!!!!!!!!!",emphasis=True)
-        CS("!!!!!!!!!! found 'MSE' !!!!!!!!!!!",emphasis=True)
-        CS("!!!!!!!!!! found 'MSE' !!!!!!!!!!!",emphasis=True)
-        CS("!!!!!!!!!! found 'MSE' !!!!!!!!!!!",emphasis=True)
-        CS("!!!!!!!!!! found 'MSE' !!!!!!!!!!!",emphasis=True)
-        CS("!!!!!!!!!! found 'MSE' !!!!!!!!!!!",emphasis=True)
+    if P['USE_MSE'] and 'MSE' in P['Arduinos'].keys():     
         CS("!!!!!!!!!! found 'MSE' !!!!!!!!!!!",emphasis=True)
         TACTIC_RC_controller(P)
         Calibration_Mode(P)
     else:
         assert False
+        
+    if Parameters['USE_IMU'] and 'IMU' in Parameters['Arduinos'].keys():
+        arduino_utils.IMU_arduino.IMU_Arduino(Parameters)
+    else:
+        CS("!!!!!!!!!! 'IMU' not in Arduinos[] or not using 'IMU' !!!!!!!!!!!",exception=True)
 
     P['agent_choice'] = 'human'
 

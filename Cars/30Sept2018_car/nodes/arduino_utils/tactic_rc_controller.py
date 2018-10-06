@@ -168,7 +168,7 @@ def _TACTIC_RC_controller_run_loop(P):
                 P['publish_MSE_data'](P)
 
             if print_timer.check():
-                print read_str
+                pd2s("MSE:",read_str)
                 if 'acc' in read_str:
                     print "!!!!!!!!!!!!!!!!!"
                 #print write_str

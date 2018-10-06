@@ -70,7 +70,7 @@ else:
 
 P['HUMAN_SMOOTHING_PARAMETER_1'] = 0
 P['USE_MSE'] = True
-P['USE_SIG'] = True
+#P['USE_SIG'] = True
 P['USE_IMU'] = True
 
 P['pid_motor_slope'] = (60-49)/3.0
