@@ -4,8 +4,8 @@ https://stackoverflow.com/questions/76134/how-do-i-reverse-project-2d-points-int
 http://pyopengl.sourceforge.net/documentation/installation.html
 """
 
-L = h5r(opjm("transfer/model_car_data_July2018_lrc/locations/local/left_right_center/h5py/Mr_Black_25Jul18_19h55m13s/left_timestamp_metadata_right_ts.h5py"))
-O = h5r(opjm("transfer/model_car_data_July2018_lrc/locations/local/left_right_center/h5py/Mr_Black_25Jul18_19h55m13s/original_timestamp_data.h5py"))
+L = h5r(opjD("model_car_data_July2018_lrc/locations/local/left_right_center/h5py/Mr_Black_25Jul18_19h55m13s/left_timestamp_metadata_right_ts.h5py"))
+O = h5r(opjD("model_car_data_July2018_lrc/locations/local/left_right_center/h5py/Mr_Black_25Jul18_19h55m13s/original_timestamp_data.h5py"))
 
 headings = L['gyro_heading_x'][:]
 
