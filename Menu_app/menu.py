@@ -25,7 +25,10 @@ def menu(Topics,path):
     print Topics
     raw_enter()
     """
-
+    if 'cmd/clear_screen' not in Topics:
+        Topics['cmd/clear_screen'] = False
+    if 'menu name' not in Topics:
+        Topics = '<< menu not yet named >>'
     while EXIT == False and Topics['ABORT'] == False:
 
         try:
@@ -294,9 +297,9 @@ try:
 except:
     pass
 threading.Thread(target=kzpy3.Menu_app.menu.load_menu_data,args=[menu_path,__topics_dic_name__]).start()
-if 'cmd/autostart menu' in __topics_dic_name__:
-    if __topics_dic_name__['cmd/autostart menu']:
-        os.system(d2n("gnome-terminal -x python kzpy3/Menu_app/menu.py path ",menu_path," dic __topics_dic_name__"))
+#if 'cmd/autostart menu' in __topics_dic_name__:
+#    if __topics_dic_name__['cmd/autostart menu']:
+#        os.system(d2n("gnome-terminal -x python kzpy3/Menu_app/menu.py path ",menu_path," dic __topics_dic_name__"))
 """
 
 if __name__ == '__main__':# and EXIT == False:

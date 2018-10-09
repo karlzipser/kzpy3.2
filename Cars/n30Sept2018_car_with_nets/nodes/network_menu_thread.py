@@ -6,8 +6,8 @@ from kzpy3.utils3 import *
 ############# start menu thread ############
 #
 import kzpy3.Menu_app.menu
-__default_values_module_name__ = "kzpy3.Menu_app.default_values"
-__topics_dic_name__ = "M"
+__default_values_module_name__ = "kzpy3.Cars.n30Sept2018_car_with_nets.nodes.Default_values.network.default_values"
+__topics_dic_name__ = "N"
 menu_exec_str = kzpy3.Menu_app.menu.__MENU_THREAD_EXEC_STR__.replace(
 		'__default_values_module_name__',__default_values_module_name__
 	).replace('__topics_dic_name__',__topics_dic_name__)
@@ -17,9 +17,10 @@ exec(menu_exec_str)
 ############################################
 
 
-timer = Timer(5)
-while M['ABORT'] == False:
-	timer.message(d2s(M['a/a']))
+timer = Timer(20)
+timer.trigger()
+while N['ABORT'] == False:
+	timer.message(d2s("menu_thread time =",timer.time()))
 
 
 #EOF

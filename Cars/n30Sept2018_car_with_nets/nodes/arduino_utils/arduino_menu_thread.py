@@ -6,8 +6,8 @@ from kzpy3.utils3 import *
 ############# start menu thread ############
 #
 import kzpy3.Menu_app.menu
-__default_values_module_name__ = "kzpy3.Menu_app.default_values"
-__topics_dic_name__ = "M"
+__default_values_module_name__ = "kzpy3.Cars.n30Sept2018_car_with_nets.nodes.Default_values.arduino.default_values"
+__topics_dic_name__ = "P"
 menu_exec_str = kzpy3.Menu_app.menu.__MENU_THREAD_EXEC_STR__.replace(
 		'__default_values_module_name__',__default_values_module_name__
 	).replace('__topics_dic_name__',__topics_dic_name__)
@@ -16,10 +16,13 @@ exec(menu_exec_str)
 #
 ############################################
 
-
-timer = Timer(5)
-while M['ABORT'] == False:
-	timer.message(d2s(M['a/a']))
+if False:
+	timer = Timer(20)
+	timer.trigger()
+	while P['ABORT'] == False:
+		if timer.check():
+			#print P
+			timer.reset()
 
 
 #EOF
