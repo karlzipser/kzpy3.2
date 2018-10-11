@@ -12,7 +12,7 @@ from kzpy3.utils3 import *
 
 import kzpy3.Cars.n30Sept2018_car_with_nets.nodes.Default_values.network.default_values as default_values
 N = default_values.N
-N['ABORT'] = False
+
 import kzpy3.Menu_app.menu
 menu_path = opjh("kzpy3/Cars/n30Sept2018_car_with_nets/nodes/Default_values/network")
 if not os.path.exists(menu_path):
