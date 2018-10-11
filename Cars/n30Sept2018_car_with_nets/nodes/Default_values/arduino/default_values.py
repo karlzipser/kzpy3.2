@@ -153,7 +153,53 @@ P['to_expose'] = [
 	'pid_motor_percent_max',
 	'pid_motor_percent_min',
 	'menu name',
+	'network_output_sample',
+	'network_steer_gain',
+	'network_camera_gain',
+	'network_motor_gain',
+	'network_motor_offset',
+	'network_servo_smoothing_parameter',
+	'network_motor_smoothing_parameter',
+	'network_camera_smoothing_parameter',
+	'USE_LAST_IMAGE_ONLY',
 ]
+
+
+
+
+
+
+############# NETWORK PARAMETERS
+P['network_output_sample'] = 0 # >= 0, <= 9
+P['network_steer_gain'] = 1.0#6.0
+P['network_camera_gain'] = 1.0#2.0
+P['network_motor_gain'] = 1.0#0.8
+P['network_motor_offset'] = 0
+P['network_servo_smoothing_parameter'] = 0.85
+P['network_motor_smoothing_parameter'] = 0.75
+P['network_camera_smoothing_parameter'] = 0.0
+P['weight_file_path'] = opjh('pytorch_models/epoch6goodnet')#opjD('link_to_weights_file.SqueezeNet')#opjh('pytorch_models','net_10Jun18_00h00m45s.SqueezeNet')
+P['USE_NETWORK'] = True
+P['GREY_OUT_TOP_OF_IMAGE'] = False
+P['USE_LAST_IMAGE_ONLY'] = False
+P['visualize_activations'] = False
+###########################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 NO_Mse = {}
 NO_Mse['behavioral_mode_choice'] = 'direct'

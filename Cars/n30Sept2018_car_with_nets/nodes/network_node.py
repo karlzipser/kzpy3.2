@@ -10,14 +10,14 @@ from kzpy3.utils3 import *
 
 
 
-import kzpy3.Cars.n30Sept2018_car_with_nets.nodes.Default_values.network.default_values as default_values
-N = default_values.N
+import kzpy3.Cars.n30Sept2018_car_with_nets.nodes.Default_values.arduino.default_values as default_values
+N = default_values.P
 
-import kzpy3.Menu_app.menu
-menu_path = opjh("kzpy3/Cars/n30Sept2018_car_with_nets/nodes/Default_values/network")
-if not os.path.exists(menu_path):
-    os.makedirs(menu_path)
-threading.Thread(target=kzpy3.Menu_app.menu.load_menu_data,args=[menu_path,N]).start()
+#import kzpy3.Menu_app.menu
+#menu_path = opjh("kzpy3/Cars/n30Sept2018_car_with_nets/nodes/Default_values/network")
+#if not os.path.exists(menu_path):
+#    os.makedirs(menu_path)
+#threading.Thread(target=kzpy3.Menu_app.menu.load_menu_data,args=[menu_path,N]).start()
 
 
 
@@ -49,8 +49,10 @@ play = 0.0
 left = 0.0
 right = 0.0
 center = 0.0
+button_number = 0;
 button_number_previous = -9999
 button_timer = Timer()
+parameter_file_load_timer() = Timer(1)
 current_camera = 49
 current_steer = 49
 current_motor = 49
@@ -99,7 +101,7 @@ def behavioral_mode_callback(msg):
         play = 1.0
 
 def button_number_callback(msg):
-    global left,right,button_number_previous,button_just_changed
+    global left,right,button_number,button_number_previous,button_just_changed
     button_number = msg.data
     if button_number != button_number_previous:
         button_number_previous = button_number
@@ -141,6 +143,12 @@ node_timer = Timer()
 Torch_network = net_utils.Torch_Network(N)
 
 while not rospy.is_shutdown():
+
+    if node_timer.time() > 10:
+        if button_number == 4 and parameter_file_load_timer.check():
+            P = lo(opjk("Cars/n30Sept2018_car_with_nets/nodes/Default_values/arduino/__local__/Topics.pkl"))
+            for k in P:
+                N[k] = P[k]
 
     if node_timer.time() > 10:
         if len(left_list) == 0:
