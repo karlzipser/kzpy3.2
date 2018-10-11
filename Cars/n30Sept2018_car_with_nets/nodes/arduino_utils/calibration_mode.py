@@ -45,7 +45,7 @@ def _calibrate_run_loop(P):
             if b > 0:
                 cs('new bag file',b)
                 if 'SOUND' in P['Arduinos']:
-                    P['Arduinos']['SOUND'].write("1930")
+                    P['Arduinos']['SOUND'].write("(50)")
                 rosbag_overdue_timer.reset()
             rosbag_check_timer.reset()
 
@@ -53,8 +53,8 @@ def _calibrate_run_loop(P):
             CS('Rosbag overdue!',exception=True)
             for i in range(10):
                 if 'SOUND' in P['Arduinos']:
-                    P['Arduinos']['SOUND'].write("60")
-                    P['Arduinos']['SOUND'].write("61")
+                    P['Arduinos']['SOUND'].write("(60)")
+                    P['Arduinos']['SOUND'].write("(61)")
             rosbag_overdue_timer.reset()
 
         if bandwidth_check_timer.check():
@@ -70,24 +70,24 @@ def _calibrate_run_loop(P):
                 for i in range(4):
                     CS('No ZED!',exception=True)
                     if 'SOUND' in P['Arduinos']:
-                        P['Arduinos']['SOUND'].write("60")
+                        P['Arduinos']['SOUND'].write("(60)")
                     time.sleep(2)
                 time.sleep(2)
             else:
                 if 'SOUND' in P['Arduinos']:
-                    P['Arduinos']['SOUND'].write("30")
+                    P['Arduinos']['SOUND'].write("(30)")
                 time.sleep(1)
             
             if not os1_okay:
                 for i in range(3):
                     CS('No LIDAR!',exception=True)
                     if 'SOUND' in P['Arduinos']:
-                        P['Arduinos']['SOUND'].write("61")
+                        P['Arduinos']['SOUND'].write("(61)")
                     time.sleep(2)
                 time.sleep(2)
             else:
                 if 'SOUND' in P['Arduinos']:
-                    P['Arduinos']['SOUND'].write("31")
+                    P['Arduinos']['SOUND'].write("(31)")
 
             if os1_okay and zed_okay:
                 bandwidth_check_timer = Timer(60)
@@ -123,7 +123,7 @@ def _calibrate_run_loop(P):
             else:
                 if no_sound_yet:
                     if 'SOUND' in P['Arduinos']:
-                        P['Arduinos']['SOUND'].write("(1929)")
+                        P['Arduinos']['SOUND'].write("(51)")
                     no_sound_yet = False
                 if P['servo_pwm_max'] < P['servo_pwm']:
                     P['servo_pwm_max'] = P['servo_pwm']
