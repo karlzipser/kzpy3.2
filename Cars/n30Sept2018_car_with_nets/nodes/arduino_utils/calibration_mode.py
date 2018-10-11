@@ -135,6 +135,7 @@ def _calibrate_run_loop(P):
                 P['motor_pwm_smooth'] = P['motor_pwm_null']
             else:
                 if no_sound_yet:
+                    CS("Calibrate now!",emphasis=True)
                     if 'SOUND' in P['Arduinos']:
                         P['Arduinos']['SOUND'].write("(51)")
                     no_sound_yet = False
@@ -151,6 +152,8 @@ def _calibrate_run_loop(P):
                         P['calibrated'] = True
         #print "calibration_mode.py B"            
         try:
+            pass
+            """
             print [int(P['servo_pwm']),
                 int(P['servo_pwm_null']),
                 int(P['servo_pwm_min']),
@@ -158,6 +161,7 @@ def _calibrate_run_loop(P):
                 int(P['servo_pwm_max'] - P['servo_pwm_min']),
                 int(P['motor_pwm_max'] - P['motor_pwm_min']),
                 P['calibrated'],]
+            """
         except:
             print 'calibration print failed'
         #print "calibration_mode.py C"
