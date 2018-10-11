@@ -154,7 +154,7 @@ if 'Main loop...':
     q = '_'
     try:
         while q not in ['q','Q']:
-            q = raw_input('')
+            #q = raw_input('')
             if P['ABORT']:
                 break
             time.sleep(0.1)
