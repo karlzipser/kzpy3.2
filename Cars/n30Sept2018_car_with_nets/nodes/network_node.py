@@ -2,10 +2,10 @@
 
 from kzpy3.utils3 import *
 
-from Default_values.network.default_values import N
+#from Default_values.network.default_values import N
 
 #import Default_values.network.default_values.N as N
-#from network_menu_thread import *
+from network_menu_thread import *
 exec(identify_file_str)
 
 

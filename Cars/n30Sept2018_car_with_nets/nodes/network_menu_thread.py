@@ -16,11 +16,11 @@ exec(menu_exec_str)
 #
 ############################################
 
-
-timer = Timer(20)
-timer.trigger()
-while N['ABORT'] == False:
-	timer.message(d2s("menu_thread time =",timer.time()))
+if False:
+	timer = Timer(20)
+	timer.trigger()
+	while N['ABORT'] == False:
+		timer.message(d2s("menu_thread time =",timer.time()))
 
 
 #EOF

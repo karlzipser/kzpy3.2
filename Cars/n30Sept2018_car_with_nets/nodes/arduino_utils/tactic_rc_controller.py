@@ -140,16 +140,16 @@ def _TACTIC_RC_controller_run_loop(P):
                         _motor_pwm = motor_percent_to_pwm( Pid_processing_motor['do'](P['network']['motor_percent'],P['encoder_smooth'],P),P)
             
                     write_str = get_write_str(_servo_pwm,_camera_pwm,_motor_pwm,P)
-                else:
+                else: # when is this condition reached?
                     in_this_mode = False
-                    #write_str = get_write_str(P['servo_pwm_null'],P['servo_pwm_null'],P['motor_pwm_null'],P)
+                    # write_str = get_write_str(P['servo_pwm_null'],P['servo_pwm_null'],P['motor_pwm_null'],P)
                     CS("write_str = get_write_str(P['servo_pwm_null'],P['servo_pwm_null'],P['motor_pwm_null'],P)",emphasis=True)
             if P['button_number'] < 4:
                 if P['calibrated']:
                     if P['drive_mode'] == 1:
                             P['Arduinos']['MSE'].write(write_str)
                             if P['MSE/print_timer'].check():
-                                print write_str,P['calibrated'],P['temporary_human_control'],P['agent_choice']
+                                #print write_str,P['calibrated'],P['temporary_human_control'],P['agent_choice']
                                 P['MSE/print_timer'] = Timer(P['print_timer time'])
             else:
                 pass
