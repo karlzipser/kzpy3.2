@@ -22,6 +22,7 @@ if HAVE_ROS:
 			unix('sudo reboot')
 
 P = {}
+P['drive_mode'] = 0
 P['use LIDAR'] = False
 P['menu name'] = 'arduino menu'
 P['cmd/autostart menu'] = False
@@ -78,7 +79,7 @@ else:
 	P['servo_pwm_smooth_manual_offset'] = 0
 	P['camera_pwm_manual_offset'] = 0	
 
-P['HUMAN_SMOOTHING_PARAMETER_1'] = 0
+P['HUMAN_SMOOTHING_PARAMETER_1'] = 0.75
 P['USE_MSE'] = True
 #P['USE_SIG'] = True
 P['USE_IMU'] = True

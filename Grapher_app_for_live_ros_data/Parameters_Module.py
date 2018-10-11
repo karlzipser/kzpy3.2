@@ -6,7 +6,7 @@ _ = dictionary_access
 
 P = {}
 P['USE_ARUCO'] = False
-P['USE_IMAGES'] = False
+P['USE_IMAGES'] = True
 
 flex_names = []
 for fb in ['F']:
@@ -67,14 +67,14 @@ P['topic_keys_sorted'] = [
 	gyro_x,
 	gyro_y,
 	gyro_z,
-	#gyro_heading_x,
-	#left_ts_deltas,
+	gyro_heading_x,
+	left_ts_deltas,
 	encoder,
 	]
 P['topic_keys_sorted'] += flex_names
 
 P[X_PIXEL_SIZE] = 800
-P[Y_PIXEL_SIZE] = 1600
+P[Y_PIXEL_SIZE] = 800
 P[SCREEN_X] = 20
 P[SCREEN_Y] = 40
 P[CAMERA_SCALE] = 1

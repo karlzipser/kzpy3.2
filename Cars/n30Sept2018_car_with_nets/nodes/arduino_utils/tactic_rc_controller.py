@@ -119,6 +119,7 @@ def _TACTIC_RC_controller_run_loop(P):
             elif P['agent_choice'] == 'network' and P['button_number']<4:#P['selector_mode'] == 'drive_mode':
                 if np.abs(P['human']['motor_percent']-49) > 4:
                     P['temporary_human_control'] = True
+                    P['Arduinos']['SOUND'].write("(100)") # red taillights
                     in_this_mode = False
                     write_str = get_write_str(P['servo_pwm_smooth'],P['servo_pwm_smooth'],P['motor_pwm_smooth'],P)
                     P['time_since_button_4'].reset()
@@ -172,7 +173,7 @@ def _TACTIC_RC_controller_run_loop(P):
                 #pd2s("MSE:",read_str)
                 #if 'acc' in read_str:
                 #    print "!!!!!!!!!!!!!!!!!"
-                print write_str
+                print write_str,P['calibrated']
                 P['MSE/print_timer'] = Timer(P['print_timer time'])
 
         except Exception as e:

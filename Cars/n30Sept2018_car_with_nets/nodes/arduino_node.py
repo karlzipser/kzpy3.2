@@ -116,10 +116,10 @@ def _publish_MSE_data(P):
             assert False
 
         if P['button_number'] == 4:
-            drive_mode = 0
+            P['drive_mode'] = 0 #drive_mode = 0
         else:
-            drive_mode = 1
-        P['drive_mode_pub'].publish(std_msgs.msg.Int32(drive_mode))
+            P['drive_mode'] = 1 #drive_mode = 1
+        P['drive_mode'].publish(std_msgs.msg.Int32(P['drive_mode']))
         MSE_low_frequency_pub_timer.reset()
 
 P['publish_IMU_data'] = _publish_IMU_data
