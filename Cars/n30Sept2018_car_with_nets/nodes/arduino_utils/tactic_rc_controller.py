@@ -143,11 +143,10 @@ def _TACTIC_RC_controller_run_loop(P):
                         _camera_pwm = _servo_pwm
                     else:
                         if sound_timer.check():
-                            P['Arduinos']['SOUND'].write("(101)")
+                            P['Arduinos']['SOUND'].write("(101)") # green taillights
                             sound_timer.reset()
                         _camera_pwm = servo_percent_to_pwm(P['network']['camera_percent'],P)
-                        if True:
-                            _servo_pwm = servo_percent_to_pwm(P['network']['servo_percent'],P)
+                        _servo_pwm = servo_percent_to_pwm(P['network']['servo_percent'],P)
 
                         #_camera_pwm = servo_percent_to_pwm(P['network']['camera_percent'],P)
                         in_this_mode = False
@@ -161,12 +160,14 @@ def _TACTIC_RC_controller_run_loop(P):
                 else:
                     in_this_mode = False
                     write_str = get_write_str(P['servo_pwm_null'],P['servo_pwm_null'],P['motor_pwm_null'],P)
-
+                    cs("write_str = get_write_str(P['servo_pwm_null'],P['servo_pwm_null'],P['motor_pwm_null'],P)",emphasis=True)
             if P['button_number'] < 4:
                 if P['calibrated']:
-                    if True:#P['selector_mode'] == 'drive_mode':
-                        if True:
+                    if P['drive_mode'] == 1:
                             P['Arduinos']['MSE'].write(write_str)
+                            if P['MSE/print_timer'].check():
+                                print write_str,P['calibrated'],P['temporary_human_control'],P['agent_choice']
+                                P['MSE/print_timer'] = Timer(P['print_timer time'])
             else:
                 pass
                 #write_str = get_write_str(P['servo_pwm_null'],P['servo_pwm_null'],P['motor_pwm_null'],P)
@@ -178,12 +179,13 @@ def _TACTIC_RC_controller_run_loop(P):
                 #print 2,P['publish_MSE_data']
                 P['publish_MSE_data'](P)
 
-            if P['MSE/print_timer'].check():
-                #pd2s("MSE:",read_str)
-                #if 'acc' in read_str:
-                #    print "!!!!!!!!!!!!!!!!!"
-                print write_str,P['calibrated'],P['temporary_human_control'],P['agent_choice']
-                P['MSE/print_timer'] = Timer(P['print_timer time'])
+            if False:
+                if P['MSE/print_timer'].check():
+                    #pd2s("MSE:",read_str)
+                    #if 'acc' in read_str:
+                    #    print "!!!!!!!!!!!!!!!!!"
+                    print write_str,P['calibrated'],P['temporary_human_control'],P['agent_choice']
+                    P['MSE/print_timer'] = Timer(P['print_timer time'])
 
         except Exception as e:
             print('_TACTIC_RC_controller_run_loop')
