@@ -22,7 +22,7 @@ def Torch_Network(N):
         D['solver'].load_state_dict(D['save_data']['net'])
         D['solver'].eval()
         print("Torch_Network(N):: Loading complete.")
-        D['nframes'] = D['solver'].N_FRAMES
+        D['nframes'] = 2#D['solver'].N_FRAMES
         D['scale'] = nn.AvgPool2d(kernel_size=3, stride=2, padding=1).cuda()
     except Exception as e:
         exc_type, exc_obj, exc_tb = sys.exc_info()
