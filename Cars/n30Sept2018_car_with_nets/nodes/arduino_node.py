@@ -1,8 +1,19 @@
 #!/usr/bin/env python
 
 from kzpy3.utils3 import *
-from arduino_utils.arduino_menu_thread import *
-exec(menu_exec_str)
+#from arduino_utils.arduino_menu_thread import *
+#exec(menu_exec_str)
+
+
+import kzpy3.Cars.n30Sept2018_car_with_nets.nodes.Default_values.arduino.default_values as default_values
+P = default_values.P
+P['ABORT'] = False
+import kzpy3.Menu_app.menu
+menu_path = opjh("kzpy3/Cars/n30Sept2018_car_with_nets/nodes/Default_values/arduino")
+if not os.path.exists(menu_path):
+    os.makedirs(menu_path)
+threading.Thread(target=kzpy3.Menu_app.menu.load_menu_data,args=[menu_path,P]).start()
+
 
 timer = Timer(5)
 while P['ABORT'] == False:
