@@ -4,9 +4,10 @@ from kzpy3.utils3 import *
 from arduino_utils.arduino_menu_thread import *
 exec(menu_exec_str)
 
-timer = Timer(15)
+timer = Timer(5)
 while P['ABORT'] == False:
     if timer.check():
+        print P['camera_pwm_manual_offset']
         print an_element(P)
         timer.reset()
 
