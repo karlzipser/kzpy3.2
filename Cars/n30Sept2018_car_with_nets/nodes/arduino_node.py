@@ -108,7 +108,12 @@ def _publish_MSE_data(P):
         else:
             behavioral_mode_choice = 'calibrate'
         P['behavioral_mode_pub'].publish(d2s(behavioral_mode_choice))
-        P['human_agent_pub'].publish(std_msgs.msg.Int32(P['agent_choice']))
+        if P['agent_choice'] == 'human':
+            P['human_agent_pub'].publish(std_msgs.msg.Int32(1))
+        elif P['agent_choice'] == 'network':
+            P['human_agent_pub'].publish(std_msgs.msg.Int32(0))
+        else assert False
+        
         if P['button_number'] == 4:
             drive_mode = 0
         else:
