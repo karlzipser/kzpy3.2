@@ -182,7 +182,7 @@ def _TACTIC_RC_controller_run_loop(P):
                 #pd2s("MSE:",read_str)
                 #if 'acc' in read_str:
                 #    print "!!!!!!!!!!!!!!!!!"
-                print write_str,P['calibrated']
+                print write_str,P['calibrated'],P['temporary_human_control'],P['agent_choice']
                 P['MSE/print_timer'] = Timer(P['print_timer time'])
 
         except Exception as e:
