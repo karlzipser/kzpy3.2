@@ -14,14 +14,14 @@ if not os.path.exists(menu_path):
     os.makedirs(menu_path)
 threading.Thread(target=kzpy3.Menu_app.menu.load_menu_data,args=[menu_path,P]).start()
 
-
+"""
 timer = Timer(5)
 while P['ABORT'] == False:
     if timer.check():
         print P['camera_pwm_manual_offset']
         print an_element(P)
         timer.reset()
-
+"""
 
 from arduino_utils.serial_init import *
 from arduino_utils.tactic_rc_controller import *
