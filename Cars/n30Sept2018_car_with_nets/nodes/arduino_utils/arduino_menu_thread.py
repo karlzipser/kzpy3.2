@@ -12,9 +12,9 @@ menu_exec_str = kzpy3.Menu_app.menu.__MENU_THREAD_EXEC_STR__.replace(
 		'__default_values_module_name__',__default_values_module_name__
 	).replace('__topics_dic_name__',__topics_dic_name__)
 cs(menu_exec_str)
-exec(menu_exec_str)
+#exec(menu_exec_str)
 #
-############################################
+#############################################
 
 if False:
 	timer = Timer(20)

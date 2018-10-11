@@ -3,13 +3,13 @@
 from kzpy3.utils3 import *
 from arduino_utils.arduino_menu_thread import *
 exec(menu_exec_str)
-"""
-timer = Timer(5)
+
+timer = Timer(15)
 while P['ABORT'] == False:
     if timer.check():
         print an_element(P)
         timer.reset()
-"""
+
 
 from arduino_utils.serial_init import *
 from arduino_utils.tactic_rc_controller import *
