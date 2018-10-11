@@ -6,16 +6,6 @@ from network_menu_thread import *
 exec(identify_file_str)
 
 
-timer = Timer(5)
-while N['ABORT'] == False:
-    if timer.check():
-        print an_element(N)
-        timer.reset()
-
-
-
-
-
 
 
 if not N['USE_NETWORK']:
