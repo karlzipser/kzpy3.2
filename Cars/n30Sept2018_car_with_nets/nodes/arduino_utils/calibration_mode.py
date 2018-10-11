@@ -108,7 +108,7 @@ def _calibrate_run_loop(P):
             elif P['agent_choice'] == 'network' and P['temporary_human_control'] == False:
                 P['Arduinos']['SOUND'].write("(101)") # green taillights
             else:
-                assert False
+                pass # assert False
             no_sound_yet = True
             time.sleep(0.1)
             continue
