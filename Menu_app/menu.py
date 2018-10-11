@@ -26,7 +26,7 @@ def menu(Topics,path):
     raw_enter()
     """
     if 'cmd/clear_screen' not in Topics:
-        Topics['cmd/clear_screen'] = False
+        Topics['cmd/clear_screen'] = True
     if 'menu name' not in Topics:
         Topics = '<< menu not yet named >>'
     while EXIT == False and Topics['ABORT'] == False:
