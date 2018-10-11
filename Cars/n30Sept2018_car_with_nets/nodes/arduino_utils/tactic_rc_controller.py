@@ -117,7 +117,7 @@ def _TACTIC_RC_controller_run_loop(P):
                 in_this_mode = False
 
             elif P['agent_choice'] == 'network' and P['button_number']<4:#P['selector_mode'] == 'drive_mode':
-                if np.abs(P['human']['motor_percent']-49) > 4:
+                if np.abs(P['human']['motor_percent']-49) > 8:
                     P['temporary_human_control'] = True
                     if sound_timer.check():
                         P['Arduinos']['SOUND'].write("(100)") # red taillights
@@ -128,7 +128,7 @@ def _TACTIC_RC_controller_run_loop(P):
                 
                 elif P['time_since_button_4'].time() > 2.0:
 
-                    if np.abs(P['human']['servo_percent']-49) > 4:
+                    if np.abs(P['human']['servo_percent']-49) > 8:
                         P['temporary_human_control'] = True
                         if sound_timer.check():
                             P['Arduinos']['SOUND'].write("(100)") # red taillights
