@@ -3,8 +3,6 @@ exec(identify_file_str)
 import rospy
 
 current_bag_number = 0
-P['zed_called']['val'] = 0
-P['zed_called']['time'] = 0
 
 def get_bag_info():
     global current_bag_number
