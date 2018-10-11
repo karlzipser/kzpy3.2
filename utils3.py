@@ -173,7 +173,7 @@ def CS_(comment,section='',s='',say_comment=False,emphasis=False,exception=False
 			cprint(stri,attrs=['blink','bold'],color='red',on_color='on_yellow')
 		else:
 			cprint(stri,attrs=['bold','blink','reverse'],color='white',on_color='on_grey')
-			spd2s(comment)
+			#spd2s(comment)
 		if newline:
 			print('\n')
 	if say_comment:
