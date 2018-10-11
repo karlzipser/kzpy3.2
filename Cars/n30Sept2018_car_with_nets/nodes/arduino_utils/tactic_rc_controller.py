@@ -160,7 +160,7 @@ def _TACTIC_RC_controller_run_loop(P):
                 else:
                     in_this_mode = False
                     write_str = get_write_str(P['servo_pwm_null'],P['servo_pwm_null'],P['motor_pwm_null'],P)
-                    CS("write_str = get_write_str(P['servo_pwm_null'],P['servo_pwm_null'],P['motor_pwm_null'],P)",emphasis=True)
+                    #CS("write_str = get_write_str(P['servo_pwm_null'],P['servo_pwm_null'],P['motor_pwm_null'],P)",emphasis=True)
             if P['button_number'] < 4:
                 if P['calibrated']:
                     if P['drive_mode'] == 1:
