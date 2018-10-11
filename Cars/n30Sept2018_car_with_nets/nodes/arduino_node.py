@@ -159,7 +159,9 @@ if 'Main loop...':
         Default_values.arduino.default_values.EXIT(restart=False,shutdown=False,kill_ros=True,_file_=__file__)
     except Exception as e:
         CS_(d2s('Main loop exception',e))
+
 P['Arduinos']['SOUND'].write("(22)")
+
 CS_('End arduino_node.py main loop.')
 
 #EOF
