@@ -52,7 +52,7 @@ center = 0.0
 button_number = 0;
 button_number_previous = -9999
 button_timer = Timer()
-parameter_file_load_timer() = Timer(1)
+parameter_file_load_timer = Timer(1)
 current_camera = 49
 current_steer = 49
 current_motor = 49
@@ -149,6 +149,7 @@ while not rospy.is_shutdown():
             P = lo(opjk("Cars/n30Sept2018_car_with_nets/nodes/Default_values/arduino/__local__/Topics.pkl"))
             for k in P:
                 N[k] = P[k]
+            parameter_file_load_timer.reset()
 
     if node_timer.time() > 10:
         if len(left_list) == 0:
