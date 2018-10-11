@@ -4,47 +4,36 @@ import rospy
 import Default_values.arduino.default_values
 
 def TACTIC_RC_controller(P):
-
     threading.Thread(target=_TACTIC_RC_controller_run_loop,args=[P]).start()
     
 def _TACTIC_RC_controller_run_loop(P):
 
-
     print('_TACTIC_RC_controller_run_loop')
     if 'MSE' not in P['Arduinos']:
         assert False
-    #if 'SOUND' not in P['Arduinos']:
-    #    pass
-    #    #assert False
     time.sleep(0.1)
-    if True:
-        P['Arduinos']['MSE'].flushInput()
-        time.sleep(0.1)
-        P['Arduinos']['MSE'].flushOutput()
-        flush_seconds = 0.25
-        flush_timer = Timer(flush_seconds)
-    print_timer = Timer(0.1)
+    P['Arduinos']['MSE'].flushInput()
+    time.sleep(0.1)
+    P['Arduinos']['MSE'].flushOutput()
+    flush_seconds = 0.25
+    flush_timer = Timer(flush_seconds)
     in_this_mode_timer = Timer()
-    #ctr_timer = Timer()
     Pid_processing_motor = Pid_Processing_Motor()
-    time_since_successful_read_from_arduino = Timer();_timer = Timer(0.2)
     _servo_pwm = -1
-
-    
 
     P['button_number'] = 0
     bn = P['button_number']
-
     button_number_prev = 0
     write_str = ''
     sound_timer = Timer(0.05)
+
     while (not P['ABORT']) and (not rospy.is_shutdown()):
 
         time.sleep(0.01)
 
         try:
             read_str = P['Arduinos']['MSE'].readline()
-            #print read_str
+
             if flush_timer.check():
                 P['Arduinos']['MSE'].flushInput()
                 P['Arduinos']['MSE'].flushOutput()
@@ -54,59 +43,52 @@ def _TACTIC_RC_controller_run_loop(P):
                 exec('serial_input = list({0})'.format(read_str))
                 if len(serial_input) < 3:
                     assert False
+                assert serial_input[0] == 'mse'
             except:
                 continue
 
-            if serial_input[0] == 'mse':
+            P['button_pwm'] = serial_input[1]
+            P['servo_pwm'] = serial_input[2]
+            P['motor_pwm'] = serial_input[3]
+            P['encoder'] = serial_input[4]
 
-                P['button_pwm'] = serial_input[1]
-                P['servo_pwm'] = serial_input[2]
-                P['motor_pwm'] = serial_input[3]
-                P['encoder'] = serial_input[4]
+            bpwm = P['button_pwm']
+            
+            if np.abs(bpwm - 1900) < P['button_delta']:
+                bn = 1
+            elif np.abs(bpwm - 1700) < P['button_delta']:
+                bn = 2
+            elif np.abs(bpwm - 1424) < P['button_delta']:
+                bn = 3
+            elif np.abs(bpwm - 870) < P['button_delta']:
+                bn = 4
 
-                bpwm = P['button_pwm']
-                
-                if np.abs(bpwm - 1900) < P['button_delta']:
-                    bn = 1
-                elif np.abs(bpwm - 1700) < P['button_delta']:
-                    bn = 2
-                elif np.abs(bpwm - 1424) < P['button_delta']:
-                    bn = 3
-                elif np.abs(bpwm - 870) < P['button_delta']:
-                    bn = 4
-                if P['button_number'] != bn:
-                    P['button_timer'].reset()
+            if P['button_number'] != bn:
+                P['button_timer'].reset()
 
+            P['button_number'] = bn
 
-                P['button_number'] = bn
+            if P['button_number'] == 4:
+                P['time_since_button_4'].reset()
 
-                if P['button_number'] == 4:
-                    P['time_since_button_4'].reset()
+            P['button_time'] = P['button_timer'].time()
 
-                
+            if P['button_number'] != button_number_prev:
+                pd2s("P['button_number'] =",P['button_number'])
+                if 'SOUND' in P['Arduinos']:
+                    P['Arduinos']['SOUND'].write(d2n(""" "(""",P['button_number'],""")" """))
 
-                P['button_time'] = P['button_timer'].time()
+            button_number_prev = P['button_number']
 
-                if P['button_number'] != button_number_prev:
-                    pd2s("P['button_number'] =",P['button_number'])
-                    if 'SOUND' in P['Arduinos']:
-                        P['Arduinos']['SOUND'].write(d2n(""" "(""",P['button_number'],""")" """))
+            s = P['HUMAN_SMOOTHING_PARAMETER_1']
 
-                button_number_prev = P['button_number']
+            P['servo_pwm_smooth'] = (1.0-s)*P['servo_pwm'] + s*P['servo_pwm_smooth']
+            P['motor_pwm_smooth'] = (1.0-s)*P['motor_pwm'] + s*P['motor_pwm_smooth']
+            P['encoder_smooth'] = (1.0-s)*P['encoder'] + s*P['encoder_smooth']
 
-
-
-                time_since_successful_read_from_arduino.reset()
-
-                s = P['HUMAN_SMOOTHING_PARAMETER_1']
-
-                P['servo_pwm_smooth'] = (1.0-s)*P['servo_pwm'] + s*P['servo_pwm_smooth']
-                P['motor_pwm_smooth'] = (1.0-s)*P['motor_pwm'] + s*P['motor_pwm_smooth']
-                P['encoder_smooth'] = (1.0-s)*P['encoder'] + s*P['encoder_smooth']
-
-                if P['calibrated'] == True:
-                    P['human']['servo_percent'] = servo_pwm_to_percent(P['servo_pwm_smooth'],P)
-                    P['human']['motor_percent'] = motor_pwm_to_percent(P['motor_pwm_smooth'],P)
+            if P['calibrated'] == True:
+                P['human']['servo_percent'] = servo_pwm_to_percent(P['servo_pwm_smooth'],P)
+                P['human']['motor_percent'] = motor_pwm_to_percent(P['motor_pwm_smooth'],P)
 
 
 
@@ -120,7 +102,8 @@ def _TACTIC_RC_controller_run_loop(P):
                 if np.abs(P['human']['motor_percent']-49) > 8:
                     P['temporary_human_control'] = True
                     if sound_timer.check():
-                        P['Arduinos']['SOUND'].write("(100)") # red taillights
+                        if 'SOUND' in P['Arduinos']:
+                            P['Arduinos']['SOUND'].write("(100)") # red taillights
                         sound_timer.reset()
                     in_this_mode = False
                     write_str = get_write_str(P['servo_pwm_smooth'],P['servo_pwm_smooth'],P['motor_pwm_smooth'],P)
@@ -131,7 +114,8 @@ def _TACTIC_RC_controller_run_loop(P):
                     if np.abs(P['human']['servo_percent']-49) > 8:
                         P['temporary_human_control'] = True
                         if sound_timer.check():
-                            P['Arduinos']['SOUND'].write("(100)") # red taillights
+                            if 'SOUND' in P['Arduinos']:
+                                P['Arduinos']['SOUND'].write("(100)") # red taillights
                             sound_timer.reset()
                         if in_this_mode == False:
                             in_this_mode = True
@@ -143,12 +127,11 @@ def _TACTIC_RC_controller_run_loop(P):
                         _camera_pwm = _servo_pwm
                     else:
                         if sound_timer.check():
-                            P['Arduinos']['SOUND'].write("(101)") # green taillights
+                            if 'SOUND' in P['Arduinos']:
+                                P['Arduinos']['SOUND'].write("(101)") # green taillights
                             sound_timer.reset()
                         _camera_pwm = servo_percent_to_pwm(P['network']['camera_percent'],P)
                         _servo_pwm = servo_percent_to_pwm(P['network']['servo_percent'],P)
-
-                        #_camera_pwm = servo_percent_to_pwm(P['network']['camera_percent'],P)
                         in_this_mode = False
 
                     if True:
@@ -159,8 +142,8 @@ def _TACTIC_RC_controller_run_loop(P):
                     write_str = get_write_str(_servo_pwm,_camera_pwm,_motor_pwm,P)
                 else:
                     in_this_mode = False
-                    write_str = get_write_str(P['servo_pwm_null'],P['servo_pwm_null'],P['motor_pwm_null'],P)
-                    #CS("write_str = get_write_str(P['servo_pwm_null'],P['servo_pwm_null'],P['motor_pwm_null'],P)",emphasis=True)
+                    #write_str = get_write_str(P['servo_pwm_null'],P['servo_pwm_null'],P['motor_pwm_null'],P)
+                    CS("write_str = get_write_str(P['servo_pwm_null'],P['servo_pwm_null'],P['motor_pwm_null'],P)",emphasis=True)
             if P['button_number'] < 4:
                 if P['calibrated']:
                     if P['drive_mode'] == 1:
