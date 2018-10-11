@@ -37,7 +37,7 @@ def _TACTIC_RC_controller_run_loop(P):
 
     button_number_prev = 0
     write_str = ''
-    
+    sound_timer = Timer(0.05)
     while (not P['ABORT']) and (not rospy.is_shutdown()):
 
         time.sleep(0.01)
@@ -119,7 +119,9 @@ def _TACTIC_RC_controller_run_loop(P):
             elif P['agent_choice'] == 'network' and P['button_number']<4:#P['selector_mode'] == 'drive_mode':
                 if np.abs(P['human']['motor_percent']-49) > 4:
                     P['temporary_human_control'] = True
-                    P['Arduinos']['SOUND'].write("(100)") # red taillights
+                    if sound_timer.check():
+                        P['Arduinos']['SOUND'].write("(100)") # red taillights
+                        sound_timer.reset()
                     in_this_mode = False
                     write_str = get_write_str(P['servo_pwm_smooth'],P['servo_pwm_smooth'],P['motor_pwm_smooth'],P)
                     P['time_since_button_4'].reset()
@@ -128,6 +130,9 @@ def _TACTIC_RC_controller_run_loop(P):
 
                     if np.abs(P['human']['servo_percent']-49) > 4:
                         P['temporary_human_control'] = True
+                        if sound_timer.check():
+                            P['Arduinos']['SOUND'].write("(100)") # red taillights
+                            sound_timer.reset()
                         if in_this_mode == False:
                             in_this_mode = True
                             in_this_mode_timer.reset()
@@ -137,6 +142,9 @@ def _TACTIC_RC_controller_run_loop(P):
                         _servo_pwm = (1-q)*P['servo_pwm_smooth'] + q*_servo_pwm
                         _camera_pwm = _servo_pwm
                     else:
+                        if sound_timer.check():
+                            P['Arduinos']['SOUND'].write("(101)")
+                            sound_timer.reset()
                         _camera_pwm = servo_percent_to_pwm(P['network']['camera_percent'],P)
                         if True:
                             _servo_pwm = servo_percent_to_pwm(P['network']['servo_percent'],P)
@@ -167,7 +175,7 @@ def _TACTIC_RC_controller_run_loop(P):
             #print write_str
 
             if P['USE_ROS']:
-                print 2,P['publish_MSE_data']
+                #print 2,P['publish_MSE_data']
                 P['publish_MSE_data'](P)
 
             if P['MSE/print_timer'].check():

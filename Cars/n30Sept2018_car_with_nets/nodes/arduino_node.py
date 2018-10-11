@@ -132,9 +132,9 @@ if 'Start Arduino threads...':
 
     if P['USE_MSE'] and 'MSE' in P['Arduinos'].keys():     
         CS("!!!!!!!!!! found 'MSE' !!!!!!!!!!!",emphasis=True)
-        print 0,P['publish_MSE_data']
+        #print 0,P['publish_MSE_data']
         TACTIC_RC_controller(P)
-        print 1,P['publish_MSE_data']
+        #print 1,P['publish_MSE_data']
         Calibration_Mode(P)
     else:
         assert False
