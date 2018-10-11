@@ -167,6 +167,7 @@ def _TACTIC_RC_controller_run_loop(P):
             #print write_str
 
             if P['USE_ROS']:
+                print 2,P['publish_MSE_data']
                 P['publish_MSE_data'](P)
 
             if P['MSE/print_timer'].check():
@@ -182,7 +183,7 @@ def _TACTIC_RC_controller_run_loop(P):
             file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             CS_('Exception!',emphasis=True)
             CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
-            if True:
+            if False:
                 print '_TACTIC_RC_controller_run_loop',e
             
             pass            
