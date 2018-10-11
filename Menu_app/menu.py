@@ -268,7 +268,7 @@ def load_menu_data(path,Parameters,first_load=False):
             if timer.check():
                 Topics = load_Topics(path,first_load)
                 if type(Topics) == dict:
-                    for t in Topics.keys():
+                    for t in Topics['to_expose']: #Topics.keys():
                         if '!' in t:
                             pass
                         else:
