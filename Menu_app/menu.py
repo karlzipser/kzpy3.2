@@ -233,6 +233,8 @@ def print_exposed(Topics):
     print ''
     if 'to_expose' not in Topics:
         Topics['to_expose'] = []
+    if 'menu name' in Topics:
+        pd2s('##############',Topics['menu name'],'##############')
     for name in Topics['to_expose']:
         print d2n(name,': ',Topics[name],'  '),
         cprint(type(Topics[name]).__name__,'grey')

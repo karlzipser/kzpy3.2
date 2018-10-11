@@ -5,8 +5,20 @@ from kzpy3.utils3 import *
 #from Default_values.network.default_values import N
 
 #import Default_values.network.default_values.N as N
-from network_menu_thread import *
-exec(identify_file_str)
+#from network_menu_thread import *
+#exec(identify_file_str)
+
+
+
+import kzpy3.Cars.n30Sept2018_car_with_nets.nodes.Default_values.network.default_values as default_values
+N = default_values.N
+N['ABORT'] = False
+import kzpy3.Menu_app.menu
+menu_path = opjh("kzpy3/Cars/n30Sept2018_car_with_nets/nodes/Default_values/network")
+if not os.path.exists(menu_path):
+    os.makedirs(menu_path)
+threading.Thread(target=kzpy3.Menu_app.menu.load_menu_data,args=[menu_path,N]).start()
+
 
 
 
