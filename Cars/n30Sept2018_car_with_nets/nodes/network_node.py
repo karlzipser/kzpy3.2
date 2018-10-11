@@ -145,7 +145,7 @@ Torch_network = net_utils.Torch_Network(N)
 while not rospy.is_shutdown():
 
     if node_timer.time() > 10:
-        if True:#button_number == 4:
+        if button_number == 4:
             if parameter_file_load_timer.check():
                 P = lo(opjk("Cars/n30Sept2018_car_with_nets/nodes/Default_values/arduino/__local__/Topics.pkl"))
                 for k in P:
