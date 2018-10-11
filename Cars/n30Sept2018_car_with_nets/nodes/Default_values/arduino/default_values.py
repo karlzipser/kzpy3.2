@@ -22,6 +22,7 @@ if HAVE_ROS:
 			unix('sudo reboot')
 
 P = {}
+P['use LIDAR'] = False
 P['menu name'] = 'arduino menu'
 P['cmd/autostart menu'] = False
 P['cmd/clear_screen'] = True

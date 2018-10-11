@@ -33,8 +33,9 @@ def _calibrate_run_loop(P):
     rosbag_check_timer = Timer(3)
     rosbag_overdue_timer = Timer(45)
     rosbag_check_timer.trigger()
-    os1_okay = False
-    os1_called_prev = 100
+    if P['use LIDAR']:
+        os1_okay = False
+        os1_called_prev = 100
     zed_okay = False
     zed_called_prev = 100    
     while (not P['ABORT']) and (not rospy.is_shutdown()):
@@ -62,9 +63,10 @@ def _calibrate_run_loop(P):
             if P['zed_called']['val'] > zed_called_prev:
                 zed_okay = True
                 zed_called_prev = P['zed_called']['val']
-            if P['os1_called']['val'] > os1_called_prev:
-                os1_okay = True
-                os1_called_prev = P['os1_called']['val']
+            if P['use LIDAR']:
+                if P['os1_called']['val'] > os1_called_prev:
+                    os1_okay = True
+                    os1_called_prev = P['os1_called']['val']
 
             if not zed_okay:
                 for i in range(4):
@@ -77,19 +79,22 @@ def _calibrate_run_loop(P):
                 if 'SOUND' in P['Arduinos']:
                     P['Arduinos']['SOUND'].write("(30)")
                 time.sleep(1)
-            
-            if not os1_okay:
-                for i in range(3):
-                    CS('No LIDAR!',exception=True)
-                    if 'SOUND' in P['Arduinos']:
-                        P['Arduinos']['SOUND'].write("(61)")
+            if P['use LIDAR']:
+                if not os1_okay:
+                    for i in range(3):
+                        CS('No LIDAR!',exception=True)
+                        if 'SOUND' in P['Arduinos']:
+                            P['Arduinos']['SOUND'].write("(61)")
+                        time.sleep(2)
                     time.sleep(2)
-                time.sleep(2)
-            else:
-                if 'SOUND' in P['Arduinos']:
-                    P['Arduinos']['SOUND'].write("(31)")
+                else:
+                    if 'SOUND' in P['Arduinos']:
+                        P['Arduinos']['SOUND'].write("(31)")
 
-            if os1_okay and zed_okay:
+            if P['use LIDAR']:
+                if os1_okay and zed_okay:
+                    bandwidth_check_timer = Timer(60)
+            elif zed_okay:
                 bandwidth_check_timer = Timer(60)
 
             bandwidth_check_timer.reset()

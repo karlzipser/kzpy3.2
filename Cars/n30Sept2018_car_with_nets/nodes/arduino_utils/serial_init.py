@@ -52,8 +52,8 @@ def assign_serial_connections(P,sers):
             CS_('Unable to identify port {0}'.format(ser.port))
     print 'Finished scanning serial ports.'
 
-    if 'SOUND' in P['Arduinos'] and 'MSE' in P['Arduinos']:
-        P['Arduinos']['SOUND'].write("(1929)")
+    if 'SOUND' in P['Arduinos'] and 'MSE' in P['Arduinos'] and 'IMU' in P['Arduinos']:
+        P['Arduinos']['SOUND'].write("(50)")
 
     if 'MSE' not in P['Arduinos'].keys():
         spd2s('MSE not found: Is transmitter turned on? Is MSE battery plugged in?')

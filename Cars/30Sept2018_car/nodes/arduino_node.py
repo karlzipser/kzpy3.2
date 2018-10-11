@@ -27,12 +27,14 @@ def zed_callback(data):
     P['zed_called']['val'] += 1
     P['zed_called']['time'] = time.time()
 
-P['os1_called']['val'] = 0
-P['os1_called']['time'] = 0
 
-def os1_callback(data):
-    P['os1_called']['val'] += 1
-    P['os1_called']['time'] = time.time()
+
+if P['use LIDAR']:
+    P['os1_called']['val'] = 0
+    P['os1_called']['time'] = 0
+    def os1_callback(data):
+        P['os1_called']['val'] += 1
+        P['os1_called']['time'] = time.time()
 
 
 
@@ -50,8 +52,8 @@ rospy.init_node('run_arduino',anonymous=True,disable_signals=True)
 rospy.Subscriber('cmd/steer', std_msgs.msg.Int32, callback=cmd_steer_callback)
 rospy.Subscriber('cmd/camera', std_msgs.msg.Int32, callback=cmd_camera_callback)
 rospy.Subscriber('cmd/motor', std_msgs.msg.Int32, callback=cmd_motor_callback)
-
-rospy.Subscriber("/os1_node/points",sensor_msgs.msg.PointCloud2,os1_callback,queue_size=1)
+if P['use LIDAR']:
+    rospy.Subscriber("/os1_node/points",sensor_msgs.msg.PointCloud2,os1_callback,queue_size=1)
 rospy.Subscriber("/bair_car/zed/right/image_rect_color",sensor_msgs.msg.Image,zed_callback,queue_size=1)
 
 P['human_agent_pub'] = rospy.Publisher('human_agent', std_msgs.msg.Int32, queue_size=5) 
