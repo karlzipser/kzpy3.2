@@ -17,16 +17,9 @@ import kzpy3.Menu_app.menu
 menu_path = opjh("kzpy3/Cars/n30Sept2018_car_with_nets/nodes/Default_values/network")
 if not os.path.exists(menu_path):
     os.makedirs(menu_path)
-threading.Thread(target=kzpy3.Menu_app.menu.load_menu_data,args=[menu_path,N]).start()
+#threading.Thread(target=kzpy3.Menu_app.menu.load_menu_data,args=[menu_path,N]).start()
 
 
-
-
-if not N['USE_NETWORK']:
-    spd2s('network_node.py::not using network')
-    while N['ABORT'] == False:
-        time.sleep(5)
-    assert(False)
 
 import rospy
 
