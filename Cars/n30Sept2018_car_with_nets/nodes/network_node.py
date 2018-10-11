@@ -2,8 +2,8 @@
 
 from kzpy3.utils3 import *
 CS("here0",exception=True);
-#import Default_values.network.default_values.N as N
-from network_menu_thread import *
+import Default_values.network.default_values.N as N
+#from network_menu_thread import *
 exec(identify_file_str)
 
 CS("here1",exception=True);
