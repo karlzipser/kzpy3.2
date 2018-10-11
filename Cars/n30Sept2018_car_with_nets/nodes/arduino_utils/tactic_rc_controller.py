@@ -139,7 +139,7 @@ def _TACTIC_RC_controller_run_loop(P):
                         if True:
                             _servo_pwm = servo_percent_to_pwm(P['network']['servo_percent'],P)
 
-                        _camera_pwm = servo_percent_to_pwm(P['network']['camera_percent'],P)
+                        #_camera_pwm = servo_percent_to_pwm(P['network']['camera_percent'],P)
                         in_this_mode = False
 
                     if True:
@@ -168,11 +168,10 @@ def _TACTIC_RC_controller_run_loop(P):
                 P['publish_MSE_data'](P)
 
             if P['MSE/print_timer'].check():
-                pass
                 #pd2s("MSE:",read_str)
                 #if 'acc' in read_str:
                 #    print "!!!!!!!!!!!!!!!!!"
-                #print write_str
+                print write_str
                 P['MSE/print_timer'] = Timer(P['print_timer time'])
 
         except Exception as e:
