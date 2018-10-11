@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 from kzpy3.utils3 import *
-CS("here0",exception=True);
+CS("here0",emphasis=True);
 
 from Default_values.network.default_values import N
 
@@ -9,7 +9,7 @@ from Default_values.network.default_values import N
 #from network_menu_thread import *
 exec(identify_file_str)
 
-CS("here1",exception=True);
+CS("here1",emphasis=True);
 
 
 if not N['USE_NETWORK']:
@@ -29,7 +29,7 @@ from cv_bridge import CvBridge,CvBridgeError
 import rospy
 from sensor_msgs.msg import Image
 bridge = CvBridge()
-CS("here1",exception=True);
+CS("here2",emphasis=True);
 rospy.init_node('network_node',anonymous=True,disable_signals=True)
 
 left_list = []
