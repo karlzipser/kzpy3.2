@@ -108,7 +108,7 @@ def _publish_MSE_data(P):
         else:
             behavioral_mode_choice = 'calibrate'
         P['behavioral_mode_pub'].publish(d2s(behavioral_mode_choice))
-        P['human_agent_pub'].publish(std_msgs.msg.Int32(1))
+        P['human_agent_pub'].publish(std_msgs.msg.Int32(P['agent_choice']))
         if P['button_number'] == 4:
             drive_mode = 0
         else:
@@ -153,6 +153,7 @@ if 'Main loop...':
         Default_values.arduino.default_values.EXIT(restart=False,shutdown=False,kill_ros=True,_file_=__file__)
     except Exception as e:
         CS_(d2s('Main loop exception',e))
+P['Arduinos']['SOUND'].write("(22)")
 CS_('End arduino_node.py main loop.')
 
 #EOF
