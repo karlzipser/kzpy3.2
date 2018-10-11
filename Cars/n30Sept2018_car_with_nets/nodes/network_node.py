@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 from kzpy3.utils3 import *
-CS("here0",emphasis=True);
 
 from Default_values.network.default_values import N
 
@@ -9,7 +8,6 @@ from Default_values.network.default_values import N
 #from network_menu_thread import *
 exec(identify_file_str)
 
-CS("here1",emphasis=True);
 
 
 if not N['USE_NETWORK']:
@@ -29,7 +27,7 @@ from cv_bridge import CvBridge,CvBridgeError
 import rospy
 from sensor_msgs.msg import Image
 bridge = CvBridge()
-CS("here2",emphasis=True);
+
 rospy.init_node('network_node',anonymous=True,disable_signals=True)
 
 left_list = []
@@ -208,6 +206,8 @@ while not rospy.is_shutdown():
             adjusted_motor = bound_value(adjusted_motor,0,99)
             adjusted_steer = bound_value(adjusted_steer,0,99)
             adjusted_camera = bound_value(adjusted_camera,0,99)
+            
+            print adjusted_camera,adjusted_steer,adjusted_motor
 
             camera_cmd_pub.publish(std_msgs.msg.Int32(adjusted_camera))
             steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
