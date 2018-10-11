@@ -136,7 +136,7 @@ if 'Start Arduino threads...':
     else:
         CS("!!!!!!!!!! 'IMU' not in Arduinos[] or not using 'IMU' !!!!!!!!!!!",exception=True)
 
-    P['agent_choice'] = 'human'
+    #P['agent_choice'] = 'human'
 
 
 
