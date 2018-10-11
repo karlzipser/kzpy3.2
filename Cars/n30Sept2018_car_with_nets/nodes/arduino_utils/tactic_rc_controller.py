@@ -36,7 +36,8 @@ def _TACTIC_RC_controller_run_loop(P):
     bn = P['button_number']
 
     button_number_prev = 0
-
+    write_str = ''
+    
     while (not P['ABORT']) and (not rospy.is_shutdown()):
 
         time.sleep(0.01)
