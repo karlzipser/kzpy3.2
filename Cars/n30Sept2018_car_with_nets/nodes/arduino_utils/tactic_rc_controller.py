@@ -181,9 +181,9 @@ def _TACTIC_RC_controller_run_loop(P):
             print('_TACTIC_RC_controller_run_loop')
             exc_type, exc_obj, exc_tb = sys.exc_info()
             file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            CS_('Exception!',emphasis=True)
-            CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
-            if False:
+            CS_('Exception!',exception=True)
+            CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),exception=False)
+            if True:
                 print '_TACTIC_RC_controller_run_loop',e
             
             pass            
