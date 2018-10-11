@@ -5,7 +5,7 @@ from kzpy3.utils3 import *
 from network_menu_thread import *
 exec(identify_file_str)
 
-
+CS("here1",exception=True);
 
 
 if not N['USE_NETWORK']:
@@ -25,7 +25,7 @@ from cv_bridge import CvBridge,CvBridgeError
 import rospy
 from sensor_msgs.msg import Image
 bridge = CvBridge()
-
+CS("here1",exception=True);
 rospy.init_node('network_node',anonymous=True,disable_signals=True)
 
 left_list = []
