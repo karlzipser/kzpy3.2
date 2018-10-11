@@ -10,9 +10,9 @@ N['The menu path.'] = opjk('Cars/car_24July2018/nodes/Default_values/network')
 if True:
 	N['ABORT'] = False
 	N['network_output_sample'] = 0 # >= 0, <= 9
-	N['network_steer_gain'] = 6.0
-	N['network_camera_gain'] = 2.0
-	N['network_motor_gain'] = 0.8
+	N['network_steer_gain'] = 1.0#6.0
+	N['network_camera_gain'] = 1.0#2.0
+	N['network_motor_gain'] = 1.0#0.8
 	N['network_motor_offset'] = 0
 	N['network_servo_smoothing_parameter'] = 0.85
 	N['network_motor_smoothing_parameter'] = 0.75
@@ -38,7 +38,7 @@ if False:
 	N['USE_LAST_IMAGE_ONLY'] = True
 	N['visualize_activations'] = False
 	#N['motor_reverse_threshold'] = 64
-N['autostart menu'] = True
+N['autostart menu'] = False
 N['to_expose'] = [
 	'network_output_sample',
 	'network_steer_gain',
