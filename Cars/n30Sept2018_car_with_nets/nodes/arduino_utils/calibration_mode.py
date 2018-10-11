@@ -104,9 +104,11 @@ def _calibrate_run_loop(P):
             time.sleep(0.02)
         if P['button_number'] != 4:
             if P['agent_choice'] == 'human':
-                P['Arduinos']['SOUND'].write("(100)") # red taillights
+                if 'SOUND' in P['Arduinos']:
+                    P['Arduinos']['SOUND'].write("(100)") # red taillights
             elif P['agent_choice'] == 'network' and P['temporary_human_control'] == False:
-                P['Arduinos']['SOUND'].write("(101)") # green taillights
+                if 'SOUND' in P['Arduinos']:
+                    P['Arduinos']['SOUND'].write("(101)") # green taillights
             else:
                 pass # assert False
             no_sound_yet = True
