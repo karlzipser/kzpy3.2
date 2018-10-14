@@ -139,7 +139,7 @@ for f in flex_names:
 P['to_hide'] = []
 
 P['To Expose'] = {}
-P['To Expose']['Arduino node'] = [
+P['To Expose']['Arduino Node'] = [
 	'ABORT',
 	'IMU_SMOOTHING_PARAMETER',
 	'behavioral_mode_choice',
@@ -155,7 +155,7 @@ P['To Expose']['Arduino node'] = [
 	'pid_motor_percent_min',
 	'menu name',
 ]
-P['To Expose']['Network node'] = [
+P['To Expose']['Network Node'] = [
 	'network_output_sample',
 	'network_steer_gain',
 	'network_camera_gain',
@@ -166,7 +166,16 @@ P['To Expose']['Network node'] = [
 	'network_camera_smoothing_parameter',
 	'USE_LAST_IMAGE_ONLY',
 ]
-
+P['a1.comment.SqueezeNet (112)'] = [True]
+P['a2.comment.SqueezeNet (112)'] = [True,-1]
+P['a3.comment.SqueezeNet (112)'] = [False]
+P['a4.comment.SqueezeNet (112)'] = [False,-99]
+P['To Expose']['Trained Nets'] = [
+	'a1.comment.SqueezeNet (112)',
+	'a2.comment.SqueezeNet (112)',
+	'a3.comment.SqueezeNet (112)',
+	'a4.comment.SqueezeNet (112)',
+]
 
 
 
@@ -314,7 +323,7 @@ record C calibration settings
 
 Revisit tx1 to tx1 ros networking.
 
-
+https://devtalk.nvidia.com/default/topic/1002271/pins-for-front-panel-buttons-led/
 
 """
 

@@ -28,13 +28,18 @@ def menu2(Topics,path):
 
     while EXIT == False and Topics['ABORT'] == False:
 
+        choice_number = 0
+        Number_name_binding = {}
+        Name_number_binding = {}
+
         try:
 
             if Topics['cmd/clear_screen']:
                 clear_screen()
 
-            cprint("<<<<<<<<<<<<<<<<<< "+Q+" >>>>>>>>>>>>>>>>>>",attrs=['bold'],color='white',on_color='on_grey')
-
+#            cprint("<<<<<<<<<<<<<<<<<< "+Q+" >>>>>>>>>>>>>>>>>>",attrs=['bold'],color='white',on_color='on_grey')
+            cprint("<<<<<<<<<<<<< "+Q+" >>>>>>>>>>>>>",attrs=['bold'],color='white',on_color='on_grey')
+#                   8) IMU_SMOOTHING_PARAMETER: 0.95  float
             ctr = 1
             Number_name_binding[ctr]='exit';cprint(d2n(ctr,') ',Number_name_binding[ctr]),'yellow');ctr+=1
             Number_name_binding[ctr]='load';cprint(d2n(ctr,') ',Number_name_binding[ctr]),'yellow');ctr+=1
@@ -52,7 +57,7 @@ def menu2(Topics,path):
 
             for name in sorted(names_to_use):
                 
-                ctr += 1
+                
 
                 Number_name_binding[ctr] = name
                 
@@ -93,6 +98,8 @@ def menu2(Topics,path):
                         cprint(cstr,cf)
                     break
 
+                ctr += 1
+
             for n in Number_name_binding.keys():
                 Name_number_binding[Number_name_binding[n]] = n
 
@@ -101,6 +108,15 @@ def menu2(Topics,path):
                 CS(message)
 
             choice_number = input('#? ')
+
+            for k in to_expose_keys:
+                print k
+                if k in Name_number_binding:
+                    print k
+                    if choice_number == Name_number_binding[k]:
+                        print Q,k
+                        Q = k
+                        continue
 
             if type(choice_number) != int:
                 message = "bad option"
@@ -149,6 +165,8 @@ def menu2(Topics,path):
                                         
             else:
                 name = Number_name_binding[choice_number]
+                if name in to_expose_keys:
+                    continue
                 message = name+' value not changed'
                 current_val = Topics[name]
                 if type(current_val) == bool:
