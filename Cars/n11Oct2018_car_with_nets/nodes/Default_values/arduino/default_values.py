@@ -175,11 +175,13 @@ try:
 	for f in sggo(opjm("rosbags/networks/*")):
 	#for f in sggo(opjk("Cars/*")):
 		#Model_folders[opj(fname(f),'count')] = len(sggo(f,'*'))
-		l = len(sggo(f,'*'))
+		weight_files = sggo(f,'*')
+		l = len(weight_files)
 		n = d2n(fname(f)," (",l,")")
 		P[n] = [False]
 		P['To Expose']['Trained Nets'].append(n)
-		P['weight_files'][n] = f
+		P['weight_files'][n] = weight_files
+
 except Exception as e:
     exc_type, exc_obj, exc_tb = sys.exc_info()
     file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
