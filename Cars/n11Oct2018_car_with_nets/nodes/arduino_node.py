@@ -159,6 +159,7 @@ if 'Main loop...':
 
             if P['button_number'] == 4:
 
+                print 'arduino load topics'
                 Topics = menu2.load_Topics(
                     opjk("Cars/n11Oct2018_car_with_nets/nodes/Default_values/arduino"),
                     first_load=False,
