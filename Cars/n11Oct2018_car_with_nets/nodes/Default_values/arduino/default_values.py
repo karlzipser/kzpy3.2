@@ -177,7 +177,7 @@ def sort_dir_by_ctime(dir_path):
 	data = (os.path.join(dir_path, fn) for fn in os.listdir(dir_path))
 	data = ((os.stat(path), path) for path in data)
 	# regular files, insert creation date
-	data = ((stat[ST_CTIME], path)
+	data = ((stat[ST_MTIME], path)
 	           for stat, path in data if S_ISREG(stat[ST_MODE]))
 	paths = []
 	for cdate, path in sorted(data):
