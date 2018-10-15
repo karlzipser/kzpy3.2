@@ -110,11 +110,11 @@ def menu2(Topics,path):
             choice_number = input('#? ')
 
             for k in to_expose_keys:
-                print k
+                #print k
                 if k in Name_number_binding:
-                    print k
+                    #print k
                     if choice_number == Name_number_binding[k]:
-                        print Q,k
+                        #print Q,k
                         Q = k
                         continue
 
@@ -178,7 +178,7 @@ def menu2(Topics,path):
                             Topics[name] = True
                 else:    
                     Topics[name] = input(d2n(name,'(',current_val,') new value > '))
-                print path
+                pd2s('**',path,'**')
                 save_topics(Topics,path)
                 message = 'changed '+name
 
@@ -200,6 +200,7 @@ def save_topics(Topics,path):
             os.remove(opj(path,'__local__','Topics.'+c+'.pkl'))
         else:#except:
             pass
+        pd2s('***',opjh(path,'__local__','Topics.'+c+'.pkl'),'***')
         so(Topics,opjh(path,'__local__','Topics.'+c+'.pkl'))
         text_to_file(opjh(path,'__local__','ready.'+c),'')
 
