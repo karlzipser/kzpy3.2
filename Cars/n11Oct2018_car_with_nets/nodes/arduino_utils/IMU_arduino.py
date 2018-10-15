@@ -34,10 +34,10 @@ def _IMU_run_loop(P):
             if m == 'acc':
                 for i in range(3):
                     acc_smoothed[i] = (1.0-s)*imu_input[i+1] + s*acc_smoothed[i]
-                if acc_smoothed[1] < -9.0:
-                    spd2s('acc_smoothed[1] < -9.0, ABORTING, SHUTTING DOWN!!!!!')
-                    P['ABORT'] = True
-                    default_values.EXIT(restart=False,shutdown=True,kill_ros=True,_file_=__file__)
+                #if acc_smoothed[1] < -9.0:
+                #    spd2s('acc_smoothed[1] < -9.0, ABORTING, SHUTTING DOWN!!!!!')
+                #    P['ABORT'] = True
+                #    default_values.EXIT(restart=False,shutdown=True,kill_ros=True,_file_=__file__)
                 if is_number(Hz):
                     P['Hz'][m] = Hz
                     if Hz < 30 or Hz > 90:

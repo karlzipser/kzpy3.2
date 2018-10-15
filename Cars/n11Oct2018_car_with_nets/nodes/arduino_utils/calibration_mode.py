@@ -168,3 +168,6 @@ def _calibrate_run_loop(P):
         if print_timer.check():
             print_timer.reset()           
     print 'end _calibrate_run_loop.'
+    CS_("doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))",_file_)
+    time.sleep(0.01)
+    unix(opjh('kzpy3/scripts/kill_ros.sh'))

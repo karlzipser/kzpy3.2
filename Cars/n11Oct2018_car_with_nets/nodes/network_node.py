@@ -232,31 +232,14 @@ while not rospy.is_shutdown():
             motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
 
 
-        if N['visualize_activations']:
-            Net_activity = Activity_Module.Net_Activity('batch_num',0, 'activiations',Torch_network['solver'].A)
-            Net_activity['view']('moment_index',0,'delay',1, 'scales',{'camera_input':1,'pre_metadata_features':0,'pre_metadata_features_metadata':1,'post_metadata_features':1})
-            cv2.waitKey(1)#spause()
-
-        if button_just_changed:
-            button_just_changed = False
-            if left:
-                print('left')
-                #current_camera = 99
-                pass
-            elif right:
-                #current_camera = 0
-                print('right')
-                pass
-            else:
-                #current_camera = 49
-                print('center')
-                pass
-
     else:
         time.sleep(0.1)
 
 CS_('goodbye!',__file__)
-default_values.EXIT(restart=False,shutdown=False,kill_ros=True,_file_=__file__)
+CS_("doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))",_file_)
+time.sleep(0.01)
+unix(opjh('kzpy3/scripts/kill_ros.sh'))
+#default_values.EXIT(restart=False,shutdown=False,kill_ros=True,_file_=__file__)
 
 
 

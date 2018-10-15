@@ -182,6 +182,9 @@ def _TACTIC_RC_controller_run_loop(P):
             
             pass            
     print 'end _TACTIC_RC_controller_run_loop.'
+    CS_("doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))",_file_)
+    time.sleep(0.01)
+    unix(opjh('kzpy3/scripts/kill_ros.sh'))
 
 def get_write_str(servo_pwm,camera_pwm,motor_pwm,P):
     #print 'get_write_str'

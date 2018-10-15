@@ -16,11 +16,13 @@ def Torch_Network(N):
         D['save_data'] = torch.load(N['weight_file_path'])
         print("Torch_Network(N):: Loading "+N['weight_file_path'])
         if 'SqueezeNet40' in N['weight_file_path']:
+            cs("Torch_Network(N)::'SqueezeNet40' in N['weight_file_path']")
             from kzpy3.Train_app.nets.SqueezeNet40 import SqueezeNet
-        elif 'SqueezeNet40' in N['weight_file_path']:
+        elif 'SqueezeNet20' in N['weight_file_path']:
             from kzpy3.Train_app.nets.SqueezeNet import SqueezeNet
+            cs("Torch_Network(N)::'SqueezeNet20' in N['weight_file_path']")
         else:
-            srpd2s("Error, can't identify network type:\n",N['weight_file_path'])
+            cs("Torch_Network(N)::Error, can't identify network type:\n",N['weight_file_path'])
         D['solver'] = SqueezeNet().cuda()
         D['solver'].load_state_dict(D['save_data']['net'])
         D['solver'].eval()

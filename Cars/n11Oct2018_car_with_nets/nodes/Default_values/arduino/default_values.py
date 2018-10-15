@@ -1,30 +1,12 @@
 from kzpy3.utils3 import *
 exec(identify_file_str)
 
-if HAVE_ROS:
-	import rospy
 
-	def EXIT(restart=False,shutdown=True,kill_ros=True,_file_=''):
-		rospy.signal_shutdown(d2s("default_values.EXIT(...) from",_file_,))
-		CS_("""rospy.signal_shutdown("EXIT")""",_file_)
-		if shutdown:
-			CS_("SHUTTING DOWN!!!!!",_file_)
-			time.sleep(0.01)
-			unix('sudo shutdown -h now')
-		elif restart:
-			CS_("RESTARTING!!!!!",_file_)
-			time.sleep(0.01)
-			unix('sudo reboot')
-		elif kill_ros:
-			CS_("doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))",_file_)
-			time.sleep(0.01)
-			unix(opjh('kzpy3/scripts/kill_ros.sh'))
-			pass
 
 P = {}
 P['agent_is_human'] = True
 
-P['customers'] = ['Arduino Node','Network Node']
+P['customers'] = ['Arduino Node','Network Node',' Trained Nets']
 P['drive_mode'] = 0
 P['use LIDAR'] = False
 P['menu name'] = 'arduino menu'
