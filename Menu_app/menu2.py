@@ -192,13 +192,13 @@ def menu2(Topics,path):
 def save_topics(Topics,path):
     for customer in Topics['customers']:
         c = get_safe_name(customer)
-        if True:#try:
+        try:
             os.remove(opj(path,'__local__','ready.'+c))
-        else:#except:
+        except:
             pass
-        if True:#try:
+        try:
             os.remove(opj(path,'__local__','Topics.'+c+'.pkl'))
-        else:#except:
+        except:
             pass
         pd2s('***',opjh(path,'__local__','Topics.'+c+'.pkl'),'***')
         so(Topics,opjh(path,'__local__','Topics.'+c+'.pkl'))
