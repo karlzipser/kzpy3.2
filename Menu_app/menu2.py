@@ -188,17 +188,18 @@ def menu2(Topics,path):
             raw_enter()
 
 
-def save_topics(Topics,path):
-    try:
-        os.remove(opj(path,'__local__','ready'))
-    except:
-        pass
-    try:
-        os.remove(opj(path,'__local__','Topics.pkl'))
-    except:
-        pass
-    so(Topics,opjh(path,'__local__','Topics.pkl'))
-    text_to_file(opjh(path,'__local__','ready'),'')
+def save_topics(Topics,path,customers=[]):
+    for c in customers:
+        try:
+            os.remove(opj(path,'__local__','ready.'+c))
+        except:
+            pass
+        try:
+            os.remove(opj(path,'__local__','Topics.'+c+'.pkl'))
+        except:
+            pass
+        so(Topics,opjh(path,'__local__','Topics.'+c+'.pkl'))
+        text_to_file(opjh(path,'__local__','ready.'+c),'')
 
 
 def print_exposed(Topics):
@@ -212,29 +213,30 @@ def print_exposed(Topics):
         cprint(type(Topics[name]).__name__,'grey')
     print ''
 
-def load_Topics(input_path,first_load=False):
+def load_Topics(input_path,first_load=False,customer=''):
     path = opj(input_path,'__local__')
-    r = sggo(path,'ready')
+    r = sggo(path,'ready.'+customer)
     if len(r) > 1:
         CS_('Warning, more than one ready in '+path)
+    assert len(r) < 2
     if len(r) == 1 or first_load:
-        Topics = lo(opjh(path,'Topics.pkl'))
+        Topics = lo(opjh(path,'Topics.'+customer+'.pkl'))
         print_exposed(Topics)
         if len(r) == 1:
             try:
-                os.remove(opj(path,'ready'))
+                os.remove(opj(path,'ready.'+customer))
             except:
                 pass
         return Topics
     else:
         return None
 
-def load_menu_data(path,Parameters,first_load=False):
+def load_menu_data(path,Parameters,first_load=False,customer=''):
     timer = Timer(0.5)
     if True:#try:
         while Parameters['ABORT'] == False:
             if timer.check():
-                Topics = load_Topics(path,first_load)
+                Topics = load_Topics(path,first_load,customer)
                 if type(Topics) == dict:
                     for t in Topics['To Expose'][Q]:
                         if '!' in t:

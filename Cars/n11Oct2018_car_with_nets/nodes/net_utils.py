@@ -15,10 +15,7 @@ def Torch_Network(N):
         D = {}
         D['save_data'] = torch.load(N['weight_file_path'])
         print("Torch_Network(N):: Loading "+N['weight_file_path'])
-        #model_type = N['weight_file_path'].split('.')[-1]
-        #assert(model_type in ['SqueezeNet','z2_color'])
-        if True:#model_type == 'SqueezeNet':
-            D['solver'] = SqueezeNet().cuda()
+        D['solver'] = SqueezeNet().cuda()
         D['solver'].load_state_dict(D['save_data']['net'])
         D['solver'].eval()
         print("Torch_Network(N):: Loading complete.")

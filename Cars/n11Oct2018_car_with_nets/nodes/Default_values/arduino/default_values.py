@@ -115,8 +115,8 @@ P['calibrated'] = False
 P['acc'] = {}
 P['gyro'] = {}
 P['head'] = {}
-P['The menu path.'] = opjk('Cars/car_24July2018/nodes/Default_values/arduino')
-P['autostart menu'] = True
+#P['The menu path.'] = opjk('Cars/car_24July2018/nodes/Default_values/arduino')
+P['autostart menu'] = False
 
 
 flex_names = [
@@ -166,16 +166,31 @@ P['To Expose']['Network Node'] = [
 	'network_camera_smoothing_parameter',
 	'USE_LAST_IMAGE_ONLY',
 ]
+
+try:
+	P['To Expose']['Trained Nets'] = ['LOAD NETWORK']
+	Model_folders = {}
+#	for f in sggo(opjm("rosbags/NETWORKS/*")):
+	for f in sggo(opjk("Cars/*")):
+		#Model_folders[opj(fname(f),'count')] = len(sggo(f,'*'))
+		l = len(sggo(f,'*'))
+		n = d2n(fname(f)," (",l,")")
+		P[n] = [False]
+		P['To Expose']['Trained Nets'].append(n)
+except Exception as e:
+    exc_type, exc_obj, exc_tb = sys.exc_info()
+    file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+    CS_('Exception!',emphasis=True)
+    CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+"""
 P['a1.comment.SqueezeNet (112)'] = [True]
 P['a2.comment.SqueezeNet (112)'] = [True,-1]
 P['a3.comment.SqueezeNet (112)'] = [False]
 P['a4.comment.SqueezeNet (112)'] = [False,-99]
-P['To Expose']['Trained Nets'] = [
-	'a1.comment.SqueezeNet (112)',
-	'a2.comment.SqueezeNet (112)',
-	'a3.comment.SqueezeNet (112)',
-	'a4.comment.SqueezeNet (112)',
-]
+"""
+
+P['LOAD NETWORK'] = False
+
 
 
 

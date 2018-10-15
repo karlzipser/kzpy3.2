@@ -13,7 +13,7 @@ from kzpy3.utils3 import *
 import kzpy3.Cars.n30Sept2018_car_with_nets.nodes.Default_values.arduino.default_values as default_values
 N = default_values.P
 
-#import kzpy3.Menu_app.menu
+import kzpy3.Menu_app.menu2 as menu2
 #menu_path = opjh("kzpy3/Cars/n30Sept2018_car_with_nets/nodes/Default_values/network")
 #if not os.path.exists(menu_path):
 #    os.makedirs(menu_path)
@@ -140,31 +140,51 @@ image_sample_timer = Timer(5)
 
 node_timer = Timer()
 
-Torch_network = net_utils.Torch_Network(N)
+Torch_network = None #net_utils.Torch_Network(N)
+
+loaded_net = False
 
 while not rospy.is_shutdown():
 
     if node_timer.time() > 10:
         if button_number == 4:
             if parameter_file_load_timer.check():
+                T = menu2.load_Topics(opjk("Cars/n30Sept2018_car_with_nets/nodes/Default_values/arduino"),first_load=False,customer='Network Node')
+                if type(T) == dict:
+                    for t in T['To Expose']['Network Node']:
+                        if '!' in t:
+                            pass
+                        else:
+                            N[t] = T[t]
+                """
                 P = lo(opjk("Cars/n30Sept2018_car_with_nets/nodes/Default_values/arduino/__local__/Topics.pkl"))
                 for k in P:
                     N[k] = P[k]
+                """
                 parameter_file_load_timer.reset()
 
+    if N['LOAD NETWORK'] == False:
+        loaded_net = False
+
+    if button_number == 4:
+        if loaded_net == False:
+            if N['LOAD NETWORK'] == True:
+                loaded_net = True
+                # change N['weight_file_path']
+                Torch_network = net_utils.Torch_Network(N)
+
+
+
+    """
     if node_timer.time() > 10:
         if len(left_list) == 0:
             for i in range(5):
                 pass
-                #CS_("empty image list after 30s, ABORTING, rebooting!!!!!",emphasis=True)
-            #default_values.EXIT(restart=False,shutdown=False,kill_ros=True,_file_=__file__)
-    if False:
-        if len(left_list) > 0:
-            if image_sample_timer.check():
-                img = left_list[1]
-                print(img[0:15,0,0])
-                print np.sum(img[0:100,0,0])
-                image_sample_timer.reset()
+    """
+
+    if Torch_network == None:
+        time.sleep(0.5)
+        continue
 
     time.sleep(0.001)
     Hz = frequency_timer.freq(name='Hz_network',do_print=False)
