@@ -8,20 +8,7 @@ from kzpy3.utils3 import *
 import kzpy3.Cars.n30Sept2018_car_with_nets.nodes.Default_values.arduino.default_values as default_values
 P = default_values.P
 P['ABORT'] = False
-import kzpy3.Menu_app.menu
-menu_path = opjh("kzpy3/Cars/n30Sept2018_car_with_nets/nodes/Default_values/arduino")
-if not os.path.exists(menu_path):
-    os.makedirs(menu_path)
-threading.Thread(target=kzpy3.Menu_app.menu.load_menu_data,args=[menu_path,P]).start()
 
-"""
-timer = Timer(5)
-while P['ABORT'] == False:
-    if timer.check():
-        print P['camera_pwm_manual_offset']
-        print an_element(P)
-        timer.reset()
-"""
 
 from arduino_utils.serial_init import *
 from arduino_utils.tactic_rc_controller import *
@@ -163,18 +150,40 @@ if 'Start Arduino threads...':
             
 if 'Main loop...':
     print 'main loop'
-    q = '_'
+    
+    import kzpy3.Menu_app.menu2 as menu2
+
     try:
-        while q not in ['q','Q']:
-            #q = raw_input('')
-            if P['ABORT']:
-                break
-            time.sleep(0.1)
-        P['Arduinos']['SOUND'].write("(22)")
-        Default_values.arduino.default_values.EXIT(restart=False,shutdown=False,kill_ros=True,_file_=__file__)
+
+        while P['ABORT'] == False:
+
+            if P['button_number'] == 4:
+
+                Topics = menu2.load_Topics(
+                    opjk("Cars/n11Oct2018_car_with_nets/nodes/Default_values/arduino"),
+                    first_load=False,
+                    customer='Arduino Node')
+
+                if type(Topics) == dict:
+                    for t in Topics['To Expose']['Arduino Node']:
+                        if '!' in t:
+                            pass
+                        else:
+                            P[t] = Topics[t]
+                parameter_file_load_timer.reset()
+
+            time.sleep(0.5)
+
+
+
+        if 'SOUND' in P['Arduinos']:
+            pass #P['Arduinos']['SOUND'].write("(22)")
+
+        #Default_values.arduino.default_values.EXIT(restart=False,shutdown=False,kill_ros=True,_file_=__file__)
+
     except Exception as e:
         CS_(d2s('Main loop exception',e))
-
+        #Default_values.arduino.default_values.EXIT(restart=False,shutdown=False,kill_ros=True,_file_=__file__)
 
 
 CS('End arduino_node.py main loop.')

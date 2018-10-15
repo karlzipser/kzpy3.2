@@ -7,21 +7,22 @@ if HAVE_ROS:
 	def EXIT(restart=False,shutdown=True,kill_ros=True,_file_=''):
 		rospy.signal_shutdown(d2s("default_values.EXIT(...) from",_file_,))
 		CS_("""rospy.signal_shutdown("EXIT")""",_file_)
-		if kill_ros:
-			CS_("doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))",_file_)
-			time.sleep(0.01)
-			unix(opjh('kzpy3/scripts/kill_ros.sh'))
-			pass
 		if shutdown:
 			CS_("SHUTTING DOWN!!!!!",_file_)
 			time.sleep(0.01)
 			unix('sudo shutdown -h now')
-		if restart:
+		elif restart:
 			CS_("RESTARTING!!!!!",_file_)
 			time.sleep(0.01)
 			unix('sudo reboot')
+		elif kill_ros:
+			CS_("doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))",_file_)
+			time.sleep(0.01)
+			unix(opjh('kzpy3/scripts/kill_ros.sh'))
+			pass
 
 P = {}
+P['customers'] = ['Arduino Node','Network Node']
 P['drive_mode'] = 0
 P['use LIDAR'] = False
 P['menu name'] = 'arduino menu'
@@ -169,6 +170,7 @@ P['To Expose']['Network Node'] = [
 
 try:
 	P['To Expose']['Trained Nets'] = ['LOAD NETWORK']
+	P['weight_files'] = {}
 	Model_folders = {}
 #	for f in sggo(opjm("rosbags/NETWORKS/*")):
 	for f in sggo(opjk("Cars/*")):
@@ -177,24 +179,14 @@ try:
 		n = d2n(fname(f)," (",l,")")
 		P[n] = [False]
 		P['To Expose']['Trained Nets'].append(n)
+		P['weight_files'][n] = f
 except Exception as e:
     exc_type, exc_obj, exc_tb = sys.exc_info()
     file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
     CS_('Exception!',emphasis=True)
     CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
-"""
-P['a1.comment.SqueezeNet (112)'] = [True]
-P['a2.comment.SqueezeNet (112)'] = [True,-1]
-P['a3.comment.SqueezeNet (112)'] = [False]
-P['a4.comment.SqueezeNet (112)'] = [False,-99]
-"""
 
 P['LOAD NETWORK'] = False
-
-
-
-
-
 
 ############# NETWORK PARAMETERS
 P['network_output_sample'] = 0 # >= 0, <= 9
@@ -217,20 +209,6 @@ P['visualize_activations'] = False
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-NO_Mse = {}
-NO_Mse['behavioral_mode_choice'] = 'direct'
-NO_Mse['place_choice'] = 'home'
 
 
 """

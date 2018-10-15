@@ -188,8 +188,9 @@ def menu2(Topics,path):
             raw_enter()
 
 
-def save_topics(Topics,path,customers=[]):
-    for c in customers:
+def save_topics(Topics,path):
+    for customer in Topics['customers']:
+        c = get_safe_name(customer)
         try:
             os.remove(opj(path,'__local__','ready.'+c))
         except:
@@ -202,29 +203,30 @@ def save_topics(Topics,path,customers=[]):
         text_to_file(opjh(path,'__local__','ready.'+c),'')
 
 
-def print_exposed(Topics):
+def print_exposed(Topics,customer):
     if Topics['cmd/clear_screen']:
         clear_screen()
     print ''
     if 'menu name' in Topics:
-        pd2s('##############',Topics['menu name'],'##############')
-    for name in Topics['To Expose'][Q]:
+        pd2s('##############',customer,'##############')
+    for name in Topics['To Expose'][customer]:
         print d2n(name,': ',Topics[name],'  '),
         cprint(type(Topics[name]).__name__,'grey')
     print ''
 
 def load_Topics(input_path,first_load=False,customer=''):
+    c = get_safe_name(customer)
     path = opj(input_path,'__local__')
-    r = sggo(path,'ready.'+customer)
+    r = sggo(path,'ready.'+c)
     if len(r) > 1:
         CS_('Warning, more than one ready in '+path)
     assert len(r) < 2
     if len(r) == 1 or first_load:
-        Topics = lo(opjh(path,'Topics.'+customer+'.pkl'))
-        print_exposed(Topics)
+        Topics = lo(opjh(path,'Topics.'+c+'.pkl'))
+        print_exposed(Topics,customer)
         if len(r) == 1:
             try:
-                os.remove(opj(path,'ready.'+customer))
+                os.remove(opj(path,'ready.'+c))
             except:
                 pass
         return Topics
@@ -253,21 +255,7 @@ def load_menu_data(path,Parameters,first_load=False,customer=''):
         CS_('Exception!',exception=True,newline=False)
         CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
 
-__MENU_THREAD_EXEC_STR__ = """
-import __default_values_module_name__ as default_values
-__topics_dic_name__ = default_values.__topics_dic_name__
-__topics_dic_name__['ABORT'] = False
-import kzpy3.Menu_app.menu2
-menu_path = "__default_values_module_name__".replace('.','/').replace('/default_values','')
-#menu_path = __topics_dic_name__['The menu path.']
-if not os.path.exists(menu_path):
-    os.makedirs(menu_path)
-try:
-    os.remove(opj(path,'ready'))
-except:
-    pass
-threading.Thread(target=kzpy3.Menu_app.menu2.load_menu_data,args=[menu_path,__topics_dic_name__]).start()
-"""
+
 
 if __name__ == '__main__':# and EXIT == False:
     path = Arguments['path']

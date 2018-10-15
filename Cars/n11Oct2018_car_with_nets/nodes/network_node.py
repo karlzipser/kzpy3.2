@@ -2,24 +2,8 @@
 
 from kzpy3.utils3 import *
 
-#from Default_values.network.default_values import N
-
-#import Default_values.network.default_values.N as N
-#from network_menu_thread import *
-#exec(identify_file_str)
-
-
-
 import kzpy3.Cars.n30Sept2018_car_with_nets.nodes.Default_values.arduino.default_values as default_values
 N = default_values.P
-
-import kzpy3.Menu_app.menu2 as menu2
-#menu_path = opjh("kzpy3/Cars/n30Sept2018_car_with_nets/nodes/Default_values/network")
-#if not os.path.exists(menu_path):
-#    os.makedirs(menu_path)
-#threading.Thread(target=kzpy3.Menu_app.menu.load_menu_data,args=[menu_path,N]).start()
-
-
 
 import rospy
 
@@ -52,7 +36,6 @@ center = 0.0
 button_number = 0;
 button_number_previous = -9999
 button_timer = Timer()
-parameter_file_load_timer = Timer(1)
 current_camera = 49
 current_steer = 49
 current_motor = 49
@@ -140,28 +123,34 @@ image_sample_timer = Timer(5)
 
 node_timer = Timer()
 
-Torch_network = None #net_utils.Torch_Network(N)
+Torch_network = None
 
 loaded_net = False
 
+import kzpy3.Menu_app.menu2 as menu2
+
+parameter_file_load_timer = Timer(0.5)
+
 while not rospy.is_shutdown():
 
-    if node_timer.time() > 10:
-        if button_number == 4:
-            if parameter_file_load_timer.check():
-                T = menu2.load_Topics(opjk("Cars/n30Sept2018_car_with_nets/nodes/Default_values/arduino"),first_load=False,customer='Network Node')
-                if type(T) == dict:
-                    for t in T['To Expose']['Network Node']:
-                        if '!' in t:
-                            pass
-                        else:
-                            N[t] = T[t]
-                """
-                P = lo(opjk("Cars/n30Sept2018_car_with_nets/nodes/Default_values/arduino/__local__/Topics.pkl"))
-                for k in P:
-                    N[k] = P[k]
-                """
-                parameter_file_load_timer.reset()
+    if button_number == 4:
+
+        if parameter_file_load_timer.check():
+
+            Topics = menu2.load_Topics(
+                opjk("Cars/n11Oct2018_car_with_nets/nodes/Default_values/arduino"),
+                first_load=False,
+                customer='Network Node')
+            
+            if type(Topics) == dict:
+                for t in Topics['To Expose']['Network Node']:
+                    if '!' in t:
+                        pass
+                    else:
+                        N[t] = Topics[t]
+
+            parameter_file_load_timer.reset()
+
 
     if N['LOAD NETWORK'] == False:
         loaded_net = False
@@ -170,17 +159,17 @@ while not rospy.is_shutdown():
         if loaded_net == False:
             if N['LOAD NETWORK'] == True:
                 loaded_net = True
+
+                for n in N['To Expose']['Trained Nets']:
+                    if N[n][0] == True:
+                        N['weight_file_path'] = N['weight_files'][N[n][1]]
+                        break
+        P['weight_files'][n] = f
+
+
                 # change N['weight_file_path']
                 Torch_network = net_utils.Torch_Network(N)
 
-
-
-    """
-    if node_timer.time() > 10:
-        if len(left_list) == 0:
-            for i in range(5):
-                pass
-    """
 
     if Torch_network == None:
         time.sleep(0.5)
@@ -202,6 +191,7 @@ while not rospy.is_shutdown():
             camera_data = Torch_network['format_camera_data'](left_list,right_list)
             metadata = Torch_network['format_metadata']((direct,follow,furtive,play,left,right)) #((right,left,play,furtive,follow,direct))
             torch_motor, torch_steer = Torch_network['run_model'](camera_data, metadata, N)
+
             """
             Torch_network['output'] should contain full output array of network
             """
@@ -212,31 +202,11 @@ while not rospy.is_shutdown():
                 current_steer = (1.0-s2)*torch_steer + s2*current_steer
                 current_motor = (1.0-s1)*torch_motor + s1*current_motor
 
-            if button_just_changed:
-                #print "button_just_changed"
-                button_just_changed = False
-                if left:
-                    pass
-                    #print('left')
-                    #current_camera = 99
-                elif right:
-                    pass
-                    #current_camera = 0
-                    #print('right')
-                else:
-                    current_camera = 49
-                    #print('center')
+
 
             adjusted_motor = int(N['network_motor_gain']*(current_motor-49) + N['network_motor_offset'] + 49)
             adjusted_steer = int(N['network_steer_gain']*(current_steer-49) + 49)
             adjusted_camera = int(N['network_camera_gain']*(current_camera-49) + 49)
-
-
-
-            #print left,right
-
-
-
 
             adjusted_motor = bound_value(adjusted_motor,0,99)
             adjusted_steer = bound_value(adjusted_steer,0,99)
@@ -248,16 +218,32 @@ while not rospy.is_shutdown():
             steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
             motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
 
+
         if N['visualize_activations']:
             Net_activity = Activity_Module.Net_Activity('batch_num',0, 'activiations',Torch_network['solver'].A)
             Net_activity['view']('moment_index',0,'delay',1, 'scales',{'camera_input':1,'pre_metadata_features':0,'pre_metadata_features_metadata':1,'post_metadata_features':1})
             cv2.waitKey(1)#spause()
 
+        if button_just_changed:
+            button_just_changed = False
+            if left:
+                print('left')
+                #current_camera = 99
+                pass
+            elif right:
+                #current_camera = 0
+                print('right')
+                pass
+            else:
+                #current_camera = 49
+                print('center')
+                pass
+
     else:
         time.sleep(0.1)
 
 CS_('goodbye!',__file__)
-#default_values.EXIT(restart=False,shutdown=False,kill_ros=True,_file_=__file__)
+default_values.EXIT(restart=False,shutdown=False,kill_ros=True,_file_=__file__)
 
 
 
