@@ -178,6 +178,7 @@ def menu2(Topics,path):
                             Topics[name] = True
                 else:    
                     Topics[name] = input(d2n(name,'(',current_val,') new value > '))
+                print path
                 save_topics(Topics,path)
                 message = 'changed '+name
 
