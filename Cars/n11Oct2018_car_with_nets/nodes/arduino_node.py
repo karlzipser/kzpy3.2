@@ -159,7 +159,7 @@ if 'Main loop...':
 
         try:
 
-            if parameter_file_load_timer.check()
+            if parameter_file_load_timer.check():
 
                 #print 'arduino load topics'
 
