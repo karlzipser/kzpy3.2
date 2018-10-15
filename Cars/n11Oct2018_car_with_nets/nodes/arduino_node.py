@@ -153,30 +153,34 @@ if 'Main loop...':
     
     import kzpy3.Menu_app.menu2 as menu2
 
+    parameter_file_load_timer = Timer(0.5)
+
     while P['ABORT'] == False:
 
         try:
 
-            
-            print 'arduino load topics'
+            if parameter_file_load_timer.check()
 
-            if P['button_number'] == 4:
+                #print 'arduino load topics'
+
+                if P['button_number'] == 4:
+
+                    Topics = menu2.load_Topics(
+                        opjk("Cars/n11Oct2018_car_with_nets/nodes/Default_values/arduino"),
+                        first_load=False,
+                        customer='Arduino Node')
+
+                    if type(Topics) == dict:
+                        for t in Topics['To Expose']['Arduino Node']:
+                            if '!' in t:
+                                pass
+                            else:
+                                P[t] = Topics[t]
+                    parameter_file_load_timer.reset()
+
+            else time.sleep(0.1)
 
 
-                Topics = menu2.load_Topics(
-                    opjk("Cars/n11Oct2018_car_with_nets/nodes/Default_values/arduino"),
-                    first_load=False,
-                    customer='Arduino Node')
-
-                if type(Topics) == dict:
-                    for t in Topics['To Expose']['Arduino Node']:
-                        if '!' in t:
-                            pass
-                        else:
-                            P[t] = Topics[t]
-                parameter_file_load_timer.reset()
-
-            time.sleep(0.5)
 
 
 
