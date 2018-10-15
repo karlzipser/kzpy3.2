@@ -146,7 +146,7 @@ while not rospy.is_shutdown():
                 customer='Network Node')
             
             if type(Topics) == dict:
-                for t in Topics['To Expose']['Network Node']:
+                for t in Topics['To Expose']['Network Node']+Topics['To Expose']['Trained Nets']:
                     if '!' in t:
                         pass
                     else:
