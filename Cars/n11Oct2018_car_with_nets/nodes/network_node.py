@@ -161,15 +161,15 @@ while not rospy.is_shutdown():
 
         
         N['weight_file_path'] = False
-        #cs("loaded_net=",loaded_net)
+        cs("loaded_net=",loaded_net)
         if loaded_net == False:
             if N['LOAD NETWORK'] == True:
                 loaded_net = True
                 
                 ns = N['weight_files'].keys()
-                #cs(ns)
+                cs(ns)
                 for n in ns:
-                    #cs(n)
+                    #s(n)
                     if N[n] != False:
                         a = N[n]
                         if type(a) == list:
@@ -236,7 +236,7 @@ while not rospy.is_shutdown():
         time.sleep(0.1)
 
 CS_('goodbye!',__file__)
-CS_("doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))",_file_)
+CS_("doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))")
 time.sleep(0.01)
 unix(opjh('kzpy3/scripts/kill_ros.sh'))
 #default_values.EXIT(restart=False,shutdown=False,kill_ros=True,_file_=__file__)

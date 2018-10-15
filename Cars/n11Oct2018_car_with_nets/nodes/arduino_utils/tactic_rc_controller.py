@@ -182,7 +182,7 @@ def _TACTIC_RC_controller_run_loop(P):
             
             pass            
     print 'end _TACTIC_RC_controller_run_loop.'
-    CS_("doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))",_file_)
+    CS_("doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))")
     time.sleep(0.01)
     unix(opjh('kzpy3/scripts/kill_ros.sh'))
 

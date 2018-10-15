@@ -196,7 +196,7 @@ if 'Main loop...':
         
 
 CS('End arduino_node.py main loop.')
-CS_("doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))",_file_)
+CS_("doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))")
 time.sleep(0.01)
 unix(opjh('kzpy3/scripts/kill_ros.sh'))
 #EOF
