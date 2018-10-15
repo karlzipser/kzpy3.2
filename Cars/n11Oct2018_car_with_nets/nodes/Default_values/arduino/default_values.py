@@ -168,11 +168,27 @@ P['To Expose']['Network Node'] = [
 	'USE_LAST_IMAGE_ONLY',
 ]
 
+def sort_dir_by_ctime(dir_path):
+	"""
+	https://www.w3resource.com/python-exercises/python-basic-exercise-71.php
+	"""
+	data = (os.path.join(dir_path, fn) for fn in os.listdir(dir_path))
+	data = ((os.stat(path), path) for path in data)
+	# regular files, insert creation date
+	data = ((stat[ST_CTIME], path)
+	           for stat, path in data if S_ISREG(stat[ST_MODE]))
+	paths = []
+	for cdate, path in sorted(data):
+	    print(os.path.basename(path),time.ctime(cdate))
+	    paths.append(path)
+	return paths
+
 try:
 	P['To Expose']['Trained Nets'] = ['LOAD NETWORK']
 	P['weight_files'] = {}
 	Model_folders = {}
-	for f in sggo(opjm("rosbags/networks/*")):
+	#for f in sggo(opjm("rosbags/networks/*")):
+	for f in sort_dir_by_ctime(opjm("rosbags/networks/*")):
 	#for f in sggo(opjk("Cars/*")):
 		#Model_folders[opj(fname(f),'count')] = len(sggo(f,'*'))
 		weight_files = sggo(f,'*')
