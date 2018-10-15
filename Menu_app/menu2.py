@@ -192,6 +192,7 @@ def menu2(Topics,path):
 def save_topics(Topics,path):
     for customer in Topics['customers']:
         c = get_safe_name(customer)
+        print '****'
         try:
             os.remove(opj(path,'__local__','ready.'+c))
         except:
