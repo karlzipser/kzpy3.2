@@ -174,7 +174,7 @@ while not rospy.is_shutdown():
                     if N[n] != False:
                         a = N[n]
                         if type(a) == list:
-                            cs)'here'
+                            cs('here')
                             if a[0] == True:
                                 N['weight_file_path'] = N['weight_files'][n][a[1]]
                                 srpd2s("N['weight_file_path'] = N['weight_files'][n][a[1]]")
