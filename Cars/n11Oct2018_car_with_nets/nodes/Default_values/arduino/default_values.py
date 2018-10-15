@@ -189,11 +189,11 @@ try:
 	P['To Expose']['Trained Nets'] = ['LOAD NETWORK']
 	P['weight_files'] = {}
 	Model_folders = {}
-	#for f in sggo(opjm("rosbags/networks/*")):
-	for f in sort_dir_by_ctime(opjm("rosbags/networks/*")):
+	for f in sggo(opjm("rosbags/networks/*")):
+	#for f in sort_dir_by_ctime(opjm("rosbags/networks/*")):
 	#for f in sggo(opjk("Cars/*")):
 		#Model_folders[opj(fname(f),'count')] = len(sggo(f,'*'))
-		weight_files = sggo(f,'*')
+		weight_files = sort_dir_by_ctime(f)
 		l = len(weight_files)
 		n = d2n(fname(f)," (",l,")")
 		P[n] = [False]
