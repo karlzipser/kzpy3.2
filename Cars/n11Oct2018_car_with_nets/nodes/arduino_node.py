@@ -178,7 +178,8 @@ if 'Main loop...':
                                 P[t] = Topics[t]
                     parameter_file_load_timer.reset()
 
-            else time.sleep(0.1)
+            else:
+                time.sleep(0.1)
 
 
 
