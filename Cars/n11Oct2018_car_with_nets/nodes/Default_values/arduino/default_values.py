@@ -172,7 +172,7 @@ try:
 	P['To Expose']['Trained Nets'] = ['LOAD NETWORK']
 	P['weight_files'] = {}
 	Model_folders = {}
-	for f in sggo(opjm("rosbags/NETWORKS/*")):
+	for f in sggo(opjm("rosbags/networks/*")):
 	#for f in sggo(opjk("Cars/*")):
 		#Model_folders[opj(fname(f),'count')] = len(sggo(f,'*'))
 		l = len(sggo(f,'*'))
