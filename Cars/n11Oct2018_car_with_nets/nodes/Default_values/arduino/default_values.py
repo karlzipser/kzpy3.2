@@ -167,6 +167,7 @@ P['To Expose']['Network Node'] = [
 	'network_motor_smoothing_parameter',
 	'network_camera_smoothing_parameter',
 	'USE_LAST_IMAGE_ONLY',
+	'LOAD NETWORK',
 ]
 
 def sort_dir_by_ctime(dir_path):
@@ -187,7 +188,7 @@ def sort_dir_by_ctime(dir_path):
 	return paths
 
 try:
-	P['To Expose']['Trained Nets'] = ['LOAD NETWORK']
+	P['To Expose']['Trained Nets'] = []
 	P['weight_files'] = {}
 	Model_folders = {}
 	for f in sggo(opjm("rosbags/networks/*")):

@@ -156,9 +156,7 @@ while not rospy.is_shutdown():
 
         if N['LOAD NETWORK'] == False:
             loaded_net = False
-            print """        if N['LOAD NETWORK'] == False:
-            loaded_net = False
-                """
+
 
         
         N['weight_file_path'] = False
