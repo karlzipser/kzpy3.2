@@ -1,6 +1,7 @@
 #!/usr/bin/env python
-
 from kzpy3.utils3 import *
+exec(identify_file_str)
+srpd2s("network_node.py")
 
 import kzpy3.Cars.n11Oct2018_car_with_nets.nodes.Default_values.arduino.default_values as default_values
 N = default_values.P
@@ -160,15 +161,15 @@ while not rospy.is_shutdown():
 
         
         N['weight_file_path'] = False
-        cs("loaded_net=",loaded_net)
+        #cs("loaded_net=",loaded_net)
         if loaded_net == False:
             if N['LOAD NETWORK'] == True:
                 loaded_net = True
                 
                 ns = N['weight_files'].keys()
-                cs(ns)
+                #cs(ns)
                 for n in ns:
-                    cs(n)
+                    #cs(n)
                     if N[n] != False:
                         a = N[n]
                         if type(a) == list:
@@ -179,12 +180,12 @@ while not rospy.is_shutdown():
                         break
 
                 if N['weight_file_path'] != False:
-                    print "if N['weight_file_path'] != False:"
+                    cs( "if N['weight_file_path'] != False:" )
                     Torch_network = net_utils.Torch_Network(N)
+                    cs( "Torch_network = net_utils.Torch_Network(N)" )
 
 
     if Torch_network == None:
-        cs("if Torch_network == None:")
         continue
 
     time.sleep(0.001)
