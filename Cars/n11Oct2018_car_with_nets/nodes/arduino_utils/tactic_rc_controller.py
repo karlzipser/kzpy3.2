@@ -97,7 +97,7 @@ def _TACTIC_RC_controller_run_loop(P):
             if 'agent_is_human' in P:
                 spd2s(P['agent_is_human'])
             else:
-                sprd2s('agent_is_human not in P!!!')
+                srpd2s('agent_is_human not in P!!!')
             if P['agent_is_human'] == True:
                 write_str = get_write_str(P['servo_pwm_smooth'],P['servo_pwm_smooth'],P['motor_pwm_smooth'],P)
                 in_this_mode = False
