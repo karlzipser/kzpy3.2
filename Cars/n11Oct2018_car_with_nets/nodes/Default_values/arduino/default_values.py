@@ -172,7 +172,7 @@ def sort_dir_by_ctime(dir_path):
 	"""
 	https://www.w3resource.com/python-exercises/python-basic-exercise-71.php
 	"""
-	from stat import S_ISREG, ST_CTIME, ST_MODE
+	from stat import S_ISREG, ST_MTIME, ST_MODE
 	import os, sys, time
 	data = (os.path.join(dir_path, fn) for fn in os.listdir(dir_path))
 	data = ((os.stat(path), path) for path in data)

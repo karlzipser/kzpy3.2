@@ -156,19 +156,22 @@ while not rospy.is_shutdown():
         loaded_net = False
 
     if button_number == 4:
+        N['weight_file_path'] = False
         if loaded_net == False:
             if N['LOAD NETWORK'] == True:
                 loaded_net = True
 
-                for n in N['To Expose']['Trained Nets']:
-                    if N[n][0] == True:
-                        N['weight_file_path'] = N['weight_files'][N[n][1]]
+                ns = N['weight_files'].keys()
+
+                for n in ns:
+                    if N[n] != False:
+                        if type(N[n]) == list:
+                            if N[n][0] == True:
+                            N['weight_file_path'] = N['weight_files'][N[n][1]]
                         break
-        P['weight_files'][n] = f
-
-
-                # change N['weight_file_path']
-                Torch_network = net_utils.Torch_Network(N)
+                        
+                if N['weight_file_path'] !== False:
+                    Torch_network = net_utils.Torch_Network(N)
 
 
     if Torch_network == None:
