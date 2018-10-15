@@ -182,7 +182,7 @@ def sort_dir_by_ctime(dir_path):
 	           for stat, path in data if S_ISREG(stat[ST_MODE]))
 	paths = []
 	for cdate, path in sorted(data):
-	    print(os.path.basename(path),time.ctime(cdate))
+	    #print(os.path.basename(path),time.ctime(cdate))
 	    paths.append(path)
 	return paths
 

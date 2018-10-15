@@ -171,7 +171,7 @@ while not rospy.is_shutdown():
                                 N['weight_file_path'] = N['weight_files'][n][a[1]]
                         break
 
-                if N['weight_file_path'] !== False:
+                if N['weight_file_path'] != False:
                     Torch_network = net_utils.Torch_Network(N)
 
 
