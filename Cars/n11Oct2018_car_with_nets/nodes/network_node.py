@@ -167,13 +167,13 @@ while not rospy.is_shutdown():
                 loaded_net = True
                 
                 ns = N['weight_files'].keys()
-                cs(ns)
+                #cs(ns)
                 for n in ns:
                     #s(n)
                     if N[n] != False:
                         a = N[n]
                         if type(a) == list:
-                            cs('here')
+                            cs('here',N,n,N[n])
                             if a[0] == True:
                                 N['weight_file_path'] = N['weight_files'][n][a[1]]
                                 srpd2s("N['weight_file_path'] = N['weight_files'][n][a[1]]")
