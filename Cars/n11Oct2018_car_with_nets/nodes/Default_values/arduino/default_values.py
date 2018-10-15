@@ -22,6 +22,8 @@ if HAVE_ROS:
 			pass
 
 P = {}
+P['agent_is_human'] = True
+
 P['customers'] = ['Arduino Node','Network Node']
 P['drive_mode'] = 0
 P['use LIDAR'] = False
@@ -43,7 +45,7 @@ P['acc triggers'] = 'shutdown'
 P['car_name'] = os.environ["COMPUTER_NAME"]
 P['calibrated'] = False
 P['ABORT'] = False
-P['agent_is_human'] = True
+
 P['servo_percent'] = 49
 P['motor_percent'] = 49
 P['LED_number'] = {}
@@ -71,7 +73,6 @@ P['servo_pwm_max'] = P['servo_pwm_null']
 P['motor_pwm_min'] = P['servo_pwm_null']
 P['motor_pwm_max'] = P['servo_pwm_null']
 P['behavioral_mode_choice'] = 'direct'
-#P['agent_is_human'] = 'human'
 P['place_choice'] = 'local'
 
 if P['car_name'] == 'Mr_Blue_Back':

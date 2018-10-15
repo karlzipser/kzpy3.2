@@ -165,11 +165,12 @@ while not rospy.is_shutdown():
 
                 for n in ns:
                     if N[n] != False:
-                        if type(N[n]) == list:
-                            if N[n][0] == True:
-                            N['weight_file_path'] = N['weight_files'][N[n][1]]
+                        a = N[n]
+                        if type(a) == list:
+                            if a[0] == True:
+                                N['weight_file_path'] = N['weight_files'][n][a[1]]
                         break
-                        
+
                 if N['weight_file_path'] !== False:
                     Torch_network = net_utils.Torch_Network(N)
 
