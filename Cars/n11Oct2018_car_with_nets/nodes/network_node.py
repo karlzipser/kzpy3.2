@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from kzpy3.utils3 import *
 exec(identify_file_str)
-srpd2s("network_node.py")
+sbpd2s("network_node.py")
 
 import kzpy3.Cars.n11Oct2018_car_with_nets.nodes.Default_values.arduino.default_values as default_values
 N = default_values.P
