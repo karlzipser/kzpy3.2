@@ -98,6 +98,7 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 					valv = m_[1].data
 			elif hasattr(m_[1], 'x'):
 				valv = [m_[1].x,m_[1].y,m_[1].z]
+				print m_[1]
 				for nv in valv:
 					assert(is_number(nv))
 			elif hasattr(m_[1], 'latitude'):
