@@ -90,7 +90,7 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 					ad = _get_aruco_data(valv)
 					DA[Rename[topic_]+'_aruco']['ts'].append(timestampv) 			
 					DA[Rename[topic_]+'_aruco']['vals'].append(ad)
-			elif m_[0] == 'points':
+			elif m_[0] == '/os1_node/points':
 				print "here"
 				try:
 					# https://answers.ros.org/question/240491/point_cloud2read_points-and-then/
