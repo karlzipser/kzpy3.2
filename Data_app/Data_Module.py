@@ -78,6 +78,7 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 			timestampv = round(m_[2].to_time(),3) # millisecond resolution
 			assert(is_number(timestampv))
 			if m_[0] == '/os1_node/points':
+				print type(m_[1])
 				raw_enter("1) ")
 				try:
 				# https://answers.ros.org/question/240491/point_cloud2read_points-and-then/
