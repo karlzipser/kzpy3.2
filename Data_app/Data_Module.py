@@ -2,6 +2,7 @@ from Parameters_Module import *
 exec(identify_file_str)
 from kzpy3.vis2 import *
 
+import sensor_msgs.point_cloud2 as pc2
 
 def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 	"""
@@ -76,10 +77,10 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 			timestampv = round(m_[2].to_time(),3) # millisecond resolution
 			assert(is_number(timestampv))
 			if m_[0] == '/os1_node/points':
-				print m_
-				print type(m_[1])
-				print len(m_[1])
-				raw_enter()
+				for p in pc2.read_points(m_,skip_nans=True,field_names=("x","y","z")):
+		          if np.abs(p[0]) > 0:
+		            print p
+					raw_enter()
 			topic_ = m_[0].replace('/bair_car/','')
 
 			topic_ = topic_.replace('/os1_node/','')
