@@ -32,8 +32,7 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 	all_topics_ = image_topicsv + single_value_topicsv + vector3_topicsv + string_topics
 	bair_all_topics_ = []
 	for v in all_topics_:
-		if "os1_node" not in v:
-			bair_all_topics_.append('/bair_car/'+v)
+		bair_all_topics_.append('/bair_car/'+v)
 	Rename = {}
 	Rename['zed/left/image_rect_color'] = 'left_image'
 	Rename['zed/right/image_rect_color'] = 'right_image'
@@ -74,9 +73,6 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 			timestampv = round(m_[2].to_time(),3) # millisecond resolution
 			assert(is_number(timestampv))
 			topic_ = m_[0].replace('/bair_car/','')
-
-			topic_ = m_[0].replace('/os1_node/','')
-
 			#if topic_ in string_topics:
 			#	print m_[0],m_[1]
 			if 'zed' in m_[0]:
