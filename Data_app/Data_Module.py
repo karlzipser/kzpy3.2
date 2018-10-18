@@ -97,7 +97,7 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 					valv = list(sensor_msgs.point_cloud2.read_points(m_[1],skip_nans=True,field_names=("x","y","z")))
 					valv = na(valv)
 					from kzpy3.vis3 import *
-					figure(1);clf();plt_square();pts_plot(valv);raw_enter()
+					figure(1);clf();plt_square();pts_plot(valv)#;raw_enter()
 				except  Exception as e:
 				    exc_type, exc_obj, exc_tb = sys.exc_info()
 				    file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
