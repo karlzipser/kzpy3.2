@@ -7,6 +7,7 @@ P = []
 ABORT = False
 
 def cloud_callback(msg):
+    global P
     if ABORT:
         return
     for p in pc2.read_points(msg,skip_nans=True,field_names=("x","y","z")):
