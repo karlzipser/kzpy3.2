@@ -78,12 +78,13 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 			timestampv = round(m_[2].to_time(),3) # millisecond resolution
 			assert(is_number(timestampv))
 			if m_[0] == '/os1_node/points':
-				raw_enter("1")
-				ctr = 0
-				for p in pc2.read_points(PointCloud2(m_),skip_nans=True,field_names=("x","y","z")):
-					break
-					print ctr #p['x']
-					ctr += 1#raw_enter("2: ")
+				raw_enter("1) ")
+				cloud_points = list(pc2.read_points(PointCloud2(m_),skip_nans=True,field_names=("x","y","z")))
+				#ctr = 0
+				#for p in pc2.read_points(PointCloud2(m_),skip_nans=True,field_names=("x","y","z")):
+				#	break
+				#	print ctr #p['x']
+				#	ctr += 1#raw_enter("2: ")
 			topic_ = m_[0].replace('/bair_car/','')
 
 			topic_ = topic_.replace('/os1_node/','')
