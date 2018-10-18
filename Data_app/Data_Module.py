@@ -129,7 +129,7 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 
 			D[topic_]['ts'].append(timestampv)
 			D[topic_]['vals'].append(valv)
-			print shape(D['points']['vals'])
+			print shape(na(D['points']['vals']))
 
 		print(d2s('\t',dp(timerv.time()),'seconds'))
 
