@@ -95,8 +95,8 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 				try:
 					# https://answers.ros.org/question/240491/point_cloud2read_points-and-then/
 					valv = list(sensor_msgs.point_cloud2.read_points(m_[1],skip_nans=True,field_names=("x","y","z")))
-					#so(valv,opjD('valv'));raw_enter("Saved valv. ")
-					valv = na(valv)
+					print timestampv;#so(valv,opjD('valv'));raw_enter("Saved valv. ")
+					#valv = na(valv)
 					#from kzpy3.vis3 import *
 					#figure(1);clf();plt_square();xylim(-5,5,-5,5);pts_plot(valv);spause()#;raw_enter()
 				except  Exception as e:
@@ -134,6 +134,8 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 	for k_ in D.keys():
 		if k_ == 'points':
 			D[k_]['vals'] = na(D[k_]['vals'])
+			print D[k_]['ts']
+			print type(D[k_]['ts'])
 		elif len(shape(D[k_]['vals'])) == 2:
 			if shape(D[k_]['vals'])[1] == 3:
 				D[k_]['vals'] = np.array(D[k_]['vals'])
@@ -152,8 +154,8 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 		#print topic_
 		pd2s('\t',topic_,len(D[topic_]['ts']))
 		Group = F.create_group(topic_)
-		Group.create_dataset('ts',data=na(D[topic_]['ts']))
-		Group.create_dataset('vals',data=na(D[topic_]['vals']))
+		Group.create_dataset('ts',data=D[topic_]['ts'])
+		Group.create_dataset('vals',data=D[topic_]['vals'])
 	F.close()
 	if P['USE_ARUCO']:
 		so(opj(h5py_pathv,run_namev,'aruco_data.pkl'),DA)
