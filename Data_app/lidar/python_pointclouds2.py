@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from kzpy3.vis3 import *
 from sensor_msgs.msg import PointCloud2
-import sensor_msgs.point_cloud2 as pc2import numpy as np
+import sensor_msgs.point_cloud2 as pc2import
 
 P = []
 ABORT = False
