@@ -95,7 +95,7 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 				try:
 					# https://answers.ros.org/question/240491/point_cloud2read_points-and-then/
 					valv = list(sensor_msgs.point_cloud2.read_points(m_[1],skip_nans=True,field_names=("x","y","z")))
-					print timestampv;#so(valv,opjD('valv'));raw_enter("Saved valv. ")
+					#print timestampv;#so(valv,opjD('valv'));raw_enter("Saved valv. ")
 					#valv = na(valv)
 					#from kzpy3.vis3 import *
 					#figure(1);clf();plt_square();xylim(-5,5,-5,5);pts_plot(valv);spause()#;raw_enter()
@@ -155,6 +155,7 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 		pd2s('\t',topic_,len(D[topic_]['ts']))
 		Group = F.create_group(topic_)
 		Group.create_dataset('ts',data=D[topic_]['ts'])
+		print type(D[topic_]['vals']);print shape(D[topic_]['vals'])
 		Group.create_dataset('vals',data=D[topic_]['vals'])
 	F.close()
 	if P['USE_ARUCO']:
