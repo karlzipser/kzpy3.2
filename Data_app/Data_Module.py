@@ -75,7 +75,9 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 		for m_ in bagv.read_messages(topics=bair_all_topics_):
 			timestampv = round(m_[2].to_time(),3) # millisecond resolution
 			assert(is_number(timestampv))
-			print m_[0]
+			if m_[0] == '/os1_node/points':
+				print m_
+				raw_enter()
 			topic_ = m_[0].replace('/bair_car/','')
 
 			topic_ = topic_.replace('/os1_node/','')
@@ -98,7 +100,7 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 					valv = m_[1].data
 			elif hasattr(m_[1], 'x'):
 				valv = [m_[1].x,m_[1].y,m_[1].z]
-				print m_[1]
+				#print m_[1]
 				for nv in valv:
 					assert(is_number(nv))
 			elif hasattr(m_[1], 'latitude'):
