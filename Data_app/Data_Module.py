@@ -152,8 +152,8 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 		#print topic_
 		pd2s('\t',topic_,len(D[topic_]['ts']))
 		Group = F.create_group(topic_)
-		Group.create_dataset('ts',data=D[topic_]['ts'])
-		Group.create_dataset('vals',data=D[topic_]['vals'])
+		Group.create_dataset('ts',data=na(D[topic_]['ts']))
+		Group.create_dataset('vals',data=na(D[topic_]['vals']))
 	F.close()
 	if P['USE_ARUCO']:
 		so(opj(h5py_pathv,run_namev,'aruco_data.pkl'),DA)
