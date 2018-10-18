@@ -32,10 +32,10 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 	all_topics_ = image_topicsv + single_value_topicsv + vector3_topicsv + string_topics
 	bair_all_topics_ = []
 	for v in all_topics_:
-		if "os1_node" not in v:
+		if v != 'points':
 			bair_all_topics_.append('/bair_car/'+v)
 		else:
-			bair_all_topics_.append(v)
+			bair_all_topics_.append('/os1_node/points')
 	Rename = {}
 	Rename['zed/left/image_rect_color'] = 'left_image'
 	Rename['zed/right/image_rect_color'] = 'right_image'
@@ -78,7 +78,7 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 			print m_[0]
 			topic_ = m_[0].replace('/bair_car/','')
 
-			#topic_ = topic_.replace('/os1_node/','')
+			topic_ = topic_.replace('/os1_node/','')
 
 			#if topic_ in string_topics:
 			#	print m_[0],m_[1]
