@@ -73,6 +73,8 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 		for m_ in bagv.read_messages(topics=bair_all_topics_):
 			timestampv = round(m_[2].to_time(),3) # millisecond resolution
 			assert(is_number(timestampv))
+			if 'points' in m_[0]:
+				print m_[0]
 			topic_ = m_[0].replace('/bair_car/','')
 
 			topic_ = topic_.replace('/os1_node/','')
