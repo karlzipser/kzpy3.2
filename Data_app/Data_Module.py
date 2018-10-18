@@ -129,7 +129,8 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 
 			D[topic_]['ts'].append(timestampv)
 			D[topic_]['vals'].append(valv)
-		print 2,shape(na(D['points']['vals']))
+			if topic_ == "points":
+				print 2,shape(na(D['points']['vals']))
 
 		print(d2s('\t',dp(timerv.time()),'seconds'))
 
@@ -157,7 +158,7 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 		pd2s('\t',topic_,len(D[topic_]['ts']))
 		Group = F.create_group(topic_)
 		Group.create_dataset('ts',data=D[topic_]['ts'])
-		print type(D[topic_]['vals']);print shape(D[topic_]['vals'])
+		cs( type(D[topic_]['vals']),shape(D[topic_]['vals']))
 		Group.create_dataset('vals',data=D[topic_]['vals'])
 	F.close()
 	if P['USE_ARUCO']:
