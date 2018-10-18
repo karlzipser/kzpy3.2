@@ -240,7 +240,7 @@ def Left_Timestamp_Metadata(run_name=None,h5py_path=None):
 	L.create_dataset('right_ts',data=np.array(right_tsv))
 
 	for k_ in sorted(F.keys()):
-		if k_ != 'left_image' and k_ != 'right_image' and k!= 'points':
+		if k_ != 'left_image' and k_ != 'right_image' and k_ != 'points':
 			if len(F[k_]['ts']) > 0:
 				print('\tprocessing '+k_)
 				L.create_dataset(k_,data=np.interp(L['ts'][:],F[k_]['ts'][:],F[k_]['vals'][:]))
