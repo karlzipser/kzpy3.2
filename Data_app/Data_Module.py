@@ -79,7 +79,7 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 			assert(is_number(timestampv))
 			if m_[0] == '/os1_node/points':
 				raw_enter("1")
-				for p in pc2.read_points(PointCloud2(m_),skip_nans=True,field_names=("x","y","z")):
+				if False:#for p in pc2.read_points(PointCloud2(m_),skip_nans=True,field_names=("x","y","z")):
 					#print p['x']
 					raw_enter("2: ")
 			topic_ = m_[0].replace('/bair_car/','')
