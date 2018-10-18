@@ -2,8 +2,8 @@ from Parameters_Module import *
 exec(identify_file_str)
 from kzpy3.vis2 import *
 
-import sensor_msgs.point_cloud2 as pc2
-from sensor_msgs.msg import PointCloud2
+import sensor_msgs.point_cloud2
+#from sensor_msgs.msg import PointCloud2
 
 def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 	"""
@@ -77,30 +77,12 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 		for m_ in bagv.read_messages(topics=bair_all_topics_):
 			timestampv = round(m_[2].to_time(),3) # millisecond resolution
 			assert(is_number(timestampv))
-			if m_[0] == '/os1_node/points':
-				print type(m_[1])
-				raw_enter("1) ")
-				try:
-				# https://answers.ros.org/question/240491/point_cloud2read_points-and-then/
-					cloud_points = list(pc2.read_points(m_[1],skip_nans=True,field_names=("x","y","z")))
-					so(cloud_points,opjD('cloud_points'))
-				except  Exception as e:
-				    exc_type, exc_obj, exc_tb = sys.exc_info()
-				    file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-				    CS_('Exception!',emphasis=True)
-				    CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
 
-				#ctr = 0
-				#for p in pc2.read_points(PointCloud2(m_),skip_nans=True,field_names=("x","y","z")):
-				#	break
-				#	print ctr #p['x']
-				#	ctr += 1#raw_enter("2: ")
+
 			topic_ = m_[0].replace('/bair_car/','')
 
 			topic_ = topic_.replace('/os1_node/','')
 
-			#if topic_ in string_topics:
-			#	print m_[0],m_[1]
 			if 'zed' in m_[0]:
 				valv = bridge.imgmsg_to_cv2(m_[1],"rgb8")
 				valv = cv2.resize(valv, (0,0), fx=0.25, fy=0.25)
@@ -108,6 +90,16 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 					ad = _get_aruco_data(valv)
 					DA[Rename[topic_]+'_aruco']['ts'].append(timestampv) 			
 					DA[Rename[topic_]+'_aruco']['vals'].append(ad)
+			elif m_[0] == 'points':	
+				try:
+					# https://answers.ros.org/question/240491/point_cloud2read_points-and-then/
+					valv = list(sensor_msgs.point_cloud2.read_points(m_[1],skip_nans=True,field_names=("x","y","z")))
+				except  Exception as e:
+				    exc_type, exc_obj, exc_tb = sys.exc_info()
+				    file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+				    CS_('Exception!',emphasis=True)
+				    CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+				    raw_enter()
 			elif topic_ in string_topics:
 				#print topic_,type(m_[1].data),m_[1].data
 				valv = P['string_to_num_dic'][topic_][m_[1].data]
