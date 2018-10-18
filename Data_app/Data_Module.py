@@ -99,15 +99,15 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 					# https://answers.ros.org/question/240491/point_cloud2read_points-and-then/
 					valv = list(sensor_msgs.point_cloud2.read_points(m_[1],skip_nans=True,field_names=("x","y","z")))
 					valv = na(valv)
-					if sum(sum(abs(valv))) == 0.0:
-						continue
+					#if sum(sum(abs(valv))) == 0.0:
+					#	continue
 					point_cloud *= 0
 					print shape(valv)
 					l1 = len(valv)
 					l3 = min(l0,l1)
 					print l3,shape(valv)
 					point_cloud[:l3,:] = valv[:l3,:]
-					valv = point_cloud
+					valv = point_cloud.copy()
 					#print timestampv;#so(valv,opjD('valv'));raw_enter("Saved valv. ")
 					#valv = na(valv)
 					#from kzpy3.vis3 import *
