@@ -82,7 +82,7 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 				raw_enter("1) ")
 				try:
 				# https://answers.ros.org/question/240491/point_cloud2read_points-and-then/
-					cloud_points = list(pc2.read_points(PointCloud2(m_),skip_nans=True,field_names=("x","y","z")))
+					cloud_points = list(pc2.read_points(m_[1],skip_nans=True,field_names=("x","y","z")))
 					so(cloud_points,opjD('cloud_points'))
 				except  Exception as e:
 				    exc_type, exc_obj, exc_tb = sys.exc_info()
