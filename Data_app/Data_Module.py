@@ -1,6 +1,6 @@
 from Parameters_Module import *
 exec(identify_file_str)
-from kzpy3.vis2 import *
+from kzpy3.vis3 import *
 
 import sensor_msgs.point_cloud2
 #from sensor_msgs.msg import PointCloud2
@@ -99,7 +99,7 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 					#valv = na(valv)
 					#from kzpy3.vis3 import *
 					#figure(1);clf();plt_square();xylim(-5,5,-5,5);pts_plot(valv);spause()#;raw_enter()
-					print 1,shape(valv)
+					#print 1,shape(valv)
 				except  Exception as e:
 				    exc_type, exc_obj, exc_tb = sys.exc_info()
 				    file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
@@ -129,8 +129,8 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 
 			D[topic_]['ts'].append(timestampv)
 			D[topic_]['vals'].append(valv)
-			if topic_ == "points":
-				print 2,shape(na(D['points']['vals']))
+			#if topic_ == "points":
+			#	print 2,shape(na(D['points']['vals']))
 
 		print(d2s('\t',dp(timerv.time()),'seconds'))
 
