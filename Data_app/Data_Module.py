@@ -95,10 +95,10 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 				try:
 					# https://answers.ros.org/question/240491/point_cloud2read_points-and-then/
 					valv = list(sensor_msgs.point_cloud2.read_points(m_[1],skip_nans=True,field_names=("x","y","z")))
-					so(valv,opjD('valv'));raw_enter("Saved valv. ")
+					#so(valv,opjD('valv'));raw_enter("Saved valv. ")
 					valv = na(valv)
-					from kzpy3.vis3 import *
-					figure(1);clf();plt_square();xylim(-5,5,-5,5);pts_plot(valv);spause()#;raw_enter()
+					#from kzpy3.vis3 import *
+					#figure(1);clf();plt_square();xylim(-5,5,-5,5);pts_plot(valv);spause()#;raw_enter()
 				except  Exception as e:
 				    exc_type, exc_obj, exc_tb = sys.exc_info()
 				    file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
@@ -132,6 +132,8 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 		print(d2s('\t',dp(timerv.time()),'seconds'))
 
 	for k_ in D.keys():
+		if k_ == 'points':
+			continue
 		if len(shape(D[k_]['vals'])) == 2:
 			if shape(D[k_]['vals'])[1] == 3:
 				D[k_]['vals'] = np.array(D[k_]['vals'])
