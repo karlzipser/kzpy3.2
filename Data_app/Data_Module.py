@@ -90,7 +90,8 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 					ad = _get_aruco_data(valv)
 					DA[Rename[topic_]+'_aruco']['ts'].append(timestampv) 			
 					DA[Rename[topic_]+'_aruco']['vals'].append(ad)
-			elif m_[0] == 'points':	
+			elif m_[0] == 'points':
+				print "here"
 				try:
 					# https://answers.ros.org/question/240491/point_cloud2read_points-and-then/
 					valv = list(sensor_msgs.point_cloud2.read_points(m_[1],skip_nans=True,field_names=("x","y","z")))
