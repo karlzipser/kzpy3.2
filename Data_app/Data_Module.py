@@ -133,7 +133,7 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 
 	for k_ in D.keys():
 		if k_ == 'points':
-			D[k_]['vals']) = na(D[k_]['vals'])
+			D[k_]['vals'] = na(D[k_]['vals'])
 		elif len(shape(D[k_]['vals'])) == 2:
 			if shape(D[k_]['vals'])[1] == 3:
 				D[k_]['vals'] = np.array(D[k_]['vals'])
