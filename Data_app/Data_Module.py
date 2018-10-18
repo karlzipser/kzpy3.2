@@ -106,7 +106,7 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 					l1 = len(valv)
 					l3 = min(l0,l1)
 					print l3,shape(valv)
-					point_cloud[:l3,:] = valv
+					point_cloud[:l3,:] = valv[:l3,:]
 					valv = point_cloud
 					#print timestampv;#so(valv,opjD('valv'));raw_enter("Saved valv. ")
 					#valv = na(valv)
