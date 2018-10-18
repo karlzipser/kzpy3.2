@@ -130,5 +130,9 @@ check out:
 
     ~/_kzpy3_older/kzpy_8Sept2018/Localization_app/localizer_listener.py
 
+https://stackoverflow.com/questions/973473/getting-a-list-of-all-subdirectories-in-the-current-directory
 """
+
+
+
 ###stop
