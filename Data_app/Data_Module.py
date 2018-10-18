@@ -164,8 +164,8 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 		else:
 			Group = F.create_group(topic_)
 			Group.create_dataset('ts',data=D[topic_]['ts'])
-			for i in rlen(D['points']):
-				Group.create_dataset(d2n('vals/',i),data=D[topic_]['vals'][i])			
+			for i in rlen(D['points']['vals']):
+				Group.create_dataset(i,data=D[topic_]['vals'][i])			
 	F.close()
 	if P['USE_ARUCO']:
 		so(opj(h5py_pathv,run_namev,'aruco_data.pkl'),DA)
@@ -225,7 +225,7 @@ def Left_Timestamp_Metadata(run_name=None,h5py_path=None):
 	L.create_dataset('right_ts',data=np.array(right_tsv))
 
 	for k_ in sorted(F.keys()):
-		if k_ != 'left_image' and k_ != 'right_image':
+		if k_ != 'left_image' and k_ != 'right_image' and k!= 'points':
 			if len(F[k_]['ts']) > 0:
 				print('\tprocessing '+k_)
 				L.create_dataset(k_,data=np.interp(L['ts'][:],F[k_]['ts'][:],F[k_]['vals'][:]))
