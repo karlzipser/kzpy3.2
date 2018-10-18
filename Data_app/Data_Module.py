@@ -164,12 +164,12 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 					D[new_key_]['vals'] = D[k_]['vals'][:,ctr_]
 					ctr_ += 1
 				del D[k_]
-	so(opjD('D_points'),D['points'])
-	raw_enter()
+	#so(opjD('D_points'),D['points'])
+	#raw_enter()
 	F = h5w(file_path)
 	pd2s('Topics:')
 	for topic_ in D.keys():
-		if topic_ != "points":
+		if True:#topic_ != "points":
 			#print topic_
 			pd2s('\t',topic_,len(D[topic_]['ts']))
 			Group = F.create_group(topic_)
