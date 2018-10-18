@@ -78,7 +78,7 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 			if m_[0] == '/os1_node/points':
 				print m_
 				print type(m_[1])
-				print len(m_1)
+				print len(m_[1])
 				raw_enter()
 			topic_ = m_[0].replace('/bair_car/','')
 
