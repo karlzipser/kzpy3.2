@@ -67,6 +67,7 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 	timerv = Timer(0)
 
 	point_cloud = zeros((65536,3))
+	l0 = len(point_cloud)
 
 	for bv in bag_filesv:
 
@@ -102,7 +103,11 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 						continue
 					point_cloud *= 0
 					print shape(valv)
-					point_cloud[:min(len(valv),len(point_cloud)),:] = valv
+					l1 = len(valv)
+					l3 = min(l0,l1)
+					print l3
+					point_cloud[:l3,:] = valv
+					valv = point_cloud
 					#print timestampv;#so(valv,opjD('valv'));raw_enter("Saved valv. ")
 					#valv = na(valv)
 					#from kzpy3.vis3 import *
