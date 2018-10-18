@@ -45,7 +45,7 @@ P['SINGLE_VALUE_TOPICS'] = [
 	'GPS_satellites',
 ]
 
-P['VECTOR3_TOPICS'] = ['acc','gyro','gps','gyro_heading','other_car_position',]
+P['VECTOR3_TOPICS'] = ['acc','gyro','gps','gyro_heading','other_car_position','/os1_node/points']
 
 P['STRING_TOPICS'] = ['behavioral_mode','place_choice',]
 
