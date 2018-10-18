@@ -154,12 +154,18 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 	F = h5w(file_path)
 	pd2s('Topics:')
 	for topic_ in D.keys():
-		#print topic_
-		pd2s('\t',topic_,len(D[topic_]['ts']))
-		Group = F.create_group(topic_)
-		Group.create_dataset('ts',data=D[topic_]['ts'])
-		cs( type(D[topic_]['vals']),shape(D[topic_]['vals']))
-		Group.create_dataset('vals',data=D[topic_]['vals'])
+		if topic_ != "points":
+			#print topic_
+			pd2s('\t',topic_,len(D[topic_]['ts']))
+			Group = F.create_group(topic_)
+			Group.create_dataset('ts',data=D[topic_]['ts'])
+			cs( type(D[topic_]['vals']),shape(D[topic_]['vals']))
+			Group.create_dataset('vals',data=D[topic_]['vals'])
+		else:
+			Group = F.create_group(topic_)
+			Group.create_dataset('ts',data=D[topic_]['ts'])
+			for i in rlen(D['points']):
+				Group.create_dataset(d2n('vals/',i),data=D[topic_]['vals'][i])			
 	F.close()
 	if P['USE_ARUCO']:
 		so(opj(h5py_pathv,run_namev,'aruco_data.pkl'),DA)
