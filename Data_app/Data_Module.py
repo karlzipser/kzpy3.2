@@ -78,9 +78,9 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 			assert(is_number(timestampv))
 			if m_[0] == '/os1_node/points':
 				for p in pc2.read_points(m_,skip_nans=True,field_names=("x","y","z")):
-		          if np.abs(p[0]) > 0:
-		            print p
-					raw_enter()
+					if np.abs(p[0]) > 0:
+						print p
+						raw_enter()
 			topic_ = m_[0].replace('/bair_car/','')
 
 			topic_ = topic_.replace('/os1_node/','')
