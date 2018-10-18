@@ -52,7 +52,7 @@ if 'SRC' in Args and 'DST' in Args:
 			pd2s(fname(r),'already processed.')
 			continue
 		bags = sgg(opj(r,'*.bag'))
-		cprint(d2s(tb,fname(r),len(bags)))
+		cprint(d2s("\t",fname(r),len(bags)))
 		mtimes = []
 		for b in bags:
 			#print b
