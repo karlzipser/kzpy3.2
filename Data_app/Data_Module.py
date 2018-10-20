@@ -112,10 +112,10 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 					#if sum(sum(abs(valv))) == 0.0:
 					#	continue
 					point_cloud *= 0
-					print shape(valv)
+					#print shape(valv)
 					l1 = len(valv)
 					l3 = min(l0,l1)
-					print l3,shape(valv)
+					#print l3,shape(valv)
 					point_cloud[:l3,:] = valv[:l3,:]
 					valv = point_cloud.copy()
 					#print timestampv;#so(valv,opjD('valv'));raw_enter("Saved valv. ")
