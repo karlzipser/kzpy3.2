@@ -127,9 +127,10 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 				    exc_type, exc_obj, exc_tb = sys.exc_info()
 				    file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
 				    CS_('Exception!',emphasis=True)
+				    srpd2s('EXCEPTION!!!!!!!!!!!')
 				    CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
 				    so(valv,opjD("valv_error"))
-				    raw_enter()
+				    #raw_enter()
 			elif topic_ in string_topics:
 				#print topic_,type(m_[1].data),m_[1].data
 				valv = P['string_to_num_dic'][topic_][m_[1].data]
