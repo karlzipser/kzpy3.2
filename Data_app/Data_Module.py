@@ -107,6 +107,8 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 						if v[0] != 0.0 and v[1] != 0.0 and v[2] != 0.0:
 							valv.append(v)
 
+					valv = na(valv)
+
 					#if sum(sum(abs(valv))) == 0.0:
 					#	continue
 					point_cloud *= 0
