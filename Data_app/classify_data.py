@@ -107,7 +107,7 @@ def is_run_backed_up(run_name,backup_disks,raw_or_pre,R,print_success=False):
 			CS(d2s(run_name,raw_or_pre_str,'is NOT backed up on',b),emphasis=True)
 		elif print_success:
 			cs(run_name,raw_or_pre,'is backed up on',b)
-	if len(backed_up) = len(backup_disks):
+	if len(backed_up) == len(backup_disks):
 		return True
 	else:
 		return False
