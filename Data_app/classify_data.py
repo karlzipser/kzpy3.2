@@ -96,12 +96,12 @@ def classify_data(path,R):
 
 
 def is_run_backed_up(run_name,backup_disks,raw_or_pre,R,print_success=False):
+	if run_name not in R:
+		CS(d2s(run_name,raw_or_pre_str,'is NOT backed up on',b),emphasis=True)
+		return False
 	backed_up = []
 	raw_or_pre_str = '('+raw_or_pre+')'
 	for b in backup_disks:
-		if run_name not in R:
-			CS(d2s(run_name,raw_or_pre_str,'is NOT backed up on',b),emphasis=True)
-			break
 		for a in R[run_name][raw_or_pre]:
 			v = a.split('/')[0]
 			if b == v:
