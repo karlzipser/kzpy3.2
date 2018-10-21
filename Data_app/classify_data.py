@@ -60,7 +60,10 @@ def is_preprocessed_run(path):
 
 def classify_data(path,R):
 	#cs(path)
-	assert os.path.isdir(path) == True or '.pkl' int path
+	if os.path.isdir(path) == True or '.pkl' in path:
+		pass
+	else:
+		assert False
 	in_dir = sggo(path,'*')
 
 	for f in in_dir:
