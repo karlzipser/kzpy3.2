@@ -92,10 +92,10 @@ def classify_data(path,R):
 			R[run_name]['pre'][spath].append(fname(b))
 
 
-def is_run_backed_up(run_name,backup_disks,R,raw_or_pre):
+def is_run_backed_up(run_name,backup_disks,raw_or_pre,R):
 	for b in backup_disks:
 		backed_up = False
-		if a not in R:
+		if run_name not in R:
 			CS(d2s(run_name,raw_or_pre,'NOT backed up on',b),emphasis=True)
 		for a in R[run_name][raw_or_pre]:
 			v = a.split('/')[0]
