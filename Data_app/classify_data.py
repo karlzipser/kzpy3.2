@@ -122,7 +122,8 @@ def is_run_backed_up(run_name,backup_disks,raw_or_pre,R,print_success=False):
 
 
 def is_disk_backed_up(disk_name,backup_disks,R):
-	D = classify_data(opjm(disk_name),R)
+	D = {}
+	classify_data(opjm(disk_name),D)
 	print(type(D),disk_name)
 	for raw_or_pre in ['raw','pre']:
 		for run_name in D:
