@@ -105,7 +105,7 @@ def is_run_backed_up(run_name,backup_disks,raw_or_pre,R,print_success=False):
 	raw_or_pre_str = '('+raw_or_pre+')'
 
 	if run_name not in R:
-		CS(d2s(run_name,raw_or_pre_str,'is NOT backed up anywhere'),emphasis=True)
+		CS(d2s(run_name,raw_or_pre_str,'is NOT backed up on',backup_disks),emphasis=True)
 		return False
 
 	backed_up = []
