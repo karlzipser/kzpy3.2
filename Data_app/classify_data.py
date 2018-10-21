@@ -59,7 +59,7 @@ def is_preprocessed_run(path):
 
 
 def classify_data(path,R):
-	cs(path)
+	#cs(path)
 	assert os.path.isdir(path) == True
 	in_dir = sggo(path,'*')
 
@@ -70,7 +70,7 @@ def classify_data(path,R):
 	run_name = fname(path)
 
 	if run_name not in ['lost+found']:
-		
+
 		spath = path.replace(opjm(),'')
 
 		if is_raw_run(path):
@@ -123,6 +123,7 @@ def is_run_backed_up(run_name,backup_disks,raw_or_pre,R,print_success=False):
 
 def is_disk_backed_up(disk_name,backup_disks,R):
 	D = classify_data(opjm(disk_name),R)
+	print(type(D),disk_name)
 	for raw_or_pre in ['raw','pre']:
 		for run_name in D:
 			D[run_name]['backed up'] = is_run_backed_up(run_name,backup_disks,raw_or_pre,R)
