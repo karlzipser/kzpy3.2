@@ -68,31 +68,34 @@ def classify_data(path,R):
 			classify_data(opj(path,f),R)
 
 	run_name = fname(path)
-	spath = path.replace(opjm(),'')
 
-	if is_raw_run(path):
-		if run_name not in R:
-			R[run_name] = {}
-		if 'raw' not in R[run_name]:
-			R[run_name]['raw'] = {}
-		if 'pre' not in R[run_name]:
-			R[run_name]['pre'] = {}
-		bag_paths = sggo(path,'*.bag')
-		R[run_name]['raw'][spath] = []
-		for b in bag_paths:
-			R[run_name]['raw'][spath].append(fname(b))
+	if run_name not in ['lost+found']:
+		
+		spath = path.replace(opjm(),'')
 
-	elif is_preprocessed_run(path):
-		if run_name not in R:
-			R[run_name] = {}
-		if 'pre' not in R[run_name]:
-			R[run_name]['pre'] = {}
-		if 'raw' not in R[run_name]:
-			R[run_name]['raw'] = {}
-		h5py_paths = sggo(path,'*.h5py')
-		R[run_name]['pre'][spath] = []
-		for b in h5py_paths:
-			R[run_name]['pre'][spath].append(fname(b))
+		if is_raw_run(path):
+			if run_name not in R:
+				R[run_name] = {}
+			if 'raw' not in R[run_name]:
+				R[run_name]['raw'] = {}
+			if 'pre' not in R[run_name]:
+				R[run_name]['pre'] = {}
+			bag_paths = sggo(path,'*.bag')
+			R[run_name]['raw'][spath] = []
+			for b in bag_paths:
+				R[run_name]['raw'][spath].append(fname(b))
+
+		elif is_preprocessed_run(path):
+			if run_name not in R:
+				R[run_name] = {}
+			if 'pre' not in R[run_name]:
+				R[run_name]['pre'] = {}
+			if 'raw' not in R[run_name]:
+				R[run_name]['raw'] = {}
+			h5py_paths = sggo(path,'*.h5py')
+			R[run_name]['pre'][spath] = []
+			for b in h5py_paths:
+				R[run_name]['pre'][spath].append(fname(b))
 
 	
 
