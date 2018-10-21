@@ -63,6 +63,7 @@ def classify_data(path,R):
 	if os.path.isdir(path) == True or '.pkl' in path:
 		pass
 	else:
+		CS(path,exception=True)
 		assert False
 	in_dir = sggo(path,'*')
 
