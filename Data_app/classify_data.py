@@ -70,13 +70,15 @@ def classify_data(path,R):
 	run_name = fname(path)
 	spath = path.replace(opjm(),'')
 
+	if 'raw' not in R[run_name]:
+		R[run_name]['raw'] = {}
+	if 'pre' not in R[run_name]:
+		R[run_name]['pre'] = {}
+
 	if is_raw_run(path):
 		if run_name not in R:
 			R[run_name] = {}
-		if 'raw' not in R[run_name]:
-			R[run_name]['raw'] = {}
 		bag_paths = sggo(path,'*.bag')
-		
 		R[run_name]['raw'][spath] = []
 		for b in bag_paths:
 			R[run_name]['raw'][spath].append(fname(b))
@@ -84,12 +86,12 @@ def classify_data(path,R):
 	elif is_preprocessed_run(path):
 		if run_name not in R:
 			R[run_name] = {}
-		if 'pre' not in R[run_name]:
-			R[run_name]['pre'] = {}
 		h5py_paths = sggo(path,'*.h5py')
 		R[run_name]['pre'][spath] = []
 		for b in h5py_paths:
 			R[run_name]['pre'][spath].append(fname(b))
+
+	else assert(False)
 
 
 def is_run_backed_up(run_name,backup_disks,raw_or_pre,R,print_success=False):
@@ -111,6 +113,13 @@ def is_run_backed_up(run_name,backup_disks,raw_or_pre,R,print_success=False):
 		return True
 	else:
 		return False
+
+
+def is_disk_backed_up(disk_name,backup_disks,R):
+	D = classify_data(opjm(disk_name))
+	for raw_or_pre in ['raw','pre']:
+		for run_name in D:
+			D[run_name]['backed up'] = is_run_backed_up(run_name,backup_disks,raw_or_pre,R)
 
 
 
