@@ -62,12 +62,13 @@ def classify_data(path,R):
 	cs(path)
 	assert os.path.isdir(path) == True
 	in_dir = sggo(path,'*')
-	
+
 	for f in in_dir:
 		if os.path.isdir(f):
 			classify_data(opj(path,f),R)
 
-	run_name = fname(path).replace(opjm(),'')
+	run_name = fname(path)
+	spath = path.replace(opjm(),'')
 
 	if is_raw_run(path):
 		if run_name not in R:
@@ -75,9 +76,10 @@ def classify_data(path,R):
 		if 'raw' not in R[run_name]:
 			R[run_name]['raw'] = {}
 		bag_paths = sggo(path,'*.bag')
-		R[run_name]['raw'][path] = []
+		
+		R[run_name]['raw'][spath] = []
 		for b in bag_paths:
-			R[run_name]['raw'][path].append(fname(b))
+			R[run_name]['raw'][spath].append(fname(b))
 
 	elif is_preprocessed_run(path):
 		if run_name not in R:
@@ -85,9 +87,9 @@ def classify_data(path,R):
 		if 'pre' not in R[run_name]:
 			R[run_name]['pre'] = {}
 		h5py_paths = sggo(path,'*.h5py')
-		R[run_name]['pre'][path] = []
+		R[run_name]['pre'][spath] = []
 		for b in h5py_paths:
-			R[run_name]['pre'][path].append(fname(b))
+			R[run_name]['pre'][spath].append(fname(b))
 		
 
 
