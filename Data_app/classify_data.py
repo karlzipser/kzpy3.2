@@ -70,14 +70,13 @@ def classify_data(path,R):
 	run_name = fname(path)
 	spath = path.replace(opjm(),'')
 
-	if 'raw' not in R[run_name]:
-		R[run_name]['raw'] = {}
-	if 'pre' not in R[run_name]:
-		R[run_name]['pre'] = {}
-
 	if is_raw_run(path):
 		if run_name not in R:
 			R[run_name] = {}
+		if 'raw' not in R[run_name]:
+			R[run_name]['raw'] = {}
+		if 'pre' not in R[run_name]:
+			R[run_name]['pre'] = {}
 		bag_paths = sggo(path,'*.bag')
 		R[run_name]['raw'][spath] = []
 		for b in bag_paths:
@@ -86,6 +85,10 @@ def classify_data(path,R):
 	elif is_preprocessed_run(path):
 		if run_name not in R:
 			R[run_name] = {}
+		if 'pre' not in R[run_name]:
+			R[run_name]['pre'] = {}
+		if 'raw' not in R[run_name]:
+			R[run_name]['raw'] = {}
 		h5py_paths = sggo(path,'*.h5py')
 		R[run_name]['pre'][spath] = []
 		for b in h5py_paths:
