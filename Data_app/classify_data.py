@@ -101,11 +101,15 @@ def classify_data(path,R):
 
 
 def is_run_backed_up(run_name,backup_disks,raw_or_pre,R,print_success=False):
+	
+	raw_or_pre_str = '('+raw_or_pre+')'
+
 	if run_name not in R:
 		CS(d2s(run_name,raw_or_pre_str,'is NOT backed up on',b),emphasis=True)
 		return False
+
 	backed_up = []
-	raw_or_pre_str = '('+raw_or_pre+')'
+	
 	for b in backup_disks:
 		for a in R[run_name][raw_or_pre]:
 			v = a.split('/')[0]
@@ -125,7 +129,7 @@ def is_disk_backed_up(disk_name,backup_disks,R):
 	D = {}
 	classify_data(opjm(disk_name),D)
 	print(type(D),disk_name)
-	for raw_or_pre in ['raw','pre']:
+	for raw_or_pre in ['raw']:#,'pre']:
 		for run_name in D:
 			D[run_name]['backed up'] = is_run_backed_up(run_name,backup_disks,raw_or_pre,R)
 	return D
