@@ -91,7 +91,8 @@ def classify_data(path,R):
 		for b in h5py_paths:
 			R[run_name]['pre'][spath].append(fname(b))
 
-	else assert(False)
+	else:
+		assert(False)
 
 
 def is_run_backed_up(run_name,backup_disks,raw_or_pre,R,print_success=False):
