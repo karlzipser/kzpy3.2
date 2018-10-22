@@ -157,9 +157,11 @@ def is_disk_backed_up(disk_name,backup_disks,R=None,D=None,raw_or_pre=None,trans
 
 	for raw_or_pre in the_raw_or_pre:
 		for run_name in D:
-			D[run_name]['backed up'] = is_run_backed_up(run_name,backup_disks,raw_or_pre,R)
+			if 'backed up' not in D[run_name]:
+				D[run_name]['backed up'] = {}
+			D[run_name]['backed up'][raw_or_pre] = is_run_backed_up(run_name,backup_disks,raw_or_pre,R)
 				
-			if D[run_name]['backed up']:
+			if D[run_name]['backed up'][raw_or_pre]:
 				successes += 1
 			
 			else:
