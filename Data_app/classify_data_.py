@@ -60,9 +60,6 @@ def is_preprocessed_run(path):
 
 def classify_data(path,R):
 	#cs(path)
-	if fname(path)[0] == '_':
-		cs("ignorning",path,'because of _')
-		return
 	if os.path.isdir(path) == True:
 		pass
 	else:
@@ -113,7 +110,6 @@ def is_run_backed_up(run_name,backup_disks,raw_or_pre,R,print_success=False):
 
 	if run_name not in R:
 		CS(d2s(run_name,raw_or_pre_str,'is NOT backed up on',backup_disks),emphasis=True)
-
 		return False
 
 	backed_up = []
@@ -136,7 +132,7 @@ def is_run_backed_up(run_name,backup_disks,raw_or_pre,R,print_success=False):
 		return False
 
 
-def is_disk_backed_up(disk_name,backup_disks,R=None,D=None,raw_or_pre=None,transfer_data_to_backup_disks=False):
+def is_disk_backed_up(disk_name,backup_disks,R=None,D=None,raw_or_pre=None):
 	successes,failures = 0,0
 	if D == None:
 		D = {}
@@ -158,51 +154,16 @@ def is_disk_backed_up(disk_name,backup_disks,R=None,D=None,raw_or_pre=None,trans
 	for raw_or_pre in the_raw_or_pre:
 		for run_name in D:
 			D[run_name]['backed up'] = is_run_backed_up(run_name,backup_disks,raw_or_pre,R)
-				
 			if D[run_name]['backed up']:
 				successes += 1
-			
 			else:
-				if raw_or_pre in D[run_name]:
-					print len( D[run_name][raw_or_pre].keys()),raw_or_pre
-					if len( D[run_name][raw_or_pre].keys()) > 0:
-						run_path = D[run_name][raw_or_pre].keys()[0]
-						cs('can save',run_path,'to',backup_disks)
-						if transfer_data_to_backup_disks:
-							for b in backup_disks:
-								dst_path = opjm(b,run_path)
-								mkdir = d2s('mkdir -p',dst_path)
-								cprint(mkdir,'red')
-								os.system(mkdir)
-								cp = d2s("cp -r",opjm(run_path),pname(dst_path))
-								cprint(cp,'red')
-								os.system(cp)
-
-
 				failures += 1
 	cs("successes:",successes,"failures:",failures)
 	return D,R
 
-def parens(n):
-	return d2n('(',n,')')
 
 
 
-tb = "  "
-
-def print_data(R):
-	print('\n')
-	runs = sorted(R.keys())
-	for r in runs:
-		cprint(d2s(" run:",r),attrs=['bold'],color='yellow',on_color='on_blue')
-		colors = {'pre':'yellow','raw':'blue'}
-		for t in ['pre','raw']:
-			#cprint(d2s(tb,t))
-			pr_runs = sorted(R[r][t])
-			#print type(pr_runs),len(pr_runs)
-			cprint(d2s(tb,t+':',parens(len(pr_runs))),colors[t])
-			for u in pr_runs:
-				cprint(d2s(tb,tb,u,parens(len(R[r][t][u]))),colors[t])
 
 #EOF
 		
