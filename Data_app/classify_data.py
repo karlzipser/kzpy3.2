@@ -142,7 +142,7 @@ def is_disk_backed_up(disk_name,backup_disks,R=None,D=None,raw_or_pre=None):
 		for b in backup_disks:
 			classify_data(opjm(b),R)
 
-	if raw_or_pre = None:
+	if raw_or_pre == None:
 		raw_or_pre = ['raw','pre']
 	elif raw_or_pre == 'raw':
 		raw_or_pre = ['raw']
