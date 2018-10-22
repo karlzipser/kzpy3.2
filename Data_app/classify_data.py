@@ -115,7 +115,7 @@ def is_run_backed_up(run_name,backup_disks,raw_or_pre,R,print_success=False):
 	backed_up = []
 	
 	for b in backup_disks:
-		if len(sggo(b,'*')) == 0:
+		if len(sggo(opjm(b),'*')) == 0:
 			CS("Error,",b,"is empty or not available.",exception=True)
 			assert False
 		for a in R[run_name][raw_or_pre]:
