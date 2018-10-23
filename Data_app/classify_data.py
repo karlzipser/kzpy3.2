@@ -151,6 +151,7 @@ def is_disk_backed_up(
 	raw_or_pre=None,
 	transfer_data_to_backup_disks=False
 	):
+
 	successes,failures = 0,0
 	if D == None:
 		D = {}
@@ -183,7 +184,7 @@ def is_disk_backed_up(
 			
 			else:
 				if rp in D[run_name]:
-					#print len( D[run_name][rp].keys()),rp
+					print len( D[run_name][rp].keys()),rp
 					if len( D[run_name][rp].keys()) > 0:
 						run_path = D[run_name][rp].keys()[0]
 						cs('can save',run_path,'to',backup_disks)
