@@ -132,9 +132,9 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 				    so(valv,opjD("valv_error"))
 				    #raw_enter()
 			elif topic_ in string_topics:
-				#print topic_,type(m_[1].data),m_[1].data
+				print topic_,type(m_[1].data),m_[1].data
 				valv = P['string_to_num_dic'][topic_][m_[1].data]
-				#print valv
+				print valv
 			elif hasattr(m_[1], 'data'):
 				if is_number(m_[1].data):
 					valv = m_[1].data
