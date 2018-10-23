@@ -126,10 +126,8 @@ def is_run_backed_up(run_name,backup_disks,raw_or_pre,R,print_success=False):
 			CS("2) Error,",b,"is empty or not available.",exception=True)
 			assert False
 		for a in R[run_name][raw_or_pre]:
-			srpd2s(a)
-			sbpd2s(a.keys())
-			sypd2s(a.keys()[0])
-			v = a.keys()[0].split('/')[0]
+			v = a.split('/')[0]
+			print a,v,b
 			if b == v:
 				backed_up.append(b)
 		if b not in backed_up:
