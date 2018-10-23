@@ -47,7 +47,7 @@ P['SINGLE_VALUE_TOPICS'] = [
 
 P['VECTOR3_TOPICS'] = ['acc','gyro','gps','gyro_heading','other_car_position','points']
 
-P['STRING_TOPICS'] = ['behavioral_mode','place_choice',]
+P['STRING_TOPICS'] = ['behavioral_mode','place_choice','calibrate']
 
 P['string_to_num_dic'] = {'behavioral_mode':{'False':0,'direct':2,'follow':4,'furtive':5,'play':6,'left':3,'right':1},'place_choice':{'False':0,'local':1,'home':2,'Tilden':3,'campus':4,'arena':5,'other':6,}}
 

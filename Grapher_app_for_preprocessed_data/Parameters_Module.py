@@ -3,9 +3,12 @@ from misc.All_Names_Module import *
 exec(identify_file_str)
 
 try:
-	q = raw_input('load __local__ parameters? (y/n)')
-	if q == 'y':
-		from kzpy3.Grapher_app_for_preprocessed_data.__local__.Parameters_Module__local_ import *
+	if len(sggo("kzpy3/Grapher_app_for_preprocessed_data/__local__/Parameters_Module__local_.py")) > 0:
+		q = raw_input('load __local__ parameters? (y/n)')
+		if q == 'y':
+			from kzpy3.Grapher_app_for_preprocessed_data.__local__.Parameters_Module__local_ import *
+	else:
+		q = 'no'
 except:
 	print('__local__.Parameters_Module__local_ not found')
 
@@ -53,7 +56,7 @@ if q != 'y':
 	}
 	P[VERTICAL_LINE_PROPORTION] = 0.5
 	P[X_PIXEL_SIZE] = 1500
-	P[Y_PIXEL_SIZE] = 2000#1100
+	P[Y_PIXEL_SIZE] = 1100#2000#1100
 	P[SCREEN_X] = 20
 	P[SCREEN_Y] = 40
 	P[MOUSE_MOVE_TIME] = 0
