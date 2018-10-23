@@ -184,7 +184,7 @@ def is_disk_backed_up(
 			
 			else:
 				if rp in D[run_name]:
-					if rp = 'raw':
+					if rp == 'raw':
 						color = 'green'
 					elif rp == 'pre':
 						color = 'cyan'
