@@ -184,7 +184,11 @@ def is_disk_backed_up(
 			
 			else:
 				if rp in D[run_name]:
-					print len( D[run_name][rp].keys()),rp
+					if rp = 'raw':
+						color = 'green'
+					elif rp == 'pre':
+						color = 'cyan'
+					#print len( D[run_name][rp].keys()),rp
 					if len( D[run_name][rp].keys()) > 0:
 						run_path = D[run_name][rp].keys()[0]
 						cs('can save',run_path,'to',backup_disks)
@@ -192,10 +196,10 @@ def is_disk_backed_up(
 							for b in backup_disks:
 								dst_path = opjm(b,run_path)
 								mkdir = d2s('mkdir -p',dst_path)
-								cprint(mkdir,'red')
+								cprint(mkdir,color)
 								os.system(mkdir)
 								cp = d2s("cp -r",opjm(run_path),pname(dst_path))
-								cprint(cp,'red')
+								cprint(cp+'\n',color)
 								os.system(cp)
 
 
