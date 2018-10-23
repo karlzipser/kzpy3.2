@@ -135,10 +135,10 @@ def is_run_backed_up(run_name,backup_disks,raw_or_pre,R,print_success=False):
 		elif print_success:
 			cs("4)",run_name,raw_or_pre,'is backed up on',b)
 		print a,v,b,backed_up
-	if len(backed_up) == len(backup_disks):
-		return True
-	else:
-		return False
+	for b in backup_disks:
+		if b not in backed_up:
+			return False
+	return True
 
 
 
