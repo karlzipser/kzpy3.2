@@ -2,7 +2,6 @@ from kzpy3.vis3 import *
 
 
 
-
 def has_subdirectory(path):
 	assert os.path.isdir(path) == True
 	in_dir = sggo(path,'*')
@@ -12,7 +11,8 @@ def has_subdirectory(path):
 	return False
 
 
-def all_files_with_suffix(path,suffix):
+
+def all_files_have_suffix(path,suffix):
 	in_dir = sggo(path,'*')
 	ctr = 0
 	for f in in_dir:
@@ -27,13 +27,15 @@ def all_files_with_suffix(path,suffix):
 		return False
 
 
+
 def is_raw_run(path):
 	if has_subdirectory(path):
 		return False
-	if all_files_with_suffix(path,'bag'):
+	if all_files_have_suffix(path,'bag'):
 		return True
 	else:
 		return False
+
 
 
 def is_preprocessed_run(path):
@@ -58,16 +60,18 @@ def is_preprocessed_run(path):
 		return False
 
 
+
+
 def classify_data(path,R):
-	#cs(path)
+	
 	if fname(path)[0] == '_':
-		cs("ignorning",path,'because of _')
+		cs("ignorning",path,"because of leading '_'")
 		return
-	if os.path.isdir(path) == True:
-		pass
-	else:
+
+	if os.path.isdir(path) == False:
 		CS(path,exception=True)
 		assert False
+
 	in_dir = sggo(path,'*')
 
 	for f in in_dir:
@@ -112,31 +116,39 @@ def is_run_backed_up(run_name,backup_disks,raw_or_pre,R,print_success=False):
 	raw_or_pre_str = '('+raw_or_pre+')'
 
 	if run_name not in R:
-		CS(d2s(run_name,raw_or_pre_str,'is NOT backed up on',backup_disks),emphasis=True)
-
+		CS(d2s("1)",run_name,raw_or_pre_str,'is NOT backed up on',backup_disks),emphasis=True)
 		return False
 
 	backed_up = []
 	
 	for b in backup_disks:
 		if len(sggo(opjm(b),'*')) == 0:
-			CS("Error,",b,"is empty or not available.",exception=True)
+			CS("2) Error,",b,"is empty or not available.",exception=True)
 			assert False
 		for a in R[run_name][raw_or_pre]:
 			v = a.split('/')[0]
 			if b == v:
 				backed_up.append(b)
 		if b not in backed_up:
-			CS(d2s(run_name,raw_or_pre_str,'is NOT backed up on',b),emphasis=True)
+			CS(d2s("3)",run_name,raw_or_pre_str,'is NOT backed up on',b),emphasis=True)
 		elif print_success:
-			cs(run_name,raw_or_pre,'is backed up on',b)
+			cs("4)",run_name,raw_or_pre,'is backed up on',b)
 	if len(backed_up) == len(backup_disks):
 		return True
 	else:
 		return False
 
 
-def is_disk_backed_up(disk_name,backup_disks,R=None,D=None,raw_or_pre=None,transfer_data_to_backup_disks=False):
+
+
+def is_disk_backed_up(
+	disk_name,
+	backup_disks,
+	R=None,
+	D=None,
+	raw_or_pre=None,
+	transfer_data_to_backup_disks=False
+	):
 	successes,failures = 0,0
 	if D == None:
 		D = {}
@@ -147,28 +159,31 @@ def is_disk_backed_up(disk_name,backup_disks,R=None,D=None,raw_or_pre=None,trans
 			classify_data(opjm(b),R)
 
 	if raw_or_pre == None:
-		the_raw_or_pre = ['raw','pre']
+		raw_pre_lst = ['raw','pre']
 	elif raw_or_pre == 'raw':
-		the_raw_or_pre = ['raw']
+		raw_pre_lst = ['raw']
 	elif raw_or_pre == 'pre':
-		the_raw_or_pre = ['pre']
+		raw_pre_lst = ['pre']
 	else:
 		assert False
 
-	for raw_or_pre in the_raw_or_pre:
+	for rp in raw_pre_lst:
+
 		for run_name in D:
+			
 			if 'backed up' not in D[run_name]:
 				D[run_name]['backed up'] = {}
-			D[run_name]['backed up'][raw_or_pre] = is_run_backed_up(run_name,backup_disks,raw_or_pre,R)
+
+			D[run_name]['backed up'][rp] = is_run_backed_up(run_name,backup_disks,rp,R)
 				
-			if D[run_name]['backed up'][raw_or_pre]:
+			if D[run_name]['backed up'][rp]:
 				successes += 1
 			
 			else:
-				if raw_or_pre in D[run_name]:
-					print len( D[run_name][raw_or_pre].keys()),raw_or_pre
-					if len( D[run_name][raw_or_pre].keys()) > 0:
-						run_path = D[run_name][raw_or_pre].keys()[0]
+				if rp in D[run_name]:
+					#print len( D[run_name][rp].keys()),rp
+					if len( D[run_name][rp].keys()) > 0:
+						run_path = D[run_name][rp].keys()[0]
 						cs('can save',run_path,'to',backup_disks)
 						if transfer_data_to_backup_disks:
 							for b in backup_disks:
@@ -184,6 +199,8 @@ def is_disk_backed_up(disk_name,backup_disks,R=None,D=None,raw_or_pre=None,trans
 				failures += 1
 	cs("successes:",successes,"failures:",failures)
 	return D,R
+
+
 
 def parens(n):
 	return d2n('(',n,')')
