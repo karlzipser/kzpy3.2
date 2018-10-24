@@ -15,42 +15,48 @@ P['start time'] = time_str()
 
 P['max_num_runs_to_open'] = 300
 """
+opjm('rosbags/bdd_car_data_18July_to_18Sept2018_lrc/locations'),
+opjm('rosbags1/bdd_car_data_late_Sept2018_lrc/locations'),
+#opjm('2_TB_Samsung_n2_/bair_car_data_Main_Dataset_part1/locations'),#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+opjD('bdd_car_data_July2017_LCR/locations'),
+opjm('preprocessed_1b/model_car_data_June2018_LCR/locations'),
+opjm('preprocessed_1b/model_car_data_July2018_lrc/locations'),
+"""
 P['experiments_folders'] = [
-	opjm('rosbags/first_lidar_runs_SeptOct2018_lrc/locations'),
+#	opjm('preprocessed_5Oct2018_500GB/bdd_model_car_data_early_8Oct2018_lrc_LIDAR/locations'),#
+#	opjm('preprocessed_5Oct2018_500GB/bdd_model_car_data_late_Sept_early_Oct2018_lrc/locations'),
+#	opjm('preprocessed_5Oct2018_500GB/bdd_car_data_late_Sept2018_lrc/locations'),
+#	opjm('preprocessed_5Oct2018_500GB/bdd_car_data_18July_to_18Sept2018_lrc/locations'),
+#	opjm('preprocessed_5Oct2018_500GB/model_car_data_July2018_lrc/locations'),
+#	opjm('preprocessed_5Oct2018_500GB/model_car_data_June2018_LCR/locations'),
+#	opjD('bdd_car_data_July2017_LCR/locations'),
+	opjD('temp_data/locations')
+]
+"""
 	opjm('preprocessed_5Oct2018_500GB/bdd_car_data_18July_to_18Sept2018_lrc/locations'),
 	opjm('preprocessed_5Oct2018_500GB/bdd_car_data_late_Sept2018_lrc/locations'),
-	opjm('2_TB_Samsung_n2_/bair_car_data_Main_Dataset_part1/locations'),#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	opjD('bdd_car_data_July2017_LCR/locations'),
+	#opjm('2_TB_Samsung_n2_/bair_car_data_Main_Dataset_part1/locations'),#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	
 	opjm('preprocessed_5Oct2018_500GB/model_car_data_June2018_LCR/locations'),
 	opjm('preprocessed_5Oct2018_500GB/model_car_data_July2018_lrc/locations'),
 	opjm('preprocessed_5Oct2018_500GB/bdd_model_car_data_late_Sept_early_Oct2018_lrc/locations'),
 ]
 """
 
-P['experiments_folders'] = [
-	opjm('preprocessed_5Oct2018_500GB/bdd_model_car_data_early_8Oct2018_lrc_LIDAR/locations'),
-	opjm('preprocessed_5Oct2018_500GB/bdd_model_car_data_late_Sept_early_Oct2018_lrc/locations'),
-	opjm('preprocessed_5Oct2018_500GB/bdd_car_data_late_Sept2018_lrc/locations'),
-	opjm('preprocessed_5Oct2018_500GB/bdd_car_data_18July_to_18Sept2018_lrc/locations'),
-	opjm('preprocessed_5Oct2018_500GB/model_car_data_July2018_lrc/locations'),
-	opjm('preprocessed_5Oct2018_500GB/model_car_data_June2018_LCR/locations'),
-	opjD('bdd_car_data_July2017_LCR/locations'),
-]
-
 P['aruco_experiments_folders'] = []#[opjD('all_aruco_reprocessed')]#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-P['GPU'] = 1 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+P['GPU'] = 0 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 P['BATCH_SIZE'] = 64
 P['REQUIRE_ONE'] = []
-P['NETWORK_OUTPUT_FOLDER'] = opjD('net_15Sept2018')#opjD('net_16Aug2018')#opjD('net_16Aug2018')# #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+P['NETWORK_OUTPUT_FOLDER'] = opjD('net_temp')#opjD('net_16Aug2018')#opjD('net_16Aug2018')# #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 P['SAVE_FILE_NAME'] = 'net'
 P['save_net_timer'] = Timer(60*30)
-P['print_timer'] = Timer(30)
-P['frequency_timer'] = Timer(30.0)
+P['print_timer'] = Timer(15)
+P['frequency_timer'] = Timer(10.0)
 P['TRAIN_TIME'] = 60*5.0
 P['VAL_TIME'] = 60*1.0
-P['RESUME'] = True
+P['RESUME'] = False
 if P['RESUME']:
     P['INITIAL_WEIGHTS_FOLDER'] = opj(P['NETWORK_OUTPUT_FOLDER'],'weights')
     P['WEIGHTS_FILE_PATH'] = most_recent_file_in_folder(P['INITIAL_WEIGHTS_FOLDER'],['net'],[])	
@@ -67,16 +73,7 @@ P['behavioral_modes_no_heading_pause'] = ['direct','follow','furtive','play','le
 P['behavioral_modes'] = P['behavioral_modes_no_heading_pause']+['heading_pause']
 P['current_batch'] = []
 P['DISPLAY_EACH'] = False
-if False: # the standard before 15Sept2018
-	P['prediction_range'] = range(1,60,6)
-elif False:
-	P['prediction_range'] = range(1,70,7)
-	raw_enter(d2n("P['prediction_range'] = ",P['prediction_range'],', len = ',len(P['prediction_range']),', okay? '))
-elif True:
-	P['prediction_range'] = arange(1,90,9.8).astype(int)
-	#raw_enter(d2n("P['prediction_range'] = ",P['prediction_range'],', len = ',len(P['prediction_range']),', okay? '))
-	# array([ 1, 10, 20, 30, 40, 50, 59, 69, 79, 89])
-	# len(a) = 10
+P['prediction_range'] = range(1,60,6)
 P['gray_out_random_value'] = 0.0
 if True:
 	for experiments_folder in P['experiments_folders']:
@@ -202,13 +199,10 @@ if True:
 
 
 
-P['lacking runs'] = {}
+
 
 def get_Data_moment(dm=None,FLIP=None):
-
 	try:
-		if dm['run_name'] in P['lacking runs']:
-			return False
 		Data_moment = {}
 		left_index = dm['left_ts_index'][1]
 		steer_len = len(P['Loaded_image_files'][dm['run_name']]['left_timestamp_metadata']['steer'])
@@ -218,19 +212,15 @@ def get_Data_moment(dm=None,FLIP=None):
 			if steer_len - left_index < 90:
 				print steer_len - left_index
 
-		for q in ['steer','motor','gyro_heading_x','encoder_meo']:	
+		for q in ['steer','motor']:	
 			Data_moment[q] = zeros(90) + 49
-			if q not in P['Loaded_image_files'][dm['run_name']]['left_timestamp_metadata']:
-				pd2s(dm['run_name'],'lacks',q)
-				P['lacking runs'][dm['run_name']] = q
-				return False
 			if behavioral_mode != 'heading_pause':
 				Data_moment[q][:data_len] = P['Loaded_image_files'][dm['run_name']]['left_timestamp_metadata'][q][left_index:left_index+data_len]
 
-		if True:
+		if False:
 			past_data_len = 3*23 # constrained by metadate image size
 			past = '_past'
-			for q in ['encoder']:#'steer','motor','acc_x','acc_y','acc_z','gyro_x','gyro_y','gyro_z','encoder']:	
+			for q in ['steer','motor','acc_x','acc_y','acc_z','gyro_x','gyro_y','gyro_z','encoder']:	
 				Data_moment[q+past] = zeros(past_data_len)
 				if behavioral_mode != 'heading_pause':
 					if left_index-past_data_len < 0:
@@ -245,18 +235,10 @@ def get_Data_moment(dm=None,FLIP=None):
 							Data_moment[q+past][:past_data_len] = 99-Data_moment[q+past][:past_data_len]
 						elif q == 'acc_x' or q == 'gyro_x' or q == 'gyro_y':
 							Data_moment[q+past][:past_data_len] = -1*Data_moment[q+past][:past_data_len]
-
-
-
-
-
-
-
 					
 
 		if FLIP:
 			Data_moment['steer'] = 99 - Data_moment['steer']
-			Data_moment['gyro_heading_x'] = -1.0*Data_moment['gyro_heading_x']
 
 
 		Data_moment['motor'][Data_moment['motor']<0] = 0

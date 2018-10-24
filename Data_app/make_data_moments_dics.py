@@ -1,5 +1,5 @@
-from kzpy3.vis2 import *
-import get_data_moments
+from kzpy3.vis3 import *
+import kzpy3.Data_app.get_data_moments as get_data_moments
 
 def make_data_moments_dics(locations_path=''):
 

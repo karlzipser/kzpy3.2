@@ -1,4 +1,4 @@
-from kzpy3.vis2 import *
+from kzpy3.vis3 import *
 
 """
 Extracted from 'get_data_moments_plus_other_task_2017.py', originally named 'ideas.py'

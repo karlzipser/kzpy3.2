@@ -14,18 +14,38 @@ P = {}
 P['start time'] = time_str()
 
 P['max_num_runs_to_open'] = 300
-
+"""
+opjm('rosbags/bdd_car_data_18July_to_18Sept2018_lrc/locations'),
+opjm('rosbags1/bdd_car_data_late_Sept2018_lrc/locations'),
+#opjm('2_TB_Samsung_n2_/bair_car_data_Main_Dataset_part1/locations'),#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+opjD('bdd_car_data_July2017_LCR/locations'),
+opjm('preprocessed_1b/model_car_data_June2018_LCR/locations'),
+opjm('preprocessed_1b/model_car_data_July2018_lrc/locations'),
+"""
 P['experiments_folders'] = [
-	opjm('2_TB_Samsung_n2_/bair_car_data_Main_Dataset_part1/locations'),#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	opjm('preprocessed_5Oct2018_500GB/bdd_model_car_data_early_8Oct2018_lrc_LIDAR/locations'),
+	opjm('preprocessed_5Oct2018_500GB/bdd_model_car_data_late_Sept_early_Oct2018_lrc/locations'),
+	opjm('preprocessed_5Oct2018_500GB/bdd_car_data_late_Sept2018_lrc/locations'),
+	opjm('preprocessed_5Oct2018_500GB/bdd_car_data_18July_to_18Sept2018_lrc/locations'),
+	opjm('preprocessed_5Oct2018_500GB/model_car_data_July2018_lrc/locations'),
+	opjm('preprocessed_5Oct2018_500GB/model_car_data_June2018_LCR/locations'),
 	opjD('bdd_car_data_July2017_LCR/locations'),
-	opjm('preprocessed_1b/model_car_data_June2018_LCR/locations'),
-	opjm('preprocessed_1b/model_car_data_July2018_lrc/locations'),
 ]
+"""
+	opjm('preprocessed_5Oct2018_500GB/bdd_car_data_18July_to_18Sept2018_lrc/locations'),
+	opjm('preprocessed_5Oct2018_500GB/bdd_car_data_late_Sept2018_lrc/locations'),
+	#opjm('2_TB_Samsung_n2_/bair_car_data_Main_Dataset_part1/locations'),#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	
+	opjm('preprocessed_5Oct2018_500GB/model_car_data_June2018_LCR/locations'),
+	opjm('preprocessed_5Oct2018_500GB/model_car_data_July2018_lrc/locations'),
+	opjm('preprocessed_5Oct2018_500GB/bdd_model_car_data_late_Sept_early_Oct2018_lrc/locations'),
+]
+"""
 
 P['aruco_experiments_folders'] = []#[opjD('all_aruco_reprocessed')]#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
-P['GPU'] = 1 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+P['GPU'] = 0 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 P['BATCH_SIZE'] = 64
 P['REQUIRE_ONE'] = []
 P['NETWORK_OUTPUT_FOLDER'] = opjD('net_7Sept2018')#opjD('net_16Aug2018')#opjD('net_16Aug2018')# #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

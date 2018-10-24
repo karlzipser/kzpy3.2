@@ -69,6 +69,8 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 	point_cloud = zeros((1024*16*4/4,3))
 	l0 = len(point_cloud)
 
+	running_delta = 0
+	
 	for bv in bag_filesv:
 
 		timerv.reset()
@@ -114,6 +116,9 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 					point_cloud *= 0
 					#print shape(valv)
 					l1 = len(valv)
+					point_cloud_delta = l0-l1
+					running_delta += point_cloud_delta
+					pd2s('pcd',point_cloud_delta,running_delta)
 					l3 = min(l0,l1)
 					#print l3,shape(valv)
 					point_cloud[:l3,:] = valv[:l3,:]
