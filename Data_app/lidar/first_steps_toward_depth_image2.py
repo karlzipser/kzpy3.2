@@ -82,7 +82,10 @@ if True:
 
 			if y > 0:
 				a*=-1
-				b*=-1
+				#b*=-1
+
+			if z < 0:
+				b *= -1
 			
 			try:
 				ctr2+=1
@@ -146,7 +149,7 @@ if True:
 			#n[0:180] = m[180:360]
 			#n[180:] = m[:180]
 			plot(the_range,m);xylim(-180,180,0,4);spause()#xylim(90,270,0,8)#xylim(180-55,180+55,0,10,);
-		spause();raw_enter()
+		#spause();raw_enter()
 			#figure('n');clf();plot(m,'.');spause()#xylim(140,220,0,4);   xylim(180-55,180+55,0,10,);
 
 
@@ -155,7 +158,7 @@ if True:
 			for bi in sorted(zDepths):
 				if len(zDepths[bi])>1:
 					zDepths[bi]=zDepths[bi][1:]
-				zm.append(np.mean(zDepths[bi]))
+				zm.append(np.min(zDepths[bi]))
 			#zn[0:180] = zm[180:360]
 			#zn[180:] = zm[:180]
 			figure('zm');clf();plot(the_range,zm);spause()# xylim(90,270,0,8); #xylim(180-55,180+55,0,10,);
