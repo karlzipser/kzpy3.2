@@ -12,6 +12,8 @@ exception_timer = Timer(30)
 
 us=[]
 
+
+
 if True:
 
 
@@ -20,7 +22,7 @@ if True:
 
 	CA()
 
-	for t in range(5000,15000):
+	for t in range(5000,15000,1):
 
 		ts = O['points']['ts'][t]
 
@@ -55,10 +57,13 @@ if True:
 		range_0_360 = range(0,360)
 		range_n360_360 = range(-360,360)
 		range_n90_90 = range(-90,90)
+		range_n55_55 = range(-55,55)
 
-		zrange = range(-15,16,2) 
+		zrange = range(-15,16,2)
+		zranger = range(15,-16,-2)
+		zranger.remove(-13) ### This z-level seems to give no signal
 
-		the_range = range_n180_180
+		the_range = range_n90_90
 
 		for b in zrange:
 			Depths[b] = {}
@@ -68,6 +73,7 @@ if True:
 		for b in the_range:
 			zDepths[b] = [0]
 
+		depth_img = zeros((32,len(the_range)))
 		#n=zeros(360)
 		#zn=zeros(360)
 
@@ -138,20 +144,29 @@ if True:
 					cs(exc_type,file_name,exc_tb.tb_lineno,'exceptions are ',dp(100*ctr1/(1.0*ctr2)),"% of computations")
 					exception_timer.reset()
 
+		depth_img *= 0
+
 		figure('m');clf();
-		for b in zrange:
+		ctr = 0
+		for b in zranger:
 			print b
 			m = []
 			for ai in sorted(Depths[b]):
 				if len(Depths[b][ai])>1:
 					Depths[b][ai]=Depths[b][ai][1:]
-				m.append(np.mean(Depths[b][ai]))
+				m.append(np.median(Depths[b][ai]))
 			#n[0:180] = m[180:360]
 			#n[180:] = m[:180]
 			plot(the_range,m);xylim(-180,180,0,4);spause()#xylim(90,270,0,8)#xylim(180-55,180+55,0,10,);
+			for dd in range(2):
+				depth_img[ctr,:] = m
+				ctr += 1
 		#spause();raw_enter()
 			#figure('n');clf();plot(m,'.');spause()#xylim(140,220,0,4);   xylim(180-55,180+55,0,10,);
-
+		depth_img[depth_img>3.]=3.
+		depth_img[depth_img<0.6]=0.6
+		depth_img =  1-z2o(depth_img)#z2o(1/(depth_img))
+		mi(depth_img,'depth_img')
 
 		if False:
 			zm = []
