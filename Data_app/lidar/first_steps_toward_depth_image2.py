@@ -10,29 +10,51 @@ from kzpy3.vis3 import *
 # #nothing: the_run,the_start_index = 'tegra-ubuntu_18Oct18_08h14m24s_a',700
 # another one in the same folder is also nothing.
 
-the_run = 'tegra-ubuntu_18Oct18_08h43m23s'
+run_folders = sggo('/media/karlzipser/1_TB_NTFS_1/*')
+temp = sggo(opjD('Depth_images/*'))
+runs_in_progress_or_done = []
+for t in temp:
+	runs_in_progress_or_done.append(fname(t).split('.')[0])
+run_folder = False
+for f in run_folders:
+	for r in sggo(f,'*'):
+		if 'Mr_Black' not in r:
+			if fname(r) not in runs_in_progress_or_done:
+				run_folder = r
+		if run_folder:
+			break
+	if run_folder:
+		break
 
-if 'O' not in locals():
-	cs('loading O')
-	O=h5r('/media/karlzipser/1_TB_NTFS_1/h5py_/'+the_run+'/original_timestamp_data.h5py' )
-	#O=h5r('/media/karlzipser/1_TB_Samsung_n1/h5py_____/tegra-ubuntu_08Oct18_18h09m29s/original_timestamp_data.h5py')
 
-p = O['points']['vals']
 
-exception_timer = Timer(30)
-print_timer = Timer(10)
-us=[]
 
-timer = Timer()
+def process_and_save_Depth_images(run_folder):
 
-Depth_images = {}
-Depth_images['run'] = the_run
-Depth_images['ts'] = []
-Depth_images['index'] = []
-Depth_images['real'] = []
-Depth_images['display'] = []
+	the_run = fname(run_folder)
 
-if True:
+	os.system(d2s("touch",opjD('Depth_images',the_run)))
+
+	if 'O' not in locals():
+		cs('loading O')
+		O=h5r(opj(run_folder,'original_timestamp_data.h5py' ))
+		#O=h5r('/media/karlzipser/1_TB_Samsung_n1/h5py_____/tegra-ubuntu_08Oct18_18h09m29s/original_timestamp_data.h5py')
+
+	p = O['points']['vals']
+
+	exception_timer = Timer(30)
+	print_timer = Timer(10)
+	us=[]
+
+	timer = Timer()
+
+	Depth_images = {}
+	Depth_images['run'] = the_run
+	Depth_images['ts'] = []
+	Depth_images['index'] = []
+	Depth_images['real'] = []
+	Depth_images['display'] = []
+
 
 
 	left_ts = 0
@@ -93,7 +115,7 @@ if True:
 
 		#figure('lidar xy');clf();pts_plot(q[:,:2],sym=',');xylim(0,10,-5,5);spause()
 		#figure('lidar yz');clf();pts_plot(q[:,(0,2)],color='b',sym=',');xylim(0,10,-5,5);spause()
-		mi(O['left_image']['vals'][left_t],'left')
+		mi(O['left_image']['vals'][left_t],d2n(the_run,': left'))
 
 
 		Depths = {}
@@ -223,9 +245,55 @@ if True:
 		#depth_img_rev =  1-z2o(depth_img_rev)#z2o(1/(depth_img))
 		#depth_img_rev =  -depth_img_rev
 		#Depth_images['display'].append(depth_img_rev.copy())
-		mi(depth_img,'depth_img');spause()
+		mi(depth_img,d2n(the_run,': depth_img'));spause()
+
+	save_Depth_images(Depth_images,the_run)
 
 
 
+
+
+def show_depth_imgs(Depth_images,start=0,stop=-1):
+	#start=-500;stop=-1
+	if type(Depth_images['run']) == str:
+		the_run = Depth_images['run']
+	else:
+		the_run = Depth_images['run'][0] # because of hdf5 strings
+
+	for img,index in zip(Depth_images['real'][start:stop],Depth_images['index'][start:stop]):
+		mi(img,d2s(the_run,'show_depth_imgs'))
+		plt.title(index)
+		spause()
+
+#show_depth_imgs(F)
+
+
+
+
+def save_Depth_images(Depth_images,the_run,path=opjD('Depth_images')):
+	D = Depth_images
+	file_path = opj(path,d2p(the_run,'Depth_image','h5py'))
+	F = h5w(file_path)
+	pd2s('saving',the_run,'Depth_images')
+
+	for topic_ in Depth_images.keys():
+		pd2s('\t',topic_,len(D[topic_]))
+		cs( type(D[topic_]),shape(D[topic_]))
+		if type(D[topic_]) == str:
+			s = F.create_dataset(topic_,(1,),dtype=h5py.special_dtype(vlen=str))
+			s[:] = the_run
+		else:
+			F.create_dataset(topic_,data=D[topic_])		
+	F.close()
+
+#save_Depth_images(Depth_images)
+
+############################
+#
+process_and_save_Depth_images(run_folder)
+#
+#	python kzpy3/Data_app/lidar/first_steps_toward_depth_image2.py 
+#
+############################
 
 #EOF
