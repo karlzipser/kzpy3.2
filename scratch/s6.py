@@ -134,5 +134,16 @@ https://stackoverflow.com/questions/973473/getting-a-list-of-all-subdirectories-
 """
 
 
+bags = sggo('/media/karlzipser/rosbags/new/Mr_Blue_Back_24Sep18_21h38m22s/*.too_small')
+for b in bags:
+    os.system(d2s("mv",b,b.replace('.too_small','')))
+
+
+
+O=h5r('/media/karlzipser/rosbags/h5py/Mr_Blue_Back_24Sep18_21h17m55s/original_timestamp_data.h5py')
+L=h5r('/media/karlzipser/rosbags/h5py/Mr_Blue_Back_24Sep18_21h17m55s/left_timestamp_metadata_right_ts.h5py')
+fc0=L['FC0'][:]
 
 ###stop
+
+#EOF

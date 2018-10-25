@@ -50,6 +50,7 @@ alias rGraph='python ~/kzpy3/Grapher_app_for_live_ros_data/Main.py'
 alias Train='ulimit -Sn 65000; python ~/kzpy3/Train_app/Train_SqueezeNet_31May3018/Main.py'
 alias Train_='ulimit -Sn 65000; python ~/kzpy3/Train_app/Train_SqueezeNet_31May3018_temp_sequential/Main.py'
 alias Train40='ulimit -Sn 65000; python ~/kzpy3/Train_app/Train_SqueezeNet_15Sept2018/Main.py'
+alias Train40f='ulimit -Sn 65000; python ~/kzpy3/Train_app/Train_SqueezeNet_40_flex/Main.py'
 
 alias Localization='python ~/kzpy3/Localization_app/Main.py'
 
@@ -64,7 +65,12 @@ alias td2="mv ~/Desktop/* ~/Desktop2/"
 
 export PYTHONPATH=~:$PYTHONPATH
 #export PYTHONSTARTUP=~/kzpy3/utils.py
-export PYTHONSTARTUP=~/kzpy3/utils3.py
+if [ "$(whoami)" == "nvidia" ]
+  then
+    export PYTHONSTARTUP=~/kzpy3/utils3.py
+  else
+    export PYTHONSTARTUP=~/kzpy3/vis3.py
+fi
 export PATH=~/kzpy3/scripts:$PATH
 export PATH=~/kzpy3/scratch:$PATH
 export PATH=~/kzpy3/misc:$PATH

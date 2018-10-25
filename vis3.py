@@ -20,6 +20,7 @@ if username == 'nvidia':
     matplotlib.use(u'TkAgg')
 
 
+spd2s('imported',__file__)
 ###########
 '''
 e.g.

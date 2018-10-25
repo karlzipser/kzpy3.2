@@ -47,6 +47,9 @@ if 'SRC' in Args and 'DST' in Args:
 	for p in sggo(h5py_dst,'*'):
 		preexisting_processed_runs.append(fname(p))
 	
+	if P['Allow below-size bag files?']:
+		raw_enter("\n\n>>>>> Are you sure you want to 'Allow below-size bag files?'?\n")
+
 	for r in runs:
 		if fname(r) in preexisting_processed_runs:
 			pd2s(fname(r),'already processed.')
@@ -60,9 +63,10 @@ if 'SRC' in Args and 'DST' in Args:
 			#print bag_size
 			mtimes.append(os.path.getmtime(b))
 			#print mtimes
-			if bag_size < 0.99 * 1074813904:
-				cprint(d2s('Bagfile',b,'has size',bag_size,'which is below full size.'),'red')
-				unix('mv '+b+' '+b+'.too_small')
+			if not P['Allow below-size bag files?']:
+				if bag_size < 0.99 * 1074813904:
+					cprint(d2s('Bagfile',b,'has size',bag_size,'which is below full size.'),'red')
+					unix('mv '+b+' '+b+'.too_small')
 		mtimes = sorted(mtimes)
 		#pd2s('mtimes:',mtimes)
 		run_duration = mtimes[-1]-mtimes[0]
