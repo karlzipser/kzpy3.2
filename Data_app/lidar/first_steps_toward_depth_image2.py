@@ -1,6 +1,13 @@
 
 from kzpy3.vis3 import *
-the_run = 'tegra-ubuntu_18Oct18_08h43m23s'
+#the_run,the_start_index = 'tegra-ubuntu_18Oct18_08h43m23s',830
+#the_run,the_start_index = 'tegra-ubuntu_18Oct18_08h14m24s_b',630
+#the_run,the_start_index = 'tegra-ubuntu_16Oct18_11h24m21s',1000
+#the_run,the_start_index = 'tegra-ubuntu_16Oct18_17h02m43s',1000
+#the_run,the_start_index = 'tegra-ubuntu_16Oct18_17h42m25s',700
+#the_run,the_start_index = 'tegra-ubuntu_17Oct18_12h11m22s',1000
+#the_run,the_start_index = 'tegra-ubuntu_17Oct18_12h46m32s',1000
+# #nothing: the_run,the_start_index = 'tegra-ubuntu_18Oct18_08h14m24s_a',700
 if 'O' not in locals():
 	cs('loading O')
 	O=h5r('/media/karlzipser/1_TB_NTFS_1/h5py_/'+the_run+'/original_timestamp_data.h5py' )
@@ -39,7 +46,7 @@ if True:
 
 	zrange = range(-15,16,2)
 	zranger = range(15,-16,-2)
-	zranger.remove(-13) ### This z-level seems to give no signal
+	#zranger.remove(-13) ### This z-level seems to give no signal
 
 	the_range = range_n60_60
 
@@ -48,7 +55,7 @@ if True:
 
 	ctr1,ctr2=0,0
 
-	for t in range(830,len(p),1):#830
+	for t in range(the_start_index,len(p),1):#830,630
 
 		ts = O['points']['ts'][t]
 
@@ -174,8 +181,8 @@ if True:
 					#m.append(np.mean(Depths[b][ai]))
 					m.append(np.mean(Depths[b][ai][1:]))
 				else:
-					m.append(depth_img_prev[ctr_10,ctr_11])
-					pd2s('here',timer.time())
+					m.append(0)#depth_img_prev[ctr_10,ctr_11])
+					#pd2s('here',timer.time())
 				ctr_11 += 1
 			#n[0:180] = m[180:360]
 			#n[180:] = m[:180]
