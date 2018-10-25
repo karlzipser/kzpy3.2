@@ -69,7 +69,7 @@ def classify_data(path,R):
 		return
 
 	if fname(path) == 'active':
-		cs("ignorning",path,"because of leading 'active'")
+		cs("ignorning",path,"'active'")
 		return
 
 	if os.path.isdir(path) == False:
