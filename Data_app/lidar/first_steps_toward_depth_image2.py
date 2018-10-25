@@ -8,6 +8,10 @@ from kzpy3.vis3 import *
 #the_run,the_start_index = 'tegra-ubuntu_17Oct18_12h11m22s',1000
 #the_run,the_start_index = 'tegra-ubuntu_17Oct18_12h46m32s',1000
 # #nothing: the_run,the_start_index = 'tegra-ubuntu_18Oct18_08h14m24s_a',700
+# another one in the same folder is also nothing.
+
+the_run = 'tegra-ubuntu_18Oct18_08h43m23s'
+
 if 'O' not in locals():
 	cs('loading O')
 	O=h5r('/media/karlzipser/1_TB_NTFS_1/h5py_/'+the_run+'/original_timestamp_data.h5py' )
@@ -54,10 +58,19 @@ if True:
 	depth_img_prev = depth_img.copy()
 
 	ctr1,ctr2=0,0
+	the_encoder_index = 0
+	while O['encoder']['vals'][the_encoder_index] < 0.75:
+		the_encoder_ts = O['encoder']['ts'][the_encoder_index]
+		the_encoder_index += 1
+	
+	spd2s(the_encoder_ts)
 
-	for t in range(the_start_index,len(p),1):#830,630
+	for t in range(len(p)):
 
 		ts = O['points']['ts'][t]
+		print t,ts,the_encoder_ts
+		if ts < the_encoder_ts:
+			continue
 
 		print_timer.message(d2s("ts =",ts,"t =",t,"(",len(p),")"))
 		left_ts = O['left_image']['ts'][left_t]
@@ -67,6 +80,7 @@ if True:
 
 		q = p[t,:,:].astype(np.float32)
 
+		"""
 		distances = []
 
 		for i in range(1024*16):
@@ -75,7 +89,7 @@ if True:
 			z = q[i,2]
 			dist = np.sqrt( x**2 + y**2 + z**2 )
 			distances.append(dist)
-
+		"""
 
 		#figure('lidar xy');clf();pts_plot(q[:,:2],sym=',');xylim(0,10,-5,5);spause()
 		#figure('lidar yz');clf();pts_plot(q[:,(0,2)],color='b',sym=',');xylim(0,10,-5,5);spause()
@@ -108,64 +122,68 @@ if True:
 			z = q[i,2]
 
 			a = np.degrees(angle_between((1,0), (x,y)) )
-			b = np.degrees(angle_between((1,0), (np.sqrt(x**2+y**2),z)))
 
-			if y > 0:
-				a*=-1
-				#b*=-1
+			if np.abs(a) <= 1.1*the_range[-1]:
 
-			if z < 0:
-				b *= -1
-			
-			try:
-				ctr2+=1
-				ai = int(a)
-				bi = b +0.5
-				if bi < -15:
-					bi = -15
-				elif bi < -13:
-					bi = -13
-				elif bi < -11:
-					bi = -11
-				elif bi < -9:
-					bi = -9
-				elif bi < -7:
-					bi = -7
-				elif bi < -5:
-					bi = -5
-				elif bi < -3:
-					bi = -3
-				elif bi < -1:
-					bi = -1
-				elif bi < 1:
-					bi = 1
-				elif bi < 3:
-					bi = 3
-				elif bi < 5:
-					bi = 5
-				elif bi < 7:
-					bi = 7
-				elif bi < 9:
-					bi = 9
-				elif bi < 11:
-					bi = 11
-				elif bi < 13:
-					bi = 13
-				else:
-					bi = 15
+				b = np.degrees(angle_between((1,0), (np.sqrt(x**2+y**2),z)))
 
-				#if abs(bi) < 1:
-				Depths[bi][ai].append(distances[i])#np.sqrt(  q[i,0]**2 + q[i,1]**2 + q[i,2]**2))
-				#zDepths[bi].append(distances[i])#np.sqrt(  q[i,0]**2 + q[i,1]**2 + q[i,2]**2))
+				if y > 0:
+					a*=-1
+					#b*=-1
+
+				if z < 0:
+					b *= -1
+				
+				try:
+					ctr2+=1
+					ai = int(a)
+					bi = b +0.5
+					if bi < -15:
+						bi = -15
+					elif bi < -13:
+						bi = -13
+					elif bi < -11:
+						bi = -11
+					elif bi < -9:
+						bi = -9
+					elif bi < -7:
+						bi = -7
+					elif bi < -5:
+						bi = -5
+					elif bi < -3:
+						bi = -3
+					elif bi < -1:
+						bi = -1
+					elif bi < 1:
+						bi = 1
+					elif bi < 3:
+						bi = 3
+					elif bi < 5:
+						bi = 5
+					elif bi < 7:
+						bi = 7
+					elif bi < 9:
+						bi = 9
+					elif bi < 11:
+						bi = 11
+					elif bi < 13:
+						bi = 13
+					else:
+						bi = 15
+
+					dist = np.sqrt( x**2 + y**2 + z**2 )
+					#if abs(bi) < 1:
+					Depths[bi][ai].append(dist)#distances[i])#np.sqrt(  q[i,0]**2 + q[i,1]**2 + q[i,2]**2))
+					#zDepths[bi].append(distances[i])#np.sqrt(  q[i,0]**2 + q[i,1]**2 + q[i,2]**2))
 
 				
-			except Exception as e:
-				ctr1+=1
-				if exception_timer.check():
-					exc_type, exc_obj, exc_tb = sys.exc_info()
-					file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-					cs(exc_type,file_name,exc_tb.tb_lineno,'exceptions are ',dp(100*ctr1/(1.0*ctr2)),"% of computations")
-					exception_timer.reset()
+				except Exception as e:
+					ctr1+=1
+					if exception_timer.check():
+						exc_type, exc_obj, exc_tb = sys.exc_info()
+						file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+						cs(exc_type,file_name,exc_tb.tb_lineno,'exceptions are ',dp(100*ctr1/(1.0*ctr2)),"% of computations")
+						exception_timer.reset()
 
 		depth_img *= 0
 
