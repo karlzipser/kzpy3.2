@@ -1,4 +1,6 @@
 ## General (from caffe .gitignore)
+*.h5py
+*.hdf5
 *__local_.py
 *.local.py
 *.net
