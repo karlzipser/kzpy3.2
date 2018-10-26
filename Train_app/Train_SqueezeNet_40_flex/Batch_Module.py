@@ -4,6 +4,7 @@ from kzpy3.vis3 import *
 import torch
 import torch.nn.utils as nnutils
 import Activity_Module
+import kzpy3.Data_app.collect_flex_data as collect_flex_data  
 
 
 P['data_moments_indexed_loaded'] = []
@@ -186,14 +187,49 @@ def Batch(the_network=None):
 					metadata = torch.cat((zero_matrix, metadata), 1)
 
 
-				if True:
 				
+				Flex_data = collect_flex_data.get_Flex_segs(
+					collect_flex_data.F,
+					FLIP,
+					proportion_flex_run=1.0)
+				"""
+				ctr = 0
+				meta_flex = zero_matrix.clone()
+				for t in collect_flex_data.topics:
+					if t[0] == 'F':
+						ctr += 1
+						#print t
+						for x in range(23):
+							#print x,Flex_data[t+' scaled'][x]
+							meta_flex[:,:,x,:] = x/23.0#Flex_data[t+' scaled'][x]
+					metadata = torch.cat((meta_flex, metadata), 1)
+				#cs(ctr)
+				"""
+
+				scaled_topics = [
+					'FL0 scaled',
+					'FL1 scaled',
+					'FL2 scaled',
+					'FL3 scaled',
+					'FR0 scaled',
+					'FR1 scaled',
+					'FR2 scaled',
+					'FR3 scaled',
+					'FC0 scaled',
+					'FC1 scaled',
+					'FC2 scaled',
+					'FC3 scaled',
+				]
+
+				if True:
+					
 					for flexes in range(12):
 						meta_flex = zero_matrix.clone()
 						for x in range(23):
-							meta_flex[:,:,x,:] = x/23.0#torch.from_numpy(rnd[:,:,:,y])
+							meta_flex[:,:,x,:] = Flex_data[scaled_topics[flexes]][x]
+							#meta_flex[:,:,x,:] = x/23.0#torch.from_numpy(rnd[:,:,:,y])
 						metadata = torch.cat((meta_flex, metadata), 1) #torch.from_numpy(meta_a)
-
+					
 					meta_gradient1 = zero_matrix.clone()
 					for x in range(23):
 						meta_gradient1[:,:,x,:] = x/23.0#torch.from_numpy(rnd[:,:,:,y])
@@ -267,9 +303,14 @@ def Batch(the_network=None):
 					D['target_data'] = torch.cat((target_datav, D['target_data']), 0)
 
 
+				if np.min(Flex_data['motor scaled']) < 0.43:
+					sv = Flex_data['steer scaled']
+					mv = Flex_data['motor scaled']
+				else:
+					sv = na(Data_moment['steer']) / 99.
+					mv = na(Data_moment['motor']) / 99.
 
-				sv = Data_moment['steer']
-				mv = Data_moment['motor']
+
 				hv = Data_moment['gyro_heading_x']
 				ev = Data_moment['encoder_meo']
 
@@ -282,8 +323,8 @@ def Batch(the_network=None):
 
 				hv = hv - hv[0]
 
-				steer = torch.from_numpy(sv).cuda().float() / 99.
-				motor = torch.from_numpy(mv).cuda().float() / 99.
+				steer = torch.from_numpy(sv).cuda().float()
+				motor = torch.from_numpy(mv).cuda().float()
 				heading = (torch.from_numpy(hv).cuda().float()) / 90.0
 				encoder = (torch.from_numpy(ev).cuda().float()) / 5.0
 				target_data = torch.unsqueeze(torch.cat((steer,motor,heading,encoder), 0), 0)
