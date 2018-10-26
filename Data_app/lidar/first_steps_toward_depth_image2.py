@@ -10,7 +10,10 @@ from kzpy3.vis3 import *
 # #nothing: the_run,the_start_index = 'tegra-ubuntu_18Oct18_08h14m24s_a',700
 # another one in the same folder is also nothing.
 
-run_folders = sggo('/media/karlzipser/1_TB_NTFS_1/*')
+#run_folders = sggo('/media/karlzipser/1_TB_NTFS_1/*')
+run_folders = sggo('/media/karlzipser/1_TB_Samsung_n1/*')
+
+
 temp = sggo(opjD('Depth_images/*'))
 runs_in_progress_or_done = []
 for t in temp:
@@ -245,8 +248,19 @@ def process_and_save_Depth_images(run_folder):
 		#depth_img_rev =  1-z2o(depth_img_rev)#z2o(1/(depth_img))
 		#depth_img_rev =  -depth_img_rev
 		#Depth_images['display'].append(depth_img_rev.copy())
-		mi(depth_img,d2n(the_run,': depth_img'));spause()
+		figure(d2n(the_run,': depth_img'),figsize=(2,1))
+		mi(depth_img,d2n(the_run,': depth_img'));
+		plt.title('index')
+		spause()
 
+	try:
+		os.system(d2s("rm",opjD('Depth_images',the_run)))
+	except Exception as e:
+		exc_type, exc_obj, exc_tb = sys.exc_info()
+		file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+		CS_('Exception!',emphasis=True)
+		CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+		
 	save_Depth_images(Depth_images,the_run)
 
 
@@ -261,7 +275,8 @@ def show_depth_imgs(Depth_images,start=0,stop=-1):
 		the_run = Depth_images['run'][0] # because of hdf5 strings
 
 	for img,index in zip(Depth_images['real'][start:stop],Depth_images['index'][start:stop]):
-		mi(img,d2s(the_run,'show_depth_imgs'))
+		figure(d2s(the_run,'show_depth_imgs'),figsize=(2,1))
+		mi(img,d2s(the_run,'show_depth_imgs'));
 		plt.title(index)
 		spause()
 
