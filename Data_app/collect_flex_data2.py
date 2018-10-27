@@ -30,10 +30,10 @@ Flex_flip_dic = {
 	'FR1':'FL1',
 	'FR2':'FL2',
 	'FR3':'FL3',
-	'FC0':'FC3',
-	'FC1':'FC2',
-	'FC2':'FC1',
-	'FC3':'FC0',
+	'FC0':'FC2',
+	'FC1':'FC3',
+	'FC2':'FC0',
+	'FC3':'FC1',
 }
 
 Flex_location_dic = {
@@ -45,10 +45,10 @@ Flex_location_dic = {
 	'FR1':4,
 	'FR2':5,
 	'FR3':5,
-	'FC0':2,
-	'FC1':2,
-	'FC2':3,
-	'FC3':3,		
+	'FC0':3,
+	'FC1':3,
+	'FC2':2,
+	'FC3':2,		
 }
 
 Flex_channel_dic = {
@@ -66,7 +66,7 @@ Flex_channel_dic = {
 	'FC3':1,		
 }
 
-num_backward_timesteps,num_forward_timesteps,num_flex_locations = 16,16,6
+num_backward_timesteps,num_forward_timesteps,num_flex_locations = 18,18,6
 
 def get_flex_data(h5py_runs_folder):
 	F = {}
@@ -152,13 +152,14 @@ def get_flex_segs(F,flip=False):
 
 def make_flex_image(Fs):
 
-	img = zeros((num_backward_timesteps,num_flex_locations,2))
+	img = zeros((num_backward_timesteps,3*num_flex_locations,3))
 	for f in Fs.keys():
 		if f[0] == 'F':
 			x = Flex_location_dic[f]
 			c = Flex_channel_dic[f]
 		#for t in range(num_backward_timesteps):
-		img[:,x,c] = Fs[f][:num_backward_timesteps]#[t]
+		for i in range(3):
+			img[:,3*x+i,c] = Fs[f][:num_backward_timesteps]#[t]
 
 	return img
 
@@ -182,23 +183,24 @@ def test(flip=False,proportion_flex_run=1.0):
 	xylim(0,num_backward_timesteps+num_forward_timesteps,0,1)
 
 
+#import kzpy3.Data_app.collect_flex_data2 as fx
+if False:
+	F = get_flex_data(h5py_runs_folder)
 
-F = get_flex_data(h5py_runs_folder)
-
-Fs = get_flex_segs(F,flip=False)
-dimg = zeros((num_backward_timesteps+1,num_flex_locations,3))
-dimg[num_backward_timesteps,:,:]=2000
-dimg[num_backward_timesteps,0,:]=-2000
-m = make_flex_image(Fs)
-dimg[:num_backward_timesteps,:,:2] = m
-mi(z2o(dimg),'img')
-figure('motor');clf()
-plot(49+0*Fs['steer'][num_backward_timesteps:],'k-')
-plot(Fs['motor'][num_backward_timesteps:],'b.-')
-plot(Fs['steer'][num_backward_timesteps:],'r.-')
-
-ylim(0,99)
-spause()
+	Fs = get_flex_segs(F,flip=False)
+	dimg = zeros((num_backward_timesteps+1,3*num_flex_locations,3))
+	dimg[num_backward_timesteps,:,:]=2000
+	dimg[num_backward_timesteps,0,:]=-2000
+	m = make_flex_image(Fs)
+	if graphics:
+		dimg[:num_backward_timesteps,:,:2] = m
+		mi(z2o(dimg),'img')
+		figure('motor');clf()
+		plot(49+0*Fs['steer'][num_backward_timesteps:],'k-')
+		plot(Fs['motor'][num_backward_timesteps:],'b.-')
+		plot(Fs['steer'][num_backward_timesteps:],'r.-')
+		ylim(0,99)
+		spause()
 
 # so(opjk('Train_app/Train_SqueezeNet_40_flex/__local__/Flex_data'),F)
 

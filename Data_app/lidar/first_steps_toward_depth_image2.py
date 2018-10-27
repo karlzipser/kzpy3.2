@@ -29,6 +29,9 @@ for f in run_folders:
 	if run_folder:
 		break
 
+run_folder = '/media/karlzipser/1_TB_Samsung_n1/tu_25to26Oct2018/locations/local/left_right_center/h5py/tegra-ubuntu_25Oct18_16h17m55s'
+
+
 
 
 
