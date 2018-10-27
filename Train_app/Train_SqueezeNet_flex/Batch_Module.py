@@ -150,7 +150,7 @@ def Batch(the_network=None):
 		#cs('here')
 		cv2.waitKey(1) # This is to keep cv2 windows alive
 		if P['print_timer'].check():
-			cs('here')
+			#cs('here')
 			for i in [0]:#range(P['BATCH_SIZE']):
 				ov = np.squeeze(D['outputs'][i].data.cpu().numpy())
 				#mv = D['metadata'][i].cpu().numpy()
@@ -179,7 +179,7 @@ def Batch(the_network=None):
 				figure('steer '+P['start time'])
 				clf()
 				plt.title(d2s(i))
-				ylim(0.05,1.05);xlim(0,len(tv))
+				ylim(-0.05,1.05);xlim(0,len(tv))
 				plot([-1,20],[0.49,0.49],'k');
 				plot([-1,20],[0.0,0.0],'k')
 				#print ov,shape(ov)

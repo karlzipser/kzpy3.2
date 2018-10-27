@@ -314,4 +314,78 @@ process_and_save_Depth_images(run_folder)
 #
 ############################
 
+
+
+
+
+
+
+
+
+if False:
+
+	"""
+	try:
+		D.close()
+	except:
+		cs("D not pre-opened")
+	"""
+###start
+	D=h5r('/home/karlzipser/Desktop/Depth_images/tegra-ubuntu_26Oct18_08h37m07s.Depth_image.h5py' )
+	r=D['real'][:]
+
+
+	r[:,28,:] = r[:,27,:]
+	r[:,29,:] = r[:,30,:]
+	#r[r>10] = 10
+###tart
+	g = zeros((33,120))
+	z = zeros((32,120))
+	e = r[0,:,:]
+	for i in rlen(r):
+		print i
+		#mi(np.log10(r[i,:,:]));spause()
+		#depth_img_prev = depth_img.copy()
+		#depth_img *= 0
+		#np.log10(r[i,:,:])
+		if i > 0:
+			a=r[i,:,:]
+			b = a==0.0
+			c = b.astype(int)
+			d = (1-c)*a + c*e
+			#depth_img_rev[depth_img_rev==0] = 2#depth_img_prev[indicies]
+			e = d.copy()
+			#depth_img_rev[depth_img_rev>3.]=3.
+			#depth_img_rev[depth_img_rev<0.6]=0.6
+			#depth_img_rev =  1-z2o(depth_img_rev)#z2o(1/(depth_img))
+
+
+		#depth_img_rev =  -depth_img_rev
+		#Depth_images['display'].append(depth_img_rev.copy())
+			#figure(d2n('depth_img'))
+			f = np.log10(d+.001)
+			h = (f>1.5).astype(int)
+			k = (1-h)*f + h*(z+1.5)
+			h = (f<-0.25).astype(int)
+			k = (1-h)*k + h*(z-0.25)
+			g[:32,:] = k
+			g[32,0] = 1.5
+			g[32,1:] = -0.25
+			
+			mi(1-g,'log10 depth image')#,d2n(the_run,': depth_img'));
+			#figure('depth plot');clf();ylim(0,100)
+			#plot(d,'r.')
+			if False:
+				figure('hist');clf()
+				hist(d.flatten(),bins=100);xylim(0,100,0,200)
+				figure('log10 hist');clf()
+				hist(k.flatten(),bins=100);xylim(-2,2,0,200)
+		#plt.title('index')
+		spause()
+		#raw_enter()
+###stop
+"""
+code_to_code_str(opjk("Data_app/lidar/first_steps_toward_depth_image2.py"))
+"""
 #EOF
+
