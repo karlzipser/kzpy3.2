@@ -28,26 +28,28 @@ def Net_Activity(*args):
                 continue
             if k == 'camera_input':
                 cv = D['activiations']['camera_input']
-                camera_datav = z2o(cv[moment_indexv,:,:,:]).transpose(1,2,0)
+                #camera_datav = z2o(cv[moment_indexv,:,:,:]).transpose(1,2,0)
+                camera_datav = cv[moment_indexv,:,:,:].transpose(1,2,0)
                 left_t0v = camera_datav[:,:,0:3]
                 #right_t0v = camera_datav[:,:,3:6]
                 #left_t1v = camera_datav[:,:,6:9]
                 #right_t1v = camera_datav[:,:,9:12]
                 camera_arrayv = np.array([left_t0v])
-                D['imgs'][k][moment_indexv] = vis_square(camera_arrayv,padval=0.5)
-                D['imgs'][k][moment_indexv][-1,-1] = 0
-                D['imgs'][k][moment_indexv][-1,-2] = 1
+                vs = vis_square2(camera_arrayv,padval=0.5)
+                vs[-1,-1] = -2
+                vs[-1,-2] = 2
+                D['imgs'][k][moment_indexv] = z2o(vs)
+
             else:
                 num_channels = shape(D['activiations'][k])[1]        
-                print 42,num_channels,shape(D['activiations'][k])[1]
+                #print 42,num_channels,shape(D['activiations'][k])[1]
                 for i in range(num_channels):
                     if D['activiations'][k][moment_indexv,i,:,:].mean() != 0.0:
                         if D['activiations'][k][moment_indexv,i,:,:].mean() != 1.0:
                             if k == 'pre_metadata_features_metadata' and i > 128:
                                 pass
                             else:
-                                if k != 'camera_input':
-                                    D['activiations'][k][moment_indexv,i,:,:] = z2o(D['activiations'][k][moment_indexv,i,:,:])
+                                D['activiations'][k][moment_indexv,i,:,:] = z2o(D['activiations'][k][moment_indexv,i,:,:])
                     #mi(D['activiations'][k][moment_indexv,i,:,:],d2s(i,k))
                 D['imgs'][k][moment_indexv] = vis_square2(D['activiations'][k][moment_indexv],padval=0.5)
                 
@@ -66,17 +68,6 @@ def Net_Activity(*args):
         for k in D['imgs'].keys():
             if k == 'final_output':
                 continue
-                """
-                continue
-                steerv = D['activiations'][final_output][0][:10]
-                motorv = D['activiations'][final_output][0][10:]
-                figure('steer motor');clf();xylim(0,19,0,1)
-                plot(range(10),steerv,'ro-')
-                plot(range(10,20,1),motorv,'bo-')
-                plot([0,19],[0.49,0.49],'k')
-                pause(0.000001)
-                continue
-                """
             elif k == 'camera_input':
                 color_modev = cv2.COLOR_RGB2BGR
             else:
@@ -87,17 +78,9 @@ def Net_Activity(*args):
             if scalev == 0:
                 print('Not shwoing '+k)
                 continue
-            print(90,k,Args['moment_index'])
+            #print(90,k,Args['moment_index'])
             imgv = D['imgs'][k][Args['moment_index']]
-            mi(imgv,d2s(k,P['start time']))
-            """
-            imgv = z2o(imgv)*255
-            imgv = imgv.astype(np.uint8)
-            imgv = cv2.cvtColor(imgv,color_modev)
-            imgv = cv2.resize(imgv, (0,0), fx=scalev, fy=scalev, interpolation=0)
-            cv2.imshow(k,imgv)
-            """
-            
+            mi(imgv,d2s(k,P['start time']))         
         cv2.waitKey(delayv)
     D['view'] = _function_view
     return D

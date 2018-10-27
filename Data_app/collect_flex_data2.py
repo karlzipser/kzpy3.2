@@ -1,6 +1,6 @@
 from kzpy3.vis3 import *
 
-h5py_runs_folder = opjk('Train_app/Train_SqueezeNet_40_flex/__local__/h5py')
+h5py_runs_folder = opjk('Train_app/Train_SqueezeNet_flex/__local__/h5py')
 
 topics = [
 	'steer',

@@ -1,6 +1,6 @@
 from Parameters_Module import *
 import torch
-from kzpy3.Train_app.nets.SqueezeNet_lidar1 import SqueezeNet
+from kzpy3.Train_app.nets.SqueezeNet_flex import SqueezeNet
 exec(identify_file_str)
 
 torch.set_default_tensor_type('torch.FloatTensor') 
