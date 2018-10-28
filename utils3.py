@@ -830,7 +830,9 @@ def h5r(filename,assert_exists=True):
 def h5w(filename):
 	assert_disk_locations(pname(filename))
 	return h5py.File(filename,'w')
-
+def h5rw(filename):
+	assert_disk_locations(pname(filename))
+	return h5py.File(filename,'r+')
 
 
 

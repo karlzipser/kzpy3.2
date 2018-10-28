@@ -60,6 +60,24 @@ def is_preprocessed_run(path):
 		return False
 
 
+def find_locations(path,L):
+	assert os.path.isdir(path) == True
+	in_dir = sggo(path,'*')
+	#print in_dir
+	for p in in_dir:
+		cs('\t',p)
+		if fname(p)[0] == '_':
+			continue
+		if os.path.isdir(p):
+			if fname(p) == 'locations':
+				L.append(p)
+				cs('\t\t','L=',L)
+			else:
+				find_locations(p,L)
+
+
+
+
 
 
 def classify_data(path,R):

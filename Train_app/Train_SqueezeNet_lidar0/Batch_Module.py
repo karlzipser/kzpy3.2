@@ -150,7 +150,7 @@ def Batch(the_network=None):
 							img = Data_moment[camera][t] #  94 x 168
 							#mi(img,'a')
 							#print shape(img)
-							img = img[(94-10-16):(94-10),20:148,:]
+							img = img[(94-10-16):(94-10),168/2-60:168/2:60]
 							#print shape(img)
 							#mi(img,'b')
 							#spause()

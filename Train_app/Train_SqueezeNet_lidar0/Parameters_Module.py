@@ -21,7 +21,7 @@ opjm('rosbags1/bdd_car_data_late_Sept2018_lrc/locations'),
 opjD('bdd_car_data_July2017_LCR/locations'),
 opjm('preprocessed_1b/model_car_data_June2018_LCR/locations'),
 opjm('preprocessed_1b/model_car_data_July2018_lrc/locations'),
-"""
+
 P['experiments_folders'] = [
 #	opjm('preprocessed_5Oct2018_500GB/bdd_model_car_data_early_8Oct2018_lrc_LIDAR/locations'),#
 #	opjm('preprocessed_5Oct2018_500GB/bdd_model_car_data_late_Sept_early_Oct2018_lrc/locations'),
@@ -32,7 +32,7 @@ P['experiments_folders'] = [
 #	opjD('bdd_car_data_July2017_LCR/locations'),
 	opjD('temp_data/locations')
 ]
-"""
+
 	opjm('preprocessed_5Oct2018_500GB/bdd_car_data_18July_to_18Sept2018_lrc/locations'),
 	opjm('preprocessed_5Oct2018_500GB/bdd_car_data_late_Sept2018_lrc/locations'),
 	#opjm('2_TB_Samsung_n2_/bair_car_data_Main_Dataset_part1/locations'),#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -42,6 +42,18 @@ P['experiments_folders'] = [
 	opjm('preprocessed_5Oct2018_500GB/bdd_model_car_data_late_Sept_early_Oct2018_lrc/locations'),
 ]
 """
+
+import kzpy3.Data_app.classify_data as classify_data
+P['experiments_folders'] = []
+classify_data.find_locations(opjm("1_TB_Samsung_n1"),P['experiments_folders'])
+if False: # this is only for preparing data, not for training.
+	import kzpy3.Data_app.make_data_moments_dics as make_data_moments_dics
+	for locations_path in P['experiments_folders']:
+		make_data_moments_dics.make_data_moments_dics(locations_path)
+
+
+
+
 
 P['aruco_experiments_folders'] = []#[opjD('all_aruco_reprocessed')]#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -127,7 +139,7 @@ if True:
 	#raw_enter()
 
 
-if True:
+if False:
 	for experiments_folder in P['aruco_experiments_folders']:
 		experiments = sggo(experiments_folder,'*')
 		ctr = 0

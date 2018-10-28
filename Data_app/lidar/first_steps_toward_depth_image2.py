@@ -323,67 +323,86 @@ process_and_save_Depth_images(run_folder)
 
 
 if False:
+	depth_image_files = sggo(opjD('Depth_images','*.h5py'))
+	
+	#depth_image_file = '/home/karlzipser/Desktop/Depth_images/tegra-ubuntu_26Oct18_08h37m07s.Depth_image.h5py'
+	for depth_image_file in depth_image_files:
 
-	"""
-	try:
-		D.close()
-	except:
-		cs("D not pre-opened")
-	"""
-###start
-	D=h5r('/home/karlzipser/Desktop/Depth_images/tegra-ubuntu_26Oct18_08h37m07s.Depth_image.h5py' )
-	r=D['real'][:]
-
-
-	r[:,28,:] = r[:,27,:]
-	r[:,29,:] = r[:,30,:]
-	#r[r>10] = 10
-###tart
-	g = zeros((33,120))
-	z = zeros((32,120))
-	e = r[0,:,:]
-	for i in rlen(r):
-		print i
-		#mi(np.log10(r[i,:,:]));spause()
-		#depth_img_prev = depth_img.copy()
-		#depth_img *= 0
-		#np.log10(r[i,:,:])
-		if i > 0:
-			a=r[i,:,:]
-			b = a==0.0
-			c = b.astype(int)
-			d = (1-c)*a + c*e
-			#depth_img_rev[depth_img_rev==0] = 2#depth_img_prev[indicies]
-			e = d.copy()
-			#depth_img_rev[depth_img_rev>3.]=3.
-			#depth_img_rev[depth_img_rev<0.6]=0.6
-			#depth_img_rev =  1-z2o(depth_img_rev)#z2o(1/(depth_img))
-
-
-		#depth_img_rev =  -depth_img_rev
-		#Depth_images['display'].append(depth_img_rev.copy())
-			#figure(d2n('depth_img'))
-			f = np.log10(d+.001)
-			h = (f>1.5).astype(int)
-			k = (1-h)*f + h*(z+1.5)
-			h = (f<-0.25).astype(int)
-			k = (1-h)*k + h*(z-0.25)
-			g[:32,:] = k
-			g[32,0] = 1.5
-			g[32,1:] = -0.25
+		error_file = depth_image_file+'.error'
+		touched_file = depth_image_file+'.work_in_progress'
+		if sggo(touched_file) > 0:
+			continue
+		if sggo(error_file) > 0:
+			continue
 			
-			mi(1-g,'log10 depth image')#,d2n(the_run,': depth_img'));
-			#figure('depth plot');clf();ylim(0,100)
-			#plot(d,'r.')
-			if False:
-				figure('hist');clf()
-				hist(d.flatten(),bins=100);xylim(0,100,0,200)
-				figure('log10 hist');clf()
-				hist(k.flatten(),bins=100);xylim(-2,2,0,200)
-		#plt.title('index')
-		spause()
-		#raw_enter()
-###stop
+		os.system(d2s('touch',touched_file))
+		log_min,log_max = -0.25,1.5
+
+		try:
+			D=h5rw(depth_image_file)
+			r=D['real'][:]
+			pa = Progress_animator(len(r),message='r')
+
+			display = False
+			r[:,28,:] = r[:,27,:]
+			r[:,29,:] = r[:,30,:]
+
+			g = zeros((33,120))
+			z = zeros((32,120))
+			e = r[0,:,:]
+
+			processed_depth_images = []
+
+			display_timer = Timer(2)
+
+			clear_screen()
+			cs("Processing",depth_image_file)
+			for i in rlen(r):
+
+				pa['update'](i)
+
+				if i > 0:
+					a=r[i,:,:]
+					b = a==0.0
+					c = b.astype(int)
+					d = (1-c)*a + c*e
+					e = d.copy()
+					f = np.log10(d+.001)
+					h = (f>log_max).astype(int)
+					k = (1-h)*f + h*(z+log_max)
+					h = (f<log_min).astype(int)
+					k = (1-h)*k + h*(z+log_min)
+					if i == 1:
+						processed_depth_images.append(k)
+						# since first image has no previous, make first image equal second
+					processed_depth_images.append(k)
+					if display_timer.check():
+						g[:32,:] = k
+						g[32,0] = 1.5
+						g[32,1:] = -0.25
+						mi(1-g,'log10 depth image')
+						if False:
+							figure('hist');clf()
+							hist(d.flatten(),bins=100);xylim(0,100,0,200)
+							figure('log10 hist');clf()
+							hist(k.flatten(),bins=100);xylim(-2,2,0,200)
+						display_timer.reset()
+				spause()
+			assert len(processed_depth_images) == len(D['index'][:])
+			D.create_dataset('log',data=na(processed_depth_images))
+			D.close()
+			os.system('rm '+touched_file)
+			os.system(d2s('mv',depth_image_file,depth_image_file.replace('image.','images.')))
+			
+		except Exception as e:
+			os.system('rm '+touched_file)
+			os.system('touch '+error_file)
+			exc_type, exc_obj, exc_tb = sys.exc_info()
+			file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+			CS_('Exception!',emphasis=True)
+			CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+
+
 """
 code_to_code_str(opjk("Data_app/lidar/first_steps_toward_depth_image2.py"))
 """
