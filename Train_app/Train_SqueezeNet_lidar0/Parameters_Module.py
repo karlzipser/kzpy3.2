@@ -1,4 +1,4 @@
-from Paths_Module import *
+from kzpy3.Train_app.Train_SqueezeNet_lidar0.Paths_Module import *
 exec(identify_file_str)
 
 spd2s('REMEMBER ulimit -Sn 65000')
@@ -6,7 +6,7 @@ spd2s('REMEMBER ulimit -Sn 65000')
 import resource
 soft, hard = resource.getrlimit(resource.RLIMIT_NOFILE)
 print 'Soft limit is ', soft
-assert(soft>=65000)
+#assert(soft>=65000)
 
 
 P = {}
@@ -43,6 +43,10 @@ P['experiments_folders'] = [
 ]
 """
 
+
+
+
+
 import kzpy3.Data_app.classify_data as classify_data
 P['experiments_folders'] = []
 classify_data.find_locations(opjm("1_TB_Samsung_n1"),P['experiments_folders'])
@@ -50,12 +54,8 @@ if False: # this is only for preparing data, not for training.
 	import kzpy3.Data_app.make_data_moments_dics as make_data_moments_dics
 	for locations_path in P['experiments_folders']:
 		make_data_moments_dics.make_data_moments_dics(locations_path)
+P['experiments_folders'] = list(set(P['experiments_folders']))
 
-
-
-
-
-P['aruco_experiments_folders'] = []#[opjD('all_aruco_reprocessed')]#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
 P['GPU'] = 0 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -87,6 +87,9 @@ P['current_batch'] = []
 P['DISPLAY_EACH'] = False
 P['prediction_range'] = range(1,60,6)
 P['gray_out_random_value'] = 0.0
+P['Depth_images_path'] = opjD('Depth_images')
+P['run_name_to_run_depth_images_path'] = {}
+
 if True:
 	for experiments_folder in P['experiments_folders']:
 		if fname(experiments_folder)[0] == '_':
@@ -125,11 +128,17 @@ if True:
 							_dm['behavioral_mode'] = 'direct'
 						if _dm['motor'] > 53:
 							P['data_moments_indexed'].append(_dm)
-
+				#e='/media/karlzipser/1_TB_Samsung_n1/tu_15to16Oct2018/locations/local/left_right_center'
 				for r in sggo(e,'h5py','*'):
-					print fname(r)
-					assert(fname(r) not in P['run_name_to_run_path'])
-					P['run_name_to_run_path'][fname(r)] = r
+					run_name = fname(r)
+					run_depth_images_path = opj(P['Depth_images_path'],d2p(run_name,'Depth_images','with_flip','h5py'))
+					if len(sggo(run_depth_images_path)) == 1:
+						if True:#run_name not in P['run_name_to_run_path']:
+							P['run_name_to_run_path'][run_name] = r
+							P['run_name_to_run_depth_images_path'][run_name] = run_depth_images_path
+							cg("Using",run_name)
+					else:
+						cb("Not using",run_name,"because",fname(run_depth_images_path),"not found.")
 			#break
 		#break
 				
@@ -137,74 +146,6 @@ if True:
 	spd2s("len(P['data_moments_indexed']) =",len(P['data_moments_indexed']))
 	spd2s("len(P['heading_pause_data_moments_indexed']) =",len(P['heading_pause_data_moments_indexed']))
 	#raw_enter()
-
-
-if False:
-	for experiments_folder in P['aruco_experiments_folders']:
-		experiments = sggo(experiments_folder,'*')
-		ctr = 0
-		for experiment in experiments:
-			print experiment
-
-			#if 'Smyth' in experiment:
-			#	continue
-			if fname(experiment)[0] == '_':
-				continue
-			spd2s(fname(experiment))
-			if ctr > 0:
-				pd2s(ctr,'ctr>0')
-				#break
-			ctr += 1
-			_data_moments_indexed = lo(opj(experiment,'data_moments_dic.pkl'))
-
-			for behavioral_mode in _data_moments_indexed['train'].keys():
-				if behavioral_mode != 'heading_pause':
-					car_in_view_ctr = 0
-					for _dm in _data_moments_indexed['train'][behavioral_mode]['car_in_view']:
-						_dm['behavioral_mode'] = behavioral_mode
-						_dm['aruco'] = True
-						if _dm['behavioral_mode'] == 'direct':
-							if random.random() > 0.5:
-								_dm['behavioral_mode'] = 'furtive'
-						if _dm['motor'] > 50:
-							P['data_moments_indexed'].append(_dm)
-							car_in_view_ctr += 1
-
-					car_not_in_view_ctr = 0
-					random.shuffle(_data_moments_indexed['train'][behavioral_mode]['car_not_in_view'])
-					for _dm in _data_moments_indexed['train'][behavioral_mode]['car_not_in_view']:
-						if car_not_in_view_ctr > car_in_view_ctr: #len(_data_moments_indexed['train'][behavioral_mode]['car_in_view']):
-							print('ctr2 > car_in_view_ctr>')
-							break
-						_dm['behavioral_mode'] = behavioral_mode
-						_dm['aruco'] = True
-						if _dm['behavioral_mode'] == 'direct':
-							if random.random() > 0.5:
-								_dm['behavioral_mode'] = 'furtive'
-						if _dm['motor'] > 50:
-							P['data_moments_indexed'].append(_dm)
-							car_not_in_view_ctr += 1
-					print(car_in_view_ctr,car_not_in_view_ctr)				
-				else:
-					if _dm['motor'] < 52:
-						for _dm in _data_moments_indexed['train'][behavioral_mode]:
-							_dm['behavioral_mode'] = random.choice(['direct','follow']) #behavioral_mode
-							_dm['aruco'] = True
-							_dm['motor'] = 49
-							P['data_moments_indexed'].append(_dm)
-					else:
-						print _dm['motor']
-
-			for r in sggo(experiment,'h5py','*'):
-				print fname(r)
-				assert(fname(r) not in P['run_name_to_run_path'])
-				P['run_name_to_run_path'][fname(r)] = r
-			#break
-		
-				
-
-	spd2s("len(P['data_moments_indexed']) =",len(P['data_moments_indexed']))
-	spd2s("len(P['heading_pause_data_moments_indexed']) =",len(P['heading_pause_data_moments_indexed']))
 
 
 
@@ -278,35 +219,27 @@ def get_Data_moment(dm=None,FLIP=None):
 
 
 		tl0 = dm['left_ts_index'][0]; il0 = dm['left_ts_index'][1]
-		tr0 = dm['right_ts_index'][0]; ir0 = dm['right_ts_index'][1]
-
 
 		if FLIP:
-			F = P['Loaded_image_files'][Data_moment['name']]['flip']
+			F = P['Loaded_image_files'][Data_moment['name']]['depth']['log']
 		else:
-			F = P['Loaded_image_files'][Data_moment['name']]['normal']
+			F = P['Loaded_image_files'][Data_moment['name']]['depth']['log_flip']
 
-		Data_moment['left'] = {}
-		Data_moment['right'] = {}
+		Data_moment['lidar'] = []
 
-		if not FLIP:
-			if il0+1 < len(F['left_image']['vals']) and ir0+1 < len(F['right_image']['vals']):
-				Data_moment['left'][0] = F['left_image']['vals'][il0]
-				Data_moment['right'][0] = F['right_image']['vals'][ir0]
-				Data_moment['left'][1] = F['left_image']['vals'][il0+1] # note, ONE frame
-				Data_moment['right'][1] = F['right_image']['vals'][ir0+1]
-			else:
-				spd2s('if il0+1 < len(F[left_image][vals]) and ir0+1 < len(F[right_image][vals]): NOT TRUE!')
-				return False
+		if il0+3 < len(F):
+			cr('il0+3 < len(F),',il0+3,'<',len(F),' if True')
+			img = []
+			for i in range(3):
+				img.append(F[il0+i][:])
+			img = na(img)
+			Data_moment['lidar'] = img
 		else:
-			if il0+1 < len(F['left_image_flip']['vals']) and ir0+1 < len(F['right_image_flip']['vals']):
-				Data_moment['right'][0] = F['left_image_flip']['vals'][il0]
-				Data_moment['left'][0] = F['right_image_flip']['vals'][ir0]
-				Data_moment['right'][1] = F['left_image_flip']['vals'][il0+1]
-				Data_moment['left'][1] = F['right_image_flip']['vals'][ir0+1]
-			else:
-				spd2s('if il0+1 < len(F[left_image_flip][vals]) and ir0+1 < len(F[right_image_flip][vals]): NOT TRUE!')
-				return False
+
+			cr('il0+3 < len(F),',il0+3,'<',len(F),' NOT TRUE!')
+			return False
+
+
 		return Data_moment
 	except:
 		exc_type, exc_obj, exc_tb = sys.exc_info()

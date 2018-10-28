@@ -12,8 +12,8 @@ P['LOSS_LIST'] = []
 if 'LOSS_LIST_AVG' not in P:
 	P['LOSS_LIST_AVG'] = []
 P['reload_image_file_timer'].trigger()
-zero_matrix = torch.FloatTensor(1, 1, 3, 31).zero_().cuda()
-one_matrix = torch.FloatTensor(1, 1, 3, 31).fill_(1).cuda()
+zero_matrix = torch.FloatTensor(1, 1, 7, 29).zero_().cuda()
+one_matrix = torch.FloatTensor(1, 1, 7, 29).fill_(1).cuda()
 
 
 def Batch(the_network=None):
@@ -35,7 +35,7 @@ def Batch(the_network=None):
 		spd2s('_load_image_files()')
 		P['Loaded_image_files'] = {}
 
-		shuffled_keys = P['run_name_to_run_path'].keys()
+		shuffled_keys = P['run_name_to_run_depth_images_path'].keys()
 		random.shuffle(shuffled_keys)
 
 		for f in shuffled_keys[:P['max_num_runs_to_open']]:
@@ -43,8 +43,10 @@ def Batch(the_network=None):
 			P['Loaded_image_files'][f] = {}
 			if True:
 				try:
-					O = h5r(opj(P['run_name_to_run_path'][f],'original_timestamp_data.h5py'))
-					F = h5r(opj(P['run_name_to_run_path'][f],'flip_images.h5py'))
+					#O = h5r(opj(P['run_name_to_run_path'][f],'original_timestamp_data.h5py'))
+					#F = h5r(opj(P['run_name_to_run_path'][f],'flip_images.h5py'))
+					R = h5r(P['run_name_to_run_depth_images_path'][f])
+
 					try:
 						L=h5r(opj(P['run_name_to_run_path'][f],'left_timestamp_metadata_right_ts.h5py'))
 					except:
@@ -52,8 +54,9 @@ def Batch(the_network=None):
 						pd2s("Don't worry, loaded",opj(P['run_name_to_run_path'][f],'left_timestamp_metadata.h5py'))
 						#raw_enter()
 
-					P['Loaded_image_files'][f]['normal'] = O
-					P['Loaded_image_files'][f]['flip'] = F
+					P['Loaded_image_files'][f]['depth'] = R
+					#P['Loaded_image_files'][f]['normal'] = O
+					#P['Loaded_image_files'][f]['flip'] = F
 					P['Loaded_image_files'][f]['left_timestamp_metadata'] = L
 					#print f
 				except Exception as e:
@@ -82,8 +85,9 @@ def Batch(the_network=None):
 		spd2s('_close_image_files()')
 		for f in P['Loaded_image_files']:
 			try:
-				P['Loaded_image_files'][f]['normal'].close()
-				P['Loaded_image_files'][f]['flip'].close()
+				#P['Loaded_image_files'][f]['normal'].close()
+				#P['Loaded_image_files'][f]['flip'].close()
+				P['Loaded_image_files'][f]['depth'].close()
 				P['Loaded_image_files'][f]['left_timestamp_metadata'].close()
 			except Exception as e:
 				print("********** _close_image_files Exception ***********************")
@@ -132,30 +136,28 @@ def Batch(the_network=None):
 
 
 
-				if dm['aruco'] or random.random()<P['gray_out_random_value']:
-					offset = np.random.randint(20)
-					list_camera_input = []
-					for t in range(D['network']['net'].N_FRAMES):
-						for camera in ('left', 'right'):
-							img = Data_moment[camera][t] 
-							img[:(30+offset),:,:] = 128
-							list_camera_input.append(torch.from_numpy(img))
+				"""
+				list_camera_input = []
+				for t in range(D['network']['net'].N_FRAMES):
+					for camera in ('left', 'right'):
+						#list_camera_input.append(torch.from_numpy(Data_moment[camera][t][:,:16,:128]))
+						img = Data_moment[camera][t] #  94 x 168
+						#mi(img,'a')
+						#print shape(img)
+						img = img[(94-10-32):(94-10),168/2-60:168/2+60]
+						#print shape(img)
+						#mi(img,'b')
+						#spause()
+						#raw_enter()
+						list_camera_input.append(torch.from_numpy(img))
 					camera_data = torch.cat(list_camera_input, 2)
-
+				"""
+				"""
 				else:
 					list_camera_input = []
 					for t in range(D['network']['net'].N_FRAMES):
 						for camera in ('left', 'right'):
-							#list_camera_input.append(torch.from_numpy(Data_moment[camera][t][:,:16,:128]))
-							img = Data_moment[camera][t] #  94 x 168
-							#mi(img,'a')
-							#print shape(img)
-							img = img[(94-10-16):(94-10),168/2-60:168/2:60]
-							#print shape(img)
-							#mi(img,'b')
-							#spause()
-							#raw_enter()
-							list_camera_input.append(torch.from_numpy(img))
+							list_camera_input.append(torch.from_numpy(Data_moment[camera][t]))
 					camera_data = torch.cat(list_camera_input, 2)
 
 
@@ -163,6 +165,33 @@ def Batch(the_network=None):
 				camera_data = camera_data.cuda().float()/255. - 0.5
 				camera_data = torch.transpose(camera_data, 0, 2)
 				camera_data = torch.transpose(camera_data, 1, 2)
+				D['camera_data'] = torch.cat((torch.unsqueeze(camera_data, 0), D['camera_data']), 0)
+				"""
+
+
+
+				list_camera_input = []
+				for t in range(1):
+					img = Data_moment['lidar'] #  94 x 168
+					#mi(img)
+					
+					#mi(img,'a')
+					#print shape(img)
+					#img = img[(94-10-32):(94-10),168/2-60:168/2+60]
+					#print shape(img)
+					#mi(img,'b')
+					#spause()
+					#raw_enter()
+					#print type(img)
+					#print shape(img)
+					#raw_enter()
+					list_camera_input.append(torch.from_numpy(img))
+					camera_data = torch.cat(list_camera_input, 2)
+
+
+				camera_data = camera_data.cuda().float()#/255. - 0.5
+				#camera_data = torch.transpose(camera_data, 0, 2)
+				#camera_data = torch.transpose(camera_data, 1, 2)
 				D['camera_data'] = torch.cat((torch.unsqueeze(camera_data, 0), D['camera_data']), 0)
 
 				mode_ctr = 0

@@ -26,8 +26,9 @@ P['experiments_folders'] = [
 	opjm('preprocessed_5Oct2018_500GB/bdd_model_car_data_late_Sept_early_Oct2018_lrc/locations'),
 ]
 """
-
+"""
 P['experiments_folders'] = [
+	opjD('bdd_car_data_July2017_LCR/locations'),
 	opjm('preprocessed_5Oct2018_500GB/bdd_model_car_data_early_8Oct2018_lrc_LIDAR/locations'),
 	opjm('preprocessed_5Oct2018_500GB/bdd_model_car_data_late_Sept_early_Oct2018_lrc/locations'),
 	opjm('preprocessed_5Oct2018_500GB/bdd_car_data_late_Sept2018_lrc/locations'),
@@ -36,6 +37,25 @@ P['experiments_folders'] = [
 	opjm('preprocessed_5Oct2018_500GB/model_car_data_June2018_LCR/locations'),
 	opjD('bdd_car_data_July2017_LCR/locations'),
 ]
+"""
+import kzpy3.Data_app.classify_data as classify_data
+P['experiments_folders'] = []
+classify_data.find_locations(opjm("1_TB_Samsung_n1"),P['experiments_folders'])
+
+older = [
+	opjD('bdd_car_data_July2017_LCR/locations'),
+	opjm('preprocessed_5Oct2018_500GB/bdd_model_car_data_early_8Oct2018_lrc_LIDAR/locations'),
+	opjm('preprocessed_5Oct2018_500GB/bdd_model_car_data_late_Sept_early_Oct2018_lrc/locations'),
+	opjm('preprocessed_5Oct2018_500GB/bdd_car_data_late_Sept2018_lrc/locations'),
+	opjm('preprocessed_5Oct2018_500GB/bdd_car_data_18July_to_18Sept2018_lrc/locations'),
+	opjm('preprocessed_5Oct2018_500GB/model_car_data_July2018_lrc/locations'),
+	opjm('preprocessed_5Oct2018_500GB/model_car_data_June2018_LCR/locations'),
+	opjD('bdd_car_data_July2017_LCR/locations'),
+]
+
+P['experiments_folders'] += older
+
+P['experiments_folders'] = list(set(P['experiments_folders']))
 
 P['aruco_experiments_folders'] = []#[opjD('all_aruco_reprocessed')]#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 

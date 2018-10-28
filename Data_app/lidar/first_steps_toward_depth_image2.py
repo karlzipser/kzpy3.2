@@ -330,9 +330,9 @@ if False:
 
 		error_file = depth_image_file+'.error'
 		touched_file = depth_image_file+'.work_in_progress'
-		if sggo(touched_file) > 0:
+		if len(sggo(touched_file)) > 0:
 			continue
-		if sggo(error_file) > 0:
+		if len(sggo(error_file)) > 0:
 			continue
 			
 		os.system(d2s('touch',touched_file))
@@ -401,6 +401,77 @@ if False:
 			file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
 			CS_('Exception!',emphasis=True)
 			CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+
+
+
+
+
+
+
+
+
+
+
+if False:
+
+	depth_image_files = sggo(opjD('Depth_images','*.Depth_images.h5py'))
+	
+	for depth_image_file in depth_image_files:
+
+		error_file = depth_image_file+'.error'
+		touched_file = depth_image_file+'.work_in_progress'
+		if len(sggo(touched_file)) > 0:
+			continue
+		if len(sggo(error_file)) > 0:
+			continue
+			
+		os.system(d2s('touch',touched_file))
+		log_min,log_max = -0.25,1.5
+
+		try:
+			D=h5rw(depth_image_file)
+			r=D['log'][:]
+			#raw_enter()
+			pa = Progress_animator(len(r),message='r')
+
+			processed_depth_images = []
+
+			display_timer = Timer(2)
+
+			#clear_screen()
+			cs("\n\nProcessing",depth_image_file,"for log flip.")
+			for i in rlen(r):
+
+				pa['update'](i)
+
+				processed_depth_images.append(cv2.flip(r[i,:,:],1))
+				if display_timer.check():
+					mi(r[i,:,:],'log depth image')
+					mi(processed_depth_images[-1],'log flip depth image')
+					display_timer.reset()
+				spause()
+			assert len(processed_depth_images) == len(D['index'][:])
+			D.create_dataset('log_flip',data=na(processed_depth_images))
+			D.close()
+			os.system('rm '+touched_file)
+			os.system(d2s('mv',depth_image_file,depth_image_file.replace('_images.','_images.with_flip.')))
+			
+		except Exception as e:
+			D.close()
+			os.system('rm '+touched_file)
+			os.system('touch '+error_file)
+			exc_type, exc_obj, exc_tb = sys.exc_info()
+			file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+			CS_('Exception!',emphasis=True)
+			CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+			break
+
+
+
+
+
+
+
 
 
 """

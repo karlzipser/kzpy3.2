@@ -186,6 +186,20 @@ CS_('imported kzpy3.utils3')
 def cs(*args):
 	CS(d2s_spacer(args,spacer=' '))
 
+
+
+
+for color in ['red','green','blue']:
+	an_exec_string = """
+
+def cQ(*args):
+	cprint(d2s_spacer(args,spacer=' '),'COLOR')
+"""
+	exec(an_exec_string.replace('Q',color[0]).replace('COLOR',color))
+
+
+
+
 def zeroToOneRange(m):
 	min_n = 1.0*np.min(m)
 	return (1.0*m-min_n)/(1.0*np.max(m)-min_n)
