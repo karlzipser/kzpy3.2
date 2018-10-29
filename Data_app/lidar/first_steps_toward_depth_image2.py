@@ -470,6 +470,124 @@ if False:
 
 
 
+if False:
+
+	import kzpy3.Data_app.classify_data as classify_data
+	P = {}
+	P['experiments_folders'] = []
+	classify_data.find_locations(opjm("1_TB_Samsung_n1"),P['experiments_folders'])
+	P['experiments_folders'] = list(set(P['experiments_folders']))
+
+	P['run_name_to_run_path'] = {}
+
+	for experiments_folder in P['experiments_folders']:
+		if fname(experiments_folder)[0] == '_':
+			continue
+		print experiments_folder
+		locations = sggo(experiments_folder,'*')
+		for location in locations:
+			if fname(location)[0] == '_':
+				spd2s('ignoring',location)
+				continue
+			print location
+			b_modes = sggo(location,'*')
+			print b_modes
+			for e in b_modes:
+				if fname(e)[0] == '_':
+					continue
+				if fname(e) == 'racing':
+					continue
+				spd2s(fname(e))
+				for r in sggo(e,'h5py','*'):
+					run_name = fname(r)
+					P['run_name_to_run_path'][run_name] = r
+					cg(sggo(r,'left_timestamp_metadata_right_ts.h5py'))
+
+
+	depth_image_files = sggo(opjD('Depth_images','*.Depth_images.with_flip.with_flip.h5py'))
+	
+
+	for depth_image_file in depth_image_files:
+
+		run_name = fname(depth_image_file.split('.')[0])
+		assert run_name in P['run_name_to_run_path']
+		cg(run_name)
+
+		error_file = depth_image_file+'.error'
+		touched_file = depth_image_file+'.work_in_progress'
+		if len(sggo(touched_file)) > 0:
+			continue
+		if len(sggo(error_file)) > 0:
+			continue
+			
+		os.system(d2s('touch',touched_file))
+
+
+		try:
+			D = h5rw(depth_image_file)
+			index = D['index'][:]
+			lidar_ts = D['ts'][:]
+			L = h5r(opj(P['run_name_to_run_path'][run_name],'left_timestamp_metadata_right_ts.h5py'))
+			left_camera_ts = L['ts'][:]
+			L.close()
+
+			
+
+			display_timer = Timer(2)
+
+			cs("\n\nProcessing",depth_image_file,"for left timestamps.")
+
+			lidar_index = 0
+
+			D_left_to_lidar_index = 0 * left_camera_ts
+
+			len_left_ts = len(left_camera_ts)
+
+			pa = Progress_animator(len_left_ts,message='r')
+
+			finished = False
+
+			for i in range(len_left_ts):
+				if finished:
+					break
+
+
+				pa['update'](i)
+
+				left_ts = left_camera_ts[i]
+
+				while lidar_ts[lidar_index] < left_ts:
+
+					if lidar_index >= len(lidar_ts)-1:
+						finished = True
+					if finished:
+						break
+
+					lidar_index += 1
+					pa = Progress_animator(len(index),message=d2s(left_ts))
+
+				cg(dp(lidar_ts[lidar_index]-left_ts,3),lidar_index,i)
+
+				D_left_to_lidar_index[i] = lidar_index
+
+
+			D.create_dataset('left_to_lidar_index',data=D_left_to_lidar_index)
+			D.close()
+			os.system('rm '+touched_file)
+			os.system(d2s('mv',depth_image_file,depth_image_file.replace('_images.with_flip.with_flip','_images.with_flip.with_left_ts')))
+			
+		except Exception as e:
+			D.close()
+			os.system('rm '+touched_file)
+			os.system('touch '+error_file)
+			exc_type, exc_obj, exc_tb = sys.exc_info()
+			file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+			CS_('Exception!',emphasis=True)
+			CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+	
+
+
+
 
 
 

@@ -46,7 +46,7 @@ class SqueezeNet(nn.Module):
             Fire(64, 16, 64, 64),            
             )
 
-        final_conv = nn.Conv2d(256, self.N_STEPS * 2, kernel_size=3,stride=2)
+        final_conv = nn.Conv2d(256, self.N_STEPS * 4, kernel_size=3,stride=2)
         self.post_metadata_features = nn.Sequential(
             nn.Dropout(p=0.5),
             final_conv,
@@ -70,24 +70,24 @@ class SqueezeNet(nn.Module):
     def forward(self, x, metadata):
 
         self.A['camera_input'] = x
-        print self.A['camera_input']
-        raw_enter('camera_input: ' )
+        #print self.A['camera_input']
+        #raw_enter('camera_input: ' )
 
         self.A['pre_metadata_features'] = self.pre_metadata_features(self.A['camera_input'])
-        print self.A['pre_metadata_features']
-        raw_enter('pre_metadata_features: ')
+        #print self.A['pre_metadata_features']
+        #raw_enter('pre_metadata_features: ')
 
         self.A['pre_metadata_features_metadata'] = torch.cat((self.A['pre_metadata_features'], metadata), 1)
-        print self.A['pre_metadata_features_metadata'] 
-        raw_enter('pre_metadata_features_metadata: ')
+        #print self.A['pre_metadata_features_metadata'] 
+        #raw_enter('pre_metadata_features_metadata: ')
 
         self.A['post_metadata_features'] = self.post_metadata_features(self.A['pre_metadata_features_metadata'])
-        print self.A['post_metadata_features'] 
-        raw_enter('post_metadata_features: ')
+        #print self.A['post_metadata_features'] 
+        #raw_enter('post_metadata_features: ')
 
         self.A['final_output'] = self.final_output(self.A['post_metadata_features'])
-        print self.A['final_output'] 
-        raw_enter('final_output: ')
+        #print self.A['final_output'] 
+        #raw_enter('final_output: ')
 
         return self.A['final_output']
 

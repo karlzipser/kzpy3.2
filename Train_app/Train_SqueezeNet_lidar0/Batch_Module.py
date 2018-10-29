@@ -43,8 +43,8 @@ def Batch(the_network=None):
 			P['Loaded_image_files'][f] = {}
 			if True:
 				try:
-					#O = h5r(opj(P['run_name_to_run_path'][f],'original_timestamp_data.h5py'))
-					#F = h5r(opj(P['run_name_to_run_path'][f],'flip_images.h5py'))
+					O = h5r(opj(P['run_name_to_run_path'][f],'original_timestamp_data.h5py'))
+					F = h5r(opj(P['run_name_to_run_path'][f],'flip_images.h5py'))
 					R = h5r(P['run_name_to_run_depth_images_path'][f])
 
 					try:
@@ -55,8 +55,8 @@ def Batch(the_network=None):
 						#raw_enter()
 
 					P['Loaded_image_files'][f]['depth'] = R
-					#P['Loaded_image_files'][f]['normal'] = O
-					#P['Loaded_image_files'][f]['flip'] = F
+					P['Loaded_image_files'][f]['normal'] = O
+					P['Loaded_image_files'][f]['flip'] = F
 					P['Loaded_image_files'][f]['left_timestamp_metadata'] = L
 					#print f
 				except Exception as e:
@@ -85,8 +85,8 @@ def Batch(the_network=None):
 		spd2s('_close_image_files()')
 		for f in P['Loaded_image_files']:
 			try:
-				#P['Loaded_image_files'][f]['normal'].close()
-				#P['Loaded_image_files'][f]['flip'].close()
+				P['Loaded_image_files'][f]['normal'].close()
+				P['Loaded_image_files'][f]['flip'].close()
 				P['Loaded_image_files'][f]['depth'].close()
 				P['Loaded_image_files'][f]['left_timestamp_metadata'].close()
 			except Exception as e:
@@ -108,6 +108,11 @@ def Batch(the_network=None):
 
 		ctr = 0
 		P['current_batch'] = []
+
+		D['names'] = []
+		D['left_indicies'] = []
+		D['flips'] = []
+
 		while ctr < D['batch_size']:
 			if True:#try:
 				if P['long_ctr'] == -1 or P['long_ctr'] >= len(P['data_moments_indexed_loaded']):
@@ -116,6 +121,7 @@ def Batch(the_network=None):
 					spd2s('random.shuffle(P[data_moments_indexed_loaded])')
 				
 				FLIP = random.choice([0,1])
+				#cr("P['data_moments_indexed_loaded']",shape(P['data_moments_indexed_loaded']),"P['long_ctr']",P['long_ctr'])
 				dm = P['data_moments_indexed_loaded'][P['long_ctr']]; P['long_ctr'] += 1#; ctr += 1
 
 				
@@ -132,8 +138,8 @@ def Batch(the_network=None):
 				dm['loss'] = []
 				P['current_batch'].append(dm)
 				D['names'].insert(0,Data_moment['name']) # This to match torch.cat use below
-
-
+				D['left_indicies'].insert(0,Data_moment['left_index'])
+				D['flips'].insert(0,Data_moment['flip'])
 
 
 				"""
@@ -255,8 +261,16 @@ def Batch(the_network=None):
 
 
 
+
+
+
+
+
+
+
 				D['metadata'] = torch.cat((metadata, D['metadata']), 0)
 
+				"""
 				sv = Data_moment['steer']
 				mv = Data_moment['motor']
 				#rv = range(8,91,9)
@@ -267,6 +281,31 @@ def Batch(the_network=None):
 				motorv = torch.from_numpy(mv).cuda().float() / 99.
 				target_datav = torch.unsqueeze(torch.cat((steerv, motorv), 0), 0)
 				D['target_data'] = torch.cat((target_datav, D['target_data']), 0)
+				"""
+
+
+
+				sv = Data_moment['steer']
+				mv = Data_moment['motor']
+				hv = Data_moment['gyro_heading_x']
+				ev = Data_moment['encoder_meo']
+
+				rv = P['prediction_range']
+
+				sv = array(sv)[rv]
+				mv = array(mv)[rv]
+				hv = array(hv)[rv]
+				ev = array(ev)[rv]
+
+				hv = hv - hv[0]
+
+				steer = torch.from_numpy(sv).cuda().float() / 99.
+				motor = torch.from_numpy(mv).cuda().float() / 99.
+				heading = (torch.from_numpy(hv).cuda().float()) / 90.0
+				encoder = (torch.from_numpy(ev).cuda().float()) / 5.0
+				target_data = torch.unsqueeze(torch.cat((steer,motor,heading,encoder), 0), 0)
+				D['target_data'] = torch.cat((target_data, D['target_data']), 0)
+
 
 				P['frequency_timer'].freq()
 			else: #except Exception as e:
@@ -285,7 +324,7 @@ def Batch(the_network=None):
 		D['metadata'] = torch.FloatTensor().cuda()
 		D['target_data'] = torch.FloatTensor().cuda()
 		D['states'] = []
-		D['names'] = []
+
 		D['outputs'] = None
 		D['loss'] = None
 
@@ -338,66 +377,93 @@ def Batch(the_network=None):
 
 
 	def _function_display():
-		cv2.waitKey(1) # This is to keep cv2 windows alive
-		if P['print_timer'].check():
-			for i in [0]:#range(P['BATCH_SIZE']):
-				ov = D['outputs'][i].data.cpu().numpy()
-				mv = D['metadata'][i].cpu().numpy()
-				tv = D['target_data'][i].cpu().numpy()
-				ov = np.squeeze(ov)
-				print('Loss:',dp(D['loss'].data.cpu().numpy()[0],5))
-				av = D['camera_data'][i][:].cpu().numpy()
-				bv = av.transpose(1,2,0)
-				hv = shape(av)[1]
-				wv = shape(av)[2]
-				cv = zeros((10+hv*2,10+2*wv,3))
-				cv[:hv,:wv,:] = z2o(bv[:,:,3:6])
-				cv[:hv,-wv:,:] = z2o(bv[:,:,:3])
-				cv[-hv:,:wv,:] = z2o(bv[:,:,9:12])
-				cv[-hv:,-wv:,:] = z2o(bv[:,:,6:9])
-				print(d2s(i,'camera_data min,max =',av.min(),av.max()))
-				if P['loss_timer'].check() and len(P['LOSS_LIST_AVG'])>5:
-					figure('LOSS_LIST_AVG '+P['start time']);clf();plot(P['LOSS_LIST_AVG'][1:],'.')
+		try:
+			cv2.waitKey(1) # This is to keep cv2 windows alive
+			if P['print_timer'].check():
+				for i in [0]:#range(P['BATCH_SIZE']):
+					ov = D['outputs'][i].data.cpu().numpy()
+					mv = D['metadata'][i].cpu().numpy()
+					tv = D['target_data'][i].cpu().numpy()
+					ov = np.squeeze(ov)
+					print('Loss:',dp(D['loss'].data.cpu().numpy()[0],5))
+					av = D['camera_data'][i][:].cpu().numpy()
+					bv = av.transpose(1,2,0)
+					hv = shape(av)[1]
+					wv = shape(av)[2]
+					"""
+					cv = zeros((10+hv*2,10+2*wv,3))
+					cv[:hv,:wv,:] = z2o(bv[:,:,3:6])
+					cv[:hv,-wv:,:] = z2o(bv[:,:,:3])
+					cv[-hv:,:wv,:] = z2o(bv[:,:,9:12])
+					cv[-hv:,-wv:,:] = z2o(bv[:,:,6:9])
+					"""
+					print(d2s(i,'camera_data min,max =',av.min(),av.max()))
+					if P['loss_timer'].check() and len(P['LOSS_LIST_AVG'])>5:
+						figure('LOSS_LIST_AVG '+P['start time']);clf();plot(P['LOSS_LIST_AVG'][1:],'.')
+						spause()
+						P['loss_timer'].reset()
+					Net_activity = Activity_Module.Net_Activity('batch_num',i, 'activiations',D['network']['net'].A)
+					Net_activity['view']('moment_index',i,'delay',33, 'scales',{'camera_input':6,'pre_metadata_features':1,'pre_metadata_features_metadata':1,'post_metadata_features':2})
+					bm = 'unknown behavioral_mode'
+					for j in range(len(P['behavioral_modes'])):
+						if mv[-(j+1),0,0]:
+							bm = P['behavioral_modes'][j]
+
+
+					run_name = D['names'][0]
+					left_index = D['left_indicies'][0]
+					flip = D['flips'][0]
+
+					if flip:
+						img = P['Loaded_image_files'][run_name]['flip']['left_image']['vals'][left_index]
+					else:
+						img = P['Loaded_image_files'][run_name]['normal']['left_image']['vals'][left_index]
+
+
+					figure('steer '+P['start time'])
+					clf()
+					plt.title(d2s(i))
+					ylim(-1.05,1.05);xlim(0,len(tv))
+					#sbpd2s(ov,shape(ov))
+					#srpd2s(tv,shape(tv))
+					#print mv
+					#spd2s(tv)
+
+					plot([-1,10],[0.49,0.49],'k');plot(ov,'og'); plot(tv,'or'); plt.title(d2s(run_name,left_index,flip))
+					plt.xlabel(d2s(bm))
+					mi(img,'img')#d2s('img',run_name,left_index,flip))
+					figure('metadata '+P['start time']);clf()
+					plot(mv[-10:,0,0],'r.-')
+					plt.title(d2s(bm,i))
 					spause()
-					P['loss_timer'].reset()
-				Net_activity = Activity_Module.Net_Activity('batch_num',i, 'activiations',D['network']['net'].A)
-				Net_activity['view']('moment_index',i,'delay',33, 'scales',{'camera_input':6,'pre_metadata_features':1,'pre_metadata_features_metadata':1,'post_metadata_features':2})
-				bm = 'unknown behavioral_mode'
-				for j in range(len(P['behavioral_modes'])):
-					if mv[-(j+1),0,0]:
-						bm = P['behavioral_modes'][j]
-				figure('steer '+P['start time'])
-				clf()
-				plt.title(d2s(i))
-				ylim(-0.05,1.05);xlim(0,len(tv))
-				#sbpd2s(ov,shape(ov))
-				#srpd2s(tv,shape(tv))
-				#print mv
-				#spd2s(tv)
-				plot([-1,10],[0.49,0.49],'k');plot(ov,'og'); plot(tv,'or'); plt.title(D['names'][0])
-				plt.xlabel(d2s(bm))
-				figure('metadata '+P['start time']);clf()
-				plot(mv[-10:,0,0],'r.-')
-				plt.title(d2s(bm,i))
+					P['print_timer'].reset()
+				dm_ctrs_max = 100
+				dm_ctrs = zeros(dm_ctrs_max)
+				loss_list = []
+				for j in range(len(P['data_moments_indexed'])):
+					if 'ctr' in P['data_moments_indexed'][j]:
+						k = P['data_moments_indexed'][j]['ctr']
+						if k < dm_ctrs_max:
+							dm_ctrs[k] += 1
+					else:
+						dm_ctrs[0] += 1
+					if 'loss' in P['data_moments_indexed'][j]:
+						if len(P['data_moments_indexed'][j]['loss']) > 0:
+							loss_list.append(P['data_moments_indexed'][j]['loss'][-1])
+				figure('dm_ctrs '+P['start time']);clf();plot(dm_ctrs,'.-');xlim(0,100)
+				P['dm_ctrs'] = dm_ctrs
+				#figure('loss_list');clf();hist(loss_list)
 				spause()
-				P['print_timer'].reset()
-			dm_ctrs_max = 100
-			dm_ctrs = zeros(dm_ctrs_max)
-			loss_list = []
-			for j in range(len(P['data_moments_indexed'])):
-				if 'ctr' in P['data_moments_indexed'][j]:
-					k = P['data_moments_indexed'][j]['ctr']
-					if k < dm_ctrs_max:
-						dm_ctrs[k] += 1
-				else:
-					dm_ctrs[0] += 1
-				if 'loss' in P['data_moments_indexed'][j]:
-					if len(P['data_moments_indexed'][j]['loss']) > 0:
-						loss_list.append(P['data_moments_indexed'][j]['loss'][-1])
-			figure('dm_ctrs '+P['start time']);clf();plot(dm_ctrs,'.-');xlim(0,100)
-			P['dm_ctrs'] = dm_ctrs
-			#figure('loss_list');clf();hist(loss_list)
-			spause()
+
+		except Exception as e:
+			exc_type, exc_obj, exc_tb = sys.exc_info()
+			file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+			CS_('Exception!',emphasis=True)
+			CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+		
+
+
+
 
 	def _function_display_each():
 		if P['DISPLAY_EACH']:
@@ -415,11 +481,13 @@ def Batch(the_network=None):
 				bv = av.transpose(1,2,0)
 				hv = shape(av)[1]
 				wv = shape(av)[2]
+				"""
 				cv = zeros((10+hv*2,10+2*wv,3))
 				cv[:hv,:wv,:] = z2o(bv[:,:,3:6])
 				cv[:hv,-wv:,:] = z2o(bv[:,:,:3])
 				cv[-hv:,:wv,:] = z2o(bv[:,:,9:12])
 				cv[-hv:,-wv:,:] = z2o(bv[:,:,6:9])
+				"""
 				print(d2s(i,'camera_data min,max =',av.min(),av.max()))
 				if P['loss_timer'].check() and len(P['LOSS_LIST_AVG'])>5:
 					figure('LOSS_LIST_AVG '+P['start time']);clf();plot(P['LOSS_LIST_AVG'][1:],'.')
@@ -434,7 +502,7 @@ def Batch(the_network=None):
 				figure('steer '+P['start time'])
 				clf()
 				plt.title(d2s(i))
-				ylim(-0.05,1.05);xlim(0,len(tv))
+				ylim(-1.05,1.05);xlim(0,len(tv))
 				plot([-1,10],[0.49,0.49],'k');plot(ov,'og'); plot(tv,'or'); plt.title(D['names'][i])
 				plt.xlabel(d2s(bm))
 				figure('metadata '+P['start time']);clf()

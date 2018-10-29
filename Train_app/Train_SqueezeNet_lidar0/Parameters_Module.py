@@ -61,10 +61,10 @@ P['experiments_folders'] = list(set(P['experiments_folders']))
 P['GPU'] = 0 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 P['BATCH_SIZE'] = 64
 P['REQUIRE_ONE'] = []
-P['NETWORK_OUTPUT_FOLDER'] = opjD('net_temp')#opjD('net_16Aug2018')#opjD('net_16Aug2018')# #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+P['NETWORK_OUTPUT_FOLDER'] = opjD('net_lidar0')#opjD('net_16Aug2018')#opjD('net_16Aug2018')# #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 P['SAVE_FILE_NAME'] = 'net'
 P['save_net_timer'] = Timer(60*30)
-P['print_timer'] = Timer(15)
+P['print_timer'] = Timer(10)
 P['frequency_timer'] = Timer(10.0)
 P['TRAIN_TIME'] = 60*5.0
 P['VAL_TIME'] = 60*1.0
@@ -131,7 +131,7 @@ if True:
 				#e='/media/karlzipser/1_TB_Samsung_n1/tu_15to16Oct2018/locations/local/left_right_center'
 				for r in sggo(e,'h5py','*'):
 					run_name = fname(r)
-					run_depth_images_path = opj(P['Depth_images_path'],d2p(run_name,'Depth_images','with_flip','h5py'))
+					run_depth_images_path = opj(P['Depth_images_path'],d2p(run_name,'Depth_images','with_flip','with_left_ts','h5py'))
 					if len(sggo(run_depth_images_path)) == 1:
 						if True:#run_name not in P['run_name_to_run_path']:
 							P['run_name_to_run_path'][run_name] = r
@@ -156,6 +156,47 @@ if True:
 
 def get_Data_moment(dm=None,FLIP=None):
 	try:
+		#if dm['run_name'] in P['lacking runs']:
+		#	return False
+		Data_moment = {}
+		left_index = dm['left_ts_index'][1]
+		steer_len = len(P['Loaded_image_files'][dm['run_name']]['left_timestamp_metadata']['steer'])
+		data_len = min(steer_len - left_index,90)
+		behavioral_mode = dm['behavioral_mode']
+		if True:
+			if steer_len - left_index < 90:
+				print steer_len - left_index
+
+		for q in ['steer','motor','gyro_heading_x','encoder_meo']:	
+			Data_moment[q] = zeros(90) + 49
+			if q not in P['Loaded_image_files'][dm['run_name']]['left_timestamp_metadata']:
+				pd2s(dm['run_name'],'lacks',q)
+				P['lacking runs'][dm['run_name']] = q
+				return False
+			if behavioral_mode != 'heading_pause':
+				Data_moment[q][:data_len] = P['Loaded_image_files'][dm['run_name']]['left_timestamp_metadata'][q][left_index:left_index+data_len]
+
+		if True:
+			past_data_len = 3*23 # constrained by metadate image size
+			past = '_past'
+			for q in ['encoder']:#'steer','motor','acc_x','acc_y','acc_z','gyro_x','gyro_y','gyro_z','encoder']:	
+				Data_moment[q+past] = zeros(past_data_len)
+				if behavioral_mode != 'heading_pause':
+					if left_index-past_data_len < 0:
+						#CS("left_index-past_data_len < 0:")
+						return False
+					else:
+						pass#print "left_index-past_data_len >= 0:"
+					
+					Data_moment[q+past][:past_data_len] = P['Loaded_image_files'][dm['run_name']]['left_timestamp_metadata'][q][(left_index-past_data_len):left_index]
+					if FLIP:
+						if q == 'steer':
+							Data_moment[q+past][:past_data_len] = 99-Data_moment[q+past][:past_data_len]
+						elif q == 'acc_x' or q == 'gyro_x' or q == 'gyro_y':
+							Data_moment[q+past][:past_data_len] = -1*Data_moment[q+past][:past_data_len]
+
+
+		"""
 		Data_moment = {}
 		left_index = dm['left_ts_index'][1]
 		steer_len = len(P['Loaded_image_files'][dm['run_name']]['left_timestamp_metadata']['steer'])
@@ -173,8 +214,9 @@ def get_Data_moment(dm=None,FLIP=None):
 		if False:
 			past_data_len = 3*23 # constrained by metadate image size
 			past = '_past'
-			for q in ['steer','motor','acc_x','acc_y','acc_z','gyro_x','gyro_y','gyro_z','encoder']:	
-				Data_moment[q+past] = zeros(past_data_len)
+			for q in ['steer','motor','gyro_heading_x','encoder_meo']:	
+				#Data_moment[q+past] = zeros(past_data_len)
+				Data_moment[q] = zeros(90) + 49
 				if behavioral_mode != 'heading_pause':
 					if left_index-past_data_len < 0:
 						#CS("left_index-past_data_len < 0:")
@@ -188,10 +230,11 @@ def get_Data_moment(dm=None,FLIP=None):
 							Data_moment[q+past][:past_data_len] = 99-Data_moment[q+past][:past_data_len]
 						elif q == 'acc_x' or q == 'gyro_x' or q == 'gyro_y':
 							Data_moment[q+past][:past_data_len] = -1*Data_moment[q+past][:past_data_len]
-					
+		"""			
 
 		if FLIP:
 			Data_moment['steer'] = 99 - Data_moment['steer']
+			Data_moment['gyro_heading_x'] = -1.0*Data_moment['gyro_heading_x']
 
 
 		Data_moment['motor'][Data_moment['motor']<0] = 0
@@ -205,6 +248,7 @@ def get_Data_moment(dm=None,FLIP=None):
 		
 		
 		if FLIP:
+
 			if behavioral_mode == 'left':
 				behavioral_mode = 'right'
 			elif behavioral_mode == 'right':
@@ -218,24 +262,34 @@ def get_Data_moment(dm=None,FLIP=None):
 
 
 
-		tl0 = dm['left_ts_index'][0]; il0 = dm['left_ts_index'][1]
+		#tl0 = dm['left_ts_index'][0]
+
+		#il0 = dm['left_ts_index'][1]
+
+		run_name
+
 
 		if FLIP:
-			F = P['Loaded_image_files'][Data_moment['name']]['depth']['log']
-		else:
 			F = P['Loaded_image_files'][Data_moment['name']]['depth']['log_flip']
+		else:
+			F = P['Loaded_image_files'][Data_moment['name']]['depth']['log']
+
+		il0 = P['Loaded_image_files'][Data_moment['name']]['depth']['left_to_lidar_index'][left_index]
 
 		Data_moment['lidar'] = []
 
+		Data_moment['left_index'] = left_index
+
+		Data_moment['flip'] = FLIP
+
 		if il0+3 < len(F):
-			cr('il0+3 < len(F),',il0+3,'<',len(F),' if True')
+			#cr('il0+3 < len(F),',il0+3,'<',len(F),' if True')
 			img = []
-			for i in range(3):
+			for i in [-2,-1,0]:
 				img.append(F[il0+i][:])
 			img = na(img)
 			Data_moment['lidar'] = img
 		else:
-
 			cr('il0+3 < len(F),',il0+3,'<',len(F),' NOT TRUE!')
 			return False
 

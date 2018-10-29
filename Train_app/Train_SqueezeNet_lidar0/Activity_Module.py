@@ -28,6 +28,9 @@ def Net_Activity(*args):
                 continue
             if k == 'camera_input':
                 cv = D['activiations']['camera_input']
+                #cb("shape(cv)=",shape(cv))
+                mi(cv[0,0,:,:],'img0')
+                """
                 camera_datav = z2o(cv[moment_indexv,:,:,:]).transpose(1,2,0)
                 left_t0v = camera_datav[:,:,0:3]
                 right_t0v = camera_datav[:,:,3:6]
@@ -35,7 +38,9 @@ def Net_Activity(*args):
                 right_t1v = camera_datav[:,:,9:12]
                 camera_arrayv = np.array([right_t0v,left_t0v,right_t1v,left_t1v])
                 D['imgs'][k][moment_indexv] = vis_square(camera_arrayv,padval=0.5)
+                """
             else:
+                continue
                 num_channels = shape(D['activiations'][k])[1]        
                 print num_channels,shape(D['activiations'][k])[1]
                 for i in range(num_channels):
@@ -49,6 +54,7 @@ def Net_Activity(*args):
                 D['imgs'][k][moment_indexv] = vis_square2(D['activiations'][k][moment_indexv],padval=0.5)
                 
     def _function_view(*args):
+        return
         #sbpd2s('in view')
         Args = args_to_dictionary(args)
         if 'scales' in Args:
