@@ -10,7 +10,7 @@
         <node name="arduino_node" pkg="bair_car" type="arduino_node.py" output="screen">
         </node>
 
-        <node name="network_node" pkg="bair_car" type="network_node.py" output="screen">  if="$(arg use_caffe)">
+        <node name="flex_network_node" pkg="bair_car" type="flex_network_node.py" output="screen">  if="$(arg use_caffe)">
         </node>
 
         <group ns="zed" if="$(arg use_zed)">        

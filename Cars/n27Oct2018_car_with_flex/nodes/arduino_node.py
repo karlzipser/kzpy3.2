@@ -4,6 +4,8 @@ from kzpy3.utils3 import *
 #from arduino_utils.arduino_menu_thread import *
 #exec(menu_exec_str)
 
+while P['ABORT'] == False:
+    time.sleep(1)
 
 import kzpy3.Cars.n11Oct2018_car_with_nets.nodes.Default_values.arduino.default_values as default_values
 P = default_values.P
