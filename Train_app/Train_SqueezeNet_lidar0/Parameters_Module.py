@@ -68,7 +68,7 @@ P['print_timer'] = Timer(10)
 P['frequency_timer'] = Timer(10.0)
 P['TRAIN_TIME'] = 60*5.0
 P['VAL_TIME'] = 60*1.0
-P['RESUME'] = False
+P['RESUME'] = True
 if P['RESUME']:
     P['INITIAL_WEIGHTS_FOLDER'] = opj(P['NETWORK_OUTPUT_FOLDER'],'weights')
     P['WEIGHTS_FILE_PATH'] = most_recent_file_in_folder(P['INITIAL_WEIGHTS_FOLDER'],['net'],[])	

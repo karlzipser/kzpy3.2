@@ -29,7 +29,9 @@ def Net_Activity(*args):
             if k == 'camera_input':
                 cv = D['activiations']['camera_input']
                 #cb("shape(cv)=",shape(cv))
-                mi(cv[0,0,:,:],'img0')
+                #mi(cv[0,0,:,:],'img0')
+                for q in range(3):
+                    mi(cv[0,q,:,:],d2s('depth images',q))
                 """
                 camera_datav = z2o(cv[moment_indexv,:,:,:]).transpose(1,2,0)
                 left_t0v = camera_datav[:,:,0:3]
