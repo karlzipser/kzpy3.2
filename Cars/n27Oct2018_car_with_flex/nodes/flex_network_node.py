@@ -5,15 +5,14 @@ sbpd2s("flex_network_node.py")
 import kzpy3.Cars.n27Oct2018_car_with_flex.nodes.Default_values.arduino.default_values as default_values
 N = default_values.P
 import rospy
-#import kzpy3.Cars.n27Oct2018_car_with_flex.nodes.flex_net_utils as flex_net_utils
 import kzpy3.Data_app.collect_flex_data2 as fx
 import roslib
 import std_msgs.msg
 import rospy
 
-
 rospy.init_node('flex_network_node',anonymous=True,disable_signals=True)
 
+graphics = False
 
 flex_names = []
 for fb in ['F']:
@@ -32,17 +31,6 @@ rospy.Subscriber('/bair_car/FLEX', std_msgs.msg.Int32, callback=FLEX__callback)
     exec_str = s.replace('FLEX',f)
     exec(exec_str)
 
-if not 'do test':
-    timer=Timer()
-    while timer.time()<300:
-        img = fx.make_flex_image(F)
-        dimg = zeros((19,18,3))
-        dimg[fx.num_backward_timesteps,:,:]=2000
-        dimg[fx.num_backward_timesteps,0,:]=-2000
-        dimg[:fx.num_backward_timesteps,:,:] = img.copy()
-        mi(z2o(dimg),'img')
-        spause()
-    raw_enter()
 
 flex_steer_cmd_pub = rospy.Publisher('cmd/flex_steer', std_msgs.msg.Int32, queue_size=5)
 flex_motor_cmd_pub = rospy.Publisher('cmd/flex_motor', std_msgs.msg.Int32, queue_size=5)
@@ -51,22 +39,6 @@ flex_motor_cmd_pub = rospy.Publisher('cmd/flex_motor', std_msgs.msg.Int32, queue
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-from kzpy3.utils3 import *
 import torch
 import torch.nn as nn
 from torch.autograd import Variable
@@ -88,40 +60,30 @@ def Flex_Torch_Network(N):
         CS_('Exception!',emphasis=True)
         CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)        
     def _run_model(input,N):
-        print 'a'
-
         D['output'] = D['solver'](input)
-        print 2
-        
-        st = []
-        for i in range(18):
-            st.append(D['output'][0][i].data[0].cpu().numpy())
-        st  = 99*na(st)
-        st = st.astype(int)
-        mt = []
-        for i in range(18):
-            mt.append(D['output'][0][i+18].data[0].cpu().numpy())
-        mt  = 99*na(mt)
-        mt = mt.astype(int) 
-        figure('output')
-        clf()
-        plot(range(0,18),st,'r.-')
-        plot(range(18,36),mt,'b.-')
-        ylim(0,99)
-        
+        if graphics:
+            st = []
+            for i in range(18):
+                st.append(D['output'][0][i].data[0].cpu().numpy())
+            st  = 99*na(st)
+            st = st.astype(int)
+            mt = []
+            for i in range(18):
+                mt.append(D['output'][0][i+18].data[0].cpu().numpy())
+            mt  = 99*na(mt)
+            mt = mt.astype(int) 
+            figure('output')
+            clf()
+            plot(range(0,18),st,'r.-')
+            plot(range(18,36),mt,'b.-')
+            plot([0,36],[49,49],'k-')
+            ylim(0,99)
         torch_motor = 100 * D['output'][0][10+N['flex_network_output_sample']].data[0].cpu().numpy()
-        print 3
         torch_steer = 100 * D['output'][0][N['flex_network_output_sample']].data[0].cpu().numpy()
-        print torch_steer,torch_motor
-        print 4
         torch_motor = max(0, torch_motor[0])
-        print 5
         torch_steer = max(0, torch_steer[0])
-        print 6
         torch_motor = min(99, torch_motor)
-        print 7
         torch_steer = min(99, torch_steer)
-        print 'b',torch_steer,torch_motor
         return torch_motor, torch_steer
 
     def _format_flex_data(img):
@@ -136,23 +98,10 @@ def Flex_Torch_Network(N):
         flex_data = Variable(flex_data)
         return flex_data
 
-
     D['run_model'] = _run_model
     D['format_flex_data'] = _format_flex_data
 
-
     return D
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -168,32 +117,21 @@ dimg = zeros((19,18,3))
 while not rospy.is_shutdown():
 
     try:
-        print_timer.message(d2s("ctr,error =",ctr,',',error_ctr));ctr+=1
-        #print ctr
-        
-
+        #print_timer.message(d2s("ctr,error =",ctr,',',error_ctr));ctr+=1
         time.sleep(0.01)
 
-        try:
-            del img3
-        except:
-            pass
-
         img3 = na(fx.make_flex_image(F))
-        print shape(img3),type(img3)
 
         flex_data = Flex_torch_network['format_flex_data'](img3)
         flex_torch_motor, flex_torch_steer = Flex_torch_network['run_model'](flex_data, N)
-        cg("flex_torch_motor, flex_torch_steer =",flex_torch_motor, flex_torch_steer)
         flex_steer_cmd_pub.publish(std_msgs.msg.Int32(flex_torch_steer))
         flex_motor_cmd_pub.publish(std_msgs.msg.Int32(flex_torch_motor))
 
-
-        
-        dimg[fx.num_backward_timesteps,:,:]=2000
-        dimg[fx.num_backward_timesteps,0,:]=-2000
-        dimg[:fx.num_backward_timesteps,:,:] = img3
-        mi(z2o(dimg),'img');spause()
+        if graphics:
+            dimg[fx.num_backward_timesteps,:,:]=2000
+            dimg[fx.num_backward_timesteps,0,:]=-2000
+            dimg[:fx.num_backward_timesteps,:,:] = img3
+            mi(z2o(dimg),'img');spause()
 
     except Exception as e:
         error_ctr += 1
@@ -201,7 +139,7 @@ while not rospy.is_shutdown():
         file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
         CS_('Exception!',emphasis=True)
         CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
-        raw_enter()
+
         
 CS_('goodbye!',__file__)
 CS_("doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))")
@@ -209,6 +147,22 @@ time.sleep(0.01)
 unix(opjh('kzpy3/scripts/kill_ros.sh'))
 
 
+
+
+
+
+
+if not 'do test':
+    timer=Timer()
+    while timer.time()<300:
+        img = fx.make_flex_image(F)
+        dimg = zeros((19,18,3))
+        dimg[fx.num_backward_timesteps,:,:]=2000
+        dimg[fx.num_backward_timesteps,0,:]=-2000
+        dimg[:fx.num_backward_timesteps,:,:] = img.copy()
+        mi(z2o(dimg),'img')
+        spause()
+    raw_enter()
 
 #EOF
 

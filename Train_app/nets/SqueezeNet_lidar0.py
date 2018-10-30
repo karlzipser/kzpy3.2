@@ -50,7 +50,9 @@ class SqueezeNet(nn.Module):
         self.post_metadata_features = nn.Sequential(
             nn.Dropout(p=0.5),
             final_conv,
-            nn.ReLU(inplace=True)
+            #nn.ReLU(inplace=True) # I started using this, but it messes up gyro_heading_x
+            # which can have negative values. I could give an offset but then would be inconsistent with SqueezeNet40.py
+            # which does not use the ReLU.
         )
 
         self.final_output = nn.Sequential(
