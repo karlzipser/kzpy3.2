@@ -39,11 +39,44 @@ def Batch(the_network=None):
 		ctr = 0
 		#P['current_batch'] = []
 		#cs('b')
+		dimg = zeros((19,18,3))
 		while ctr < D['batch_size']:
 			#cs('c')
 			#P['current_batch'].append([])
-			Fs = fx.get_flex_segs(Fd,flip=False)
-			img = fx.make_flex_image(Fs)
+			Fs = fx.get_flex_segs(Fd,flip=random.choice([False,True]))
+			"""
+			if np.random.rand(1)[0]<0.33:
+				noise_level = 0
+			else:
+				noise_level = np.random.rand(1)[0]/10.0
+			"""
+			"""
+			noise_level = 0.333
+			for q in Fs.keys():
+
+				if 'F' == q[0]:
+
+					Fs[q] += noise_level*50.0*np.random.randn(36)
+					Fs[q] += noise_level*100.0*np.random.randn(1)
+			"""
+			img = fx.make_flex_image(Fs) # STOPPED TEST: test, getting 18x3x3 image and 
+			# reducing to 18x3x3 by randomly ignoring rows.
+			"""
+			index = 0
+			indicies = []
+			for i in range(18):
+				indicies.append(index)
+				index += random.choice([1,2])
+			assert len(indicies) == 18
+			assert max(indicies) < 36
+			"""
+			#img = img[indicies,:,:]
+			"""
+			dimg[fx.num_backward_timesteps,:,:]=2000
+			dimg[fx.num_backward_timesteps,0,:]=-2000
+			dimg[:fx.num_backward_timesteps,:,:] = img
+			mi(z2o(dimg),'img');spause()			
+			"""
 			list_camera_input = []
 			list_camera_input.append(torch.from_numpy(img))
 			camera_data = torch.cat(list_camera_input, 2)
@@ -52,7 +85,8 @@ def Batch(the_network=None):
 			camera_data = torch.transpose(camera_data, 1, 2)
 			D['camera_data'] = torch.cat((torch.unsqueeze(camera_data, 0), D['camera_data']), 0)
 			#cs('d')
-			graphics = False
+			"""
+			graphics = True
 			if graphics:
 				dimg = zeros((fx.num_backward_timesteps+1,3*fx.num_flex_locations,3))
 				dimg[fx.num_backward_timesteps,:,:]=2000
@@ -66,6 +100,7 @@ def Batch(the_network=None):
 				ylim(0,99)
 				spause()
 				raw_enter()
+			"""
 			#cs('e')
 			mv = Fs['motor'][fx.num_backward_timesteps:]
 			sv = Fs['steer'][fx.num_backward_timesteps:]
@@ -160,9 +195,9 @@ def Batch(the_network=None):
 				#print('Loss:',dp(D['loss'].data.cpu().numpy()[0],5))
 				av = D['camera_data'][i][:].cpu().numpy()
 				#sbpd2s(shape(av))
-				bv = av.transpose(1,2,0)
+				#bv = av.transpose(1,2,0)
 				#srpd2s(shape(bv))
-				cv = z2o(bv)
+				#cv = z2o(bv)
 				print(d2s(i,'camera_data min,max =',av.min(),av.max()))
 				if P['loss_timer'].check() and len(P['LOSS_LIST_AVG'])>5:
 					figure('LOSS_LIST_AVG '+P['start time']);clf();plot(P['LOSS_LIST_AVG'][1:],'.')

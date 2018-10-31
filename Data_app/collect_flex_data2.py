@@ -125,11 +125,11 @@ def get_flex_data(h5py_runs_folder):
 
 
 
-
 def get_flex_segs(F,flip=False):
-
+	
+	#index += 1
 	index = np.random.randint(num_backward_timesteps,len(F['steer'])-num_forward_timesteps)
-
+	#print index
 	Flex_segs = {}
 
 	flexed = False
@@ -150,16 +150,18 @@ def get_flex_segs(F,flip=False):
 	return Flex_segs
 
 
-def make_flex_image(Fs):
-
-	img = zeros((num_backward_timesteps,3*num_flex_locations,3))
+def make_flex_image(Fs,noise=False):
+	if noise == False:
+		img = zeros((num_backward_timesteps,3*num_flex_locations,3))
+	else:
+		img = noise * np.random.randn(num_backward_timesteps,3*num_flex_locations,3)
 	for f in Fs.keys():
 		if f[0] == 'F':
 			x = Flex_location_dic[f]
 			c = Flex_channel_dic[f]
 		#for t in range(num_backward_timesteps):
 		for i in range(3):
-			img[:,3*x+i,c] = Fs[f][:num_backward_timesteps]#[t]
+			img[:,3*x+i,c] += Fs[f][:num_backward_timesteps]#[t]
 
 	return img
 
@@ -192,8 +194,17 @@ if False:
 	dimg[num_backward_timesteps,:,:]=2000
 	dimg[num_backward_timesteps,0,:]=-2000
 	m = make_flex_image(Fs)
+	index = 0
+	indicies = []
+	for i in range(18):
+		indicies.append(index)
+		index += random.choice([1,2])
+	assert len(indicies) == 18
+	assert max(indicies) < 36
+	n=m[indicies,:,:]
+
 	if graphics:
-		dimg[:num_backward_timesteps,:,:2] = m
+		dimg[:num_backward_timesteps,:,:] = m
 		mi(z2o(dimg),'img')
 		figure('motor');clf()
 		plot(49+0*Fs['steer'][num_backward_timesteps:],'k-')

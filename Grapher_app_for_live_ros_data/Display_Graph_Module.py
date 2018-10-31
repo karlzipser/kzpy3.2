@@ -15,25 +15,29 @@ def Display_Graph(*args):
 	D[topics] = Args[topics]
 	True
 	#print D[topics].keys()
-	
-	D[timestamp_to_left_image] = {}
-	if P['USE_IMAGES'] and left_image in D[topics]:
-		ts_ = D[topics][left_image][ts][:]
-	else:
-		ts_ = D[topics][acc_x][ts][:]
+	try:
+		D[timestamp_to_left_image] = {}
+		if P['USE_IMAGES'] and left_image in D[topics]:
+			ts_ = D[topics][left_image][ts][:]
+		else:
+			ts_ = D[topics][acc_x][ts][:]
 
-	D[end_time] = max(ts_)
-	D[start_time] = D[end_time]-P['TIME_RANGE']   #10#60#min(ts_)
-	D[reference_time] = (D[start_time]+D[end_time])/2.0
-	D[start_time_init],D[end_time_init] = D[start_time],D[end_time]
-	D[base_graph] = Graph_Image_Module.Graph_Image(
-		xmin,D[start_time],
-		xmax,D[end_time],
-		ymin,-1,
-		ymax,100,
-		xsize,P[X_PIXEL_SIZE],
-		ysize,P[Y_PIXEL_SIZE])
-
+		D[end_time] = max(ts_)
+		D[start_time] = D[end_time]-P['TIME_RANGE']   #10#60#min(ts_)
+		D[reference_time] = (D[start_time]+D[end_time])/2.0
+		D[start_time_init],D[end_time_init] = D[start_time],D[end_time]
+		D[base_graph] = Graph_Image_Module.Graph_Image(
+			xmin,D[start_time],
+			xmax,D[end_time],
+			ymin,-1,
+			ymax,100,
+			xsize,P[X_PIXEL_SIZE],
+			ysize,P[Y_PIXEL_SIZE])
+		except Exception as e:
+		    exc_type, exc_obj, exc_tb = sys.exc_info()
+		    file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+		    CS_('Exception!',emphasis=True)
+		    CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
 	def _function_vertical_line(*args):
 		Args = args_to_dictionary(args)
 		vertical_line_proportion_ = Args[vertical_line_proportion]

@@ -69,6 +69,6 @@ P['MEO_PARAMS'] = {'acc_x':50,'acc_y':50,'acc_z':50,'gyro_x':50,'gyro_y':50,'gyr
 
 P['USE_ARUCO'] = False
 
-P['Allow below-size bag files?'] = True
+P['Allow below-size bag files?'] = False
 
 #EOF

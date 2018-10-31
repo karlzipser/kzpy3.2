@@ -141,6 +141,7 @@ while len(R['steer']['ts']) < 100:# and len(R['left_image']['ts']) < 1:
 	print('waiting for ROS data . . .')
 	pause(0.5)
 while True:
+	
 	timer.reset()
 	if P['USE_IMAGES']:
 		for m_ in ['ts','vals']:
@@ -155,8 +156,10 @@ while True:
 		D = Display_Graph_Module.Display_Graph(topics,R)
 		D[show]()
 	except Exception as e:
-		print("********** Main.py Exception ***********************")
-		print(e.message, e.args)
+	    exc_type, exc_obj, exc_tb = sys.exc_info()
+	    file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+	    CS_('Exception!',emphasis=True)
+	    CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
 
 
 #EOF
