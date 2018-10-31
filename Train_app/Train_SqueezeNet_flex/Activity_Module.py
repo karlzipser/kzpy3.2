@@ -80,7 +80,7 @@ def Net_Activity(*args):
                 continue
             #print(90,k,Args['moment_index'])
             imgv = D['imgs'][k][Args['moment_index']]
-            mi(imgv,d2s(k,P['start time']))         
+            mi(imgv,d2s(k,P['start time'],P['_flp']))         
         cv2.waitKey(delayv)
     D['view'] = _function_view
     return D

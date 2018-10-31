@@ -125,24 +125,27 @@ def get_flex_data(h5py_runs_folder):
 
 
 
-def get_flex_segs(F,flip=False):
+def get_flex_segs(F,flip=False,index=-1):
 	
 	#index += 1
-	index = np.random.randint(num_backward_timesteps,len(F['steer'])-num_forward_timesteps)
+	if index < 0:
+		index = np.random.randint(num_backward_timesteps,len(F['steer'])-num_forward_timesteps)
 	#print index
 	Flex_segs = {}
 
-	flexed = False
+	#flexed = False
 
 	for topic in topics:
 		if topic[0] == 'F':
+			a=topic
 			if flip:
 				the_topic = Flex_flip_dic[topic]
 			else:
 				the_topic = topic
+			#cs('topic =',a,'and the_topic =',the_topic,"flip =",flip)
 		elif topic in ['steer','motor']:
 			the_topic = topic
-		Flex_segs[the_topic] = F[the_topic][index-num_backward_timesteps:index+num_forward_timesteps]
+		Flex_segs[topic] = F[the_topic][index-num_backward_timesteps:index+num_forward_timesteps].copy()
 
 	if flip:
 		Flex_segs['steer'] = 99-Flex_segs['steer']

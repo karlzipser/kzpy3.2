@@ -14,10 +14,14 @@ if 'LOSS_LIST_AVG' not in P:
 	P['LOSS_LIST_AVG'] = []
 
 
+P['_flp'] = False
+P['_indx'] = 1000
+
 
 
 def Batch(the_network=None):
 	D = {}
+	D['successes'] = 0
 	D['network'] = the_network
 	True
 	D['batch_size'] = P['BATCH_SIZE']
@@ -27,8 +31,6 @@ def Batch(the_network=None):
 	#D['names'] = []
 	#D['states'] = []
 	D['tries'] = 0
-	D['successes'] = 0
-
 
 
 
@@ -41,24 +43,34 @@ def Batch(the_network=None):
 		#cs('b')
 		dimg = zeros((19,18,3))
 		while ctr < D['batch_size']:
-			#cs('c')
-			#P['current_batch'].append([])
+
+			#spause()#raw_enter()
+			###Fs = fx.get_flex_segs(Fd,flip=P['_flp']),index=P['_indx'])
 			Fs = fx.get_flex_segs(Fd,flip=random.choice([False,True]))
-			"""
-			if np.random.rand(1)[0]<0.33:
-				noise_level = 0
-			else:
-				noise_level = np.random.rand(1)[0]/10.0
-			"""
-			"""
-			noise_level = 0.333
+			if False:
+				if P['_flp'] == False:
+					P['_flp'] = True
+				else:
+					P['_indx'] += 10;print P['_indx']
+					P['_flp'] = False
+
+			if True:
+				if np.random.rand(1)[0]<0.25:
+					noise_level = 0
+				else:
+					noise_level = 2.5 * np.random.rand(1)[0]
+				#noise_level = 0;cs('noise_level = 0')
+				#print noise_level
+			#noise_level = 0.33
 			for q in Fs.keys():
 
 				if 'F' == q[0]:
-
-					Fs[q] += noise_level*50.0*np.random.randn(36)
+					Fs[q] *= max(0.1,(1.0+np.random.randn(1)[0]/5.0))
+					Fs[q] += noise_level*25.0*np.random.randn(36)
 					Fs[q] += noise_level*100.0*np.random.randn(1)
-			"""
+					#if noise_level == 0:
+					#	Fs[q] *= 0 #TEMP!
+			
 			img = fx.make_flex_image(Fs) # STOPPED TEST: test, getting 18x3x3 image and 
 			# reducing to 18x3x3 by randomly ignoring rows.
 			"""
@@ -178,14 +190,22 @@ def Batch(the_network=None):
 			file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
 			CS_('Exception!',exception=True,newline=False)
 			CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
-			pd2s( D['tries'],D['successes'],int(100*D['successes']/(1.0*D['tries'])),"percent successes" )
+			#pd2s( D['tries'],D['successes'],int(100*D['successes']/(1.0*D['tries'])),"percent successes" )
 	
 
 	def _function_display():
 		#cs('here')
 		cv2.waitKey(1) # This is to keep cv2 windows alive
 		if P['print_timer'].check():
-			#cs('here')
+			cg("Train_SqueezeNet_flex",P['start time'])
+			if False:#P['print_timer2'].check():
+				figure('FC0')
+				plot(Fd['FC0'][:])
+				figure('steer')
+				plot(Fd['steer'][:])
+				figure('motor')
+				plot(Fd['motor'][:])
+				P['print_timer2'].reset()
 			for i in [0]:#range(P['BATCH_SIZE']):
 				ov = np.squeeze(D['outputs'][i].data.cpu().numpy())
 				#mv = D['metadata'][i].cpu().numpy()
@@ -211,7 +231,7 @@ def Batch(the_network=None):
 				#for j in range(len(P['behavioral_modes'])):
 				#	if mv[-(j+1),0,0]:
 				#		bm = P['behavioral_modes'][j]
-				figure('steer '+P['start time'])
+				figure(d2s('steer',P['start time'],P['_flp']))
 				clf()
 				plt.title(d2s(i))
 				ylim(-0.05,1.05);xlim(0,len(tv))

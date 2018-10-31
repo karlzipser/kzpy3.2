@@ -13,6 +13,7 @@ assert(soft>=65000)
 P = {}
 
 P['start time'] = time_str()
+P['start time numeric'] = time.time()
 """
 P['max_num_runs_to_open'] = 300
 
@@ -52,8 +53,9 @@ P['BATCH_SIZE'] = 64
 P['REQUIRE_ONE'] = []
 P['NETWORK_OUTPUT_FOLDER'] = opjD('net_flex')#opjD('net_16Aug2018')#opjD('net_16Aug2018')# #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 P['SAVE_FILE_NAME'] = 'net'
-P['save_net_timer'] = Timer(60*30)
+P['save_net_timer'] = Timer(60*15)
 P['print_timer'] = Timer(5)
+P['print_timer2'] = Timer(30)
 P['frequency_timer'] = Timer(10.0)
 P['TRAIN_TIME'] = 60*5.0
 P['VAL_TIME'] = 60*1.0

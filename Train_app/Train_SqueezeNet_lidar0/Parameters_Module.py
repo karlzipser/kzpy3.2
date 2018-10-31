@@ -12,6 +12,7 @@ print 'Soft limit is ', soft
 P = {}
 
 P['start time'] = time_str()
+P['start time numeric'] = time.time()
 
 P['max_num_runs_to_open'] = 300
 """

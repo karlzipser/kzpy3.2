@@ -47,6 +47,7 @@ class SqueezeNet(nn.Module):
             )
 
         final_conv = nn.Conv2d(128, 18*2, kernel_size=3,stride=2)
+
         self.post_metadata_features = nn.Sequential(
             nn.Dropout(p=0.5),
             final_conv,
@@ -57,7 +58,7 @@ class SqueezeNet(nn.Module):
         self.final_output = nn.Sequential(
             nn.Dropout(p=0.5),
             final_conv,
-            nn.ReLU(inplace=True),
+            #nn.ReLU(inplace=True),
             nn.AvgPool2d(kernel_size=5, stride=6)
         )
 

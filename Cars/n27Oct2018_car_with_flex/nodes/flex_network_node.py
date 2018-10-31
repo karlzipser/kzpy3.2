@@ -2,13 +2,18 @@
 from kzpy3.vis3 import *
 exec(identify_file_str)
 sbpd2s("flex_network_node.py")
-import kzpy3.Cars.n27Oct2018_car_with_flex.nodes.Default_values.arduino.default_values as default_values
-N = default_values.P
+#import kzpy3.Cars.n27Oct2018_car_with_flex.nodes.Default_values.arduino.default_values as default_values
+#N = default_values.P
 import rospy
 import kzpy3.Data_app.collect_flex_data2 as fx
 import roslib
 import std_msgs.msg
 import rospy
+
+N = {}
+N['flex_weight_file_path'] = most_recent_file_in_folder(opjD('net_flex/weights'))
+N['flex_network_output_sample'] = 0
+
 
 rospy.init_node('flex_network_node',anonymous=True,disable_signals=True)
 
@@ -85,10 +90,10 @@ def Flex_Torch_Network(N):
             figure('output')
             clf()
             #                   D['output'][0][i].data[0].cpu().numpy()
-            plot(99*np.squeeze(D['output'][0][:].data[:].cpu().numpy()),'c.-')
-            plot(range(0,18),st,'r:')
-            plot(range(18,36),mt,'b:')
-            plot([0,36],[49,49],'k-')
+            plot(99*np.squeeze(D['output'][0][:].data[:].cpu().numpy()),'k.')
+            plot(range(0,18),st,'r-')
+            plot(range(18,36),mt,'b-')
+            plot([0,36],[49,49],'g')
             ylim(0,99)
             spause()
         torch_motor = 100 * D['output'][0][10+N['flex_network_output_sample']].data[0].cpu().numpy()
