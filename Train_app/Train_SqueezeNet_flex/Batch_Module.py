@@ -58,7 +58,7 @@ def Batch(the_network=None):
 				if np.random.rand(1)[0]<0.25:
 					noise_level = 0
 				else:
-					noise_level = 2.5 * np.random.rand(1)[0]
+					noise_level = 5 * np.random.rand(1)[0]
 				#noise_level = 0;cs('noise_level = 0')
 				#print noise_level
 			#noise_level = 0.33
@@ -197,7 +197,7 @@ def Batch(the_network=None):
 		#cs('here')
 		cv2.waitKey(1) # This is to keep cv2 windows alive
 		if P['print_timer'].check():
-			cg("Train_SqueezeNet_flex",P['start time'])
+			cg("Train_SqueezeNet_flex",P['start time'],'elapsed time =',intr(time.time()-P['start time numeric']))
 			if False:#P['print_timer2'].check():
 				figure('FC0')
 				plot(Fd['FC0'][:])
@@ -220,7 +220,9 @@ def Batch(the_network=None):
 				#cv = z2o(bv)
 				print(d2s(i,'camera_data min,max =',av.min(),av.max()))
 				if P['loss_timer'].check() and len(P['LOSS_LIST_AVG'])>5:
-					figure('LOSS_LIST_AVG '+P['start time']);clf();plot(P['LOSS_LIST_AVG'][1:],'.')
+					figure('LOSS_LIST_AVG '+P['start time'])
+					clf()
+					plot(P['LOSS_LIST_AVG'][int(0.25*len(P['LOSS_LIST_AVG'])):],'.')
 					spause()
 					P['loss_timer'].reset()
 				Net_activity = Activity_Module.Net_Activity('batch_num',i, 'activiations',D['network']['net'].A)
