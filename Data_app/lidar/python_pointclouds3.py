@@ -101,6 +101,7 @@ if __name__ == '__main__':
                 e[e>10]=10
                 f=cv2.resize(e,(64,240))
                 mi(z2o(f));spause()
+                # 9:27 pm
             #print calls
         except:
             cs('exception',calls)
