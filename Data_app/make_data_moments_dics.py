@@ -84,9 +84,9 @@ def make_data_moments_dics(locations_path=''):
 			data_moments_dic['val'] = {}
 			data_moments_dic['train'] = {}
 
-			raw_enter(d2s("e =",e))
+			cg("fname(e) =",fname(e))
 
-			if e == 'left_direct_stop':
+			if fname(e) == 'left_direct_stop':
 				steer_types = ['high_steer','low_steer','reverse']
 			else:
 				steer_types = ['high_steer','low_steer']
@@ -106,7 +106,7 @@ def make_data_moments_dics(locations_path=''):
 				else:
 					steer_type = 'high_steer'
 
-				if e == 'left_direct_stop':
+				if fname(e) == 'left_direct_stop':
 					cr("if e == 'left_direct_stop':")
 					if d['behavioral_mode'] == 'center':
 						cg("if d['behavioral_mode'] == 'center':")
