@@ -43,8 +43,9 @@ if __name__ == '__main__':
 
     rospy.Subscriber('/os1_node/points', PointCloud2, points__callback)
     #figure(1);plt_square();xylim(-5,5,-5,5)
-    timer = Timer(2)
+    timer = Timer(600)
     CA()
+    ctr = 0
     while not timer.check():
         try:
             if False:
@@ -59,7 +60,7 @@ if __name__ == '__main__':
                 #xylim(-20,20,-20,20)
                 plt_square()
                 spause()
-            if True:
+            if False:
                 p=P[-1]
                 a=np.resize(p,(1024,64,3))
                 b=np.sqrt(a[:,:,0]**2+a[:,:,1]**2+a[:,:,2]**2)
@@ -68,7 +69,38 @@ if __name__ == '__main__':
                 ylim(0,8)
                 spause()
                 #clf();plot(P[-2][:,0],P[-2][:,1],'.')
-            
+            if False:
+                ctr += 1
+                if ctr >= 30:
+                    clf()
+                    ctr = 0
+                #for k in rlen(P):
+                k=-1
+                p=P[k]
+                a=np.resize(p,(1024,64,3))
+                r=range(1,64)
+                b=a[:,r,:]
+                d = b[:,1,:]
+                e=np.sqrt(b[:,:,0]**2+b[:,:,1]**2+b[:,:,2]**2)
+                c = zeros(1024);
+                for i in range(1024):
+                    x,y = d[i,0],d[i,1]
+                    q = np.degrees(angle_between((1,0), (x,y)) )
+                    if y > 0:
+                        q*=-1
+                    c[i] = q
+                figure('c');plot(c,'.');spause()
+            if True:#for k in rlen(P):#if True:
+                k=-1
+                p=P[k]
+                a=np.resize(p,(1024,64,3))
+                a=a[(512-120):(512+120),:,:]
+                r=range(1,64,4)
+                b=a[:,r,:]
+                e=np.sqrt(b[:,:,0]**2+b[:,:,1]**2+b[:,:,2]**2)
+                e[e>10]=10
+                f=cv2.resize(e,(64,240))
+                mi(z2o(f));spause()
             #print calls
         except:
             cs('exception',calls)

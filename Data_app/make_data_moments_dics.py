@@ -71,8 +71,6 @@ def make_data_moments_dics(locations_path=''):
 				spd2s('ignoring',e)
 				continue
 			spd2s(e)
-
-			data_moments_folder = opj(e,'data_moments')
 			
 			data_moments_indexed_file = opj(e,'_data_moments_right_ts.pkl')
 
@@ -85,19 +83,36 @@ def make_data_moments_dics(locations_path=''):
 			data_moments_dic = {}
 			data_moments_dic['val'] = {}
 			data_moments_dic['train'] = {}
+
+			raw_enter(d2s("e =",e))
+
+			if e == 'left_direct_stop':
+				steer_types = ['high_steer','low_steer','reverse']
+			else:
+				steer_types = ['high_steer','low_steer']
+
+			srpd2s(steer_types)
+
 			for a in ['val','train']:
-				for b in ['high_steer','low_steer']:
+				for b in steer_types:
 					data_moments_dic[a][b] = []
-					#unix('mkdir -p '+opj(data_moments_folder,a,b))
 
 			ctr = 0
 
 			for d in data_moments:
-
+				
 				if abs(d['steer']-49) < 5:
 					steer_type = 'low_steer'
 				else:
 					steer_type = 'high_steer'
+
+				if e == 'left_direct_stop':
+					cr("if e == 'left_direct_stop':")
+					if d['behavioral_mode'] == 'center':
+						cg("if d['behavioral_mode'] == 'center':")
+						if d['motor'] <= 49:
+							cb("if d['behavioral_mode'] == 'center':")
+							steer_type = 'reverse'
 
 				if ctr < num_val:
 					data_moments_dic['val'][steer_type].append(d)
