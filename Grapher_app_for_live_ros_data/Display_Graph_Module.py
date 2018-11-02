@@ -33,11 +33,13 @@ def Display_Graph(*args):
 			ymax,100,
 			xsize,P[X_PIXEL_SIZE],
 			ysize,P[Y_PIXEL_SIZE])
-		except Exception as e:
-		    exc_type, exc_obj, exc_tb = sys.exc_info()
-		    file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-		    CS_('Exception!',emphasis=True)
-		    CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+		
+	except Exception as e:
+	    exc_type, exc_obj, exc_tb = sys.exc_info()
+	    file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+	    CS_('Exception!',emphasis=True)
+	    CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+
 	def _function_vertical_line(*args):
 		Args = args_to_dictionary(args)
 		vertical_line_proportion_ = Args[vertical_line_proportion]

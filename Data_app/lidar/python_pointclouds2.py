@@ -64,11 +64,12 @@ def cloud_cb(msg):
     if ABORT:
         return
     global P
+    #P = []
     #P = pointcloud2_to_array(msg)
     for p in pc2.read_points(msg,skip_nans=True,field_names=("x","y","z")):
-          if np.abs(p[0]) > 0:
-              P.append(p)
-          #print p[0],p[1],p[2]
+        if np.abs(p[0]) > 0:
+            P.append(p)
+            #print p[0],p[1],p[2]
 
 if __name__ == '__main__':
     import rospy
@@ -77,24 +78,20 @@ if __name__ == '__main__':
 
     rospy.Subscriber('/os1_node/points', PointCloud2, cloud_cb)
     figure(1);plt_square();xylim(-5,5,-5,5)
-    timer = Timer(2)
+    timer = Timer(10)
+    CA()
     while not timer.check():
-	    #print 'here'
-	    #print P
-	    #print shape(P)
-            
-            #if P[-1][0] != 0:
-	    pass
-                #print P[-1][0],P[-1][1]
-	    	#plot([=P[-1][0],P[-1][1],'b.')
-		#spause()
-            	#raw_enter()
-	    #r = raw_input()
-            #if r == 'q':
-            #   break
-    print('ABORT')
-    ABORT = True          
-    so(opjD('P'),P)
+        print shape(P)
+        a=np.resize(P,(1024,16,3)) 
+        b=np.sqrt(a[:,:,0]**2+a[:,:,1]**2+a[:,:,2]**2)
+        mi(b[256:768])
+        spause()
+
+        
+
+    #print('ABORT')
+    #ABORT = True          
+    #so(opjD('P'),P)
     """
     for i in rlen(P):
         xyz = P[i]

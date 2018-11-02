@@ -39,24 +39,34 @@ P['experiments_folders'] = [
 	opjD('bdd_car_data_July2017_LCR/locations'),
 ]
 """
-import kzpy3.Data_app.classify_data as classify_data
-P['experiments_folders'] = []
-classify_data.find_locations(opjm("1_TB_Samsung_n1"),P['experiments_folders'])
 
-older = [
-	opjD('bdd_car_data_July2017_LCR/locations'),
-	opjm('preprocessed_5Oct2018_500GB/bdd_model_car_data_early_8Oct2018_lrc_LIDAR/locations'),
-	opjm('preprocessed_5Oct2018_500GB/bdd_model_car_data_late_Sept_early_Oct2018_lrc/locations'),
-	opjm('preprocessed_5Oct2018_500GB/bdd_car_data_late_Sept2018_lrc/locations'),
-	opjm('preprocessed_5Oct2018_500GB/bdd_car_data_18July_to_18Sept2018_lrc/locations'),
-	opjm('preprocessed_5Oct2018_500GB/model_car_data_July2018_lrc/locations'),
-	opjm('preprocessed_5Oct2018_500GB/model_car_data_June2018_LCR/locations'),
-	opjD('bdd_car_data_July2017_LCR/locations'),
-]
 
-P['experiments_folders'] += older
 
-P['experiments_folders'] = list(set(P['experiments_folders']))
+if True:
+	import kzpy3.Data_app.classify_data as classify_data
+	P['experiments_folders'] = []
+	classify_data.find_locations(opjm("1_TB_Samsung_n1"),P['experiments_folders'])
+
+	older = [
+		opjD('bdd_car_data_July2017_LCR/locations'),
+		opjm('preprocessed_5Oct2018_500GB/bdd_model_car_data_early_8Oct2018_lrc_LIDAR/locations'),
+		opjm('preprocessed_5Oct2018_500GB/bdd_model_car_data_late_Sept_early_Oct2018_lrc/locations'),
+		opjm('preprocessed_5Oct2018_500GB/bdd_car_data_late_Sept2018_lrc/locations'),
+		opjm('preprocessed_5Oct2018_500GB/bdd_car_data_18July_to_18Sept2018_lrc/locations'),
+		opjm('preprocessed_5Oct2018_500GB/model_car_data_July2018_lrc/locations'),
+		opjm('preprocessed_5Oct2018_500GB/model_car_data_June2018_LCR/locations'),
+		opjD('bdd_car_data_July2017_LCR/locations'),
+	]
+
+	P['experiments_folders'] += older
+
+	P['experiments_folders'] = list(set(P['experiments_folders']))
+
+if False:
+	P['experiments_folders'] = ['/media/karlzipser/rosbags/left_direct_stop__29to30Oct2018/locations',] # around 4:45pm
+
+
+
 
 P['aruco_experiments_folders'] = []#[opjD('all_aruco_reprocessed')]#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -67,7 +77,8 @@ P['REQUIRE_ONE'] = []
 P['NETWORK_OUTPUT_FOLDER'] = opjD('net_15Sept2018')#opjD('net_16Aug2018')#opjD('net_16Aug2018')# #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 P['SAVE_FILE_NAME'] = 'net'
 P['save_net_timer'] = Timer(60*30)
-P['print_timer'] = Timer(30)
+P['print_timer_time'] = 30
+
 P['frequency_timer'] = Timer(30.0)
 P['TRAIN_TIME'] = 60*5.0
 P['VAL_TIME'] = 60*1.0
@@ -271,9 +282,10 @@ def get_Data_moment(dm=None,FLIP=None):
 
 
 
-
-
-					
+		################################## TEMP ################################
+		#if min(Data_moment['motor'][:10]) > 50:
+		#	return False
+		#########################################################################
 
 		if FLIP:
 			Data_moment['steer'] = 99 - Data_moment['steer']

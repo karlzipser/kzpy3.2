@@ -59,11 +59,13 @@ rate_pub = None
 
 P = []
 ABORT = False
-
+Q = 0;
 def cloud_cb(msg):
     if ABORT:
         return
     global P
+    global Q
+    Q = msg
     #P = pointcloud2_to_array(msg)
     for p in pc2.read_points(msg,skip_nans=True,field_names=("x","y","z")):
           if np.abs(p[0]) > 0:
@@ -77,11 +79,11 @@ if __name__ == '__main__':
 
     rospy.Subscriber('/os1_node/points', PointCloud2, cloud_cb)
     figure(1);plt_square();xylim(-5,5,-5,5)
-    timer = Timer(2)
+    timer = Timer(1)
     while not timer.check():
 	    #print 'here'
 	    #print P
-	    #print shape(P)
+	    print shape(P)
             
             #if P[-1][0] != 0:
 	    pass
