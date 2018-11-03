@@ -47,6 +47,7 @@ if True:
 	P['experiments_folders'] = []
 	classify_data.find_locations(opjm("1_TB_Samsung_n1"),P['experiments_folders'])
 
+if False:
 	older = [
 		opjD('bdd_car_data_July2017_LCR/locations'),
 		opjm('preprocessed_5Oct2018_500GB/bdd_model_car_data_early_8Oct2018_lrc_LIDAR/locations'),
@@ -60,12 +61,13 @@ if True:
 
 	P['experiments_folders'] += older
 
-	P['experiments_folders'] = list(set(P['experiments_folders']))
-
 if False:
-	P['experiments_folders'] = ['/media/karlzipser/rosbags/left_direct_stop__29to30Oct2018/locations',] # around 4:45pm
+	P['experiments_folders'] = [
+		'/media/karlzipser/1_TB_Samsung_n1/left_direct_stop__29to30Oct2018/locations',
+		'/media/karlzipser/1_TB_Samsung_n1/left_direct_stop__31Oct_to_1Nov2018/locations',
+	] # around 4:45pm
 
-
+P['experiments_folders'] = list(set(P['experiments_folders']))
 
 
 
@@ -73,7 +75,7 @@ if False:
 P['GPU'] = 1 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 P['BATCH_SIZE'] = 64
 P['REQUIRE_ONE'] = []
-P['NETWORK_OUTPUT_FOLDER'] = opjD('net_15Sept2018')#opjD('net_16Aug2018')#opjD('net_16Aug2018')# #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+P['NETWORK_OUTPUT_FOLDER'] = opjD('net_15Sept2018_1Nov_with_reverse')#opjD('net_16Aug2018')#opjD('net_16Aug2018')# #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 P['SAVE_FILE_NAME'] = 'net'
 P['save_net_timer'] = Timer(60*30)
 P['print_timer_time'] = 30
@@ -142,33 +144,33 @@ if True:
 				# Validation to be done with separate runs, so combine all data here.
 				#########################################################################
 				M = {}
-				M['high_steer'] = _data_moments_indexed['train']['high_steer'] + _data_moments_indexed['val']['high_steer']
-				M['low_steer'] =  _data_moments_indexed['train']['low_steer']  + _data_moments_indexed['val']['low_steer']
-				M['reverse'] =    _data_moments_indexed['train']['reverse']    + _data_moments_indexed['val']['reverse']
+				steer_types = _data_moments_indexed['train'].keys() # i.e., high_steer, low_steer, reverse
+				for k in steer_types:
+					M[k] = _data_moments_indexed['train'][k] + _data_moments_indexed['val'][k]
 
 				lens = []
-				for k in ['high_steer','low_steer','reverse']:
+				for k in steer_types:
 					lens.append(len(M[k]))
 				max_len = max(lens)
 
-				for k in ['high_steer','low_steer','reverse']:
+				for k in steer_types:
 					while len(M[k]) < max_len:
 						random.shuffle(M[k])
 						M[k] += M[k]
 						if len(M[k]) > max_len:
 							M[k] = M[k][:max_len]
 
-				for k in ['high_steer','low_steer','reverse']:
+				for k in steer_types:
 					assert len(M[k]) == max_len
 
 
-				for k in ['high_steer','low_steer','reverse']:
+				for k in steer_types:
 					for _dm in M[k]:
 						#_dm['aruco'] = False
 						if _dm['behavioral_mode'] == 'center':
 							_dm['behavioral_mode'] = 'direct'
-						#if _dm['motor'] > 53:
-						P['data_moments_indexed'].append(_dm)
+						if _dm['motor'] > 53 or (_dm['behavioral_mode'] == 'direct' and fname(e) == 'left_direct_stop'):
+							P['data_moments_indexed'].append(_dm)
 
 				for r in sggo(e,'h5py','*'):
 					print fname(r)

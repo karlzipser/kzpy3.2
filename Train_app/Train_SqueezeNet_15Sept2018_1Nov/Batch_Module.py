@@ -124,30 +124,18 @@ def Batch(the_network=None):
 
 				if 'ctr' not in dm:
 					dm['ctr'] = 0
+
 				dm['ctr'] += 1
 				dm['loss'] = []
 				P['current_batch'].append(dm)
 				D['names'].insert(0,Data_moment['name']) # This to match torch.cat use below
 
 
-
-
-				if dm['aruco'] or random.random()<P['gray_out_random_value']:
-					offset = np.random.randint(20)
-					list_camera_input = []
-					for t in range(D['network']['net'].N_FRAMES):
-						for camera in ('left', 'right'):
-							img = Data_moment[camera][t]
-							img[:(30+offset),:,:] = 128
-							list_camera_input.append(torch.from_numpy(img))
-					camera_data = torch.cat(list_camera_input, 2)
-
-				else:
-					list_camera_input = []
-					for t in range(D['network']['net'].N_FRAMES):
-						for camera in ('left', 'right'):
-							list_camera_input.append(torch.from_numpy(Data_moment[camera][t]))
-					camera_data = torch.cat(list_camera_input, 2)
+				list_camera_input = []
+				for t in range(D['network']['net'].N_FRAMES):
+					for camera in ('left', 'right'):
+						list_camera_input.append(torch.from_numpy(Data_moment[camera][t]))
+				camera_data = torch.cat(list_camera_input, 2)
 
 
 
