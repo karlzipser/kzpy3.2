@@ -1,0 +1,166 @@
+#!/usr/bin/env python
+
+from kzpy3.vis3 import *
+import sensor_msgs
+from sensor_msgs.msg import PointCloud2
+import sensor_msgs.point_cloud2 as pc2
+import rospy
+
+
+P = []
+calls = 0
+calls_prev = 0
+ABORT = False
+
+field_names=("x","y","z","t","reflectivity","intensity","ring")
+
+def points__callback(msg):
+    if ABORT:
+        return
+    global P
+    global calls
+    calls += 1
+    valv_temp = list(pc2.read_points(msg,skip_nans=False,field_names=field_names))
+    valv_temp = na(valv_temp)
+    valv_temp[np.isnan(valv_temp)] = 0
+    P.append(valv_temp)
+
+
+def get_cv2_img(img):
+    img = (256*z2o(img)).astype(np.uint8)
+    s = shape(img)
+    a = s[0]
+    b = s[1]
+    c = zeros((a,b,3),np.uint8)
+    for i in range(3):
+        c[:,:,i] = img
+    return c
+
+if False:
+    Images = lo('/home/karlzipser/Desktop/Images_03Nov18_12h32m24s.pkl' )
+    for i in rlen(Images['reflectivity']):
+        mci(get_cv2_img(Images['intensity'][i]),delay=100)
+
+if __name__ == '__main__':
+    
+
+    rospy.init_node('test_pointclouds')
+
+    rospy.Subscriber('/os1_node/points', PointCloud2, points__callback)
+
+    
+    
+    CA()
+
+    ctr = 0
+
+    Images = {}
+    for q in field_names:
+        Images[q] = []
+
+    waiting = Timer(1)
+    while calls < 1:
+        waiting.message('waiting for data')
+        time.sleep(0.01)
+
+    timer = Timer(60)
+    while not timer.check():
+
+        try:
+            calls_ = calls
+            if calls_ > calls_prev:
+                p = P[-1]
+                a = np.resize(p,(1024,64,len(field_names)))
+                r = range(1,64,4)
+                b = a[:,r,:]
+                for i in rlen(field_names):
+                    c = b[:,:,i]
+                    d = cv2.resize(c.astype(float),(64,1024))
+                    e = d.transpose(1,0)
+                    Images[field_names[i]].append(e)
+                spause()
+                calls_prev = calls_
+
+        except:
+            cs('exception',calls)
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            CS_('Exception!',emphasis=True)
+            CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+    if False:
+        so(opjD('Images_'+time_str()),Images)
+
+    if True:
+        CA()
+        """
+        for fn in field_names:
+            figure(fn,figsize=(12,4))
+        time.sleep(5)
+        """
+
+        Y = {}
+        img = zeros((64,1024))
+
+
+        for i in range(1024):
+            Y[int(Images['y'][2][32,:][i]*1000)]=i
+
+
+
+
+        for k in rlen(Images[fn]):
+
+            try:
+                y = Images['y'][k][32,:]
+                pi_index = np.where(np.logical_and(y>3.14,y<3.15))[0][0]
+
+                print k,pi_index
+                t = Images['t'][k][32,:]
+                #figure('t');clf();plot(t,',')
+                
+                corrupt_frame = False
+                for i in range(1,len(t)):
+                    dt = t[i]-t[i-1]
+                    if dt > 0.004:
+                        corrupt_frame = True
+                    
+                #figure('t hist');clf();hist(dts)
+                g = (Images['y'][k][32,:]*1000).astype(int)
+                h = zeros(1024,int)
+                for j in rlen(g):
+                    y_key = g[j]
+                    y_val = Y[y_key]
+                    h[y_val] = Y[y_key]
+                
+                for fn in ("z","intensity"):
+                    
+                    #img = np.log(0.001+images[k])
+                    if True:
+                        img_unshifted = Images[fn][k]
+                        img = 0* img_unshifted
+                        img[:,512:] = img_unshifted[:,pi_index:pi_index+512]
+                        img[:,512-pi_index:512] = img_unshifted[:,0:pi_index]
+                        img[:,0:512-pi_index] = img_unshifted[:,1024-(512-pi_index):1024]
+                    else:
+                        img *= 0
+                        for l in range(1024):
+                            img[:,l] = Images[fn][k][:,h[l]]
+                    #img[img<0.25] = 0.25
+                    #img[img>3.0] = 3.0
+                    if not corrupt_frame:
+                        mci(get_cv2_img(img),delay=100,title=fn,scale=3)
+                        img_prev = img.copy()
+                    else:
+                        print 'corrupt_frame'
+                        time.sleep(0.1)
+                    #mi(img,fn)
+                    #figure(fn+' 2');clf()
+                    #plot(Images[fn][k].transpose(1,0),',')
+                #raw_enter()
+            except:
+                #cs('exception',calls)
+                exc_type, exc_obj, exc_tb = sys.exc_info()
+                file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                CS_('Exception!',emphasis=True)
+                CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+

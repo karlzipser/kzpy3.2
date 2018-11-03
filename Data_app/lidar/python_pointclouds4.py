@@ -21,7 +21,7 @@ def points__callback(msg):
     global P
     global calls
     calls += 1
-    valv_temp = list(pc2.read_points(msg,skip_nans=False,field_names=("x","y","z","intensity","reflectivity")))
+    valv_temp = list(pc2.read_points(msg,skip_nans=False,field_names=("ring","x","y","z","reflectivity")))
     valv_temp = na(valv_temp)
     valv_temp[np.isnan(valv_temp)] = 0
     P.append(valv_temp)
@@ -34,7 +34,7 @@ if __name__ == '__main__':
 
     rospy.Subscriber('/os1_node/points', PointCloud2, points__callback)
 
-    timer = Timer(60)
+    timer = Timer(10)
 
     CA()
 
@@ -52,7 +52,7 @@ if __name__ == '__main__':
                 a = np.resize(p,(1024,64,5))
                 r = range(1,64,4)
                 b = a[:,r,:]
-                c = b[:,:,2]
+                c = b[:,:,0]
                 d = cv2.resize(c.astype(float),(64,1024))
                 e = d.transpose(1,0)
                 images.append(e)
@@ -67,12 +67,12 @@ if __name__ == '__main__':
             CS_('Exception!',emphasis=True)
             CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
     if True:
-        for k in range(100,130):#rlen(images):
-            img = np.log(0.001+images[k])
-            #img = images[k]
+        for k in rlen(images):
+            #img = np.log(0.001+images[k])
+            img = images[k]
             #img[img<0.25] = 0.25
             #img[img>3.0] = 3.0
-            mi(img,'reflectivity')
+            mi(img,'img')
             spause()
             #raw_enter()
 
