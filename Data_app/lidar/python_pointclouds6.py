@@ -40,8 +40,6 @@ if False:
 
         rospy.Subscriber('/os1_node/points', PointCloud2, points__callback)
 
-        
-        
         CA()
 
         ctr = 0
@@ -56,6 +54,7 @@ if False:
             time.sleep(0.01)
 
         timer = Timer(60)
+
         while not timer.check():
 
             try:
@@ -83,6 +82,8 @@ if False:
             so(opjD('Images_'+time_str()),Images)
 
 
+
+
 def get_cv2_img(img):
     img = (256*z2o(img)).astype(np.uint8)
     s = shape(img)
@@ -95,42 +96,37 @@ def get_cv2_img(img):
 
 
 
+
+
 if True:
 
     CA()
-    """
-    for fn in field_names:
-        figure(fn,figsize=(12,4))
-    time.sleep(5)
-    """
+
     if 'Images' not in locals():
         Images = lo('/home/karlzipser/Desktop/Images_03Nov18_12h32m24s.pkl' )
 
     Y = {}
-    img = zeros((64,1024))
 
+    img = zeros((64,1024))
 
     for i in range(1024):
         Y[int(Images['y'][2][32,:][i]*1000)]=i
 
-
     spacer = zeros((16,1024))+0.5
     
     Img_prev = {}
-    do_break=False
-    for k in range(2,len(an_element(Images))):
-        if do_break == True:
-            break
+
+
+
+    for k in range(20,len(an_element(Images))):
+
         #if True:
         try:
             img_stack = spacer.copy()
 
             y = Images['y'][k][32,:]
-            #pi_index = np.where(np.logical_and(y>3.14,y<3.15))[0][0]
 
-            #print k,pi_index
             t = Images['t'][k][32,:]
-            #figure('t');clf();plot(t,',')
             
             corrupt_frame = False
             for i in range(1,len(t)):
@@ -138,92 +134,50 @@ if True:
                 if dt > 0.004:
                     corrupt_frame = True
                 
-            #figure('t hist');clf();hist(dts)
-
             if True:#corrupt_frame:
-
-                
 
                 g = (Images['y'][k][32,:]*1000).astype(int)
 
                 h = zeros(1024,int)
 
                 for j in rlen(g):
-                    h[j] = Y[g[j]]
-                    #h[Y[g[j]]] = Y[g[j]]
-                    
+                    h[j] = Y[g[j]]                    
                 
                 imgs = []
                 
-                #first = True
+                for fn in ("x","y","z","t","reflectivity","intensity","ring"):
 
-                for fn in ("y","intensity"):#,"z","intensity","reflectivity"):
-                    if True:
-                        img = Images[fn][k]
+                    img = Images[fn][k]
 
+                    #figure(d2s(1,fn));clf();plot(img[32,:],'.')#;spause()
+                    img_unshifted = img * 0
+                    for l in range(1024):
+                        img_unshifted[:,h[l]] = img[:,l]
+                    #figure(d2s(2,fn));clf();plot(img_unshifted[32,:],'.');spause()
+                    #img = np.log(0.001+images[k])
 
+                    if fn in Img_prev:
+                        img_zeros = img_unshifted==0
+                        img_unshifted[img_zeros] = Img_prev[fn][img_zeros]
 
-                        #figure(d2s(1,fn));clf();plot(img[32,:],'.')#;spause()
-                        img_unshifted = img * 0
-                        for l in range(1024):
-                            #img_unshifted[:,l] = img[:,h[l]]
-                            img_unshifted[:,h[l]] = img[:,l]
-                        #figure(d2s(2,fn));clf();plot(img_unshifted[32,:],'.');spause()
-                        #img = np.log(0.001+images[k])
+                    img = img_unshifted
 
+                    #if fn == 'z':
+                    #    img = np.log10(0.001+img)
 
-                        if fn in Img_prev:
-                            img_zeros = img_unshifted==0
-                            img_unshifted[img_zeros] = Img_prev[fn][img_zeros]
+                    use_img = img
+                    Img_prev[fn] = use_img.copy()
 
-
-
-
-                    else:
-                        img_unshifted = Images[fn][k]
-                    """
-                    if True:
-                        img = 0* img_unshifted
-                        img[:,512:] = img_unshifted[:,pi_index:pi_index+512]
-                        img[:,512-pi_index:512] = img_unshifted[:,0:pi_index]
-                        img[:,0:512-pi_index] = img_unshifted[:,1024-(512-pi_index):1024]
-                    else:
-                        img *= 0
-                        for l in range(1024):
-                            img[:,l] = Images[fn][k][:,h[l]]
-                    """
-                    img=img_unshifted
-                    #img[img<0.25] = 0.25
-                    #img[img>3.0] = 3.0
-                    if not corrupt_frame:
-                        use_img = img
-                        #mci(get_cv2_img(img),delay=100,title=fn,scale=3)
-                        Img_prev[fn] = use_img.copy()
-                        #cg(fn,fn in Img_prev)
-                    else:
+                    if corrupt_frame:
                         cr("corrupt frame",fn)
-                        #cr(fn,fn in Img_prev)
-                        #use_img = Img_prev[fn]
-                        use_img = img
-                        Img_prev[fn] = use_img.copy()
-                        
-                        #do_break = True
-                        #break
 
                     img_stack = np.concatenate((img_stack,z2o(use_img),spacer))
-                #if corrupt_frame:
-                    
 
+                    
                 mci(get_cv2_img(img_stack),delay=100,title='data',scale=3)
-                #if corrupt_frame:
-                #    raw_enter()
-                    #mi(img,fn)
-                    #figure(fn+' 2');clf()
-                    #plot(Images[fn][k].transpose(1,0),',')
-                #raw_enter()
+
         #else:
         except:
-            #cs('exception',calls)
             exc_type, exc_obj, exc_tb = sys.exc_info()
             file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             CS_('Exception!',emphasis=True)

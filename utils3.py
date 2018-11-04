@@ -189,7 +189,7 @@ def cs(*args):
 
 
 
-for color in ['red','green','blue']:
+for color in ['red','yellow','green','blue']:
 	an_exec_string = """
 
 def cQ(*args):
@@ -963,6 +963,14 @@ if True:#username != 'nvidia':
 				Arguments[a] = int(ar)
 			else:
 				Arguments[a] = ar
+
+def print_Arguments():
+	if len(Arguments) > 0:
+		cg("\nArguments")
+		for k in Arguments:
+		    cb(d2n('\t',k,':',Arguments[k],' (',type(Arguments[k]),')'))
+	else:
+		cr('No Arguments')
 
 identify_file_str = """
 if '__file__' not in locals():
