@@ -99,7 +99,20 @@ def Image_Stack(_,fields_to_show):
                 img = img_unshifted
 
                 use_img = img
-
+                
+                if fn  in ['z']:
+                    r = use_img
+                    i = r>5.0
+                    r[i]=5.0
+                    r[0,0],r[0,1] = 0,5.1
+                    use_img = r
+                elif fn  in ['reflectivity']:
+                    r = use_img
+                    i = r>50.0
+                    r[i]=50.0
+                    r[0,0],r[0,1] = 0,50.1
+                    use_img = r
+                
                 Img_prev[fn] = use_img.copy()
 
                 if corrupt_frame:
