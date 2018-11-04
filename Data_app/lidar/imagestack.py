@@ -16,7 +16,7 @@ def get_cv2_img(img):
 
 
 
-def Image_Stack(_,fields_to_show):
+def Image_Stack(_,fields_to_show,scale=1):
 
     D = {}
 
@@ -121,7 +121,7 @@ def Image_Stack(_,fields_to_show):
                 img_stack = np.concatenate((img_stack,z2o(use_img),spacer))
 
                 
-            mci(get_cv2_img(img_stack),delay=100,title='data',scale=3)
+            mci(get_cv2_img(img_stack),delay=100,title='data',scale=scale)
             #mi(img_stack)
             #raw_enter()
         #else:
