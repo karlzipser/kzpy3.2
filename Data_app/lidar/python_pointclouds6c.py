@@ -20,7 +20,7 @@ names = [
     "intensity",
     "ring",
 ]
-
+height = 64
 ########################################################
 #
 A = Arguments
@@ -85,6 +85,7 @@ if A['mode'] == 'live':
         global calls
         calls += 1
         p = list(pc2.read_points(msg,skip_nans=False,field_names=field_names))
+        print shape(p)
         p = na(p)
         p[np.isnan(p)] = 0
         P.append(p)
@@ -120,12 +121,13 @@ if A['mode'] == 'live':
             calls_ = calls
             if calls_ > calls_prev:
                 p = P[-1]
-                a = np.resize(p,(1024,64,len(field_names)))
-                r = range(1,64,4)
+                #a = np.resize(p,(1024,height,len(field_names)))
+                a = p.reshape(1024,height,len(field_names))
+                r = range(1,height,4)
                 b = a[:,r,:]
                 for i in rlen(field_names):
                     c = b[:,:,i]
-                    d = cv2.resize(c.astype(float),(64,1024))
+                    d = cv2.resize(c.astype(float),(height,1024))
                     e = d.transpose(1,0)
                     Images[field_names[i]].append(e)
                 calls_prev = calls_

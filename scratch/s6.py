@@ -146,4 +146,65 @@ fc0=L['FC0'][:]
 
 ###stop
 
+
+
+
+
+
+
+
+
+
+
+
+offset = 750
+a = na(range(offset,1024)+range(0,offset))
+
+y = (a/1024.*6290).astype(int)
+
+indicies = [Y[v] for v in y]
+
+a_shift = zeros(1024)
+a_shift[indicies] = a
+plot(a,'.');plot(a_shift,'.')
+
+
+
+CA()
+
+# q=p.flatten('F')
+
+offset = 200
+
+p=zeros((64,1024))
+
+p[:,:] = [range(offset,1024)+range(0,offset)]
+
+b = p[0:64:4,:]
+
+c.reshape(16,1024)
+
+y = (a[8,:]/1024.*6290).astype(int)
+
+figure(1);plot(y,'g')
+
+indicies = [Y[v] for v in y]
+
+a_shift = zeros((64,1024))
+
+a_shift[:,indicies] = a
+
+mi(a,'a')
+mi(a_shift,'a_shift')
+
+
+
+
+
+
+
+
+
+
+
 #EOF

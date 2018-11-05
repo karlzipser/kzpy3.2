@@ -2,7 +2,9 @@
 
 from kzpy3.vis3 import *
 
-
+h_angle = 'y'
+r_range = 'z'
+width = 1024
 
 def get_cv2_img(img):
     img = (256*z2o(img)).astype(np.uint8)
@@ -23,7 +25,7 @@ def Image_Stack(_,fields_to_show,scale=1):
     Y = {}
     mx = 6290
     for d in range(0,mx):
-        v = int(1024 * d / (1.0*mx))
+        v = int(width * d / (1.0*mx))
         if v > 1023:
             v = 1023
         Y[d] = v
@@ -34,8 +36,8 @@ def Image_Stack(_,fields_to_show,scale=1):
             j = Y[i]
         Y[i] = j
 
-    D['Y'] = Y
-    D['spacer'] = zeros((16,1024))+0.5
+    D[h_angle] = Y
+    D['spacer'] = zeros((16,width))+0.5
     D['Img_prev'] = {}
     D['fields_to_show'] = fields_to_show
 
@@ -44,7 +46,7 @@ def Image_Stack(_,fields_to_show,scale=1):
     def _show(Image):
 
         if 'check in':
-            Y = D['Y']
+            Y = D[h_angle]
             spacer = D['spacer']
             Img_prev = D['Img_prev']
 
@@ -55,25 +57,25 @@ def Image_Stack(_,fields_to_show,scale=1):
             
             corrupt_frame = False
 
-            y = Image['y'][32,:]
-            dy_bad_min = 2*np.pi / 1024.0 * 2
+            y = Image[h_angle][8,:]
+            dy_bad_min = 2*np.pi / width * 2.0
             dy_bad_max = 1.9*np.pi
             for i in range(1,len(y)):
                 dy = y[i]-y[i-1]
                 if dy > dy_bad_min and dy < dy_bad_max:
                     corrupt_frame = True
 
-            g = (Image['y'][32,:]*1000).astype(int)
+            g = (Image[h_angle][8,:]*1000).astype(int)
 
-            h = zeros(1024,int)
+            h = zeros(width,int)
 
             prev = 0
             for j in rlen(g):
                 if g[j] in Y:
                     h[j] = Y[g[j]]
                     temp = h[j]-prev
-                    if temp != 1:
-                        print temp
+                    #if temp != 1:
+                    #    print temp
                     if h[j]-prev == 2:
                         h[j] = h[j]-1
                     prev = h[j]
@@ -88,7 +90,7 @@ def Image_Stack(_,fields_to_show,scale=1):
 
                 img_unshifted = img * 0
 
-                for l in range(1024):
+                for l in range(width):
                     img_unshifted[:,h[l]] = img[:,l]
 
                 if corrupt_frame:
@@ -100,13 +102,13 @@ def Image_Stack(_,fields_to_show,scale=1):
 
                 use_img = img
                 
-                if fn  in ['z']:
+                if fn in [r_range]:
                     r = use_img
                     i = r>5.0
                     r[i]=5.0
                     r[0,0],r[0,1] = 0,5.1
                     use_img = r
-                elif fn  in ['reflectivity']:
+                elif fn  in [' reflectivity']:
                     r = use_img
                     i = r>50.0
                     r[i]=50.0
@@ -115,8 +117,8 @@ def Image_Stack(_,fields_to_show,scale=1):
                 
                 Img_prev[fn] = use_img.copy()
 
-                if corrupt_frame:
-                    cr("corrupt frame",fn)
+                #if corrupt_frame:
+                #    cr("corrupt frame",fn)
 
                 img_stack = np.concatenate((img_stack,z2o(use_img),spacer))
 
