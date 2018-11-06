@@ -16,6 +16,7 @@ Output = {}
 A = {}
 A['use_images'] = 0
 A['time'] = 10
+A['calls_skip'] = 0
 for a in Arguments:
     A[a] = Arguments[a]
 
@@ -26,6 +27,7 @@ timer = Timer(A['time'])
 
 calls = 0
 calls_prev = 0
+calls_skip = 0
 
 if TX1:
     #field_names = ['t','reflectivity']
@@ -150,11 +152,11 @@ def process_calback_data():
 
 
 def pointcloud_thread():
-    global calls_prev
+    global calls_prev, calls_skip
     print_Arguments()
 
     while calls < 1:
-        waiting.message('waiting for data...')
+        waiting.message('waiting for LIDAR data...')
         time.sleep(0.01)
 
     timer.reset()
@@ -166,23 +168,29 @@ def pointcloud_thread():
 
             #cg(calls_)
             #cb(calls_prev)
-            if True:#calls_ > calls_prev:
+            if calls_ > calls_prev:
 
                 freq_timer.freq()
         
                 Output['e'] = process_calback_data()
-
+                #print calls_skip
                 if A['use_images']:
-                    #figure('d');clf();plot(d);xlim(0,(width-1))
-                    #figure('d2');clf();plot(d2);xlim(0,(width-1));spause()#;raw_enter()
-                    #mi(Output['e'].transpose(1,0));spause()#;raw_enter()
-                    mci(
-                        (z2o(Output['e'].transpose(1,0))*255).astype(np.uint8),
-                        scale=2.0,
-                        color_mode=cv2.COLOR_GRAY2BGR,
-                    )
+                    if A['calls_skip'] == calls_skip:
+                        #cb('call taken')
+                        calls_skip = 0
+                            #figure('d');clf();plot(d);xlim(0,(width-1))
+                            #figure('d2');clf();plot(d2);xlim(0,(width-1));spause()#;raw_enter()
+                            #mi(Output['e'].transpose(1,0));spause()#;raw_enter()
+                        mci(
+                            (z2o(Output['e'].transpose(1,0))*255).astype(np.uint8),
+                            scale=2.0,
+                            color_mode=cv2.COLOR_GRAY2BGR,
+                        )
+                    else:
+                        calls_skip += 1
 
-            calls_prev = calls_
+                calls_prev = calls_
+                
 
         except:
             cs('exception',calls)
