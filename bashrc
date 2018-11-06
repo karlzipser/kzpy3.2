@@ -53,6 +53,14 @@ alias Train40='ulimit -Sn 65000; python ~/kzpy3/Train_app/Train_SqueezeNet_15Sep
 
 alias Localization='python ~/kzpy3/Localization_app/Main.py'
 
+
+
+
+alias bags='cd ~/Desktop/tegra-ubuntu_02Nov18_21h42m51s; rosbag play *.bag; rosbag play *.bag; rosbag play *.bag; rosbag play *.bag; rosbag play *.bag; rosbag play *.bag; rosbag play *.bag; rosbag play *.bag; rosbag play *.bag; rosbag play *.bag; rosbag play *.bag; rosbag play *.bag; rosbag play *.bag; rosbag play *.bag; '
+
+
+
+
 ######################## for .bashrc from MacBook #################
 #
 alias gacp="git add .;git commit -m 'gacp';git push origin master"
