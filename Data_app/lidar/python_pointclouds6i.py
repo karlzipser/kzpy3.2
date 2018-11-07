@@ -12,7 +12,9 @@ import rospy
 TX1 = False
 if username == 'nvidia':
     TX1 = True
-    cs("Using TX1")
+if 'TX1' in Arguments:
+    if not Arguments['TX1']:
+        TX1 = False
 
 Output = {}
 
@@ -144,6 +146,9 @@ def process_callback_data():
 
 cr(time.time())
 
+net_input_width = 168
+net_input_height = 94
+
 def pointcloud_thread():
     global calls_prev, calls_skip
 
@@ -170,6 +175,42 @@ def pointcloud_thread():
         
                 #Output['e'] = process_callback_data()
                 Output['d2'] = process_callback_data()
+
+
+
+
+
+
+                d2 = Output['d2']
+                shape_ = shape(d2)# == (16,1024)
+                #print 'shape_',shape_
+                width,height = shape_[0],shape_[1]
+                #print 'width',width
+                #print 'height',height
+                assert width in [512,1024]
+                assert height == 16
+
+                half_widths = [int(100*width/360./2),int(180*width/360./2),int(270*width/360./2)]
+                # can be moved up if width known
+
+                e = []
+                for i in [0,1,2]:
+                    half_width = half_widths[i]
+                    f = cv2.resize(
+                            d2[width/2 - half_width:width/2 + half_width, :],
+                            (net_input_height,net_input_width)
+                        ).transpose(1,0)
+                    f = (255*z2o(f)).astype(int)
+                    e.append(f)
+
+                Output['e'] = e
+
+
+
+
+
+
+
 
                 if A['use_images']:
                     if A['calls_skip'] == calls_skip:

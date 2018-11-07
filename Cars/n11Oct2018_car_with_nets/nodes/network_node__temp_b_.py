@@ -260,7 +260,7 @@ def lrcat(l,r):
 #
 # from kzpy3.vis3 import *
 
-import kzpy3.Data_app.lidar.python_pointclouds6i as ppc
+import kzpy3.Data_app.lidar.python_pointclouds6i_ as ppc
 
 for a in Arguments:
     ppc.A[a] = Arguments[a]
@@ -279,17 +279,17 @@ net_input_height = 94
 while not rospy.is_shutdown():
 
     time.sleep(0.001)
-    #Hz = frequency_timer.freq(name='network',do_print=True)
+    Hz = frequency_timer.freq(name='network',do_print=True)
 
     if True:##human_agent == 0 and drive_mode == 1:
         if len(left_list) > nframes + 2:
 
             e = []
-            Hz = frequency_timer.freq(name='network',do_print=True)
+
             ##############################################
             #
             # while ppc.A['ABORT'] == False:
-            
+
             if 'd2'  in ppc.Output:
                 d2 = ppc.Output['d2']
                 shape_ = shape(d2)# == (16,1024)

@@ -45,6 +45,8 @@ if 'Torch_network' not in locals():
     current_steer = 49
     current_motor = 49
     button_just_changed = False
+    left_calls = 0
+    left_calls_prev = 0
 
     def send_image_to_list(lst,data):
         cimg = bridge.imgmsg_to_cv2(data,"bgr8")
@@ -55,8 +57,9 @@ if 'Torch_network' not in locals():
         send_image_to_list(right_list,data)
 
     def left_callback(data):
-        global left_list
+        global left_list, left_calls
         send_image_to_list(left_list,data)
+        left_calls += 1
 
     def human_agent_callback(msg):
         global human_agent
@@ -274,98 +277,68 @@ threading.Thread(target=ppc.pointcloud_thread,args=[]).start()
 
 net_input_width = 168
 net_input_height = 94
-
+waiting = Timer(1)
 
 while not rospy.is_shutdown():
 
     time.sleep(0.001)
-    #Hz = frequency_timer.freq(name='network',do_print=True)
+    
+    
+    if (left_calls > left_calls_prev) and (len(left_list) > nframes + 1):##human_agent == 0 and drive_mode == 1:
+        
+        #cg(left_calls,left_calls_prev,len(left_list))
 
-    if True:##human_agent == 0 and drive_mode == 1:
-        if len(left_list) > nframes + 2:
+        frequency_timer.freq(name='network',do_print=True)
 
-            e = []
-            Hz = frequency_timer.freq(name='network',do_print=True)
-            ##############################################
-            #
-            # while ppc.A['ABORT'] == False:
+        
+
+    
+        Lists = {}
+        Lists['left'] = left_list[-2:]
+        Lists['right'] = right_list[-2:]
+        rLists = {}
+        rLists['left'] = []
+        rLists['right'] = []
+        for side in ['left','right']:
+            for i in [-1,-2]:
+                rLists[side].append( cv2.resize(Lists[side][i],(net_input_width,net_input_height)) )
+        #left_call_dic[left_calls] = rLists
+        
+        if 'e' in ppc.Output:
+            e = ppc.Output['e']
+            if len(e) == 3:
+
+                rLists['left'][-2][:,:,1] = e[0]
+                rLists['left'][-2][:,:,2] = e[1]
+
+                rLists['right'][-2][:,:,1] = e[0]
+                rLists['right'][-2][:,:,2] = e[1]
+
+                rLists['right'][-1][:,:,1] = e[2]
+                rLists['right'][-1][:,:,2] = e[2]
+
+        if 'show_net_input' in ppc.A:
+            l0 = rgbcat(rLists,'left',-1)
+            ln1 = rgbcat(rLists,'left',-2)
+            r0 = rgbcat(rLists,'right',-1)
+            rn1 = rgbcat(rLists,'right',-2)
+            l = tcat(l0,ln1)
+            r = tcat(r0,rn1)
+            lr = lrcat(l,r)
             
-            if 'd2'  in ppc.Output:
-                d2 = ppc.Output['d2']
-                shape_ = shape(d2)# == (16,1024)
-                #print 'shape_',shape_
-                width,height = shape_[0],shape_[1]
-                #print 'width',width
-                #print 'height',height
-                assert width in [512,1024]
-                assert height == 16
-
-                half_widths = [int(100*width/360./2),int(180*width/360./2),int(270*width/360./2)]
-                # can be moved up if width known
-
-                e = []
-                for i in [0,1,2]:
-                    half_width = half_widths[i]
-                    f = cv2.resize(
-                            d2[width/2 - half_width:width/2 + half_width, :],
-                            (net_input_height,net_input_width)
-                        ).transpose(1,0)
-                    f = (255*z2o(f)).astype(int)
-                    e.append(f)
-                    """
-                    mci(
-                        (z2o(e[i].transpose(1,0))*255).astype(np.uint8),
-                        scale=1.0,
-                        color_mode=cv2.COLOR_GRAY2BGR,
-                        title=d2s('LIDAR','intensity',int(half_widths[i]*2*360/(1.0*width)),'degrees')
-                    )
-                    """
-                #mi(ppc.Output['e'].transpose(1,0));spause()
-                #cr(shape(ppc.Output['e']))
-            #cg("pc_main.py")
-            #
-            ##############################################
-
-            if True: # 600-900 Hz / 395 Hz
-                Lists = {}
-                Lists['left'] = left_list[-2:]
-                Lists['right'] = right_list[-2:]
-                rLists = {}
-                rLists['left'] = []
-                rLists['right'] = []
-                for side in ['left','right']:
-                    for i in [-1,-2]:
-                        rLists[side].append( cv2.resize(Lists[side][i],(net_input_width,net_input_height)) )
-
-                if len(e) == 3:
-
-                    rLists['left'][-2][:,:,1] = e[0]
-                    rLists['left'][-2][:,:,2] = e[1]
-
-                    rLists['right'][-2][:,:,1] = e[0]
-                    rLists['right'][-2][:,:,2] = e[1]
-
-                    rLists['right'][-1][:,:,1] = e[2]
-                    rLists['right'][-1][:,:,2] = e[2]
-
-                l0 = rgbcat(rLists,'left',-1)
-                ln1 = rgbcat(rLists,'left',-2)
-                r0 = rgbcat(rLists,'right',-1)
-                rn1 = rgbcat(rLists,'right',-2)
-                l = tcat(l0,ln1)
-                r = tcat(r0,rn1)
-                lr = lrcat(l,r)
-                
-                if 'show_net_input' in ppc.A:
-                    if ppc.A['show_net_input']:
-                        mci((z2o(lr)*255).astype(np.uint8),scale=1.0,color_mode=cv2.COLOR_GRAY2BGR,title='ZED')
-
+            
+            if ppc.A['show_net_input']:
+                mci((z2o(lr)*255).astype(np.uint8),scale=1.0,color_mode=cv2.COLOR_GRAY2BGR,title='ZED')
+            """
             else: # 310 Hz  / 110 Hz
                 #camera_data = Torch_network['format_camera_data'](left_list,right_list)
                 frequency_timer.freq(name='with scale',do_print=True)
+            """
+        left_calls_prev = left_calls
 
     else:
-        time.sleep(0.1)
+        #cr(left_calls,left_calls_prev,len(left_list))#waiting.message('waiting for ZED data...')
+        time.sleep(0.001)
 
 
 """
