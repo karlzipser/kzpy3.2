@@ -119,33 +119,28 @@ def process_callback_data():
 
     indicies = [Y[v] for v in y]
 
-    #d = 0*b
-    #d[indicies,:] = b
 
     d2 = b2*0
     d2[indicies,:] = b2
 
-    #if d2_prev == False:
-    #    d2_prev = d2.copy()
-
     for i in range(1,len(d2)):
 
-        #if d[i,0] == 0:
-        #    d[i,:] = d[i-1,:]
 
         if d2[i,0] == 0:
             try:
                 d2[i,:] = d2_prev[i,:]#d2[i-1,:]
             except:
                 d2[i,:] = d2[i-1,:]
+    """
     if TX1:
         e = cv2.resize(d2[68:448,:],(94,168))
     else:
         e = cv2.resize(d2,(64,1024))
-
+    """
     d2_prev = d2.copy()
 
-    return e
+#    return e
+    return d2
 
 cr(time.time())
 
@@ -169,21 +164,16 @@ def pointcloud_thread():
         try:
             calls_ = calls
 
-            #cg(calls_)
-            #cb(calls_prev)
             if calls_ > calls_prev:
 
-                freq_timer.freq()
+                freq_timer.freq("LIDAR")
         
-                Output['e'] = process_callback_data()
-                #print calls_skip
+                #Output['e'] = process_callback_data()
+                Output['d2'] = process_callback_data()
+
                 if A['use_images']:
                     if A['calls_skip'] == calls_skip:
-                        #cb('call taken')
                         calls_skip = 0
-                            #figure('d');clf();plot(d);xlim(0,(width-1))
-                            #figure('d2');clf();plot(d2);xlim(0,(width-1));spause()#;raw_enter()
-                            #mi(Output['e'].transpose(1,0));spause()#;raw_enter()
                         mci(
                             (z2o(Output['e'].transpose(1,0))*255).astype(np.uint8),
                             scale=2.0,

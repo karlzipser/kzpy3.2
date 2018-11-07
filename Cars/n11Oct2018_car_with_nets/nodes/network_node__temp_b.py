@@ -116,7 +116,7 @@ if 'Torch_network' not in locals():
     rospy.Subscriber('/bair_car/drive_mode', std_msgs.msg.Int32, callback=drive_mode_callback)
     rospy.Subscriber('/bair_car/button_number', std_msgs.msg.Int32, callback=button_number_callback)
 
-    frequency_timer = Timer(1.0)
+    frequency_timer = Timer(5.0)
     print_timer = Timer(5)
 
     Hz = 0
@@ -272,13 +272,59 @@ threading.Thread(target=ppc.pointcloud_thread,args=[]).start()
 #
 ##############################################
 
+net_input_width = 168
+net_input_height = 94
+
+
 while not rospy.is_shutdown():
 
     time.sleep(0.001)
-    Hz = frequency_timer.freq(name='Hz_network',do_print=False)
+    Hz = frequency_timer.freq(name='network',do_print=True)
 
     if True:##human_agent == 0 and drive_mode == 1:
         if len(left_list) > nframes + 2:
+
+            e = []
+
+            ##############################################
+            #
+            # while ppc.A['ABORT'] == False:
+
+            if 'd2'  in ppc.Output:
+                d2 = ppc.Output['d2']
+                shape_ = shape(d2)# == (16,1024)
+                #print 'shape_',shape_
+                width,height = shape_[0],shape_[1]
+                #print 'width',width
+                #print 'height',height
+                assert width in [512,1024]
+                assert height == 16
+
+                half_widths = [int(100*width/360./2),int(180*width/360./2),int(270*width/360./2)]
+                # can be moved up if width known
+
+                e = []
+                for i in [0,1,2]:
+                    half_width = half_widths[i]
+                    f = cv2.resize(
+                            d2[width/2 - half_width:width/2 + half_width, :],
+                            (net_input_height,net_input_width)
+                        ).transpose(1,0)
+                    f = (255*z2o(f)).astype(int)
+                    e.append(f)
+                    """
+                    mci(
+                        (z2o(e[i].transpose(1,0))*255).astype(np.uint8),
+                        scale=1.0,
+                        color_mode=cv2.COLOR_GRAY2BGR,
+                        title=d2s('LIDAR','intensity',int(half_widths[i]*2*360/(1.0*width)),'degrees')
+                    )
+                    """
+                #mi(ppc.Output['e'].transpose(1,0));spause()
+                #cr(shape(ppc.Output['e']))
+            #cg("pc_main.py")
+            #
+            ##############################################
 
             if True: # 600-900 Hz / 395 Hz
                 Lists = {}
@@ -289,7 +335,18 @@ while not rospy.is_shutdown():
                 rLists['right'] = []
                 for side in ['left','right']:
                     for i in [-1,-2]:
-                        rLists[side].append( cv2.resize(Lists[side][i],(168,94)) )
+                        rLists[side].append( cv2.resize(Lists[side][i],(net_input_width,net_input_height)) )
+
+                if len(e) == 3:
+
+                    rLists['left'][-2][:,:,1] = e[0]
+                    rLists['left'][-2][:,:,2] = e[1]
+
+                    rLists['right'][-2][:,:,1] = e[0]
+                    rLists['right'][-2][:,:,2] = e[1]
+
+                    rLists['right'][-1][:,:,1] = e[2]
+                    rLists['right'][-1][:,:,2] = e[2]
 
                 l0 = rgbcat(rLists,'left',-1)
                 ln1 = rgbcat(rLists,'left',-2)
@@ -298,24 +355,10 @@ while not rospy.is_shutdown():
                 l = tcat(l0,ln1)
                 r = tcat(r0,rn1)
                 lr = lrcat(l,r)
-                                        
-                mci((z2o(lr)*255).astype(np.uint8),scale=1.0,color_mode=cv2.COLOR_GRAY2BGR,title='ZED')
-
-            ##############################################
-            #
-            # while ppc.A['ABORT'] == False:
-                if 'e'  in ppc.Output:
-                    mci(
-                        (z2o(ppc.Output['e'].transpose(1,0))*255).astype(np.uint8),
-                        scale=1.0,
-                        color_mode=cv2.COLOR_GRAY2BGR,
-                        title='LIDAR'
-                    )
-                    #mi(ppc.Output['e'].transpose(1,0));spause()
-                    #cr(shape(ppc.Output['e']))
-            #cg("pc_main.py")
-            #
-            ##############################################
+                
+                if 'show_net_input' in ppc.A:
+                    if ppc.A['show_net_input']:
+                        mci((z2o(lr)*255).astype(np.uint8),scale=1.0,color_mode=cv2.COLOR_GRAY2BGR,title='ZED')
 
             else: # 310 Hz  / 110 Hz
                 #camera_data = Torch_network['format_camera_data'](left_list,right_list)
@@ -332,6 +375,17 @@ CS_("doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))")
 time.sleep(0.01)
 unix(opjh('kzpy3/scripts/kill_ros.sh'))
 #default_values.EXIT(restart=False,shutdown=False,kill_ros=True,_file_=__file__)
+
+
+    term 1
+    roscore
+    term 2
+    cd '/home/karlzipser/Desktop/tegra-ubuntu_02Nov18_21h42m51s'
+    bags
+    term 3
+    python kzpy3/Cars/n11Oct2018_car_with_nets/nodes/network_node__temp_b.py
+
+python kzpy3
 
 """
 
