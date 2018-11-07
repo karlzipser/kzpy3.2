@@ -234,6 +234,9 @@ def Torch_Network(N):
 
 Torch_network = Torch_Network(N)
 
+
+
+
 rgb_spacer = zeros((94,2),np.uint8)+128
 t_spacer = zeros((4,508),np.uint8)+128
 lr_spacer = zeros((200,8),np.uint8)+128
@@ -245,39 +248,34 @@ def rgbcat(L,s,t):
 
 
 def tcat(t0,tn1):
-    #return np.concatenate( (t_spacer,t0,t_spacer,tn1,t_spacer), axis=0)
-    return np.concatenate( (t0,tn1), axis=0)
+    return np.concatenate( (t_spacer,t0,t_spacer,tn1,t_spacer), axis=0)
+    #return np.concatenate( (t0,tn1), axis=0)
 
 
 def lrcat(l,r):
-    #return np.concatenate( (lr_spacer,l,lr_spacer,r,lr_spacer), axis=1)
-    return np.concatenate( (l,r), axis=1)
-"""
-l0 = rgbcat(Lists,'left',-1)
-ln1 = rgbcat(Lists,'left',-2)
-r0 = rgbcat(Lists,'right',-1)
-rn1 = rgbcat(Lists,'right',-2)
-l = tcat(l0,ln1)
-r = tcat(r0,rn1)
-lr = lrcat(l,r)
-"""
+    return np.concatenate( (lr_spacer,l,lr_spacer,r,lr_spacer), axis=1)
+    #return np.concatenate( (l,r), axis=1)
 
-"""
-waiting = Timer(1)
-while len(left_list) < 3:
-    waiting.message('waiting for camera data...')
-    time.sleep(1)
-"""
+##############################################
+#
+# from kzpy3.vis3 import *
+
+import kzpy3.Data_app.lidar.python_pointclouds6i as ppc
+
+for a in Arguments:
+    ppc.A[a] = Arguments[a]
+
+#ppc.rospy.init_node('receive_pointclouds')
+ppc.rospy.Subscriber('/os1_node/points', ppc.PointCloud2, ppc.points__callback)
+
+threading.Thread(target=ppc.pointcloud_thread,args=[]).start()
+#
+##############################################
 
 while not rospy.is_shutdown():
 
-
-
     time.sleep(0.001)
     Hz = frequency_timer.freq(name='Hz_network',do_print=False)
-
-
-
 
     if True:##human_agent == 0 and drive_mode == 1:
         if len(left_list) > nframes + 2:
@@ -301,22 +299,33 @@ while not rospy.is_shutdown():
                 r = tcat(r0,rn1)
                 lr = lrcat(l,r)
                                         
-                mci((z2o(lr)*255).astype(np.uint8),scale=1.0,color_mode=cv2.COLOR_GRAY2BGR)
+                mci((z2o(lr)*255).astype(np.uint8),scale=1.0,color_mode=cv2.COLOR_GRAY2BGR,title='ZED')
 
-                """
-		        mi(np.concatenate((Lists['left'][-1][:,:,0],Lists['left'][-1][:,:,1],Lists['left'][-1][:,:,1]),axis=1)) #,Lists['right'][-1],Lists['right'][-2]),axis=1))
-                camera_data = Torch_network['format_camera_data__no_scale'](Lists['left'],Lists['right'])
-                frequency_timer.freq(name='no scale',do_print=True)
-                """
+            ##############################################
+            #
+            # while ppc.A['ABORT'] == False:
+                if 'e'  in ppc.Output:
+                    mci(
+                        (z2o(ppc.Output['e'].transpose(1,0))*255).astype(np.uint8),
+                        scale=1.0,
+                        color_mode=cv2.COLOR_GRAY2BGR,
+                        title='LIDAR'
+                    )
+                    #mi(ppc.Output['e'].transpose(1,0));spause()
+                    #cr(shape(ppc.Output['e']))
+            #cg("pc_main.py")
+            #
+            ##############################################
+
             else: # 310 Hz  / 110 Hz
-                camera_data = Torch_network['format_camera_data'](left_list,right_list)
+                #camera_data = Torch_network['format_camera_data'](left_list,right_list)
                 frequency_timer.freq(name='with scale',do_print=True)
 
     else:
         time.sleep(0.1)
 
 
-
+"""
 
 CS_('goodbye!',__file__)
 CS_("doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))")
@@ -324,8 +333,13 @@ time.sleep(0.01)
 unix(opjh('kzpy3/scripts/kill_ros.sh'))
 #default_values.EXIT(restart=False,shutdown=False,kill_ros=True,_file_=__file__)
 
-
+"""
 
 #EOF
 
-    
+
+
+
+
+
+

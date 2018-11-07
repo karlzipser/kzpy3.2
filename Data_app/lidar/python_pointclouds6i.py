@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 
 from kzpy3.vis3 import *
+
+cr(time.time())
+
 import sensor_msgs
 from sensor_msgs.msg import PointCloud2
 import sensor_msgs.point_cloud2 as pc2
@@ -14,16 +17,16 @@ if username == 'nvidia':
 Output = {}
 
 A = {}
+A['ABORT'] = False
 A['use_images'] = 0
-A['time'] = 10
+#A['time'] = 10
 A['calls_skip'] = 0
 for a in Arguments:
     A[a] = Arguments[a]
 
-
 waiting = Timer(1)
 freq_timer = Timer(5);
-timer = Timer(A['time'])
+
 
 calls = 0
 calls_prev = 0
@@ -40,11 +43,9 @@ else:
 height = 16
 width_times_height = width * height
 
-
 for f in field_names:
     A[f] = zeros((width,height))
-
-
+cr(time.time())
 ######################################
 #
 Y = {}
@@ -65,9 +66,7 @@ for i in range(sorted(Y.keys())[-1]):
 Y[np.nan] = 0
 #
 ######################################
-
-
-
+cr(time.time())
 def points__callback(msg):
     global calls
     #calls += 1
@@ -99,14 +98,13 @@ def points__callback(msg):
             ctr2 = 0
 
     calls += 1
+cr(time.time())
 
-rospy.init_node('receive_pointclouds')
-rospy.Subscriber('/os1_node/points', PointCloud2, points__callback)
 
 
 d2_prev = None
 
-def process_calback_data():
+def process_callback_data():
 
     global d2_prev
 
@@ -149,19 +147,24 @@ def process_calback_data():
 
     return e
 
-
+cr(time.time())
 
 def pointcloud_thread():
     global calls_prev, calls_skip
+
+    cg("\nStarting pointcloud_thread()\n")
     print_Arguments()
 
     while calls < 1:
         waiting.message('waiting for LIDAR data...')
         time.sleep(0.01)
 
-    timer.reset()
+    if 'time' in A:
+        cr("timer = Timer(A['time'])")
+        timer = Timer(A['time'])
 
-    while not timer.check():
+
+    while A['ABORT'] == False:#not timer.check():
 
         try:
             calls_ = calls
@@ -172,7 +175,7 @@ def pointcloud_thread():
 
                 freq_timer.freq()
         
-                Output['e'] = process_calback_data()
+                Output['e'] = process_callback_data()
                 #print calls_skip
                 if A['use_images']:
                     if A['calls_skip'] == calls_skip:
@@ -191,6 +194,10 @@ def pointcloud_thread():
 
                 calls_prev = calls_
                 
+            if 'time' in A:
+                if timer.check():
+                    cr("timer.check()")
+                    A['ABORT'] = True
 
         except:
             cs('exception',calls)
@@ -201,36 +208,15 @@ def pointcloud_thread():
     CA();time.sleep(1)
     cg('\npointcloud_thread() exiting.\n\n')
 
+cr(time.time())
 
-
-
-def main():
+if __name__ == '__main__':
+    rospy.init_node('receive_pointclouds')
+    rospy.Subscriber('/os1_node/points', PointCloud2, points__callback)
     threading.Thread(target=pointcloud_thread,args=[]).start()
 
-main()
 
 
-"""
-nc exampe:
-
-tegra-ubuntu> ~ $ nc 192.168.1.251 7501
-
-get_config_txt
-
-{"auto_start_flag": 1, "tcp_port": 7501, "udp_ip": "192.168.1.103", "udp_port_lidar": 7502, "udp_port_imu": 7503, "timestamp_mode": "TIME_FROM_INTERNAL_OSC", "pps_out_mode": "OUTPUT_PPS_OFF", "pps_out_polarity": "ACTIVE_HIGH", "pps_rate": 1, "pps_angle": 360, "pps_pulse_width": 10, "pps_in_polarity": "ACTIVE_HIGH", "lidar_mode": "1024x10", "motor_phase_lock_enable": 0, "motor_phase_offset": 0, "motor_enable": 0, "pulse_mode": "STANDARD", "window_rejection_enable": 0}
-
-set_config_param lidar_mode 512x10
-set_config_param
-
-reinitialize
-
-reinitialize
-
-get_config_txt
-
-{"auto_start_flag": 1, "tcp_port": 7501, "udp_ip": "192.168.1.103", "udp_port_lidar": 7502, "udp_port_imu": 7503, "timestamp_mode": "TIME_FROM_INTERNAL_OSC", "pps_out_mode": "OUTPUT_PPS_OFF", "pps_out_polarity": "ACTIVE_HIGH", "pps_rate": 1, "pps_angle": 360, "pps_pulse_width": 10, "pps_in_polarity": "ACTIVE_HIGH", "lidar_mode": "512x10", "motor_phase_lock_enable": 0, "motor_phase_offset": 0, "motor_enable": 0, "pulse_mode": "STANDARD", "window_rejection_enable": 0}
-
-"""
 
 
 #EOF
