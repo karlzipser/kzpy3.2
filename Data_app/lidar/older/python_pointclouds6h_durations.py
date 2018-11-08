@@ -15,7 +15,7 @@ Output = {}
 
 
 Durations = {}
-durations = ['points__callback']:#,'process_callback_data','pointcloud_thread',]
+durations = ['points__callback']#,'process_callback_data','pointcloud_thread',]
 for d in durations:
     Durations[d] = {}
     Durations[d]['timer'] = Timer()
