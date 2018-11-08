@@ -212,8 +212,14 @@ def print_exposed(Topics,customer):
     print ''
     if 'menu name' in Topics:
         pd2s('##############',customer,'##############')
+    first = True
     for name in sorted(Topics['To Expose'][customer]):
-        print d2n(name,': ',Topics[name],'  '),
+        if first:
+            name_ = ' '+name
+            first = False
+        else:
+            name_ = name
+        print d2n(name_,': ',Topics[name],'  '),
         cprint(type(Topics[name]).__name__,'grey')
     print ''
 
