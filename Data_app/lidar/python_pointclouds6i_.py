@@ -317,7 +317,7 @@ if __name__ == '__main__':
                 #hist(Durations[d]['list'])
                 #spause()
                 cg(d,':',dp(np.median(Durations[d]['list']),1),'ms')
-                show_durations.reset()
+            show_durations.reset()
 
 
 
