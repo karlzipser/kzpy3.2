@@ -204,6 +204,7 @@ def pointcloud_thread():
             CS_('Exception!',emphasis=True)
             CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
     CA();time.sleep(1)
+    A['ABORT'] = True
     cg('\npointcloud_thread() exiting.\n\n')
 
 
