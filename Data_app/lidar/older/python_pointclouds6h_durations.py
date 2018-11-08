@@ -226,6 +226,7 @@ def main():
                         spause()
                         cg(d,':',dp(np.median(Durations[d]['list']),1),'ms')
                         show_durations.reset()
+            return
 
 main()
 
