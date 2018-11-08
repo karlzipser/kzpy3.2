@@ -56,7 +56,7 @@ alias Localization='python ~/kzpy3/Localization_app/Main.py'
 
 
 
-alias bags='cd ~/Desktop/tegra-ubuntu_02Nov18_21h42m51s; rosbag play *.bag; rosbag play *.bag; rosbag play *.bag; rosbag play *.bag; rosbag play *.bag; rosbag play *.bag; rosbag play *.bag; rosbag play *.bag; rosbag play *.bag; rosbag play *.bag; rosbag play *.bag; rosbag play *.bag; rosbag play *.bag; rosbag play *.bag; '
+#alias bags='cd ~/Desktop/tegra-ubuntu_02Nov18_21h42m51s; rosbag play *.bag; rosbag play *.bag; rosbag play *.bag; rosbag play *.bag; rosbag play *.bag; rosbag play *.bag; rosbag play *.bag; rosbag play *.bag; rosbag play *.bag; rosbag play *.bag; rosbag play *.bag; rosbag play *.bag; rosbag play *.bag; rosbag play *.bag; '
 
 
 

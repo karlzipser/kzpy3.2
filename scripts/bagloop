@@ -7,12 +7,18 @@ try:
 except:
 	bagpath = opjk("scripts/__local__/bagpath")
 
-os.system("roscore")
+cg("\nStarting roscore...\n")
+os.system("roscore &")
+time.sleep(3)
+cg("\nShort wait before starting bag loop\n")
+time.sleep(3)
 
 timer = Timer(60*30)
 
 while not timer.check():
-	os.system("rosbag play "+bagpath+"/*.bag")
+	sys_str = "rosbag play "+bagpath+"/*.bag"
+	cg(sys_str)
+	os.system(sys_str)
 
 cg("\nbagloop complete.\n")
 

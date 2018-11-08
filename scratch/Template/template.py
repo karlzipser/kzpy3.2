@@ -25,6 +25,16 @@ except:
 
 ######################################
 # e.g. using Arguments
+"""
+Default_arguments = {
+    'a':123,
+    'b':'temp',
+}
+for d in Default_arguments:
+    assert d in P
+    if d not in Arguments:
+        Arguments[d] = Default_arguments[d]
+"""
 try:
     param = Arguments['param']
 except:
