@@ -5,7 +5,7 @@ from kzpy3.utils3 import *
 try:
 	bagpath = Arguments['path']
 except:
-	bagpath = opjk("scripts/__local__/bagpath")
+	bagpath = opjk("scripts/__local__/bagpath.local")
 
 cg("\nStarting roscore...\n")
 os.system("roscore &")
