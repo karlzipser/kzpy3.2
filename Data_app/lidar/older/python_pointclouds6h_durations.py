@@ -129,7 +129,7 @@ def process_calback_data():
 
     b = A['reflectivity']
     y = (b[:,8]).astype(int)
-    b2 = A['intensity']
+    b2 = A['t'] #A['intensity']
 
 
     indicies = [Y[v] for v in y]
