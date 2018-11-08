@@ -334,11 +334,13 @@ while not rospy.is_shutdown():
                 #camera_data = Torch_network['format_camera_data'](left_list,right_list)
                 frequency_timer.freq(name='with scale',do_print=True)
             """
-        left_calls_prev = left_calls
+        
 
     else:
         #cr(left_calls,left_calls_prev,len(left_list))#waiting.message('waiting for ZED data...')
         time.sleep(0.001)
+
+    left_calls_prev = left_calls
 
 
 """
