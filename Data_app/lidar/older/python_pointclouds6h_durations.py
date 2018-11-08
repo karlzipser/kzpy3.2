@@ -213,6 +213,7 @@ def main():
     threading.Thread(target=pointcloud_thread,args=[]).start()
     show_durations = Timer(5)
     A['hist_durations'] = True
+    A['ABORT'] = False
     if 'hist_durations' in A:
         if A['hist_durations']:
             while A['ABORT'] == False:
