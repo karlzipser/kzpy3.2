@@ -177,7 +177,7 @@ def pointcloud_thread():
 
     while not timer.check():
 
-        try:
+        if True:#try:
             calls_ = calls
 
             #cg(calls_)
@@ -200,7 +200,7 @@ def pointcloud_thread():
 
             calls_prev = calls_
 
-        except:
+        else:#except:
             cs('exception',calls)
             exc_type, exc_obj, exc_tb = sys.exc_info()
             file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
