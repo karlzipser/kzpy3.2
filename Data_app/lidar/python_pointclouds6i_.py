@@ -93,7 +93,7 @@ def points__callback(msg):
     #ary2 = A[field_names[2]]
 
     for point in pc2.read_points(msg,skip_nans=False,field_names=field_names):
-        continue
+        
         if ctr2 == 1:
             if ctr3 >= height-1:
                 ctr3 = 0
