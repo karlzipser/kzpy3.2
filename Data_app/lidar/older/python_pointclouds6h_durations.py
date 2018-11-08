@@ -36,13 +36,11 @@ timer = Timer(A['time'])
 calls = 0
 calls_prev = 0
 
-if TX1:
+
     #field_names = ['t','reflectivity']
     field_names = ['reflectivity','intensity']
-    width = 1024/2
-else:
-    field_names = ['y','intensity']
-    width = 1024
+    width = 512
+
 
 height = 16
 width_times_height = width * height
@@ -88,9 +86,8 @@ def points__callback(msg):
     ary1 = A[field_names[1]]
     
     for point in pc2.read_points(msg,skip_nans=False,field_names=field_names):
-        #if ctr >= 384:
-        #    break
-        ctr2 = 1 ##################
+
+        ctr2 = 1 ################## MODIFICATION
         if ctr2 == 1:
             if ctr3 >= height-1:
                 ctr3 = 0
@@ -108,6 +105,11 @@ def points__callback(msg):
         ctr2 += 1
         if ctr2 >= 4:
             ctr2 = 0
+
+        mi(ary0,0)
+        mi(ary1,1)
+        spause()
+        raw_enter()
 
     calls += 1
 
@@ -154,14 +156,11 @@ def process_calback_data():
                 d2[i,:] = d2_prev[i,:]#d2[i-1,:]
             except:
                 d2[i,:] = d2[i-1,:]
-    if TX1:
-        e = cv2.resize(d2[68:448,:],(94,168))
-    else:
-        e = cv2.resize(d2,(64,1024))
+    e = cv2.resize(d2[68:448,:],(94,168))
 
     d2_prev = d2.copy()
 
-    return d2
+    return e
 
 
 
