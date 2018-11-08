@@ -101,8 +101,9 @@ def points__callback(msg):
                 if ctr3 >= height-1:
                     break
                 ctr = 0
-            ary0[ctr,ctr3] = point[0]  
-            ary1[ctr,ctr3] = point[1]
+            if ctr >=127:
+                ary0[ctr,ctr3] = point[0]  
+                ary1[ctr,ctr3] = point[1]
         ctr2 += 1
         if ctr2 >= 4:
             ctr2 = 0
