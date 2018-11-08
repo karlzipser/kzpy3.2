@@ -161,7 +161,7 @@ def process_calback_data():
 
     d2_prev = d2.copy()
 
-    return e
+    return d2
 
 
 
