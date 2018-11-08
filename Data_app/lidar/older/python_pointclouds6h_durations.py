@@ -42,7 +42,7 @@ t is r
 """
 #field_names = ['t','reflectivity']
 field_names = ['t','reflectivity']#,'intensity']
-width = 512
+width = 256
 
 
 height = 16
