@@ -124,9 +124,9 @@ def process_calback_data():
     global d2_prev
 
 
-b = A['reflectivity']
-y = (b[:,8]).astype(int)
-b2 = A['intensity']
+    b = A['reflectivity']
+    y = (b[:,8]).astype(int)
+    b2 = A['intensity']
 
 
     indicies = [Y[v] for v in y]
