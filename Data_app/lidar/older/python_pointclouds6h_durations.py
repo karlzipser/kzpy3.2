@@ -37,9 +37,9 @@ calls = 0
 calls_prev = 0
 
 
-    #field_names = ['t','reflectivity']
-    field_names = ['reflectivity','intensity']
-    width = 512
+#field_names = ['t','reflectivity']
+field_names = ['reflectivity','intensity']
+width = 512
 
 
 height = 16
