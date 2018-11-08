@@ -53,8 +53,8 @@ for f in field_names:
 ######################################
 #
 Y = {}
-mx = 2*np.pi #6290
-extra = 10
+mx = 2*np.pi*1000.0 #6290
+extra = 1000
 for d in range(0,int(mx+extra)):
     v = int( width*d / (1.0*mx) )
     if v > (width-1):
