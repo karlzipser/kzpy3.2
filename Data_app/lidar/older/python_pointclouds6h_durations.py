@@ -225,7 +225,7 @@ def main():
                         #figure(d);clf()
                         #hist(Durations[d]['list'])
                         #spause()
-                        cg(d,':',dp(np.median(Durations[d]['list']),1),'ms')
+                        #cg(d,':',dp(np.median(Durations[d]['list']),1),'ms')
                         show_durations.reset()
             return
 
