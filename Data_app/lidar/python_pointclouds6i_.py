@@ -93,8 +93,8 @@ def points__callback(msg):
     #ary2 = A[field_names[2]]
 
     for point in pc2.read_points(msg,skip_nans=False,field_names=field_names):
-        break
-        if ctr2 == 1:
+
+        if ctr > 128 and ctr2 == 1:
             if ctr3 >= height-1:
                 ctr3 = 0
                 ctr += 1
@@ -112,7 +112,8 @@ def points__callback(msg):
         if ctr2 >= 4:
             ctr2 = 0
 
-
+        if ctr >= 383:
+            break
 
     calls += 1
 
