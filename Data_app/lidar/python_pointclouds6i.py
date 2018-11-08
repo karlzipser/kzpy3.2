@@ -308,15 +308,16 @@ if __name__ == '__main__':
     rospy.Subscriber('/os1_node/points', PointCloud2, points__callback)
     threading.Thread(target=pointcloud_thread,args=[]).start()
     show_durations = Timer(5)
-    if A['hist_durations']:
-        while A['ABORT'] == False:
-            if show_durations.check():
-                for d in durations:
-                    figure(d);clf()
-                    hist(Durations[d]['list'])
-                    spause()
-                    cg(d,':',dp(np.median(Durations[d]['list']),1),'ms')
-                    show_durations.reset()
+    if 'hist_durations' in A:
+        if A['hist_durations']:
+            while A['ABORT'] == False:
+                if show_durations.check():
+                    for d in durations:
+                        figure(d);clf()
+                        hist(Durations[d]['list'])
+                        spause()
+                        cg(d,':',dp(np.median(Durations[d]['list']),1),'ms')
+                        show_durations.reset()
 
 
 
