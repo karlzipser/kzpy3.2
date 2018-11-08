@@ -123,14 +123,11 @@ def process_calback_data():
 
     global d2_prev
 
-    if TX1:
-        b = A['reflectivity']
-        y = (b[:,8]).astype(int)
-        b2 = A['intensity']
-    else:
-        b = A['y']
-        y = (b[:,8]*1000).astype(int)
-        b2 = A['intensity']
+
+b = A['reflectivity']
+y = (b[:,8]).astype(int)
+b2 = A['intensity']
+
 
     indicies = [Y[v] for v in y]
 
@@ -157,7 +154,7 @@ def process_calback_data():
 
     d2_prev = d2.copy()
 
-    return e
+    return b2#e
 
 
 
@@ -222,7 +219,7 @@ def main():
                         #figure(d);clf()
                         #hist(Durations[d]['list'])
                         #spause()
-                        #cg(d,':',dp(np.median(Durations[d]['list']),1),'ms')
+                        cg(d,':',dp(np.median(Durations[d]['list']),1),'ms')
                         show_durations.reset()
             return
 
