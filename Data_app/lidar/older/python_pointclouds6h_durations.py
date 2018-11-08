@@ -36,9 +36,11 @@ timer = Timer(A['time'])
 calls = 0
 calls_prev = 0
 
+reflectivity is h_angle
+t is r
 
 #field_names = ['t','reflectivity']
-field_names = ['reflectivity','intensity']
+field_names = ['t','reflectivity']#,'intensity']
 width = 512
 
 
