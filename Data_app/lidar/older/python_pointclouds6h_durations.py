@@ -150,7 +150,7 @@ def process_calback_data():
                 d2[i,:] = d2_prev[i,:]#d2[i-1,:]
             except:
                 d2[i,:] = d2[i-1,:]
-    e = cv2.resize(d2[68:448,:],(94,168))
+    e = cv2.resize(d2[128:3*128,:],(94,168))
 
     d2_prev = d2.copy()
 
