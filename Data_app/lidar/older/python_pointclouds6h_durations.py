@@ -41,7 +41,7 @@ reflectivity is h_angle
 t is r
 """
 #field_names = ['t','reflectivity']
-field_names = ['t','reflectivity']#,'intensity']
+field_names = ['t','reflectivity','intensity']
 width = 256
 
 
@@ -87,7 +87,8 @@ def points__callback(msg):
     
     ary0 = A[field_names[0]]
     ary1 = A[field_names[1]]
-    
+    ary2 = A[field_names[2]]
+
     for point in pc2.read_points(msg,skip_nans=False,field_names=field_names):
 
         ctr2 = 1 ################## MODIFICATION
@@ -102,9 +103,9 @@ def points__callback(msg):
                 if ctr3 >= height-1:
                     break
                 ctr = 0
-            
             ary0[ctr,ctr3] = point[0]  
             ary1[ctr,ctr3] = point[1]
+            ary2[ctr,ctr3] = point[2]
         ctr2 += 1
         if ctr2 >= 4:
             ctr2 = 0
@@ -129,7 +130,7 @@ def process_calback_data():
 
     b = A['reflectivity']
     y = (b[:,8]).astype(int)
-    b2 = A['t'] #A['intensity']
+    b2 = A['intensity']# A['t'] #A['intensity']
 
 
     indicies = [Y[v] for v in y]
