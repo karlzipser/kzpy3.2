@@ -111,8 +111,7 @@ def points__callback(msg):
 
 
 
-rospy.init_node('receive_pointclouds')
-rospy.Subscriber('/os1_node/points', PointCloud2, points__callback)
+
 
 Resize = {}
 Resize['a'] = (89,167)
@@ -235,21 +234,20 @@ def pointcloud_thread():
 
 
 if __name__ == '__main__':
+    rospy.init_node('receive_pointclouds')
+    rospy.Subscriber('/os1_node/points', PointCloud2, points__callback)
     threading.Thread(target=pointcloud_thread,args=[]).start()
     show_durations = Timer(5)
-    A['hist_durations'] = True
     A['ABORT'] = False
-    if 'hist_durations' in A:
-        if A['hist_durations']:
-            while A['ABORT'] == False:
-                if show_durations.check():
-                    for d in durations:
-                        #figure(d);clf()
-                        #hist(Durations[d]['list'])
-                        #spause()
-                        cg(d,':',np.median(Durations[d]['list']),'ms')
-                        #cg(d,':',dp(np.median(Durations[d]['list']),1),'ms')
-                        show_durations.reset()
+        while A['ABORT'] == False:
+            if show_durations.check():
+                for d in durations:
+                    #figure(d);clf()
+                    #hist(Durations[d]['list'])
+                    #spause()
+                    cg(d,':',np.median(Durations[d]['list']),'ms')
+                    #cg(d,':',dp(np.median(Durations[d]['list']),1),'ms')
+                    show_durations.reset()
 
 
 
