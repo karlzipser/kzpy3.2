@@ -6,16 +6,10 @@ from sensor_msgs.msg import PointCloud2
 import sensor_msgs.point_cloud2 as pc2
 import rospy
 
-TX1 = False
-if username == 'nvidia':
-    TX1 = True
-    cs("Using TX1")
-
 Output = {}
 
-
 Durations = {}
-durations = ['points__callback']#,'process_callback_data','pointcloud_thread',]
+durations = ['points__callback','process_callback_data','pointcloud_thread',]
 for d in durations:
     Durations[d] = {}
     Durations[d]['timer'] = Timer()
@@ -23,11 +17,10 @@ for d in durations:
 
 
 A = {}
-A['use_images'] = 0
+A['use_images'] = 1
 A['time'] = 10
 for a in Arguments:
     A[a] = Arguments[a]
-
 
 waiting = Timer(1)
 freq_timer = Timer(5);
@@ -39,25 +32,24 @@ calls_prev = 0
 """
 reflectivity is h_angle
 t is r
+intensity is intensity
 """
-#field_names = ['t','reflectivity']
+
 field_names = ['t','reflectivity','intensity']
+
 width = 256
-
-
 height = 16
 width_times_height = width * height
 
-
 for f in field_names:
-    A[f] = zeros((width,height))
+    A[f] = zeros((height,width))
 
 
 ######################################
 #
 Y = {}
-mx = 2*np.pi*1000.0 #6290
-extra = 1000
+mx = 2*np.pi*1000.0
+extra = 500
 for d in range(0,int(mx+extra)):
     v = int( width*d / (1.0*mx) )
     if v > (width-1):
@@ -76,13 +68,16 @@ Y[np.nan] = 0
 
 
 
+
+
+
+
 def points__callback(msg):
     global calls
-    #calls += 1
     dname = 'points__callback'
     Durations[dname]['timer'].reset()    
-    ctr = 0
 
+    ctr = 0
     ctr3 = 0
     
     ary0 = A[field_names[0]]
@@ -96,9 +91,9 @@ def points__callback(msg):
                 break
             ctr = 0
 
-        ary0[ctr,ctr3] = point[0]  
-        ary1[ctr,ctr3] = point[1]
-        ary2[ctr,ctr3] = point[2]
+        ary0[ctr3,ctr] = point[0]  
+        ary1[ctr3,ctr] = point[1]
+        ary2[ctr3,ctr] = point[2]
 
         if ctr3 >= height-1:
             ctr3 = 0
@@ -106,54 +101,81 @@ def points__callback(msg):
         else:
             ctr3 += 1
 
-
     calls += 1
 
     Durations[dname]['list'].append(1000.0*Durations[dname]['timer'].time())
 
 
+
+
+
+
+
 rospy.init_node('receive_pointclouds')
 rospy.Subscriber('/os1_node/points', PointCloud2, points__callback)
 
+Resize = {}
+Resize['a'] = (89,167)
+Resize['b'] = (0,256)
+Resize['c'] = (44,212)
+image_type_versions = ['t','intensity','t']
+#image_type_versions = ['t']
+resize_versions = ['a','b']
+#resize_versions = ['c']
 
-d2_prev = None
+Images = {}
+for image_type in image_type_versions:
+    Images[image_type] = None
 
-def process_calback_data():
+def process_callback_data():
 
-    global d2_prev
+    dname = 'process_callback_data'
+    Durations[dname]['timer'].reset()
 
-
-    b = A['reflectivity']
-    y = (b[:,8]).astype(int)
-    b2 = A['intensity']# A['t'] #A['intensity']
+    y = (A['reflectivity'][8,:]).astype(int)
 
 
-    indicies = [Y[v] for v in y]
 
-    #d = 0*b
-    #d[indicies,:] = b
+    for image_type in image_type_versions:
 
-    d2 = b2*0
-    d2[indicies,:] = b2
 
-    #if d2_prev == False:
-    #    d2_prev = d2.copy()
 
-    for i in range(1,len(d2)):
+        if Images[image_type] == None:
+            Images[image_type] = A[image_type] * 0
 
-        #if d[i,0] == 0:
-        #    d[i,:] = d[i-1,:]
+        indicies = [Y[v] for v in y]
 
-        if d2[i,0] == 0:
-            try:
-                d2[i,:] = d2_prev[i,:]#d2[i-1,:]
-            except:
-                d2[i,:] = d2[i-1,:]
-    e = cv2.resize(d2[128-(168/2):128+(168/2),:],(94,168))
+        Images[image_type][:,indicies] = A[image_type]
 
-    d2_prev = d2.copy()
+        for i in range(1,len(Images[image_type])):
 
-    return e
+            if Images[image_type][0,i] == 0:
+                try:
+                    Images[image_type][:,i] = Images[image_type+'_prev'][:,i]
+                except:
+                    Images[image_type][:,i] = Images[image_type][:,i-1]
+
+
+
+
+
+            
+            d2 = Images[image_type]
+
+            for resize in resize_versions:
+
+                r=Resize[resize]
+
+                Images[image_type+'_resized_'+resize] = cv2.resize(d2[:,r[0]:r[1]],(168,94))
+
+                #Images[image_type+'_resized_'+resize] = cv2.resize(d2[:,128-(168/2):128+(168/2)],(168,94))
+
+            Images[image_type+'_prev'] = Images[image_type].copy()
+
+
+    Durations[dname]['list'].append(1000.0*Durations[dname]['timer'].time())
+
+
 
 
 
@@ -167,28 +189,34 @@ def pointcloud_thread():
 
     timer.reset()
 
+    dname = 'pointcloud_thread'
     while not timer.check():
 
         if True:#try:
             calls_ = calls
 
-            #cg(calls_)
-            #cb(calls_prev)
-            if True:#calls_ > calls_prev:
 
-                freq_timer.freq()
-        
-                Output['e'] = process_calback_data()
+            if calls_ > calls_prev:
+
+                freq_timer.freq('LIDAR ')
+                Durations[dname]['timer'].reset()
+
+                process_callback_data()
+
+                Durations[dname]['list'].append(1000.0*Durations[dname]['timer'].time())
 
                 if A['use_images']:
                     #figure('d');clf();plot(d);xlim(0,(width-1))
                     #figure('d2');clf();plot(d2);xlim(0,(width-1));spause()#;raw_enter()
                     #mi(Output['e'].transpose(1,0));spause()#;raw_enter()
-                    mci(
-                        (z2o(Output['e'].transpose(1,0))*255).astype(np.uint8),
-                        scale=2.0,
-                        color_mode=cv2.COLOR_GRAY2BGR,
-                    )
+                    for image_type in image_type_versions:
+                        for resize in resize_versions:
+                            mci(
+                                (z2o(Images[image_type+'_resized_'+resize])*255).astype(np.uint8),
+                                scale=2.0,
+                                color_mode=cv2.COLOR_GRAY2BGR,
+                                title=image_type+' '+resize
+                            )
 
             calls_prev = calls_
 
@@ -205,7 +233,8 @@ def pointcloud_thread():
 
 
 
-def main():
+
+if __name__ == '__main__':
     threading.Thread(target=pointcloud_thread,args=[]).start()
     show_durations = Timer(5)
     A['hist_durations'] = True
@@ -218,11 +247,12 @@ def main():
                         #figure(d);clf()
                         #hist(Durations[d]['list'])
                         #spause()
-                        cg(d,':',dp(np.median(Durations[d]['list']),1),'ms')
+                        cg(d,':',np.median(Durations[d]['list']),'ms')
+                        #cg(d,':',dp(np.median(Durations[d]['list']),1),'ms')
                         show_durations.reset()
-            return
 
-main()
+
+
 
 
 """
