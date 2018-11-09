@@ -140,7 +140,7 @@ def process_callback_data():
 
 
 
-        if Images[image_type] == None:
+        if type(Images[image_type]) == type(None):
             Images[image_type] = A[image_type] * 0
 
         indicies = [Y[v] for v in y]
