@@ -17,7 +17,7 @@ for d in durations:
 
 
 A = {}
-A['use_images'] = 1
+A['use_images'] = 0
 A['time'] = 10
 for a in Arguments:
     A[a] = Arguments[a]
@@ -118,7 +118,7 @@ Resize['a'] = (89,167)
 Resize['b'] = (0,256)
 Resize['c'] = (44,212)
 #image_type_versions = ['t','intensity','t']
-image_type_versions = ['t']
+image_type_versions = ['t']#['intensity']
 #resize_versions = ['a','b']
 resize_versions = ['c']
 
@@ -163,20 +163,19 @@ def process_callback_data():
 
             for resize in resize_versions:
 
-                r=Resize[resize]
+                r = Resize[resize]
 
                 Images[image_type+'_resized_'+resize] = cv2.resize(d2[:,r[0]:r[1]],(168,94))
 
-                #Images[image_type+'_resized_'+resize] = cv2.resize(d2[:,128-(168/2):128+(168/2)],(168,94))
-
             Images[image_type+'_prev'] = Images[image_type].copy()
-
+            Images[image_type+'_prev_resized_'+resize] = Images[image_type+'_resized_'+resize]
 
     Durations[dname]['list'].append(1000.0*Durations[dname]['timer'].time())
 
 
 
 
+show_durations = Timer(5)
 
 def pointcloud_thread():
     global calls_prev
@@ -191,7 +190,7 @@ def pointcloud_thread():
     dname = 'pointcloud_thread'
     while not timer.check():
 
-        if True:#try:
+        try:
             calls_ = calls
 
 
@@ -219,13 +218,22 @@ def pointcloud_thread():
 
             calls_prev = calls_
 
-        else:#except:
-            cs('exception',calls)
+        
+            if show_durations.check():
+                for d in durations:
+                    #figure(d);clf()
+                    #hist(Durations[d]['list'])
+                    #spause()
+                    #cg(d,':',np.median(Durations[d]['list']),'ms')
+                    cg(d,':',dp(np.median(Durations[d]['list']),1),'ms')
+                show_durations.reset()
+
+        except:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             CS_('Exception!',emphasis=True)
             CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
-    CA();time.sleep(1)
+
     A['ABORT'] = True
     cg('\npointcloud_thread() exiting.\n\n')
 
@@ -239,16 +247,19 @@ if __name__ == '__main__':
     threading.Thread(target=pointcloud_thread,args=[]).start()
     show_durations = Timer(5)
     A['ABORT'] = False
-        while A['ABORT'] == False:
-            if show_durations.check():
-                for d in durations:
-                    #figure(d);clf()
-                    #hist(Durations[d]['list'])
-                    #spause()
-                    cg(d,':',np.median(Durations[d]['list']),'ms')
-                    #cg(d,':',dp(np.median(Durations[d]['list']),1),'ms')
-                    show_durations.reset()
-
+    while A['ABORT'] == False:
+        """
+        if show_durations.check():
+            for d in durations:
+                figure(d);clf()
+                hist(Durations[d]['list'])
+                spause()
+                #cg(d,':',np.median(Durations[d]['list']),'ms')
+                cg(d,':',dp(np.median(Durations[d]['list']),1),'ms')
+                show_durations.reset()
+        """
+        time.sleep(1)
+    CA()
 
 
 
