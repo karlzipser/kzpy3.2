@@ -118,10 +118,10 @@ Resize = {}
 Resize['a'] = (89,167)
 Resize['b'] = (0,256)
 Resize['c'] = (44,212)
-image_type_versions = ['t','intensity','t']
-#image_type_versions = ['t']
-resize_versions = ['a','b']
-#resize_versions = ['c']
+#image_type_versions = ['t','intensity','t']
+image_type_versions = ['t']
+#resize_versions = ['a','b']
+resize_versions = ['c']
 
 Images = {}
 for image_type in image_type_versions:
