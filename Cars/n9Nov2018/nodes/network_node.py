@@ -448,8 +448,8 @@ while not rospy.is_shutdown():
                 adjusted_steer = bound_value(adjusted_steer,0,99)
                 adjusted_camera = bound_value(adjusted_camera,0,99)
                 
-                #print adjusted_steer,adjusted_motor
-
+                print adjusted_steer,adjusted_motor
+                adjusted_motor = 49
                 camera_cmd_pub.publish(std_msgs.msg.Int32(adjusted_camera))
                 steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
                 motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
