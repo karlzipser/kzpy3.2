@@ -316,8 +316,8 @@ while not rospy.is_shutdown():
         s2 = N['network_servo_smoothing_parameter']
         s3 = N['network_camera_smoothing_parameter']
         #cr('A')
-        human_agent = 0   ##########################
-        drive_mode = 1    ##########################
+        #human_agent = 0   ##########################
+        #drive_mode = 1    ##########################
         #cr(len(left_list),nframes)
         if human_agent == 0 and drive_mode == 1:
             if len(left_list) > nframes + 2:
@@ -367,7 +367,7 @@ while not rospy.is_shutdown():
 
                         rLists['right'][-2][:,:,1] = lidar_list[-3]
                         rLists['right'][-2][:,:,2] = lidar_list[-4]
-
+                    else print len(lidar_list)
                         #so(rLists,opjD('rLists'))
                         #raw_enter()
 
@@ -449,12 +449,12 @@ while not rospy.is_shutdown():
                     adjusted_steer = bound_value(adjusted_steer,0,99)
                     adjusted_camera = bound_value(adjusted_camera,0,99)
                     
-                    print adjusted_steer,adjusted_motor
-                    adjusted_motor = 49
+                    #print adjusted_steer,adjusted_motor
+                    #adjusted_motor = 49
                     camera_cmd_pub.publish(std_msgs.msg.Int32(adjusted_camera))
                     steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
                     motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
-                    
+
                 except Exception as e:
                     exc_type, exc_obj, exc_tb = sys.exc_info()
                     file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]

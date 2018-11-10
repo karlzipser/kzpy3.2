@@ -18,13 +18,14 @@ import arduino_utils.IMU_arduino
 
 exec(identify_file_str)
 
+"""
 try:
     if True:#if Arguments['autostart'] in [1,'y','Y','yes']:
         os.system("gnome-terminal -x python kzpy3/Menu_app/menu2.py path kzpy3/Cars/n9Nov2018/nodes/Default_values dic P")
         # Leading '/' in path messes up menu2.py; until fixed, using opjk() won't work.
 except:
     pass
-
+"""
 #import Default_values.arduino.default_values
 
 #P = Default_values.arduino.default_values.P
