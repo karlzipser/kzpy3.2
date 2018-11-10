@@ -389,6 +389,7 @@ while not rospy.is_shutdown():
 
                     #print Durations[dname]['timer'].time()
                     Durations[dname]['list'].append(1000.0*Durations[dname]['timer'].time())
+                    Durations[dname]['timer'].reset()
                     #cr('D')
                     if 'show_net_input' in Arguments:
                         if even:
