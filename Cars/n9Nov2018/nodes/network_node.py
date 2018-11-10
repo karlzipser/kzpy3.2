@@ -318,167 +318,175 @@ while not rospy.is_shutdown():
 
     #if Torch_network == None:
     #    continue
+    try:
+        time.sleep(0.001)
 
-    time.sleep(0.001)
+        s1 = N['network_motor_smoothing_parameter']
+        s2 = N['network_servo_smoothing_parameter']
+        s3 = N['network_camera_smoothing_parameter']
 
-    s1 = N['network_motor_smoothing_parameter']
-    s2 = N['network_servo_smoothing_parameter']
-    s3 = N['network_camera_smoothing_parameter']
+        human_agent = 0   ##########################
+        drive_mode = 1    ##########################
+        #print len(left_list)
+        if human_agent == 0 and drive_mode == 1:
+            if len(left_list) > nframes + 2:
 
-    human_agent = 0   ##########################
-    drive_mode = 1    ##########################
-    #print len(left_list)
-    if human_agent == 0 and drive_mode == 1:
-        if len(left_list) > nframes + 2:
+                #cb(time.time())
+                frequency_timer.freq(name='network',do_print=True)
+                ####################################################
+                ####################################################
+                ####################################################
+                ##
+                if (left_calls > left_calls_prev):
 
-            #cb(time.time())
-            frequency_timer.freq(name='network',do_print=True)
-            ####################################################
-            ####################################################
-            ####################################################
-            ##
-            if (left_calls > left_calls_prev):
-
-                dname = 'fuse images'
-                Durations[dname]['timer'].reset()
-
-                
-
-                k = image_type+'_resized_'+resize
-                if k in ppc.Images:
-                    img = ppc.Images[k]
-                    if image_type == 't':
-                        img = np.log10(img+0.001)
-                        img[img>mx] = mx
-                        img[img<mn] = mn
-                        if 'temporary (?)':
-                            img[0,0] = mx; img[0,1] = mn
-                        img = (z2o(img)*255).astype(np.uint8)
-                    #advance(lidar_list,img,7)
-                    lidar_list.append(img)
-                    if len(lidar_list)>10:
-                        lidar_list = lidar_list[-10:]
-            
-                Lists = {}
-                Lists['left'] = left_list[-2:]
-                Lists['right'] = right_list[-2:]##
-                rLists = {}
-                rLists['left'] = []
-                rLists['right'] = []
-                for side in ['left','right']:
-                    for i in [-1,-2]:
-                        rLists[side].append( cv2.resize(Lists[side][i],(net_input_width,net_input_height)) )
-                
-                if len(lidar_list) > 4:
-                    #print len(lidar_list)
-                    rLists['left'][-2][:,:,1] = lidar_list[-1]
-                    rLists['left'][-2][:,:,2] = lidar_list[-2]
-
-                    rLists['right'][-2][:,:,1] = lidar_list[-3]
-                    rLists['right'][-2][:,:,2] = lidar_list[-4]
-
-                    #so(rLists,opjD('rLists'))
-                    #raw_enter()
-
-                    #print shape(rLists['left'][0]), shape(rLists['right'][0])
-                    #mi(rLists['left'][0],0)
-                    #mi(rLists['left'][1],1)
-                    #mi(rLists['right'][0],10)
-                    #mi(rLists['right'][1],11)
-                    #spause()
-
-
-                Durations[dname]['list'].append(1000.0*Durations[dname]['timer'].time())
-
-                if 'show_net_input' in Arguments:
-
-                    if ppc.A['show_net_input']:
-
-                        l0 = rgbcat(rLists,'left',-1)
-                        ln1 = rgbcat(rLists,'left',-2)
-                        r0 = rgbcat(rLists,'right',-1)
-                        rn1 = rgbcat(rLists,'right',-2)
-                        l = tcat(l0,ln1)
-                        r = tcat(r0,rn1)
-                        lr = lrcat(l,r)
-
-                        mci((z2o(lr)*255).astype(np.uint8),scale=1.0,color_mode=cv2.COLOR_GRAY2BGR,title='ZED')
-
-
-                if show_durations.check():
-                    for d in durations:
-                        cg(d,':',dp(np.median(Durations[d]['list']),1),'ms')
-                    show_durations.reset()
+                    dname = 'fuse images'
+                    Durations[dname]['timer'].reset()
 
                     
 
-            else:
-                pass
+                    k = image_type+'_resized_'+resize
+                    if k in ppc.Images:
+                        img = ppc.Images[k]
+                        if image_type == 't':
+                            img = np.log10(img+0.001)
+                            img[img>mx] = mx
+                            img[img<mn] = mn
+                            if 'temporary (?)':
+                                img[0,0] = mx; img[0,1] = mn
+                            img = (z2o(img)*255).astype(np.uint8)
+                        #advance(lidar_list,img,7)
+                        lidar_list.append(img)
+                        if len(lidar_list)>10:
+                            lidar_list = lidar_list[-10:]
+                
+                    Lists = {}
+                    Lists['left'] = left_list[-2:]
+                    Lists['right'] = right_list[-2:]##
+                    rLists = {}
+                    rLists['left'] = []
+                    rLists['right'] = []
+                    for side in ['left','right']:
+                        for i in [-1,-2]:
+                            rLists[side].append( cv2.resize(Lists[side][i],(net_input_width,net_input_height)) )
+                    
+                    if len(lidar_list) > 4:
+                        #print len(lidar_list)
+                        rLists['left'][-2][:,:,1] = lidar_list[-1]
+                        rLists['left'][-2][:,:,2] = lidar_list[-2]
 
-    
+                        rLists['right'][-2][:,:,1] = lidar_list[-3]
+                        rLists['right'][-2][:,:,2] = lidar_list[-4]
 
+                        #so(rLists,opjD('rLists'))
+                        #raw_enter()
+
+                        #print shape(rLists['left'][0]), shape(rLists['right'][0])
+                        #mi(rLists['left'][0],0)
+                        #mi(rLists['left'][1],1)
+                        #mi(rLists['right'][0],10)
+                        #mi(rLists['right'][1],11)
+                        #spause()
+
+
+                    Durations[dname]['list'].append(1000.0*Durations[dname]['timer'].time())
+
+                    if 'show_net_input' in Arguments:
+
+                        if ppc.A['show_net_input']:
+
+                            l0 = rgbcat(rLists,'left',-1)
+                            ln1 = rgbcat(rLists,'left',-2)
+                            r0 = rgbcat(rLists,'right',-1)
+                            rn1 = rgbcat(rLists,'right',-2)
+                            l = tcat(l0,ln1)
+                            r = tcat(r0,rn1)
+                            lr = lrcat(l,r)
+
+                            mci((z2o(lr)*255).astype(np.uint8),scale=1.0,color_mode=cv2.COLOR_GRAY2BGR,title='ZED')
+
+
+                    if show_durations.check():
+                        for d in durations:
+                            cg(d,':',dp(np.median(Durations[d]['list']),1),'ms')
+                        show_durations.reset()
+
+                        
+
+                else:
+                    pass
+
+        
+
+                ##
+                ####################################################
+                ####################################################
+                ####################################################
+                
+
+
+
+
+
+
+
+
+
+
+                ####################################################
+                #(2, 94, 168, 3) (94, 168, 3)
+                #(5, 376, 672, 3) (376, 672, 3)
+                camera_data = Torch_network['format_camera_data__no_scale'](rLists['left'][:],rLists['right'][:])
+                #camera_data = Torch_network['format_camera_data'](left_list,right_list)
+                #
+                ####################################################
+                metadata = Torch_network['format_metadata']((direct,follow,furtive,play,left,right)) #((right,left,play,furtive,follow,direct))
+                torch_motor, torch_steer = Torch_network['run_model'](camera_data, metadata, N)
+
+                if 'Do smoothing of percents...':
+                    current_camera = (1.0-s3)*torch_steer + s3*current_camera
+                    current_steer = (1.0-s2)*torch_steer + s2*current_steer
+                    current_motor = (1.0-s1)*torch_motor + s1*current_motor
+
+                adjusted_motor = int(N['network_motor_gain']*(current_motor-49) + N['network_motor_offset'] + 49)
+                adjusted_steer = int(N['network_steer_gain']*(current_steer-49) + 49)
+                adjusted_camera = int(N['network_camera_gain']*(current_camera-49) + 49)
+
+                adjusted_motor = bound_value(adjusted_motor,0,99)
+                adjusted_steer = bound_value(adjusted_steer,0,99)
+                adjusted_camera = bound_value(adjusted_camera,0,99)
+                
+                #print adjusted_steer,adjusted_motor
+
+                camera_cmd_pub.publish(std_msgs.msg.Int32(adjusted_camera))
+                steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
+                motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
+                
+            ####################################################
+            ####################################################
+            ####################################################
             ##
+            left_calls_prev = left_calls
+            ##    
             ####################################################
             ####################################################
             ####################################################
-            
+
+        else:
+            pass
+
+        if show_durations.check():
+            for d in durations:
+                cg(d,':',np.median(Durations[d]['list']),'ms')
+                #cg(d,':',dp(np.median(Durations[d]['list']),1),'ms')
+                show_durations.reset()
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        CS_('Exception!',emphasis=True)
+        CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
 
 
-
-
-
-
-
-
-
-
-            ####################################################
-            #(2, 94, 168, 3) (94, 168, 3)
-            #(5, 376, 672, 3) (376, 672, 3)
-            camera_data = Torch_network['format_camera_data__no_scale'](rLists['left'][:],rLists['right'][:])
-            #camera_data = Torch_network['format_camera_data'](left_list,right_list)
-            #
-            ####################################################
-            metadata = Torch_network['format_metadata']((direct,follow,furtive,play,left,right)) #((right,left,play,furtive,follow,direct))
-            torch_motor, torch_steer = Torch_network['run_model'](camera_data, metadata, N)
-
-            if 'Do smoothing of percents...':
-                current_camera = (1.0-s3)*torch_steer + s3*current_camera
-                current_steer = (1.0-s2)*torch_steer + s2*current_steer
-                current_motor = (1.0-s1)*torch_motor + s1*current_motor
-
-            adjusted_motor = int(N['network_motor_gain']*(current_motor-49) + N['network_motor_offset'] + 49)
-            adjusted_steer = int(N['network_steer_gain']*(current_steer-49) + 49)
-            adjusted_camera = int(N['network_camera_gain']*(current_camera-49) + 49)
-
-            adjusted_motor = bound_value(adjusted_motor,0,99)
-            adjusted_steer = bound_value(adjusted_steer,0,99)
-            adjusted_camera = bound_value(adjusted_camera,0,99)
-            
-            #print adjusted_steer,adjusted_motor
-
-            camera_cmd_pub.publish(std_msgs.msg.Int32(adjusted_camera))
-            steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
-            motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
-            
-        ####################################################
-        ####################################################
-        ####################################################
-        ##
-        left_calls_prev = left_calls
-        ##    
-        ####################################################
-        ####################################################
-        ####################################################
-
-    else:
-        pass
-
-    if show_durations.check():
-        for d in durations:
-            cg(d,':',np.median(Durations[d]['list']),'ms')
-            #cg(d,':',dp(np.median(Durations[d]['list']),1),'ms')
-            show_durations.reset()
+        
 
 
 CS_('goodbye!',__file__)
