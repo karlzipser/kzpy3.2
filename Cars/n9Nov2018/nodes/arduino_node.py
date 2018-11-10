@@ -19,7 +19,7 @@ import arduino_utils.IMU_arduino
 exec(identify_file_str)
 
 try:
-    if Arguments['autostart'] in [1,'y','Y','yes']:
+    if True:#if Arguments['autostart'] in [1,'y','Y','yes']:
         os.system(d2n("gnome-terminal -x python kzpy3/Cars/n9Nov2018/nodes/Default_values/arduino"," dic P"))
         # Leading '/' in path messes up menu2.py; until fixed, using opjk() won't work.
 except:
