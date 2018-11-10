@@ -48,7 +48,7 @@ lidar_list = []
 nframes = 2
 left_calls = 0
 left_calls_prev = 0
-left_timer = Timer(5)
+#left_timer = Timer(5)
 
 def send_image_to_list(lst,data):
     cimg = bridge.imgmsg_to_cv2(data,"bgr8")
@@ -62,7 +62,7 @@ def left_callback(data):
     global left_list, left_calls
     send_image_to_list(left_list,data)
     left_calls += 1
-    left_timer.freq('left_timer')
+    #left_timer.freq('left_timer')
 
 #rospy.init_node('network_node',anonymous=True,disable_signals=True)
 rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_callback,queue_size = 1)
