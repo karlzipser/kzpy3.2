@@ -367,7 +367,7 @@ while not rospy.is_shutdown():
 
                         rLists['right'][-2][:,:,1] = lidar_list[-3]
                         rLists['right'][-2][:,:,2] = lidar_list[-4]
-                    else print len(lidar_list)
+                    #else print len(lidar_list)
                         #so(rLists,opjD('rLists'))
                         #raw_enter()
 
