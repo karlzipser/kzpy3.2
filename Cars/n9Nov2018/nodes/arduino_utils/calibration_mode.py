@@ -63,10 +63,14 @@ def _calibrate_run_loop(P):
             if P['zed_called']['val'] > zed_called_prev:
                 zed_okay = True
                 zed_called_prev = P['zed_called']['val']
+            else:
+                zed_okay = False
             if P['use LIDAR']:
                 if P['os1_called']['val'] > os1_called_prev:
                     os1_okay = True
                     os1_called_prev = P['os1_called']['val']
+                else:
+                    os1_okay = False
 
             if not zed_okay:
                 for i in range(4):

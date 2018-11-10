@@ -18,6 +18,12 @@ import arduino_utils.IMU_arduino
 
 exec(identify_file_str)
 
+try:
+    if Arguments['autostart'] in [1,'y','Y','yes']:
+        os.system(d2n("gnome-terminal -x python kzpy3/Cars/n9Nov2018/nodes/Default_values/arduino"," dic P"))
+        # Leading '/' in path messes up menu2.py; until fixed, using opjk() won't work.
+except:
+    pass
 
 #import Default_values.arduino.default_values
 
@@ -164,19 +170,21 @@ if 'Main loop...':
                 #print 'arduino load topics'
 
                 if P['button_number'] == 4:
+                    try:
+                        Topics = menu2.load_Topics(
+                            opjk("Cars/n9Nov2018/nodes/Default_values/arduino"),
+                            first_load=False,
+                            customer='Arduino Node')
 
-                    Topics = menu2.load_Topics(
-                        opjk("Cars/n9Nov2018/nodes/Default_values/arduino"),
-                        first_load=False,
-                        customer='Arduino Node')
-
-                    if type(Topics) == dict:
-                        for t in Topics['To Expose']['Arduino Node']:
-                            if '!' in t:
-                                pass
-                            else:
-                                P[t] = Topics[t]
-                    parameter_file_load_timer.reset()
+                        if type(Topics) == dict:
+                            for t in Topics['To Expose']['Arduino Node']:
+                                if '!' in t:
+                                    pass
+                                else:
+                                    P[t] = Topics[t]
+                        parameter_file_load_timer.reset()
+                    else:
+                        cr("menu2.load_Topics() failed")
 
             else:
                 time.sleep(0.1)

@@ -7,21 +7,13 @@ sbpd2s("network_node.py")
 python kzpy3/Cars/n9Nov2018/nodes/network_node.py show_net_input 0
 """
 
-
-
-
 torch_steer,torch_motor = 49,49
-
-
-
 
 
 ####################################################
 ####################################################
 ####################################################
 ##
-
-
 from kzpy3.vis3 import *
 import rospy
 import roslib
@@ -30,13 +22,11 @@ import geometry_msgs.msg
 import cv2
 from cv_bridge import CvBridge,CvBridgeError
 import rospy
-from sensor_msgs.msg import Image##
+from sensor_msgs.msg import Image
 bridge = CvBridge()
+import kzpy3.Data_app.lidar.python_pointclouds6k as ppc
 exec(identify_file_str)
 
-
-
-import kzpy3.Data_app.lidar.python_pointclouds6k as ppc
 
 for a in Arguments:
     ppc.A[a] = Arguments[a]
@@ -48,7 +38,7 @@ lidar_list = []
 nframes = 2
 left_calls = 0
 left_calls_prev = 0
-#left_timer = Timer(5)
+
 
 def send_image_to_list(lst,data):
     cimg = bridge.imgmsg_to_cv2(data,"bgr8")
