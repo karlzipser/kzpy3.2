@@ -425,35 +425,41 @@ while not rospy.is_shutdown():
 
 
 
+                try:
+                    ####################################################
+                    #(2, 94, 168, 3) (94, 168, 3)
+                    #(5, 376, 672, 3) (376, 672, 3)
+                    camera_data = Torch_network['format_camera_data__no_scale'](rLists['left'][:],rLists['right'][:])
+                    #camera_data = Torch_network['format_camera_data'](left_list,right_list)
+                    #
+                    ####################################################
+                    metadata = Torch_network['format_metadata']((direct,follow,furtive,play,left,right)) #((right,left,play,furtive,follow,direct))
+                    torch_motor, torch_steer = Torch_network['run_model'](camera_data, metadata, N)
 
-                ####################################################
-                #(2, 94, 168, 3) (94, 168, 3)
-                #(5, 376, 672, 3) (376, 672, 3)
-                camera_data = Torch_network['format_camera_data__no_scale'](rLists['left'][:],rLists['right'][:])
-                #camera_data = Torch_network['format_camera_data'](left_list,right_list)
-                #
-                ####################################################
-                metadata = Torch_network['format_metadata']((direct,follow,furtive,play,left,right)) #((right,left,play,furtive,follow,direct))
-                torch_motor, torch_steer = Torch_network['run_model'](camera_data, metadata, N)
+                    if 'Do smoothing of percents...':
+                        current_camera = (1.0-s3)*torch_steer + s3*current_camera
+                        current_steer = (1.0-s2)*torch_steer + s2*current_steer
+                        current_motor = (1.0-s1)*torch_motor + s1*current_motor
 
-                if 'Do smoothing of percents...':
-                    current_camera = (1.0-s3)*torch_steer + s3*current_camera
-                    current_steer = (1.0-s2)*torch_steer + s2*current_steer
-                    current_motor = (1.0-s1)*torch_motor + s1*current_motor
+                    adjusted_motor = int(N['network_motor_gain']*(current_motor-49) + N['network_motor_offset'] + 49)
+                    adjusted_steer = int(N['network_steer_gain']*(current_steer-49) + 49)
+                    adjusted_camera = int(N['network_camera_gain']*(current_camera-49) + 49)
 
-                adjusted_motor = int(N['network_motor_gain']*(current_motor-49) + N['network_motor_offset'] + 49)
-                adjusted_steer = int(N['network_steer_gain']*(current_steer-49) + 49)
-                adjusted_camera = int(N['network_camera_gain']*(current_camera-49) + 49)
-
-                adjusted_motor = bound_value(adjusted_motor,0,99)
-                adjusted_steer = bound_value(adjusted_steer,0,99)
-                adjusted_camera = bound_value(adjusted_camera,0,99)
-                
-                print adjusted_steer,adjusted_motor
-                adjusted_motor = 49
-                camera_cmd_pub.publish(std_msgs.msg.Int32(adjusted_camera))
-                steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
-                motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
+                    adjusted_motor = bound_value(adjusted_motor,0,99)
+                    adjusted_steer = bound_value(adjusted_steer,0,99)
+                    adjusted_camera = bound_value(adjusted_camera,0,99)
+                    
+                    print adjusted_steer,adjusted_motor
+                    adjusted_motor = 49
+                    camera_cmd_pub.publish(std_msgs.msg.Int32(adjusted_camera))
+                    steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
+                    motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
+                    
+                except Exception as e:
+                    exc_type, exc_obj, exc_tb = sys.exc_info()
+                    file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                    CS_('Exception!',emphasis=True)
+                    CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
                 
             ####################################################
             ####################################################
