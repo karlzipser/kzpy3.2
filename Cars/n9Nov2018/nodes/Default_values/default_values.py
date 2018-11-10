@@ -8,7 +8,7 @@ P['agent_is_human'] = True
 
 P['customers'] = ['Arduino Node','Network Node',' Trained Nets']
 P['drive_mode'] = 0
-P['use LIDAR'] = True
+P['use LIDAR'] = False
 P['menu name'] = 'arduino menu'
 P['cmd/autostart menu'] = False
 P['cmd/clear_screen'] = False

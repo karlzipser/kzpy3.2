@@ -142,7 +142,7 @@ frequency_timer = Timer(5)
 
 
 
-import kzpy3.Cars.n9Nov2018.nodes.Default_values.arduino.default_values as default_values
+import kzpy3.Cars.n9Nov2018.nodes.Default_values.default_values as default_values
 N = default_values.P
 
 import rospy
@@ -264,7 +264,7 @@ while not rospy.is_shutdown():
         if parameter_file_load_timer.check():
 
             Topics = menu2.load_Topics(
-                opjk("Cars/n9Nov2018_car_with_nets/nodes/Default_values/arduino"),
+                opjk("Cars/n9Nov2018_car_with_nets/nodes/Default_values"),
                 first_load=False,
                 customer='Network Node')
             
