@@ -10,7 +10,7 @@ import rospy
 def Torch_Network(N):
     try:
         D = {}
-        N['weight_file_path'] = '/home/karlzipser/Desktop/SqueezeNet40/net_01Nov18_18h56m13s.infer'
+        N['weight_file_path'] = opjD('SqueezeNet40/net_01Nov18_18h56m13s.infer')
         D['save_data'] = torch.load(N['weight_file_path'])
         print("Torch_Network(N):: Loading "+N['weight_file_path'])
         if 'SqueezeNet40' in N['weight_file_path']:
