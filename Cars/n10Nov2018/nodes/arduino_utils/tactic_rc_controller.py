@@ -98,7 +98,7 @@ def _TACTIC_RC_controller_run_loop(P):
             if P['agent_is_human'] == True:
                 write_str = get_write_str(P['servo_pwm_smooth'],P['servo_pwm_smooth'],P['motor_pwm_smooth'],P)
                 in_this_mode = False
-                cr('a')
+                #cr('a')
             elif P['agent_is_human'] == False and P['button_number']<4:#P['selector_mode'] == 'drive_mode':
                 if np.abs(P['human']['motor_percent']-49) > 8:
                     P['temporary_human_control'] = True
@@ -109,9 +109,9 @@ def _TACTIC_RC_controller_run_loop(P):
                     in_this_mode = False
                     write_str = get_write_str(P['servo_pwm_smooth'],P['servo_pwm_smooth'],P['motor_pwm_smooth'],P)
                     P['time_since_button_4'].reset()
-                    cr('b')
+                    #cr('b')
                 elif P['time_since_button_4'].time() > 2.0:
-                    cr('c')
+                    #cr('c')
                     if np.abs(P['human']['servo_percent']-49) > 8:
                         P['temporary_human_control'] = True
                         if sound_timer.check():
@@ -128,7 +128,7 @@ def _TACTIC_RC_controller_run_loop(P):
                         _camera_pwm = _servo_pwm
                     else:
                         if sound_timer.check():
-                            cr('d')
+                            #cr('d')
                             if 'SOUND' in P['Arduinos']:
                                 P['Arduinos']['SOUND'].write("(101)") # green taillights
                             sound_timer.reset()
@@ -149,7 +149,7 @@ def _TACTIC_RC_controller_run_loop(P):
             if P['button_number'] < 4:
                 if P['calibrated']:
                     if P['drive_mode'] == 1:
-                        cr('e')
+                        #cr('e')
                         P['Arduinos']['MSE'].write(write_str)
                         if P['MSE/print_timer'].check():
                             #print write_str,P['calibrated'],P['temporary_human_control'],P['agent_is_human']

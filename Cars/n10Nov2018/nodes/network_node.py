@@ -141,7 +141,7 @@ while not rospy.is_shutdown():
         if parameter_file_load_timer.check():
 
             Topics = menu2.load_Topics(
-                "kzpy3/Cars/n10Nov2018/nodes/Default_values/arduino",
+                "kzpy3/Cars/n10Nov2018/nodes/Default_values/arduino"),
                 first_load=False,
                 customer='Network Node')
             
