@@ -3,7 +3,9 @@ from kzpy3.utils3 import *
 exec(identify_file_str)
 sbpd2s("network_node.py")
 
-
+"""
+python kzpy3/Cars/n9Nov2018/nodes/network_node.py show_net_input 0
+"""
 
 
 
@@ -46,6 +48,7 @@ lidar_list = []
 nframes = 2
 left_calls = 0
 left_calls_prev = 0
+left_timer = Timer(5)
 
 def send_image_to_list(lst,data):
     cimg = bridge.imgmsg_to_cv2(data,"bgr8")
@@ -54,11 +57,12 @@ def send_image_to_list(lst,data):
 def right_callback(data):
     global right_list
     send_image_to_list(right_list,data)
-
+#lts = []
 def left_callback(data):
     global left_list, left_calls
     send_image_to_list(left_list,data)
     left_calls += 1
+    left_timer.freq('left_timer')
 
 #rospy.init_node('network_node',anonymous=True,disable_signals=True)
 rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_callback,queue_size = 1)
@@ -326,8 +330,9 @@ while not rospy.is_shutdown():
     #print len(left_list)
     if human_agent == 0 and drive_mode == 1:
         if len(left_list) > nframes + 2:
-            #cb(time.time())
 
+            #cb(time.time())
+            frequency_timer.freq(name='network',do_print=True)
             ####################################################
             ####################################################
             ####################################################
@@ -337,7 +342,7 @@ while not rospy.is_shutdown():
                 dname = 'fuse images'
                 Durations[dname]['timer'].reset()
 
-                frequency_timer.freq(name='network',do_print=True)
+                
 
                 k = image_type+'_resized_'+resize
                 if k in ppc.Images:
@@ -450,7 +455,7 @@ while not rospy.is_shutdown():
             adjusted_steer = bound_value(adjusted_steer,0,99)
             adjusted_camera = bound_value(adjusted_camera,0,99)
             
-            print adjusted_steer,adjusted_motor
+            #print adjusted_steer,adjusted_motor
 
             camera_cmd_pub.publish(std_msgs.msg.Int32(adjusted_camera))
             steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
