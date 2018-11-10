@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 
 from kzpy3.utils3 import *
-
+from kzpy3.scripts.__local__.bagpath_local import bagpath
 try:
 	bagpath = Arguments['path']
 except:
-	bagpath = opjk("scripts/__local__/bagpath.local")
+	pass#	bagpath = opjk("scripts/__local__/bagpath.local")
 
 cg("\nStarting roscore...\n")
 os.system("roscore &")

@@ -4,15 +4,13 @@ from kzpy3.utils3 import *
 import torch
 import torch.nn as nn
 from torch.autograd import Variable
-#from nets.SqueezeNet_ import SqueezeNet
 exec(identify_file_str)
 import rospy
-
-spd2s("!!!!! note: from nets.SqueezeNet_ import SqueezeNet !!!!");time.sleep(3)
 
 def Torch_Network(N):
     try:
         D = {}
+        N['weight_file_path'] = '/home/karlzipser/Desktop/SqueezeNet40/net_01Nov18_18h56m13s.infer'
         D['save_data'] = torch.load(N['weight_file_path'])
         print("Torch_Network(N):: Loading "+N['weight_file_path'])
         if 'SqueezeNet40' in N['weight_file_path']:
@@ -33,9 +31,13 @@ def Torch_Network(N):
         exc_type, exc_obj, exc_tb = sys.exc_info()
         file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
         CS_('Exception!',emphasis=True)
-        CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)        
-    def _run_model(input,metadata,N):
-        D['output'] = D['solver'](input, Variable(metadata))
+        CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False) 
+        cr("Torch_Network setup failed!")       
+    def _run_model(input_,metadata,N):
+        #cb(input_)
+        #cr(metadata)
+        #cg(N)
+        D['output'] = D['solver'](input_, Variable(metadata))
         torch_motor = 100 * D['output'][0][10+N['network_output_sample']].data[0]
         torch_steer = 100 * D['output'][0][N['network_output_sample']].data[0]
         torch_motor = max(0, torch_motor)
@@ -45,9 +47,11 @@ def Torch_Network(N):
         return torch_motor, torch_steer
 
     def _format_camera_data(left_list, right_list):
+        
         listoftensors = []
         for i in range(D['nframes']):
             for side in (left_list, right_list):
+                print shape(side)
                 if N['GREY_OUT_TOP_OF_IMAGE']:
                     side[-i - 1][:188,:,:] = 128
                 if N['USE_LAST_IMAGE_ONLY']:
@@ -61,20 +65,52 @@ def Torch_Network(N):
         camera_data = camera_data.unsqueeze(0)
         camera_data = D['scale'](Variable(camera_data))
         camera_data = D['scale'](camera_data)
+        print camera_data # [torch.cuda.FloatTensor of size 1x12x94x168 (GPU 0)]
         return camera_data
 
 
     ##################################################################
     #
     def _format_camera_data__no_scale(left_list, right_list):
+
         listoftensors = []
         for i in range(D['nframes']):
             for side in (left_list, right_list):
-                listoftensors.append(torch.from_numpy(side[-i - 1]))
-                camera_data = torch.cat(listoftensors, 2)
-                camera_data = camera_data.cuda().float()
-                camera_data = camera_data.unsqueeze(0)
+                #print shape(side)
+                if N['GREY_OUT_TOP_OF_IMAGE']:
+                    side[-i - 1][:188,:,:] = 128
+                if N['USE_LAST_IMAGE_ONLY']:
+                    listoftensors.append(torch.from_numpy(side[-1]))
+                else:
+                    listoftensors.append(torch.from_numpy(side[-i - 1]))
+        camera_data = torch.cat(listoftensors, 2)
+        camera_data = camera_data.cuda().float()#/255. - 0.5
+        camera_data = torch.transpose(camera_data, 0, 2)
+        camera_data = torch.transpose(camera_data, 1, 2)
+        camera_data = camera_data.unsqueeze(0)
+        camera_data = Variable(camera_data)
+        #camera_data = D['scale'](Variable(camera_data))
+        #camera_data = D['scale'](camera_data)
+
+        #print camera_data # 1x12x94x168 (GPU 0)][torch.cuda.FloatTensor of size 1x12x94x168 (GPU 0)]
         return camera_data
+
+
+
+
+        """
+        listoftensors = []
+        for i in range(D['nframes']):
+            for side in (left_list, right_list):
+                print shape(side),-i - 1
+                listoftensors.append(torch.from_numpy(side[-i - 1]))
+        camera_data = torch.cat(listoftensors, 2)
+        camera_data = camera_data.cuda().float()
+        #camera_data = camera_data.unsqueeze(0)
+        camera_data = Variable(camera_data.unsqueeze(0))
+        print camera_data #  1x94x168x12 (GPU 0)] [torch.cuda.FloatTensor of size 1x94x168x12 (GPU 0)]
+        return camera_data
+        """
     #
     ##################################################################
 
@@ -92,7 +128,10 @@ def Torch_Network(N):
 
     D['run_model'] = _run_model
     D['format_camera_data'] = _format_camera_data
+    D['format_camera_data__no_scale'] = _format_camera_data__no_scale
     D['format_metadata'] = _format_metadata
+
+    cy("net_utils.py done.")
 
     return D
 

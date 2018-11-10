@@ -64,11 +64,20 @@ freq_timer = Timer(1)
 waiting_timer = Timer(1)
 
 
-
-
-
-
-
+"""
+dname = 'points__callback'
+Durations[dname]['timer'].reset()
+Durations[dname]['list'].append(1000.0*Durations[dname]['timer'].time())
+if A['show_durations']:
+    if show_durations.check():
+        for d in durations:
+            #figure(d);clf()
+            #hist(Durations[d]['list'])
+            #spause()
+            #cg(d,':',np.median(Durations[d]['list']),'ms')
+            cg(d,':',dp(np.median(Durations[d]['list']),1),'ms')
+        show_durations.reset()
+"""
 
 if __name__ == '__main__':
 

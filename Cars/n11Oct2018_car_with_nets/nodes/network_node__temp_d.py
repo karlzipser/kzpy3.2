@@ -10,8 +10,6 @@ if 'Torch_network' not in locals():
     N = default_values.P
 
     import rospy
-
-
     import roslib
     import std_msgs.msg
     import geometry_msgs.msg
@@ -25,26 +23,12 @@ if 'Torch_network' not in locals():
 
     left_list = []
     right_list = []
+    lidar_list = []
+
+
+
     nframes = 2 #figure out how to get this from network
-    """
-    human_agent = 1
-    behavioral_mode = 'direct'
-    drive_mode = 0
-    direct = 0.0
-    follow = 0.0
-    furtive = 0.0
-    play = 0.0
-    left = 0.0
-    right = 0.0
-    center = 0.0
-    button_number = 0;
-    button_number_previous = -9999
-    button_timer = Timer()
-    current_camera = 49
-    current_steer = 49
-    current_motor = 49
-    button_just_changed = False
-    """
+
     left_calls = 0
     left_calls_prev = 0
 
@@ -61,33 +45,10 @@ if 'Torch_network' not in locals():
         send_image_to_list(left_list,data)
         left_calls += 1
 
-
-
-
     rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_callback,queue_size = 1)
     rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_callback,queue_size = 1)
 
-"""
-    frequency_timer = Timer(5.0)
-    print_timer = Timer(5)
 
-    Hz = 0
-
-    low_frequency_pub_timer = Timer(0.5)
-
-    reverse_timer = Timer(1)
-    image_sample_timer = Timer(5)
-
-    node_timer = Timer()
-
-    Torch_network = None
-
-    loaded_net = False
-
-    import kzpy3.Menu_app.menu2 as menu2
-
-    parameter_file_load_timer = Timer(0.5)
-"""
 
 
 
@@ -146,12 +107,7 @@ def Torch_Network(N):
         listoftensors = []
         for i in range(2):
             for side in (left_list, right_list):
-                if N['GREY_OUT_TOP_OF_IMAGE']:
-                    side[-i - 1][:188,:,:] = 128
-                if N['USE_LAST_IMAGE_ONLY']:
-                    listoftensors.append(torch.from_numpy(side[-1]))
-                else:
-                    listoftensors.append(torch.from_numpy(side[-i - 1]))
+                listoftensors.append(torch.from_numpy(side[-i - 1]))
         camera_data = torch.cat(listoftensors, 2)
         camera_data = camera_data.cuda().float()/255. - 0.5
         camera_data = torch.transpose(camera_data, 0, 2)
@@ -183,28 +139,28 @@ Torch_network = Torch_Network(N)
 
 
 
-
+##############################################
+#
+# visualization only
 rgb_spacer = zeros((94,2),np.uint8)+128
 t_spacer = zeros((4,508),np.uint8)+128
 lr_spacer = zeros((200,8),np.uint8)+128
-
-
 def rgbcat(L,s,t):
     return np.concatenate(( L[s][t][:,:,0],rgb_spacer, L[s][t][:,:,1],rgb_spacer, L[s][t][:,:,2] ),axis=1)
-
-
 def tcat(t0,tn1):
     return np.concatenate( (t_spacer,t0,t_spacer,tn1,t_spacer), axis=0)
-
-
 def lrcat(l,r):
     return np.concatenate( (lr_spacer,l,lr_spacer,r,lr_spacer), axis=1)
+
+
+
+
 
 ##############################################
 #
 # from kzpy3.vis3 import *
 
-import kzpy3.Data_app.lidar.python_pointclouds6i as ppc
+import kzpy3.Data_app.lidar.python_pointclouds6k as ppc
 
 for a in Arguments:
     ppc.A[a] = Arguments[a]
@@ -218,19 +174,35 @@ threading.Thread(target=ppc.pointcloud_thread,args=[]).start()
 
 net_input_width = 168
 net_input_height = 94
+resize = ppc.resize_versions[0]
+image_type = ppc.image_type_versions[0]
+mn,mx = -0.5,0.7
+
 waiting = Timer(1)
+frequency_timer = Timer(5)
 
 while not rospy.is_shutdown():
 
     time.sleep(0.001)
     
-    
     if (left_calls > left_calls_prev) and (len(left_list) > nframes + 1):##human_agent == 0 and drive_mode == 1:
         
         frequency_timer.freq(name='network',do_print=True)
 
-        
-
+        k = image_type+'_resized_'+resize
+        if k in ppc.Images:
+            img = ppc.Images[k]
+            if image_type == 't':
+                img = np.log10(img+0.001)
+                img[img>mx] = mx
+                img[img<mn] = mn
+                if 'temporary (?)':
+                    img[0,0] = mx; img[0,1] = mn
+                img = (z2o(img)*255).astype(np.uint8)
+            #advance(lidar_list,img,7)
+            lidar_list.append(img)
+            if len(lidar_list)>10:
+                lidar_list = lidar_list[-10:]
     
         Lists = {}
         Lists['left'] = left_list[-2:]
@@ -242,33 +214,31 @@ while not rospy.is_shutdown():
             for i in [-1,-2]:
                 rLists[side].append( cv2.resize(Lists[side][i],(net_input_width,net_input_height)) )
         
-        if 'e' in ppc.Output:
-            e = ppc.Output['e']
-            if len(e) == 3:
+        if len(lidar_list) > 4:
+            #print len(lidar_list)
+            rLists['left'][-2][:,:,1] = lidar_list[-1]
+            rLists['left'][-2][:,:,2] = lidar_list[-2]
 
-                rLists['left'][-2][:,:,1] = e[0]
-                rLists['left'][-2][:,:,2] = e[1]
+            rLists['right'][-2][:,:,1] = lidar_list[-3]
+            rLists['right'][-2][:,:,2] = lidar_list[-4]
 
-                rLists['right'][-2][:,:,1] = e[0]
-                rLists['right'][-2][:,:,2] = e[1]
 
-                rLists['right'][-1][:,:,1] = e[2]
-                rLists['right'][-1][:,:,2] = e[2]
 
         if 'show_net_input' in ppc.A:
-            l0 = rgbcat(rLists,'left',-1)
-            ln1 = rgbcat(rLists,'left',-2)
-            r0 = rgbcat(rLists,'right',-1)
-            rn1 = rgbcat(rLists,'right',-2)
-            l = tcat(l0,ln1)
-            r = tcat(r0,rn1)
-            lr = lrcat(l,r)
-            
-            
+
             if ppc.A['show_net_input']:
+
+                l0 = rgbcat(rLists,'left',-1)
+                ln1 = rgbcat(rLists,'left',-2)
+                r0 = rgbcat(rLists,'right',-1)
+                rn1 = rgbcat(rLists,'right',-2)
+                l = tcat(l0,ln1)
+                r = tcat(r0,rn1)
+                lr = lrcat(l,r)
+
                 mci((z2o(lr)*255).astype(np.uint8),scale=1.0,color_mode=cv2.COLOR_GRAY2BGR,title='ZED')
 
-        
+            
 
     else:
         time.sleep(0.001)

@@ -18,7 +18,9 @@ for d in durations:
 
 A = {}
 A['use_images'] = 0
-A['time'] = 10
+A['time'] = 60*60*24
+A['show_durations'] = True
+
 for a in Arguments:
     A[a] = Arguments[a]
 
@@ -110,7 +112,7 @@ def points__callback(msg):
 
 
 
-
+rospy.Subscriber('/os1_node/points', PointCloud2, points__callback)
 
 
 Resize = {}
@@ -219,14 +221,15 @@ def pointcloud_thread():
             calls_prev = calls_
 
         
-            if show_durations.check():
-                for d in durations:
-                    #figure(d);clf()
-                    #hist(Durations[d]['list'])
-                    #spause()
-                    #cg(d,':',np.median(Durations[d]['list']),'ms')
-                    cg(d,':',dp(np.median(Durations[d]['list']),1),'ms')
-                show_durations.reset()
+            if A['show_durations']:
+                if show_durations.check():
+                    for d in durations:
+                        #figure(d);clf()
+                        #hist(Durations[d]['list'])
+                        #spause()
+                        #cg(d,':',np.median(Durations[d]['list']),'ms')
+                        cg(d,':',dp(np.median(Durations[d]['list']),1),'ms')
+                    show_durations.reset()
 
         except:
             exc_type, exc_obj, exc_tb = sys.exc_info()
@@ -235,7 +238,7 @@ def pointcloud_thread():
             CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
 
     A['ABORT'] = True
-    cg('\npointcloud_thread() exiting.\n\n')
+    cprint('\npointcloud_thread() exiting.\n\n','red','on_green')
 
 
 

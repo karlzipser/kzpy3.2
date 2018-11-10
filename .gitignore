@@ -2,7 +2,8 @@
 *.h5py
 *.hdf5
 *.local
-*__local_.py
+*__local.py
+*_local.py
 *.local.py
 *.net
 *.infer
