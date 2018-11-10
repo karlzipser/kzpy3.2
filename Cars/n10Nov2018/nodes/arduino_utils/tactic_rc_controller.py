@@ -150,10 +150,10 @@ def _TACTIC_RC_controller_run_loop(P):
                 if P['calibrated']:
                     if P['drive_mode'] == 1:
                         cr('e')
-                            P['Arduinos']['MSE'].write(write_str)
-                            if P['MSE/print_timer'].check():
-                                #print write_str,P['calibrated'],P['temporary_human_control'],P['agent_is_human']
-                                P['MSE/print_timer'] = Timer(P['print_timer time'])
+                        P['Arduinos']['MSE'].write(write_str)
+                        if P['MSE/print_timer'].check():
+                            #print write_str,P['calibrated'],P['temporary_human_control'],P['agent_is_human']
+                            P['MSE/print_timer'] = Timer(P['print_timer time'])
             else:
                 pass
                 #write_str = get_write_str(P['servo_pwm_null'],P['servo_pwm_null'],P['motor_pwm_null'],P)
