@@ -256,7 +256,7 @@ import kzpy3.Menu_app.menu2 as menu2
 parameter_file_load_timer = Timer(0.5)
 
 
-
+even = True
 # TEMPORARY
 human_agent = 0   ##########################
 drive_mode = 1    ##########################
@@ -327,7 +327,7 @@ while not rospy.is_shutdown():
         #cr('A')
         human_agent = 0   ##########################
         drive_mode = 1    ##########################
-        cr(len(left_list),nframes)
+        #cr(len(left_list),nframes)
         if human_agent == 0 and drive_mode == 1:
             if len(left_list) > nframes + 2:
                 #cr('B')
@@ -340,10 +340,10 @@ while not rospy.is_shutdown():
                 if (left_calls > left_calls_prev):
 
                     dname = 'fuse images'
-                    print Durations[dname]['timer'].reset()
+                    #print Durations[dname]['timer'].reset()
 
                     #cr('C')
-                    print Durations[dname]['timer'].time()
+                    #print Durations[dname]['timer'].time()
                     k = image_type+'_resized_'+resize
                     if k in ppc.Images:
                         img = ppc.Images[k]
@@ -358,7 +358,7 @@ while not rospy.is_shutdown():
                         lidar_list.append(img)
                         if len(lidar_list)>10:
                             lidar_list = lidar_list[-10:]
-                    print Durations[dname]['timer'].time()
+                    #print Durations[dname]['timer'].time()
                     Lists = {}
                     Lists['left'] = left_list[-2:]
                     Lists['right'] = right_list[-2:]##
@@ -368,7 +368,7 @@ while not rospy.is_shutdown():
                     for side in ['left','right']:
                         for i in [-1,-2]:
                             rLists[side].append( cv2.resize(Lists[side][i],(net_input_width,net_input_height)) )
-                    print Durations[dname]['timer'].time()
+                    #print Durations[dname]['timer'].time()
                     if len(lidar_list) > 4:
                         #print len(lidar_list)
                         rLists['left'][-2][:,:,1] = lidar_list[-1]
@@ -387,23 +387,25 @@ while not rospy.is_shutdown():
                         #mi(rLists['right'][1],11)
                         #spause()
 
-                    print Durations[dname]['timer'].time()
+                    #print Durations[dname]['timer'].time()
                     Durations[dname]['list'].append(1000.0*Durations[dname]['timer'].time())
                     #cr('D')
                     if 'show_net_input' in Arguments:
+                        if even:
+                            if ppc.A['show_net_input']:
 
-                        if ppc.A['show_net_input']:
+                                l0 = rgbcat(rLists,'left',-1)
+                                ln1 = rgbcat(rLists,'left',-2)
+                                r0 = rgbcat(rLists,'right',-1)
+                                rn1 = rgbcat(rLists,'right',-2)
+                                l = tcat(l0,ln1)
+                                r = tcat(r0,rn1)
+                                lr = lrcat(l,r)
 
-                            l0 = rgbcat(rLists,'left',-1)
-                            ln1 = rgbcat(rLists,'left',-2)
-                            r0 = rgbcat(rLists,'right',-1)
-                            rn1 = rgbcat(rLists,'right',-2)
-                            l = tcat(l0,ln1)
-                            r = tcat(r0,rn1)
-                            lr = lrcat(l,r)
-
-                            mci((z2o(lr)*255).astype(np.uint8),scale=1.0,color_mode=cv2.COLOR_GRAY2BGR,title='ZED')
-
+                                mci((z2o(lr)*255).astype(np.uint8),scale=1.0,color_mode=cv2.COLOR_GRAY2BGR,title='ZED')
+                                even = False
+                        else:
+                            even = True
                     #cr('E')
                     if show_durations.check():
                         for d in durations:
