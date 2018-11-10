@@ -183,7 +183,7 @@ if 'Main loop...':
                                 else:
                                     P[t] = Topics[t]
                         parameter_file_load_timer.reset()
-                    else:
+                    except:
                         cr("menu2.load_Topics() failed")
 
             else:
