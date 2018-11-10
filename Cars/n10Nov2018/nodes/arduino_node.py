@@ -167,10 +167,10 @@ if 'Main loop...':
                     #Topics = menu2.load_Topics(
                     #    opjk("scratch/Template/"),first_load=False,customer='template')
                     Topics = menu2.load_Topics(
-                        opj("kzpy3/Cars/n10Nov2018/nodes/Default_values/arduino",
+                        opj("kzpy3/Cars/n10Nov2018/nodes/Default_values/arduino"),
                         #opjk("Cars/n10Nov2018/nodes/Default_values/arduino"),
                         first_load=False,
-                        customer='Arduino Node'))
+                        customer='Arduino Node')
 
                     if type(Topics) == dict:
                         for t in Topics['To Expose']['Arduino Node']:
