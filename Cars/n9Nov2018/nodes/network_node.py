@@ -330,7 +330,7 @@ while not rospy.is_shutdown():
         cr(len(left_list),nframes)
         if human_agent == 0 and drive_mode == 1:
             if len(left_list) > nframes + 2:
-                cr('B')
+                #cr('B')
                 #cb(time.time())
                 frequency_timer.freq(name='network',do_print=True)
                 ####################################################
@@ -342,7 +342,7 @@ while not rospy.is_shutdown():
                     dname = 'fuse images'
                     print Durations[dname]['timer'].reset()
 
-                    cr('C')
+                    #cr('C')
                     print Durations[dname]['timer'].time()
                     k = image_type+'_resized_'+resize
                     if k in ppc.Images:
@@ -389,7 +389,7 @@ while not rospy.is_shutdown():
 
                     print Durations[dname]['timer'].time()
                     Durations[dname]['list'].append(1000.0*Durations[dname]['timer'].time())
-                    cr('D')
+                    #cr('D')
                     if 'show_net_input' in Arguments:
 
                         if ppc.A['show_net_input']:
@@ -404,7 +404,7 @@ while not rospy.is_shutdown():
 
                             mci((z2o(lr)*255).astype(np.uint8),scale=1.0,color_mode=cv2.COLOR_GRAY2BGR,title='ZED')
 
-                    cr('E')
+                    #cr('E')
                     if show_durations.check():
                         for d in durations:
                             cg(d,':',dp(np.median(Durations[d]['list']),1),'ms')
@@ -414,7 +414,7 @@ while not rospy.is_shutdown():
 
                 else:
                     pass
-                cr('F')
+                #cr('F')
         
 
                 ##
