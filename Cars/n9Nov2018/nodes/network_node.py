@@ -327,7 +327,7 @@ while not rospy.is_shutdown():
         #cr('A')
         human_agent = 0   ##########################
         drive_mode = 1    ##########################
-        #print len(left_list)
+        cr(len(left_list),nframes)
         if human_agent == 0 and drive_mode == 1:
             if len(left_list) > nframes + 2:
                 cr('B')
