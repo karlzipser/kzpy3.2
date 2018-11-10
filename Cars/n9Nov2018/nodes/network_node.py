@@ -343,7 +343,7 @@ while not rospy.is_shutdown():
                     Durations[dname]['timer'].reset()
 
                     
-
+                    Durations[dname]['timer'].time()
                     k = image_type+'_resized_'+resize
                     if k in ppc.Images:
                         img = ppc.Images[k]
@@ -358,7 +358,7 @@ while not rospy.is_shutdown():
                         lidar_list.append(img)
                         if len(lidar_list)>10:
                             lidar_list = lidar_list[-10:]
-                
+                    Durations[dname]['timer'].time()
                     Lists = {}
                     Lists['left'] = left_list[-2:]
                     Lists['right'] = right_list[-2:]##
@@ -368,7 +368,7 @@ while not rospy.is_shutdown():
                     for side in ['left','right']:
                         for i in [-1,-2]:
                             rLists[side].append( cv2.resize(Lists[side][i],(net_input_width,net_input_height)) )
-                    
+                    Durations[dname]['timer'].time()
                     if len(lidar_list) > 4:
                         #print len(lidar_list)
                         rLists['left'][-2][:,:,1] = lidar_list[-1]
@@ -387,7 +387,7 @@ while not rospy.is_shutdown():
                         #mi(rLists['right'][1],11)
                         #spause()
 
-
+                    Durations[dname]['timer'].time()
                     Durations[dname]['list'].append(1000.0*Durations[dname]['timer'].time())
 
                     if 'show_net_input' in Arguments:
@@ -486,7 +486,7 @@ while not rospy.is_shutdown():
         CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
 
 
-        
+
 
 
 CS_('goodbye!',__file__)
