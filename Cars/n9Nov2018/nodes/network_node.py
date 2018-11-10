@@ -248,14 +248,14 @@ parameter_file_load_timer = Timer(0.5)
 
 even = True
 # TEMPORARY
-human_agent = 0   ##########################
-drive_mode = 1    ##########################
-button_number = 4 ##########################
+#human_agent = 0   ##########################
+#drive_mode = 1    ##########################
+#button_number = 4 ##########################
 
 while not rospy.is_shutdown():
     #print button_number
-    if Torch_network != None: ##########################
-        button_number = 2 ##########################
+    #if Torch_network != None: ##########################
+    #    button_number = 2 ##########################
 
     if button_number == 4: 
 
@@ -267,6 +267,7 @@ while not rospy.is_shutdown():
                 opjk("Cars/n9Nov2018_car_with_nets/nodes/Default_values"),
                 first_load=False,
                 customer='Network Node')
+            print Topics
             
             if type(Topics) == dict:
                 for t in Topics['To Expose']['Network Node']+Topics['To Expose']['Trained Nets']:
@@ -274,7 +275,7 @@ while not rospy.is_shutdown():
                         pass
                     else:
                         N[t] = Topics[t]
-
+                        print dn2("N[",t,"] = ",Topics[t])
             parameter_file_load_timer.reset()
 
 
