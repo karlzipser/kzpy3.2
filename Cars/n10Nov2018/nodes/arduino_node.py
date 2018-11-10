@@ -164,9 +164,10 @@ if 'Main loop...':
                 #print 'arduino load topics'
 
                 if P['button_number'] == 4:
-
+                    #Topics = menu2.load_Topics(
+                    #    opjk("scratch/Template/"),first_load=False,customer='template')
                     Topics = menu2.load_Topics(
-                        "kzpy3/Cars/n10Nov2018/nodes/Default_values/arduino",
+                        opj("kzpy3/Cars/n10Nov2018/nodes/Default_values/arduino",
                         #opjk("Cars/n10Nov2018/nodes/Default_values/arduino"),
                         first_load=False,
                         customer='Arduino Node')
