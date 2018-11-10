@@ -324,7 +324,7 @@ while not rospy.is_shutdown():
         s1 = N['network_motor_smoothing_parameter']
         s2 = N['network_servo_smoothing_parameter']
         s3 = N['network_camera_smoothing_parameter']
-        cr('A')
+        #cr('A')
         human_agent = 0   ##########################
         drive_mode = 1    ##########################
         #print len(left_list)
