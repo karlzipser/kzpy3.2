@@ -283,7 +283,7 @@ while not rospy.is_shutdown():
 
     if Torch_network == None:
         continue
-    else print Torch_network
+    #else print Torch_network
 
     time.sleep(0.001)
 
