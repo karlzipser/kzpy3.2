@@ -64,19 +64,32 @@ def Torch_Network(N):
         return camera_data
 
 
+
+
     ##################################################################
     #
     def _format_camera_data__no_scale(left_list, right_list):
+
         listoftensors = []
         for i in range(D['nframes']):
             for side in (left_list, right_list):
-                listoftensors.append(torch.from_numpy(side[-i - 1]))
-                camera_data = torch.cat(listoftensors, 2)
-                camera_data = camera_data.cuda().float()
-                camera_data = camera_data.unsqueeze(0)
+                #print shape(side)
+                if N['GREY_OUT_TOP_OF_IMAGE']:
+                    side[-i - 1][:188,:,:] = 128
+                if N['USE_LAST_IMAGE_ONLY']:
+                    listoftensors.append(torch.from_numpy(side[-1]))
+                else:
+                    listoftensors.append(torch.from_numpy(side[-i - 1]))
+        camera_data = torch.cat(listoftensors, 2)
+        camera_data = camera_data.cuda().float()#/255. - 0.5
+        camera_data = torch.transpose(camera_data, 0, 2)
+        camera_data = torch.transpose(camera_data, 1, 2)
+        camera_data = camera_data.unsqueeze(0)
+        camera_data = Variable(camera_data)
         return camera_data
     #
     ##################################################################
+
 
 
     def _format_metadata(raw_metadata):
@@ -92,6 +105,7 @@ def Torch_Network(N):
 
     D['run_model'] = _run_model
     D['format_camera_data'] = _format_camera_data
+    D['format_camera_data__no_scale'] = _format_camera_data__no_scale
     D['format_metadata'] = _format_metadata
 
     return D

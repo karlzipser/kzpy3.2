@@ -18,12 +18,18 @@ import rospy
 from sensor_msgs.msg import Image
 bridge = CvBridge()
 
+import kzpy3.Data_app.lidar.python_pointclouds6k as ppc
+
 rospy.init_node('network_node',anonymous=True,disable_signals=True)
 
 left_list = []
 right_list = []
 nframes = 2 #figure out how to get this from network
+lidar_list = []
 
+nframes = 2
+left_calls = 0
+left_calls_prev = 0
 human_agent = 1
 behavioral_mode = 'direct'
 drive_mode = 0
@@ -51,8 +57,9 @@ def right_callback(data):
     send_image_to_list(right_list,data)
 
 def left_callback(data):
-    global left_list
+    global left_list, left_calls
     send_image_to_list(left_list,data)
+    left_calls += 1
 
 def human_agent_callback(msg):
     global human_agent
@@ -111,6 +118,87 @@ rospy.Subscriber('/bair_car/human_agent', std_msgs.msg.Int32, callback=human_age
 rospy.Subscriber('/bair_car/behavioral_mode', std_msgs.msg.String, callback=behavioral_mode_callback)
 rospy.Subscriber('/bair_car/drive_mode', std_msgs.msg.Int32, callback=drive_mode_callback)
 rospy.Subscriber('/bair_car/button_number', std_msgs.msg.Int32, callback=button_number_callback)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##############################################
+#
+# visualization only
+rgb_spacer = zeros((94,2),np.uint8)+128
+t_spacer = zeros((4,508),np.uint8)+128
+lr_spacer = zeros((200,8),np.uint8)+128
+def rgbcat(L,s,t):
+    return np.concatenate(( L[s][t][:,:,0],rgb_spacer, L[s][t][:,:,1],rgb_spacer, L[s][t][:,:,2] ),axis=1)
+def tcat(t0,tn1):
+    return np.concatenate( (t_spacer,t0,t_spacer,tn1,t_spacer), axis=0)
+def lrcat(l,r):
+    return np.concatenate( (lr_spacer,l,lr_spacer,r,lr_spacer), axis=1)
+#
+##############################################
+
+##############################################
+#
+threading.Thread(target=ppc.pointcloud_thread,args=[]).start()
+#
+##############################################
+
+Durations = {}
+durations = ['fuse images',]
+for d in durations:
+    Durations[d] = {}
+    Durations[d]['timer'] = Timer()
+    Durations[d]['list'] = []
+show_durations = Timer(5)
+
+net_input_width = 168
+net_input_height = 94
+resize = ppc.resize_versions[0]
+image_type = ppc.image_type_versions[0]
+mn,mx = -0.5,0.7
+
+waiting = Timer(1)
+frequency_timer = Timer(5)
+
+
+##
+####################################################
+####################################################
+####################################################
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 frequency_timer = Timer(1.0)
 print_timer = Timer(5)
@@ -205,14 +293,123 @@ while not rospy.is_shutdown():
     s3 = N['network_camera_smoothing_parameter']
 
     if human_agent == 0 and drive_mode == 1:
-        if len(left_list) > nframes + 2:
-            camera_data = Torch_network['format_camera_data'](left_list,right_list)
+
+
+
+
+
+
+
+        if len(left_list) > nframes + 1:
+            #cr('B')
+            #cb(time.time())
+            frequency_timer.freq(name='network',do_print=True)
+            ####################################################
+            ####################################################
+            ####################################################
+            ##
+            if (left_calls > left_calls_prev):
+
+                dname = 'fuse images'
+                #print Durations[dname]['timer'].reset()
+
+                #cr('C')
+                #print Durations[dname]['timer'].time()
+
+                k = image_type+'_resized_'+resize
+                if k in ppc.Images:
+                    img = ppc.Images[k]
+                    if image_type == 't':
+                        img = np.random.random((94,168))#np.log10(img+0.001)
+                        img[img>mx] = mx
+                        img[img<mn] = mn
+                        if 'temporary (?)':
+                            img[0,0] = mx; img[0,1] = mn
+                        img = (z2o(img)*255).astype(np.uint8)
+                    #advance(lidar_list,img,7)
+                    lidar_list.append(img)
+                    if len(lidar_list)>5:
+                        lidar_list = lidar_list[-5:]
+
+                #print Durations[dname]['timer'].time()
+                Lists = {}
+                Lists['left'] = left_list[-2:]
+                Lists['right'] = right_list[-2:]##
+                rLists = {}
+                rLists['left'] = []
+                rLists['right'] = []
+                for side in ['left','right']:
+                    for i in [-1,-2]:
+                        rLists[side].append( cv2.resize(Lists[side][i],(net_input_width,net_input_height)) )
+                #print Durations[dname]['timer'].time()
+                if len(lidar_list) > 4:
+                    #print len(lidar_list)
+                    rLists['left'][-2][:,:,1] = lidar_list[-1]
+                    rLists['left'][-2][:,:,2] = lidar_list[-2]
+
+                    rLists['right'][-2][:,:,1] = lidar_list[-3]
+                    rLists['right'][-2][:,:,2] = lidar_list[-4]
+                #else print len(lidar_list)
+                    #so(rLists,opjD('rLists'))
+                    #raw_enter()
+
+                    #print shape(rLists['left'][0]), shape(rLists['right'][0])
+                    #mi(rLists['left'][0],0)
+                    #mi(rLists['left'][1],1)
+                    #mi(rLists['right'][0],10)
+                    #mi(rLists['right'][1],11)
+                    #spause()
+
+                #print Durations[dname]['timer'].time()
+                Durations[dname]['list'].append(1000.0*Durations[dname]['timer'].time())
+                Durations[dname]['timer'].reset()
+                #cr('D')
+                if 'show_net_input' in Arguments:
+                    if even:
+                        if ppc.A['show_net_input']:
+
+                            l0 = rgbcat(rLists,'left',-1)
+                            ln1 = rgbcat(rLists,'left',-2)
+                            r0 = rgbcat(rLists,'right',-1)
+                            rn1 = rgbcat(rLists,'right',-2)
+                            l = tcat(l0,ln1)
+                            r = tcat(r0,rn1)
+                            lr = lrcat(l,r)
+
+                            mci((z2o(lr)*255).astype(np.uint8),scale=1.0,color_mode=cv2.COLOR_GRAY2BGR,title='ZED')
+                            even = False
+                    else:
+                        even = True
+                #cr('E')
+                if show_durations.check():
+                    for d in durations:
+                        cg(d,':',dp(np.median(Durations[d]['list']),1),'ms')
+                    show_durations.reset()
+
+                    
+
+            
+            
+            #cr('F')
+    
+
+            ##
+            ####################################################
+            ####################################################
+            ####################################################
+            
+
+
+
+
+        # if len(left_list) > nframes + 2:
+            camera_data = Torch_network['format_camera_data_no_scale'](left_list,right_list)
             metadata = Torch_network['format_metadata']((direct,follow,furtive,play,left,right)) #((right,left,play,furtive,follow,direct))
             torch_motor, torch_steer = Torch_network['run_model'](camera_data, metadata, N)
 
-            """
-            Torch_network['output'] should contain full output array of network
-            """
+            
+            #Torch_network['output'] should contain full output array of network
+            
 
 
             if 'Do smoothing of percents...':
@@ -230,15 +427,15 @@ while not rospy.is_shutdown():
             adjusted_steer = bound_value(adjusted_steer,0,99)
             adjusted_camera = bound_value(adjusted_camera,0,99)
             
-            print adjusted_camera,adjusted_steer,adjusted_motor
+            #print adjusted_camera,adjusted_steer,adjusted_motor
 
             camera_cmd_pub.publish(std_msgs.msg.Int32(adjusted_camera))
             steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
             motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
-
+            
 
     else:
-        time.sleep(0.1)
+        time.sleep(0.00001)
 
 CS_('goodbye!',__file__)
 CS_("doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))")
