@@ -228,7 +228,7 @@ while not rospy.is_shutdown():
     if button_number == 4:
 
         time.sleep(1)
-
+        """
         if parameter_file_load_timer.check():
 
             Topics = menu2.load_Topics(
@@ -248,7 +248,7 @@ while not rospy.is_shutdown():
 
         if N['LOAD NETWORK'] == False:
             loaded_net = False
-
+        """
 
         
         N['weight_file_path'] = False
@@ -286,7 +286,26 @@ while not rospy.is_shutdown():
     #else print Torch_network
 
     time.sleep(0.001)
+    
+    if parameter_file_load_timer.check():
 
+        Topics = menu2.load_Topics(
+            opjk("Cars/n11Oct2018_car_with_nets/nodes/Default_values/arduino"),
+            first_load=False,
+            customer='Network Node')
+        
+        if type(Topics) == dict:
+            for t in Topics['To Expose']['Network Node']+Topics['To Expose']['Trained Nets']:
+                if '!' in t:
+                    pass
+                else:
+                    N[t] = Topics[t]
+
+        parameter_file_load_timer.reset()
+
+
+    if N['LOAD NETWORK'] == False:
+        loaded_net = False
 
 
     s1 = N['network_motor_smoothing_parameter']
