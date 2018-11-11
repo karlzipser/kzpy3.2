@@ -158,7 +158,7 @@ threading.Thread(target=ppc.pointcloud_thread,args=[]).start()
 ##############################################
 
 Durations = {}
-durations = ['fuse images',]
+durations = ['fuse images','torch camera format','run mode']
 for d in durations:
     Durations[d] = {}
     Durations[d]['timer'] = Timer()
@@ -395,12 +395,7 @@ while not rospy.is_shutdown():
                                 else:
                                     even = True
                     #cr('E')
-                    if show_durations.check():
-                        for d in durations:
-                            cg(d,':',dp(np.median(Durations[d]['list']),1),'ms')
-                            print len(left_list)
-                            print len(rLists['left'])
-                        show_durations.reset()
+
 
                     
 
@@ -413,7 +408,9 @@ while not rospy.is_shutdown():
             ####################################################
             ####################################################
             ####################################################
-            
+            dname = 'torch camera format'
+            Durations[dname]['timer'].reset()
+            #'fuse images','torch camera format','run mode']
 
 
 
@@ -423,9 +420,16 @@ while not rospy.is_shutdown():
             #print shape(rLists['right'])
             camera_data = Torch_network['format_camera_data__no_scale'](rLists['left'],rLists['right'])
             #print camera_data #1 12 94 168 as should be: 1x12x94x168
-            metadata = Torch_network['format_metadata']((direct,follow,furtive,play,left,right)) #((right,left,play,furtive,follow,direct))
-            torch_motor, torch_steer = Torch_network['run_model'](camera_data, metadata, N)
+            
+            Durations[dname]['list'].append(1000.0*Durations[dname]['timer'].time())
 
+            metadata = Torch_network['format_metadata']((direct,follow,furtive,play,left,right)) #((right,left,play,furtive,follow,direct))
+            
+            dname = 'torch camera format'
+            Durations[dname]['timer'].reset()
+
+            torch_motor, torch_steer = Torch_network['run_model'](camera_data, metadata, N)
+            Durations[dname]['list'].append(1000.0*Durations[dname]['timer'].time())
             
             #Torch_network['output'] should contain full output array of network
             
@@ -453,7 +457,12 @@ while not rospy.is_shutdown():
             steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
             motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
             
-
+            if show_durations.check():
+                for d in durations:
+                    cg(d,':',dp(np.median(Durations[d]['list']),1),'ms')
+                    print len(left_list)
+                    print len(rLists['left'])
+                show_durations.reset()
     else:
         time.sleep(0.00001)
 
