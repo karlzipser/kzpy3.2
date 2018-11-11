@@ -207,4 +207,37 @@ mi(a_shift,'a_shift')
 
 
 
+
+
+def advance(lst,e,min_len=1):
+
+
+lst=[1,2,3,4,3,5,6]
+e='a'
+
+min_len=3
+len_lst = len(lst)
+print len_lst
+if len_lst < min_len:
+    print 1
+    pass
+elif len_lst > 1.2*min_len:
+    print 2
+    lst = lst[-min_len:]
+    print len(lst)
+else:
+    print 3
+    lst.pop(0)
+    print len(lst)
+lst.append(e)
+print 4
+
+
+def advance(lst,e,min_len=1):
+    lst.append(e)
+    if len(lst)>1.2*min_len:
+        lst = lst[-min_len:]
+
+
+
 #EOF
