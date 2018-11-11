@@ -412,7 +412,7 @@ while not rospy.is_shutdown():
             
             #Torch_network['output'] should contain full output array of network
             
-
+            cr('G')
 
             if 'Do smoothing of percents...':
                 current_camera = (1.0-s3)*torch_steer + s3*current_camera
@@ -420,7 +420,7 @@ while not rospy.is_shutdown():
                 current_motor = (1.0-s1)*torch_motor + s1*current_motor
 
 
-
+            cr('H')
             adjusted_motor = int(N['network_motor_gain']*(current_motor-49) + N['network_motor_offset'] + 49)
             adjusted_steer = int(N['network_steer_gain']*(current_steer-49) + 49)
             adjusted_camera = int(N['network_camera_gain']*(current_camera-49) + 49)
@@ -430,7 +430,7 @@ while not rospy.is_shutdown():
             adjusted_camera = bound_value(adjusted_camera,0,99)
             
             #print adjusted_camera,adjusted_steer,adjusted_motor
-
+            cr('I')
             camera_cmd_pub.publish(std_msgs.msg.Int32(adjusted_camera))
             steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
             motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
