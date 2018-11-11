@@ -37,7 +37,7 @@ def assign_serial_connections(P,sers):
                 elif ser_tuple[0] in ['sound']:
                     print(d2s('Port',ser.port,'is the SOUND:',ser_str))
                     print("\tusing '?.ino'")
-                    P['Arduinos']['SOUND'] = ser
+                    #P['Arduinos']['SOUND'] = ser
                     break
                 elif ser_tuple[0] in ['acc','gyro','head']:
                     print(d2s('Port',ser.port,'is the IMU:',ser_str))
