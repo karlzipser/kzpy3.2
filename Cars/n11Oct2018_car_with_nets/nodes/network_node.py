@@ -17,6 +17,7 @@ from cv_bridge import CvBridge,CvBridgeError
 import rospy
 from sensor_msgs.msg import Image
 bridge = CvBridge()
+import cv2
 
 import kzpy3.Data_app.lidar.python_pointclouds6k as ppc
 

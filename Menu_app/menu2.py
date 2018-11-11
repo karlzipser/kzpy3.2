@@ -227,7 +227,7 @@ def load_Topics(input_path,first_load=False,customer=''):
     c = get_safe_name(customer)
     path = opj(input_path,'__local__')
     r = sggo(path,'ready.'+c)
-    cr("TEMP ",r)
+    #cr("TEMP ",r)
     if len(r) > 1:
         CS_('Warning, more than one ready in '+path)
     assert len(r) < 2
@@ -239,10 +239,10 @@ def load_Topics(input_path,first_load=False,customer=''):
                 os.remove(opj(path,'ready.'+c))
             except:
                 pass
-        cr("TEMP return Topics")
+        #cr("TEMP return Topics")
         return Topics
     else:
-        cr("TEMP  return None")
+        #cr("TEMP  return None")
         return None
 
 def load_menu_data(path,Parameters,first_load=False,customer=''):
