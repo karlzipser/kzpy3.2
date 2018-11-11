@@ -270,7 +270,7 @@ while not rospy.is_shutdown():
                                 if N[n][0] == True:
                                     cs('E')
                                     N['weight_file_path'] = N['weight_files'][n][N[n][1]]
-                                    srpd2s("N['weight_file_path'] = N['weight_files'][n][a[1]]")
+                                    sbpd2s("N['weight_file_path'] = N['weight_files'][n][a[1]]")
                                     break
 
                 if N['weight_file_path'] != False:
@@ -404,7 +404,7 @@ while not rospy.is_shutdown():
 
 
         # if len(left_list) > nframes + 2:
-            camera_data = Torch_network['format_camera_data_no_scale'](left_list,right_list)
+            camera_data = Torch_network['format_camera_data__no_scale'](left_list,right_list)
             metadata = Torch_network['format_metadata']((direct,follow,furtive,play,left,right)) #((right,left,play,furtive,follow,direct))
             torch_motor, torch_steer = Torch_network['run_model'](camera_data, metadata, N)
 
