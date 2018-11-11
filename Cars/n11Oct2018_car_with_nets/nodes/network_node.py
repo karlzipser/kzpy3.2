@@ -27,6 +27,7 @@ left_list = []
 right_list = []
 nframes = 2 #figure out how to get this from network
 lidar_list = []
+even = True
 
 nframes = 2
 left_calls = 0
