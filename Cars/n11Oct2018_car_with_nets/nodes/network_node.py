@@ -152,7 +152,7 @@ def lrcat(l,r):
 
 ##############################################
 #
-threading.Thread(target=ppc.pointcloud_thread,args=[]).start()
+###threading.Thread(target=ppc.pointcloud_thread,args=[]).start()
 #
 ##############################################
 
@@ -316,12 +316,12 @@ while not rospy.is_shutdown():
 
                 #cr('C')
                 #print Durations[dname]['timer'].time()
-
+                """
                 k = image_type+'_resized_'+resize
                 if k in ppc.Images:
                     img = ppc.Images[k]
                     if image_type == 't':
-                        img = np.random.random((94,168))#np.log10(img+0.001)
+                        img = np.log10(img+0.001)
                         img[img>mx] = mx
                         img[img<mn] = mn
                         if 'temporary (?)':
@@ -331,7 +331,7 @@ while not rospy.is_shutdown():
                     lidar_list.append(img)
                     if len(lidar_list)>5:
                         lidar_list = lidar_list[-5:]
-
+                """
                 #print Durations[dname]['timer'].time()
                 Lists = {}
                 Lists['left'] = left_list[-2:]
@@ -343,6 +343,7 @@ while not rospy.is_shutdown():
                     for i in [-1,-2]:
                         rLists[side].append( cv2.resize(Lists[side][i],(net_input_width,net_input_height)) )
                 #print Durations[dname]['timer'].time()
+                """
                 if len(lidar_list) > 4:
                     #print len(lidar_list)
                     rLists['left'][-2][:,:,1] = lidar_list[-1]
@@ -360,7 +361,7 @@ while not rospy.is_shutdown():
                     #mi(rLists['right'][0],10)
                     #mi(rLists['right'][1],11)
                     #spause()
-
+                """
                 #print Durations[dname]['timer'].time()
                 Durations[dname]['list'].append(1000.0*Durations[dname]['timer'].time())
                 Durations[dname]['timer'].reset()
