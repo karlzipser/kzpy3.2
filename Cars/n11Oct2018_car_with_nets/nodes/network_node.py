@@ -408,6 +408,8 @@ while not rospy.is_shutdown():
 
 
         # if len(left_list) > nframes + 2:
+            print shape(left_list)
+            print shape(right_list)
             camera_data = Torch_network['format_camera_data__no_scale'](left_list,right_list)
             metadata = Torch_network['format_metadata']((direct,follow,furtive,play,left,right)) #((right,left,play,furtive,follow,direct))
             torch_motor, torch_steer = Torch_network['run_model'](camera_data, metadata, N)
