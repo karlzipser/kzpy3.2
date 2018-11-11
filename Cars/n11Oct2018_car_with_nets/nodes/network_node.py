@@ -225,6 +225,9 @@ while not rospy.is_shutdown():
 
     #cr('Z')
 
+    #####################################################################
+    #####################################################################
+    ###    
     if button_number == 4:
 
         time.sleep(1)
@@ -280,6 +283,13 @@ while not rospy.is_shutdown():
                     Torch_network = net_utils.Torch_Network(N)
                     cs( "Torch_network = net_utils.Torch_Network(N)" )
 
+        s1 = N['network_motor_smoothing_parameter']
+        s2 = N['network_servo_smoothing_parameter']
+        s3 = N['network_camera_smoothing_parameter']
+    ###
+    #####################################################################
+    #####################################################################
+    
 
     if Torch_network == None:
         continue
@@ -289,9 +299,7 @@ while not rospy.is_shutdown():
 
 
 
-    s1 = N['network_motor_smoothing_parameter']
-    s2 = N['network_servo_smoothing_parameter']
-    s3 = N['network_camera_smoothing_parameter']
+
 
     if human_agent == 0 and drive_mode == 1:
 
@@ -313,7 +321,7 @@ while not rospy.is_shutdown():
             if True:#(left_calls > left_calls_prev):
 
                 dname = 'fuse images'
-                #print Durations[dname]['timer'].reset()
+                Durations[dname]['timer'].reset()
 
                 #cr('C')
                 #print Durations[dname]['timer'].time()
@@ -367,9 +375,9 @@ while not rospy.is_shutdown():
                 
                 #print Durations[dname]['timer'].time()
                 Durations[dname]['list'].append(1000.0*Durations[dname]['timer'].time())
-                Durations[dname]['timer'].reset()
+                #Durations[dname]['timer'].reset()
                 #cr('D')
-                if True:#'show_net_input' in Arguments:                   
+                if False:#'show_net_input' in Arguments:                   
                     if True:#'show_net_input' in ppc.A:
                         if True:#ppc.A['show_net_input']:
                             if even:
