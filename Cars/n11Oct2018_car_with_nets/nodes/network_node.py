@@ -342,13 +342,19 @@ while not rospy.is_shutdown():
                 rLists['left'] = []
                 rLists['right'] = []
                 for side in ['left','right']:
-                    for i in [-1,-2]:
+                    for i in [-1]:#,-2]:
+                        """
                         rLists[side].append( cv2.resize(Lists[side][i],(net_input_width,net_input_height)) )
+                        """
+                        img = cv2.resize(Lists[side][i],(net_input_width,net_input_height))
+                        rLists[side].append(img)
+                        rLists[side].append(img) # temp test for speedup
                 #cr('C2')
                 #print Durations[dname]['timer'].time()
                 
                 if len(lidar_list) > 4:
                     #print len(lidar_list)
+
                     rLists['left'][-2][:,:,1] = lidar_list[-1]
                     rLists['left'][-2][:,:,2] = lidar_list[-2]
 
