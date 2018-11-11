@@ -223,6 +223,8 @@ parameter_file_load_timer = Timer(0.5)
 
 while not rospy.is_shutdown():
 
+    cr('Z')
+
     if button_number == 4:
 
         time.sleep(1)
@@ -281,13 +283,12 @@ while not rospy.is_shutdown():
 
     if Torch_network == None:
         continue
+    else print Torch_network
 
     time.sleep(0.001)
-    Hz = frequency_timer.freq(name='Hz_network',do_print=False)
-    if is_number(Hz):
-        if low_frequency_pub_timer.check():
-            Hz_network_pub.publish(std_msgs.msg.Float32(Hz))
-            low_frequency_pub_timer.reset()
+
+    frequency_timer.freq(name='Hz_network',do_print=False)
+
 
     s1 = N['network_motor_smoothing_parameter']
     s2 = N['network_servo_smoothing_parameter']
@@ -297,7 +298,7 @@ while not rospy.is_shutdown():
 
 
 
-
+        cr('A')
 
 
 
@@ -333,6 +334,7 @@ while not rospy.is_shutdown():
                         lidar_list = lidar_list[-5:]
                 """
                 #print Durations[dname]['timer'].time()
+                cr('C1')
                 Lists = {}
                 Lists['left'] = left_list[-2:]
                 Lists['right'] = right_list[-2:]##
@@ -342,6 +344,7 @@ while not rospy.is_shutdown():
                 for side in ['left','right']:
                     for i in [-1,-2]:
                         rLists[side].append( cv2.resize(Lists[side][i],(net_input_width,net_input_height)) )
+                cr('C2')
                 #print Durations[dname]['timer'].time()
                 """
                 if len(lidar_list) > 4:
@@ -366,7 +369,7 @@ while not rospy.is_shutdown():
                 Durations[dname]['list'].append(1000.0*Durations[dname]['timer'].time())
                 Durations[dname]['timer'].reset()
                 cr('D')
-                if 'show_net_input' in Arguments:
+                if True:#'show_net_input' in Arguments:
                     if even:
                         if ppc.A['show_net_input']:
 
