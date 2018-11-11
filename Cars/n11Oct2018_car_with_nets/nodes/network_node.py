@@ -309,7 +309,7 @@ while not rospy.is_shutdown():
             ####################################################
             ####################################################
             ##
-            if (left_calls > left_calls_prev):
+            if True:#(left_calls > left_calls_prev):
 
                 dname = 'fuse images'
                 #print Durations[dname]['timer'].reset()
@@ -429,7 +429,7 @@ while not rospy.is_shutdown():
             adjusted_steer = bound_value(adjusted_steer,0,99)
             adjusted_camera = bound_value(adjusted_camera,0,99)
             
-            #print adjusted_camera,adjusted_steer,adjusted_motor
+            print adjusted_camera,adjusted_steer,adjusted_motor
             cr('I')
             camera_cmd_pub.publish(std_msgs.msg.Int32(adjusted_camera))
             steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
