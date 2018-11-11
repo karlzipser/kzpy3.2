@@ -202,7 +202,6 @@ frequency_timer = Timer(5)
 
 
 
-frequency_timer = Timer(1.0)
 print_timer = Timer(5)
 
 Hz = 0
@@ -288,7 +287,6 @@ while not rospy.is_shutdown():
 
     time.sleep(0.001)
 
-    frequency_timer.freq(name='Hz_network',do_print=False)
 
 
     s1 = N['network_motor_smoothing_parameter']
@@ -297,6 +295,7 @@ while not rospy.is_shutdown():
 
     if human_agent == 0 and drive_mode == 1:
 
+        #frequency_timer.freq(name='Hz_network',do_print=False)
 
 
         #cr('A')
@@ -306,7 +305,7 @@ while not rospy.is_shutdown():
         if len(left_list) > nframes + 1:
             #cr('B')
             #cb(time.time())
-            frequency_timer.freq(name='network',do_print=True)
+            
             ####################################################
             ####################################################
             ####################################################
@@ -418,7 +417,7 @@ while not rospy.is_shutdown():
             
             #Torch_network['output'] should contain full output array of network
             
-            cr('G')
+            #cr('G')
 
             if 'Do smoothing of percents...':
                 current_camera = (1.0-s3)*torch_steer + s3*current_camera
@@ -426,7 +425,7 @@ while not rospy.is_shutdown():
                 current_motor = (1.0-s1)*torch_motor + s1*current_motor
 
 
-            cr('H')
+            #cr('H')
             adjusted_motor = int(N['network_motor_gain']*(current_motor-49) + N['network_motor_offset'] + 49)
             adjusted_steer = int(N['network_steer_gain']*(current_steer-49) + 49)
             adjusted_camera = int(N['network_camera_gain']*(current_camera-49) + 49)
@@ -434,8 +433,9 @@ while not rospy.is_shutdown():
             adjusted_motor = bound_value(adjusted_motor,0,99)
             adjusted_steer = bound_value(adjusted_steer,0,99)
             adjusted_camera = bound_value(adjusted_camera,0,99)
-            
-            print adjusted_camera,adjusted_steer,adjusted_motor
+            frequency_timer.freq(name='network',do_print=True)
+
+            #print adjusted_camera,adjusted_steer,adjusted_motor
             #cr('I')
             camera_cmd_pub.publish(std_msgs.msg.Int32(adjusted_camera))
             steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
