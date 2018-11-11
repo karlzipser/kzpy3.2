@@ -220,7 +220,7 @@ def print_exposed(Topics,customer):
         else:
             name_ = name
         print d2n(name_,': ',Topics[name],'  '),
-        cprint(type(Topics[name]).__name__,'grey')
+        cprint(type(Topics[name]).__name__,'blue')
     print ''
 
 def load_Topics(input_path,first_load=False,customer=''):
