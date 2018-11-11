@@ -153,7 +153,7 @@ def lrcat(l,r):
 
 ##############################################
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-### threading.Thread(target=ppc.pointcloud_thread,args=[]).start()
+threading.Thread(target=ppc.pointcloud_thread,args=[]).start()
 #
 ##############################################
 
@@ -299,7 +299,7 @@ while not rospy.is_shutdown():
 
 
 
-        cr('A')
+        #cr('A')
 
 
 
@@ -316,9 +316,9 @@ while not rospy.is_shutdown():
                 dname = 'fuse images'
                 #print Durations[dname]['timer'].reset()
 
-                cr('C')
+                #cr('C')
                 #print Durations[dname]['timer'].time()
-                """
+                
                 k = image_type+'_resized_'+resize
                 if k in ppc.Images:
                     img = ppc.Images[k]
@@ -333,9 +333,9 @@ while not rospy.is_shutdown():
                     lidar_list.append(img)
                     if len(lidar_list)>5:
                         lidar_list = lidar_list[-5:]
-                """
+                
                 #print Durations[dname]['timer'].time()
-                cr('C1')
+                #cr('C1')
                 Lists = {}
                 Lists['left'] = left_list[-2:]
                 Lists['right'] = right_list[-2:]##
@@ -345,9 +345,9 @@ while not rospy.is_shutdown():
                 for side in ['left','right']:
                     for i in [-1,-2]:
                         rLists[side].append( cv2.resize(Lists[side][i],(net_input_width,net_input_height)) )
-                cr('C2')
+                #cr('C2')
                 #print Durations[dname]['timer'].time()
-                """
+                
                 if len(lidar_list) > 4:
                     #print len(lidar_list)
                     rLists['left'][-2][:,:,1] = lidar_list[-1]
@@ -365,14 +365,14 @@ while not rospy.is_shutdown():
                     #mi(rLists['right'][0],10)
                     #mi(rLists['right'][1],11)
                     #spause()
-                """
+                
                 #print Durations[dname]['timer'].time()
                 Durations[dname]['list'].append(1000.0*Durations[dname]['timer'].time())
                 Durations[dname]['timer'].reset()
-                cr('D')
+                #cr('D')
                 if True:#'show_net_input' in Arguments:                   
-                    if 'show_net_input' in ppc.A:
-                        if ppc.A['show_net_input']:
+                    if True:#'show_net_input' in ppc.A:
+                        if True:#ppc.A['show_net_input']:
                             if even:
                                 l0 = rgbcat(rLists,'left',-1)
                                 ln1 = rgbcat(rLists,'left',-2)
@@ -385,7 +385,7 @@ while not rospy.is_shutdown():
                                 even = False
                             else:
                                 even = True
-                cr('E')
+                #cr('E')
                 if show_durations.check():
                     for d in durations:
                         cg(d,':',dp(np.median(Durations[d]['list']),1),'ms')
@@ -395,7 +395,7 @@ while not rospy.is_shutdown():
 
             
             
-            cr('F')
+            #cr('F')
     
 
             ##
@@ -436,7 +436,7 @@ while not rospy.is_shutdown():
             adjusted_camera = bound_value(adjusted_camera,0,99)
             
             print adjusted_camera,adjusted_steer,adjusted_motor
-            cr('I')
+            #cr('I')
             camera_cmd_pub.publish(std_msgs.msg.Int32(adjusted_camera))
             steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
             motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
