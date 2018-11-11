@@ -151,8 +151,8 @@ def lrcat(l,r):
 ##############################################
 
 ##############################################
-#
-###threading.Thread(target=ppc.pointcloud_thread,args=[]).start()
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+### threading.Thread(target=ppc.pointcloud_thread,args=[]).start()
 #
 ##############################################
 
@@ -314,7 +314,7 @@ while not rospy.is_shutdown():
                 dname = 'fuse images'
                 #print Durations[dname]['timer'].reset()
 
-                #cr('C')
+                cr('C')
                 #print Durations[dname]['timer'].time()
                 """
                 k = image_type+'_resized_'+resize
@@ -365,7 +365,7 @@ while not rospy.is_shutdown():
                 #print Durations[dname]['timer'].time()
                 Durations[dname]['list'].append(1000.0*Durations[dname]['timer'].time())
                 Durations[dname]['timer'].reset()
-                #cr('D')
+                cr('D')
                 if 'show_net_input' in Arguments:
                     if even:
                         if ppc.A['show_net_input']:
@@ -382,7 +382,7 @@ while not rospy.is_shutdown():
                             even = False
                     else:
                         even = True
-                #cr('E')
+                cr('E')
                 if show_durations.check():
                     for d in durations:
                         cg(d,':',dp(np.median(Durations[d]['list']),1),'ms')
@@ -392,7 +392,7 @@ while not rospy.is_shutdown():
 
             
             
-            #cr('F')
+            cr('F')
     
 
             ##
