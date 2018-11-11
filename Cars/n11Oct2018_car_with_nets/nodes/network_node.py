@@ -224,7 +224,7 @@ parameter_file_load_timer = Timer(0.5)
 
 while not rospy.is_shutdown():
 
-    cr('Z')
+    #cr('Z')
 
     if button_number == 4:
 
