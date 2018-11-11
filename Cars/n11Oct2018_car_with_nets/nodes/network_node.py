@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from kzpy3.utils3 import *
+from kzpy3.vis3 import *
 exec(identify_file_str)
 sbpd2s("network_node.py")
 
