@@ -135,7 +135,7 @@ dimg = zeros((19,18,3))
 
 while not rospy.is_shutdown():
 
-    try:
+    if True:#try:
         print_timer.message(d2s("ctr,error =",ctr,',',error_ctr));ctr+=1
         time.sleep(0.01)
         #for f in F.keys():
@@ -153,7 +153,7 @@ while not rospy.is_shutdown():
             dimg[:fx.num_backward_timesteps,:,:] = img3
             mi(z2o(dimg),'img');spause()
 
-    except Exception as e:
+    else:#except Exception as e:
         error_ctr += 1
         exc_type, exc_obj, exc_tb = sys.exc_info()
         file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
