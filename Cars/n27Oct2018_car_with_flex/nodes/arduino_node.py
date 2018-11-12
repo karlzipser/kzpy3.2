@@ -10,8 +10,8 @@ import kzpy3.Cars.n11Oct2018_car_with_nets.nodes.Default_values.arduino.default_
 P = default_values.P
 P['ABORT'] = False
 
-while P['ABORT'] == False:
-    time.sleep(1)
+#while P['ABORT'] == False:
+#    time.sleep(1)
 
 from arduino_utils.serial_init import *
 from arduino_utils.tactic_rc_controller import *
