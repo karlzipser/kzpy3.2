@@ -304,8 +304,14 @@ def save_Depth_images(Depth_images,the_run,path=opjD('Depth_images')):
 		pd2s('\t',topic_,len(D[topic_]))
 		cs( type(D[topic_]),shape(D[topic_]))
 		if type(D[topic_]) == str:
-			s = F.create_dataset(topic_,(1,),dtype=h5py.special_dtype(vlen=str))
-			s[:] = the_run
+			try:
+				s = F.create_dataset(topic_,(1,),dtype=h5py.special_dtype(vlen=str))
+				s[:] = the_run
+			except Exception as e:
+				exc_type, exc_obj, exc_tb = sys.exc_info()
+				file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+				CS_('Exception!',emphasis=True)
+				CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)			
 		else:
 			F.create_dataset(topic_,data=D[topic_])		
 	F.close()
@@ -322,8 +328,25 @@ process_and_save_Depth_images(run_folder)
 
 
 
-
-
+if False:
+	CA()
+	n = 7003
+	img = D['real'][n][:]
+	img[28,:] = img[27,:]
+	img[29,:] = img[30,:]
+	mn,mx = -0.5,0.7
+	img = np.log10(img+0.001)
+	img[img>mx] = mx
+	img[img<mn] = mn
+	mi(img,'pre-resize')
+	img = cv2.resize(img,(256,94))
+	a1 = 128-168/2
+	a2 = 128+168/2
+	img = img[:,a1:a2]
+	if 'temporary (?)':
+	    img[0,0] = mx; img[0,1] = mn
+	img = (z2o(img)*255).astype(np.uint8)
+	mi(img,'final')
 
 
 

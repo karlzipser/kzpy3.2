@@ -238,6 +238,22 @@ def advance(lst,e,min_len=1):
     if len(lst)>1.2*min_len:
         lst = lst[-min_len:]
 
+n = 3000
+img = D['real'][n][:]
+img[28,:] = img[27,:]
+img[29,:] = img[30,:]
+mn,mx = -0.5,0.7
+img = np.log10(img+0.001)
+img[img>mx] = mx
+img[img<mn] = mn
+img = cv2.resize(img,(256,94))
+a1 = 128-168/2
+a2 = 128+168/2
+img = img[:,a1:a2]
+if 'temporary (?)':
+    img[0,0] = mx; img[0,1] = mn
+img = (z2o(img)*255).astype(np.uint8)
+
 
 
 #EOF
