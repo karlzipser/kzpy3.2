@@ -463,7 +463,7 @@ while not rospy.is_shutdown():
             
             if show_durations.check():
                 for d in durations:
-                    cg(d,':',dp(np.median(Durations[d]['list']),1),'ms')
+                    #cg(d,':',dp(np.median(Durations[d]['list']),1),'ms')
                     print len(left_list)
                     print len(rLists['left'])
                 show_durations.reset()
