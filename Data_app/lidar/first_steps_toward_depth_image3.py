@@ -38,7 +38,7 @@ temp = sggo(opjD('Depth_images/*'))
 runs_in_progress_or_done = []
 
 for t in temp:
-	runs_in_progress_or_done.append(fname(t))#.split('.')[0])
+	runs_in_progress_or_done.append(fname(t).split('.')[0])
 
 cg("runs_in_progress_or_done",runs_in_progress_or_done)
 
@@ -48,6 +48,7 @@ run_folder = False
 for r in run_folders: #"in sggo(f,'*'):
 	if fname(r)[0]!= '_':
 		if 'Mr_Black' not in r:
+
 			if fname(r) not in runs_in_progress_or_done:
 				run_folder = r
 		if run_folder:
@@ -328,7 +329,7 @@ process_and_save_Depth_images(run_folder)
 
 
 
-if False:
+if False: # sketch of making log verions
 	CA()
 	n = 7003
 	img = D['real'][n][:]
@@ -351,7 +352,7 @@ if False:
 
 
 
-if False:
+if False: # make log versions of images
 	depth_image_files = sggo(opjD('Depth_images','*.h5py'))
 	
 	#depth_image_file = '/home/karlzipser/Desktop/Depth_images/tegra-ubuntu_26Oct18_08h37m07s.Depth_image.h5py'
@@ -441,7 +442,7 @@ if False:
 
 
 
-if False:
+if False: # make flip versions
 
 	depth_image_files = sggo(opjD('Depth_images','*.Depth_images.h5py'))
 	
@@ -499,7 +500,7 @@ if False:
 
 
 
-if False:
+if False: # asign left timestamps
 
 	import kzpy3.Data_app.classify_data as classify_data
 	P = {}
