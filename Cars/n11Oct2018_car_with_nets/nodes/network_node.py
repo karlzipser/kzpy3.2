@@ -354,7 +354,7 @@ while not rospy.is_shutdown():
                 Lists['right'] = right_list[-2:]##
 
                 for side in ['left','right']:
-                    for i in [-1,-2]:
+                    for i in [-1]:#,-2]:
                         advance(rLists[side], cv2.resize(Lists[side][i],(net_input_width,net_input_height)), 4 )
                 #cr('C2')
                 #print Durations[dname]['timer'].time()
@@ -383,21 +383,21 @@ while not rospy.is_shutdown():
                         #Durations[dname]['list'].append(1000.0*Durations[dname]['timer'].time())
                         #Durations[dname]['timer'].reset()
                         #cr('D')
-                        if True:#'show_net_input' in Arguments:                   
-                            if True:#'show_net_input' in ppc.A:
-                                if True:#ppc.A['show_net_input']:
-                                    if even:
-                                        l0 = rgbcat(rLists,'left',-1)
-                                        ln1 = rgbcat(rLists,'left',-2)
-                                        r0 = rgbcat(rLists,'right',-1)
-                                        rn1 = rgbcat(rLists,'right',-2)
-                                        l = tcat(l0,ln1)
-                                        r = tcat(r0,rn1)
-                                        lr = lrcat(l,r)
-                                        mci((z2o(lr)*255).astype(np.uint8),scale=1.0,color_mode=cv2.COLOR_GRAY2BGR,title='ZED')
-                                        even = False
-                                    else:
-                                        even = True
+                if True:#'show_net_input' in Arguments:                   
+                    if True:#'show_net_input' in ppc.A:
+                        if True:#ppc.A['show_net_input']:
+                            if even:
+                                l0 = rgbcat(rLists,'left',-1)
+                                ln1 = rgbcat(rLists,'left',-2)
+                                r0 = rgbcat(rLists,'right',-1)
+                                rn1 = rgbcat(rLists,'right',-2)
+                                l = tcat(l0,ln1)
+                                r = tcat(r0,rn1)
+                                lr = lrcat(l,r)
+                                mci((z2o(lr)*255).astype(np.uint8),scale=1.0,color_mode=cv2.COLOR_GRAY2BGR,title='ZED')
+                                even = False
+                            else:
+                                even = True
                     #cr('E')
 
 
