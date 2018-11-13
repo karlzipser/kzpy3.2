@@ -6,7 +6,7 @@ sbpd2s("network_node.py")
 
 """
 
-this is the current working versino for lidar and camera as of 12 Nov. 2018 (evening)
+this is the current working version for lidar and camera as of 12 Nov. 2018 (evening)
 
 """
 
