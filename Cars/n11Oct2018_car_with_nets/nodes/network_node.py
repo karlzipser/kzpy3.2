@@ -268,17 +268,17 @@ while not rospy.is_shutdown():
                 ns = N['weight_files'].keys()
                 #cs(ns)
                 for n in ns:
-                    cs('A')
-                    cs(n,N[n])
+                    #cs('A')
+                    #cs(n,N[n])
                     if N[n] != False:
-                        cs('B')
+                        #cs('B')
                         if type(N[n]) == list:
-                            cs('C')
+                            #cs('C')
                             if N[n][0] != False:
-                                cs('D')
-                                cs('here',n,N[n])
+                                #cs('D')
+                                #cs('here',n,N[n])
                                 if N[n][0] == True:
-                                    cs('E')
+                                    #cs('E')
                                     N['weight_file_path'] = N['weight_files'][n][N[n][1]]
                                     sbpd2s("N['weight_file_path'] = N['weight_files'][n][a[1]]")
                                     break
@@ -354,20 +354,20 @@ while not rospy.is_shutdown():
                 Lists['right'] = right_list[-2:]##
 
                 for side in ['left','right']:
-                    for i in [-1]:#,-2]:
+                    for i in [-1,-2]:
                         advance(rLists[side], cv2.resize(Lists[side][i],(net_input_width,net_input_height)), 4 )
                 #cr('C2')
                 #print Durations[dname]['timer'].time()
+                if N['use LIDAR']:
+                    if len(rLists['left']) >= 2:
+                        if N['use LIDAR']:
+                            if len(lidar_list) > 4:
+                                #print len(lidar_list)
+                                rLists['left'][-2][:,:,1] = lidar_list[-1]
+                                rLists['left'][-2][:,:,2] = lidar_list[-2]
 
-                if len(rLists['left']) >= 2:
-                    if N['use LIDAR']:
-                        if len(lidar_list) > 4:
-                            #print len(lidar_list)
-                            rLists['left'][-2][:,:,1] = lidar_list[-1]
-                            rLists['left'][-2][:,:,2] = lidar_list[-2]
-
-                            rLists['right'][-2][:,:,1] = lidar_list[-3]
-                            rLists['right'][-2][:,:,2] = lidar_list[-4]
+                                rLists['right'][-2][:,:,1] = lidar_list[-3]
+                                rLists['right'][-2][:,:,2] = lidar_list[-4]
                         #else print len(lidar_list)
                             #so(rLists,opjD('rLists'))
                             #raw_enter()
@@ -383,7 +383,7 @@ while not rospy.is_shutdown():
                         #Durations[dname]['list'].append(1000.0*Durations[dname]['timer'].time())
                         #Durations[dname]['timer'].reset()
                         #cr('D')
-                        if False:#'show_net_input' in Arguments:                   
+                        if True:#'show_net_input' in Arguments:                   
                             if True:#'show_net_input' in ppc.A:
                                 if True:#ppc.A['show_net_input']:
                                     if even:
