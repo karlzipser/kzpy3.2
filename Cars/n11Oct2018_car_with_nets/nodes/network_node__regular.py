@@ -158,7 +158,7 @@ threading.Thread(target=ppc.pointcloud_thread,args=[]).start()
 ##############################################
 
 Durations = {}
-durations = ['fuse images','torch camera format','run mode']
+durations = ['fuse images',]
 for d in durations:
     Durations[d] = {}
     Durations[d]['timer'] = Timer()
@@ -199,9 +199,7 @@ frequency_timer = Timer(5)
 
 
 
-rLists = {}
-rLists['left'] = []
-rLists['right'] = []
+
 
 
 print_timer = Timer(5)
@@ -348,54 +346,57 @@ while not rospy.is_shutdown():
                 Lists = {}
                 Lists['left'] = left_list[-2:]
                 Lists['right'] = right_list[-2:]##
-
+                rLists = {}
+                rLists['left'] = []
+                rLists['right'] = []
                 for side in ['left','right']:
-                    for i in [-1]:#,-2]:
-                        advance(rLists[side], cv2.resize(Lists[side][i],(net_input_width,net_input_height)), 4 )
+                    for i in [-1,-2]:
+                        rLists[side].append( cv2.resize(Lists[side][i],(net_input_width,net_input_height)) )
                 #cr('C2')
                 #print Durations[dname]['timer'].time()
-
-                if len rLists['left'] >= 2:
                 
-                    if len(lidar_list) > 4:
-                        #print len(lidar_list)
-                        rLists['left'][-2][:,:,1] = lidar_list[-1]
-                        rLists['left'][-2][:,:,2] = lidar_list[-2]
+                if len(lidar_list) > 4:
+                    #print len(lidar_list)
+                    rLists['left'][-2][:,:,1] = lidar_list[-1]
+                    rLists['left'][-2][:,:,2] = lidar_list[-2]
 
-                        rLists['right'][-2][:,:,1] = lidar_list[-3]
-                        rLists['right'][-2][:,:,2] = lidar_list[-4]
-                    #else print len(lidar_list)
-                        #so(rLists,opjD('rLists'))
-                        #raw_enter()
+                    rLists['right'][-2][:,:,1] = lidar_list[-3]
+                    rLists['right'][-2][:,:,2] = lidar_list[-4]
+                #else print len(lidar_list)
+                    #so(rLists,opjD('rLists'))
+                    #raw_enter()
 
-                        #print shape(rLists['left'][0]), shape(rLists['right'][0])
-                        #mi(rLists['left'][0],0)
-                        #mi(rLists['left'][1],1)
-                        #mi(rLists['right'][0],10)
-                        #mi(rLists['right'][1],11)
-                        #spause()
-                    
-                    #print Durations[dname]['timer'].time()
-                    Durations[dname]['list'].append(1000.0*Durations[dname]['timer'].time())
-                    #Durations[dname]['timer'].reset()
-                    #cr('D')
-                    if False:#'show_net_input' in Arguments:                   
-                        if True:#'show_net_input' in ppc.A:
-                            if True:#ppc.A['show_net_input']:
-                                if even:
-                                    l0 = rgbcat(rLists,'left',-1)
-                                    ln1 = rgbcat(rLists,'left',-2)
-                                    r0 = rgbcat(rLists,'right',-1)
-                                    rn1 = rgbcat(rLists,'right',-2)
-                                    l = tcat(l0,ln1)
-                                    r = tcat(r0,rn1)
-                                    lr = lrcat(l,r)
-                                    mci((z2o(lr)*255).astype(np.uint8),scale=1.0,color_mode=cv2.COLOR_GRAY2BGR,title='ZED')
-                                    even = False
-                                else:
-                                    even = True
-                    #cr('E')
-
+                    #print shape(rLists['left'][0]), shape(rLists['right'][0])
+                    #mi(rLists['left'][0],0)
+                    #mi(rLists['left'][1],1)
+                    #mi(rLists['right'][0],10)
+                    #mi(rLists['right'][1],11)
+                    #spause()
+                
+                #print Durations[dname]['timer'].time()
+                Durations[dname]['list'].append(1000.0*Durations[dname]['timer'].time())
+                #Durations[dname]['timer'].reset()
+                #cr('D')
+                if False:#'show_net_input' in Arguments:                   
+                    if True:#'show_net_input' in ppc.A:
+                        if True:#ppc.A['show_net_input']:
+                            if even:
+                                l0 = rgbcat(rLists,'left',-1)
+                                ln1 = rgbcat(rLists,'left',-2)
+                                r0 = rgbcat(rLists,'right',-1)
+                                rn1 = rgbcat(rLists,'right',-2)
+                                l = tcat(l0,ln1)
+                                r = tcat(r0,rn1)
+                                lr = lrcat(l,r)
+                                mci((z2o(lr)*255).astype(np.uint8),scale=1.0,color_mode=cv2.COLOR_GRAY2BGR,title='ZED')
+                                even = False
+                            else:
+                                even = True
+                #cr('E')
+                if show_durations.check():
+                    for d in durations:
+                        cg(d,':',dp(np.median(Durations[d]['list']),1),'ms')
+                    show_durations.reset()
 
                     
 
@@ -408,9 +409,7 @@ while not rospy.is_shutdown():
             ####################################################
             ####################################################
             ####################################################
-            dname = 'torch camera format'
-            Durations[dname]['timer'].reset()
-            #'fuse images','torch camera format','run mode']
+            
 
 
 
@@ -420,16 +419,9 @@ while not rospy.is_shutdown():
             #print shape(rLists['right'])
             camera_data = Torch_network['format_camera_data__no_scale'](rLists['left'],rLists['right'])
             #print camera_data #1 12 94 168 as should be: 1x12x94x168
-            
-            Durations[dname]['list'].append(1000.0*Durations[dname]['timer'].time())
-
             metadata = Torch_network['format_metadata']((direct,follow,furtive,play,left,right)) #((right,left,play,furtive,follow,direct))
-            
-            dname = 'torch camera format'
-            Durations[dname]['timer'].reset()
-
             torch_motor, torch_steer = Torch_network['run_model'](camera_data, metadata, N)
-            Durations[dname]['list'].append(1000.0*Durations[dname]['timer'].time())
+
             
             #Torch_network['output'] should contain full output array of network
             
@@ -457,12 +449,7 @@ while not rospy.is_shutdown():
             steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
             motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
             
-            if show_durations.check():
-                for d in durations:
-                    cg(d,':',dp(np.median(Durations[d]['list']),1),'ms')
-                    print len(left_list)
-                    print len(rLists['left'])
-                show_durations.reset()
+
     else:
         time.sleep(0.00001)
 
