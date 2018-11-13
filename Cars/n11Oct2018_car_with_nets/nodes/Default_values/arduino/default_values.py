@@ -10,6 +10,7 @@ P['customers'] = ['Arduino Node','Network Node',' Trained Nets']
 P['drive_mode'] = 0
 P['use LIDAR'] = False
 P['use sound'] = True
+P['show_net_input'] = False
 P['menu name'] = 'arduino menu'
 P['cmd/autostart menu'] = False
 P['cmd/clear_screen'] = False
