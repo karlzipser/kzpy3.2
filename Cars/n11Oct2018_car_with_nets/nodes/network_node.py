@@ -420,7 +420,7 @@ while not rospy.is_shutdown():
 
 
 
-            if len(rLists['left']):
+            if len(rLists['left'])>2:
             # if len(left_list) > nframes + 2:
                 #print shape(rLists['left'])
                 #print shape(rLists['right'])
