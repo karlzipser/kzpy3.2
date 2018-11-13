@@ -3,6 +3,13 @@ from kzpy3.vis3 import *
 exec(identify_file_str)
 sbpd2s("network_node.py")
 
+
+"""
+
+this is the current working versino for lidar and camera as of 12 Nov. 2018 (evening)
+
+"""
+
 import kzpy3.Cars.n11Oct2018_car_with_nets.nodes.Default_values.arduino.default_values as default_values
 N = default_values.P
 
