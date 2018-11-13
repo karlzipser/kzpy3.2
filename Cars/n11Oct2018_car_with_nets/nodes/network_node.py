@@ -358,6 +358,7 @@ while not rospy.is_shutdown():
                         advance(rLists[side], cv2.resize(Lists[side][i],(net_input_width,net_input_height)), 4 )
                 #cr('C2')
                 #print Durations[dname]['timer'].time()
+                cg(len(rLists['left']))
                 if len(rLists['left'])>2:
                     if N['use LIDAR']:
                         if len(rLists['left']) >= 2:
@@ -419,55 +420,57 @@ while not rospy.is_shutdown():
 
 
 
+            if len(rLists['left']):
+            # if len(left_list) > nframes + 2:
+                #print shape(rLists['left'])
+                #print shape(rLists['right'])
+                camera_data = Torch_network['format_camera_data__no_scale'](rLists['left'],rLists['right'])
+                #print camera_data #1 12 94 168 as should be: 1x12x94x168
+                
+                Durations[dname]['list'].append(1000.0*Durations[dname]['timer'].time())
 
-        # if len(left_list) > nframes + 2:
-            #print shape(rLists['left'])
-            #print shape(rLists['right'])
-            camera_data = Torch_network['format_camera_data__no_scale'](rLists['left'],rLists['right'])
-            #print camera_data #1 12 94 168 as should be: 1x12x94x168
-            
-            Durations[dname]['list'].append(1000.0*Durations[dname]['timer'].time())
+                metadata = Torch_network['format_metadata']((direct,follow,furtive,play,left,right)) #((right,left,play,furtive,follow,direct))
+                
+                dname = 'torch camera format'
+                Durations[dname]['timer'].reset()
 
-            metadata = Torch_network['format_metadata']((direct,follow,furtive,play,left,right)) #((right,left,play,furtive,follow,direct))
-            
-            dname = 'torch camera format'
-            Durations[dname]['timer'].reset()
+                torch_motor, torch_steer = Torch_network['run_model'](camera_data, metadata, N)
+                Durations[dname]['list'].append(1000.0*Durations[dname]['timer'].time())
+                
+                #Torch_network['output'] should contain full output array of network
+                
+                #cr('G')
 
-            torch_motor, torch_steer = Torch_network['run_model'](camera_data, metadata, N)
-            Durations[dname]['list'].append(1000.0*Durations[dname]['timer'].time())
-            
-            #Torch_network['output'] should contain full output array of network
-            
-            #cr('G')
-
-            if 'Do smoothing of percents...':
-                current_camera = (1.0-s3)*torch_steer + s3*current_camera
-                current_steer = (1.0-s2)*torch_steer + s2*current_steer
-                current_motor = (1.0-s1)*torch_motor + s1*current_motor
+                if 'Do smoothing of percents...':
+                    current_camera = (1.0-s3)*torch_steer + s3*current_camera
+                    current_steer = (1.0-s2)*torch_steer + s2*current_steer
+                    current_motor = (1.0-s1)*torch_motor + s1*current_motor
 
 
-            #cr('H')
-            adjusted_motor = int(N['network_motor_gain']*(current_motor-49) + N['network_motor_offset'] + 49)
-            adjusted_steer = int(N['network_steer_gain']*(current_steer-49) + 49)
-            adjusted_camera = int(N['network_camera_gain']*(current_camera-49) + 49)
+                #cr('H')
+                adjusted_motor = int(N['network_motor_gain']*(current_motor-49) + N['network_motor_offset'] + 49)
+                adjusted_steer = int(N['network_steer_gain']*(current_steer-49) + 49)
+                adjusted_camera = int(N['network_camera_gain']*(current_camera-49) + 49)
 
-            adjusted_motor = bound_value(adjusted_motor,0,99)
-            adjusted_steer = bound_value(adjusted_steer,0,99)
-            adjusted_camera = bound_value(adjusted_camera,0,99)
-            frequency_timer.freq(name='network',do_print=True)
+                adjusted_motor = bound_value(adjusted_motor,0,99)
+                adjusted_steer = bound_value(adjusted_steer,0,99)
+                adjusted_camera = bound_value(adjusted_camera,0,99)
+                frequency_timer.freq(name='network',do_print=True)
 
-            #print adjusted_camera,adjusted_steer,adjusted_motor
-            #cr('I')
-            camera_cmd_pub.publish(std_msgs.msg.Int32(adjusted_camera))
-            steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
-            motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
-            
-            if show_durations.check():
-                for d in durations:
-                    #cg(d,':',dp(np.median(Durations[d]['list']),1),'ms')
-                    print len(left_list)
-                    print len(rLists['left'])
-                show_durations.reset()
+                #print adjusted_camera,adjusted_steer,adjusted_motor
+                #cr('I')
+                camera_cmd_pub.publish(std_msgs.msg.Int32(adjusted_camera))
+                steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
+                motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
+                
+                if show_durations.check():
+                    for d in durations:
+                        #cg(d,':',dp(np.median(Durations[d]['list']),1),'ms')
+                        print len(left_list)
+                        print len(rLists['left'])
+                    show_durations.reset()
+            else:
+                cr(len(rLists['left']))
     else:
         time.sleep(0.00001)
 
