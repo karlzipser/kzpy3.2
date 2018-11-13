@@ -224,7 +224,7 @@ loaded_net = False
 
 import kzpy3.Menu_app.menu2 as menu2
 
-parameter_file_load_timer = Timer(0.5)
+parameter_file_load_timer = Timer(1)
 
 while not rospy.is_shutdown():
 
@@ -233,7 +233,7 @@ while not rospy.is_shutdown():
     #####################################################################
     #####################################################################
     ###    
-    if button_number == 4:
+    if True:#button_number == 4:
 
         time.sleep(1)
 
