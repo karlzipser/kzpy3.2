@@ -480,6 +480,8 @@ while not rospy.is_shutdown():
                 adjusted_steer = bound_value(adjusted_steer,0,99)
                 adjusted_camera = bound_value(adjusted_camera,0,99)
 
+                adjusted_motor = min(adjusted_motor,N['max motor'])
+
                 if flex_motor < 47:
                     adjusted_camera = flex_steer
                     adjusted_steer = flex_steer
