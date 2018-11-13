@@ -463,9 +463,9 @@ while not rospy.is_shutdown():
                 adjusted_motor = bound_value(adjusted_motor,0,99)
                 adjusted_steer = bound_value(adjusted_steer,0,99)
                 adjusted_camera = bound_value(adjusted_camera,0,99)
-                #frequency_timer.freq(name='network',do_print=True)
+                frequency_timer.freq(name='network',do_print=True)
 
-                #print adjusted_camera,adjusted_steer,adjusted_motor
+                print adjusted_camera,adjusted_steer,adjusted_motor
                 #cr('I')
                 camera_cmd_pub.publish(std_msgs.msg.Int32(adjusted_camera))
                 steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
