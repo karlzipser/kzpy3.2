@@ -12,12 +12,12 @@ import rospy
 
 N = {}
 N['flex_weight_file_path'] = most_recent_file_in_folder(opjD('net_flex/weights'))
-N['flex_network_output_sample'] = 9
+N['flex_network_output_sample'] = 0
 
 
 rospy.init_node('flex_network_node',anonymous=True,disable_signals=True)
 
-graphics = False
+graphics = True
 
 flex_names = []
 for fb in ['F']:
@@ -96,7 +96,7 @@ def Flex_Torch_Network(N):
             plot([0,36],[49,49],'g')
             ylim(0,99)
             spause()
-        torch_motor = 100 * D['output'][0][18+N['flex_network_output_sample']].data[0].cpu().numpy()
+        torch_motor = 100 * D['output'][0][10+N['flex_network_output_sample']].data[0].cpu().numpy()
         torch_steer = 100 * D['output'][0][N['flex_network_output_sample']].data[0].cpu().numpy()
         torch_motor = max(0, torch_motor[0])
         torch_steer = max(0, torch_steer[0])
@@ -135,7 +135,7 @@ dimg = zeros((19,18,3))
 
 while not rospy.is_shutdown():
 
-    try:
+    if True:#try:
         print_timer.message(d2s("ctr,error =",ctr,',',error_ctr));ctr+=1
         time.sleep(0.01)
         #for f in F.keys():
@@ -153,7 +153,7 @@ while not rospy.is_shutdown():
             dimg[:fx.num_backward_timesteps,:,:] = img3
             mi(z2o(dimg),'img');spause()
 
-    except Exception as e:
+    else:#except Exception as e:
         error_ctr += 1
         exc_type, exc_obj, exc_tb = sys.exc_info()
         file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]

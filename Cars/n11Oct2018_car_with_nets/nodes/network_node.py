@@ -123,6 +123,17 @@ def button_number_callback(msg):
     else:
         center = 1.0
 
+flex_motor = 49
+flex_steer = 49
+
+def flex_motor__callback(msg):
+    global flex_motor
+    flex_motor = msg.data
+
+def flex_steer__callback(msg):
+    global flex_steer
+    flex_steer = msg.data
+
 camera_cmd_pub = rospy.Publisher('cmd/camera', std_msgs.msg.Int32, queue_size=5)
 steer_cmd_pub = rospy.Publisher('cmd/steer', std_msgs.msg.Int32, queue_size=5)
 motor_cmd_pub = rospy.Publisher('cmd/motor', std_msgs.msg.Int32, queue_size=5)
@@ -133,6 +144,9 @@ rospy.Subscriber('/bair_car/human_agent', std_msgs.msg.Int32, callback=human_age
 rospy.Subscriber('/bair_car/behavioral_mode', std_msgs.msg.String, callback=behavioral_mode_callback)
 rospy.Subscriber('/bair_car/drive_mode', std_msgs.msg.Int32, callback=drive_mode_callback)
 rospy.Subscriber('/bair_car/button_number', std_msgs.msg.Int32, callback=button_number_callback)
+
+rospy.Subscriber('/cmd/flex_motor', std_msgs.msg.Int32, callback=flex_motor__callback)
+rospy.Subscriber('/cmd/flex_steer', std_msgs.msg.Int32, callback=flex_steer__callback)
 
 
 
@@ -465,6 +479,12 @@ while not rospy.is_shutdown():
                 adjusted_motor = bound_value(adjusted_motor,0,99)
                 adjusted_steer = bound_value(adjusted_steer,0,99)
                 adjusted_camera = bound_value(adjusted_camera,0,99)
+
+                if flex_motor < 47:
+                    adjusted_camera = flex_steer
+                    adjusted_steer = flex_steer
+                    adjusted_motor = flex_motor
+
                 frequency_timer.freq(name='network',do_print=True)
 
                 print adjusted_camera,adjusted_steer,adjusted_motor
