@@ -93,8 +93,9 @@ MSE_low_frequency_pub_timer = Timer(0.1)
 def _publish_IMU_data(P,m):
     P[imu_dic[m]].publish(geometry_msgs.msg.Vector3(*P[m]['xyz']))
 
-def _publish_FLEX_data(Parameters,m):
-    P[d2n(m,'_pub')].publish(std_msgs.msg.Int32(Parameters[m]))
+def _publish_FLEX_data(P,m):
+    cr("_publish_FLEX_data(P,m):")
+    P[d2n(m,'_pub')].publish(std_msgs.msg.Int32(P[m]))
 
 def _publish_MSE_data(P):
     P['steer_pub'].publish(std_msgs.msg.Int32(P['human']['servo_percent']))
