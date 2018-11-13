@@ -154,7 +154,8 @@ def lrcat(l,r):
 
 ##############################################
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-threading.Thread(target=ppc.pointcloud_thread,args=[]).start()
+if N['use LIDAR']:
+    threading.Thread(target=ppc.pointcloud_thread,args=[]).start()
 #
 ##############################################
 
