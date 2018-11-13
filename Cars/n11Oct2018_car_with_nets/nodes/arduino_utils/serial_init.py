@@ -53,6 +53,7 @@ def assign_serial_connections(P,sers):
                     print(d2s('Port',ser.port,'is the FLEX:',ser_str))
                     print("\tusing 'Flex_Sensors_0_12Sept2018.ino'")
                     P['Arduinos']['FLEX'] = ser
+                    cr("P['Arduinos']['FLEX'] =",ser)
                     break
                 #
                 #################

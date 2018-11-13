@@ -5,10 +5,11 @@ import rospy
 
 
 def FLEX_Arduino(P):
+    cr("FLEX_Arduino(P)")
     threading.Thread(target=_FLEX_run_loop,args=[P]).start()
 
 def _FLEX_run_loop(P):
-    print '_FLEX_run_loop'
+    cr('_FLEX_run_loop')
     flush_seconds = 0.1
     flush_timer = Timer(flush_seconds)
     time.sleep(0.1)
@@ -29,12 +30,14 @@ def _FLEX_run_loop(P):
             if flush_timer.check():
                 P['Arduinos']['FLEX'].flushInput();P['Arduinos']['FLEX'].flushOutput()
                 flush_timer.reset()            
-            exec('flex_input = list({0})'.format(read_str))       
+            exec('flex_input = list({0})'.format(read_str))
+            cr("flex_input =",flex_input)      
             m = flex_input[0]
             assert(m in flex_names)
             Hz = frequency_timers[m].freq(name=m,do_print=False)
             P[m] = flex_input[1]
             if P['USE_ROS']:
+                cr("P['publish_FLEX_data'](P,",m,")")
                 P['publish_FLEX_data'](P,m)
             if print_timer.check():
                 print_timer.reset()
