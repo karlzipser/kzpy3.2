@@ -486,9 +486,10 @@ while not rospy.is_shutdown():
                     adjusted_camera = flex_steer
                     adjusted_steer = flex_steer
                     adjusted_motor = flex_motor
-                    cr(adjusted_camera,adjusted_steer,adjusted_motor)
+                    #r(adjusted_camera,adjusted_steer,adjusted_motor)
                 else:
-                    cg(adjusted_camera,adjusted_steer,adjusted_motor)
+                    cg(int(torch_steer),int(torch_motor))
+                        #adjusted_camera,adjusted_steer,adjusted_motor)
                 frequency_timer.freq(name='network',do_print=True)
 
                 
