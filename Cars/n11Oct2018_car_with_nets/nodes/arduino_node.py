@@ -14,6 +14,7 @@ from arduino_utils.serial_init import *
 from arduino_utils.tactic_rc_controller import *
 from arduino_utils.calibration_mode import *
 import arduino_utils.IMU_arduino
+from arduino_utils.FLEX_arduino import *
 #if P['use menu']:
 
 exec(identify_file_str)
@@ -143,6 +144,10 @@ if 'Start Arduino threads...':
     else:
         CS("!!!!!!!!!! 'IMU' not in Arduinos[] or not using 'IMU' !!!!!!!!!!!",exception=True)
 
+    if 'FLEX' in Parameters['Arduinos'].keys():
+        FLEX_Arduino(Parameters)
+    else:
+        spd2s("!!!!!!!!!! 'FLEX' not in Arduinos[] or not using 'FLEX' !!!!!!!!!!!")
     #P['agent_is_human'] = 'human'
 
 

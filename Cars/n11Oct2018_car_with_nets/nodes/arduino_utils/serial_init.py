@@ -43,7 +43,23 @@ def assign_serial_connections(P,sers):
                     print(d2s('Port',ser.port,'is the IMU:',ser_str))
                     print("\tusing 'acc.ino'")
                     P['Arduinos']['IMU'] = ser
-                    break  
+                    break
+
+
+
+                #################
+                #
+                elif ser_tuple[0] in flex_names:
+                    print(d2s('Port',ser.port,'is the FLEX:',ser_str))
+                    print("\tusing 'Flex_Sensors_0_12Sept2018.ino'")
+                    P['Arduinos']['FLEX'] = ser
+                    break
+                #
+                #################
+
+
+
+                    
                 else:
                     continue               
             except:
