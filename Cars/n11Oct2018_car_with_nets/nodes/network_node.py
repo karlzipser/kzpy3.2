@@ -236,7 +236,7 @@ while not rospy.is_shutdown():
     #####################################################################
     #####################################################################
     ###    
-    if True:#button_number == 4:
+    if button_number == 4:
 
         time.sleep(1)
 
@@ -421,12 +421,7 @@ while not rospy.is_shutdown():
             Durations[dname]['timer'].reset()
             #'fuse images','torch camera format','run mode']
 
-            try:
-                t_ = time.time()
-                dts.append(t_-t)
-                t = t_
-            except:
-                t = time.time()
+
 
             if len(rLists['left'])>2:
             # if len(left_list) > nframes + 2:
@@ -472,10 +467,7 @@ while not rospy.is_shutdown():
                 motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
                 
                 if show_durations.check():
-                    try:
-                        cr(np.median(na(dts)))
-                    except:
-                        cr('wtf')
+
                     for d in durations:
                         pass
                         #cg(d,':',dp(np.median(Durations[d]['list']),1),'ms')
