@@ -484,10 +484,12 @@ while not rospy.is_shutdown():
                     adjusted_camera = flex_steer
                     adjusted_steer = flex_steer
                     adjusted_motor = flex_motor
-
+                    cr(adjusted_camera,adjusted_steer,adjusted_motor)
+                else:
+                    cg(adjusted_camera,adjusted_steer,adjusted_motor)
                 frequency_timer.freq(name='network',do_print=True)
 
-                print adjusted_camera,adjusted_steer,adjusted_motor
+                
                 #cr('I')
                 camera_cmd_pub.publish(std_msgs.msg.Int32(adjusted_camera))
                 steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
