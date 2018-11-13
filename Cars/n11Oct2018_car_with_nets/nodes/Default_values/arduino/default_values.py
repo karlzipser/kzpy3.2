@@ -11,7 +11,7 @@ P['drive_mode'] = 0
 P['use LIDAR'] = False
 P['use sound'] = True
 P['use flex'] = True
-P['max motor'] = 55
+P['max motor'] = 63
 P['show_net_input'] = False
 P['menu name'] = 'arduino menu'
 P['cmd/autostart menu'] = False
@@ -156,7 +156,7 @@ P['To Expose']['Network Node'] = [
 	'network_camera_smoothing_parameter',
 	'USE_LAST_IMAGE_ONLY',
 	'LOAD NETWORK',
-	'max motor'
+	'max motor',
 ]
 
 def sort_dir_by_ctime(dir_path):
