@@ -358,7 +358,7 @@ while not rospy.is_shutdown():
                         advance(rLists[side], cv2.resize(Lists[side][i],(net_input_width,net_input_height)), 4 )
                 #cr('C2')
                 #print Durations[dname]['timer'].time()
-                cg(len(rLists['left']))
+                #cg(len(rLists['left']))
                 if len(rLists['left'])>2:
                     if N['use LIDAR']:
                         if len(rLists['left']) >= 2:
@@ -385,7 +385,7 @@ while not rospy.is_shutdown():
                             #Durations[dname]['list'].append(1000.0*Durations[dname]['timer'].time())
                             #Durations[dname]['timer'].reset()
                             #cr('D')
-                    if True:#'show_net_input' in Arguments:                   
+                    if False:#'show_net_input' in Arguments:                   
                         if True:#'show_net_input' in ppc.A:
                             if True:#ppc.A['show_net_input']:
                                 if even:
@@ -466,8 +466,8 @@ while not rospy.is_shutdown():
                 if show_durations.check():
                     for d in durations:
                         #cg(d,':',dp(np.median(Durations[d]['list']),1),'ms')
-                        print len(left_list)
-                        print len(rLists['left'])
+                        #print len(left_list)
+                        #print len(rLists['left'])
                     show_durations.reset()
             else:
                 cr(len(rLists['left']))
