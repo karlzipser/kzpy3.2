@@ -198,7 +198,7 @@ frequency_timer = Timer(5)
 
 
 
-
+first_time = True
 
 
 
@@ -417,8 +417,8 @@ while not rospy.is_shutdown():
             ####################################################
             ####################################################
             ####################################################
-            dname = 'torch camera format'
-            Durations[dname]['timer'].reset()
+            #dname = 'torch camera format'
+            #Durations[dname]['timer'].reset()
             #'fuse images','torch camera format','run mode']
 
 
@@ -430,15 +430,15 @@ while not rospy.is_shutdown():
                 camera_data = Torch_network['format_camera_data__no_scale'](rLists['left'],rLists['right'])
                 #print camera_data #1 12 94 168 as should be: 1x12x94x168
                 
-                Durations[dname]['list'].append(1000.0*Durations[dname]['timer'].time())
-
-                metadata = Torch_network['format_metadata']((direct,follow,furtive,play,left,right)) #((right,left,play,furtive,follow,direct))
-                
-                dname = 'torch camera format'
-                Durations[dname]['timer'].reset()
+                #Durations[dname]['list'].append(1000.0*Durations[dname]['timer'].time())
+                if first_time:
+                    metadata = Torch_network['format_metadata']((direct,follow,furtive,play,left,right)) #((right,left,play,furtive,follow,direct))
+                    first_time = False
+                #dname = 'torch camera format'
+                #Durations[dname]['timer'].reset()
 
                 torch_motor, torch_steer = Torch_network['run_model'](camera_data, metadata, N)
-                Durations[dname]['list'].append(1000.0*Durations[dname]['timer'].time())
+                #Durations[dname]['list'].append(1000.0*Durations[dname]['timer'].time())
                 
                 #Torch_network['output'] should contain full output array of network
                 
