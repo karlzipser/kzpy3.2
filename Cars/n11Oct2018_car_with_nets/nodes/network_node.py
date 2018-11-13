@@ -23,13 +23,13 @@ if N['use LIDAR']:
     import kzpy3.Data_app.lidar.python_pointclouds6k as ppc
     resize = ppc.resize_versions[0]
     image_type = ppc.image_type_versions[0]
-    
+    lidar_list = []
 rospy.init_node('network_node',anonymous=True,disable_signals=True)
 
 left_list = []
 right_list = []
 nframes = 2 #figure out how to get this from network
-lidar_list = []
+
 even = True
 
 nframes = 2
@@ -171,8 +171,7 @@ show_durations = Timer(5)
 
 net_input_width = 168
 net_input_height = 94
-resize = ppc.resize_versions[0]
-image_type = ppc.image_type_versions[0]
+
 mn,mx = -0.5,0.7
 
 waiting = Timer(1)
