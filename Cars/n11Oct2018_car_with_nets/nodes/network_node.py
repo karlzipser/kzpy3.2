@@ -469,7 +469,10 @@ while not rospy.is_shutdown():
                 motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
                 
                 if show_durations.check():
-                    print np.median(na(dts))
+                    try:
+                        cr(np.median(na(dts)))
+                    except:
+                        cr('wtf')
                     for d in durations:
                         pass
                         #cg(d,':',dp(np.median(Durations[d]['list']),1),'ms')
