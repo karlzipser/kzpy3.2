@@ -94,7 +94,7 @@ def _publish_IMU_data(P,m):
     P[imu_dic[m]].publish(geometry_msgs.msg.Vector3(*P[m]['xyz']))
 
 def _publish_FLEX_data(Parameters,m):
-    Parameters[d2n(m,'_pub')].publish(std_msgs.msg.Int32(Parameters[m]))
+    P[d2n(m,'_pub')].publish(std_msgs.msg.Int32(Parameters[m]))
 
 def _publish_MSE_data(P):
     P['steer_pub'].publish(std_msgs.msg.Int32(P['human']['servo_percent']))
