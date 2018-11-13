@@ -144,8 +144,8 @@ if 'Start Arduino threads...':
     else:
         CS("!!!!!!!!!! 'IMU' not in Arduinos[] or not using 'IMU' !!!!!!!!!!!",exception=True)
 
-    if 'FLEX' in Parameters['Arduinos'].keys():
-        FLEX_Arduino(Parameters)
+    if 'FLEX' in P['Arduinos'].keys():
+        FLEX_Arduino(P)
     else:
         spd2s("!!!!!!!!!! 'FLEX' not in Arduinos[] or not using 'FLEX' !!!!!!!!!!!")
     #P['agent_is_human'] = 'human'
