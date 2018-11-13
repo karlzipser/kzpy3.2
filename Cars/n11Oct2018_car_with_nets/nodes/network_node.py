@@ -357,7 +357,7 @@ while not rospy.is_shutdown():
                 Lists['right'] = right_list[-2:]##
 
                 for side in ['left','right']:
-                    for i in [-1,-2]:
+                    for i in [-1]:#,-2]:
                         advance(rLists[side], cv2.resize(Lists[side][i],(net_input_width,net_input_height)), 4 )
                 #cr('C2')
                 #print Durations[dname]['timer'].time()
