@@ -357,7 +357,7 @@ while not rospy.is_shutdown():
                 #cr('C2')
                 #print Durations[dname]['timer'].time()
 
-                if len rLists['left'] >= 2:
+                if len(rLists['left']) >= 2:
                     if N['use LIDAR']:
                         if len(lidar_list) > 4:
                             #print len(lidar_list)
