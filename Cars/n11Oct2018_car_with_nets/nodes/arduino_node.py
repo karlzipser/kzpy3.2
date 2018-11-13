@@ -99,7 +99,7 @@ def _publish_IMU_data(P,m):
     P[imu_dic[m]].publish(geometry_msgs.msg.Vector3(*P[m]['xyz']))
 
 def _publish_FLEX_data(P,m):
-    cr("_publish_FLEX_data(P,m):")
+    #cr("_publish_FLEX_data(P,m):")
     P[d2n(m,'_pub')].publish(std_msgs.msg.Int32(P[m]))
 
 def _publish_MSE_data(P):
@@ -134,7 +134,7 @@ def _publish_MSE_data(P):
 P['publish_IMU_data'] = _publish_IMU_data
 P['publish_MSE_data'] = _publish_MSE_data
 P['publish_FLEX_data'] = _publish_FLEX_data
-cr("P['publish_FLEX_data'] = _publish_FLEX_data")
+#cr("P['publish_FLEX_data'] = _publish_FLEX_data")
 
 if 'Start Arduino threads...':
     baudrate = 115200
