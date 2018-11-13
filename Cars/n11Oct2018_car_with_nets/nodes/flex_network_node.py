@@ -2,6 +2,14 @@
 from kzpy3.vis3 import *
 exec(identify_file_str)
 sbpd2s("flex_network_node.py")
+import kzpy3.Cars.n11Oct2018_car_with_nets.nodes.Default_values.arduino.default_values as default_values
+N = default_values.P
+
+if not N['use flex']:
+    cb("Not using flex_network_node")
+    while not rospy.is_shutdown():
+        time.sleep(10)
+
 #import kzpy3.Cars.n27Oct2018_car_with_flex.nodes.Default_values.arduino.default_values as default_values
 #N = default_values.P
 import rospy

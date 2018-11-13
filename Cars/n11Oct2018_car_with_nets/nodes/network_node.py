@@ -145,8 +145,8 @@ rospy.Subscriber('/bair_car/behavioral_mode', std_msgs.msg.String, callback=beha
 rospy.Subscriber('/bair_car/drive_mode', std_msgs.msg.Int32, callback=drive_mode_callback)
 rospy.Subscriber('/bair_car/button_number', std_msgs.msg.Int32, callback=button_number_callback)
 
-rospy.Subscriber('/cmd/flex_motor', std_msgs.msg.Int32, callback=flex_motor__callback)
-rospy.Subscriber('/cmd/flex_steer', std_msgs.msg.Int32, callback=flex_steer__callback)
+rospy.Subscriber('/bair_car/cmd/flex_motor', std_msgs.msg.Int32, callback=flex_motor__callback)
+rospy.Subscriber('/bair_car/cmd/flex_steer', std_msgs.msg.Int32, callback=flex_steer__callback)
 
 
 
