@@ -454,9 +454,12 @@ while not rospy.is_shutdown():
                 adjusted_motor = int(N['network_motor_gain']*(current_motor-49) + N['network_motor_offset'] + 49)
                 adjusted_steer = int(N['network_steer_gain']*(current_steer-49) + 49)
                 adjusted_camera = int(N['network_camera_gain']*(current_camera-49) + 49)
-                t_ = time.time()
-                dts.append(t_-t)
-                t = t_
+                try:
+                    t_ = time.time()
+                    dts.append(t_-t)
+                    t = t_
+                except:
+                    t = time.time()
                 adjusted_motor = bound_value(adjusted_motor,0,99)
                 adjusted_steer = bound_value(adjusted_steer,0,99)
                 adjusted_camera = bound_value(adjusted_camera,0,99)
