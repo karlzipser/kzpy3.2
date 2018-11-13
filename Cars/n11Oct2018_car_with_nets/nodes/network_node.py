@@ -358,7 +358,7 @@ while not rospy.is_shutdown():
                         advance(rLists[side], cv2.resize(Lists[side][i],(net_input_width,net_input_height)), 4 )
                 #cr('C2')
                 #print Durations[dname]['timer'].time()
-                if len(rLists['left']>2):
+                if len(rLists['left'])>2:
                     if N['use LIDAR']:
                         if len(rLists['left']) >= 2:
                             if N['use LIDAR']:
