@@ -21,7 +21,9 @@ import cv2
 
 if N['use LIDAR']:
     import kzpy3.Data_app.lidar.python_pointclouds6k as ppc
-
+    resize = ppc.resize_versions[0]
+    image_type = ppc.image_type_versions[0]
+    
 rospy.init_node('network_node',anonymous=True,disable_signals=True)
 
 left_list = []
