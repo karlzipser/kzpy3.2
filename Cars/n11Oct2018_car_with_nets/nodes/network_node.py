@@ -19,7 +19,7 @@ from sensor_msgs.msg import Image
 bridge = CvBridge()
 import cv2
 
-if N['use LIDAR']
+if N['use LIDAR']:
     import kzpy3.Data_app.lidar.python_pointclouds6k as ppc
 
 rospy.init_node('network_node',anonymous=True,disable_signals=True)
