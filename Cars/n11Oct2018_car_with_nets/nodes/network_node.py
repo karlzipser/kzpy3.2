@@ -388,7 +388,7 @@ while not rospy.is_shutdown():
                             #Durations[dname]['list'].append(1000.0*Durations[dname]['timer'].time())
                             #Durations[dname]['timer'].reset()
                             #cr('D')
-                    if False:#'show_net_input' in Arguments:                   
+                    if True:#'show_net_input' in Arguments:                   
                         if True:#'show_net_input' in ppc.A:
                             if True:#ppc.A['show_net_input']:
                                 if even:
