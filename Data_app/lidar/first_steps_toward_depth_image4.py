@@ -1,71 +1,69 @@
 
 from kzpy3.vis3 import *
 
-
-experiments = []
-locations = []
-behavioral_mode = []
-h5py = []
-run_folders = []
-
-experiments_ = sggo(opjm('/media/karlzipser/1_TB_Samsung_n1'),'*')
-for e in experiments_:
-    if fname(e)[0] == '_' or '+' in e:
-        cr('skipping',e)
-    else:
-        experiments.append(e)
-        cb('using', e)
-
-for e in experiments:
-    locations = sggo(e,'locations/*')
-    for l in locations:
-        behavioral_modes = sggo(l,'*')
-        for b in behavioral_modes:
-            runs_ = sggo(b,'h5py','*')
-        for r in runs_:
-            if 'Mr_Black' in r or fname(r)[0] == '_':
-                cr('skipping',fname(r))
-            else:
-                run_folders.append(r)
-                cb('using', fname(r))
+plot_timer = Timer(10)
 
 
+def get_unprocessed_run():
+	experiments = []
+	locations = []
+	behavioral_mode = []
+	h5py = []
+	run_folders = []
 
+	experiments_ = sggo(opjm('/media/karlzipser/1_TB_Samsung_n1'),'*')
+	for e in experiments_:
+	    if fname(e)[0] == '_' or '+' in e:
+	        cr('skipping',e)
+	    else:
+	        experiments.append(e)
+	        cb('using', e)
 
+	for e in experiments:
+	    locations = sggo(e,'locations/*')
+	    for l in locations:
+	        behavioral_modes = sggo(l,'*')
+	        for b in behavioral_modes:
+	            runs_ = sggo(b,'h5py','*')
+	        for r in runs_:
+	            if 'Mr_Black' in r or fname(r)[0] == '_':
+	                cr('skipping',fname(r))
+	            else:
+	                run_folders.append(r)
+	                cb('using', fname(r))
 
-temp = sggo(opjD('Depth_images/*'))
+	temp = sggo(opjD('Depth_images/*'))
 
-runs_in_progress_or_done = []
+	runs_in_progress_or_done = []
 
-for t in temp:
-	runs_in_progress_or_done.append(fname(t).split('.')[0])
+	for t in temp:
+		runs_in_progress_or_done.append(fname(t).split('.')[0])
 
-cg("runs_in_progress_or_done",runs_in_progress_or_done)
+	cg("runs_in_progress_or_done",runs_in_progress_or_done)
 
-run_folder = False
+	run_folder = False
 
-#for f in run_folders:
-for r in run_folders: #"in sggo(f,'*'):
-	if fname(r)[0]!= '_':
-		if 'Mr_Black' not in r:
+	#for f in run_folders:
+	for r in run_folders: #"in sggo(f,'*'):
+		if fname(r)[0]!= '_':
+			if 'Mr_Black' not in r:
 
-			if fname(r) not in runs_in_progress_or_done:
-				run_folder = r
-		if run_folder:
-			break
-#if run_folder:
-#	break
-
-spd2s("processing",fname(run_folder))
-
-
+				if fname(r) not in runs_in_progress_or_done:
+					run_folder = r
+			if run_folder:
+				break
+	#if run_folder:
+	#	break
+	return run_folder
+	
 #run_folder = '/media/karlzipser/1_TB_Samsung_n1/tu_25to26Oct2018/locations/local/left_right_center/h5py/tegra-ubuntu_25Oct18_16h17m55s'
 
-plot_timer = Timer(10)
 
 
 
 def process_and_save_Depth_images(run_folder):
+
+	spd2s("processing",fname(run_folder))
 
 	the_run = fname(run_folder)
 
@@ -106,10 +104,8 @@ def process_and_save_Depth_images(run_folder):
 	range_n55_55 = range(-55,55)
 	range_n60_60 = range(-60,60)
 
-
 	zrange = range(-15,16,2)
 	zranger = range(15,-16,-2)
-
 
 	the_range = range_n180_180
 
@@ -145,21 +141,12 @@ def process_and_save_Depth_images(run_folder):
 			"""
 			q = p[t,:,:].astype(np.float32)
 
-
-
-
 			Depths = {}
-
-
-
-
-
 
 			for b in zrange:
 				Depths[b] = {}
 				for a in the_range:
 					Depths[b][a] = [0]
-
 
 			for i in range(1024*16):
 
@@ -178,7 +165,6 @@ def process_and_save_Depth_images(run_folder):
 
 					if z < 0:
 						b *= -1
-					
 					try:
 						ctr2+=1
 						ai = int(a)
@@ -220,7 +206,6 @@ def process_and_save_Depth_images(run_folder):
 
 						Depths[bi][ai].append(dist)
 
-					
 					except Exception as e:
 						ctr1+=1
 						if exception_timer.check():
@@ -252,9 +237,7 @@ def process_and_save_Depth_images(run_folder):
 			Depth_images['index'].append(t)
 			Depth_images['real'].append(depth_img.copy())
 
-			
 			depth_img_prev = depth_img.copy()
-
 
 			if plot_timer.check():
 				#ti = d2n(the_run,': left')
@@ -266,11 +249,9 @@ def process_and_save_Depth_images(run_folder):
 				spause()
 				plot_timer.reset()
 
-
 		except:
 			print "break"
 			break
-
 
 	try:
 		os.system(d2s("rm",opjD('Depth_images',the_run)))
@@ -328,13 +309,7 @@ def save_Depth_images(Depth_images,the_run,path=opjD('Depth_images')):
 
 
 
-############################
-#
-process_and_save_Depth_images(run_folder)
-#
-#	python kzpy3/Data_app/lidar/first_steps_toward_depth_image2.py 
-#
-############################
+
 
 
 
@@ -361,10 +336,15 @@ if False: # sketch of making log verions
 
 
 
-if False: # make log versions of images
-	depth_image_files = sggo(opjD('Depth_images','*.h5py'))
-	
-	#depth_image_file = '/home/karlzipser/Desktop/Depth_images/tegra-ubuntu_26Oct18_08h37m07s.Depth_image.h5py'
+
+def make_log_versions_of_images(depth_images_path):
+
+	"""
+	python kzpy3/Data_app/lidar/first_steps_toward_depth_image4.py task log path ~/Desktop/Depth_images_continue/
+	"""
+
+	depth_image_files = sggo(depth_images_path,'*.Depth_image.h5py')
+
 	for depth_image_file in depth_image_files:
 
 		error_file = depth_image_file+'.error'
@@ -378,16 +358,19 @@ if False: # make log versions of images
 		log_min,log_max = -0.25,1.5
 
 		try:
-			D=h5rw(depth_image_file)
-			r=D['real'][:]
+			D = h5rw(depth_image_file)
+			r = D['real'][:]
 			pa = Progress_animator(len(r),message='r')
 
 			display = False
-			r[:,28,:] = r[:,27,:]
+			r[:,28,:] = r[:,27,:] # get adjacent data into these typically blank rows
 			r[:,29,:] = r[:,30,:]
 
-			g = zeros((33,120))
-			z = zeros((32,120))
+			shape_r = shape(r[0])
+			height,width = shape_r[0],shape_r[1]
+
+			g = zeros((33,360))
+			z = zeros((32,360))
 			e = r[0,:,:]
 
 			processed_depth_images = []
@@ -419,7 +402,7 @@ if False: # make log versions of images
 						g[:32,:] = k
 						g[32,0] = 1.5
 						g[32,1:] = -0.25
-						mi(1-g,'log10 depth image')
+						mi(g,'log10 depth image')
 						if False:
 							figure('hist');clf()
 							hist(d.flatten(),bins=100);xylim(0,100,0,200)
@@ -431,7 +414,7 @@ if False: # make log versions of images
 			D.create_dataset('log',data=na(processed_depth_images))
 			D.close()
 			os.system('rm '+touched_file)
-			os.system(d2s('mv',depth_image_file,depth_image_file.replace('image.','images.')))
+			os.system(d2s('mv',depth_image_file,depth_image_file.replace('.Depth_image.h5py','.Depth_image.log.h5py')))
 			
 		except Exception as e:
 			os.system('rm '+touched_file)
@@ -451,9 +434,10 @@ if False: # make log versions of images
 
 
 
-if False: # make flip versions
 
-	depth_image_files = sggo(opjD('Depth_images','*.Depth_images.h5py'))
+def make_flip_versions_of_images(depth_images_path):
+
+	depth_image_files = sggo(depth_images_path,'*.Depth_images.log.h5py'))
 	
 	for depth_image_file in depth_image_files:
 
@@ -493,7 +477,7 @@ if False: # make flip versions
 			D.create_dataset('log_flip',data=na(processed_depth_images))
 			D.close()
 			os.system('rm '+touched_file)
-			os.system(d2s('mv',depth_image_file,depth_image_file.replace('_images.','_images.with_flip.')))
+			os.system(d2s('mv',depth_image_file,depth_image_file.replace('.Depth_image.log.h5py','.Depth_image.log.flip.h5py')))
 			
 		except Exception as e:
 			D.close()
@@ -627,7 +611,24 @@ if False: # asign left timestamps
 
 
 
+############################
+#
+if Arguments['task'] == 'raw':
+	run_folder = get_unprocessed_run()
+	process_and_save_Depth_images(run_folder)
 
+elif Arguments['task'] == 'log':
+	depth_images_path = Arguments['path']
+	make_log_versions_of_images(depth_images_path)
+
+elif Arguments['task'] == 'flip':
+	depth_images_path = Arguments['path']
+	make_flip_versions_of_images(depth_images_path)
+
+else:
+	cr("Command line arguments do not specify a valid task.")
+#
+############################
 
 
 
