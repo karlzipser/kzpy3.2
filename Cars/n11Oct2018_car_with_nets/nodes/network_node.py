@@ -165,7 +165,8 @@ rospy.Subscriber('/bair_car/cmd/flex_steer', std_msgs.msg.Int32, callback=flex_s
 
 #############################################################################################
 #############################################################################################
-##
+##        Making metadata tensors in advance so they need not be constructed during runtime.
+##        For SqueezeNet40 models
 TP = {}
 TP['behavioral_modes_no_heading_pause'] = ['direct','follow','furtive','play','left','right']
 # note, 'center' is not included in TP['behavioral_modes_no_heading_pause'] because 'center' is converted to 'direct' below.
@@ -225,7 +226,7 @@ for the_behaviorial_mode in TP['behavioral_modes']:
         typical_encoder_value = 2.0
         d = typical_encoder_value / 100.0 / 5.0
         #d = Data_moment[topic+'_past']/100.0
-        if topic == 'encoder':
+        #if topic == 'encoder':
             #med = np.median(d)
             #for i in range(len(d)):
             #   if d[i] < med/3.0:
