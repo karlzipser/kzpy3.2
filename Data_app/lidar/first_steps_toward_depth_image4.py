@@ -1,17 +1,41 @@
 
 from kzpy3.vis3 import *
 
+
+############################
+#
+if Arguments['task'] == 'raw':
+	run_folder = get_unprocessed_run(Arguments['src'])
+	process_and_save_Depth_images(run_folder)
+
+elif Arguments['task'] == 'log':
+	depth_images_path = Arguments['path']
+	make_log_versions_of_images(depth_images_path)
+
+elif Arguments['task'] == 'flip':
+	depth_images_path = Arguments['path']
+	make_flip_versions_of_images(depth_images_path)
+
+else:
+	cr("Command line arguments do not specify a valid task.")
+#
+############################
+
+
+
 plot_timer = Timer(10)
 
 
-def get_unprocessed_run():
+def get_unprocessed_run(src):
 	experiments = []
 	locations = []
 	behavioral_mode = []
 	h5py = []
 	run_folders = []
 
-	experiments_ = sggo(opjm('/media/karlzipser/1_TB_Samsung_n1'),'*')
+	#experiments_ = sggo(opjm('/media/karlzipser/1_TB_Samsung_n1'),'*')
+	experiments_ = sggo(src,'*')
+
 	for e in experiments_:
 	    if fname(e)[0] == '_' or '+' in e:
 	        cr('skipping',e)
@@ -611,24 +635,7 @@ if False: # asign left timestamps
 
 
 
-############################
-#
-if Arguments['task'] == 'raw':
-	run_folder = get_unprocessed_run()
-	process_and_save_Depth_images(run_folder)
 
-elif Arguments['task'] == 'log':
-	depth_images_path = Arguments['path']
-	make_log_versions_of_images(depth_images_path)
-
-elif Arguments['task'] == 'flip':
-	depth_images_path = Arguments['path']
-	make_flip_versions_of_images(depth_images_path)
-
-else:
-	cr("Command line arguments do not specify a valid task.")
-#
-############################
 
 
 
