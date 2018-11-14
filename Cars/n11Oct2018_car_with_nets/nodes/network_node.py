@@ -163,6 +163,106 @@ rospy.Subscriber('/bair_car/cmd/flex_steer', std_msgs.msg.Int32, callback=flex_s
 
 
 
+#############################################################################################
+#############################################################################################
+##
+TP = {}
+TP['behavioral_modes_no_heading_pause'] = ['direct','follow','furtive','play','left','right']
+# note, 'center' is not included in TP['behavioral_modes_no_heading_pause'] because 'center' is converted to 'direct' below.
+TP['behavioral_modes'] = TP['behavioral_modes_no_heading_pause']+['heading_pause']
+
+
+Metadata_tensors = {}
+
+for the_behaviorial_mode in TP['behavioral_modes']:
+
+    Metadata_tensors[the_behaviorial_mode] = torch.FloatTensor().cuda()
+
+    mode_ctr = 0
+
+    metadata = torch.FloatTensor().cuda()
+
+    for cur_label in TP['behavioral_modes']:
+
+        if cur_label == the_behaviorial_mode:
+            
+            #if Data_moment['labels'][cur_label]:
+                
+            metadata = torch.cat((one_matrix, metadata), 1); mode_ctr += 1
+        else:
+            metadata = torch.cat((zero_matrix, metadata), 1); mode_ctr += 1
+        #else:
+        #   metadata = torch.cat((zero_matrix, metadata), 1); mode_ctr += 1
+
+    num_metadata_channels = 128
+    num_multival_metas = 5
+    for i in range(num_metadata_channels - num_multival_metas - mode_ctr):
+        # Concatenate zero matrices to fit the dataset
+        metadata = torch.cat((zero_matrix, metadata), 1)
+
+    meta_gradient1 = zero_matrix.clone()
+    for x in range(23):
+        meta_gradient1[:,:,x,:] = x/23.0
+    metadata = torch.cat((meta_gradient1, metadata), 1)
+
+    meta_gradient2 = zero_matrix.clone()
+    for x in range(23):
+        meta_gradient2[:,:,x,:] = (1.0-x/23.0)
+    metadata = torch.cat((meta_gradient2, metadata), 1)
+
+    meta_gradient3 = zero_matrix.clone()
+    for x in range(41):
+        meta_gradient3[:,:,:,x] = x/41.0
+    metadata = torch.cat((meta_gradient3, metadata), 1)
+
+    meta_gradient4 = zero_matrix.clone()
+    for x in range(41):
+        meta_gradient4[:,:,:,x] = (1.0-x/41.0)
+    metadata = torch.cat((meta_gradient4, metadata), 1)
+    
+    for topic in ['encoder']:
+        #
+        typical_encoder_value = 2.0
+        d = typical_encoder_value / 100.0 / 5.0
+        #d = Data_moment[topic+'_past']/100.0
+        if topic == 'encoder':
+            #med = np.median(d)
+            #for i in range(len(d)):
+            #   if d[i] < med/3.0:
+            #       d[i] = med # this to attempt to get rid of drop out from magnet not being read
+            #d = d/5.0
+        #d = d.reshape(-1,3).mean(axis=1)
+        #for x in range(0,23):
+        #   meta_gradient5[:,:,x,:] = d[x]
+        meta_gradient5 = zero_matrix.clone() + d
+        metadata = torch.cat((meta_gradient5, metadata), 1)
+        
+    Metadata_tensors[the_behaviorial_mode] = torch.cat((metadata, Metadata_tensors[the_behaviorial_mode]), 0)
+##
+#############################################################################################
+#############################################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ##############################################
 #
 # visualization only
@@ -219,7 +319,7 @@ frequency_timer = Timer(5)
 
 
 
-first_time = True
+#first_time = True
 
 
 
@@ -452,9 +552,15 @@ while not rospy.is_shutdown():
                 #print camera_data #1 12 94 168 as should be: 1x12x94x168
                 
                 #Durations[dname]['list'].append(1000.0*Durations[dname]['timer'].time())
-                if first_time:
+                #if first_time:
+                if behavioral_mode not in Metadata_tensors.keys():
+                    for j in range(10):
+                        cs("ERROR!!!!!!!!!!!!!!!!!!!!!!",exception=True)
+                    cr("behavioral_mode",behavioral_mode,"not in Metadata_tensors.keys()")
+                metadata = Metadata_tensors[behavioral_mode]
+                if False:
                     metadata = Torch_network['format_metadata']((direct,follow,furtive,play,left,right)) #((right,left,play,furtive,follow,direct))
-                    first_time = False
+                #    first_time = False
                 #dname = 'torch camera format'
                 #Durations[dname]['timer'].reset()
 
