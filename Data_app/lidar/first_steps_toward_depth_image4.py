@@ -647,6 +647,36 @@ def asign_left_timestamps(depth_images_path):
 	
 
 
+
+
+if False:
+
+	def transfer_lacking(src,dst):
+		src_files = sggo(src,'*.h5py')
+		src_runs = []
+		for s in src_files:
+			src_runs.append(fname(s).split('.')[0])
+		existing_files = sggo(dst,'*.h5py')
+		existing_runs = []
+		for e in existing_files:
+			existing_runs.append(fname(e).split('.')[0])
+
+		dont_copy = []
+		for s in src_runs:
+			for e in existing_runs:
+				if s == e:
+					cr(s,"==",e)
+					dont_copy.append(s)
+			#cg("cp",s,"to",dst)
+		for s in src_runs:
+			if s not in dont_copy:
+				cg("copy",s)
+				os.system(d2s("cp",opj(src,s+"*"),dst))
+
+	src = opjD('Depth_images')
+	dst = opjD('Depth_images.log')
+	transfer_lacking(src,dst)
+
 if __name__ == '__main__':
 
 	############################

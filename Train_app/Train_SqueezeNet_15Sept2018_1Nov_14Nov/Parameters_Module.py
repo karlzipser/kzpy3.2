@@ -324,6 +324,24 @@ def get_Data_moment(dm=None,FLIP=None):
 
 				return False
 
+		###############################################################
+		###############################################################
+		###############################################################
+		####
+		if P['use_LIDAR']:
+			camera_lidar_1___camera_2___lidar_3 = np.random.choice([1,2,3])
+		####
+		###############################################################
+		###############################################################
+		###############################################################
+
+		if P['use_LIDAR']:
+			if camera_lidar_1___camera_2___lidar_3 == 3:
+				for side in ['left','right']:
+					for time_step in [0,1]:
+						Data_moment[side][time_step] *= 0
+
+		
 
 
 		if P['use_LIDAR']:
@@ -350,6 +368,12 @@ def get_Data_moment(dm=None,FLIP=None):
 				Data_moment['left'][1][:,:,2] = lidar_images[1]
 				Data_moment['right'][1][:,:,1] = lidar_images[2]
 				Data_moment['right'][1][:,:,2] = lidar_images[3]
+
+				if camera_lidar_1___camera_2___lidar_3 == 2:
+					for side in ['left','right']:
+						for position in [1,2]:
+							Data_moment[side][1][:,:,position] *= 0
+
 				#cg("success")
 				return Data_moment
 		return False
