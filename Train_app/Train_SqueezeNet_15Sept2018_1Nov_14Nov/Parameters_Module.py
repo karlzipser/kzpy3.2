@@ -12,7 +12,8 @@ assert(soft>=65000)
 P = {}
 
 P['use_LIDAR'] = True
-P['LIDAR_path'] = opjD('Depth_images.log.resize.flip.left_ts')
+#P['LIDAR_path'] = opjD('Depth_images.log.resize.flip.left_ts')
+P['LIDAR_path'] = opjm('1_TB_Samsung_n1','_.Depth_images.log.resize.flip.left_ts')
 P['LIDAR_extension'] = ".Depth_image.log.resize.flip.with_left_ts.h5py"
 
 P['start time'] = time_str()
@@ -329,7 +330,7 @@ def get_Data_moment(dm=None,FLIP=None):
 		###############################################################
 		####
 		if P['use_LIDAR']:
-			camera_lidar_1___camera_2___lidar_3 = np.random.choice([1,2,3])
+			camera_lidar_1___camera_2___lidar_3 = np.random.choice( [1,1,1,2,3,3,3,3])
 		####
 		###############################################################
 		###############################################################
@@ -341,7 +342,13 @@ def get_Data_moment(dm=None,FLIP=None):
 					for time_step in [0,1]:
 						Data_moment[side][time_step] *= 0
 
-		
+			"""
+			# This is temporary
+			TEMP = [0,1,2]
+			for side in ['left','right']:
+				for position in [0,1,2]:
+					Data_moment[side][1][:,:,position] *= 0
+			"""
 
 
 		if P['use_LIDAR']:
@@ -368,6 +375,9 @@ def get_Data_moment(dm=None,FLIP=None):
 				Data_moment['left'][1][:,:,2] = lidar_images[1]
 				Data_moment['right'][1][:,:,1] = lidar_images[2]
 				Data_moment['right'][1][:,:,2] = lidar_images[3]
+
+
+
 
 				if camera_lidar_1___camera_2___lidar_3 == 2:
 					for side in ['left','right']:

@@ -673,9 +673,17 @@ if False:
 				cg("copy",s)
 				os.system(d2s("cp",opj(src,s+"*"),dst))
 
+
+	"""
 	src = opjD('Depth_images')
 	dst = opjD('Depth_images.log')
 	transfer_lacking(src,dst)
+	"""
+	
+	src = opjD('Depth_images.log')
+	dst = opjD('Depth_images.log.resize.flip')
+	transfer_lacking(src,dst)
+
 
 if __name__ == '__main__':
 
