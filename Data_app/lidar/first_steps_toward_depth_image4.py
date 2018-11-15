@@ -2,28 +2,17 @@
 from kzpy3.vis3 import *
 
 
-############################
-#
-if Arguments['task'] == 'raw':
-	run_folder = get_unprocessed_run(Arguments['src'])
-	process_and_save_Depth_images(run_folder)
 
-elif Arguments['task'] == 'log':
-	depth_images_path = Arguments['path']
-	make_log_versions_of_images(depth_images_path)
-
-elif Arguments['task'] == 'flip':
-	depth_images_path = Arguments['path']
-	make_flip_versions_of_images(depth_images_path)
-
-else:
-	cr("Command line arguments do not specify a valid task.")
-#
-############################
 
 
 
 plot_timer = Timer(10)
+
+log_min,log_max = -0.25,1.5
+
+
+
+
 
 
 def get_unprocessed_run(src):
@@ -58,6 +47,8 @@ def get_unprocessed_run(src):
 
 	temp = sggo(opjD('Depth_images/*'))
 
+
+
 	runs_in_progress_or_done = []
 
 	for t in temp:
@@ -85,8 +76,13 @@ def get_unprocessed_run(src):
 
 
 
+
+
+
+
 def process_and_save_Depth_images(run_folder):
 
+	print run_folder
 	spd2s("processing",fname(run_folder))
 
 	the_run = fname(run_folder)
@@ -142,7 +138,7 @@ def process_and_save_Depth_images(run_folder):
 		the_encoder_ts = O['encoder']['ts'][the_encoder_index]
 		the_encoder_index += 1
 	
-	spd2s(the_encoder_ts)
+	#spd2s(the_encoder_ts)
 
 	for t in range(len(p)):
 
@@ -379,7 +375,7 @@ def make_log_versions_of_images(depth_images_path):
 			continue
 			
 		os.system(d2s('touch',touched_file))
-		log_min,log_max = -0.25,1.5
+
 
 		try:
 			D = h5rw(depth_image_file)
@@ -457,51 +453,68 @@ def make_log_versions_of_images(depth_images_path):
 
 
 
+def make_resize_and_flip_versions_of_images(depth_images_path):
 
+# PUT IN ZERO TO ONE SCALING
 
-def make_flip_versions_of_images(depth_images_path):
-
-	depth_image_files = sggo(depth_images_path,'*.Depth_images.log.h5py'))
+	depth_image_files = sggo(depth_images_path,'*.Depth_image.log.h5py')
 	
+	img_bigger = zeros((95,168))
+
 	for depth_image_file in depth_image_files:
 
 		error_file = depth_image_file+'.error'
-		touched_file = depth_image_file+'.work_in_progress'
+		touched_file = depth_image_file+'.resize_flip_work_in_progress'
 		if len(sggo(touched_file)) > 0:
 			continue
 		if len(sggo(error_file)) > 0:
 			continue
 			
 		os.system(d2s('touch',touched_file))
-		log_min,log_max = -0.25,1.5
+
 
 		try:
-			D=h5rw(depth_image_file)
-			r=D['log'][:]
-			#raw_enter()
+			D = h5rw(depth_image_file)
+			r = D['log'][:]
+			
 			pa = Progress_animator(len(r),message='r')
 
-			processed_depth_images = []
+			resized = []
+			resized_flipped = []
 
 			display_timer = Timer(2)
 
-			#clear_screen()
-			cs("\n\nProcessing",depth_image_file,"for log flip.")
+			
+			cs("\n\nProcessing",depth_image_file,"for resize and flip.")
+
 			for i in rlen(r):
-
 				pa['update'](i)
-
-				processed_depth_images.append(cv2.flip(r[i,:,:],1))
+				#print shape(r[i,:,:])
+				img = cv2.resize(r[i,:,62:298],(168,94))
+				#print shape(img_bigger)
+				#print shape(img)
+				img_bigger = img_bigger * 0
+				img_bigger[:94,:] = img
+				img_bigger[94,0] = log_min
+				img_bigger[94,1] = log_max
+				
+				img = 255*z2o(img_bigger)[:94,:] # the 255 multiple is to put these images into same range as the rgb images
+				assert shape(img) == (94,168)
+				resized.append(img)
+				resized_flipped.append(cv2.flip(img,1))
 				if display_timer.check():
+					mi(img_bigger,'img_bigger')
 					mi(r[i,:,:],'log depth image')
-					mi(processed_depth_images[-1],'log flip depth image')
+					mi(resized[-1],'log resize depth image')
 					display_timer.reset()
 				spause()
-			assert len(processed_depth_images) == len(D['index'][:])
-			D.create_dataset('log_flip',data=na(processed_depth_images))
+			assert len(resized) == len(D['index'][:])
+			assert len(resized_flipped) == len(D['index'][:])
+			D.create_dataset('resized',data=na(resized))
+			D.create_dataset('resized_flipped',data=na(resized_flipped))
 			D.close()
 			os.system('rm '+touched_file)
-			os.system(d2s('mv',depth_image_file,depth_image_file.replace('.Depth_image.log.h5py','.Depth_image.log.flip.h5py')))
+			os.system(d2s('mv',depth_image_file,depth_image_file.replace('.Depth_image.log.h5py','.Depth_image.log.resize.flip.h5py')))
 			
 		except Exception as e:
 			D.close()
@@ -517,7 +530,7 @@ def make_flip_versions_of_images(depth_images_path):
 
 
 
-if False: # asign left timestamps
+def asign_left_timestamps(depth_images_path):
 
 	import kzpy3.Data_app.classify_data as classify_data
 	P = {}
@@ -551,14 +564,14 @@ if False: # asign left timestamps
 					cg(sggo(r,'left_timestamp_metadata_right_ts.h5py'))
 
 
-	depth_image_files = sggo(opjD('Depth_images','*.Depth_images.with_flip.with_flip.h5py'))
-	
+	#depth_image_files = sggo(opjD('Depth_images','*.Depth_images.with_flip.with_flip.h5py'))
+	depth_image_files = sggo(depth_images_path,'*.Depth_image.log.resize.flip.h5py')
 
 	for depth_image_file in depth_image_files:
-
-		run_name = fname(depth_image_file.split('.')[0])
+		run_name = fname(depth_image_file).split('.')[0]
+		cb("<run_name =",run_name,"> depth_image_file = <",depth_image_file,">")
 		assert run_name in P['run_name_to_run_path']
-		cg(run_name)
+		
 
 		error_file = depth_image_file+'.error'
 		touched_file = depth_image_file+'.work_in_progress'
@@ -621,7 +634,7 @@ if False: # asign left timestamps
 			D.create_dataset('left_to_lidar_index',data=D_left_to_lidar_index)
 			D.close()
 			os.system('rm '+touched_file)
-			os.system(d2s('mv',depth_image_file,depth_image_file.replace('_images.with_flip.with_flip','_images.with_flip.with_left_ts')))
+			os.system(d2s('mv',depth_image_file,depth_image_file.replace('.Depth_image.log.resize.flip.h5py','.Depth_image.log.resize.flip.with_left_ts.h5py')))
 			
 		except Exception as e:
 			D.close()
@@ -634,8 +647,33 @@ if False: # asign left timestamps
 	
 
 
+if __name__ == '__main__':
 
+	############################
+	#
+	if Arguments['task'] == 'raw':
+		run_folder = get_unprocessed_run(Arguments['src'])
+		process_and_save_Depth_images(run_folder)
 
+	elif Arguments['task'] == 'log':
+		depth_images_path = Arguments['path']
+		make_log_versions_of_images(depth_images_path)
+
+	#elif Arguments['task'] == 'flip':
+	#	depth_images_path = Arguments['path']
+	#	make_flip_versions_of_images(depth_images_path)
+
+	elif Arguments['task'] == 'resize_flip':
+		depth_images_path = Arguments['path']
+		make_resize_and_flip_versions_of_images(depth_images_path)
+
+	elif Arguments['task'] == 'left_ts':
+		depth_images_path = Arguments['path']
+		asign_left_timestamps(depth_images_path)
+	else:
+		cr("Command line arguments do not specify a valid task.")
+	#
+	############################
 
 
 
@@ -644,3 +682,31 @@ code_to_code_str(opjk("Data_app/lidar/first_steps_toward_depth_image2.py"))
 """
 #EOF
 
+
+
+
+
+
+
+
+if False:
+
+	D=h5r('/home/karlzipser/Desktop/Depth_resize_flip_temp/tegra-ubuntu_11Oct18_17h11m39s.Depth_image.log.flip.h5py' )
+
+	r = D['resized'][:]
+	l = D['resized_flipped'][:]
+	for i in range(len(r)):
+		img = r[i,:,:]
+		mci(
+		    (img*255).astype(np.uint8),
+		    scale=2.0,
+		    color_mode=cv2.COLOR_GRAY2BGR,
+		    title='resized'
+		)
+		img = l[i,:,:]
+		mci(
+		    (img*255).astype(np.uint8),
+		    scale=2.0,
+		    color_mode=cv2.COLOR_GRAY2BGR,
+		    title='resized_flipped'
+		)

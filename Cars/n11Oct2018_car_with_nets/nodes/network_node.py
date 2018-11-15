@@ -172,6 +172,8 @@ TP['behavioral_modes_no_heading_pause'] = ['direct','follow','furtive','play','l
 # note, 'center' is not included in TP['behavioral_modes_no_heading_pause'] because 'center' is converted to 'direct' below.
 TP['behavioral_modes'] = TP['behavioral_modes_no_heading_pause']+['heading_pause']
 
+zero_matrix = torch.FloatTensor(1, 1, 23, 41).zero_().cuda()
+one_matrix = torch.FloatTensor(1, 1, 23, 41).fill_(1).cuda()
 
 Metadata_tensors = {}
 
