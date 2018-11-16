@@ -1,12 +1,13 @@
 
 from Parameters_Module import *
 
-for a in Arguments.keys():
-	P[a] = Arguments[a]
-print_Arguments()
-
+for a in Args.keys():
+	b = Args[a]
+	if str_is_int(b):
+		b = int(b)
+	P[a] = b
+	spd2s(a,'=',P[a])
 P['print_timer'] = Timer(P['print_timer_time'])
-P['reload_image_file_timer'] = Timer(P['reload_image_file_timer_time'])
 
 import Batch_Module
 import Network_Module
@@ -19,18 +20,9 @@ Network = Network_Module.Pytorch_Network()
 Batch = Batch_Module.Batch(the_network=Network)
 
 
-    
-
-    
-
-    
-
-
-
-
-
-
-while P['ABORT'] == False:
+while True:
+	
+	#try:
 
 	Batch['CLEAR']()
 
@@ -43,10 +35,10 @@ while P['ABORT'] == False:
 	Batch['BACKWARD']()
 
 	Network['SAVE_NET']()
+	#except:
+	#	print 'FAIL'
 
-
-
-
+	
 	
 
 

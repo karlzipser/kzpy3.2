@@ -10,7 +10,7 @@ this is the current working version for lidar and camera as of 12 Nov. 2018 (eve
 
 """
 
-import kzpy3.Cars.n11Oct2018_car_with_nets.nodes.Default_values.arduino.default_values as default_values
+import kzpy3.Cars.n11Oct2018_car_with_nets_view_only.nodes.Default_values.arduino.default_values as default_values
 N = default_values.P
 
 import rospy

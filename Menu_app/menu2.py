@@ -275,10 +275,15 @@ if __name__ == '__main__':# and EXIT == False:
     CS_(module,'module')
     dic = Arguments['dic']
     CS_(dic,'dic')
+    raw_enter()
     exec(d2n('import ',module,'.default_values as default_values'))
+    raw_enter()
     exec(d2n('Topics = default_values.',dic))
+    raw_enter()
     menu2(Topics,path)
+    raw_enter()
     print '\ndone.\n'
+    raw_enter()
 
 
 # python kzpy3/Menu_app/menu.py path ~/kzpy3/Cars/car_24July2018/nodes/__local__/arduino/ default 1 Topics arduino
