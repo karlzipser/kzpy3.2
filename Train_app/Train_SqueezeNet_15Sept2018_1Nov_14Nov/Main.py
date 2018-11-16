@@ -7,7 +7,9 @@ for a in Args.keys():
 		b = int(b)
 	P[a] = b
 	spd2s(a,'=',P[a])
+
 P['print_timer'] = Timer(P['print_timer_time'])
+P['reload_image_file_timer'] = Timer(P['reload_image_file_timer_time'])
 
 import Batch_Module
 import Network_Module

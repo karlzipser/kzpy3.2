@@ -390,7 +390,8 @@ def Batch(the_network=None):
 				cv[-hv:,-wv:,:] = z2o(bv[:,:,6:9])
 				print(d2s(i,'camera_data min,max =',av.min(),av.max()))
 				if P['loss_timer'].check() and len(P['LOSS_LIST_AVG'])>5:
-					figure('LOSS_LIST_AVG '+P['start time']);clf();plot(P['LOSS_LIST_AVG'][1:],'.')
+					q = int(len(P['LOSS_LIST_AVG'])*P['percent_of_loss_list_avg_to_show']/100.0)
+					figure('LOSS_LIST_AVG '+P['start time']);clf();plot(P['LOSS_LIST_AVG'][-q:],'.')
 					spause()
 					P['loss_timer'].reset()
 				Net_activity = Activity_Module.Net_Activity('batch_num',i, 'activiations',D['network']['net'].A)

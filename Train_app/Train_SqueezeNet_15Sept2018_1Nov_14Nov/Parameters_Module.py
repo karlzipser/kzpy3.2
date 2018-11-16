@@ -12,7 +12,7 @@ assert(soft>=65000)
 P = {}
 
 P['use_LIDAR'] = True
-#P['LIDAR_path'] = opjD('Depth_images.log.resize.flip.left_ts')
+#P['LIDAR_path'] =                     opjD('Depth_images.log.resize.flip.left_ts')
 P['LIDAR_path'] = opjm('1_TB_Samsung_n1','_.Depth_images.log.resize.flip.left_ts')
 P['LIDAR_extension'] = ".Depth_image.log.resize.flip.with_left_ts.h5py"
 
@@ -90,14 +90,17 @@ raw_enter()
 """
 
 
-P['GPU'] = 1 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+P['GPU'] = 0 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 P['BATCH_SIZE'] = 64
 P['REQUIRE_ONE'] = []
-P['NETWORK_OUTPUT_FOLDER'] = opjD('net_15Sept2018_1Nov_with_reverse_14Nov_with_LIDAR') # opjD('net_15Sept2018_1Nov_with_reverse')#opjD('net_16Aug2018')#opjD('net_16Aug2018')# #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+P['NETWORK_OUTPUT_FOLDER'] = opjD('net_15Sept2018_1Nov_with_reverse_14Nov_with_only_LIDAR') #
+#P['NETWORK_OUTPUT_FOLDER'] = opjD('net_15Sept2018_1Nov_with_reverse_14Nov_with_LIDAR') #
+
 P['SAVE_FILE_NAME'] = 'net'
 P['save_net_timer'] = Timer(60*30)
-P['print_timer_time'] = 5
-
+P['print_timer_time'] = 60
+P['percent_of_loss_list_avg_to_show'] = 2.5
 P['frequency_timer'] = Timer(30.0)
 P['TRAIN_TIME'] = 60*5.0
 P['VAL_TIME'] = 60*1.0
@@ -105,7 +108,7 @@ P['RESUME'] = True
 if P['RESUME']:
     P['INITIAL_WEIGHTS_FOLDER'] = opj(P['NETWORK_OUTPUT_FOLDER'],'weights')
     P['WEIGHTS_FILE_PATH'] = most_recent_file_in_folder(P['INITIAL_WEIGHTS_FOLDER'],['net'],[])	
-P['reload_image_file_timer'] = Timer(5*60)
+P['reload_image_file_timer_time'] = 5*60
 P['loss_timer'] = Timer(60*10/10)
 P['LOSS_LIST_N'] = 30
 P['run_name_to_run_path'] = {}
@@ -275,7 +278,13 @@ def get_Data_moment(dm=None,FLIP=None):
 		Data_moment['labels'] = {}
 		Data_moment['name'] = dm['run_name']
 		
-		
+		if P['use_LIDAR']:
+			#cy("P['Loaded_image_files'].keys() =",P['Loaded_image_files'].keys())
+			if 'depth' not in P['Loaded_image_files'][Data_moment['name']]:
+				pass
+				#cr("depth not in P['Loaded_image_files'][",Data_moment['name'],"]")
+				return False
+				
 		if FLIP:
 			if behavioral_mode == 'left':
 				behavioral_mode = 'right'
@@ -330,7 +339,7 @@ def get_Data_moment(dm=None,FLIP=None):
 		###############################################################
 		####
 		if P['use_LIDAR']:
-			camera_lidar_1___camera_2___lidar_3 = np.random.choice( [1,1,1,2,3,3,3,3])
+			camera_lidar_1___camera_2___lidar_3 = 3#np.random.choice( [1,1,1,2,3,3,3,3])
 		####
 		###############################################################
 		###############################################################
@@ -354,7 +363,8 @@ def get_Data_moment(dm=None,FLIP=None):
 		if P['use_LIDAR']:
 			#cy("P['Loaded_image_files'].keys() =",P['Loaded_image_files'].keys())
 			if 'depth' not in P['Loaded_image_files'][Data_moment['name']]:
-				pass#cr('depth not in',Data_moment['name'])
+				pass
+				cb("depth not in P['Loaded_image_files'][",Data_moment['name'],"]")
 			else:
 				#print P['Loaded_image_files'][Data_moment['name']].keys()
 				#print P['Loaded_image_files'][Data_moment['name']]['depth'].keys()
