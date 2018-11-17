@@ -66,7 +66,7 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 
 	timerv = Timer(0)
 
-	point_cloud = zeros((1024*16*4/4,3))
+	point_cloud = zeros((1024*16*4/4,6))
 	l0 = len(point_cloud)
 
 	running_delta = 0
@@ -100,6 +100,10 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 				try:
 					# https://answers.ros.org/question/240491/point_cloud2read_points-and-then/
 					valv_temp = list(sensor_msgs.point_cloud2.read_points(m_[1],skip_nans=True,field_names=('t','reflectivity','intensity',"x","y","z")))
+
+					##############################
+					# Data saved as float16 in hdf5. need to convert to float32 before using with graphing.
+					##############################
 
 					# valv_temp[np.isnan(valv)] = 0
 

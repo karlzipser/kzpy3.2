@@ -256,4 +256,37 @@ img = (z2o(img)*255).astype(np.uint8)
 
 
 
+
+
+
+O=h5r('/media/karlzipser/rosbags/h5py/tegra-ubuntu_12Nov18_20h56m16s/original_timestamp_data.h5py' )
+p=O['points']
+v=p['vals']
+
+xy1 = 0
+xy2 = 1
+z = 2
+rng = 3
+angle = 4
+intensity = 5
+
+for i in range(4000,7000):
+    s = v[i,:,:].astype(np.float32) # (16384, 6)
+    r = s[:256*16,rng]
+    r1 = r.reshape((256,16)).transpose(1,0)
+    r2 = cv2.resize(r1,(256,64))
+    mci((z2o(r2)*255).astype(np.uint8),delay=33,scale=4.0,color_mode=cv2.COLOR_GRAY2BGR,title='ZED')
+
+
+
+
+
+
+
+
+
+
+
+
+
 #EOF
