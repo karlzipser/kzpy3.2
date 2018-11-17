@@ -530,12 +530,12 @@ def make_resize_and_flip_versions_of_images(depth_images_path):
 
 
 
-def asign_left_timestamps(depth_images_path):
+def asign_left_timestamps(depth_images_path,runs_location):
 
 	import kzpy3.Data_app.classify_data as classify_data
 	P = {}
 	P['experiments_folders'] = []
-	classify_data.find_locations(opjm("1_TB_Samsung_n1"),P['experiments_folders'])
+	classify_data.find_locations( runs_location,P['experiments_folders'] )# (opjm("1_TB_Samsung_n1"),P['experiments_folders'])
 	P['experiments_folders'] = list(set(P['experiments_folders']))
 
 	P['run_name_to_run_path'] = {}
@@ -707,7 +707,8 @@ if __name__ == '__main__':
 
 	elif Arguments['task'] == 'left_ts':
 		depth_images_path = Arguments['path']
-		asign_left_timestamps(depth_images_path)
+		runs_location = Arguments['runs_location']
+		asign_left_timestamps(depth_images_path,runs_location)
 	else:
 		cr("Command line arguments do not specify a valid task.")
 	#

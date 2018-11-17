@@ -284,8 +284,10 @@ for i in range(4000,7000):
 
 
 
-
-
+for f in sggo('/home/karlzipser/Desktop/Depth_images_15_16Nov2018','*'):
+    sys_str = d2s("ln -s",f,'/media/karlzipser/1_TB_Samsung_n1/_.Depth_images.log.resize.flip.left_ts/'+fname(f))
+    print sys_str
+    os.system(sys_str)
 
 
 
