@@ -10,7 +10,7 @@ def Net_Activity(*args):
     """
     show network activiations
     """
-    show_timer = Timer(1)
+
     cy("GPUs =",torch.cuda.device_count(),"current GPU =",torch.cuda.current_device())
     Args = args_to_dictionary(args)
     D = {}
@@ -56,10 +56,10 @@ def Net_Activity(*args):
                 D['imgs'][k][moment_indexv] = vis_square2(D['activiations'][k][moment_indexv],padval=0.5)
 
             if k == 'camera_input' or k == 'pre_metadata_features_metadata':
-                if show_timer.check():
-                    #mci((z2o(lr)*255).astype(np.uint8),scale=1.0,color_mode=cv2.COLOR_GRAY2BGR,title='Activity_Module: '+k)
-                    mi(D['imgs'][k][moment_indexv],k)
-                    show_timer.reset()
+                print shape(D['imgs'][k][moment_indexv])
+                #mci((z2o(lr)*255).astype(np.uint8),scale=1.0,color_mode=cv2.COLOR_GRAY2BGR,title='Activity_Module: '+k)
+                mi(D['imgs'][k][moment_indexv],k)
+
     def _function_view(*args):
         Args = args_to_dictionary(args)
         if 'scales' in Args:

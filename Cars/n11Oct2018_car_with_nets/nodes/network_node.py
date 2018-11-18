@@ -27,7 +27,8 @@ bridge = CvBridge()
 import cv2
 
 dts = []
-
+if N['show_net_activity']:
+    show_timer = Timer(1)
 if N['use LIDAR']:
     import kzpy3.Data_app.lidar.python_pointclouds6k as ppc
     resize = ppc.resize_versions[0]
@@ -613,10 +614,12 @@ while not rospy.is_shutdown():
 
 
                 if N['show_net_activity']:
-                    ############################
-                    Net_activity = Activity_Module.Net_Activity('batch_num',0, 'activiations',Torch_network['solver'].A)
-                    #Net_activity['view']('moment_index',i,'delay',33, 'scales',{'camera_input':4,'pre_metadata_features':0,'pre_metadata_features_metadata':1,'post_metadata_features':2})
-                    ############################
+                    if show_timer.check():
+                        ############################
+                        Net_activity = Activity_Module.Net_Activity('batch_num',0, 'activiations',Torch_network['solver'].A)
+                        #Net_activity['view']('moment_index',i,'delay',33, 'scales',{'camera_input':4,'pre_metadata_features':0,'pre_metadata_features_metadata':1,'post_metadata_features':2})
+                        ############################
+                        show_timer.reset()
 
 
 
