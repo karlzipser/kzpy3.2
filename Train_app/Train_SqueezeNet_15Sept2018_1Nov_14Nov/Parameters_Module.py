@@ -15,8 +15,8 @@ P['ABORT'] = False
 ################################################################
 #
 P['use_LIDAR'] = True
-P['lidar_only'] = True
-P['GPU'] = 1
+P['lidar_only'] = False
+P['GPU'] = 0
 #
 ################################################################
 
@@ -116,7 +116,7 @@ elif P['use_LIDAR']:
 	P['NETWORK_OUTPUT_FOLDER'] = opjD('net_15Sept2018_1Nov_with_reverse_14Nov_with_LIDAR') #
 else:
 	P['NETWORK_OUTPUT_FOLDER'] = opjD('net_15Sept2018_1Nov_with_reverse_') #
-P['save_net_timer'] = Timer(60*30)
+P['save_net_timer'] = Timer(60)#Timer(60*30)
 P['SAVE_FILE_NAME'] = 'net'
 P['print_timer_time'] = 60
 P['parameter_file_load_timer_time'] = 5

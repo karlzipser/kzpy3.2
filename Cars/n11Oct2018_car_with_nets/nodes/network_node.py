@@ -143,8 +143,9 @@ rospy.Subscriber('/bair_car/behavioral_mode', std_msgs.msg.String, callback=beha
 rospy.Subscriber('/bair_car/drive_mode', std_msgs.msg.Int32, callback=drive_mode_callback)
 rospy.Subscriber('/bair_car/button_number', std_msgs.msg.Int32, callback=button_number_callback)
 
-rospy.Subscriber('/bair_car/cmd/flex_motor', std_msgs.msg.Int32, callback=flex_motor__callback)
-rospy.Subscriber('/bair_car/cmd/flex_steer', std_msgs.msg.Int32, callback=flex_steer__callback)
+if N['use flex']:
+    rospy.Subscriber('/bair_car/cmd/flex_motor', std_msgs.msg.Int32, callback=flex_motor__callback)
+    rospy.Subscriber('/bair_car/cmd/flex_steer', std_msgs.msg.Int32, callback=flex_steer__callback)
 
 
 
@@ -592,11 +593,11 @@ while not rospy.is_shutdown():
 
                 adjusted_motor = min(adjusted_motor,N['max motor'])
 
-                if flex_motor < 47:
+                if N['use flex'] and flex_motor < 47:
                     adjusted_camera = flex_steer
                     adjusted_steer = flex_steer
                     adjusted_motor = flex_motor
-                    #r(adjusted_camera,adjusted_steer,adjusted_motor)
+                    cr(adjusted_camera,adjusted_steer,adjusted_motor)
                 else:
                     cg(int(torch_steer),int(torch_motor))
                         #adjusted_camera,adjusted_steer,adjusted_motor)
