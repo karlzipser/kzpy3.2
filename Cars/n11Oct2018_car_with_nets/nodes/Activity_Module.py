@@ -56,10 +56,8 @@ def Net_Activity(*args):
                 D['imgs'][k][moment_indexv] = vis_square2(D['activiations'][k][moment_indexv],padval=0.5)
 
                 print k,shape(D['imgs'][k][moment_indexv])
-                if k == 'pre_metadata_features_metadata':
-                    mci((z2o(  D['imgs'][k][moment_indexv]  )*255.0).astype(np.uint8),scale=1.0,color_mode=cv2.COLOR_GRAY2BGR,title='Activity_Module: '+k)
-                if k == 'camera_input':
-                    mi(D['imgs'][k][moment_indexv],k)
+                if k in ['camera_input','pre_metadata_features_metadata':
+                    mi(D['imgs'][k][moment_indexv],k); spause()
 
 
     def _function_view(*args):
