@@ -27,8 +27,9 @@ bridge = CvBridge()
 import cv2
 
 dts = []
-if N['show_net_activity']:
-    show_timer = Timer(1)
+
+show_timer = Timer(1)
+
 if N['use LIDAR']:
     import kzpy3.Data_app.lidar.python_pointclouds6k as ppc
     resize = ppc.resize_versions[0]
