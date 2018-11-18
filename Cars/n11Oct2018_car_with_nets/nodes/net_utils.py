@@ -81,7 +81,7 @@ def Torch_Network(N):
                 else:
                     listoftensors.append(torch.from_numpy(side[-i - 1]))
         camera_data = torch.cat(listoftensors, 2)
-        camera_data = camera_data.cuda().float()#/255. - 0.5
+        camera_data = camera_data.cuda().float()/255. - 0.5
         camera_data = torch.transpose(camera_data, 0, 2)
         camera_data = torch.transpose(camera_data, 1, 2)
         camera_data = camera_data.unsqueeze(0)
