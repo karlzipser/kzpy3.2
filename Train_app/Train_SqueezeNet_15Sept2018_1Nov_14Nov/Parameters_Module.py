@@ -52,13 +52,13 @@ if True:
 	import kzpy3.Data_app.classify_data as classify_data
 	P['experiments_folders'] = []
 	classify_data.find_locations(opjm("1_TB_Samsung_n1"),P['experiments_folders'])
-	print len(P['experiments_folders'])
-	print P['experiments_folders']
-	raw_enter()
+	#print len(P['experiments_folders'])
+	#print P['experiments_folders']
+	#raw_enter()
 	classify_data.find_locations(opjm("rosbags"),P['experiments_folders'])
 	print len(P['experiments_folders'])
 	print P['experiments_folders']
-	raw_enter()
+	#raw_enter()
 if False:
 	older = [
 		opjD('bdd_car_data_July2017_LCR/locations'),
@@ -98,10 +98,10 @@ raw_enter()
 P['To Expose'] = {}
 P['To Expose']['Train'] = ['print_timer_time','parameter_file_load_timer_time','percent_of_loss_list_avg_to_show']
 
-P['GPU'] = 0 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+P['GPU'] = 1 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 P['BATCH_SIZE'] = 64
 P['REQUIRE_ONE'] = []
-lidar_only = True
+lidar_only = False
 if lidar_only:
 	P['NETWORK_OUTPUT_FOLDER'] = opjD('net_15Sept2018_1Nov_with_reverse_14Nov_with_only_LIDAR') #
 else:
@@ -364,7 +364,7 @@ def get_Data_moment(dm=None,FLIP=None):
 			if lidar_only:
 				camera_lidar_1___camera_2___lidar_3 = 3
 			else:
-				camera_lidar_1___camera_2___lidar_3 = np.random.choice( [1,1,1,2,3,3,3,3])
+				camera_lidar_1___camera_2___lidar_3 = 1 #np.random.choice( [1,1,1,2,3,3,3,3])
 
 		####
 		###############################################################

@@ -14,12 +14,8 @@ import kzpy3.Cars.n11Oct2018_car_with_nets.nodes.Default_values.arduino.default_
 N = default_values.P
 
 import rospy
-
+import torch
 import net_utils
-
-
-dts = []
-
 import roslib
 import std_msgs.msg
 import geometry_msgs.msg
@@ -28,6 +24,8 @@ import rospy
 from sensor_msgs.msg import Image
 bridge = CvBridge()
 import cv2
+
+dts = []
 
 if N['use LIDAR']:
     import kzpy3.Data_app.lidar.python_pointclouds6k as ppc
