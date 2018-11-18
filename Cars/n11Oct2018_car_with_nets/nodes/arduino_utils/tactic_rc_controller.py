@@ -136,7 +136,7 @@ def _TACTIC_RC_controller_run_loop(P):
                         in_this_mode = False
 
                         
-                    if P['use_motor_PID']:
+                    if P['use_motor_PID'] and P['network']['motor_percent'] > 49: # This because of flex
                         _motor_pwm = motor_percent_to_pwm( Pid_processing_motor['do'](P['network']['motor_percent'],P['encoder_smooth'],P),P)
                     else:
                         _motor_pwm = motor_percent_to_pwm(P['network']['motor_percent'],P)
