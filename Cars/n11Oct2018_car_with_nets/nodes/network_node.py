@@ -515,7 +515,7 @@ while not rospy.is_shutdown():
                             #Durations[dname]['list'].append(1000.0*Durations[dname]['timer'].time())
                             #Durations[dname]['timer'].reset()
                             #cr('D')
-                    if N['show_net_input']:# in Arguments:                   
+                    if True:#N['show_net_input']:# in Arguments:                   
                         if True:#'show_net_input' in ppc.A:
                             if True:#ppc.A['show_net_input']:
                                 if even:
@@ -614,8 +614,8 @@ while not rospy.is_shutdown():
 
 
                 ############################
-                Net_activity = Activity_Module.Net_Activity('batch_num',0, 'activiations',Torch_network['solver'].A)
-                Net_activity['view']('moment_index',i,'delay',33, 'scales',{'camera_input':4,'pre_metadata_features':0,'pre_metadata_features_metadata':1,'post_metadata_features':2})
+                #Net_activity = Activity_Module.Net_Activity('batch_num',0, 'activiations',Torch_network['solver'].A)
+                #Net_activity['view']('moment_index',i,'delay',33, 'scales',{'camera_input':4,'pre_metadata_features':0,'pre_metadata_features_metadata':1,'post_metadata_features':2})
                 ############################
 
 
