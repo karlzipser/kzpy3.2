@@ -53,6 +53,8 @@ def Net_Activity(*args):
                                 D['activiations'][k][moment_indexv,i,:,:] = z2o(D['activiations'][k][moment_indexv,i,:,:])
                     #mi(D['activiations'][k][moment_indexv,i,:,:],d2s(i,k))
                 D['imgs'][k][moment_indexv] = vis_square2(D['activiations'][k][moment_indexv],padval=0.5)
+                
+            if k == 'camera_input' of k =='pre_metadata_features_metadata':
                 mi(D['imgs'][k][moment_indexv],k);spause()#;raw_enter()
 
     def _function_view(*args):
