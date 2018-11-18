@@ -135,10 +135,11 @@ def _TACTIC_RC_controller_run_loop(P):
                         _servo_pwm = servo_percent_to_pwm(P['network']['servo_percent'],P)
                         in_this_mode = False
 
-                    if True:
-                        _motor_pwm = motor_percent_to_pwm(P['network']['motor_percent'],P)
-                    if False:
+                        
+                    if P['use_motor_PID']:
                         _motor_pwm = motor_percent_to_pwm( Pid_processing_motor['do'](P['network']['motor_percent'],P['encoder_smooth'],P),P)
+                    else:
+                        _motor_pwm = motor_percent_to_pwm(P['network']['motor_percent'],P)
             
                     write_str = get_write_str(_servo_pwm,_camera_pwm,_motor_pwm,P)
                 else: # when is this condition reached?

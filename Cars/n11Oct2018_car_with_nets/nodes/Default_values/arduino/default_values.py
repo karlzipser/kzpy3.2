@@ -5,6 +5,7 @@ exec(identify_file_str)
 
 P = {}
 P['agent_is_human'] = True
+P['use_motor_PID'] = False
 
 P['customers'] = ['Arduino Node','Network Node',' Trained Nets']
 P['drive_mode'] = 0
@@ -145,7 +146,9 @@ P['To Expose']['Arduino Node'] = [
 	'menu name',
 	'use LIDAR',
 	'use sound',
+	'use_motor_PID',
 ]
+
 P['To Expose']['Network Node'] = [
 	'network_output_sample',
 	'network_steer_gain',
