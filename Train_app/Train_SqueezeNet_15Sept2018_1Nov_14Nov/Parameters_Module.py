@@ -12,7 +12,14 @@ assert(soft>=65000)
 P = {}
 P['ABORT'] = False
 
+################################################################
+#
 P['use_LIDAR'] = True
+P['lidar_only'] = True
+P['GPU'] = 1
+#
+################################################################
+
 #P['LIDAR_path'] =                     opjD('Depth_images.log.resize.flip.left_ts')
 P['LIDAR_path'] = opjm('1_TB_Samsung_n1','_.Depth_images.log.resize.flip.left_ts')
 P['LIDAR_extension'] = ".Depth_image.log.resize.flip.with_left_ts.h5py"
@@ -59,7 +66,9 @@ if True:
 	print len(P['experiments_folders'])
 	print P['experiments_folders']
 	#raw_enter()
+################################################################
 if False:
+################################################################
 	older = [
 		opjD('bdd_car_data_July2017_LCR/locations'),
 		opjm('preprocessed_5Oct2018_500GB/bdd_model_car_data_early_8Oct2018_lrc_LIDAR/locations'),
@@ -98,14 +107,15 @@ raw_enter()
 P['To Expose'] = {}
 P['To Expose']['Train'] = ['print_timer_time','parameter_file_load_timer_time','percent_of_loss_list_avg_to_show']
 
-P['GPU'] = 1 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 P['BATCH_SIZE'] = 64
 P['REQUIRE_ONE'] = []
-lidar_only = False
-if lidar_only:
+
+if P['lidar_only']:
 	P['NETWORK_OUTPUT_FOLDER'] = opjD('net_15Sept2018_1Nov_with_reverse_14Nov_with_only_LIDAR') #
-else:
+elif P['use_LIDAR']:
 	P['NETWORK_OUTPUT_FOLDER'] = opjD('net_15Sept2018_1Nov_with_reverse_14Nov_with_LIDAR') #
+else:
+	P['NETWORK_OUTPUT_FOLDER'] = opjD('net_15Sept2018_1Nov_with_reverse_') #
 P['save_net_timer'] = Timer(60*30)
 P['SAVE_FILE_NAME'] = 'net'
 P['print_timer_time'] = 60
@@ -356,12 +366,17 @@ def get_Data_moment(dm=None,FLIP=None):
 
 				return False
 
+
+		if not P['use_LIDAR']:
+			
+			return Data_moment
+
 		###############################################################
 		###############################################################
 		###############################################################
 		####
 		if P['use_LIDAR']:
-			if lidar_only:
+			if P['lidar_only']:
 				camera_lidar_1___camera_2___lidar_3 = 3
 			else:
 				camera_lidar_1___camera_2___lidar_3 = 1 #np.random.choice( [1,1,1,2,3,3,3,3])
@@ -422,6 +437,7 @@ def get_Data_moment(dm=None,FLIP=None):
 
 				#cg("success")
 				return Data_moment
+
 		return False
 		#return Data_moment
 

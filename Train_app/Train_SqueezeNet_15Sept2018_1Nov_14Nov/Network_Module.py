@@ -6,7 +6,8 @@ exec(identify_file_str)
 torch.set_default_tensor_type('torch.FloatTensor') 
 torch.cuda.set_device(P['GPU'])
 torch.cuda.device(P['GPU'])
-
+cg("GPUs =",torch.cuda.device_count(),"current GPU =",torch.cuda.current_device())
+#raw_enter()
 
 
 
@@ -76,6 +77,8 @@ def Pytorch_Network():
 
                 D['net'].load_state_dict(save_data['net'])
 
+                #cy("GPUs =",torch.cuda.device_count(),"current GPU =",torch.cuda.current_device())
+                #raw_enter()
                 if False:
                     P['save_net_timer'].trigger()
                     D['SAVE_NET']()

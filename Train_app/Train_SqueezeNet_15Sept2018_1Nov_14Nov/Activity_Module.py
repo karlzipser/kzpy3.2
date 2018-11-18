@@ -10,7 +10,7 @@ def Net_Activity(*args):
     """
     show network activiations
     """
-
+    cy("GPUs =",torch.cuda.device_count(),"current GPU =",torch.cuda.current_device())
     Args = args_to_dictionary(args)
     D = {}
     True
@@ -31,8 +31,12 @@ def Net_Activity(*args):
                 camera_datav = z2o(cv[moment_indexv,:,:,:]).transpose(1,2,0)
                 left_t0v = camera_datav[:,:,0:3]
                 right_t0v = camera_datav[:,:,3:6]
-                left_t1v = camera_datav[:,:,6:9]
-                right_t1v = camera_datav[:,:,9:12]
+                left_t1v = camera_datav[:,:,6:9].copy()
+                right_t1v = camera_datav[:,:,9:12].copy()
+                if P['use_LIDAR']:
+                    left_t1v[:,:,0] *= 0
+                    right_t1v[:,:,0] *= 0
+                #right_t1v = camera_datav[:,:,9:12]
                 camera_arrayv = np.array([right_t0v,left_t0v,right_t1v,left_t1v])
                 D['imgs'][k][moment_indexv] = vis_square(camera_arrayv,padval=0.5)
             else:
