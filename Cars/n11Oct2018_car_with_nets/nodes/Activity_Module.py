@@ -44,7 +44,7 @@ def Net_Activity(*args):
                 D['imgs'][k][moment_indexv] = vis_square(camera_arrayv,padval=0.5)
             else:
                 num_channels = shape(D['activiations'][k])[1]        
-                print num_channels,shape(D['activiations'][k])[1]
+                #print num_channels,shape(D['activiations'][k])[1]
                 for i in range(num_channels):
                     if D['activiations'][k][moment_indexv,i,:,:].mean() != 0.0:
                         if D['activiations'][k][moment_indexv,i,:,:].mean() != 1.0:
@@ -57,10 +57,10 @@ def Net_Activity(*args):
 
                 print k,shape(D['imgs'][k][moment_indexv])
                 if k == 'pre_metadata_features_metadata':
-                    mci((z2o(lr[:,:,0])*255).astype(np.uint8),scale=1.0,color_mode=cv2.COLOR_GRAY2BGR,title='Activity_Module: '+k)
+                    mci((z2o(  D['imgs'][k][moment_indexv][:,:,0]  )*255).astype(np.uint8),scale=1.0,color_mode=cv2.COLOR_GRAY2BGR,title='Activity_Module: '+k)
                 if k == 'camera_input':
                     mi(D['imgs'][k][moment_indexv],k)
-                    
+
 
     def _function_view(*args):
         Args = args_to_dictionary(args)
