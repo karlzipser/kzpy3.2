@@ -3,7 +3,7 @@ from kzpy3.vis3 import *
 exec(identify_file_str)
 sbpd2s("network_node.py")
 
-
+import kzpy3.Train_app.Train_SqueezeNet_15Sept2018_1Nov_14Nov.Activity_Module as Activity_Module
 """
 
 this is the current working version for lidar and camera as of 12 Nov. 2018 (evening)
@@ -386,7 +386,7 @@ while not rospy.is_shutdown():
 
         
         N['weight_file_path'] = False
-        cs("loaded_net=",loaded_net)
+        #cs("loaded_net=",loaded_net)
         if loaded_net == False:
             if N['LOAD NETWORK'] == True:
                 loaded_net = True
@@ -609,6 +609,16 @@ while not rospy.is_shutdown():
                 steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
                 motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
                 
+
+
+
+                ############################
+                Net_activity = Activity_Module.Net_Activity('batch_num',0, 'activiations',Torch_network['solver'].A)
+                Net_activity['view']('moment_index',i,'delay',33, 'scales',{'camera_input':4,'pre_metadata_features':0,'pre_metadata_features_metadata':1,'post_metadata_features':2})
+                ############################
+
+
+
                 if show_durations.check():
 
                     for d in durations:
