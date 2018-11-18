@@ -1,5 +1,5 @@
-from Parameters_Module import *
-exec(identify_file_str)
+#from Parameters_Module import *
+#exec(identify_file_str)
 from kzpy3.vis3 import *
 import torch
 import torch.nn.utils as nnutils
@@ -33,9 +33,11 @@ def Net_Activity(*args):
                 right_t0v = camera_datav[:,:,3:6]
                 left_t1v = camera_datav[:,:,6:9].copy()
                 right_t1v = camera_datav[:,:,9:12].copy()
+                """
                 if P['use_LIDAR']:
                     left_t1v[:,:,0] *= 0
                     right_t1v[:,:,0] *= 0
+                """
                 #right_t1v = camera_datav[:,:,9:12]
                 camera_arrayv = np.array([right_t0v,left_t0v,right_t1v,left_t1v])
                 D['imgs'][k][moment_indexv] = vis_square(camera_arrayv,padval=0.5)
@@ -89,7 +91,7 @@ def Net_Activity(*args):
                 continue
             print(k,Args['moment_index'])
             imgv = D['imgs'][k][Args['moment_index']]
-            mi(imgv,d2s(k,P['start time']))
+            mi(imgv,k)#d2s(k,P['start time']))
             """
             imgv = z2o(imgv)*255
             imgv = imgv.astype(np.uint8)
