@@ -1,13 +1,14 @@
 from Paths_Module import *
 exec(identify_file_str)
 
+"""
 spd2s('REMEMBER ulimit -Sn 65000')
 
 import resource
 soft, hard = resource.getrlimit(resource.RLIMIT_NOFILE)
 print 'Soft limit is ', soft
 assert(soft>=65000)
-
+"""
 
 P = {}
 P['ABORT'] = False
