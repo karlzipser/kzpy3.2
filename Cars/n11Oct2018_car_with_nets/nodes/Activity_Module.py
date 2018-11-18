@@ -53,8 +53,8 @@ def Net_Activity(*args):
                                 D['activiations'][k][moment_indexv,i,:,:] = z2o(D['activiations'][k][moment_indexv,i,:,:])
                     #mi(D['activiations'][k][moment_indexv,i,:,:],d2s(i,k))
                 D['imgs'][k][moment_indexv] = vis_square2(D['activiations'][k][moment_indexv],padval=0.5)
-                mi(D['imgs'][k][moment_indexv])
-                
+                mi(D['imgs'][k][moment_indexv],k);spause();raw_enter()
+
     def _function_view(*args):
         Args = args_to_dictionary(args)
         if 'scales' in Args:
