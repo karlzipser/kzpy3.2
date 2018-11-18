@@ -51,7 +51,7 @@ def Net_Activity(*args):
                                 pass
                             else:
                                 D['activiations'][k][moment_indexv,i,:,:] = z2o(D['activiations'][k][moment_indexv,i,:,:])
-                    #mi(D['activiations'][k][moment_indexv,i,:,:],d2s(i,k))
+                    mi(D['activiations'][k][moment_indexv,i,:,:],d2s(i,k))
                 D['imgs'][k][moment_indexv] = vis_square2(D['activiations'][k][moment_indexv],padval=0.5)
                 
     def _function_view(*args):
