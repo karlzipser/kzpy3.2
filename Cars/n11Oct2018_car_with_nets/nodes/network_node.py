@@ -3,7 +3,8 @@ from kzpy3.vis3 import *
 exec(identify_file_str)
 sbpd2s("network_node.py")
 
-import kzpy3.Train_app.Train_SqueezeNet_15Sept2018_1Nov_14Nov.Activity_Module as Activity_Module
+import Activity_Module
+#import kzpy3.Train_app.Train_SqueezeNet_15Sept2018_1Nov_14Nov.Activity_Module as Activity_Module
 """
 
 this is the current working version for lidar and camera as of 12 Nov. 2018 (evening)
