@@ -29,6 +29,7 @@ def Batch(the_network=None):
 	D['metadata'] = torch.FloatTensor().cuda()
 	D['target_data'] = torch.FloatTensor().cuda()
 	D['names'] = []
+	D['flips'] = []
 	D['states'] = []
 	D['tries'] = 0
 	D['successes'] = 0
@@ -153,6 +154,7 @@ def Batch(the_network=None):
 				dm['loss'] = []
 				P['current_batch'].append(dm)
 				D['names'].insert(0,Data_moment['name']) # This to match torch.cat use below
+				D['flips'].insert(0,Data_moment['FLIP']) # This to match torch.cat use below
 
 
 				list_camera_input = []
@@ -408,7 +410,7 @@ def Batch(the_network=None):
 				plot([-1,20],[0.0,0.0],'k')
 				plot(ov,'og'); plot(tv,'or'); plt.title(D['names'][0])
 				
-				plt.xlabel(d2s(bm))
+				plt.xlabel(d2s(bm,D['flips'][0]))
 				figure('metadata '+P['start time']);clf()
 				plot(mv[-10:,0,0],'r.-')
 				plt.title(d2s(bm,i))

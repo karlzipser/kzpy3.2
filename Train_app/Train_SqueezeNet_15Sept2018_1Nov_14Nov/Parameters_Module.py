@@ -16,7 +16,7 @@ P['ABORT'] = False
 ################################################################
 #
 P['use_LIDAR'] = True
-P['lidar_only'] = True
+P['lidar_only'] = False
 if P['lidar_only']:
 	P['GPU'] = 0
 elif P['use_LIDAR'] == False:
@@ -257,6 +257,7 @@ def get_Data_moment(dm=None,FLIP=None):
 		if dm['run_name'] in P['lacking runs']:
 			return False
 		Data_moment = {}
+		Data_moment['FLIP'] = FLIP
 		left_index = dm['left_ts_index'][1]
 		steer_len = len(P['Loaded_image_files'][dm['run_name']]['left_timestamp_metadata']['steer'])
 		data_len = min(steer_len - left_index,90)
@@ -436,7 +437,7 @@ def get_Data_moment(dm=None,FLIP=None):
 
 
 
-				if camera_lidar_1___camera_2___lidar_3 == 2:
+				if camera_lidar_1___camera_2___lidar_3 == 2:#???????????????????????
 					for side in ['left','right']:
 						for position in [1,2]:
 							Data_moment[side][1][:,:,position] *= 0
