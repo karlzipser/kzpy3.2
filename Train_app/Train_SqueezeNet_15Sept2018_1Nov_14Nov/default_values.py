@@ -7,8 +7,8 @@ P['verbose'] = False
 verbose = P['verbose']
 ################################################################
 #
-P['use_LIDAR'] = False
-P['lidar_only'] = False
+P['use_LIDAR'] = True
+P['lidar_only'] = True
 if P['lidar_only']:
 	P['GPU'] = 0
 elif P['use_LIDAR'] == False:
@@ -42,7 +42,7 @@ else:
 	P['NETWORK_OUTPUT_FOLDER'] = opjD('net_15Sept2018_1Nov_with_reverse_') #
 P['save_net_timer'] = Timer(60*30)
 P['SAVE_FILE_NAME'] = 'net'
-P['print_timer_time'] = 1
+P['print_timer_time'] = 60
 P['parameter_file_load_timer_time'] = 5
 P['percent_of_loss_list_avg_to_show'] = 10.0
 P['frequency_timer'] = Timer(30.0)
