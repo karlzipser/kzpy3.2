@@ -9,9 +9,9 @@ P['use_motor_PID'] = False
 
 P['customers'] = ['Arduino Node','Network Node',' Trained Nets']
 P['drive_mode'] = 0
-P['use LIDAR'] = False
-P['use sound'] = True
-P['use flex'] = True
+P['use LIDAR'] = True
+P['use sound'] = False
+P['use flex'] = False
 P['max motor'] = 63
 P['show_net_input'] = False
 P['show_net_activity'] = False
