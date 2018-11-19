@@ -37,7 +37,7 @@ def Batch(the_network=None):
 
 
 	def _load_image_files():
-		spd2s('_load_image_files()')
+		cy('_load_image_files()')
 		P['Loaded_image_files'] = {}
 
 		shuffled_keys = P['run_name_to_run_path'].keys()
@@ -77,15 +77,29 @@ def Batch(the_network=None):
 					print("********** Exception ***********************")
 					print(e.message, e.args)
 
-		print(len(P['Loaded_image_files']))
+		if P['verbose']: print(len(P['Loaded_image_files']))
 
 		pd2s('1) len(P[data_moments_indexed]) =',len(P['data_moments_indexed']))
 
 		timer = Timer()
 		P['data_moments_indexed_loaded'] = []
-		for dm in P['data_moments_indexed']:
-			if dm['run_name'] in P['Loaded_image_files']:
-				P['data_moments_indexed_loaded'].append(dm)
+
+
+
+		if "ORIGINAL VERSION":
+			for dm in P['data_moments_indexed']:
+				if dm['run_name'] in P['Loaded_image_files']:
+					P['data_moments_indexed_loaded'].append(dm)
+		else: 
+			for dm in P['data_moments_indexed']:
+				if dm['run_name'] in P['Loaded_image_files']:
+					if np.random.random() < 0.1:
+						cg('yes')
+						P['data_moments_indexed_loaded'].append(dm)
+					else:
+						cr('no')
+
+
 
 		random.shuffle(P['data_moments_indexed_loaded'])
 
@@ -99,7 +113,7 @@ def Batch(the_network=None):
 
 	def _close_image_files():
 
-		spd2s('_close_image_files()')
+		cy('_close_image_files()')
 
 		for f in P['Loaded_image_files']:
 
@@ -134,7 +148,7 @@ def Batch(the_network=None):
 				if P['long_ctr'] == -1 or P['long_ctr'] >= len(P['data_moments_indexed_loaded']):
 					P['long_ctr'] = 0
 					random.shuffle(P['data_moments_indexed_loaded'])
-					spd2s('random.shuffle(P[data_moments_indexed_loaded])')
+					cy('random.shuffle(P[data_moments_indexed_loaded])')
 				
 				FLIP = random.choice([0,1])
 				dm = P['data_moments_indexed_loaded'][P['long_ctr']]; P['long_ctr'] += 1#; ctr += 1
@@ -378,9 +392,9 @@ def Batch(the_network=None):
 				ov = D['outputs'][i].data.cpu().numpy()
 				mv = D['metadata'][i].cpu().numpy()
 				tv = D['target_data'][i].cpu().numpy()
-				print len(ov),len(tv)
+				cg("len(ov),len(tv) =", len(ov),len(tv))
 				#raw_enter()
-				print('Loss:',dp(D['loss'].data.cpu().numpy()[0],5))
+				if P['verbose']: print('Loss:',dp(D['loss'].data.cpu().numpy()[0],5))
 				av = D['camera_data'][i][:].cpu().numpy()
 				bv = av.transpose(1,2,0)
 				hv = shape(av)[1]
@@ -390,7 +404,7 @@ def Batch(the_network=None):
 				cv[:hv,-wv:,:] = z2o(bv[:,:,:3])
 				cv[-hv:,:wv,:] = z2o(bv[:,:,9:12])
 				cv[-hv:,-wv:,:] = z2o(bv[:,:,6:9])
-				print(d2s(i,'camera_data min,max =',av.min(),av.max()))
+				if P['verbose']: print(d2s(i,'camera_data min,max =',av.min(),av.max()))
 				if P['loss_timer'].check() and len(P['LOSS_LIST_AVG'])>5:
 					q = int(len(P['LOSS_LIST_AVG'])*P['percent_of_loss_list_avg_to_show']/100.0)
 					figure('LOSS_LIST_AVG '+P['start time']);clf();plot(P['LOSS_LIST_AVG'][-q:],'.')
@@ -402,6 +416,8 @@ def Batch(the_network=None):
 				for j in range(len(P['behavioral_modes'])):
 					if mv[-(j+1),0,0]:
 						bm = P['behavioral_modes'][j]
+					#else:
+					#	cr(P['behavioral_modes'][j],'unknown behavioral_mode !!!')
 				figure('steer '+P['start time'])
 				clf()
 				plt.title(d2s(i))
@@ -433,6 +449,9 @@ def Batch(the_network=None):
 			P['dm_ctrs'] = dm_ctrs
 			#figure('loss_list');clf();hist(loss_list)
 			spause()
+
+			if bm == 'unknown behavioral_mode':
+				raw_enter()
 
 
 

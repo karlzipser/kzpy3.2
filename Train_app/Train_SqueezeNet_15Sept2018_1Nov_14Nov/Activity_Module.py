@@ -41,7 +41,7 @@ def Net_Activity(*args):
                 D['imgs'][k][moment_indexv] = vis_square(camera_arrayv,padval=0.5)
             else:
                 num_channels = shape(D['activiations'][k])[1]        
-                print num_channels,shape(D['activiations'][k])[1]
+                if P['verbose']: print num_channels,shape(D['activiations'][k])[1]
                 for i in range(num_channels):
                     if D['activiations'][k][moment_indexv,i,:,:].mean() != 0.0:
                         if D['activiations'][k][moment_indexv,i,:,:].mean() != 1.0:
@@ -87,7 +87,7 @@ def Net_Activity(*args):
             if scalev == 0:
                 print('Not shwoing '+k)
                 continue
-            print(k,Args['moment_index'])
+            if P['verbose']:print(k,Args['moment_index'])
             imgv = D['imgs'][k][Args['moment_index']]
             mi(imgv,d2s(k,P['start time']))
             """

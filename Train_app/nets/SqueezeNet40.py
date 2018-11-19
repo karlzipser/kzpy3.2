@@ -1,6 +1,6 @@
 from kzpy3.utils3 import *
 exec(identify_file_str)
-spd2s('Using SqueezeNet !!!!!!!!!!!!!!!!!!')
+cg('SqueezeNet40.py, using SqueezeNet')
 import math
 import torch
 import torch.nn as nn
@@ -89,6 +89,6 @@ class SqueezeNet(nn.Module):
 def unit_test():
     test_net = SqueezeNet()
     a = test_net(Variable(torch.randn(5, 12, 94, 168)), Variable(torch.randn(5, 128, 23, 41)))    
-    print('Tested SqueezeNet')
+    print('SqueezeNet40.py, unit_test(): Tested SqueezeNet')
 
 unit_test()
