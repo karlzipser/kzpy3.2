@@ -301,7 +301,7 @@ show_durations = Timer(5)
 net_input_width = 168
 net_input_height = 94
 
-mn,mx = -0.5,0.7
+mn,mx = -0.25,1.5
 
 waiting = Timer(1)
 frequency_timer = Timer(5)
@@ -563,7 +563,7 @@ while not rospy.is_shutdown():
                 #if first_time:
                 if behavioral_mode not in Metadata_tensors.keys():
                     for j in range(10):
-                        cs("ERROR!!!!!!!!!!!!!!!!!!!!!!",exception=True)
+                        cs("ERROR!!!!!!!!!!!!!!!!!!!!!!")
                     cr("behavioral_mode",behavioral_mode,"not in Metadata_tensors.keys()")
                 metadata = Metadata_tensors[behavioral_mode]
                 if False:
