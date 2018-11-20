@@ -144,7 +144,7 @@ def menu2(Topics,path):
                     if skip:
                         continue
                     filenames.append(fname(f[0]))
-                    #print d2n('\t',ctr2,') ',filenames[-1])
+                    print d2n('\t',ctr2,') ',filenames[-1])
                     ctr2 += 1
                 filename = filenames[input('\tload #? ')-1]
                 Topics_loaded = lo(opjh(path,'__local__',filename))
