@@ -134,7 +134,7 @@ def menu2(Topics,path):
                     skip = False
                     for customer in Topics['customers']:
                         n = 'Topics.'+customer+'.pkl'
-                        if fname(f[0]) = n:
+                        if fname(f[0]) == n:
                             skip = True
                             break
                     if skip:
