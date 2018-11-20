@@ -135,6 +135,7 @@ def menu2(Topics,path):
                     for customer in Topics['customers']:
 
                         n = 'Topics.'+customer+'.pkl'
+                        n = n.replace(' ','_')
                         print n,fname(f[0])
                         if fname(f[0]) == n:
                             skip = True
