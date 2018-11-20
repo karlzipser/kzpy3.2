@@ -139,6 +139,7 @@ def menu2(Topics,path):
                         print n,fname(f[0])
                         if fname(f[0]) == n:
                             skip = True
+                            cr("skip",fname(f[0]))
                             break
                     if skip:
                         break
