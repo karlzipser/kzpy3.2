@@ -417,9 +417,9 @@ while not rospy.is_shutdown():
                     Torch_network = net_utils.Torch_Network(N)
                     cs( "Torch_network = net_utils.Torch_Network(N)" )
 
-        s1 = N['network_motor_smoothing_parameter']
-        s2 = N['network_servo_smoothing_parameter']
-        s3 = N['network_camera_smoothing_parameter']
+
+
+
     ###
     #####################################################################
     #####################################################################
@@ -581,10 +581,18 @@ while not rospy.is_shutdown():
                 
                 #cr('G')
 
+                s1 = N['network_motor_smoothing_parameter']
+                s2 = N['network_servo_smoothing_parameter']
+                s3 = N['network_camera_smoothing_parameter']
+                s1_flex = N['network_motor_smoothing_parameter']
+                s2_flex = N['network_servo_smoothing_parameter']
+
                 if 'new position for flex insert':
                     if N['use flex'] and flex_motor < 47:
                         torch_steer = flex_steer
                         torch_motor = flex_motor
+                        s1 = s1_flex
+                        s2 = s2_flex
                         cr(int(torch_steer),int(torch_motor))
                     else:
                         cg(int(torch_steer),int(torch_motor))
