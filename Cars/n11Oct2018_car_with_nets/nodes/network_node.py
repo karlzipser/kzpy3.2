@@ -484,7 +484,7 @@ while not rospy.is_shutdown():
                 Lists['right'] = right_list[-2:]##
 
 
-                if not N['lidar_only']:
+                if N['lidar_only']:
                     for side in ['left','right']:
                         advance(rLists[side], zeros((net_input_height,net_input_width,3),np.uint8), 4 )
                 else:
