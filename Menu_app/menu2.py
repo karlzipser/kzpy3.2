@@ -131,10 +131,17 @@ def menu2(Topics,path):
                 filenames = []
                 ctr2 = 1
                 for f in files:
-                    if fname(f[0]) != 'Topics.pkl':
-                        filenames.append(fname(f[0]))
-                        print d2n('\t',ctr2,') ',filenames[-1])
-                        ctr2 += 1
+                    skip = False
+                    for customer in Topics['customers']:
+                        n = 'Topics.'+customer+'.pkl'
+                        if fname(f[0]) = n:
+                            skip = True
+                            break
+                    if skip:
+                        break
+                    filenames.append(fname(f[0]))
+                    print d2n('\t',ctr2,') ',filenames[-1])
+                    ctr2 += 1
                 filename = filenames[input('\tload #? ')-1]
                 Topics_loaded = lo(opjh(path,'__local__',filename))
                 for t in Topics_loaded:
