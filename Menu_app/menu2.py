@@ -142,7 +142,7 @@ def menu2(Topics,path):
                             cr("skip",fname(f[0]))
                             break
                     if skip:
-                        break
+                        continue
                     filenames.append(fname(f[0]))
                     print d2n('\t',ctr2,') ',filenames[-1])
                     ctr2 += 1
