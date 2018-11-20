@@ -426,6 +426,7 @@ while not rospy.is_shutdown():
     
 
     if Torch_network == None:
+        time.sleep(0.1)
         continue
     #else print Torch_network
 
@@ -482,15 +483,16 @@ while not rospy.is_shutdown():
                 Lists['left'] = left_list[-2:]
                 Lists['right'] = right_list[-2:]##
 
-                if False:
-                    pass #delete this
 
-                for side in ['left','right']:
-                    for i in [-1]:#,-2]:
-                        advance(rLists[side], cv2.resize(Lists[side][i],(net_input_width,net_input_height)), 4 )
-                #cr('C2')
-                #print Durations[dname]['timer'].time()
-                #cg(len(rLists['left']))
+                if not N['lidar_only']:
+                    for side in ['left','right']:
+                        advance(rLists[side], zeros((net_input_height,net_input_width,3),np.uint8), 4 )
+                else:
+                    for side in ['left','right']:
+                        for i in [-1]:#,-2]:
+                            advance(rLists[side], cv2.resize(Lists[side][i],(net_input_width,net_input_height)), 4 )
+
+
                 if len(rLists['left'])>2:
                     if N['use LIDAR']:
                         if len(rLists['left']) >= 2:
@@ -579,10 +581,20 @@ while not rospy.is_shutdown():
                 
                 #cr('G')
 
+                if 'new position for flex insert':
+                    if N['use flex'] and flex_motor < 47:
+                        torch_steer = flex_steer
+                        torch_motor = flex_motor
+                        cr(int(torch_steer),int(torch_motor))
+                    else:
+                        cg(int(torch_steer),int(torch_motor))
+                            #adjusted_camera,adjusted_steer,adjusted_motor)
+
                 if 'Do smoothing of percents...':
                     current_camera = (1.0-s3)*torch_steer + s3*current_camera
                     current_steer = (1.0-s2)*torch_steer + s2*current_steer
                     current_motor = (1.0-s1)*torch_motor + s1*current_motor
+
 
 
                 #cr('H')
@@ -596,17 +608,21 @@ while not rospy.is_shutdown():
 
                 adjusted_motor = min(adjusted_motor,N['max motor'])
 
-                if N['use flex'] and flex_motor < 47:
-                    adjusted_camera = flex_steer
-                    adjusted_steer = flex_steer
-                    adjusted_motor = flex_motor
-                    cr(adjusted_camera,adjusted_steer,adjusted_motor)
-                else:
-                    cg(int(torch_steer),int(torch_motor))
-                        #adjusted_camera,adjusted_steer,adjusted_motor)
+
+                if not 'original position for flex insert':
+                    if N['use flex'] and flex_motor < 47:
+                        adjusted_camera = flex_steer
+                        adjusted_steer = flex_steer
+                        adjusted_motor = flex_motor
+                        cr(adjusted_camera,adjusted_steer,adjusted_motor)
+                    else:
+                        cg(int(torch_steer),int(torch_motor))
+                            #adjusted_camera,adjusted_steer,adjusted_motor)
+
                 frequency_timer.freq(name='network',do_print=True)
 
                 
+
                 #cr('I')
                 camera_cmd_pub.publish(std_msgs.msg.Int32(adjusted_camera))
                 steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))

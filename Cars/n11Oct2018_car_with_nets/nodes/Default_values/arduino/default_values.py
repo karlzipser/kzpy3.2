@@ -10,6 +10,7 @@ P['use_motor_PID'] = False
 P['customers'] = ['Arduino Node','Network Node',' Trained Nets']
 P['drive_mode'] = 0
 P['use LIDAR'] = True
+P['lidar_only'] = True; if P['lidar_only']: P['use LIDAR'] = True
 P['use sound'] = True
 P['use flex'] = True
 P['max motor'] = 63
