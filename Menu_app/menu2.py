@@ -134,12 +134,12 @@ def menu2(Topics,path):
                     skip = False
                     for customer in Topics['customers']:
                         n = 'Topics.'+customer+'.pkl'
-                        if fname(f[0]) == n:
+                        if fname(f) == n:
                             skip = True
                             break
                     if skip:
                         break
-                    filenames.append(fname(f[0]))
+                    filenames.append(fname(f))
                     print d2n('\t',ctr2,') ',filenames[-1])
                     ctr2 += 1
                 filename = filenames[input('\tload #? ')-1]
