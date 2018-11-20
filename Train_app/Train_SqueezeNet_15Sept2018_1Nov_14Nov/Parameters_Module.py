@@ -150,10 +150,23 @@ if True:
 							else:
 								pass #cr("behavioral_mode not in B: ",_dm['behavioral_mode'])
 
-				for r in sggo(e,'h5py','*'):
-					print fname(r)
-					assert(fname(r) not in P['run_name_to_run_path'])
-					P['run_name_to_run_path'][fname(r)] = r
+				if P['lidar_only']:
+					for r in sggo(e,'h5py','*'):
+						skip = False
+						for q in ['08Oct','11Oct','12Oct','15Oct','16Oct','17Oct','18Oct']:
+							if q in r:
+								cr(q,'in',r)
+								skip = True
+								break
+						if not skip:
+							print fname(r)
+							assert(fname(r) not in P['run_name_to_run_path'])
+							P['run_name_to_run_path'][fname(r)] = r
+				else:
+					for r in sggo(e,'h5py','*'):
+						print fname(r)
+						assert(fname(r) not in P['run_name_to_run_path'])
+						P['run_name_to_run_path'][fname(r)] = r
 			
 	cg("***********************************")
 	equalize_to_max_len(B)
