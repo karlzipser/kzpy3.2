@@ -26,8 +26,12 @@ assert(soft>=65000)
 if True:
 	import kzpy3.Data_app.classify_data as classify_data
 	P['experiments_folders'] = []
-	locations_to_classify = [opjm("1_TB_Samsung_n1"),opjm('rosbags')]
-	#locations_to_classify = [opjm('rosbags')]
+	
+	if True:
+		locations_to_classify = [opjm("1_TB_Samsung_n1"),opjm('rosbags')]
+	else:
+		locations_to_classify = [opjm('rosbags')]
+	
 	for l in locations_to_classify:
 		cb("classify_data.find_locations('",l,"'),P['experiments_folders'])...")
 		classify_data.find_locations(l,P['experiments_folders'],False)

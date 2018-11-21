@@ -7,8 +7,8 @@ P['verbose'] = False
 verbose = P['verbose']
 ################################################################
 #
-P['use_LIDAR'] = True
-P['lidar_only'] = True
+P['use_LIDAR'] = False
+P['lidar_only'] = False
 if P['lidar_only']:
 	P['GPU'] = 0
 elif P['use_LIDAR'] == False:

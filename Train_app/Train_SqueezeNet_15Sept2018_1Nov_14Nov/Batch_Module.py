@@ -388,6 +388,7 @@ def Batch(the_network=None):
 	def _function_display():
 		cv2.waitKey(1) # This is to keep cv2 windows alive
 		if P['print_timer'].check():
+			cprint(d2s("P['start time'] =",P['start time']),'blue','on_yellow')
 			for i in [0]:#range(P['BATCH_SIZE']):
 				ov = D['outputs'][i].data.cpu().numpy()
 				mv = D['metadata'][i].cpu().numpy()
@@ -408,6 +409,11 @@ def Batch(the_network=None):
 				if P['loss_timer'].check() and len(P['LOSS_LIST_AVG'])>5:
 					q = int(len(P['LOSS_LIST_AVG'])*P['percent_of_loss_list_avg_to_show']/100.0)
 					figure('LOSS_LIST_AVG '+P['start time']);clf();plot(P['LOSS_LIST_AVG'][-q:],'.')
+					u = min(len(P['LOSS_LIST_AVG']),250)
+					median_val = np.median(na(P['LOSS_LIST_AVG'][-u:]))
+					plt.title(d2s('median =',dp(median_val,4)))
+					plot([0,q],[median_val,median_val],'r')
+					plt.xlim(0,q)
 					spause()
 					P['loss_timer'].reset()
 				Net_activity = Activity_Module.Net_Activity('batch_num',i, 'activiations',D['network']['net'].A)

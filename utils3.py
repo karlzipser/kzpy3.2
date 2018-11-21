@@ -970,7 +970,7 @@ def print_Arguments():
 		for k in Arguments:
 		    cb(d2n('\t',k,':',Arguments[k],' (',type(Arguments[k]),')'))
 	else:
-		cr('No Arguments')
+		cb('No Arguments')
 
 identify_file_str = """
 if '__file__' not in locals():
