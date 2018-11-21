@@ -27,7 +27,7 @@ MMDDhhmmyyyy_ss = Data['month/string'] + \
 	Data['hour/string'] + \
 	Data['minutes/string'] + \
 	Data['year/string'] + \
-	"_" +\
+	"." +\
 	Data['seconds/string']
 
 cg("new_date_time_string:",MMDDhhmmyyyy_ss)
