@@ -41,15 +41,30 @@ def menu2(Topics,path):
             cprint("<<<<<<<<<<<<< "+Q+" >>>>>>>>>>>>>",attrs=['bold'],color='white',on_color='on_grey')
 #                   8) IMU_SMOOTHING_PARAMETER: 0.95  float
             ctr = 1
-            Number_name_binding[ctr]='exit';cprint(d2n(ctr,') ',Number_name_binding[ctr]),'yellow');ctr+=1
-            Number_name_binding[ctr]='load';cprint(d2n(ctr,') ',Number_name_binding[ctr]),'yellow');ctr+=1
-            Number_name_binding[ctr]='save';cprint(d2n(ctr,') ',Number_name_binding[ctr]),'yellow');ctr+=1
-            Number_name_binding[ctr]='hide';cprint(d2n(ctr,') ',Number_name_binding[ctr]),'yellow');ctr+=1
+            first_line_string = ""
+            Number_name_binding[ctr]='exit';first_line_string+=d2n(ctr,') ',Number_name_binding[ctr],'; ');ctr+=1
+            Number_name_binding[ctr]='load';first_line_string+=d2n(ctr,') ',Number_name_binding[ctr],'; ');ctr+=1
+            Number_name_binding[ctr]='save';first_line_string+=d2n(ctr,') ',Number_name_binding[ctr],'; ');ctr+=1
+            Number_name_binding[ctr]='hide';first_line_string+=d2n(ctr,') ',Number_name_binding[ctr],'; ');ctr+=1
 
-            
+            cprint(first_line_string,'yellow')
+
+            if False:
+                Number_name_binding[ctr]='exit';cprint(d2n(ctr,') ',Number_name_binding[ctr]),'yellow');ctr+=1
+                Number_name_binding[ctr]='load';cprint(d2n(ctr,') ',Number_name_binding[ctr]),'yellow');ctr+=1
+                Number_name_binding[ctr]='save';cprint(d2n(ctr,') ',Number_name_binding[ctr]),'yellow');ctr+=1
+                Number_name_binding[ctr]='hide';cprint(d2n(ctr,') ',Number_name_binding[ctr]),'yellow');ctr+=1
+
+            customer_string = ""
             for k in to_expose_keys:
                 if k != Q:
-                    Number_name_binding[ctr]=k;cprint(d2n(ctr,') ',Number_name_binding[ctr]),'green');ctr+=1
+                    Number_name_binding[ctr]=k; customer_string+=  d2n(ctr,') ',Number_name_binding[ctr],'; ')    ;ctr+=1
+            cprint(customer_string,'green')
+
+            if False:
+                for k in to_expose_keys:
+                    if k != Q:
+                        Number_name_binding[ctr]=k;cprint(d2n(ctr,') ',Number_name_binding[ctr]),'green');ctr+=1
 
             first = True
 
@@ -197,7 +212,7 @@ def menu2(Topics,path):
             print("********** rosmenu.py Exception ***********************")
             print(e.message, e.args)
             exec(EXCEPT_STR)
-            raw_enter()
+            #raw_enter()
 
 
 def save_topics(Topics,path):
@@ -294,7 +309,7 @@ if __name__ == '__main__':# and EXIT == False:
     menu2(Topics,path)
     #raw_enter()
     print '\ndone.\n'
-    raw_enter()
+    #raw_enter()
 
 
 # python kzpy3/Menu_app/menu.py path ~/kzpy3/Cars/car_24July2018/nodes/__local__/arduino/ default 1 Topics arduino

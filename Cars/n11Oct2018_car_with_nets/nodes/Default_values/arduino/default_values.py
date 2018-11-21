@@ -7,7 +7,7 @@ P = {}
 P['agent_is_human'] = True
 P['use_motor_PID'] = False
 
-P['customers'] = ['Arduino Node','Network Node',' Trained Nets']
+P['customers'] = ['Arduino','Network','Weights','Flex']
 P['drive_mode'] = 0
 P['use LIDAR'] = True
 P['lidar_only'] = True
@@ -16,11 +16,12 @@ if P['lidar_only']:
 P['use sound'] = True
 P['use flex'] = False
 P['max motor'] = 63
+P['max motor'] = 49-(63-49)
 P['show_net_input'] = False
 P['show_net_activity'] = False
 P['menu name'] = 'arduino menu'
 P['cmd/autostart menu'] = False
-P['cmd/clear_screen'] = False
+P['cmd/clear_screen'] = True
 P['use menu'] = True
 P['zed_called'] = {}
 P['zed_called']['val'] = 0
@@ -132,27 +133,27 @@ for f in flex_names:
 P['to_hide'] = []
 
 P['To Expose'] = {}
-P['To Expose']['Arduino Node'] = [
+P['To Expose']['Arduino'] = [
 	'ABORT',
-	'IMU_SMOOTHING_PARAMETER',
+	#'IMU_SMOOTHING_PARAMETER',
 	'behavioral_mode_choice',
 	'agent_is_human',
 	'place_choice',
 	'servo_pwm_smooth_manual_offset',
 	'camera_pwm_manual_offset',
-	'pid_motor_slope',
-	'pid_motor_gain',
-	'pid_encoder_max',
-	'pid_motor_delta_max',
-	'pid_motor_percent_max',
-	'pid_motor_percent_min',
-	'menu name',
+	#'pid_motor_slope',
+	#'pid_motor_gain',
+	#'pid_encoder_max',
+	#'pid_motor_delta_max',
+	#'pid_motor_percent_max',
+	#'pid_motor_percent_min',
+	#'menu name',
 	'use LIDAR',
 	'use sound',
 	'use_motor_PID',
 ]
 
-P['To Expose']['Network Node'] = [
+P['To Expose']['Network'] = [
 	'network_output_sample',
 	'network_steer_gain',
 	'network_camera_gain',
@@ -164,8 +165,18 @@ P['To Expose']['Network Node'] = [
 	'USE_LAST_IMAGE_ONLY',
 	'LOAD NETWORK',
 	'max motor',
+	'min motor',
 	'show_net_input',
 	'show_net_activity',
+]
+
+P['To Expose']['Flex'] = [
+	'flex_motor_smoothing_parameter',
+	'flex_servo_smoothing_parameter',
+	'flex_camera_smoothing_parameter',
+	'flex_motor_gain',
+	'flex_steer_gain',
+	'flex_camera_gain',
 ]
 
 def sort_dir_by_ctime(dir_path):
@@ -186,7 +197,7 @@ def sort_dir_by_ctime(dir_path):
 	return paths
 
 try:
-	P['To Expose']['Trained Nets'] = []
+	P['To Expose']['Weights'] = []
 	P['weight_files'] = {}
 	Model_folders = {}
 	for f in sggo(opjm("rosbags/networks/*")):
@@ -197,7 +208,7 @@ try:
 		l = len(weight_files)
 		n = d2n(fname(f)," (",l,")")
 		P[n] = [False]
-		P['To Expose']['Trained Nets'].append(n)
+		P['To Expose']['Weights'].append(n)
 		P['weight_files'][n] = weight_files
 
 except Exception as e:
@@ -210,18 +221,24 @@ P['LOAD NETWORK'] = False
 
 ############# NETWORK PARAMETERS
 P['network_output_sample'] = 0 # >= 0, <= 9
-P['network_steer_gain'] = 1.0#6.0
-P['network_camera_gain'] = 1.0#2.0
-P['network_motor_gain'] = 1.0#0.8
+P['network_steer_gain'] = 3.0
+P['network_camera_gain'] = 6.0
+P['network_motor_gain'] = 0.75
 P['network_motor_offset'] = 0
 P['network_servo_smoothing_parameter'] = 0.85
-P['network_motor_smoothing_parameter'] = 0.75
+P['network_motor_smoothing_parameter'] = 0.85
 P['network_camera_smoothing_parameter'] = 0.0
 P['weight_file_path'] = opjh('pytorch_models/epoch6goodnet')#opjD('link_to_weights_file.SqueezeNet')#opjh('pytorch_models','net_10Jun18_00h00m45s.SqueezeNet')
 P['USE_NETWORK'] = True
 P['GREY_OUT_TOP_OF_IMAGE'] = False
 P['USE_LAST_IMAGE_ONLY'] = False
 P['visualize_activations'] = False
+P['flex_motor_smoothing_parameter'] = P['network_motor_smoothing_parameter']
+P['flex_servo_smoothing_parameter'] = P['network_servo_smoothing_parameter']
+P['flex_camera_smoothing_parameter'] = P['network_camera_smoothing_parameter']
+P['flex_motor_gain'] = P['network_motor_gain']
+P['flex_steer_gain'] = P['network_steer_gain']
+P['flex_camera_gain'] = P['network_camera_gain']
 ###########################
 
 

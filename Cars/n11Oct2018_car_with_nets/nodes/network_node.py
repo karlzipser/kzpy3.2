@@ -139,8 +139,7 @@ camera_cmd_pub = rospy.Publisher('cmd/camera', std_msgs.msg.Int32, queue_size=5)
 steer_cmd_pub = rospy.Publisher('cmd/steer', std_msgs.msg.Int32, queue_size=5)
 motor_cmd_pub = rospy.Publisher('cmd/motor', std_msgs.msg.Int32, queue_size=5)
 Hz_network_pub = rospy.Publisher('Hz_network', std_msgs.msg.Float32, queue_size=5)
-rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_callback,queue_size = 1)
-rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_callback,queue_size = 1)
+
 rospy.Subscriber('/bair_car/human_agent', std_msgs.msg.Int32, callback=human_agent_callback)
 rospy.Subscriber('/bair_car/behavioral_mode', std_msgs.msg.String, callback=behavioral_mode_callback)
 rospy.Subscriber('/bair_car/drive_mode', std_msgs.msg.Int32, callback=drive_mode_callback)
@@ -150,7 +149,9 @@ if N['use flex']:
     rospy.Subscriber('/bair_car/cmd/flex_motor', std_msgs.msg.Int32, callback=flex_motor__callback)
     rospy.Subscriber('/bair_car/cmd/flex_steer', std_msgs.msg.Int32, callback=flex_steer__callback)
 
-
+if not N['lidar_only']:
+    rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_callback,queue_size = 1)
+    rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_callback,queue_size = 1)
 
 
 
@@ -479,9 +480,10 @@ while not rospy.is_shutdown():
                 
                 #print Durations[dname]['timer'].time()
                 #cr('C1')
-                Lists = {}
-                Lists['left'] = left_list[-2:]
-                Lists['right'] = right_list[-2:]##
+                if not N['lidar_only']:
+                    Lists = {}
+                    Lists['left'] = left_list[-2:]
+                    Lists['right'] = right_list[-2:]##
 
 
                 if N['lidar_only']:
@@ -581,9 +583,7 @@ while not rospy.is_shutdown():
                 
                 #cr('G')
 
-                s1 = N['network_motor_smoothing_parameter']
-                s2 = N['network_servo_smoothing_parameter']
-                s3 = N['network_camera_smoothing_parameter']
+
                 s1_flex = N['network_motor_smoothing_parameter']
                 s2_flex = N['network_servo_smoothing_parameter']
 
@@ -591,30 +591,40 @@ while not rospy.is_shutdown():
                     if N['use flex'] and flex_motor < 47:
                         torch_steer = flex_steer
                         torch_motor = flex_motor
-                        s1 = s1_flex
-                        s2 = s2_flex
+                        sm = N['flex_motor_smoothing_parameter']
+                        ss = N['flex_servo_smoothing_parameter']
+                        sc = N['flex_camera_smoothing_parameter']
+                        gm = N['flex_motor_gain']
+                        gs = N['flex_steer_gain']
+                        gc = N['flex_camera_gain']
                         cr(int(torch_steer),int(torch_motor))
                     else:
+                        sm = N['network_motor_smoothing_parameter']
+                        ss = N['network_servo_smoothing_parameter']
+                        sc = N['network_camera_smoothing_parameter']
+                        gm = N['network_motor_gain']
+                        gs = N['network_steer_gain']
+                        gc = N['network_camera_gain']
                         cg(int(torch_steer),int(torch_motor))
-                            #adjusted_camera,adjusted_steer,adjusted_motor)
-
+                            
                 if 'Do smoothing of percents...':
-                    current_camera = (1.0-s3)*torch_steer + s3*current_camera
-                    current_steer = (1.0-s2)*torch_steer + s2*current_steer
-                    current_motor = (1.0-s1)*torch_motor + s1*current_motor
+                    current_camera = (1.0-sc)*torch_steer + sc*current_camera
+                    current_steer = (1.0-ss)*torch_steer + ss*current_steer
+                    current_motor = (1.0-sm)*torch_motor + sm*current_motor
 
 
 
                 #cr('H')
-                adjusted_motor = int(N['network_motor_gain']*(current_motor-49) + N['network_motor_offset'] + 49)
-                adjusted_steer = int(N['network_steer_gain']*(current_steer-49) + 49)
-                adjusted_camera = int(N['network_camera_gain']*(current_camera-49) + 49)
+                adjusted_motor = int(gm*(current_motor-49) + N['network_motor_offset'] + 49)
+                adjusted_steer = int(gs*(current_steer-49) + 49)
+                adjusted_camera = int(gc*(current_camera-49) + 49)
 
                 adjusted_motor = bound_value(adjusted_motor,0,99)
                 adjusted_steer = bound_value(adjusted_steer,0,99)
                 adjusted_camera = bound_value(adjusted_camera,0,99)
 
                 adjusted_motor = min(adjusted_motor,N['max motor'])
+                adjusted_motor = max(adjusted_motor,N['min motor'])
 
 
                 if not 'original position for flex insert':
