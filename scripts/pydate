@@ -27,9 +27,10 @@ MMDDhhmmyyyy_ss = Data['month/string'] + \
 	Data['hour/string'] + \
 	Data['minutes/string'] + \
 	Data['year/string'] + \
+	"_" +\
 	Data['seconds/string']
 
 cg("new_date_time_string:",MMDDhhmmyyyy_ss)
 
-os.system(d2s("sudo date",MMDDhhmmyyyy_ss))
-os.system("date")
+#os.system(d2s("sudo date",MMDDhhmmyyyy_ss))
+#os.system("date")
