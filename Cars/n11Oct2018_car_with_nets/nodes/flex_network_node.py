@@ -158,7 +158,7 @@ dimg = zeros((19,18,3))
 while not rospy.is_shutdown():
 
     try:
-        print button_number
+        #print button_number
 
         if button_number == 4:
 

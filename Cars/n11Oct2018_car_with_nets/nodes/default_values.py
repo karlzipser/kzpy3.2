@@ -168,6 +168,8 @@ P['To Expose']['Network'] = [
 	'min motor',
 	'show_net_input',
 	'show_net_activity',
+	'flex_motor_gain',
+	'flex_steer_gain',
 ]
 
 P['To Expose']['Flex'] = [
