@@ -148,7 +148,7 @@ dimg = zeros((19,18,3))
 while not rospy.is_shutdown():
 
     try:
-
+        print N['button_number']
         if N['button_number'] == 4:
 
             time.sleep(1)
