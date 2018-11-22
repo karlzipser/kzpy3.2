@@ -102,10 +102,11 @@ def _TACTIC_RC_controller_run_loop(P):
             elif P['agent_is_human'] == False and P['button_number']<4:#P['selector_mode'] == 'drive_mode':
                 if np.abs(P['human']['motor_percent']-49) > 8:
                     P['temporary_human_control'] = True
-                    if sound_timer.check():
-                        if 'SOUND' in P['Arduinos']:
-                            P['Arduinos']['SOUND'].write("(100)") # red taillights
-                        sound_timer.reset()
+                    if False: #checking if this gives unwanted inertia
+                        if sound_timer.check():
+                            if 'SOUND' in P['Arduinos']:
+                                P['Arduinos']['SOUND'].write("(100)") # red taillights
+                            sound_timer.reset()
                     in_this_mode = False
                     write_str = get_write_str(P['servo_pwm_smooth'],P['servo_pwm_smooth'],P['motor_pwm_smooth'],P)
                     P['time_since_button_4'].reset()
@@ -127,10 +128,11 @@ def _TACTIC_RC_controller_run_loop(P):
                         _servo_pwm = (1-q)*P['servo_pwm_smooth'] + q*_servo_pwm
                         _camera_pwm = _servo_pwm
                     else:
-                        if sound_timer.check():
-                            if 'SOUND' in P['Arduinos']:
-                                P['Arduinos']['SOUND'].write("(101)") # green taillights
-                            sound_timer.reset()
+                        if False:  #checking if this gives unwanted inertia
+                            if sound_timer.check():
+                                if 'SOUND' in P['Arduinos']:
+                                    P['Arduinos']['SOUND'].write("(101)") # green taillights
+                                sound_timer.reset()
                         _camera_pwm = servo_percent_to_pwm(P['network']['camera_percent'],P)
                         _servo_pwm = servo_percent_to_pwm(P['network']['servo_percent'],P)
                         in_this_mode = False
