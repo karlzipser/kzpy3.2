@@ -569,8 +569,10 @@ while not rospy.is_shutdown():
                     for j in range(10):
                         cs("ERROR!!!!!!!!!!!!!!!!!!!!!!")
                     cr("behavioral_mode",behavioral_mode,"not in Metadata_tensors.keys()")
-                metadata = Metadata_tensors[behavioral_mode]
-                if False:
+                if behavioral_mode in Metadata_tensors:
+                    metadata = Metadata_tensors[behavioral_mode]
+                else:
+                    cr("*** Warning, behavioral_mode '",behavioral_mode,"'is not in Metadata_tensors using workaround. ***")
                     metadata = Torch_network['format_metadata']((direct,follow,furtive,play,left,right)) #((right,left,play,furtive,follow,direct))
                 #    first_time = False
                 #dname = 'torch camera format'
