@@ -5,7 +5,7 @@ exec(identify_file_str)
 
 P = {}
 P['agent_is_human'] = True
-P['use_motor_PID'] = False
+P['use_motor_PID'] = True
 
 P['customers'] = ['Arduino','Network','Weights','Flex']
 P['drive_mode'] = 0
@@ -168,8 +168,6 @@ P['To Expose']['Network'] = [
 	'min motor',
 	'show_net_input',
 	'show_net_activity',
-	'flex_motor_gain',
-	'flex_steer_gain',
 ]
 
 P['To Expose']['Flex'] = [
