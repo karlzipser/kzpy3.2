@@ -35,7 +35,7 @@ for fb in ['F']:
             flex_names.append(d2n(fb,lr,i))
 """
 
-flex_names = N['flex_names']
+flex_names = default_values.flex_names
 
 F = {}
 for f in flex_names:
