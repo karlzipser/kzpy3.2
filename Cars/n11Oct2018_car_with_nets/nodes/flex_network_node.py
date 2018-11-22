@@ -82,14 +82,14 @@ import rospy
 from kzpy3.Train_app.nets.SqueezeNet_flex import SqueezeNet
 
 def Flex_Torch_Network(N):
-    try:
+    if True:#try:
         D = {}
         D['save_data'] = torch.load(N['flex_weight_file_path'])
         D['solver'] = SqueezeNet().cuda()
         D['solver'].load_state_dict(D['save_data']['net'])
         D['solver'].eval()
         print("Flex_Torch_Network(N):: Loading complete.")
-    except Exception as e:
+    else:#except Exception as e:
         exc_type, exc_obj, exc_tb = sys.exc_info()
         file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
         CS_('Exception!',emphasis=True)
