@@ -20,7 +20,7 @@ import std_msgs.msg
 import rospy
 
 #N = {}
-N['flex_weight_file_path'] = most_recent_file_in_folder(opjD('networks/net_flex_'))
+N['flex_weight_file_path'] = most_recent_file_in_folder(opjm('rosbags/networks/net_flex_'))
 N['flex_network_output_sample'] = 9
 
 
