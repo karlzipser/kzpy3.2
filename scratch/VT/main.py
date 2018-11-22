@@ -1,13 +1,15 @@
 ###start
 from kzpy3.vis3 import *
 import kzpy3.Menu_app.menu2 as menu2
-import kzpy3.scratch.Vis_Traj.default_values as default_values
+import kzpy3.scratch.VT.default_values as default_values
+import kzpy3.scratch.VT.fit3d as fit3d
 
 P = default_values.P
 
-os.system(d2n("gnome-terminal -x python kzpy3/Menu_app/menu2.py path ","kzpy3/scratch/Vis_Traj"," dic P"))
+#os.system(d2n("gnome-terminal -x python kzpy3/Menu_app/menu2.py path ","kzpy3/scratch/VT"," dic P"))
 
-
+Point3 = fit3d.Point3
+project = fit3d.project
 
 
 """
@@ -148,9 +150,42 @@ def Raw_to_Trajectory(P):
         timer.freq()
 
 
+
+    def _show3d():
+        img = P['O']['left_image']['vals'][D['index']-P['future_steps']].copy()
+
+        for i in range(P['past_steps'],len(D['rpoints'])):
+            a = D['rpoints'][i,:]
+            #print a
+            r = int(1.0/np.sqrt(a[0]**2+(a[1]-1)**2))
+            b = Point3(a[0], 0, a[1]-1.0)
+            #print b.x,b.y,b.z
+            c = project(b, fit3d.mat)
+            #print c.x,c.y
+            #print shape(img)
+            #print type(img)
+            #mi(img)
+            #raw_enter()
+            try:
+                good = True
+                if c.x < 0 or c.x >= 168:
+                    good = False
+                elif c.y < 0 or c.y >= 94:
+                    good = False
+                if good:
+                    cv2.circle(img,(int(c.x),int(c.y)),r,(255,0,0))#int(np.max(1,5.0/np.sqrt(c.x**2+c.y**2))),255)
+
+                    #img[int(c.y),int(c.x),:] = na([255,0,0])
+            except:
+                pass
+
+        mci(img,scale=2,delay=1,title='left camera w/ points')
+
     D['step'] = _step
     D['get'] = _get
     D['show2d'] = _show2d
+    D['show3d'] = _show3d
+
     return D
 #
 ################################################################################################
@@ -170,7 +205,8 @@ Raw_to_trajectory = Raw_to_Trajectory(P)
 while P['ABORT'] != True:
     if not Raw_to_trajectory['get']():
         continue
-    Raw_to_trajectory['show2d']()
+    #Raw_to_trajectory['show2d']()
+    Raw_to_trajectory['show3d']()
     if not Raw_to_trajectory['step']():
         break
     load_parameters(P)

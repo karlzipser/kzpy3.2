@@ -83,17 +83,15 @@ def approximate(mat, amount, n=1000):
     return mat, est
 
 
+if __name__ == '__main__':
 
+    for i in xrange(100000):
+        mat,est = approximate(mat, 1)
+        if np.mod(i,50) == 0:
+            print mat
+            print est
 
-for i in xrange(100000):
-    mat,est = approximate(mat, 1)
-    if np.mod(i,50) == 0:
-        print mat
-        print est
-
-
-
-if False:
+else:
     mat = [ [1.103618771460224, 0, -0.0701799535550891, -0.010607765731461827],
             [-0.013683406981532142, 1, -0.043465873204453276, -0.42658901116635217],
             [0, 0, 1, 0],
