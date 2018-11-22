@@ -1,15 +1,17 @@
 ###start
 from kzpy3.vis3 import *
+from scipy.optimize import curve_fit
 import kzpy3.Menu_app.menu2 as menu2
 import kzpy3.scratch.VT.default_values as default_values
 import kzpy3.scratch.VT.fit3d as fit3d
-
 P = default_values.P
-
-#os.system(d2n("gnome-terminal -x python kzpy3/Menu_app/menu2.py path ","kzpy3/scratch/VT"," dic P"))
-
 Point3 = fit3d.Point3
 project = fit3d.project
+
+if P['start menu automatically']:
+    os.system(d2n("gnome-terminal -x python kzpy3/Menu_app/menu2.py path ","kzpy3/scratch/VT"," dic P"))
+
+
 
 
 """
@@ -18,64 +20,57 @@ http://pyopengl.sourceforge.net/documentation/installation.html
 """
 
 if 'encoders' not in P:
-    run_folder = '/media/karlzipser/preprocessed_5Oct2018_500GB/model_car_data_July2018_lrc/locations/local/left_right_center/h5py/Mr_Black_25Jul18_19h55m13s'
     cs("Loading L and O...")
-    L = h5r(opjD(run_folder,"left_timestamp_metadata_right_ts.h5py"))
-    P['O'] = h5r(opjD(run_folder,"original_timestamp_data.h5py"))
+    L = h5r(opjD(P['run_folder'],"left_timestamp_metadata_right_ts.h5py"))
+    P['O'] = h5r(opjD(P['run_folder'],"original_timestamp_data.h5py"))
     P['headings'] = L['gyro_heading_x'][:]
     P['encoders'] = L['encoder'][:]
+    L.close()
 
+cr(P['hide this!'])
 
-parameter_file_load_timer = Timer(2)
+parameter_file_load_timer = Timer(P['load_timer_time'])
 
 def parameter_thread(P):
     while not P['ABORT']:
         time.sleep(0.1)
         load_parameters(P)
 
-def load_parameters(P):      
-        if parameter_file_load_timer.check():
-            Topics = menu2.load_Topics(opjk("scratch/Vis_Traj"),first_load=False,customer='customer0')
-            if type(Topics) == dict:
-                for t in Topics['To Expose']['customer0']:
-                    if t in Arguments:
-                        topic_warning(t)
-                    if '!' in t:
-                        pass
-                    else:
-                        P[t] = Topics[t]
-            parameter_file_load_timer.reset()
+def load_parameters(P):
+    if parameter_file_load_timer.check():
+        Topics = menu2.load_Topics(opjk("scratch/VT"),first_load=False,customer='customer0')
+        if type(Topics) == dict:
+            for t in Topics['To Expose']['customer0']:
+                if t in Arguments:
+                    topic_warning(t)
+                if '!' in t:
+                    pass
+                else:
+                    P[t] = Topics[t]
+        parameter_file_load_timer.reset()
 
-#threading.Thread(target=parameter_thread,args=[P]).start()
+# threading.Thread(target=parameter_thread,args=[P]).start()
 
 
 
 def vec(heading,encoder):
-	velocity = encoder/2.3 # rough guess
+	velocity = encoder * P['vel-encoding coeficient'] # rough guess
 	a = [0,1]
 	a = array(rotatePoint([0,0],a,heading))
 	a *= velocity/30.0
 	return array(a)
 
-from scipy.optimize import curve_fit
+
 
 def f(x,A,B):
     return A*x + B
 
-#A,B = curve_fit(f,x,y)[0]
 
 
 
 
 
 
-figure(P['fig'])
-clf()
-plt_square()
-
-
-CA()
-timer = Timer(5)
 
 
 
@@ -98,6 +93,7 @@ def Raw_to_Trajectory(P):
     def _step():
         D['index'] += P['step_size']
         if D['index'] < D['max_index']:
+            P['index_timer!'].message(d2s("D['index'] =", D['index']))
             return True
         return False
 
@@ -138,7 +134,7 @@ def Raw_to_Trajectory(P):
 
     def _show2d():
 
-        mci(P['O']['left_image']['vals'][D['index']-P['future_steps']],scale=2,delay=1,title='left camera')
+        mci(P['O']['left_image']['vals'][D['index']-P['future_steps']],scale=P['cv2 scale'],delay=P['cv2 delay'],title='left camera')
 
         clf();plt_square();xylim(-P['l']/2,P['l']/2,-0.1,P['l'])
 
@@ -147,25 +143,26 @@ def Raw_to_Trajectory(P):
 
         spause()
 
-        timer.freq()
+        P['timer'].freq()
 
 
 
     def _show3d():
         img = P['O']['left_image']['vals'][D['index']-P['future_steps']].copy()
 
-        for i in range(P['past_steps'],len(D['rpoints'])):
+        for i in range(P['past_steps'],len(D['rpoints']),P['step_skip']):
+
             a = D['rpoints'][i,:]
-            #print a
-            r = int(1.0/np.sqrt(a[0]**2+(a[1]-1)**2))
-            b = Point3(a[0], 0, a[1]-1.0)
-            #print b.x,b.y,b.z
+
+            try:
+                r = int(5.0/np.sqrt(a[0]**2+(a[1])**2))
+            except:
+                r = 1
+
+            b = Point3(a[0], 0, a[1]-P['backup parameter'])
+
             c = project(b, fit3d.mat)
-            #print c.x,c.y
-            #print shape(img)
-            #print type(img)
-            #mi(img)
-            #raw_enter()
+
             try:
                 good = True
                 if c.x < 0 or c.x >= 168:
@@ -174,12 +171,13 @@ def Raw_to_Trajectory(P):
                     good = False
                 if good:
                     cv2.circle(img,(int(c.x),int(c.y)),r,(255,0,0))#int(np.max(1,5.0/np.sqrt(c.x**2+c.y**2))),255)
-
+                    #cg(r)
                     #img[int(c.y),int(c.x),:] = na([255,0,0])
             except:
+                cr(r)
                 pass
 
-        mci(img,scale=2,delay=1,title='left camera w/ points')
+        mci(img,scale=P['cv2 scale'],delay=P['cv2 delay'],title='left camera w/ points')
 
     D['step'] = _step
     D['get'] = _get
@@ -196,22 +194,24 @@ def Raw_to_Trajectory(P):
 
 
 
-    
+if __name__ == '__main__':
 
+    CA()
 
+    Raw_to_trajectory = Raw_to_Trajectory(P)
 
-Raw_to_trajectory = Raw_to_Trajectory(P)
+    while P['ABORT'] != True:
+        if not Raw_to_trajectory['get']():
+            continue
+        if P['show 2D']:
+            Raw_to_trajectory['show2d']()
+        if P['show 3D']:
+            Raw_to_trajectory['show3d']()
+        if not Raw_to_trajectory['step']():
+            break
+        load_parameters(P)
 
-while P['ABORT'] != True:
-    if not Raw_to_trajectory['get']():
-        continue
-    #Raw_to_trajectory['show2d']()
-    Raw_to_trajectory['show3d']()
-    if not Raw_to_trajectory['step']():
-        break
-    load_parameters(P)
-
-raw_enter()
+    raw_enter()
 
 
 

@@ -2,7 +2,7 @@
 from kzpy3.vis3 import *
 exec(identify_file_str)
 sbpd2s("flex_network_node.py")
-import kzpy3.Cars.n11Oct2018_car_with_nets.nodes.Default_values.arduino.default_values as default_values
+import default_values
 N = default_values.P
 
 if not N['use flex']:

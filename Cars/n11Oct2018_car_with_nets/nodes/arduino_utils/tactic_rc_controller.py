@@ -1,7 +1,7 @@
 from kzpy3.utils3 import *
 exec(identify_file_str)
 import rospy
-import Default_values.arduino.default_values
+import default_values
 
 def TACTIC_RC_controller(P):
     threading.Thread(target=_TACTIC_RC_controller_run_loop,args=[P]).start()

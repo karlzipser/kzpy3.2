@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from kzpy3.utils3 import *
 exec(identify_file_str)
-from Default_values.arduino.default_values import flex_names
+from default_values import flex_names
 import rospy
 
 def get_arduino_serial_connections(baudrate, timeout):
