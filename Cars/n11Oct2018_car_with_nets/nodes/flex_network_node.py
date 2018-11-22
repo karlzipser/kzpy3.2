@@ -25,6 +25,15 @@ N['flex_network_output_sample'] = 9
 
 rospy.init_node('flex_network_node',anonymous=True,disable_signals=True)
 
+
+button_number = 0
+
+def button_number_callback(msg):
+    global button_number
+    button_number = msg.data
+
+rospy.Subscriber('/bair_car/button_number', std_msgs.msg.Int32, callback=button_number_callback)
+
 graphics = False
 
 """
@@ -148,10 +157,11 @@ dimg = zeros((19,18,3))
 while not rospy.is_shutdown():
 
     try:
-        print N['button_number']
-        if N['button_number'] == 4:
+        print button_number
+        
+        if button_number == 4:
 
-            time.sleep(1)
+            time.sleep(0.5)
 
             if parameter_file_load_timer.check():
 
@@ -168,6 +178,8 @@ while not rospy.is_shutdown():
                             N[t] = Topics[t]
 
                 parameter_file_load_timer.reset()
+
+            time.sleep(0.5)
 
             continue
 
