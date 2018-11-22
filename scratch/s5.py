@@ -177,17 +177,28 @@ class Point3:
         self.y = y
         self.z = z
 
-# Known 2D coordinates of our rectangle
-i0 = Point2(318, 247)
-i1 = Point2(326, 312)
-i2 = Point2(418, 241)
-i3 = Point2(452, 303)
+if False:
+    # Known 2D coordinates of our rectangle
+    i0 = Point2(318, 247)
+    i1 = Point2(326, 312)
+    i2 = Point2(418, 241)
+    i3 = Point2(452, 303)
+
+i0 = Point2(58,80)
+i1 = Point2(66,68)
+i2 = Point2(98,68)
+i3 = Point2(110,80)
+
+
+# 33.5 cm
+
+half = 33.5/100.0/2.0
 
 # 3D coordinates corresponding to i0, i1, i2, i3
-r0 = Point3(0, 0, 0)
-r1 = Point3(0, 0, 1)
-r2 = Point3(1, 0, 0)
-r3 = Point3(1, 0, 1)
+r0 = Point3(-half, 0, -half)
+r1 = Point3(-half, 0, half)
+r2 = Point3(half, 0, half)
+r3 = Point3(half, 0, -half)
 
 mat = [
     [1, 0, 0, 0],
@@ -250,6 +261,23 @@ mat2 = [[0.15163146912369507, 0, 0.022787948887946996, -0.0630522260786488],
     [0.00943572978581031, 0, -0.1140523851998616, 0.5403884387524513]]
 
 
+"""
+33.5 cm 
+
+107,81
+55,80
+66,68
+97,67
+
+
+y = 80,68
+x = 58 -- 110
+
+(58,80)
+(110,80) 
+(66,68)
+(98,68)
+"""
 
 
 
