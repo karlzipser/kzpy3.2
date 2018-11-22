@@ -9,12 +9,12 @@ P['use_motor_PID'] = False
 
 P['customers'] = ['Arduino','Network','Weights','Flex']
 P['drive_mode'] = 0
-P['use LIDAR'] = True
+P['use LIDAR'] = False
 P['lidar_only'] = True
 if P['lidar_only']:
 	P['use LIDAR'] = True
 P['use sound'] = True
-P['use flex'] = False
+P['use flex'] = True
 P['max motor'] = 63
 P['min motor'] = 49-(63-49)
 P['show_net_input'] = False
