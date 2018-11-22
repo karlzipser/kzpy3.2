@@ -10,15 +10,15 @@ if not N['use flex']:
     while not rospy.is_shutdown():
         time.sleep(10)
 
-#import kzpy3.Cars.n27Oct2018_car_with_flex.nodes.Default_values.arduino.default_values as default_values
-#N = default_values.P
+import default_values
+N = default_values.P
 import rospy
 import kzpy3.Data_app.collect_flex_data2 as fx
 import roslib
 import std_msgs.msg
 import rospy
 
-N = {}
+#N = {}
 N['flex_weight_file_path'] = most_recent_file_in_folder(opjD('net_flex/weights'))
 N['flex_network_output_sample'] = 9
 
@@ -27,11 +27,15 @@ rospy.init_node('flex_network_node',anonymous=True,disable_signals=True)
 
 graphics = False
 
+"""
 flex_names = []
 for fb in ['F']:
     for lr in ['L','C','R']:
         for i in [0,1,2,3]:
             flex_names.append(d2n(fb,lr,i))
+"""
+
+flex_names = N['flex_names']
 
 F = {}
 for f in flex_names:
@@ -144,6 +148,33 @@ dimg = zeros((19,18,3))
 while not rospy.is_shutdown():
 
     try:
+
+        if P['button_number'] == 4:
+
+            time.sleep(1)
+
+            if parameter_file_load_timer.check():
+
+                Topics = menu2.load_Topics(
+                    opjk("Cars/n11Oct2018_car_with_nets/nodes"),
+                    first_load=False,
+                    customer='Flex')
+                
+                if type(Topics) == dict:
+                    for t in Topics['To Expose']['Flex']+Topics['To Expose']['Flex']:
+                        if '!' in t:
+                            pass
+                        else:
+                            N[t] = Topics[t]
+
+                parameter_file_load_timer.reset()
+
+            continue
+
+
+
+
+
         print_timer.message(d2s("ctr,error =",ctr,',',error_ctr));ctr+=1
         time.sleep(0.01)
         #for f in F.keys():
