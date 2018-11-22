@@ -44,14 +44,15 @@ fig1 = 99
 figure(fig1)
 clf()
 plt_square()
-l = 1.3
+l = 5.0
 xy = array([0.0,0.0])
 xys=[]
 CA()
 hz_timer = Timer(5)
 
-if True:
-    for i in range(16000,len(headings),1):
+cool_run_by_metal_bridge = 22000
+
+if Truecool_run_by_metal_bridge    for i in range(22000,len(headings),1):
         heading = headings[i]
         encoder = encoders[i]
         v = vec(heading,encoder)
@@ -80,15 +81,17 @@ if True:
 
             rpoints = na(rotatePolygon(points,ang))
 
-            pts_plot(rpoints[:30,:],'k',sym='.')
-            pts_plot(rpoints[30:,:],'k',sym='+')
+            rpoints *= -1
+            pts_plot(rpoints[:30,:],'k',sym=',')
+            pts_plot(rpoints[30:,:],'k',sym='o')
             
+            """
             points_to_fit = rpoints[30:45,:]#na(xys)[-95:-90]
             x = points_to_fit[:,0]
             y = points_to_fit[:,1]
             m,b = curve_fit(f,x,y)[0]
             ang2 = np.degrees(angle_between([0,1],[m,1]))
-            """
+            
             rpoints2 = na(rotatePolygon(rpoints,-ang2/2))
 
             pts_plot(rpoints2[:30,:],'b',sym='.')
@@ -96,8 +99,8 @@ if True:
             """
             d_ang = ang-ang_prev
             print(dp(ang),dp(d_ang),dp(ang2))
-            if np.abs(d_ang) > 1.5:
-                raw_enter()
+            #if np.abs(d_ang) > 1.5:
+            #    raw_enter()
             ang_prev = ang
             spause()
         hz_timer.freq()
