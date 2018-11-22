@@ -390,25 +390,25 @@ while not rospy.is_shutdown():
 
         
         N['weight_file_path'] = False
-        #cs("loaded_net=",loaded_net)
+        cs("loaded_net=",loaded_net)
         if loaded_net == False:
             if N['LOAD NETWORK'] == True:
                 loaded_net = True
                 
                 ns = N['weight_files'].keys()
-                #cs(ns)
+                cs(ns)
                 for n in ns:
-                    #cs('A')
-                    #cs(n,N[n])
+                    cs('A')
+                    cs(n,N[n])
                     if N[n] != False:
-                        #cs('B')
+                        cs('B')
                         if type(N[n]) == list:
-                            #cs('C')
+                            cs('C')
                             if N[n][0] != False:
-                                #cs('D')
-                                #cs('here',n,N[n])
+                                cs('D')
+                                cs('here',n,N[n])
                                 if N[n][0] == True:
-                                    #cs('E')
+                                    cs('E')
                                     N['weight_file_path'] = N['weight_files'][n][N[n][1]]
                                     sbpd2s("N['weight_file_path'] = N['weight_files'][n][a[1]]")
                                     break
