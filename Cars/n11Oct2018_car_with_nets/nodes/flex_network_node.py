@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 from kzpy3.vis3 import *
+import kzpy3.Menu_app.menu2 as menu2
 exec(identify_file_str)
 sbpd2s("flex_network_node.py")
 import default_values
@@ -158,7 +159,7 @@ while not rospy.is_shutdown():
 
     try:
         print button_number
-        
+
         if button_number == 4:
 
             time.sleep(0.5)
