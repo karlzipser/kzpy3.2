@@ -173,10 +173,8 @@ P['To Expose']['Network'] = [
 P['To Expose']['Flex'] = [
 	'flex_motor_smoothing_parameter',
 	'flex_servo_smoothing_parameter',
-	'flex_camera_smoothing_parameter',
 	'flex_motor_gain',
 	'flex_steer_gain',
-	'flex_camera_gain',
 ]
 
 def sort_dir_by_ctime(dir_path):
@@ -235,10 +233,8 @@ P['USE_LAST_IMAGE_ONLY'] = False
 P['visualize_activations'] = False
 P['flex_motor_smoothing_parameter'] = P['network_motor_smoothing_parameter']
 P['flex_servo_smoothing_parameter'] = P['network_servo_smoothing_parameter']
-P['flex_camera_smoothing_parameter'] = P['network_camera_smoothing_parameter']
 P['flex_motor_gain'] = P['network_motor_gain']
 P['flex_steer_gain'] = P['network_steer_gain']
-P['flex_camera_gain'] = P['network_camera_gain']
 ###########################
 
 

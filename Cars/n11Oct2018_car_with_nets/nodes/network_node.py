@@ -577,6 +577,8 @@ while not rospy.is_shutdown():
                 #Durations[dname]['timer'].reset()
 
                 torch_motor, torch_steer = Torch_network['run_model'](camera_data, metadata, N)
+
+                torch_camera = torch_steer
                 #Durations[dname]['list'].append(1000.0*Durations[dname]['timer'].time())
                 
                 #Torch_network['output'] should contain full output array of network
@@ -584,8 +586,8 @@ while not rospy.is_shutdown():
                 #cr('G')
 
 
-                s1_flex = N['network_motor_smoothing_parameter']
-                s2_flex = N['network_servo_smoothing_parameter']
+                #s1_flex = N['network_motor_smoothing_parameter']
+                #s2_flex = N['network_servo_smoothing_parameter']
 
                 if 'new position for flex insert':
                     if N['use flex'] and flex_motor < 47:
@@ -593,22 +595,24 @@ while not rospy.is_shutdown():
                         torch_motor = flex_motor
                         sm = N['flex_motor_smoothing_parameter']
                         ss = N['flex_servo_smoothing_parameter']
-                        sc = N['flex_camera_smoothing_parameter']
                         gm = N['flex_motor_gain']
                         gs = N['flex_steer_gain']
-                        gc = N['flex_camera_gain']
+                        
                         cr(int(torch_steer),int(torch_motor))
                     else:
                         sm = N['network_motor_smoothing_parameter']
                         ss = N['network_servo_smoothing_parameter']
-                        sc = N['network_camera_smoothing_parameter']
+                        
                         gm = N['network_motor_gain']
                         gs = N['network_steer_gain']
-                        gc = N['network_camera_gain']
+                        
                         cg(int(torch_steer),int(torch_motor))
-                            
+                        
+                gc = N['network_camera_gain']          
+                sc = N['network_camera_smoothing_parameter']
+
                 if 'Do smoothing of percents...':
-                    current_camera = (1.0-sc)*torch_steer + sc*current_camera
+                    current_camera = (1.0-sc)*torch_camera + sc*current_camera
                     current_steer = (1.0-ss)*torch_steer + ss*current_steer
                     current_motor = (1.0-sm)*torch_motor + sm*current_motor
 
