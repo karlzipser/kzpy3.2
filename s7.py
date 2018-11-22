@@ -39,19 +39,19 @@ A,B = curve_fit(f,x,y)[0]
 
 
 
-
+ang_prev = 0
 fig1 = 99
 figure(fig1)
 clf()
 plt_square()
-l = 1
+l = 1.3
 xy = array([0.0,0.0])
 xys=[]
 CA()
 hz_timer = Timer(5)
 
 if True:
-    for i in range(30000,len(headings),1):
+    for i in range(16000,len(headings),1):
         heading = headings[i]
         encoder = encoders[i]
         v = vec(heading,encoder)
@@ -62,22 +62,43 @@ if True:
             if len(xys) > 90+30:
                 graphics = True
         if graphics:
-            points = na(xys)[-120:]-na(xys)[-90]
-            points_to_fit = points[30:45,:]#na(xys)[-95:-90]
+            points = na(xys)[-120:]
+            points -= points[30,:]
+            points_to_fit = points[15:45,:]#na(xys)[-95:-90]
             x = points_to_fit[:,0]
             y = points_to_fit[:,1]
             m,b = curve_fit(f,x,y)[0]
-            ang = np.degrees(angle_between([0,1],[m,1]))
-            print(int(ang))
+            ang = np.degrees(angle_between([0,1],[1,m]))
+
+            #print(int(ang))
             mci(O['left_image']['vals'][i-90],scale=2,delay=1,title='left camera')
-            clf();plt_square();xylim(-l*2,0,-l,l)
+            clf();plt_square();xylim(-l,l,-l,l)
+            plot(0,1,'r.')
+            plot(1,m,'r.')
             pts_plot(points[:30,:],'r',sym=',')
             pts_plot(points[30:,:],'r',sym=',')
-            #pts_plot(points_to_fit,'k',sym='o')
 
             rpoints = na(rotatePolygon(points,ang))
+
             pts_plot(rpoints[:30,:],'k',sym='.')
             pts_plot(rpoints[30:,:],'k',sym='+')
+            
+            points_to_fit = rpoints[30:45,:]#na(xys)[-95:-90]
+            x = points_to_fit[:,0]
+            y = points_to_fit[:,1]
+            m,b = curve_fit(f,x,y)[0]
+            ang2 = np.degrees(angle_between([0,1],[m,1]))
+            """
+            rpoints2 = na(rotatePolygon(rpoints,-ang2/2))
+
+            pts_plot(rpoints2[:30,:],'b',sym='.')
+            pts_plot(rpoints2[30:,:],'b',sym='+')
+            """
+            d_ang = ang-ang_prev
+            print(dp(ang),dp(d_ang),dp(ang2))
+            if np.abs(d_ang) > 1.5:
+                raw_enter()
+            ang_prev = ang
             spause()
         hz_timer.freq()
 
