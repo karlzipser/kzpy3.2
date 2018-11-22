@@ -137,7 +137,7 @@ def Flex_Torch_Network(N):
 
 
 
-
+parameter_file_load_timer = Timer(1)
 
 print_timer = Timer(5);ctr = 0;error_ctr = 0
 
