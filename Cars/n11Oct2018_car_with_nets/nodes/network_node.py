@@ -372,10 +372,10 @@ while not rospy.is_shutdown():
             Topics = menu2.load_Topics(
                 opjk("Cars/n11Oct2018_car_with_nets/nodes"),
                 first_load=False,
-                customer='Network Node')
+                customer='Network')
             
             if type(Topics) == dict:
-                for t in Topics['To Expose']['Network Node']+Topics['To Expose']['Trained Nets']:
+                for t in Topics['To Expose']['Network']+Topics['To Expose']['Weights']:
                     if '!' in t:
                         pass
                     else:

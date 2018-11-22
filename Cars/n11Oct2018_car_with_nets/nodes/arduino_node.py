@@ -184,10 +184,10 @@ if 'Main loop...':
                     Topics = menu2.load_Topics(
                         opjk("Cars/n11Oct2018_car_with_nets/nodes"),
                         first_load=False,
-                        customer='Arduino Node')
+                        customer='Arduino')
 
                     if type(Topics) == dict:
-                        for t in Topics['To Expose']['Arduino Node']:
+                        for t in Topics['To Expose']['Arduino']:
                             if '!' in t:
                                 pass
                             else:
