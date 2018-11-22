@@ -10,7 +10,7 @@ P['use_motor_PID'] = False
 P['customers'] = ['Arduino','Network','Weights','Flex']
 P['drive_mode'] = 0
 P['use LIDAR'] = False
-P['lidar_only'] = True
+P['lidar_only'] = False
 if P['lidar_only']:
 	P['use LIDAR'] = True
 P['use sound'] = True
