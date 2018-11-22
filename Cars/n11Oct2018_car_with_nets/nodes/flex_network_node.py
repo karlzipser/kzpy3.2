@@ -149,7 +149,7 @@ while not rospy.is_shutdown():
 
     try:
 
-        if P['button_number'] == 4:
+        if N['button_number'] == 4:
 
             time.sleep(1)
 
