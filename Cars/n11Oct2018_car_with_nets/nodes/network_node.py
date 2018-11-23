@@ -654,8 +654,8 @@ while not rospy.is_shutdown():
                 frequency_timer.freq(name='network',do_print=True)
 
                 #if N['camera_auto_zero_for_small_values_int'] > 0:
-                    if np.abs(adjusted_camera-49) < N['camera_auto_zero_for_small_values_int']:
-                        adjusted_camera = 49
+                if np.abs(adjusted_camera-49) < N['camera_auto_zero_for_small_values_int']:
+                    adjusted_camera = 49
 
 
                 #cr('I')
