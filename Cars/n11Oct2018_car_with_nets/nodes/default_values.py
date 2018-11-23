@@ -4,7 +4,7 @@ exec(identify_file_str)
 
 
 P = {}
-P['agent_is_human'] = True
+P['agent_is_human'] = False
 P['use_motor_PID'] = True
 
 P['customers'] = ['Arduino','Network','Weights','Flex']
@@ -67,7 +67,7 @@ P['motor_pwm_max'] = P['servo_pwm_null']
 P['behavioral_mode_choice'] = 'direct'
 P['place_choice'] = 'local'
 
-if P['car_name'] == 'Mr_Blue_Back':
+if False:#P['car_name'] == 'Mr_Blue_Back':
 	P['servo_pwm_smooth_manual_offset'] = -30
 	P['camera_pwm_manual_offset'] = -500
 	P['servo_feedback_center'] = 214
@@ -168,6 +168,9 @@ P['To Expose']['Network'] = [
 	'min motor',
 	'show_net_input',
 	'show_net_activity',
+	'camera_move_threshold',
+	'camera_auto_zero_for_small_values_int',
+	'network_reverse_motor_gain',
 ]
 
 P['To Expose']['Flex'] = [
@@ -219,9 +222,10 @@ P['LOAD NETWORK'] = False
 
 ############# NETWORK PARAMETERS
 P['network_output_sample'] = 0 # >= 0, <= 9
-P['network_steer_gain'] = 3.0
-P['network_camera_gain'] = 6.0
-P['network_motor_gain'] = 0.75
+P['network_steer_gain'] = 4.0
+P['network_camera_gain'] = 8.0
+P['network_motor_gain'] = 1.0
+P['network_reverse_motor_gain'] = 1.5
 P['network_motor_offset'] = 0
 P['network_servo_smoothing_parameter'] = 0.85
 P['network_motor_smoothing_parameter'] = 0.85
@@ -235,6 +239,8 @@ P['flex_motor_smoothing_parameter'] = P['network_motor_smoothing_parameter']
 P['flex_servo_smoothing_parameter'] = P['network_servo_smoothing_parameter']
 P['flex_motor_gain'] = P['network_motor_gain']
 P['flex_steer_gain'] = P['network_steer_gain']
+P['camera_move_threshold'] = 0
+P['camera_auto_zero_for_small_values_int'] = 0
 ###########################
 
 

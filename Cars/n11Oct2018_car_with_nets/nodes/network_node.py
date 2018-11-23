@@ -356,6 +356,8 @@ import kzpy3.Menu_app.menu2 as menu2
 
 parameter_file_load_timer = Timer(1)
 
+torch_motor, torch_steer, torch_camera = 49,49,49
+
 while not rospy.is_shutdown():
 
     #cr('Z')
@@ -578,9 +580,13 @@ while not rospy.is_shutdown():
                 #dname = 'torch camera format'
                 #Durations[dname]['timer'].reset()
 
+                torch_motor_prev, torch_steer_prev = torch_motor, torch_steer
+
                 torch_motor, torch_steer = Torch_network['run_model'](camera_data, metadata, N)
 
-                torch_camera = torch_steer
+                if np.abs(torch_steer - torch_steer_prev) > N['camera_move_threshold']:
+                    torch_camera = torch_steer
+
                 #Durations[dname]['list'].append(1000.0*Durations[dname]['timer'].time())
                 
                 #Torch_network['output'] should contain full output array of network
@@ -604,8 +610,10 @@ while not rospy.is_shutdown():
                     else:
                         sm = N['network_motor_smoothing_parameter']
                         ss = N['network_servo_smoothing_parameter']
-                        
-                        gm = N['network_motor_gain']
+                        if torch_motor >= 49:
+                            gm = N['network_motor_gain']
+                        else:
+                            gm = N['network_reverse_motor_gain']
                         gs = N['network_steer_gain']
                         
                         cg(int(torch_steer),int(torch_motor))
@@ -645,7 +653,10 @@ while not rospy.is_shutdown():
 
                 frequency_timer.freq(name='network',do_print=True)
 
-                
+                #if N['camera_auto_zero_for_small_values_int'] > 0:
+                    if np.abs(adjusted_camera-49) < N['camera_auto_zero_for_small_values_int']:
+                        adjusted_camera = 49
+
 
                 #cr('I')
                 camera_cmd_pub.publish(std_msgs.msg.Int32(adjusted_camera))
