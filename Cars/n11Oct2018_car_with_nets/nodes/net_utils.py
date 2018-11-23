@@ -34,7 +34,7 @@ def Torch_Network(N):
         file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
         CS_('Exception!',emphasis=True)
         CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)        
-    def _run_model(input,metadata,N):
+    def _run_model(input,metadata,N,return_full_output=False):
         D['output'] = D['solver'](input, Variable(metadata))
         torch_motor = 100 * D['output'][0][10+N['network_output_sample']].data[0]
         torch_steer = 100 * D['output'][0][N['network_output_sample']].data[0]
@@ -42,7 +42,14 @@ def Torch_Network(N):
         torch_steer = max(0, torch_steer)
         torch_motor = min(99, torch_motor)
         torch_steer = min(99, torch_steer)
-        return torch_motor, torch_steer
+
+        if return_full_output:
+            full_output = []
+            for i in range(40):
+                full_output.append(D['output'][0][i].data[0])
+            return full_output
+        else:
+            return torch_motor, torch_steer
 
     def _format_camera_data(left_list, right_list):
         listoftensors = []

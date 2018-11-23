@@ -643,7 +643,7 @@ while not rospy.is_shutdown():
 
                 if not 'original position for flex insert':
                     if N['use flex'] and flex_motor < 47:
-                        adjusted_camera = flex_steer
+                        #adjusted_camera = flex_steer
                         adjusted_steer = flex_steer
                         adjusted_motor = flex_motor
                         cr(adjusted_camera,adjusted_steer,adjusted_motor)
