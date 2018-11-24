@@ -9,7 +9,7 @@ Point3 = fit3d.Point3
 project = fit3d.project
 
 if P['start menu automatically']:
-    os.system(d2n("gnome-terminal -x python kzpy3/Menu_app/menu2.py path ","kzpy3/scratch/VT"," dic P"))
+    os.system(d2n("gnome-terminal -x python kzpy3/Menu_app/menu2.py path ","kzpy3/scratch/VT_net_predictions"," dic P"))
 
 
 
@@ -19,26 +19,15 @@ https://stackoverflow.com/questions/76134/how-do-i-reverse-project-2d-points-int
 http://pyopengl.sourceforge.net/documentation/installation.html
 """
 
-if 'encoders' not in P:
-    cs("Loading L and O...")
-    L = h5r(opjD(P['run_folder'],"left_timestamp_metadata_right_ts.h5py"))
-    P['O'] = h5r(opjD(P['run_folder'],"original_timestamp_data.h5py"))
-    P['headings'] = L['gyro_heading_x'][:]
-    P['encoders'] = L['encoder'][:]
-    L.close()
 
-cr(P['hide this!'])
 
 parameter_file_load_timer = Timer(P['load_timer_time'])
 
-def parameter_thread(P):
-    while not P['ABORT']:
-        time.sleep(0.1)
-        load_parameters(P)
+
 
 def load_parameters(P):
     if parameter_file_load_timer.check():
-        Topics = menu2.load_Topics(opjk("scratch/VT"),first_load=False,customer='customer0')
+        Topics = menu2.load_Topics(opjk("scratch/VT_net_predictions"),first_load=False,customer='customer0')
         if type(Topics) == dict:
             for t in Topics['To Expose']['customer0']:
                 if t in Arguments:
@@ -49,9 +38,6 @@ def load_parameters(P):
                     P[t] = Topics[t]
         parameter_file_load_timer.reset()
 
-# threading.Thread(target=parameter_thread,args=[P]).start()
-
-
 
 def vec(heading,encoder,sample_frequency=30.0):
 	velocity = encoder * P['vel-encoding coeficient'] # rough guess
@@ -61,14 +47,8 @@ def vec(heading,encoder,sample_frequency=30.0):
 	return array(a)
 
 
-
 def f(x,A,B):
     return A*x + B
-
-
-
-
-
 
 
 

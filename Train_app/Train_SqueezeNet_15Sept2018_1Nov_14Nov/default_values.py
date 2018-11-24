@@ -7,8 +7,8 @@ P['verbose'] = False
 verbose = P['verbose']
 ################################################################
 #
-P['use_LIDAR'] = False
-P['lidar_only'] = False
+P['use_LIDAR'] = True
+P['lidar_only'] = True
 if P['lidar_only']:
 	P['GPU'] = 0
 elif P['use_LIDAR'] == False:
@@ -42,9 +42,9 @@ else:
 	P['NETWORK_OUTPUT_FOLDER'] = opjD('net_15Sept2018_1Nov_with_reverse_') #
 P['save_net_timer'] = Timer(60*30)
 P['SAVE_FILE_NAME'] = 'net'
-P['print_timer_time'] = 60
-P['parameter_file_load_timer_time'] = 5
-P['percent_of_loss_list_avg_to_show'] = 10.0
+P['print_timer_time'] = 300
+P['parameter_file_load_timer_time'] = 60
+P['percent_of_loss_list_avg_to_show'] = 0.1
 P['frequency_timer'] = Timer(30.0)
 P['TRAIN_TIME'] = 60*5.0
 P['VAL_TIME'] = 60*1.0
@@ -53,8 +53,8 @@ if P['RESUME']:
     P['INITIAL_WEIGHTS_FOLDER'] = opj(P['NETWORK_OUTPUT_FOLDER'],'weights')
     P['WEIGHTS_FILE_PATH'] = most_recent_file_in_folder(P['INITIAL_WEIGHTS_FOLDER'],['net'],[])
 
-P['reload_image_file_timer_time'] = 5*60
-P['loss_timer'] = Timer(60*10/10)
+P['reload_image_file_timer_time'] = 15*60
+P['loss_timer'] = Timer(60*10)
 P['LOSS_LIST_N'] = 30
 P['run_name_to_run_path'] = {}
 P['data_moments_indexed'] = []

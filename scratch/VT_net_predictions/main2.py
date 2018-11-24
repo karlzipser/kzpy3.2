@@ -2,14 +2,14 @@
 from kzpy3.vis3 import *
 from scipy.optimize import curve_fit
 import kzpy3.Menu_app.menu2 as menu2
-import kzpy3.scratch.VT.default_values as default_values
-import kzpy3.scratch.VT.fit3d as fit3d
+import kzpy3.scratch.VT_net_predictions.default_values as default_values
+import kzpy3.scratch.VT_net_predictions.fit3d as fit3d
 P = default_values.P
 Point3 = fit3d.Point3
 project = fit3d.project
 
 if P['start menu automatically']:
-    os.system(d2n("gnome-terminal -x python kzpy3/Menu_app/menu2.py path ","kzpy3/scratch/VT"," dic P"))
+    os.system(d2n("gnome-terminal -x python kzpy3/Menu_app/menu2.py path ","kzpy3/scratch/VT_net_predictions"," dic P"))
 
 
 
@@ -19,26 +19,15 @@ https://stackoverflow.com/questions/76134/how-do-i-reverse-project-2d-points-int
 http://pyopengl.sourceforge.net/documentation/installation.html
 """
 
-if 'encoders' not in P:
-    cs("Loading L and O...")
-    L = h5r(opjD(P['run_folder'],"left_timestamp_metadata_right_ts.h5py"))
-    P['O'] = h5r(opjD(P['run_folder'],"original_timestamp_data.h5py"))
-    P['headings'] = L['gyro_heading_x'][:]
-    P['encoders'] = L['encoder'][:]
-    L.close()
 
-cr(P['hide this!'])
 
 parameter_file_load_timer = Timer(P['load_timer_time'])
 
-def parameter_thread(P):
-    while not P['ABORT']:
-        time.sleep(0.1)
-        load_parameters(P)
+
 
 def load_parameters(P):
     if parameter_file_load_timer.check():
-        Topics = menu2.load_Topics(opjk("scratch/VT"),first_load=False,customer='customer0')
+        Topics = menu2.load_Topics(opjk("scratch/VT_net_predictions"),first_load=False,customer='customer0')
         if type(Topics) == dict:
             for t in Topics['To Expose']['customer0']:
                 if t in Arguments:
@@ -48,8 +37,6 @@ def load_parameters(P):
                 else:
                     P[t] = Topics[t]
         parameter_file_load_timer.reset()
-
-# threading.Thread(target=parameter_thread,args=[P]).start()
 
 
 
@@ -61,11 +48,65 @@ def vec(heading,encoder,sample_frequency=30.0):
 	return array(a)
 
 
-
 def f(x,A,B):
     return A*x + B
 
 
+U = lo( opjD('16Nov2018_held_out_data/net_predictions.tegra-ubuntu_16Nov18_17h44m50s.pkl' ))
+O = h5r(opjD('16Nov2018_held_out_data/h5py/tegra-ubuntu_16Nov18_17h44m50s/original_timestamp_data.h5py' ))
+
+
+
+
+Colors = {'direct':'k','left':'b','right':'r'}
+
+def get_r_points(index,behavioral_mode,headings,encoders):
+    xy = array([0.0,0.0])
+    xys = []
+
+    for i in range(len(headings)):
+        v = vec(headings[i],encoders[i],10.0)
+        xy += v # take into consideration reverse driving
+        #cr(xy)
+        xys.append(xy.copy())
+
+    points_to_fit = na(xys[:3])
+    x = points_to_fit[:,0]
+    y = points_to_fit[:,1]
+    m,b = curve_fit(f,x,y)[0]
+    ang = np.degrees(angle_between([0,1],[1,m]))
+
+    rpoints = na(xys)#na(rotatePolygon(xys,ang))
+
+    #rpoints *= -1
+    return rpoints
+
+
+
+
+def show2d(rpoints,color):
+
+    #mci(O['left_image']['vals'][],scale=P['cv2 scale'],delay=P['cv2 delay'],title='left camera')
+
+    
+
+    pts_plot(rpoints,color=color,sym='.')
+
+    
+
+    P['timer'].freq()
+
+
+
+
+for index in range(15000,16000):
+    clf();plt_square();xylim(-P['l']/2,P['l']/2,-P['l']/2,P['l']/2)
+    for behavioral_mode in ['left','direct','right']:
+        headings = U[behavioral_mode][index]['heading']
+        encoders = U[behavioral_mode][index]['encoder']
+        rpoints = get_r_points(index,behavioral_mode,headings,encoders)
+        show2d(rpoints,Colors[behavioral_mode])
+    spause()
 
 
 
@@ -75,77 +116,7 @@ def f(x,A,B):
 
 
 
-
-################################################################################################
-#
-def Raw_to_Trajectory(P):
-
-    D = {}
-    D['xy'] = array([0.0,0.0])
-    D['xys'] = []
-    D['index'] = P['good_starts'][P['start_index_choice']][1] 
-    D['max_index'] = len(P['headings']) - (P['future_steps']+P['past_steps'])
-
-
-
-
-
-    def _step():
-        D['index'] += P['step_size']
-        if D['index'] < D['max_index']:
-            P['index_timer!'].message(d2s("D['index'] =", D['index']))
-            return True
-        return False
-
-
-
-
-
-    def _get():
-
-        heading = P['headings'][D['index']]
-        encoder = P['encoders'][D['index']]
-        v = vec(heading,encoder)
-        D['xy'] += v # take into consideration reverse driving
-        D['xys'].append(array(D['xy']))
-
-        if len(D['xys']) < P['future_steps']+P['past_steps']:
-            return False
-
-        points = na(D['xys'])[-(P['future_steps']+P['past_steps']):]
-        points -= points[P['past_steps'],:]
-        points_to_fit = points[P['past_steps']-P['offset']:P['past_steps']+P['offset'],:]
-        x = points_to_fit[:,0]
-        y = points_to_fit[:,1]
-        m,b = curve_fit(f,x,y)[0]
-        ang = np.degrees(angle_between([0,1],[1,m]))
-
-        rpoints = na(rotatePolygon(points,ang))
-
-        rpoints *= -1
-
-        D['rpoints'] = rpoints
-
-        return True
-
-
-
-
-
-    def _show2d():
-
-        mci(P['O']['left_image']['vals'][D['index']-P['future_steps']],scale=P['cv2 scale'],delay=P['cv2 delay'],title='left camera')
-
-        clf();plt_square();xylim(-P['l']/2,P['l']/2,-0.1,P['l'])
-
-        pts_plot(D['rpoints'][:P['past_steps'],:],'k',sym=',')
-        pts_plot(D['rpoints'][P['past_steps']:,:],'k',sym='x')
-
-        spause()
-
-        P['timer'].freq()
-
-
+###################################
 
     def _show3d():
         img = P['O']['left_image']['vals'][D['index']-P['future_steps']].copy()

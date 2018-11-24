@@ -3,33 +3,30 @@ from kzpy3.vis3 import *
 exec(identify_file_str)
 
 import kzpy3.Cars.n11Oct2018_car_with_nets.nodes.net_utils as net_utils
-import kzpy3.Cars.n11Oct2018_car_with_nets.nodes.Activity_Module
+#import kzpy3.Cars.n11Oct2018_car_with_nets.nodes.Activity_Module
 import kzpy3.Cars.n11Oct2018_car_with_nets.nodes.default_values as default_values
 N = default_values.P
-
-dts = []
-
-show_timer = Timer(1)
-
-
-left_list = []
-right_list = []
-nframes = 2 #figure out how to get this from network
-
-
-
-
-behavioral_mode = 'direct'
-drive_mode = 0
-direct = 0.0
-follow = 0.0
-furtive = 0.0
-play = 0.0
-left = 0.0
-right = 0.0
-center = 0.0
+import torch
+"""
+python kzpy3/Cars/n11Oct2018_with_nets/nodes/network_node__for_playback.py run_folder /media/karlzipser/rosbags/tu_15to16Nov2018/locations/local/left_direct_stop/h5py/tegra-ubuntu_12Nov18_20h56m16s
+"""
+#Arguments['run_folder'] = opjm('rosbags/tu_15to16Nov2018/locations/local/left_direct_stop/h5py/tegra-ubuntu_12Nov18_20h56m16s')
+try:
+    print_Arguments()
+    assert 'run_folder' in Arguments
+except Exception as e:
+    cr("*** Supposed to have argument 'run_folder'. ***")
+    exc_type, exc_obj, exc_tb = sys.exc_info()
+    file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+    CS_('Exception!',emphasis=True)
+    CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
 
 
+
+Color = {}
+Color['direct'] = 'k'
+Color['left'] = 'b'
+Color['right'] = 'r'
 
 
 #############################################################################################
@@ -139,7 +136,18 @@ loaded_net = False
 
 
 
+def dic_of_(list_or_dic,keys):
 
+    D = {}
+    for k in keys:
+        if list_or_dic == 'lists':
+            D[k] = []
+        elif list_or_dic == 'dics':
+            D[k] = {}
+        else:
+            cr("***** Error, expected 'lists' or 'dics' as first argument *****")
+            assert False
+    return D
 
 
 #####################################################################
@@ -155,29 +163,73 @@ Torch_network = net_utils.Torch_Network(N)
 #####################################################################
     
 
-if False:
+if True:
 
-    O=h5r('/media/karlzipser/rosbags/tu_15to16Nov2018/locations/local/left_direct_stop/h5py/tegra-ubuntu_12Nov18_20h56m16s/original_timestamp_data.h5py' )        
-    i = 10000
-    left = O['left_image']['vals']
-    right = O['right_image']['vals']
-    rLists['left'] = [left[i-1],left[i]]
-    rLists['right'] = [right[i-1],right[i]]
+    run_folder = Arguments['run_folder']
+    try:
+        O.close()
+    except:
+        pass
 
-    """
-    ####################################################
-    ####################################################
-    ####################################################
-    ##
+    O = h5r(opj(run_folder,'original_timestamp_data.h5py'))
 
-    for side in ['left','right']:
-        for i in [-1]:#,-2]:
-            advance(rLists[side], cv2.resize(Lists[side][i],(net_input_width,net_input_height)), 4 )
+    left = O['left_image']
+    right = O['right_image']
+    behavioral_modes = ['left','direct','right']
+    D = dic_of_('lists',['index','ts']+behavioral_modes)
 
-    if N['show_net_input']:# in Arguments:                   
-        if True:#'show_net_input' in ppc.A:
-            if True:#ppc.A['show_net_input']:
-                if even:
+    D['run_name'] = fname(run_folder)
+
+    for i in range(0,len(O['left_image']['vals'])):
+
+        #cy(i)
+
+        D['index'].append(i)
+        D['ts'].append(left['ts'][i])
+
+        if i == 0:
+            for behavioral_mode in behavioral_modes:
+                D[behavioral_mode].append(None)
+            continue
+
+        rLists['left'] = [left['vals'][i-1],left['vals'][i]]
+        rLists['right'] = [right['vals'][i-1],right['vals'][i]]
+
+        
+
+        
+
+
+        camera_data = Torch_network['format_camera_data__no_scale'](rLists['left'],rLists['right'])
+
+        for behavioral_mode in behavioral_modes:
+
+            metadata = Metadata_tensors[behavioral_mode]
+
+            full_output = Torch_network['run_model'](camera_data,metadata,N,return_full_output=True)
+            full_output = na(full_output)
+
+            E = {}
+            E['full_output'] = full_output
+            E['steer'] = (99*full_output[0:10]).astype(int)
+            E['motor'] = (99*full_output[10:20]).astype(int)
+            E['heading'] = 90.0*full_output[20:30]
+            E['encoder'] = 5.0*full_output[30:40]                 
+
+            D[behavioral_mode].append(E)
+
+
+            if np.mod(i,100) == 0:
+                pprint(E)
+                if behavioral_mode == 'left':
+                    figure(1);clf();xylim(0,40,-1,1)
+                plot(full_output,Color[behavioral_mode]+'.');spause()
+                ####################################################
+                ####################################################
+                ####################################################
+                ##
+
+                if behavioral_mode == 'direct':
                     l0 = rgbcat(rLists,'left',-1)
                     ln1 = rgbcat(rLists,'left',-2)
                     r0 = rgbcat(rLists,'right',-1)
@@ -186,27 +238,19 @@ if False:
                     r = tcat(r0,rn1)
                     lr = lrcat(l,r)
                     mci((z2o(lr)*255).astype(np.uint8),scale=1.0,color_mode=cv2.COLOR_GRAY2BGR,title='ZED')
-                    even = False
-                else:
-                    even = True
-
-    ##
-    ####################################################
-    ####################################################
-    ####################################################
-    """
 
 
-    camera_data = Torch_network['format_camera_data__no_scale'](rLists['left'],rLists['right'])
-
-    metadata = Metadata_tensors[behavioral_mode]
-
-    full_output = Torch_network['run_model'](camera_data, metadata, N, True)
+                ##
+                ####################################################
+                ####################################################
+                ####################################################
 
 
 
+    so(D,opjD('net_predictions.'+D['run_name']))
 
 
+    O.close()
 #EOF
 
     
