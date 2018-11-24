@@ -105,6 +105,8 @@ RGBs = {'direct':(0,0,255),'right':(0,255,0),'left':(255,0,0)}
 
 
 def show3d(Rpoints,left_index):
+    
+    rmax = 7
     img = O['left_image']['vals'][left_index].copy()
 
     for behavioral_mode in Rpoints.keys():
@@ -119,7 +121,7 @@ def show3d(Rpoints,left_index):
                 r = int(5.0/np.sqrt(a[0]**2+(a[1])**2))
             except:
                 r = 1
-
+            
             b = Point3(a[0], 0, a[1]-P['backup parameter'])
 
             c = project(b, fit3d.mat)
@@ -131,21 +133,26 @@ def show3d(Rpoints,left_index):
                 elif c.y < 0 or c.y >= 94:
                     good = False
                 if good:
-                    cv2.circle(img,(int(c.x),int(c.y)),r,RGBs[behavioral_mode])#int(np.max(1,5.0/np.sqrt(c.x**2+c.y**2))),255)
+                    if r < rmax:
+                        cv2.circle(img,(int(c.x),int(c.y)),r,RGBs[behavioral_mode])#int(np.max(1,5.0/np.sqrt(c.x**2+c.y**2))),255)
+                        #cv2.circle(img,(30,30),rmax,(255,255,255))#int(np.max(1,5.0/np.sqrt(c.x**2+c.y**2))),255)
+
                     #cg(r)
                     #img[int(c.y),int(c.x),:] = na(RGBs[behavioral_mode])
             except:
                 cr(r)
                 pass
                 #P['cv2 scale']
-    mci(cv2.resize(img,(168*2,94*2)),scale=1.0,delay=P['cv2 delay'],title='left camera w/ points')
-    P['timer'].freq()
+                #P['cv2 delay']
+    mci(cv2.resize(img,(168*2,94*2)),scale=2.0,delay=20,title='left camera w/ points')
+    P['timer'].freq(d2s("index =",index))
+    #print sorted(rlist)
 
 
-for index in range(8000,17000,3):
+for index in range(30000,50000,1):
     left_index = Left_timestamps_to_left_indicies[(1000.0*(U['ts'][index] - t0)).astype(int)]
-    print left_index
-    clf();plt_square();xylim(-P['l']/2,P['l']/2,-P['l']/2,P['l']/2)
+    #print left_index
+    #clf();plt_square();xylim(-P['l']/2,P['l']/2,-P['l']/2,P['l']/2)
     Rpoints = {}
     for behavioral_mode in  ['left','direct','right']:
         headings = U[behavioral_mode][index]['heading']
@@ -158,24 +165,9 @@ for index in range(8000,17000,3):
 
 
 
-###################################
-###################################
-###################################
-    D['step'] = _step
-    D['get'] = _get
-    D['show2d'] = _show2d
-    D['show3d'] = _show3d
-
-    return D
-#
-################################################################################################
 
 
-
-
-
-
-
+"""
 if __name__ == '__main__':
 
     CA()
@@ -194,7 +186,7 @@ if __name__ == '__main__':
         load_parameters(P)
 
     raw_enter()
-
+"""
 
 
 
