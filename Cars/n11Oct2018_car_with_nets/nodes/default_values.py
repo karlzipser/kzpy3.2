@@ -14,7 +14,7 @@ P['lidar_only'] = False
 if P['lidar_only']:
 	P['use LIDAR'] = True
 P['use sound'] = True
-P['use flex'] = True
+P['use flex'] = False
 P['max motor'] = 63
 P['min motor'] = 49-(63-49)
 P['show_net_input'] = False

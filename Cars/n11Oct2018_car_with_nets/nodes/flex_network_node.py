@@ -11,8 +11,7 @@ if not N['use flex']:
     while not rospy.is_shutdown():
         time.sleep(10)
 
-import default_values
-N = default_values.P
+
 import rospy
 import kzpy3.Data_app.collect_flex_data2 as fx
 import roslib
