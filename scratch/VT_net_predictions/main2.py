@@ -54,9 +54,13 @@ def f(x,A,B):
 
 U = lo( opjD('16Nov2018_held_out_data/net_predictions.tegra-ubuntu_16Nov18_17h44m50s.pkl' ))
 O = h5r(opjD('16Nov2018_held_out_data/h5py/tegra-ubuntu_16Nov18_17h44m50s/original_timestamp_data.h5py' ))
+L = h5r(opjD('16Nov2018_held_out_data/h5py/tegra-ubuntu_16Nov18_17h44m50s/left_timestamp_metadata_right_ts.h5py'))
 
-
-
+Left_timestamps_to_left_indicies = {}
+t0 = L['ts'][0]
+for i in rlen(L['ts']):
+    t = (1000.0*(L['ts'][i] - t0)).astype(int)
+    Left_timestamps_to_left_indicies[t] = i
 
 Colors = {'direct':'k','left':'b','right':'r'}
 
@@ -65,7 +69,7 @@ def get_r_points(index,behavioral_mode,headings,encoders):
     xys = []
 
     for i in range(len(headings)):
-        v = vec(headings[i],encoders[i],10.0)
+        v = vec(headings[i],encoders[i],3.33)
         xy += v # take into consideration reverse driving
         #cr(xy)
         xys.append(xy.copy())
@@ -84,9 +88,9 @@ def get_r_points(index,behavioral_mode,headings,encoders):
 
 
 
-def show2d(rpoints,color):
+def show2d(rpoints,left_index,color):
 
-    #mci(O['left_image']['vals'][],scale=P['cv2 scale'],delay=P['cv2 delay'],title='left camera')
+    mci(O['left_image']['vals'][left_index],scale=P['cv2 scale'],delay=P['cv2 delay'],title='left camera')
 
     
 
@@ -97,33 +101,19 @@ def show2d(rpoints,color):
     P['timer'].freq()
 
 
+RGBs = {'direct':(0,0,255),'right':(0,255,0),'left':(255,0,0)}
 
 
-for index in range(15000,16000):
-    clf();plt_square();xylim(-P['l']/2,P['l']/2,-P['l']/2,P['l']/2)
-    for behavioral_mode in ['left','direct','right']:
-        headings = U[behavioral_mode][index]['heading']
-        encoders = U[behavioral_mode][index]['encoder']
-        rpoints = get_r_points(index,behavioral_mode,headings,encoders)
-        show2d(rpoints,Colors[behavioral_mode])
-    spause()
+def show3d(Rpoints,left_index):
+    img = O['left_image']['vals'][left_index].copy()
 
+    for behavioral_mode in Rpoints.keys():
 
+        rpoints = Rpoints[behavioral_mode]
 
+        for i in rlen(rpoints):
 
-
-
-
-
-
-###################################
-
-    def _show3d():
-        img = P['O']['left_image']['vals'][D['index']-P['future_steps']].copy()
-
-        for i in range(P['past_steps'],len(D['rpoints']),P['step_skip']):
-
-            a = D['rpoints'][i,:]
+            a = rpoints[i,:]
 
             try:
                 r = int(5.0/np.sqrt(a[0]**2+(a[1])**2))
@@ -141,15 +131,36 @@ for index in range(15000,16000):
                 elif c.y < 0 or c.y >= 94:
                     good = False
                 if good:
-                    cv2.circle(img,(int(c.x),int(c.y)),r,(255,0,0))#int(np.max(1,5.0/np.sqrt(c.x**2+c.y**2))),255)
+                    cv2.circle(img,(int(c.x),int(c.y)),r,RGBs[behavioral_mode])#int(np.max(1,5.0/np.sqrt(c.x**2+c.y**2))),255)
                     #cg(r)
-                    #img[int(c.y),int(c.x),:] = na([255,0,0])
+                    #img[int(c.y),int(c.x),:] = na(RGBs[behavioral_mode])
             except:
                 cr(r)
                 pass
+                #P['cv2 scale']
+    mci(cv2.resize(img,(168*2,94*2)),scale=1.0,delay=P['cv2 delay'],title='left camera w/ points')
+    P['timer'].freq()
 
-        mci(img,scale=P['cv2 scale'],delay=P['cv2 delay'],title='left camera w/ points')
 
+for index in range(8000,17000,3):
+    left_index = Left_timestamps_to_left_indicies[(1000.0*(U['ts'][index] - t0)).astype(int)]
+    print left_index
+    clf();plt_square();xylim(-P['l']/2,P['l']/2,-P['l']/2,P['l']/2)
+    Rpoints = {}
+    for behavioral_mode in  ['left','direct','right']:
+        headings = U[behavioral_mode][index]['heading']
+        encoders = U[behavioral_mode][index]['encoder']
+        rpoints = get_r_points(index,behavioral_mode,headings,encoders)
+        #show2d(rpoints,left_index,Colors[behavioral_mode])
+        Rpoints[behavioral_mode] = rpoints
+    show3d(Rpoints,left_index)
+    spause()
+
+
+
+###################################
+###################################
+###################################
     D['step'] = _step
     D['get'] = _get
     D['show2d'] = _show2d
