@@ -597,7 +597,7 @@ while not rospy.is_shutdown():
                 #s1_flex = N['network_motor_smoothing_parameter']
                 #s2_flex = N['network_servo_smoothing_parameter']
 
-                if 'new position for flex insert':
+                if False:#'new position for flex insert':
                     if N['use flex'] and flex_motor < 47:
                         torch_steer = flex_steer
                         torch_motor = flex_motor
@@ -641,7 +641,7 @@ while not rospy.is_shutdown():
                 adjusted_motor = max(adjusted_motor,N['min motor'])
 
 
-                if not 'original position for flex insert':
+                if True:#not 'original position for flex insert':
                     if N['use flex'] and flex_motor < 47:
                         #adjusted_camera = flex_steer
                         adjusted_steer = flex_steer
