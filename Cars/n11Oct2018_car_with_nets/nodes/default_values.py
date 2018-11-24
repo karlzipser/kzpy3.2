@@ -14,7 +14,9 @@ P['lidar_only'] = False
 if P['lidar_only']:
 	P['use LIDAR'] = True
 P['use sound'] = True
-P['use flex'] = False
+P['use flex'] = True
+for i in range(10):
+	cr("_______________ P['use flex'] =",P['use flex'],"_______________" )
 P['max motor'] = 63
 P['min motor'] = 49-(63-49)
 P['show_net_input'] = False

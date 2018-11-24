@@ -606,7 +606,7 @@ while not rospy.is_shutdown():
                         gm = N['flex_motor_gain']
                         gs = N['flex_steer_gain']
                         
-                        cr(int(torch_steer),int(torch_motor))
+                        cr(int(torch_steer),int(torch_motor),gm)
                     else:
                         sm = N['network_motor_smoothing_parameter']
                         ss = N['network_servo_smoothing_parameter']
