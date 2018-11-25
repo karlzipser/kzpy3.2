@@ -9,14 +9,14 @@ P['use_motor_PID'] = True
 
 P['customers'] = ['Arduino','Network','Weights','Flex']
 P['drive_mode'] = 0
-P['use LIDAR'] = False
-P['lidar_only'] = False
+P['use LIDAR'] = True
+P['lidar_only'] = True
 if P['lidar_only']:
 	P['use LIDAR'] = True
 P['use sound'] = True
+
 P['use flex'] = False
-for i in range(10):
-	cr("_______________ P['use flex'] =",P['use flex'],"_______________" )
+
 P['max motor'] = 63
 P['min motor'] = 49-(63-49)
 P['show_net_input'] = False
