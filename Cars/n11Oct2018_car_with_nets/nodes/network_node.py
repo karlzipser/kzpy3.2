@@ -451,7 +451,7 @@ while not rospy.is_shutdown():
 
         cy("if human_agent == 0 and drive_mode == 1:")
 
-        if len(left_list) > nframes + 1:
+        if len(left_list) > nframes + 1 or len(lidar_list)>3:
             #cr('B')
             #cb(time.time())
             
