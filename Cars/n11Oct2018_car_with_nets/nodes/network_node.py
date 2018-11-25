@@ -498,9 +498,11 @@ while not rospy.is_shutdown():
 
 
                 if len(rLists['left'])>2:
+                    cy("if len(rLists['left'])>2:")
                     if N['use LIDAR']:
                         if len(rLists['left']) >= 2:
                             if N['use LIDAR']:
+                                cy("if N['use LIDAR']:")
                                 if len(lidar_list) > 4:
                                     #print len(lidar_list)
                                     rLists['left'][-2][:,:,1] = lidar_list[-1]
@@ -523,7 +525,8 @@ while not rospy.is_shutdown():
                             #Durations[dname]['list'].append(1000.0*Durations[dname]['timer'].time())
                             #Durations[dname]['timer'].reset()
                             #cr('D')
-                    if N['show_net_input']:# in Arguments:                   
+                    if N['show_net_input']:# in Arguments:
+                        cy("N['show_net_input']")                
                         if True:#'show_net_input' in ppc.A:
                             if True:#ppc.A['show_net_input']:
                                 if even:
@@ -559,6 +562,7 @@ while not rospy.is_shutdown():
 
 
             if len(rLists['left'])>2:
+                cy("if len(rLists['left'])>2:")
             # if len(left_list) > nframes + 2:
                 #print shape(rLists['left'])
                 #print shape(rLists['right'])
@@ -668,6 +672,7 @@ while not rospy.is_shutdown():
 
 
                 if N['show_net_activity']:
+                    cy["if N['show_net_activity']:"]
                     if show_timer.check():
                         ############################
                         Net_activity = Activity_Module.Net_Activity('batch_num',0, 'activiations',Torch_network['solver'].A)
