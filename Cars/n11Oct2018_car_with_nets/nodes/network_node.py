@@ -31,6 +31,7 @@ dts = []
 show_timer = Timer(1)
 
 if N['use LIDAR']:
+    cy("if N['use LIDAR']:")
     import kzpy3.Data_app.lidar.python_pointclouds6k as ppc
     resize = ppc.resize_versions[0]
     image_type = ppc.image_type_versions[0]
@@ -288,6 +289,7 @@ def lrcat(l,r):
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 if N['use LIDAR']:
     threading.Thread(target=ppc.pointcloud_thread,args=[]).start()
+    cy("if N['use LIDAR']: 290")
 #
 ##############################################
 
@@ -429,6 +431,7 @@ while not rospy.is_shutdown():
     
 
     if Torch_network == None:
+        cy("if Torch_network == None:")
         time.sleep(0.1)
         continue
     #else print Torch_network
@@ -446,7 +449,7 @@ while not rospy.is_shutdown():
 
         #cr('A')
 
-
+        cy("if human_agent == 0 and drive_mode == 1:")
 
         if len(left_list) > nframes + 1:
             #cr('B')
@@ -479,6 +482,7 @@ while not rospy.is_shutdown():
                         lidar_list.append(img)
                         if len(lidar_list)>5:
                             lidar_list = lidar_list[-5:]
+                        cy(shape(lidar_list))
                 
                 #print Durations[dname]['timer'].time()
                 #cr('C1')
@@ -487,7 +491,7 @@ while not rospy.is_shutdown():
                     Lists['left'] = left_list[-2:]
                     Lists['right'] = right_list[-2:]##
 
-
+                cy("line 494")
                 if N['lidar_only']:
                     for side in ['left','right']:
                         advance(rLists[side], zeros((net_input_height,net_input_width,3),np.uint8), 4 )
