@@ -449,9 +449,9 @@ while not rospy.is_shutdown():
 
         #cr('A')
 
-        cy("if human_agent == 0 and drive_mode == 1:")
-
-        if len(left_list) > nframes + 1 or len(lidar_list)>3:
+        #cy("if human_agent == 0 and drive_mode == 1:")
+        try:
+        #if len(left_list) > nframes + 1 or len(lidar_list)>3:
             #cr('B')
             #cb(time.time())
             
@@ -696,6 +696,13 @@ while not rospy.is_shutdown():
                     show_durations.reset()
             else:
                 cr(len(rLists['left']))
+
+        except Exception as e:
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            CS_('Exception!',emphasis=True)
+            CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+
     else:
         time.sleep(0.00001)
 
