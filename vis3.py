@@ -273,6 +273,9 @@ except:
     print("Don't have cv2")
 
 def frames_to_video_with_ffmpeg(input_dir,output_path,img_range=(),rate=30):
+    """
+    note, try using ".mov" as video file extension. The extension ".avi" gives a video but it is not accepted by iMovies.
+    """
     if input_dir[-1] == '/':
         input_dir = input_dir[:-1] # the trailing / messes up the name.
     _,fnames = dir_as_dic_and_list(input_dir)

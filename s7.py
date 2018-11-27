@@ -140,6 +140,165 @@ https://stackoverflow.com/questions/973473/getting-a-list-of-all-subdirectories-
 ###stop
 
 
+#run_name = "Mr_Purple_24Nov18_12h57m47s"
+#run_name = "Mr_Purple_22Nov18_15h00m19s"
+run_name = "tegra-ubuntu_20Nov18_10h59m22s"
+segments = [[21254,56549]]
+
+run_path = opj('/media/karlzipser/rosbags1/h5py/',run_name)
+O = h5r(opj(run_path,'original_timestamp_data.h5py'))
+L = h5r(opj(run_path,'left_timestamp_metadata_right_ts.h5py'))
+len_left = len(O['left_image']['vals'])
+
+"""
+run_name = "Mr_Purple_24Nov18_12h57m47s"
+segments=[
+    [32998,35637],
+    [3023,4859],
+    [9324,10100],
+    [13272,13800],
+    [14050,14550],
+    [17000,18575],
+    [23850,26453],
+    [29000,29500],
+    [44164,45155],
+    #[5500,10100],
+    #[27800,31100],
+]
+"""
+#segments=[[36000,40440],]
+"""
+segments = [
+    [4400,5500],
+    [11200,13800],
+    [15300,18000],
+    [22000,25600],
+    [26000,26700],
+    [27500,28920],
+    [30500,31320],
+    [38236,39550],
+    [39768,41386]]
+"""
+
+
+
+
+for fctr in range(len(segments)):
+    s1,s2 = segments[fctr]
+    cr(s1,s2)
+
+    dst = opjD(d2n("Frames_temp_",s1,"_",s2))
+    os.system("mkdir "+dst)
+
+
+    blink_frames = 30/6
+    blink_on = True
+    blink_ctr = 0
+    ctr = 0
+    for i in range(s1,s2,1):
+        #print i
+        frame = O['left_image']['vals'][i].copy()
+        button_number = int(L['button_number'][i])
+
+        #cg(button_number,blink_on,blink_ctr)
+
+        if blink_on:
+            if button_number == 1:
+                #cr('here')
+                frame[0:10,0:20,:] = na([255,0,0])
+            elif button_number == 3:
+                frame[0:10,-20:,:] = na([255,0,0])
+                
+        blink_ctr += 1
+
+        if blink_ctr >= blink_frames:
+            blink_on = False
+        if blink_ctr >= 2* blink_frames:
+            blink_on = True
+            blink_ctr = 0
+
+        #mi(frame);spause()
+        imsave(opj(dst,d2n(ctr,'.png')),frame)
+        ctr += 1
+
+
+    frames_to_video_with_ffmpeg(dst,opjD(d2n(run_name,"__",s1,"_to_",s2,".mov")))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+try:
+    D.close()
+except:
+    pass
+run_name = 'tegra-ubuntu_25Oct18_15h43m36s'
+
+D = h5r(d2n('/media/karlzipser/1_TB_Samsung_n1/_.Depth_images.log.resize.flip.left_ts/',run_name,'.Depth_image.log.resize.flip.with_left_ts.h5py'))
+r = D['resized']
+s1,s2 = 2000,12000
+dst = opjD(d2n("Frames_temp_",s1,"_",s2))
+os.system("mkdir "+dst)
+ctr = 0
+for i in range(s1,s2):
+    frame = cv2.resize(r[i],(168*2,16*2))
+    if np.mod(i,10)==0:
+        cg(i)
+    imsave(opj(dst,d2n(ctr,'.png')),frame)
+    ctr += 1
+frames_to_video_with_ffmpeg(dst,opjD(d2n(run_name,"__",s1,"_to_",s2,".mov")))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

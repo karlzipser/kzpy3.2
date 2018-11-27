@@ -207,6 +207,31 @@ z2o = zeroToOneRange
 
 
 
+def dir_as_dic_and_list( path ):
+	"""Returns a dictionary and list of files and directories within the path.
+
+	Keyword argument:
+		path
+
+	Certain types are ignored:
+		.*      -- I want to avoid hidden files and directories.
+		_*      -- I use underscore to indicate things to ignore.
+		Icon*   -- The Icon? files are a nuisance created by
+				  Google Drive that I also want to ignore."""
+	return_dic = {}
+	return_list = []
+	for filename in os.listdir(path):
+		if not filename[0] == '.': # ignore /., /.., and hidden directories and files
+			if not filename[0] == '_': # ignore files starting with '_'
+				if not filename[0:4] == 'Icon': # ignore Google Drive Icon things
+					return_dic[filename] = {}
+					return_list.append(filename)
+	return_list.sort(key=natural_keys)
+	return (return_dic,return_list)
+
+
+
+
 def atoi(text):
 	return int(text) if text.isdigit() else text
 

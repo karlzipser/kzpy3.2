@@ -169,12 +169,23 @@ while True:
 
 			time_from_pixel_ = I[topic_][pixel_to_float](xint,ref_xv, yint,0)[0]
 			ts_from_pixel_ = find_nearest(ts_,time_from_pixel_)
+			"""
 			cv2.putText(
 				I[topic_][img],
 				d2n(dp(ts_from_pixel_,2),'s'),
 				(10,30),
 				cv2.FONT_HERSHEY_SIMPLEX,
 				0.75,(255,0,0),1)
+			"""
+			img_index_ = Timestamp_to_left_image[ts_from_pixel_]
+			img_index_list_.append(img_index_)
+
+			cv2.putText(
+				I[topic_][img],
+				d2n(dp(ts_from_pixel_,2),'s, frame = ',img_index_),
+				(10,30),
+				cv2.FONT_HERSHEY_SIMPLEX,
+				0.75,(255,255,255),1)
 			cv2.putText(
 				I[topic_][img],
 				d2n(dp(display_ratev/30.0,1),'X'),
@@ -193,8 +204,7 @@ while True:
 					(200,200),
 					cv2.FONT_HERSHEY_SIMPLEX,
 					2.0,(255,255,255),4)
-			img_index_ = Timestamp_to_left_image[ts_from_pixel_]
-			img_index_list_.append(img_index_)
+
 			camera_img_ = O[left_image][vals][img_index_][:]
 			cx_ = (P[Y_PIXEL_SIZE]-P[CAMERA_SCALE]*shape(camera_img_)[0])
 			cy_ = (P[X_PIXEL_SIZE]-P[CAMERA_SCALE]*shape(camera_img_)[1])
