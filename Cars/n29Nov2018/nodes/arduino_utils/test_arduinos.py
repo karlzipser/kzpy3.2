@@ -21,7 +21,7 @@ for ACM_port in ACM_ports:
 timer = Timer(1)
 long_timer = Timer(30)
 
-ser = sers[0]
+ser = sers[1]
 ctr = 0
 while not long_timer.check():
     #print 'a'
