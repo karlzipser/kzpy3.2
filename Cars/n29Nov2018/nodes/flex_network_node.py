@@ -191,6 +191,7 @@ while not rospy.is_shutdown():
         time.sleep(0.01)
         #for f in F.keys():
         #    print len(F[f])
+        print F
         img3 = na(fx.make_flex_image(F))
 
         flex_data = Flex_torch_network['format_flex_data'](img3)
