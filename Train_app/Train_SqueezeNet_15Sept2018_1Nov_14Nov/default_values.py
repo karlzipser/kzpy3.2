@@ -5,7 +5,7 @@ P = {}
 P['ABORT'] = False
 P['verbose'] = False
 verbose = P['verbose']
-################################################################
+###############################################################
 #
 P['use_LIDAR'] = False
 P['lidar_only'] = False
@@ -16,7 +16,7 @@ elif P['use_LIDAR'] == False:
 else:
 	P['GPU'] = 1
 #
-################################################################
+###############################################################
 
 P['LIDAR_path'] = opjm('1_TB_Samsung_n1','_.Depth_images.log.resize.flip.left_ts')
 P['LIDAR_extension'] = ".Depth_image.log.resize.flip.with_left_ts.h5py"
