@@ -34,7 +34,7 @@ def button_number_callback(msg):
 
 rospy.Subscriber('/bair_car/button_number', std_msgs.msg.Int32, callback=button_number_callback)
 
-graphics = False
+graphics = True
 
 """
 flex_names = []
