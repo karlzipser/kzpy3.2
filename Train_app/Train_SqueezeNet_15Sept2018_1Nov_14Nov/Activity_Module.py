@@ -90,6 +90,7 @@ def Net_Activity(*args):
             if P['verbose']:print(k,Args['moment_index'])
             imgv = D['imgs'][k][Args['moment_index']]
             mi(imgv,d2s(k,P['start time']))
+            imsave(opjD(k+'.png'),imgv)
             """
             imgv = z2o(imgv)*255
             imgv = imgv.astype(np.uint8)
