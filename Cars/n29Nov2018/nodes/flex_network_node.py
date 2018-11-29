@@ -18,6 +18,8 @@ import roslib
 import std_msgs.msg
 import rospy
 
+bair_car = '/bair_car'
+bair_car = ''
 #N = {}
 N['flex_weight_file_path'] = most_recent_file_in_folder(opjD('networks/net_flex/weights'))
 N['flex_network_output_sample'] = 9
@@ -32,7 +34,7 @@ def button_number_callback(msg):
     global button_number
     button_number = msg.data
 
-rospy.Subscriber('/bair_car/button_number', std_msgs.msg.Int32, callback=button_number_callback)
+rospy.Subscriber(bair_car+'/button_number', std_msgs.msg.Int32, callback=button_number_callback)
 
 graphics = True
 
@@ -57,7 +59,7 @@ def FLEX__callback(msg):
     #    F['FLEX'] = F['FLEX'][-18:]
     advance(F['FLEX'],msg.data,18)
     #advance(F['FLEX_ts'],time.time(),18)
-rospy.Subscriber('/bair_car/FLEX', std_msgs.msg.Int32, callback=FLEX__callback)
+rospy.Subscriber(bair_car+'/FLEX', std_msgs.msg.Int32, callback=FLEX__callback)
     """
     exec_str = s.replace('FLEX',f)
     exec(exec_str)
