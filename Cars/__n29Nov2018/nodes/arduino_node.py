@@ -30,18 +30,7 @@ if P['use LIDAR']:
         P['os1_called']['val'] += 1
         P['os1_called']['time'] = time.time()
 
-
-def cmd_steer_callback(msg):
-    P['network']['servo_percent'] = msg.data
-def cmd_camera_callback(msg):
-    P['network']['camera_percent'] = msg.data
-def cmd_motor_callback(msg):
-    P['network']['motor_percent'] = msg.data
-
 rospy.init_node('run_arduino',anonymous=True,disable_signals=True)
-rospy.Subscriber('cmd/steer', std_msgs.msg.Int32, callback=cmd_steer_callback)
-rospy.Subscriber('cmd/camera', std_msgs.msg.Int32, callback=cmd_camera_callback)
-rospy.Subscriber('cmd/motor', std_msgs.msg.Int32, callback=cmd_motor_callback)
 
 if P['use LIDAR']:
     rospy.Subscriber("/os1_node/points",sensor_msgs.msg.PointCloud2,os1_callback,queue_size=1)
@@ -58,12 +47,6 @@ P['encoder_pub'] = rospy.Publisher('encoder', std_msgs.msg.Float32, queue_size=5
 P['gyro_pub'] = rospy.Publisher('gyro', geometry_msgs.msg.Vector3, queue_size=10)
 P['gyro_heading_pub'] = rospy.Publisher('gyro_heading', geometry_msgs.msg.Vector3, queue_size=10)
 P['acc_pub'] = rospy.Publisher('acc', geometry_msgs.msg.Vector3, queue_size=10)
-P['servo_pwm_min_pub'] = rospy.Publisher('servo_pwm_min', std_msgs.msg.Int32, queue_size=5) 
-P['servo_pwm_max_pub'] = rospy.Publisher('servo_pwm_max', std_msgs.msg.Int32, queue_size=5) 
-P['servo_pwm_null_pub'] = rospy.Publisher('servo_pwm_null', std_msgs.msg.Int32, queue_size=5) 
-P['motor_pwm_min_pub'] = rospy.Publisher('motor_pwm_min', std_msgs.msg.Int32, queue_size=5) 
-P['motor_pwm_null_pub'] = rospy.Publisher('motor_pwm_null', std_msgs.msg.Int32, queue_size=5) 
-P['motor_pwm_max_pub'] = rospy.Publisher('motor_pwm_max', std_msgs.msg.Int32, queue_size=5)
 
 from default_values import flex_names
 for name in flex_names:
@@ -123,9 +106,7 @@ if 'Start Arduino threads...':
 
     if P['USE_MSE'] and 'MSE' in P['Arduinos'].keys():     
         CS("!!!!!!!!!! found 'MSE' !!!!!!!!!!!",emphasis=True)
-        #print 0,P['publish_MSE_data']
         TACTIC_RC_controller(P)
-        #print 1,P['publish_MSE_data']
         Calibration_Mode(P)
     elif not P['USE_MSE']:
         CS("P['USE_MSE'] =",P['USE_MSE'])
@@ -141,7 +122,6 @@ if 'Start Arduino threads...':
         FLEX_Arduino(P)
     else:
         spd2s("!!!!!!!!!! 'FLEX' not in Arduinos[] or not using 'FLEX' !!!!!!!!!!!")
-    #P['agent_is_human'] = 'human'
 
 
 
@@ -179,22 +159,13 @@ if 'Main loop...':
             else:
                 time.sleep(0.1)
 
-
-
-
-
-            #if 'SOUND' in P['Arduinos']:
-            #    pass #P['Arduinos']['SOUND'].write("(22)")
-
-            #Default_values.arduino.default_values.EXIT(restart=False,shutdown=False,kill_ros=True,_file_=__file__)
-
         except Exception as e:
             CS_(d2s('Main loop exception',e))
-            #Default_values.arduino.default_values.EXIT(restart=False,shutdown=False,kill_ros=True,_file_=__file__)
         
 
 CS('End arduino_node.py main loop.')
 CS_("doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))")
 time.sleep(0.01)
 unix(opjh('kzpy3/scripts/kill_ros.sh'))
+
 #EOF

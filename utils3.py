@@ -207,6 +207,19 @@ z2o = zeroToOneRange
 
 
 
+def dic_of_(list_or_dic,keys):
+
+    D = {}
+    for k in keys:
+        if list_or_dic == 'lists':
+            D[k] = []
+        elif list_or_dic == 'dics':
+            D[k] = {}
+        else:
+            cr("***** Error, expected 'lists' or 'dics' as first argument *****")
+            assert False
+    return D
+    
 def dir_as_dic_and_list( path ):
 	"""Returns a dictionary and list of files and directories within the path.
 
