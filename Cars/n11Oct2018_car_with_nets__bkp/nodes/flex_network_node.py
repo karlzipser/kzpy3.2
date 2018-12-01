@@ -18,10 +18,7 @@ import roslib
 import std_msgs.msg
 import rospy
 
-bair_car = '/bair_car'
-if False:
-    bair_car = '' # if run outside of launch, /bair_car is not in topic
-
+#N = {}
 N['flex_weight_file_path'] = most_recent_file_in_folder(opjD('networks/net_flex/weights'))
 N['flex_network_output_sample'] = 9
 
@@ -35,9 +32,17 @@ def button_number_callback(msg):
     global button_number
     button_number = msg.data
 
-rospy.Subscriber(bair_car+'/button_number', std_msgs.msg.Int32, callback=button_number_callback)
+rospy.Subscriber('/bair_car/button_number', std_msgs.msg.Int32, callback=button_number_callback)
 
-graphics = True
+graphics = False
+
+"""
+flex_names = []
+for fb in ['F']:
+    for lr in ['L','C','R']:
+        for i in [0,1,2,3]:
+            flex_names.append(d2n(fb,lr,i))
+"""
 
 flex_names = default_values.flex_names
 
@@ -52,7 +57,7 @@ def FLEX__callback(msg):
     #    F['FLEX'] = F['FLEX'][-18:]
     advance(F['FLEX'],msg.data,18)
     #advance(F['FLEX_ts'],time.time(),18)
-rospy.Subscriber(bair_car+'/FLEX', std_msgs.msg.Int32, callback=FLEX__callback)
+rospy.Subscriber('/bair_car/FLEX', std_msgs.msg.Int32, callback=FLEX__callback)
     """
     exec_str = s.replace('FLEX',f)
     exec(exec_str)
@@ -61,6 +66,12 @@ rospy.Subscriber(bair_car+'/FLEX', std_msgs.msg.Int32, callback=FLEX__callback)
 flex_steer_cmd_pub = rospy.Publisher('cmd/flex_steer', std_msgs.msg.Int32, queue_size=5)
 flex_motor_cmd_pub = rospy.Publisher('cmd/flex_motor', std_msgs.msg.Int32, queue_size=5)
 
+"""
+Baselines = {}
+for b in ['steer','motor']:
+    Baselines[b] = zeros(18)
+baseline_constant = 0.75
+"""
 
 import torch
 import torch.nn as nn
@@ -178,8 +189,8 @@ while not rospy.is_shutdown():
 
         print_timer.message(d2s("ctr,error =",ctr,',',error_ctr));ctr+=1
         time.sleep(0.01)
-
-        print F
+        #for f in F.keys():
+        #    print len(F[f])
         img3 = na(fx.make_flex_image(F))
 
         flex_data = Flex_torch_network['format_flex_data'](img3)
@@ -200,10 +211,16 @@ while not rospy.is_shutdown():
         CS_('Exception!',emphasis=True)
         CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
 
+        
 CS_('goodbye!',__file__)
 CS_("doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))")
 time.sleep(0.01)
 unix(opjh('kzpy3/scripts/kill_ros.sh'))
+
+
+
+
+
 
 
 if not 'do test':

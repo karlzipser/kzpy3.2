@@ -21,19 +21,18 @@ for ACM_port in ACM_ports:
 timer = Timer(1)
 long_timer = Timer(30)
 
-for ser in sers:
-    ctr = 0
-    while not long_timer.check():
-        #print 'a'
-        if True:#timer.check():
-            #print 'b'
-            ser.write(d2n("(",ctr,",",ctr+5000,",",ctr+10000,")"))
-            ctr += 1
+ser = sers[0]
+ctr = 0
+while not long_timer.check():
+    #print 'a'
+    if True:#timer.check():
+        #print 'b'
+        ser.write(d2n("(",ctr,",",ctr+5000,",",ctr+10000,")"))
+        ctr += 1
 
-            read_str = ser.readline()
+        read_str = ser.readline()
 
-            print(read_str)
+        print(read_str)
 
-            timer.reset()
-    long_timer.reset()
+        timer.reset()
 

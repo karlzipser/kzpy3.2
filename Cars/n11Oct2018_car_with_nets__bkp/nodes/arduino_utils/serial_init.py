@@ -22,47 +22,46 @@ def get_arduino_serial_connections(baudrate, timeout):
 def assign_serial_connections(P,sers):
     ctr = 0
     P['Arduinos'] = {}
-
-    timer = Timer(P['seconds to wait for identifying serial connection'])
     for ser in sers:
-        while not timer.check(): #for _ in xrange(100000):
+        for _ in xrange(100000):
             try:
                 ser_str = ser.readline()
-                #print ctr,ser_str
-                if True:#len(ser_str) > 0:
-                    cb(d2n(ctr,") '",ser_str,"'"))
+                print ctr,ser_str
                 ctr += 1
                 exec('ser_tuple = list({0})'.format(ser_str))
-
                 if ser_tuple[0] in ['mse']:
                     spd2s('Port',ser.port,'is the MSE:',ser_str)
                     CS("\tusing 'motor_servo_encoder.ino'",emphasis=True)
                     P['Arduinos']['MSE'] = ser
-                    timer.reset()
                     break
-
                 elif ser_tuple[0] in ['sound']:
                     print(d2s('Port',ser.port,'is the SOUND:',ser_str))
                     print("\tusing '?.ino'")
                     if P['use sound']:
                         P['Arduinos']['SOUND'] = ser
-                    timer.reset()
                     break
-
                 elif ser_tuple[0] in ['acc','gyro','head']:
                     print(d2s('Port',ser.port,'is the IMU:',ser_str))
                     print("\tusing 'acc.ino'")
                     P['Arduinos']['IMU'] = ser
-                    timer.reset()
                     break
 
+
+
+                #################
+                #
                 elif ser_tuple[0] in flex_names:
                     print(d2s('Port',ser.port,'is the FLEX:',ser_str))
                     print("\tusing 'Flex_Sensors_0_12Sept2018.ino'")
                     P['Arduinos']['FLEX'] = ser
-                    timer.reset()
+                    #cr("P['Arduinos']['FLEX'] =",ser)
                     break
+                #
+                #################
 
+
+
+                    
                 else:
                     continue               
             except:
@@ -77,6 +76,6 @@ def assign_serial_connections(P,sers):
     if 'MSE' not in P['Arduinos'].keys():
         spd2s('MSE not found: Is transmitter turned on? Is MSE battery plugged in?')
         assert(False)
-    
+    #return Arduinos
 
 #EOF
