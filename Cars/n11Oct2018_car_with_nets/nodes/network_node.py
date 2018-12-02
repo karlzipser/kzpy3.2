@@ -500,7 +500,7 @@ while not rospy.is_shutdown():
                         for i in [-1]:#,-2]:
                             img = Lists[side][i]
                             cr(shape(img))
-                            if shape(img) != (168,94):
+                            if shape(img) != (94,168,3):
                                 img = cv2.resize(img,(net_input_width,net_input_height))
                                 cy('resize')
                             cb(shape(img))
