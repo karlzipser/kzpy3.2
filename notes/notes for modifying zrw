@@ -33,3 +33,7 @@ zed-wrapper-nodelet.cpp, 960:
                                          string imgFrameId, ros::Time t) {
         pubImg.publish(sl_tools::imageToROSmsg(img, imgFrameId, t));
     }
+
+
+
+https://docs.opencv.org/2.4/doc/tutorials/introduction/linux_gcc_cmake/linux_gcc_cmake.html
