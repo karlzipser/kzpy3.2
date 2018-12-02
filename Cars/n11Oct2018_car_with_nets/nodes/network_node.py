@@ -501,7 +501,7 @@ while not rospy.is_shutdown():
                             img = Lists[side][i]
                             cr(shape(img))
                             if shape(img) != (168,94):
-                                img = cv2.resize(,(net_input_width,net_input_height))
+                                img = cv2.resize(img,(net_input_width,net_input_height))
                                 cy('resize')
                             cb(shape(img))
                             advance(rLists[side], img , 4 )
