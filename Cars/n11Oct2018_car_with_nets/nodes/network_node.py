@@ -31,7 +31,7 @@ dts = []
 show_timer = Timer(1)
 
 if N['use LIDAR']:
-    cy("if N['use LIDAR']:")
+    #cy("if N['use LIDAR']:")
     import kzpy3.Data_app.lidar.python_pointclouds6k as ppc
     resize = ppc.resize_versions[0]
     image_type = ppc.image_type_versions[0]
@@ -289,7 +289,7 @@ def lrcat(l,r):
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 if N['use LIDAR']:
     threading.Thread(target=ppc.pointcloud_thread,args=[]).start()
-    cy("if N['use LIDAR']: 290")
+    #cy("if N['use LIDAR']: 290")
 #
 ##############################################
 
@@ -431,7 +431,7 @@ while not rospy.is_shutdown():
     
 
     if Torch_network == None:
-        cy("if Torch_network == None:")
+        #cy("if Torch_network == None:")
         time.sleep(0.1)
         continue
     #else print Torch_network
@@ -482,7 +482,7 @@ while not rospy.is_shutdown():
                         lidar_list.append(img)
                         if len(lidar_list)>5:
                             lidar_list = lidar_list[-5:]
-                        cy(shape(lidar_list))
+                        #cy(shape(lidar_list))
                 
                 #print Durations[dname]['timer'].time()
                 #cr('C1')
@@ -491,7 +491,7 @@ while not rospy.is_shutdown():
                     Lists['left'] = left_list[-2:]
                     Lists['right'] = right_list[-2:]##
 
-                cy("line 494")
+                #cy("line 494")
                 if N['lidar_only']:
                     for side in ['left','right']:
                         advance(rLists[side], zeros((net_input_height,net_input_width,3),np.uint8), 4 )
@@ -502,11 +502,11 @@ while not rospy.is_shutdown():
 
 
                 if len(rLists['left'])>2:
-                    cy("if len(rLists['left'])>2:")
+                    #cy("if len(rLists['left'])>2:")
                     if N['use LIDAR']:
                         if len(rLists['left']) >= 2:
                             if N['use LIDAR']:
-                                cy("if N['use LIDAR']:")
+                                #cy("if N['use LIDAR']:")
                                 if len(lidar_list) > 4:
                                     #print len(lidar_list)
                                     rLists['left'][-2][:,:,1] = lidar_list[-1]
@@ -530,7 +530,7 @@ while not rospy.is_shutdown():
                             #Durations[dname]['timer'].reset()
                             #cr('D')
                     if N['show_net_input']:# in Arguments:
-                        cy("N['show_net_input']")                
+                        #cy("N['show_net_input']")                
                         if True:#'show_net_input' in ppc.A:
                             if True:#ppc.A['show_net_input']:
                                 if even:
@@ -566,7 +566,7 @@ while not rospy.is_shutdown():
 
 
             if len(rLists['left'])>2:
-                cy("if len(rLists['left'])>2:")
+                #cy("if len(rLists['left'])>2:")
             # if len(left_list) > nframes + 2:
                 #print shape(rLists['left'])
                 #print shape(rLists['right'])
@@ -676,7 +676,7 @@ while not rospy.is_shutdown():
 
 
                 if N['show_net_activity']:
-                    cy["if N['show_net_activity']:"]
+                    #cy["if N['show_net_activity']:"]
                     if show_timer.check():
                         ############################
                         Net_activity = Activity_Module.Net_Activity('batch_num',0, 'activiations',Torch_network['solver'].A)
