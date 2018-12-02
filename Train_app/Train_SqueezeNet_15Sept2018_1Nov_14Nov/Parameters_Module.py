@@ -50,7 +50,6 @@ if False:
 		opjm('preprocessed_5Oct2018_500GB/bdd_car_data_18July_to_18Sept2018_lrc/locations'),
 		opjm('preprocessed_5Oct2018_500GB/model_car_data_July2018_lrc/locations'),
 		opjm('preprocessed_5Oct2018_500GB/model_car_data_June2018_LCR/locations'),
-		opjD('bdd_car_data_July2017_LCR/locations'),
 	]
 
 	P['experiments_folders'] += older
@@ -178,6 +177,17 @@ if True:
 	for b in B.keys():
 		P['data_moments_indexed'] += B[b]
 	random.shuffle(P['data_moments_indexed'])
+
+
+	#cb("\tlen( P['data_moments_indexed'] ) =", len( P['data_moments_indexed']) )
+
+	########## TEMP ##############
+	#
+	#P['data_moments_indexed'] = P['data_moments_indexed'][:int(0.1*len(P['data_moments_indexed']))]
+	#
+	###########################
+
+
 	cb("\tlen( P['data_moments_indexed'] ) =", len( P['data_moments_indexed']) )
 
 	pprint(P['run_name_to_run_path'])

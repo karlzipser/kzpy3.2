@@ -24,6 +24,7 @@ P['step_size'] = 1
 P['cmd/clear_screen'] = False
 P['run_folder'] =  opjm('preprocessed_5Oct2018_500GB/model_car_data_July2018_lrc/locations/local/left_right_center/h5py/Mr_Black_25Jul18_19h55m13s')
 P['run_folder'] =  '/media/karlzipser/rosbags1/h5py/tegra-ubuntu_20Nov18_10h59m22s'
+P['run_folder'] = '/home/karlzipser/Desktop/h5py/Mr_Purple_24Nov18_11h48m54s'
 P['load_timer_time'] = 2
 P['hide this!'] = 'hide this!'
 P['vel-encoding coeficient'] = (1.0/2.3)

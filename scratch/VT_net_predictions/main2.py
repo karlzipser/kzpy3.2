@@ -51,10 +51,15 @@ def vec(heading,encoder,sample_frequency=30.0):
 def f(x,A,B):
     return A*x + B
 
-
+"""
 U = lo( opjD('16Nov2018_held_out_data/net_predictions.tegra-ubuntu_16Nov18_17h44m50s.pkl' ))
 O = h5r(opjD('16Nov2018_held_out_data/h5py/tegra-ubuntu_16Nov18_17h44m50s/original_timestamp_data.h5py' ))
 L = h5r(opjD('16Nov2018_held_out_data/h5py/tegra-ubuntu_16Nov18_17h44m50s/left_timestamp_metadata_right_ts.h5py'))
+"""
+
+U=lo('/home/karlzipser/Desktop/net_predictions.Mr_Purple_22Nov18_15h36m29s.pkl')
+O = h5r(opjD('h5py','Mr_Purple_22Nov18_15h36m29s/original_timestamp_data.h5py' ))
+L = h5r(opjD('h5py','Mr_Purple_22Nov18_15h36m29s/left_timestamp_metadata_right_ts.h5py'))
 
 Left_timestamps_to_left_indicies = {}
 t0 = L['ts'][0]
