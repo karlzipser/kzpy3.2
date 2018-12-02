@@ -66,7 +66,6 @@ int add_col_to_lidar_scan(const uint8_t* col_buf,
     for (size_t row = 0; row < OS1::pixels_per_column; row++) {
         const uint8_t* px_buf = OS1::nth_px(row, col_buf);
         size_t index = row * lidar_scan->W + azimuth;
-        std::cout << index;
         lidar_scan->range.at(index) = OS1::px_range(px_buf);
         lidar_scan->intensity.at(index) = OS1::px_signal_photons(px_buf);
         lidar_scan->reflectivity.at(index) = OS1::px_reflectivity(px_buf);
