@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from kzpy3.utils2 import *
+from kzpy3.utils3 import *
 
 if HAVE_ROS:
 	os.system('rostopic list > '+opjD('rostopic_list.txt'))
