@@ -499,11 +499,11 @@ while not rospy.is_shutdown():
                     for side in ['left','right']:
                         for i in [-1]:#,-2]:
                             img = Lists[side][i]
-                            cr(shape(img))
+                            #cr(shape(img))
                             if shape(img)[0] > 94:# != (94,168,3):
                                 img = cv2.resize(img,(net_input_width,net_input_height))
                                 cy('resize')
-                            cb(shape(img))
+                            #cb(shape(img))
                             advance(rLists[side], img , 4 )
 
 
