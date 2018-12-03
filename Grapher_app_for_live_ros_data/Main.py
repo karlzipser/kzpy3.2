@@ -2,12 +2,12 @@
 #  for interactive terminal
 import __main__ as main
 if not hasattr(main,'__file__'):
-	from kzpy3.utils2 import *
+	from kzpy3.utils3 import *
 	pythonpaths(['kzpy3','kzpy3/Grapher_app'])
 #
 ###############################
 from Parameters_Module import *
-from kzpy3.vis2 import *
+from kzpy3.vis3 import *
 
 import Display_Graph_Module
 #from Car_Data_app.Names_Module import *
