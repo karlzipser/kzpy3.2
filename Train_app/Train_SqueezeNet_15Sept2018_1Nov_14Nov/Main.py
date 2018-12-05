@@ -1,3 +1,6 @@
+from kzpy3.utils3 import *
+
+startup_timer = Timer()
 
 from Parameters_Module import *
 
@@ -18,19 +21,25 @@ Network = Network_Module.Pytorch_Network()
 
 Batch = Batch_Module.Batch(the_network=Network)
 
+cr("\n\nTime needed for startup =",int(startup_timer.time()),"seconds.\n\n")
+del startup_timer
 
     
 
     
 
-    
 
-
-
+timer = Timer(P['run time before quitting'])
 
 
 
 while P['ABORT'] == False:
+
+	if timer.check():
+		cg("\n\nQuitting after runing for",P['run time before quitting'],"seconds.\n\n")
+		P['save_net_timer'].trigger()
+		Network['SAVE_NET']()
+		break
 
 	Batch['CLEAR']()
 
@@ -42,7 +51,9 @@ while P['ABORT'] == False:
 
 	Batch['BACKWARD']()
 
-	Network['SAVE_NET']()
+
+
+	
 
 
 

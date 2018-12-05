@@ -11,6 +11,7 @@ import Activity_Module
 # /home/karlzipser/Desktop/Depth_images.log.resize.flip.left_ts/
 
 P['data_moments_indexed_loaded'] = []
+P['metadata_constant'] = False
 P['long_ctr'] = -1
 P['LOSS_LIST'] = []
 if 'LOSS_LIST_AVG' not in P:
@@ -184,7 +185,47 @@ def Batch(the_network=None):
 				camera_data = torch.transpose(camera_data, 1, 2)
 				D['camera_data'] = torch.cat((torch.unsqueeze(camera_data, 0), D['camera_data']), 0)
 
-				mode_ctr = 0
+
+
+
+
+				if type(P['metadata_constant']) == type(False):
+					assert P['metadata_constant'] == False
+					cr("************* making metadata_constant *************")
+					mode_ctr = len(Data_moment['labels'])
+					metadata_constant = torch.FloatTensor().cuda()
+
+					num_metadata_channels = 128
+					num_multival_metas = 5
+					for i in range(num_metadata_channels - num_multival_metas - mode_ctr): # Concatenate zero matrices to fit the dataset
+						metadata_constant = torch.cat((zero_matrix, metadata_constant), 1)
+
+					meta_gradient1 = zero_matrix.clone()
+					for x in range(23):
+						meta_gradient1[:,:,x,:] = x/23.0#torch.from_numpy(rnd[:,:,:,y])
+					metadata_constant = torch.cat((meta_gradient1, metadata_constant), 1) #torch.from_numpy(meta_a)
+
+					meta_gradient2 = zero_matrix.clone()
+					for x in range(23):
+						meta_gradient2[:,:,x,:] = (1.0-x/23.0)#torch.from_numpy(rnd[:,:,:,y])
+					metadata_constant = torch.cat((meta_gradient2, metadata_constant), 1) #torch.from_numpy(meta_a)
+
+					meta_gradient3 = zero_matrix.clone()
+					for x in range(41):
+						meta_gradient3[:,:,:,x] = x/41.0#torch.from_numpy(rnd[:,:,:,y])
+					metadata_constant = torch.cat((meta_gradient3, metadata_constant), 1) #torch.from_numpy(meta_a)
+
+					meta_gradient4 = zero_matrix.clone()
+					for x in range(41):
+						meta_gradient4[:,:,:,x] = (1.0-x/41.0)#torch.from_numpy(rnd[:,:,:,y])
+					metadata_constant = torch.cat((meta_gradient4, metadata_constant), 1) #torch.from_numpy(meta_a)
+					P['metadata_constant'] = metadata_constant
+				else:
+					metadata_constant = P['metadata_constant']
+
+
+
+				
 				metadata = torch.FloatTensor().cuda()
 
 				for cur_label in P['behavioral_modes']:
@@ -194,53 +235,57 @@ def Batch(the_network=None):
 
 						if Data_moment['labels'][cur_label]:
 							
-							metadata = torch.cat((one_matrix, metadata), 1);mode_ctr += 1
+							metadata = torch.cat((one_matrix, metadata), 1);#mode_ctr += 1
 						else:
-							metadata = torch.cat((zero_matrix, metadata), 1);mode_ctr += 1
+							metadata = torch.cat((zero_matrix, metadata), 1);#mode_ctr += 1
 					else:
-						metadata = torch.cat((zero_matrix, metadata), 1);mode_ctr += 1
+						metadata = torch.cat((zero_matrix, metadata), 1);#mode_ctr += 1
 
+				metadata = torch.cat((metadata_constant, metadata), 1)
+
+				"""
 				num_metadata_channels = 128
 				num_multival_metas = 5
 				for i in range(num_metadata_channels - num_multival_metas - mode_ctr): # Concatenate zero matrices to fit the dataset
 					metadata = torch.cat((zero_matrix, metadata), 1)
 
+				meta_gradient1 = zero_matrix.clone()
+				for x in range(23):
+					meta_gradient1[:,:,x,:] = x/23.0#torch.from_numpy(rnd[:,:,:,y])
+				metadata = torch.cat((meta_gradient1, metadata), 1) #torch.from_numpy(meta_a)
 
-				if True:
-					
-					meta_gradient1 = zero_matrix.clone()
-					for x in range(23):
-						meta_gradient1[:,:,x,:] = x/23.0#torch.from_numpy(rnd[:,:,:,y])
-					metadata = torch.cat((meta_gradient1, metadata), 1) #torch.from_numpy(meta_a)
+				meta_gradient2 = zero_matrix.clone()
+				for x in range(23):
+					meta_gradient2[:,:,x,:] = (1.0-x/23.0)#torch.from_numpy(rnd[:,:,:,y])
+				metadata = torch.cat((meta_gradient2, metadata), 1) #torch.from_numpy(meta_a)
 
-					meta_gradient2 = zero_matrix.clone()
-					for x in range(23):
-						meta_gradient2[:,:,x,:] = (1.0-x/23.0)#torch.from_numpy(rnd[:,:,:,y])
-					metadata = torch.cat((meta_gradient2, metadata), 1) #torch.from_numpy(meta_a)
+				meta_gradient3 = zero_matrix.clone()
+				for x in range(41):
+					meta_gradient3[:,:,:,x] = x/41.0#torch.from_numpy(rnd[:,:,:,y])
+				metadata = torch.cat((meta_gradient3, metadata), 1) #torch.from_numpy(meta_a)
 
-					meta_gradient3 = zero_matrix.clone()
-					for x in range(41):
-						meta_gradient3[:,:,:,x] = x/41.0#torch.from_numpy(rnd[:,:,:,y])
-					metadata = torch.cat((meta_gradient3, metadata), 1) #torch.from_numpy(meta_a)
+				meta_gradient4 = zero_matrix.clone()
+				for x in range(41):
+					meta_gradient4[:,:,:,x] = (1.0-x/41.0)#torch.from_numpy(rnd[:,:,:,y])
+				metadata = torch.cat((meta_gradient4, metadata), 1) #torch.from_numpy(meta_a)
+				"""
 
-					meta_gradient4 = zero_matrix.clone()
-					for x in range(41):
-						meta_gradient4[:,:,:,x] = (1.0-x/41.0)#torch.from_numpy(rnd[:,:,:,y])
-					metadata = torch.cat((meta_gradient4, metadata), 1) #torch.from_numpy(meta_a)
-					
-					for topic in ['encoder']:#,'acc_x','acc_y','acc_z','gyro_x','gyro_y','gyro_z','encoder']:
-						meta_gradient5 = zero_matrix.clone()
-						d = Data_moment[topic+'_past']/100.0
-						if topic == 'encoder':
-							med = np.median(d)
-							for i in range(len(d)):
-								if d[i] < med/3.0:
-									d[i] = med # this to attempt to get rid of drop out from magnet not being read
-							d = d/5.0
-						d = d.reshape(-1,3).mean(axis=1)
-						for x in range(0,23):
-							meta_gradient5[:,:,x,:] = d[x]
-						metadata = torch.cat((meta_gradient5, metadata), 1)
+
+
+
+				for topic in ['encoder']:#,'acc_x','acc_y','acc_z','gyro_x','gyro_y','gyro_z','encoder']:
+					meta_gradient5 = zero_matrix.clone()
+					d = Data_moment[topic+'_past']/100.0
+					if topic == 'encoder':
+						med = np.median(d)
+						for i in range(len(d)):
+							if d[i] < med/3.0:
+								d[i] = med # this to attempt to get rid of drop out from magnet not being read
+						d = d/5.0
+					d = d.reshape(-1,3).mean(axis=1)
+					for x in range(0,23):
+						meta_gradient5[:,:,x,:] = d[x]
+					metadata = torch.cat((meta_gradient5, metadata), 1)
 					
 
 
@@ -358,17 +403,18 @@ def Batch(the_network=None):
 			nnutils.clip_grad_norm(D['network']['net'].parameters(), 1.0)
 			D['network']['optimizer'].step()
 
-			P['LOSS_LIST'].append(D['loss'].data.cpu().numpy()[:].mean())
-			
-			try:
-				assert(len(P['current_batch']) == P['BATCH_SIZE'])
-			except:
-				print(len(P['current_batch']),P['BATCH_SIZE'])
-			for i in range(P['BATCH_SIZE']):
-				P['current_batch'][i]['loss'].append(P['LOSS_LIST'][-1])
-			if len(P['LOSS_LIST']) > P['LOSS_LIST_N']:
-				P['LOSS_LIST_AVG'].append(na(P['LOSS_LIST']).mean())
-				P['LOSS_LIST'] = []
+			if np.mod(D['tries'],100) == 0:
+				P['LOSS_LIST'].append(D['loss'].data.cpu().numpy()[:].mean())
+				
+				try:
+					assert(len(P['current_batch']) == P['BATCH_SIZE'])
+				except:
+					print(len(P['current_batch']),P['BATCH_SIZE'])
+				for i in range(P['BATCH_SIZE']):
+					P['current_batch'][i]['loss'].append(P['LOSS_LIST'][-1])
+				if len(P['LOSS_LIST']) > P['LOSS_LIST_N']:
+					P['LOSS_LIST_AVG'].append(na(P['LOSS_LIST']).mean())
+					P['LOSS_LIST'] = []
 			D['successes'] += 1
 
 		except Exception as e:
@@ -431,8 +477,11 @@ def Batch(the_network=None):
 				plot([-1,20],[0.49,0.49],'k');
 				plot([-1,20],[0.0,0.0],'k')
 				plot(ov,'og'); plot(tv,'or'); plt.title(D['names'][0])
-				
-				plt.xlabel(d2s(bm,D['flips'][0]))
+				if D['flips'][0]:
+					flip_str = '(flip)'
+				else:
+					flip_str = ''
+				plt.xlabel(d2s(bm,flip_str))
 				figure('metadata '+P['start time']);clf()
 				plot(mv[-10:,0,0],'r.-')
 				plt.title(d2s(bm,i))

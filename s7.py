@@ -232,8 +232,9 @@ for fctr in range(len(segments)):
 
 
 
-
-
+p = []
+for i in range(0,len(o),100):
+    p.append(np.mean(na(o[i:i+100])))
 
 
 
@@ -279,6 +280,72 @@ frames_to_video_with_ffmpeg(dst,opjD(d2n(run_name,"__",s1,"_to_",s2,".mov")))
 
 # http://ros-users.122217.n3.nabble.com/2d-numpy-arr-msgs-td895779.html
 
+for j in range(100):
+    time.sleep(.250)
+    k = np.random.randint(10000,50000)
+    for l in range(k,k+60,3):
+        c=O['left_image']['vals'][l]
+        i = D['left_to_lidar_index'][l]
+        a=D['resized'][i] 
+        a32=cv2.resize(a,(168,32))
+        b=zeros((94,168),np.uint8)+127
+        b[-42:-10,:]=a32
+        #mi(b,'b')
+        mi(c,'c')
+        mi(a32[:,43:125],'a32-')
+        spause()
+
+
+
+ctr = 0
+timer = Timer(5.0)
+while not timer.check():
+    b=cv2.resize(a,(190/2,338))
+    b[0,0,0] = 0
+    ctr += 1
+print ctr
+
+
+
+
+beam_altitude_angles = [
+    16.611,  16.084,  15.557,  15.029,  14.502,  13.975,  13.447,  12.920,
+    12.393,  11.865,  11.338,  10.811,  10.283,  9.756,   9.229,   8.701,
+    8.174,   7.646,   7.119,   6.592,   6.064,   5.537,   5.010,   4.482,
+    3.955,   3.428,   2.900,   2.373,   1.846,   1.318,   0.791,   0.264,
+    -0.264,  -0.791,  -1.318,  -1.846,  -2.373,  -2.900,  -3.428,  -3.955,
+    -4.482,  -5.010,  -5.537,  -6.064,  -6.592,  -7.119,  -7.646,  -8.174,
+    -8.701,  -9.229,  -9.756,  -10.283, -10.811, -11.338, -11.865, -12.393,
+    -12.920, -13.447, -13.975, -14.502, -15.029, -15.557, -16.084, -16.611,
+]
+
+
+# 28 to 125
+import sensor_msgs
+from sensor_msgs.msg import PointCloud2
+import sensor_msgs.point_cloud2 as pc2
+import rospy
+import rosbag
+data = []
+for bv in ['/media/karlzipser/model_car_data_A1/raw_data8/tegra-ubuntu_11Oct18_17h11m39s/bair_car_2018-10-11-17-16-06_9.bag']:
+    cprint(bv,'yellow')
+    bagv = rosbag.Bag(bv)
+    for m_ in bagv.read_messages(topics=['/os1_node/points']):
+        timestampv = round(m_[2].to_time(),3) # millisecond resolution
+        assert(is_number(timestampv))
+        topic_ = m_[0].replace('/bair_car/','')
+        topic_ = topic_.replace('/os1_node/','')
+        if m_[0] == '/os1_node/points':
+        ##print "here"
+            try:
+                # https://answers.ros.org/question/240491/point_cloud2read_points-and-then/
+                valv_temp = list(sensor_msgs.point_cloud2.read_points(m_[1],skip_nans=True,field_names=('t','reflectivity','intensity',"x","y","z")))
+                data.append(valv_temp)
+            except Exception as e:
+                exc_type, exc_obj, exc_tb = sys.exc_info()
+                file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                CS_('Exception!',emphasis=True)
+                CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
 
 
 
@@ -287,21 +354,15 @@ frames_to_video_with_ffmpeg(dst,opjD(d2n(run_name,"__",s1,"_to_",s2,".mov")))
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+reflectivity = []
+intensity = []
+for i in rlen(data):
+    reflectivity += list(a[:,4])
+    intensity += list(a[:,5])
+reflectivity = na(reflectivity)
+intensity = na(intensity)
+CA()
+figure('intensity');hist(intensity,200)
+figure('reflectivity');hist(reflectivity,200)
 
 #EOF

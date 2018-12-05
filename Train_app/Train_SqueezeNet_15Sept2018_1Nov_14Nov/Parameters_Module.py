@@ -61,7 +61,11 @@ if False:
 	] # around 4:45pm
 
 P['experiments_folders'] = list(set(P['experiments_folders']))
-
+if P['proportion of experiements to use'] < 1.0:
+	random.shuffle(P['experiments_folders'])
+	P['experiments_folders'] = \
+		P['experiments_folders'][:int(P['proportion of experiements to use']*len(P['experiments_folders']))]
+#pprint(P['experiments_folders'])
 
 def equalize_to_max_len(M):
 	cg("equalize_to_max_len()")
