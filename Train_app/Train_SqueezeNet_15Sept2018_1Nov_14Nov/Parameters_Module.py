@@ -187,14 +187,32 @@ if True:
 
 	########## TEMP ##############
 	#
-	#P['data_moments_indexed'] = P['data_moments_indexed'][:int(0.1*len(P['data_moments_indexed']))]
+	#P['data_moments_indexed'] = P['data_moments_indexed'][:int(0.01*len(P['data_moments_indexed']))]
 	#
 	###########################
+	runs_weighted = []
+	for d in P['data_moments_indexed']:
+		if d['run_name'] not in runs_weighted:
+			runs_weighted.append(d['run_name'])
+		if len(runs_weighted) == len(P['run_name_to_run_path']):
+			break
+	num_runs_to_use = max(P['min_num_runs_to_open'],int(P['proportion of runs to use']*len(runs_weighted)))
+	runs_to_use = runs_weighted[:num_runs_to_use]
+	cr(runs_weighted)
+	cg(runs_to_use)
+	data_moments_indexed = []
+	for d in P['data_moments_indexed']:
+		if d['run_name'] in runs_to_use:
+			data_moments_indexed.append(d)
+	P['data_moments_indexed'] = data_moments_indexed
+
+
+
 
 
 	cb("\tlen( P['data_moments_indexed'] ) =", len( P['data_moments_indexed']) )
 
-	pprint(P['run_name_to_run_path'])
+	#pprint(P['run_name_to_run_path'])
 
 			#raw_enter()
 			#break

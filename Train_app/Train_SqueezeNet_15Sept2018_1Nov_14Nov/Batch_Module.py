@@ -403,7 +403,7 @@ def Batch(the_network=None):
 			nnutils.clip_grad_norm(D['network']['net'].parameters(), 1.0)
 			D['network']['optimizer'].step()
 
-			if np.mod(D['tries'],100) == 0:
+			if True: # np.mod(D['tries'],100) == 0:
 				P['LOSS_LIST'].append(D['loss'].data.cpu().numpy()[:].mean())
 				
 				try:

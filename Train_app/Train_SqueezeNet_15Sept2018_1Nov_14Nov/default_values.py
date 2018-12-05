@@ -27,11 +27,12 @@ P['LIDAR_path'] = opjm('1_TB_Samsung_n1','_.Depth_images.log.resize.flip.left_ts
 P['LIDAR_extension'] = ".Depth_image.log.resize.flip.with_left_ts.h5py"
 
 P['proportion of experiements to use'] = 1.0
-
+P['proportion of runs to use'] = np.random.random()**2 # 0.25
 P['start time'] = time_str()
 P['start time numeric'] = time.time()
 
 P['max_num_runs_to_open'] = 300
+P['min_num_runs_to_open'] = 1
 P['run time before quitting'] = 30*minute
 P['experiments_folders'] = []
 
@@ -51,7 +52,7 @@ P['save_net_timer'] = Timer(60*30)
 P['SAVE_FILE_NAME'] = 'net'
 P['print_timer_time'] = 5*minute
 P['parameter_file_load_timer_time'] = 60
-P['percent_of_loss_list_avg_to_show'] = 20.0
+P['percent_of_loss_list_avg_to_show'] = 5.0
 P['frequency_timer'] = Timer(30.0)
 P['TRAIN_TIME'] = 60*5.0
 P['VAL_TIME'] = 60*1.0
