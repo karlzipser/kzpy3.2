@@ -105,7 +105,7 @@
             /network_motor_gain
             /network_output_sample
             /network_smoothing_parameter
-            /os1_node/points
+            
             /os1_node/image
             /$(arg car_name)/zed/depth/camera_info 
             /$(arg car_name)/zed/depth/image_rect_color 
