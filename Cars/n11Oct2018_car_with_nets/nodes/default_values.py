@@ -18,7 +18,7 @@ P['use sound'] = True
 P['use flex'] = False
 
 P['max motor'] = 63
-P['min motor'] = 0#49-(63-49)
+P['min motor'] = 0 #49-(63-49)
 P['show_net_input'] = False
 P['show_net_activity'] = False
 P['menu name'] = 'arduino menu'
