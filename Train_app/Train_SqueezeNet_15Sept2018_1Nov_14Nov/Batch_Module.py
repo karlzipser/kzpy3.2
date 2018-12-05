@@ -361,7 +361,7 @@ def Batch(the_network=None):
 
 
 
-				P['frequency_timer'].freq()
+				P['frequency_timer'].freq(d2s('train duration =',int(P['duration timer'].time()),"\t"))
 			else: #except Exception as e:
 				print("*** while ctr < D['batch_size']: ******* Exception ***********************")
 				print(e.message, e.args)

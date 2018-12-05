@@ -40,7 +40,7 @@ if True:
 	if verbose: print P['experiments_folders']
 	#raw_enter()
 ################################################################
-if False:
+if True:
 ################################################################
 	older = [
 		opjD('bdd_car_data_July2017_LCR/locations'),
