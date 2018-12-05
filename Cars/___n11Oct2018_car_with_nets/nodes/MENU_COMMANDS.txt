@@ -1,0 +1,14 @@
+
+python kzpy3/Menu_app/menu.py path kzpy3/Cars/n30Sept2018_car_with_nets/nodes/Default_values/arduino dic P
+
+python kzpy3/Menu_app/menu.py path kzpy3/Cars/n30Sept2018_car_with_nets/nodes/Default_values/network dic N
+
+
+python kzpy3/Cars/n30Sept2018_car_with_nets/nodes/arduino_node.py
+
+
+python kzpy3/Menu_app/menu2.py path kzpy3/Cars/n11Oct2018_car_with_nets/nodes/Default_values/arduino dic P
+--> cm
+
+
+python kzpy3/Menu_app/menu2.py path kzpy3/Cars/n11Oct2018_car_with_nets/nodes dic P

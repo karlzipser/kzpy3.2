@@ -5,25 +5,23 @@ exec(identify_file_str)
 
 P = {}
 P['agent_is_human'] = True
-P['use_motor_PID'] = True
+P['use_motor_PID'] = False
 
 P['customers'] = ['Arduino','Network','Weights','Flex']
 P['drive_mode'] = 0
-P['use LIDAR'] = False
-P['lidar_only'] = False
+P['use LIDAR'] = True
+P['lidar_only'] = True
 if P['lidar_only']:
 	P['use LIDAR'] = True
 P['use sound'] = True
-
 P['use flex'] = False
-
 P['max motor'] = 63
-P['min motor'] = 0#49-(63-49)
+P['max motor'] = 49-(63-49)
 P['show_net_input'] = False
 P['show_net_activity'] = False
 P['menu name'] = 'arduino menu'
 P['cmd/autostart menu'] = False
-P['cmd/clear_screen'] = False
+P['cmd/clear_screen'] = True
 P['use menu'] = True
 P['zed_called'] = {}
 P['zed_called']['val'] = 0
@@ -69,7 +67,7 @@ P['motor_pwm_max'] = P['servo_pwm_null']
 P['behavioral_mode_choice'] = 'direct'
 P['place_choice'] = 'local'
 
-if False:#P['car_name'] == 'Mr_Blue_Back':
+if P['car_name'] == 'Mr_Blue_Back':
 	P['servo_pwm_smooth_manual_offset'] = -30
 	P['camera_pwm_manual_offset'] = -500
 	P['servo_feedback_center'] = 214
@@ -170,16 +168,15 @@ P['To Expose']['Network'] = [
 	'min motor',
 	'show_net_input',
 	'show_net_activity',
-	'camera_move_threshold',
-	'camera_auto_zero_for_small_values_int',
-	'network_reverse_motor_gain',
 ]
 
 P['To Expose']['Flex'] = [
 	'flex_motor_smoothing_parameter',
 	'flex_servo_smoothing_parameter',
+	'flex_camera_smoothing_parameter',
 	'flex_motor_gain',
 	'flex_steer_gain',
+	'flex_camera_gain',
 ]
 
 def sort_dir_by_ctime(dir_path):
@@ -224,10 +221,9 @@ P['LOAD NETWORK'] = False
 
 ############# NETWORK PARAMETERS
 P['network_output_sample'] = 0 # >= 0, <= 9
-P['network_steer_gain'] = 4.0
-P['network_camera_gain'] = 8.0
-P['network_motor_gain'] = 1.0
-P['network_reverse_motor_gain'] = 1.5
+P['network_steer_gain'] = 3.0
+P['network_camera_gain'] = 6.0
+P['network_motor_gain'] = 0.75
 P['network_motor_offset'] = 0
 P['network_servo_smoothing_parameter'] = 0.85
 P['network_motor_smoothing_parameter'] = 0.85
@@ -239,10 +235,10 @@ P['USE_LAST_IMAGE_ONLY'] = False
 P['visualize_activations'] = False
 P['flex_motor_smoothing_parameter'] = P['network_motor_smoothing_parameter']
 P['flex_servo_smoothing_parameter'] = P['network_servo_smoothing_parameter']
+P['flex_camera_smoothing_parameter'] = P['network_camera_smoothing_parameter']
 P['flex_motor_gain'] = P['network_motor_gain']
 P['flex_steer_gain'] = P['network_steer_gain']
-P['camera_move_threshold'] = 0
-P['camera_auto_zero_for_small_values_int'] = 0
+P['flex_camera_gain'] = P['network_camera_gain']
 ###########################
 
 
