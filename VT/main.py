@@ -4,7 +4,8 @@ from kzpy3.vis3 import *
 from scipy.optimize import curve_fit
 import kzpy3.Menu_app.menu2 as menu2
 
-project_path = pname(__file__)
+project_path = pname(__file__).replace(opjh(),'')
+
 project_import_prefix = project_path__to__project_import_prefix(project_path)
 module_names = ['default_values','fit3d']
 for m in module_names:
@@ -31,7 +32,9 @@ if 'encoders' not in P:
 ####################### MENU ################################
 #
 if P['start menu automatically'] and using_linux():
-    os.system(d2n("gnome-terminal -x python kzpy3/Menu_app/menu2.py path ",project_path," dic P"))
+    sys_str = d2n("gnome-terminal -x python kzpy3/Menu_app/menu2.py path ",project_path," dic P")
+    cr(sys_str)
+    os.system(sys_str)
 
 parameter_file_load_timer = Timer(P['load_timer_time'])
 

@@ -303,9 +303,17 @@ def load_menu_data(path,Parameters,first_load=False,customer=''):
 
 if __name__ == '__main__':# and EXIT == False:
     path = Arguments['path']
+    cr(path)
     path = path.replace(opjh(),'')
+    cg(path)
+    if path[0] == '/':
+        path = path[1:]
+    if path[-1] == '/':
+        path = path[:-1]
+    cy(path)
     #module = path.replace('/','.').replace('.py','')
     module = project_path__to__project_import_prefix(path)
+    cy(module)
     CS_(module,'module')
     dic = Arguments['dic']
     CS_(dic,'dic')
