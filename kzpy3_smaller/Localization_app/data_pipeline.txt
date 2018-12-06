@@ -1,0 +1,202 @@
+
+Sept. 2017
+
+sudo chmod -R 777 /media/karlzipser/rosbags
+
+rm /media/karlzipser/rosbags/*.active
+
+mkdir /media/karlzipser/rosbags/new
+# manually drag run folders to be processed into this new folder
+
+# if necessary, e.g.,
+mkdir -p /home/karlzipser/Desktop/bdd_car_data_29Sept2017_circle11/h5py
+
+Car_Data SRC /media/karlzipser/rosbags/new DST /home/karlzipser/Desktop/bdd_car_data_29Sept2017_circle11/h5py
+
+python kzpy3/Localization_app/calculate_position_data.py BATCH True MARKERS circle H5PY /home/karlzipser/Desktop/bdd_car_data_29Sept2017_circle11/h5py
+
+
+mkdir /Desktop/bdd_car_data_29Sept2017_circle11/position_dictionaries
+
+put .pkl files into that
+
+
+python kzpy3/Localization_app/visualize_cars_with_gaussians__3.py BATCH True MARKERS circle DATA_FOLDER /home/karlzipser/Desktop/bdd_car_data_15Sept2017_circle
+
+
+python kzpy3/Localization_app/aruco_pkl_to_hdf5__2.py PATH '/home/karlzipser/Desktop/bdd_car_data_14Sept2017_whole_room/' 
+
+python kzpy3/Localization_app/heading_pause_data_moments.py PATH '/home/karlzipser/Desktop/bdd_car_data_14Sept2017_whole_room/' 
+
+
+
+
+python kzpy3/Train_app/Train_SqueezeNet_indoor_aruco__2/Main.py
+
+
+
+
+
+
+
+
+
+17 Nov. 2017
+
+
+it seems that the 'data_moments_indexed...' are the essential metadata paired with image data
+
+bdd_car_data_Sept2017_aruco_demo/
+	data_moments_indexed_1.pkl
+		len = 1855078
+		e.g.,
+			['Mr_Yellow_2017-09-04-18-41-24',
+ 			((1504575971.763, 8407), (1504575971.7720001, 8407)),
+			 ('Follow_Arena_Potential_Field', 1),
+ 			(98, 56)]
+ 		probably:
+ 			[run name,
+ 			((left timestamp, left index),(right timestamp, right index)),
+ 			(behavioralmode, direction),
+ 			(x,y)]
+
+
+
+python kzpy3/Localization_app/calculate_position_data.py BATCH True MARKERS circle H5PY /home/karlzipser/Desktop/bdd_car_data_29Sept2017_circle11/h5py
+
+	bdd_car_data_Sept2017_aruco_demo/h5py/Mr_Black_2017-09-02-13-27-30/
+		position_data.h5py
+			[u'ax', u'ay', u'hx', u'hy', u'o_meo', u't']
+
+
+	bdd_car_data_Sept2017_aruco_demo/position_dictionaries/
+		Mr_Black_position_dictionary.pkl
+			['ay', 'ax', 'hx', 'hy', 'o_meo']    each of these has timestamp and value
+
+python kzpy3/Localization_app/visualize_cars_with_gaussians__3.py BATCH True MARKERS circle DATA_FOLDER /home/karlzipser/Desktop/bdd_car_data_15Sept2017_circle
+
+
+
+
+
+
+
+
+python kzpy3/Localization_app/calculate_position_data.py BATCH True MARKERS circle11 H5PY '/home/karlzipser/Desktop/bdd_car_data_29Sept2017_circle11/h5py'
+
+python kzpy3/Localization_app/calculate_position_data.py BATCH True MARKERS circle11_half H5PY '/home/karlzipser/Desktop/half_raised_aruco/h5py'
+
+python kzpy3/Localization_app/calculate_position_data.py BATCH True MARKERS circle11_full H5PY '/home/karlzipser/Desktop/full_raised/h5py'
+
+
+
+python kzpy3/Localization_app/calculate_position_data2.py BATCH True H5PY /home/karlzipser/Desktop/bdd_car_data_29Sept2017_circle11/h5py
+
+
+
+
+19 Nov. 2017
+python kzpy3/Localization_app/aruco_data_to_position.py OBSERVER True SRC '/home/karlzipser/Desktop/full_raised'
+
+python kzpy3/Localization_app/aruco_data_to_position.py SRC '/home/karlzipser/Desktop/full_raised'
+
+python kzpy3/Localization_app/calculate_position_data2.py CAR Mr_Black STEP position_data H5PY '/home/karlzipser/Desktop/temp/h5py'
+
+python kzpy3/Localization_app/calculate_position_data2.py CAR Mr_Black STEP position_dictionaries H5PY '/home/karlzipser/Desktop/temp/h5py'
+
+python kzpy3/Localization_app/aruco_pkl_to_hdf5__2.py PATH '/home/karlzipser/Desktop/bdd_car_data_14Sept2017_whole_room/' 
+
+python kzpy3/Localization_app/heading_pause_data_moments.py PATH '/home/karlzipser/Desktop/bdd_car_data_14Sept2017_whole_room/' 
+
+python kzpy3/Localization_app/visualize_cars_with_gaussians__4.py CAR_NAME Mr_Black DATA_FOLDER '/home/karlzipser/Desktop/temp'
+
+
+22 Nov. 2017
+python kzpy3/Localization_app/aruco_data_to_position.py OBSERVER True SRC '/home/karlzipser/Desktop/full_raised_observer'
+
+python kzpy3/Localization_app/calculate_position_data2.py BATCH True STEP position_data OBSERVER True H5PY /home/karlzipser/Desktop/full_raised_observer/h5py
+
+23 Nov. 2017
+
+python kzpy3/Data_app/Main.py SRC '/media/karlzipser/2_TB_Samsung/ExtraDrive1/new' DST '/media/karlzipser/2_TB_Samsung/ExtraDrive1/h5py'
+
+python kzpy3/Data_app/Main.py SRC '/media/karlzipser/2_TB_Samsung_n2/ExtraDrive2/new' DST '/media/karlzipser/2_TB_Samsung_n2/ExtraDrive2/h5py'
+
+python kzpy3/Data_app/Main.py SRC '/media/karlzipser/1_TB_Samsung_n1/ExtraDrive3/new' DST '/media/karlzipser/1_TB_Samsung_n1/ExtraDrive3/h5py'
+
+python kzpy3/Data_app/Main.py SRC '/media/karlzipser/1_TB_Samsung_n2/ExtraDrive4/new' DST '/media/karlzipser/1_TB_Samsung_n2/ExtraDrive4/h5py'
+
+
+
+python kzpy3/Localization_app/calculate_position_data2.py BATCH True STEP position_dictionaries H5PY /home/karlzipser/Desktop/full_raised/h5py
+
+python kzpy3/Localization_app/visualize_cars_with_gaussians__4.py CAR_NAME Mr_Black DATA_FOLDER /home/karlzipser/Desktop/full_raised
+
+
+
+
+26 Nov 2017
+python kzpy3/Localization_app/aruco_data_to_position.py SRC '/home/karlzipser/Desktop/all_aruco_reprocessed/bdd_car_data_14Sept2017_whole_room' MARKERS '/home/karlzipser/Desktop/all_aruco_reprocessed/bdd_car_data_14Sept2017_whole_room/aruco_whole_room_19Nov2017_Marker_xy_dic.pkl' 
+
+python kzpy3/Localization_app/calculate_position_data2.py BATCH True STEP position_data H5PY '/home/karlzipser/Desktop/all_aruco_reprocessed/bdd_car_data_14Sept2017_whole_room/h5py'
+
+python kzpy3/Localization_app/calculate_position_data2.py BATCH True STEP position_dictionaries H5PY /home/karlzipser/Desktop/all_aruco_reprocessed/bdd_car_data_14Sept2017_whole_room/h5py
+
+
+
+
+
+
+
+python kzpy3/Localization_app/visualize_cars_with_gaussians__3b.py CAR_NAME Mr_Yellow MARKERS circle11 DATA_FOLDER '/home/karlzipser/Desktop/all_aruco/aruco_post_demo_circle11'
+python kzpy3/Localization_app/visualize_cars_with_gaussians__3b.py CAR_NAME Mr_Purple MARKERS circle11 DATA_FOLDER '/home/karlzipser/Desktop/all_aruco/aruco_post_demo_circle11'
+python kzpy3/Localization_app/visualize_cars_with_gaussians__3b.py CAR_NAME Mr_Lt_Blue MARKERS circle11 DATA_FOLDER '/home/karlzipser/Desktop/all_aruco/aruco_post_demo_circle11'
+
+python kzpy3/Localization_app/visualize_cars_with_gaussians__3c.py CAR_NAME Mr_Lt_Blue MARKERS circle11half DATA_FOLDER '/home/karlzipser/Desktop/all_aruco/half_raised_aruco'
+
+
+28 Nov 2017
+python kzpy3/Localization_app/aruco_data_to_position.py SRC '/media/karlzipser/2_TB_Samsung_n3/aruco_Smyth_Fern_experiment' MARKERS '/media/karlzipser/2_TB_Samsung_n3/aruco_Smyth_Fern_experiment/Marker_xy_dic_Smyth_Fern.pkl'
+
+python kzpy3/Localization_app/calculate_position_data2.py BATCH True STEP position_data H5PY '/media/karlzipser/2_TB_Samsung_n3/aruco_Smyth_Fern_experiment/h5py'
+
+python kzpy3/Localization_app/calculate_position_data2.py BATCH True STEP position_data H5PY '/media/karlzipser/2_TB_Samsung_n3/aruco_Smyth_Fern_experiment/h5py' OBSERVER True   # running in observer mode to deal with problem of using both mode 1 and 6, which aruco data is not set up for.
+
+
+python kzpy3/Localization_app/calculate_position_data2.py BATCH True STEP position_dictionaries H5PY /media/karlzipser/2_TB_Samsung_n3/aruco_Smyth_Fern_experiment/h5py
+
+python kzpy3/Localization_app/visualize_cars_with_gaussians__4.py CAR_NAME Mr_Yellow DATA_FOLDER /media/karlzipser/2_TB_Samsung_n3/aruco_Smyth_Fern_experiment
+
+#
+#########################################################
+#
+
+2 January 2018
+
+created by Data_app:
+
+	.../experiment_name/h5py/run_name/aruco_data.pkl
+
+To turn aruco_data.pkl into aruco_position.h5py:
+
+$ python kzpy3/Localization_app/aruco_data_to_position.py SRC '/media/karlzipser/2_TB_Samsung_n3/aruco_Smyth_Fern_experiment' MARKERS '/media/karlzipser/2_TB_Samsung_n3/aruco_Smyth_Fern_experiment/Marker_xy_dic_Smyth_Fern.pkl'
+
+For the observer car case:
+
+$ python kzpy3/Localization_app/aruco_data_to_position.py SRC '/home/karlzipser/Desktop/all_aruco_reprocessed/full_raised_observer' OBSERVER True MARKERS '/home/karlzipser/Desktop/all_aruco_reprocessed/full_raised_observer/aruco_raised11_5Nov2017_Marker_xy_dic.pkl'
+
+To make the position dictionaries to relation positions of all cars driving simultaneously:
+
+$ python kzpy3/Localization_app/make_aruco_position_dictionaries.py H5PY '/media/karlzipser/2_TB_Samsung_n3/aruco_Smyth_Fern_experiment/h5py'
+
+To make the Aruco_Steering_Trajectories:
+
+$ python kzpy3/Localization_app/visualize_cars_with_gaussians__aruco_position.py DATA_FOLDER '/home/karlzipser/Desktop/all_aruco_reprocessed/bdd_car_data_14Sept2017_circle' BATCH True USE_HUMAN_STATES False
+
+To generate the data_moments_indexed.pkl files:
+
+$ python kzpy3/Localization_app/aruco_pkl_to_hdf5__3b.py PATH '/media/karlzipser/2_TB_Samsung_n3/aruco_Smyth_Fern_experiment'
+
+Hany way to view the data:
+
+$ python kzpy3/Localization_app/view_trajectories___from_aruco_position.py H5PY '/home/karlzipser/Desktop/all_aruco_reprocessed/full_raised_observer/h5py' USE_HUMAN_STATES False

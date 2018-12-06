@@ -1,0 +1,194 @@
+
+################## INSTALLING CAFFE #######################
+#
+# https://github.com/BVLC/caffe/wiki/Ubuntu-16.04-or-15.10-Installation-Guide
+
+sudo apt-get update
+
+sudo apt-get upgrade
+
+sudo apt-get install -y build-essential cmake git pkg-config
+
+sudo apt-get install -y libprotobuf-dev libleveldb-dev libsnappy-dev libhdf5-serial-dev protobuf-compiler
+
+sudo apt-get install -y libatlas-base-dev 
+
+sudo apt-get install -y --no-install-recommends libboost-all-dev
+
+sudo apt-get install -y libgflags-dev libgoogle-glog-dev liblmdb-dev
+
+# (Python general)
+sudo apt-get install -y python-pip
+
+# (Python 2.7 development files)
+sudo apt-get install -y python-dev
+sudo apt-get install -y python-numpy python-scipy
+
+
+# (OpenCV 2.4)
+sudo apt-get install -y libopencv-dev
+
+
+karlzipser@bdd:~/kzpy3/teg2/notes$ sudo ubuntu-drivers devices
+== cpu-microcode.py ==
+driver   : intel-microcode - distro non-free
+
+== /sys/devices/pci0000:00/0000:00:03.2/0000:4c:00.0 ==
+modalias : pci:v000010DEd00001B80sv00003842sd00006181bc03sc00i00
+vendor   : NVIDIA Corporation
+driver   : nvidia-367 - third-party free recommended
+driver   : xserver-xorg-video-nouveau - distro free builtin
+
+# https://developer.nvidia.com/cuda-downloads
+
+# http://www.yourownlinux.com/2016/06/how-to-install-nvidia-367-27-stable-graphics-drivers-in-linux.html
+
+sudo service lightdm stop
+sudo dpkg -i cuda-repo-ubuntu1604-8-0-local_8.0.44-1_amd64.deb
+sudo apt-get update
+sudo apt-get install cuda
+
+dpkg -x libcudnn5-dev_5.1.5-1+cuda8.0_amd64.deb lib64
+karlzipser@bdd:~/Downloads/lib64/usr$ sudo mv include/* /usr/local/cuda/include
+karlzipser@bdd:~/Downloads/lib64/usr$ sudo mv lib/* /usr/local/cuda/lib64
+karlzipser@bdd:~/Downloads/lib64/usr$ sudo mv share/* /usr/local/cuda/share/
+
+git clone https://github.com/BVLC/caffe.git
+
+cp Makefile.config.example Makefile.config
+
+cd python
+
+for req in $(cat requirements.txt); do pip install $req; done
+
+The Makefile.config should contain the following lines, so find them and fill them in.
+
+    PYTHON_INCLUDE := /usr/include/python2.7 /usr/lib/python2.7/dist-packages/numpy/core/include
+
+    WITH_PYTHON_LAYER := 1
+
+    INCLUDE_DIRS := $(PYTHON_INCLUDE) /usr/local/include /usr/include/hdf5/serial
+
+    LIBRARY_DIRS := $(PYTHON_LIB) /usr/local/lib /usr/lib /usr/lib/x86_64-linux-gnu /usr/lib/x86_64-linux-gnu/hdf5/serial
+
+
+make all -j $(($(nproc) + 1))
+
+# to ~/.bashrc
+export PYTHONPATH=~/caffe/python:$PYTHONPATH
+
+cd ~/caffe
+build/tools/caffe time --model=models/bvlc_alexnet/deploy.prototxt --gpu=0
+#
+###################################################################3
+
+
+
+############# data collection shortcuts (smartphone login) #######
+#
+alias rhz='rostopic hz /bair_car/zed/left/image_rect_color'
+alias rls='ls -al /media/ubuntu/rosbags'
+alias rrm='rm catkin_ws/src/bair_car/rosbags/*'
+alias rla='roslaunch bair_car bair_car.launch use_zed:=true record:=true'
+alias rlac='roslaunch bair_car bair_car.launch use_zed:=true record:=true caffe:=true'
+alias rgy='rostopic echo /bair_car/gyro'
+alias rgp='rostopic echo /bair_car/gps'
+alias rac='rostopic echo /bair_car/acc'
+alias rst='rostopic echo /bair_car/steer'
+alias rmo='rostopic echo /bair_car/motor'
+alias ren='rostopic echo /bair_car/encoder'
+alias rcd='cd /media/ubuntu/rosbags'
+alias ssd='sudo shutdown -h now'
+alias rcn='echo $COMPUTER_NAME'
+
+
+######################## for .bashrc from MacBook #################
+#
+#echo "source ~/8August2016_common_aliases"
+#export DISPLAY=:0.0
+alias gacp="git add -u;git commit -m 'gacp';git push origin master"
+alias gckzpy3="git clone https://github.com/karlzipser/kzpy3.0.git"
+alias ipy="ipython --no-banner"
+export PYTHONPATH=~:$PYTHONPATH
+#export PYTHONPATH=~/kzpy3/caf/layers:$PYTHONPATH
+#export PYTHONPATH=~/kzpy3/caf2/layers:$PYTHONPATH
+export PYTHONSTARTUP=~/kzpy3/vis.py
+export PATH=~/kzpy3/scripts:$PATH
+export COMPUTER_NAME="Mr. Desktop"
+#
+######################################################
+
+
+
+
+
+
+
+
+
+
+
+
+http://wiki.ros.org/kinetic/Installation/Ubuntu
+
+sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+
+sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 0xB01FA116
+
+sudo apt-get update
+
+sudo apt-get install ros-kinetic-desktop-full
+
+sudo rosdep init
+rosdep update
+echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc
+source ~/.bashrc
+sudo apt-get install python-rosinstall
+
+
+http://www.webupd8.org/2011/03/sublime-text-2-ubuntu-ppa.html
+sandipbgt.com/2016/08/02/how-to-install-sublime-text-in-ubuntu-1604/
+sudo add-apt-repository ppa:webupd8team/sublime-text-2
+sudo apt-get update
+sudo apt-get install sublime-text
+
+
+sudo apt-get update
+sudo apt-get install ipython
+
+
+
+https://www.stereolabs.com/developers/release/1.1.1a/#sdkdownloads_anchor
+
+chmod 777 ZED_SDK_Linux_Ubuntu16_CUDA80_v1.1.1.run
+
+
+
+
+https://www.continuum.io/downloads
+
+
+
+pip install termcolor
+
+
+
+
+
+
+
+# used this to fix login loop:
+
+
+sudo apt-get purge lightdm
+sudo apt-get install lightdm
+dpkg-reconfigure lightdm
+
+
+
+# to fix caffe python problem:
+conda install libgcc
+
+
+git clone git://github.com/ros/rospkg.git
+
