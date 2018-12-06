@@ -40,16 +40,16 @@ if True:
 	if verbose: print P['experiments_folders']
 	#raw_enter()
 ################################################################
-if True:
+if False:
 ################################################################
 	older = [
-		opjD('bdd_car_data_July2017_LCR/locations'),
-		opjm('preprocessed_5Oct2018_500GB/bdd_model_car_data_early_8Oct2018_lrc_LIDAR/locations'),
-		opjm('preprocessed_5Oct2018_500GB/bdd_model_car_data_late_Sept_early_Oct2018_lrc/locations'),
-		opjm('preprocessed_5Oct2018_500GB/bdd_car_data_late_Sept2018_lrc/locations'),
-		opjm('preprocessed_5Oct2018_500GB/bdd_car_data_18July_to_18Sept2018_lrc/locations'),
-		opjm('preprocessed_5Oct2018_500GB/model_car_data_July2018_lrc/locations'),
-		opjm('preprocessed_5Oct2018_500GB/model_car_data_June2018_LCR/locations'),
+		opjm('2_TB_Samsung_n3/bdd_car_data_July2017_LCR/locations'),
+		opjm('2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_model_car_data_early_8Oct2018_lrc_LIDAR/locations'),
+		opjm('2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_model_car_data_late_Sept_early_Oct2018_lrc/locations'),
+		opjm('2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_car_data_late_Sept2018_lrc/locations'),
+		opjm('2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_car_data_18July_to_18Sept2018_lrc/locations'),
+		opjm('2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/model_car_data_July2018_lrc/locations'),
+		opjm('2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/model_car_data_June2018_LCR/locations'),
 	]
 
 	P['experiments_folders'] += older
