@@ -1204,5 +1204,17 @@ def Progress_animator(total_count,update_Hz=1.0,message=''):
 	return D
 
 
+
+def project_path__to__project_import_prefix(project_path):
+	a = project_path.split('/')
+	c = []
+	for b in a:
+		if len(b) > 0:
+			c.append(b)
+	project_import_prefix = '.'.join(c)
+	return project_import_prefix
+
+
+
 #EOF
 

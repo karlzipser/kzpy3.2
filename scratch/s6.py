@@ -291,4 +291,13 @@ for f in sggo('/home/karlzipser/Desktop/Depth_images_15_16Nov2018','*'):
 
 
 
+PROJECT_DIR = '/kzpy3/scratch/VT_b/'
+if PROJECT_DIR[0] == '/':
+    PROJECT_DIR = PROJECT_DIR[1:]
+if PROJECT_DIR[-1] == '/':
+    PROJECT_DIR = PROJECT_DIR[:-1]
+PROJECT_IMP = PROJECT_DIR.replace('/','.')
+
+
+
 #EOF

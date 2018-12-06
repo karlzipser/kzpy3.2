@@ -250,6 +250,12 @@ def print_exposed(Topics,customer):
     print ''
 
 def load_Topics(input_path,first_load=False,customer=''):
+    
+    if input_path[0] == '/':
+        input_path = input_path[1:]
+    if input_path[-1] == '/':
+        input_path = input_path[:-1]
+
     c = get_safe_name(customer)
     path = opj(input_path,'__local__')
     r = sggo(path,'ready.'+c)
@@ -297,7 +303,9 @@ def load_menu_data(path,Parameters,first_load=False,customer=''):
 
 if __name__ == '__main__':# and EXIT == False:
     path = Arguments['path']
-    module = path.replace('/','.').replace('.py','')
+    path = path.replace(opjh(),'')
+    #module = path.replace('/','.').replace('.py','')
+    module = project_path__to__project_import_prefix(path)
     CS_(module,'module')
     dic = Arguments['dic']
     CS_(dic,'dic')
