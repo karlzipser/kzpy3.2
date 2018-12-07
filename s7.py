@@ -365,4 +365,21 @@ CA()
 figure('intensity');hist(intensity,200)
 figure('reflectivity');hist(reflectivity,200)
 
+
+
+
+
+from subprocess import Popen, PIPE, STDOUT
+
+p1 = Popen(['open', '-a', 'Terminal', '-n'], stdout=PIPE, stdin=PIPE, stderr=STDOUT)
+p2 = Popen(['open', '-a', 'Terminal', '-n'], stdout=PIPE, stdin=PIPE, stderr=STDOUT)
+
+p1.communicate('ls')
+p2.communicate('python kzpy3/Menu_app/menu2.py path kzpy3/VT dic P')
+
+
+
+
+
+
 #EOF
