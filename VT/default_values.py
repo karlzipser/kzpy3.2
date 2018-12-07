@@ -40,6 +40,7 @@ P['cv2 scale'] = 2
 P['backup parameter'] = 1.0
 P['step_skip'] = 4
 P['index_timer!'] = Timer(5)
+P['angs'] = []
 #P['To Expose']['customer0'] = ['ABORT','fig','l','good_starts','start_index_choice',
 #	'past_steps','future_steps','cmd/clear_screen','offset','step_size']
 P['To Expose']['customer0'] = sorted(P.keys())

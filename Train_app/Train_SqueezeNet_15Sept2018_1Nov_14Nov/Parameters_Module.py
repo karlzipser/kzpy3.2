@@ -1,9 +1,10 @@
 from kzpy3.utils3 import *
 from default_values import *
+#from kzpy3.Train_app.Train_SqueezeNet_15Sept2018_1Nov_14Nov.default_values import *
 CODE_PATH__ = opjh('kzpy3/Train_app')
 VERSION_PATH = 'Train_SqueezeNet_15Sept2018_1Nov_14Nov'
 
-spd2s('Using',VERSION_PATH,'(make sure this is correct)')
+#spd2s('Using',VERSION_PATH,'(make sure this is correct)')
 time.sleep(3)
 
 pythonpaths([opjh('kzpy3'),opj(CODE_PATH__,VERSION_PATH),opj(CODE_PATH__,'nets')])
@@ -28,9 +29,9 @@ if True:
 	P['experiments_folders'] = []
 	
 	if True:
-		locations_to_classify = [opjm("1_TB_Samsung_n1"),opjm('rosbags')]
+		locations_to_classify = [opjm("1_TB_Samsung_n1"),opjm('2_TB_Samsung_n3/rosbags__preprocessed_data')]
 	else:
-		locations_to_classify = [opjm('rosbags')]
+		locations_to_classify = [opjm('2_TB_Samsung_n3/rosbags__preprocessed_data')]
 	
 	for l in locations_to_classify:
 		cb("classify_data.find_locations('",l,"'),P['experiments_folders'])...")
@@ -40,16 +41,16 @@ if True:
 	if verbose: print P['experiments_folders']
 	#raw_enter()
 ################################################################
-if False:
+if True:
 ################################################################
 	older = [
-		opjm('2_TB_Samsung_n3/bdd_car_data_July2017_LCR/locations'),
+		#opjm('2_TB_Samsung_n3/bdd_car_data_July2017_LCR/locations'),
 		opjm('2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_model_car_data_early_8Oct2018_lrc_LIDAR/locations'),
 		opjm('2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_model_car_data_late_Sept_early_Oct2018_lrc/locations'),
 		opjm('2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_car_data_late_Sept2018_lrc/locations'),
 		opjm('2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_car_data_18July_to_18Sept2018_lrc/locations'),
 		opjm('2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/model_car_data_July2018_lrc/locations'),
-		opjm('2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/model_car_data_June2018_LCR/locations'),
+		#opjm('2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/model_car_data_June2018_LCR/locations'),
 	]
 
 	P['experiments_folders'] += older
@@ -429,12 +430,14 @@ def get_Data_moment(dm=None,FLIP=None):
 		return False
 		#return Data_moment
 
-	except:
-		exc_type, exc_obj, exc_tb = sys.exc_info()
-		file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-		CS_('Exception!',exception=True,newline=False)
-		CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
-		return False
+
+	except Exception as e:
+	    exc_type, exc_obj, exc_tb = sys.exc_info()
+	    file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+	    CS_('Exception!',emphasis=True)
+	    CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+
+	return False
 
 
 

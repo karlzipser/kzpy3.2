@@ -27,7 +27,7 @@ P['LIDAR_path'] = opjm('1_TB_Samsung_n1','_.Depth_images.log.resize.flip.left_ts
 P['LIDAR_extension'] = ".Depth_image.log.resize.flip.with_left_ts.h5py"
 
 P['proportion of experiements to use'] = 1.0
-P['proportion of runs to use'] = 1.0#(np.random.random()**3)/2.0 # 0.25
+P['proportion of runs to use'] = (np.random.random()**2) 
 P['start time'] = time_str()
 P['start time numeric'] = time.time()
 

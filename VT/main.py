@@ -57,13 +57,24 @@ def load_parameters(P):
                     P[t] = Topics[t]
         parameter_file_load_timer.reset()
 
+
 # threading.Thread(target=parameter_thread,args=[P]).start()
 ##############################################################
 
 
 
-
-
+if False:
+    def get_(heading,encoder,xys,xys_len):
+        v = vec(heading,encoder)
+        xys.append(xys[-1]+v)
+        if len(xys) < xys_len:
+            return False
+        else xys = xys[-xys_len:]
+        points = na(xys)
+        m,b = curve_fit(equation_of_a_line,points[:,0],points[:,1])[0]
+        ang = np.degrees(angle_between([0,1],[1,m]))
+        rpoints = rotatePolygon(points,ang)
+        rpoints *= -1
 
 
 ################################################################################################
@@ -101,6 +112,7 @@ def Raw_to_Trajectory(P):
         y = points_to_fit[:,1]
         m,b = curve_fit(f,x,y)[0]
         ang = np.degrees(angle_between([0,1],[1,m]))
+        P['angs'].append(ang)
 
         rpoints = na(rotatePolygon(points,ang))
 
@@ -173,6 +185,7 @@ def vec(heading,encoder,sample_frequency=30.0):
 
 def f(x,A,B):
     return A*x + B
+equation_of_a_line = f
 #
 ################################################################################################
 
@@ -198,7 +211,12 @@ if __name__ == '__main__':
         if not Raw_to_trajectory['step']():
             break
         load_parameters(P)
-
+        try:
+            figure('ang');clf();plot(P['angs'][:],'b.')
+            spause()
+        except:
+            print len(P['angs'])
+            pass
     raw_enter()
 
 
