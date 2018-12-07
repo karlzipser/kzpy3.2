@@ -25,6 +25,7 @@ if 'encoders' not in P:
     P['O'] = h5r(opj(P['run_folder'],"original_timestamp_data.h5py"))
     P['headings'] = L['gyro_heading_x'][:]
     P['encoders'] = L['encoder'][:]
+    P['motors'] = L['motor'][:]
     L.close()
 
 
@@ -87,8 +88,11 @@ def Raw_to_Trajectory(P):
 
         heading = P['headings'][D['index']]
         encoder = P['encoders'][D['index']]
+        motor = P['motors'][D['index']]
+        if motor < 49:
+            encoder *= -1
         v = vec(heading,encoder)
-        D['xy'] += v # take into consideration reverse driving
+        D['xy'] += v
         D['xys'].append(array(D['xy']))
 
         if len(D['xys']) < P['future_steps']+P['past_steps']:
