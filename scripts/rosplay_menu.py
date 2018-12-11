@@ -5,10 +5,10 @@ if 'Arguments' in locals():
 	if 'task' in Arguments:
 		task = Arguments['task']
 	if 'limit' in Arguments:
-		do_limit = True
+		if Arguments['limit'] in ['t','T',1]:
+			do_limit = True
 
 print task
-raw_enter()
 
 from kzpy3.utils3 import *
 
@@ -20,7 +20,7 @@ else:
 rl = txt_file_to_list_of_strings(opjD('rostopic_list.txt'))
 
 if_in_expose = ['FC','FL','FR',
-	'acc','behavior','button','cmd','drive','encoder','gyro','motor','steer','image','points'
+	'acc','button','cmd','drive','encoder','gyro','motor','steer','image','points'
 ]
 
 done = False
