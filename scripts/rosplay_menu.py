@@ -23,7 +23,7 @@ rl = txt_file_to_list_of_strings(opjD('rostopic_list.txt'))
 if_in_expose = ['FC','FL','FR',
 	'acc','cmd','encoder','gyro','motor','steer','image','points',]
 
-if_in_not_expose = ['Hz','offset','gain','raw','zed/depth','null',]
+if_in_not_expose = ['Hz','offset','gain','raw','zed/depth','null','min','max']
 
 show = True
 done = False
