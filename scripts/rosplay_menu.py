@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 
-if 'task' in Arguments:
-	task = Arguments['task']
-else:
-	task = 'echo'
+task = 'echo'
+if 'Arguments' in locals():
+	if 'task' in Arguments:
+		task = Arguments['task']
+
+		
 
 from kzpy3.utils3 import *
 
