@@ -50,7 +50,8 @@ else:
 	P['NETWORK_OUTPUT_FOLDER'] = opjD('Networks','net_15Sept2018_1Nov_with_reverse_') #
 P['save_net_timer'] = Timer(60*30)
 P['SAVE_FILE_NAME'] = 'net'
-P['print_timer_time'] = 5*minute
+P['print_timer_time'] = hour
+P['loss_timer'] = Timer(10*minute)
 P['parameter_file_load_timer_time'] = 60
 P['percent_of_loss_list_avg_to_show'] = 30.0
 P['frequency_timer'] = Timer(30.0)
@@ -63,7 +64,7 @@ if P['RESUME']:
     P['WEIGHTS_FILE_PATH'] = most_recent_file_in_folder(P['INITIAL_WEIGHTS_FOLDER'],['net'],[])
 
 P['reload_image_file_timer_time'] = 15*60
-P['loss_timer'] = Timer(60*10)
+
 P['LOSS_LIST_N'] = 30
 P['run_name_to_run_path'] = {}
 P['data_moments_indexed'] = []

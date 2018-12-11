@@ -540,6 +540,10 @@ for i in range(1,len(h)):
     dh.append(h[i]-h[i-1])
 figure(4);hist(dh,200)
 
+#P['Arduinos']['MSE'].write(write_str)
+
+
+
 
 
 

@@ -251,15 +251,19 @@ def print_exposed(Topics,customer):
 
 def load_Topics(input_path,first_load=False,customer=''):
     
-    if input_path[0] == '/':
-        input_path = input_path[1:]
+    #if input_path[0] == '/':
+    #    input_path = input_path[1:]
     if input_path[-1] == '/':
         input_path = input_path[:-1]
 
     c = get_safe_name(customer)
     path = opj(input_path,'__local__')
+    #cb("load_Topics path =", path)
     r = sggo(path,'ready.'+c)
-    #cr("TEMP ",r)
+    if len(r) == 0:
+        #cs('Warning,',opj(path,'ready.'+c),'not found!')
+        return None
+    #cr("TEMP ",r,opj(path,'ready.'+c))
     if len(r) > 1:
         CS_('Warning, more than one ready in '+path)
     assert len(r) < 2
