@@ -21,8 +21,9 @@ else:
 rl = txt_file_to_list_of_strings(opjD('rostopic_list.txt'))
 
 if_in_expose = ['FC','FL','FR',
-	'acc','button','cmd','drive','encoder','gyro','motor','steer','image','points'
-]
+	'acc','cmd','encoder','gyro','motor','steer','image','points',]
+
+if_in_not_expose = ['Hz','offset','gain','raw','zed/depth','null',]
 
 show = True
 done = False
@@ -35,6 +36,10 @@ while not done:
 				if e in rl[i]:
 					show = True
 					break
+			for e in if_in_not_expose:
+				if e in rl[i]:
+					show = False
+					break		
 		if show or not do_limit:
 			pd2s(i+2,')',rl[i])
 	try:
