@@ -379,6 +379,168 @@ p2.communicate('python kzpy3/Menu_app/menu2.py path kzpy3/VT dic P')
 
 
 
+a = range(10)
+ctr = 0
+timer = Timer(5)
+while not timer.check():
+    a.append(1)
+    a.pop(0)
+    a = na(a)
+    a = list(a)
+    ctr+=1
+cr(ctr)
+
+a = arange(10)
+ctr = 0
+timer = Timer(5)
+while not timer.check():
+    a[0:9] = a[1:10]
+    a[9] = 1
+    ctr+=1
+cr(ctr)
+
+
+theta = 15
+#sigma = 0.023
+clf();plt_square()
+#plot([0,0],[-1,1],'k:')
+#plot([-1,1][0,0],'k:')
+points = np.random.random((10,2))
+points -= points[0,:]
+
+pts_plot(points,'r')
+dp = vec(theta,1)
+
+points[0,:] += dp
+plot(points[0,0],points[0,1],'k.')
+rotatePolygon__array_version(points,-theta)
+pts_plot(points,'b')
+#points -= na([0,sigma])
+#pts_plot(points,'k')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def vec(heading,encoder,sample_frequency=30.0):
+    velocity = encoder * P['vel-encoding coeficient'] # rough guess
+    a = [0,1]
+    a = array(rotatePoint([0,0],a,heading))
+    a *= velocity/sample_frequency
+    return array(a)
+
+U = lo( opjD('Data/16Nov2018_held_out_data/net_predictions.tegra-ubuntu_16Nov18_17h59m10s.pkl' ))
+O = h5r(opjD('Data/16Nov2018_held_out_data/h5py/tegra-ubuntu_16Nov18_17h59m10s/original_timestamp_data.h5py' ))
+L = h5r(opjD('Data/16Nov2018_held_out_data/h5py/tegra-ubuntu_16Nov18_17h59m10s/left_timestamp_metadata_right_ts.h5py'))
+
+
+################################
+# version to project ahead
+def get_prediction_points(headings,encoders):
+    points = [na([0.,0.])]
+    theta_integrated = 0
+    for h,e in zip(headings,encoders):
+        theta_integrated += h
+        v = vec(theta_integrated,e)
+        p = na(points[-1]).copy()
+        p += v
+        points.append(p)
+    return points
+#
+##################################
+###################################
+# move points back
+points = []
+
+dh_max = 0
+
+P = {}
+P['vel-encoding coeficient'] = (1.0/2.3)
+figure(8)
+timer = Timer(1)
+i = 5000
+#while not timer.check() and i<15337:
+while i<16000:#len(L['encoder']):
+
+    heading = L['gyro_heading_x'][i] - L['gyro_heading_x'][i-1]
+    if np.abs(heading)>dh_max:
+        dh_max = np.abs(heading)
+    encoder = L['encoder'][i]
+    clf();plt_square();xysqlim(30)
+    timer.message(d2s(i,dp(heading),dp(encoder),dh_max))
+
+    net_headings = U['direct'][i]['heading'].copy()
+    net_headings -= net_headings[0]
+    net_encoders = U['direct'][i]['encoder']
+    points += get_prediction_points(net_headings,30*net_encoders)
+    points = na(points)
+
+    points -= points[0,:]
+
+    v = vec(heading,encoder,3.0)
+
+    points[0,:] += v
+
+    rotatePolygon__array_version(points,-heading)
+    pts_plot(points,color='b',sym=',')
+    spause()
+    points = list(points)
+    try:
+        pass#points = points[-600:]
+    except:
+        pass
+    i+=1
+    mci(O['left_image']['vals'][i],scale=3)
+#
+##################################
+
+
+
+
+for behavioral_mode in  ['left','direct','right']:
+    headings = U[behavioral_mode][index]['heading']
+    encoders = U[behavioral_mode][index]['encoder']
+
+
+
+
+h = L['gyro_heading_x']
+
+
+
+
+dh=[]
+for i in range(1,len(h)):
+    dh.append(h[i]-h[i-1])
+figure(4);hist(dh,200)
+
+
 
 
 

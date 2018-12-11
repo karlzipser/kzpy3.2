@@ -64,18 +64,17 @@ def load_parameters(P):
 
 
 
-if False:
-    def get_(heading,encoder,xys,xys_len):
-        v = vec(heading,encoder)
-        xys.append(xys[-1]+v)
-        if len(xys) < xys_len:
-            return False
-        else xys = xys[-xys_len:]
-        points = na(xys)
-        m,b = curve_fit(equation_of_a_line,points[:,0],points[:,1])[0]
-        ang = np.degrees(angle_between([0,1],[1,m]))
-        rpoints = rotatePolygon(points,ang)
-        rpoints *= -1
+def vec(heading,encoder,sample_frequency=30.0):
+    velocity = encoder * P['vel-encoding coeficient'] # rough guess
+    a = [0,1]
+    a = array(rotatePoint([0,0],a,heading))
+    a *= velocity/sample_frequency
+    return array(a)
+
+def equation_of_a_line(x,A,B):
+    return A*x + B
+
+
 
 
 ################################################################################################
@@ -85,7 +84,8 @@ def Raw_to_Trajectory(P):
     D = {}
     D['xy'] = array([0.0,0.0])
     D['xys'] = []
-    D['index'] = P['good_starts'][P['start_index_choice']][1] 
+    D['index'] = P['good_starts'][P['start_index_choice']][1]
+    
     D['max_index'] = len(P['headings']) - (P['future_steps']+P['past_steps'])
 
     def _step():
@@ -96,7 +96,7 @@ def Raw_to_Trajectory(P):
         return False
 
     def _get():
-
+        
         heading = P['headings'][D['index']]
         encoder = P['encoders'][D['index']]
         motor = P['motors'][D['index']]
@@ -114,29 +114,19 @@ def Raw_to_Trajectory(P):
         points_to_fit = points[P['past_steps']-P['offset']:P['past_steps']+P['offset'],:]
         x = points_to_fit[:,0]
         y = points_to_fit[:,1]
-        m,b = curve_fit(f,x,y)[0]
+        m,b = curve_fit(equation_of_a_line,x,y)[0]
         ang = np.degrees(angle_between([0,1],[1,m]))
         P['angs'].append(ang)
-
         rpoints = na(rotatePolygon(points,ang))
-
         rpoints *= -1
-
         D['rpoints'] = rpoints
-
         return True
 
     def _show2d():
-
-        mci(P['O']['left_image']['vals'][D['index']-P['future_steps']],scale=P['cv2 scale'],delay=P['cv2 delay'],title='left camera')
-
         clf();plt_square();xylim(-P['l']/2,P['l']/2,-P['l']/2,P['l'])
-
         pts_plot(D['rpoints'][:P['past_steps'],:],'r',sym='.')
         pts_plot(D['rpoints'][P['past_steps']:,:],'b',sym='x')
-
         spause()
-
         P['timer'].freq()
 
 
@@ -163,48 +153,39 @@ def Raw_to_Trajectory(P):
                 elif c.y < 0 or c.y >= 94:
                     good = False
                 if good:
-                    cv2.circle(img,(int(c.x),int(c.y)),r,(255,0,0))#int(np.max(1,5.0/np.sqrt(c.x**2+c.y**2))),255)
-                    #cg(r)
-                    #img[int(c.y),int(c.x),:] = na([255,0,0])
+                    cv2.circle(img,(int(c.x),int(c.y)),r,(255,0,0))
             except:
                 cr(r)
                 pass
-
         mci(img,scale=P['cv2 scale'],delay=P['cv2 delay'],title='left camera w/ points')
 
     D['step'] = _step
     D['get'] = _get
     D['show2d'] = _show2d
     D['show3d'] = _show3d
-
     return D
 
 
-def vec(heading,encoder,sample_frequency=30.0):
-    velocity = encoder * P['vel-encoding coeficient'] # rough guess
-    a = [0,1]
-    a = array(rotatePoint([0,0],a,heading))
-    a *= velocity/sample_frequency
-    return array(a)
 
-def f(x,A,B):
-    return A*x + B
-equation_of_a_line = f
+
+
 #
 ################################################################################################
 
 
 
 
-
-
+#pts = list(np.random.randn(600,2)*30)
+#indx = 12000
+pts = [na([.2,.2])]
 
 if __name__ == '__main__':
 
     CA()
 
     Raw_to_trajectory = Raw_to_Trajectory(P)
-
+    ctr = 0
+    sample_frequency = 30.0
     while P['ABORT'] != True:
         if not Raw_to_trajectory['get']():
             continue
@@ -212,16 +193,53 @@ if __name__ == '__main__':
             Raw_to_trajectory['show2d']()
         if P['show 3D']:
             Raw_to_trajectory['show3d']()
+
+        if True:
+
+            try:
+                indx = Raw_to_trajectory['index'] - (P['future_steps'])#+P['past_steps'])
+                img = P['O']['left_image']['vals'][indx]
+                mci(img,scale=P['cv2 scale'],delay=P['cv2 delay'],title='d_heading')
+                d_heading = P['headings'][indx]-P['headings'][indx-1]
+                encoder = P['encoders'][indx]
+                velocity = encoder * P['vel-encoding coeficient'] # rough guess
+                a = na([0,1]) * velocity / sample_frequency
+                cb(dp(encoder),dp(d_heading))
+                
+                pts = rotatePolygon(pts,d_heading)
+                pts.append(a)
+                pts = list(na(pts)-pts[-1])
+                indx += 1
+                clf();pts_plot(na(pts));plt_square();xysqlim(20)
+                plot(0,0,'b.')
+                #plot(indx,d_heading,'r.')
+                spause()
+            except Exception as e:
+                exc_type, exc_obj, exc_tb = sys.exc_info()
+                file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                CS_('Exception!',emphasis=True)
+                CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+
+
+
+
         if not Raw_to_trajectory['step']():
             break
         load_parameters(P)
+        """
         try:
-            figure('ang');clf();plot(P['angs'][:],'b.')
-            spause()
+            if ctr > 10:
+                #figure('ang');clf();plot(P['angs'][:],'b.')
+                spause()
+                pass
+                ctr = 0
+            else:
+                ctr += 1
         except:
             print len(P['angs'])
             pass
-    raw_enter()
+        """
+    #raw_enter()
 
 
 
