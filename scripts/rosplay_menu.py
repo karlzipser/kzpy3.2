@@ -4,6 +4,8 @@ task = 'echo'
 if 'Arguments' in locals():
 	if 'task' in Arguments:
 		task = Arguments['task']
+	if 'limit' in Arguments:
+		do_limit = True
 
 print task
 raw_enter()
@@ -17,11 +19,22 @@ else:
 
 rl = txt_file_to_list_of_strings(opjD('rostopic_list.txt'))
 
+if_in_expose = ['FC','FL','FR',
+	'acc','behavior','button','cmd','drive','encoder','gyro','motor','steer','image','points'
+]
+
 done = False
 while not done:
 	pd2s('1 ) exit')
 	for i in range(len(rl)):
-		pd2s(i+2,')',rl[i])
+		if do_limit:
+			show = False
+			for e in if_in_expose:
+				if e in rl[i]:
+					show = True
+					break
+		if show or not do_limit:
+			pd2s(i+2,')',rl[i])
 	try:
 		n = input('select number--> ')
 		assert type(n) == int
