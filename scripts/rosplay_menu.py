@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 from kzpy3.utils3 import *
 task = 'echo'
-#if 'Arguments' in locals():
-if 'task' in args:
-	task = args['task']
+if 'Arguments' in locals():
+	if 'task' in Arguments:
+		task = Arguments['task']
 
 print task
 raw_enter()
