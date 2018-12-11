@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from kzpy3.utils3 import *
-do_limit = False
+do_limit = True
 task = 'echo'
 if 'Arguments' in locals():
 	if 'task' in Arguments:
@@ -23,7 +23,7 @@ rl = txt_file_to_list_of_strings(opjD('rostopic_list.txt'))
 if_in_expose = ['FC','FL','FR',
 	'acc','cmd','encoder','gyro','motor','steer','image','points',]
 
-if_in_not_expose = ['Hz','offset','gain','raw','zed/depth','null','min','max']
+if_in_do_not_expose = ['Hz','offset','gain','raw','zed/depth','null','min','max']
 
 show = True
 done = False
@@ -36,7 +36,7 @@ while not done:
 				if e in rl[i]:
 					show = True
 					break
-			for e in if_in_not_expose:
+			for e in if_in_do_not_expose:
 				if e in rl[i]:
 					show = False
 					break		
