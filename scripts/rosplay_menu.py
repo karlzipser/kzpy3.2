@@ -24,6 +24,7 @@ if_in_expose = ['FC','FL','FR',
 	'acc','button','cmd','drive','encoder','gyro','motor','steer','image','points'
 ]
 
+show = True
 done = False
 while not done:
 	pd2s('1 ) exit')
