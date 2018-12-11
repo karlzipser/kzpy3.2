@@ -93,7 +93,7 @@
             /$(arg car_name)/zed/left/camera_info 
             /$(arg car_name)/zed/left/image_rect_color 
             /$(arg car_name)/zed/right/camera_info 
-            /$(arg car_name)/zed/right/image_rect_color
+            /$(arg car_name)/zed/right/image_rect_color />
     <node pkg="rosbag" type="record" name="rosbag_record_all"
           args="--split --duration=30 -b 2048 --lz4 -o /media/nvidia/rosbags/active/$(arg car_name) $(arg rosbag_args)"
           respawn="false"
