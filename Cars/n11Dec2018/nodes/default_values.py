@@ -6,14 +6,14 @@ exec(identify_file_str)
 P = {}
 P['agent_is_human'] = True
 P['use_motor_PID'] = True
-P['Desktop version'] = True
+P['Desktop version'] = False
 P['customers'] = ['Arduino','Network','Weights','Flex']
 P['drive_mode'] = 0
 P['use LIDAR'] = False
 P['lidar_only'] = False
 if P['lidar_only']:
 	P['use LIDAR'] = False
-P['use sound'] = True
+P['use sound'] = False
 
 P['use flex'] = False
 
