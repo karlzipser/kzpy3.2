@@ -1,5 +1,10 @@
 #!/usr/bin/env python
 
+if 'task' in Arguments:
+	task = Arguments['task']
+else:
+	task = 'echo'
+
 from kzpy3.utils3 import *
 
 if HAVE_ROS:
@@ -23,7 +28,7 @@ while not done:
 			done = True
 		else:
 			if HAVE_ROS:
-				os.system(d2s('rostopic echo',rl[n-2]))
+				os.system(d2s('rostopic',task,rl[n-2]))
 			else:
 				os.system(d2s('ls -al',rl[n-2]))
 	except:
