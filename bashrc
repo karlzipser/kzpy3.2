@@ -1,6 +1,6 @@
 clear
 echo "Start kzpy3/bashrc..."
-alias ls='ls -al'
+alias ls='ls -alh'
 alias rhz='rostopic hz /bair_car/zed/left/image_rect_color'
 alias rls='ls -al /media/nvidia/rosbags'
 alias rrm='rm ~/catkin_ws/src/bair_car/rosbags/*'
@@ -20,6 +20,7 @@ alias srb='sudo reboot'
 alias rcn='echo $COMPUTER_NAME'
 alias rivl='rosrun image_view image_view image:=/bair_car/zed/left/image_rect_color'
 alias rivr='rosrun image_view image_view image:=/bair_car/zed/right/image_rect_color'
+alias rri='rosrun image_view image_view image:=/bair_car/os1_node/image'
 alias zed_explorer='/usr/local/zed/tools/ZED\ Explorer'
 alias rply='python ~/kzpy3/scripts/rosplay_menu.py'
 alias rtps='python ~/kzpy3/scripts/rostopics.py'

@@ -548,4 +548,99 @@ figure(4);hist(dh,200)
 
 
 
+
+
+
+temp = (255*z2o(np.random.randn(94,168))).astype(np.uint8)
+cv2.putText(
+    temp,
+    d2n('R','b',0),
+    (10,70),
+    cv2.FONT_HERSHEY_SIMPLEX,
+    2,(255),4);
+mi(temp)
+mi(cv2.resize(temp,(41,23)),2)
+
+
+
+
+
+
+
+
+
+
+lidar_ts = O['image']['ts'][:]
+left_camera_ts = L['ts'][:]
+
+lidar_index = 0
+
+D_left_to_lidar_index = 0 * left_camera_ts
+
+len_left_ts = len(left_camera_ts)
+
+finished = False
+
+for i in range(len_left_ts):
+    if finished:
+        break
+
+    left_ts = left_camera_ts[i]
+
+    while lidar_ts[lidar_index] < left_ts:
+
+        if lidar_index >= len(lidar_ts)-1:
+            finished = True
+        if finished:
+            break
+
+        lidar_index += 1
+
+    D_left_to_lidar_index[i] = lidar_index
+
+
+.create_dataset('left_to_lidar_index',data=D_left_to_lidar_index)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+while True:
+    n0 = np.random.randint(len(ll))
+    for n1 in range(n0,n0+60):
+        n2 = ll[n1]
+        mi(m[n2],1)
+        mi(l[n1],2)
+        spause()
+    raw_enter()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #EOF

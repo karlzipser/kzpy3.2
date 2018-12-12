@@ -88,11 +88,15 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 
 			if 'zed' in m_[0]:
 				valv = bridge.imgmsg_to_cv2(m_[1],"rgb8")
-				valv = cv2.resize(valv, (0,0), fx=0.25, fy=0.25)
+				if shape(valv) != (94,168,3):
+					valv = cv2.resize(valv, (0,0), fx=0.25, fy=0.25)
+					cr('resizing zed image')
 				if P['USE_ARUCO']:
 					ad = _get_aruco_data(valv)
 					DA[Rename[topic_]+'_aruco']['ts'].append(timestampv) 			
 					DA[Rename[topic_]+'_aruco']['vals'].append(ad)
+			elif m_[0] == '/os1_node/image':
+				valv = bridge.imgmsg_to_cv2(m_[1],"rgb8")
 			elif m_[0] == '/os1_node/points':
 				##print "here"
 				try:
@@ -240,7 +244,7 @@ def Left_Timestamp_Metadata(run_name=None,h5py_path=None):
 	L.create_dataset('right_ts',data=np.array(right_tsv))
 
 	for k_ in sorted(F.keys()):
-		if k_ != 'left_image' and k_ != 'right_image' and k_ != 'points':
+		if k_ != 'left_image' and k_ != 'right_image' and k_ != 'points' and k_ != 'image':
 			if len(F[k_]['ts']) > 0:
 				print('\tprocessing '+k_)
 				L.create_dataset(k_,data=np.interp(L['ts'][:],F[k_]['ts'][:],F[k_]['vals'][:]))
@@ -261,7 +265,6 @@ def Left_Timestamp_Metadata(run_name=None,h5py_path=None):
 
 def make_flip_images(h5py_folder=None):
 	h5py_folder_ = h5py_folder
-
 	f_ = opj(h5py_folder_,'flip_images.h5py')
 	if os.path.exists(f_):
 		spd2s(f_+' exists, doing nothing.')
@@ -280,6 +283,26 @@ def make_flip_images(h5py_folder=None):
 		Group.create_dataset('vals',data=flip_images_)
 	F.close()
 
+
+def make_flip_lidar_images(h5py_folder=None):
+	h5py_folder_ = h5py_folder
+	f_ = opj(h5py_folder_,'flip_lidar_images.h5py')
+	if os.path.exists(f_):
+		spd2s(f_+' exists, doing nothing.')
+		return None
+	O = h5r(opj(h5py_folder_,'original_timestamp_data.h5py'))
+	F = h5w(f_)
+	for topic_ in ['image']:
+		flip_topic_ = topic_+'_flip'
+		pd2s('\t',topic_,'to',flip_topic_)
+		flip_images_ = []
+		for i_ in range(len(O[topic_]['ts'])):
+			flip_images_.append(cv2.flip(O[topic_]['vals'][i_],1))
+		flip_images_ = np.array(flip_images_)
+		Group = F.create_group(flip_topic_)
+		Group.create_dataset('ts',data=O[topic_]['ts'])
+		Group.create_dataset('vals',data=flip_images_)
+	F.close()
 
 
 if P['USE_ARUCO']:

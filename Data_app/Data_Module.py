@@ -27,17 +27,18 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 	from cv_bridge import CvBridge, CvBridgeError
 	bridge = cv_bridge.CvBridge()
 
-	image_topicsv = ['zed/left/image_rect_color','zed/right/image_rect_color']
+	image_topicsv = ['zed/left/image_rect_color','zed/right/image_rect_color','image']
 	single_value_topicsv = P['SINGLE_VALUE_TOPICS']
 	vector3_topicsv = P['VECTOR3_TOPICS']
 	string_topics = P['STRING_TOPICS']
 	all_topics_ = image_topicsv + single_value_topicsv + vector3_topicsv + string_topics
 	bair_all_topics_ = []
 	for v in all_topics_:
-		if v != 'points':
+		if v != 'points' and v != 'image':
 			bair_all_topics_.append('/bair_car/'+v)
-		else:
-			bair_all_topics_.append('/os1_node/points')
+	bair_all_topics_.append('/os1_node/points')
+	bair_all_topics_.append('/os1_node/image')
+
 	Rename = {}
 	Rename['zed/left/image_rect_color'] = 'left_image'
 	Rename['zed/right/image_rect_color'] = 'right_image'
@@ -90,11 +91,15 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 
 			if 'zed' in m_[0]:
 				valv = bridge.imgmsg_to_cv2(m_[1],"rgb8")
-				valv = cv2.resize(valv, (0,0), fx=0.25, fy=0.25)
+				if shape(valv) != (94,168,3):
+					valv = cv2.resize(valv, (0,0), fx=0.25, fy=0.25)
+					cr('resizing zed image...')
 				if P['USE_ARUCO']:
 					ad = _get_aruco_data(valv)
 					DA[Rename[topic_]+'_aruco']['ts'].append(timestampv) 			
 					DA[Rename[topic_]+'_aruco']['vals'].append(ad)
+			elif m_[0] == '/os1_node/image':
+				valv = bridge.imgmsg_to_cv2(m_[1],"rgb8")
 			elif m_[0] == '/os1_node/points':
 				##print "here"
 				try:
@@ -270,7 +275,7 @@ def Left_Timestamp_Metadata(run_name=None,h5py_path=None):
 	L.create_dataset('right_ts',data=np.array(right_tsv))
 
 	for k_ in sorted(F.keys()):
-		if k_ != 'left_image' and k_ != 'right_image' and k_ != 'points':
+		if k_ != 'left_image' and k_ != 'right_image' and k_ != 'points' and k_ != 'image':
 			if len(F[k_]['ts']) > 0:
 				print('\tprocessing '+k_)
 				L.create_dataset(k_,data=np.interp(L['ts'][:],F[k_]['ts'][:],F[k_]['vals'][:]))
@@ -285,7 +290,46 @@ def Left_Timestamp_Metadata(run_name=None,h5py_path=None):
 	for iv in range(1,len(L['ts'][:])):
 		left_ts_deltasv[iv] = L['ts'][iv] - L['ts'][iv-1]
 	L.create_dataset('left_ts_deltas',data=left_ts_deltasv)
+
+	#################### lidar image indicies ###########################
+	#
+	lidar_ts = F['image']['ts'][:]
+	left_camera_ts = L['ts'][:]
+
+	lidar_index = 0
+
+	D_left_to_lidar_index = 0 * left_camera_ts
+
+	len_left_ts = len(left_camera_ts)
+
+	finished = False
+
+	for i in range(len_left_ts):
+	    if finished:
+	        break
+
+	    left_ts = left_camera_ts[i]
+
+	    while lidar_ts[lidar_index] < left_ts:
+
+	        if lidar_index >= len(lidar_ts)-1:
+	            finished = True
+	        if finished:
+	            break
+
+	        lidar_index += 1
+
+	    D_left_to_lidar_index[i] = lidar_index
+
+
+	L.create_dataset('left_to_lidar_index',data=D_left_to_lidar_index)
+	#
+	#####################################################################
+
 	L.close()
+	F.close()
+
+
 
 
 
@@ -310,6 +354,27 @@ def make_flip_images(h5py_folder=None):
 		Group.create_dataset('vals',data=flip_images_)
 	F.close()
 
+
+
+def make_flip_lidar_images(h5py_folder=None):
+	h5py_folder_ = h5py_folder
+	f_ = opj(h5py_folder_,'flip_lidar_images.h5py')
+	if os.path.exists(f_):
+		spd2s(f_+' exists, doing nothing.')
+		return None
+	O = h5r(opj(h5py_folder_,'original_timestamp_data.h5py'))
+	F = h5w(f_)
+	for topic_ in ['image']:
+		flip_topic_ = topic_+'_flip'
+		pd2s('\t',topic_,'to',flip_topic_)
+		flip_images_ = []
+		for i_ in range(len(O[topic_]['ts'])):
+			flip_images_.append(cv2.flip(O[topic_]['vals'][i_],1))
+		flip_images_ = np.array(flip_images_)
+		Group = F.create_group(flip_topic_)
+		Group.create_dataset('ts',data=O[topic_]['ts'])
+		Group.create_dataset('vals',data=flip_images_)
+	F.close()
 
 
 if P['USE_ARUCO']:

@@ -51,6 +51,7 @@ else:
 P['save_net_timer'] = Timer(60*30)
 P['SAVE_FILE_NAME'] = 'net'
 P['print_timer_time'] = hour
+P['trigger print timer?'] = False
 P['loss_timer'] = Timer(10*minute)
 P['parameter_file_load_timer_time'] = 60
 P['percent_of_loss_list_avg_to_show'] = 30.0

@@ -11,7 +11,8 @@ import Activity_Module
 # /home/karlzipser/Desktop/Depth_images.log.resize.flip.left_ts/
 
 P['data_moments_indexed_loaded'] = []
-P['metadata_constant'] = False
+P['metadata_constant_blanks'] = False
+P['metadata_constant_gradients'] = False
 P['long_ctr'] = -1
 P['LOSS_LIST'] = []
 if 'LOSS_LIST_AVG' not in P:
@@ -19,7 +20,7 @@ if 'LOSS_LIST_AVG' not in P:
 P['reload_image_file_timer'].trigger()
 zero_matrix = torch.FloatTensor(1, 1, 23, 41).zero_().cuda()
 one_matrix = torch.FloatTensor(1, 1, 23, 41).fill_(1).cuda()
-
+temp = (255*z2o(np.random.randn(94,168))).astype(np.uint8)
 
 def Batch(the_network=None):
 	D = {}
@@ -189,17 +190,19 @@ def Batch(the_network=None):
 
 
 
-				if type(P['metadata_constant']) == type(False):
-					assert P['metadata_constant'] == False
+				if type(P['metadata_constant_blanks']) == type(False):
+					assert P['metadata_constant_blanks'] == False
 					cr("************* making metadata_constant *************")
+
 					mode_ctr = len(Data_moment['labels'])
 					metadata_constant = torch.FloatTensor().cuda()
-
 					num_metadata_channels = 128
-					num_multival_metas = 5
+					num_multival_metas = 1 + 4 + 12
 					for i in range(num_metadata_channels - num_multival_metas - mode_ctr): # Concatenate zero matrices to fit the dataset
 						metadata_constant = torch.cat((zero_matrix, metadata_constant), 1)
+					P['metadata_constant_blanks'] = metadata_constant
 
+					metadata_constant = torch.FloatTensor().cuda()
 					meta_gradient1 = zero_matrix.clone()
 					for x in range(23):
 						meta_gradient1[:,:,x,:] = x/23.0#torch.from_numpy(rnd[:,:,:,y])
@@ -219,13 +222,29 @@ def Batch(the_network=None):
 					for x in range(41):
 						meta_gradient4[:,:,:,x] = (1.0-x/41.0)#torch.from_numpy(rnd[:,:,:,y])
 					metadata_constant = torch.cat((meta_gradient4, metadata_constant), 1) #torch.from_numpy(meta_a)
-					P['metadata_constant'] = metadata_constant
-				else:
-					metadata_constant = P['metadata_constant']
+					P['metadata_constant_gradients'] = metadata_constant
 
 
 
-				
+				cat_list = [P['metadata_constant_gradients']]
+
+				for t in range(D['network']['net'].N_FRAMES):
+					for camera in ('left', 'right'):
+						for color in [0,1,2]: 
+							img = cv2.resize(Data_moment[camera][t][:,:,color] ,(41,23))
+							img0 = zeros((1,1,23,41))
+							img0[0,0,:,:] = img
+							img1 = torch.from_numpy(img0)
+							img2 = img1.cuda().float()/255. - 0.5
+							cat_list.append(img2)
+
+				cat_list.append(P['metadata_constant_blanks'])
+
+				#for c in cat_list:
+				#	cy(c.size())
+
+				metadata_I = torch.cat(cat_list, 1)
+
 				metadata = torch.FloatTensor().cuda()
 
 				for cur_label in P['behavioral_modes']:
@@ -241,34 +260,8 @@ def Batch(the_network=None):
 					else:
 						metadata = torch.cat((zero_matrix, metadata), 1);#mode_ctr += 1
 
-				metadata = torch.cat((metadata_constant, metadata), 1)
-
-				"""
-				num_metadata_channels = 128
-				num_multival_metas = 5
-				for i in range(num_metadata_channels - num_multival_metas - mode_ctr): # Concatenate zero matrices to fit the dataset
-					metadata = torch.cat((zero_matrix, metadata), 1)
-
-				meta_gradient1 = zero_matrix.clone()
-				for x in range(23):
-					meta_gradient1[:,:,x,:] = x/23.0#torch.from_numpy(rnd[:,:,:,y])
-				metadata = torch.cat((meta_gradient1, metadata), 1) #torch.from_numpy(meta_a)
-
-				meta_gradient2 = zero_matrix.clone()
-				for x in range(23):
-					meta_gradient2[:,:,x,:] = (1.0-x/23.0)#torch.from_numpy(rnd[:,:,:,y])
-				metadata = torch.cat((meta_gradient2, metadata), 1) #torch.from_numpy(meta_a)
-
-				meta_gradient3 = zero_matrix.clone()
-				for x in range(41):
-					meta_gradient3[:,:,:,x] = x/41.0#torch.from_numpy(rnd[:,:,:,y])
-				metadata = torch.cat((meta_gradient3, metadata), 1) #torch.from_numpy(meta_a)
-
-				meta_gradient4 = zero_matrix.clone()
-				for x in range(41):
-					meta_gradient4[:,:,:,x] = (1.0-x/41.0)#torch.from_numpy(rnd[:,:,:,y])
-				metadata = torch.cat((meta_gradient4, metadata), 1) #torch.from_numpy(meta_a)
-				"""
+				#metadata = torch.cat((metadata_constant, metadata), 1)
+				metadata = torch.cat((metadata_I, metadata), 1)
 
 
 
@@ -287,24 +280,11 @@ def Batch(the_network=None):
 						meta_gradient5[:,:,x,:] = d[x]
 					metadata = torch.cat((meta_gradient5, metadata), 1)
 					
-
-
-
+				#print metadata.size()
 
 				D['metadata'] = torch.cat((metadata, D['metadata']), 0)
 
-				"""
-				sv = Data_moment['steer']
-				mv = Data_moment['motor']
-				#rv = range(8,91,9)
-				rv = P['prediction_range'] #range(10)
-				sv = array(sv)[rv]
-				mv = array(mv)[rv]
 
-				target_data = torch.from_numpy(np.concatenate((sv,mv,sv,mv))/99.0).cuda()
-
-				D['target_data'] = torch.cat(target_data, D['target_data'], 0)
-				"""
 
 
 

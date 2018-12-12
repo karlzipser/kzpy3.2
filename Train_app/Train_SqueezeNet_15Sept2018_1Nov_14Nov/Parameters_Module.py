@@ -23,10 +23,10 @@ assert(soft>=65000)
 
 
 
-
+P['experiments_folders'] = []
 if True:
 	import kzpy3.Data_app.classify_data as classify_data
-	P['experiments_folders'] = []
+	
 	
 	if True:
 		locations_to_classify = [opjm("1_TB_Samsung_n1"),opjm('2_TB_Samsung_n3/rosbags__preprocessed_data')]

@@ -1,5 +1,5 @@
-from Parameters_Module import *
-exec(identify_file_str)
+#from Parameters_Module import *
+#exec(identify_file_str)
 from kzpy3.vis3 import *
 import torch
 import torch.nn.utils as nnutils
@@ -10,6 +10,7 @@ def Net_Activity(*args):
     """
     show network activiations
     """
+
     cy("GPUs =",torch.cuda.device_count(),"current GPU =",torch.cuda.current_device())
     Args = args_to_dictionary(args)
     D = {}
@@ -33,15 +34,17 @@ def Net_Activity(*args):
                 right_t0v = camera_datav[:,:,3:6]
                 left_t1v = camera_datav[:,:,6:9].copy()
                 right_t1v = camera_datav[:,:,9:12].copy()
+                """
                 if P['use_LIDAR']:
                     left_t1v[:,:,0] *= 0
                     right_t1v[:,:,0] *= 0
+                """
                 #right_t1v = camera_datav[:,:,9:12]
                 camera_arrayv = np.array([right_t0v,left_t0v,right_t1v,left_t1v])
                 D['imgs'][k][moment_indexv] = vis_square(camera_arrayv,padval=0.5)
             else:
                 num_channels = shape(D['activiations'][k])[1]        
-                if P['verbose']: print num_channels,shape(D['activiations'][k])[1]
+                #print num_channels,shape(D['activiations'][k])[1]
                 for i in range(num_channels):
                     if D['activiations'][k][moment_indexv,i,:,:].mean() != 0.0:
                         if D['activiations'][k][moment_indexv,i,:,:].mean() != 1.0:
@@ -51,7 +54,13 @@ def Net_Activity(*args):
                                 D['activiations'][k][moment_indexv,i,:,:] = z2o(D['activiations'][k][moment_indexv,i,:,:])
                     #mi(D['activiations'][k][moment_indexv,i,:,:],d2s(i,k))
                 D['imgs'][k][moment_indexv] = vis_square2(D['activiations'][k][moment_indexv],padval=0.5)
-                
+
+            print k,shape(D['imgs'][k][moment_indexv])
+            if k in ['pre_metadata_features_metadata','post_metadata_features']:
+                mi(D['imgs'][k][moment_indexv],k); spause()
+                #mci((z2o(D['imgs'][k][moment_indexv])*255).astype(np.uint8),scale=3.0,color_mode=cv2.COLOR_GRAY2BGR,title=k)
+
+
     def _function_view(*args):
         Args = args_to_dictionary(args)
         if 'scales' in Args:
@@ -87,10 +96,9 @@ def Net_Activity(*args):
             if scalev == 0:
                 print('Not shwoing '+k)
                 continue
-            if P['verbose']:print(k,Args['moment_index'])
+            print(k,Args['moment_index'])
             imgv = D['imgs'][k][Args['moment_index']]
-            mi(imgv,d2s(k,P['start time']))
-            #imsave(opjD(k+'.png'),imgv)
+            mi(imgv,k)#d2s(k,P['start time']))
             """
             imgv = z2o(imgv)*255
             imgv = imgv.astype(np.uint8)
