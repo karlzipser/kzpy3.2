@@ -13,7 +13,7 @@ P['use LIDAR'] = False
 P['lidar_only'] = False
 if P['lidar_only']:
 	P['use LIDAR'] = False
-P['use sound'] = False
+P['use sound'] = True
 
 P['use flex'] = False
 

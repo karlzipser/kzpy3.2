@@ -27,7 +27,7 @@ alias rtps='python ~/kzpy3/scripts/rostopics.py'
 alias pgacps='bash ~/kzpy3/scripts/pgacpssh.sh'
 alias fixScreen='DISPLAY=:0 xrandr --output HDMI-0 --mode 1024x768'
 #alias cm='python kzpy3/Menu_app/menu2.py path kzpy3/Cars/n11Oct2018_car_with_nets/nodes/Default_values/arduino dic P'
-alias cm='python kzpy3/Menu_app/menu2.py path kzpy3/Cars/n11Oct2018_car_with_nets/nodes dic P'
+#alias cm='python kzpy3/Menu_app/menu2.py path kzpy3/Cars/n11Oct2018_car_with_nets/nodes dic P'
 
 alias kx='killall xterm'
 alias rosdo="sudo chmod -R 777 /media/$(whoami)/rosbags*"
@@ -115,10 +115,10 @@ fi
 date
 
 
-export ccar='kzpy3/Cars/car_24July2018/nodes'
-export ctrain='kzpy3/Train_app'
-export cmenu='kzpy3/Menu_app'
-export cdata='kzpy3/Data_app'
+#export ccar='kzpy3/Cars/car_24July2018/nodes'
+#export ctrain='kzpy3/Train_app'
+#export cmenu='kzpy3/Menu_app'
+#export cdata='kzpy3/Data_app'
 export PYTHONPATH=~/kzpy3:$PYTHONPATH
 
 echo "...End kzpy3/bashrc"
