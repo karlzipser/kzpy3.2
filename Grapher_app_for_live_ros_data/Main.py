@@ -64,9 +64,9 @@ def motor__callback(msg):
 	R['motor']['ts'].append(time.time())
 	R['motor']['vals'].append(msg.data)
 
-def state__callback(msg):
-	R['state']['ts'].append(time.time())
-	R['state']['vals'].append(msg.data)
+def button_number__callback(msg):
+	R['button_number']['ts'].append(time.time())
+	R['button_number']['vals'].append(msg.data)
 
 def encoder__callback(msg):
 	R['encoder']['ts'].append(time.time())
@@ -123,7 +123,7 @@ rospy.Subscriber('/bair_car/steer', std_msgs.msg.Int32, callback=steer__callback
 rospy.Subscriber('/bair_car/cmd/steer', std_msgs.msg.Int32, callback=cmd_steer__callback)
 rospy.Subscriber('/bair_car/cmd/motor', std_msgs.msg.Int32, callback=cmd_motor__callback)
 rospy.Subscriber('/bair_car/motor', std_msgs.msg.Int32, callback=motor__callback)
-rospy.Subscriber('/bair_car/state', std_msgs.msg.Int32, callback=state__callback)
+rospy.Subscriber('/bair_car/button_number', std_msgs.msg.Int32, callback=button_number__callback)
 rospy.Subscriber('/bair_car/encoder', std_msgs.msg.Float32, callback=encoder__callback)
 rospy.Subscriber('/bair_car/acc', geometry_msgs.msg.Vector3, callback=acc__callback)
 rospy.Subscriber('/bair_car/gyro', geometry_msgs.msg.Vector3, callback=gyro__callback)

@@ -95,10 +95,14 @@ def _TACTIC_RC_controller_run_loop(P):
 
 
             P['temporary_human_control'] = False
-            
+
 
             if P['agent_is_human'] == True:
-                write_str = get_write_str(P['servo_pwm_smooth'],P['servo_pwm_smooth'],P['motor_pwm_smooth'],P)
+                if P['use_motor_PID'] and P['human']['motor_percent'] > 47:
+                    _motor_pwm = motor_percent_to_pwm( Pid_processing_motor['do'](P['human_PID_motor_percent'],P['encoder_smooth'],P),P)
+                else:
+                    _motor_pwm = P['motor_pwm_smooth']
+                write_str = get_write_str(P['servo_pwm_smooth'],P['servo_pwm_smooth'],_motor_pwm,P)
                 in_this_mode = False
 
             elif P['agent_is_human'] == False and P['button_number']<4:#P['selector_mode'] == 'drive_mode':

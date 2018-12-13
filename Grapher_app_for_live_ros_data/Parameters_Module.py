@@ -16,9 +16,9 @@ for fb in ['F']:
 #flex_names.append('xan0')
             
 R = {}
-for topic_ in ['cmd/steer','cmd/motor','steer', 'motor', 'state', 'encoder',
+for topic_ in ['cmd/steer','cmd/motor','steer', 'motor', 'encoder',
 	'acc_x','acc_y','acc_z',
-	'gyro_x','gyro_y','gyro_z',
+	'gyro_x','gyro_y','gyro_z','button_number',
 	gyro_heading_x,gyro_heading_y,gyro_heading_z,
 	left_image,right_image
 	]+flex_names:
@@ -31,7 +31,7 @@ P[TOPICS] = {
 	'cmd/steer':{maxval:80,		minval:20,		baseline:49.0,	color:(255,255,0)},
 	'cmd/motor':{maxval:80,		minval:20,		baseline:49.0,	color:(0,255,255)},
 	motor:{maxval:80,		minval:49,		baseline:49.0,	color:(0,0,255)},
-	state:{maxval:6,		minval:-10,		baseline:0,		color:(128,128,128)},
+	'button_number':{maxval:4,		minval:0,		baseline:0,		color:(0,255,0)},
 	encoder:{maxval:4,		minval:0,		baseline:0,		color:(255,255,255)},
 	acc_x:{maxval:3,		minval:-3,		baseline:0,		color:acc_color},
 	acc_y:{maxval:3,		minval:-3,		baseline:0,		color:acc_color},
@@ -39,7 +39,7 @@ P[TOPICS] = {
 	gyro_x:{maxval:30,		minval:-30,	baseline:0,		color:gyro_color},
 	gyro_y:{maxval:30,		minval:-30,	baseline:0,		color:gyro_color},
 	gyro_z:{maxval:30,		minval:-30,	baseline:0,		color:gyro_color},
-	gyro_heading_x:{maxval:360,minval:-180,	baseline:0,		color:(255,200,200)},
+	gyro_heading_x:{maxval:45,minval:-45,	baseline:0,		color:(255,200,200)},
 	left_ts_deltas:{maxval:0.1,minval:0,	baseline:0,		color:(0,0,255)},
 }
 ctr = 0
@@ -70,10 +70,11 @@ P['topic_keys_sorted'] = [
 	gyro_heading_x,
 	left_ts_deltas,
 	encoder,
+	'button_number',
 	]
 P['topic_keys_sorted'] += flex_names
 
-P[X_PIXEL_SIZE] = 800
+P[X_PIXEL_SIZE] = 400
 P[Y_PIXEL_SIZE] = 800
 P[SCREEN_X] = 20
 P[SCREEN_Y] = 40

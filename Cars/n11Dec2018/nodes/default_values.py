@@ -16,7 +16,7 @@ if P['lidar_only']:
 P['use sound'] = True
 
 P['use flex'] = False
-
+P['human_PID_motor_percent'] = 53
 P['max motor'] = 63
 P['min motor'] = 0#49-(63-49)
 P['show_net_input'] = False
@@ -154,6 +154,7 @@ P['To Expose']['Arduino'] = [
 	'use sound',
 	'use_motor_PID',
 	'Desktop version',
+	'human_PID_motor_percent',
 ]
 
 P['To Expose']['Network'] = [

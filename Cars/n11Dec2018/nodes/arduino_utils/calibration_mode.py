@@ -47,7 +47,7 @@ def _calibrate_run_loop(P):
     while (not P['ABORT']) and (not rospy.is_shutdown()):
 
 
-        if rosbag_check_timer.check():
+        if False:# rosbag_check_timer.check():
             b = get_bag_info()
             if b > 0:
                 cs('new bag file',b)
@@ -56,7 +56,7 @@ def _calibrate_run_loop(P):
                 rosbag_overdue_timer.reset()
             rosbag_check_timer.reset()
 
-        if rosbag_overdue_timer.check():
+        if False: #rosbag_overdue_timer.check():
             CS('Rosbag overdue!',exception=True)
             for i in range(10):
                 if 'SOUND' in P['Arduinos']:
@@ -64,7 +64,7 @@ def _calibrate_run_loop(P):
                     P['Arduinos']['SOUND'].write("(61)")
             rosbag_overdue_timer.reset()
 
-        if bandwidth_check_timer.check():
+        if False: #bandwidth_check_timer.check():
 
             if P['zed_called']['val'] > zed_called_prev:
                 zed_okay = True
@@ -124,38 +124,38 @@ def _calibrate_run_loop(P):
             time.sleep(0.01)
             continue
         #print "calibration_mode.py A"
-        if True:
-            if P['button_time'] < P['CALIBRATION_NULL_START_TIME']+0.1:
-                P['calibrated'] = False
-                P['servo_pwm_null'] = P['servo_pwm']
-                P['motor_pwm_null'] = P['motor_pwm']
-            elif P['button_time'] < P['CALIBRATION_START_TIME']:
-                s = P['HUMAN_SMOOTHING_PARAMETER_1']
-                P['servo_pwm_null'] = (1.0-s)*P['servo_pwm'] + s*P['servo_pwm_null']
-                P['motor_pwm_null'] = (1.0-s)*P['motor_pwm'] + s*P['motor_pwm_null']
-                P['servo_pwm_min'] = P['servo_pwm_null']
-                P['servo_pwm_max'] = P['servo_pwm_null']
-                P['motor_pwm_min'] = P['motor_pwm_null']
-                P['motor_pwm_max'] = P['motor_pwm_null']
-                P['servo_pwm_smooth'] = P['servo_pwm_null']
-                P['motor_pwm_smooth'] = P['motor_pwm_null']
-            else:
-                if no_sound_yet:
-                    CS("Calibrate now!",emphasis=True)
-                    if 'SOUND' in P['Arduinos']:
-                        P['Arduinos']['SOUND'].write("(51)")
-                    no_sound_yet = False
-                if P['servo_pwm_max'] < P['servo_pwm']:
-                    P['servo_pwm_max'] = P['servo_pwm']
-                if P['servo_pwm_min'] > P['servo_pwm']:
-                    P['servo_pwm_min'] = P['servo_pwm']
-                if P['motor_pwm_max'] < P['motor_pwm']:
-                    P['motor_pwm_max'] = P['motor_pwm']
-                if P['motor_pwm_min'] > P['motor_pwm']:
-                    P['motor_pwm_min'] = P['motor_pwm']
-                if P['servo_pwm_max'] - P['servo_pwm_min'] > 300:
-                    if P['motor_pwm_max'] - P['motor_pwm_min'] > 300:
-                        P['calibrated'] = True
+
+        if P['button_time'] < P['CALIBRATION_NULL_START_TIME']+0.1:
+            P['calibrated'] = False
+            P['servo_pwm_null'] = P['servo_pwm']
+            P['motor_pwm_null'] = P['motor_pwm']
+        elif P['button_time'] < P['CALIBRATION_START_TIME']:
+            s = P['HUMAN_SMOOTHING_PARAMETER_1']
+            P['servo_pwm_null'] = (1.0-s)*P['servo_pwm'] + s*P['servo_pwm_null']
+            P['motor_pwm_null'] = (1.0-s)*P['motor_pwm'] + s*P['motor_pwm_null']
+            P['servo_pwm_min'] = P['servo_pwm_null']
+            P['servo_pwm_max'] = P['servo_pwm_null']
+            P['motor_pwm_min'] = P['motor_pwm_null']
+            P['motor_pwm_max'] = P['motor_pwm_null']
+            P['servo_pwm_smooth'] = P['servo_pwm_null']
+            P['motor_pwm_smooth'] = P['motor_pwm_null']
+        else:
+            if no_sound_yet:
+                CS("Calibrate now!",emphasis=True)
+                if 'SOUND' in P['Arduinos']:
+                    P['Arduinos']['SOUND'].write("(51)")
+                no_sound_yet = False
+            if P['servo_pwm_max'] < P['servo_pwm']:
+                P['servo_pwm_max'] = P['servo_pwm']
+            if P['servo_pwm_min'] > P['servo_pwm']:
+                P['servo_pwm_min'] = P['servo_pwm']
+            if P['motor_pwm_max'] < P['motor_pwm']:
+                P['motor_pwm_max'] = P['motor_pwm']
+            if P['motor_pwm_min'] > P['motor_pwm']:
+                P['motor_pwm_min'] = P['motor_pwm']
+            if P['servo_pwm_max'] - P['servo_pwm_min'] > 300:
+                if P['motor_pwm_max'] - P['motor_pwm_min'] > 300:
+                    P['calibrated'] = True
         #print "calibration_mode.py B"            
         try:
             pass
