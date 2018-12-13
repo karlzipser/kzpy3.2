@@ -253,6 +253,8 @@ def Pid_Processing_Motor():#slope=(60-49)/3.0,gain=0.05,encoder_max=4.0,delta_ma
     D = {}
     D['pid_motor_percent'] = 49
     def _do(motor_value,encoder,P):
+        if P['button_number'] == 4:
+            D['pid_motor_percent'] = 49
         encoder_target = (motor_value-49.0) / P['pid_motor_slope']
         encoder_target = min(encoder_target,P['pid_motor_encoder_max'])
         delta = P['pid_motor_gain'] * (encoder_target - encoder)
