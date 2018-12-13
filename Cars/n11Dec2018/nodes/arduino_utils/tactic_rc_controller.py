@@ -263,6 +263,7 @@ def Pid_Processing_Motor():#slope=(60-49)/3.0,gain=0.05,encoder_max=4.0,delta_ma
         D['pid_motor_percent'] += delta
         D['pid_motor_percent'] = min(D['pid_motor_percent'],P['pid_motor_percent_max'])
         D['pid_motor_percent'] = max(D['pid_motor_percent'],P['pid_steer_steer_percent_min'])
+        cg(D['pid_motor_percent'],motor_value,dp(encoder),dp(encoder_target))
         return D['pid_motor_percent']
     D['do'] = _do
     return D
