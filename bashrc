@@ -89,7 +89,7 @@ export PATH=~/kzpy3/misc:$PATH
 
 
 alias sb='cd;source ~/.bashrc'
-
+alias slr='show_left_and_right_from_ros.py'
 #######################################################
 #
 if [ "$(whoami)" == "nvidia" ]
@@ -100,7 +100,7 @@ if [ "$(whoami)" == "nvidia" ]
     source ~/catkin_ws/devel/setup.bash
     #export PYTHONPATH=~:$PYTHONPATH
     export PYTHONPATH=~/kzpy3:$PYTHONPATH
-    export PATH=~/kzpy3/utils:$PATH
+    export PATH=~/kzpy3/scripts:$PATH
     export PATH=~/kzpy3:$PATH
 
     #sudo rm /etc/hosts
