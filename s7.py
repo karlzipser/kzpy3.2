@@ -632,11 +632,11 @@ while True:
 
 
 
+'/media/karlzipser/2_TB_Samsung_n3/mid_Dec2018_with_lidar_image/locations/local/left_right_center/h5py/tegra-ubuntu_12Dec18_16h59m28s'
+'/media/karlzipser/2_TB_Samsung_n3/mid_Dec2018_with_lidar_image/locations/local/left_right_center/h5py/tegra-ubuntu_12Dec18_15h04m54s'
+'/home/karlzipser/Desktop/Data/locations/local/left_right_center/h5py/tegra-ubuntu_11Dec18_16h05m42s'
 
-
-
-
-
+rsync -ravL ~/Desktop/Networks/* /media/karlzipser/2_TB_Samsung_n3/Networks/
 
 
 

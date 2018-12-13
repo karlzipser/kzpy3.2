@@ -250,9 +250,9 @@ def print_exposed(Topics,customer):
     print ''
 
 def load_Topics(input_path,first_load=False,customer=''):
-    
-    #if input_path[0] == '/':
-    #    input_path = input_path[1:]
+    if True:
+        if input_path[0] == '/':
+            input_path = input_path[1:]
     if input_path[-1] == '/':
         input_path = input_path[:-1]
 

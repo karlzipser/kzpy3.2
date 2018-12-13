@@ -2,24 +2,43 @@
 from kzpy3.vis3 import *
 exec(identify_file_str)
 
+try:
+    print_Arguments()
+    for r in ['run_folder','dst_folder','graphics']:
+        assert r in Arguments
+
+except Exception as e:
+    cr("*** Supposed to have command line argument '",r,"'. ***")
+    exc_type, exc_obj, exc_tb = sys.exc_info()
+    file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+    CS_('Exception!',emphasis=True)
+    CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+
+os.system(d2s("mkdir -p",Arguments['dst_folder']))
+if len(sggo(opj(Arguments['dst_folder'],fname(Arguments['run_folder'])+'.in_progress'))) > 0:
+    sys.exit()
+if len(sggo(opj(Arguments['dst_folder'],fname(Arguments['run_folder'])+'.net_predictions.pkl'))) > 0:
+    sys.exit()
+
+sys_str = d2s("touch",opj(Arguments['dst_folder'],fname(Arguments['run_folder'])+'.in_progress'))
+cg(sys_str)
+os.system(sys_str)
+
+"""
+python kzpy3/Cars/n11Dec2018/nodes/network_node__for_playback.py graphics False dst_folder /home/karlzipser/Desktop/Data/Network_Predictions run_folder '/media/karlzipser/2_TB_Samsung_n3/mid_Dec2018_with_lidar_image/locations/local/left_right_center/h5py/tegra-ubuntu_12Dec18_15h04m54s' 
+"""
+
+
+
+
 import kzpy3.Cars.n11Dec2018.nodes.net_utils as net_utils
 #import kzpy3.Cars.n11Oct2018_car_with_nets.nodes.Activity_Module
 import kzpy3.Cars.n11Dec2018.nodes.default_values as default_values
 N = default_values.P
 import torch
-"""
-python kzpy3/Cars/n11Oct2018_with_nets/nodes/network_node__for_playback.py run_folder /media/karlzipser/rosbags/tu_15to16Nov2018/locations/local/left_direct_stop/h5py/tegra-ubuntu_12Nov18_20h56m16s
-"""
-#Arguments['run_folder'] = opjm('rosbags/tu_15to16Nov2018/locations/local/left_direct_stop/h5py/tegra-ubuntu_12Nov18_20h56m16s')
-try:
-    print_Arguments()
-    assert 'run_folder' in Arguments
-except Exception as e:
-    cr("*** Supposed to have argument 'run_folder'. ***")
-    exc_type, exc_obj, exc_tb = sys.exc_info()
-    file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-    CS_('Exception!',emphasis=True)
-    CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+N['GPU'] = 1
+torch.cuda.set_device(N['GPU'])
+torch.cuda.device(N['GPU'])
 
 
 
@@ -128,6 +147,7 @@ rLists['right'] = []
 
 
 print_timer = Timer(5)
+freqency = Timer(5)
 
 Torch_network = None
 
@@ -154,14 +174,15 @@ def dic_of_(list_or_dic,keys):
 #####################################################################
 ###    
 
-N['weight_file_path'] = most_recent_file_in_folder(opjD('net_15Sept2018_1Nov_with_reverse_/SqueezeNet40'))
+N['weight_file_path'] = most_recent_file_in_folder(opjD('Networks/net_15Sept2018_1Nov_with_reverse_/SqueezeNet40'))
+N['weight_file_path'] = opjD('Networks/networks/net_15Sept2018_1Nov_with_reverse___SqueezeNet40/net_22Nov18_13h59m27s.infer')
 
 Torch_network = net_utils.Torch_Network(N)
 
 ###
 #####################################################################
 #####################################################################
-    
+
 
 if True:
 
@@ -204,6 +225,8 @@ if True:
 
         for behavioral_mode in behavioral_modes:
 
+            freqency.freq()
+
             metadata = Metadata_tensors[behavioral_mode]
 
             full_output = Torch_network['run_model'](camera_data,metadata,N,return_full_output=True)
@@ -219,8 +242,9 @@ if True:
             D[behavioral_mode].append(E)
 
 
-            if np.mod(i,100) == 0:
-                pprint(E)
+            if print_timer.check() and Arguments['graphics']:
+                #pprint(E)
+                
                 if behavioral_mode == 'left':
                     figure(1);clf();xylim(0,40,-1,1)
                 plot(full_output,Color[behavioral_mode]+'.');spause()
@@ -244,11 +268,12 @@ if True:
                 ####################################################
                 ####################################################
                 ####################################################
+                print_timer.reset()
 
 
 
-    so(D,opjD('net_predictions.'+D['run_name']))
-
+    so(D,opj(Arguments['dst_folder'],D['run_name']+'.net_predictions'))
+    os.system(d2s("rm",opj(Arguments['dst_folder'],fname(Arguments['run_folder'])+'.in_progress')))
 
     O.close()
 #EOF

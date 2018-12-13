@@ -12,6 +12,9 @@ P['print_timer'] = Timer(P['print_timer_time'])
 if P['trigger print timer?']:
 	P['print_timer'].trigger()
 P['reload_image_file_timer'] = Timer(P['reload_image_file_timer_time'])
+if P['trigger loss_timer?']:
+	P['loss_timer'].trigger()
+
 
 import Batch_Module
 import Network_Module

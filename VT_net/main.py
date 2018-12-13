@@ -26,11 +26,11 @@ if P['start menu automatically'] and using_linux():
 
 parameter_file_load_timer = Timer(P['load_timer_time'])
 
-def load_parameters(P,customer='customer0'):
+def load_parameters(P,customer='VT menu'):
     if parameter_file_load_timer.check():
         Topics = menu2.load_Topics(project_path,first_load=False,customer=customer)
         if type(Topics) == dict:
-            for t in Topics['To Expose']['customer0']:
+            for t in Topics['To Expose']['VT menu']:
                 if t in Arguments:
                     topic_warning(t)
                 if '!' in t:
@@ -52,12 +52,17 @@ def vec(heading,encoder,sample_frequency=30.0):
 def f(x,A,B):
     return A*x + B
 
-U = lo( opjD(\
-    'Data/16Nov2018_held_out_data/net_predictions.tegra-ubuntu_16Nov18_17h59m10s.pkl' ))
-O = h5r(opjD(\
-    'Data/16Nov2018_held_out_data/h5py/tegra-ubuntu_16Nov18_17h59m10s/original_timestamp_data.h5py' ))
-L = h5r(opjD(\
-    'Data/16Nov2018_held_out_data/h5py/tegra-ubuntu_16Nov18_17h59m10s/left_timestamp_metadata_right_ts.h5py'))
+#U = lo( opjD(\
+#    'Data/16Nov2018_held_out_data/net_predictions.tegra-ubuntu_16Nov18_17h59m10s.pkl' ))
+U = lo('/home/karlzipser/Desktop/net_predictions.tegra-ubuntu_11Dec18_16h05m42s.pkl')
+#O = h5r(opjD(\
+#    'Data/16Nov2018_held_out_data/h5py/tegra-ubuntu_16Nov18_17h59m10s/original_timestamp_data.h5py' ))
+#L = h5r(opjD(\
+#    'Data/16Nov2018_held_out_data/h5py/tegra-ubuntu_16Nov18_17h59m10s/left_timestamp_metadata_right_ts.h5py'))
+O = h5r('/home/karlzipser/Desktop/Data/locations/local/left_right_center/h5py/tegra-ubuntu_11Dec18_16h05m42s/original_timestamp_data.h5py')
+L = h5r('/home/karlzipser/Desktop/Data/locations/local/left_right_center/h5py/tegra-ubuntu_11Dec18_16h05m42s/left_timestamp_metadata_right_ts.h5py')
+
+
 P['headings'] = L['gyro_heading_x'][:]
 P['encoders'] = L['encoder'][:]
 P['motors'] = L['motor'][:]
@@ -91,14 +96,14 @@ def get_r_points(behavioral_mode,headings,encoders):
 
 
 RGBs = {'direct':(0,0,255),'right':(0,255,0),'left':(255,0,0)}
-
+"""
 def show2d(rpoints,left_index,color='b',show_image=False):
     if show_image:
-        mci(P['O']['left_image']['vals'][D[P['index']]-P['future_steps']],\
+        mci(O['left_image']['vals'][D[P['index']]-P['future_steps']],\
             scale=P['cv2 scale'],delay=P['cv2 delay'],title='left camera')
     pts_plot(rpoints,color=color,sym='.')
     P['timer'].freq()
-
+"""
 def show3d(Rpoints,left_index):
     rmax = 7
     img = O['left_image']['vals'][left_index].copy()
@@ -126,7 +131,7 @@ def show3d(Rpoints,left_index):
                 cr(r)
                 pass
     mci(cv2.resize(img,(168*2,94*2)),scale=2.0,delay=20,title='left camera w/ points')
-    P['timer'].freq(d2s("P['index'] =",P['index']))
+    #P['timer'].freq(d2s("P['index'] =",P['index']))
 
 
 
@@ -149,8 +154,8 @@ if __name__ == '__main__':
             encoders = U[behavioral_mode][P['index']]['encoder']
             rpoints = get_r_points(behavioral_mode,headings,encoders)
 
-            if P['show 2D']:
-                show2d(rpoints,left_index,Colors[behavioral_mode],True)
+            #if P['show 2D']:
+            #    show2d(rpoints,left_index,Colors[behavioral_mode],True)
             Rpoints[behavioral_mode] = rpoints
         if P['show 3D']:
             show3d(Rpoints,left_index)
@@ -164,9 +169,9 @@ if __name__ == '__main__':
 
 
 
-        if True:
+        if P['show 2D']:
 
-            clf(); plt_square(); xysqlim(P['l'])
+            clf(); plt_square(); xysqlim(P['plot_range'])
 
             for behavioral_mode in Pts.keys():
                 
@@ -188,7 +193,8 @@ if __name__ == '__main__':
                     Pts[behavioral_mode] = list(na(Pts[behavioral_mode])-Pts[behavioral_mode][-1])
                     indx += 1
                     pts_plot(na(Pts[behavioral_mode]),Colors[behavioral_mode])
-                    plot(0,0,'b.')
+                    #show3d(Pts,left_index)
+                    plot(0,0,'ko');plot(0,0,'kx')
 
                     
 

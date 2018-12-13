@@ -99,15 +99,19 @@ def Pytorch_Network():
             else:
                 CS_("Could not load optimizer")
             m = most_recent_file_in_folder(opj(P['NETWORK_OUTPUT_FOLDER'],'state_dict'))
+            """
+            # This always fails
             if m:
                 CS_("loading "+m)
                 torch.load(D['net'].state_dict(),m)
             else:
                 CS_("Could not load state_dict")
+            """
             
         except Exception as e:
             CS_("********** Network_Module.py Exception ***********************")
-            print(e.message, e.args)            
+            print(e.message, e.args)
+            cr("D['optimizer'] = torch.optim.Adadelta(D['net'].parameters())")           
             D['optimizer'] = torch.optim.Adadelta(D['net'].parameters())
             exc_type, exc_obj, exc_tb = sys.exc_info()
             file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
