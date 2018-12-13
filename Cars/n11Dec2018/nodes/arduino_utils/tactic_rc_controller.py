@@ -98,7 +98,7 @@ def _TACTIC_RC_controller_run_loop(P):
 
 
             if P['agent_is_human'] == True:
-                if P['use_motor_PID'] and P['human']['motor_percent'] > 47:
+                if P['use_motor_PID']:# and P['human']['motor_percent'] > 47:
                     _motor_pwm = motor_percent_to_pwm( Pid_processing_motor['do'](P['human_PID_motor_percent'],P['encoder_smooth'],P),P)
                 else:
                     _motor_pwm = P['motor_pwm_smooth']
