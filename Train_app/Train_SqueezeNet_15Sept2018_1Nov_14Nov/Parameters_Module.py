@@ -225,6 +225,11 @@ if True:
 	#raw_enter()
 
 
+	P['net_projection_runs'] = []
+	temp = sggo(opjD('Data/Network_Predictions_projected/*.flip.h5py'))
+	for r in temp:
+		run_name = r.split('.')[0]
+		P['net_projection_runs'].append(fname(run_name))
 
 
 
@@ -326,8 +331,10 @@ def get_Data_moment(dm=None,FLIP=None):
 
 		if FLIP:
 			F = P['Loaded_image_files'][Data_moment['name']]['flip']
+			G = P['Loaded_image_files'][Data_moment['name']]['flip projections']
 		else:
 			F = P['Loaded_image_files'][Data_moment['name']]['normal']
+			G = P['Loaded_image_files'][Data_moment['name']]['normal projections']
 
 
 
@@ -341,6 +348,7 @@ def get_Data_moment(dm=None,FLIP=None):
 				Data_moment['right'][0] = F['right_image']['vals'][ir0]
 				Data_moment['left'][1] = F['left_image']['vals'][il0+1] # note, ONE frame
 				Data_moment['right'][1] = F['right_image']['vals'][ir0+1]
+
 			else:
 				spd2s('if il0+1 < len(F[left_image][vals]) and ir0+1 < len(F[right_image][vals]): NOT TRUE!')
 				return False
@@ -355,7 +363,11 @@ def get_Data_moment(dm=None,FLIP=None):
 
 				return False
 
-
+		
+		Data_moment['projections'] = []
+		for i in range(9):
+			Data_moment['projections'].append(G[d2n('i',i)][il0][:])
+		
 		if not P['use_LIDAR']:
 			
 			return Data_moment
@@ -442,7 +454,7 @@ def get_Data_moment(dm=None,FLIP=None):
 
 
 
-
+# 17Dec2018 introducing projections into training, 12 Dec introduced small images.
 
 
 

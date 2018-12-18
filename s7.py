@@ -641,6 +641,41 @@ rsync -ravL ~/Desktop/Networks/* /media/karlzipser/2_TB_Samsung_n3/Networks/
 
 
 
+runs = lo(opjD('Data/Network_Predictions_13Dec2018/runs.pkl'))
+Runs = {}
+for r in runs:
+    Runs[fname(r)] = r
 
+Arguments['run']='tegra-ubuntu_15Nov18_20h52m45s'
+run_path = Runs[Arguments['run']]
+#O=h5r(opj(run_path,'original_timestamp_data.h5py')) 
+O=h5r(opj(run_path,'original_timestamp_data.h5py')) 
+P = h5r(opj('/home/karlzipser/Desktop/Data/Network_Predictions_projected',fname(run_path)+'.net_projections.h5py' ))
+for i in range(9500,20000):
+    mci(O['left_image']['vals'][i][:],title='O')
+    mci(P['i0'][i][:],title='P')
+
+
+import torch
+import kzpy3.Train_app.Train_SqueezeNet_15Sept2018_1Nov_14Nov.Network_Module as Network_Module
+Network = Network_Module.Pytorch_Network()
+n=Network['net'] 
+#save_data = torch.load('/home/karlzipser/Desktop/Networks/_net_15Sept2018_1Nov_with_reverse_/weights/net_11Dec18_23h35m53s.infer') 
+#save_data = torch.load('/home/karlzipser/Desktop/Networks/net_15Sept2018_1Nov_with_reverse_with_12imgs/weights/net_17Dec18_15h32m44s.infer') 
+save_data = torch.load('/home/karlzipser/Desktop/Networks/net_15Sept2018_1Nov_with_reverse_with_12imgs/weights/net_17Dec18_21h57m08s.infer')
+n=save_data['net'] 
+p = n['post_metadata_features.0.squeeze.weight'] 
+q = p.cpu().numpy() 
+q = q[:,:,0,0] 
+q[:,128]/=10.
+#mi(q[:,:129])  
+mi(q,5)
+
+r = q.copy()
+r[:,128:128+5] = 0
+r[:,-10:] = 0
+for i in range(16):
+    r[i,:] = z2o(r[i,:])
+mi(r,100)
 
 #EOF

@@ -16,11 +16,11 @@ P['To Expose'] = {}
 P['plot_range'] = 5.0
 P['step_size'] = 1
 P['cmd/clear_screen'] = False
-P['show 2D'] = False
+P['show 2D'] = True
 P['show 3D'] = True
 P['cv2 delay'] = 1
 P['cv2 scale'] = 4
-P['num timesteps'] = 9
+
 P['step_skip'] = 4
 P['load_timer_time'] = 2
 P['metadata_version'] = True
@@ -38,13 +38,13 @@ for k in P.keys():
 
 P['timer'] = Timer(5)
 P['fig'] = 1
-#P['run_folder'] =  opjm('preprocessed_5Oct2018_500GB/model_car_data_July2018_lrc/locations/local/left_right_center/h5py/Mr_Black_25Jul18_19h55m13s')
-#P['run_folder'] =  '/media/karlzipser/rosbags1/h5py/tegra-ubuntu_20Nov18_10h59m22s'
-#P['run_folder'] = '/home/karlzipser/Desktop/h5py/Mr_Purple_24Nov18_11h48m54s'
+P['run_folder'] =  opjm('preprocessed_5Oct2018_500GB/model_car_data_July2018_lrc/locations/local/left_right_center/h5py/Mr_Black_25Jul18_19h55m13s')
+P['run_folder'] =  '/media/karlzipser/rosbags1/h5py/tegra-ubuntu_20Nov18_10h59m22s'
+P['run_folder'] = '/home/karlzipser/Desktop/h5py/Mr_Purple_24Nov18_11h48m54s'
 P['backup parameter'] = 1.0
-P['index'] = 0
+P['index'] = 5000
 P['vec sample frequency'] = 3.33
-P['start menu automatically'] = False
+P['start menu automatically'] = True
 P['vel-encoding coeficient'] = (1.0/2.3)
-
+P['num timesteps'] = 9
 #EOF

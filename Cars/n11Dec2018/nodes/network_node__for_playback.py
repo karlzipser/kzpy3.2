@@ -201,7 +201,7 @@ if True:
 
     D['run_name'] = fname(run_folder)
 
-    for i in range(0,len(O['left_image']['vals'])):
+    for i in range(0,min(len(O['left_image']['vals']),len(O['right_image']['vals']))):
 
         #cy(i)
 
