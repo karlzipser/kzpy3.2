@@ -2,8 +2,7 @@ from kzpy3.utils3 import *
 
 startup_timer = Timer()
 
-from default_values import *
-#from Parameters_Module import *
+from Parameters_Module import *
 
 for a in Arguments.keys():
 	P[a] = Arguments[a]

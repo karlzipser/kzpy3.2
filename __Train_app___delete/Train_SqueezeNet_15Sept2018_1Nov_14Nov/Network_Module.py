@@ -1,4 +1,4 @@
-from default_values import * #Parameters_Module import *
+from Parameters_Module import *
 import torch
 from kzpy3.Train_app.nets.SqueezeNet40 import SqueezeNet
 exec(identify_file_str)

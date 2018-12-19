@@ -1,12 +1,15 @@
 from kzpy3.utils3 import *
 from default_values import *
+#from kzpy3.Train_app.Train_SqueezeNet_15Sept2018_1Nov_14Nov.default_values import *
 CODE_PATH__ = opjh('kzpy3/Train_app')
 VERSION_PATH = 'Train_SqueezeNet_15Sept2018_1Nov_14Nov'
 
+#spd2s('Using',VERSION_PATH,'(make sure this is correct)')
 time.sleep(3)
 
 pythonpaths([opjh('kzpy3'),opj(CODE_PATH__,VERSION_PATH),opj(CODE_PATH__,'nets')])
 
+#from Paths_Module import *
 exec(identify_file_str)
 
 """
@@ -19,80 +22,38 @@ assert(soft>=65000)
 """
 
 
-if True: #########################################################################################
 
-	P['experiments_folders'] = []
+P['experiments_folders'] = []
+if True:
+	import kzpy3.Data_app.classify_data as classify_data
+	
+	
 	if True:
-		import kzpy3.Data_app.classify_data as classify_data
-		
-		
-		if True:
-			locations_to_classify = [
-				opjD("Data/1_TB_Samsung_n1"),
-				opjD("Data/2_TB_Samsung_n3/rosbags__preprocessed_data"),
-			]
-		else:
-			locations_to_classify = [opjD("Data/2_TB_Samsung_n3/rosbags__preprocessed_data")]
-		
-		for l in locations_to_classify:
-			cb("classify_data.find_locations('",l,"'),P['experiments_folders'])...")
-			classify_data.find_locations(l,P['experiments_folders'],False)
-			cb("...done.")
-		if verbose: print len(P['experiments_folders'])
-		if verbose: print P['experiments_folders']
-		#raw_enter()
-	################################################################
-	if True:
-	################################################################
-		older = [
-			#opjm('2_TB_Samsung_n3/bdd_car_data_July2017_LCR/locations'),
-			opjD("Data/2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_model_car_data_early_8Oct2018_lrc_LIDAR/locations"),
-			opjD("Data/2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_model_car_data_late_Sept_early_Oct2018_lrc/locations"),
-			opjD("Data/2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_car_data_late_Sept2018_lrc/locations"),
-			opjD("Data/2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_car_data_18July_to_18Sept2018_lrc/locations"),
-			opjD("Data/2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/model_car_data_July2018_lrc/locations"),
-			#opjm('2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/model_car_data_June2018_LCR/locations'),
-		]
-		P['experiments_folders'] += older
+		locations_to_classify = [opjm("1_TB_Samsung_n1"),opjm('2_TB_Samsung_n3/rosbags__preprocessed_data')]
+	else:
+		locations_to_classify = [opjm('2_TB_Samsung_n3/rosbags__preprocessed_data')]
+	
+	for l in locations_to_classify:
+		cb("classify_data.find_locations('",l,"'),P['experiments_folders'])...")
+		classify_data.find_locations(l,P['experiments_folders'],False)
+		cb("...done.")
+	if verbose: print len(P['experiments_folders'])
+	if verbose: print P['experiments_folders']
+	#raw_enter()
+################################################################
+if True:
+################################################################
+	older = [
+		#opjm('2_TB_Samsung_n3/bdd_car_data_July2017_LCR/locations'),
+		opjm('2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_model_car_data_early_8Oct2018_lrc_LIDAR/locations'),
+		opjm('2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_model_car_data_late_Sept_early_Oct2018_lrc/locations'),
+		opjm('2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_car_data_late_Sept2018_lrc/locations'),
+		opjm('2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_car_data_18July_to_18Sept2018_lrc/locations'),
+		opjm('2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/model_car_data_July2018_lrc/locations'),
+		#opjm('2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/model_car_data_June2018_LCR/locations'),
+	]
 
-else: #########################################################################################
-
-
-	P['experiments_folders'] = []
-	if True:
-		import kzpy3.Data_app.classify_data as classify_data
-		
-		
-		if True:
-			locations_to_classify = [opjm("1_TB_Samsung_n1"),opjm('2_TB_Samsung_n3/rosbags__preprocessed_data')]
-		else:
-			locations_to_classify = [opjm('2_TB_Samsung_n3/rosbags__preprocessed_data')]
-		
-		for l in locations_to_classify:
-			cb("classify_data.find_locations('",l,"'),P['experiments_folders'])...")
-			classify_data.find_locations(l,P['experiments_folders'],False)
-			cb("...done.")
-		if verbose: print len(P['experiments_folders'])
-		if verbose: print P['experiments_folders']
-		#raw_enter()
-	################################################################
-	if True:
-	################################################################
-		older = [
-			#opjm('2_TB_Samsung_n3/bdd_car_data_July2017_LCR/locations'),
-			opjm('2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_model_car_data_early_8Oct2018_lrc_LIDAR/locations'),
-			opjm('2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_model_car_data_late_Sept_early_Oct2018_lrc/locations'),
-			opjm('2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_car_data_late_Sept2018_lrc/locations'),
-			opjm('2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_car_data_18July_to_18Sept2018_lrc/locations'),
-			opjm('2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/model_car_data_July2018_lrc/locations'),
-			#opjm('2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/model_car_data_June2018_LCR/locations'),
-		]
-
-		P['experiments_folders'] += older
-##############################################################################################
-
-
-
+	P['experiments_folders'] += older
 
 if False:
 	P['experiments_folders'] = [
@@ -370,10 +331,12 @@ def get_Data_moment(dm=None,FLIP=None):
 
 		if FLIP:
 			F = P['Loaded_image_files'][Data_moment['name']]['flip']
-			#G = P['Loaded_image_files'][Data_moment['name']]['flip projections']
+			if False:
+				G = P['Loaded_image_files'][Data_moment['name']]['flip projections']
 		else:
 			F = P['Loaded_image_files'][Data_moment['name']]['normal']
-			#G = P['Loaded_image_files'][Data_moment['name']]['normal projections']
+			if False:
+				G = P['Loaded_image_files'][Data_moment['name']]['normal projections']
 
 
 
@@ -402,15 +365,14 @@ def get_Data_moment(dm=None,FLIP=None):
 
 				return False
 
-		"""
-		Data_moment['projections'] = []
-		for i in range(9):
-			Data_moment['projections'].append(G[d2n('i',i)][il0][:])
-		"""
-
-		if not P['use_LIDAR']:
-			#so(opjD('Data_moment'),Data_moment)
-			return Data_moment
+		if False:
+			Data_moment['projections'] = []
+			for i in range(9):
+				Data_moment['projections'].append(G[d2n('i',i)][il0][:])
+			
+			if not P['use_LIDAR']:
+				
+				return Data_moment
 
 		###############################################################
 		###############################################################

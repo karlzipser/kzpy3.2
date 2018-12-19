@@ -35,7 +35,7 @@ def Batch(the_network=None):
 	D['states'] = []
 	D['tries'] = 0
 	D['successes'] = 0
-	D['zeros, metadata_size'] = zeros((1,1,23,41))
+
 
 
 	def _load_image_files():
@@ -47,16 +47,16 @@ def Batch(the_network=None):
 
 
 		for f in shuffled_keys[:P['max_num_runs_to_open']]:
-			#if f not in P['net_projection_runs']:
-			#	continue
+			if f not in P['net_projection_runs']:
+				continue
 
 			P['Loaded_image_files'][f] = {}
 			if True:
 				try:
 					O = h5r(opj(P['run_name_to_run_path'][f],'original_timestamp_data.h5py'))
 					F = h5r(opj(P['run_name_to_run_path'][f],'flip_images.h5py'))
-					#S = h5r(opj('/home/karlzipser/Desktop/Data/Network_Predictions_projected',f+'.net_projections.h5py' ))
-					#Q = h5r(opj('/home/karlzipser/Desktop/Data/Network_Predictions_projected',f+'.net_projections.flip.h5py' ))
+					S = h5r(opj('/home/karlzipser/Desktop/Data/Network_Predictions_projected',f+'.net_projections.h5py' ))
+					Q = h5r(opj('/home/karlzipser/Desktop/Data/Network_Predictions_projected',f+'.net_projections.flip.h5py' ))
 					try:
 					#if len(sggo(P['run_name_to_run_path'][f],'left_timestamp_metadata_right_ts.h5py')) > 0:
 						L=h5r(opj(P['run_name_to_run_path'][f],'left_timestamp_metadata_right_ts.h5py'))
@@ -73,8 +73,9 @@ def Batch(the_network=None):
 					P['Loaded_image_files'][f]['normal'] = O
 					P['Loaded_image_files'][f]['flip'] = F
 					P['Loaded_image_files'][f]['left_timestamp_metadata'] = L
-					#P['Loaded_image_files'][f]['normal projections'] = S
-					#P['Loaded_image_files'][f]['flip projections'] = Q
+					if False:
+						P['Loaded_image_files'][f]['normal projections'] = S
+						P['Loaded_image_files'][f]['flip projections'] = Q
 
 					if P['use_LIDAR']:
 						path = opj(P['LIDAR_path'],f+P['LIDAR_extension'])
@@ -134,9 +135,9 @@ def Batch(the_network=None):
 			try:
 				P['Loaded_image_files'][f]['normal'].close()
 				P['Loaded_image_files'][f]['flip'].close()
-
-				#P['Loaded_image_files'][f]['normal projections'].close()
-				#P['Loaded_image_files'][f]['flip projections'].close()
+				if Fales:
+					P['Loaded_image_files'][f]['normal projections'].close()
+					P['Loaded_image_files'][f]['flip projections'].close()
 
 				P['Loaded_image_files'][f]['left_timestamp_metadata'].close()
 				if P['use_LIDAR']:
@@ -254,10 +255,11 @@ def Batch(the_network=None):
 							img2 = img1.cuda().float()/255. - 0.5
 							cat_list.append(img2)
 
-				if False:
+
+				if False:				
 					for i in range(len(Data_moment['projections'])):
 						for j in range(3):
-							img = D['zeros, metadata_size']#zeros_metadata_size = zeros((1,1,23,41))
+							img = zeros((1,1,23,41))
 							img[0,0,:,:] = Data_moment['projections'][i][:,:,j]
 							img = torch.from_numpy(img)
 							img = img.cuda().float()/255.
@@ -438,8 +440,9 @@ def Batch(the_network=None):
 
 
 	def _function_display():
-		cv2.waitKey(1) # This is to keep cv2 windows alive
+		
 		if P['print_timer'].check():
+			cv2.waitKey(1) # This is to keep cv2 windows alive
 			cprint(d2s("P['start time'] =",P['start time']),'blue','on_yellow')
 			for i in [0]:#range(P['BATCH_SIZE']):
 				ov = D['outputs'][i].data.cpu().numpy()
@@ -460,7 +463,7 @@ def Batch(the_network=None):
 				if P['verbose']: print(d2s(i,'camera_data min,max =',av.min(),av.max()))
 				
 				Net_activity = Activity_Module.Net_Activity('batch_num',i, 'activiations',D['network']['net'].A)
-				Net_activity['view']('moment_index',i,'delay',33, 'scales',{'camera_input':4,'pre_metadata_features':0,'pre_metadata_features_metadata':1,'post_metadata_features':0})
+				Net_activity['view']('moment_index',i,'delay',33, 'scales',{'camera_input':4,'pre_metadata_features':0,'pre_metadata_features_metadata':1,'post_metadata_features':2})
 				bm = 'unknown behavioral_mode'
 				for j in range(len(P['behavioral_modes'])):
 					if mv[-(j+1),0,0]:
@@ -479,10 +482,9 @@ def Batch(the_network=None):
 				else:
 					flip_str = ''
 				plt.xlabel(d2s(bm,flip_str))
-				if False:
-					figure('metadata '+P['start time']);clf()
-					plot(mv[-10:,0,0],'r.-')
-					plt.title(d2s(bm,i))
+				figure('metadata '+P['start time']);clf()
+				plot(mv[-10:,0,0],'r.-')
+				plt.title(d2s(bm,i))
 				spause()
 				P['print_timer'].reset()
 			dm_ctrs_max = 100
@@ -498,8 +500,7 @@ def Batch(the_network=None):
 				if 'loss' in P['data_moments_indexed'][j]:
 					if len(P['data_moments_indexed'][j]['loss']) > 0:
 						loss_list.append(P['data_moments_indexed'][j]['loss'][-1])
-			if False:
-				figure('dm_ctrs '+P['start time']);clf();plot(dm_ctrs,'.-');xlim(0,100)
+			figure('dm_ctrs '+P['start time']);clf();plot(dm_ctrs,'.-');xlim(0,100)
 			P['dm_ctrs'] = dm_ctrs
 			#figure('loss_list');clf();hist(loss_list)
 			spause()

@@ -20,7 +20,7 @@ elif P['use_LIDAR'] == False:
 	P['GPU'] = 0
 else:
 	P['GPU'] = 1
-#P['GPU'] = 1
+P['GPU'] = 1
 #
 ###############################################################
 
@@ -57,7 +57,7 @@ P['trigger print timer?'] = True
 P['trigger loss_timer?'] = True
 P['loss_timer'] = Timer(10*minute)
 P['parameter_file_load_timer_time'] = 60
-P['percent_of_loss_list_avg_to_show'] = 40.0
+P['percent_of_loss_list_avg_to_show'] = 30.0
 P['frequency_timer'] = Timer(30.0)
 P['duration timer'] = Timer()
 P['TRAIN_TIME'] = 60*5.0

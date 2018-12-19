@@ -606,8 +606,12 @@ for i in range(len_left_ts):
 
 
 
-
-
+ctr = 0
+timer = Timer(5)
+while not timer.check():
+    zeros_metadata_size = zeros((1,1,23,41))
+    ctr += 1
+cg(ctr)
 
 
 
@@ -656,13 +660,16 @@ for i in range(9500,20000):
     mci(P['i0'][i][:],title='P')
 
 
+
+
+
 import torch
 import kzpy3.Train_app.Train_SqueezeNet_15Sept2018_1Nov_14Nov.Network_Module as Network_Module
 Network = Network_Module.Pytorch_Network()
 n=Network['net'] 
 #save_data = torch.load('/home/karlzipser/Desktop/Networks/_net_15Sept2018_1Nov_with_reverse_/weights/net_11Dec18_23h35m53s.infer') 
 #save_data = torch.load('/home/karlzipser/Desktop/Networks/net_15Sept2018_1Nov_with_reverse_with_12imgs/weights/net_17Dec18_15h32m44s.infer') 
-save_data = torch.load('/home/karlzipser/Desktop/Networks/net_15Sept2018_1Nov_with_reverse_with_12imgs/weights/net_17Dec18_21h57m08s.infer')
+save_data = torch.load(most_recent_file_in_folder('/home/karlzipser/Desktop/Networks/net_15Sept2018_1Nov_with_reverse_with_12imgs/weights'))
 n=save_data['net'] 
 p = n['post_metadata_features.0.squeeze.weight'] 
 q = p.cpu().numpy() 
@@ -671,11 +678,268 @@ q[:,128]/=10.
 #mi(q[:,:129])  
 mi(q,5)
 
+
+
+
 r = q.copy()
 r[:,128:128+5] = 0
 r[:,-10:] = 0
 for i in range(16):
     r[i,:] = z2o(r[i,:])
 mi(r,100)
+
+
+O=h5r(opjD('Data/16Nov2018_held_out_data/h5py/tegra-ubuntu_16Nov18_17h44m50s/original_timestamp_data.h5py'))
+O=h5r(opjD('Data/16Nov2018_held_out_data/h5py/tegra-ubuntu_16Nov18_17h44m50s/original_timestamp_data.h5py'))
+
+
+i = 9999
+d = {}
+d['flip'] = False
+if not d['flip']:
+    I = O
+else:
+    I = F
+d['left0'] =    I['left_image']['vals'][i][:]
+d['left1'] =    I['left_image']['vals'][i+1][:]
+d['right0'] =   I['right_image']['vals'][i][:]
+d['right1'] =   I['right_image']['vals'][i+1][:]
+
+
+data_moment_keys = ['encoder_meo',
+ 'name',
+ 'labels',
+ 'gyro_heading_x',
+ 'FLIP',
+ 'encoder_past',
+ 'right',
+ 'projections',
+ 'motor',
+ 'steer',
+ 'left',
+]
+
+"""
+In [42]: dm['labels']
+Out[42]: 
+{'direct': 0,
+ 'follow': 0,
+ 'furtive': 0,
+ 'heading_pause': 0,
+ 'left': 0,
+ 'play': 0,
+ 'right': 1}
+"""
+
+def relu(x):
+    return max(0,x)
+
+def f(x,a,b):
+    return relu(a*relu(x)+b*relu(x))
+
+
+p=n['pre_metadata_features.0.weight']
+q = p.cpu().numpy()
+
+for o in range(3):
+    w = []
+    for x in range(3):
+        for y in range(3):
+            w.append(q[:,range(o,12,3),x,y])
+    mi(w);spause();raw_enter()
+
+
+
+
+
+
+
+abs(d['steer']-49) < 5:
+
+
+
+
+a b c e g h k q u v w z
+
+
+
+
+
+################################################################################
+#
+Arguments['path'] = opjD('Data/1_TB_Samsung_n1/left_direct_stop__31Oct_to_1Nov2018/locations/local/left_direct_stop')
+
+data_path = Arguments['path']
+behavioral_modes = ['left','right','direct','stop']
+steers = ['low_steer','high_steer','reverse']
+
+Data_moments_dic = lo(opj(data_path,'data_moments_dic.pkl'))
+
+all_moments = []
+for u in ['train','val']:
+    for v in steers:
+        if v in Data_moments_dic[u]:
+            for i in rlen(Data_moments_dic[u][v]):
+                Data_moments_dic[u][v][i]['steer_type'] = v
+            all_moments += Data_moments_dic[u][v]
+
+Organized_moments = {}
+
+for a in all_moments:
+
+    r = a['run_name']
+
+    if r not in Organized_moments:
+        Organized_moments[r] = {}
+        for b in behavioral_modes:
+            Organized_moments[r][b] = {}
+            for s in steers:
+                Organized_moments[r][b][s] = []
+
+    b = a['behavioral_mode']
+    if b == 'center':
+        b = 'direct'
+        a['behavioral_mode'] = b
+
+    if b not in behavioral_modes:
+        cr(b,'not in',behavioral_modes)
+
+    Organized_moments[r][b][a['steer_type']].append(a)
+
+
+S = {}
+Ctrs = {}         
+C = {'left':'r.','right':'g.','direct':'b.','stop':'c.','center':'y.','reverse':'k.'}
+CA()
+
+for r in Organized_moments.keys():
+    ectr = 0
+    ctr = 0
+
+    L = h5r(opj(data_path,'h5py',r,'left_timestamp_metadata_right_ts.h5py'))
+    
+    S[r] = {}
+    for b in ['left','right','direct']:
+        S[r][b] = {}
+        for s in steers:
+            o = Organized_moments[r][b][s]
+
+            S[r][b][s] = {}
+            for m in o:
+
+                i = m['left_ts_index'][1]
+
+                if np.abs(m['motor']-49) < 2 and np.abs(m['steer']-49) < 2 and m['behavioral_mode'] in ['left','right','center']:
+                    #cr('.')
+                    ctr+=1
+                    continue
+                if L['encoder'][i] < 0.1:
+                    #cr('+')
+                    continue
+                    ectr+=1
+                try:
+                    if np.std(L['steer'][i-30:i+30]) < 1.0:
+                        #cr('x')
+                        ectr+=1
+                        continue
+                        
+                except:
+                    continue
+
+                S[r][b][s][i] = m
+                ctr+=1
+
+            _,indexed_moments = get_key_sorted_elements_of_dic(S[r][b][s])
+            S[r][b][s] = indexed_moments
+            if True:
+                figure(1)
+                ii=[]
+                els=S[r][b][s]
+                for e in els:
+                    ii.append(e['left_ts_index'][1])
+                cg(r,b,s,len(ii))   
+                if b == 'direct' and s == 'reverse':
+                    c = 'k.'
+                else:
+                    c = C[b]
+                plot(ii,c); spause()
+                
+                #raw_enter()
+    Ctrs[r] = ctr        
+    cy(r,ectr,ctr,int(ectr*100.0/(ctr*1.0)),'%')
+    L.close()
+    #raw_enter()
+
+
+
+
+
+
+Randomized_moments = {}
+Indicies = {}
+Counts = {}
+
+for r in S.keys():
+    Indicies[r] = []
+    Counts[r] = {}
+    cg('Randomized_moments for',r)
+    Randomized_moments[r] = []
+
+    n_desired_moments = int(Ctrs[r]*0.1)
+
+    for b in ['left','right','direct']:
+        for s in ['low_steer','high_steer','reverse']:
+            random.shuffle(S[r][b][s])
+
+    while len(Randomized_moments[r]) < n_desired_moments:
+        len_prev = len(Randomized_moments[r])
+        for b in ['left','right','direct']:
+            for s in ['low_steer','high_steer','reverse']:
+                if len(S[r][b][s]) > 0:
+                    Randomized_moments[r].append(S[r][b][s].pop())
+        if len_prev == len(Randomized_moments[r]):
+            cr("*** waring no progress beyond",len_prev,"for",r)
+
+
+    for b in ['left','right','direct']:
+        Counts[r][b] = {}
+        for s in ['low_steer','high_steer','reverse']:
+            Counts[r][b][s] = 0
+    for m in Randomized_moments[r]:
+        Counts[r][m['behavioral_mode']][m['steer_type']] += 1
+        Indicies[r].append(m['left_ts_index'][1])
+#for r in S.keys():
+#    figure(d2s(r,'indicies'));plot(Indicies[r],'.') 
+
+
+
+
+#
+################################################################################
+
+
+
+
+
+
+
+{'behavioral_mode': 'center',
+ 'left_ts_index': (1539052884.214, 45979),
+ 'motor': 61,
+ 'right_ts_index': (1539052884.2160001, 45979),
+ 'run_name': 'tegra-ubuntu_08Oct18_19h15m18s',
+ 'steer': 24}
+
+
+
+def get_key_sorted_elements_of_dic(d,specific=None):
+    ks = sorted(d.keys())
+    els = []
+    for k in ks:
+        if specific == None:
+            els.append(d[k])
+        else:
+            els.append(d[k][specific])
+    return ks,els
 
 #EOF
