@@ -172,10 +172,9 @@ topics = [
 	'behavioral_mode',
 	'behavioral_mode_code',
 	'gyro_heading_x',
-	'FLIP',
+	'flip',
 	'encoder_past',
 	'right',
-	'projections',
 	'motor',
 	'steer',
 	'left',
@@ -185,7 +184,7 @@ H = {}
 for t in topics:
 	H[t] = []
 
-for i in range(100):
+for i in rlen(Randomized_moments[r]):
 	cr('i =',i)
 
 	H['name'].append(r)
@@ -201,7 +200,7 @@ for i in range(100):
 	motor = L['motor'][l:l+90].astype(np.uint8)
 	flip = np.random.choice([0,1])
 
-	H['FLIP'].append(flip)
+	H['flip'].append(flip)
 
 	if flip:
 		steer = 99 - steer
@@ -225,20 +224,25 @@ for i in range(100):
 	motor[motor < 0] = 0
 
 	H['behavioral_mode'].append(behavioral_mode)
-	H['behavioral_mode_code'].append(Behavioral_mode_code[H['behavioral_mode']])
+	H['behavioral_mode_code'].append(Behavioral_mode_code[H['behavioral_mode'][-1]])
 	H['encoder_meo'].append(L['encoder_meo'][l:l+90])
 	H['gyro_heading_x'].append(heading_x)
 	H['steer'].append(steer)
 	H['motor'].append(motor)
 	H['encoder_past'].append(L['encoder_meo'][l-70:l-1])
-
+	"""
 	mi( [ H['right'][-1][0], H['left'][-1][0], H['right'][-1][1],H['left'][-1][1] ],0)
-	plt.title(d2s(H['name'][-1],H['behavioral_mode'][-1],H['FLIP'][-1]))
+	plt.title(d2s(H['name'][-1],H['behavioral_mode'][-1],H['flip'][-1]))
 	figure(2);clf();plot(H['steer'][-1]);plot(H['motor'][-1]);plot(H['encoder_meo'][-1]*10);plot(H['gyro_heading_x'][-1]-H['gyro_heading_x'][-1][0]);plot(H['encoder_past'][-1]*10);plot(H['steer'][-1]);
 
 	spause();raw_enter()
+	"""
 
 
+F = h5w(opjD('Temp.h5py'))
+for topic_ in H.keys():
+	F.create_dataset(topic_,data=H[topic_])
+F.close()
 
 
 
