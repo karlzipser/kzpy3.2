@@ -942,4 +942,20 @@ def get_key_sorted_elements_of_dic(d,specific=None):
             els.append(d[k][specific])
     return ks,els
 
+
+
+
+import h5py
+import contextlib
+
+filename = '/tmp/foo.hdf5'
+propfaid = h5py.h5p.create(h5py.h5p.FILE_ACCESS)
+settings = list(propfaid.get_cache())
+settings[2] *= 5
+propfaid.set_cache(*settings)
+with contextlib.closing(h5py.h5f.open(filename, fapl=propfaid)) as fid:
+    f = h5py.File(fid)
+
+     
+
 #EOF
