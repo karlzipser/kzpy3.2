@@ -29,22 +29,36 @@ if False:
 	except Exception as e:
 		exec(EXCEPT_STR)
 		raw_enter()
-	    
-EXCEPT_STR = """
-exc_type, exc_obj, exc_tb = sys.exc_info()
-file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-CS_('Exception!',exception=True,newline=False)
-CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
-"""
 
-def print_exception_format():
-	print("""
-try:
-    raise NotImplementedError("No error")
+def et():
+	print(
+		"""
 except Exception as e:
-	exec(EXCEPT_STR)
-	raw_enter()
-		""")
+	exc_type, exc_obj, exc_tb = sys.exc_info()
+	file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+	CS_('Exception!',emphasis=True)
+	CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)		
+
+		"""
+		)
+
+if False:	    
+	EXCEPT_STR = """
+	exc_type, exc_obj, exc_tb = sys.exc_info()
+	file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+	CS_('Exception!',exception=True,newline=False)
+	CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+	"""
+
+if False:
+	def print_exception_format():
+		print("""
+	try:
+	    raise NotImplementedError("No error")
+	except Exception as e:
+		exec(EXCEPT_STR)
+		raw_enter()
+			""")
 #
 ####################################
 
@@ -182,7 +196,7 @@ def CS_(comment,section='',s='',say_comment=False,emphasis=False,exception=False
 	return True
 	
 CS = CS_
-CS_('imported kzpy3.utils3')
+#CS_('imported kzpy3.utils3')
 def cs(*args):
 	CS(d2s_spacer(args,spacer=' '))
 
@@ -191,8 +205,10 @@ def cs(*args):
 
 for color in ['red','yellow','green','blue']:
 	an_exec_string = """
-
+cQ_off = False
 def cQ(*args):
+	if cQ_off:
+		return
 	cprint(d2s_spacer(args,spacer=' '),'COLOR')
 """
 	exec(an_exec_string.replace('Q',color[0]).replace('COLOR',color))
@@ -644,26 +660,27 @@ def a_key(dic):
 def an_element(dic):
 	return dic[a_key(dic)]
 
+if False:
+	def fn(path):
+		"""
+		get filename part of path
+		"""
+		return path.split('/')[-1]
 
-def fn(path):
-	"""
-	get filename part of path
-	"""
-	return path.split('/')[-1]
 
+if False:
+	def to_range(e,a,b):
+		if e < a:
+			return a
+		if e > b:
+			return b
+		return e
 
-def to_range(e,a,b):
-	if e < a:
-		return a
-	if e > b:
-		return b
-	return e
-
-def in_range(e,a,b):
-	if e >= a:
-		if e <= b:
-			return True
-	return False
+	def in_range(e,a,b):
+		if e >= a:
+			if e <= b:
+				return True
+		return False
 
 def nvidia_smi_continuous(t=0.1):
 	while True:                                     
@@ -736,20 +753,20 @@ def sequential_means(data,nn):
 		x.append(i+n/2.)
 	return x,d
 
+if False:
+	def tab_list_print(l,n=1,color=None,on_color=None):
+		for e in l:
+			s = ''
+			for j in range(n):
+				s += '\t'
+			cprint(s+e,color,on_color)
 
-def tab_list_print(l,n=1,color=None,on_color=None):
-	for e in l:
-		s = ''
-		for j in range(n):
-			s += '\t'
-		cprint(s+e,color,on_color)
 
-
-
-def start_at(t):
-	while time.time() < t:
-		time.sleep(0.1)
-		print(t-time.time())
+if False:
+	def start_at(t):
+		while time.time() < t:
+			time.sleep(0.1)
+			print(t-time.time())
 
 try:
 	import numbers
@@ -892,7 +909,10 @@ def even_len(d):
 	l = d['l']
 	return np.mod(len(l),2) == 0
 
-
+def is_even(q):
+	if np.mod(q,2) == 0:
+		return True
+	return False
 
 
 
@@ -924,10 +944,7 @@ def img_to_img_uint8(d):
 
 
 
-def is_even(q):
-	if np.mod(q,2) == 0:
-		return True
-	return False
+
 
 
 
@@ -1013,8 +1030,9 @@ def print_Arguments():
 identify_file_str = """
 if '__file__' not in locals():
 	__file__ = ' __file__ '
-cprint('******** '+__file__+' ********','yellow')
+cprint('using '+__file__,'yellow')
 	"""
+exec(identify_file_str)
 #
 #####################################################
 
@@ -1062,9 +1080,9 @@ def using_osx():
     return False
 
 if using_osx():
-	CS_('using OS X')
+	pass#CS_('using OS X')
 elif using_linux():
-	CS_('using linux')
+	pass#CS_('using linux')
 else:
 	CS_('using UNKNOWN system')
 
@@ -1095,53 +1113,54 @@ def intr(n):
 try:
 	import rospy
 	HAVE_ROS = True
-	CS_('HAVE_ROS = True')
+	#CS_('HAVE_ROS = True')
 except:
 	HAVE_ROS = False
-	CS_('HAVE_ROS = False')
+	#CS_('HAVE_ROS = False')
 
 try:
-	cs('username =',username)
+	#cs('username =',username)
 	if username == 'nvidia':
 		HAVE_GPU = True
-		CS_('HAVE_GPU = True')
+		#CS_('HAVE_GPU = True')
 	else:
-		unix('nvidia-smi',print_stdout=True)
+		#unix('nvidia-smi',print_stdout=True)
 		HAVE_GPU = True
-		CS_('HAVE_GPU = True')
+		#CS_('HAVE_GPU = True')
 except:
 	HAVE_GPU = False
-	CS_('HAVE_GPU = False')
+	#CS_('HAVE_GPU = False')
 
 
-def internet_on():
-	"""
-	https://stackoverflow.com/questions/3764291/checking-network-connection
-	"""
-	import urllib2
-	try:
-		urllib2.urlopen('http://216.58.192.142', timeout=1)
-		return True
-	except urllib2.URLError as err: 
-		return False
+if False:
+	def internet_on():
+		"""
+		https://stackoverflow.com/questions/3764291/checking-network-connection
+		"""
+		import urllib2
+		try:
+			urllib2.urlopen('http://216.58.192.142', timeout=1)
+			return True
+		except urllib2.URLError as err: 
+			return False
 
-def internet_on_thread(P_):
-	spd2s("__internet_on_thread")
-	timer = Timer(2)
-	if 'ABORT' not in P_:
-		P_['ABORT'] = False
-	if 'internet_on' not in P_:
-		P_['internet_on'] = False
-	try:
-		while P_['ABORT'] == False:
-			if timer.check():
-				P_['internet_on'] = internet_on()
-				timer.reset()
-			else:
-				time.sleep(1)
-	except Exception as e:
-		srpd2s("__internet_on_thread",e)
-		time.sleep(1)
+	def internet_on_thread(P_):
+		spd2s("__internet_on_thread")
+		timer = Timer(2)
+		if 'ABORT' not in P_:
+			P_['ABORT'] = False
+		if 'internet_on' not in P_:
+			P_['internet_on'] = False
+		try:
+			while P_['ABORT'] == False:
+				if timer.check():
+					P_['internet_on'] = internet_on()
+					timer.reset()
+				else:
+					time.sleep(1)
+		except Exception as e:
+			srpd2s("__internet_on_thread",e)
+			time.sleep(1)
 
 if False: # as example
 	threading.Thread(target=internet_on_thread,args=[P,]).start()
@@ -1152,34 +1171,35 @@ def clear_screen():
     print(chr(27) + "[2J")
 
 
-spd2s('imported',__file__)
-
-def percent_disk_free(disk):
-	statvfs = os.statvfs(disk)
-	size_of_filesystem_in_bytes = statvfs.f_frsize * statvfs.f_blocks     # Size of filesystem in bytes
-	#print statvfs.f_frsize * statvfs.f_bfree      # Actual number of free bytes
-	number_of_free_bytes_that_ordinary_users_have = statvfs.f_frsize * statvfs.f_bavail     # Number of free bytes that ordinary users
-	percent_free = int(100*number_of_free_bytes_that_ordinary_users_have/size_of_filesystem_in_bytes)
-	return percent_free
 
 
-def memory():
-	"""
-	Get node total memory and memory usage
-	http://stackoverflow.com/questions/17718449/determine-free-ram-in-python
-	"""
-	with open('/proc/meminfo', 'r') as mem:
-		ret = {}
-		tmp = 0
-		for i in mem:
-			sline = i.split()
-			if str(sline[0]) == 'MemTotal:':
-				ret['total'] = int(sline[1])
-			elif str(sline[0]) in ('MemFree:', 'Buffers:', 'Cached:'):
-				tmp += int(sline[1])
-		ret['free'] = tmp
-		ret['used'] = int(ret['total']) - int(ret['free'])
-	return ret
+if False:
+	def percent_disk_free(disk):
+		statvfs = os.statvfs(disk)
+		size_of_filesystem_in_bytes = statvfs.f_frsize * statvfs.f_blocks     # Size of filesystem in bytes
+		#print statvfs.f_frsize * statvfs.f_bfree      # Actual number of free bytes
+		number_of_free_bytes_that_ordinary_users_have = statvfs.f_frsize * statvfs.f_bavail     # Number of free bytes that ordinary users
+		percent_free = int(100*number_of_free_bytes_that_ordinary_users_have/size_of_filesystem_in_bytes)
+		return percent_free
+
+
+	def memory():
+		"""
+		Get node total memory and memory usage
+		http://stackoverflow.com/questions/17718449/determine-free-ram-in-python
+		"""
+		with open('/proc/meminfo', 'r') as mem:
+			ret = {}
+			tmp = 0
+			for i in mem:
+				sline = i.split()
+				if str(sline[0]) == 'MemTotal:':
+					ret['total'] = int(sline[1])
+				elif str(sline[0]) in ('MemFree:', 'Buffers:', 'Cached:'):
+					tmp += int(sline[1])
+			ret['free'] = tmp
+			ret['used'] = int(ret['total']) - int(ret['free'])
+		return ret
 
 
 
@@ -1187,13 +1207,14 @@ def memory():
 def Progress_animator(total_count,update_Hz=1.0,message=''):
 	from kzpy3.misc.progress import ProgressBar2
 	D = {}
+	D['total_count'] = total_count
 	D['progress'] = ProgressBar2(total_count,message=' '+message+': ') 
 	D['progress timer'] = Timer(1.0/(1.0*update_Hz))
 	def _update_function(current_count):
 		if True:
 			if D['progress timer'].check():
 				#print 'CCC'
-				assert current_count < total_count+1
+				assert current_count < D['total_count']+1
 				D['progress'].animate(current_count)
 				D['progress timer'].reset()
 			else:
@@ -1214,6 +1235,45 @@ def project_path__to__project_import_prefix(project_path):
 			c.append(b)
 	project_import_prefix = '.'.join(c)
 	return project_import_prefix
+
+
+
+
+
+def try_to_close(lst):
+    for l in lst:
+        try:
+            l.close()
+            cy('closed')
+        except: pass
+
+
+
+
+
+
+
+
+
+
+# These are not utils, but may be used widely
+
+Behavioral_mode_code = {
+    'left':110,
+    'right':111,
+    'direct':112,
+}
+Behavioral_code_to_mode = {}
+for k in Behavioral_mode_code.keys():
+    Behavioral_code_to_mode[Behavioral_mode_code[k]] = k
+
+
+
+
+
+
+
+
 
 
 

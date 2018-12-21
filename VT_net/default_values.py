@@ -23,7 +23,7 @@ P['cv2 scale'] = 4
 P['num timesteps'] = 9
 P['step_skip'] = 4
 P['load_timer_time'] = 2
-P['metadata_version'] = True
+P['metadata_version'] = False
 
 #P['To Expose']['VT menu'] = ['ABORT','fig','plot_range','good_starts','start_index_choice',
 #	'past_steps','future_steps','cmd/clear_screen','offset','step_size']
@@ -44,7 +44,7 @@ P['fig'] = 1
 P['backup parameter'] = 1.0
 P['index'] = 0
 P['vec sample frequency'] = 3.33
-P['start menu automatically'] = False
+P['start menu automatically'] = True
 P['vel-encoding coeficient'] = (1.0/2.3)
 
 #EOF

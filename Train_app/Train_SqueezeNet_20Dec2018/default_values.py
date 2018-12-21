@@ -2,10 +2,9 @@ from kzpy3.utils3 import *
 exec(identify_file_str)
 
 minute = 60
-minutes = minute
+minutes = 60
 hour = 60*minute
 hours = hour
-
 
 
 P = {}
@@ -22,7 +21,7 @@ elif P['use_LIDAR'] == False:
 	P['GPU'] = 0
 else:
 	P['GPU'] = 1
-P['GPU'] = 0
+P['GPU'] = 1
 #
 ###############################################################
 
@@ -34,9 +33,9 @@ P['proportion of runs to use'] = 1.0 #1/8. #(np.random.random()**2)
 P['start time'] = time_str()
 P['start time numeric'] = time.time()
 
-P['max_num_runs_to_open'] = 900
+P['max_num_runs_to_open'] = 300
 P['min_num_runs_to_open'] = 1
-P['run time before quitting'] = 0.5*hour
+P['run time before quitting'] = 30*minute
 P['experiments_folders'] = []
 
 P['To Expose'] = {}
@@ -54,13 +53,13 @@ else:
 	P['NETWORK_OUTPUT_FOLDER'] = opjD('Networks','net_15Sept2018_1Nov_with_reverse_with_12imgs') #
 P['save_net_timer'] = Timer(30*minute)
 P['SAVE_FILE_NAME'] = 'net'
-P['print_timer_time'] = hour
+P['print_timer_time'] = 15*minute
 P['trigger print timer?'] = False
-P['trigger loss_timer?'] = True
-P['loss_timer'] = Timer(10*minute)
-P['parameter_file_load_timer_time'] = minute
+P['trigger loss_timer?'] = False
+P['loss_timer'] = Timer(minute)
+P['parameter_file_load_timer_time'] = 60
 P['percent_of_loss_list_avg_to_show'] = 40.0
-P['frequency_timer'] = Timer(0.5*minute)
+P['frequency_timer'] = Timer(30.0)
 P['duration timer'] = Timer()
 P['TRAIN_TIME'] = 60*5.0
 P['VAL_TIME'] = 60*1.0
@@ -69,7 +68,7 @@ if P['RESUME']:
     P['INITIAL_WEIGHTS_FOLDER'] = opj(P['NETWORK_OUTPUT_FOLDER'],'weights')
     P['WEIGHTS_FILE_PATH'] = most_recent_file_in_folder(P['INITIAL_WEIGHTS_FOLDER'],['net'],[])
 
-P['reload_image_file_timer_time'] = 30*minutes
+P['reload_image_file_timer_time'] = 15*minute
 
 P['LOSS_LIST_N'] = 30
 P['run_name_to_run_path'] = {}
