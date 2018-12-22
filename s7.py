@@ -973,15 +973,15 @@ def vec(heading,encoder,sample_frequency=30.0):
     return a
 
 
-if True:
-    path = opjD('Data/1_TB_Samsung_n1/left_direct_stop__29to30Oct2018/locations/local/left_direct_stop/h5py/tegra-ubuntu_29Oct18_13h28m05s')
-    L = h5r(opj(path,'left_timestamp_metadata_right_ts.h5py'))
-    O = h5r(opj(path,'original_timestamp_data.h5py'))
-    heading = L['gyro_heading_x'][:]
-    encoder = L['encoder'][:]
-    dheading = [0]
-    for i in range(1,len(heading)):
-        dheading.append(heading[i]-heading[i-1])
+
+path = opjD('Data/1_TB_Samsung_n1/left_direct_stop__29to30Oct2018/locations/local/left_direct_stop/h5py/tegra-ubuntu_29Oct18_13h28m05s')
+L = h5r(opj(path,'left_timestamp_metadata_right_ts.h5py'))
+O = h5r(opj(path,'original_timestamp_data.h5py'))
+heading = L['gyro_heading_x'][:]
+encoder = L['encoder'][:]
+dheading = [0]
+for i in range(1,len(heading)):
+    dheading.append(heading[i]-heading[i-1])
 
 
 def graphics_format(a,b,c,d):
@@ -996,6 +996,9 @@ sample_frequency = 30.0
 prediction_sample_frequency = 3.33
 unit_vector = na([0.,1.])
 
+
+########################################################################################
+#
 def Pts():
     D = {}
     D['xy'] = [na([0.,0.])]
@@ -1016,23 +1019,17 @@ def Pts():
 
     def function_type_1():
         D['cumulative heading'] += D['dheading'][D['i']]
-        v = vec(D['cumulative heading'],D['encoder'][D['i']],D['sample_frequency']) # 3.33
+        v = vec(D['cumulative heading'],D['encoder'][D['i']],D['sample_frequency'])
         D['xy'].append(v+D['xy'][-1])
     D['type 1'] = function_type_1
 
     def function_type_2():
-        ##################################
-        #velocity = encoder[i] * P['vel-encoding coeficient']
-        #if D['motor'][D['i']] < 49:
-        #    velocity *= -1
         a = unit_vector * D['velocity'] / D['sample_frequency']
         D['xy'] = list(D['xy'])
         D['xy'].append(a+D['xy'][-1])
-        #R['indicies'].append(i)
         D['xy'] = na(D['xy'])
         D['xy'] -= D['xy'][-1]
         D['xy'] = rotatePolygon(D['xy'],D['dheading'][D['i']])
-        ##################################
     D['type 2'] = function_type_2
 
     def function_step(f_type='type 1'):
@@ -1069,6 +1066,8 @@ def Pts():
     D['show'] = function_show
 
     return D
+#
+########################################################################################
 
 
 
@@ -1104,7 +1103,7 @@ while R['step']('type 2'):
     C['sample_frequency'] = 30
     C['left_image'] = O['left_image']['vals']
     C['step_size'] = 1
-    #raw_enter()
+
     while C['step']('type 1'):
         cg(R['i'],C['i'],R['i']-C['i'])
         pass
@@ -1117,136 +1116,6 @@ while R['step']('type 2'):
     pp = R['xy'].pop()
     R['xy'] += list(C['xy'])
     R['xy'].append(pp)
-
-
-    """
-
-
-# walking pace ~ 1.5 m/s
-# encoder peak around 3.6
-CA()
-
-P = {}
-P['vel-encoding coeficient'] = (1.0/2.3)
-sample_frequency = 30.0
-unit_vector = na([0.,1.])
-
-def Pts():
-    D = {}
-    D['xy'] = None
-    D['indicies'] = None
-    D['mode'] = None
-    D['max len'] = None
-    return D
-
-path = opjD('Data/1_TB_Samsung_n1/left_direct_stop__29to30Oct2018/locations/local/left_direct_stop/h5py/tegra-ubuntu_29Oct18_13h28m05s')
-
-L = h5r(opj(path,'left_timestamp_metadata_right_ts.h5py'))
-O = h5r(opj(path,'original_timestamp_data.h5py'))
-
-heading = L['gyro_heading_x'][:]
-encoder = L['encoder'][:]
-dheading = [0]
-for i in range(1,len(heading)):
-    dheading.append(heading[i]-heading[i-1])
-
-R = Pts()
-R['mode'] = 'dead reckoning'
-R['xy'] = [na([0.,0.])]
-R['indicies'] = [np.nan]
-R['max len'] = 1000
-
-ii = 12000
-nsteps = 15*60*30
-
-
-for i in range(ii,ii+nsteps):
-
-    ##################################
-    velocity = encoder[i] * P['vel-encoding coeficient']
-    if L['motor'][i] < 49:
-        velocity *= -1
-    a = unit_vector * velocity / sample_frequency
-    R['xy'].append(a+R['xy'][-1])
-    R['indicies'].append(i)
-    R['xy'] = na(R['xy'])
-    R['xy'] -= R['xy'][-1]
-    R['xy'] = rotatePolygon(R['xy'],dheading[i])
-    ##################################
-
-    if True:
-        if np.mod(i,30) == 0:
-            cb(i)
-        if len(R['xy']) > 1.05*R['max len']:
-            R['xy'] = R['xy'][-R['max len']:]
-
-        if np.mod(i,3) == 0:
-            if velocity > 0:
-                pcolor = 'r'
-            else:
-                pcolor = 'b'
-            clf();plt_square();xylim(-20,20,-40,2)
-            pts_plot(na(R['xy'])[range(0,len(R['xy']),10)],color=pcolor,sym='.')
-            mci(O['left_image']['vals'][i],scale=2,delay=1)
-            spause()
-
-
-
-    """
-    pp = pts.pop()
-    for j in range(10):
-        pts.append(np.random.randn(2))
-    pts.append(pp)
-    """
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-if False:
-
-    xy = array([0.0,0.0])
-    xys = []
-
-    for i in range(len(headings)):
-        v = vec(headings[i],encoders[i],P['vec sample frequency']) #3.33)
-        xy += v # take into consideration reverse driving
-        xys.append(xy.copy())
-
-    points_to_fit = na(xys[:3])
-    x = points_to_fit[:,0]
-    y = points_to_fit[:,1]
-    m,b = curve_fit(f,x,y)[0]
-    ang = np.degrees(angle_between([0,1],[1,m]))
-
-    rpoints = na(xys)
-
-
-
-
-
-def vec(heading,encoder,sample_frequency=30.0):
-    velocity = encoder * P['vel-encoding coeficient'] # rough guess
-    a = [0,1]
-    a = array(rotatePoint([0,0],a,heading))
-    a *= velocity/sample_frequency
-    return array(a)
-#np.concatenate((pts,na([[1,2]])),0)
-
 
 
 
