@@ -340,6 +340,8 @@ def pt_plot(xy,color='r'):
     plot(xy[0],xy[1],color+'.')
 
 def pts_plot(xys,color='r',sym='.'):
+    if type(xys) == list:
+        xys = na(xys)
     assert(len(color)==1)
     x = xys[:,0]
     y = xys[:,1]
@@ -452,6 +454,8 @@ def Plot(xy_pix_sizes,origin,xy_mults):
     D['floats_to_pixels'] = _floats_to_pixels
     D['pixel_to_float'] = _pixel_to_float
     def _pts_plot(xy,c='b'):
+        if type(xy) == list:
+            xy = na(xy)
         if len(xy) < 1:
             print('warning, asked to plot empty pts')
             return
