@@ -18,7 +18,7 @@ print 'Soft limit is ', soft
 assert(soft>=65000)
 """
 
-
+full = True
 if True: #########################################################################################
 
 	P['experiments_folders'] = []
@@ -26,7 +26,7 @@ if True: #######################################################################
 		import kzpy3.Data_app.classify_data as classify_data
 		
 		
-		if True:
+		if full:
 			locations_to_classify = [
 				opjD("Data/1_TB_Samsung_n1"),
 				opjD("Data/2_TB_Samsung_n3/rosbags__preprocessed_data"),
@@ -42,7 +42,7 @@ if True: #######################################################################
 		if verbose: print P['experiments_folders']
 		#raw_enter()
 	################################################################
-	if True:
+	if full:
 	################################################################
 		older = [
 			opjD("Data/2_TB_Samsung_n3/bdd_car_data_July2017_LCR/locations"),

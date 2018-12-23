@@ -13,6 +13,8 @@ print_Arguments()
 
 P['print_timer'] = Timer(P['print_timer_time'])
 P['loss_timer'] = Timer(P['loss_timer_time'])
+P['menu_load_timer'] = Timer(P['menu_load_timer_time'])
+P['spause_timer'] = Timer(P['spause_timer_time'])
 if P['trigger print timer?']:
 	P['print_timer'].trigger()
 P['reload_image_file_timer'] = Timer(P['reload_image_file_timer_time'])

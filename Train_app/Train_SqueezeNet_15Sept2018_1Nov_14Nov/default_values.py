@@ -23,17 +23,20 @@ hours = hour
 
 P = {}
 P['ABORT'] = False
-P['customers'] = ['menu']
+P['customers'] = ['train menu']
 P['To Expose'] = {}
-P['load_timer_time'] = 5
+
 P['verbose'] = False
 verbose = P['verbose']
 
 P['loss_timer_time'] = 10*minute
 P['print_timer_time'] = hour
+P['menu_load_timer_time'] = 10
+P['spause_timer_time'] = 10
+
 P['cmd/clear_screen'] = False
 
-#P['parameter_file_load_timer_time'] = minute
+#P['parameter_file_menu_load_timer_time'] = minute
 P['percent_of_loss_list_avg_to_show'] = 40.0
 
 
@@ -45,13 +48,13 @@ P['DISPLAY_EACH'] = False
 	# len(a) = 10
 #P['gray_out_random_value'] = 0.0
 P['start menu automatically'] = False
-P['To Expose']['menu'] = sorted(P.keys())
+P['To Expose']['train menu'] = sorted(P.keys())
 to_hide = ['To Expose','customers']
 for h in to_hide:
-	P['To Expose']['menu'].remove(h)
+	P['To Expose']['train menu'].remove(h)
 for k in P.keys():
 	if '!' in k:
-		P['To Expose']['menu'].remove(k)
+		P['To Expose']['train menu'].remove(k)
 ###############################################################
 ###############################################################
 ###############################################################
@@ -141,40 +144,39 @@ elif True:
 #
 if P['start menu automatically'] and using_linux():
     dic_name = "P"
-    sys_str = d2n("gnome-terminal -x python kzpy3/Menu_app/menu2.py path ",project_path," dic ",dic_name)
+    sys_str = d2n("gnome-terminal  --geometry 40x30+100+200 -x python kzpy3/Menu_app/menu2.py path ",project_path," dic ",dic_name)
     cr(sys_str)
     os.system(sys_str)
 
-parameter_file_load_timer = Timer(P['load_timer_time'])
 
 P['updated']
 
-def load_parameters(P,customer='menu'):
-    if parameter_file_load_timer.check():
+def load_parameters(P,customer='train menu'):
+    if P['menu_load_timer'].check():
         Topics = menu2.load_Topics(project_path,first_load=False,customer=customer)
-        P['updated this load'] = []
         if type(Topics) == dict:
-            for t in Topics['To Expose']['menu']:
+            P['updated this load'] = []
+            for t in Topics['To Expose']['train menu']:
                 if t in Arguments:
                     topic_warning(t)
                 if '!' in t:
                     pass
                 else:
-                	if P[t] == Topics[t]:
-                		pass
-                	else:
-	                    P[t] = Topics[t]
-	                    P['updated this load'].append(t)
-	                    P['updated'].append(t)
-	    if len(P['updated this load']) > 0:
-		    cg("Updated parameter this load:\n\t",P['updated this load'])
-		    cb("Updated parameter:\n\t",P['updated'])
-        parameter_file_load_timer.reset()
+                    if P[t] == Topics[t]:
+                        pass
+                    else:
+                        P[t] = Topics[t]
+                        P['updated this load'].append(t)
+                        P['updated'].append(t)
+            if len(P['updated this load']) > 0:
+                P['updated this load'] = list(set(P['updated this load']))
+                P['updated'] = list(set(P['updated']))
+                cg("Updated parameter this load:\n\t",P['updated this load'])
+                cb("Updated parameter:\n\t",P['updated'])
+        P['menu_load_timer'].reset()
 
 # 
 ##############################################################
-
-
 
 
 

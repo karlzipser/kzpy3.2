@@ -18,7 +18,7 @@ P['LOSS_LIST'] = []
 if 'LOSS_LIST_AVG' not in P:
 	P['LOSS_LIST_AVG'] = []
 P['reload_image_file_timer'].trigger()
-spause_timer = Timer(30)
+
 zero_matrix = torch.FloatTensor(1, 1, 23, 41).zero_().cuda()
 one_matrix = torch.FloatTensor(1, 1, 23, 41).fill_(1).cuda()
 temp = (255*z2o(np.random.randn(94,168))).astype(np.uint8)
@@ -180,18 +180,6 @@ def Batch(the_network=None):
 
 
 	def _function_fill():
-
-		load_parameters(P,customer='menu')
-
-		if 'print_timer_time' in P['updated']:
-			P['print_timer'] = Timer(P['print_timer_time'])
-			P['updated'].remove('print_timer_time')
-
-		if 'loss_timer_time' in P['updated']:
-			P['loss_timer'] = Timer(P['loss_timer_time'])
-			P['updated'].remove('loss_timer_time')
-
-
 
 		if P['reload_image_file_timer'].check():
 			_close_image_files()
@@ -473,14 +461,31 @@ def Batch(the_network=None):
 			#D['tries'] = 0
 			#D['successes'] = 0			
 
-
+	Timer_updates = {
+		'print_timer_time':'print_timer',
+		'loss_timer_time':'loss_timer',
+		'spause_timer_time':'spause_timer',
+		'reload_image_file_timer_time':'reload_image_file_timer',
+		'menu_load_timer_time':'menu_load_timer',
+	}
 
 
 	def _function_display():
+		##################################
+		#
+		load_parameters(P,customer='train menu')
+
+		for u in Timer_updates.keys():
+			if u in P['updated']:
+				P[Timer_updates[u]] = Timer(P[u])
+				P['updated'].remove(u)
+		#
+		##################################
 		#cv2.waitKey(1) # This is to keep cv2 windows alive
-		if spause_timer.check():
+		if P['spause_timer'].check():
 			spause()
-			spause_timer.reset()
+			P['spause_timer'].reset()
+
 		if P['print_timer'].check():
 			cprint(d2s("P['start time'] =",P['start time']),'blue','on_yellow')
 			for i in [0]:#range(P['BATCH_SIZE']):
