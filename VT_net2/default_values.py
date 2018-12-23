@@ -1,7 +1,6 @@
 #!/usr/bin/env python
-
 from kzpy3.utils3 import *
-
+exec(identify_file_str)
 ###############################################3
 #
 P = {}
@@ -16,15 +15,15 @@ P['To Expose'] = {}
 P['plot_range'] = 5.0
 P['step_size'] = 1
 P['cmd/clear_screen'] = False
-P['show 2D'] = False
+P['show 2D'] = True
 P['show 3D'] = True
 P['cv2 delay'] = 1
 P['cv2 scale'] = 4
-P['num timesteps'] = 32
+P['num timesteps'] = 30
 P['step_skip'] = 4
 P['load_timer_time'] = 2
 P['metadata_version'] = False
-P['index'] = 1500
+P['index'] = 5000
 
 #P['To Expose']['VT menu'] = ['ABORT','fig','plot_range','good_starts','start_index_choice',
 #	'past_steps','future_steps','cmd/clear_screen','offset','step_size']
@@ -43,7 +42,6 @@ P['fig'] = 1
 #P['run_folder'] =  '/media/karlzipser/rosbags1/h5py/tegra-ubuntu_20Nov18_10h59m22s'
 #P['run_folder'] = '/home/karlzipser/Desktop/h5py/Mr_Purple_24Nov18_11h48m54s'
 P['backup parameter'] = 1.0
-P['index'] = 0
 P['vec sample frequency'] = 3.33
 P['start menu automatically'] = True
 P['vel-encoding coeficient'] = (1.0/2.3)

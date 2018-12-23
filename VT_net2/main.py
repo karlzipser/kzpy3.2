@@ -15,11 +15,84 @@ os.system(sys_str)
 import fit3d
 exec(identify_file_str)
 P = default_values.P
-
 #
 ##############################################################
 
 assert 'run' in Arguments
+
+
+
+
+########################################################################################
+########################################################################################
+########################################################################################
+####
+def CV2Plot(height_in_pixels,width_in_pixels,pixels_per_unit,x_origin_in_pixels=None,y_origin_in_pixels=None):
+    if x_origin_in_pixels == None:
+        x_origin_in_pixels = intr(width_in_pixels/2.0)
+    if y_origin_in_pixels == None:
+        y_origin_in_pixels = intr(height_in_pixels/2.0)
+    D = {}
+    D['verbose'] = True
+    if D['verbose']:
+        cy(x_origin_in_pixels,y_origin_in_pixels)
+    D['image'] = zeros((height_in_pixels,width_in_pixels,3),np.uint8)
+    def function_show():
+        mci(D['image'],scale=4.0,delay=1)
+    def function_safe(px,py):
+        if px >= 0:
+            if py >= 0:
+                if py < height_in_pixels:
+                    if px < width_in_pixels:
+                        return True
+        if D['verbose']:
+            cr('not safe')
+        return False
+    def function_get_pixel(x,y):
+        px = intr(x * pixels_per_unit)
+        py = intr(-y * pixels_per_unit)
+        px += x_origin_in_pixels
+        py += y_origin_in_pixels
+        if D['verbose']:
+            cb(x,y,"->",px,py)
+        return px,py
+    def function_add_point_pixel_version(px,py,c=[255,255,255]):
+        if function_safe(px,py):
+            D['image'][py,px,:] = c
+    def function_add_point_xy_version(x,y,c=[255,255,255]):
+        px,py = D['get pixel'](x,y)
+        if D['safe?'](px,py):
+            D['image'][py,px,:] = c
+    def function_pts_plot(xys,c=[255,255,255]):
+        if type(c) == str:
+            if c == 'r':
+                c = [255,0,0]
+            elif c == 'g':
+                c = [0,255,0]
+            elif c == 'b':
+                c = [0,0,255]  
+            else:
+                cr('warning, unknown color:',c)
+                c = [255,255,255]
+        for i in rlen(xys):
+            D['add point (xy_version)'](xys[i,0],xys[i,1],c)
+    def function_clear():
+        D['image'] *= 0
+    D['show'] = function_show
+    D['safe?'] = function_safe
+    D['add point (pixel_version)'] = function_add_point_pixel_version
+    D['add point (xy_version)'] = function_add_point_xy_version
+    D['get pixel'] = function_get_pixel
+    D['pts_plot'] = function_pts_plot
+    D['clear'] = function_clear
+    return D
+####
+########################################################################################
+########################################################################################
+########################################################################################
+
+Cv2Plot = CV2Plot(height_in_pixels=2*100,width_in_pixels=2*100,pixels_per_unit=2*10,y_origin_in_pixels=2*75)
+Cv2Plot['verbose'] = False
 
 ####################### MENU ################################
 #
@@ -46,12 +119,14 @@ def load_parameters(P,customer='VT menu'):
 # 
 ##############################################################
 
-def vec(heading,encoder,sample_frequency=30.0):
-	velocity = encoder * P['vel-encoding coeficient'] # rough guess
-	a = [0,1]
-	a = array(rotatePoint([0,0],a,heading))
-	a *= velocity/sample_frequency
-	return array(a)
+def vec(heading,encoder,motor,sample_frequency=30.0):
+    velocity = encoder * P['vel-encoding coeficient'] # rough guess
+    if motor < 49:
+        velocity *= -1.0
+    a = [0,1]
+    a = array(rotatePoint([0,0],a,heading))
+    a *= velocity/sample_frequency
+    return array(a)
 
 
 def f(x,A,B):
@@ -64,8 +139,7 @@ for r in runs:
 run_path = Runs[Arguments['run']]
 
 
-U = lo(opjD('Data/Network_Predictions_13Dec2018',fname(run_path)+'.net_predictions.pkl'))
-#U = lo(opjD('Data/Network_Predictions',fname(run_path)+'.net_predictions.pkl'))
+U = lo(opjD('Data/Network_Predictions',fname(run_path)+'.net_predictions.pkl'))
 O = h5r(opj(run_path,'original_timestamp_data.h5py' ))
 L = h5r(opj(run_path,'left_timestamp_metadata_right_ts.h5py'))
 
@@ -81,12 +155,12 @@ for i in rlen(L['ts']):
 
 Colors = {'direct':'b','left':'r','right':'g'}
 
-def get_r_points(behavioral_mode,headings,encoders):
+def get_r_points(behavioral_mode,headings,encoders,motors):
     xy = array([0.0,0.0])
     xys = []
 
     for i in range(len(headings)):
-        v = vec(headings[i],encoders[i],P['vec sample frequency']) #3.33)
+        v = vec(headings[i],encoders[i],motors[i],P['vec sample frequency']) #3.33)
         xy += v # take into consideration reverse driving
         xys.append(xy.copy())
 
@@ -173,10 +247,6 @@ def show3d(Rpoints_list,left_index,delay=33,metadata_version=False):
         mci(cv2.resize(img,(168*2,94*2)),scale=2.0,delay=delay,title='left camera w/ points')
     else:
         pass
-        #mci(img,scale=6.0,delay=delay,title='left camera w/ points, metadata_version')
-        #mci(img2,scale=6.0,delay=delay,title='left camera w/ points, metadata_version2')
-
-    
 
     if metadata_version:
         return metadata_version_list
@@ -203,14 +273,14 @@ if __name__ == '__main__':
             for behavioral_mode in  ['left','direct','right']:
                 headings = U[behavioral_mode][P['index']]['heading']
                 encoders = U[behavioral_mode][P['index']]['encoder']
-                rpoints = get_r_points(behavioral_mode,headings,encoders)
-
+                rpoints = get_r_points(behavioral_mode,headings,encoders,P['motors'])
 
                 Rpoints[behavioral_mode] = rpoints
 
             if P['show 2D']:
-                clf(); plt_square(); xysqlim(P['plot_range'])
-
+                if False:
+                    clf(); plt_square(); xysqlim(P['plot_range'])
+                Cv2Plot['clear']()
             Pts.append({})
 
             for behavioral_mode in ['left','direct','right']:
@@ -226,7 +296,7 @@ if __name__ == '__main__':
 
             d_heading = P['headings'][indx]-P['headings'][indx-1]
             encoder = P['encoders'][indx]
-            velocity = encoder * P['vel-encoding coeficient'] # rough guess
+            velocity = encoder * P['vel-encoding coeficient']
             a = na([0,1]) * velocity / sample_frequency
 
             for behavioral_mode in ['left','direct','right']:        
@@ -243,11 +313,14 @@ if __name__ == '__main__':
                     if behavioral_mode in Pts[i] and behavioral_mode in Pts[-1]:
                         Pts[i][behavioral_mode] = Pts[i][behavioral_mode]-Pts[-1][behavioral_mode][-1]
                         if P['show 2D']:
-                            pts_plot(na(Pts[i][behavioral_mode]),Colors[behavioral_mode])
+                            if False:
+                                pts_plot(na(Pts[i][behavioral_mode]),Colors[behavioral_mode])
+                            Cv2Plot['pts_plot'](na(Pts[i][behavioral_mode]),Colors[behavioral_mode])
                     else:
                         cr('B')                    
                 if P['show 2D']:
-                    plot(0,0,'ko');plot(0,0,'kx')
+                    if False:
+                        plot(0,0,'ko');plot(0,0,'kx')
 
                     
 
@@ -258,7 +331,9 @@ if __name__ == '__main__':
                     CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
 
                 if P['show 2D']:
-                    spause()
+                    if False:
+                        spause()
+                    Cv2Plot['show']()
 
             if P['show 3D']:
                 metadata_version_list = show3d(Pts,left_index,P['cv2 delay'],P['metadata_version'])
@@ -271,7 +346,6 @@ if __name__ == '__main__':
                             img = 0*metadata_version_list[0]
                         else:
                             img = metadata_version_list[i]
-                            #mci(metadata_version_list[i],scale=6.0,delay=P['cv2 delay'],title=d2s('metadata_version',i))
                         metadata_version_list_dic[ky].append(img)
                     metadata_version_list_dic['index'].append(P['index'])
                     first = True
@@ -304,17 +378,6 @@ if __name__ == '__main__':
 
         P['timer'].freq(d2s("P['index'] =",P['index'], int(100*P['index']/(1.0*len(U['ts']))),'%'))
 
-
-        #if len(metadata_version_list_dic['i0']) > 100:
-        #    break
-    
-
-
-
-
-
-    #print('here!')
-    #CA()
     print len(metadata_version_list_dic['i8'])
 
     first = True
@@ -324,13 +387,7 @@ if __name__ == '__main__':
             first = False
         else:
             assert len(metadata_version_list_dic[k]) == l
-    """
-    raw_enter()
-    for i in rlen(metadata_version_list_dic['i8']):
-        cg(i)
-        mci(metadata_version_list_dic['i8'][i],scale=6.0,delay=66,title=d2s('metadata_version_list_dic'))
-    raw_enter()
-    """
+
     file_paths = [opjD('Data/Network_Predictions_projected',fname(run_path)+'.net_projections.h5py'),\
         opjD('Data/Network_Predictions_projected',fname(run_path)+'.net_projections.flip.h5py')]
 

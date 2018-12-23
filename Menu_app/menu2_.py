@@ -211,8 +211,10 @@ def menu2(Topics,path):
         except Exception as e:
             print("********** rosmenu.py Exception ***********************")
             print(e.message, e.args)
-            exec(EXCEPT_STR)
-            #raw_enter()
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            CS_('Exception!',emphasis=True)
+            CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
 
 
 def save_topics(Topics,path):
@@ -250,10 +252,20 @@ def print_exposed(Topics,customer):
     print ''
 
 def load_Topics(input_path,first_load=False,customer=''):
+    if True:
+        if input_path[0] == '/':
+            input_path = input_path[1:]
+    if input_path[-1] == '/':
+        input_path = input_path[:-1]
+
     c = get_safe_name(customer)
     path = opj(input_path,'__local__')
+    #cb("load_Topics path =", path)
     r = sggo(path,'ready.'+c)
-    #cr("TEMP ",r)
+    if len(r) == 0:
+        #cs('Warning,',opj(path,'ready.'+c),'not found!')
+        return None
+    #cr("TEMP ",r,opj(path,'ready.'+c))
     if len(r) > 1:
         CS_('Warning, more than one ready in '+path)
     assert len(r) < 2
@@ -297,14 +309,22 @@ def load_menu_data(path,Parameters,first_load=False,customer=''):
 
 if __name__ == '__main__':# and EXIT == False:
     path = Arguments['path']
-    module = path.replace('/','.').replace('.py','')
+    cr(path)
+    path = path.replace(opjh(),'')
+    cg(path)
+    if path[0] == '/':
+        path = path[1:]
+    if path[-1] == '/':
+        path = path[:-1]
+    cy(path)
+    #module = path.replace('/','.').replace('.py','')
+    module = project_path__to__project_import_prefix(path)
+    cy(module)
     CS_(module,'module')
     dic = Arguments['dic']
     CS_(dic,'dic')
     #raw_enter()
-    exec_str = d2n('import ',module,'.default_values as default_values')
-    cr(exec_str)
-    exec(exec_str)
+    exec(d2n('import ',module,'.default_values as default_values'))
     #raw_enter()
     exec(d2n('Topics = default_values.',dic))
     #raw_enter()
@@ -317,7 +337,6 @@ if __name__ == '__main__':# and EXIT == False:
 # python kzpy3/Menu_app/menu.py path ~/kzpy3/Cars/car_24July2018/nodes/__local__/arduino/ default 1 Topics arduino
 
 #CS_(d2c('e.g.','python kzpy3/Menu_app/menu.py module kzpy3.Cars.car_24July2018.nodes.Default_values.arduino dic Parameters'))
-
 
 
 #EOF

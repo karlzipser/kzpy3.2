@@ -42,13 +42,12 @@ except Exception as e:
 		"""
 		)
 
-if False:	    
-	EXCEPT_STR = """
-	exc_type, exc_obj, exc_tb = sys.exc_info()
-	file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-	CS_('Exception!',exception=True,newline=False)
-	CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
-	"""
+EXCEPT_STR = """
+exc_type, exc_obj, exc_tb = sys.exc_info()
+file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+CS_('Exception!',exception=True,newline=False)
+CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+"""
 
 if False:
 	def print_exception_format():
