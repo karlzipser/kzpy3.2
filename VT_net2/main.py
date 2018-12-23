@@ -200,11 +200,11 @@ def show3d(Rpoints_list,left_index,delay=33,metadata_version=False):
     if metadata_version:
         img = cv2.resize(img,(41,23))
         metadata_version_list = []
-
+    img2 = 0*img
     for q in range(len(Rpoints_list)-1,-1,-1):
         Rpoints = Rpoints_list[q]
         if metadata_version:
-            img2 = 0*img
+            pass#img2 = 0*img
         for behavioral_mode in Rpoints.keys():
             rpoints = Rpoints[behavioral_mode]
             for i in rlen(rpoints):
@@ -239,7 +239,7 @@ def show3d(Rpoints_list,left_index,delay=33,metadata_version=False):
                             good = False
                         if good:               
                             img[cy,cx,:] = RGBs[behavioral_mode]
-                            img2[cy,cx,Color_index[behavioral_mode]] = 255
+                            img2[cy,cx,Color_index[behavioral_mode]] =255#+= cy
 
                 except Exception as e:
                     exc_type, exc_obj, exc_tb = sys.exc_info()
@@ -250,11 +250,12 @@ def show3d(Rpoints_list,left_index,delay=33,metadata_version=False):
 
         if metadata_version:       
             metadata_version_list.append(img2)
+            
                 
     if not metadata_version:
         mci(cv2.resize(img,(168*2,94*2)),scale=2.0,delay=delay,title='left camera w/ points')
     else:
-        pass
+        mci(z2_255(img2),scale=5,delay=1,title='metadata')
 
     if metadata_version:
         return metadata_version_list
@@ -386,6 +387,7 @@ if __name__ == '__main__':
 
         P['timer'].freq(d2s("P['index'] =",P['index'], int(100*P['index']/(1.0*len(U['ts']))),'%'))
 
+    """
     print len(metadata_version_list_dic['i8'])
 
     first = True
@@ -413,7 +415,7 @@ if __name__ == '__main__':
             F.create_dataset(topic,data=D[topic])
             cs( type(D[topic]),shape(D[topic]))      
         F.close()
-
+    """
 
 
 

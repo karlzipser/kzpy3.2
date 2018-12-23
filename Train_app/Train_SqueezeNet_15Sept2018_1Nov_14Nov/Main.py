@@ -1,8 +1,10 @@
 from kzpy3.utils3 import *
 
+from default_values import *
+
 startup_timer = Timer()
 
-from default_values import *
+
 #from Parameters_Module import *
 
 for a in Arguments.keys():
@@ -10,6 +12,7 @@ for a in Arguments.keys():
 print_Arguments()
 
 P['print_timer'] = Timer(P['print_timer_time'])
+P['loss_timer'] = Timer(P['loss_timer_time'])
 if P['trigger print timer?']:
 	P['print_timer'].trigger()
 P['reload_image_file_timer'] = Timer(P['reload_image_file_timer_time'])
