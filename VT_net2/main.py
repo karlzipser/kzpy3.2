@@ -37,8 +37,13 @@ def CV2Plot(height_in_pixels,width_in_pixels,pixels_per_unit,x_origin_in_pixels=
     if D['verbose']:
         cy(x_origin_in_pixels,y_origin_in_pixels)
     D['image'] = zeros((height_in_pixels,width_in_pixels,3),np.uint8)
-    def function_show():
-        mci(D['image'],scale=4.0,delay=1)
+    def function_show(autocontrast=True):
+        
+        img = D['image']
+        if autocontrast:
+            img = z2_255_by_channel(img)
+            #cg(img.min(),img.max())
+        mci(img,scale=4.0,delay=1)
     def function_safe(px,py):
         if px >= 0:
             if py >= 0:
@@ -56,9 +61,6 @@ def CV2Plot(height_in_pixels,width_in_pixels,pixels_per_unit,x_origin_in_pixels=
         if D['verbose']:
             cb(x,y,"->",px,py)
         return px,py
-    #def function_add_point_pixel_version(px,py,c=[255,255,255]):
-    #    if function_safe(px,py):
-    #        D['image'][py,px,:] = c
     def function_plot_point_xy_version(x,y,c=[255,255,255],add_mode=False):
         px,py = D['get pixel'](x,y)
         if D['safe?'](px,py):
@@ -83,24 +85,10 @@ def CV2Plot(height_in_pixels,width_in_pixels,pixels_per_unit,x_origin_in_pixels=
                 c = [255,255,255]
         for i in rlen(xys):
             D['plot point (xy_version)'](xys[i,0],xys[i,1],c,add_mode)
-    def function_pts_plot(xys,c=[1,0,0]):
-        if type(c) == str:
-            if c == 'r':
-                c = [1,0,0]
-            elif c == 'g':
-                c = [0,1,0]
-            elif c == 'b':
-                c = [0,0,1]  
-            else:
-                cr('warning, unknown color:',c)
-                c = [1,1,1]
-        for i in rlen(xys):
-            D['add point (xy_version)'](xys[i,0],xys[i,1],c)
     def function_clear():
         D['image'] *= 0
     D['show'] = function_show
     D['safe?'] = function_safe
-    #D['plot point (pixel_version)'] = function_plot_point_pixel_version
     D['plot point (xy_version)'] = function_plot_point_xy_version
     D['get pixel'] = function_get_pixel
     D['pts_plot'] = function_pts_plot
@@ -111,7 +99,7 @@ def CV2Plot(height_in_pixels,width_in_pixels,pixels_per_unit,x_origin_in_pixels=
 ########################################################################################
 ########################################################################################
 
-Cv2Plot = CV2Plot(height_in_pixels=2*100,width_in_pixels=2*100,pixels_per_unit=2*10,y_origin_in_pixels=2*75)
+Cv2Plot = CV2Plot(height_in_pixels=23,width_in_pixels=41,pixels_per_unit=7,y_origin_in_pixels=23)
 Cv2Plot['verbose'] = False
 
 ####################### MENU ################################
@@ -335,7 +323,7 @@ if __name__ == '__main__':
                         if P['show 2D']:
                             if False:
                                 pts_plot(na(Pts[i][behavioral_mode]),Colors[behavioral_mode])
-                            Cv2Plot['pts_plot'](na(Pts[i][behavioral_mode]),Colors[behavioral_mode])
+                            Cv2Plot['pts_plot'](na(Pts[i][behavioral_mode]),Colors[behavioral_mode],add_mode=True)
                     else:
                         cr('B')                    
                 if P['show 2D']:
@@ -353,7 +341,7 @@ if __name__ == '__main__':
                 if P['show 2D']:
                     if False:
                         spause()
-                    Cv2Plot['show']()
+            Cv2Plot['show']()
 
             if P['show 3D']:
                 metadata_version_list = show3d(Pts,left_index,P['cv2 delay'],P['metadata_version'])

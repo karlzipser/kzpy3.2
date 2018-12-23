@@ -220,6 +220,12 @@ def zeroToOneRange(m):
 	return (1.0*m-min_n)/(1.0*np.max(m)-min_n)
 z2o = zeroToOneRange
 
+def z2_255(m):
+	return (255*z2o(m)).astype(np.uint8)
+def z2_255_by_channel(m):
+	for i in range(3):
+		m[:,:,i] = z2_255(m[:,:,i])
+	return m
 
 
 def dic_of_(list_or_dic,keys):
