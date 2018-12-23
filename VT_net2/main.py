@@ -56,32 +56,52 @@ def CV2Plot(height_in_pixels,width_in_pixels,pixels_per_unit,x_origin_in_pixels=
         if D['verbose']:
             cb(x,y,"->",px,py)
         return px,py
-    def function_add_point_pixel_version(px,py,c=[255,255,255]):
-        if function_safe(px,py):
-            D['image'][py,px,:] = c
-    def function_add_point_xy_version(x,y,c=[255,255,255]):
+    #def function_add_point_pixel_version(px,py,c=[255,255,255]):
+    #    if function_safe(px,py):
+    #        D['image'][py,px,:] = c
+    def function_plot_point_xy_version(x,y,c=[255,255,255],add_mode=False):
         px,py = D['get pixel'](x,y)
         if D['safe?'](px,py):
-            D['image'][py,px,:] = c
-    def function_pts_plot(xys,c=[255,255,255]):
+            if not add_mode:
+                D['image'][py,px,:] = c
+            else:
+                D['image'][py,px,:] += na(c,np.uint8)
+    def function_pts_plot(xys,c=[255,255,255],add_mode=False):
         if type(c) == str:
+            if add_mode:
+                n = 1
+            else:
+                n = 255
             if c == 'r':
-                c = [255,0,0]
+                c = [n,0,0]
             elif c == 'g':
-                c = [0,255,0]
+                c = [0,n,0]
             elif c == 'b':
-                c = [0,0,255]  
+                c = [0,0,n]  
             else:
                 cr('warning, unknown color:',c)
                 c = [255,255,255]
+        for i in rlen(xys):
+            D['plot point (xy_version)'](xys[i,0],xys[i,1],c,add_mode)
+    def function_pts_plot(xys,c=[1,0,0]):
+        if type(c) == str:
+            if c == 'r':
+                c = [1,0,0]
+            elif c == 'g':
+                c = [0,1,0]
+            elif c == 'b':
+                c = [0,0,1]  
+            else:
+                cr('warning, unknown color:',c)
+                c = [1,1,1]
         for i in rlen(xys):
             D['add point (xy_version)'](xys[i,0],xys[i,1],c)
     def function_clear():
         D['image'] *= 0
     D['show'] = function_show
     D['safe?'] = function_safe
-    D['add point (pixel_version)'] = function_add_point_pixel_version
-    D['add point (xy_version)'] = function_add_point_xy_version
+    #D['plot point (pixel_version)'] = function_plot_point_pixel_version
+    D['plot point (xy_version)'] = function_plot_point_xy_version
     D['get pixel'] = function_get_pixel
     D['pts_plot'] = function_pts_plot
     D['clear'] = function_clear
