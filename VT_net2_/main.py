@@ -261,7 +261,7 @@ def show3d(Rpoints_list,left_index,delay=33,metadata_version=False):
     mci(img,scale=2.0,delay=delay,title='left camera w/ points')
 
     if metadata_version:
-        for y in range(23):
+        for y in range(11,23):
             for c in range(3):
                 if img2[y,:,c].max() > 0:
                     img2[y,:,c] = z2o(img2[y,:,c])
@@ -297,7 +297,7 @@ if __name__ == '__main__':
 
                 Rpoints[behavioral_mode] = rpoints
 
-            if _['show 2D']:
+            if _['plt/show 2D']:
                 if False:
                     clf(); plt_square(); xysqlim(_['plot_range'])
                 Cv2Plot['clear']()
@@ -332,13 +332,13 @@ if __name__ == '__main__':
                 for i in rlen(Pts):
                     if behavioral_mode in Pts[i] and behavioral_mode in Pts[-1]:
                         Pts[i][behavioral_mode] = Pts[i][behavioral_mode]-Pts[-1][behavioral_mode][-1]
-                        if _['show 2D']:
+                        if _['plt/show 2D']:
                             if False:
                                 pts_plot(na(Pts[i][behavioral_mode]),Colors[behavioral_mode])
                             Cv2Plot['pts_plot'](na(Pts[i][behavioral_mode]),Colors[behavioral_mode],add_mode=True)
                     else:
                         cr('B')                    
-                if _['show 2D']:
+                if _['plt/show 2D']:
                     if False:
                         plot(0,0,'ko');plot(0,0,'kx')
 
@@ -350,7 +350,7 @@ if __name__ == '__main__':
                     CS_('Exception!',emphasis=True)
                     CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
 
-                if _['show 2D']:
+                if _['plt/show 2D']:
                     if False:
                         spause()
             Cv2Plot['show']()
@@ -396,6 +396,9 @@ if __name__ == '__main__':
             CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)  
             
         load_parameters(_)
+        if _['cmd/an impulse (click)']:
+            _['cmd/an impulse (click)'] = False
+            cr('hi')
 
         _['index'] += _['step_size']
 

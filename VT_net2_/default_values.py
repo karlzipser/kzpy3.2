@@ -18,7 +18,7 @@ _['To Expose'] = {}
 _['plot_range'] = 5.0
 _['step_size'] = 1
 _['cmd/clear_screen'] = False
-_['show 2D'] = True
+_['plt/show 2D'] = True
 _['show 3D'] = True
 _['cv2 delay'] = 1
 _['cv2 scale'] = 4
@@ -30,6 +30,7 @@ _['index'] = 7000
 _['backup parameter'] = 1.0
 _['behavioral_mode_list'] = ['left','direct','right']
 _['use center line'] = True
+_['cmd/an impulse (click)'] = False
 #_['To Expose']['VT menu'] = ['ABORT','fig','plot_range','good_starts','start_index_choice',
 #	'past_steps','future_steps','cmd/clear_screen','offset','step_size']
 _['To Expose']['VT menu'] = sorted(_.keys())

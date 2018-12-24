@@ -6,8 +6,6 @@ e.g.,
 
 """
 
-
-
 def menu2(Topics,path):
 
     assert 'ABORT' in Topics
@@ -37,9 +35,7 @@ def menu2(Topics,path):
             if Topics['cmd/clear_screen']:
                 clear_screen()
 
-#            cprint("<<<<<<<<<<<<<<<<<< "+Q+" >>>>>>>>>>>>>>>>>>",attrs=['bold'],color='white',on_color='on_grey')
             cprint("<<<<<<<<<<<<< "+Q+" >>>>>>>>>>>>>",attrs=['bold'],color='white',on_color='on_grey')
-#                   8) IMU_SMOOTHING_PARAMETER: 0.95  float
             ctr = 1
             first_line_string = ""
             Number_name_binding[ctr]='exit';first_line_string+=d2n(ctr,') ',Number_name_binding[ctr],'; ');ctr+=1
@@ -48,12 +44,6 @@ def menu2(Topics,path):
             Number_name_binding[ctr]='hide';first_line_string+=d2n(ctr,') ',Number_name_binding[ctr],'; ');ctr+=1
 
             cprint(first_line_string,'yellow')
-
-            if False:
-                Number_name_binding[ctr]='exit';cprint(d2n(ctr,') ',Number_name_binding[ctr]),'yellow');ctr+=1
-                Number_name_binding[ctr]='load';cprint(d2n(ctr,') ',Number_name_binding[ctr]),'yellow');ctr+=1
-                Number_name_binding[ctr]='save';cprint(d2n(ctr,') ',Number_name_binding[ctr]),'yellow');ctr+=1
-                Number_name_binding[ctr]='hide';cprint(d2n(ctr,') ',Number_name_binding[ctr]),'yellow');ctr+=1
 
             customer_string = ""
             for k in to_expose_keys:
@@ -72,8 +62,6 @@ def menu2(Topics,path):
 
             for name in sorted(names_to_use):
                 
-                
-
                 Number_name_binding[ctr] = name
                 
                 if first:
@@ -89,13 +77,15 @@ def menu2(Topics,path):
                     ['net/',['white','on_green']],
                     ['dat/','green'],
                     ['cmd/',['red','on_white']],
-                    ['ABORT',['white','on_red']],
+                    ['ABORT',['white','on_yellow']],
                     ['plt/',['white','on_green']],
                     ['sys/',['white','on_blue']],
                 ]
                 for c in color_scheme:
                     s = c[0]
-                    if name.isupper():
+                    if name == 'ABORT':
+                        c = ['cmd/',['white','on_yellow']]
+                    elif name.isupper():
                         c = ['cmd/',['red','on_white']]
                     elif s not in name:
                         c = ['normal','normal']
@@ -104,7 +94,11 @@ def menu2(Topics,path):
                         cf,cb = cs[0],cs[1]
                     else:
                         cf,cb = cs,None
-                    cstr = d2n(q,ctr,') ',name,': ',Topics[name],'  ',type(Topics[name]).__name__)
+                    display_name = name.replace('cmd/','')
+                    if 'click' not in name:
+                        cstr = d2n(q,ctr,') ',display_name,': ',Topics[name],'  ',type(Topics[name]).__name__)
+                    else:
+                        cstr = d2n(q,ctr,') ',display_name)
                     if c[0] == 'normal':
                         print(cstr)
                     elif cs != None:
@@ -151,10 +145,10 @@ def menu2(Topics,path):
 
                         n = 'Topics.'+customer+'.pkl'
                         n = n.replace(' ','_')
-                        #print n,fname(f[0])
+
                         if fname(f[0]) == n:
                             skip = True
-                            #cr("skip",fname(f[0]))
+
                             break
                     if skip:
                         continue
@@ -196,12 +190,17 @@ def menu2(Topics,path):
                 message = name+' value not changed'
                 current_val = Topics[name]
                 if type(current_val) == bool:
-                    yes_no = raw_input(d2n(name,'(',current_val,') toggle value? (y/n) '))
-                    if yes_no == 'y':
-                        if Topics[name]:
-                            Topics[name] = False
-                        else:
+                    if 'click' in name:
+                        yes_no = raw_input(d2n(name,'? (y/n) '))
+                        if yes_no == 'y':
                             Topics[name] = True
+                    else:
+                        yes_no = raw_input(d2n(name,'(',current_val,') toggle value? (y/n) '))
+                        if yes_no == 'y':
+                            if Topics[name]:
+                                Topics[name] = False
+                            else:
+                                Topics[name] = True
                 else:    
                     Topics[name] = input(d2n(name,'(',current_val,') new value > '))
                 pd2s('**',path,'**')
@@ -212,8 +211,6 @@ def menu2(Topics,path):
             print("********** rosmenu.py Exception ***********************")
             print(e.message, e.args)
             exec(EXCEPT_STR)
-            #raw_enter()
-
 
 def save_topics(Topics,path):
     for customer in Topics['customers']:
@@ -230,6 +227,9 @@ def save_topics(Topics,path):
         pd2s('***',opjh(path,'__local__','Topics.'+c+'.pkl'),'***')
         so(Topics,opjh(path,'__local__','Topics.'+c+'.pkl'))
         text_to_file(opjh(path,'__local__','ready.'+c),'')
+        for t in Topics:
+            if 'click' in t:
+                Topics[t] = False
 
 
 def print_exposed(Topics,customer):
@@ -295,29 +295,25 @@ def load_menu_data(path,Parameters,first_load=False,customer=''):
 
 
 
-if __name__ == '__main__':# and EXIT == False:
+if __name__ == '__main__':
     path = Arguments['path']
     module = path.replace('/','.').replace('.py','')
     CS_(module,'module')
     dic = Arguments['dic']
     CS_(dic,'dic')
-    #raw_enter()
+
     exec_str = d2n('import ',module,'.default_values as default_values')
     cr(exec_str)
     exec(exec_str)
-    #raw_enter()
+
     exec(d2n('Topics = default_values.',dic))
-    #raw_enter()
+
     menu2(Topics,path)
-    #raw_enter()
+
     print '\ndone.\n'
-    #raw_enter()
 
 
 # python kzpy3/Menu_app/menu.py path ~/kzpy3/Cars/car_24July2018/nodes/__local__/arduino/ default 1 Topics arduino
-
-#CS_(d2c('e.g.','python kzpy3/Menu_app/menu.py module kzpy3.Cars.car_24July2018.nodes.Default_values.arduino dic Parameters'))
-
 
 
 #EOF
