@@ -22,7 +22,7 @@ for r in runs:
 
 	in_progress = opjD('Data/Network_Predictions_projected',fname(r)+'.in_progress')
 	os.system("touch "+in_progress)
-	sys_str = "python kzpy3/VT_net/main.py run "+fname(r)
+	sys_str = "python kzpy3/VT_net2_/main.py run "+fname(r)
 	cg(sys_str)
 	os.system(sys_str)
 	os.system('rm '+in_progress)

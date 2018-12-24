@@ -12,97 +12,13 @@ if project_path[0] == '/':
 sys_str = d2s('mkdir -p',opj(project_path,'__local__'))
 cg(sys_str)
 os.system(sys_str)
-cg("To start menu:\n\tpython kzpy3/Menu_app/menu2.py path",project_path,"dic P")
+cg("To start menu:\n\tpython kzpy3/Menu_app/menu2.py path",project_path,"dic _")
 
 import fit3d
 exec(identify_file_str)
 _ = default_values._
 #
 ##############################################################
-
-assert 'run' in Arguments
-
-
-
-
-########################################################################################
-########################################################################################
-########################################################################################
-####
-def CV2Plot(height_in_pixels,width_in_pixels,pixels_per_unit,x_origin_in_pixels=None,y_origin_in_pixels=None):
-    if x_origin_in_pixels == None:
-        x_origin_in_pixels = intr(width_in_pixels/2.0)
-    if y_origin_in_pixels == None:
-        y_origin_in_pixels = intr(height_in_pixels/2.0)
-    D = {}
-    D['verbose'] = True
-    if D['verbose']:
-        cy(x_origin_in_pixels,y_origin_in_pixels)
-    D['image'] = zeros((height_in_pixels,width_in_pixels,3),np.uint8)
-    def function_show(autocontrast=True):
-        
-        img = D['image']
-        if autocontrast:
-            img = z2_255_by_channel(img)
-            #cg(img.min(),img.max())
-        mci(img,scale=4.0,delay=1)
-    def function_safe(px,py):
-        if px >= 0:
-            if py >= 0:
-                if py < height_in_pixels:
-                    if px < width_in_pixels:
-                        return True
-        if D['verbose']:
-            cr('not safe')
-        return False
-    def function_get_pixel(x,y):
-        px = intr(x * pixels_per_unit)
-        py = intr(-y * pixels_per_unit)
-        px += x_origin_in_pixels
-        py += y_origin_in_pixels
-        if D['verbose']:
-            cb(x,y,"->",px,py)
-        return px,py
-    def function_plot_point_xy_version(x,y,c=[255,255,255],add_mode=False):
-        px,py = D['get pixel'](x,y)
-        if D['safe?'](px,py):
-            if not add_mode:
-                D['image'][py,px,:] = c
-            else:
-                D['image'][py,px,:] += na(c,np.uint8)
-    def function_pts_plot(xys,c=[255,255,255],add_mode=False):
-        if type(c) == str:
-            if add_mode:
-                n = 1
-            else:
-                n = 255
-            if c == 'r':
-                c = [n,0,0]
-            elif c == 'g':
-                c = [0,n,0]
-            elif c == 'b':
-                c = [0,0,n]  
-            else:
-                cr('warning, unknown color:',c)
-                c = [255,255,255]
-        for i in rlen(xys):
-            D['plot point (xy_version)'](xys[i,0],xys[i,1],c,add_mode)
-    def function_clear():
-        D['image'] *= 0
-    D['show'] = function_show
-    D['safe?'] = function_safe
-    D['plot point (xy_version)'] = function_plot_point_xy_version
-    D['get pixel'] = function_get_pixel
-    D['pts_plot'] = function_pts_plot
-    D['clear'] = function_clear
-    return D
-####
-########################################################################################
-########################################################################################
-########################################################################################
-
-Cv2Plot = CV2Plot(height_in_pixels=23,width_in_pixels=41,pixels_per_unit=7,y_origin_in_pixels=23)
-Cv2Plot['verbose'] = False
 
 ####################### MENU ################################
 #
@@ -126,9 +42,66 @@ def load_parameters(_,customer='VT menu'):
                 else:
                     _[t] = Topics[t]
         parameter_file_load_timer.reset()
-# 
+
+
+start_signal = True
+if _['wait for start signal']:
+    cr('Wait for impulse click from menu...')
+    start_signal = False
+while start_signal == False:
+    if _['ABORT'] == True:
+        sys.exit()
+    load_parameters(_)
+    if _['cmd/an impulse (click)']:
+        _['cmd/an impulse (click)'] = False
+        cr('An impulse, test of click. Continue work...')
+        start_signal = True
+
+#
 ##############################################################
 
+##############################################################
+#
+assert 'run' in Arguments
+runs = lo(opjD('Data/Network_Predictions/runs.pkl'))
+Runs = {}
+for r in runs:
+    Runs[fname(r)] = r
+run_path = Runs[Arguments['run']]
+U = lo(opjD('Data/Network_Predictions',fname(run_path)+'.net_predictions.pkl'))
+
+#L,O,___ = open_run(run_name=Arguments['run'],h5py_path=pname(run_path),want_list=['L','O'])
+L,O,___ = open_run(run_name=Arguments['run'],Runs_dic=Runs,want_list=['L','O'])
+assert ___ == None
+
+_['headings'] = L['gyro_heading_x'][:]
+_['encoders'] = L['encoder'][:]
+_['motors'] = L['motor'][:]
+
+Left_timestamps_to_left_indicies = {}
+t0 = L['ts'][0]
+
+if _['save metadata']:
+    metadata_img_list = []
+blank_meta = np.zeros((23,41,3),np.uint8)
+for i in rlen(L['ts']):
+    t = (1000.0*(L['ts'][i] - t0)).astype(int)
+    Left_timestamps_to_left_indicies[t] = i
+    if _['save metadata']:
+        metadata_img_list.append(blank_meta)
+
+#############################################################################
+
+#############################################################################
+
+Colors = {'direct':'b','left':'r','right':'g'}
+RGBs = {'direct':(0,0,255),'right':(0,255,0),'left':(255,0,0)}
+Color_index = {'direct':2,'right':1,'left':0}
+#
+##############################################################
+
+##############################################################
+#
 def vec(heading,encoder,motor,sample_frequency=30.0):
     velocity = encoder * _['vel-encoding coeficient'] # rough guess
     if motor < 49:
@@ -138,40 +111,16 @@ def vec(heading,encoder,motor,sample_frequency=30.0):
     a *= velocity/sample_frequency
     return array(a)
 
-
 def f(x,A,B):
     return A*x + B
 
-runs = lo(opjD('Data/Network_Predictions_13Dec2018/runs.pkl'))
-Runs = {}
-for r in runs:
-    Runs[fname(r)] = r
-run_path = Runs[Arguments['run']]
-
-
-U = lo(opjD('Data/Network_Predictions',fname(run_path)+'.net_predictions.pkl'))
-O = h5r(opj(run_path,'original_timestamp_data.h5py' ))
-L = h5r(opj(run_path,'left_timestamp_metadata_right_ts.h5py'))
-
-_['headings'] = L['gyro_heading_x'][:]
-_['encoders'] = L['encoder'][:]
-_['motors'] = L['motor'][:]
-
-Left_timestamps_to_left_indicies = {}
-t0 = L['ts'][0]
-for i in rlen(L['ts']):
-    t = (1000.0*(L['ts'][i] - t0)).astype(int)
-    Left_timestamps_to_left_indicies[t] = i
-
-Colors = {'direct':'b','left':'r','right':'g'}
-
-def get_r_points(behavioral_mode,headings,encoders,motors):
+def get_predictions2D(behavioral_mode,headings,encoders,motors):
     xy = array([0.0,0.0])
     xys = []
 
     for i in range(len(headings)):
         v = vec(headings[i],encoders[i],motors[i],_['vec sample frequency']) #3.33)
-        xy += v # take into consideration reverse driving
+        xy += v
         xys.append(xy.copy())
 
     points_to_fit = na(xys[:3])
@@ -180,37 +129,24 @@ def get_r_points(behavioral_mode,headings,encoders,motors):
     m,b = curve_fit(f,x,y)[0]
     ang = np.degrees(angle_between([0,1],[1,m]))
 
-    rpoints = na(xys)
-    return rpoints
-
-if True:#_['metadata_version']:
-    metadata_version_list_dic = {}
-    metadata_version_list_dic['index'] = []
-    for i in range(_['num timesteps']):
-        metadata_version_list_dic[d2n('i',i)] = []
-
-RGBs = {'direct':(0,0,255),'right':(0,255,0),'left':(255,0,0)}
-Color_index = {'direct':2,'right':1,'left':0}
-blank_meta = np.zeros((23,41,3),np.uint8)
+    pts2D_1step = na(xys)
+    return pts2D_1step
 
 
-def show3d(Rpoints_list,left_index,delay=33,metadata_version=False):
+def get_prediction_images_3D(pts2D_1step_list,left_index):
     rmax = 7
     img = O['left_image']['vals'][left_index].copy()
-
     metadata_version_list = None
-    if metadata_version:
-        img1 = cv2.resize(img,(41,23))
-        metadata_version_list = []
-        img2 = 0*img1.astype(np.float)
-    for q in range(len(Rpoints_list)-1,-1,-1):
-        Rpoints = Rpoints_list[q]
-        if metadata_version:
-            pass#img2 = 0*img
-        for behavioral_mode in Rpoints.keys():
-            rpoints = Rpoints[behavioral_mode]
-            for i in rlen(rpoints):
-                a = rpoints[i,:]
+    img1 = cv2.resize(img,(41,23))
+    metadata_version_list = []
+    img2 = 0*img1.astype(np.float)
+    for q in range(len(pts2D_1step_list)-1,-1,-1):
+        Pts2D_1step = pts2D_1step_list[q]
+
+        for behavioral_mode in Pts2D_1step.keys():
+            pts2D_1step = Pts2D_1step[behavioral_mode]
+            for i in rlen(pts2D_1step):
+                a = pts2D_1step[i,:]
                 if a[1]<0:
                     continue
                 try:
@@ -222,26 +158,25 @@ def show3d(Rpoints_list,left_index,delay=33,metadata_version=False):
                 c = fit3d.project(b, fit3d.mat)
 
                 try:
-                    if True:#not metadata_version:
+                    if True:
                         good = True
                         if c.x < 0 or c.x >= 168:
                             good = False
                         elif c.y < 0 or c.y >= 94:
                             good = False
-                        if good:               
+                        if good:             
                             if r < rmax:
                                 cv2.circle(img,(int(c.x),int(c.y)),r,RGBs[behavioral_mode])
-                    if metadata_version:
-                        good = True
-                        cx = intr(c.x * 0.245)
-                        cy = intr(c.y * 0.245)
-                        if cx < 0 or cx >= 41:
-                            good = False
-                        elif cy < 0 or cy >= 23:
-                            good = False
-                        if good:               
-                            img1[cy,cx,:] = RGBs[behavioral_mode]
-                            img2[cy,cx,Color_index[behavioral_mode]] += 1
+                    good = True
+                    cx = intr(c.x * 0.245)
+                    cy = intr(c.y * 0.245)
+                    if cx < 0 or cx >= 41:
+                        good = False
+                    elif cy < 0 or cy >= 23:
+                        good = False
+                    if good:               
+                        img1[cy,cx,:] = RGBs[behavioral_mode]
+                        img2[cy,cx,Color_index[behavioral_mode]] += 1
 
                 except Exception as e:
                     exc_type, exc_obj, exc_tb = sys.exc_info()
@@ -250,162 +185,137 @@ def show3d(Rpoints_list,left_index,delay=33,metadata_version=False):
                     CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
                     cr(r)
 
-        if metadata_version:       
-            metadata_version_list.append(img2)
-            
-                
-    
+
     img = cv2.resize(img,(168*2,94*2))
     if _['use center line']:
         img[:,168,:] = int((127+255)/2)
-    mci(img,scale=2.0,delay=delay,title='left camera w/ points')
+    left_camera_3D_img = img
 
-    if metadata_version:
-        for y in range(11,23):
-            for c in range(3):
-                if img2[y,:,c].max() > 0:
-                    img2[y,:,c] = z2o(img2[y,:,c])
-        #cr(img2.min(),img2.max())
-        mci((255*img2).astype(np.uint8),scale=1,delay=1,title='metadata')
-        #mi(img2);spause()
-    if metadata_version:
-        return metadata_version_list
-    else:
-        return None
+
+    for y in range(11,23):
+        for c in range(3):
+            if img2[y,:,c].max() > 0:
+                img2[y,:,c] = z2o(img2[y,:,c])
+    metadata_3D_img = (255*img2).astype(np.uint8)
+
+    return left_camera_3D_img,metadata_3D_img
 
 
 
 
 if __name__ == '__main__':
 
+
+    Prediction2D_plot = CV2Plot(height_in_pixels=23,width_in_pixels=41,pixels_per_unit=7,y_origin_in_pixels=23) ###########
+    Prediction2D_plot['verbose'] = False ###########
+
     sample_frequency = 30.0
 
-    Pts = []
+    pts2D_multi_step = []
 
     while _['index'] < len(U['ts']):
+
+        ##########################################################
+        #
+        load_parameters(_)
+        if _['cmd/an impulse (click)']:
+            _['cmd/an impulse (click)'] = False
+            cr('An impulse, test of click.')
+        #
+        ##########################################################
+
         if _['ABORT'] == True:
             break
 
-        try:
-            left_index = Left_timestamps_to_left_indicies[(1000.0*(U['ts'][_['index']] - t0)).astype(int)]
-            Rpoints = {}
+        Pts2D_1step = {}
 
-            for behavioral_mode in  _['behavioral_mode_list']:
+        ##########################################################
+        #
+        try:
+
+            for behavioral_mode in _['behavioral_mode_list']:
                 headings = U[behavioral_mode][_['index']]['heading']
                 encoders = U[behavioral_mode][_['index']]['encoder']
-                rpoints = get_r_points(behavioral_mode,headings,encoders,_['motors'])
-
-                Rpoints[behavioral_mode] = rpoints
-
-            if _['plt/show 2D']:
-                if False:
-                    clf(); plt_square(); xysqlim(_['plot_range'])
-                Cv2Plot['clear']()
-            Pts.append({})
+                pts2D_1step = get_predictions2D(behavioral_mode,headings,encoders,_['motors'])
+                Pts2D_1step[behavioral_mode] = pts2D_1step
+            #################
+            #
+            Prediction2D_plot['clear']()
+            #
+            #################
+            pts2D_multi_step.append({})
 
             for behavioral_mode in _['behavioral_mode_list']:
                 
-                if len(Pts) > _['num timesteps']:
-                    Pts = Pts[-_['num timesteps']:]
-                Pts[-1][behavioral_mode] = []
-                if True:#try:
-                    rpoints = Rpoints[behavioral_mode]
-                    indx = _['index']
+                if len(pts2D_multi_step) > _['num timesteps']:
+                    pts2D_multi_step = pts2D_multi_step[-_['num timesteps']:]
+                pts2D_multi_step[-1][behavioral_mode] = list(Pts2D_1step[behavioral_mode])
 
-                    Pts[-1][behavioral_mode] = list(rpoints)
-
+            indx = _['index']
             d_heading = _['headings'][indx]-_['headings'][indx-1]
             encoder = _['encoders'][indx]
             velocity = encoder * _['vel-encoding coeficient']
-            a = na([0,1]) * velocity / sample_frequency
+            trajectory_vector = na([0,1]) * velocity / sample_frequency
 
             for behavioral_mode in _['behavioral_mode_list']:        
-                for i in rlen(Pts):
-                    if behavioral_mode in Pts[i]:
-                        Pts[i][behavioral_mode] = rotatePolygon(Pts[i][behavioral_mode],-d_heading)
-                    else:
-                        cr('A')
-                if behavioral_mode in Pts[i]:
-                    Pts[-1][behavioral_mode].append(a)
-                else:
-                    cr('C')
-                for i in rlen(Pts):
-                    if behavioral_mode in Pts[i] and behavioral_mode in Pts[-1]:
-                        Pts[i][behavioral_mode] = Pts[i][behavioral_mode]-Pts[-1][behavioral_mode][-1]
-                        if _['plt/show 2D']:
-                            if False:
-                                pts_plot(na(Pts[i][behavioral_mode]),Colors[behavioral_mode])
-                            Cv2Plot['pts_plot'](na(Pts[i][behavioral_mode]),Colors[behavioral_mode],add_mode=True)
-                    else:
-                        cr('B')                    
-                if _['plt/show 2D']:
-                    if False:
-                        plot(0,0,'ko');plot(0,0,'kx')
+                for i in rlen(pts2D_multi_step):
+                    pts2D_multi_step[i][behavioral_mode] = rotatePolygon(pts2D_multi_step[i][behavioral_mode],-d_heading)
+                pts2D_multi_step[-1][behavioral_mode].append(trajectory_vector)
+                for i in rlen(pts2D_multi_step):
+                    pts2D_multi_step[i][behavioral_mode] = pts2D_multi_step[i][behavioral_mode] - pts2D_multi_step[-1][behavioral_mode][-1]
+                    ###################
+                    #
+                    Prediction2D_plot['pts_plot'](na(pts2D_multi_step[i][behavioral_mode]),Colors[behavioral_mode],add_mode=True)
+                    #
+                    ###################
 
-                    
+            left_index = Left_timestamps_to_left_indicies[(1000.0*(U['ts'][_['index']] - t0)).astype(int)]
+            left_camera_3D_img,metadata_3D_img = get_prediction_images_3D(pts2D_multi_step,left_index)
+            if _['save metadata']:
+                metadata_img_list[left_index] = metadata_3D_img
 
-                if False:#except Exception as e:
-                    exc_type, exc_obj, exc_tb = sys.exc_info()
-                    file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-                    CS_('Exception!',emphasis=True)
-                    CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+      
 
-                if _['plt/show 2D']:
-                    if False:
-                        spause()
-            Cv2Plot['show']()
+            if _['show timer'].check():
+                
+                #################
+                # 
+                Prediction2D_plot['show']()
+                mci(left_camera_3D_img,title='left_camera_3D_img',delay=_['cv2 delay'])
+                mci(metadata_3D_img,title='metadata_3D_img',delay=_['cv2 delay'])
+                #
+                #################
+            _['show timer'] = Timer(_['show timer time']) 
 
-            if _['show 3D']:
-                metadata_version_list = show3d(Pts,left_index,_['cv2 delay'],_['metadata_version'])
-                if metadata_version_list != None:
-                    """
-                    for i in range(_['num timesteps']):
-                        ky = d2n('i',i)
-                        if ky not in metadata_version_list_dic:
-                            metadata_version_list_dic[ky] = []
-                        if i >= len(metadata_version_list):
-                            img = 0*metadata_version_list[0]
-                        else:
-                            img = metadata_version_list[i]
-                        metadata_version_list_dic[ky].append(img)
-                    metadata_version_list_dic['index'].append(_['index'])
-                    first = True
-                    for k in metadata_version_list_dic.keys():
-                        if first:
-                            l = len(metadata_version_list_dic[k])
-                            first = False
-                        else:
-                            assert len(metadata_version_list_dic[k]) == l
-                    """
-                    pass
+
         except Exception as e:
-            if _['metadata_version']:
-                for k in metadata_version_list_dic.keys():
-                    print k
-                    if len(metadata_version_list_dic[k]) < _['index']+1:
-                        if k == 'index':
-                            cr(1)
-                            metadata_version_list_dic[k].append(_['index'])
-                        else:
-                            metadata_version_list_dic[k].append(blank_meta)
-                            cr(2)
-
+            cr('*** index',_['index'],'failed ***')
             exc_type, exc_obj, exc_tb = sys.exc_info()
             file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             CS_('Exception!',emphasis=True)
             CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)  
-            
-        load_parameters(_)
-        if _['cmd/an impulse (click)']:
-            _['cmd/an impulse (click)'] = False
-            cr('hi')
+        #
+        ##########################################################
+
 
         _['index'] += _['step_size']
-
         _['timer'].freq(d2s("_['index'] =",_['index'], int(100*_['index']/(1.0*len(U['ts']))),'%'))
 
 
+    if _['save metadata']:
+        file_path = opjD('Data/Network_Predictions_projected',fname(run_path)+'.net_projections.h5py')
+        os.system(d2s('mkdir -p',pname(file_path)))
+        cb("F = h5w(",file_path,")")
+        metadata_img_list_FLIP = []
+        for img in metadata_img_list:
+            metadata_img_list_FLIP.append(cv2.flip(img,1))
+        F = h5w(file_path)
+        Data = {'normal':na(metadata_img_list,np.uint8),'flip':na(metadata_img_list_FLIP,np.uint8),}
+        for d in Data:
+            cb("F.create_dataset(",d,",data=Data[",d,"])")
+            F.create_dataset(d,data=Data[d])
+        F.close()
+        cb("F.close()")
 
-
-
+cg('\n\nDone.\n')
 #EOF

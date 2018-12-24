@@ -22,6 +22,7 @@ hours = hour
 
 
 P = {}
+P['Data_moment list temp'] =[]
 P['ABORT'] = False
 P['customers'] = ['train menu']
 P['To Expose'] = {}
@@ -37,7 +38,7 @@ P['spause_timer_time'] = 10
 P['cmd/clear_screen'] = False
 
 #P['parameter_file_menu_load_timer_time'] = minute
-P['percent_of_loss_list_avg_to_show'] = 40.0
+P['percent_of_loss_list_avg_to_show'] = 10.0
 
 
 P['reload_image_file_timer_time'] = 30*minutes

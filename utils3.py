@@ -1282,5 +1282,37 @@ for k in Behavioral_mode_code.keys():
 
 
 
+def open_run(run_name,h5py_path=None,Runs_dic=None,want_list=['L','O','F'],verbose=True):
+
+    if h5py_path != None:
+        path = h5py_path
+    elif Runs_dic != None:
+        path = pname(Runs_dic[run_name])
+    else:
+        cr("*** Can't open run",run_name,"because h5py_path=None and Runs_dic=None ***")
+        return False,False,False
+    files = sggo(path,run_name,"*.h5py")
+    if len(files) < 3:
+        cr("*** Can't open run",run_name,"because len(files) < 3 ***")
+        return False,False,False
+    Files = {'L':None,'O':None,'F':None,}
+    File_names = {'L':'left_timestamp_metadata','O':'original_timestamp_data','F':'flip_images',}
+    for n in File_names:
+    	if n not in want_list:
+    		continue
+        for f in files:
+            if File_names[n] in fname(f):
+            	if verbose:
+	                cg('found',f)
+                Files[n] = h5r(f)
+    for n in Files:
+        if Files[n] == None and n in want_list:
+            cr("*** Error, lacking",n)
+            return False,False,False
+    return Files['L'],Files['O'],Files['F']
+
+
+    
+
 #EOF
 

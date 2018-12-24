@@ -1200,7 +1200,4 @@ def CV2Plot(height_in_pixels,width_in_pixels,pixels_per_unit,x_origin_in_pixels=
 
 
 
-
-
-
 #EOF

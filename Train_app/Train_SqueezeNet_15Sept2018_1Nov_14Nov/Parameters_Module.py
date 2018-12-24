@@ -17,8 +17,11 @@ soft, hard = resource.getrlimit(resource.RLIMIT_NOFILE)
 print 'Soft limit is ', soft
 assert(soft>=65000)
 """
-
+temp__ = False
 full = True
+if temp__:
+	full = False
+
 if True: #########################################################################################
 
 	P['experiments_folders'] = []
@@ -278,7 +281,9 @@ if True:
 
 
 def get_Data_moment(dm=None,FLIP=None):
-
+	if temp__:
+		if len(P['Data_moment list temp']) >= 20000:
+			return np.random.choice(P['Data_moment list temp'])
 	try:
 		if dm['run_name'] in P['lacking runs']:
 			return False
@@ -410,6 +415,10 @@ def get_Data_moment(dm=None,FLIP=None):
 
 		if not P['use_LIDAR']:
 			#so(opjD('Data_moment'),Data_moment)
+			if temp__:
+				P['Data_moment list temp'].append(Data_moment)
+				if np.mod(len(P['Data_moment list temp']),1000)==0:
+					cr("len(P['Data_moment list temp']) =",len(P['Data_moment list temp']))
 			return Data_moment
 
 		###############################################################
@@ -477,6 +486,7 @@ def get_Data_moment(dm=None,FLIP=None):
 							Data_moment[side][1][:,:,position] *= 0
 
 				#cg("success")
+
 				return Data_moment
 
 		return False

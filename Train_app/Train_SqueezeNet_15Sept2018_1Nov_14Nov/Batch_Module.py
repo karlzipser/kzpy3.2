@@ -73,28 +73,23 @@ def Batch(the_network=None):
 				try:
 
 					if False:
-						with contextlib.closing(h5py.h5f.open(opj(P['run_name_to_run_path'][f],'original_timestamp_data.h5py'), fapl=propfaid)) as fid:
-						    O = h5py.File(fid)
-						with contextlib.closing(h5py.h5f.open(opj(P['run_name_to_run_path'][f],'flip_images.h5py'), fapl=propfaid)) as fid:
-						    F = h5py.File(fid)
-					else:
 						O = h5r(opj(P['run_name_to_run_path'][f],'original_timestamp_data.h5py'))
 						F = h5r(opj(P['run_name_to_run_path'][f],'flip_images.h5py'))
+						#S = h5r(opj('/home/karlzipser/Desktop/Data/Network_Predictions_projected',f+'.net_projections.h5py' ))
+						#Q = h5r(opj('/home/karlzipser/Desktop/Data/Network_Predictions_projected',f+'.net_projections.flip.h5py' ))
+						try:
+						#if len(sggo(P['run_name_to_run_path'][f],'left_timestamp_metadata_right_ts.h5py')) > 0:
+							L=h5r(opj(P['run_name_to_run_path'][f],'left_timestamp_metadata_right_ts.h5py'))
+						except:
+						#elif len(sggo(P['run_name_to_run_path'][f],'left_timestamp_metadata.h5py')) > 0:
+							L=h5r(opj(P['run_name_to_run_path'][f],'left_timestamp_metadata.h5py'))
+						#else:
+						#	cr("!!!!Error, could not load left_timestamp_metadata for",f)
+						#	assert(False)
+							#pd2s("Don't worry, loaded",opj(P['run_name_to_run_path'][f],'left_timestamp_metadata.h5py'))
+							#raw_enter()
 
-
-					#S = h5r(opj('/home/karlzipser/Desktop/Data/Network_Predictions_projected',f+'.net_projections.h5py' ))
-					#Q = h5r(opj('/home/karlzipser/Desktop/Data/Network_Predictions_projected',f+'.net_projections.flip.h5py' ))
-					try:
-					#if len(sggo(P['run_name_to_run_path'][f],'left_timestamp_metadata_right_ts.h5py')) > 0:
-						L=h5r(opj(P['run_name_to_run_path'][f],'left_timestamp_metadata_right_ts.h5py'))
-					except:
-					#elif len(sggo(P['run_name_to_run_path'][f],'left_timestamp_metadata.h5py')) > 0:
-						L=h5r(opj(P['run_name_to_run_path'][f],'left_timestamp_metadata.h5py'))
-					#else:
-					#	cr("!!!!Error, could not load left_timestamp_metadata for",f)
-					#	assert(False)
-						#pd2s("Don't worry, loaded",opj(P['run_name_to_run_path'][f],'left_timestamp_metadata.h5py'))
-						#raw_enter()
+					L,O,F = open_run(run_name=f,h5py_path=pname(P['run_name_to_run_path'][f]))
 
 
 					P['Loaded_image_files'][f]['normal'] = O
