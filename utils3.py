@@ -1283,12 +1283,15 @@ for k in Behavioral_mode_code.keys():
 
 
 def open_run(run_name,h5py_path=None,Runs_dic=None,want_list=['L','O','F'],verbose=True):
-
+    cb("run_name =",run_name,"h5py_path =",h5py_path)
     if h5py_path != None:
         path = h5py_path
+        cb("A) path =",path)
     elif Runs_dic != None:
         path = pname(Runs_dic[run_name])
+        cb("B) path =",path)
     else:
+        cb('C)')
         cr("*** Can't open run",run_name,"because h5py_path=None and Runs_dic=None ***")
         return False,False,False
     files = sggo(path,run_name,"*.h5py")

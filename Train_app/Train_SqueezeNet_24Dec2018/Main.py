@@ -1,5 +1,5 @@
 from kzpy3.utils3 import *
-# This app used for extensive training.
+
 from default_values import *
 
 startup_timer = Timer()

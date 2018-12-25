@@ -70,9 +70,9 @@ for r in runs:
 run_path = Runs[Arguments['run']]
 U = lo(opjD('Data/Network_Predictions',fname(run_path)+'.net_predictions.pkl'))
 
-#L,O,___ = open_run(run_name=Arguments['run'],h5py_path=pname(run_path),want_list=['L','O'])
-L,O,___ = open_run(run_name=Arguments['run'],Runs_dic=Runs,want_list=['L','O'])
-assert ___ == None
+L,O,___ = open_run(run_name=Arguments['run'],h5py_path=pname(run_path),want_list=['L','O'])
+#L,O,___ = open_run(run_name=Arguments['run'],Runs_dic=Runs,want_list=['L','O'])
+#assert ___ == None
 
 _['headings'] = L['gyro_heading_x'][:]
 _['encoders'] = L['encoder'][:]
