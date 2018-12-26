@@ -1196,6 +1196,78 @@ def CV2Plot(height_in_pixels,width_in_pixels,pixels_per_unit,x_origin_in_pixels=
 ########################################################################################
 ########################################################################################
 
+import torch
+P={}
+P['WEIGHTS_FILE_PATH'] = '/home/karlzipser/Desktop/Networks/net_24Dec2018_12imgs_projections/weights/net_25Dec18_18h35m43s.infer'
+save_data = torch.load(P['WEIGHTS_FILE_PATH'])
+n = save_data['net']
+
+a = n['pre_metadata_features.3.expand3x3.weight']
+
+a=n['final_output.1.bias'].cpu().numpy()
+b=zeros(40)
+b[:20]=a
+b[-20:]=a
+n['final_output.1.bias'] = torch.from_numpy(b).cuda()
+
+a=save_data['net']['final_output.1.weight'].cpu().numpy()
+b=zeros((40,512,1,1))
+b[:20,:,:,:]=a
+b[-20:,:,:,:]=a
+save_data['net']['final_output.1.weight'] = torch.from_numpy(b).cuda()
+print(shape(save_data['net']['final_output.1.weight'].cpu().numpy()))
+raw_enter()
+
+
+
+
+########################################################################################
+########################################################################################
+########################################################################################
+#####
+import torch
+
+from kzpy3.Train_app.nets.SqueezeNet40 import SqueezeNet
+torch.set_default_tensor_type('torch.FloatTensor') 
+torch.cuda.set_device(0)
+torch.cuda.device(0)
+
+def create_net():
+    return SqueezeNet().cuda()
+
+def load_net(path):
+    save_data = torch.load(path)
+    net = save_data['net']
+    return net
+
+def save_net(net,path):
+    weights = {'net':net}
+    torch.save(weights,path)
+
+def show_net(net,layer,fig='',correction=False):
+    p = net[layer] 
+    q = p.cpu().numpy() 
+    q = q[:,:,0,0]
+    if correction:
+        q[:,128]/=10.
+    mi(q,fig+layer)
+    figure(fig+layer+' ')
+    plot([0,256],[0,0],'b-')
+    plot(q.transpose(1,0),'ko')
+    raw_enter()
+
+save_net(create_net(),opjD('initial_weights.infer'))
+A = load_net(opjD('initial_weights.infer'))
+B = load_net(opjD('Networks/net_24Dec2018_12imgs_projections/weights/net_25Dec18_20h12m56s.infer'))
+show_net(B,'post_metadata_features.0.squeeze.weight',correction=True)
+
+B['post_metadata_features.0.squeeze.weight'] = A['post_metadata_features.0.squeeze.weight']
+#save_net(B,opjD('trained_net_with_randomized_layer.infer'))
+torch.save(B,opjD('trained_net_with_randomized_layer.infer'))
+####
+########################################################################################
+########################################################################################
+########################################################################################
 
 
 
