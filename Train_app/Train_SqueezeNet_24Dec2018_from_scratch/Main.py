@@ -74,6 +74,9 @@ Batch = Batch_Module.Batch(_,the_network=Network)
 cr("\n\nTime needed for startup =",int(startup_timer.time()),"seconds.\n\n")
 del startup_timer
 
+
+menu_reminder = Timer(120)
+menu_reminder.trigger()
 timer = Timer(_['run time before quitting'])
 
 while _['ABORT'] == False:
@@ -105,11 +108,11 @@ while _['ABORT'] == False:
 
 	Batch['BACKWARD']()
 
-
+    
 
 # Start training with 12 mini metadata images at 9am 12Dec2018
 
-	
+	menu_reminder.message(d2s("\n\nTo start menu:\n\tpython kzpy3/Menu_app/menu2.py path",_['project_path'],"dic P\n\n"))
 
 
 

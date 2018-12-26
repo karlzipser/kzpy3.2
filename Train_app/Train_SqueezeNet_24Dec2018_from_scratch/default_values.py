@@ -14,9 +14,8 @@ os.system(sys_str)
 P = {}
 _ = P
 _['project_path'] = project_path
-
-cg("\n\nTo start menu:\n\tpython kzpy3/Menu_app/menu2.py path",_['project_path'],"dic P\n\n")
-
+_['freeze premetadata weights'] = True
+_['update premetadata weights from other model'] = most_recent_file_in_folder(opjD('Networks/net_24Dec2018_12imgs_projections/weights'),['.infer'],[])
 minute = 60
 minutes = minute
 hour = 60*minute
@@ -38,7 +37,7 @@ _['spause_timer_time'] = 10
 _['cmd/clear_screen'] = False
 
 #_['parameter_file_menu_load_timer_time'] = minute
-_['percent_of_loss_list_avg_to_show'] = 10.0
+_['percent_of_loss_list_avg_to_show'] = 100.0
 
 
 _['reload_image_file_timer_time'] = 35*minutes

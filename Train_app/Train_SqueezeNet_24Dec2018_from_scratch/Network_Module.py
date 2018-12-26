@@ -14,9 +14,15 @@ def Pytorch_Network(_):
     cg("GPUs =",torch.cuda.device_count(),"current GPU =",torch.cuda.current_device())
 
     D['net'] = SqueezeNet().cuda()
-    D['criterion'] = torch.nn.MSELoss().cuda()
-    D['optimizer'] = torch.optim.Adadelta(D['net'].parameters())
 
+
+
+
+
+    D['criterion'] = torch.nn.MSELoss().cuda()
+    if False: #original
+        D['optimizer'] = torch.optim.Adadelta(D['net'].parameters())
+    D['optimizer'] = torch.optim.Adadelta(filter(lambda p: p.requires_grad,D['net'].parameters()))
     try:
         for folder in ['weights','loss','dm_ctrs','state_dict','optimizer']:
             unix(d2s('mkdir -p',opj(_['NETWORK_OUTPUT_FOLDER'],folder)))
@@ -43,11 +49,41 @@ def Pytorch_Network(_):
     D['SAVE_NET'] = _function_save_net
 
     if _['RESUME']:
+
+
+        if _['freeze premetadata weights']:
+
+            def load_net(path):
+                save_data = torch.load(path)
+                net = save_data['net']
+                return net
+
+            A = load_net(most_recent_file_in_folder(opjD('Networks/net_24Dec2018_12imgs_projections/weights'),['.infer'],[]))
+            B = load_net(_['WEIGHTS_FILE_PATH'])
+
+            for l in ['pre_metadata_features.0.weight',
+                     'pre_metadata_features.0.bias',
+                     'pre_metadata_features.3.squeeze.weight',
+                     'pre_metadata_features.3.squeeze.bias',
+                     'pre_metadata_features.3.expand1x1.weight',
+                     'pre_metadata_features.3.expand1x1.bias',
+                     'pre_metadata_features.3.expand3x3.weight',
+                     'pre_metadata_features.3.expand3x3.bias',]:
+                cy("Copying",l,'from',_['update premetadata weights from other model'])
+                B[l] = A[l]
+            weights = {'net':B}
+            torch.save(weights,opj(_['NETWORK_OUTPUT_FOLDER'],'weights','merged.infer'))
+
         try:
             if len(sggo(_['WEIGHTS_FILE_PATH'])) > 0:
-                cprint(d2s('Resuming with',_['WEIGHTS_FILE_PATH']),'red')
-                save_data = torch.load(_['WEIGHTS_FILE_PATH'])
-                CS_("loading "+_['WEIGHTS_FILE_PATH'])
+                
+
+                if _['freeze premetadata weights']:
+                    cprint(d2s('Resuming with',opj(_['NETWORK_OUTPUT_FOLDER'],'weights','merged.infer')),'red')
+                    save_data = torch.load(opj(_['NETWORK_OUTPUT_FOLDER'],'weights','merged.infer'))
+                else:
+                    cprint(d2s('Resuming with',_['WEIGHTS_FILE_PATH']),'red')
+                    save_data = torch.load(_['WEIGHTS_FILE_PATH'])
 
                 D['net'].load_state_dict(save_data['net'])
 
@@ -55,6 +91,21 @@ def Pytorch_Network(_):
                     _['save_net_timer'].trigger()
                     D['SAVE_NET']()
                     raw_enter('This is STRANGE too!!!')
+
+            if _['freeze premetadata weights']:
+                ctr = 0
+                for param in D['net'].parameters():
+                    rg = True
+                    if ctr < 8:
+                        rg = False
+                    param.requires_grad = rg
+                    if rg:
+                        f = cg
+                    else:
+                        f = cr
+                    f(ctr,param.size())
+                    ctr += 1
+
             else:
                 CS_("Could not load "+_['WEIGHTS_FILE_PATH'])
             m = most_recent_file_in_folder( opj(_['NETWORK_OUTPUT_FOLDER'],'loss') )
@@ -83,8 +134,10 @@ def Pytorch_Network(_):
         except Exception as e:
             CS_("********** Network_Module.py Exception ***********************")
             print(e.message, e.args)
-            cr("D['optimizer'] = torch.optim.Adadelta(D['net'].parameters())")           
-            D['optimizer'] = torch.optim.Adadelta(D['net'].parameters())
+            cr("*** D['optimizer'] = torch.optim.Adadelta(filter(lambda p: p.requires_grad,D['net'].parameters())) ***") 
+            if False: #original
+                D['optimizer'] = torch.optim.Adadelta(D['net'].parameters())
+            D['optimizer'] = torch.optim.Adadelta(filter(lambda p: p.requires_grad,D['net'].parameters())) 
             exc_type, exc_obj, exc_tb = sys.exc_info()
             file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             CS_('Exception!',emphasis=True)

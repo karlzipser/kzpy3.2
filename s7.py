@@ -1270,6 +1270,34 @@ torch.save(B,opjD('trained_net_with_randomized_layer.infer'))
 ########################################################################################
 
 
+D = {}
+torch.set_default_tensor_type('torch.FloatTensor') 
+torch.cuda.set_device(0)
+torch.cuda.device(0)
+
+D['net'] = SqueezeNet().cuda()
+#D['criterion'] = torch.nn.MSELoss().cuda()
+#D['optimizer'] = torch.optim.Adadelta(D['net'].parameters())
+save_data = torch.load(opjD('Networks/net_24Dec2018_12imgs_projections/weights/net_25Dec18_20h12m56s.infer'))
+#CS_("loading "+_['WEIGHTS_FILE_PATH'])
+D['net'].load_state_dict(save_data['net'])
+
+
+ctr = 0
+for param in net.parameters():
+    rg = True
+    if ctr < 8:
+        rg = False
+    param.requires_grad = rg
+    if rg:
+        f = cg
+    else:
+        f = cr
+    f(ctr,param.size())
+    ctr += 1
+
+A = load_net(opjD('initial_weights.infer'))
+B = load_net(opjD('Networks/net_24Dec2018_12imgs_projections/weights/net_25Dec18_20h12m56s.infer'))
 
 
 #EOF

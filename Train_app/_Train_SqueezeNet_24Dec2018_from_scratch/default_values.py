@@ -38,7 +38,7 @@ _['spause_timer_time'] = 10
 _['cmd/clear_screen'] = False
 
 #_['parameter_file_menu_load_timer_time'] = minute
-_['percent_of_loss_list_avg_to_show'] = 100.0
+_['percent_of_loss_list_avg_to_show'] = 10.0
 
 
 _['reload_image_file_timer_time'] = 35*minutes

@@ -87,7 +87,7 @@ def Net_Activity(*args):
                 continue
             if _['verbose']:print(k,Args['moment_index'])
             imgv = D['imgs'][k][Args['moment_index']]
-            mi(imgv,d2s(k,_['start time']))
+            mi(imgv,d2s(fname(_['project_path']),k,_['start time']))
             #imsave(opjD(k+'.png'),imgv)
             """
             imgv = z2o(imgv)*255
