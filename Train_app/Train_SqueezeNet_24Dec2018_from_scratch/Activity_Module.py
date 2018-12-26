@@ -1,10 +1,7 @@
-from default_values import *
-exec(identify_file_str)
 from kzpy3.vis3 import *
 import torch
 import torch.nn.utils as nnutils
-
-
+exec(identify_file_str)
 
 def Net_Activity(*args):
     """
@@ -12,6 +9,7 @@ def Net_Activity(*args):
     """
     cy("GPUs =",torch.cuda.device_count(),"current GPU =",torch.cuda.current_device())
     Args = args_to_dictionary(args)
+    _ = Args['P']
     D = {}
     True
     D['activiations'] = {}
@@ -33,7 +31,7 @@ def Net_Activity(*args):
                 right_t0v = camera_datav[:,:,3:6]
                 left_t1v = camera_datav[:,:,6:9].copy()
                 right_t1v = camera_datav[:,:,9:12].copy()
-                if P['use_LIDAR']:
+                if _['use_LIDAR']:
                     left_t1v[:,:,0] *= 0
                     right_t1v[:,:,0] *= 0
                 #right_t1v = camera_datav[:,:,9:12]
@@ -41,7 +39,7 @@ def Net_Activity(*args):
                 D['imgs'][k][moment_indexv] = vis_square(camera_arrayv,padval=0.5)
             else:
                 num_channels = shape(D['activiations'][k])[1]        
-                if P['verbose']: print num_channels,shape(D['activiations'][k])[1]
+                if _['verbose']: print num_channels,shape(D['activiations'][k])[1]
                 for i in range(num_channels):
                     if D['activiations'][k][moment_indexv,i,:,:].mean() != 0.0:
                         if D['activiations'][k][moment_indexv,i,:,:].mean() != 1.0:
@@ -87,9 +85,9 @@ def Net_Activity(*args):
             if scalev == 0:
                 print('Not shwoing '+k)
                 continue
-            if P['verbose']:print(k,Args['moment_index'])
+            if _['verbose']:print(k,Args['moment_index'])
             imgv = D['imgs'][k][Args['moment_index']]
-            mi(imgv,d2s(k,P['start time']))
+            mi(imgv,d2s(k,_['start time']))
             #imsave(opjD(k+'.png'),imgv)
             """
             imgv = z2o(imgv)*255
