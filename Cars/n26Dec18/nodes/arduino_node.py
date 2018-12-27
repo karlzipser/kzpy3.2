@@ -139,20 +139,6 @@ if _['desktop version']:
     )
     _['desktop version/index'] = 0
 
-    #from sensor_msgs.msg import Image
-    import cv2
-    from cv_bridge import CvBridge,CvBridgeError
-    left_pub = rospy.Publisher("/zed/left/image_rect_color",sensor_msgs.msg.Image,queue_size=1)
-    right_pub = rospy.Publisher("/zed/right/image_rect_color",sensor_msgs.msg.Image,queue_size=1)
-    def function_Mock_ZEDpublish(index):
-        print "mz"
-        time.sleep(1/30.)
-        img = np.random.randn(94,168,3)
-        img = z2_255(img)
-        left_pub.publish(CvBridge().cv2_to_imgmsg(img,'rgb8'))
-        right_pub.publish(CvBridge().cv2_to_imgmsg(img,'rgb8'))
-    _['desktop version/Mock_ZEDpublish'] = function_Mock_ZEDpublish
-
 #
 #########################################
 
