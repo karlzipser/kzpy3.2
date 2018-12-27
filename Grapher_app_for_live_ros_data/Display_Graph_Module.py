@@ -8,7 +8,7 @@ exec(identify_file_str)
 _ = dictionary_access
 
 
-
+end_time = 'end_time'
 def Display_Graph(*args):
 	Args = args_to_dictionary(args)
 	D = {}

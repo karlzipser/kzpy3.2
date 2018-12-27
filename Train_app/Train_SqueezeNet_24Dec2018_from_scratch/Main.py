@@ -75,7 +75,7 @@ cr("\n\nTime needed for startup =",int(startup_timer.time()),"seconds.\n\n")
 del startup_timer
 
 
-menu_reminder = Timer(120)
+menu_reminder = Timer(10*60)
 menu_reminder.trigger()
 timer = Timer(_['run time before quitting'])
 

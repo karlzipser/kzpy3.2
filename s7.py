@@ -1357,4 +1357,160 @@ while True:
 
 
 
+
+
+
+
+
+
+from kzpy3.utils2 import *
+
+#
+##################################################################
+#
+
+Int32 = 'std_msgs.msg.Int32'
+Float32 = 'std_msgs.msg.Float32'
+Vec3 = 'geometry_msgs.msg.Vector3'
+Str = 'std_msgs.msg.String'
+Img = 'sensor_msgs.msg.Image'
+
+Queue_sizes = {
+    Int32:5,
+    Float32:5,
+    Vec3:5,
+    Str:5,
+    Img:1,
+}
+
+def get_ros_start_strs(node_name):
+    rospyinit_strs = ["\nrospy.init_node('"+node_name+"',anonymous=True,disable_signal=True)\n"]
+    return rospyinit_strs
+
+
+def get_ros_publisher_strs(Rostopics_to_publish,dic_name):
+    print Rostopics_to_publish
+    pub_setup_strs = []
+    pub_publish_strs = []
+    P_publisher_strs = {}
+    for topic in Rostopics_to_publish:
+        assert len(topic) == 2
+        assert type(topic[0]) == str
+        assert type(topic[1]) == str
+        name = topic[0]
+        rtype = topic[1]
+        CS_(d2s(name,rtype))
+        pub_name = get_safe_name(name)+'_pub'
+        pub_setup_strs.append(
+                d2n(dic_name,"['",name,"_pub']"," = rospy.Publisher('",name,"',",rtype,",queue_size=",Queue_sizes[rtype],')'))
+    pub_setup_strs.append('\n')
+    return pub_setup_strs
+
+
+def get_ros_subscriber_strs(rostopics_subscribe_to,dic_name):
+    subscription_strs = []
+    callback_strs = []
+    for topic in rostopics_subscribe_to:
+        assert type(topic) == tuple
+        assert len(topic) <= 3
+        raw_name = topic[0]
+        assert type(raw_name) == str
+        safe_name = get_safe_name(raw_name)
+        rtype = topic[1]
+        assert type(rtype) == str
+        if len(topic) == 3:
+            make_callback = topic[2]
+        else:
+            make_callback = True
+        assert type(make_callback) == bool
+        if make_callback:
+            callback_strs.append("""def """+safe_name+"""_callback(msg):\n\t"""+dic_name+"""['"""+raw_name+"""'] = msg.data\n""")
+        subscription_strs.append("""rospy.Subscriber('"""+raw_name+"""',"""+rtype+""",callback="""+safe_name+"""_callback)""")
+    subscription_strs.append('\n')
+    return callback_strs,subscription_strs
+#
+##################################################################
+#
+
+node_name = 'run_arduino'
+
+stopics = [
+    ('cmd/steer',Int32),
+    ('cmd/camera',Int32),
+    ('cmd/motor',Int32,False),
+    ('/os1_node/image',Img),
+    ('data_saving',Int32),
+]
+
+
+
+ptopics = [
+    ('human_agent',Int32),
+    ('drive_mode',Int32),
+    ('behavioral_mode',Int32),
+    ('button_number',Int32),
+    ('steer',Int32),
+    ('motor',Int32),
+    ('encoder',Float32),
+    ('gyro',Float32),
+    ('gyro_heading',Float32),
+    ('acc',Vec3),
+]
+flex_names = [
+    'FL0',
+    'FL1',
+    'FL2',
+    'FL3',
+    'FR0',
+    'FR1',
+    'FR2',
+    'FR3',
+    'FC0',
+    'FC1',
+    'FC2',
+    'FC3',
+]
+for name in flex_names:
+    ptopics.append( (name,Float32)  )
+
+
+r = get_ros_start_strs(node_name)
+c,s = get_ros_subscriber_strs(stopics,'_')
+p = get_ros_publisher_strs(ptopics,'_')
+
+def lp(lst):
+    for e in lst:
+        cb(e)
+
+lp(r)
+lp(c)
+lp(s)
+lp(p)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #EOF

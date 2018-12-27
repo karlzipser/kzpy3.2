@@ -224,7 +224,7 @@ def Batch(the_network=None):
 					mode_ctr = len(Data_moment['labels'])
 					metadata_constant = torch.FloatTensor().cuda()
 					num_metadata_channels = 128
-					num_multival_metas = 1 + 4 + 12 + 3#+ 27
+					num_multival_metas = 1 + 4 + 12 # + 3#+ 27
 					for i in range(num_metadata_channels - num_multival_metas - mode_ctr): # Concatenate zero matrices to fit the dataset
 						metadata_constant = torch.cat((zero_matrix, metadata_constant), 1)
 					P['metadata_constant_blanks'] = metadata_constant
@@ -265,7 +265,7 @@ def Batch(the_network=None):
 							img2 = img1.cuda().float()/255. - 0.5
 							cat_list.append(img2)
 
-				if True:
+				if False:
 					for j in [0,2,1]:
 						img = D['zeros, metadata_size']
 						img[0,0,:,:] = Data_moment['projections'][:,:,j]
