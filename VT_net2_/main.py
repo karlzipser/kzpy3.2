@@ -71,8 +71,6 @@ run_path = Runs[Arguments['run']]
 U = lo(opjD('Data/Network_Predictions',fname(run_path)+'.net_predictions.pkl'))
 
 L,O,___ = open_run(run_name=Arguments['run'],h5py_path=pname(run_path),want_list=['L','O'])
-#L,O,___ = open_run(run_name=Arguments['run'],Runs_dic=Runs,want_list=['L','O'])
-#assert ___ == None
 
 _['headings'] = L['gyro_heading_x'][:]
 _['encoders'] = L['encoder'][:]
@@ -234,7 +232,7 @@ if __name__ == '__main__':
         try:
 
             for behavioral_mode in _['behavioral_mode_list']:
-                headings = U[behavioral_mode][_['index']]['heading']
+                headings = _['U_heading_gain'] * U[behavioral_mode][_['index']]['heading']
                 encoders = U[behavioral_mode][_['index']]['encoder']
                 pts2D_1step = get_predictions2D(behavioral_mode,headings,encoders,_['motors'])
                 Pts2D_1step[behavioral_mode] = pts2D_1step
@@ -275,17 +273,17 @@ if __name__ == '__main__':
                 metadata_img_list[left_index] = metadata_3D_img
 
       
-
+            #cv2.waitKey(1)
             if _['show timer'].check():
                 
                 #################
                 # 
                 Prediction2D_plot['show']()
-                mci(left_camera_3D_img,title='left_camera_3D_img',delay=_['cv2 delay'])
+                mci(left_camera_3D_img,title='left_camera_3D_img',delay=_['cv2 delay'],scale=_['3d image scale'])
                 mci(metadata_3D_img,title='metadata_3D_img',delay=_['cv2 delay'])
                 #
                 #################
-            _['show timer'] = Timer(_['show timer time']) 
+                _['show timer'] = Timer(_['show timer time']) 
 
 
         except Exception as e:
@@ -303,7 +301,7 @@ if __name__ == '__main__':
 
 
     if _['save metadata']:
-        file_path = opjD('Data/Network_Predictions_projected',fname(run_path)+'.net_projections.h5py')
+        file_path = opj(_['dst path'],fname(run_path)+'.net_projections.h5py')
         os.system(d2s('mkdir -p',pname(file_path)))
         cb("F = h5w(",file_path,")")
         metadata_img_list_FLIP = []

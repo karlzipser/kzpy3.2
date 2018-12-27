@@ -8,6 +8,8 @@ if 'Arguments' in locals():
 	if 'limit' in Arguments:
 		if Arguments['limit'] in ['t','T',1]:
 			do_limit = True
+		else:
+			do_limit = False
 
 print task
 

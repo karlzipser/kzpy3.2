@@ -11,6 +11,9 @@ _['drive_mode'] = 0
 _['use sound'] = True
 _['now in calibration mode'] = False
 _['use flex'] = False
+#_['USE_MSE'] = True
+#_['USE_IMU'] = True
+_['USE_ROS'] = HAVE_ROS # using_linux()
 _['human_PID_motor_percent'] = 53
 _['max motor'] = 63
 _['min motor'] = 0#49-(63-49)
@@ -19,33 +22,22 @@ _['show_net_activity'] = False
 _['menu name'] = 'arduino menu'
 _['cmd/autostart menu'] = False
 _['cmd/clear_screen'] = False
-_['use menu'] = True
-_['zed_called'] = {}
-_['zed_called']['val'] = 0
-_['zed_called']['time'] = 0
-_['os1_called'] = {}
-_['os1_called']['val'] = 0
-_['os1_called']['time'] = 0
+#_['use menu'] = True
 _['print_timer time'] = 0.1
 _['IMU/print_timer'] = Timer(_['print_timer time'])
 _['MSE/print_timer'] = Timer(_['print_timer time'])
-_['temporary_human_control'] = False
-_['acc triggers'] = 'shutdown'
 _['car_name'] = os.environ["COMPUTER_NAME"]
 _['calibrated'] = False
 _['ABORT'] = False
 _['servo_percent'] = 49
 _['motor_percent'] = 49
+_['cmd/camera'] = 49
+_['cmd/steer'] = 49
+_['cmd/motor'] = 49
 _['LED_number'] = {}
 _['LED_number']['current'] = 0
 _['CALIBRATION_NULL_START_TIME'] = 3.0
 _['CALIBRATION_START_TIME'] = 4.0
-_['print_mse_freq'] = False
-_['print_imu_freq'] = False
-_['print_calibration_freq'] = False
-_['print_selector_freq'] = False
-_['print_led_freq'] = False
-_['USE_ROS'] = HAVE_ROS # using_linux()
 _['human'] = {}
 _['human']['servo_percent'] = 49
 _['human']['motor_percent'] = 49
@@ -60,13 +52,12 @@ _['servo_pwm_min'] = _['servo_pwm_null']
 _['servo_pwm_max'] = _['servo_pwm_null']
 _['motor_pwm_min'] = _['servo_pwm_null']
 _['motor_pwm_max'] = _['servo_pwm_null']
-_['behavioral_mode_choice'] = 'direct'
-_['place_choice'] = 'local'
+#_['behavioral_mode_choice'] = 'direct'
+#_['place_choice'] = 'local'
 _['servo_pwm_smooth_manual_offset'] = 0
 _['camera_pwm_manual_offset'] = 0	
 _['HUMAN_SMOOTHING_PARAMETER_1'] = 0.75
-_['USE_MSE'] = True
-_['USE_IMU'] = True
+
 _['pid_motor_slope'] = (60-49)/3.0
 _['pid_motor_gain'] = 0.05
 _['pid_encoder_max'] = 4.0
@@ -78,7 +69,7 @@ _['pid_steer_gain']= 0.05
 _['pid_steer_delta_max']= 0.05
 _['pid_steer_steer_percent_max']= 99
 _['pid_steer_steer_percent_min'] = 0
-_['use_servo_feedback'] = 0
+#_['use_servo_feedback'] = 0
 _['button_delta'] = 50
 _['button_number'] = 0
 _['button_timer'] = Timer()
@@ -88,7 +79,6 @@ _['encoder_smooth'] = 0.0
 _['encoder'] = 0.0
 _['network']['camera_percent'] = 49
 _['Hz']['mse'] = 0
-_['calibrated'] = False
 _['acc'] = {}
 _['gyro'] = {}
 _['head'] = {}
@@ -117,12 +107,12 @@ _['to_hide'] = []
 _['To Expose'] = {}
 _['To Expose']['Arduino'] = [
 	'ABORT',
-	'behavioral_mode_choice',
+	#'behavioral_mode_choice',
 	'agent_is_human',
-	'place_choice',
+	#'place_choice',
 	'servo_pwm_smooth_manual_offset',
 	'camera_pwm_manual_offset',
-	'use LIDAR',
+	#'use LIDAR',
 	'use sound',
 	'use_motor_PID',
 	'desktop version',
@@ -158,6 +148,8 @@ _['To Expose']['Flex'] = [
 ]
 
 def sort_dir_by_ctime(dir_path):
+	#print dir_path
+	#raw_enter()
 	"""
 	https://www.w3resource.com/python-exercises/python-basic-exercise-71.php
 	"""
@@ -173,11 +165,21 @@ def sort_dir_by_ctime(dir_path):
 	    paths.append(path)
 	return paths
 
+if username == 'nvidia':
+	_['weight_file_path'] = opjm("rosbags/networks") #opjh('pytorch_models/epoch6goodnet')
+else:
+	_['weight_file_path'] = opjD('Networks/_net_15Sept2018_1Nov_with_reverse_')
+	#cr("_['weight_file_path'] =",_['weight_file_path'])
+
 try:
+	#cr(1)
 	_['To Expose']['Weights'] = []
 	_['weight_files'] = {}
 	Model_folders = {}
-	for f in sggo(opjm("rosbags/networks/*")):
+	#cr(2)
+	for f in sggo(_['weight_file_path'],'*'):
+		#cr(3)
+		#print f
 		weight_files = sort_dir_by_ctime(f)
 		l = len(weight_files)
 		n = d2n(fname(f)," (",l,")")
@@ -203,7 +205,6 @@ _['network_motor_offset'] = 0
 _['network_servo_smoothing_parameter'] = 0.85
 _['network_motor_smoothing_parameter'] = 0.85
 _['network_camera_smoothing_parameter'] = 0.0
-_['weight_file_path'] = opjh('pytorch_models/epoch6goodnet')
 _['USE_NETWORK'] = True
 _['GREY_OUT_TOP_OF_IMAGE'] = False
 _['USE_LAST_IMAGE_ONLY'] = False

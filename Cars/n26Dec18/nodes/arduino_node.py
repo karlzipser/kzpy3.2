@@ -173,7 +173,7 @@ while _['ABORT'] == False:
 
         if parameter_file_load_timer.check():
 
-            if _['button_number'] == 4:
+            if True:#_['button_number'] == 4:
 
                 Topics = menu2.load_Topics(
                     opjk("Cars/n26Dec18/nodes"),
