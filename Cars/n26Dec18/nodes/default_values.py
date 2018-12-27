@@ -125,7 +125,7 @@ _['To Expose']['Arduino'] = [
 	'use LIDAR',
 	'use sound',
 	'use_motor_PID',
-	'Desktop version',
+	'desktop version',
 	'human_PID_motor_percent',
 ]
 
@@ -147,7 +147,7 @@ _['To Expose']['Network'] = [
 	'camera_move_threshold',
 	'camera_auto_zero_for_small_values_int',
 	'network_reverse_motor_gain',
-	'Desktop version',
+	'desktop version',
 ]
 
 _['To Expose']['Flex'] = [

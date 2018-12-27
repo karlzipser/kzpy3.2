@@ -45,7 +45,7 @@ def button_number_to_pwm(bn):
 
 imu_names = ['acc','gyro','head']
 
-artifical_mode = False
+artifical_mode = True
 
 class Mock_Arduino:
 
@@ -124,7 +124,7 @@ def function_Mock_ZEDpublish(P,index):
         img = P['desktop version/O'][side+'_image']['vals'][P['desktop version/index']]
         img = z2_255(img)
         Pub['side'].publish(CvBridge().cv2_to_imgmsg(img,'rgb8'))
-_['desktop version/Mock_ZEDpublish'] = function_Mock_ZEDpublish
+#_['desktop version/Mock_ZEDpublish'] = function_Mock_ZEDpublish
 
 #EOF
 

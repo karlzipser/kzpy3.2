@@ -110,7 +110,18 @@ else:
 if  'MSE' in _['Arduinos'].keys():     
     CS("!!!!!!!!!! found 'MSE' !!!!!!!!!!!",emphasis=True)
     arduino_utils.tactic_rc_controller.TACTIC_RC_controller(_)
-    arduino_utils.calibration_mode.Calibration_Mode(_)
+    if P['desktop version']:
+        _['servo_pwm_null'] = 1200
+        _['motor_pwm_null'] = 1200
+        _['servo_pwm_min'] = 800
+        _['servo_pwm_max'] = 1600
+        _['motor_pwm_min'] = 800
+        _['motor_pwm_max'] = 1600
+        _['servo_pwm_smooth'] = P['servo_pwm_null']
+        _['motor_pwm_smooth'] = P['motor_pwm_null']
+        _['calibrated'] = True
+    else:
+        arduino_utils.calibration_mode.Calibration_Mode(_)
 else:
     assert False
     

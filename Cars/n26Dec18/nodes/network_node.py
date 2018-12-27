@@ -288,7 +288,7 @@ while not rospy.is_shutdown():
     #####################################################################
     #####################################################################
     ###    
-    if button_number == 4 or N['desktop version']:
+    if button_number == 4:
 
         if button_number == 4:
             time.sleep(1)

@@ -25,7 +25,7 @@ n=save_data['net']
 p = n['post_metadata_features.0.squeeze.weight'] 
 q = p.cpu().numpy() 
 q = q[:,:,0,0] 
-q[:,128]/=10.
+#q[:,128]/=10.
 figure(_['WEIGHTS_FILE_PATH'].replace(opjh(),'')+' ')
 plot([0,256],[0,0],'b-')
 plot(q.transpose(1,0),'ko')

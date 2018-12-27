@@ -3,20 +3,7 @@ exec(identify_file_str)
 import rospy
 
 def Calibration_Mode(P):
-    if P['desktop version']:
-        cr('desktop version, exiting Calibration_Mode theader')
-        P['servo_pwm_null'] = 1200
-        P['motor_pwm_null'] = 1200
-        P['servo_pwm_min'] = 800
-        P['servo_pwm_max'] = 1600
-        P['motor_pwm_min'] = 800
-        P['motor_pwm_max'] = 1600
-        P['servo_pwm_smooth'] = P['servo_pwm_null']
-        P['motor_pwm_smooth'] = P['motor_pwm_null']
-        P['calibrated'] = True
-        return
-    else:
-        threading.Thread(target=_calibrate_run_loop,args=[P]).start()
+    threading.Thread(target=_calibrate_run_loop,args=[P]).start()
 
 def _calibrate_run_loop(P):
 
