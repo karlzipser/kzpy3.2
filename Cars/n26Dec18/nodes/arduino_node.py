@@ -110,15 +110,15 @@ else:
 if  'MSE' in _['Arduinos'].keys():     
     CS("!!!!!!!!!! found 'MSE' !!!!!!!!!!!",emphasis=True)
     arduino_utils.tactic_rc_controller.TACTIC_RC_controller(_)
-    if P['desktop version']:
+    if _['desktop version']:
         _['servo_pwm_null'] = 1200
         _['motor_pwm_null'] = 1200
         _['servo_pwm_min'] = 800
         _['servo_pwm_max'] = 1600
         _['motor_pwm_min'] = 800
         _['motor_pwm_max'] = 1600
-        _['servo_pwm_smooth'] = P['servo_pwm_null']
-        _['motor_pwm_smooth'] = P['motor_pwm_null']
+        _['servo_pwm_smooth'] = _['servo_pwm_null']
+        _['motor_pwm_smooth'] = _['motor_pwm_null']
         _['calibrated'] = True
     else:
         arduino_utils.calibration_mode.Calibration_Mode(_)
@@ -146,7 +146,8 @@ if _['desktop version']:
     _['desktop version/L'],_['desktop version/O'],___ = open_run(
         run_name='tegra-ubuntu_19Oct18_08h55m02s',
         h5py_path=opjD('Data/1_TB_Samsung_n1/tu_18to19Oct2018/locations/local/left_right_center/h5py'),
-        want_list=['L','O']
+        want_list=['L','O'],
+        verbose=True
     )
     _['desktop version/index'] = 0
 
@@ -159,7 +160,7 @@ if _['desktop version']:
 
 #########################################
 #
-print 'main loop'
+print 'arduino_node.py main loop'
 
 import kzpy3.Menu_app.menu2 as menu2
 
@@ -167,9 +168,9 @@ parameter_file_load_timer = Timer(0.5)
 
 while _['ABORT'] == False:
 
-    if True:#try:
+    try:
         time.sleep(1)
-
+        print 'loop'
         if parameter_file_load_timer.check():
 
             if _['button_number'] == 4 or _['desktop version']:
@@ -189,9 +190,13 @@ while _['ABORT'] == False:
 
         else:
             time.sleep(0.1)
-
-    else:#except Exception as e:
+    except KeyboardInterrupt:
+        _['ABORT'] = True
+        #sys.exit()
+    except Exception as e:
+        print '*********** here ************'
         CS_(d2s('Main loop exception',e))
+        
 #
 #########################################
        
@@ -201,7 +206,7 @@ while _['ABORT'] == False:
 CS('End arduino_node.py main loop.')
 CS_("doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))")
 time.sleep(0.01)
-os.system(opjh('kzpy3/scripts/kill_ros.sh'))
+#os.system(opjh('kzpy3/scripts/kill_ros.sh'))
 
 
 #EOF

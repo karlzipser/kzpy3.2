@@ -503,7 +503,7 @@ while not rospy.is_shutdown():
 CS_('goodbye!',__file__)
 CS_("doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))")
 time.sleep(0.01)
-unix(opjh('kzpy3/scripts/kill_ros.sh'))
+#unix(opjh('kzpy3/scripts/kill_ros.sh'))
 
 
 

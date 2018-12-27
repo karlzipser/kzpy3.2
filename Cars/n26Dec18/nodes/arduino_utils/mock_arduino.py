@@ -68,7 +68,7 @@ class Mock_Arduino:
                 rstr = "('"+d2c(np.random.choice(flex_names)+"'",b+500)+')'
             elif self.atype == 'IMU':
                 rstr = "('"+d2c(np.random.choice(imu_names)+"'",d,d,d)+')'
-            print rstr
+            #print rstr
             return rstr
         else:
             if self.atype == 'MSE':
@@ -93,7 +93,7 @@ class Mock_Arduino:
             elif self.atype == 'IMU':
                 n = np.random.choice(imu_names)
                 rstr = "('"+d2c(n+"'",L[n+'_x'][index],L[n+'_y'][index],L[n+'_z'][index])+')'
-        print rstr
+        #print rstr
         return rstr
 
 
@@ -124,7 +124,15 @@ def function_Mock_ZEDpublish(P,index):
         img = P['desktop version/O'][side+'_image']['vals'][P['desktop version/index']]
         img = z2_255(img)
         Pub['side'].publish(CvBridge().cv2_to_imgmsg(img,'rgb8'))
-#_['desktop version/Mock_ZEDpublish'] = function_Mock_ZEDpublish
+
+
+def Mock_ZED():
+    while True:
+        print "mz"
+        time.sleep(1/30.)
+        img = np.random.randn(94,168,3)
+        img = z2_255(img)
+        pub.publish(CvBridge().cv2_to_imgmsg(img,'rgb8'))
 
 #EOF
 
