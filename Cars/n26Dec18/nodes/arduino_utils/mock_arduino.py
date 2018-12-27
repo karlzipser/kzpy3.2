@@ -47,6 +47,8 @@ imu_names = ['acc','gyro','head']
 
 artifical_mode = True
 
+Timers = {'MSE':Timer(1/30.),'IMU':Timer(1/30./3.),'FLEX':Timer(1/30.)/12.}
+
 class Mock_Arduino:
 
     def __init__(self,P,atype):
@@ -57,6 +59,7 @@ class Mock_Arduino:
         pass
 
     def readline(self):
+        _ = self.P
         if artifical_mode:
             a = np.sin(time.time()/5.)*400+1200
             b = np.sin(time.time()/15.)*400+1200
@@ -71,30 +74,37 @@ class Mock_Arduino:
             #print rstr
             return rstr
         else:
-            if self.atype == 'MSE':
+            while _['ABORT'] == False:
+                if self.atype == 'MSE' and Timer('MSE').check():
+                    Timer('MSE').reset()
+                    L = _['desktop version/L']
+                    _['desktop version/index prev'] = _['desktop version/index']
+                    _['desktop version/index'] += 1
+                    if _['desktop version/index'] >= len(L['steer']):
+                        _['desktop version/index'] = 1
+                        _['desktop version/index prev'] = 0
+                    index = _['desktop version/index']
+                    index_prev = _['desktop version/index prev']
+                    servo_pwm = servo_percent_to_pwm(L['steer'][index],_)
+                    motor_pwm = motor_percent_to_pwm(L['motor'][index],_)
+                    encoder = L['encoder'][index]
+                    button_pwm = button_number_to_pwm(L['button_number'][index])
+                    rstr = d2c("('mse'",button_pwm,servo_pwm,motor_pwm,encoder)+")"
+                    Mock_ZEDpublish(_,index)
 
-                L = _['desktop version/L']
-                _['desktop version/index prev'] = _['desktop version/index']
-                _['desktop version/index'] += 1
-                if _['desktop version/index'] >= len(L['steer']):
-                    _['desktop version/index'] = 1
-                    _['desktop version/index prev'] = 0
-                index = _['desktop version/index']
-                index_prev = _['desktop version/index prev']
-                servo_pwm = servo_percent_to_pwm(L['steer'][index],_)
-                motor_pwm = motor_percent_to_pwm(L['motor'][index],_)
-                encoder = L['encoder'][index]
-                button_pwm = button_number_to_pwm(L['button_number'][index])
-                rstr = d2c("('mse'",button_pwm,servo_pwm,motor_pwm,encoder,")")
-            elif self.atype == 'FLEX':
-                n = np.random.choice(flex_names)
-                rstr = "('"+d2c(n+"'",L[n][index])+')'
+                elif self.atype == 'FLEX' and Timer('FLEX').check():
+                    Timer('FLEX').reset()
+                    n = np.random.choice(flex_names)
+                    rstr = "('"+d2c(n+"'",L[n][index])+')'
 
-            elif self.atype == 'IMU':
-                n = np.random.choice(imu_names)
-                rstr = "('"+d2c(n+"'",L[n+'_x'][index],L[n+'_y'][index],L[n+'_z'][index])+')'
-        #print rstr
-        return rstr
+                elif self.atype == 'IMU' and Timer('IMU').check():
+                    Timer('IMU').reset()
+                    n = np.random.choice(imu_names)
+                    rstr = "('"+d2c(n+"'",L[n+'_x'][index],L[n+'_y'][index],L[n+'_z'][index])+')'
+                else:
+                    time.sleep(1/30./30.)
+            #print rstr
+            return rstr
 
 
     def flushInput(self):
@@ -106,7 +116,6 @@ class Mock_Arduino:
 
 def put_mock_Arduinos_into_P(P):
     P['Arduinos'] = {}
-
     for a in ['MSE','FLEX','IMU','SOUND']:
         P['Arduinos'][a] = Mock_Arduino(P,a)
 
@@ -118,7 +127,7 @@ from cv_bridge import CvBridge,CvBridgeError
 Pub = {}
 for side in ['left','right']:
     Pub[side] = rospy.Publisher("/zed/"+side+"/image_rect_color",Image,queue_size=1)
-def function_Mock_ZEDpublish(P,index):
+def Mock_ZEDpublish(P,index):
     print "mz"
     for side in ['left','right']:
         img = P['desktop version/O'][side+'_image']['vals'][P['desktop version/index']]
