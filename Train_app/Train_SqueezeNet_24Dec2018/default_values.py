@@ -31,7 +31,7 @@ P['verbose'] = False
 verbose = P['verbose']
 
 P['loss_timer_time'] = 10*minute
-P['print_timer_time'] = 10*minute
+P['print_timer_time'] = 100*minute
 P['menu_load_timer_time'] = 10
 P['spause_timer_time'] = 10
 

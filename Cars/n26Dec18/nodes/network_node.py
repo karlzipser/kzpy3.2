@@ -67,13 +67,11 @@ def left_callback(data):
 
 def human_agent_callback(msg):
     global human_agent
-    if not N['Desktop version']:
-        human_agent = msg.data
+    human_agent = msg.data
 
 def drive_mode_callback(msg):
     global drive_mode
-    if not N['Desktop version']:
-        drive_mode = msg.data
+    drive_mode = msg.data
     
 def behavioral_mode_callback(msg):
     global behavioral_mode, direct, follow, furtive, play,left,right
@@ -139,21 +137,9 @@ if N['use flex']:
     rospy.Subscriber('/bair_car/cmd/flex_motor', std_msgs.msg.Int32, callback=flex_motor__callback)
     rospy.Subscriber('/bair_car/cmd/flex_steer', std_msgs.msg.Int32, callback=flex_steer__callback)
 
-if not N['lidar_only']:
-    rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_callback,queue_size = 1)
-    rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_callback,queue_size = 1)
 
-
-
-
-
-
-
-
-
-
-
-
+rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_callback,queue_size = 1)
+rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_callback,queue_size = 1)
 
 
 #############################################################################################
@@ -226,25 +212,6 @@ for the_behaviorial_mode in TP['behavioral_modes']:
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ##############################################
 #
 # visualization only
@@ -260,13 +227,7 @@ def lrcat(l,r):
 #
 ##############################################
 
-##############################################
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-if N['use LIDAR']:
-    threading.Thread(target=ppc.pointcloud_thread,args=[]).start()
-    #cy("if N['use LIDAR']: 290")
-#
-##############################################
+
 
 Durations = {}
 durations = ['fuse images','torch camera format','run mode']
@@ -290,12 +251,6 @@ frequency_timer = Timer(5)
 ####################################################
 ####################################################
             
-
-
-
-
-
-
 
 
 rLists = {}
@@ -324,8 +279,7 @@ parameter_file_load_timer = Timer(1)
 
 torch_motor, torch_steer, torch_camera = 49,49,49
 
-if N['Desktop version']:
-    network_rate = rospy.Rate(30)
+
 
 while not rospy.is_shutdown():
 
@@ -334,7 +288,7 @@ while not rospy.is_shutdown():
     #####################################################################
     #####################################################################
     ###    
-    if button_number == 4 or N['Desktop version']:
+    if button_number == 4 or N['desktop version']:
 
         if button_number == 4:
             time.sleep(1)
@@ -452,15 +406,10 @@ while not rospy.is_shutdown():
                         even = True
 
 
-
-    
-
             ##
             ####################################################
             ####################################################
             ####################################################
-
-
 
 
             if len(rLists['left'])>2:

@@ -31,6 +31,8 @@ def Pid_Processing_Motor():#slope=(60-49)/3.0,gain=0.05,encoder_max=4.0,delta_ma
     
 Pid_processing_motor = Pid_Processing_Motor()
 
+
+
 def _TACTIC_RC_controller_run_loop(P):
 
     print('_TACTIC_RC_controller_run_loop')
@@ -79,8 +81,6 @@ def _TACTIC_RC_controller_run_loop(P):
 
 
 
-
-
 def drive_car(P):
 
     if P['calibrated'] == True:
@@ -119,8 +119,6 @@ def drive_car(P):
             P['MSE/print_timer'] = Timer(P['print_timer time'])
     else:
         P['drive_mode'] = 0
-
-
 
 
 
@@ -166,17 +164,6 @@ def update_button_servo_motor_encoder(P):
 
     P['button_number'] = bn
 
-    if P['button_number'] == 1:
-        P['behavioral mode choice'] = 'left'
-    elif P['button_number'] == 2:
-        P['behavioral mode choice'] = 'direct'
-    elif P['button_number'] == 3:
-        P['behavioral mode choice'] = 'right'
-    elif P['button_number'] == 4:
-        P['behavioral mode choice'] = 'ghost'
-    else:
-        assert(False)
-
     P['button_time'] = P['button_timer'].time()
 
     if P['button_number'] != P['button_number_prev']:
@@ -203,9 +190,6 @@ def get_write_str(servo_pwm,camera_pwm,motor_pwm,P):
         int(P['camera_pwm_manual_offset']+camera_pwm+5000),',',
         int(motor_pwm+10000),')')
     return ws
-
-
-
 
 def pwm_to_percent(null_pwm,current_pwm,max_pwm,min_pwm):
     current_pwm -= null_pwm

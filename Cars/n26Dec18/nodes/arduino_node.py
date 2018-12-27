@@ -21,6 +21,45 @@ if _['desktop version']:
 _['ABORT'] = False
 
 
+
+
+###########################################################################################
+#
+def cmd_steer_callback(msg):
+    _['network']['servo_percent'] = msg.data
+def cmd_camera_callback(msg):
+    _['network']['camera_percent'] = msg.data
+def cmd_motor_callback(msg):
+    _['network']['motor_percent'] = msg.data
+
+rospy.init_node('run_arduino',anonymous=True,disable_signals=True)
+rospy.Subscriber('cmd/steer', std_msgs.msg.Int32, callback=cmd_steer_callback)
+rospy.Subscriber('cmd/camera', std_msgs.msg.Int32, callback=cmd_camera_callback)
+rospy.Subscriber('cmd/motor', std_msgs.msg.Int32, callback=cmd_motor_callback)
+
+_['human_agent_pub'] = rospy.Publisher('human_agent', std_msgs.msg.Int32, queue_size=5) 
+_['drive_mode_pub'] = rospy.Publisher('drive_mode', std_msgs.msg.Int32, queue_size=5) 
+_['behavioral_mode_pub'] = rospy.Publisher('behavioral_mode', std_msgs.msg.String, queue_size=5)
+_['place_choice_pub'] = rospy.Publisher('place_choice', std_msgs.msg.String, queue_size=5)
+_['button_number_pub'] = rospy.Publisher('button_number', std_msgs.msg.Int32, queue_size=5) 
+_['steer_pub'] = rospy.Publisher('steer', std_msgs.msg.Int32, queue_size=5) 
+_['motor_pub'] = rospy.Publisher('motor', std_msgs.msg.Int32, queue_size=5) 
+_['encoder_pub'] = rospy.Publisher('encoder', std_msgs.msg.Float32, queue_size=5)
+_['gyro_pub'] = rospy.Publisher('gyro', geometry_msgs.msg.Vector3, queue_size=10)
+_['gyro_heading_pub'] = rospy.Publisher('gyro_heading', geometry_msgs.msg.Vector3, queue_size=10)
+_['acc_pub'] = rospy.Publisher('acc', geometry_msgs.msg.Vector3, queue_size=10)
+_['servo_pwm_min_pub'] = rospy.Publisher('servo_pwm_min', std_msgs.msg.Int32, queue_size=5) 
+_['servo_pwm_max_pub'] = rospy.Publisher('servo_pwm_max', std_msgs.msg.Int32, queue_size=5) 
+_['servo_pwm_null_pub'] = rospy.Publisher('servo_pwm_null', std_msgs.msg.Int32, queue_size=5) 
+_['motor_pwm_min_pub'] = rospy.Publisher('motor_pwm_min', std_msgs.msg.Int32, queue_size=5) 
+_['motor_pwm_null_pub'] = rospy.Publisher('motor_pwm_null', std_msgs.msg.Int32, queue_size=5) 
+_['motor_pwm_max_pub'] = rospy.Publisher('motor_pwm_max', std_msgs.msg.Int32, queue_size=5)
+
+
+from default_values import flex_names
+for name in flex_names:
+    _[d2n(name,'_pub')] = rospy.Publisher(name,std_msgs.msg.Int32,queue_size=5)
+
 imu_rename_dic = {}
 imu_rename_dic['gyro'] = 'gyro_pub'
 imu_rename_dic['acc'] = 'acc_pub'
@@ -28,52 +67,6 @@ imu_rename_dic['head'] = 'gyro_heading_pub'
 
 MSE_low_frequency_pub_timer = Timer(0.1)
 
-
-def cmd_steer_callback(msg):
-    P['network']['servo_percent'] = msg.data
-def cmd_camera_callback(msg):
-    P['network']['camera_percent'] = msg.data
-def cmd_motor_callback(msg):
-    P['network']['motor_percent'] = msg.data
-
-
-
-
-rospy.init_node('run_arduino',anonymous=True,disable_signals=True)
-rospy.Subscriber('cmd/steer', std_msgs.msg.Int32, callback=cmd_steer_callback)
-rospy.Subscriber('cmd/camera', std_msgs.msg.Int32, callback=cmd_camera_callback)
-rospy.Subscriber('cmd/motor', std_msgs.msg.Int32, callback=cmd_motor_callback)
-P = _
-P['human_agent_pub'] = rospy.Publisher('human_agent', std_msgs.msg.Int32, queue_size=5) 
-P['drive_mode_pub'] = rospy.Publisher('drive_mode', std_msgs.msg.Int32, queue_size=5) 
-P['behavioral_mode_pub'] = rospy.Publisher('behavioral_mode', std_msgs.msg.String, queue_size=5)
-P['place_choice_pub'] = rospy.Publisher('place_choice', std_msgs.msg.String, queue_size=5)
-P['button_number_pub'] = rospy.Publisher('button_number', std_msgs.msg.Int32, queue_size=5) 
-P['steer_pub'] = rospy.Publisher('steer', std_msgs.msg.Int32, queue_size=5) 
-P['motor_pub'] = rospy.Publisher('motor', std_msgs.msg.Int32, queue_size=5) 
-P['encoder_pub'] = rospy.Publisher('encoder', std_msgs.msg.Float32, queue_size=5)
-P['gyro_pub'] = rospy.Publisher('gyro', geometry_msgs.msg.Vector3, queue_size=10)
-P['gyro_heading_pub'] = rospy.Publisher('gyro_heading', geometry_msgs.msg.Vector3, queue_size=10)
-P['acc_pub'] = rospy.Publisher('acc', geometry_msgs.msg.Vector3, queue_size=10)
-P['servo_pwm_min_pub'] = rospy.Publisher('servo_pwm_min', std_msgs.msg.Int32, queue_size=5) 
-P['servo_pwm_max_pub'] = rospy.Publisher('servo_pwm_max', std_msgs.msg.Int32, queue_size=5) 
-P['servo_pwm_null_pub'] = rospy.Publisher('servo_pwm_null', std_msgs.msg.Int32, queue_size=5) 
-P['motor_pwm_min_pub'] = rospy.Publisher('motor_pwm_min', std_msgs.msg.Int32, queue_size=5) 
-P['motor_pwm_null_pub'] = rospy.Publisher('motor_pwm_null', std_msgs.msg.Int32, queue_size=5) 
-P['motor_pwm_max_pub'] = rospy.Publisher('motor_pwm_max', std_msgs.msg.Int32, queue_size=5)
-
-from default_values import flex_names
-for name in flex_names:
-    P[d2n(name,'_pub')] = rospy.Publisher(name,std_msgs.msg.Int32,queue_size=5)
-
-
-imu_dic = {}
-imu_dic['gyro'] = 'gyro_pub'
-imu_dic['acc'] = 'acc_pub'
-imu_dic['head'] = 'gyro_heading_pub'
-
-#########################################
-#
 def _publish_IMU_data(_,m):
     _[imu_rename_dic[m]].publish(geometry_msgs.msg.Vector3(*_[m]['xyz']))
 
@@ -87,8 +80,6 @@ def _publish_MSE_data(_):
     _['encoder_pub'].publish(std_msgs.msg.Float32(_['encoder']))
 
     if MSE_low_frequency_pub_timer.check():
-
-        #_['behavioral_mode_pub'].publish(_['behavioral mode choice'])
 
         if _['agent_is_human'] == True:
             _['human_agent_pub'].publish(std_msgs.msg.Int32(1))
@@ -135,6 +126,36 @@ else:
     spd2s("!!!!!!!!!! 'FLEX' not in Arduinos[] or not using 'FLEX' !!!!!!!!!!!")
 #
 #########################################
+
+
+#########################################
+#
+if _['desktop version']:
+
+    _['desktop version/L'],_['desktop version/O'],___ = open_run(
+        run_name='tegra-ubuntu_19Oct18_08h55m02s',
+        h5py_path=opjD('Data/1_TB_Samsung_n1/tu_18to19Oct2018/locations/local/left_right_center/h5py'),
+        want_list=['L','O']
+    )
+    _['desktop version/index'] = 0
+
+    #from sensor_msgs.msg import Image
+    import cv2
+    from cv_bridge import CvBridge,CvBridgeError
+    left_pub = rospy.Publisher("/zed/left/image_rect_color",sensor_msgs.msg.Image,queue_size=1)
+    right_pub = rospy.Publisher("/zed/right/image_rect_color",sensor_msgs.msg.Image,queue_size=1)
+    def function_Mock_ZEDpublish(index):
+        print "mz"
+        time.sleep(1/30.)
+        img = np.random.randn(94,168,3)
+        img = z2_255(img)
+        left_pub.publish(CvBridge().cv2_to_imgmsg(img,'rgb8'))
+        right_pub.publish(CvBridge().cv2_to_imgmsg(img,'rgb8'))
+    _['desktop version/Mock_ZEDpublish'] = function_Mock_ZEDpublish
+
+#
+#########################################
+
 
 
 

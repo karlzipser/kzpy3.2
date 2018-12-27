@@ -30,7 +30,7 @@ _['To Expose'] = {}
 _['verbose'] = False
 
 _['loss_timer_time'] = 10*minute
-_['print_timer_time'] = 5*minute
+_['print_timer_time'] = 100*minute
 _['menu_load_timer_time'] = 10
 _['spause_timer_time'] = 10
 
@@ -78,7 +78,7 @@ _['max_num_runs_to_open'] = 900
 _['min_num_runs_to_open'] = 1
 _['run time before quitting'] = 0.5*hour
 _['experiments_folders'] = []
-_['trigger print timer?'] = True
+_['trigger print timer?'] = False
 _['trigger loss_timer?'] = True
 ###############################################################
 #

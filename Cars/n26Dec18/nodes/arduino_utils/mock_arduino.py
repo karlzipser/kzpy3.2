@@ -27,6 +27,7 @@ class Mock_Arduino:
     def write(self,write_str):
         pass
 
+    """
     def readline(self):
         a = np.sin(time.time()/5.)*400+1200
         b = np.sin(time.time()/15.)*400+1200
@@ -40,6 +41,25 @@ class Mock_Arduino:
             rstr = "('"+d2c(np.random.choice(imu_names)+"'",d,d,d)+')'
         print rstr
         return rstr
+    """
+    def readline(self):
+
+        if self.atype == 'MSE':
+
+            rstr = d2c("('mse'",1700,a,b,c,")")
+
+        elif self.atype == 'FLEX':
+
+            rstr = "('"+d2c(np.random.choice(flex_names)+"'",b+500)+')'
+
+        elif self.atype == 'IMU':
+
+            rstr = "('"+d2c(np.random.choice(imu_names)+"'",d,d,d)+')'
+
+        print rstr
+
+        return rstr
+
 
     def flushInput(self):
         pass
@@ -56,7 +76,11 @@ def put_mock_Arduinos_into_P(P):
 
 
 
+if _['desktop version']:
 
+    _['desktop version/L'],_['desktop version/O'],
+    _['desktop version/index'] = 0
+    _['desktop version/Mock_ZEDpublish']
 
 #EOF
 
