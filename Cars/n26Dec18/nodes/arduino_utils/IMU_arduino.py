@@ -39,7 +39,7 @@ def _IMU_run_loop(P):
                     P['Hz'][m] = Hz
                     if Hz < 30 or Hz > 90:
                         if ctr_timer.time() > 5:
-                            cr(m,'Hz =',dp(Hz))
+                            pass #cr(m,'Hz =',dp(Hz))
                         else:
                             pass
             P[m]['xyz'] = imu_input[1:4]

@@ -93,7 +93,7 @@ _['acc'] = {}
 _['gyro'] = {}
 _['head'] = {}
 _['autostart menu'] = False
-
+_['desktop version/start index'] = 5000
 
 flex_names = [
 	'FL0',

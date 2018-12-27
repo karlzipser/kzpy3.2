@@ -24,7 +24,7 @@ def _FLEX_run_loop(P):
     while (not P['ABORT']) and (not rospy.is_shutdown()):
         if 'Brief sleep to allow other threads to process...':
             time.sleep(0.001)
-        try:
+        if True:#try:
             read_str = P['Arduinos']['FLEX'].readline()
 
             if flush_timer.check():
@@ -41,7 +41,7 @@ def _FLEX_run_loop(P):
             if P['USE_ROS']:
                 P['publish_FLEX_data'](P,m)
 
-        except Exception as e:
+        else:#except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             CS_('Exception!',emphasis=True)

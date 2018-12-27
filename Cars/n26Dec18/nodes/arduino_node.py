@@ -149,7 +149,7 @@ if _['desktop version']:
         want_list=['L','O'],
         verbose=True
     )
-    _['desktop version/index'] = 0
+    _['desktop version/index'] = _['desktop version/start index']
 
 #
 #########################################
@@ -170,10 +170,10 @@ while _['ABORT'] == False:
 
     try:
         time.sleep(1)
-        print 'loop'
+
         if parameter_file_load_timer.check():
 
-            if _['button_number'] == 4 or _['desktop version']:
+            if _['button_number'] == 4:
 
                 Topics = menu2.load_Topics(
                     opjk("Cars/n26Dec18/nodes"),

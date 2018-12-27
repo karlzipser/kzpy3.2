@@ -30,6 +30,7 @@ def motor_percent_to_pwm(percent,P):
     return percent_to_pwm(percent,P['motor_pwm_null'],P['motor_pwm_max'],P['motor_pwm_min'])
 
 def button_number_to_pwm(bn):
+    bpwm = 870
     if bn == 1:
         bpwm = 1900
     elif bn == 2:
@@ -45,7 +46,7 @@ def button_number_to_pwm(bn):
 
 imu_names = ['acc','gyro','head']
 
-artifical_mode = True
+artifical_mode = False
 
 Timers = {'MSE':Timer(1/30.),'IMU':Timer(1/30./3.),'FLEX':Timer(1/30./12.)}
 
@@ -75,34 +76,39 @@ class Mock_Arduino:
             return rstr
         else:
             while _['ABORT'] == False:
-                if self.atype == 'MSE' and Timer('MSE').check():
-                    Timer('MSE').reset()
-                    L = _['desktop version/L']
-                    _['desktop version/index prev'] = _['desktop version/index']
+                L = _['desktop version/L']
+                index = _['desktop version/index']
+                if self.atype == 'MSE' and Timers['MSE'].check():
+                    Timers['MSE'].reset()
+                    
+                    #_['desktop version/index prev'] = _['desktop version/index']
                     _['desktop version/index'] += 1
                     if _['desktop version/index'] >= len(L['steer']):
-                        _['desktop version/index'] = 1
-                        _['desktop version/index prev'] = 0
+                        _['desktop version/index'] = _['desktop version/start index']#+1
+                        #_['desktop version/index prev'] = _['desktop version/start index']
                     index = _['desktop version/index']
-                    index_prev = _['desktop version/index prev']
                     servo_pwm = servo_percent_to_pwm(L['steer'][index],_)
                     motor_pwm = motor_percent_to_pwm(L['motor'][index],_)
                     encoder = L['encoder'][index]
                     button_pwm = button_number_to_pwm(L['button_number'][index])
                     rstr = d2c("('mse'",button_pwm,servo_pwm,motor_pwm,encoder)+")"
                     Mock_ZEDpublish(_,index)
-
-                elif self.atype == 'FLEX' and Timer('FLEX').check():
-                    Timer('FLEX').reset()
+                    break
+                elif self.atype == 'FLEX' and Timers['FLEX'].check():
+                    Timers['FLEX'].reset()
                     n = np.random.choice(flex_names)
-                    rstr = "('"+d2c(n+"'",L[n][index])+')'
-
-                elif self.atype == 'IMU' and Timer('IMU').check():
-                    Timer('IMU').reset()
+                    if n in L:
+                        rstr = "('"+d2c(n+"'",L[n][index])+')'
+                    else:
+                        rstr = ""
+                elif self.atype == 'IMU' and Timers['IMU'].check():
+                    Timers['IMU'].reset()
                     n = np.random.choice(imu_names)
                     rstr = "('"+d2c(n+"'",L[n+'_x'][index],L[n+'_y'][index],L[n+'_z'][index])+')'
+                    break
                 else:
                     time.sleep(1/30./30.)
+
             #print rstr
             return rstr
 
@@ -128,14 +134,13 @@ Pub = {}
 for side in ['left','right']:
     Pub[side] = rospy.Publisher("/zed/"+side+"/image_rect_color",Image,queue_size=1)
 def Mock_ZEDpublish(P,index):
-    print "mz"
     for side in ['left','right']:
         img = P['desktop version/O'][side+'_image']['vals'][P['desktop version/index']]
         img = z2_255(img)
-        Pub['side'].publish(CvBridge().cv2_to_imgmsg(img,'rgb8'))
+        Pub[side].publish(CvBridge().cv2_to_imgmsg(img,'rgb8'))
 
 
-def Mock_ZED():
+def __Mock_ZED():
     while True:
         print "mz"
         time.sleep(1/30.)

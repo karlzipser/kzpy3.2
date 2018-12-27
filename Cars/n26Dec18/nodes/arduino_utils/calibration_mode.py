@@ -57,8 +57,8 @@ def _calibrate_run_loop(P):
                     P['calibrated'] = True
            
     print 'end _calibrate_run_loop.'
-    CS_("doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))")
+    #CS_("doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))")
     time.sleep(0.01)
-    unix(opjh('kzpy3/scripts/kill_ros.sh'))
+    #unix(opjh('kzpy3/scripts/kill_ros.sh'))
 
 #EOF
