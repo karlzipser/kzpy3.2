@@ -47,7 +47,7 @@ imu_names = ['acc','gyro','head']
 
 artifical_mode = True
 
-Timers = {'MSE':Timer(1/30.),'IMU':Timer(1/30./3.),'FLEX':Timer(1/30.)/12.}
+Timers = {'MSE':Timer(1/30.),'IMU':Timer(1/30./3.),'FLEX':Timer(1/30./12.)}
 
 class Mock_Arduino:
 

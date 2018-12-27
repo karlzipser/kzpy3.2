@@ -53,7 +53,7 @@ def _IMU_run_loop(P):
     print 'end _IMU_run_loop.'
     #CS_("doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))")
     time.sleep(0.01)
-    unix(opjh('kzpy3/scripts/kill_ros.sh'))
+    #unix(opjh('kzpy3/scripts/kill_ros.sh'))
 
 
 

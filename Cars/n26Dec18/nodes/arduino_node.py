@@ -204,7 +204,7 @@ while _['ABORT'] == False:
 
 
 CS('End arduino_node.py main loop.')
-CS_("doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))")
+#CS_("doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))")
 time.sleep(0.01)
 #os.system(opjh('kzpy3/scripts/kill_ros.sh'))
 
