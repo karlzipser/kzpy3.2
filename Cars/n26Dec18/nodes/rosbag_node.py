@@ -14,6 +14,10 @@ except:
         pd2s('not saving data',time_str())
         time.sleep(30)
 
+for n in ['new','active']:
+    os.system(d2s("mkdir -p",opjm('rosbags',n)))
+
+
 foldername_prefix = os.environ["COMPUTER_NAME"] #'run_'
 
 foldername = d2n(foldername_prefix,'_',time_str())
