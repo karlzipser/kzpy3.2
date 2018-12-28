@@ -1355,7 +1355,9 @@ while True:
 
 
 
-
+while True:
+    char = getch()
+    print char
 
 
 
@@ -1592,9 +1594,28 @@ if False: # examples
 
 
 
+def REctangle(x,y,dx,dy,width,height,color,mass):
+    D = {}
+    D['x'] = x
+    D['y'] = y
+    D['dx'] = dx
+    D['dy'] = dy
+    D['width'] = width
+    D['height'] = height
+    D['color'] = color
+    D['mass'] = mass
 
+    def function_show(img):
+        pass
 
+    return D
 
+Keyboard_keys = {
+    'p':'up right',
+    '.':'down right',
+    'q':'up left',
+    'z':'up left',
+    }
 
 
 
