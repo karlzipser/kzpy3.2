@@ -5,13 +5,13 @@ import cv2
 from cv_bridge import CvBridge,CvBridgeError
 
 
-_['desktop version/artifical mode']
+
 Pub = {}
 for side in ['left','right']:
     Pub[side] = rospy.Publisher("/zed/"+side+"/image_rect_color",Image,queue_size=1)
 def Mock_ZEDpublish(P,index):
     for side in ['left','right']:
-        if artifical_mode:
+        if P['desktop version/artifical mode']:
             img = np.random.randn(94,168,3)
         else:
             img = P['desktop version/O'][side+'_image']['vals'][P['desktop version/index']]
@@ -80,8 +80,7 @@ class Mock_Arduino:
 
     def readline(self):
         _ = self.P
-        if _['desktop version/artifical mode']
-:
+        if self.P['desktop version/artifical mode']:
             a = np.sin(time.time()/5.)*400+1200
             b = np.sin(time.time()/15.)*400+1200
             c = np.sin(time.time()/30.)*1.0+3.0
@@ -92,7 +91,7 @@ class Mock_Arduino:
                 rstr = "('"+d2c(np.random.choice(flex_names)+"'",b+500)+')'
             elif self.atype == 'IMU':
                 rstr = "('"+d2c(np.random.choice(imu_names)+"'",d,d,d)+')'
-            Mock_ZEDpublish({},0)
+            Mock_ZEDpublish(_,0)
             time.sleep(1/30.)
             return rstr
         else:
