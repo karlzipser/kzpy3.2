@@ -81,7 +81,7 @@ def drive_car(P):
 
     if P['data_saving changed up']:
         P['data_saving changed up'] = False
-        P['Arduinos']['SOUND'].write(_['sound/save tune'])
+        P['Arduinos']['SOUND'].write(P['sound/save tune'])
 
     if P['calibrated'] == True:
         P['human']['servo_percent'] = servo_pwm_to_percent(P['servo_pwm_smooth'],P)
@@ -94,7 +94,7 @@ def drive_car(P):
 
         if sound_timer.check():
             if 'SOUND' in P['Arduinos']:
-                P['Arduinos']['SOUND'].write(_['sound/human, YES'])
+                P['Arduinos']['SOUND'].write(P['sound/human, YES'])
             sound_timer.reset()
         else:
             pass
@@ -110,7 +110,7 @@ def drive_car(P):
 
         if sound_timer.check():
             if 'SOUND' in P['Arduinos']:
-                P['Arduinos']['SOUND'].write(_['sound/human, NO'])
+                P['Arduinos']['SOUND'].write(P['sound/human, NO'])
             sound_timer.reset()
         else:
             pass
