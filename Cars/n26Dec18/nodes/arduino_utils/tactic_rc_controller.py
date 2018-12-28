@@ -85,6 +85,8 @@ def drive_car(P):
     if P['calibrated'] == True:
         P['human']['servo_percent'] = servo_pwm_to_percent(P['servo_pwm_smooth'],P)
         P['human']['motor_percent'] = motor_pwm_to_percent(P['motor_pwm_smooth'],P)
+    else:
+        pass
 
 
     if (P['agent_is_human'] or P['button_number'] == 4) and not P['now in calibration mode']:
@@ -94,28 +96,28 @@ def drive_car(P):
         else:
             _motor_pwm = P['motor_pwm_smooth']
         write_str = get_write_str(P['servo_pwm_smooth'],P['servo_pwm_smooth'],_motor_pwm,P)
-        #cr('H')
+
     elif (not P['agent_is_human'] and P['button_number'] != 4) and not P['now in calibration mode']:
 
         if sound_timer.check():
             if 'SOUND' in P['Arduinos']:
                 P['Arduinos']['SOUND'].write("(101)") # green taillights
             sound_timer.reset()
+        else:
+            pass
 
         _camera_pwm = servo_percent_to_pwm(P['cmd/camera'],P)
         _servo_pwm = servo_percent_to_pwm(P['cmd/steer'],P)
-        #print (P['use_motor_PID'],int(P['cmd/motor']))    
+  
         if P['use_motor_PID'] and P['cmd/motor'] > 49: # This because of flex
             _motor_pwm = motor_percent_to_pwm(
                 Pid_processing_motor['do'](P['cmd/motor'],P['encoder_smooth'],P),P)
-            #cy('N')
         else:
-            #cg('N')
             _motor_pwm = motor_percent_to_pwm(P['cmd/motor'],P)
         write_str = get_write_str(_servo_pwm,_camera_pwm,_motor_pwm,P)
     else:
-        cr('*** unexpected condition! ***')
-        #assert(False)
+        time.sleep(0.1)
+
     
     if P['calibrated'] and not P['now in calibration mode']:
         P['drive_mode'] = 1

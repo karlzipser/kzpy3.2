@@ -1,8 +1,23 @@
 #!/usr/bin/env python
 from kzpy3.utils3 import *
 exec(identify_file_str)
-from default_values import flex_names
+#from default_values import flex_names
 import rospy
+
+flex_names = [
+    'FL0',
+    'FL1',
+    'FL2',
+    'FL3',
+    'FR0',
+    'FR1',
+    'FR2',
+    'FR3',
+    'FC0',
+    'FC1',
+    'FC2',
+    'FC3',
+]
 
 def get_arduino_serial_connections(baudrate, timeout):
     if using_linux():
