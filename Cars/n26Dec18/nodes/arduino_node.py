@@ -89,7 +89,7 @@ if not _['desktop version']:
     baudrate = 115200
     timeout = 0.1
     import arduino_utils.serial_init
-    assign_serial_connections(_,arduino_utils.serial_init.get_arduino_serial_connections(baudrate,timeout))
+    arduino_utils.serial_init.assign_serial_connections(_,arduino_utils.serial_init.get_arduino_serial_connections(baudrate,timeout))
 
 else:
     import arduino_utils.mock_arduino
