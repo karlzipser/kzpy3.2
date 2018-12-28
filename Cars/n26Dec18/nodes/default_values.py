@@ -11,6 +11,7 @@ if _['desktop version']:
 else:
 	_['bcs'] = '/bair_car'
 _['desktop version/artifical mode'] = False
+_['desktop version/pwm to screen'] = True
 _['customers'] = ['Arduino','Network','Weights','Flex']
 _['drive_mode'] = 0
 _['use sound'] = True
@@ -18,7 +19,7 @@ _['now in calibration mode'] = False
 _['use flex'] = False
 _['USE_MSE'] = True
 _['USE_IMU'] = True
-_['USE_ROS'] = HAVE_ROS # using_linux()
+_['USE_ROS'] = HAVE_ROS
 _['human_PID_motor_percent'] = 53
 _['max motor'] = 63
 _['min motor'] = 0#49-(63-49)
@@ -27,7 +28,6 @@ _['show_net_activity'] = False
 _['menu name'] = 'arduino menu'
 _['cmd/autostart menu'] = False
 _['cmd/clear_screen'] = False
-#_['use menu'] = True
 _['print_timer time'] = 0.1
 _['IMU/print_timer'] = Timer(_['print_timer time'])
 _['MSE/print_timer'] = Timer(_['print_timer time'])
@@ -123,6 +123,7 @@ _['To Expose']['Arduino'] = [
 	'desktop version',
 	'human_PID_motor_percent',
 	'now in calibration mode',
+	'desktop version/pwm to screen'
 ]
 
 _['To Expose']['Network'] = [

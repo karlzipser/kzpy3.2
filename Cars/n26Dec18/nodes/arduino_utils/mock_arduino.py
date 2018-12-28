@@ -69,6 +69,14 @@ imu_names = ['acc','gyro','head']
 
 Timers = {'MSE':Timer(1/30.),'IMU':Timer(1/30./3.),'FLEX':Timer(1/30./12.)}
 
+
+        int(P['servo_pwm_smooth_manual_offset']+servo_pwm),',',
+        int(P['camera_pwm_manual_offset']+camera_pwm+5000),',',
+        int(motor_pwm+10000),')')
+
+
+
+
 class Mock_Arduino:
 
     def __init__(self,P,atype):
@@ -76,8 +84,25 @@ class Mock_Arduino:
         self.atype = atype
 
     def write(self,write_str):
-        pass
-
+        if _['desktop version/pwm to screen']:
+            if self.atype == 'MSE':
+                w2 = write_str.replace(')','')
+                w2 = w2.replace('(','')
+                l = w2.split(',')
+                servo_pwm = int(l[0])
+                camera_pwm = int(l[1])-5000
+                motor_pwm = int(l[2])-10000
+                servo_per = servo_pwm/2000.*100
+                camera_per = camera_pwm/2000.*100
+                motor_per = motor_pwm/2000.*100
+                row_str = format_row([
+                    ('S',servo_per),
+                    ('C',camera_per),
+                    ('M',motor_per),
+                    (['|'],1000),
+                ])
+                print(row_str)
+                        
     def readline(self):
         _ = self.P
         if self.P['desktop version/artifical mode']:
@@ -100,12 +125,9 @@ class Mock_Arduino:
                 index = _['desktop version/index']
                 if self.atype == 'MSE' and Timers['MSE'].check():
                     Timers['MSE'].reset()
-                    
-                    #_['desktop version/index prev'] = _['desktop version/index']
                     _['desktop version/index'] += 1
                     if _['desktop version/index'] >= len(L['steer']):
                         _['desktop version/index'] = _['desktop version/start index']#+1
-                        #_['desktop version/index prev'] = _['desktop version/start index']
                     index = _['desktop version/index']
                     servo_pwm = servo_percent_to_pwm(L['steer'][index],_)
                     motor_pwm = motor_percent_to_pwm(L['motor'][index],_)
@@ -128,8 +150,6 @@ class Mock_Arduino:
                     break
                 else:
                     time.sleep(1/30./30.)
-
-            #print rstr
             return rstr
 
 

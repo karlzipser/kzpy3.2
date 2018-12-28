@@ -1320,6 +1320,40 @@ def open_run(run_name,h5py_path=None,Runs_dic=None,want_list=['L','O','F'],verbo
 
     
 
+def get_terminal_size():
+    rows, columns = os.popen('stty size', 'r').read().split()
+    return int(rows),int(columns)
 
+
+second = 1.0
+seconds = second
+minute = 60*seconds
+minutes = minute
+hour = 60*minutes
+hours = hour
+day = 24*hours
+days = day
+
+
+def format_row(list_of_sym_percent_pairs):
+    __,ncols = get_terminal_size()
+    row_str = ''
+    for i in range(ncols):
+        for sp in list_of_sym_percent_pairs:
+            sym = sp[0]
+            per = sp[1]
+            if per < 0:
+                per = 0.
+            elif per > 99:
+                per = 99.
+            col = int(per/100.*ncols)
+            if i == col:
+                row_str += sym
+                break
+        else:
+            row_str += ' '
+    return row_str
+
+	
 #EOF
 

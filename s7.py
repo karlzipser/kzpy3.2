@@ -1588,13 +1588,52 @@ if False: # examples
 ########################################################################################
 
 
+def get_terminal_size():
+    rows, columns = os.popen('stty size', 'r').read().split()
+    return int(rows),int(columns)
 
 
 
 
+timer = Timer(150)
+rtimer = Timer(1/30.)
+while not timer.check():
+    if rtimer.check():
+        rtimer.reset()
+        nrows,ncols = get_terminal_size()
+        x = 0.9*np.sin(time.time())
+        y = 0.5*np.sin(time.time()*8.)
+        xcol = int((x+1.0)/2.0 * ncols)
+        ycol = int((y+1.0)/2.0 * ncols)
+        row_str = ''
+        for i in range(ncolumns):
+            if i == xcol:
+                row_str += 'X'
+            elif i == ycol:
+                row_str += 'Y'
+            else:
+                row_str += ' '
+        #cprint(row_str,'yellow','on_blue')
+        print(row_str)
+    else:
+        time.sleep(rtimer.time_s/5.)
 
 
 
+
+timer = Timer(15*minutes)
+rtimer = Timer(1./30.*seconds*2)
+while not timer.check():
+    if rtimer.check():
+        rtimer.reset()        
+        x = 1.0*np.sin(time.time())
+        y = 0.25*np.sin(time.time()*4.)
+        xper = int((x+1.0)/2.0 * 100)
+        yper = int((y+1.0)/2.0 * 100)
+        row_str = format_row([('X',xper),('Y',yper),('|',50)])
+        print(row_str)
+    else:
+        time.sleep(rtimer.time_s/5.)
 
 
 
