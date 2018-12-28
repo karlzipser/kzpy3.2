@@ -123,6 +123,7 @@ _['To Expose']['Arduino'] = [
 	'desktop version',
 	'human_PID_motor_percent',
 	'now in calibration mode',
+	'desktop version',
 	'desktop version/pwm to screen'
 ]
 
@@ -144,7 +145,7 @@ _['To Expose']['Network'] = [
 	'camera_move_threshold',
 	'camera_auto_zero_for_small_values_int',
 	'network_reverse_motor_gain',
-	'desktop version',
+	
 ]
 
 _['To Expose']['Flex'] = [
