@@ -12,11 +12,11 @@ exec(identify_file_str)
 ###########################################################################################
 #
 def cmd_steer_callback(msg):
-    _['network']['servo_percent'] = msg.data
+    _['cmd/steer'] = msg.data
 def cmd_camera_callback(msg):
-    _['network']['camera_percent'] = msg.data
+    _['cmd/camera'] = msg.data
 def cmd_motor_callback(msg):
-    _['network']['motor_percent'] = msg.data
+    _['cmd/motor'] = msg.data
 
 rospy.init_node('run_arduino',anonymous=True,disable_signals=True)
 rospy.Subscriber('cmd/steer', std_msgs.msg.Int32, callback=cmd_steer_callback)

@@ -23,6 +23,7 @@ def Pid_Processing_Motor():
         D['pid_motor_percent'] += delta
         D['pid_motor_percent'] = min(D['pid_motor_percent'],P['pid_motor_percent_max'])
         D['pid_motor_percent'] = max(D['pid_motor_percent'],P['pid_steer_steer_percent_min'])
+        #print D['pid_motor_percent']
         return D['pid_motor_percent']
     D['do'] = _do
     return D
@@ -30,7 +31,7 @@ def Pid_Processing_Motor():
 Pid_processing_motor = Pid_Processing_Motor()
 
 
-
+sound_timer = Timer(0.05)
 def _TACTIC_RC_controller_run_loop(P):
 
     print('_TACTIC_RC_controller_run_loop')
@@ -48,7 +49,7 @@ def _TACTIC_RC_controller_run_loop(P):
     P['button_number'] = 0
     bn = P['button_number']
     write_str = ''
-    sound_timer = Timer(0.05)
+    
 
     while (not P['ABORT']) and (not rospy.is_shutdown()):
 
@@ -86,29 +87,35 @@ def drive_car(P):
         P['human']['motor_percent'] = motor_pwm_to_percent(P['motor_pwm_smooth'],P)
 
 
-    if P['agent_is_human'] and not P['now in calibration mode']:
-        if P['use_motor_PID'] and P['button_number'] != 4::
+    if (P['agent_is_human'] or P['button_number'] == 4) and not P['now in calibration mode']:
+        if P['use_motor_PID'] and P['button_number'] != 4:
             _motor_pwm = motor_percent_to_pwm(
                     Pid_processing_motor['do'](P['human_PID_motor_percent'],P['encoder_smooth'],P),P)
         else:
             _motor_pwm = P['motor_pwm_smooth']
         write_str = get_write_str(P['servo_pwm_smooth'],P['servo_pwm_smooth'],_motor_pwm,P)
+        #cr('H')
+    elif (not P['agent_is_human'] and P['button_number'] != 4) and not P['now in calibration mode']:
 
-    elif not P['agent_is_human'] and not P['now in calibration mode']:
+        if sound_timer.check():
+            if 'SOUND' in P['Arduinos']:
+                P['Arduinos']['SOUND'].write("(101)") # green taillights
+            sound_timer.reset()
 
-            if sound_timer.check():
-                if 'SOUND' in P['Arduinos']:
-                    P['Arduinos']['SOUND'].write("(101)") # green taillights
-                sound_timer.reset()
-
-            _camera_pwm = servo_percent_to_pwm(P['cmd/camera'],P)
-            _servo_pwm = servo_percent_to_pwm(P['cmd/steer'],P)
-                
-            if P['use_motor_PID'] and P['cmd/motor'] > 49: # This because of flex
-                _motor_pwm = motor_percent_to_pwm( Pid_processing_motor['do'](P['cmd/motor'],P['encoder_smooth'],P),P)
-            else:
-                _motor_pwm = motor_percent_to_pwm(P['cmd/motor'],P)
-            write_str = get_write_str(_servo_pwm,_camera_pwm,_motor_pwm,P)
+        _camera_pwm = servo_percent_to_pwm(P['cmd/camera'],P)
+        _servo_pwm = servo_percent_to_pwm(P['cmd/steer'],P)
+        #print (P['use_motor_PID'],int(P['cmd/motor']))    
+        if P['use_motor_PID'] and P['cmd/motor'] > 49: # This because of flex
+            _motor_pwm = motor_percent_to_pwm(
+                Pid_processing_motor['do'](P['cmd/motor'],P['encoder_smooth'],P),P)
+            #cy('N')
+        else:
+            #cg('N')
+            _motor_pwm = motor_percent_to_pwm(P['cmd/motor'],P)
+        write_str = get_write_str(_servo_pwm,_camera_pwm,_motor_pwm,P)
+    else:
+        cr('*** unexpected condition! ***')
+        assert(Fales)
     
     if P['calibrated'] and not P['now in calibration mode']:
         P['drive_mode'] = 1

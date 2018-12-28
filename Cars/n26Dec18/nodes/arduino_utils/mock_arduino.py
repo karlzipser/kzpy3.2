@@ -70,9 +70,7 @@ imu_names = ['acc','gyro','head']
 Timers = {'MSE':Timer(1/30.),'IMU':Timer(1/30./3.),'FLEX':Timer(1/30./12.)}
 
 
-        int(P['servo_pwm_smooth_manual_offset']+servo_pwm),',',
-        int(P['camera_pwm_manual_offset']+camera_pwm+5000),',',
-        int(motor_pwm+10000),')')
+
 
 
 
@@ -84,25 +82,32 @@ class Mock_Arduino:
         self.atype = atype
 
     def write(self,write_str):
-        if _['desktop version/pwm to screen']:
+        if self.P['desktop version/pwm to screen']:
             if self.atype == 'MSE':
+                #print write_str
                 w2 = write_str.replace(')','')
                 w2 = w2.replace('(','')
                 l = w2.split(',')
                 servo_pwm = int(l[0])
                 camera_pwm = int(l[1])-5000
                 motor_pwm = int(l[2])-10000
-                servo_per = servo_pwm/2000.*100
-                camera_per = camera_pwm/2000.*100
+                servo_per = 100-servo_pwm/2000.*100
+                camera_per = 100-camera_pwm/2000.*100
                 motor_per = motor_pwm/2000.*100
-                row_str = format_row([
+                #print servo_per,camera_per,motor_per
+                lst = [
                     ('S',servo_per),
                     ('C',camera_per),
                     ('M',motor_per),
-                    (['|'],1000),
-                ])
-                print(row_str)
-                        
+                    ('|',50),
+                ]
+                np.random.shuffle(lst)
+                row_str = format_row(lst)
+                if self.P['agent_is_human']:
+                    cr(row_str)
+                else:
+                    cg(row_str)
+                    
     def readline(self):
         _ = self.P
         if self.P['desktop version/artifical mode']:
