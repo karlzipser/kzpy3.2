@@ -41,13 +41,13 @@ def _FLEX_run_loop(P):
             if P['USE_ROS']:
                 P['publish_FLEX_data'](P,m)
 
-        except Exception as e:
-            exc_type, exc_obj, exc_tb = sys.exc_info()
-            file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            CS_('Exception!',emphasis=True)
-            CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)    
 #        except Exception as e:
-#            pass
+#            exc_type, exc_obj, exc_tb = sys.exc_info()
+#            file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+#            CS_('Exception!',emphasis=True)
+#            CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)    
+        except Exception as e:
+            pass
     print 'end _FLEX_run_loop.'
 
 
