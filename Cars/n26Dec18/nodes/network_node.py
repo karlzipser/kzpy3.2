@@ -266,6 +266,7 @@ low_frequency_pub_timer = Timer(0.5)
 
 reverse_timer = Timer(1)
 image_sample_timer = Timer(5)
+resizing = Timer(1)
 
 node_timer = Timer()
 
@@ -288,10 +289,9 @@ while not rospy.is_shutdown():
     #####################################################################
     #####################################################################
     ###    
-    if True:#button_number == 4:
+    if True:
 
-        if button_number == 4:
-            time.sleep(1)
+    if button_number == 4:
 
         if parameter_file_load_timer.check():
 
@@ -309,15 +309,13 @@ while not rospy.is_shutdown():
 
             parameter_file_load_timer.reset()
 
-
         if N['LOAD NETWORK'] == False:
             loaded_net = False
 
-
-        
         N['weight_file_path'] = False
-        #cs("loaded_net=",loaded_net)
+
         if loaded_net == False:
+
             if N['LOAD NETWORK'] == True:
                 loaded_net = True
                 
@@ -343,10 +341,6 @@ while not rospy.is_shutdown():
                     cs( "if N['weight_file_path'] != False:" )
                     Torch_network = net_utils.Torch_Network(N)
                     cs( "Torch_network = net_utils.Torch_Network(N)" )
-
-
-
-
     ###
     #####################################################################
     #####################################################################
@@ -362,16 +356,12 @@ while not rospy.is_shutdown():
 
     if human_agent == 0 and drive_mode == 1:
 
-
         try:
             
             ####################################################
             ####################################################
             ####################################################
             ##
-
-
-
 
             Lists = {}
             Lists['left'] = left_list[-2:]
@@ -383,6 +373,7 @@ while not rospy.is_shutdown():
                 for i in [-1]:
                     img = Lists[side][i]
                     if shape(img)[0] > 94:
+                        resizing.message(d2s("img shape is",shape(img),"; resizing."))
                         img = cv2.resize(img,(net_input_width,net_input_height))
                     advance(rLists[side], img , 4 )
 
@@ -404,12 +395,10 @@ while not rospy.is_shutdown():
                     else:
                         even = True
 
-
             ##
             ####################################################
             ####################################################
             ####################################################
-
 
             if len(rLists['left'])>2:
 
