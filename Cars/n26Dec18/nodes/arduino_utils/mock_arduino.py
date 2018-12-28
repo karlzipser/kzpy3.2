@@ -1,5 +1,26 @@
 from kzpy3.utils3 import *
 
+from sensor_msgs.msg import Image
+import cv2
+from cv_bridge import CvBridge,CvBridgeError
+Pub = {}
+for side in ['left','right']:
+    Pub[side] = rospy.Publisher("/zed/"+side+"/image_rect_color",Image,queue_size=1)
+def Mock_ZEDpublish(P,index):
+    for side in ['left','right']:
+        img = P['desktop version/O'][side+'_image']['vals'][P['desktop version/index']]
+        img = z2_255(img)
+        Pub[side].publish(CvBridge().cv2_to_imgmsg(img,'rgb8'))
+
+
+def __Mock_ZED():
+    while True:
+        print "mz"
+        time.sleep(1/30.)
+        img = np.random.randn(94,168,3)
+        img = z2_255(img)
+        pub.publish(CvBridge().cv2_to_imgmsg(img,'rgb8'))
+
 ###################### duplicates ########################
 #
 flex_names = [
@@ -127,27 +148,6 @@ def put_mock_Arduinos_into_P(P):
         P['Arduinos'][a] = Mock_Arduino(P,a)
 
 
-
-from sensor_msgs.msg import Image
-import cv2
-from cv_bridge import CvBridge,CvBridgeError
-Pub = {}
-for side in ['left','right']:
-    Pub[side] = rospy.Publisher("/zed/"+side+"/image_rect_color",Image,queue_size=1)
-def Mock_ZEDpublish(P,index):
-    for side in ['left','right']:
-        img = P['desktop version/O'][side+'_image']['vals'][P['desktop version/index']]
-        img = z2_255(img)
-        Pub[side].publish(CvBridge().cv2_to_imgmsg(img,'rgb8'))
-
-
-def __Mock_ZED():
-    while True:
-        print "mz"
-        time.sleep(1/30.)
-        img = np.random.randn(94,168,3)
-        img = z2_255(img)
-        pub.publish(CvBridge().cv2_to_imgmsg(img,'rgb8'))
 
 #EOF
 
