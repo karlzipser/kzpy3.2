@@ -80,8 +80,8 @@ class Mock_Arduino:
     def __init__(self,P,atype):
         self.P = P
         self.atype = atype
-        self.camera_pwms = []
-        self.steer_pwms = []
+        self.servo_pers = []
+        self.motor_pers = []
     def write(self,write_str):
         if self.P['desktop version/pwm to screen']:
             if self.atype == 'MSE':
@@ -97,18 +97,18 @@ class Mock_Arduino:
                 camera_per = 100-camera_pwm/2000.*100
                 motor_per = motor_pwm/2000.*100
                 
-                servo_pers.append(servo_per)
-                motor_pers.append(motor_per)
+                self.servo_pers.append(servo_per)
+                self.motor_pers.append(motor_per)
 
                 servo_median,motor_median = 0,0
-                if len(servo_pers) > 100:
-                    servo_median = np.median(servo_pers)
-                if len(servo_pers > 5000):
-                    servo_pers = servo_pers[-5000:]
-                if len(motor_pers) > 100:
-                    motor_median = np.median(motor_pers)
-                if len(motor_pers > 5000):
-                    motor_pers = motor_pers[-5000:]
+                if len(self.servo_pers) > 100:
+                    servo_median = np.median(self.servo_pers)
+                if len(self.servo_pers) > 6000:
+                    self.servo_pers = self.servo_pers[-5000:]
+                if len(self.motor_pers) > 100:
+                    motor_median = np.median(self.motor_pers)
+                if len(self.motor_pers) > 5000:
+                    self.motor_pers = self.motor_pers[-5000:]
                 lst = [
                     ('S',servo_per),
                     ('C',camera_per),
