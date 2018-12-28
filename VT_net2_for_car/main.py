@@ -157,7 +157,7 @@ def get_prediction_images_3D(pts2D_1step_list,left_index):
                 c = fit3d.project(b, fit3d.mat)
 
                 try:
-                    if True:
+                    if '3ds' in _['plots to show']:
                         good = True
                         if c.x < 0 or c.x >= 168:
                             good = False
@@ -239,7 +239,8 @@ if __name__ == '__main__':
                 Pts2D_1step[behavioral_mode] = pts2D_1step
             #################
             #
-            Prediction2D_plot['clear']()
+            if '2d' in _['plots to show']:
+                Prediction2D_plot['clear']()
             #
             #################
             pts2D_multi_step.append({})
@@ -264,7 +265,8 @@ if __name__ == '__main__':
                     pts2D_multi_step[i][behavioral_mode] = pts2D_multi_step[i][behavioral_mode] - pts2D_multi_step[-1][behavioral_mode][-1]
                     ###################
                     #
-                    Prediction2D_plot['pts_plot'](na(pts2D_multi_step[i][behavioral_mode]),Colors[behavioral_mode],add_mode=True)
+                    if '2d' in _['plots to show']:
+                        Prediction2D_plot['pts_plot'](na(pts2D_multi_step[i][behavioral_mode]),Colors[behavioral_mode],add_mode=True)
                     #
                     ###################
 
@@ -278,10 +280,13 @@ if __name__ == '__main__':
             if _['show timer'].check():
                 
                 #################
-                # 
-                Prediction2D_plot['show']()
-                mci(left_camera_3D_img,title='left_camera_3D_img',delay=_['cv2 delay'],scale=_['3d image scale'])
-                mci(metadata_3D_img,title='metadata_3D_img',delay=_['cv2 delay'])
+                #
+                if '2d' in _['plots to show']:
+                    Prediction2D_plot['show']()
+                if '3d' in _['plots to show']:
+                    mci(left_camera_3D_img,title='left_camera_3D_img',delay=_['cv2 delay'],scale=_['3d image scale'])
+                if '3ds' in _['plots to show']:
+                    mci(metadata_3D_img,title='metadata_3D_img',delay=_['cv2 delay'])
                 #
                 #################
                 _['show timer'] = Timer(_['show timer time']) 

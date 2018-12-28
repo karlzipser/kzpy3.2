@@ -12,6 +12,7 @@ _['To Expose'] = {}
 ###############################################3
 
 # walking pace ~= 1.4 m/s
+_['plots to show'] = ['3d','2d','3ds']
 _['save metadata'] = False
 _['step_size'] = 1
 _['cmd/clear_screen'] = False
