@@ -10,7 +10,7 @@ if _['desktop version']:
 	_['bcs'] = ''
 else:
 	_['bcs'] = '/bair_car'
-
+_['desktop version/artifical mode'] = False
 _['customers'] = ['Arduino','Network','Weights','Flex']
 _['drive_mode'] = 0
 _['use sound'] = True

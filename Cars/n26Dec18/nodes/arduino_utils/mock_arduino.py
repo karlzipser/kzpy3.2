@@ -4,8 +4,8 @@ from sensor_msgs.msg import Image
 import cv2
 from cv_bridge import CvBridge,CvBridgeError
 
-artifical_mode = True
 
+_['desktop version/artifical mode']
 Pub = {}
 for side in ['left','right']:
     Pub[side] = rospy.Publisher("/zed/"+side+"/image_rect_color",Image,queue_size=1)
@@ -80,7 +80,8 @@ class Mock_Arduino:
 
     def readline(self):
         _ = self.P
-        if artifical_mode:
+        if _['desktop version/artifical mode']
+:
             a = np.sin(time.time()/5.)*400+1200
             b = np.sin(time.time()/15.)*400+1200
             c = np.sin(time.time()/30.)*1.0+3.0
