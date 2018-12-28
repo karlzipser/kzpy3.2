@@ -79,8 +79,8 @@ def _TACTIC_RC_controller_run_loop(P):
 
 def drive_car(P):
 
-    if _['data_saving changed up']:
-        _['data_saving changed up'] = False
+    if P['data_saving changed up']:
+        P['data_saving changed up'] = False
         P['Arduinos']['SOUND'].write(_['sound/save tune'])
 
     if P['calibrated'] == True:
