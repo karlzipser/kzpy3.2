@@ -13,7 +13,7 @@ def Mock_ZEDpublish(P,index):
         Pub[side].publish(CvBridge().cv2_to_imgmsg(img,'rgb8'))
 
 
-def __Mock_ZED():
+def Mock_ZED():
     while True:
         print "mz"
         time.sleep(1/30.)
@@ -93,7 +93,7 @@ class Mock_Arduino:
                 rstr = "('"+d2c(np.random.choice(flex_names)+"'",b+500)+')'
             elif self.atype == 'IMU':
                 rstr = "('"+d2c(np.random.choice(imu_names)+"'",d,d,d)+')'
-            __Mock_ZED()
+            Mock_ZED()
             time.sleep(1/30.)
             return rstr
         else:
