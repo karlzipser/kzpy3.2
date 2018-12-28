@@ -114,25 +114,25 @@ for f in flex_names:
 def FLEX__callback(msg):
 	R['FLEX']['ts'].append(time.time())
 	R['FLEX']['vals'].append(msg.data)
-rospy.Subscriber('/bair_car/FLEX', std_msgs.msg.Int32, callback=FLEX__callback)
+rospy.Subscriber('/FLEX', std_msgs.msg.Int32, callback=FLEX__callback)
 	"""
 	exec_str = s.replace('FLEX',f)
 	exec(exec_str)
 
-rospy.Subscriber('/bair_car/steer', std_msgs.msg.Int32, callback=steer__callback)
-rospy.Subscriber('/bair_car/cmd/steer', std_msgs.msg.Int32, callback=cmd_steer__callback)
-rospy.Subscriber('/bair_car/cmd/motor', std_msgs.msg.Int32, callback=cmd_motor__callback)
-rospy.Subscriber('/bair_car/motor', std_msgs.msg.Int32, callback=motor__callback)
-rospy.Subscriber('/bair_car/button_number', std_msgs.msg.Int32, callback=button_number__callback)
-rospy.Subscriber('/bair_car/encoder', std_msgs.msg.Float32, callback=encoder__callback)
-rospy.Subscriber('/bair_car/acc', geometry_msgs.msg.Vector3, callback=acc__callback)
-rospy.Subscriber('/bair_car/gyro', geometry_msgs.msg.Vector3, callback=gyro__callback)
-rospy.Subscriber('/bair_car/gyro_heading', geometry_msgs.msg.Vector3, callback=gyro_heading__callback)
+rospy.Subscriber('/steer', std_msgs.msg.Int32, callback=steer__callback)
+rospy.Subscriber('/cmd/steer', std_msgs.msg.Int32, callback=cmd_steer__callback)
+rospy.Subscriber('/cmd/motor', std_msgs.msg.Int32, callback=cmd_motor__callback)
+rospy.Subscriber('/motor', std_msgs.msg.Int32, callback=motor__callback)
+rospy.Subscriber('/button_number', std_msgs.msg.Int32, callback=button_number__callback)
+rospy.Subscriber('/encoder', std_msgs.msg.Float32, callback=encoder__callback)
+rospy.Subscriber('/acc', geometry_msgs.msg.Vector3, callback=acc__callback)
+rospy.Subscriber('/gyro', geometry_msgs.msg.Vector3, callback=gyro__callback)
+rospy.Subscriber('/gyro_heading', geometry_msgs.msg.Vector3, callback=gyro_heading__callback)
 if P['USE_IMAGES']:
 	if True:
-		rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_image__callback,queue_size = 1)
+		rospy.Subscriber("/zed/right/image_rect_color",Image,right_image__callback,queue_size = 1)
 	if True:	
-		rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_image__callback,queue_size = 1)
+		rospy.Subscriber("/zed/left/image_rect_color",Image,left_image__callback,queue_size = 1)
 
 
 print('Make sure this has been done if necessary, e.g.:\n\texport ROS_MASTER_URI=http://nvidia@192.168.1.11:11311')
