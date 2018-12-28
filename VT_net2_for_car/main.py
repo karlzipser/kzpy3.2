@@ -283,9 +283,9 @@ if __name__ == '__main__':
                 #
                 if '2d' in _['plots to show']:
                     Prediction2D_plot['show']()
-                if '3d' in _['plots to show']:
-                    mci(left_camera_3D_img,title='left_camera_3D_img',delay=_['cv2 delay'],scale=_['3d image scale'])
                 if '3ds' in _['plots to show']:
+                    mci(left_camera_3D_img,title='left_camera_3D_img',delay=_['cv2 delay'],scale=_['3d image scale'])
+                if '3d' in _['plots to show']:
                     mci(metadata_3D_img,title='metadata_3D_img',delay=_['cv2 delay'])
                 #
                 #################
