@@ -122,6 +122,7 @@ _['To Expose']['Arduino'] = [
 	'use_motor_PID',
 	'desktop version',
 	'human_PID_motor_percent',
+	'now in calibration mode',
 ]
 
 _['To Expose']['Network'] = [
