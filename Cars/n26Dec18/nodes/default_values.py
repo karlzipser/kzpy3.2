@@ -5,7 +5,7 @@ P = {}
 _ = P
 _['agent_is_human'] = True
 _['use_motor_PID'] = True
-_['desktop version'] = True
+_['desktop version'] = False
 if _['desktop version']:
 	_['bcs'] = ''
 else:
