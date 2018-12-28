@@ -308,7 +308,8 @@ def Batch(_,the_network=None):
 				###################################################################
 				#### CAMERA DATA
 
-				zeroed_channels = np.random.choice([ [0],[2],[0,2],[0,2],[0,2], ])
+				#zeroed_channels = np.random.choice([ [0],[2],[0,2],[0,2],[0,2], ])
+				zeroed_channels = [0,2]
 
 				list_camera_input = []
 				for t in range(D['network']['net'].N_FRAMES):

@@ -266,7 +266,7 @@ low_frequency_pub_timer = Timer(0.5)
 
 reverse_timer = Timer(1)
 image_sample_timer = Timer(5)
-resizing = Timer(1)
+resizing = Timer(5)
 
 node_timer = Timer()
 
