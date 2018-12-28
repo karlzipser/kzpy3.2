@@ -24,7 +24,7 @@ def _FLEX_run_loop(P):
     while (not P['ABORT']) and (not rospy.is_shutdown()):
         if 'Brief sleep to allow other threads to process...':
             time.sleep(0.001)
-        if try:
+        try:
             read_str = P['Arduinos']['FLEX'].readline()
 
             if flush_timer.check():
