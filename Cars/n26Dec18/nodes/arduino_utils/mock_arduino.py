@@ -46,7 +46,7 @@ def button_number_to_pwm(bn):
 
 imu_names = ['acc','gyro','head']
 
-artifical_mode = False
+artifical_mode = True
 
 Timers = {'MSE':Timer(1/30.),'IMU':Timer(1/30./3.),'FLEX':Timer(1/30./12.)}
 
@@ -72,7 +72,8 @@ class Mock_Arduino:
                 rstr = "('"+d2c(np.random.choice(flex_names)+"'",b+500)+')'
             elif self.atype == 'IMU':
                 rstr = "('"+d2c(np.random.choice(imu_names)+"'",d,d,d)+')'
-            #print rstr
+            __Mock_ZED()
+            time.sleep(1/30.)
             return rstr
         else:
             while _['ABORT'] == False:
