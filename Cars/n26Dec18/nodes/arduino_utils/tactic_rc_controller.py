@@ -8,12 +8,11 @@ def TACTIC_RC_controller(P):
     threading.Thread(target=_TACTIC_RC_controller_run_loop,args=[P]).start()
 
 
-def Pid_Processing_Motor():#slope=(60-49)/3.0,gain=0.05,encoder_max=4.0,delta_max=0.05,pid_motor_percent_max=99,pid_motor_percent_min=0):
+def Pid_Processing_Motor():
     D = {}
     D['pid_motor_percent'] = 49
     def _do(motor_value,encoder,P):
-        if P['button_number'] == 4:
-            D['pid_motor_percent'] = 49
+        assert P['button_number'] != 4
         encoder_target = (motor_value-49.0) / P['pid_motor_slope']
         encoder_target = min(encoder_target,P['pid_motor_encoder_max'])
         delta = P['pid_motor_gain'] * (encoder_target - encoder)
@@ -24,7 +23,6 @@ def Pid_Processing_Motor():#slope=(60-49)/3.0,gain=0.05,encoder_max=4.0,delta_ma
         D['pid_motor_percent'] += delta
         D['pid_motor_percent'] = min(D['pid_motor_percent'],P['pid_motor_percent_max'])
         D['pid_motor_percent'] = max(D['pid_motor_percent'],P['pid_steer_steer_percent_min'])
-        #cg(D['pid_motor_percent'],motor_value,dp(encoder),dp(encoder_target))
         return D['pid_motor_percent']
     D['do'] = _do
     return D
@@ -89,7 +87,7 @@ def drive_car(P):
 
 
     if P['agent_is_human'] and not P['now in calibration mode']:
-        if P['use_motor_PID']:
+        if P['use_motor_PID'] and P['button_number'] != 4::
             _motor_pwm = motor_percent_to_pwm(
                     Pid_processing_motor['do'](P['human_PID_motor_percent'],P['encoder_smooth'],P),P)
         else:
@@ -98,7 +96,7 @@ def drive_car(P):
 
     elif not P['agent_is_human'] and not P['now in calibration mode']:
 
-            if False:#sound_timer.check():
+            if sound_timer.check():
                 if 'SOUND' in P['Arduinos']:
                     P['Arduinos']['SOUND'].write("(101)") # green taillights
                 sound_timer.reset()
@@ -236,3 +234,4 @@ def compare_percents_and_pwms(P):
 
 
 #EOF
+
