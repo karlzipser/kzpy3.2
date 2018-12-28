@@ -63,14 +63,15 @@ while start_signal == False:
 ##############################################################
 #
 assert 'run' in Arguments
-runs = lo(opjD('Data/Network_Predictions/runs.pkl'))
-Runs = {}
-for r in runs:
-    Runs[fname(r)] = r
-run_path = Runs[Arguments['run']]
-U = lo(opjD('Data/Network_Predictions',fname(run_path)+'.net_predictions.pkl'))
+if False:
+    runs = lo(opjD('Data/Network_Predictions/runs.pkl'))
+    Runs = {}
+    for r in runs:
+        Runs[fname(r)] = r
+    run_path = Runs[Arguments['run']]
+U = lo(opjD('Data/Network_Predictions',Arguments['run'],Arguments['run']+'.net_predictions.pkl'))
 
-L,O,___ = open_run(run_name=Arguments['run'],h5py_path=pname(run_path),want_list=['L','O'])
+L,O,___ = open_run(run_name=Arguments['run'],h5py_path=opjD('Data/Network_Predictions',want_list=['L','O'])
 
 _['headings'] = L['gyro_heading_x'][:]
 _['encoders'] = L['encoder'][:]

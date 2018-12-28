@@ -31,7 +31,7 @@ _['To Expose'] = {}
 _['verbose'] = False
 
 _['loss_timer_time'] = 10*minute
-_['print_timer_time'] = 20#100*minute
+_['print_timer_time'] = 100*minute
 _['menu_load_timer_time'] = 10
 _['spause_timer_time'] = 10
 
