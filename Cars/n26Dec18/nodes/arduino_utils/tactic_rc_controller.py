@@ -115,7 +115,7 @@ def drive_car(P):
         write_str = get_write_str(_servo_pwm,_camera_pwm,_motor_pwm,P)
     else:
         cr('*** unexpected condition! ***')
-        assert(Fales)
+        #assert(False)
     
     if P['calibrated'] and not P['now in calibration mode']:
         P['drive_mode'] = 1

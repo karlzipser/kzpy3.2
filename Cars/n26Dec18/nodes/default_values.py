@@ -120,7 +120,7 @@ _['To Expose']['Arduino'] = [
 	#'use LIDAR',
 	'use sound',
 	'use_motor_PID',
-	'desktop version',
+
 	'human_PID_motor_percent',
 	'now in calibration mode',
 	'desktop version',
