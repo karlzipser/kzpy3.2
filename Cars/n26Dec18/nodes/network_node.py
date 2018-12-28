@@ -21,7 +21,7 @@ import cv2
 
 dts = []
 
-show_timer = Timer(0.1)
+show_timer = Timer(0.25)
 
 rospy.init_node('network_node',anonymous=True,disable_signals=True)
 
@@ -258,7 +258,7 @@ rLists['left'] = []
 rLists['right'] = []
 
 
-print_timer = Timer(5)
+print_timer = Timer(0.2)
 
 Hz = 0
 
@@ -462,9 +462,13 @@ while not rospy.is_shutdown():
                     adjusted_steer = N['flex_steer_gain']*(flex_steer-49)+49
                     adjusted_steer = bound_value(adjusted_steer,0,99)
                     adjusted_motor = flex_motor
-                    cr(adjusted_camera,adjusted_steer,adjusted_motor)
+                    if print_timer.check():
+                        cb(adjusted_camera,adjusted_steer,adjusted_motor)
+                        print_timer.reset()
                 else:
-                    cg(int(adjusted_steer),int(adjusted_motor))
+                    if print_timer.check():
+                        cg(adjusted_camera,adjusted_steer,adjusted_motor)
+                        print_timer.reset()
 
 
                 frequency_timer.freq(name='network',do_print=True)

@@ -19,7 +19,9 @@ def _calibrate_run_loop(P):
             if prev == False:
                 P['calibration mode timer'].reset()
                 prev = True
-        else:
+            else:
+                pass
+        elif not P['now in calibration mode']:
             prev = False
             time.sleep(0.25)
             continue
