@@ -6,13 +6,18 @@ _ = P
 _['agent_is_human'] = True
 _['use_motor_PID'] = True
 _['desktop version'] = True
+if _['desktop version']:
+	_['bcs'] = ''
+else:
+	_['bcs'] = '/bair_car'
+
 _['customers'] = ['Arduino','Network','Weights','Flex']
 _['drive_mode'] = 0
 _['use sound'] = True
 _['now in calibration mode'] = False
 _['use flex'] = False
-#_['USE_MSE'] = True
-#_['USE_IMU'] = True
+_['USE_MSE'] = True
+_['USE_IMU'] = True
 _['USE_ROS'] = HAVE_ROS # using_linux()
 _['human_PID_motor_percent'] = 53
 _['max motor'] = 63

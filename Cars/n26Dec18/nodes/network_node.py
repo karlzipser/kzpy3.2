@@ -128,32 +128,18 @@ steer_cmd_pub = rospy.Publisher('cmd/steer', std_msgs.msg.Int32, queue_size=5)
 motor_cmd_pub = rospy.Publisher('cmd/motor', std_msgs.msg.Int32, queue_size=5)
 Hz_network_pub = rospy.Publisher('Hz_network', std_msgs.msg.Float32, queue_size=5)
 
-"""
-rospy.Subscriber('/bair_car/human_agent', std_msgs.msg.Int32, callback=human_agent_callback)
-rospy.Subscriber('/bair_car/behavioral_mode', std_msgs.msg.String, callback=behavioral_mode_callback)
-rospy.Subscriber('/bair_car/drive_mode', std_msgs.msg.Int32, callback=drive_mode_callback)
-rospy.Subscriber('/bair_car/button_number', std_msgs.msg.Int32, callback=button_number_callback)
+rospy.Subscriber(N['bcs']+'/human_agent', std_msgs.msg.Int32, callback=human_agent_callback)
+rospy.Subscriber(N['bcs']+'/behavioral_mode', std_msgs.msg.String, callback=behavioral_mode_callback)
+rospy.Subscriber(N['bcs']+'/drive_mode', std_msgs.msg.Int32, callback=drive_mode_callback)
+rospy.Subscriber(N['bcs']+'/button_number', std_msgs.msg.Int32, callback=button_number_callback)
 
 if N['use flex']:
-    rospy.Subscriber('/bair_car/cmd/flex_motor', std_msgs.msg.Int32, callback=flex_motor__callback)
-    rospy.Subscriber('/bair_car/cmd/flex_steer', std_msgs.msg.Int32, callback=flex_steer__callback)
+    rospy.Subscriber(N['bcs']+'/cmd/flex_motor', std_msgs.msg.Int32, callback=flex_motor__callback)
+    rospy.Subscriber(N['bcs']+'/cmd/flex_steer', std_msgs.msg.Int32, callback=flex_steer__callback)
 
 
-rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_callback,queue_size = 1)
-rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_callback,queue_size = 1)
-"""
-rospy.Subscriber('/human_agent', std_msgs.msg.Int32, callback=human_agent_callback)
-rospy.Subscriber('/behavioral_mode', std_msgs.msg.String, callback=behavioral_mode_callback)
-rospy.Subscriber('/drive_mode', std_msgs.msg.Int32, callback=drive_mode_callback)
-rospy.Subscriber('/button_number', std_msgs.msg.Int32, callback=button_number_callback)
-
-if N['use flex']:
-    rospy.Subscriber('/cmd/flex_motor', std_msgs.msg.Int32, callback=flex_motor__callback)
-    rospy.Subscriber('/cmd/flex_steer', std_msgs.msg.Int32, callback=flex_steer__callback)
-
-
-rospy.Subscriber("/zed/right/image_rect_color",Image,right_callback,queue_size = 1)
-rospy.Subscriber("/zed/left/image_rect_color",Image,left_callback,queue_size = 1)
+rospy.Subscriber(N['bcs']+"/zed/right/image_rect_color",Image,right_callback,queue_size = 1)
+rospy.Subscriber(N['bcs']+"/zed/left/image_rect_color",Image,left_callback,queue_size = 1)
 
 
 #############################################################################################

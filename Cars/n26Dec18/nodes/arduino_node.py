@@ -2,26 +2,12 @@
 
 from kzpy3.utils3 import *
 import default_values
-import arduino_utils.serial_init
-import arduino_utils.tactic_rc_controller
-import arduino_utils.calibration_mode
-import arduino_utils.IMU_arduino
-import arduino_utils.FLEX_arduino
+_ = default_values.P
 import std_msgs.msg
 import geometry_msgs.msg
 import rospy
 import sensor_msgs.msg
 exec(identify_file_str)
-
-_ = default_values.P
-
-if _['desktop version']:
-    import arduino_utils.mock_arduino
-
-_['ABORT'] = False
-
-
-
 
 ###########################################################################################
 #
@@ -54,7 +40,6 @@ _['servo_pwm_null_pub'] = rospy.Publisher('servo_pwm_null', std_msgs.msg.Int32, 
 _['motor_pwm_min_pub'] = rospy.Publisher('motor_pwm_min', std_msgs.msg.Int32, queue_size=5) 
 _['motor_pwm_null_pub'] = rospy.Publisher('motor_pwm_null', std_msgs.msg.Int32, queue_size=5) 
 _['motor_pwm_max_pub'] = rospy.Publisher('motor_pwm_max', std_msgs.msg.Int32, queue_size=5)
-
 
 from default_values import flex_names
 for name in flex_names:
@@ -103,14 +88,37 @@ _['publish_FLEX_data'] = _publish_FLEX_data
 if not _['desktop version']:
     baudrate = 115200
     timeout = 0.1
+    import arduino_utils.serial_init
     assign_serial_connections(_,arduino_utils.serial_init.get_arduino_serial_connections(baudrate,timeout))
-else:
-    arduino_utils.mock_arduino.put_mock_Arduinos_into_P(_)
 
-if  'MSE' in _['Arduinos'].keys():     
-    CS("!!!!!!!!!! found 'MSE' !!!!!!!!!!!",emphasis=True)
+else:
+    import arduino_utils.mock_arduino
+    arduino_utils.mock_arduino.put_mock_Arduinos_into_P(_)
+    try:
+        _['desktop version/L'],_['desktop version/O'],___ = open_run(
+            run_name='tegra-ubuntu_19Oct18_08h55m02s',
+            h5py_path=opjD('Data/1_TB_Samsung_n1/tu_18to19Oct2018/locations/local/left_right_center/h5py'),
+            want_list=['L','O'],
+            verbose=True
+        )
+        _['desktop version/index'] = _['desktop version/start index']
+    except:
+        _['desktop version/L'],_['desktop version/O'],___ = open_run(
+            run_name='tegra-ubuntu_19Oct18_08h55m02s',
+            h5py_path=opjm('rosbags'),
+            want_list=['L','O'],
+            verbose=True
+        )
+        _['desktop version/index'] = _['desktop version/start index']
+if _['USE_MSE'] and 'MSE' in _['Arduinos'].keys():
+    import arduino_utils.tactic_rc_controller
     arduino_utils.tactic_rc_controller.TACTIC_RC_controller(_)
-    if _['desktop version']:
+    CS("!!!!!!!!!! found 'MSE' !!!!!!!!!!!",emphasis=True)
+
+    if not _['desktop version']:
+        import arduino_utils.calibration_mode
+        arduino_utils.calibration_mode.Calibration_Mode(_)
+    else:
         _['servo_pwm_null'] = 1200
         _['motor_pwm_null'] = 1200
         _['servo_pwm_min'] = 800
@@ -120,18 +128,18 @@ if  'MSE' in _['Arduinos'].keys():
         _['servo_pwm_smooth'] = _['servo_pwm_null']
         _['motor_pwm_smooth'] = _['motor_pwm_null']
         _['calibrated'] = True
-    else:
-        arduino_utils.calibration_mode.Calibration_Mode(_)
 else:
     assert False
     
-if 'IMU' in _['Arduinos'].keys():
+if _['USE_IMU'] and 'IMU' in _['Arduinos'].keys():
+    import arduino_utils.IMU_arduino
     arduino_utils.IMU_arduino.IMU_Arduino(_)
 
 else:
     spd2s("!!!!!!!!!! 'IMU' not in Arduinos[] or not using 'IMU' !!!!!!!!!!!",exception=True)
 
-if 'FLEX' in _['Arduinos'].keys():
+if _['use flex'] and 'FLEX' in _['Arduinos'].keys():
+    import arduino_utils.FLEX_arduino
     arduino_utils.FLEX_arduino.FLEX_Arduino(_)
 else:
     spd2s("!!!!!!!!!! 'FLEX' not in Arduinos[] or not using 'FLEX' !!!!!!!!!!!")
@@ -141,15 +149,7 @@ else:
 
 #########################################
 #
-if _['desktop version']:
-
-    _['desktop version/L'],_['desktop version/O'],___ = open_run(
-        run_name='tegra-ubuntu_19Oct18_08h55m02s',
-        h5py_path=opjD('Data/1_TB_Samsung_n1/tu_18to19Oct2018/locations/local/left_right_center/h5py'),
-        want_list=['L','O'],
-        verbose=True
-    )
-    _['desktop version/index'] = _['desktop version/start index']
+#if _['desktop version']:
 
 #
 #########################################
