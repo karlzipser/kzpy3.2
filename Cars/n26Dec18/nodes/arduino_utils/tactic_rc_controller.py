@@ -97,7 +97,6 @@ def drive_car(P):
         if sound_timer.check():
             if 'SOUND' in P['Arduinos']:
                 P['Arduinos']['SOUND'].write(P['sound/human, YES'])
-            cb(P['data_saving'],P['data_saving_prev'],P['data_saving changed up'])
             sound_timer.reset()
         else:
             pass
