@@ -73,14 +73,15 @@ def _TACTIC_RC_controller_run_loop(P):
           
 
     print 'end _TACTIC_RC_controller_run_loop.'
-    #CS_("doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))")
-    #time.sleep(0.01)
-    #unix(opjh('kzpy3/scripts/kill_ros.sh'))
 
 
 
 
 def drive_car(P):
+
+    if _['data_saving changed up']:
+        _['data_saving changed up'] = False
+        P['Arduinos']['SOUND'].write(_['sound/save tune'])
 
     if P['calibrated'] == True:
         P['human']['servo_percent'] = servo_pwm_to_percent(P['servo_pwm_smooth'],P)
@@ -90,6 +91,14 @@ def drive_car(P):
 
 
     if (P['agent_is_human'] or P['button_number'] == 4) and not P['now in calibration mode']:
+
+        if sound_timer.check():
+            if 'SOUND' in P['Arduinos']:
+                P['Arduinos']['SOUND'].write(_['sound/human, YES'])
+            sound_timer.reset()
+        else:
+            pass
+
         if P['use_motor_PID'] and P['button_number'] != 4:
             _motor_pwm = motor_percent_to_pwm(
                     Pid_processing_motor['do'](P['human_PID_motor_percent'],P['encoder_smooth'],P),P)
@@ -101,7 +110,7 @@ def drive_car(P):
 
         if sound_timer.check():
             if 'SOUND' in P['Arduinos']:
-                P['Arduinos']['SOUND'].write("(101)") # green taillights
+                P['Arduinos']['SOUND'].write(_['sound/human, NO'])
             sound_timer.reset()
         else:
             pass

@@ -11,17 +11,26 @@ exec(identify_file_str)
 
 ###########################################################################################
 #
+_['data_saving'] = 0
+_['data_saving_prev'] = 0
+_['data_saving changed up'] = False
 def cmd_steer_callback(msg):
     _['cmd/steer'] = msg.data
 def cmd_camera_callback(msg):
     _['cmd/camera'] = msg.data
 def cmd_motor_callback(msg):
     _['cmd/motor'] = msg.data
+def data_saving_callback(msg):
+    _['data_saving_prev'] = _['data_saving']
+    _['data_saving'] = msg.data
+    if _['data_saving'] == 1 and _['data_saving_prev'] == 0:
+        _['data_saving changed up'] = True
 
 rospy.init_node('run_arduino',anonymous=True,disable_signals=True)
 rospy.Subscriber('cmd/steer', std_msgs.msg.Int32, callback=cmd_steer_callback)
 rospy.Subscriber('cmd/camera', std_msgs.msg.Int32, callback=cmd_camera_callback)
 rospy.Subscriber('cmd/motor', std_msgs.msg.Int32, callback=cmd_motor_callback)
+rospy.Subscriber('/bair_car/data_saving', std_msgs.msg.Int32, callback=data_saving_callback)
 
 _['human_agent_pub'] = rospy.Publisher('human_agent', std_msgs.msg.Int32, queue_size=5) 
 _['drive_mode_pub'] = rospy.Publisher('drive_mode', std_msgs.msg.Int32, queue_size=5) 
@@ -89,7 +98,8 @@ if not _['desktop version']:
     baudrate = 115200
     timeout = 0.1
     import arduino_utils.serial_init
-    arduino_utils.serial_init.assign_serial_connections(_,arduino_utils.serial_init.get_arduino_serial_connections(baudrate,timeout))
+    arduino_utils.serial_init.assign_serial_connections(_,
+        arduino_utils.serial_init.get_arduino_serial_connections(baudrate,timeout))
 
 else:
     import arduino_utils.mock_arduino

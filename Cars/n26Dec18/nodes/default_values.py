@@ -74,7 +74,6 @@ _['pid_steer_gain']= 0.05
 _['pid_steer_delta_max']= 0.05
 _['pid_steer_steer_percent_max']= 99
 _['pid_steer_steer_percent_min'] = 0
-#_['use_servo_feedback'] = 0
 _['button_delta'] = 50
 _['button_number'] = 0
 _['button_timer'] = Timer()
@@ -89,6 +88,23 @@ _['gyro'] = {}
 _['head'] = {}
 _['autostart menu'] = False
 _['desktop version/start index'] = 5000
+
+
+_['sound/left (button 1)'] = 	'1' # blinking left light, sound
+_['sound/left (button 2)'] = 	'2' # steady red light, sound
+_['sound/left (button 3)'] = 	'3' # blinking right light, sound
+_['sound/ghost (button 4)'] = 	'4' # purple horizontal light, sound
+_['sound/save tune'] = 			'49' # save tune
+_['sound/calibrate tune'] = 	'50' # calibrate tune
+_['sound/success 1'] = 			'30' # success 1 sound, white horizontal light on
+_['sound/success 2'] = 			'31' # success 1 sound, green horizontal light on
+_['sound/failure 1'] = 			'60' # failure 1 sound, white horizontal light off
+_['sound/failure 2'] = 			'61' # failure 2 sound, green horizontal light off
+_['sound/human, YES'] = 		'100'
+_['sound/human, NO'] = 			'101'
+
+
+
 
 flex_names = [
 	'FL0',
