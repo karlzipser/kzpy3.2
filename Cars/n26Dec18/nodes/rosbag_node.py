@@ -11,20 +11,17 @@ try:
     os.remove(temp_file)
 except:
     while not rospy.is_shutdown():
-        pd2s('not saving data',time_str())
+        cr('*** not saving data ***',time_str())
         time.sleep(30)
 
 for n in ['new','active']:
     os.system(d2s("mkdir -p",opjm('rosbags',n)))
 
-
-foldername_prefix = os.environ["COMPUTER_NAME"] #'run_'
+foldername_prefix = os.environ["COMPUTER_NAME"]
 
 foldername = d2n(foldername_prefix,'_',time_str())
 time.sleep(3)
 
-unix('mkdir -p /media/nvidia/rosbags/active')
-unix('mkdir -p /media/nvidia/rosbags/new')
 
 if __name__ == '__main__':
     rospy.init_node('rosbag_node',anonymous=True,disable_signals=True)
