@@ -61,10 +61,7 @@ def _TACTIC_RC_controller_run_loop(P):
 
             update_button_servo_motor_encoder(P)
 
-            drive_car(P)
 
-            if P['USE_ROS']:
-                P['publish_MSE_data'](P)
 
         except Exception as e:
             print('_TACTIC_RC_controller_run_loop')
@@ -73,6 +70,10 @@ def _TACTIC_RC_controller_run_loop(P):
             CS_('Exception!',exception=True)
             CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),exception=False)
           
+            if True:
+                drive_car(P)
+                if P['USE_ROS']:
+                    P['publish_MSE_data'](P)
 
     print 'end _TACTIC_RC_controller_run_loop.'
 
