@@ -1,7 +1,7 @@
 from kzpy3.vis3 import *
 import sys, termios, tty, os, time
  
-#say("Play Pong!")
+say("Play Pong!")
 
 def getch():
     fd = sys.stdin.fileno()
@@ -30,8 +30,8 @@ P['paddle']['left']['y position'] = P['box height']/2
 P['paddle']['right'] = {}
 P['paddle']['right']['x position'] = P['box width']-P['paddle width']/2
 P['paddle']['right']['y position'] = P['box height']/2
-P['paddle']['left']['dy'] = 1
-P['paddle']['right']['dy'] = -1
+P['paddle']['left']['dy'] =5
+P['paddle']['right']['dy'] = -5
 P['paddle']['left']['key'] = 'q'
 P['paddle']['right']['key'] = 'p'
 
@@ -39,8 +39,8 @@ P['paddle']['right']['key'] = 'p'
 P['ball radius'] = 5
 P['ball x position'] = P['paddle width']/2
 P['ball y position'] = P['box height']/2
-P['ball dx'] = 1.0
-P['ball dy'] = 0.2
+P['ball dx'] = 8.0
+P['ball dy'] = 0.4
 
 
 c = 0
