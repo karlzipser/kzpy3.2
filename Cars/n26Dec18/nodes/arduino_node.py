@@ -75,11 +75,11 @@ def _publish_MSE_data(_):
     _['behavioral_mode_pub']
     if MSE_low_frequency_pub_timer.check():
 
-        if P['button_number'] == 1:
+        if _['button_number'] == 1:
             behavioral_mode_choice = 'left'
-        elif P['button_number'] == 2:
+        elif _['button_number'] == 2:
             behavioral_mode_choice = 'direct'
-        elif P['button_number'] == 3:
+        elif _['button_number'] == 3:
             behavioral_mode_choice = 'right'
         else:
             behavioral_mode_choice = 'ghost'
