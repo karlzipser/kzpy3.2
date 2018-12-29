@@ -23,7 +23,9 @@ def Pid_Processing_Motor():
         D['pid_motor_percent'] += delta
         D['pid_motor_percent'] = min(D['pid_motor_percent'],P['pid_motor_percent_max'])
         D['pid_motor_percent'] = max(D['pid_motor_percent'],P['pid_steer_steer_percent_min'])
-        #print D['pid_motor_percent']
+        if D['pid_motor_percent'] > P['max motor']:
+            D['pid_motor_percent'] = 49
+            P['Arduinos']['SOUND'].write(P['sound/failure 1'])
         return D['pid_motor_percent']
     D['do'] = _do
     return D
@@ -55,7 +57,7 @@ def _TACTIC_RC_controller_run_loop(P):
 
         time.sleep(0.01)
 
-        if True:#try:
+        try:
 
             update_button_servo_motor_encoder(P)
 
@@ -64,7 +66,7 @@ def _TACTIC_RC_controller_run_loop(P):
             if P['USE_ROS']:
                 P['publish_MSE_data'](P)
 
-        else:#except Exception as e:
+        except Exception as e:
             print('_TACTIC_RC_controller_run_loop')
             exc_type, exc_obj, exc_tb = sys.exc_info()
             file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
