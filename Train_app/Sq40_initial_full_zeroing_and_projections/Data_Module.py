@@ -222,7 +222,7 @@ def prepare_data_for_training(_):
 
 
 blank_meta = np.zeros((23,41,3),np.uint8)
-
+blank_camera = np.zeros((94,168,3),np.uint8)
 
 def get_Data_moment(_,dm=None,FLIP=None):
 
@@ -319,28 +319,32 @@ def get_Data_moment(_,dm=None,FLIP=None):
 		Data_moment['left'] = {}
 		Data_moment['right'] = {}
 
-		if not FLIP:
-			if il0+1 < len(F['left_image']['vals']) and ir0+1 < len(F['right_image']['vals']):
-				Data_moment['left'][0] = F['left_image']['vals'][il0]
-				Data_moment['right'][0] = F['right_image']['vals'][ir0]
-				Data_moment['left'][1] = F['left_image']['vals'][il0+1] # note, ONE frame
-				Data_moment['right'][1] = F['right_image']['vals'][ir0+1]
 
+		if True: # for full zeroing of camera inputs
+			Data_moment['left'][0] = blank_camera
+			Data_moment['right'][0] = blank_camera
+			Data_moment['left'][1] = blank_camera
+			Data_moment['right'][1] = blank_camera
+		if False: # below is hte normal case
+			if not FLIP:
+				if il0+1 < len(F['left_image']['vals']) and ir0+1 < len(F['right_image']['vals']):
+					Data_moment['left'][0] = F['left_image']['vals'][il0]
+					Data_moment['right'][0] = F['right_image']['vals'][ir0]
+					Data_moment['left'][1] = F['left_image']['vals'][il0+1] # note, ONE frame
+					Data_moment['right'][1] = F['right_image']['vals'][ir0+1]
+				else:
+					spd2s('if il0+1 < len(F[left_image][vals]) and ir0+1 < len(F[right_image][vals]): NOT TRUE!')
+					return False
 			else:
-				spd2s('if il0+1 < len(F[left_image][vals]) and ir0+1 < len(F[right_image][vals]): NOT TRUE!')
-				return False
-		else:
-			if il0+1 < len(F['left_image_flip']['vals']) and ir0+1 < len(F['right_image_flip']['vals']):
-				Data_moment['right'][0] = F['left_image_flip']['vals'][il0]
-				Data_moment['left'][0] = F['right_image_flip']['vals'][ir0]
-				Data_moment['right'][1] = F['left_image_flip']['vals'][il0+1]
-				Data_moment['left'][1] = F['right_image_flip']['vals'][ir0+1]
-			else:
-				spd2s('if il0+1 < len(F[left_image_flip][vals]) and ir0+1 < len(F[right_image_flip][vals]): NOT TRUE!')
+				if il0+1 < len(F['left_image_flip']['vals']) and ir0+1 < len(F['right_image_flip']['vals']):
+					Data_moment['right'][0] = F['left_image_flip']['vals'][il0]
+					Data_moment['left'][0] = F['right_image_flip']['vals'][ir0]
+					Data_moment['right'][1] = F['left_image_flip']['vals'][il0+1]
+					Data_moment['left'][1] = F['right_image_flip']['vals'][ir0+1]
+				else:
+					spd2s('if il0+1 < len(F[left_image_flip][vals]) and ir0+1 < len(F[right_image_flip][vals]): NOT TRUE!')
 
-				return False
-
-		if not _['use_LIDAR']:
+					return False
 
 			return Data_moment
 
@@ -359,40 +363,7 @@ def get_Data_moment(_,dm=None,FLIP=None):
 		###############################################################
 		###############################################################
 
-		if _['use_LIDAR']:
-			if camera_lidar_1___camera_2___lidar_3 == 3:
-				for side in ['left','right']:
-					for time_step in [0,1]:
-						Data_moment[side][time_step] *= 0
 
-		if _['use_LIDAR']:
-
-			if 'depth' not in _['Loaded_image_files'][Data_moment['name']]:
-				pass
-				cb("depth not in _['Loaded_image_files'][",Data_moment['name'],"]")
-			else:
-				if 'depth' in _['Loaded_image_files'][Data_moment['name']]:
-					pass#print 'A'
-				if 'left_to_lidar_index' in _['Loaded_image_files'][Data_moment['name']]['depth'].keys():
-					pass#print 'B'
-					
-				lidar_index = _['Loaded_image_files'][Data_moment['name']]['depth']['left_to_lidar_index'][il0]
-				if FLIP:
-					R = _['Loaded_image_files'][Data_moment['name']]['depth']['resized_flipped']
-				else:
-					R = _['Loaded_image_files'][Data_moment['name']]['depth']['resized']
-				lidar_images = []
-				for i in [0,-1,-2,-3]:
-					lidar_images.append(R[lidar_index+i,:,:])
-				Data_moment['left'][1][:,:,1] = lidar_images[0]
-				Data_moment['left'][1][:,:,2] = lidar_images[1]
-				Data_moment['right'][1][:,:,1] = lidar_images[2]
-				Data_moment['right'][1][:,:,2] = lidar_images[3]
-
-				if camera_lidar_1___camera_2___lidar_3 == 2:#???????????????????????
-					for side in ['left','right']:
-						for position in [1,2]:
-							Data_moment[side][1][:,:,position] *= 0
 
 				return Data_moment
 
