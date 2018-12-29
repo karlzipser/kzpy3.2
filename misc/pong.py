@@ -1,7 +1,7 @@
 from kzpy3.vis3 import *
 import sys, termios, tty, os, time
  
-say("Play Pong!")
+#say("Play Pong!")
 
 def getch():
     fd = sys.stdin.fileno()
