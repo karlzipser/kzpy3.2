@@ -543,7 +543,8 @@ scd = setClipboardData
 def say(t,rate=150,print_text=True):
 	if print_text:
 		spd2s(t)
-	unix(d2s('say -v Susan --interactive=/green -r',rate,t))
+	if using_osx:
+		unix(d2s('say -v Susan --interactive=/green -r',rate,t))
 
 
 
