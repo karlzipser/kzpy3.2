@@ -72,8 +72,19 @@ def _publish_MSE_data(_):
     _['motor_pub'].publish(std_msgs.msg.Int32(_['human']['motor_percent']))
     _['button_number_pub'].publish(std_msgs.msg.Int32(_['button_number']))
     _['encoder_pub'].publish(std_msgs.msg.Float32(_['encoder']))
-
+    _['behavioral_mode_pub']
     if MSE_low_frequency_pub_timer.check():
+
+        if P['button_number'] == 1:
+            behavioral_mode_choice = 'left'
+        elif P['button_number'] == 2:
+            behavioral_mode_choice = 'direct'
+        elif P['button_number'] == 3:
+            behavioral_mode_choice = 'right'
+        else:
+            behavioral_mode_choice = 'ghost'
+        P['behavioral_mode_pub'].publish(d2s(behavioral_mode_choice))
+
 
         if _['agent_is_human'] == True:
             _['human_agent_pub'].publish(std_msgs.msg.Int32(1))
