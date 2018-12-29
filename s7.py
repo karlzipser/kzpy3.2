@@ -1659,6 +1659,33 @@ while not timer.check():
     else:
         time.sleep(rtimer.time_s/5.)
 
+_ = {}
+_['box height'] = 500
+_['box width'] = 200
+_['img'] = zeros((_['box height'],_['box width']))
+
+_['paddle height'] = 10
+_['paddle width'] = 50
+
+_['paddle'] = {}
+_['paddle']['left'] = {}
+_['paddle']['left']['x position'] = _['paddle width']/2
+_['paddle']['left']['y position'] = _['box height']/2
+_['paddle']['right'] = {}
+_['paddle']['right']['x position'] = _['box width']-_['paddle width']/2
+_['paddle']['right']['y position'] = _['box height']/2
+
+for side in ['left','right']:
+    x = _['paddle'][side]['x position']
+    y = _['paddle'][side]['y position']
+    pw = _['paddle width']
+    ph = _['paddle height']
+    img = _['img']
+    img[y-ph/2:y+ph/2,x-pw/2:x+pw/2] = 127
+
+_['img'][0,0] = 0
+_['img'][0,1] = 255
+mi(_['img'])
 
 
 
@@ -1667,4 +1694,6 @@ while not timer.check():
 
 
 
+
+_
 #EOF
