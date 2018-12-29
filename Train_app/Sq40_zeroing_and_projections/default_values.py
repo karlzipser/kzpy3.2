@@ -14,6 +14,9 @@ os.system(sys_str)
 P = {}
 _ = P
 _['project_path'] = project_path
+_['freeze premetadata weights'] = False
+if ['freeze premetadata weights']:
+	_['update premetadata weights from other model'] = most_recent_file_in_folder(opjD('Networks/net_24Dec2018_12imgs_projections/weights'),['.infer'],[])
 minute = 60
 minutes = minute
 hour = 60*minute
@@ -59,9 +62,6 @@ for k in _.keys():
 ###############################################################
 _['lacking runs'] = {}
 
-_['freeze premetadata weights'] = False
-if ['freeze premetadata weights']:
-	_['update premetadata weights from other model'] = most_recent_file_in_folder(opjD('Networks/net_24Dec2018_12imgs_projections/weights'),['.infer'],[])
 
 
 _['updated'] = []

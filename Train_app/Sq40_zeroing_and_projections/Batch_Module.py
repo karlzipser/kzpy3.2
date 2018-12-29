@@ -1,54 +1,21 @@
-from Parameters_Module import *
-exec(identify_file_str)
 from kzpy3.vis3 import *
+import Data_Module
 import torch
 import torch.nn.utils as nnutils
 import Activity_Module
+exec(identify_file_str)
 
-# /home/karlzipser/Desktop/Depth_image.log.resize.flip.left_ts/tegra-ubuntu_23Oct18_17h19m34s.Depth_image.log.resize.flip.left_ts.h5py
-#/home/karlzipser/Desktop/Depth_images.log.resize.flip.left_ts/tegra-ubuntu_01Nov18_13h09m32s.Depth_image.log.resize.flip.left_ts.h5py
-#/home/karlzipser/Desktop/Depth_images.log.resize.flip.left_ts/tegra-ubuntu_22Oct18_15h11m34s.Depth_image.log.resize.flip.with_left_ts.h5py
-# /home/karlzipser/Desktop/Depth_images.log.resize.flip.left_ts/
+def Batch(_,the_network=None):
 
-P['data_moments_indexed_loaded'] = []
-P['metadata_constant_blanks'] = False
-P['metadata_constant_gradients'] = False
-P['long_ctr'] = -1
-P['LOSS_LIST'] = []
-if 'LOSS_LIST_AVG' not in P:
-	P['LOSS_LIST_AVG'] = []
-P['reload_image_file_timer'].trigger()
+	if _['start menu automatically'] and using_linux():
+	    dic_name = "_"
+	    sys_str = d2n("gnome-terminal  --geometry 40x30+100+200 -x python kzpy3/Menu_app/menu2.py path ",project_path," dic ",dic_name)
+	    cr(sys_str)
+	    os.system(sys_str)
 
-zero_matrix = torch.FloatTensor(1, 1, 23, 41).zero_().cuda()
-one_matrix = torch.FloatTensor(1, 1, 23, 41).fill_(1).cuda()
-temp = (255*z2o(np.random.randn(94,168))).astype(np.uint8)
-
-propfaid = h5py.h5p.create(h5py.h5p.FILE_ACCESS)
-settings = list(propfaid.get_cache())
-settings[2] *= 1000 * 20
-propfaid.set_cache(*settings)
-
-import h5py
-import contextlib
-
-if False:
-	propfaid = h5py.h5p.create(h5py.h5p.FILE_ACCESS)
-	settings = list(propfaid.get_cache())
-	settings[2] *= 100
-	propfaid.set_cache(*settings)
-	#with contextlib.closing(h5py.h5f.open(filename, fapl=propfaid)) as fid:
-	#    f = h5py.File(fid)
-
-files = sggo('/home/karlzipser/Desktop/Data/Network_Predictions_projected/*.net_projections.h5py')
-GOOD_LIST = []
-for f in files:
-    GOOD_LIST.append(fname(f).split('.')[0])
-
-def Batch(the_network=None):
 	D = {}
 	D['network'] = the_network
-	True
-	D['batch_size'] = P['BATCH_SIZE']
+	D['batch_size'] = _['BATCH_SIZE']
 	D['camera_data'] = torch.FloatTensor().cuda()
 	D['metadata'] = torch.FloatTensor().cuda()
 	D['target_data'] = torch.FloatTensor().cuda()
@@ -59,40 +26,60 @@ def Batch(the_network=None):
 	D['successes'] = 0
 	D['zeros, metadata_size'] = zeros((1,1,23,41))
 
+	_['data_moments_indexed_loaded'] = []
+	_['metadata_constant_blanks'] = False
+	_['metadata_constant_gradients'] = False
+	_['long_ctr'] = -1
+	_['LOSS_LIST'] = []
+	if 'LOSS_LIST_AVG' not in _:
+		_['LOSS_LIST_AVG'] = []
+	_['reload_image_file_timer'].trigger()
+
+	Data_Module.prepare_data_for_training(_)
+
+	zero_matrix = torch.FloatTensor(1, 1, 23, 41).zero_().cuda()
+	one_matrix = torch.FloatTensor(1, 1, 23, 41).fill_(1).cuda()
+	temp = (255*z2o(np.random.randn(94,168))).astype(np.uint8)
+	zero_94_168_img = zeros((94,168),np.uint8)
+
+	files = sggo('/home/karlzipser/Desktop/Data/Network_Predictions_projected/*.net_projections.h5py')
+	GOOD_LIST = []
+	for f in files:
+	    GOOD_LIST.append(fname(f).split('.')[0])
 
 	def _load_image_files():
 		cy('_load_image_files()')
-		P['Loaded_image_files'] = {}
+		_['Loaded_image_files'] = {}
 
-		shuffled_keys = P['run_name_to_run_path'].keys()
+		shuffled_keys = _['run_name_to_run_path'].keys()
 		random.shuffle(shuffled_keys)
 
 
-		for f in shuffled_keys[:P['max_num_runs_to_open']]:
+		for f in shuffled_keys[:_['max_num_runs_to_open']]:
 			if f not in GOOD_LIST:
 				cr(f)
 				continue
 			cg(f)
-			P['Loaded_image_files'][f] = {}
+			_['Loaded_image_files'][f] = {}
 			if True:
 				try:
 
-					L,O,F = open_run(run_name=f,h5py_path=pname(P['run_name_to_run_path'][f]))
+					L,O,F = open_run(run_name=f,h5py_path=pname(_['run_name_to_run_path'][f]))
 					S = h5r(opjD('Data','Network_Predictions_projected',f+'.net_projections.h5py'))
 
-					P['Loaded_image_files'][f]['normal'] = O
-					P['Loaded_image_files'][f]['flip'] = F
-					P['Loaded_image_files'][f]['left_timestamp_metadata'] = L
-					P['Loaded_image_files'][f]['projections'] = S
-					P['Loaded_image_files'][f]['normal projections'] = S['normal']
-					P['Loaded_image_files'][f]['flip projections'] = S['flip']
+					_['Loaded_image_files'][f]['normal'] = O
+					_['Loaded_image_files'][f]['flip'] = F
+					_['Loaded_image_files'][f]['left_timestamp_metadata'] = L
+					_['Loaded_image_files'][f]['projections'] = S
+					_['Loaded_image_files'][f]['normal projections'] = S['normal']
+					_['Loaded_image_files'][f]['flip projections'] = S['flip']
 
-					if P['use_LIDAR']:
-						path = opj(P['LIDAR_path'],f+P['LIDAR_extension'])
+					if _['use_LIDAR']:
+						path = opj(_['LIDAR_path'],f+_['LIDAR_extension'])
 						cg("*",path,"*")
 						#raw_enter()
 						R = h5r(path)
-						P['Loaded_image_files'][f]['depth'] = R
+						_['Loaded_image_files'][f]['depth'] = R
 						#cg("*",path," success*")
 						#raw_enter()
 
@@ -102,33 +89,33 @@ def Batch(the_network=None):
 					print("********** Exception ***********************")
 					print(e.message, e.args)
 
-		if P['verbose']: print(len(P['Loaded_image_files']))
+		if _['verbose']: print(len(_['Loaded_image_files']))
 
-		pd2s('1) len(P[data_moments_indexed]) =',len(P['data_moments_indexed']))
+		pd2s('1) len(_[data_moments_indexed]) =',len(_['data_moments_indexed']))
 
 		timer = Timer()
-		P['data_moments_indexed_loaded'] = []
+		_['data_moments_indexed_loaded'] = []
 
 
 
 		if "ORIGINAL VERSION":
-			for dm in P['data_moments_indexed']:
-				if dm['run_name'] in P['Loaded_image_files']:
-					P['data_moments_indexed_loaded'].append(dm)
+			for dm in _['data_moments_indexed']:
+				if dm['run_name'] in _['Loaded_image_files']:
+					_['data_moments_indexed_loaded'].append(dm)
 		else: 
-			for dm in P['data_moments_indexed']:
-				if dm['run_name'] in P['Loaded_image_files']:
+			for dm in _['data_moments_indexed']:
+				if dm['run_name'] in _['Loaded_image_files']:
 					if np.random.random() < 0.1:
 						cg('yes')
-						P['data_moments_indexed_loaded'].append(dm)
+						_['data_moments_indexed_loaded'].append(dm)
 					else:
 						cr('no')
 
 
 
-		random.shuffle(P['data_moments_indexed_loaded'])
+		random.shuffle(_['data_moments_indexed_loaded'])
 
-		pd2s('index discovery time =',timer.time(),'len(P[data_moments_indexed_loaded]) =',len(P['data_moments_indexed_loaded']))
+		pd2s('index discovery time =',timer.time(),'len(_[data_moments_indexed_loaded]) =',len(_['data_moments_indexed_loaded']))
 	
 
 
@@ -140,18 +127,18 @@ def Batch(the_network=None):
 
 		cy('_close_image_files()')
 
-		for f in P['Loaded_image_files']:
+		for f in _['Loaded_image_files']:
 
 			try:
-				P['Loaded_image_files'][f]['normal'].close()
-				P['Loaded_image_files'][f]['flip'].close()
-				P['Loaded_image_files'][f]['projections'].close()
-				#P['Loaded_image_files'][f]['normal projections'].close()
-				#P['Loaded_image_files'][f]['flip projections'].close()
+				_['Loaded_image_files'][f]['normal'].close()
+				_['Loaded_image_files'][f]['flip'].close()
+				_['Loaded_image_files'][f]['projections'].close()
+				#_['Loaded_image_files'][f]['normal projections'].close()
+				#_['Loaded_image_files'][f]['flip projections'].close()
 
-				P['Loaded_image_files'][f]['left_timestamp_metadata'].close()
-				if P['use_LIDAR']:
-					P['Loaded_image_files'][f]['depth'].close()
+				_['Loaded_image_files'][f]['left_timestamp_metadata'].close()
+				if _['use_LIDAR']:
+					_['Loaded_image_files'][f]['depth'].close()
 
 			except Exception as e:
 				print("********** _close_image_files Exception ***********************")
@@ -165,25 +152,25 @@ def Batch(the_network=None):
 
 	def _function_fill():
 
-		if P['reload_image_file_timer'].check():
+		if _['reload_image_file_timer'].check():
 			_close_image_files()
 			_load_image_files()
-			P['reload_image_file_timer'].reset()
+			_['reload_image_file_timer'].reset()
 
 		ctr = 0
-		P['current_batch'] = []
+		_['current_batch'] = []
 		while ctr < D['batch_size']:
 			if True:#try:
-				if P['long_ctr'] == -1 or P['long_ctr'] >= len(P['data_moments_indexed_loaded']):
-					P['long_ctr'] = 0
-					random.shuffle(P['data_moments_indexed_loaded'])
-					cy('random.shuffle(P[data_moments_indexed_loaded])')
+				if _['long_ctr'] == -1 or _['long_ctr'] >= len(_['data_moments_indexed_loaded']):
+					_['long_ctr'] = 0
+					random.shuffle(_['data_moments_indexed_loaded'])
+					cy('random.shuffle(_[data_moments_indexed_loaded])')
 				
 				FLIP = random.choice([0,1])
-				dm = P['data_moments_indexed_loaded'][P['long_ctr']]; P['long_ctr'] += 1#; ctr += 1
+				dm = _['data_moments_indexed_loaded'][_['long_ctr']]; _['long_ctr'] += 1#; ctr += 1
 
 				
-				Data_moment = get_Data_moment(dm=dm,FLIP=FLIP)
+				Data_moment = Data_Module.get_Data_moment(_,dm=dm,FLIP=FLIP)
 
 				if Data_moment == False:
 					continue
@@ -195,39 +182,27 @@ def Batch(the_network=None):
 
 				dm['ctr'] += 1
 				dm['loss'] = []
-				P['current_batch'].append(dm)
+				_['current_batch'].append(dm)
 				D['names'].insert(0,Data_moment['name']) # This to match torch.cat use below
 				D['flips'].insert(0,Data_moment['FLIP']) # This to match torch.cat use below
 
 
-				list_camera_input = []
-				for t in range(D['network']['net'].N_FRAMES):
-					for camera in ('left', 'right'):
-						list_camera_input.append(torch.from_numpy(Data_moment[camera][t]))
-				camera_data = torch.cat(list_camera_input, 2)
+				###################################################################
+				###################################################################
+				###################################################################
+				####	METADATA
 
-
-
-				camera_data = camera_data.cuda().float()/255. - 0.5
-				camera_data = torch.transpose(camera_data, 0, 2)
-				camera_data = torch.transpose(camera_data, 1, 2)
-				D['camera_data'] = torch.cat((torch.unsqueeze(camera_data, 0), D['camera_data']), 0)
-
-
-
-
-
-				if type(P['metadata_constant_blanks']) == type(False):
-					assert P['metadata_constant_blanks'] == False
+				if type(_['metadata_constant_blanks']) == type(False):
+					assert _['metadata_constant_blanks'] == False
 					cr("************* making metadata_constant *************")
 
 					mode_ctr = len(Data_moment['labels'])
 					metadata_constant = torch.FloatTensor().cuda()
 					num_metadata_channels = 128
-					num_multival_metas = 1 + 4 + 12 # + 3#+ 27
+					num_multival_metas = 1 + 4 + 12 + 3#+ 27
 					for i in range(num_metadata_channels - num_multival_metas - mode_ctr): # Concatenate zero matrices to fit the dataset
 						metadata_constant = torch.cat((zero_matrix, metadata_constant), 1)
-					P['metadata_constant_blanks'] = metadata_constant
+					_['metadata_constant_blanks'] = metadata_constant
 
 					metadata_constant = torch.FloatTensor().cuda()
 					meta_gradient1 = zero_matrix.clone()
@@ -249,11 +224,11 @@ def Batch(the_network=None):
 					for x in range(41):
 						meta_gradient4[:,:,:,x] = (1.0-x/41.0)#torch.from_numpy(rnd[:,:,:,y])
 					metadata_constant = torch.cat((meta_gradient4, metadata_constant), 1) #torch.from_numpy(meta_a)
-					P['metadata_constant_gradients'] = metadata_constant
+					_['metadata_constant_gradients'] = metadata_constant
 
 
 
-				cat_list = [P['metadata_constant_gradients']]
+				cat_list = [_['metadata_constant_gradients']]
 
 				for t in range(D['network']['net'].N_FRAMES):
 					for camera in ('left', 'right'):
@@ -265,16 +240,20 @@ def Batch(the_network=None):
 							img2 = img1.cuda().float()/255. - 0.5
 							cat_list.append(img2)
 
-				if False:
+				################################################################
+				# projection metadata
+				if True:
 					for j in [0,2,1]:
 						img = D['zeros, metadata_size']
 						img[0,0,:,:] = Data_moment['projections'][:,:,j]
 						img = torch.from_numpy(img)
-						img = img.cuda().float()/255.
+						img = img.cuda().float()/255. #*3. # trying to make them more salient
 						cat_list.append(img)
+				#
+				################################################################
 				
 
-				cat_list.append(P['metadata_constant_blanks'])
+				cat_list.append(_['metadata_constant_blanks'])
 
 				#for c in cat_list:
 				#	cy(c.size())
@@ -283,7 +262,7 @@ def Batch(the_network=None):
 
 				metadata = torch.FloatTensor().cuda()
 
-				for cur_label in P['behavioral_modes']:
+				for cur_label in _['behavioral_modes']:
 
 					if cur_label in Data_moment['labels']:
 						#print cur_label,Data_moment['labels']
@@ -319,34 +298,50 @@ def Batch(the_network=None):
 				#print metadata.size()
 
 				D['metadata'] = torch.cat((metadata, D['metadata']), 0)
+				####
+				###################################################################
+				###################################################################
+				###################################################################
+
+				###################################################################
+				###################################################################
+				###################################################################
+				#### CAMERA DATA
+
+				#zeroed_channels = np.random.choice([ [0],[2],[0,2],[0,2],[0,2], ])
+				zeroed_channels = [0,2]
+
+				list_camera_input = []
+				for t in range(D['network']['net'].N_FRAMES):
+					for camera in ('left', 'right'):
+						img = Data_moment[camera][t]
+						for c in zeroed_channels:
+							img[:,:,c] = zero_94_168_img
+						list_camera_input.append(torch.from_numpy(img))
+				camera_data = torch.cat(list_camera_input, 2)
 
 
 
+				camera_data = camera_data.cuda().float()/255. - 0.5
+				camera_data = torch.transpose(camera_data, 0, 2)
+				camera_data = torch.transpose(camera_data, 1, 2)
+				D['camera_data'] = torch.cat((torch.unsqueeze(camera_data, 0), D['camera_data']), 0)
+				#####
+				###################################################################
+				###################################################################
+				###################################################################
 
 
-
-				if False:
-					sv = Data_moment['steer']
-					mv = Data_moment['motor']
-					#rv = range(8,91,9)
-					rv = P['prediction_range'] #range(10)
-					sv = array(sv)[rv]
-					mv = array(mv)[rv]
-					steerv0 = torch.from_numpy(sv).cuda().float() / 99.
-					motorv0 = torch.from_numpy(mv).cuda().float() / 99.
-					steerv1 = (99-torch.from_numpy(sv).cuda().float()) / 99.
-					motorv1 = (99-torch.from_numpy(mv).cuda().float()) / 99.
-					target_datav = torch.unsqueeze(torch.cat((steerv0, motorv0,steerv1, motorv1), 0), 0)
-					D['target_data'] = torch.cat((target_datav, D['target_data']), 0)
-
-
-
+				###################################################################
+				###################################################################
+				###################################################################
+				#### TARGET DATA
 				sv = Data_moment['steer']
 				mv = Data_moment['motor']
 				hv = Data_moment['gyro_heading_x']
 				ev = Data_moment['encoder_meo']
 
-				rv = P['prediction_range']
+				rv = _['prediction_range']
 
 				sv = array(sv)[rv]
 				mv = array(mv)[rv]
@@ -365,19 +360,15 @@ def Batch(the_network=None):
 				encoder = (torch.from_numpy(ev).cuda().float()) / 5.0
 				target_data = torch.unsqueeze(torch.cat((steer,motor,heading,encoder), 0), 0)
 				D['target_data'] = torch.cat((target_data, D['target_data']), 0)
+				####
+				###################################################################
+				###################################################################
+				###################################################################
 
 
 
 
-
-
-
-
-
-
-
-
-				P['frequency_timer'].freq(d2s('train duration =',int(P['duration timer'].time()),"\t"))
+				_['frequency_timer'].freq(d2s('train duration =',int(_['duration timer'].time()),"\t"))
 			else: #except Exception as e:
 				print("*** while ctr < D['batch_size']: ******* Exception ***********************")
 				print(e.message, e.args)
@@ -420,17 +411,17 @@ def Batch(the_network=None):
 			D['network']['optimizer'].step()
 
 			if True: # np.mod(D['tries'],100) == 0:
-				P['LOSS_LIST'].append(D['loss'].data.cpu().numpy()[:].mean())
+				_['LOSS_LIST'].append(D['loss'].data.cpu().numpy()[:].mean())
 				
 				try:
-					assert(len(P['current_batch']) == P['BATCH_SIZE'])
+					assert(len(_['current_batch']) == _['BATCH_SIZE'])
 				except:
-					print(len(P['current_batch']),P['BATCH_SIZE'])
-				for i in range(P['BATCH_SIZE']):
-					P['current_batch'][i]['loss'].append(P['LOSS_LIST'][-1])
-				if len(P['LOSS_LIST']) > P['LOSS_LIST_N']:
-					P['LOSS_LIST_AVG'].append(na(P['LOSS_LIST']).mean())
-					P['LOSS_LIST'] = []
+					print(len(_['current_batch']),_['BATCH_SIZE'])
+				for i in range(_['BATCH_SIZE']):
+					_['current_batch'][i]['loss'].append(_['LOSS_LIST'][-1])
+				if len(_['LOSS_LIST']) > _['LOSS_LIST_N']:
+					_['LOSS_LIST_AVG'].append(na(_['LOSS_LIST']).mean())
+					_['LOSS_LIST'] = []
 			D['successes'] += 1
 
 		except Exception as e:
@@ -444,40 +435,25 @@ def Batch(the_network=None):
 			#D['tries'] = 0
 			#D['successes'] = 0			
 
-	Timer_updates = {
-		'print_timer_time':'print_timer',
-		'loss_timer_time':'loss_timer',
-		'spause_timer_time':'spause_timer',
-		'reload_image_file_timer_time':'reload_image_file_timer',
-		'menu_load_timer_time':'menu_load_timer',
-	}
+
 
 
 	def _function_display():
-		##################################
-		#
-		load_parameters(P,customer='train menu')
 
-		for u in Timer_updates.keys():
-			if u in P['updated']:
-				P[Timer_updates[u]] = Timer(P[u])
-				P['updated'].remove(u)
-		#
-		##################################
 		#cv2.waitKey(1) # This is to keep cv2 windows alive
-		if P['spause_timer'].check():
+		if _['spause_timer'].check():
 			spause()
-			P['spause_timer'].reset()
+			_['spause_timer'].reset()
 
-		if P['print_timer'].check():
-			cprint(d2s("P['start time'] =",P['start time']),'blue','on_yellow')
-			for i in [0]:#range(P['BATCH_SIZE']):
+		if _['print_timer'].check():
+			cprint(d2s("_['start time'] =",_['start time']),'blue','on_yellow')
+			for i in [0]:#range(_['BATCH_SIZE']):
 				ov = D['outputs'][i].data.cpu().numpy()
 				mv = D['metadata'][i].cpu().numpy()
 				tv = D['target_data'][i].cpu().numpy()
 				cg("len(ov),len(tv) =", len(ov),len(tv))
 				#raw_enter()
-				if P['verbose']: print('Loss:',dp(D['loss'].data.cpu().numpy()[0],5))
+				if _['verbose']: print('Loss:',dp(D['loss'].data.cpu().numpy()[0],5))
 				av = D['camera_data'][i][:].cpu().numpy()
 				bv = av.transpose(1,2,0)
 				hv = shape(av)[1]
@@ -487,17 +463,17 @@ def Batch(the_network=None):
 				cv[:hv,-wv:,:] = z2o(bv[:,:,:3])
 				cv[-hv:,:wv,:] = z2o(bv[:,:,9:12])
 				cv[-hv:,-wv:,:] = z2o(bv[:,:,6:9])
-				if P['verbose']: print(d2s(i,'camera_data min,max =',av.min(),av.max()))
+				if _['verbose']: print(d2s(i,'camera_data min,max =',av.min(),av.max()))
 				
-				Net_activity = Activity_Module.Net_Activity('batch_num',i, 'activiations',D['network']['net'].A)
+				Net_activity = Activity_Module.Net_Activity('P',_,'batch_num',i, 'activiations',D['network']['net'].A)
 				Net_activity['view']('moment_index',i,'delay',33, 'scales',{'camera_input':4,'pre_metadata_features':0,'pre_metadata_features_metadata':1,'post_metadata_features':0})
 				bm = 'unknown behavioral_mode'
-				for j in range(len(P['behavioral_modes'])):
+				for j in range(len(_['behavioral_modes'])):
 					if mv[-(j+1),0,0]:
-						bm = P['behavioral_modes'][j]
+						bm = _['behavioral_modes'][j]
 					#else:
-					#	cr(P['behavioral_modes'][j],'unknown behavioral_mode !!!')
-				figure('steer '+P['start time'],figsize=(1,6))
+					#	cr(_['behavioral_modes'][j],'unknown behavioral_mode !!!')
+				figure(fname(_['project_path'])+' steer '+_['start time'],figsize=(1,6))
 				clf()
 				plt.title(d2s(i))
 				ylim(-1.05,1.05);xlim(0,len(tv))
@@ -510,43 +486,43 @@ def Batch(the_network=None):
 					flip_str = ''
 				plt.xlabel(d2s(bm,flip_str))
 				if False:
-					figure('metadata '+P['start time']);clf()
+					figure('metadata '+_['start time']);clf()
 					plot(mv[-10:,0,0],'r.-')
 					plt.title(d2s(bm,i))
 				spause()
-				P['print_timer'].reset()
+				_['print_timer'].reset()
 			dm_ctrs_max = 100
 			dm_ctrs = zeros(dm_ctrs_max)
 			loss_list = []
-			for j in range(len(P['data_moments_indexed'])):
-				if 'ctr' in P['data_moments_indexed'][j]:
-					k = P['data_moments_indexed'][j]['ctr']
+			for j in range(len(_['data_moments_indexed'])):
+				if 'ctr' in _['data_moments_indexed'][j]:
+					k = _['data_moments_indexed'][j]['ctr']
 					if k < dm_ctrs_max:
 						dm_ctrs[k] += 1
 				else:
 					dm_ctrs[0] += 1
-				if 'loss' in P['data_moments_indexed'][j]:
-					if len(P['data_moments_indexed'][j]['loss']) > 0:
-						loss_list.append(P['data_moments_indexed'][j]['loss'][-1])
+				if 'loss' in _['data_moments_indexed'][j]:
+					if len(_['data_moments_indexed'][j]['loss']) > 0:
+						loss_list.append(_['data_moments_indexed'][j]['loss'][-1])
 			if False:
-				figure('dm_ctrs '+P['start time']);clf();plot(dm_ctrs,'.-');xlim(0,100)
-			P['dm_ctrs'] = dm_ctrs
+				figure('dm_ctrs '+_['start time'],figsize=(1,6));clf();plot(dm_ctrs,'.-');xlim(0,100)
+			_['dm_ctrs'] = dm_ctrs
 			#figure('loss_list');clf();hist(loss_list)
 			spause()
 
 			if bm == 'unknown behavioral_mode':
 				raw_enter()
 
-		if P['loss_timer'].check() and len(P['LOSS_LIST_AVG'])>5:
-			q = int(len(P['LOSS_LIST_AVG'])*P['percent_of_loss_list_avg_to_show']/100.0)
-			figure('LOSS_LIST_AVG '+P['start time'],figsize=(1,6));clf();plot(P['LOSS_LIST_AVG'][-q:],'.')
-			u = min(len(P['LOSS_LIST_AVG']),250)
-			median_val = np.median(na(P['LOSS_LIST_AVG'][-u:]))
+		if _['loss_timer'].check() and len(_['LOSS_LIST_AVG'])>5:
+			q = int(len(_['LOSS_LIST_AVG'])*_['percent_of_loss_list_avg_to_show']/100.0)
+			figure(fname(_['project_path'])+' LOSS_LIST_AVG '+_['start time'],figsize=(1,6));clf();plot(_['LOSS_LIST_AVG'][-q:],'.')
+			u = min(len(_['LOSS_LIST_AVG']),250)
+			median_val = np.median(na(_['LOSS_LIST_AVG'][-u:]))
 			plt.title(d2s('median =',dp(median_val,6)))
 			plot([0,q],[median_val,median_val],'r')
 			plt.xlim(0,q)
 			spause()
-			P['loss_timer'].reset()
+			_['loss_timer'].reset()
 
 
 
@@ -554,7 +530,7 @@ def Batch(the_network=None):
 	D['CLEAR'] = _function_clear
 	D['FORWARD'] = _function_forward
 	D['BACKWARD'] = _function_backward
-	if P['DISPLAY_EACH']:
+	if _['DISPLAY_EACH']:
 		D['DISPLAY'] = _function_display_each
 	else:
 		D['DISPLAY'] = _function_display

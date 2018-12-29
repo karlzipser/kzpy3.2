@@ -473,7 +473,7 @@ def Batch(_,the_network=None):
 						bm = _['behavioral_modes'][j]
 					#else:
 					#	cr(_['behavioral_modes'][j],'unknown behavioral_mode !!!')
-				figure(fname(_['project_path'])+' steer '+_['start time'])
+				figure(fname(_['project_path'])+' steer '+_['start time'],figsize=(1,6))
 				clf()
 				plt.title(d2s(i))
 				ylim(-1.05,1.05);xlim(0,len(tv))
@@ -505,7 +505,7 @@ def Batch(_,the_network=None):
 					if len(_['data_moments_indexed'][j]['loss']) > 0:
 						loss_list.append(_['data_moments_indexed'][j]['loss'][-1])
 			if False:
-				figure('dm_ctrs '+_['start time']);clf();plot(dm_ctrs,'.-');xlim(0,100)
+				figure('dm_ctrs '+_['start time'],figsize=(1,6));clf();plot(dm_ctrs,'.-');xlim(0,100)
 			_['dm_ctrs'] = dm_ctrs
 			#figure('loss_list');clf();hist(loss_list)
 			spause()
@@ -515,7 +515,7 @@ def Batch(_,the_network=None):
 
 		if _['loss_timer'].check() and len(_['LOSS_LIST_AVG'])>5:
 			q = int(len(_['LOSS_LIST_AVG'])*_['percent_of_loss_list_avg_to_show']/100.0)
-			figure(fname(_['project_path'])+' LOSS_LIST_AVG '+_['start time']);clf();plot(_['LOSS_LIST_AVG'][-q:],'.')
+			figure(fname(_['project_path'])+' LOSS_LIST_AVG '+_['start time'],figsize=(1,6));clf();plot(_['LOSS_LIST_AVG'][-q:],'.')
 			u = min(len(_['LOSS_LIST_AVG']),250)
 			median_val = np.median(na(_['LOSS_LIST_AVG'][-u:]))
 			plt.title(d2s('median =',dp(median_val,6)))
