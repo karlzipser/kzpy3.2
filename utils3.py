@@ -540,10 +540,10 @@ def setClipboardData(data):
 	retcode = p.wait()
 scd = setClipboardData
 
-def say(t,rate=150,print_text=True):
-	if print_text:
+def say(t,rate=150,print_text=False):
+	if print_text or not using_osx():
 		spd2s(t)
-	if using_osx:
+	if using_osx():
 		unix(d2s('say -v Susan --interactive=/green -r',rate,t))
 
 

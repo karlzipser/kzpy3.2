@@ -232,13 +232,16 @@ def Batch(_,the_network=None):
 
 				for t in range(D['network']['net'].N_FRAMES):
 					for camera in ('left', 'right'):
-						for color in [0,2,1]: 
-							img = cv2.resize(Data_moment[camera][t][:,:,color] ,(41,23))
-							img0 = zeros((1,1,23,41))
-							img0[0,0,:,:] = img
-							img1 = torch.from_numpy(img0)
-							img2 = img1.cuda().float()/255. - 0.5
-							cat_list.append(img2)
+						for color in [0,2,1]:
+							if False:
+								img = cv2.resize(Data_moment[camera][t][:,:,color] ,(41,23))
+								img0 = zeros((1,1,23,41))
+								img0[0,0,:,:] = img
+								img1 = torch.from_numpy(img0)
+								img2 = img1.cuda().float()/255. - 0.5
+								cat_list.append(img2)
+							else:
+								cat_list.append(zero_matrix)
 
 				################################################################
 				# projection metadata
@@ -247,7 +250,7 @@ def Batch(_,the_network=None):
 						img = D['zeros, metadata_size']
 						img[0,0,:,:] = Data_moment['projections'][:,:,j]
 						img = torch.from_numpy(img)
-						img = img.cuda().float()/255. #*3. # trying to make them more salient
+						img = img.cuda().float()/255.
 						cat_list.append(img)
 				#
 				################################################################
