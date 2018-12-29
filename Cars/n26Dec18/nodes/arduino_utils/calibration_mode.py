@@ -5,7 +5,8 @@ import rospy
 def Calibration_Mode(P):
     threading.Thread(target=_calibrate_run_loop,args=[P]).start()
 
-start = Timer(1)
+start = Timer(2)
+start.trigger()
 
 def _calibrate_run_loop(P):
 
@@ -48,7 +49,7 @@ def _calibrate_run_loop(P):
             P['servo_pwm_smooth'] = P['servo_pwm_null']
             P['motor_pwm_smooth'] = P['motor_pwm_null']
         else:
-            start.message('Start calibrating now.')
+            start.message('Calibrating now.')
             if P['servo_pwm_max'] < P['servo_pwm']:
                 P['servo_pwm_max'] = P['servo_pwm']
             if P['servo_pwm_min'] > P['servo_pwm']:
