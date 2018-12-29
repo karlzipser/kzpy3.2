@@ -1692,13 +1692,21 @@ mi(_['img'])
 def State():
     D = {}
     def function_can_enter():
-        pass
-    D['This state can be entered.'] = function_can_enter
+        return True
     D['Since-entry timer:'] = Timer()
+    def function_upon_entry():
+        pass
+    def function_upon_exit():
+        pass
+    def function_time_to_exit():
+        return False
+    D['Can this state can be entered?'] = function_can_enter
     D['Upon entry do this...'] = function_upon_entry
     D['Upon exit do this...'] = function_upon_exit
     D['Is it time to exit?'] = function_time_to_exit
     u'√'
+
+Calibrate = State()
 
 
 

@@ -279,7 +279,7 @@ def load_menu_data(path,Parameters,first_load=False,customer=''):
                 Topics = load_Topics(path,first_load,customer)
                 if type(Topics) == dict:
                     for t in Topics['To Expose'][Q]:
-                        if '!' in t:
+                        if False: #'!' in t:
                             pass
                         else:
                             Parameters[t] = Topics[t]
