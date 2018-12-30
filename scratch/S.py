@@ -1,14 +1,14 @@
 from kzpy3.utils3 import *
 
-def State(entry_timer_time):
-    "State"
+def S(entry_timer_time):
+    "S"
     D = {}
     D['verbose'] = True
     D['impossible source states'] = []
     D['possible source states'] = []
     D['impossible destination states'] = []
     D['possible destination states'] = []
-    D['type'] = State.__doc__
+    D['type'] = S.__doc__
     D['entry timer'] = Timer(entry_timer_time)
     D['state'] = d2n("'",D['type'],"'")
     D['regarding'] = d2s("Regarding",D['state'])
@@ -18,7 +18,9 @@ def State(entry_timer_time):
         "Upon entry do this..."
         doc = f1.__doc__; v = D['verbose']; re = D['regarding']
         
-        
+        print 'S0',doc,D[doc]
+        print 'S0','_'+doc,D['_'+doc]
+
         if not D["Can this state can be entered?"](P):
             if v:cr('\t',False)
             return False
@@ -102,7 +104,7 @@ if __name__ == '__main__':
     P['current state'] = 'none'
     #P['now in calibration mode'] = True
     
-    C = State(0.5)
+    C = S(0.5)
     C["Upon entry do this..."](P)
     C["Upon exit do this..."](P,'Calibrate_1')
     C["Can this state can be entered?"](P)

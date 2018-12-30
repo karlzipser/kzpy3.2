@@ -1,27 +1,24 @@
 from kzpy3.utils3 import *
-import State
+import S
 
-def Calibrate0(entry_timer_time):
-    "Calibrate0"
-    D = State.State(entry_timer_time)
+def C0(entry_timer_time):
+    "C0"
+    D = S.S(entry_timer_time)
     dkeys = D.keys()
     for k in dkeys:
-        if k[0] != '_':
-            D['_'+k] = D[k]
-    cg(D)
-    #for k in dkeys:
-    #    D['_'+k] = D[k]
+        D['_'+k] = D[k]
     D['impossible source states'] = ['Calibrate0','Calibrate2']
     D['possible destination states'] = ['Calibrate1']
-    D['type'] = Calibrate0.__doc__
+    D['type'] = C0.__doc__
     D['state'] = d2n("'",D['type'],"'")
     D['regarding'] = d2s("Regarding",D['state'])
 
     def f1(P):
         "Upon entry do this..."
         doc = f1.__doc__; v = D['verbose']; re = D['regarding']
-        #print '_'+doc
-        #print D['_'+doc]
+
+        print 'C0',doc,D[doc]
+        print 'C0','_'+doc,D['_'+doc]
         result = D['_'+doc](P)
 
         
@@ -34,21 +31,8 @@ def Calibrate0(entry_timer_time):
             P['motor_pwm_null'] = P['motor_pwm']""")
         return True
 
-    def f2(P):
-        "Can this state can be entered?"
-        doc = f2.__doc__; v = D['verbose']; re = D['regarding']
-        if v:cy(re,doc)
-        cr('Calibrate0')
-        if not P['now in calibration mode']:
-            if v:cb('\t',"Cannot enter because P['now in calibration mode'] == False")
-            return False
-        else:
-            if v:cb('\t',"Might be able to enter because P['now in calibration mode'] == True")
-        result = True#D['_'+doc](P)
-        return result
-
     try:
-        for f in [f1,f2]:
+        for f in [f1]:
             D[f.__doc__] = f
     except Exception as e:
         exc_type, exc_obj, exc_tb = sys.exc_info()
@@ -67,7 +51,7 @@ if __name__ == '__main__':
     P['current state'] = 'none'
     P['now in calibration mode'] = True
     
-    C = Calibrate0(0.1)
+    C = C0(0.1)
     C["Upon entry do this..."](P)
     C["Upon exit do this..."](P,'Calibrate_1')
     C["Can this state can be entered?"](P)
