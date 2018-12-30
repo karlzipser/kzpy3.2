@@ -47,7 +47,7 @@ plt_square()
 l = 5.0
 xy = array([0.0,0.0])
 xys=[]
-CA()
+CA( )
 hz_timer = Timer(5)
 
 cool_run_by_metal_bridge = 22000
