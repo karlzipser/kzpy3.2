@@ -7,23 +7,24 @@ P['now in calibration mode'] = True
 def Calibrate_0():
     "Calibrate_0"
     D = {}
+    #D['parent'] = State()
     D['not possible source states'] = ['Calibrate_0','Calibrate_1','Calibrate_2']
     D['possible destination states'] = ['Calibrate_1']
     D['type'] = 'Calibrate_0'
     D['Since-entry timer:'] = Timer(0.1)
 
-    def function_upon_entry(P):
-
+    def f1(P):
         "Upon entry do this..."
-
+        doc = f1.__doc__
+        cr(doc)
+        #D['parent']["Upon entry do this..."](P)
         P['current state'] = D['type']
         cb('\tEntering state',D['type']+'.')
         D['Since-entry timer:'].reset()
         cb('\tUpon entry:')
         cr("\t\tSay 'hi!'")
 
-    def function_can_enter(P):
-
+    def f2(P):
         "Can this state can be entered?"
 
         cy('Regarding',D['type']+', can this state can be entered?')
@@ -37,8 +38,7 @@ def Calibrate_0():
         cb('\tThis state cannot be entered now.')
         return False
 
-    def function_time_to_exit(P):
-
+    def f3(P):
         "Is it time to exit?"
 
         cy('Regarding',D['type']+', is it time to exit?')
@@ -52,8 +52,7 @@ def Calibrate_0():
         cb('\tIt is not time to exit.')
         return False
 
-    def function_upon_exit(P,dst_state):
-
+    def f4(P,dst_state):
         "Upon exit do this..."
 
         cy('Regarding',D['type']+', upon exit try to do this...')
@@ -68,11 +67,7 @@ def Calibrate_0():
         cb('\tNot exiting yet.')
 
 
-    for f in [
-        function_time_to_exit,
-        function_can_enter,
-        function_upon_entry,
-        function_upon_exit, ]:
+    for f in [f1,f2,f3,f4]:
         D[f.__doc__] = f
 
     return D
@@ -91,3 +86,14 @@ C['Upon exit do this...'](P,'Calibrate_1')
 
 C['Is it time to exit?'](P)
 
+
+
+
+
+
+
+
+
+
+
+#EOF
