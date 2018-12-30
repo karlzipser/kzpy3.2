@@ -18,7 +18,7 @@ def Calibrate0(entry_timer_time):
         cs('\t',result,'in Calibrate override.')
         return result
 
-    def f2(P):
+    def f2_(P):
         "Can this state can be entered?"
         doc = f2.__doc__; v = D['verbose']; re = D['regarding']
         
@@ -38,7 +38,7 @@ def Calibrate0(entry_timer_time):
         if v:cr('\t',False)
         return False
 
-    def f3(P):
+    def f3_(P):
         "Is it time to exit?"
         doc = f3.__doc__; v = D['verbose']; re = D['regarding']
         if v:cy(re,doc)
@@ -55,7 +55,7 @@ def Calibrate0(entry_timer_time):
         if v:cr('\t',False)
         return False
 
-    def f4(P,dst_state):
+    def f4_(P,dst_state):
         "Upon exit do this..."
         doc = f4.__doc__; v = D['verbose']; re = D['regarding']
         if v:cy(re,doc)
@@ -76,11 +76,15 @@ def Calibrate0(entry_timer_time):
         if v:cr('\t',False)
         return False
 
-
-    for f in [f1,f2,f3,f4]:
-        D[f.__doc__] = f
-
-    return D
+    try:
+        for f in [f1,f2,f3,f4]:
+            D[f.__doc__] = f
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        CS_('Exception!',emphasis=True)
+        CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+        return D
 
 if __name__ == '__main__':
     clear_screen()
