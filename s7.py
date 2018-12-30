@@ -23,7 +23,7 @@ except:
 
 
 def vec(heading,encoder):
-	velocity = encoder/2.3 # rough guess
+	velocity = encoder/2.3  # rough guess
 	a = [0,1]
 	a = array(rotatePoint([0,0],a,heading))
 	a *= velocity/30.0
