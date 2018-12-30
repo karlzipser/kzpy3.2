@@ -1710,7 +1710,10 @@ Calibrate = State()
 
 
 
+def say_thread(t):
+    while t != "<done>":
+        
 
-
+threading.Thread(target=_FLEX_run_loop,args=[P]).start()
 _
 #EOF

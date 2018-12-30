@@ -1,7 +1,7 @@
 from kzpy3.vis3 import *
 import sys, termios, tty, os, time
  
-say("Play Pong!")
+#say("Play Pong!")
 
 def getch():
     fd = sys.stdin.fileno()
@@ -43,13 +43,45 @@ P['ball dx'] = 8.0
 P['ball dy'] = 0.4
 
 
-c = 0
-while 27 != c:
+print """
+PONG INSTRUCTIONS:
+	1) resize graphics screen to position and desired size,
+	2) press < space bar > to begin,
+	3) press < space bar > to pause/continue game.
+"""
 
+c = 0
+started = False
+pause = True
+while 27 != c:
+	c = mci(P['img'])
+	time.sleep(0.01)
+
+	if started == False:
+		#print c,ord(' ')
+		if ord(' ') == c:
+			started = True
+			#clear_screen()
+		else:
+			time.sleep(0.1)
+			continue
+	if ord(' ') == c:
+		print 'space'
+		if pause:
+			pause = False
+		else:
+			pause = True
+	if pause:
+		continue
+
+	if ord('s') == c:
+		say("Score!!!")
+
+		c = mci(P['img'])
 	P['img'] = P['img']*0
 
 	for side in ['left','right']:
-		print P['paddle'][side]['key']
+		#print P['paddle'][side]['key']
 
 		if ord(P['paddle'][side]['key']) == c:
 			P['paddle'][side]['dy'] *= -1
@@ -76,10 +108,8 @@ while 27 != c:
 	P['img'][0,1] = 0
 	P['img'][0,0] = 255
 
-	c = mci(P['img'])
+	#c = mci(P['img'])
 
-	if ord('s') == c:
-		say("Score!!!")
-	if c != -1:
-		pass#print c
+
+
 
