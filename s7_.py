@@ -1689,80 +1689,31 @@ mi(_['img'])
 
 
 
-P={}
-P['current state'] = 'none'
-P['now in calibration mode'] = True
 def State():
     D = {}
-    D['type'] = 'State'
+    def function_can_enter():
+        return True
     D['Since-entry timer:'] = Timer()
-    def function_can_enter(P):
-        cy(D['type'])
-        return False
-    def function_upon_entry(P):
-        cy(D['type'])
-        P['current state'] = D['type']
-        cb('entering state',D['type'])
-        D['Since-entry timer:'].reset()
-    def function_upon_exit(P):
-        cy(D['type'])
-        cb('leaving state',D['type'])
+    def function_upon_entry():
         pass
-    def function_time_to_exit(P):
-        cy(D['type'])
-        return False
-    def function_to_do(P):
-        cy(D['type'])
+    def function_upon_exit():
         pass
+    def function_time_to_exit():
+        return False
     D['Can this state can be entered?'] = function_can_enter
     D['Upon entry do this...'] = function_upon_entry
-    D['To do while in this state:'] = function_to_do
     D['Upon exit do this...'] = function_upon_exit
-    u'√'
-    return D
-
-
-def Calibrate_0():
-    D = State()
-    D['type'] = 'Calibrate_0'
-    D['Since-entry timer:'] = Timer(0.1)
-    D['Upon entry do this... OVERRIDE'] = D['Upon entry do this...']
-    def function_upon_entry(P):
-        cg('from State:')
-        D['Upon entry do this... OVERRIDE'](P)
-        cg('from Calibrate_0:')
-        cr('hi')
-    def function_can_enter(P):
-        cy(D['type'])
-        if P['now in calibration mode']:
-            if P['current state'] not in ['Calibrate_0','Calibrate_1','Calibrate_2']:
-                return True
-        return False
-    def function_time_to_exit(P):
-        cy(D['type'])
-        if D['type'] != P['current state']:
-            return False
-        if D['Since-entry timer:'].check():
-            return True
     D['Is it time to exit?'] = function_time_to_exit
-    D['Can this state can be entered?'] = function_can_enter
-    D['Upon entry do this...'] = function_upon_entry
-    return D
+    u'√'
+
+Calibrate = State()
+
+
 
 def say_thread(t):
     while t != "<done>":
         
 
-<<<<<<< HEAD
 threading.Thread(target=_FLEX_run_loop,args=[P]).start()
-=======
-C=Calibrate_0()
-print C['Can this state can be entered?'](P)
-print C['Upon entry do this...'](P)
-print C['Is it time to exit?'](P)
-print C['Can this state can be entered?'](P)
-print C['Is it time to exit?'](P)
-
->>>>>>> 6ff9527a41998269af861d799e4f46e11faf5c82
 _
 #EOF
