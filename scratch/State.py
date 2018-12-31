@@ -3,6 +3,7 @@ from kzpy3.utils3 import *
 def State(entry_timer_time):
     "State"
     D = {}
+    D['depth'] = 0
     D['verbose'] = True
     D['impossible source states'] = []
     D['possible source states'] = []
@@ -12,6 +13,7 @@ def State(entry_timer_time):
     D['entry timer'] = Timer(entry_timer_time)
     D['state'] = d2n("'",D['type'],"'")
     D['regarding'] = d2s("Regarding",D['state'])
+    cb(D['regarding'],'depth =',D['depth'])
     
 
     def f1(P):

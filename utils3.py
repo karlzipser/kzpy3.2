@@ -204,16 +204,18 @@ def cs(*args):
 
 
 
-
+CVerbose = {}
 for color in ['red','yellow','green','blue']:
 	an_exec_string = """
-cQ_off = False
+CVerbose['COLOR'] = True
 def cQ(*args):
-	if cQ_off:
+	if not CVerbose['COLOR']:
 		return
 	cprint(d2s_spacer(args,spacer=' '),'COLOR')
 """
 	exec(an_exec_string.replace('Q',color[0]).replace('COLOR',color))
+
+
 
 
 

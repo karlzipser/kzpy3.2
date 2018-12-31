@@ -3,7 +3,6 @@ import State
 
 def Calibrate2(entry_timer_time):
     "Calibrate2"
-    print '!!!!!!!!!!!!!!!0'
     D = State.State(entry_timer_time)
     dkeys = D.keys()
     for k in dkeys:
@@ -17,7 +16,6 @@ def Calibrate2(entry_timer_time):
 
     def f1(P):
         "Upon entry do this..."
-        print '!!!!!!!!!!!!!!!1'
         doc = f1.__doc__; v = D['verbose']; re = D['regarding']
         
         result = D['_'+doc](P)

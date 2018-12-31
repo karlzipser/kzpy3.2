@@ -1,25 +1,35 @@
 from kzpy3.utils3 import *
-import State
+import Calibrate0
 
 def Calibrate1(entry_timer_time):
     "Calibrate1"
-    D = State.State(entry_timer_time)
+    D = Calibrate0.Calibrate0(entry_timer_time)
+    cr(D['depth'])
+    D['depth'] += 1
+    cr(D['depth'])
     dkeys = D.keys()
     for k in dkeys:
-        if k[0] != '_':
-            D['_'+k] = D[k]
+        D['_'+k] = D[k]
+        print "Calibrate1",'_'+k
+    underscore_str = ''
+    for i in range(D['depth']):
+        underscore_str += '_'
     D['impossible source states'] = ['Calibrate0','Calibrate1']
     D['possible destination states'] = ['Calibrate2']
     D['type'] = Calibrate1.__doc__
     D['state'] = d2n("'",D['type'],"'")
     D['regarding'] = d2s("Regarding",D['state'])
+    cb(D['regarding'],'depth =',D['depth'])
 
     def f1(P):
         "Upon entry do this..."
         doc = f1.__doc__; v = D['verbose']; re = D['regarding']
-        cr(0)
-        result = D['_'+doc](P)
-        cr(1)
+        def parent():
+            cg("parent")
+            return D[underscore_str+doc](P)
+
+        result = parent()#D[underscore_str+doc](P)
+        #result = True
         if result == False:
             return
         if v:cb("""
@@ -45,7 +55,8 @@ def Calibrate1(entry_timer_time):
             return False
         else:
             if v:cb('\t',"Might be able to enter because P['now in calibration mode'] == True")
-        result = D['_'+doc](P)
+        
+        result = D[underscore_str+doc](P)
         return result
 
     try:
