@@ -1,15 +1,40 @@
 from kzpy3.utils3 import *
 
-[< Class,State,None
+
+exec(identify_file_str)
+
+def State():
+	"State"
+	D = {}
+	D['depth'] = 0
+	dkeys = D.keys()
+	if D['depth'] > 0:
+		for k in dkeys:
+			D['_'+k] = D[k]
+	underscore_str = ''
+	for i in range(D['depth']):
+		underscore_str += '_'
+	D['type'] = State.__doc__
+	D['state'] = d2n("'",D['type'],"'")
+	D['regarding'] = d2s("Regarding",D['state'])
+	D['entry timer'] = None
+	cy(D['regarding'],'depth =',D['depth'])
+
 
 	D['impossible source states'] = []
 	D['possible source states'] = []
 	D['impossible destination states'] = []
 	D['possible destination states'] = []
 
-	[< def_Function(P):
+
+	def f1(P):
 		"Can this state can be entered?"
-		[< function_auto-utils
+
+		doc = f1.__doc__
+		cy(D['regarding'],doc)
+		def parent(P):
+			cg("parent")
+			return D[underscore_str+doc](P)
 
 		if D['type'] == P['current state']:
 			cb('\tAlready in',D['state']+', cannot reenter now.')
@@ -29,9 +54,15 @@ from kzpy3.utils3 import *
 		return False
 
 
-	[< def_Function(P):
+
+	def f2(P):
 		"Upon entry do this..."
-		[< function_auto-utils
+
+		doc = f2.__doc__
+		cy(D['regarding'],doc)
+		def parent(P):
+			cg("parent")
+			return D[underscore_str+doc](P)
 		
 		if not D["Can this state can be entered?"](P):
 			cr('\t',False)
@@ -47,9 +78,15 @@ from kzpy3.utils3 import *
 		return True
 
 
-	[< def_Function(P):
+
+	def f3(P):
 		"Is it time to exit?"
-		[< function_auto-utils
+
+		doc = f3.__doc__
+		cy(D['regarding'],doc)
+		def parent(P):
+			cg("parent")
+			return D[underscore_str+doc](P)
 		
 		if D['type'] != P['current state']:
 			cb('\tNot in state',D['type']+", so can't exit.")
@@ -64,9 +101,15 @@ from kzpy3.utils3 import *
 		cr('\t',False)
 		return False
 
-	[< def_Function(P):
+
+	def f4(P):
 		"Upon exit do this..."
-		[< function_auto-utils
+
+		doc = f4.__doc__
+		cy(D['regarding'],doc)
+		def parent(P):
+			cg("parent")
+			return D[underscore_str+doc](P)
 		
 		if D['type'] != P['current state']:
 			cb('\tNot in state',D['state']+", so can't exit.")
@@ -85,7 +128,8 @@ from kzpy3.utils3 import *
 		cr('\t',False)
 		return False
 
-	[<put_functions_into_D
+	for f in [f1,f2,f3,f4,]:
+		D[f.__doc__] = f
 	return D
 
 

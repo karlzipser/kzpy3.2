@@ -239,10 +239,11 @@ def apply_rect_to_img(img,value,min_val,max_val,pos_color,neg_color,rel_bar_heig
             img[hp:h,(bw-bt/2):(bw+bt/2),:] = pos_color
 
 
-def plt_square():
+def plt_square(half_width=0):
     plt.gca().set_aspect('equal',adjustable='box')
     plt.draw()
-
+    if half_width > 0:
+        xysqlim(half_width)
 
 try:
     def function_close_all_windows():
