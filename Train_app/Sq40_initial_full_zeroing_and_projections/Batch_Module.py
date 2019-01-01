@@ -476,7 +476,7 @@ def Batch(_,the_network=None):
 						bm = _['behavioral_modes'][j]
 					#else:
 					#	cr(_['behavioral_modes'][j],'unknown behavioral_mode !!!')
-				figure(fname(_['project_path'])+' steer '+_['start time'],figsize=(1,6))
+				figure(fname(_['project_path'])+' steer '+_['start time'],figsize=_['figure size'])
 				clf()
 				plt.title(d2s(i))
 				ylim(-1.05,1.05);xlim(0,len(tv))
@@ -517,13 +517,25 @@ def Batch(_,the_network=None):
 				raw_enter()
 
 		if _['loss_timer'].check() and len(_['LOSS_LIST_AVG'])>5:
-			q = int(len(_['LOSS_LIST_AVG'])*_['percent_of_loss_list_avg_to_show']/100.0)
-			figure(fname(_['project_path'])+' LOSS_LIST_AVG '+_['start time'],figsize=(1,6));clf();plot(_['LOSS_LIST_AVG'][-q:],'.')
+			if _['num loss_list_avg steps to show'] == None:
+				q = int(len(_['LOSS_LIST_AVG'])*_['percent_of_loss_list_avg_to_show']/100.0)
+			else:
+				q = min(_['num loss_list_avg steps to show'],len(_['LOSS_LIST_AVG']))
+			figure(fname(_['project_path'])+' LOSS_LIST_AVG '+_['start time'],figsize=_['loss figure size'])
+			clf()
+			try:
+				for loss_ in _['comparison losses']+[_['LOSS_LIST_AVG']]:
+					plot(loss_[-q:],'.')
+			except Exception as e:
+				exc_type, exc_obj, exc_tb = sys.exc_info()
+				file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+				CS_('Exception!',emphasis=True)
+				CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
 			u = min(len(_['LOSS_LIST_AVG']),250)
 			median_val = np.median(na(_['LOSS_LIST_AVG'][-u:]))
 			plt.title(d2s('median =',dp(median_val,6)))
 			plot([0,q],[median_val,median_val],'r')
-			plt.xlim(0,q)
+			plt.xlim(0,q);plt.ylim(0,0.03)
 			spause()
 			_['loss_timer'].reset()
 

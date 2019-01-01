@@ -497,7 +497,7 @@ def Batch(the_network=None):
 						bm = P['behavioral_modes'][j]
 					#else:
 					#	cr(P['behavioral_modes'][j],'unknown behavioral_mode !!!')
-				figure('steer '+P['start time'],figsize=(1,6))
+				figure('steer '+P['start time'],figsize=P['figure size'])
 				clf()
 				plt.title(d2s(i))
 				ylim(-1.05,1.05);xlim(0,len(tv))
@@ -539,7 +539,7 @@ def Batch(the_network=None):
 
 		if P['loss_timer'].check() and len(P['LOSS_LIST_AVG'])>5:
 			q = int(len(P['LOSS_LIST_AVG'])*P['percent_of_loss_list_avg_to_show']/100.0)
-			figure('LOSS_LIST_AVG '+P['start time'],figsize=(1,6));clf();plot(P['LOSS_LIST_AVG'][-q:],'.')
+			figure('LOSS_LIST_AVG '+P['start time'],figsize=P['figure size']);clf();plot(P['LOSS_LIST_AVG'][-q:],'.')
 			u = min(len(P['LOSS_LIST_AVG']),250)
 			median_val = np.median(na(P['LOSS_LIST_AVG'][-u:]))
 			plt.title(d2s('median =',dp(median_val,6)))

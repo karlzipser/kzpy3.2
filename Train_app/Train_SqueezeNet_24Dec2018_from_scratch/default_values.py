@@ -28,7 +28,7 @@ _['customers'] = ['train menu']
 _['To Expose'] = {}
 
 _['verbose'] = False
-
+P['figure size'] = (2,8)
 _['loss_timer_time'] = 10*minute
 _['print_timer_time'] = 100*minute
 _['menu_load_timer_time'] = 10

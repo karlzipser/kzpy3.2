@@ -327,7 +327,7 @@ def get_Data_moment(_,dm=None,FLIP=None):
 			Data_moment['right'][1] = blank_camera
 			return Data_moment
 
-		if False: # below is hte normal case
+		if False: # below is the normal case
 			if not FLIP:
 				if il0+1 < len(F['left_image']['vals']) and ir0+1 < len(F['right_image']['vals']):
 					Data_moment['left'][0] = F['left_image']['vals'][il0]

@@ -14,41 +14,34 @@ os.system(sys_str)
 P = {}
 _ = P
 _['project_path'] = project_path
-_['freeze premetadata weights'] = False
-if ['freeze premetadata weights']:
-	_['update premetadata weights from other model'] = most_recent_file_in_folder(opjD('Networks/net_24Dec2018_12imgs_projections/weights'),['.infer'],[])
 minute = 60
 minutes = minute
 hour = 60*minute
 hours = hour
 
 
-#_['Data_moment list temp'] =[]
+_['num loss_list_avg steps to show'] = 15000
 _['ABORT'] = False
 _['customers'] = ['train menu']
 _['To Expose'] = {}
-
 _['verbose'] = False
-
+_['loss figure size'] = (3,16)
+_['figure size'] = (5,5)
 _['loss_timer_time'] = 10*minute
-_['print_timer_time'] = 100*minute
+_['print_timer_time'] = 5*minute
 _['menu_load_timer_time'] = 10
 _['spause_timer_time'] = 10
-
+_['percent_of_loss_list_avg_to_show'] = 100.0
 _['cmd/clear_screen'] = False
 
 #_['parameter_file_menu_load_timer_time'] = minute
-_['percent_of_loss_list_avg_to_show'] = 100.0
-
-
-_['reload_image_file_timer_time'] = 35*minutes
 
 _['DISPLAY_EACH'] = False
 	#raw_enter(d2n("_['prediction_range'] = ",_['prediction_range'],', len = ',len(_['prediction_range']),', okay? '))
 	# array([ 1, 10, 20, 30, 40, 50, 59, 69, 79, 89])
 	# len(a) = 10
 #_['gray_out_random_value'] = 0.0
-_['start menu automatically'] = False
+
 _['To Expose']['train menu'] = sorted(_.keys())
 to_hide = ['To Expose','customers']
 for h in to_hide:
@@ -60,7 +53,12 @@ for k in _.keys():
 ###############################################################
 ###############################################################
 ###############################################################
+_['start menu automatically'] = False
+_['reload_image_file_timer_time'] = 35*minutes
 _['lacking runs'] = {}
+_['freeze premetadata weights'] = False
+if ['freeze premetadata weights']:
+	_['update premetadata weights from other model'] = most_recent_file_in_folder(opjD('Networks/net_24Dec2018_12imgs_projections/weights'),['.infer'],[])
 
 
 
@@ -83,6 +81,7 @@ _['trigger print timer?'] = True
 _['trigger loss_timer?'] = True
 ###############################################################
 #
+
 _['use_LIDAR'] = False
 _['lidar_only'] = False
 if _['lidar_only']:
@@ -99,12 +98,12 @@ _['GPU'] = 0
                                                         
 _['LIDAR_path'] = opjm('1_TB_Samsung_n1','_.Depth_images.log.resize.flip.left_ts')
 _['LIDAR_extension'] = ".Depth_image.log.resize.flip.with_left_ts.h5py"
-
+_['comparison losses'] = [lo(most_recent_file_in_folder(opjD('Networks/Sq40_initial_full_zeroing_and_projections_from_scratch/loss'),['.loss_avg.pkl'],[]))]
+_['comparison losses'] += [lo(most_recent_file_in_folder(opjD('Networks/net_24Dec2018_12imgs_projections/loss'),['.loss_avg.pkl'],[]))]
 _['frequency_timer'] = Timer(0.5*minute)
 _['duration timer'] = Timer()
 _['TRAIN_TIME'] = 60*5.0
 _['VAL_TIME'] = 60*1.0
-
 _['LOSS_LIST_N'] = 30
 _['run_name_to_run_path'] = {}
 _['data_moments_indexed'] = []

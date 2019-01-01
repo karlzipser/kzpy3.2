@@ -29,7 +29,7 @@ P['To Expose'] = {}
 
 P['verbose'] = False
 verbose = P['verbose']
-
+P['figure size'] = (2,8)
 P['loss_timer_time'] = 10*minute
 P['print_timer_time'] = 100*minute
 P['menu_load_timer_time'] = 10
