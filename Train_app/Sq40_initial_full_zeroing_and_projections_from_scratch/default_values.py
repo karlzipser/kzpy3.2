@@ -30,7 +30,7 @@ _['menu_load_timer_time'] = 10
 _['spause_timer_time'] = 10
 _['cmd/clear_screen'] = False
 _['percent_of_loss_list_avg_to_show'] = 99.0
-_['DISPLAY_EACH'] = False
+
 _['To Expose']['train menu'] = sorted(_.keys())
 to_hide = ['To Expose','customers']
 for h in to_hide:
@@ -75,7 +75,7 @@ _['frequency_timer'] = Timer(0.5*minute)
 _['duration timer'] = Timer()
 _['TRAIN_TIME'] = 60*5.0
 _['VAL_TIME'] = 60*1.0
-
+_['DISPLAY_EACH'] = False
 _['LOSS_LIST_N'] = 30
 _['run_name_to_run_path'] = {}
 _['data_moments_indexed'] = []

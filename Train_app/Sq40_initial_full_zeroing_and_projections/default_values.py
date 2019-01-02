@@ -36,7 +36,7 @@ _['cmd/clear_screen'] = False
 
 #_['parameter_file_menu_load_timer_time'] = minute
 
-_['DISPLAY_EACH'] = False
+
 	#raw_enter(d2n("_['prediction_range'] = ",_['prediction_range'],', len = ',len(_['prediction_range']),', okay? '))
 	# array([ 1, 10, 20, 30, 40, 50, 59, 69, 79, 89])
 	# len(a) = 10
@@ -63,7 +63,7 @@ if ['freeze premetadata weights']:
 
 
 _['updated'] = []
-
+_['DISPLAY_EACH'] = False
 _['RESUME'] = True
 _['BATCH_SIZE'] = 64
 _['REQUIRE_ONE'] = []
