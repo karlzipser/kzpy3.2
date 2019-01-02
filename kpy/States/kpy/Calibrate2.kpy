@@ -1,7 +1,7 @@
 
 from kzpy3.utils3 import *
 
-[< Class,Calibrate2,State
+[< Class,Calibrate2,Calibrate1
 	D['impossible source states'] = ['Calibrate0','Calibrate2']
 	D['possible destination states'] = ['HumanPID']
 	D['possible source states'] = ['Calibrate1']
@@ -14,7 +14,7 @@ from kzpy3.utils3 import *
 			return False
 		[< function_auto-utils
 		result = parent(P)
-		cr(result)
+		#cr(result)
 		return result
 
 	[< def_Function(P):

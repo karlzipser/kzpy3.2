@@ -6,25 +6,17 @@ exec(identify_file_str)
 def Human():
 	"Human"
 	D = State.State()
-	#D['depth'] += 1
 	CLASS_TYPE = Human.__doc__
 	PARENT_TYPE = 'State'
-	#if D['depth'] > 0:
-	#	for k in dkeys:
-	#		D['_'+k] = D[k]
 	dkeys = D.keys()
 	for k in dkeys:
 		if type(k) != tuple:
 			tup = (PARENT_TYPE,k)
 			D[tup] = D[k]
-			cr(tup,':',D[k])
-	#underscore_str = ''
-	#for i in range(D['depth']+1):
-	#	underscore_str += '_'
-	CLASS_STRING = d2n("'",CLASS_TYPE,"'")
-	D['regarding'] = d2s("Regarding",CLASS_STRING)
 	D['entry timer'] = None
-	#cy(D['regarding'],'depth =',D['depth'])
+	codefilename = d2n('(',fname(__file__),')')
+	print '';print ''
+	cy('Class',CLASS_TYPE,codefilename)
 
 	D['impossible source states'] = ['Calibrate0','Calibrate1']
 	D['possible source states'] = ['HumanPID','NetworkPID']
@@ -36,12 +28,12 @@ def Human():
 		"Upon entry do this..."
 
 		doc = f1.__doc__
-		#cy(D['regarding'],doc)
-		cG(doc,fname(__file__))
 		def parent(P):
-			tup = ((PARENT_TYPE,doc))
-			cg(d2s(tup,D[tup],__file__,' | '))
+			tup = (PARENT_TYPE,doc)
+			cg('		',tup,D[tup],codefilename)
 			return D[tup](P)
+		cm('	function',CLASS_TYPE+'::'+doc,codefilename)
+			
 		if not parent(P):
 			return False
 		D['entry timer'] = Timer(0)
@@ -52,12 +44,12 @@ def Human():
 		"Is it time to exit?"
 
 		doc = f2.__doc__
-		#cy(D['regarding'],doc)
-		cG(doc,fname(__file__))
 		def parent(P):
-			tup = ((PARENT_TYPE,doc))
-			cg(d2s(tup,D[tup],__file__,' | '))
+			tup = (PARENT_TYPE,doc)
+			cg('		',tup,D[tup],codefilename)
 			return D[tup](P)
+		cm('	function',CLASS_TYPE+'::'+doc,codefilename)
+			
 		if not parent(P):
 			return False
 		return True
@@ -67,12 +59,12 @@ def Human():
 		"Upon exit do this..."
 
 		doc = f3.__doc__
-		#cy(D['regarding'],doc)
-		cG(doc,fname(__file__))
 		def parent(P):
-			tup = ((PARENT_TYPE,doc))
-			cg(d2s(tup,D[tup],__file__,' | '))
+			tup = (PARENT_TYPE,doc)
+			cg('		',tup,D[tup],codefilename)
 			return D[tup](P)
+		cm('	function',CLASS_TYPE+'::'+doc,codefilename)
+			
 		if not parent(P):
 			return False
 		return True

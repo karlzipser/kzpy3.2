@@ -11,25 +11,17 @@ exec(identify_file_str)
 def XXXXXXXX():
 	"XXXXXXXX"
 	D = WWWWWWWW.WWWWWWWW()
-	#D['depth'] += 1
 	CLASS_TYPE = XXXXXXXX.__doc__
 	PARENT_TYPE = 'WWWWWWWW'
-	#if D['depth'] > 0:
-	#	for k in dkeys:
-	#		D['_'+k] = D[k]
 	dkeys = D.keys()
 	for k in dkeys:
 		if type(k) != tuple:
 			tup = (PARENT_TYPE,k)
 			D[tup] = D[k]
-			cr(tup,':',D[k])
-	#underscore_str = ''
-	#for i in range(D['depth']+1):
-	#	underscore_str += '_'
-	CLASS_STRING = d2n("'",CLASS_TYPE,"'")
-	D['regarding'] = d2s("Regarding",CLASS_STRING)
 	D['entry timer'] = None
-	#cy(D['regarding'],'depth =',D['depth'])
+	codefilename = d2n('(',fname(__file__),')')
+	print '';print ''
+	cy('Class',CLASS_TYPE,codefilename)
 """
 
 FUNCTION_STRING = """
@@ -37,12 +29,13 @@ FUNCTION_STRING = """
 
 FUNCTION_AUTO_UTILS_STRING = """
 		doc = f########.__doc__
-		#cy(D['regarding'],doc)
-		cG(doc,fname(__file__))
 		def parent(P):
-			tup = ((PARENT_TYPE,doc))
-			cg(d2s(tup,D[tup],__file__,' | '))
-			return D[tup](P)"""
+			tup = (PARENT_TYPE,doc)
+			cg('\t\t',tup,D[tup],codefilename)
+			return D[tup](P)
+		cm('\tfunction',CLASS_TYPE+'::'+doc,codefilename)
+			"""
+
 #
 ##############################################
 timer = Timer()

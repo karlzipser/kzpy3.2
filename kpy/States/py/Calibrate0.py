@@ -7,25 +7,17 @@ exec(identify_file_str)
 def Calibrate0():
 	"Calibrate0"
 	D = State.State()
-	#D['depth'] += 1
 	CLASS_TYPE = Calibrate0.__doc__
 	PARENT_TYPE = 'State'
-	#if D['depth'] > 0:
-	#	for k in dkeys:
-	#		D['_'+k] = D[k]
 	dkeys = D.keys()
 	for k in dkeys:
 		if type(k) != tuple:
 			tup = (PARENT_TYPE,k)
 			D[tup] = D[k]
-			cr(tup,':',D[k])
-	#underscore_str = ''
-	#for i in range(D['depth']+1):
-	#	underscore_str += '_'
-	CLASS_STRING = d2n("'",CLASS_TYPE,"'")
-	D['regarding'] = d2s("Regarding",CLASS_STRING)
 	D['entry timer'] = None
-	#cy(D['regarding'],'depth =',D['depth'])
+	codefilename = d2n('(',fname(__file__),')')
+	print '';print ''
+	cy('Class',CLASS_TYPE,codefilename)
 
 	D['impossible source states'] = ['Calibrate0','Calibrate1','Calibrate2']
 	D['possible destination states'] = ['Calibrate1']
@@ -40,12 +32,12 @@ def Calibrate0():
 			return False
 
 		doc = f1.__doc__
-		#cy(D['regarding'],doc)
-		cG(doc,fname(__file__))
 		def parent(P):
-			tup = ((PARENT_TYPE,doc))
-			cg(d2s(tup,D[tup],__file__,' | '))
+			tup = (PARENT_TYPE,doc)
+			cg('		',tup,D[tup],codefilename)
 			return D[tup](P)
+		cm('	function',CLASS_TYPE+'::'+doc,codefilename)
+			
 		result = parent(P)
 		return result
 
@@ -54,12 +46,12 @@ def Calibrate0():
 		"Upon entry do this..."
 
 		doc = f2.__doc__
-		#cy(D['regarding'],doc)
-		cG(doc,fname(__file__))
 		def parent(P):
-			tup = ((PARENT_TYPE,doc))
-			cg(d2s(tup,D[tup],__file__,' | '))
+			tup = (PARENT_TYPE,doc)
+			cg('		',tup,D[tup],codefilename)
 			return D[tup](P)
+		cm('	function',CLASS_TYPE+'::'+doc,codefilename)
+			
 		result = parent(P)
 		if result == False:
 			return
@@ -78,12 +70,12 @@ def Calibrate0():
 		"Is it time to exit?"
 
 		doc = f3.__doc__
-		#cy(D['regarding'],doc)
-		cG(doc,fname(__file__))
 		def parent(P):
-			tup = ((PARENT_TYPE,doc))
-			cg(d2s(tup,D[tup],__file__,' | '))
+			tup = (PARENT_TYPE,doc)
+			cg('		',tup,D[tup],codefilename)
 			return D[tup](P)
+		cm('	function',CLASS_TYPE+'::'+doc,codefilename)
+			
 		result = parent(P)
 		return result
 
@@ -93,12 +85,12 @@ def Calibrate0():
 		"Upon exit do this..."
 
 		doc = f4.__doc__
-		#cy(D['regarding'],doc)
-		cG(doc,fname(__file__))
 		def parent(P):
-			tup = ((PARENT_TYPE,doc))
-			cg(d2s(tup,D[tup],__file__,' | '))
+			tup = (PARENT_TYPE,doc)
+			cg('		',tup,D[tup],codefilename)
 			return D[tup](P)
+		cm('	function',CLASS_TYPE+'::'+doc,codefilename)
+			
 		#raw_enter('Calibrate0, ')
 		result = parent(P)
 		return result
