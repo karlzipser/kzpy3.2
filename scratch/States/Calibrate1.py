@@ -4,8 +4,8 @@ from kzpy3.utils3 import *
 import State
 exec(identify_file_str)
 
-def Calibrate0():
-	"Calibrate0"
+def Calibrate1():
+	"Calibrate1"
 	D = State.State()
 	D['depth'] += 1
 	dkeys = D.keys()
@@ -13,18 +13,18 @@ def Calibrate0():
 		for k in dkeys:
 			D['_'+k] = D[k]
 	underscore_str = ''
-	for i in range(D['depth']+1):
+	for i in range(D['depth']):
 		underscore_str += '_'
-	D['type'] = Calibrate0.__doc__
+	D['type'] = Calibrate1.__doc__
 	D['state'] = d2n("'",D['type'],"'")
 	D['regarding'] = d2s("Regarding",D['state'])
 	D['entry timer'] = None
 	cy(D['regarding'],'depth =',D['depth'])
 
-	D['impossible source states'] = ['Calibrate0','Calibrate1','Calibrate2']
-	D['possible destination states'] = ['Calibrate1']
-	D['possible source states'] = []
-	D['impossible destination states'] = ['Calibrate0','Calibrate2']
+	D['impossible source states'] = ['Calibrate1','Calibrate2']
+	D['possible destination states'] = ['Calibrate2']
+	D['possible source states'] = ['Calibrate0']
+	D['impossible destination states'] = ['Calibrate0','Calibrate1']
 	
 
 	def f1(P):
@@ -40,6 +40,7 @@ def Calibrate0():
 			#cg("parent")
 			return D[underscore_str+doc](P)
 		result = parent(P)
+		cr(result)
 		return result
 
 
@@ -55,45 +56,25 @@ def Calibrate0():
 		result = parent(P)
 		if result == False:
 			return
-		D['entry timer'] = Timer(0.1)
+		D['entry timer'] = Timer(1.0)
 		cb("""
-		P['calibrated'] = False
-		P['servo_pwm_null'] = P['servo_pwm']
-		P['motor_pwm_null'] = P['motor_pwm']
-		D['entry timer'] = Timer(1.1)
+			s = P['HUMAN_SMOOTHING_PARAMETER_1']
+			P['servo_pwm_null'] = (1.0-s)*P['servo_pwm'] + s*P['servo_pwm_null']
+			P['motor_pwm_null'] = (1.0-s)*P['motor_pwm'] + s*P['motor_pwm_null']
+			P['servo_pwm_min'] = P['servo_pwm_null']
+			P['servo_pwm_max'] = P['servo_pwm_null']
+			P['motor_pwm_min'] = P['motor_pwm_null']
+			P['motor_pwm_max'] = P['motor_pwm_null']
+			P['servo_pwm_smooth'] = P['servo_pwm_null']
+			P['motor_pwm_smooth'] = P['motor_pwm_null']
 		""")
 		return True
 
 
 
-	def f3(P):
-		"Is it time to exit?"
-
-		doc = f3.__doc__
-		#cy(D['regarding'],doc)
-		cG(doc,fname(__file__))
-		def parent(P):
-			#cg("parent")
-			return D[underscore_str+doc](P)
-		result = parent(P)
-		return result
 
 
-
-	def f4(P):
-		"Upon exit do this..."
-
-		doc = f4.__doc__
-		#cy(D['regarding'],doc)
-		cG(doc,fname(__file__))
-		def parent(P):
-			#cg("parent")
-			return D[underscore_str+doc](P)
-		raw_enter('Calibrate0, ')
-		result = parent(P)
-		return result
-
-	for f in [f1,f2,f3,f4,]:
+	for f in [f1,f2,]:
 		D[f.__doc__] = f
 
 	return D
@@ -115,15 +96,15 @@ if __name__ == '__main__':
 	#clear_screen()
 
 	P={}
-	P['current state'] = 'none'
+	P['current state'] = 'Calibrate0'
 	P['now in calibration mode'] = True
 	
-	S = Calibrate0()
+	S = Calibrate1()
 	S['dst_state'] = 'next state'
 	S['possible destination states'] = ['next state']
 	S["Upon entry do this..."](P)
 	S["Upon exit do this..."](P)
-	time.sleep(0.2)
+	time.sleep(2)
 	S["Upon entry do this..."](P)
 	S["Upon exit do this..."](P)
 

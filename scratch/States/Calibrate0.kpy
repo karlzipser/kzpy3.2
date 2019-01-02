@@ -1,32 +1,88 @@
+
 from kzpy3.utils3 import *
 
-[< Class,test,test_base
+[< Class,Calibrate0,State
+	D['impossible source states'] = ['Calibrate0','Calibrate1','Calibrate2']
+	D['possible destination states'] = ['Calibrate1']
+	D['possible source states'] = []
+	D['impossible destination states'] = ['Calibrate0','Calibrate2']
+	
+	[< def_Function(P):
+		"Can this state can be entered?"
+		if not P['now in calibration mode']:
+			cr("\tnot P['now in calibration mode'], cannot enter",D['state'])
+			return False
+		[< function_auto-utils
+		result = parent(P)
+		return result
 
-    [< def_Function(P):
-        "Upon entry do this..."
-        [< function_auto-utils
-        result = parent(P)
-        if result == False:
-            return
-        cb("""s = P['HUMAN_SMOOTHING_PARAMETER_1']""")
-        return True
+	[< def_Function(P):
+		"Upon entry do this..."
+		[< function_auto-utils
+		result = parent(P)
+		if result == False:
+			return
+		D['entry timer'] = Timer(0.1)
+		cb("""
+		P['calibrated'] = False
+		P['servo_pwm_null'] = P['servo_pwm']
+		P['motor_pwm_null'] = P['motor_pwm']
+		D['entry timer'] = Timer(1.1)
+		""")
+		return True
 
-    [< def_Function(P):
-        "Can this state can be entered?"
-        [< function_auto-utils
 
-        if not P['now in calibration mode']:
-            cb('\t',"Cannot enter because P['now in calibration mode'] == False")
-            return False
-        else:
-            cb('\t',"Might be able to enter because P['now in calibration mode'] == True")
-        
-        result = parent(P)
-        return result
+	[< def_Function(P):
+		"Is it time to exit?"
+		[< function_auto-utils
+		result = parent(P)
+		return result
 
-    [<put_functions_into_D
-    cr('State')
-    return D
+
+	[< def_Function(P):
+		"Upon exit do this..."
+		[< function_auto-utils  
+		raw_enter('Calibrate0, ')
+		result = parent(P)
+		return result
+
+	[<put_functions_into_D
+
+	return D
+
+
+
+
+	
+
+
+
+
+
+
+
+
+if __name__ == '__main__':
+
+	#clear_screen()
+
+	P={}
+	P['current state'] = 'none'
+	P['now in calibration mode'] = True
+	
+	S = Calibrate0()
+	S['dst_state'] = 'next state'
+	S['possible destination states'] = ['next state']
+	S["Upon entry do this..."](P)
+	S["Upon exit do this..."](P)
+	time.sleep(0.2)
+	S["Upon entry do this..."](P)
+	S["Upon exit do this..."](P)
+
+	pprint(P)
+
+
+
 
 
 #EOF

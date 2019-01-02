@@ -26,6 +26,10 @@ implicit_P = r'\b\['
 quote_key = r'``([\w\s]+)\b'
 non_quote_key = r'`([\w]+)\b'
 
+bracket = r'(\[[\w`\b]+\])'
+match = re.findall(bracket, "headings = _[`U_heading_gain`] * U[behavioral_mode][abc_][`index`]][`heading`]")
+print match#.group()
+
 b = .[abc,1,2,W[defg,1,2,E[hijk,1,2,3]]]
 
 b = P[abc][1][2][W[defg][1][2][E[hijk][1][2][3]]]

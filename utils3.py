@@ -205,7 +205,7 @@ def cs(*args):
 
 
 CVerbose = {}
-for color in ['red','yellow','green','blue']:
+for color in ['red','yellow','green','blue','magenta','cyan','white','Grey']:
 	an_exec_string = """
 CVerbose['COLOR'] = True
 def cQ(*args):
@@ -213,7 +213,7 @@ def cQ(*args):
 		return
 	cprint(d2s_spacer(args,spacer=' '),'COLOR')
 """
-	exec(an_exec_string.replace('Q',color[0]).replace('COLOR',color))
+	exec(an_exec_string.replace('Q',color[0]).replace('COLOR',color).replace('Grey','grey'))
 
 
 

@@ -1,91 +1,66 @@
 from kzpy3.utils3 import *
 
 [< Class,State,None
-
 	D['impossible source states'] = []
 	D['possible source states'] = []
 	D['impossible destination states'] = []
 	D['possible destination states'] = []
-
 	[< def_Function(P):
 		"Can this state can be entered?"
 		[< function_auto-utils
-
 		if D['type'] == P['current state']:
 			cb('\tAlready in',D['state']+', cannot reenter now.')
-			cr('\t',False)
 			return False
- 
 		if P['current state'] not in D['impossible source states']:
 			if P['current state'] in D['possible source states'] or \
 				len(D['possible source states']) == 0:
-
 				cb('\t',D['state'],'can be entered.')
-				cg('\t',True)
 				return True
-
 		cb('\tThis state cannot be entered now.')
-		cr('\t',False)
 		return False
-
 
 	[< def_Function(P):
 		"Upon entry do this..."
 		[< function_auto-utils
-		
 		if not D["Can this state can be entered?"](P):
-			cr('\t',False)
 			return False
-
 		P['current state'] = D['type']
-		D['entry timer'].reset()
-
-		
+		if D['entry timer'] != None:
+			D['entry timer'].reset()		
 		cb('\tEntering state',D['state']+'.')
-		cb('\tUpon entry:')
-		cg('\t',True)
 		return True
-
 
 	[< def_Function(P):
 		"Is it time to exit?"
 		[< function_auto-utils
-		
 		if D['type'] != P['current state']:
 			cb('\tNot in state',D['type']+", so can't exit.")
-			cr('\t',False)
 			return False
-		print D['entry timer'].check(),D['entry timer'].time()
+		print (D['entry timer'].check(),D['entry timer'].time())
 		if D['entry timer'].check():
 			cb('\tIt is time to exit.')
-			cg('\t',True)
 			return True
 		cb('\tIt is not time to exit.')
-		cr('\t',False)
 		return False
 
 	[< def_Function(P):
 		"Upon exit do this..."
-		[< function_auto-utils
-		
+		[< function_auto-utils	
 		if D['type'] != P['current state']:
 			cb('\tNot in state',D['state']+", so can't exit.")
-			cr('\t',False)
 			return False
 		if D['dst_state'] not in D['possible destination states']:
 			cb("\t'"+D['dst_state']+"' is not a suitable destination for",D['state']+'.')
-			cr('\t',False)
 			return False
 		if D['Is it time to exit?'](P):
 			cb('\tLeaving state',D['state'],"for '"+D['dst_state']+"'.")
 			P['current state'] = D['dst_state']
-			cg('\t',True)
 			return True
 		cb('\tNot exiting yet.')
-		cr('\t',False)
 		return False
 
 	[<put_functions_into_D
+	
 	return D
 
 

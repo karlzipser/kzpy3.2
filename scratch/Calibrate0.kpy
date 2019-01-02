@@ -24,6 +24,14 @@ from kzpy3.utils3 import *
         result = parent(P)
         return result
 
+    [< def_Function(P):
+        "Upon exit do this..."
+        [< function_auto-utils  
+        raw_enter()
+        if not parent(P):
+            return False
+        return True
+
     [<put_functions_into_D
     cr('State')
     return D

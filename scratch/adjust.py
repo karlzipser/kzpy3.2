@@ -16,7 +16,7 @@ def XXXXXXXX():
 		for k in dkeys:
 			D['_'+k] = D[k]
 	underscore_str = ''
-	for i in range(D['depth']):
+	for i in range(D['depth']+1):
 		underscore_str += '_'
 	D['type'] = XXXXXXXX.__doc__
 	D['state'] = d2n("'",D['type'],"'")
@@ -30,16 +30,19 @@ FUNCTION_STRING = """
 
 FUNCTION_AUTO_UTILS_STRING = """
 		doc = f########.__doc__
-		cy(D['regarding'],doc)
+		#cy(D['regarding'],doc)
+		cG(doc,fname(__file__))
 		def parent(P):
-			cg("parent")
+			#cg("parent")
 			return D[underscore_str+doc](P)"""
 #
 ##############################################
 timer = Timer()
-for modulename in ['State','Calibrate0']:
+for path in sggo(opjk('scratch/States/*.kpy')):
+	modulename = fname(path).split('.')[0]
+	cr(modulename)
 	timer.reset()
-	codelines = txt_file_to_list_of_strings(opjk('scratch/States/'+modulename+'.kpy'))
+	codelines = txt_file_to_list_of_strings(path)#opjk('scratch/States/'+modulename+'.kpy'))
 
 	for i in rlen(codelines):
 		if '[< Class,' in codelines[i]:
