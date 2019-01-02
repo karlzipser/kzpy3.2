@@ -20,7 +20,7 @@ hour = 60*minute
 hours = hour
 
 
-_['num loss_list_avg steps to show'] = 15000
+_['num loss_list_avg steps to show'] = None
 _['ABORT'] = False
 _['customers'] = ['train menu']
 _['To Expose'] = {}

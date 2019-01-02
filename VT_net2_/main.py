@@ -1,5 +1,5 @@
 ####################### IMPORT ################################
-#
+# python kzpy3/VT_net2_/main.py run tegra-ubuntu_29Oct18_13h28m05s
 from kzpy3.vis3 import *
 from scipy.optimize import curve_fit
 import kzpy3.Menu_app.menu2 as menu2
