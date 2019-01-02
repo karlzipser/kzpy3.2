@@ -105,5 +105,9 @@ b = b.replace(',','][')
 print b
 
 
+s = "headings = _['U_heading_gain'] * U[behavioral_mode][_['index']]['heading']"
+bracket = r'(\[[\w\'\b]+\])'
+bracket = r'(\[[\w\b]+\])'
+re.findall(bracket,s)
 
 
