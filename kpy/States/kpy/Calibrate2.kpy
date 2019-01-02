@@ -1,7 +1,7 @@
 
 from kzpy3.utils3 import *
 
-[< Class,Calibrate2,Calibrate1
+[< Class,Calibrate2,State
 	D['impossible source states'] = ['Calibrate0','Calibrate2']
 	D['possible destination states'] = ['HumanPID']
 	D['possible source states'] = ['Calibrate1']
@@ -10,11 +10,10 @@ from kzpy3.utils3 import *
 	[< def_Function(P):
 		"Can this state can be entered?"
 		if not P['now in calibration mode']:
-			cr("\tnot P['now in calibration mode'], cannot enter",D['state'])
+			cr(indent,"not P['now in calibration mode'], cannot enter",D['state'])
 			return False
 		[< function_auto-utils
 		result = parent(P)
-		#cr(result)
 		return result
 
 	[< def_Function(P):
@@ -24,7 +23,7 @@ from kzpy3.utils3 import *
 		if result == False:
 			return
 		D['entry timer'] = Timer(0)
-		cb("""
+		cb(indent,"""
             start.message('Calibrate now.')
             if P['servo_pwm_max'] < P['servo_pwm']:
                 P['servo_pwm_max'] = P['servo_pwm']
@@ -48,10 +47,10 @@ from kzpy3.utils3 import *
 		if not result:
 			return False
 		if P['now in calibration mode']:
-			cr("still in menu set P['now in calibration mode'], cannot exit.")
+			cr(indent,"still in menu set P['now in calibration mode'], cannot exit.")
 			return False
 		if not P['calibrated']:
-			cr("P['calibrated'] == False, cannot exit.")
+			cr(indent,"P['calibrated'] == False, cannot exit.")
 			return False
 		return True
 

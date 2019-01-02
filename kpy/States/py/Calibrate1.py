@@ -1,23 +1,28 @@
 
 from kzpy3.utils3 import *
 
-import Calibrate0
+import State
 exec(identify_file_str)
 
 def Calibrate1():
 	"Calibrate1"
-	D = Calibrate0.Calibrate0()
+	D = State.State()
 	CLASS_TYPE = Calibrate1.__doc__
-	PARENT_TYPE = 'Calibrate0'
+	PARENT_TYPE = 'State'
 	dkeys = D.keys()
 	for k in dkeys:
 		if type(k) != tuple:
 			tup = (PARENT_TYPE,k)
 			D[tup] = D[k]
+	if PARENT_TYPE == 'None':
+		D[(PARENT_TYPE,'depth')] = -1
+	D['depth'] = D[(PARENT_TYPE,'depth')] + 1
+	#print(CLASS_TYPE,D['depth'] )
+	indent = d2n(' ',D['depth'],')',D['depth']*'  ')
 	D['entry timer'] = None
 	codefilename = d2n('(',fname(__file__),')')
 	print '';print ''
-	cy('Class',CLASS_TYPE,codefilename)
+	cy(indent+'Class',CLASS_TYPE,codefilename)
 
 	D['impossible source states'] = ['Calibrate1','Calibrate2']
 	D['possible destination states'] = ['Calibrate2']
@@ -28,18 +33,17 @@ def Calibrate1():
 	def f1(P):
 		"Can this state can be entered?"
 		if not P['now in calibration mode']:
-			cr("\tnot P['now in calibration mode'], cannot enter",D['state'])
+			cr(indent,"not P['now in calibration mode'], cannot enter",D['state'])
 			return False
 
 		doc = f1.__doc__
 		def parent(P):
 			tup = (PARENT_TYPE,doc)
-			cg('		',tup,D[tup],codefilename)
+			cg(indent,tup,D[tup],codefilename)
 			return D[tup](P)
-		cm('	function',CLASS_TYPE+'::'+doc,codefilename)
+		cm(indent+'function',CLASS_TYPE+'::'+doc,codefilename)
 			
 		result = parent(P)
-		#cr(result)
 		return result
 
 
@@ -49,15 +53,15 @@ def Calibrate1():
 		doc = f2.__doc__
 		def parent(P):
 			tup = (PARENT_TYPE,doc)
-			cg('		',tup,D[tup],codefilename)
+			cg(indent,tup,D[tup],codefilename)
 			return D[tup](P)
-		cm('	function',CLASS_TYPE+'::'+doc,codefilename)
+		cm(indent+'function',CLASS_TYPE+'::'+doc,codefilename)
 			
 		result = parent(P)
 		if result == False:
 			return
 		D['entry timer'] = Timer(1.0)
-		cb("""
+		cb(indent,"""
 			s = P['HUMAN_SMOOTHING_PARAMETER_1']
 			P['servo_pwm_null'] = (1.0-s)*P['servo_pwm'] + s*P['servo_pwm_null']
 			P['motor_pwm_null'] = (1.0-s)*P['motor_pwm'] + s*P['motor_pwm_null']

@@ -1,23 +1,28 @@
 
 from kzpy3.utils3 import *
 
-import Calibrate1
+import State
 exec(identify_file_str)
 
 def Calibrate2():
 	"Calibrate2"
-	D = Calibrate1.Calibrate1()
+	D = State.State()
 	CLASS_TYPE = Calibrate2.__doc__
-	PARENT_TYPE = 'Calibrate1'
+	PARENT_TYPE = 'State'
 	dkeys = D.keys()
 	for k in dkeys:
 		if type(k) != tuple:
 			tup = (PARENT_TYPE,k)
 			D[tup] = D[k]
+	if PARENT_TYPE == 'None':
+		D[(PARENT_TYPE,'depth')] = -1
+	D['depth'] = D[(PARENT_TYPE,'depth')] + 1
+	#print(CLASS_TYPE,D['depth'] )
+	indent = d2n(' ',D['depth'],')',D['depth']*'  ')
 	D['entry timer'] = None
 	codefilename = d2n('(',fname(__file__),')')
 	print '';print ''
-	cy('Class',CLASS_TYPE,codefilename)
+	cy(indent+'Class',CLASS_TYPE,codefilename)
 
 	D['impossible source states'] = ['Calibrate0','Calibrate2']
 	D['possible destination states'] = ['HumanPID']
@@ -28,18 +33,17 @@ def Calibrate2():
 	def f1(P):
 		"Can this state can be entered?"
 		if not P['now in calibration mode']:
-			cr("\tnot P['now in calibration mode'], cannot enter",D['state'])
+			cr(indent,"not P['now in calibration mode'], cannot enter",D['state'])
 			return False
 
 		doc = f1.__doc__
 		def parent(P):
 			tup = (PARENT_TYPE,doc)
-			cg('		',tup,D[tup],codefilename)
+			cg(indent,tup,D[tup],codefilename)
 			return D[tup](P)
-		cm('	function',CLASS_TYPE+'::'+doc,codefilename)
+		cm(indent+'function',CLASS_TYPE+'::'+doc,codefilename)
 			
 		result = parent(P)
-		#cr(result)
 		return result
 
 
@@ -49,15 +53,15 @@ def Calibrate2():
 		doc = f2.__doc__
 		def parent(P):
 			tup = (PARENT_TYPE,doc)
-			cg('		',tup,D[tup],codefilename)
+			cg(indent,tup,D[tup],codefilename)
 			return D[tup](P)
-		cm('	function',CLASS_TYPE+'::'+doc,codefilename)
+		cm(indent+'function',CLASS_TYPE+'::'+doc,codefilename)
 			
 		result = parent(P)
 		if result == False:
 			return
 		D['entry timer'] = Timer(0)
-		cb("""
+		cb(indent,"""
             start.message('Calibrate now.')
             if P['servo_pwm_max'] < P['servo_pwm']:
                 P['servo_pwm_max'] = P['servo_pwm']
@@ -81,18 +85,18 @@ def Calibrate2():
 		doc = f3.__doc__
 		def parent(P):
 			tup = (PARENT_TYPE,doc)
-			cg('		',tup,D[tup],codefilename)
+			cg(indent,tup,D[tup],codefilename)
 			return D[tup](P)
-		cm('	function',CLASS_TYPE+'::'+doc,codefilename)
+		cm(indent+'function',CLASS_TYPE+'::'+doc,codefilename)
 			
 		result = parent(P)
 		if not result:
 			return False
 		if P['now in calibration mode']:
-			cr("still in menu set P['now in calibration mode'], cannot exit.")
+			cr(indent,"still in menu set P['now in calibration mode'], cannot exit.")
 			return False
 		if not P['calibrated']:
-			cr("P['calibrated'] == False, cannot exit.")
+			cr(indent,"P['calibrated'] == False, cannot exit.")
 			return False
 		return True
 

@@ -16,10 +16,15 @@ def State():
 		if type(k) != tuple:
 			tup = (PARENT_TYPE,k)
 			D[tup] = D[k]
+	if PARENT_TYPE == 'None':
+		D[(PARENT_TYPE,'depth')] = -1
+	D['depth'] = D[(PARENT_TYPE,'depth')] + 1
+	#print(CLASS_TYPE,D['depth'] )
+	indent = d2n(' ',D['depth'],')',D['depth']*'  ')
 	D['entry timer'] = None
 	codefilename = d2n('(',fname(__file__),')')
 	print '';print ''
-	cy('Class',CLASS_TYPE,codefilename)
+	cy(indent+'Class',CLASS_TYPE,codefilename)
 
 	D['impossible source states'] = []
 	D['possible source states'] = []
@@ -32,20 +37,20 @@ def State():
 		doc = f1.__doc__
 		def parent(P):
 			tup = (PARENT_TYPE,doc)
-			cg('		',tup,D[tup],codefilename)
+			cg(indent,tup,D[tup],codefilename)
 			return D[tup](P)
-		cm('	function',CLASS_TYPE+'::'+doc,codefilename)
+		cm(indent+'function',CLASS_TYPE+'::'+doc,codefilename)
 			
 
 		if CLASS_TYPE == P['current state']:
-			cb("\t\t",CLASS_TYPE,': Already in',CLASS_TYPE+', cannot reenter now.')
+			cb(indent,CLASS_TYPE,': Already in',CLASS_TYPE+', cannot reenter now.')
 			return False
 		if P['current state'] not in D['impossible source states']:
 			if P['current state'] in D['possible source states'] or \
 				len(D['possible source states']) == 0:
-				cb("\t\t",CLASS_TYPE,': can be entered.')
+				cb(indent,CLASS_TYPE,': can be entered.')
 				return True
-		cb("\t\t",CLASS_TYPE,': This state cannot be entered now.')
+		cb(indent,CLASS_TYPE,': This state cannot be entered now.')
 		return False
 
 
@@ -55,9 +60,9 @@ def State():
 		doc = f2.__doc__
 		def parent(P):
 			tup = (PARENT_TYPE,doc)
-			cg('		',tup,D[tup],codefilename)
+			cg(indent,tup,D[tup],codefilename)
 			return D[tup](P)
-		cm('	function',CLASS_TYPE+'::'+doc,codefilename)
+		cm(indent+'function',CLASS_TYPE+'::'+doc,codefilename)
 			
 		
 		if not D["Can this state can be entered?"](P):
@@ -65,7 +70,7 @@ def State():
 		P['current state'] = CLASS_TYPE
 		if D['entry timer'] != None:
 			D['entry timer'].reset()		
-		cb("\t\t",CLASS_TYPE,': Entering state',CLASS_TYPE+'.')
+		cb(indent,CLASS_TYPE,': Entering state',CLASS_TYPE+'.')
 		return True
 
 
@@ -75,18 +80,18 @@ def State():
 		doc = f3.__doc__
 		def parent(P):
 			tup = (PARENT_TYPE,doc)
-			cg('		',tup,D[tup],codefilename)
+			cg(indent,tup,D[tup],codefilename)
 			return D[tup](P)
-		cm('	function',CLASS_TYPE+'::'+doc,codefilename)
+		cm(indent+'function',CLASS_TYPE+'::'+doc,codefilename)
 			
 		if CLASS_TYPE != P['current state']:
-			cb("\t\t",CLASS_TYPE,': Not in state',CLASS_TYPE+", so can't exit.")
+			cb(indent,CLASS_TYPE,': Not in state',CLASS_TYPE+", so can't exit.")
 			return False
-		cw("\t\tentry timer check: ",D['entry timer'].check(),D['entry timer'].time())
+		cw(indent,"entry timer check: ",D['entry timer'].check(),D['entry timer'].time())
 		if D['entry timer'].check():
-			cb("\t\t",CLASS_TYPE,': It is time to exit.')
+			cb(indent,CLASS_TYPE,': It is time to exit.')
 			return True
-		cb("\t\t",CLASS_TYPE,': It is not time to exit.')
+		cb(indent,CLASS_TYPE,': It is not time to exit.')
 		return False
 
 
@@ -96,21 +101,21 @@ def State():
 		doc = f4.__doc__
 		def parent(P):
 			tup = (PARENT_TYPE,doc)
-			cg('		',tup,D[tup],codefilename)
+			cg(indent,tup,D[tup],codefilename)
 			return D[tup](P)
-		cm('	function',CLASS_TYPE+'::'+doc,codefilename)
+		cm(indent+'function',CLASS_TYPE+'::'+doc,codefilename)
 			
 		if CLASS_TYPE != P['current state']:
-			cb("\t\t",CLASS_TYPE,': Not in state',CLASS_TYPE+", so can't exit.")
+			cb(indent,CLASS_TYPE,': Not in state',CLASS_TYPE+", so can't exit.")
 			return False
 		if D['dst_state'] not in D['possible destination states']:
-			cb("\t\t",CLASS_TYPE,':',+D['dst_state']+"' is not a suitable destination for",CLASS_TYPE+'.')
+			cb(indent,CLASS_TYPE,':',+D['dst_state']+"' is not a suitable destination for",CLASS_TYPE+'.')
 			return False
 		if D['Is it time to exit?'](P):
-			cb("\t\t",CLASS_TYPE,': Leaving state',CLASS_TYPE,"for '"+D['dst_state']+"'.")
+			cb(indent,CLASS_TYPE,': Leaving state',CLASS_TYPE,"for '"+D['dst_state']+"'.")
 			P['current state'] = D['dst_state']
 			return True
-		cb("\t\t",CLASS_TYPE,': Not exiting yet.')
+		cb(indent,CLASS_TYPE,': Not exiting yet.')
 		return False
 
 	for f in [f1,f2,f3,f4,]:

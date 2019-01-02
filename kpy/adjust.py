@@ -18,10 +18,15 @@ def XXXXXXXX():
 		if type(k) != tuple:
 			tup = (PARENT_TYPE,k)
 			D[tup] = D[k]
+	if PARENT_TYPE == 'None':
+		D[(PARENT_TYPE,'depth')] = -1
+	D['depth'] = D[(PARENT_TYPE,'depth')] + 1
+	#print(CLASS_TYPE,D['depth'] )
+	indent = d2n(' ',D['depth'],')',D['depth']*'  ')
 	D['entry timer'] = None
 	codefilename = d2n('(',fname(__file__),')')
 	print '';print ''
-	cy('Class',CLASS_TYPE,codefilename)
+	cy(indent+'Class',CLASS_TYPE,codefilename)
 """
 
 FUNCTION_STRING = """
@@ -31,9 +36,9 @@ FUNCTION_AUTO_UTILS_STRING = """
 		doc = f########.__doc__
 		def parent(P):
 			tup = (PARENT_TYPE,doc)
-			cg('\t\t',tup,D[tup],codefilename)
+			cg(indent,tup,D[tup],codefilename)
 			return D[tup](P)
-		cm('\tfunction',CLASS_TYPE+'::'+doc,codefilename)
+		cm(indent+'function',CLASS_TYPE+'::'+doc,codefilename)
 			"""
 
 #
@@ -54,7 +59,7 @@ for path in sggo(Arguments['kpy'],'*'):
 			break
 	if classname != None:
 		codelines[i] = CLASS_STRING.replace('XXXXXXXX',classname).replace('WWWWWWWW',classparent)
-		cG('\t',modulename,'line',i,': classname ->',classname,'classparent ->',classparent)
+		cG('\t\t',modulename,'line',i,': classname ->',classname,'classparent ->',classparent)
 
 		if True:#if classparent != 'None':
 			#codelines[i] = codelines[i].replace("D['depth'] += 1","D['depth'] = 0")

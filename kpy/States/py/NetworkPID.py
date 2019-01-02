@@ -13,10 +13,15 @@ def NetworkPID():
 		if type(k) != tuple:
 			tup = (PARENT_TYPE,k)
 			D[tup] = D[k]
+	if PARENT_TYPE == 'None':
+		D[(PARENT_TYPE,'depth')] = -1
+	D['depth'] = D[(PARENT_TYPE,'depth')] + 1
+	#print(CLASS_TYPE,D['depth'] )
+	indent = d2n(' ',D['depth'],')',D['depth']*'  ')
 	D['entry timer'] = None
 	codefilename = d2n('(',fname(__file__),')')
 	print '';print ''
-	cy('Class',CLASS_TYPE,codefilename)
+	cy(indent+'Class',CLASS_TYPE,codefilename)
 
 	D['impossible source states'] = ['Calibrate0','Calibrate1']
 	D['possible source states'] = ['HumanPID','Human']
@@ -30,9 +35,9 @@ def NetworkPID():
 		doc = f1.__doc__
 		def parent(P):
 			tup = (PARENT_TYPE,doc)
-			cg('		',tup,D[tup],codefilename)
+			cg(indent,tup,D[tup],codefilename)
 			return D[tup](P)
-		cm('	function',CLASS_TYPE+'::'+doc,codefilename)
+		cm(indent+'function',CLASS_TYPE+'::'+doc,codefilename)
 			
 		if not parent(P):
 			return False
@@ -46,9 +51,9 @@ def NetworkPID():
 		doc = f2.__doc__
 		def parent(P):
 			tup = (PARENT_TYPE,doc)
-			cg('		',tup,D[tup],codefilename)
+			cg(indent,tup,D[tup],codefilename)
 			return D[tup](P)
-		cm('	function',CLASS_TYPE+'::'+doc,codefilename)
+		cm(indent+'function',CLASS_TYPE+'::'+doc,codefilename)
 			
 		if not parent(P):
 			return False
@@ -61,9 +66,9 @@ def NetworkPID():
 		doc = f3.__doc__
 		def parent(P):
 			tup = (PARENT_TYPE,doc)
-			cg('		',tup,D[tup],codefilename)
+			cg(indent,tup,D[tup],codefilename)
 			return D[tup](P)
-		cm('	function',CLASS_TYPE+'::'+doc,codefilename)
+		cm(indent+'function',CLASS_TYPE+'::'+doc,codefilename)
 			
 		if not parent(P):
 			return False
