@@ -7,19 +7,25 @@ exec(identify_file_str)
 def Calibrate0():
 	"Calibrate0"
 	D = State.State()
-	D['depth'] += 1
+	#D['depth'] += 1
+	CLASS_TYPE = Calibrate0.__doc__
+	PARENT_TYPE = 'State'
+	#if D['depth'] > 0:
+	#	for k in dkeys:
+	#		D['_'+k] = D[k]
 	dkeys = D.keys()
-	if D['depth'] > 0:
-		for k in dkeys:
-			D['_'+k] = D[k]
-	underscore_str = ''
-	for i in range(D['depth']+1):
-		underscore_str += '_'
-	D['type'] = Calibrate0.__doc__
-	D['state'] = d2n("'",D['type'],"'")
-	D['regarding'] = d2s("Regarding",D['state'])
+	for k in dkeys:
+		if type(k) != tuple:
+			tup = (PARENT_TYPE,k)
+			D[tup] = D[k]
+			cr(tup,':',D[k])
+	#underscore_str = ''
+	#for i in range(D['depth']+1):
+	#	underscore_str += '_'
+	CLASS_STRING = d2n("'",CLASS_TYPE,"'")
+	D['regarding'] = d2s("Regarding",CLASS_STRING)
 	D['entry timer'] = None
-	cy(D['regarding'],'depth =',D['depth'])
+	#cy(D['regarding'],'depth =',D['depth'])
 
 	D['impossible source states'] = ['Calibrate0','Calibrate1','Calibrate2']
 	D['possible destination states'] = ['Calibrate1']
@@ -37,8 +43,9 @@ def Calibrate0():
 		#cy(D['regarding'],doc)
 		cG(doc,fname(__file__))
 		def parent(P):
-			#cg("parent")
-			return D[underscore_str+doc](P)
+			tup = ((PARENT_TYPE,doc))
+			cg(d2s(tup,D[tup],__file__,' | '))
+			return D[tup](P)
 		result = parent(P)
 		return result
 
@@ -50,8 +57,9 @@ def Calibrate0():
 		#cy(D['regarding'],doc)
 		cG(doc,fname(__file__))
 		def parent(P):
-			#cg("parent")
-			return D[underscore_str+doc](P)
+			tup = ((PARENT_TYPE,doc))
+			cg(d2s(tup,D[tup],__file__,' | '))
+			return D[tup](P)
 		result = parent(P)
 		if result == False:
 			return
@@ -73,8 +81,9 @@ def Calibrate0():
 		#cy(D['regarding'],doc)
 		cG(doc,fname(__file__))
 		def parent(P):
-			#cg("parent")
-			return D[underscore_str+doc](P)
+			tup = ((PARENT_TYPE,doc))
+			cg(d2s(tup,D[tup],__file__,' | '))
+			return D[tup](P)
 		result = parent(P)
 		return result
 
@@ -87,8 +96,9 @@ def Calibrate0():
 		#cy(D['regarding'],doc)
 		cG(doc,fname(__file__))
 		def parent(P):
-			#cg("parent")
-			return D[underscore_str+doc](P)
+			tup = ((PARENT_TYPE,doc))
+			cg(d2s(tup,D[tup],__file__,' | '))
+			return D[tup](P)
 		raw_enter('Calibrate0, ')
 		result = parent(P)
 		return result

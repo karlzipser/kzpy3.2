@@ -1,25 +1,31 @@
 
 from kzpy3.utils3 import *
 
-import State
+import Calibrate0
 exec(identify_file_str)
 
 def Calibrate1():
 	"Calibrate1"
-	D = State.State()
-	D['depth'] += 1
+	D = Calibrate0.Calibrate0()
+	#D['depth'] += 1
+	CLASS_TYPE = Calibrate1.__doc__
+	PARENT_TYPE = 'Calibrate0'
+	#if D['depth'] > 0:
+	#	for k in dkeys:
+	#		D['_'+k] = D[k]
 	dkeys = D.keys()
-	if D['depth'] > 0:
-		for k in dkeys:
-			D['_'+k] = D[k]
-	underscore_str = ''
-	for i in range(D['depth']):
-		underscore_str += '_'
-	D['type'] = Calibrate1.__doc__
-	D['state'] = d2n("'",D['type'],"'")
-	D['regarding'] = d2s("Regarding",D['state'])
+	for k in dkeys:
+		if type(k) != tuple:
+			tup = (PARENT_TYPE,k)
+			D[tup] = D[k]
+			cr(tup,':',D[k])
+	#underscore_str = ''
+	#for i in range(D['depth']+1):
+	#	underscore_str += '_'
+	CLASS_STRING = d2n("'",CLASS_TYPE,"'")
+	D['regarding'] = d2s("Regarding",CLASS_STRING)
 	D['entry timer'] = None
-	cy(D['regarding'],'depth =',D['depth'])
+	#cy(D['regarding'],'depth =',D['depth'])
 
 	D['impossible source states'] = ['Calibrate1','Calibrate2']
 	D['possible destination states'] = ['Calibrate2']
@@ -37,8 +43,9 @@ def Calibrate1():
 		#cy(D['regarding'],doc)
 		cG(doc,fname(__file__))
 		def parent(P):
-			#cg("parent")
-			return D[underscore_str+doc](P)
+			tup = ((PARENT_TYPE,doc))
+			cg(d2s(tup,D[tup],__file__,' | '))
+			return D[tup](P)
 		result = parent(P)
 		cr(result)
 		return result
@@ -51,8 +58,9 @@ def Calibrate1():
 		#cy(D['regarding'],doc)
 		cG(doc,fname(__file__))
 		def parent(P):
-			#cg("parent")
-			return D[underscore_str+doc](P)
+			tup = ((PARENT_TYPE,doc))
+			cg(d2s(tup,D[tup],__file__,' | '))
+			return D[tup](P)
 		result = parent(P)
 		if result == False:
 			return
