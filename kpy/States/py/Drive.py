@@ -1,12 +1,36 @@
 from kzpy3.utils3 import *
 
-[< Class,Drive,Exit_is_Menu_Controlled
+import State
+exec(identify_file_str)
+
+def Drive():
+	"Drive"
+	D = State.State()
+	CLASS_TYPE = Drive.__doc__
+	PARENT_TYPE = 'State'
+	dkeys = D.keys()
+	for k in dkeys:
+		if type(k) != tuple:
+			tup = (PARENT_TYPE,k)
+			D[tup] = D[k]
+	if PARENT_TYPE == 'None':
+		D[(PARENT_TYPE,'depth')] = -1
+	D['depth'] = D[(PARENT_TYPE,'depth')] + 1
+	indent = d2n(D['depth'],')','  '*(3-D['depth']))
+	indent = ''
+	indent = d2n('  '*(3-D['depth']))
+	D['entry timer'] = None
+	codefilename = d2n('(',fname(__file__),')')
+	#print '';print ''
+	#cy(indent+'Class',CLASS_TYPE,codefilename)
+
 	D['impossible source states'] = ['Calibrate0','Calibrate1',]
 	D['possible source states'] = []
 	D['impossible destination states'] = ['Calibrate1','Calibrate2',]
 	D['possible destination states'] = []
 
-	[<put_functions_into_D
+	for f in []:
+		D[f.__doc__] = f
 	print "DRIVE"
 	return D
 

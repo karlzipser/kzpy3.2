@@ -1,7 +1,7 @@
 
 from kzpy3.utils3 import *
 
-[< Class,Calibrate2,State
+[< Class,Calibrate2,Exit_is_Menu_Controlled
 	D['impossible source states'] = ['Calibrate0','Calibrate2']
 	D['possible destination states'] = ['HumanPID']
 	D['possible source states'] = ['Calibrate1']

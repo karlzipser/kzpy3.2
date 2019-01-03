@@ -1,13 +1,13 @@
 from kzpy3.utils3 import *
 
-import State
+import Drive
 exec(identify_file_str)
 
 def Human():
 	"Human"
-	D = State.State()
+	D = Drive.Drive()
 	CLASS_TYPE = Human.__doc__
-	PARENT_TYPE = 'State'
+	PARENT_TYPE = 'Drive'
 	dkeys = D.keys()
 	for k in dkeys:
 		if type(k) != tuple:
@@ -24,10 +24,8 @@ def Human():
 	#print '';print ''
 	#cy(indent+'Class',CLASS_TYPE,codefilename)
 
-	D['impossible source states'] = ['Calibrate0','Calibrate1']
-	D['possible source states'] = ['HumanPID','NetworkPID']
-	D['impossible destination states'] = ['Calibrate1','Calibrate2']
-	D['possible destination states'] = ['Calibrate0','HumanPID','NetworkPID']
+	D['possible source states'] = ['Calibrate2','Network']
+	D['possible destination states'] = ['Calibrate0','Network']
 
 
 	def f1(P):
@@ -99,9 +97,9 @@ if __name__ == '__main__':
 
 	P={}
 	P['current state'] = 'none'
-	P['now in calibration mode'] = True
+	P['now in calibration mode'] = False
 	
-	S = State()
+	S = Human()
 	S['dst_state'] = 'next state'
 	S['entry timer'] = Timer(0.1)
 	S['possible destination states'] = ['next state']

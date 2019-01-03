@@ -3,7 +3,7 @@ from kzpy3.utils3 import *
 python kzpy3/kpy/adjust.py py kzpy3/kpy/States/py kpy kzpy3/kpy/States/kpy && python kzpy3/kpy/States/py/State.py
 """
 
-[< Class,State,None
+[< Class,Exit_is_Timed,State
 	D['impossible source states'] = []
 	D['possible source states'] = []
 	D['impossible destination states'] = []
@@ -29,7 +29,9 @@ python kzpy3/kpy/adjust.py py kzpy3/kpy/States/py kpy kzpy3/kpy/States/kpy && py
 		
 		if not D["Can this state can be entered?"](P):
 			return False
-		P['current state'] = CLASS_TYPE		
+		P['current state'] = CLASS_TYPE
+		if D['entry timer'] != None:
+			D['entry timer'].reset()		
 		cb(indent+CLASS_TYPE,': Entering state',CLASS_TYPE+'.')
 		return True
 
