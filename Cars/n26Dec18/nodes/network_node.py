@@ -50,7 +50,7 @@ button_timer = Timer()
 current_camera = 49
 current_steer = 49
 current_motor = 49
-button_just_changed = False
+#button_just_changed = False
 
 def send_image_to_list(lst,data):
     cimg = bridge.imgmsg_to_cv2(data,"bgr8")
@@ -95,6 +95,7 @@ def behavioral_mode_callback(msg):
     elif behavioral_mode == 'play':
         play = 1.0
 
+"""
 def button_number_callback(msg):
     global left,right,button_number,button_number_previous,button_just_changed
     button_number = msg.data
@@ -111,7 +112,7 @@ def button_number_callback(msg):
         left = 1.0
     else:
         center = 1.0
-
+"""
 flex_motor = 49
 flex_steer = 49
 
@@ -456,7 +457,7 @@ while not rospy.is_shutdown():
                         print_timer.reset()
                 else:
                     if print_timer.check():
-                        cg(adjusted_camera,adjusted_steer,adjusted_motor)
+                        cg(adjusted_camera,adjusted_steer,adjusted_motor,behavioral_mode)
                         print_timer.reset()
 
 

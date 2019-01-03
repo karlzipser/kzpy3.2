@@ -38,10 +38,11 @@ def Net_Activity(*args):
                 D['imgs'][k][moment_indexv] = vis_square(camera_arrayv,padval=0.5)
             else:
                 num_channels = shape(D['activiations'][k])[1]        
+                #print num_channels,shape(D['activiations'][k])[1]
                 for i in range(num_channels):
                     if D['activiations'][k][moment_indexv,i,:,:].mean() != 0.0:
                         if D['activiations'][k][moment_indexv,i,:,:].mean() != 1.0:
-                            if False:#k == 'pre_metadata_features_metadata' and i > 128:
+                            if k == 'pre_metadata_features_metadata' and i > 128:
                                 pass
                             else:
                                 D['activiations'][k][moment_indexv,i,:,:] = z2o(D['activiations'][k][moment_indexv,i,:,:])
