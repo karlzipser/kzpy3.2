@@ -83,7 +83,7 @@ def _publish_MSE_data(_):
             behavioral_mode_choice = 'right'
         else:
             behavioral_mode_choice = 'ghost'
-        P['behavioral_mode_pub'].publish(d2s(behavioral_mode_choice))
+        _['behavioral_mode_pub'].publish(d2s(behavioral_mode_choice))
 
 
         if _['agent_is_human'] == True:
