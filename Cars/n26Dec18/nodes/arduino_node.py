@@ -173,7 +173,7 @@ print 'arduino_node.py main loop'
 
 import kzpy3.Menu_app.menu2 as menu2
 
-parameter_file_load_timer = Timer(0.5)
+parameter_file_load_timer = Timer(2.0)
 
 while _['ABORT'] == False:
 
@@ -182,7 +182,7 @@ while _['ABORT'] == False:
 
         if parameter_file_load_timer.check():
 
-            if _['button_number'] == 4 or _['desktop version']:
+            if True:#_['button_number'] == 4 or _['desktop version']:
 
                 Topics = menu2.load_Topics(
                     opjk("Cars/n26Dec18/nodes"),
