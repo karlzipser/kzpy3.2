@@ -44,9 +44,9 @@ play = 0.0
 left = 0.0
 right = 0.0
 center = 0.0
-button_number = 0;
-button_number_previous = -9999
-button_timer = Timer()
+#button_number = 0;
+#button_number_previous = -9999
+#button_timer = Timer()
 current_camera = 49
 current_steer = 49
 current_motor = 49
@@ -132,7 +132,7 @@ Hz_network_pub = rospy.Publisher('Hz_network', std_msgs.msg.Float32, queue_size=
 rospy.Subscriber(N['bcs']+'/human_agent', std_msgs.msg.Int32, callback=human_agent_callback)
 rospy.Subscriber(N['bcs']+'/behavioral_mode', std_msgs.msg.String, callback=behavioral_mode_callback)
 rospy.Subscriber(N['bcs']+'/drive_mode', std_msgs.msg.Int32, callback=drive_mode_callback)
-rospy.Subscriber(N['bcs']+'/button_number', std_msgs.msg.Int32, callback=button_number_callback)
+#rospy.Subscriber(N['bcs']+'/button_number', std_msgs.msg.Int32, callback=button_number_callback)
 
 if N['use flex']:
     rospy.Subscriber(N['bcs']+'/cmd/flex_motor', std_msgs.msg.Int32, callback=flex_motor__callback)
