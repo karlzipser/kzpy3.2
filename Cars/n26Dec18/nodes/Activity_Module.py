@@ -24,7 +24,6 @@ def Net_Activity(*args):
 
         D['imgs'][k] = {}
         for moment_indexv in [Args['batch_num']]:#in range(shape(D['activiations'][k])[0]):
-            #print(k,moment_indexv)
             if k == 'final_output':
                 continue
             if k == 'camera_input':
@@ -34,17 +33,11 @@ def Net_Activity(*args):
                 right_t0v = camera_datav[:,:,3:6]
                 left_t1v = camera_datav[:,:,6:9].copy()
                 right_t1v = camera_datav[:,:,9:12].copy()
-                """
-                if P['use_LIDAR']:
-                    left_t1v[:,:,0] *= 0
-                    right_t1v[:,:,0] *= 0
-                """
-                #right_t1v = camera_datav[:,:,9:12]
+
                 camera_arrayv = np.array([right_t0v,left_t0v,right_t1v,left_t1v])
                 D['imgs'][k][moment_indexv] = vis_square(camera_arrayv,padval=0.5)
             else:
                 num_channels = shape(D['activiations'][k])[1]        
-                #print num_channels,shape(D['activiations'][k])[1]
                 for i in range(num_channels):
                     if D['activiations'][k][moment_indexv,i,:,:].mean() != 0.0:
                         if D['activiations'][k][moment_indexv,i,:,:].mean() != 1.0:
