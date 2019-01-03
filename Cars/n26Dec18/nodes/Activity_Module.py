@@ -56,9 +56,9 @@ def Net_Activity(*args):
                 D['imgs'][k][moment_indexv] = vis_square2(D['activiations'][k][moment_indexv],padval=0.5)
 
             print k,shape(D['imgs'][k][moment_indexv])
-            if k in ['pre_metadata_features','post_metadata_features']:
+            if k in ['pre_metadata_features_metadata','post_metadata_features']:
                 #mi(D['imgs'][k][moment_indexv],k); spause()
-                mci((z2o(D['imgs'][k][moment_indexv])*255).astype(np.uint8),scale=3.0,color_mode=cv2.COLOR_GRAY2BGR,title=k)
+                mci((z2o(D['imgs'][k][moment_indexv])*255).astype(np.uint8),scale=1.0,color_mode=cv2.COLOR_GRAY2BGR,title=k)
 
 
     def _function_view(*args):
