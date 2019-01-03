@@ -144,7 +144,7 @@ _['To Expose']['Arduino'] = [
 	'desktop version/pwm to screen',
 
 	'delta servo_pwm for calibration',
-	'delta servo_pwm for calibration',
+	'delta motor_pwm for calibration',
 ]
 
 _['To Expose']['Network'] = [

@@ -354,7 +354,7 @@ while not rospy.is_shutdown():
     time.sleep(0.001)
 
 
-    if human_agent == 0 and drive_mode == 1 and N['calibrated'] and behavioral_mode in Metadata_tensors.keys():
+    if human_agent == 0 and drive_mode == 1 and behavioral_mode in Metadata_tensors.keys():
 
         try:
             
