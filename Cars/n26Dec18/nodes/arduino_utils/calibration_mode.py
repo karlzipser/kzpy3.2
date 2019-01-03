@@ -7,7 +7,7 @@ def Calibration_Mode(P):
 
 start = Timer(2)
 start.trigger()
-print_timer = Timer(0.2)
+print_timer = Timer(1)
 
 def _calibrate_run_loop(P):
 

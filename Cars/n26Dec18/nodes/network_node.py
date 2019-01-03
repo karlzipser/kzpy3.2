@@ -276,7 +276,7 @@ loaded_net = False
 
 import kzpy3.Menu_app.menu2 as menu2
 
-parameter_file_load_timer = Timer(1)
+parameter_file_load_timer = Timer(2)
 
 torch_motor, torch_steer, torch_camera = 49,49,49
 
@@ -291,7 +291,7 @@ while not rospy.is_shutdown():
     ###    
 
 
-    if button_number == 4:
+    if True:#button_number == 4:
 
         if parameter_file_load_timer.check():
 
@@ -354,7 +354,7 @@ while not rospy.is_shutdown():
     time.sleep(0.001)
 
 
-    if human_agent == 0 and drive_mode == 1:
+    if human_agent == 0 and drive_mode == 1 and behavioral_mode in Metadata_tensors.keys():
 
         try:
             
