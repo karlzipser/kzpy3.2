@@ -6,9 +6,11 @@ python kzpy3/kpy/adjust.py py kzpy3/kpy/States/py kpy kzpy3/kpy/States/kpy && py
 import State
 exec(identify_file_str)
 
-def Exit_is_Timed():
+def Exit_is_Timed(D):
 	"Exit_is_Timed"
-	D = State.State()
+	
+	D = State.State(D)
+
 	CLASS_TYPE = Exit_is_Timed.__doc__
 	PARENT_TYPE = 'State'
 	dkeys = D.keys()
@@ -24,35 +26,22 @@ def Exit_is_Timed():
 	indent = d2n('  '*(3-D['depth']))
 	D['entry timer'] = None
 	codefilename = d2n('(',fname(__file__),')')
-	#print '';print ''
-	#cy(indent+'Class',CLASS_TYPE,codefilename)
-
-	D['impossible source states'] = []
-	D['possible source states'] = []
-	D['impossible destination states'] = []
-	D['possible destination states'] = []
 
 
-	def f1(P):
+	def f1(D,P):
 		"Is it time to exit?"
 
-		doc = f1.__doc__
-		def parent(P):
-			tup = (PARENT_TYPE,doc)
-			#cg(indent,tup,D[tup],codefilename)
-			return D[tup](P)
-		cw(indent+CLASS_TYPE+'::'+doc,codefilename)
-			
-		if CLASS_TYPE != P['current state']:
-			cb(indent+CLASS_TYPE,': Not in state',CLASS_TYPE+", so can't exit.")
+		fun = f1.__doc__
+
+		if not D[('State',fun)]:
 			return False
+
 		cb(indent+"entry timer check: ",D['entry timer'].check(),D['entry timer'].time())
 		if D['entry timer'].check():
 			cb(indent+CLASS_TYPE,': It is time to exit.')
 			return True
 		cb(indent+CLASS_TYPE,': It is not time to exit.')
 		return False
-
 
 	def f2(P):
 		"Upon entry do this..."
