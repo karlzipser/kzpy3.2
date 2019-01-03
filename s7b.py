@@ -1757,5 +1757,22 @@ print C['Is it time to exit?'](P)
 print C['Can this state can be entered?'](P)
 print C['Is it time to exit?'](P)
 
-_
+
+
+
+
+class State:
+    def __init__(self):
+        pass
+    def a(self):
+        print(1)
+
+class Exit_is_Timed(State):
+    def __init__(self):
+        pass
+    def a(self):
+        super(Exit_is_Timed,self).a()
+        print(2)
+
+
 #EOF

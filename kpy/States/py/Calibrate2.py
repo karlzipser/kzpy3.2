@@ -1,14 +1,14 @@
 
 from kzpy3.utils3 import *
 
-import State
+import Exit_is_Menu_Controlled
 exec(identify_file_str)
 
 def Calibrate2():
 	"Calibrate2"
-	D = State.State()
+	D = Exit_is_Menu_Controlled.Exit_is_Menu_Controlled()
 	CLASS_TYPE = Calibrate2.__doc__
-	PARENT_TYPE = 'State'
+	PARENT_TYPE = 'Exit_is_Menu_Controlled'
 	dkeys = D.keys()
 	for k in dkeys:
 		if type(k) != tuple:

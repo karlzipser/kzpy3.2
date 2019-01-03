@@ -23,28 +23,7 @@ python kzpy3/kpy/adjust.py py kzpy3/kpy/States/py kpy kzpy3/kpy/States/kpy && py
 		cb(indent+CLASS_TYPE,': This state cannot be entered now.')
 		return False
 
-	[< def_Function(P):
-		"Upon entry do this..."
-		[< function_auto-utils
-		
-		if not D["Can this state can be entered?"](P):
-			return False
-		P['current state'] = CLASS_TYPE		
-		cb(indent+CLASS_TYPE,': Entering state',CLASS_TYPE+'.')
-		return True
-
-	[< def_Function(P):
-		"Is it time to exit?"
-		[< function_auto-utils
-		if CLASS_TYPE != P['current state']:
-			cb(indent+CLASS_TYPE,': Not in state',CLASS_TYPE+", so can't exit.")
-			return False
-		cb(indent+"entry timer check: ",D['entry timer'].check(),D['entry timer'].time())
-		if D['entry timer'].check():
-			cb(indent+CLASS_TYPE,': It is time to exit.')
-			return True
-		cb(indent+CLASS_TYPE,': It is not time to exit.')
-		return False
+	
 
 	[< def_Function(P):
 		"Upon exit do this..."

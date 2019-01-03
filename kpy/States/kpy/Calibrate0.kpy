@@ -19,10 +19,17 @@ from kzpy3.utils3 import *
 	[< def_Function(P):
 		"Upon entry do this..."
 		[< function_auto-utils
+		
+		if not D["Can this state can be entered?"](P):
+			return False
 		result = parent(P)
 		if result == False:
-			return
-		D['entry timer'] = Timer(0.1)
+			return False
+		P['current state'] = CLASS_TYPE		
+		cb(indent+CLASS_TYPE,': Entering state',CLASS_TYPE+'.')
+		return True
+
+
 
 		cr(indent+CLASS_TYPE,"""
 		P['calibrated'] = False

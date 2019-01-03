@@ -8,32 +8,6 @@ python kzpy3/kpy/adjust.py py kzpy3/kpy/States/py kpy kzpy3/kpy/States/kpy && py
 	D['possible source states'] = []
 	D['impossible destination states'] = []
 	D['possible destination states'] = []
-	[< def_Function(P):
-		"Can this state can be entered?"
-		[< function_auto-utils
-
-		if CLASS_TYPE == P['current state']:
-			cb(indent+CLASS_TYPE,': Already in',CLASS_TYPE+', cannot reenter now.')
-			return False
-		if P['current state'] not in D['impossible source states']:
-			if P['current state'] in D['possible source states'] or \
-				len(D['possible source states']) == 0:
-				cb(indent+CLASS_TYPE,': can be entered.')
-				return True
-		cb(indent+CLASS_TYPE,': This state cannot be entered now.')
-		return False
-
-	[< def_Function(P):
-		"Upon entry do this..."
-		[< function_auto-utils
-		
-		if not D["Can this state can be entered?"](P):
-			return False
-		P['current state'] = CLASS_TYPE
-		if D['entry timer'] != None:
-			D['entry timer'].reset()		
-		cb(indent+CLASS_TYPE,': Entering state',CLASS_TYPE+'.')
-		return True
 
 	[< def_Function(P):
 		"Is it time to exit?"
@@ -49,21 +23,11 @@ python kzpy3/kpy/adjust.py py kzpy3/kpy/States/py kpy kzpy3/kpy/States/kpy && py
 		return False
 
 	[< def_Function(P):
-		"Upon exit do this..."
-		[< function_auto-utils	
-		if CLASS_TYPE != P['current state']:
-			cb(indent+CLASS_TYPE,': Not in state',CLASS_TYPE+", so can't exit.")
-			return False
-		if D['dst_state'] not in D['possible destination states']:
-			cb(indent+CLASS_TYPE,':',+D['dst_state']+"' is not a suitable destination for",CLASS_TYPE+'.')
-			return False
-		if D['Is it time to exit?'](P):
-			cb(indent+CLASS_TYPE,': Leaving state',CLASS_TYPE,"for '"+D['dst_state']+"'.")
-			P['current state'] = D['dst_state']
-			return True
-		cb(indent+CLASS_TYPE,': Not exiting yet.')
-		return False
-
+		"Upon entry do this..."
+		[< function_auto-utils
+		D['entry timer'] = Timer(0.1)
+		return True
+		
 	[<put_functions_into_D
 	
 	return D
