@@ -1,7 +1,8 @@
 from kzpy3.utils3 import *
 
-assert 'kpy' in Arguments
-assert 'py' in Arguments
+
+
+require_Arguments(['kpy','py'])
 
 ##############################################
 #
@@ -21,12 +22,13 @@ def XXXXXXXX():
 	if PARENT_TYPE == 'None':
 		D[(PARENT_TYPE,'depth')] = -1
 	D['depth'] = D[(PARENT_TYPE,'depth')] + 1
-	#print(CLASS_TYPE,D['depth'] )
-	indent = d2n(' ',D['depth'],')',D['depth']*'  ')
+	indent = d2n(D['depth'],')','  '*(3-D['depth']))
+	indent = ''
+	indent = d2n('  '*(3-D['depth']))
 	D['entry timer'] = None
 	codefilename = d2n('(',fname(__file__),')')
-	print '';print ''
-	cy(indent+'Class',CLASS_TYPE,codefilename)
+	#print '';print ''
+	#cy(indent+'Class',CLASS_TYPE,codefilename)
 """
 
 FUNCTION_STRING = """
@@ -36,9 +38,9 @@ FUNCTION_AUTO_UTILS_STRING = """
 		doc = f########.__doc__
 		def parent(P):
 			tup = (PARENT_TYPE,doc)
-			cg(indent,tup,D[tup],codefilename)
+			#cg(indent,tup,D[tup],codefilename)
 			return D[tup](P)
-		cm(indent+'function',CLASS_TYPE+'::'+doc,codefilename)
+		cw(indent+CLASS_TYPE+'::'+doc,codefilename)
 			"""
 
 #
@@ -59,13 +61,11 @@ for path in sggo(Arguments['kpy'],'*'):
 			break
 	if classname != None:
 		codelines[i] = CLASS_STRING.replace('XXXXXXXX',classname).replace('WWWWWWWW',classparent)
-		cG('\t\t',modulename,'line',i,': classname ->',classname,'classparent ->',classparent)
+		cG('\t',modulename,'line',i,': classname ->',classname,'classparent ->',classparent)
 
-		if True:#if classparent != 'None':
-			#codelines[i] = codelines[i].replace("D['depth'] += 1","D['depth'] = 0")
-			codelines[i] = codelines[i].replace("import None","")
-			codelines[i] = codelines[i].replace("None.None()",'{}')
-			cG('\t',modulename,'line',i,': classparent editing')
+		codelines[i] = codelines[i].replace("import None","")
+		codelines[i] = codelines[i].replace("None.None()",'{}')
+		cG('\t',modulename,'line',i,': classparent editing')
 
 	function_number = 0
 	for i in rlen(codelines):

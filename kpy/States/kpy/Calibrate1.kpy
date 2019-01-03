@@ -10,7 +10,7 @@ from kzpy3.utils3 import *
 	[< def_Function(P):
 		"Can this state can be entered?"
 		if not P['now in calibration mode']:
-			cr(indent,"not P['now in calibration mode'], cannot enter",D['state'])
+			cr(indent+CLASS_TYPE,"not P['now in calibration mode'], cannot enter",D['state'])
 			return False
 		[< function_auto-utils
 		result = parent(P)
@@ -23,7 +23,7 @@ from kzpy3.utils3 import *
 		if result == False:
 			return
 		D['entry timer'] = Timer(1.0)
-		cb(indent,"""
+		cr(indent+CLASS_TYPE,"""
 			s = P['HUMAN_SMOOTHING_PARAMETER_1']
 			P['servo_pwm_null'] = (1.0-s)*P['servo_pwm'] + s*P['servo_pwm_null']
 			P['motor_pwm_null'] = (1.0-s)*P['motor_pwm'] + s*P['motor_pwm_null']
