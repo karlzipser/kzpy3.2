@@ -167,18 +167,6 @@ else:
 #
 #########################################
 
-
-#########################################
-#
-#if _['desktop version']:
-
-#
-#########################################
-
-
-
-
-
 #########################################
 #
 print 'arduino_node.py main loop'
@@ -194,7 +182,7 @@ while _['ABORT'] == False:
 
         if parameter_file_load_timer.check():
 
-            if True:#_['button_number'] == 4:
+            if _['button_number'] == 4 or _['desktop version']:
 
                 Topics = menu2.load_Topics(
                     opjk("Cars/n26Dec18/nodes"),
@@ -208,16 +196,14 @@ while _['ABORT'] == False:
                         else:
                             _[t] = Topics[t]
                 parameter_file_load_timer.reset()
-
         else:
             time.sleep(0.1)
+
     except KeyboardInterrupt:
         _['ABORT'] = True
-        #sys.exit()
     except Exception as e:
         print '*********** here ************'
         CS_(d2s('Main loop exception',e))
-        
 #
 #########################################
        
@@ -225,9 +211,6 @@ while _['ABORT'] == False:
 
 
 CS('End arduino_node.py main loop.')
-#CS_("doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))")
-time.sleep(0.01)
-#os.system(opjh('kzpy3/scripts/kill_ros.sh'))
 
 
 #EOF

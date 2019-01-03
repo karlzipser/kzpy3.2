@@ -39,7 +39,7 @@ def _IMU_run_loop(P):
                     P['Hz'][m] = Hz
                     if Hz < 30 or Hz > 90:
                         if ctr_timer.time() > 5:
-                            pass #cr(m,'Hz =',dp(Hz))
+                            pass
                         else:
                             pass
             P[m]['xyz'] = imu_input[1:4]
@@ -51,9 +51,9 @@ def _IMU_run_loop(P):
         except Exception as e:
             pass
     print 'end _IMU_run_loop.'
-    #CS_("doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))")
-    time.sleep(0.01)
-    #unix(opjh('kzpy3/scripts/kill_ros.sh'))
+
+#EOF
+
 
 
 

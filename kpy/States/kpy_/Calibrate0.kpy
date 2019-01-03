@@ -1,41 +1,24 @@
 
 from kzpy3.utils3 import *
 
-
-exec(identify_file_str)
-
-def Calibrate0(D):
-	"Calibrate0"
-	CLASS_TYPE = Calibrate0.__doc__
-	D['depth'] = D[(PARENT_TYPE,'depth')] + 1
-	indent = ''
-	codefilename = d2n('(',fname(__file__),')')
-
+[< Class,Calibrate0,Exit_is_Timed
 	D['impossible source states'] = ['Calibrate0','Calibrate1','Calibrate2']
 	D['possible destination states'] = ['Calibrate1']
 	D['possible source states'] = []
 	D['impossible destination states'] = ['Calibrate0','Calibrate2']
 	
-
-	def f1(D,P):
+	[< def_Function(P):
 		"Can this state can be entered?"
 		if not P['now in calibration mode']:
 			cr(indent+CLASS_TYPE+"\tnot P['now in calibration mode'], cannot enter",D['state'])
 			return False
-
-		doc = f1.__doc__
-		cw(indent+CLASS_TYPE+'::'+doc,codefilename)
-			
+		[< function_auto-utils
 		result = parent(P)
 		return result
 
-
-	def f2(D,P):
+	[< def_Function(P):
 		"Upon entry do this..."
-
-		doc = f2.__doc__
-		cw(indent+CLASS_TYPE+'::'+doc,codefilename)
-			
+		[< function_auto-utils
 		
 		if not D["Can this state can be entered?"](P):
 			return False
@@ -57,29 +40,20 @@ def Calibrate0(D):
 		return True
 
 
-
-	def f3(D,P):
+	[< def_Function(P):
 		"Is it time to exit?"
-
-		doc = f3.__doc__
-		cw(indent+CLASS_TYPE+'::'+doc,codefilename)
-			
+		[< function_auto-utils
 		result = parent(P)
 		return result
 
 
-
-	def f4(D,P):
+	[< def_Function(P):
 		"Upon exit do this..."
-
-		doc = f4.__doc__
-		cw(indent+CLASS_TYPE+'::'+doc,codefilename)
-			
+		[< function_auto-utils  
 		result = parent(P)
 		return result
 
-	for f in [f1,f2,f3,f4,]:
-		D[(CLASS_TYPE,f.__doc__)] = f
+	[<put_functions_into_D
 
 	return D
 

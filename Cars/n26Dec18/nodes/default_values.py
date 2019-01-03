@@ -88,7 +88,8 @@ _['gyro'] = {}
 _['head'] = {}
 _['autostart menu'] = False
 _['desktop version/start index'] = 5000
-
+_['delta servo_pwm for calibration'] = 300
+_['delta motor_pwm for calibration'] = 300
 
 _['sound/left (button 1)'] = 	'1' # blinking left light, sound
 _['sound/left (button 2)'] = 	'2' # steady red light, sound
@@ -140,7 +141,10 @@ _['To Expose']['Arduino'] = [
 	'human_PID_motor_percent',
 	'now in calibration mode',
 	'desktop version',
-	'desktop version/pwm to screen'
+	'desktop version/pwm to screen',
+
+	'delta servo_pwm for calibration',
+	'delta servo_pwm for calibration',
 ]
 
 _['To Expose']['Network'] = [

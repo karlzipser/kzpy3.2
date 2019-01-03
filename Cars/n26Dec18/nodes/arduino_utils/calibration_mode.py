@@ -7,6 +7,7 @@ def Calibration_Mode(P):
 
 start = Timer(2)
 start.trigger()
+print_timer = Timer(0.2)
 
 def _calibrate_run_loop(P):
 
@@ -58,13 +59,14 @@ def _calibrate_run_loop(P):
                 P['motor_pwm_max'] = P['motor_pwm']
             if P['motor_pwm_min'] > P['motor_pwm']:
                 P['motor_pwm_min'] = P['motor_pwm']
-            if P['servo_pwm_max'] - P['servo_pwm_min'] > 300:
-                if P['motor_pwm_max'] - P['motor_pwm_min'] > 300:
+            print_timer.message(
+                d2s(P['calibrated'],
+                    int(P['servo_pwm_max'] - P['servo_pwm_min']),
+                    int(P['motor_pwm_max'] - P['motor_pwm_min']),))
+            if P['servo_pwm_max'] - P['servo_pwm_min'] > P['delta servo_pwm for calibration']:
+                if P['motor_pwm_max'] - P['motor_pwm_min'] > P['delta motor_pwm for calibration']:
                     P['calibrated'] = True
            
     print 'end _calibrate_run_loop.'
-    #CS_("doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))")
-    time.sleep(0.01)
-    #unix(opjh('kzpy3/scripts/kill_ros.sh'))
 
 #EOF

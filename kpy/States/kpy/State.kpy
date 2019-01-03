@@ -1,13 +1,16 @@
+
 from kzpy3.utils3 import *
+
 """
 python kzpy3/kpy/adjust.py py kzpy3/kpy/States/py kpy kzpy3/kpy/States/kpy && python kzpy3/kpy/States/py/State.py
 """
 
-[< Class,State,None
+[< Class,State
 	D['impossible source states'] = []
 	D['possible source states'] = []
 	D['impossible destination states'] = []
 	D['possible destination states'] = []
+
 	[< def_Function(P):
 		"Can this state can be entered?"
 		[< function_auto-utils
@@ -22,8 +25,6 @@ python kzpy3/kpy/adjust.py py kzpy3/kpy/States/py kpy kzpy3/kpy/States/kpy && py
 				return True
 		cb(indent+CLASS_TYPE,': This state cannot be entered now.')
 		return False
-
-	
 
 	[< def_Function(P):
 		"Upon exit do this..."
@@ -44,14 +45,6 @@ python kzpy3/kpy/adjust.py py kzpy3/kpy/States/py kpy kzpy3/kpy/States/kpy && py
 	[<put_functions_into_D
 	
 	return D
-
-
-
-
-	
-
-
-
 
 
 

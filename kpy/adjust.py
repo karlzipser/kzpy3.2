@@ -6,7 +6,7 @@ require_Arguments(['kpy','py'])
 
 ##############################################
 #
-CLASS_STRING = """import WWWWWWWW
+CLASS_STRING = """
 exec(identify_file_str)
 
 def XXXXXXXX(D):
@@ -62,7 +62,8 @@ for path in sggo(Arguments['kpy'],'*'):
 			newstring = "\tfor f in ["
 			for j in range(1,1+function_number):
 				newstring += d2n("f",j,',')
-			newstring += "]:\n\t\tD[(",classname,"f.__doc__)] = f"
+			cr(classname)
+			newstring += "]:\n\t\tD[(CLASS_TYPE,f.__doc__)] = f"
 			#newstring += "\n\t\tcr(D[f.__doc__])"
 			codelines[i] = newstring
 	cG('\t',modulename,'line',i,': functions_into_D editing')
