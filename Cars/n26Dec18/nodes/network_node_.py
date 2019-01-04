@@ -44,13 +44,13 @@ play = 0.0
 left = 0.0
 right = 0.0
 center = 0.0
-#button_number = 0;
-#button_number_previous = -9999
-#button_timer = Timer()
+button_number = 0;
+button_number_previous = -9999
+button_timer = Timer()
 current_camera = 49
 current_steer = 49
 current_motor = 49
-#button_just_changed = False
+button_just_changed = False
 
 def send_image_to_list(lst,data):
     cimg = bridge.imgmsg_to_cv2(data,"bgr8")
@@ -95,7 +95,6 @@ def behavioral_mode_callback(msg):
     elif behavioral_mode == 'play':
         play = 1.0
 
-"""
 def button_number_callback(msg):
     global left,right,button_number,button_number_previous,button_just_changed
     button_number = msg.data
@@ -112,7 +111,7 @@ def button_number_callback(msg):
         left = 1.0
     else:
         center = 1.0
-"""
+
 flex_motor = 49
 flex_steer = 49
 
@@ -132,7 +131,7 @@ Hz_network_pub = rospy.Publisher('Hz_network', std_msgs.msg.Float32, queue_size=
 rospy.Subscriber(N['bcs']+'/human_agent', std_msgs.msg.Int32, callback=human_agent_callback)
 rospy.Subscriber(N['bcs']+'/behavioral_mode', std_msgs.msg.String, callback=behavioral_mode_callback)
 rospy.Subscriber(N['bcs']+'/drive_mode', std_msgs.msg.Int32, callback=drive_mode_callback)
-#rospy.Subscriber(N['bcs']+'/button_number', std_msgs.msg.Int32, callback=button_number_callback)
+rospy.Subscriber(N['bcs']+'/button_number', std_msgs.msg.Int32, callback=button_number_callback)
 
 if N['use flex']:
     rospy.Subscriber(N['bcs']+'/cmd/flex_motor', std_msgs.msg.Int32, callback=flex_motor__callback)
@@ -277,7 +276,7 @@ loaded_net = False
 
 import kzpy3.Menu_app.menu2 as menu2
 
-parameter_file_load_timer = Timer(2)
+parameter_file_load_timer = Timer(1)
 
 torch_motor, torch_steer, torch_camera = 49,49,49
 
@@ -292,7 +291,7 @@ while not rospy.is_shutdown():
     ###    
 
 
-    if True:#button_number == 4:
+    if button_number == 4:
 
         if parameter_file_load_timer.check():
 
@@ -355,7 +354,7 @@ while not rospy.is_shutdown():
     time.sleep(0.001)
 
 
-    if human_agent == 0 and drive_mode == 1 and behavioral_mode in Metadata_tensors.keys():
+    if human_agent == 0 and drive_mode == 1:
 
         try:
             
@@ -462,7 +461,7 @@ while not rospy.is_shutdown():
                         print_timer.reset()
                 else:
                     if print_timer.check():
-                        cg(adjusted_camera,adjusted_steer,adjusted_motor,behavioral_mode)
+                        cg(adjusted_camera,adjusted_steer,adjusted_motor)
                         print_timer.reset()
 
 

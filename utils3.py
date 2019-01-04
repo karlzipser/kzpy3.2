@@ -1357,6 +1357,14 @@ def format_row(list_of_sym_percent_pairs):
             row_str += ' '
     return row_str
 
-	
+def require_Arguments(arglst):
+	fail = False
+	for a in arglst:
+		if a not in Arguments:
+			cr("***",__file__,"lacking command line argument ","'"+a+"'")
+			fail = True
+	if fail:
+		cr("Required arguments are:",arglst)
+		sys.exit(-1)
 #EOF
 

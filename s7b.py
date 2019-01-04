@@ -1759,6 +1759,7 @@ print C['Is it time to exit?'](P)
 
 
 
+<<<<<<< HEAD
 a=arange(6).reshape(3,2)
 b=arange(2).reshape(2,1)
 timer = Timer(5)
@@ -1925,6 +1926,22 @@ print timer.time()
 
 
 
+=======
+
+
+class State:
+    def __init__(self):
+        pass
+    def a(self):
+        print(1)
+
+class Exit_is_Timed(State):
+    def __init__(self):
+        pass
+    def a(self):
+        super(Exit_is_Timed,self).a()
+        print(2)
+>>>>>>> 74372d6520c7fec277a2c14d9342461af835d7b5
 
 
 #EOF

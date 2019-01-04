@@ -1,14 +1,14 @@
 
 from kzpy3.utils3 import *
 
-import State
+import Exit_is_Timed
 exec(identify_file_str)
 
 def Calibrate1():
 	"Calibrate1"
-	D = State.State()
+	D = Exit_is_Timed.Exit_is_Timed()
 	CLASS_TYPE = Calibrate1.__doc__
-	PARENT_TYPE = 'State'
+	PARENT_TYPE = 'Exit_is_Timed'
 	dkeys = D.keys()
 	for k in dkeys:
 		if type(k) != tuple:
@@ -17,12 +17,13 @@ def Calibrate1():
 	if PARENT_TYPE == 'None':
 		D[(PARENT_TYPE,'depth')] = -1
 	D['depth'] = D[(PARENT_TYPE,'depth')] + 1
-	#print(CLASS_TYPE,D['depth'] )
-	indent = d2n(' ',D['depth'],')',D['depth']*'  ')
+	indent = d2n(D['depth'],')','  '*(3-D['depth']))
+	indent = ''
+	indent = d2n('  '*(3-D['depth']))
 	D['entry timer'] = None
 	codefilename = d2n('(',fname(__file__),')')
-	print '';print ''
-	cy(indent+'Class',CLASS_TYPE,codefilename)
+	#print '';print ''
+	#cy(indent+'Class',CLASS_TYPE,codefilename)
 
 	D['impossible source states'] = ['Calibrate1','Calibrate2']
 	D['possible destination states'] = ['Calibrate2']
@@ -33,15 +34,15 @@ def Calibrate1():
 	def f1(P):
 		"Can this state can be entered?"
 		if not P['now in calibration mode']:
-			cr(indent,"not P['now in calibration mode'], cannot enter",D['state'])
+			cr(indent+CLASS_TYPE,"not P['now in calibration mode'], cannot enter",D['state'])
 			return False
 
 		doc = f1.__doc__
 		def parent(P):
 			tup = (PARENT_TYPE,doc)
-			cg(indent,tup,D[tup],codefilename)
+			#cg(indent,tup,D[tup],codefilename)
 			return D[tup](P)
-		cm(indent+'function',CLASS_TYPE+'::'+doc,codefilename)
+		cw(indent+CLASS_TYPE+'::'+doc,codefilename)
 			
 		result = parent(P)
 		return result
@@ -53,15 +54,15 @@ def Calibrate1():
 		doc = f2.__doc__
 		def parent(P):
 			tup = (PARENT_TYPE,doc)
-			cg(indent,tup,D[tup],codefilename)
+			#cg(indent,tup,D[tup],codefilename)
 			return D[tup](P)
-		cm(indent+'function',CLASS_TYPE+'::'+doc,codefilename)
+		cw(indent+CLASS_TYPE+'::'+doc,codefilename)
 			
 		result = parent(P)
 		if result == False:
 			return
 		D['entry timer'] = Timer(1.0)
-		cb(indent,"""
+		cr(indent+CLASS_TYPE,"""
 			s = P['HUMAN_SMOOTHING_PARAMETER_1']
 			P['servo_pwm_null'] = (1.0-s)*P['servo_pwm'] + s*P['servo_pwm_null']
 			P['motor_pwm_null'] = (1.0-s)*P['motor_pwm'] + s*P['motor_pwm_null']

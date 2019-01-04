@@ -1,46 +1,29 @@
 from kzpy3.utils3 import *
 
-assert 'kpy' in Arguments
-assert 'py' in Arguments
+
+
+require_Arguments(['kpy','py'])
 
 ##############################################
 #
-CLASS_STRING = """import WWWWWWWW
+CLASS_STRING = """
 exec(identify_file_str)
 
-def XXXXXXXX():
+def XXXXXXXX(D):
 	"XXXXXXXX"
-	D = WWWWWWWW.WWWWWWWW()
 	CLASS_TYPE = XXXXXXXX.__doc__
-	PARENT_TYPE = 'WWWWWWWW'
-	dkeys = D.keys()
-	for k in dkeys:
-		if type(k) != tuple:
-			tup = (PARENT_TYPE,k)
-			D[tup] = D[k]
-	if PARENT_TYPE == 'None':
-		D[(PARENT_TYPE,'depth')] = -1
 	D['depth'] = D[(PARENT_TYPE,'depth')] + 1
-	#print(CLASS_TYPE,D['depth'] )
-	indent = d2n(' ',D['depth'],')',D['depth']*'  ')
-	D['entry timer'] = None
+	indent = ''
 	codefilename = d2n('(',fname(__file__),')')
-	print '';print ''
-	cy(indent+'Class',CLASS_TYPE,codefilename)
 """
 
 FUNCTION_STRING = """
-	def f########(P):"""
+	def f########(D,P):"""
 
 FUNCTION_AUTO_UTILS_STRING = """
 		doc = f########.__doc__
-		def parent(P):
-			tup = (PARENT_TYPE,doc)
-			cg(indent,tup,D[tup],codefilename)
-			return D[tup](P)
-		cm(indent+'function',CLASS_TYPE+'::'+doc,codefilename)
+		cw(indent+CLASS_TYPE+'::'+doc,codefilename)
 			"""
-
 #
 ##############################################
 timer = Timer()
@@ -54,18 +37,11 @@ for path in sggo(Arguments['kpy'],'*'):
 	for i in rlen(codelines):
 		if '[< Class,' in codelines[i]:
 			e = codelines[i].split(',')
-			classname = e[-2]
-			classparent = e[-1]
+			classname = e[-1]
 			break
 	if classname != None:
-		codelines[i] = CLASS_STRING.replace('XXXXXXXX',classname).replace('WWWWWWWW',classparent)
-		cG('\t\t',modulename,'line',i,': classname ->',classname,'classparent ->',classparent)
-
-		if True:#if classparent != 'None':
-			#codelines[i] = codelines[i].replace("D['depth'] += 1","D['depth'] = 0")
-			codelines[i] = codelines[i].replace("import None","")
-			codelines[i] = codelines[i].replace("None.None()",'{}')
-			cG('\t',modulename,'line',i,': classparent editing')
+		codelines[i] = CLASS_STRING.replace('XXXXXXXX',classname)
+		cG('\t',modulename,'line',i,': classname ->',classname)
 
 	function_number = 0
 	for i in rlen(codelines):
@@ -86,7 +62,8 @@ for path in sggo(Arguments['kpy'],'*'):
 			newstring = "\tfor f in ["
 			for j in range(1,1+function_number):
 				newstring += d2n("f",j,',')
-			newstring += "]:\n\t\tD[f.__doc__] = f"
+			cr(classname)
+			newstring += "]:\n\t\tD[(CLASS_TYPE,f.__doc__)] = f"
 			#newstring += "\n\t\tcr(D[f.__doc__])"
 			codelines[i] = newstring
 	cG('\t',modulename,'line',i,': functions_into_D editing')

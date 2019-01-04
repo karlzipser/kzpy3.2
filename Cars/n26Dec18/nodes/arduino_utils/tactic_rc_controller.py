@@ -44,8 +44,7 @@ def _TACTIC_RC_controller_run_loop(P):
     time.sleep(0.1)
     P['Arduinos']['MSE'].flushOutput()
 
-    
-    _servo_pwm = -1
+    #_servo_pwm = -1
 
     P['button_number_prev'] = 0
     P['button_number'] = 0
@@ -55,13 +54,10 @@ def _TACTIC_RC_controller_run_loop(P):
 
     while (not P['ABORT']) and (not rospy.is_shutdown()):
 
-        time.sleep(0.01)
+        time.sleep(0.001)
 
         try:
-
             update_button_servo_motor_encoder(P)
-
-
 
         except Exception as e:
             print('_TACTIC_RC_controller_run_loop')
@@ -70,10 +66,10 @@ def _TACTIC_RC_controller_run_loop(P):
             CS_('Exception!',exception=True)
             CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),exception=False)
           
-            if True:
-                drive_car(P)
-                if P['USE_ROS']:
-                    P['publish_MSE_data'](P)
+        drive_car(P)
+
+        if P['USE_ROS']:
+            P['publish_MSE_data'](P)
 
     print 'end _TACTIC_RC_controller_run_loop.'
 
@@ -105,8 +101,12 @@ def drive_car(P):
             pass
 
         if P['use_motor_PID'] and P['button_number'] != 4:
-            _motor_pwm = motor_percent_to_pwm(
-                    Pid_processing_motor['do'](P['human_PID_motor_percent'],P['encoder_smooth'],P),P)
+            #_motor_pwm = motor_percent_to_pwm(
+            #        Pid_processing_motor['do'](P['human_PID_motor_percent'],P['encoder_smooth'],P),P)
+            human_pid_motor_percent = Pid_processing_motor['do'](
+                P['human_PID_motor_percent'],P['encoder_smooth'],P)
+            _motor_pwm = motor_percent_to_pwm(human_pid_motor_percent,P)
+            P['human']['motor_percent'] = human_pid_motor_percent # now this can be published
         else:
             _motor_pwm = P['motor_pwm_smooth']
         write_str = get_write_str(P['servo_pwm_smooth'],P['servo_pwm_smooth'],_motor_pwm,P)

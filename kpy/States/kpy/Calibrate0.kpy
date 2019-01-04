@@ -1,7 +1,7 @@
 
 from kzpy3.utils3 import *
 
-[< Class,Calibrate0,State
+[< Class,Calibrate0
 	D['impossible source states'] = ['Calibrate0','Calibrate1','Calibrate2']
 	D['possible destination states'] = ['Calibrate1']
 	D['possible source states'] = []
@@ -10,7 +10,7 @@ from kzpy3.utils3 import *
 	[< def_Function(P):
 		"Can this state can be entered?"
 		if not P['now in calibration mode']:
-			cr(indent,"\tnot P['now in calibration mode'], cannot enter",D['state'])
+			cr(indent+CLASS_TYPE+"\tnot P['now in calibration mode'], cannot enter",D['state'])
 			return False
 		[< function_auto-utils
 		result = parent(P)
@@ -19,16 +19,24 @@ from kzpy3.utils3 import *
 	[< def_Function(P):
 		"Upon entry do this..."
 		[< function_auto-utils
+		
+		if not D["Can this state can be entered?"](P):
+			return False
 		result = parent(P)
 		if result == False:
-			return
-		D['entry timer'] = Timer(0.1)
-		cb(indent,"""
+			return False
+		P['current state'] = CLASS_TYPE		
+		cb(indent+CLASS_TYPE,': Entering state',CLASS_TYPE+'.')
+		return True
+
+
+
+		cr(indent+CLASS_TYPE,"""
 		P['calibrated'] = False
 		P['servo_pwm_null'] = P['servo_pwm']
 		P['motor_pwm_null'] = P['motor_pwm']
 		D['entry timer'] = Timer(1.1)
-		""")
+			""")
 		return True
 
 

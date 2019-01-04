@@ -1,13 +1,13 @@
 from kzpy3.utils3 import *
 
-import State
+import Drive
 exec(identify_file_str)
 
 def Human():
 	"Human"
-	D = State.State()
+	D = Drive.Drive()
 	CLASS_TYPE = Human.__doc__
-	PARENT_TYPE = 'State'
+	PARENT_TYPE = 'Drive'
 	dkeys = D.keys()
 	for k in dkeys:
 		if type(k) != tuple:
@@ -16,17 +16,16 @@ def Human():
 	if PARENT_TYPE == 'None':
 		D[(PARENT_TYPE,'depth')] = -1
 	D['depth'] = D[(PARENT_TYPE,'depth')] + 1
-	#print(CLASS_TYPE,D['depth'] )
-	indent = d2n(' ',D['depth'],')',D['depth']*'  ')
+	indent = d2n(D['depth'],')','  '*(3-D['depth']))
+	indent = ''
+	indent = d2n('  '*(3-D['depth']))
 	D['entry timer'] = None
 	codefilename = d2n('(',fname(__file__),')')
-	print '';print ''
-	cy(indent+'Class',CLASS_TYPE,codefilename)
+	#print '';print ''
+	#cy(indent+'Class',CLASS_TYPE,codefilename)
 
-	D['impossible source states'] = ['Calibrate0','Calibrate1']
-	D['possible source states'] = ['HumanPID','NetworkPID']
-	D['impossible destination states'] = ['Calibrate1','Calibrate2']
-	D['possible destination states'] = ['Calibrate0','HumanPID','NetworkPID']
+	D['possible source states'] = ['Calibrate2','Network']
+	D['possible destination states'] = ['Calibrate0','Network']
 
 
 	def f1(P):
@@ -35,9 +34,9 @@ def Human():
 		doc = f1.__doc__
 		def parent(P):
 			tup = (PARENT_TYPE,doc)
-			cg(indent,tup,D[tup],codefilename)
+			#cg(indent,tup,D[tup],codefilename)
 			return D[tup](P)
-		cm(indent+'function',CLASS_TYPE+'::'+doc,codefilename)
+		cw(indent+CLASS_TYPE+'::'+doc,codefilename)
 			
 		if not parent(P):
 			return False
@@ -51,9 +50,9 @@ def Human():
 		doc = f2.__doc__
 		def parent(P):
 			tup = (PARENT_TYPE,doc)
-			cg(indent,tup,D[tup],codefilename)
+			#cg(indent,tup,D[tup],codefilename)
 			return D[tup](P)
-		cm(indent+'function',CLASS_TYPE+'::'+doc,codefilename)
+		cw(indent+CLASS_TYPE+'::'+doc,codefilename)
 			
 		if not parent(P):
 			return False
@@ -66,9 +65,9 @@ def Human():
 		doc = f3.__doc__
 		def parent(P):
 			tup = (PARENT_TYPE,doc)
-			cg(indent,tup,D[tup],codefilename)
+			#cg(indent,tup,D[tup],codefilename)
 			return D[tup](P)
-		cm(indent+'function',CLASS_TYPE+'::'+doc,codefilename)
+		cw(indent+CLASS_TYPE+'::'+doc,codefilename)
 			
 		if not parent(P):
 			return False
@@ -98,9 +97,9 @@ if __name__ == '__main__':
 
 	P={}
 	P['current state'] = 'none'
-	P['now in calibration mode'] = True
+	P['now in calibration mode'] = False
 	
-	S = State()
+	S = Human()
 	S['dst_state'] = 'next state'
 	S['entry timer'] = Timer(0.1)
 	S['possible destination states'] = ['next state']

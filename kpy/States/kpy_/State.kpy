@@ -3,27 +3,14 @@ from kzpy3.utils3 import *
 python kzpy3/kpy/adjust.py py kzpy3/kpy/States/py kpy kzpy3/kpy/States/kpy && python kzpy3/kpy/States/py/State.py
 """
 
-
-exec(identify_file_str)
-
-def State(D):
-	"State"
-	CLASS_TYPE = State.__doc__
-	D['depth'] = D[(PARENT_TYPE,'depth')] + 1
-	indent = ''
-	codefilename = d2n('(',fname(__file__),')')
-
+[< Class,State,None
 	D['impossible source states'] = []
 	D['possible source states'] = []
 	D['impossible destination states'] = []
 	D['possible destination states'] = []
-
-	def f1(D,P):
+	[< def_Function(P):
 		"Can this state can be entered?"
-
-		doc = f1.__doc__
-		cw(indent+CLASS_TYPE+'::'+doc,codefilename)
-			
+		[< function_auto-utils
 
 		if CLASS_TYPE == P['current state']:
 			cb(indent+CLASS_TYPE,': Already in',CLASS_TYPE+', cannot reenter now.')
@@ -38,13 +25,9 @@ def State(D):
 
 	
 
-
-	def f2(D,P):
+	[< def_Function(P):
 		"Upon exit do this..."
-
-		doc = f2.__doc__
-		cw(indent+CLASS_TYPE+'::'+doc,codefilename)
-			
+		[< function_auto-utils	
 		if CLASS_TYPE != P['current state']:
 			cb(indent+CLASS_TYPE,': Not in state',CLASS_TYPE+", so can't exit.")
 			return False
@@ -58,8 +41,7 @@ def State(D):
 		cb(indent+CLASS_TYPE,': Not exiting yet.')
 		return False
 
-	for f in [f1,f2,]:
-		D[(CLASS_TYPE,f.__doc__)] = f
+	[<put_functions_into_D
 	
 	return D
 
