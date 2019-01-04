@@ -430,7 +430,7 @@ while not rospy.is_shutdown():
                     gm = N['network_reverse_motor_gain']
                 gs = N['network_steer_gain']
                 
-                if N['network_camera_gain_direct'] != None and behavioral_mode == 'direct':
+                if N['network_camera_gain_direct'] != False and behavioral_mode == 'direct':
                     gc = N['network_camera_gain_direct']
                 else: 
                     gc = N['network_camera_gain']          
