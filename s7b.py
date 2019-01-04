@@ -1757,5 +1757,174 @@ print C['Is it time to exit?'](P)
 print C['Can this state can be entered?'](P)
 print C['Is it time to exit?'](P)
 
-_
+
+
+a=arange(6).reshape(3,2)
+b=arange(2).reshape(2,1)
+timer = Timer(5)
+ctr = 0
+while not timer.check():
+    c = a.dot(b)
+    ctr += 1
+print ctr
+timer = Timer(5)
+
+
+a = randn(30*10*3,128,128)
+b = randn(30*10*3,128,128)
+ctr = 0
+while not timer.check():
+    c = a.dot(b)
+    ctr += 1
+print ctr
+
+
+
+torch.set_default_tensor_type('torch.FloatTensor') 
+torch.cuda.set_device(0)
+torch.cuda.device(0)
+
+a = torch.Tensor([[1,2,3],[1,2,3]]).view(-1,2)
+b = torch.Tensor([[2,1]]).view(2,-1)
+a = a.cuda()
+b = b.cuda()
+timer = Timer(5)
+ctr = 0
+while not timer.check():
+    c = torch.mm(a,b)
+    ctr += 1
+print ctr
+
+a = torch.Tensor(np.random.randn(100,3,3))
+b = torch.Tensor(np.random.randn(100,3,1))
+a = a.cuda()
+b = b.cuda()
+timer = Timer(5)
+ctr = 0
+while not timer.check():
+    c = torch.bmm(a,b)
+    ctr += 1
+print ctr
+
+
+
+timer = Timer(5)
+a = torch.Tensor(randn(30*10*3,3,3))
+b = torch.Tensor(randn(30*10*3,3,2))
+a = a.cuda()
+b = b.cuda()
+ctr = 0
+timer = Timer(5)
+#while not timer.check():
+c = torch.bmm(a,b)
+ctr += 1
+print ctr/timer.time()
+
+
+
+a = torch.Tensor(randn(3,3))
+b = torch.Tensor(randn(3,1))
+print torch.mm(a,b)
+
+
+timer = Timer()
+a = torch.Tensor(randn(30*10*3,3,3))
+b = torch.Tensor(randn(30*10*3,3,2))
+a = a.cuda()
+b = b.cuda()
+ctr = 0
+#while not timer.check():
+c = torch.bmm(a,b)
+ctr += 1
+print ctr/timer.time(),timer.time()
+
+
+
+a = torch.Tensor(randn(3,3))
+b = torch.Tensor(randn(3,1))
+print torch.mm(a,b)
+
+
+
+
+
+
+
+
+class Point2:
+    def __init__(self,x,y):
+        self.x = x
+        self.y = y
+
+class Point3:
+    def __init__(self,x,y,z):
+        self.x = x
+        self.y = y
+        self.z = z
+
+
+def project(p, mat):
+
+
+
+    x = mat[0][0] * p.x + mat[0][1] * p.y + mat[0][2] * p.z + mat[0][3] * 1
+    y = mat[1][0] * p.x + mat[1][1] * p.y + mat[1][2] * p.z + mat[1][3] * 1
+    w = mat[3][0] * p.x + mat[3][1] * p.y + mat[3][2] * p.z + mat[3][3] * 1
+    return Point2(168 * (x / w + 1) / 2., 94 - 94 * (y / w + 1) / 2.)
+
+
+
+import torch
+mat = [
+    [1.1038363893132925, 0, -0.06913056289047548, -0.011453007708049912],
+    [-0.0015083235462127753, 1, -0.04276381228842596, -0.4265748298235925],
+    [0.002382129088680296, 0, 1.114622282258332, 0.7840441986828541]]
+batch_size = 10*3*30
+n = 100
+mat_batch = []
+for i in range(batch_size):
+    mat_batch.append(mat)
+a = torch.Tensor(mat_batch).cuda()
+timer = Timer()
+for i in range(n):
+    p = np.random.rand(batch_size,4,1)
+    b = torch.Tensor(p).cuda()
+    q = torch.bmm(a,b)
+print timer.time()/(1.0*n)
+
+q.cpu().numpy()
+
+
+
+
+
+
+
+
+
+#CA()
+U = CV2Plot(1000,1000,100,500,500,1.0)
+
+n = 900
+polygon = torch.Tensor(np.random.randn(n,2,1))
+theta = 0.01
+hz = Timer(5)
+for i in range(100000000):
+    r = rotatePolygon_cuda(polygon,i)
+    r = r.cpu().numpy()
+    
+    #clf();plt_square(5)
+    U['clear']()
+    U['pts_plot'](r)
+    U['show']()
+    #spause()
+    hz.freq()
+    
+print timer.time()
+
+
+
+
+
+
 #EOF

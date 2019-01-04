@@ -30,7 +30,7 @@ _['menu_load_timer_time'] = 10
 _['spause_timer_time'] = 10
 _['cmd/clear_screen'] = False
 _['percent_of_loss_list_avg_to_show'] = 99.0
-
+_['display'] = False
 _['To Expose']['train menu'] = sorted(_.keys())
 to_hide = ['To Expose','customers']
 for h in to_hide:

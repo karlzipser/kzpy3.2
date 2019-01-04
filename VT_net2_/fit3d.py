@@ -5,8 +5,8 @@ https://stackoverflow.com/questions/76134/how-do-i-reverse-project-2d-points-int
 http://pyopengl.sourceforge.net/documentation/installation.html
 """
 
-import pandas as pd
-import numpy as np
+#import pandas as pd
+#import numpy as np
 
 class Point2:
     def __init__(self,x,y):

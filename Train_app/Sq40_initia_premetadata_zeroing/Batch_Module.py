@@ -442,7 +442,8 @@ def Batch(_,the_network=None):
 
 
 	def _function_display():
-
+		if not _['display']:
+			return
 		#cv2.waitKey(1) # This is to keep cv2 windows alive
 		if _['spause_timer'].check():
 			spause()

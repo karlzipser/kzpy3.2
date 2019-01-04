@@ -147,6 +147,7 @@ _['To Expose']['Network'] = [
 	'network_output_sample',
 	'network_steer_gain',
 	'network_camera_gain',
+	'network_camera_gain_direct',
 	'network_motor_gain',
 	'network_motor_offset',
 	'network_servo_smoothing_parameter',
@@ -223,6 +224,7 @@ _['LOAD NETWORK'] = False
 _['network_output_sample'] = 0 # >= 0, <= 9
 _['network_steer_gain'] = 4.0
 _['network_camera_gain'] = 8.0
+_['network_camera_gain_direct'] = None
 _['network_motor_gain'] = 1.0
 _['network_reverse_motor_gain'] = 1.5
 _['network_motor_offset'] = 0

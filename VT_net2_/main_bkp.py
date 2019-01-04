@@ -14,7 +14,7 @@ cg(sys_str)
 os.system(sys_str)
 cg("To start menu:\n\tpython kzpy3/Menu_app/menu2.py path",project_path,"dic _")
 
-import fit3d#_torch as fit3d
+import fit3d_torch as fit3d
 exec(identify_file_str)
 _ = default_values._
 #
