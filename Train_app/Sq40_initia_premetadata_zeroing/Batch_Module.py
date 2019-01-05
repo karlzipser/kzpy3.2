@@ -534,7 +534,7 @@ def Batch(_,the_network=None):
 				CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
 			u = min(len(_['LOSS_LIST_AVG']),250)
 			median_val = np.median(na(_['LOSS_LIST_AVG'][-u:]))
-			plt.title(d2s('median =',dp(median_val,6)))
+			plt.title(d2s('1000*median =',dp(1000.0*median_val,3)))
 			plot([0,q],[median_val,median_val],'r')
 			plt.xlim(0,q);plt.ylim(0,0.03)
 			spause()
