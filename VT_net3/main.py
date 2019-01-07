@@ -93,7 +93,7 @@ hz = Timer(10)
 
 
 
-use_GPU = False
+use_GPU = True
 """
 
 xys = xys[-900:,:]
@@ -147,15 +147,18 @@ xys = xys[-10000:,:]
                          frequency = 71.92 Hz
 
 
-
+xys = xys[-4400:,:]
 bdd2+GPU
- frequency = 64.49 Hz
- frequency = 88.94 Hz
- frequency = 88.12 Hz
- frequency = 88.98 Hz
+ 88 Hz
+
+bdd2
+ 54 Hz
 
 TX1+GPU
-11.5 Hz
+ 11.5 Hz
+
+TX1
+ 9.5 Hz
 """
 
 for i in range(1000,len(U['ts'])-100):
@@ -188,12 +191,11 @@ for i in range(1000,len(U['ts'])-100):
         xys = np.concatenate((xys,new_xys),0)  # concatenate these to other points
 
 
-    if len(xys) > 4600:
-        xys = xys[-4400:,:]
-    """
+
+    
     if len(xys) > 910:
         xys = xys[-900:,:]
-    """
+    
     if False:#np.mod(100,i)==0:
         Img['clear']()
         Img['pts_plot'](xys[:,:2]) 
