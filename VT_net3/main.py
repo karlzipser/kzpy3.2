@@ -193,8 +193,8 @@ for i in range(1000,len(U['ts'])-100):
 
 
     
-    if len(xys) > 910:
-        xys = xys[-900:,:]
+    if len(xys) > 310:
+        xys = xys[-300:,:]
     
     if False:#np.mod(100,i)==0:
         Img['clear']()
