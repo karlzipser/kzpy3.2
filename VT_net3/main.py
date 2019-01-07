@@ -93,7 +93,7 @@ hz = Timer(10)
 
 
 
-use_GPU = True
+use_GPU = False
 """
 
 xys = xys[-900:,:]
@@ -146,6 +146,16 @@ xys = xys[-10000:,:]
                          frequency = 71.91 Hz
                          frequency = 71.92 Hz
 
+
+
+bdd2+GPU
+ frequency = 64.49 Hz
+ frequency = 88.94 Hz
+ frequency = 88.12 Hz
+ frequency = 88.98 Hz
+
+TX1+GPU
+11.5 Hz
 """
 
 for i in range(1000,len(U['ts'])-100):
