@@ -1876,6 +1876,10 @@ def project(p, mat):
 
 
 import torch
+torch.set_default_tensor_type('torch.FloatTensor') 
+torch.cuda.set_device(0)
+torch.cuda.device(0)
+
 mat = [
     [1.1038363893132925, 0, -0.06913056289047548, -0.011453007708049912],
     [-0.0015083235462127753, 1, -0.04276381228842596, -0.4265748298235925],
@@ -1898,6 +1902,29 @@ q.cpu().numpy()
 
 
 
+import torch
+torch.set_default_tensor_type('torch.FloatTensor') 
+torch.cuda.set_device(0)
+torch.cuda.device(0)
+
+def rotatePolygon_cuda(polygon,theta):
+    """http://stackoverflow.com/questions/20023209/function-for-rotating-2d-objects
+    Rotates the given polygon which consists of corners represented as (x,y),
+    around the ORIGIN, clock-wise, theta degrees. Modified for pytorch."""
+    # polygon must be of shape (n,2,1), not (n,2) which is typical.
+    if len(shape(polygon)) == 2:
+        new_shape = list(shape(polygon))+[1]
+        A = zeros(new_shape)
+        A[:,:,0] = polygon
+        polygon = A
+    theta = np.radians(theta)
+    R = [[np.cos(theta),-np.sin(theta),],
+        [np.sin(theta),np.cos(theta)]]
+    S =  len(polygon) * [R]
+    St = torch.Tensor(S).cuda()
+    Pt = torch.Tensor(polygon).cuda() #4.71 1955 3252.39
+    polygon = torch.bmm(St,Pt)
+    return polygon
 
 
 

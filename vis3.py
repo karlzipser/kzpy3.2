@@ -596,19 +596,19 @@ def rotatePolygon__array_version(polygon,theta):
 
 
 def rotatePolygon_cuda(polygon,theta):
-    """http://stackoverflow.com/questions/20023209/function-for-rotating-2d-objects
-    Rotates the given polygon which consists of corners represented as (x,y),
-    around the ORIGIN, clock-wise, theta degrees. Modified for pytorch."""
-    timer=Timer()
     import torch
-    theta = math.radians(theta)
-    #print theta
+    if len(shape(polygon)) == 2:
+        new_shape = list(shape(polygon))+[1]
+        A = zeros(new_shape)
+        A[:,:,0] = polygon
+        polygon = A
+    theta = np.radians(theta)
     R = [[np.cos(theta),-np.sin(theta),],
         [np.sin(theta),np.cos(theta)]]
-    S =  n * [R]
+    S =  len(polygon) * [R]
     St = torch.Tensor(S).cuda()
-    Pt = torch.Tensor(polygon).cuda() #4.71 1955 3252.39
-    polygon = torch.bmm(St,Pt)
+    Pt = torch.Tensor(polygon).cuda()
+    polygon = torch.bmm(St,Pt).cpu().numpy()[:,:,0]
     return polygon
 
 
@@ -793,7 +793,7 @@ def Click_Data(**Args):
 ########################################################################################
 ########################################################################################
 ####
-def CV2Plot(height_in_pixels,width_in_pixels,pixels_per_unit,x_origin_in_pixels=None,y_origin_in_pixels=None,scale=1.0):
+def CV2Plot(height_in_pixels,width_in_pixels,pixels_per_unit,x_origin_in_pixels=None,y_origin_in_pixels=None):
     if x_origin_in_pixels == None:
         x_origin_in_pixels = intr(width_in_pixels/2.0)
     if y_origin_in_pixels == None:
@@ -803,13 +803,13 @@ def CV2Plot(height_in_pixels,width_in_pixels,pixels_per_unit,x_origin_in_pixels=
     if D['verbose']:
         cy(x_origin_in_pixels,y_origin_in_pixels)
     D['image'] = zeros((height_in_pixels,width_in_pixels,3),np.uint8)
-    def function_show(autocontrast=True):
+    def function_show(autocontrast=True,delay=1,title='image',scale=1.0):
         
         img = D['image']
         if autocontrast:
             img = z2_255_by_channel(img)
             #cg(img.min(),img.max())
-        mci(img,scale=scale,delay=1)
+        mci(img,scale=scale,delay=delay,title=title)
     def function_safe(px,py):
         if px >= 0:
             if py >= 0:
