@@ -17,15 +17,17 @@ NET['ts'] = 0
 CAR = {}
 CAR['encoder'] = 0
 CAR['gyro_heading_x'] = 0
+CAR['sample_frequency'] = 30.
 
-def callback(i):
+def callback(i,direction):
     NET['ts previous'] = NET['ts']
     NET['ts'] =         U['ts'][i]
-    print (NET['ts']-NET['ts previous'])*1000
+    CAR['sample_frequency'] = 1.0/(NET['ts']-NET['ts previous'])
+    cb(CAR['sample_frequency'])
     assert(NET['ts previous'] < NET['ts'])
-    NET['headings'] =   U['direct'][i]['heading']
-    NET['encoders'] =   U['direct'][i]['encoder']
-    NET['motors'] =     U['direct'][i]['motor']
+    NET['headings'] =   U[direction][i]['heading']
+    NET['encoders'] =   U[direction][i]['encoder']
+    NET['motors'] =     U[direction][i]['motor']
     CAR['encoder_prev'] = CAR['encoder']
     CAR['encoder'] =        L['encoder'][i]
     CAR['gyro_heading_x_prev'] = CAR['gyro_heading_x']
@@ -55,13 +57,17 @@ def get_latest_network_2D_trajectory_predictions(headings,encoders,motors):
 xys = zeros([2,2])
 
 for i in range(8000,20000):
-    callback(i)
+
+    if np.mod(i,1):
+        print i
+        continue
+    callback(i,'right')
 
 
     d_heading = CAR['gyro_heading_x'] - CAR['gyro_heading_x_prev']
 
     velocity = CAR['encoder'] * P['vel-encoding coeficient']
-    trajectory_vector_magnitude = velocity / sample_frequency
+    trajectory_vector_magnitude = velocity / CAR['sample_frequency']
     xys = rotatePolygon(xys,-d_heading) # rotate existing points away from heading
     xys = na(xys)
     xys[:,1] -= trajectory_vector_magnitude # move points down so origin is new starting point
@@ -70,8 +76,8 @@ for i in range(8000,20000):
 
     xys = np.concatenate((xys,new_xys),0)  # concatenate these to other points
 
-    if len(xys) > 330:
-        xys = xys[-300:,:]
+    if len(xys) > 930:
+        xys = xys[-900:,:]
     
     clf()
     pts_plot(xys)
