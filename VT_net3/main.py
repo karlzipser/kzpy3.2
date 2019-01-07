@@ -93,7 +93,7 @@ hz = Timer(10)
 
 
 
-use_GPU = True
+use_GPU = False
 """
 
 xys = xys[-900:,:]
@@ -163,16 +163,16 @@ TX1
 
 xys = xys[-300:,:]
 bdd2+GPU
-  Hz
+  338 Hz
 
 bdd2
   Hz
 
 TX1+GPU
-  Hz
+  48 Hz
 
 TX1
-  Hz
+   Hz
 
 """
 
