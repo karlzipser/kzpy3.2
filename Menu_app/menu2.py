@@ -251,9 +251,12 @@ def print_exposed(Topics,customer):
 
 def load_Topics(input_path,first_load=False,customer=''):
     c = get_safe_name(customer)
+    #cr(c)
     path = opj(input_path,'__local__')
+    #cr(path)
+    #cr(opj(path,'ready.'+c))
     r = sggo(path,'ready.'+c)
-    #cr("TEMP ",r)
+    #cr("r =",r)
     if len(r) > 1:
         CS_('Warning, more than one ready in '+path)
     assert len(r) < 2

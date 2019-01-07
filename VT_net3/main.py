@@ -1,65 +1,85 @@
+from kzpy3.vis3 import *
+#import VT_net3.default_values as default_values
+import default_values
+P = default_values.P
 
 sample_frequency = 30.0
 
+U=lo('/home/karlzipser/Desktop/Data/Network_Predictions/Mr_Black_27Jul18_18h46m35s.net_predictions.pkl') 
+runs = lo(opjD('Data/Network_Predictions/runs.pkl'))                                            
+Runs = {}                  
+for r in runs:        
+    Runs[fname(r)] = r
+L,__,___=open_run(U['run_name'],Runs_dic=Runs)   
 
-T = {}
-T['net/headings'] = []
-T['net/encoders'] = []
-T['net/motors'] = []
-T['net/ready'] = False
+NET = {}
+NET['ts'] = 0
+CAR = {}
+CAR['encoder'] = 0
+CAR['gyro_heading_x'] = 0
 
+def callback(i):
+    NET['ts previous'] = NET['ts']
+    NET['ts'] =         U['ts'][i]
+    print (NET['ts']-NET['ts previous'])*1000
+    assert(NET['ts previous'] < NET['ts'])
+    NET['headings'] =   U['direct'][i]['heading']
+    NET['encoders'] =   U['direct'][i]['encoder']
+    NET['motors'] =     U['direct'][i]['motor']
+    CAR['encoder_prev'] = CAR['encoder']
+    CAR['encoder'] =        L['encoder'][i]
+    CAR['gyro_heading_x_prev'] = CAR['gyro_heading_x']
+    CAR['gyro_heading_x'] = L['gyro_heading_x'][i]
 
 ##############################################################
 #
 def vec(heading,encoder,motor,sample_frequency):
-    velocity = encoder * _['vel-encoding coeficient']
+    velocity = encoder * P['vel-encoding coeficient']
     if motor < 49:
         velocity *= -1.0
     a = [0,1]
     a = array(rotatePoint([0,0],a,heading))
     a *= velocity/sample_frequency
-    return array(a)
+    return a
 
 def get_latest_network_2D_trajectory_predictions(headings,encoders,motors):
     assert len(headings) == len(encoders)
     assert len(headings) == len(motors) # this means motor predictions
-    xy = array([0.0,0.0])
-    xys = []
-    for i in range(len(headings)):
-        v = vec(headings[i],encoders[i],motors[i],_['net sample frequency'])
-        xy += v
-        xys.append(xy.copy())
+    xys = zeros((1+len(headings),2))
+    for i in range(0,len(headings)):
+        xys[i+1,:] = xys[i,:] + vec(headings[i],encoders[i],motors[i],P['net sample frequency'])
     return xys
 #
 #############################################################################
-#
+
+xys = zeros([2,2])
+
+for i in range(8000,20000):
+    callback(i)
 
 
+    d_heading = CAR['gyro_heading_x'] - CAR['gyro_heading_x_prev']
 
-if T['net/ready']:
-    T['net/ready'] == False
-    headings = T['net/headings']
-    encoders = T['net/encoders']
-    motors = T['net/motors']
+    velocity = CAR['encoder'] * P['vel-encoding coeficient']
+    trajectory_vector_magnitude = velocity / sample_frequency
+    xys = rotatePolygon(xys,-d_heading) # rotate existing points away from heading
+    xys = na(xys)
+    xys[:,1] -= trajectory_vector_magnitude # move points down so origin is new starting point
 
+    new_xys = get_latest_network_2D_trajectory_predictions(NET['headings'],NET['encoders'],NET['motors'])
 
+    xys = np.concatenate((xys,new_xys),0)  # concatenate these to other points
 
-
-d_heading = _['car/heading'] - _['car/heading_prev']
-encoder = _['car/encoder']
-velocity = encoder * _['vel-encoding coeficient']
-trajectory_vector = na([0,1]) * velocity / sample_frequency
-
-xys.append(trajectory_vector)
-xys = rotatePolygon(xys,-d_heading)
-axys = na(xys)
-axys -= axys[-1]
-xys = list(axys)
-
-xys += get_latest_network_2D_trajectory_predictions(headings,encoders,motors)
-
-
-
+    if len(xys) > 330:
+        xys = xys[-300:,:]
+    
+    clf()
+    pts_plot(xys)
+    pts_plot(new_xys,color='k')
+    plt_square()
+    xylim(-4,4,-8,7)
+    spause()
+    
 
 
 #

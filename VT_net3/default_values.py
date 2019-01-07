@@ -4,42 +4,43 @@ exec(identify_file_str)
 
 ###############################################3
 #
-_ = {}
-_['ABORT'] = False
-_['customers'] = ['VT menu']
-_['To Expose'] = {}
+P = {}
+P = P
+P['ABORT'] = False
+P['customers'] = ['VT menu']
+P['To Expose'] = {}
 #
 ###############################################3
 
 # walking pace ~= 1.4 m/s
-_['save metadata'] = False
-_['step_size'] = 1
-_['cmd/clear_screen'] = False
-_['cv2 delay'] = 1
-_['3d image scale'] = 1.0
-_['num timesteps'] = 30
-_['load_timer_time'] = 2
-_['U_heading_gain'] = 2.0
-_['index'] = 9000
-_['backup parameter'] = 1.0
-_['behavioral_mode_list'] = ['left','direct','right']
-_['use center line'] = True
-_['cmd/an impulse (click)'] = False
-_['show timer time'] = 0
-_['To Expose']['VT menu'] = sorted(_.keys())
+P['save metadata'] = False
+P['step_size'] = 1
+P['cmd/clear_screen'] = False
+P['cv2 delay'] = 1
+P['3d image scale'] = 1.0
+P['num timesteps'] = 30
+P['load_timer_time'] = 2
+P['U_heading_gain'] = 2.0
+P['index'] = 9000
+P['backup parameter'] = 1.0
+P['behavioral_mode_list'] = ['left','direct','right']
+P['use center line'] = True
+P['cmd/an impulse (click)'] = False
+P['show timer time'] = 0
+P['To Expose']['VT menu'] = sorted(P.keys())
 to_hide = ['To Expose','customers']
 for h in to_hide:
-	_['To Expose']['VT menu'].remove(h)
-for k in _.keys():
+	P['To Expose']['VT menu'].remove(h)
+for k in P.keys():
 	if '!' in k:
-		_['To Expose']['VT menu'].remove(k)
-_['dst path'] = opjD('Data/Network_Predictions_projected_gain_2')
-_['timer'] = Timer(5)
-_['vec sample frequency'] = 3.33
-_['start menu automatically'] = True
-_['vel-encoding coeficient'] = (1.0/2.3)
-_['show timer'] = Timer(_['show timer time'])
-_['wait for start signal'] = False
+		P['To Expose']['VT menu'].remove(k)
+P['dst path'] = opjD('Data/Network_Predictions_projected_gain_2')
+P['timer'] = Timer(5)
+P['net sample frequency'] = 3.33
+P['start menu automatically'] = True
+P['vel-encoding coeficient'] = (1.0/2.3)
+P['show timer'] = Timer(P['show timer time'])
+P['wait for start signal'] = False
 
 
 #EOF
