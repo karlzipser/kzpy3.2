@@ -3,8 +3,8 @@ from kzpy3.vis3 import *
 import kzpy3.VT_net3.default_values as default_values
 import torch
 torch.set_default_tensor_type('torch.FloatTensor') 
-torch.cuda.set_device(1)
-torch.cuda.device(1)
+torch.cuda.set_device(0)
+torch.cuda.device(0)
 P = default_values.P
 NET = {}
 NET['ts'] = 0
@@ -17,7 +17,7 @@ CAR['sample_frequency'] = 30.
 ##############################################################
 #
 if username != 'nvidia':
-    
+
     U=lo(opjD('Data/Network_Predictions/Mr_Black_27Jul18_18h46m35s.net_predictions.pkl'))
     runs = lo(opjD('Data/Network_Predictions/runs.pkl'))                                            
     Runs = {}                  
