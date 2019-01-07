@@ -151,10 +151,10 @@ xys = xys[-10000:,:]
 for i in range(1000,len(U['ts'])-100):
     
     callback1(i)
-
+    hz.freq(d2s())
     for direction in ['left','right','direct']:
 
-        hz.freq(d2s())
+        
 
         callback2(i,direction)
 
