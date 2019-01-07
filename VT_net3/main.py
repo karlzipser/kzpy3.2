@@ -178,13 +178,13 @@ for i in range(1000,len(U['ts'])-100):
         xys = np.concatenate((xys,new_xys),0)  # concatenate these to other points
 
 
-    if len(xys) > 460:
-        xys = xys[-440:,:]
+    if len(xys) > 4600:
+        xys = xys[-4400:,:]
     """
     if len(xys) > 910:
         xys = xys[-900:,:]
     """
-    if True:#np.mod(100,i)==0:
+    if False:#np.mod(100,i)==0:
         Img['clear']()
         Img['pts_plot'](xys[:,:2]) 
         for xy in xys:
