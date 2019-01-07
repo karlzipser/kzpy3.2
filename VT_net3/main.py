@@ -159,6 +159,21 @@ TX1+GPU
 
 TX1
  9.5 Hz
+
+
+xys = xys[-300:,:]
+bdd2+GPU
+  Hz
+
+bdd2
+  Hz
+
+TX1+GPU
+  Hz
+
+TX1
+  Hz
+
 """
 
 for i in range(1000,len(U['ts'])-100):
