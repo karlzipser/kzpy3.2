@@ -84,7 +84,7 @@ xys = zeros([2,4])
 Direction_codes = {'left':0,'direct':1,'right':2}
 Direction_colors = {0:[255,0,0],1:[0,0,255],2:[0,255,0]}
 
-Img = CV2Plot(300,300,50,150,250)
+Img = CV2Plot(300,300,40,150,250)
 hz = Timer(10)
 
 
