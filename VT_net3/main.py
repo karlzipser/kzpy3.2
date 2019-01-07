@@ -166,13 +166,13 @@ bdd2+GPU
   338 Hz
 
 bdd2
-  Hz
+  410 Hz
 
 TX1+GPU
   48 Hz
 
 TX1
-   Hz
+   91 Hz
 
 """
 
@@ -208,10 +208,10 @@ for i in range(1000,len(U['ts'])-100):
 
 
     
-    if len(xys) > 310:
-        xys = xys[-300:,:]
+    if len(xys) > 3*310:
+        xys = xys[-3*300:,:]
     
-    if False:#np.mod(100,i)==0:
+    if True:#np.mod(100,i)==0:
         Img['clear']()
         Img['pts_plot'](xys[:,:2]) 
         for xy in xys:
