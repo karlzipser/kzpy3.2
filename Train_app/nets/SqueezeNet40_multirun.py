@@ -7,6 +7,9 @@ import torch.nn as nn
 import torch.nn.init as init
 from torch.autograd import Variable
 
+zero_matrix = torch.FloatTensor(1, 1, 23, 41).zero_().cuda()
+one_matrix = torch.FloatTensor(1, 1, 23, 41).fill_(1).cuda()
+
 class Fire(nn.Module):
 
     def __init__(self, inplanes, squeeze_planes,
@@ -80,19 +83,19 @@ class SqueezeNet(nn.Module):
         self.A['pre_metadata_features'] = self.pre_metadata_features(self.A['camera_input'])
         self.A['final_outputs'] = []
         i_prev = False
-        for i in [0,5,6]:
+        for i in [128-5,128-1,128-6]:
             if i_prev != False:
-                pass#metadata[i_prev] = zero_matrix
-            pass#metadata[i] = one_matrix
+                metadata[0,i_prev,:,:] = zero_matrix
+            metadata[0,i,:,:] = one_matrix
             i_prev = i
+            raw_enter(d2s("metadata.size() =",metadata.size()))
             self.A['pre_metadata_features_metadata'] = torch.cat((self.A['pre_metadata_features'], metadata), 1)
             self.A['post_metadata_features'] = self.post_metadata_features(self.A['pre_metadata_features_metadata'])
             
             self.A['final_output'] = self.final_output(self.A['post_metadata_features'])
             self.A['final_output'] = self.A['final_output'].view(self.A['final_output'].size(0), -1)
             self.A['final_outputs'].append(self.A['final_output'])
-            print i
-            #print len(self.A['final_outputs']),type(self.A['final_outputs'])
+
         return self.A['final_outputs']
 
 

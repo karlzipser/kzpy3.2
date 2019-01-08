@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from kzpy3.utils3 import *
+from kzpy3.vis3 import *
 import torch
 import torch.nn as nn
 from torch.autograd import Variable
@@ -28,8 +28,14 @@ def Torch_Network(N):
         CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)        
     def _run_model(input,metadata,N,return_full_output=False):
         D['output'] = D['solver'](input, Variable(metadata))
-        #print type(D['output']),len(D['output'])
-        D['output'] = D['output'][-1]
+        if type(D['output']) == list:
+            for o in D['output']:
+                q = o.data.cpu().numpy(); print q,type(q)
+                figure(1);plot(q[0],'.')
+                spause()
+
+            D['output'] = D['output'][-1]
+        
         torch_motor = 100 * D['output'][0][10+N['network_output_sample']].data[0]
         torch_steer = 100 * D['output'][0][N['network_output_sample']].data[0]
         torch_motor = max(0, torch_motor)
