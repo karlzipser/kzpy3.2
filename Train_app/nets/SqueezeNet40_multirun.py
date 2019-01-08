@@ -91,6 +91,7 @@ class SqueezeNet(nn.Module):
             self.A['final_output'] = self.final_output(self.A['post_metadata_features'])
             self.A['final_output'] = self.A['final_output'].view(self.A['final_output'].size(0), -1)
             self.A['final_outputs'].append(self.A['final_output'])
+            print i
             #print len(self.A['final_outputs']),type(self.A['final_outputs'])
         return self.A['final_outputs']
 
