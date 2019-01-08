@@ -3,6 +3,12 @@ from kzpy3.vis3 import *
 exec(identify_file_str)
 import Activity_Module
 
+try:
+    if Arguments['desktop_mode']:
+        print "Arguments['desktop mode'] == True"
+except:
+    Arguments = {}
+    Arguments['desktop_mode'] = False
 
 import default_values
 N = default_values.P
@@ -36,7 +42,7 @@ left_calls = 0
 left_calls_prev = 0
 human_agent = 1
 behavioral_mode = 'direct'
-drive_mode = 0
+drive_mode = 1
 direct = 0.0
 follow = 0.0
 furtive = 0.0
@@ -51,6 +57,13 @@ current_camera = 49
 current_steer = 49
 current_motor = 49
 #button_just_changed = False
+
+
+
+
+
+
+
 
 def send_image_to_list(lst,data):
     cimg = bridge.imgmsg_to_cv2(data,"bgr8")
@@ -95,24 +108,6 @@ def behavioral_mode_callback(msg):
     elif behavioral_mode == 'play':
         play = 1.0
 
-"""
-def button_number_callback(msg):
-    global left,right,button_number,button_number_previous,button_just_changed
-    button_number = msg.data
-    if button_number != button_number_previous:
-        button_number_previous = button_number
-        button_just_changed = True
-        button_timer.reset()
-    left = 0.0
-    right = 0.0
-    center = 0.0
-    if button_number == 3:
-        right = 1.0
-    elif button_number == 1:
-        left = 1.0
-    else:
-        center = 1.0
-"""
 flex_motor = 49
 flex_steer = 49
 
@@ -354,149 +349,159 @@ while not rospy.is_shutdown():
 
     time.sleep(0.001)
 
+    if Arguments['desktop_mode']:
+        human_agent = 0
+        drive_mode = 1
+        behavioral_mode = 'direct'
 
-    if human_agent == 0 and drive_mode == 1 and behavioral_mode in Metadata_tensors.keys():
-
-        try:
-            
-            ####################################################
-            ####################################################
-            ####################################################
-            ##
-
-            Lists = {}
-            Lists['left'] = left_list[-2:]
-            Lists['right'] = right_list[-2:]##
-
-
-
-            for side in ['left','right']:
-                for i in [-1]:
-                    img = Lists[side][i]
-                    if shape(img)[0] > 94:
-                        resizing.message(d2s("img shape is",shape(img),"; resizing."))
-                        img = cv2.resize(img,(net_input_width,net_input_height))
-                    advance(rLists[side], img , 4 )
-
-
-            if len(rLists['left'])>2:
-
-                if N['show_net_input']:
-      
-                    if even:
-                        l0 = rgbcat(rLists,'left',-1)
-                        ln1 = rgbcat(rLists,'left',-2)
-                        r0 = rgbcat(rLists,'right',-1)
-                        rn1 = rgbcat(rLists,'right',-2)
-                        l = tcat(l0,ln1)
-                        r = tcat(r0,rn1)
-                        lr = lrcat(l,r)
-                        mci((z2o(lr)*255).astype(np.uint8),scale=1.0,color_mode=cv2.COLOR_GRAY2BGR,title='ZED')
-                        even = False
-                    else:
-                        even = True
-
-            ##
-            ####################################################
-            ####################################################
-            ####################################################
-
-            if len(rLists['left'])>2:
-
-                camera_data = Torch_network['format_camera_data__no_scale'](rLists['left'],rLists['right'])
-
-                if behavioral_mode not in Metadata_tensors.keys():
-                    for j in range(10):
-                        cs("ERROR!!!!!!!!!!!!!!!!!!!!!!")
-                    cr("behavioral_mode",behavioral_mode,"not in Metadata_tensors.keys()")
-                if behavioral_mode in Metadata_tensors:
-                    metadata = Metadata_tensors[behavioral_mode]
-                else:
-                    cr("*** Warning, behavioral_mode '",behavioral_mode,"'is not in Metadata_tensors using workaround. ***")
-                    metadata = Torch_network['format_metadata']((direct,follow,furtive,play,left,right)) #((right,left,play,furtive,follow,direct))
-
-                torch_motor_prev, torch_steer_prev = torch_motor, torch_steer
-
-                torch_motor, torch_steer = Torch_network['run_model'](camera_data, metadata, N)
-
-                if np.abs(torch_steer - torch_steer_prev) > N['camera_move_threshold']:
-                    torch_camera = torch_steer
-
-                sm = N['network_motor_smoothing_parameter']
-                ss = N['network_servo_smoothing_parameter']
-                if torch_motor >= 49:
-                    gm = N['network_motor_gain']
-                else:
-                    gm = N['network_reverse_motor_gain']
-                gs = N['network_steer_gain']
-                
-                if N['network_camera_gain_direct'] >= 0 and behavioral_mode == 'direct':
-                    gc = N['network_camera_gain_direct']
-                else: 
-                    gc = N['network_camera_gain']          
-                     
-
-                sc = N['network_camera_smoothing_parameter']
-
-                current_camera = (1.0-sc)*torch_camera + sc*current_camera
-                current_steer = (1.0-ss)*torch_steer + ss*current_steer
-                current_motor = (1.0-sm)*torch_motor + sm*current_motor
-
-                adjusted_motor = int(gm*(current_motor-49) + N['network_motor_offset'] + 49)
-                adjusted_steer = int(gs*(current_steer-49) + 49)
-                adjusted_camera = int(gc*(current_camera-49) + 49)
-
-                adjusted_motor = bound_value(adjusted_motor,0,99)
-                adjusted_steer = bound_value(adjusted_steer,0,99)
-                adjusted_camera = bound_value(adjusted_camera,0,99)
-
-                adjusted_motor = min(adjusted_motor,N['max motor'])
-                adjusted_motor = max(adjusted_motor,N['min motor'])
-
-                if N['use flex'] and flex_motor < 47:
-                    adjusted_steer = N['flex_steer_gain']*(flex_steer-49)+49
-                    adjusted_steer = bound_value(adjusted_steer,0,99)
-                    adjusted_motor = flex_motor
-                    if print_timer.check():
-                        cb(adjusted_camera,adjusted_steer,adjusted_motor)
-                        print_timer.reset()
-                else:
-                    if print_timer.check():
-                        cg(adjusted_camera,adjusted_steer,adjusted_motor,behavioral_mode)
-                        print_timer.reset()
-
-
-                frequency_timer.freq(name='network',do_print=True)
-
-                if np.abs(adjusted_camera-49) < N['camera_auto_zero_for_small_values_int']:
-                    adjusted_camera = 49
-
-                camera_cmd_pub.publish(std_msgs.msg.Int32(adjusted_camera))
-                steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
-                motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
-
-                if N['show_net_activity']:
-                    if show_timer.check():
-                        ############################
-                        Net_activity = Activity_Module.Net_Activity('batch_num',0, 'activiations',Torch_network['solver'].A)
-                        ############################
-                        show_timer.reset()
-
-                if show_durations.check():
-
-                    show_durations.reset()
-
-            else:
-                cr(len(rLists['left']))
-
-        except Exception as e:
-            exc_type, exc_obj, exc_tb = sys.exc_info()
-            file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            CS_('Exception!',emphasis=True)
-            CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+    elif human_agent == 0 and drive_mode == 1 and behavioral_mode in Metadata_tensors.keys():
+        pass
 
     else:
-        time.sleep(0.00001)
+        time.sleep(1)
+        continue
+    #behavioral_mode = 'direct'
+    #if True:
+    try:
+        
+        ####################################################
+        ####################################################
+        ####################################################
+        ##
+
+        Lists = {}
+        Lists['left'] = left_list[-2:]
+        Lists['right'] = right_list[-2:]##
+
+
+
+        for side in ['left','right']:
+            for i in [-1]:
+                img = Lists[side][i]
+                if shape(img)[0] > 94:
+                    resizing.message(d2s("img shape is",shape(img),"; resizing."))
+                    img = cv2.resize(img,(net_input_width,net_input_height))
+                advance(rLists[side], img , 4 )
+
+
+        if len(rLists['left'])>2:
+
+            if N['show_net_input']:
+  
+                if even:
+                    l0 = rgbcat(rLists,'left',-1)
+                    ln1 = rgbcat(rLists,'left',-2)
+                    r0 = rgbcat(rLists,'right',-1)
+                    rn1 = rgbcat(rLists,'right',-2)
+                    l = tcat(l0,ln1)
+                    r = tcat(r0,rn1)
+                    lr = lrcat(l,r)
+                    mci((z2o(lr)*255).astype(np.uint8),scale=1.0,color_mode=cv2.COLOR_GRAY2BGR,title='ZED')
+                    even = False
+                else:
+                    even = True
+
+        ##
+        ####################################################
+        ####################################################
+        ####################################################
+
+        if len(rLists['left'])>2:
+
+            camera_data = Torch_network['format_camera_data__no_scale'](rLists['left'],rLists['right'])
+
+            if behavioral_mode not in Metadata_tensors.keys():
+                for j in range(10):
+                    cs("ERROR!!!!!!!!!!!!!!!!!!!!!!")
+                cr("behavioral_mode",behavioral_mode,"not in Metadata_tensors.keys()")
+            if behavioral_mode in Metadata_tensors:
+                metadata = Metadata_tensors[behavioral_mode]
+            else:
+                cr("*** Warning, behavioral_mode '",behavioral_mode,"'is not in Metadata_tensors using workaround. ***")
+                metadata = Torch_network['format_metadata']((direct,follow,furtive,play,left,right)) #((right,left,play,furtive,follow,direct))
+
+            torch_motor_prev, torch_steer_prev = torch_motor, torch_steer
+
+            torch_motor, torch_steer = Torch_network['run_model'](camera_data, metadata, N)
+
+            if np.abs(torch_steer - torch_steer_prev) > N['camera_move_threshold']:
+                torch_camera = torch_steer
+
+            sm = N['network_motor_smoothing_parameter']
+            ss = N['network_servo_smoothing_parameter']
+            if torch_motor >= 49:
+                gm = N['network_motor_gain']
+            else:
+                gm = N['network_reverse_motor_gain']
+            gs = N['network_steer_gain']
+            
+            if N['network_camera_gain_direct'] >= 0 and behavioral_mode == 'direct':
+                gc = N['network_camera_gain_direct']
+            else: 
+                gc = N['network_camera_gain']          
+                 
+
+            sc = N['network_camera_smoothing_parameter']
+
+            current_camera = (1.0-sc)*torch_camera + sc*current_camera
+            current_steer = (1.0-ss)*torch_steer + ss*current_steer
+            current_motor = (1.0-sm)*torch_motor + sm*current_motor
+
+            adjusted_motor = int(gm*(current_motor-49) + N['network_motor_offset'] + 49)
+            adjusted_steer = int(gs*(current_steer-49) + 49)
+            adjusted_camera = int(gc*(current_camera-49) + 49)
+
+            adjusted_motor = bound_value(adjusted_motor,0,99)
+            adjusted_steer = bound_value(adjusted_steer,0,99)
+            adjusted_camera = bound_value(adjusted_camera,0,99)
+
+            adjusted_motor = min(adjusted_motor,N['max motor'])
+            adjusted_motor = max(adjusted_motor,N['min motor'])
+
+            if N['use flex'] and flex_motor < 47:
+                adjusted_steer = N['flex_steer_gain']*(flex_steer-49)+49
+                adjusted_steer = bound_value(adjusted_steer,0,99)
+                adjusted_motor = flex_motor
+                if print_timer.check():
+                    cb(adjusted_camera,adjusted_steer,adjusted_motor)
+                    print_timer.reset()
+            else:
+                if print_timer.check():
+                    cg(adjusted_camera,adjusted_steer,adjusted_motor,behavioral_mode)
+                    print_timer.reset()
+
+
+            frequency_timer.freq(name='network',do_print=True)
+
+            if np.abs(adjusted_camera-49) < N['camera_auto_zero_for_small_values_int']:
+                adjusted_camera = 49
+
+            camera_cmd_pub.publish(std_msgs.msg.Int32(adjusted_camera))
+            steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
+            motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
+
+            if N['show_net_activity']:
+                if show_timer.check():
+                    ############################
+                    Net_activity = Activity_Module.Net_Activity('batch_num',0, 'activiations',Torch_network['solver'].A)
+                    ############################
+                    show_timer.reset()
+
+            if show_durations.check():
+
+                show_durations.reset()
+
+        else:
+            cr(len(rLists['left']))
+
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        CS_('Exception!',emphasis=True)
+        CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+
+#    else:
+#        time.sleep(0.00001)
 
 CS_('goodbye!',__file__)
 CS_("doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))")

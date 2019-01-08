@@ -78,11 +78,21 @@ class SqueezeNet(nn.Module):
     def forward(self, x, metadata):
         self.A['camera_input'] = x
         self.A['pre_metadata_features'] = self.pre_metadata_features(self.A['camera_input'])
-        self.A['pre_metadata_features_metadata'] = torch.cat((self.A['pre_metadata_features'], metadata), 1)
-        self.A['post_metadata_features'] = self.post_metadata_features(self.A['pre_metadata_features_metadata'])
-        self.A['final_output'] = self.final_output(self.A['post_metadata_features'])
-        self.A['final_output'] = self.A['final_output'].view(self.A['final_output'].size(0), -1)
-        return self.A['final_output']
+        self.A['final_outputs'] = []
+        i_prev = False
+        for i in [0,5,6]:
+            if i_prev != False:
+                pass#metadata[i_prev] = zero_matrix
+            pass#metadata[i] = one_matrix
+            i_prev = i
+            self.A['pre_metadata_features_metadata'] = torch.cat((self.A['pre_metadata_features'], metadata), 1)
+            self.A['post_metadata_features'] = self.post_metadata_features(self.A['pre_metadata_features_metadata'])
+            
+            self.A['final_output'] = self.final_output(self.A['post_metadata_features'])
+            self.A['final_output'] = self.A['final_output'].view(self.A['final_output'].size(0), -1)
+            self.A['final_outputs'].append(self.A['final_output'])
+            #print len(self.A['final_outputs']),type(self.A['final_outputs'])
+        return self.A['final_outputs']
 
 
 

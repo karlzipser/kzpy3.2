@@ -14,7 +14,7 @@ def Torch_Network(N):
         D = {}
         D['save_data'] = torch.load(N['weight_file_path'])
         print("Torch_Network(N):: Loading "+N['weight_file_path'])
-        from kzpy3.Train_app.nets.SqueezeNet40 import SqueezeNet
+        from kzpy3.Train_app.nets.SqueezeNet40_multirun import SqueezeNet
         D['solver'] = SqueezeNet().cuda()
         D['solver'].load_state_dict(D['save_data']['net'])
         D['solver'].eval()
@@ -28,6 +28,8 @@ def Torch_Network(N):
         CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)        
     def _run_model(input,metadata,N,return_full_output=False):
         D['output'] = D['solver'](input, Variable(metadata))
+        #print type(D['output']),len(D['output'])
+        D['output'] = D['output'][-1]
         torch_motor = 100 * D['output'][0][10+N['network_output_sample']].data[0]
         torch_steer = 100 * D['output'][0][N['network_output_sample']].data[0]
         torch_motor = max(0, torch_motor)
