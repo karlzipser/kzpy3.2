@@ -1993,32 +1993,58 @@ while not rospy.is_shutdown():
 
 
 
-def Cv2Plot(
-        img,
-        box_0to1 = None,        
-        box_real = ((-1.0,1.0),(0,4.0*np.pi))
-        row = (2,4),
-        col = (1,3),
-    ):
+#def Cv2Plot(
+#img,
+row = (1,1)
+col = (3,7)
+origin_in_row = 0.5
+origin_in_col = 0.5
+xy_offset_0to1 = (0.0,0.0)
+box_real = ((0,10.0),(-1.0,1.0))
+box_0to1 = None
+#    ):
 
-    if box_0to1 == None:
-        for q in row,col:
-            assert type(q) == tuple
-            assert len(q) == 2
-            for i in [0,1]:
-                assert is_number(q[i])
+assert len(shape(img)) == 3
+assert type(img[0,0,0]) == np.uint8
 
-    box_0to1 = (    
-                ( (col[0]-1)/(1.0*col[1]),
-                  (col[0])/(1.0*col[1]), ),
-                ( (row[1]-row[0])/(1.0*row[1]),
-                  (row[1]-row[0]+1)/(1.0*row[1]),),)
+if box_0to1 == None:
+    for q in row,col:
+        assert type(q) == tuple
+        assert len(q) == 2
+        for i in [0,1]:
+            assert is_number(q[i])
 
-    height_in_pixels = shape(img)[0]
-    width_in_pixels = shape(img)[1]
-    row_height = int(height_in_pixels/row(1))
-    col_width  = int(width_in_pixels /col(1))
+box_0to1 = (    
+            ( (col[0]-1)/(1.0*col[1]),
+              (col[0])/(1.0*col[1]), ),
+            ( (row[1]-row[0])/(1.0*row[1]),
+              (row[1]-row[0]+1)/(1.0*row[1]),),)
 
+#xy_scale = (box_0to1[0][1]-box_0to1[0][0],
+#            box_0to1[1][1]-box_0to1[1][0])
+
+xy_img_size = (shape(img)[1],shape(img)[0])
+
+xy_real_mag = (box_real[0][1] - box_real[0][0],
+                box_real[1][1] - box_real[1][0])
+
+xy_real_to_pixels = (xy_img_size[1]/(1.0*xy_real_mag[0])/(1.0*row[1]),
+                    xy_img_size[0]/(1.0*xy_real_mag[1])/(1.0*col[1]),)
+
+xy_pixel_origin = (box_0to1[0][0]*xy_img_size[0],
+                    box_0to1[0][1]*xy_img_size[1],)
+    
+    #row_height = int(height_in_pixels/row(1))
+    #col_width  = int(width_in_pixels /col(1))
+
+xys = zeros((100,2))
+xys[:,0] = arange(0,100)/10.
+xys[:,1] = np.sin(xys[:,0])
+xys[:,0]*=xy_real_to_pixels[0]
+xys[:,1]*=xy_real_to_pixels[1]
+#CA()
+pts_plot(xys)
+img = zeros((200,87,3),np.uint8)
 
 
 ########################################################################################
