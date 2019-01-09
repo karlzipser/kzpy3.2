@@ -62,28 +62,31 @@ def add_image(img,img_new,xy):
 ########################################################################################
 ########################################################################################
 ########################################################################################
+gyro = L['gyro_x'][:]
+for ii in range(0,10000,9):
+    if 'fresh image':# == False:
+        img = get_blank_image(1000,200)
 
-if 'fresh image':# == False:
-    img = get_blank_image(1000,100)
+    if 'gather data':
+        #data = zeros((1000,2))
+        #data[:,0] = arange(0,1000)/100.
+        #data[:,1] = np.sin(data[:,0])
+        data = zeros((1100,2))
+        data[:,0] = range(1100)
+        data[:,1] = gyro[ii:ii+1100]
+        #print data[:,1].min(),data[:,1].max()
+        mn,mx=data[:,1].min(),data[:,1].max()
+        cs = z2_255(np.random.randn(len(data),3))
+        cs*=0
+        for i in range(3):
+            cs[:,i] = 255#np.random.randint(255)
 
-if 'gather data':
-    data = zeros((1000,2))
-    data[:,0] = arange(0,1000)/100.
-    data[:,1] = np.sin(data[:,0])
-    #data = zeros((1100,2))
-    #data[:,0] = range(1100)
-    #data[:,1] = 50+0*L['gyro_x'][2000:3100]
-    cs = z2_255(np.random.randn(len(data),3))
-    cs*=0
-    for i in range(3):
-        cs[:,i] = np.random.randint(255)
+    for j in [2,3]:
+        #print j,ii
+        xys = get_float_pixels_from_xys(data.copy(),shape(img),col=(1,1),row=(j,4),box=((0,1100.0),(mn,mx)))
+        function_pts_plot(img,xys,cs)
 
-if 'transform to pixel scale':
-    xys = get_float_pixels_from_xys(data,shape(img),col=(1,1),row=(1,1),box = ((0,10.0),(-1.0,1.0)))#,box=((0,1100.0),(-50.0,50.0)))
-
-if 'plot':
-    function_pts_plot(img,xys,cs)
-    mci(img,1)
+    mci(img)#;spause()
 
 
 # col=(1,1),row=(1,1),box=((0,10.0),(-1.0,1.0)),clr=(128,250,99)
