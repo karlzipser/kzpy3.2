@@ -38,7 +38,7 @@ def get_float_pixels_from_xys(
     xys[:,0] += xy_pixel_offset[0]
     xys[:,1] += xy_pixel_offset[1]
 
-    xys[:,1] = xy_img_size[1] - xys[:,1]
+    #xys[:,1] = xy_img_size[1] - xys[:,1]
     for i in [0,1]:
         a = xys[:,i]
         a[ a<0 ] = 0
@@ -71,7 +71,11 @@ xys = get_float_pixels_from_xys(data,shape(img),col=(1,10),row=(1,10))
 #img[ xys[:,0].astype(int), xys[:,1].astype(int), : ] = cs
 function_pts_plot(img,xys,cs)
 
-mi(img,1);figure(1);spause()
+mi(img,1)
+figure(2,figsize=(3,3))
+pts_plot(xys)
+spause()
+
 
 
 
