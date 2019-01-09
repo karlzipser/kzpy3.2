@@ -1997,4 +1997,113 @@ while not rospy.is_shutdown():
 
 
 
+
+########################################################################################
+########################################################################################
+########################################################################################
+####
+def Cv2Plot(
+        img,
+        x_pixels_per=1,
+        y_pixels_per=1,
+        x_origin=None,
+        y_origin=None
+    ):
+
+    height_in_pixels = shape(img)[0]
+    width_in_pixels = shape(img)[1]
+
+    if x_origin == None:
+        x_origin = 0.5
+    if y_origin_ == None:
+        y_origin0.5
+    D = {}
+    D['verbose'] = False
+    D['image'] = img
+    assert len(shape(img)) == 3
+    assert type(img) == np.uint8
+
+    def function_show(autocontrast=True,delay=1,title='image',scale=1.0):
+        img = D['image']
+        if autocontrast:
+            img = z2_255_by_channel(img)
+        mci(img,scale=scale,delay=delay,title=title)
+
+    def function_safe(px,py):
+        if px >= 0:
+            if py >= 0:
+                if py < height_in_pixels:
+                    if px < width_in_pixels:
+                        return True
+        if D['verbose']:
+            cr('not safe')
+        return False
+
+    def function_get_pixel(x,y):
+        px = intr(x * x_pixels_per)
+        py = intr(-y * y_pixels_per)
+        px += x_origin * width_in_pixels
+        py += y_origin * height_in_pixels
+        if D['verbose']:
+            cb(x,y,"->",px,py)
+        return px,py
+
+    def function_plot_point_xy_version(x,y,c=[255,255,255],add_mode=False):
+        px,py = D['get pixel'](x,y)
+        if D['safe?'](px,py):
+            if not add_mode:
+                D['image'][py,px,:] = c
+            else:
+                D['image'][py,px,:] += na(c,np.uint8)
+
+    def function_pts_plot(xys,c=[255,255,255],add_mode=False):
+        if type(c) == str:
+            if add_mode:
+                n = 1
+            else:
+                n = 255
+            if c == 'r':
+                c = [n,0,0]
+            elif c == 'g':
+                c = [0,n,0]
+            elif c == 'b':
+                c = [0,0,n]  
+            else:
+                cr('warning, unknown color:',c)
+                c = [255,255,255]
+        for i in rlen(xys):
+            D['plot point (xy_version)'](xys[i,0],xys[i,1],c,add_mode)
+
+    def function_clear():
+        D['image'] *= 0
+        
+    D['show'] = function_show
+    D['safe?'] = function_safe
+    D['plot point (xy_version)'] = function_plot_point_xy_version
+    D['get pixel'] = function_get_pixel
+    D['pts_plot'] = function_pts_plot
+    D['clear'] = function_clear
+    return D
+
+#
+########################################################################################
+#
+
+########################################################################################
+########################################################################################
+########################################################################################
+####
+
+
+
+
+
+
+
+
+
+
+
+
+
 #EOF
