@@ -29,7 +29,7 @@ _['To Expose'] = {}
 
 _['To Expose']['command_menu'] = sorted(_.keys())
 _['a'] = 1;_['b'] = 2
-_['To Expose']['M'] = 'a','b'
+_['To Expose']['M'] = ['a','b']
 to_hide = ['To Expose','customers']
 for h in to_hide:
 	_['To Expose']['command_menu'].remove(h)

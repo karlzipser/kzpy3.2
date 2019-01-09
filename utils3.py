@@ -1366,5 +1366,36 @@ def require_Arguments(arglst):
 	if fail:
 		cr("Required arguments are:",arglst)
 		sys.exit(-1)
+
+
+
+
+def sort_dir_by_ctime(dir_path):
+	"""
+	https://www.w3resource.com/python-exercises/python-basic-exercise-71.php
+	"""
+	from stat import S_ISREG, ST_MTIME, ST_MODE
+	import os, sys, time
+	data = (os.path.join(dir_path, fn) for fn in os.listdir(dir_path))
+	data = ((os.stat(path), path) for path in data)
+	# regular files, insert creation date
+	data = ((stat[ST_MTIME], path)
+	           for stat, path in data if S_ISREG(stat[ST_MODE]))
+	paths = []
+	for cdate, path in sorted(data):
+	    paths.append(path)
+	return paths
+
+
+
+
+
+
+
+
+
+
+
+		
 #EOF
 

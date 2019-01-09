@@ -18,7 +18,7 @@ P['step_size'] = 1
 P['cmd/clear_screen'] = False
 P['cv2 delay'] = 1
 P['3d image scale'] = 1.0
-P['num timesteps'] = 30
+P['num timesteps'] = 900
 P['load_timer_time'] = 2
 P['U_heading_gain'] = 2.0
 P['index'] = 9000
@@ -41,6 +41,6 @@ P['start menu automatically'] = True
 P['vel-encoding coeficient'] = (1.0/2.3)
 P['show timer'] = Timer(P['show timer time'])
 P['wait for start signal'] = False
-
+P['USE_ROS'] = True
 
 #EOF

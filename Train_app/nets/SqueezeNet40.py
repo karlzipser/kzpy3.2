@@ -1,6 +1,6 @@
 from kzpy3.utils3 import *
 exec(identify_file_str)
-cg('SqueezeNet40.py, using SqueezeNet')
+
 import math
 import torch
 import torch.nn as nn

@@ -10,8 +10,8 @@ def Net_Activity(*args):
     """
     show network activiations
     """
-
-    cy("GPUs =",torch.cuda.device_count(),"current GPU =",torch.cuda.current_device())
+    if False:
+        cy("GPUs =",torch.cuda.device_count(),"current GPU =",torch.cuda.current_device())
     Args = args_to_dictionary(args)
     D = {}
     True
@@ -20,7 +20,10 @@ def Net_Activity(*args):
 
     for k in Args['activiations'].keys():
 
-        D['activiations'][k] = Args['activiations'][k].data.cpu().numpy()
+        try:
+            D['activiations'][k] = Args['activiations'][k].data.cpu().numpy()
+        except:
+            continue
 
         D['imgs'][k] = {}
         for moment_indexv in [Args['batch_num']]:#in range(shape(D['activiations'][k])[0]):
@@ -49,11 +52,12 @@ def Net_Activity(*args):
                     #mi(D['activiations'][k][moment_indexv,i,:,:],d2s(i,k))
                 D['imgs'][k][moment_indexv] = vis_square2(D['activiations'][k][moment_indexv],padval=0.5)
 
-            print k,shape(D['imgs'][k][moment_indexv])
+            if False:
+                print k,shape(D['imgs'][k][moment_indexv])
             if k in ['pre_metadata_features_metadata','post_metadata_features']:
-                #mi(D['imgs'][k][moment_indexv],k); spause()
-                mci((z2o(D['imgs'][k][moment_indexv])*255).astype(np.uint8),scale=1.0,color_mode=cv2.COLOR_GRAY2BGR,title=k)
-
+                mi(D['imgs'][k][moment_indexv],k); spause()
+                #mci((z2o(D['imgs'][k][moment_indexv])*255).astype(np.uint8),scale=1.0,color_mode=cv2.COLOR_GRAY2BGR,title=k)
+                #mci(z2_255(D['imgs'][k][moment_indexv]),scale=1.0,color_mode=cv2.COLOR_GRAY2BGR,title=k)
 
     def _function_view(*args):
         Args = args_to_dictionary(args)

@@ -13,7 +13,7 @@ time.sleep(3)
 cg("\nShort wait before starting bag loop\n")
 time.sleep(3)
 
-timer = Timer(60*30)
+timer = Timer(hour)
 
 while not timer.check():
 	sys_str = "rosbag play "+bagpath+"/*.bag"

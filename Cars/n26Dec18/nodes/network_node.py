@@ -19,8 +19,8 @@ import net_utils
 import roslib
 import std_msgs.msg
 import geometry_msgs.msg
+from std_msgs.msg import Int32MultiArray
 from cv_bridge import CvBridge,CvBridgeError
-import rospy
 from sensor_msgs.msg import Image
 bridge = CvBridge()
 import cv2
@@ -36,7 +36,6 @@ right_list = []
 nframes = 2
 
 even = True
-
 nframes = 2
 left_calls = 0
 left_calls_prev = 0
@@ -50,14 +49,9 @@ play = 0.0
 left = 0.0
 right = 0.0
 center = 0.0
-#button_number = 0;
-#button_number_previous = -9999
-#button_timer = Timer()
 current_camera = 49
 current_steer = 49
 current_motor = 49
-#button_just_changed = False
-
 
 
 
@@ -124,10 +118,22 @@ steer_cmd_pub = rospy.Publisher('cmd/steer', std_msgs.msg.Int32, queue_size=5)
 motor_cmd_pub = rospy.Publisher('cmd/motor', std_msgs.msg.Int32, queue_size=5)
 Hz_network_pub = rospy.Publisher('Hz_network', std_msgs.msg.Float32, queue_size=5)
 
+if N['use SqueezeNet40_multirun']:
+    encoder0_pub = rospy.Publisher('encoder0',Int32MultiArray,queue_size = 10)
+    encoder1_pub = rospy.Publisher('encoder1',Int32MultiArray,queue_size = 10)
+    encoder2_pub = rospy.Publisher('encoder2',Int32MultiArray,queue_size = 10)
+
+    header0_pub = rospy.Publisher('header0',Int32MultiArray,queue_size = 10)
+    header1_pub = rospy.Publisher('header1',Int32MultiArray,queue_size = 10)
+    header2_pub = rospy.Publisher('header2',Int32MultiArray,queue_size = 10)
+
+    motor0_pub = rospy.Publisher('motor0',Int32MultiArray,queue_size = 10)
+    motor1_pub = rospy.Publisher('motor1',Int32MultiArray,queue_size = 10)
+    motor2_pub = rospy.Publisher('motor2',Int32MultiArray,queue_size = 10)
+
 rospy.Subscriber(N['bcs']+'/human_agent', std_msgs.msg.Int32, callback=human_agent_callback)
 rospy.Subscriber(N['bcs']+'/behavioral_mode', std_msgs.msg.String, callback=behavioral_mode_callback)
 rospy.Subscriber(N['bcs']+'/drive_mode', std_msgs.msg.Int32, callback=drive_mode_callback)
-#rospy.Subscriber(N['bcs']+'/button_number', std_msgs.msg.Int32, callback=button_number_callback)
 
 if N['use flex']:
     rospy.Subscriber(N['bcs']+'/cmd/flex_motor', std_msgs.msg.Int32, callback=flex_motor__callback)
@@ -163,8 +169,11 @@ for the_behaviorial_mode in TP['behavioral_modes']:
     for cur_label in TP['behavioral_modes']:
 
         if cur_label == the_behaviorial_mode:
-                
-            metadata = torch.cat((one_matrix, metadata), 1); mode_ctr += 1
+
+            if N['use SqueezeNet40_multirun']:
+                metadata = torch.cat((zero_matrix, metadata), 1); mode_ctr += 1
+            else:
+                metadata = torch.cat((one_matrix, metadata), 1); mode_ctr += 1
         else:
             metadata = torch.cat((zero_matrix, metadata), 1); mode_ctr += 1
 
@@ -280,71 +289,62 @@ torch_motor, torch_steer, torch_camera = 49,49,49
 
 while not rospy.is_shutdown():
 
-    #cr('Z')
-
     #####################################################################
     #####################################################################
     ###    
 
+    if parameter_file_load_timer.check():
 
-    if True:#button_number == 4:
+        Topics = menu2.load_Topics(
+            opjk("Cars/n26Dec18/nodes"),
+            first_load=False,
+            customer='Network')
 
-        if parameter_file_load_timer.check():
+        if type(Topics) == dict:
+            for t in Topics['To Expose']['Network']+Topics['To Expose']['Weights']+Topics['To Expose']['Flex']:
+                if '!' in t:
+                    pass
+                else:
+                    N[t] = Topics[t]
 
-            Topics = menu2.load_Topics(
-                opjk("Cars/n26Dec18/nodes"),
-                first_load=False,
-                customer='Network')
+        parameter_file_load_timer.reset()
 
-            if type(Topics) == dict:
-                for t in Topics['To Expose']['Network']+Topics['To Expose']['Weights']+Topics['To Expose']['Flex']:
-                    if '!' in t:
-                        pass
-                    else:
-                        N[t] = Topics[t]
+    if N['LOAD NETWORK'] == False:
+        loaded_net = False
 
-            parameter_file_load_timer.reset()
+    N['weight_file_path'] = False
 
-        if N['LOAD NETWORK'] == False:
-            loaded_net = False
+    if loaded_net == False:
 
-        N['weight_file_path'] = False
+        if N['LOAD NETWORK'] == True:
+            loaded_net = True
+            
+            ns = N['weight_files'].keys()
 
-        if loaded_net == False:
+            for n in ns:
 
-            if N['LOAD NETWORK'] == True:
-                loaded_net = True
-                
-                ns = N['weight_files'].keys()
-                #cs(ns)
-                for n in ns:
-                    #cs('A')
-                    #cs(n,N[n])
-                    if N[n] != False:
-                        #cs('B')
-                        if type(N[n]) == list:
-                            #cs('C')
-                            if N[n][0] != False:
-                                #cs('D')
-                                #cs('here',n,N[n])
-                                if N[n][0] == True:
-                                    #cs('E')
-                                    N['weight_file_path'] = N['weight_files'][n][N[n][1]]
-                                    sbpd2s("N['weight_file_path'] = N['weight_files'][n][a[1]]")
-                                    break
+                if N[n] != False:
 
-                if N['weight_file_path'] != False:
-                    cs( "if N['weight_file_path'] != False:" )
-                    Torch_network = net_utils.Torch_Network(N)
-                    cs( "Torch_network = net_utils.Torch_Network(N)" )
+                    if type(N[n]) == list:
+
+                        if N[n][0] != False:
+
+                            if N[n][0] == True:
+
+                                N['weight_file_path'] = N['weight_files'][n][N[n][1]]
+                                sbpd2s("N['weight_file_path'] = N['weight_files'][n][a[1]]")
+                                break
+
+            if N['weight_file_path'] != False:
+                cs( "if N['weight_file_path'] != False:" )
+                Torch_network = net_utils.Torch_Network(N)
+                cs( "Torch_network = net_utils.Torch_Network(N)" )
     ###
     #####################################################################
     #####################################################################
     
 
-    if Torch_network == None:
-        time.sleep(0.1)
-        continue
+
 
 
     time.sleep(0.001)
@@ -360,8 +360,17 @@ while not rospy.is_shutdown():
     else:
         time.sleep(1)
         continue
-    #behavioral_mode = 'direct'
-    #if True:
+
+    if Torch_network == None:
+        cb('network_node: waiting for network')
+        time.sleep(2)
+        continue
+
+    if N['min motor'] < 0:
+        cb("N['min motor'] < 0, i.e. network paused")
+        time.sleep(2)
+        continue      
+
     try:
         
         ####################################################
@@ -374,14 +383,18 @@ while not rospy.is_shutdown():
         Lists['right'] = right_list[-2:]##
 
 
-
-        for side in ['left','right']:
-            for i in [-1]:
-                img = Lists[side][i]
-                if shape(img)[0] > 94:
-                    resizing.message(d2s("img shape is",shape(img),"; resizing."))
-                    img = cv2.resize(img,(net_input_width,net_input_height))
-                advance(rLists[side], img , 4 )
+        try:
+            for side in ['left','right']:
+                for i in [-1]:
+                    img = Lists[side][i]
+                    if shape(img)[0] > 94:
+                        resizing.message(d2s("img shape is",shape(img),"; resizing."))
+                        img = cv2.resize(img,(net_input_width,net_input_height))
+                    advance(rLists[side], img , 4 )
+        except:
+            cr("problem getting images to network")
+            time.sleep(0.1)
+            continue
 
 
         if len(rLists['left'])>2:
@@ -423,6 +436,25 @@ while not rospy.is_shutdown():
             torch_motor_prev, torch_steer_prev = torch_motor, torch_steer
 
             torch_motor, torch_steer = Torch_network['run_model'](camera_data, metadata, N)
+
+
+
+            
+            if N['use SqueezeNet40_multirun']:
+                encoder0_pub.publish(data=Torch_network['encoder'][0])
+                encoder1_pub.publish(data=Torch_network['encoder'][1])
+                encoder2_pub.publish(data=Torch_network['encoder'][2])
+
+                header0_pub.publish(data=Torch_network['heading'][0])
+                header1_pub.publish(data=Torch_network['heading'][1])
+                header2_pub.publish(data=Torch_network['heading'][2])
+
+                motor0_pub.publish(data=Torch_network['motor'][0])
+                motor1_pub.publish(data=Torch_network['motor'][1])
+                motor2_pub.publish(data=Torch_network['motor'][2])
+
+
+
 
             if np.abs(torch_steer - torch_steer_prev) > N['camera_move_threshold']:
                 torch_camera = torch_steer
@@ -492,7 +524,7 @@ while not rospy.is_shutdown():
                 show_durations.reset()
 
         else:
-            cr(len(rLists['left']))
+            pass#cr(len(rLists['left']))
 
     except Exception as e:
         exc_type, exc_obj, exc_tb = sys.exc_info()

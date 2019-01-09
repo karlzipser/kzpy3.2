@@ -36,8 +36,9 @@ def menu2(Topics,path):
                 clear_screen()
 
             cprint("<<<<<<<<<<<<< "+Q+" >>>>>>>>>>>>>",attrs=['bold'],color='white',on_color='on_grey')
-            ctr = 1
+            ctr = 0
             first_line_string = ""
+            Number_name_binding[ctr]='reload';first_line_string+=d2n(ctr,') ',Number_name_binding[ctr],'; ');ctr+=1
             Number_name_binding[ctr]='exit';first_line_string+=d2n(ctr,') ',Number_name_binding[ctr],'; ');ctr+=1
             Number_name_binding[ctr]='load';first_line_string+=d2n(ctr,') ',Number_name_binding[ctr],'; ');ctr+=1
             Number_name_binding[ctr]='save';first_line_string+=d2n(ctr,') ',Number_name_binding[ctr],'; ');ctr+=1
@@ -126,8 +127,9 @@ def menu2(Topics,path):
                         #print Q,k
                         Q = k
                         continue
-
-            if type(choice_number) != int:
+            if choice_number == 0:
+                save_topics(Topics,path)
+            elif type(choice_number) != int:
                 message = "bad option"
 
             elif choice_number == Name_number_binding['exit']:

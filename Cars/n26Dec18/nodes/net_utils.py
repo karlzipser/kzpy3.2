@@ -7,14 +7,19 @@ from torch.autograd import Variable
 import rospy
 exec(identify_file_str)
 
-
-
 def Torch_Network(N):
     try:
         D = {}
+        D['heading'] = {}
+        D['encoder'] = {}
+        D['motor'] = {}
+
         D['save_data'] = torch.load(N['weight_file_path'])
         print("Torch_Network(N):: Loading "+N['weight_file_path'])
-        from kzpy3.Train_app.nets.SqueezeNet40_multirun import SqueezeNet
+        if N['use SqueezeNet40_multirun']:
+            from kzpy3.Train_app.nets.SqueezeNet40_multirun import SqueezeNet
+        else:
+            from kzpy3.Train_app.nets.SqueezeNet40 import SqueezeNet
         D['solver'] = SqueezeNet().cuda()
         D['solver'].load_state_dict(D['save_data']['net'])
         D['solver'].eval()
@@ -28,13 +33,16 @@ def Torch_Network(N):
         CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)        
     def _run_model(input,metadata,N,return_full_output=False):
         D['output'] = D['solver'](input, Variable(metadata))
-        if type(D['output']) == list:
-            for o in D['output']:
-                q = o.data.cpu().numpy(); print q,type(q)
-                figure(1);plot(q[0],'.')
-                spause()
 
-            D['output'] = D['output'][-1]
+        if N['use SqueezeNet40_multirun']:
+            assert type(D['output']) == list
+            for i in [0,1,2]:
+                o = D['output'][i]
+                q = o.data.cpu().numpy()
+                D['motor'][i] = list((q[0][10:20] * 100).astype(int))
+                D['heading'][i] = list((1000 * q[0][20:30] * 90.0).astype(int))
+                D['encoder'][i] = list((1000 * q[0][30:40] * 5.0).astype(int))
+            D['output'] = D['output'][-2]
         
         torch_motor = 100 * D['output'][0][10+N['network_output_sample']].data[0]
         torch_steer = 100 * D['output'][0][N['network_output_sample']].data[0]
@@ -42,6 +50,16 @@ def Torch_Network(N):
         torch_steer = max(0, torch_steer)
         torch_motor = min(99, torch_motor)
         torch_steer = min(99, torch_steer)
+
+
+        """
+        full_output = []
+        for i in range(40):
+            full_output.append(D['output'][0][i].data[0])
+        D['heading'][0] = list((na(full_output)*1000).astype(int))
+        """
+
+
 
         if return_full_output:
             full_output = []

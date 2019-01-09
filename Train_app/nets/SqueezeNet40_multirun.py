@@ -1,6 +1,5 @@
-from kzpy3.utils3 import *
+from kzpy3.vis3 import *
 exec(identify_file_str)
-cg('SqueezeNet40.py, using SqueezeNet')
 import math
 import torch
 import torch.nn as nn
@@ -83,15 +82,17 @@ class SqueezeNet(nn.Module):
         self.A['pre_metadata_features'] = self.pre_metadata_features(self.A['camera_input'])
         self.A['final_outputs'] = []
         i_prev = False
-        for i in [128-5,128-1,128-6]:
-            if i_prev != False:
-                metadata[0,i_prev,:,:] = zero_matrix
+        lst = [128-5,128-1,128-6]
+        #np.random.shuffle(lst)
+        for i in lst:
+            for j in lst:
+                metadata[0,j,:,:] = zero_matrix
             metadata[0,i,:,:] = one_matrix
-            i_prev = i
-            raw_enter(d2s("metadata.size() =",metadata.size()))
+            #a = z2o(metadata.data.cpu().numpy())
+            #a = a[0,:,:,:]
+            #mi(vis_square2(a,padval=0.5),i);spause()
             self.A['pre_metadata_features_metadata'] = torch.cat((self.A['pre_metadata_features'], metadata), 1)
             self.A['post_metadata_features'] = self.post_metadata_features(self.A['pre_metadata_features_metadata'])
-            
             self.A['final_output'] = self.final_output(self.A['post_metadata_features'])
             self.A['final_output'] = self.A['final_output'].view(self.A['final_output'].size(0), -1)
             self.A['final_outputs'].append(self.A['final_output'])
@@ -102,7 +103,9 @@ class SqueezeNet(nn.Module):
 
 def unit_test():
     test_net = SqueezeNet()
-    a = test_net(Variable(torch.randn(5, 12, 94, 168)), Variable(torch.randn(5, 128, 23, 41)))    
-    print('SqueezeNet40.py, unit_test(): Tested SqueezeNet')
+    a = test_net(Variable(torch.randn(1, 12, 94, 168)), Variable(torch.randn(1, 128, 23, 41)))    
+    cw('unit_test():',__file__)
 
 unit_test()
+
+

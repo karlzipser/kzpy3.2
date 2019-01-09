@@ -1971,4 +1971,30 @@ class Exit_is_Timed(State):
 >>>>>>> 74372d6520c7fec277a2c14d9342461af835d7b5
 
 
+
+
+
+
+import roslib
+from std_msgs.msg import Int32MultiArray
+pub = rospy.Publisher('vals',Int32MultiArray,queue_size = 10)
+rospy.init_node('blah')
+
+while not rospy.is_shutdown():
+    a = list((10000*np.random.rand(10)).astype(int))
+    print a
+    pub.publish(data=a)
+    time.sleep(0.1)
+
+
+
+
+
+
+
+
+
+
+
+
 #EOF

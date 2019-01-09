@@ -19,7 +19,7 @@ minutes = minute
 hour = 60*minute
 hours = hour
 
-
+_['display'] = False
 _['num loss_list_avg steps to show'] = None
 _['ABORT'] = False
 _['customers'] = ['train menu']
@@ -33,7 +33,7 @@ _['menu_load_timer_time'] = 10
 _['spause_timer_time'] = 10
 _['percent_of_loss_list_avg_to_show'] = 100.0
 _['cmd/clear_screen'] = False
-_['display'] = False
+
 
 #_['parameter_file_menu_load_timer_time'] = minute
 

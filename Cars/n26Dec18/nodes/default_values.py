@@ -3,6 +3,7 @@ exec(identify_file_str)
 
 P = {}
 _ = P
+_['use SqueezeNet40_multirun'] = True
 _['agent_is_human'] = True
 _['use_motor_PID'] = True
 _['desktop version'] = False
@@ -176,39 +177,19 @@ _['To Expose']['Flex'] = [
 	'flex_steer_gain',
 ]
 
-def sort_dir_by_ctime(dir_path):
-	#print dir_path
-	#raw_enter()
-	"""
-	https://www.w3resource.com/python-exercises/python-basic-exercise-71.php
-	"""
-	from stat import S_ISREG, ST_MTIME, ST_MODE
-	import os, sys, time
-	data = (os.path.join(dir_path, fn) for fn in os.listdir(dir_path))
-	data = ((os.stat(path), path) for path in data)
-	# regular files, insert creation date
-	data = ((stat[ST_MTIME], path)
-	           for stat, path in data if S_ISREG(stat[ST_MODE]))
-	paths = []
-	for cdate, path in sorted(data):
-	    paths.append(path)
-	return paths
+
 
 if username == 'nvidia':
-	_['weight_file_path'] = opjm("rosbags/networks") #opjh('pytorch_models/epoch6goodnet')
+	_['weight_file_path'] = opjm("rosbags/networks")
 else:
 	_['weight_file_path'] = opjD('Networks/_net_15Sept2018_1Nov_with_reverse_')
-	#cr("_['weight_file_path'] =",_['weight_file_path'])
 
 try:
-	#cr(1)
 	_['To Expose']['Weights'] = []
 	_['weight_files'] = {}
 	Model_folders = {}
-	#cr(2)
 	for f in sggo(_['weight_file_path'],'*'):
-		#cr(3)
-		#print f
+
 		weight_files = sort_dir_by_ctime(f)
 		l = len(weight_files)
 		n = d2n(fname(f)," (",l,")")
