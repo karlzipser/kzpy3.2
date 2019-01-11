@@ -57,22 +57,22 @@ def Batch(_,the_network=None):
 
 		for f in shuffled_keys[:_['max_num_runs_to_open']]:
 			if f not in GOOD_LIST:
-				cr(f)
-				continue
+				cr(f,"NOT LEAVING OUT THIS FILE")
+				#continue
 			cg(f)
 			_['Loaded_image_files'][f] = {}
 			if True:
 				try:
 
 					L,O,F = open_run(run_name=f,h5py_path=pname(_['run_name_to_run_path'][f]))
-					S = h5r(opjD('Data','Network_Predictions_projected',f+'.net_projections.h5py'))
+					#S = h5r(opjD('Data','Network_Predictions_projected',f+'.net_projections.h5py'))
 
 					_['Loaded_image_files'][f]['normal'] = O
 					_['Loaded_image_files'][f]['flip'] = F
 					_['Loaded_image_files'][f]['left_timestamp_metadata'] = L
-					_['Loaded_image_files'][f]['projections'] = S
-					_['Loaded_image_files'][f]['normal projections'] = S['normal']
-					_['Loaded_image_files'][f]['flip projections'] = S['flip']
+					#_['Loaded_image_files'][f]['projections'] = S
+					#_['Loaded_image_files'][f]['normal projections'] = S['normal']
+					#_['Loaded_image_files'][f]['flip projections'] = S['flip']
 
 					if _['use_LIDAR']:
 						path = opj(_['LIDAR_path'],f+_['LIDAR_extension'])

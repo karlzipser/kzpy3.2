@@ -233,7 +233,7 @@ def Batch(_,the_network=None):
 				for t in range(D['network']['net'].N_FRAMES):
 					for camera in ('left', 'right'):
 						for color in [0,2,1]:
-							if False:
+							if True:
 								img = cv2.resize(Data_moment[camera][t][:,:,color] ,(41,23))
 								img0 = zeros((1,1,23,41))
 								img0[0,0,:,:] = img

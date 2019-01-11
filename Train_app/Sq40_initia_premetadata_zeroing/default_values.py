@@ -19,7 +19,7 @@ minutes = minute
 hour = 60*minute
 hours = hour
 
-_['display'] = False
+_['display'] = True
 _['num loss_list_avg steps to show'] = None
 _['ABORT'] = False
 _['customers'] = ['train menu']

@@ -303,11 +303,12 @@ def get_Data_moment(_,dm=None,FLIP=None):
 
 		if FLIP:
 			F = _['Loaded_image_files'][Data_moment['name']]['flip']
-			S = _['Loaded_image_files'][Data_moment['name']]['flip projections']
+			#S = _['Loaded_image_files'][Data_moment['name']]['flip projections']
 		else:
 			F = _['Loaded_image_files'][Data_moment['name']]['normal']
-			S = _['Loaded_image_files'][Data_moment['name']]['normal projections']
+			#S = _['Loaded_image_files'][Data_moment['name']]['normal projections']
 
+		"""
 		if not FLIP:
 			Data_moment['projections'] = S[il0]
 		else:
@@ -315,7 +316,7 @@ def get_Data_moment(_,dm=None,FLIP=None):
 			blank_meta[:,:,1] = S[il0][:,:,0]
 			blank_meta[:,:,2] = S[il0][:,:,2]
 			Data_moment['projections'] = blank_meta
-
+		"""
 		Data_moment['left'] = {}
 		Data_moment['right'] = {}
 
