@@ -42,8 +42,8 @@ for ii in range(0,10000,9):
             img_shape=shape(img),
             col=(1,1),
             row=(j,4),
-            box=((0,1100.0),
-                (MN,MX)))
+            box=((0,1100.0),(MN,MX))
+        )
 
         image.img_pts_plot(img,xys,cs) #########
 
