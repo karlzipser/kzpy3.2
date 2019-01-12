@@ -226,7 +226,10 @@ def zeroToOneRange(m):
 z2o = zeroToOneRange
 
 def z2_255(m):
-	return (255*z2o(m)).astype(np.uint8)
+	return (255*z2o(na(m))).astype(np.uint8)
+
+z55 = z2_255
+
 def z2_255_by_channel(m):
 	for i in range(3):
 		m[:,:,i] = z2_255(m[:,:,i])
@@ -710,6 +713,8 @@ class Timer:
 			return True
 		else:
 			return False
+	def c(self):
+		return self.check()
 	def time(self):
 		return time.time() - self.start_time
 	def reset(self):
@@ -737,7 +742,7 @@ class Timer:
 		while not(self.check()):
 			time.sleep(self.time_s/100.0)
 		self.reset()	
-
+Tr = Timer
 
   
 
