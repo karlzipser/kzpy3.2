@@ -12,18 +12,18 @@ if 'L' not in locals():
                 opjD("model_car_data_July2018_lrc/locations/local/left_right_center/h5py"),want_list=['L','O'])
 
 topics = [
-    #u'acc_x',
+    u'acc_x',
     #u'acc_x_meo',
-    #u'acc_y',
+    u'acc_y',
     #u'acc_y_meo',
-    #u'acc_z',
+    u'acc_z',
     #u'acc_z_meo',
     #u'behavioral_mode',
-    #u'button_number',
+    u'button_number',
     #u'cmd_motor',
     #u'cmd_steer',
     #u'drive_mode',
-    #u'encoder',
+    u'encoder',
     #u'encoder_meo',
     u'gyro_heading_x',
     #u'gyro_heading_x_meo',
@@ -31,18 +31,18 @@ topics = [
     #u'gyro_heading_y_meo',
     #u'gyro_heading_z',
     #u'gyro_heading_z_meo',
-    #u'gyro_x',
+    u'gyro_x',
     #u'gyro_x_meo',
-    #u'gyro_y',
+    u'gyro_y',
     #u'gyro_y_meo',
-    #u'gyro_z',
+    u'gyro_z',
     #u'gyro_z_meo',
     #u'human_agent',
     #u'left_ts_deltas',
-    #u'motor',
+    u'motor',
     #u'place_choice',
     #u'right_ts',
-    #u'steer',
+    u'steer',
     #u'ts',
 ]
 
@@ -57,7 +57,7 @@ for t in topics:
     P[opj(t,'min')] = -0.1#2**16
     P[opj(t,'max')] = 0.1#-2**16
 
-window_seconds_width = 5
+window_seconds_width = 10
 
 cat = zeros((1,2))
 def update(P):
@@ -66,6 +66,8 @@ def update(P):
     for t in topics: 
 
         while O[t]['ts'][P[opj(t,'index')]] < P['ts']:
+            P[opj(t,'index')] += 1
+        #if True:
             #print t,P[opj(t,'index')]
             value = O[t]['vals'][P[opj(t,'index')]]
             
@@ -110,16 +112,16 @@ Hz=Tr(3)
 while not tr.c():
     
     if True:#:try:
-        for i in range(1):
+        for i in range(3):
             update(P)
-        plot_timer.reset()
+        #plot_timer.reset()
         ctr = 0
         image.place_image_in_image2(img,O['left_image']['vals'][P['index']],row=(2,3),col=(2,3)) #########
         image.place_image_in_image2(img,O['right_image']['vals'][P['index']],row=(2,3),col=(3,3)) #########
 
         for t in topics:
 
-            ylm = (0.8*P[opj(t,'min')],0.8*P[opj(t,'max')])
+            ylm = (P[opj(t,'min')],0.8*P[opj(t,'max')])
 
             cs = na((255,255,255))
             if '_x' in t:
@@ -133,20 +135,20 @@ while not tr.c():
                 cs = na((0,0,255))
             if 'button_number' in t:
                 cs = na((255,255,0))
-                ylm = (0,4)                
+                ylm = (0,0.8*4)                
             if 'motor' in t:
                 cs = na((0,0,255))
-                ylm = (0,99)
+                ylm = (0,0.8*99)
             if 'steer' in t:
                 cs = na((255,0,0))
-                ylm = (0,99)
+                ylm = (0,0.8*99)
             if 'encoder' in t:
                 cs = na((0,255,255))
 
-            
             ctr += 1
 
             r = len(topics)-ctr+1
+            
             xys = image.get_float_pixels( #########
                 xys=na(P[opj(t,'data')]),
                 img_shape=shape(img),

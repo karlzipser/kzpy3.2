@@ -28,8 +28,10 @@ def get_float_pixels(
 
     xys[:,0] *= xy_real_to_pixels[0]
     xys[:,1] *= xy_real_to_pixels[1]
-    xys[:,0] -= xys[:,0].min()
-    xys[:,1] -= xys[:,1].min()
+    #xys[:,0] -= xys[:,0].min()
+    #xys[:,1] -= xys[:,1].min()
+    xys[:,0] -= (box[0][0]*xy_real_to_pixels[0])
+    xys[:,1] -= (box[1][0]*xy_real_to_pixels[1])
     xys[:,0] += xy_pixel_offset[0]
     xys[:,1] += xy_pixel_offset[1]
 
