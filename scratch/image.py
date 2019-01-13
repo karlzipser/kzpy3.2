@@ -1,12 +1,9 @@
 from __future__ import division
 from kzpy3.vis3 import *
-
 assert(1/2 == 0.5)
 
-########################################################################################
-########################################################################################
-########################################################################################
-####
+
+
 def get_float_pixels(
             xys,
             img_shape,
@@ -14,7 +11,6 @@ def get_float_pixels(
             row,
             box
 ):
-
     xy_img_size = (img_shape[1],img_shape[0])
 
     xy_real_mag = (box[0][1] - box[0][0],
@@ -47,13 +43,16 @@ def get_float_pixels(
 
 
 
+
 def img_pts_plot(img,xys,cs):
     img[ xys[:,1].astype(int), xys[:,0].astype(int), : ] = cs
 
 
 
+
 def get_blank_image(x,y,rgb=(0,0,0)):
     return zeros((y,x,3)).astype(np.uint8) + na(rgb).astype(np.uint8)
+
 
 
 
@@ -84,6 +83,7 @@ def place_image_in_image(a,b,xy_left_top,xy_scale):
 
 
 
+
 def place_image_in_image2(a,b,row,col):
 
     a_xy_size = na((shape(a)[1],shape(a)[0]))
@@ -106,10 +106,6 @@ def place_image_in_image2(a,b,row,col):
 
     place_image_in_image(a,b,((col[0]-1)*col_width,(row[0]-1)*row_height),xy_scale)
 
-####
-########################################################################################
-########################################################################################
-########################################################################################
 
 
 #EOF

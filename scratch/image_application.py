@@ -13,15 +13,10 @@ if 'L' not in locals():
 
 topics = [
     u'acc_x',
-    
-
     #u'acc_x_meo',
     u'acc_y',
-
     #u'acc_y_meo',
     u'acc_z',
-    
-
     #u'acc_z_meo',
     #u'behavioral_mode',
     u'button_number',
@@ -86,21 +81,19 @@ def update(P):
             P[opj(t,'data')] = cat
         else:
             P[opj(t,'data')] = np.concatenate((P[opj(t,'data')],cat),0)
-        for i in rlen(P[opj(t,'data')]):
-            if P[opj(t,'data')][i,0] >= P['ts'] - window_seconds_width:
-                break
-        P[opj(t,'data')] = P[opj(t,'data')][i:]
-        #if len(P[opj(t,'data')]) > max_steps:
-        #    P[opj(t,'data')] = P[opj(t,'data')][-max_steps:,:]
+        if True:
+            for i in rlen(P[opj(t,'data')]):
+                if P[opj(t,'data')][i,0] >= P['ts'] - window_seconds_width:
+                    break
+            P[opj(t,'data')] = P[opj(t,'data')][i:]
+        else:
+            if len(P[opj(t,'data')]) > max_steps:
+                P[opj(t,'data')] = P[opj(t,'data')][-max_steps:,:]
     P['index'] += 1
     Hz.freq()
 
 img = image.get_blank_image(500,500) #########
 
-#cs = z55(np.random.randn(len(P[opj(t,'data')]),3))
-#cs *= 0
-#for i in range(3):
-#    cs[:,i] = 255
 plot_timer = Tr(2/30)
 message = Tr(3)
 tr = Tr(500)
@@ -108,51 +101,47 @@ Hz=Tr(3)
 
 
 while not tr.c():
-
-    #message.message(d2s(P['acc_x/min'],P['acc_x/max']))
     
     if True:#:try:
         for i in range(1):
             update(P)
-        if True:#plot_timer.c():
-            plot_timer.reset()
-            ctr = 0
-            image.place_image_in_image2(img,O['left_image']['vals'][P['index']],row=(2,3),col=(2,3)) #########
-            image.place_image_in_image2(img,O['right_image']['vals'][P['index']],row=(2,3),col=(3,3)) #########
+        plot_timer.reset()
+        ctr = 0
+        image.place_image_in_image2(img,O['left_image']['vals'][P['index']],row=(2,3),col=(2,3)) #########
+        image.place_image_in_image2(img,O['right_image']['vals'][P['index']],row=(2,3),col=(3,3)) #########
 
-            for t in topics:
-                cs = na((255,255,255))
-                if '_x' in t:
-                    cs = na((255,0,0))
-                if '_y' in t:
-                    cs = na((0,255,0))
-                    
-                if '_z' in t:
-                    cs = na((0,0,255))
-                    
-                if 'motor' in t:
-                    cs = na((0,0,255))
-                if 'steer' in t:
-                    cs = na((255,0,0))
-                if 'encoder' in t:
-                    cs = na((0,255,255))
+        for t in topics:
+            cs = na((255,255,255))
+            if '_x' in t:
+                cs = na((255,0,0))
+            if '_y' in t:
+                cs = na((0,255,0))
+                
+            if '_z' in t:
+                cs = na((0,0,255))
+                
+            if 'motor' in t:
+                cs = na((0,0,255))
+            if 'steer' in t:
+                cs = na((255,0,0))
+            if 'encoder' in t:
+                cs = na((0,255,255))
 
-                    
-                ctr += 1
+                
+            ctr += 1
 
-                r = len(topics)-ctr+1
-                xys = image.get_float_pixels( #########
-                    xys=na(P[opj(t,'data')]),
-                    img_shape=shape(img),
-                    col=(1.1,2),
-                    row=(r+0.5,1+len(topics)),
-                    box=((P['ts'] - window_seconds_width,P['ts']),(0.8*P[opj(t,'min')],0.8*P[opj(t,'max')]))
-                    #box=((0,len(P[opj(t,'data')])),(0.8*P[opj(t,'min')],0.8*P[opj(t,'max')]))
-                )
-                image.img_pts_plot(img,xys,cs) #########
-            
-            mci(img)
-            img *= 0
+            r = len(topics)-ctr+1
+            xys = image.get_float_pixels( #########
+                xys=na(P[opj(t,'data')]),
+                img_shape=shape(img),
+                col=(1.1,2),
+                row=(r+0.5,1+len(topics)),
+                box=((P['ts'] - window_seconds_width,P['ts']),(0.8*P[opj(t,'min')],0.8*P[opj(t,'max')]))
+            )
+            image.img_pts_plot(img,xys,cs) #########
+        
+        mci(img)
+        img *= 0
 
     else:#except Exception as e:
         exc_type, exc_obj, exc_tb = sys.exc_info()
