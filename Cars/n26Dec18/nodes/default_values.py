@@ -183,7 +183,7 @@ _['To Expose']['Flex'] = [
 
 
 if username == 'nvidia':
-	_['weight_file_path'] = opjm("rosbags/Networks")
+	_['weight_file_path'] = opjm("rosbags/Network_Weights")
 else:
 	_['weight_file_path'] = opjD('Networks/_net_15Sept2018_1Nov_with_reverse_')
 
