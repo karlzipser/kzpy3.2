@@ -16,7 +16,7 @@ hours = hour
 
 P = {}
 _ = P
-_['display'] = True
+_['display'] = False
 _['project_path'] = project_path
 _['num loss_list_avg steps to show'] = None
 _['ABORT'] = False

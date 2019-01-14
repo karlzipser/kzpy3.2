@@ -153,12 +153,12 @@ while True:#not timer.check():
 
     if len(xys) > P['num timesteps']*3:
         xys = xys[-P['num timesteps']*3:,:]
-
-    Img['clear']()
-    Img['pts_plot'](xys[:,:2]) 
-    for xy in xys:
-        Img['plot point (xy_version)'](xy[0],xy[1],Direction_colors[xy[3]])
-    Img['show'](title='2d points',scale=2.0,delay=33)
+    if False:
+        Img['clear']()
+        Img['pts_plot'](xys[:,:2]) 
+        for xy in xys:
+            Img['plot point (xy_version)'](xy[0],xy[1],Direction_colors[xy[3]])
+        Img['show'](title='2d points',scale=2.0,delay=33)
 
     img1 *= 0
     for a in xys:
@@ -201,7 +201,7 @@ while True:#not timer.check():
     for y in range(11,23):
         for c in range(3):
             if img1[y,:,c].max() > 0:
-                img1[y,:,c] = z2o(img1[y,:,c])
+                img1[y,:,c] = z55(img1[y,:,c])
     mi(img1);spause()
     #img1 = (255*img1).astype(np.uint8)
     #mci(img1,scale=4.0)
