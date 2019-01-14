@@ -5,11 +5,21 @@ import fit3d
 import rospy
 import std_msgs.msg
 import geometry_msgs.msg
+import sensor_msgs.msg
+import cv2
+import cv_bridge
 import torch
 torch.set_default_tensor_type('torch.FloatTensor') 
 torch.cuda.set_device(0)
 torch.cuda.device(0)
 P = default_values.P
+
+
+
+
+
+
+
 
 ########################################################################################
 ########################################################################################
@@ -34,6 +44,7 @@ CAR = {}
 CAR['motor'] = 0
 CAR['gyro_heading_x'] = 0
 CAR['encoder'] = 0
+pub = rospy.Publisher("/ldr_img",sensor_msgs.msg.Image,queue_size=1)
 def header0_callback(data):
     NET['headings'][0] = na(data.data).astype(float)/1000.
 rospy.Subscriber('/header0', std_msgs.msg.Int32MultiArray, callback=header0_callback)
@@ -124,90 +135,104 @@ Img = CV2Plot(
         x_origin_in_pixels=150,
         y_origin_in_pixels=300)
 use_GPU = False
-timer = Timer(30)
+
 
 img1 = zeros((23,41,3))#,np.uint8)
 rmax = 7
 RGBs = {'direct':(0,0,255),'right':(0,255,0),'left':(255,0,0)}
+timer = Timer(30)
+long_timer = Timer()
+timer.trigger()
+
 
 while True:#not timer.check():
+    try:
+        timer.message(d2s('VT_net3: running for',int(long_timer.time()),'seconds.'))
+        for direction in ['left','right','direct']:
+            i = Direction_codes[direction]
 
-    for direction in ['left','right','direct']:
-        i = Direction_codes[direction]
+            d_heading = NET['d_heading']
 
-        d_heading = NET['d_heading']
+            trajectory_vector_magnitude = NET['trajectory_vector_magnitude']
+            if use_GPU:
+                xys[:,:2] = rotatePolygon_cuda(xys[:,:2],-d_heading)
+            else:
+                xys[:,:2] = rotatePolygon(xys[:,:2],-d_heading) # rotate existing points away from heading
+            xys = na(xys)
+            xys[:,1] -= trajectory_vector_magnitude # move points down so origin is new starting point
+            new_xys = get_latest_network_2D_trajectory_predictions(
+                            NET['headings'][i],
+                            NET['encoders'][i],
+                            NET['motor'][i],
+                            Direction_codes[direction])
+            xys = np.concatenate((xys,new_xys),0)  # concatenate these to other points
 
-        trajectory_vector_magnitude = NET['trajectory_vector_magnitude']
-        if use_GPU:
-            xys[:,:2] = rotatePolygon_cuda(xys[:,:2],-d_heading)
-        else:
-            xys[:,:2] = rotatePolygon(xys[:,:2],-d_heading) # rotate existing points away from heading
-        xys = na(xys)
-        xys[:,1] -= trajectory_vector_magnitude # move points down so origin is new starting point
-        new_xys = get_latest_network_2D_trajectory_predictions(
-                        NET['headings'][i],
-                        NET['encoders'][i],
-                        NET['motor'][i],
-                        Direction_codes[direction])
-        xys = np.concatenate((xys,new_xys),0)  # concatenate these to other points
+        if len(xys) > P['num timesteps']*3:
+            xys = xys[-P['num timesteps']*3:,:]
+        if False:
+            Img['clear']()
+            Img['pts_plot'](xys[:,:2]) 
+            for xy in xys:
+                Img['plot point (xy_version)'](xy[0],xy[1],Direction_colors[xy[3]])
+            Img['show'](title='2d points',scale=2.0,delay=33)
 
-    if len(xys) > P['num timesteps']*3:
-        xys = xys[-P['num timesteps']*3:,:]
-    if False:
-        Img['clear']()
-        Img['pts_plot'](xys[:,:2]) 
-        for xy in xys:
-            Img['plot point (xy_version)'](xy[0],xy[1],Direction_colors[xy[3]])
-        Img['show'](title='2d points',scale=2.0,delay=33)
+        img1 *= 0
+        img2 = img1*0
 
-    img1 *= 0
-    for a in xys:
+        for a in xys:
 
-        if a[1]<0:
-            continue
-        try:
-            r = int(5.0/np.sqrt(a[0]**2+(a[1])**2))
-        except:
-            r = 1
+            if a[1]<0:
+                continue
+            try:
+                r = int(5.0/np.sqrt(a[0]**2+(a[1])**2))
+            except:
+                r = 1
 
-        b = fit3d.Point3(a[0], 0, a[1]-P['backup parameter'])
-        c = fit3d.project(b, fit3d.mat)
+            b = fit3d.Point3(a[0], 0, a[1]-P['backup parameter'])
+            c = fit3d.project(b, fit3d.mat)
 
-        try:
-            good = True
-            if c.x < 0 or c.x >= 168:
-                good = False
-            elif c.y < 0 or c.y >= 94:
-                good = False
-            if good:             
-                if r < rmax:
-                    pass#cv2.circle(img,(int(c.x),int(c.y)),r,RGBs[behavioral_mode])
-            good = True
-            cx = intr(c.x * 0.245)
-            cy = intr(c.y * 0.245)
-            if cx < 0 or cx >= 41:
-                good = False
-            elif cy < 0 or cy >= 23:
-                good = False
-            if good:               
-                #img1[cy,cx,:] = Direction_colors[a[3]]
-                print cy,cx,a[3]
-                img1[cy,cx,int(a[3])] += 1
-        except Exception as e:
-            exc_type, exc_obj, exc_tb = sys.exc_info()
-            file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            CS_('Exception!',emphasis=True)
-            CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
-    for y in range(11,23):
-        for c in range(3):
-            if img1[y,:,c].max() > 0:
-                img1[y,:,c] = z55(img1[y,:,c])
-    mi(img1);spause()
-    #img1 = (255*img1).astype(np.uint8)
-    #mci(img1,scale=4.0)
+            try:
+                good = True
+                if c.x < 0 or c.x >= 168:
+                    good = False
+                elif c.y < 0 or c.y >= 94:
+                    good = False
+                if good:             
+                    if r < rmax:
+                        pass#cv2.circle(img,(int(c.x),int(c.y)),r,RGBs[behavioral_mode])
+                good = True
+                cx = intr(c.x * 0.245)
+                cy = intr(c.y * 0.245)
+                if cx < 0 or cx >= 41:
+                    good = False
+                elif cy < 0 or cy >= 23:
+                    good = False
+                if good:               
+                    #img1[cy,cx,:] = Direction_colors[a[3]]
+                    #print cy,cx,a[3]
+                    img1[cy,cx,int(a[3])] += 1
+            except Exception as e:
+                exc_type, exc_obj, exc_tb = sys.exc_info()
+                file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                CS_('Exception!',emphasis=True)
+                CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
 
+        Channel_correction = {0:0,1:2,2:1}
+        for y in range(11,23):
+            for c in range(3):
+                if img1[y,:,c].max() > 0:
+                    img2[y,:,Channel_correction[c]] = z2_255(img1[y,:,c])
+        img2 = img2.astype(np.uint8)
+        #mci(img2,scale=4.0)
+        pub.publish(cv_bridge.CvBridge().cv2_to_imgmsg(img2,'rgb8'))
+        # view published image with: python kzpy3/scratch/temp2.py
 
-
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        CS_('Exception!',emphasis=True)
+        CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+        time.sleep(1)
 
 
 #EOF

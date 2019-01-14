@@ -13,7 +13,7 @@ else:
 	_['bcs'] = '/bair_car'
 _['desktop version/artifical mode'] = False
 _['desktop version/pwm to screen'] = True
-_['customers'] = ['Arduino','Network','Weights','Flex']
+_['customers'] = ['Arduino','Network','Weights','Flex','Network_ldr',]
 _['drive_mode'] = 0
 _['use sound'] = True
 _['now in calibration mode'] = False
@@ -167,7 +167,10 @@ _['To Expose']['Network'] = [
 	'camera_move_threshold',
 	'camera_auto_zero_for_small_values_int',
 	'network_reverse_motor_gain',
-	
+]
+_['To Expose']['Network_ldr'] = [
+	'max motor',
+	'min motor',
 ]
 
 _['To Expose']['Flex'] = [
