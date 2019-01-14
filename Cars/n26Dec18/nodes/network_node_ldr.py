@@ -311,8 +311,26 @@ while not rospy.is_shutdown():
                                 N['weight_file_path'] = N['weight_files'][n][N[n][1]]
                                 sbpd2s("N['weight_file_path'] = N['weight_files'][n][a[1]]")
                                 break
-            N['weight_file_path'] = most_recent_file_in_folder(opjD(
-                        "Networks/Sq40_initial_full_zeroing_and_projections_from_scratch/weights"),'infer')
+            ######################
+            ######################
+            ######################
+            ######################
+            ######################
+            ######################
+            #  TEMP
+            cr("********* USING TEMPORARY WAY OF LOADING LDR NET WEIGHTS **************")
+            if username == 'nvidia':
+                folder = opjm('rosbags/Network_Weights/Sq40_initial_full_zeroing_and_projections_from_scratch')
+            else:
+                folder = opjD('Networks/Sq40_initial_full_zeroing_and_projections_from_scratch/weights')
+            N['weight_file_path'] = most_recent_file_in_folder(folder,'infer')
+            ######################
+            ######################
+            ######################
+            ######################
+            ######################
+
+
             if N['weight_file_path'] != False:
                 cs( "if N['weight_file_path'] != False:" )
                 N['use SqueezeNet40_multirun'] = False

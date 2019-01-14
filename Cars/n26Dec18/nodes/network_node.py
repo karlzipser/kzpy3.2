@@ -508,9 +508,10 @@ while not rospy.is_shutdown():
             if np.abs(adjusted_camera-49) < N['camera_auto_zero_for_small_values_int']:
                 adjusted_camera = 49
 
-            camera_cmd_pub.publish(std_msgs.msg.Int32(adjusted_camera))
-            steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
-            motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
+            if not N['use SqueezeNet40_multirun']:
+                camera_cmd_pub.publish(std_msgs.msg.Int32(adjusted_camera))
+                steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
+                motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
 
             if N['show_net_activity']:
                 if show_timer.check():
