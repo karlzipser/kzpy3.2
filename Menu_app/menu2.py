@@ -312,6 +312,8 @@ if __name__ == '__main__':
     exec(exec_str)
 
     exec(d2n('Topics = default_values.',dic))
+    if dic == '_':
+        cr("\n\n\n***** WARNING, 'dic' == '_' *****\n")
 
     menu2(Topics,path)
 
