@@ -2142,17 +2142,79 @@ def Cv2Plot(
 ########################################################################################
 ########################################################################################
 ####
+cb('\nlist appending')
+a = [] # 1.4 MHz
+t = 1
+tr=Tr(t)
+while not tr.c():
+    a.append(1)
+cg(len(a)/1000000,'M',dp(tr.count/t/1000000),'MHz')
+
+
+cb('\nlist appending 2')
+a = [] # 1.36 MHz
+t = 1
+tr=Tr(t)
+b = zeros((1,2))
+while not tr.c():
+    a.append(b)
+cg(len(a)/1000000,'M',dp(tr.count/t/1000000),'MHz')
+
+
+cb('\nlist appending with stepwise conversion to array')
+a = [] # 0.01 MHz
+t = 1
+tr=Tr(t)
+while not tr.c():
+    a.append(1)
+    b = na(a)
+cg(len(a)/1000000,'M',dp(tr.count/t/1000000),'MHz')
+
+
+cb('\narray concatenating')
+a = na([]) # 0.06 MHz
+t = 1
+tr=Tr(t)
+while not tr.c():
+    a = np.concatenate((a,na([1])),0)
+cg(len(a),'M',dp(tr.count/t/1000000),'MHz')
+
+
+cb('\narray changing elements')
+a = zeros(100000000) # 1.2 MHz
+t = 1
+tr=Tr(t)
+ctr = 0
+while not tr.c():
+    a[ctr] = 1
+    ctr += 1
+cg(ctr/1000000,'M',dp(tr.count/t/1000000),'MHz')
 
 
 
+cb('\narray changing elements,2')
+a = zeros((1000000,2)) #  0.86 Hz 
+t = 1
+tr=Tr(t)
+ctr = 0
+cat = zeros((1,2))
+while not tr.c():
+    a[ctr] = cat
+    ctr += 1
+cg(ctr/1000000,'M',dp(tr.count/t/1000000),'MHz')
 
 
-
-
-
-
-
-
+cb('\narray changing elements,1,1')
+a = zeros((1000000,2)) #  0.77 Hz 
+t = 1
+tr=Tr(t)
+ctr = 0
+cat = zeros((1,2))
+while not tr.c():
+    a[ctr,0] = cat[0,0]
+    a[ctr,1] = cat[0,1]
+    ctr += 1
+cg(ctr/1000000,'M',dp(tr.count/t/1000000),'MHz')
 
 
 #EOF
