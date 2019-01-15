@@ -121,6 +121,7 @@ if N['use flex']:
 
 
 cr('1 #################',memory())
+a = torch.FloatTensor(1)
 #############################################################################################
 #############################################################################################
 ##        Making metadata tensors in advance so they need not be constructed during runtime.
