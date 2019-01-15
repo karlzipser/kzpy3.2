@@ -342,8 +342,8 @@ while not rospy.is_shutdown():
     
 
     
-    qq=0
-    cr(qq);qq+=1
+    
+    cr(0)
     time.sleep(0.001)
 
     if Arguments['desktop_mode']:
@@ -353,26 +353,29 @@ while not rospy.is_shutdown():
 
     elif human_agent == 0 and drive_mode == 1 and behavioral_mode in Metadata_tensors.keys():
 
-        cr(qq);qq+=1
+        cr(1)
         pass
 
     else:
         time.sleep(1)
-        cr(qq);qq+=1
+        cr(2)
         continue
 
     if Torch_network == None:
         cb('network_node: waiting for network')
         time.sleep(2)
+        cr(4)
         continue
-    cr(qq);qq+=1
+    cr(3)
     if N['min motor'] < 0:
         cb("N['min motor'] < 0, i.e. network paused")
         time.sleep(2)
+        cr(5)
         continue      
 
     try:
-        cr(qq);qq+=1
+        cr(6)
+
         ####################################################
         ####################################################
         ####################################################
