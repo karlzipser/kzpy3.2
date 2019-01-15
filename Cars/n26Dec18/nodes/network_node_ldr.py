@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 from kzpy3.utils3 import *
+cr('a #################',memory())
 exec(identify_file_str)
 #import Activity_Module
 
@@ -9,10 +10,10 @@ try:
 except:
     Arguments = {}
     Arguments['desktop_mode'] = False
-
+cr('b #################',memory())
 import default_values
 N = default_values.P
-
+cr('c #################',memory())
 import rospy
 import torch
 import net_utils
@@ -24,7 +25,7 @@ from cv_bridge import CvBridge,CvBridgeError
 from sensor_msgs.msg import Image
 bridge = CvBridge()
 import cv2
-
+cr('d #################',memory())
 dts = []
 
 show_timer = Timer(0.25)
@@ -56,7 +57,7 @@ current_motor = 49
 
 ldr_img = zeros((23,41,3),np.uint8)
 
-
+cr('e #################',memory())
 def ldr_callback(data):
     global ldr_img
     ldr_img = bridge.imgmsg_to_cv2(data,"bgr8")
@@ -108,7 +109,7 @@ steer_cmd_pub = rospy.Publisher('cmd/steer', std_msgs.msg.Int32, queue_size=5)
 motor_cmd_pub = rospy.Publisher('cmd/motor', std_msgs.msg.Int32, queue_size=5)
 Hz_network_pub = rospy.Publisher('Hz_network', std_msgs.msg.Float32, queue_size=5)
 
-
+cr('g #################',memory())
 
 rospy.Subscriber(N['bcs']+'/human_agent', std_msgs.msg.Int32, callback=human_agent_callback)
 rospy.Subscriber(N['bcs']+'/behavioral_mode', std_msgs.msg.String, callback=behavioral_mode_callback)
@@ -118,9 +119,8 @@ if N['use flex']:
     rospy.Subscriber(N['bcs']+'/cmd/flex_motor', std_msgs.msg.Int32, callback=flex_motor__callback)
     rospy.Subscriber(N['bcs']+'/cmd/flex_steer', std_msgs.msg.Int32, callback=flex_steer__callback)
 
-cr('#################',memory())
-time.sleep(15)
-cr('#################',memory())
+
+cr('1 #################',memory())
 #############################################################################################
 #############################################################################################
 ##        Making metadata tensors in advance so they need not be constructed during runtime.
@@ -129,11 +129,11 @@ TP = {}
 TP['behavioral_modes_no_heading_pause'] = ['direct','follow','furtive','play','left','right']
 # note, 'center' is not included in TP['behavioral_modes_no_heading_pause'] because 'center' is converted to 'direct' below.
 TP['behavioral_modes'] = TP['behavioral_modes_no_heading_pause']+['heading_pause']
-
+cr('2 #################',memory())
 zero_matrix = torch.FloatTensor(1, 1, 23, 41).zero_().cuda()
 one_matrix = torch.FloatTensor(1, 1, 23, 41).fill_(1).cuda()
 ldr_matrix = zero_matrix.clone()
-cr('#################',memory())
+cr('3 #################',memory())
 Metadata_tensors = {}
 
 for the_behaviorial_mode in TP['behavioral_modes']:
@@ -192,7 +192,7 @@ for the_behaviorial_mode in TP['behavioral_modes']:
 ##
 #############################################################################################
 #############################################################################################
-cr('#################',memory())
+cr('4 ################',memory())
 
 """
 ##############################################
@@ -228,7 +228,7 @@ mn,mx = -0.25,1.5
 waiting = Timer(1)
 frequency_timer = Timer(5)
 
-cr('#################',memory())
+cr('5 ################',memory())
 ##
 ####################################################
 ####################################################
@@ -264,7 +264,7 @@ parameter_file_load_timer = Timer(2)
 torch_motor, torch_steer, torch_camera = 49,49,49
 
 
-cr('#################',memory())
+cr('6 ################',memory())
 while not rospy.is_shutdown():
    
     #####################################################################
@@ -342,7 +342,7 @@ while not rospy.is_shutdown():
     #####################################################################
     
 
-    cr('#################',memory())
+    cr('7 ################',memory());time.sleep(1)
     
     #cr(0)
     time.sleep(0.001)
