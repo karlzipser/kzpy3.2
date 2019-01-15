@@ -121,7 +121,8 @@ if N['use flex']:
 
 
 cr('1 #################',memory())
-zero_matrix = torch.FloatTensor(1, 1, 23, 41).zero_().cuda()
+zero_matrix0 = torch.FloatTensor(1, 1, 1, 1).zero_().cuda()
+cr('1 ################# 1.5',memory())
 #############################################################################################
 #############################################################################################
 ##        Making metadata tensors in advance so they need not be constructed during runtime.
@@ -131,7 +132,7 @@ TP['behavioral_modes_no_heading_pause'] = ['direct','follow','furtive','play','l
 # note, 'center' is not included in TP['behavioral_modes_no_heading_pause'] because 'center' is converted to 'direct' below.
 TP['behavioral_modes'] = TP['behavioral_modes_no_heading_pause']+['heading_pause']
 cr('2 #################',memory())
-
+zero_matrix = torch.FloatTensor(1, 1, 23, 41).zero_().cuda()
 one_matrix = torch.FloatTensor(1, 1, 23, 41).fill_(1).cuda()
 ldr_matrix = zero_matrix.clone()
 cr('3 #################',memory())
