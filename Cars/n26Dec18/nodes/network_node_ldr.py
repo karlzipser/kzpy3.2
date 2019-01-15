@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-from kzpy3.vis3 import *
+from kzpy3.utils3 import *
 exec(identify_file_str)
-import Activity_Module
+#import Activity_Module
 
 try:
     if Arguments['desktop_mode']:
@@ -472,7 +472,7 @@ while not rospy.is_shutdown():
                     ############################
                     Net_activity = Activity_Module.Net_Activity('batch_num',0, 'activiations',Torch_network['solver'].A)
                     ############################
-                    show_timer.reset()
+                    show_timer.reset() 93.9
             """
             if show_durations.check():
 
