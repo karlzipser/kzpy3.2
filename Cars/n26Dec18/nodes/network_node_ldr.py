@@ -118,9 +118,9 @@ if N['use flex']:
     rospy.Subscriber(N['bcs']+'/cmd/flex_motor', std_msgs.msg.Int32, callback=flex_motor__callback)
     rospy.Subscriber(N['bcs']+'/cmd/flex_steer', std_msgs.msg.Int32, callback=flex_steer__callback)
 
-cr('#################')
+cr('#################',memory())
 time.sleep(15)
-cr('#################')
+cr('#################',memory())
 #############################################################################################
 #############################################################################################
 ##        Making metadata tensors in advance so they need not be constructed during runtime.
@@ -133,7 +133,7 @@ TP['behavioral_modes'] = TP['behavioral_modes_no_heading_pause']+['heading_pause
 zero_matrix = torch.FloatTensor(1, 1, 23, 41).zero_().cuda()
 one_matrix = torch.FloatTensor(1, 1, 23, 41).fill_(1).cuda()
 ldr_matrix = zero_matrix.clone()
-
+cr('#################',memory())
 Metadata_tensors = {}
 
 for the_behaviorial_mode in TP['behavioral_modes']:
@@ -192,7 +192,7 @@ for the_behaviorial_mode in TP['behavioral_modes']:
 ##
 #############################################################################################
 #############################################################################################
-
+cr('#################',memory())
 
 """
 ##############################################
@@ -228,7 +228,7 @@ mn,mx = -0.25,1.5
 waiting = Timer(1)
 frequency_timer = Timer(5)
 
-
+cr('#################',memory())
 ##
 ####################################################
 ####################################################
@@ -264,7 +264,7 @@ parameter_file_load_timer = Timer(2)
 torch_motor, torch_steer, torch_camera = 49,49,49
 
 
-
+cr('#################',memory())
 while not rospy.is_shutdown():
    
     #####################################################################
@@ -342,7 +342,7 @@ while not rospy.is_shutdown():
     #####################################################################
     
 
-    
+    cr('#################',memory())
     
     #cr(0)
     time.sleep(0.001)

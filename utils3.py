@@ -1190,7 +1190,7 @@ def clear_screen():
 
 
 
-if False:
+if True:
 	def percent_disk_free(disk):
 		statvfs = os.statvfs(disk)
 		size_of_filesystem_in_bytes = statvfs.f_frsize * statvfs.f_blocks     # Size of filesystem in bytes
