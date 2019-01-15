@@ -1,7 +1,8 @@
 #!/usr/bin/env python
-from kzpy3.vis3 import *
+from kzpy3.utils3 import *
+cr('a #################',memory())
 exec(identify_file_str)
-import Activity_Module
+#import Activity_Module
 
 try:
     if Arguments['desktop_mode']:
@@ -9,10 +10,10 @@ try:
 except:
     Arguments = {}
     Arguments['desktop_mode'] = False
-
+cr('b #################',memory())
 import default_values
 N = default_values.P
-
+cr('c #################',memory())
 import rospy
 import torch
 import net_utils
@@ -24,15 +25,15 @@ from cv_bridge import CvBridge,CvBridgeError
 from sensor_msgs.msg import Image
 bridge = CvBridge()
 import cv2
-left_list = []
-right_list = []
+cr('d #################',memory())
 dts = []
 
 show_timer = Timer(0.25)
-cr(1)
 
-cr(2)
+    #rospy.init_node('network_node_ldr',anonymous=True,disable_signals=True)
 
+left_list = []
+right_list = []
 nframes = 2
 
 even = True
@@ -50,29 +51,20 @@ left = 0.0
 right = 0.0
 center = 0.0
 
+
 def fun():
-
-
-
     current_camera = 49
     current_steer = 49
     current_motor = 49
 
 
+    ldr_img = zeros((23,41,3),np.uint8)
 
-
-    def send_image_to_list(lst,data):
-        cimg = bridge.imgmsg_to_cv2(data,"bgr8")
-        advance(lst,cimg,nframes + 3)  
-
-    def right_callback(data):
-        global right_list
-        send_image_to_list(right_list,data)
-
-    def left_callback(data):
-        global left_list, left_calls
-        send_image_to_list(left_list,data)
-        left_calls += 1
+    cr('e #################',memory())
+    def ldr_callback(data):
+        global ldr_img
+        ldr_img = bridge.imgmsg_to_cv2(data,"bgr8")
+    rospy.Subscriber("/ldr_img",Image,ldr_callback,queue_size = 1)
 
     def human_agent_callback(msg):
         global human_agent
@@ -120,18 +112,7 @@ def fun():
     motor_cmd_pub = rospy.Publisher('cmd/motor', std_msgs.msg.Int32, queue_size=5)
     Hz_network_pub = rospy.Publisher('Hz_network', std_msgs.msg.Float32, queue_size=5)
 
-    if N['use SqueezeNet40_multirun']:
-        encoder0_pub = rospy.Publisher('encoder0',Int32MultiArray,queue_size = 10)
-        encoder1_pub = rospy.Publisher('encoder1',Int32MultiArray,queue_size = 10)
-        encoder2_pub = rospy.Publisher('encoder2',Int32MultiArray,queue_size = 10)
-
-        header0_pub = rospy.Publisher('header0',Int32MultiArray,queue_size = 10)
-        header1_pub = rospy.Publisher('header1',Int32MultiArray,queue_size = 10)
-        header2_pub = rospy.Publisher('header2',Int32MultiArray,queue_size = 10)
-
-        motor0_pub = rospy.Publisher('motor0',Int32MultiArray,queue_size = 10)
-        motor1_pub = rospy.Publisher('motor1',Int32MultiArray,queue_size = 10)
-        motor2_pub = rospy.Publisher('motor2',Int32MultiArray,queue_size = 10)
+    cr('g #################',memory())
 
     rospy.Subscriber(N['bcs']+'/human_agent', std_msgs.msg.Int32, callback=human_agent_callback)
     rospy.Subscriber(N['bcs']+'/behavioral_mode', std_msgs.msg.String, callback=behavioral_mode_callback)
@@ -142,10 +123,9 @@ def fun():
         rospy.Subscriber(N['bcs']+'/cmd/flex_steer', std_msgs.msg.Int32, callback=flex_steer__callback)
 
 
-    rospy.Subscriber(N['bcs']+"/zed/right/image_rect_color",Image,right_callback,queue_size = 1)
-    rospy.Subscriber(N['bcs']+"/zed/left/image_rect_color",Image,left_callback,queue_size = 1)
-
-
+    cr('1 #################',memory())
+    zero_matrix0 = torch.FloatTensor(1, 1, 1, 1).zero_().cuda()
+    cr('1 ################# 1.5',memory())
     #############################################################################################
     #############################################################################################
     ##        Making metadata tensors in advance so they need not be constructed during runtime.
@@ -154,14 +134,15 @@ def fun():
     TP['behavioral_modes_no_heading_pause'] = ['direct','follow','furtive','play','left','right']
     # note, 'center' is not included in TP['behavioral_modes_no_heading_pause'] because 'center' is converted to 'direct' below.
     TP['behavioral_modes'] = TP['behavioral_modes_no_heading_pause']+['heading_pause']
-
+    cr('2 #################',memory())
     zero_matrix = torch.FloatTensor(1, 1, 23, 41).zero_().cuda()
     one_matrix = torch.FloatTensor(1, 1, 23, 41).fill_(1).cuda()
-
+    ldr_matrix = zero_matrix.clone()
+    cr('3 #################',memory())
     Metadata_tensors = {}
 
     for the_behaviorial_mode in TP['behavioral_modes']:
-
+        
         Metadata_tensors[the_behaviorial_mode] = torch.FloatTensor().cuda()
 
         mode_ctr = 0
@@ -172,7 +153,7 @@ def fun():
 
             if cur_label == the_behaviorial_mode:
 
-                if N['use SqueezeNet40_multirun']:
+                if False:#N['use SqueezeNet40_multirun']:
                     metadata = torch.cat((zero_matrix, metadata), 1); mode_ctr += 1
                 else:
                     metadata = torch.cat((one_matrix, metadata), 1); mode_ctr += 1
@@ -216,9 +197,9 @@ def fun():
     ##
     #############################################################################################
     #############################################################################################
+    cr('4 ################',memory())
 
-
-
+    """
     ##############################################
     #
     # visualization only
@@ -233,7 +214,7 @@ def fun():
         return np.concatenate( (lr_spacer,l,lr_spacer,r,lr_spacer), axis=1)
     #
     ##############################################
-
+    """
 
 
     Durations = {}
@@ -252,7 +233,7 @@ def fun():
     waiting = Timer(1)
     frequency_timer = Timer(5)
 
-
+    cr('5 ################',memory())
     ##
     ####################################################
     ####################################################
@@ -261,9 +242,9 @@ def fun():
 
 
     rLists = {}
-    rLists['left'] = []
-    rLists['right'] = []
-
+    zero_input_img = zeros((net_input_height,net_input_width,3),np.uint8)
+    rLists['left'] = [zero_input_img,zero_input_img,zero_input_img]
+    rLists['right'] = rLists['left']
 
     print_timer = Timer(0.2)
 
@@ -288,9 +269,9 @@ def fun():
     torch_motor, torch_steer, torch_camera = 49,49,49
 
 
-
+    cr('6 ################',memory())
     while not rospy.is_shutdown():
-
+       
         #####################################################################
         #####################################################################
         ###    
@@ -300,10 +281,10 @@ def fun():
             Topics = menu2.load_Topics(
                 opjk("Cars/n26Dec18/nodes"),
                 first_load=False,
-                customer='Network')
+                customer='Network_ldr')
 
             if type(Topics) == dict:
-                for t in Topics['To Expose']['Network']+Topics['To Expose']['Weights']+Topics['To Expose']['Flex']:
+                for t in Topics['To Expose']['Network_ldr']+Topics['To Expose']['Network']+Topics['To Expose']['Weights']+Topics['To Expose']['Flex']:
                     if '!' in t:
                         pass
                     else:
@@ -336,9 +317,29 @@ def fun():
                                     N['weight_file_path'] = N['weight_files'][n][N[n][1]]
                                     sbpd2s("N['weight_file_path'] = N['weight_files'][n][a[1]]")
                                     break
+                ######################
+                ######################
+                ######################
+                ######################
+                ######################
+                ######################
+                #  TEMP
+                cr("********* USING TEMPORARY WAY OF LOADING LDR NET WEIGHTS **************")
+                if username == 'nvidia':
+                    folder = opjm('rosbags/Network_Weights/Sq40_initial_full_zeroing_and_projections_from_scratch')
+                else:
+                    folder = opjD('Networks/Sq40_initial_full_zeroing_and_projections_from_scratch/weights')
+                N['weight_file_path'] = most_recent_file_in_folder(folder,'infer')
+                ######################
+                ######################
+                ######################
+                ######################
+                ######################
+
 
                 if N['weight_file_path'] != False:
                     cs( "if N['weight_file_path'] != False:" )
+                    N['use SqueezeNet40_multirun'] = False
                     Torch_network = net_utils.Torch_Network(N)
                     cs( "Torch_network = net_utils.Torch_Network(N)" )
         ###
@@ -346,75 +347,47 @@ def fun():
         #####################################################################
         
 
+        #cr('7 ################',memory());time.sleep(1)
         
-
-
+        #cr(0)
         time.sleep(0.001)
 
         if Arguments['desktop_mode']:
             human_agent = 0
             drive_mode = 1
-            behavioral_mode = 'direct'
+            #behavioral_mode = 'direct'
 
         elif human_agent == 0 and drive_mode == 1 and behavioral_mode in Metadata_tensors.keys():
+
+            #cr(1)
             pass
 
         else:
             time.sleep(1)
+            #cr(2)
             continue
 
         if Torch_network == None:
             cb('network_node: waiting for network')
             time.sleep(2)
+            #cr(4)
             continue
-
+        #cr(3)
         if N['min motor'] < 0:
             cb("N['min motor'] < 0, i.e. network paused")
             time.sleep(2)
+            cr(5)
             continue      
 
         try:
-            
+            #cr(6)
+
             ####################################################
             ####################################################
             ####################################################
             ##
 
-            Lists = {}
-            Lists['left'] = left_list[-2:]
-            Lists['right'] = right_list[-2:]##
 
-
-            try:
-                for side in ['left','right']:
-                    for i in [-1]:
-                        img = Lists[side][i]
-                        if shape(img)[0] > 94:
-                            resizing.message(d2s("img shape is",shape(img),"; resizing."))
-                            img = cv2.resize(img,(net_input_width,net_input_height))
-                        advance(rLists[side], img , 4 )
-            except:
-                cr("problem getting images to network")
-                time.sleep(0.1)
-                continue
-
-
-            if len(rLists['left'])>2:
-
-                if N['show_net_input']:
-      
-                    if even:
-                        l0 = rgbcat(rLists,'left',-1)
-                        ln1 = rgbcat(rLists,'left',-2)
-                        r0 = rgbcat(rLists,'right',-1)
-                        rn1 = rgbcat(rLists,'right',-2)
-                        l = tcat(l0,ln1)
-                        r = tcat(r0,rn1)
-                        lr = lrcat(l,r)
-                        mci((z2o(lr)*255).astype(np.uint8),scale=1.0,color_mode=cv2.COLOR_GRAY2BGR,title='ZED')
-                        even = False
-                    else:
-                        even = True
 
             ##
             ####################################################
@@ -429,32 +402,18 @@ def fun():
                     for j in range(10):
                         cs("ERROR!!!!!!!!!!!!!!!!!!!!!!")
                     cr("behavioral_mode",behavioral_mode,"not in Metadata_tensors.keys()")
-                if behavioral_mode in Metadata_tensors:
-                    metadata = Metadata_tensors[behavioral_mode]
-                else:
-                    cr("*** Warning, behavioral_mode '",behavioral_mode,"'is not in Metadata_tensors using workaround. ***")
-                    metadata = Torch_network['format_metadata']((direct,follow,furtive,play,left,right)) #((right,left,play,furtive,follow,direct))
 
+                metadata = Metadata_tensors[behavioral_mode]
+                # zero_matrix[0,0,:,:] = torch.from_numpy(np.random.random((23,41)))
+                                      #0      1   2
+                ctr = 0
+                for i in [2,0,1]: # center left right
+                    metadata[0,5+12+ctr,:,:] = torch.from_numpy((ldr_img[:,:,i]*1.0)).cuda().float()/255.0
+                    ctr += 1
+                                    # _ R L 2 1 0
                 torch_motor_prev, torch_steer_prev = torch_motor, torch_steer
 
                 torch_motor, torch_steer = Torch_network['run_model'](camera_data, metadata, N)
-
-
-
-                
-                if N['use SqueezeNet40_multirun']:
-                    encoder0_pub.publish(data=Torch_network['encoder'][0])
-                    encoder1_pub.publish(data=Torch_network['encoder'][1])
-                    encoder2_pub.publish(data=Torch_network['encoder'][2])
-
-                    header0_pub.publish(data=Torch_network['heading'][0])
-                    header1_pub.publish(data=Torch_network['heading'][1])
-                    header2_pub.publish(data=Torch_network['heading'][2])
-
-                    motor0_pub.publish(data=Torch_network['motor'][0])
-                    motor1_pub.publish(data=Torch_network['motor'][1])
-                    motor2_pub.publish(data=Torch_network['motor'][2])
-
 
 
 
@@ -490,7 +449,7 @@ def fun():
                 adjusted_camera = bound_value(adjusted_camera,0,99)
 
                 adjusted_motor = min(adjusted_motor,N['max motor'])
-                adjusted_motor = max(adjusted_motor,N['min motor'])
+                adjusted_motor = max(adjusted_motor,N['min motor']) 
 
                 if N['use flex'] and flex_motor < 47:
                     adjusted_steer = N['flex_steer_gain']*(flex_steer-49)+49
@@ -501,7 +460,7 @@ def fun():
                         print_timer.reset()
                 else:
                     if print_timer.check():
-                        cg('c:',adjusted_camera,'\ts:',adjusted_steer,behavioral_mode,'\tm:',adjusted_motor)
+                        cy('c:',adjusted_camera,'\ts:',adjusted_steer,behavioral_mode,'\tm:',adjusted_motor)
                         print_timer.reset()
 
 
@@ -510,18 +469,17 @@ def fun():
                 if np.abs(adjusted_camera-49) < N['camera_auto_zero_for_small_values_int']:
                     adjusted_camera = 49
 
-                if not N['use SqueezeNet40_multirun']:
-                    camera_cmd_pub.publish(std_msgs.msg.Int32(adjusted_camera))
-                    steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
-                    motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
-
+                camera_cmd_pub.publish(std_msgs.msg.Int32(adjusted_camera))
+                steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
+                motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
+                """
                 if N['show_net_activity']:
                     if show_timer.check():
                         ############################
                         Net_activity = Activity_Module.Net_Activity('batch_num',0, 'activiations',Torch_network['solver'].A)
                         ############################
-                        show_timer.reset()
-
+                        show_timer.reset() 93.9
+                """
                 if show_durations.check():
 
                     show_durations.reset()
@@ -535,13 +493,7 @@ def fun():
             CS_('Exception!',emphasis=True)
             CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
 
-    #    else:
-    #        time.sleep(0.00001)
 
-    CS_('goodbye!',__file__)
-    CS_("doing... unix(opjh('kzpy3/scripts/kill_ros.sh'))")
-    time.sleep(0.01)
-    #unix(opjh('kzpy3/scripts/kill_ros.sh'))
 
 
 

@@ -92,3 +92,4 @@ def unit_test():
     print('SqueezeNet40.py, unit_test(): Tested SqueezeNet')
 
 unit_test()
+time.sleep(5) # seems to prevent Segmentation Fault
