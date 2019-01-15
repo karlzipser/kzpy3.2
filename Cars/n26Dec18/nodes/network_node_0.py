@@ -7,4 +7,4 @@ import network_node_1c
 
 threading.Thread(target=network_node_1.fun,args=[]).start()
 threading.Thread(target=network_node_1b.fun,args=[]).start()
-threading.Thread(target=network_node_1c.fun,args=[]).start()
+#threading.Thread(target=network_node_1c.fun,args=[]).start()
