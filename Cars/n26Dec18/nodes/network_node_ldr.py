@@ -193,7 +193,7 @@ for the_behaviorial_mode in TP['behavioral_modes']:
 #############################################################################################
 
 
-
+"""
 ##############################################
 #
 # visualization only
@@ -208,7 +208,7 @@ def lrcat(l,r):
     return np.concatenate( (lr_spacer,l,lr_spacer,r,lr_spacer), axis=1)
 #
 ##############################################
-
+"""
 
 
 Durations = {}
@@ -411,23 +411,6 @@ while not rospy.is_shutdown():
 
 
 
-            
-            if False:#N['use SqueezeNet40_multirun']:
-                encoder0_pub.publish(data=Torch_network['encoder'][0])
-                encoder1_pub.publish(data=Torch_network['encoder'][1])
-                encoder2_pub.publish(data=Torch_network['encoder'][2])
-
-                header0_pub.publish(data=Torch_network['heading'][0])
-                header1_pub.publish(data=Torch_network['heading'][1])
-                header2_pub.publish(data=Torch_network['heading'][2])
-
-                motor0_pub.publish(data=Torch_network['motor'][0])
-                motor1_pub.publish(data=Torch_network['motor'][1])
-                motor2_pub.publish(data=Torch_network['motor'][2])
-
-
-
-
             if np.abs(torch_steer - torch_steer_prev) > N['camera_move_threshold']:
                 torch_camera = torch_steer
 
@@ -483,14 +466,14 @@ while not rospy.is_shutdown():
             camera_cmd_pub.publish(std_msgs.msg.Int32(adjusted_camera))
             steer_cmd_pub.publish(std_msgs.msg.Int32(adjusted_steer))
             motor_cmd_pub.publish(std_msgs.msg.Int32(adjusted_motor))
-
+            """
             if N['show_net_activity']:
                 if show_timer.check():
                     ############################
                     Net_activity = Activity_Module.Net_Activity('batch_num',0, 'activiations',Torch_network['solver'].A)
                     ############################
                     show_timer.reset()
-
+            """
             if show_durations.check():
 
                 show_durations.reset()
