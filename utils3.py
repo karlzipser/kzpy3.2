@@ -709,7 +709,7 @@ class Timer:
 		self.start_time = time.time()
 		self.count = 0
 	def check(self):
-		self.count += 1
+		#self.count += 1
 		if time.time() - self.start_time > self.time_s:
 			return True
 		else:
