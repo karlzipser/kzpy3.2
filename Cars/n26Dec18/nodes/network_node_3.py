@@ -6,6 +6,6 @@ import network_node_ldr__
 
 while True:
     network_node__.step()
-    network_node_ldr__.step()
+    #network_node_ldr__.step()
 
 
