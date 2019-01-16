@@ -899,11 +899,16 @@ def assert_disk_locations(locations):
 	for l in locations:
 		#print(d2s("Checking for",l))
 		if len(gg(l)) < 1:
-			srpd2s(d2s("Error:\n",l,"not available!"))
-			if len(l.split('/')) > 0:
-				spd2s('Could not find',l,'!!!!!!!!!!')
-				raise ValueError(d2s('Could not find',pname(l),'!!!!!!!!!!'))
-			#assert(False)
+			if False: # old version
+				srpd2s(d2s("Error:\n",l,"not available!"))
+				if len(l.split('/')) > 0:
+					spd2s('Could not find',l,'!!!!!!!!!!')
+					raise ValueError(d2s('Could not find',pname(l),'!!!!!!!!!!'))
+			#srpd2s(d2s("Error:\n",l,"not available!"))
+			#if len(l.split('/')) > 0:
+			#	spd2s('Could not find',l,'!!!!!!!!!!')
+			raise ValueError(d2s('Could not find',l))
+		#assert(False)
 		#print(d2s(l,'is there.\n'))
 
 
@@ -1050,6 +1055,16 @@ if '__file__' not in locals():
 cprint('using '+__file__,'yellow')
 	"""
 exec(identify_file_str)
+#
+#####################################################
+identify_file_str_future = """
+from __future__ import division
+from __future__ import print_function
+if '__file__' not in locals():
+	__file__ = ' __file__ '
+cprint('using '+__file__,'yellow')
+	"""
+#exec(identify_file_str_future)
 #
 #####################################################
 
