@@ -29,9 +29,10 @@ def left_callback(data):
     left_list.append(cimg)
 
 
-
-rospy.Subscriber("/bair_car/zed/right/image_rect_color",Image,right_callback,queue_size = 1)
-rospy.Subscriber("/bair_car/zed/left/image_rect_color",Image,left_callback,queue_size = 1)
+bc = "/bair_car"
+bc = ''
+rospy.Subscriber(bc+"/zed/right/image_rect_color",Image,right_callback,queue_size = 1)
+rospy.Subscriber(bc+"/zed/left/image_rect_color",Image,left_callback,queue_size = 1)
 
 
 
