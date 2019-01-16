@@ -3,7 +3,7 @@ exec(identify_file_str)
 
 P = {}
 _ = P
-_['use SqueezeNet40_multirun'] = True
+#_['use SqueezeNet40_multirun!!!'] = True
 _['agent_is_human'] = True
 _['use_motor_PID'] = True
 _['desktop version'] = False
@@ -104,7 +104,7 @@ _['sound/failure 1'] = 			'60' # failure 1 sound, white horizontal light off
 _['sound/failure 2'] = 			'61' # failure 2 sound, green horizontal light off
 _['sound/human, YES'] = 		'100'
 _['sound/human, NO'] = 			'101'
-
+_['net_hide_colors'] = []
 
 
 
@@ -167,6 +167,7 @@ _['To Expose']['Network'] = [
 	'camera_move_threshold',
 	'camera_auto_zero_for_small_values_int',
 	'network_reverse_motor_gain',
+	'net_hide_colors',
 ]
 _['To Expose']['Network_ldr'] = [
 	'max motor',

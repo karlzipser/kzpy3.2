@@ -59,6 +59,7 @@ _['reload_image_file_timer_time'] = 35*minutes
 _['lacking runs'] = {}
 _['freeze premetadata weights'] = False
 if _['freeze premetadata weights']:
+	cr("\n\n******* _['freeze premetadata weights'] == True *******\n")
 	_['update premetadata weights from other model'] = most_recent_file_in_folder(opjD('Networks/net_24Dec2018_12imgs_projections/weights'),['.infer'],[])
 
 

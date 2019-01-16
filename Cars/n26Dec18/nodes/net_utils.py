@@ -8,7 +8,7 @@ import rospy
 exec(identify_file_str)
 
 def Torch_Network(N):
-    try:
+    if True:#try:
         D = {}
         D['heading'] = {}
         D['encoder'] = {}
@@ -16,8 +16,9 @@ def Torch_Network(N):
 
         D['save_data'] = torch.load(N['weight_file_path'])
         print("Torch_Network(N):: Loading "+N['weight_file_path'])
-        if N['use SqueezeNet40_multirun']:
+        if N['use SqueezeNet40_multirun!!!']:
             from kzpy3.Train_app.nets.SqueezeNet40_multirun import SqueezeNet
+            raw_enter("from kzpy3.Train_app.nets.SqueezeNet40_multirun import SqueezeNet")
         else:
             from kzpy3.Train_app.nets.SqueezeNet40 import SqueezeNet
         D['solver'] = SqueezeNet().cuda()
@@ -26,7 +27,7 @@ def Torch_Network(N):
         print("Torch_Network(N):: Loading complete.")
         D['nframes'] = 2#D['solver'].N_FRAMES
         D['scale'] = nn.AvgPool2d(kernel_size=3, stride=2, padding=1).cuda()
-    except Exception as e:
+    else:#except Exception as e:
         exc_type, exc_obj, exc_tb = sys.exc_info()
         file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
         CS_('Exception!',emphasis=True)
@@ -34,7 +35,9 @@ def Torch_Network(N):
     def _run_model(input,metadata,N,return_full_output=False):
         D['output'] = D['solver'](input, Variable(metadata))
 
-        if N['use SqueezeNet40_multirun']:
+        if N['use SqueezeNet40_multirun!!!']:
+            cm("type(D['output']) =",type(D['output']))
+            #raw_enter()
             assert type(D['output']) == list
             for i in [0,1,2]:
                 o = D['output'][i]
