@@ -18,7 +18,7 @@ def Torch_Network(N):
         print("Torch_Network(N):: Loading "+N['weight_file_path'])
         if N['use SqueezeNet40_multirun!!!']:
             from kzpy3.Train_app.nets.SqueezeNet40_multirun import SqueezeNet
-            raw_enter("from kzpy3.Train_app.nets.SqueezeNet40_multirun import SqueezeNet")
+            #raw_enter("from kzpy3.Train_app.nets.SqueezeNet40_multirun import SqueezeNet")
         else:
             from kzpy3.Train_app.nets.SqueezeNet40 import SqueezeNet
         D['solver'] = SqueezeNet().cuda()
