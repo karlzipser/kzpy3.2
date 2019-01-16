@@ -3,17 +3,17 @@ exec(identify_file_str)
 
 P = {}
 _ = P
-_['use SqueezeNet40_multirun'] = True
+#_['use SqueezeNet40_multirun!!!'] = True
 _['agent_is_human'] = True
 _['use_motor_PID'] = True
-_['desktop version'] = False
+_['desktop version'] = True # Note, unrelated to 'desktop_mode' command line arg
 if _['desktop version']:
 	_['bcs'] = ''
 else:
 	_['bcs'] = '/bair_car'
 _['desktop version/artifical mode'] = False
 _['desktop version/pwm to screen'] = True
-_['customers'] = ['Arduino','Network','Weights','Flex']
+_['customers'] = ['Arduino','Network','Weights','Flex','Network_ldr',]
 _['drive_mode'] = 0
 _['use sound'] = True
 _['now in calibration mode'] = False
@@ -104,7 +104,7 @@ _['sound/failure 1'] = 			'60' # failure 1 sound, white horizontal light off
 _['sound/failure 2'] = 			'61' # failure 2 sound, green horizontal light off
 _['sound/human, YES'] = 		'100'
 _['sound/human, NO'] = 			'101'
-
+_['net_hide_colors'] = []
 
 
 
@@ -167,7 +167,11 @@ _['To Expose']['Network'] = [
 	'camera_move_threshold',
 	'camera_auto_zero_for_small_values_int',
 	'network_reverse_motor_gain',
-	
+	'net_hide_colors',
+]
+_['To Expose']['Network_ldr'] = [
+	'max motor',
+	'min motor',
 ]
 
 _['To Expose']['Flex'] = [
@@ -180,7 +184,7 @@ _['To Expose']['Flex'] = [
 
 
 if username == 'nvidia':
-	_['weight_file_path'] = opjm("rosbags/networks")
+	_['weight_file_path'] = opjm("rosbags/Network_Weights")
 else:
 	_['weight_file_path'] = opjD('Networks/_net_15Sept2018_1Nov_with_reverse_')
 

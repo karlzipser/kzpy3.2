@@ -284,7 +284,8 @@ def load_menu_data(path,Parameters,first_load=False,customer=''):
                 Topics = load_Topics(path,first_load,customer)
                 if type(Topics) == dict:
                     for t in Topics['To Expose'][Q]:
-                        if False: #'!' in t:
+                        if '!!!' in t:
+                            cm(__file__,", not updating",t)
                             pass
                         else:
                             Parameters[t] = Topics[t]
@@ -312,6 +313,8 @@ if __name__ == '__main__':
     exec(exec_str)
 
     exec(d2n('Topics = default_values.',dic))
+    if dic == '_':
+        cr("\n\n\n***** WARNING, 'dic' == '_' *****\n")
 
     menu2(Topics,path)
 

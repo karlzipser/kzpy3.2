@@ -89,6 +89,7 @@ class SqueezeNet(nn.Module):
 def unit_test():
     test_net = SqueezeNet()
     a = test_net(Variable(torch.randn(5, 12, 94, 168)), Variable(torch.randn(5, 128, 23, 41)))    
-    print('SqueezeNet40.py, unit_test(): Tested SqueezeNet')
+    cw('unit_test():',__file__)
 
 unit_test()
+#time.sleep(5) # seems to prevent Segmentation Fault

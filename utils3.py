@@ -709,7 +709,7 @@ class Timer:
 		self.start_time = time.time()
 		self.count = 0
 	def check(self):
-		self.count += 1
+		#self.count += 1
 		if time.time() - self.start_time > self.time_s:
 			return True
 		else:
@@ -1190,7 +1190,7 @@ def clear_screen():
 
 
 
-if False:
+if True:
 	def percent_disk_free(disk):
 		statvfs = os.statvfs(disk)
 		size_of_filesystem_in_bytes = statvfs.f_frsize * statvfs.f_blocks     # Size of filesystem in bytes
