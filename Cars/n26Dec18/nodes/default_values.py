@@ -6,7 +6,7 @@ _ = P
 #_['use SqueezeNet40_multirun!!!'] = True
 _['agent_is_human'] = True
 _['use_motor_PID'] = True
-_['desktop version'] = True # Note, unrelated to 'desktop_mode' command line arg
+_['desktop version'] = False # Note, unrelated to 'desktop_mode' command line arg
 if _['desktop version']:
 	_['bcs'] = ''
 else:
