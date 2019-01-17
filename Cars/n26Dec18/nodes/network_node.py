@@ -1,7 +1,16 @@
 #!/usr/bin/env python
 from kzpy3.vis3 import *
 exec(identify_file_str)
-import Activity_Module
+if True:
+    import kzpy3.Cars.n26Dec18.nodes.Activity_Module as Activity_Module
+    import kzpy3.Cars.n26Dec18.nodes.default_values as default_values
+    import kzpy3.Cars.n26Dec18.nodes.net_utils as net_utils
+    Arguments['desktop_mode']=True
+else:
+    import net_utils
+    import Activity_Module
+    import default_values
+
 cm(0)
 try:
     if Arguments['desktop_mode']:
@@ -10,12 +19,12 @@ except:
     Arguments = {}
     Arguments['desktop_mode'] = False
 
-import default_values
+
 N = default_values.P
 N['use SqueezeNet40_multirun!!!'] = False
 import rospy
 import torch
-import net_utils
+
 import roslib
 import std_msgs.msg
 import geometry_msgs.msg
@@ -60,7 +69,7 @@ cm(1)
 
 
 def send_image_to_list(lst,data):
-    cimg = bridge.imgmsg_to_cv2(data,"bgr8")
+    cimg = bridge.imgmsg_to_cv2(data,'rgb8')#"bgr8")
     advance(lst,cimg,nframes + 3)  
 
 def right_callback(data):
@@ -465,10 +474,10 @@ def step():
             ctr = 0
             for t in [-1,-2]:
                 for camera in ('left meta','right meta'):
-                    for color in [0,2,1]:
+                    for color in [0,1,2]:
                         img = rLists[camera][t][:,:,color]
                         if N['show_net_input']:
-                            mi(img,camera);spause();raw_enter()
+                            mi(img,camera);spause();time.sleep(0.2)#raw_enter()
                         #cm("shape(img)=",shape(img))
                         #cm(1,metadata[0,1+4+ctr,:,:].size())
                         #cm(2,torch.from_numpy(img).size())
@@ -575,6 +584,7 @@ def step():
                     ############################
                     show_timer.reset()
                     raw_enter()
+
             if N['show_net_input']:
                 camera_input = Torch_network['solver'].A['camera_input']
                 camera_input = camera_input.data.cpu().numpy()
@@ -583,6 +593,10 @@ def step():
                     c = c.transpose(1,2,0) 
                     c = z55(c)
                     mi(c,d2s(i))
+
+
+            
+
 
             if show_durations.check():
 
@@ -598,10 +612,23 @@ def step():
         CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
 
 
-while not rospy.is_shutdown():
-    step()
-    if N['show_net_input']:
-        raw_enter()
+if __name__ == '__main__':
+
+    while not rospy.is_shutdown():
+
+        for i in range(4):
+            step()
+
+        if Torch_network != None:
+            if 'solver' in Torch_network:
+                if len(Torch_network['solver'].A.keys()) > 0:
+                    show_color_net_inputs(
+                        Torch_network['solver'].A['camera_input'],
+                        Torch_network['solver'].A['pre_metadata_features_metadata'])
+                    raw_enter()
+
+        if N['show_net_input']:
+            raw_enter()
 
 
 #EOF
