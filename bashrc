@@ -76,12 +76,16 @@ alias td2="mv ~/Desktop/* ~/Desktop2/"
 
 export PYTHONPATH=~:$PYTHONPATH
 #export PYTHONSTARTUP=~/kzpy3/utils.py
+
+
 if [ "$(whoami)" == "nvidia" ]
   then
     export PYTHONSTARTUP=~/kzpy3/utils3.py
   else
     export PYTHONSTARTUP=~/kzpy3/vis3.py
 fi
+
+
 export PATH=~/kzpy3/scripts:$PATH
 export PATH=~/kzpy3/scratch:$PATH
 export PATH=~/kzpy3/misc:$PATH
