@@ -25,7 +25,10 @@ figsize=(40,6)
 p = n['post_metadata_features.0.squeeze.weight'] 
 q = p.cpu().numpy() 
 q = q[:,:,0,0] 
-q[:,128]/=10.
+#q[:,128]/=10.
+q[q>1]=1
+q[q<-1]=-1
+cr('*** note, q[q>1]=1, +/- ***')
 figure(_['WEIGHTS_FILE_PATH'].replace(opjh(),'')+' ',figsize=figsize)
 plot([0,256],[0,0],'b-')
 
