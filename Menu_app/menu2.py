@@ -193,12 +193,12 @@ def menu2(Topics,path):
                 current_val = Topics[name]
                 if type(current_val) == bool:
                     if 'click' in name:
-                        yes_no = raw_input(d2n(name,'? (y/n) '))
-                        if yes_no == 'y':
+                        yes_no = raw_input(d2n(name,'? ([y]/n) '))
+                        if yes_no == 'y' or yes_no == '':
                             Topics[name] = True
                     else:
-                        yes_no = raw_input(d2n(name,'(',current_val,') toggle value? (y/n) '))
-                        if yes_no == 'y':
+                        yes_no = raw_input(d2n(name,'(',current_val,') toggle value? ([y]/n) '))
+                        if yes_no == 'y' or yes_no == '':
                             if Topics[name]:
                                 Topics[name] = False
                             else:
