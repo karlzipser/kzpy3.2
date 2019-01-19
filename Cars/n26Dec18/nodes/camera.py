@@ -2,6 +2,13 @@
 from kzpy3.vis3 import *
 exec(identify_file_str)
 
+ga = getattr
+sa = setattr
+
+class C:
+    def __init__(self):
+        pass
+
 import rospy
 import torch
 import roslib
@@ -10,12 +17,29 @@ from sensor_msgs.msg import Image
 bridge = CvBridge()
 import cv2
 
-ga = getattr
-sa = setattr
+S = C()
+S.calls = 0
+S.success = 0
+S.fails_1 = 0
+S.fails_2 = 0
+S.fails_3 = 0
+S.fails_4 = 0
 
-class C:
-    def __init__(self):
-        pass
+
+Dt = C()
+Dt.left_lst = []
+Dt.right_lst = []
+Dt.now_lst = []
+
+Zed = C()
+Zed.left = []
+Zed.right = []
+
+
+def hist_dt_lists():
+    figure('Dt.now_lst');clf();hist(Dt.now_lst)
+    figure('Dt.left_lst');clf();hist(Dt.left_lst)
+    figure('Dt.right_lst');clf();hist(Dt.right_lst)
 
 
 class CameraShot:
@@ -23,6 +47,7 @@ class CameraShot:
         self.img = bridge.imgmsg_to_cv2(data,'rgb8')
         self.ts = data.header.stamp.secs + data.header.stamp.nsecs / 10.0**9
         self.seq = data.header.seq
+        self.ready = True
 
 
 class Quartet:
@@ -31,54 +56,35 @@ class Quartet:
         self.right_now  = None
         self.left_prev  = None
         self.right_prev = None
-    def display(self):
+    def display(self,scale=4,delay1=10,delay2=1):
         img_now = np.zeros((94,2*168+10,3),np.uint8)
         img_prev = np.zeros((94,2*168+10,3),np.uint8)
         img_now[:,:168,:] = self.right_now
         img_now[:,-168:,:] = self.left_now
         img_prev[:,:168,:] = self.right_prev
         img_prev[:,-168:,:] = self.left_prev
+        mci(img_prev,scale=scale,delay=delay1,title='Quartet')
+        mci(img_now,scale=scale,delay=delay2,title='Quartet')
 
-        mci(img_prev,scale=4,delay=10,title='1')
-        mci(img_now,scale=4,delay=1,title='1')
 
-
-D={}
-D['call'] = 0
-D['success'] = 0
-D['fail 1'] = 0
-D['fail 2'] = 0
-D['fail 3'] = 0
-
-Zed = C()
-Zed.left = []
-Zed.right = []
-
-L = {}
-L['left_ready'] = False
-
-def zed_lst_lim(zed,side,max_len,min_len):
+def limit_zed_list(zed,side,max_len,min_len):
     l = ga(zed,side)
     if len(l) > max_len:
         sa(zed,side,l[-min_len:])
 
-dt_left_lst = []
-dt_right_lst = []
-dt_now_lst = []
 
 def build_quartet():
-    D['call'] += 1
+    S.calls += 1
     try:
         for i in [-1,-2,-3]:
             dt_now = Zed.left[i].ts - Zed.right[-1].ts
             if dt_now > -0.01 and dt_now < 0.02:
                 break
         else:
-            D['fail 3']+=1
+            S.fails_3+=1
             return None
 
         dt_left = Zed.left[i].ts - Zed.left[i-1].ts
-        
         dt_right = Zed.right[-1].ts - Zed.right[-2].ts
         
         if dt_left > 0.025 and dt_left < 0.04:
@@ -88,16 +94,17 @@ def build_quartet():
                 Q.right_now =  Zed.right[-1].img
                 Q.left_prev = Zed.left[i-1].img
                 Q.right_prev = Zed.right[-2].img
-                D['success']+=1
-                dt_left_lst.append(dt_left)
-                dt_right_lst.append(dt_right)
-                dt_now_lst.append(dt_now)
+                S.success + =1
+                Dt.left_lst.append(dt_left)
+                Dt.right_lst.append(dt_right)
+                Dt.now_lst.append(dt_now)
                 return Q
             else:
-                D['fail 1']+=1
+                fails_1+=1
+                return None
         else:
             cr('dt_left ',dt_left)
-            D['fail 2']+=1
+            S.fails_2+=1
             return None
 
     except Exception as e:
@@ -105,39 +112,27 @@ def build_quartet():
         file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
         CS_('Exception!',emphasis=True)
         CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+        S.fails_4 += 1
         return None
-
-
-Hz = {}
-Hz['left'] = Timer(1)
-Hz['right'] = Timer(1)
-
 
 def left_callback(data):
     Zed.left.append(CameraShot(data))
-    zed_lst_lim(Zed,'left',6,4)
-    L['left_ready'] = True
-
+    limit_zed_list(Zed,'left',6,4)
 
 def right_callback(data):
     Zed.right.append(CameraShot(data))
-    zed_lst_lim(Zed,'right',6,4)
-
-
-bcs = '/bair_car'
-rospy.init_node('camera',anonymous=True,disable_signals=True)
-rospy.Subscriber(
-    bcs+"/zed/right/image_rect_color",Image,right_callback,queue_size = 1)
-rospy.Subscriber(
-    bcs+"/zed/left/image_rect_color",Image,left_callback,queue_size = 1)
-
-
-
-
+    limit_zed_list(Zed,'right',6,4)
 
 
 
 if __name__ == '__main__':
+
+    bcs = '/bair_car'
+    rospy.init_node('camera',anonymous=True,disable_signals=True)
+    rospy.Subscriber(
+        bcs+"/zed/right/image_rect_color",Image,right_callback,queue_size = 1)
+    rospy.Subscriber(
+        bcs+"/zed/left/image_rect_color",Image,left_callback,queue_size = 1)
 
     hz = Timer(5)
     print_timer = Tr(5)
@@ -145,50 +140,20 @@ if __name__ == '__main__':
 
     while not rospy.is_shutdown():
 
-        if len(Zed.left) > 3 and L['left_ready']:
-            L['left_ready'] = False
+        if len(Zed.left) > 3 and Zed.left[-1].ready:
+            # consider Zed.right version of above
+            Zed.left[-1].ready = False
             Q = build_quartet()
-            if Q == None:
-                pass#failure+=1
-            else:
-                #success+=1
+            if Q != None:
                 Q.display()
             hz.freq()
             print_timer.message(
                 d2s(D,
                     dp(timer.time()),
-                    dp(100*D['success']/(1.0*D['call'])),'%'))
+                    dp(100*success/(1.0*calls)),'%'))
 
 
 
-
-
-
-
-
-
-
-if False:
-
-    figure('dt_now_lst');clf();hist(dt_now_lst,1000)
-    figure('dt_left_lst');clf();hist(dt_left_lst)
-    figure('dt_right_lst');clf();hist(dt_right_lst)
-
-
-    for i in range(10):
-        if i == 667:
-            print 6
-            break
-    else:
-        print 11
-
-    """
-    frame_id: /zed_current_frame
-    seq: 2839
-    stamp: 
-      secs: 1544744879
-      nsecs: 789260922
-    """
 #EOF
 
     
