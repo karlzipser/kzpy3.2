@@ -947,7 +947,7 @@ def CV2Plot1(img,pixels_per_unit,x_origin_in_pixels=None,y_origin_in_pixels=None
 ########################################################################################
 
 
-def show_color_net_inputs(camera_input,pre_metadata_features_metadata,channel=0):
+def show_color_net_inputs(camera_input,pre_metadata_features_metadata=None,channel=0):
 
     import torch
 
@@ -962,19 +962,20 @@ def show_color_net_inputs(camera_input,pre_metadata_features_metadata,channel=0)
         c = z55(c) # rgb
         mi(c,d2s(a,'to',b))
 
-    p = pre_metadata_features_metadata.data.cpu().numpy()
-    offset = 128+1+4
+    if pre_metadata_features_metadata != None:
+        p = pre_metadata_features_metadata.data.cpu().numpy()
+        offset = 128+1+4
 
-    for i in range(4):
-        a = 3*(i)+offset
-        b = 3*(i+1)-1+offset
-        c = p[channel,a:b+1,:,:]
-        assert shape(c) == (3, 23,41)
-        c = c.transpose(1,2,0) 
-        assert shape(c) == (23,41,3)
-        c = z55(c) #rgb
-        mi(c,d2s(a,'to',b))
-        print 1
+        for i in range(4):
+            a = 3*(i)+offset
+            b = 3*(i+1)-1+offset
+            c = p[channel,a:b+1,:,:]
+            assert shape(c) == (3, 23,41)
+            c = c.transpose(1,2,0) 
+            assert shape(c) == (23,41,3)
+            c = z55(c) #rgb
+            mi(c,d2s(a,'to',b))
+            print 1
     spause()
 
 

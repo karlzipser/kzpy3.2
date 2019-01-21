@@ -2,6 +2,7 @@
 from kzpy3.vis3 import *
 import rospy
 import torch
+import torch.autograd# import Variable
 import roslib
 from cv_bridge import CvBridge,CvBridgeError
 from sensor_msgs.msg import Image
@@ -20,9 +21,10 @@ def Camera_Shot(data):
     return D
 
 
-def Quartet():
+def Quartet(name='Quartet'):
 
     D = {}
+    D['name'] = name
     for side in ['left','right']:
         D[side] = {}
         for when in ['now','prev']:
@@ -32,7 +34,7 @@ def Quartet():
 
     D['ready'] = True
 
-    def _function_display(delay1,delay2,size_='full',scale=4):
+    def _function_display(delay0,delay1,delay2,size_='full',scale=4):
         shape_ = np.shape(D['left']['now'][size_])
         width,height = shape_[1],shape_[0]
         img_now = np.zeros((height,2*width+int(width/16),3),np.uint8)
@@ -41,17 +43,82 @@ def Quartet():
         img_now[:,-width:,:] =  D['left']['now'][size_]
         img_prev[:,:width,:] =  D['right']['prev'][size_]
         img_prev[:,-width:,:] = D['left']['prev'][size_]
-        mci(img_prev,scale=scale,delay=delay1,title='Quartet '+size_)
-        mci(img_now,scale=scale,delay=delay2,title='Quartet '+size_)
+        if delay0 > 0:
+            mci(0*img_prev,scale=scale,delay=delay0,title='Quartet '+D['name'])
+        mci(img_prev,scale=scale,delay=delay1,title='Quartet '+D['name'])
+        if delay2 > 0:
+            mci(img_now,scale=scale,delay=delay2,title='Quartet '+D['name'])
+
+    def _function_to_torch(size_='full'):
+        listoftensors = []
+        for when in ['now','prev']:
+            for side in (['left','right']):
+                listoftensors.append(torch.from_numpy(D[side][when]['full']))
+        camera_data = torch.cat(listoftensors, 2)
+        camera_data = camera_data.cuda().float()/255. - 0.5
+        camera_data = torch.transpose(camera_data, 0, 2)
+        camera_data = torch.transpose(camera_data, 1, 2)
+        camera_data = camera_data.unsqueeze(0)
+        camera_data = torch.autograd.Variable(camera_data)
+        return camera_data
+
+
+    def _function_from_torch(net_cuda,channel=0,offset=0):
+
+        net_data = net_cuda.data.cpu().numpy()
+        q = (('left','now'),('left','now'),('left','now'),('left','now'))
+        for i in range(4):
+            a = 3*i
+            b = 3*(i+1)-1
+            c = net_data[channel,a:b+1,:,:]
+            assert shape(c) == (3, 94,168)
+            c = c.transpose(1,2,0) 
+            assert shape(c) == (94,168,3)
+            c = z55(c) # rgb
+            if shape(c)[0] > 30:
+                size_ = 'full'
+            else:
+                size_ = 'small'
+            side = q[i][0]
+            when = q[i][1]
+            D[side][when][size_] = c
 
     D['display'] = _function_display
+    D['to_torch'] = _function_to_torch
+    D['from_torch'] = _function_from_torch
 
     return D
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 meta_width,meta_height = 41,23
 
 def ZED():
-
     D={}
     D['full_shape'] = (94,168)
     D['small_shape'] = (23,41)
@@ -108,10 +175,14 @@ def ZED():
                                 1.0,(0,255,0),2)
 
 
-                    Q['left']['now']['small'] = cv2.resize(Q['left']['now']['full'],(meta_width,meta_height))
-                    Q['right']['now']['small'] = cv2.resize(Q['right']['now']['full'],(meta_width,meta_height))
-                    Q['left']['prev']['small'] = cv2.resize(Q['left']['prev']['full'],(meta_width,meta_height))
-                    Q['right']['prev']['small'] = cv2.resize(Q['right']['prev']['full'],(meta_width,meta_height))
+                    Q['left']['now']['small'] = \
+                        cv2.resize(Q['left']['now']['full'],(meta_width,meta_height))
+                    Q['right']['now']['small'] = \
+                        cv2.resize(Q['right']['now']['full'],(meta_width,meta_height))
+                    Q['left']['prev']['small'] = \
+                        cv2.resize(Q['left']['prev']['full'],(meta_width,meta_height))
+                    Q['right']['prev']['small'] = \
+                        cv2.resize(Q['right']['prev']['full'],(meta_width,meta_height))
                     D['stats']['success']+=1
 
                     return Q
@@ -202,6 +273,27 @@ threading.Thread(target=maintain_quartet_list,args=[Q_list]).start()
 
 
 
+
+
+"""
+##################################################################
+#
+def _quartet_to_torch(Q):
+    listoftensors = []
+    for when in ['now','prev']:
+        for side in (['left','right']):
+            listoftensors.append(torch.from_numpy(Q[side][when]['full']))
+    camera_data = torch.cat(listoftensors, 2)
+    camera_data = camera_data.cuda().float()/255. - 0.5
+    camera_data = torch.transpose(camera_data, 0, 2)
+    camera_data = torch.transpose(camera_data, 1, 2)
+    camera_data = camera_data.unsqueeze(0)
+    camera_data = torch.autograd.Variable(camera_data)
+    return camera_data
+#
+################################################################## 
+"""
+
 if __name__ == '__main__':
     rospy.init_node('camera',anonymous=True,disable_signals=True)
 
@@ -221,16 +313,23 @@ if __name__ == '__main__':
             if wait2.check():
                 cr('wait.time() =',int(wait.time()))
                 wait2.reset()
-        try:
+        if True:#try:
             if len(Q_list) > 0:
-                if Q_list[-1]['ready']:
-                    Q_list[-1]['ready'] = False
-                    Q_list[-1]['display'](1000,2000,'small',4)
+                Q = Q_list[-1]
+                if Q['ready']:
+                    Q['ready'] = False
+                    Q['display'](1000,1000,2000,'full',4)
                     hz.freq(' (main) ')
                     wait.reset()
+                    camera_data = Q['to_torch']()
+                    print camera_data.size()
+                    U = Quartet('1')
+                    U['from_torch'](camera_data)
+                    print U
+                    #U['display'](1000,1000,2000,'full',4)
                     continue
             time.sleep(1./100000.)
-        
+        """
         except KeyboardInterrupt:
             QUIT = True
             cr('\n\n*** KeyboardInterrupt ***\n')
@@ -244,6 +343,7 @@ if __name__ == '__main__':
             #QUIT = True
             #cr('\n\n*** Exception ***\n')
             #time.sleep(1)
+        """
         
 
 #EOF
