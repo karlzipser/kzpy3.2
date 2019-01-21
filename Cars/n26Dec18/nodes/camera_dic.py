@@ -135,7 +135,7 @@ def ZED():
 
                     Q = Quartet('from ROS')
 
-                    Q['left']['now']['full'] = D['left_list'][i]['img'].copy() # temp
+                    Q['left']['now']['full'] = D['left_list'][i]['img'].copy() # temp?
                     Q['right']['now']['full'] = D['right_list'][-1]['img'].copy()
                     Q['left']['prev']['full'] = D['left_list'][i-1]['img'].copy()
                     Q['right']['prev']['full'] = D['right_list'][-2]['img'].copy()
