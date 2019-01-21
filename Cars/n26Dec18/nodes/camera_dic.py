@@ -21,7 +21,7 @@ def Camera_Shot(data):
     return D
 
 
-def Quartet(name='Quartet'):
+def Quartet(name):
 
     D = {}
     D['name'] = name
@@ -53,7 +53,7 @@ def Quartet(name='Quartet'):
         listoftensors = []
         for when in ['now','prev']:
             for side in (['left','right']):
-                listoftensors.append(torch.from_numpy(D[side][when]['full']))
+                listoftensors.append(torch.from_numpy(D[side][when][size_]))
         camera_data = torch.cat(listoftensors, 2)
         camera_data = camera_data.cuda().float()/255. - 0.5
         camera_data = torch.transpose(camera_data, 0, 2)
@@ -64,9 +64,8 @@ def Quartet(name='Quartet'):
 
 
     def _function_from_torch(net_cuda,channel=0,offset=0):
-
         net_data = net_cuda.data.cpu().numpy()
-        q = (('left','now'),('left','now'),('left','now'),('left','now'))
+        q = (('left','now'),('right','now'),('left','prev'),('right','prev'))
         for i in range(4):
             a = 3*i
             b = 3*(i+1)-1
@@ -88,29 +87,6 @@ def Quartet(name='Quartet'):
     D['from_torch'] = _function_from_torch
 
     return D
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -138,7 +114,7 @@ def ZED():
                 D[list_side] = D[list_side][-min_len:]
 
 
-    def _function_build_quartet():
+    def _function_build_quartet(label_frames=True):
         D['stats']['call'] += 1
         if True:#try:
 
@@ -157,22 +133,25 @@ def ZED():
             if dt_left > 0.025 and dt_left < 0.04:
                 if dt_right > 0.025 and dt_right < 0.04:
 
-                    Q = Quartet()
+                    Q = Quartet('from ROS')
 
                     Q['left']['now']['full'] = D['left_list'][i]['img'].copy() # temp
                     Q['right']['now']['full'] = D['right_list'][-1]['img'].copy()
                     Q['left']['prev']['full'] = D['left_list'][i-1]['img'].copy()
                     Q['right']['prev']['full'] = D['right_list'][-2]['img'].copy()
 
-
-                    for side in ['left','right']:
-                        for when in ['now','prev']:
-                            cv2.putText(
-                                Q[side][when]['full'],
-                                d2s(side,when),
-                                (10,20),
-                                cv2.FONT_HERSHEY_SIMPLEX,
-                                1.0,(0,255,0),2)
+                    if label_frames:
+                        for side in ['left','right']:
+                            for when in ['now','prev']:
+                                color = (0,255,0)
+                                if when == 'now':
+                                    color = (255,0,0)
+                                cv2.putText(
+                                    Q[side][when]['full'],
+                                    d2s(side,when),
+                                    (10,20),
+                                    cv2.FONT_HERSHEY_SIMPLEX,
+                                    1.0,color,2)
 
 
                     Q['left']['now']['small'] = \
@@ -274,26 +253,6 @@ threading.Thread(target=maintain_quartet_list,args=[Q_list]).start()
 
 
 
-
-"""
-##################################################################
-#
-def _quartet_to_torch(Q):
-    listoftensors = []
-    for when in ['now','prev']:
-        for side in (['left','right']):
-            listoftensors.append(torch.from_numpy(Q[side][when]['full']))
-    camera_data = torch.cat(listoftensors, 2)
-    camera_data = camera_data.cuda().float()/255. - 0.5
-    camera_data = torch.transpose(camera_data, 0, 2)
-    camera_data = torch.transpose(camera_data, 1, 2)
-    camera_data = camera_data.unsqueeze(0)
-    camera_data = torch.autograd.Variable(camera_data)
-    return camera_data
-#
-################################################################## 
-"""
-
 if __name__ == '__main__':
     rospy.init_node('camera',anonymous=True,disable_signals=True)
 
@@ -323,10 +282,9 @@ if __name__ == '__main__':
                     wait.reset()
                     camera_data = Q['to_torch']()
                     print camera_data.size()
-                    U = Quartet('1')
+                    U = Quartet('from torch')
                     U['from_torch'](camera_data)
-                    print U
-                    #U['display'](1000,1000,2000,'full',4)
+                    U['display'](1000,1000,2000,'full',4)
                     continue
             time.sleep(1./100000.)
         """
