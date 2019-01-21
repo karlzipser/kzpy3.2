@@ -91,7 +91,20 @@ def Torch_Network(N):
         camera_data = D['scale'](camera_data)
         return camera_data
 
-
+    def _format_camera_data_quartet(Q):
+        listoftensors = []
+        listoftensors.append(torch.from_numpy(Q.left_now))
+        listoftensors.append(torch.from_numpy(Q.right_now))
+        listoftensors.append(torch.from_numpy(Q.left_prev))
+        listoftensors.append(torch.from_numpy(Q.right_prev))
+        camera_data = torch.cat(listoftensors, 2)
+        camera_data = camera_data.cuda().float()/255. - 0.5
+        camera_data = torch.transpose(camera_data, 0, 2)
+        camera_data = torch.transpose(camera_data, 1, 2)
+        camera_data = camera_data.unsqueeze(0)
+        camera_data = D['scale'](Variable(camera_data))
+        camera_data = D['scale'](camera_data)
+        return camera_data
 
 
     ##################################################################

@@ -69,7 +69,7 @@ cm(1)
 
 
 def send_image_to_list(lst,data):
-    cimg = bridge.imgmsg_to_cv2(data,'rgb8')
+    cimg = bridge.imgmsg_to_cv2(data,'rgb8')#"bgr8")
     advance(lst,cimg,nframes + 3)  
 
 def right_callback(data):
@@ -456,7 +456,7 @@ def step():
 
         if len(rLists['left'])>2:
             cm(17)
-            camera_data = Torch_network['_format_camera_data_quartet'](camera.Q_list[-1])
+            camera_data = Torch_network['format_camera_data__no_scale'](rLists['left'],rLists['right'])
 
             if behavioral_mode not in Metadata_tensors.keys():
                 for j in range(10):

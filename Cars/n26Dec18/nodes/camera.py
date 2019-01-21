@@ -13,12 +13,14 @@ import cv2
 ga = getattr
 sa = setattr
 
+
 class C:
     def __init__(self):
         pass
 
 
 class CameraShot:
+
     def __init__(self,data):
         self.img = bridge.imgmsg_to_cv2(data,'rgb8')
         if shape(self.img)[0] > 94:
@@ -28,13 +30,16 @@ class CameraShot:
         self.seq = data.header.seq
 
 
+    
 class Quartet:
+
     def __init__(self):
         self.left_now   = None
         self.right_now  = None
         self.left_prev  = None
         self.right_prev = None
         self.ready = True
+
     def display(self,delay1,delay2,scale=4):
         img_now = np.zeros((94,2*168+10,3),np.uint8)
         img_prev = np.zeros((94,2*168+10,3),np.uint8)
@@ -44,7 +49,17 @@ class Quartet:
         img_prev[:,-168:,:] = self.left_prev
         mci(img_prev,scale=scale,delay=delay1,title='1')
         mci(img_now,scale=scale,delay=delay2,title='1')
-
+    """
+    def get_2d_images_as_array(self,a=['left','right'],b=['_now','_prev'],c=[0,1,2]):
+        lst = []
+        word_lst = []
+        for side in ['left','right']:
+            for when in ['_now','_prev']:
+                for color in [0,1,2]:
+                    lst.append(ga(self,side+when)[:,:,color])
+                    word_lst.append((side+when,color))
+        return na(lst),word_lst
+    """
 
 D={}
 D['call'] = 0
@@ -64,6 +79,8 @@ L['left_ready'] = False
 #dt_right_lst = []
 #dt_now_lst = []
 
+meta_width,meta_height = 41,23
+
 def zed_lst_lim(zed,side,max_len,min_len):
     l = ga(zed,side)
     if len(l) > max_len:
@@ -72,7 +89,7 @@ def zed_lst_lim(zed,side,max_len,min_len):
 
 def build_quartet():
     D['call'] += 1
-    try:
+    if True:#try:
         for i in [-1,-2,-3]:
             dt_now = Zed.left[i].ts - Zed.right[-1].ts
             if dt_now > -0.01 and dt_now < 0.02:
@@ -92,6 +109,10 @@ def build_quartet():
                 Q.right_now =  Zed.right[-1].img
                 Q.left_prev = Zed.left[i-1].img
                 Q.right_prev = Zed.right[-2].img
+                Q.left_now_meta = cv2.resize(Q.left_now,(meta_width,meta_height))
+                Q.right_now_meta = cv2.resize(Q.right_now,(meta_width,meta_height))
+                Q.left_prev_meta = cv2.resize(Q.left_prev,(meta_width,meta_height))
+                Q.right_prev_meta = cv2.resize(Q.right_prev,(meta_width,meta_height))
                 D['success']+=1
                 #dt_left_lst.append(dt_left)
                 #dt_right_lst.append(dt_right)
@@ -104,7 +125,7 @@ def build_quartet():
             D['fail b']+=1
             return None
 
-    except Exception as e:
+    else:#except Exception as e:
         exc_type, exc_obj, exc_tb = sys.exc_info()
         file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
         CS_('Exception!',emphasis=True)
