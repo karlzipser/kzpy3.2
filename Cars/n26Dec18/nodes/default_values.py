@@ -197,7 +197,7 @@ try:
 		weight_files = sort_dir_by_ctime(f)
 		l = len(weight_files)
 		n = d2n(fname(f)," (",l,")")
-		_[n] = [False]
+		_[n] = 0
 		_['To Expose']['Weights'].append(n)
 		_['weight_files'][n] = weight_files
 

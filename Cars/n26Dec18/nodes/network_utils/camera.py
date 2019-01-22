@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+########################## 70 ########################################
 from kzpy3.vis3 import *
 import rospy
 import torch
@@ -12,19 +13,20 @@ full_width,full_height = 168,94
 meta_width,meta_height = 41,23
 
 
-CS_state = {}
-CS_state['bridge'] = cv_bridge.CvBridge()
-def Camera_Shot(data):
+
+bridge = cv_bridge.CvBridge()
+def Camera_Shot(data): #######################################
     D = {}
-    img = CS_state['bridge'].imgmsg_to_cv2(data,'rgb8')
+    img = bridge.imgmsg_to_cv2(data,'rgb8')
     if shape(img)[0] > 94:
         img = cv2.resize(img,(full_width,full_height))
     D['img'] = img
-    D['ts'] = data.header.stamp.secs + data.header.stamp.nsecs / 10.0**9
+    D['ts'] = data.header.stamp.secs + \
+                 data.header.stamp.nsecs / 10.0**9
     D['seq'] = data.header.seq
     return D
 
-timer=Timer()
+
 
 def Quartet(name='no_name'):
     D = {}
@@ -38,11 +40,16 @@ def Quartet(name='no_name'):
 
     D['ready'] = True
 
-    def _function_display(delay0,delay1,delay2,size_='full',scale=4):
+    def _function_display(delay_blank=0,
+        delay_prev=0,
+        delay_now=0,
+        size_='full',
+        scale=4):
         shape_ = np.shape(D['left']['now'][size_])
-        print shape_
+        #print shape_
         width,height = shape_[1],shape_[0]
-        img_now = np.zeros((height,2*width+int(width/16),3),np.uint8) + 127
+        img_now = np.zeros(
+            (height,2*width+int(width/16),3),np.uint8) + 127
         img_prev = img_now.copy()
         img_blank = img_now.copy()
         img_now[:,:width,:] =   D['right']['now'][size_]
@@ -51,21 +58,28 @@ def Quartet(name='no_name'):
         img_prev[:,-width:,:] = D['left']['prev'][size_]
         img_blank[:,:width,:] =  0*D['right']['prev'][size_]
         img_blank[:,-width:,:] = 0*D['left']['prev'][size_]
-        print timer.time();timer.reset()
-        if delay0 > 0:
-            mci(img_blank,scale=scale,delay=delay0,title='Quartet '+D['name'])
-        print timer.time();timer.reset()
-        mci(img_prev,scale=scale,delay=delay1,title='Quartet '+D['name'])
-        print timer.time();timer.reset()
-        if delay2 > 0:
-            mci(img_now,scale=scale,delay=delay2,title='Quartet '+D['name'])
-        print timer.time();timer.reset()
+        if delay_blank > 0:
+            mci(img_blank,
+                scale=scale,
+                delay=delay_blank,
+                title='Quartet '+D['name'])
+        if delay_prev > 0:
+            mci(img_prev,
+                scale=scale,
+                delay=delay_prev,
+                title='Quartet '+D['name'])
+        if delay_now > 0:
+            mci(img_now,
+                scale=scale,
+                delay=delay_now,
+                title='Quartet '+D['name'])
 
     def _function_to_torch(size_='full'):
         listoftensors = []
         for when in ['now','prev']:
             for side in (['left','right']):
-                listoftensors.append(torch.from_numpy(D[side][when][size_]))
+                listoftensors.append(
+                    torch.from_numpy(D[side][when][size_]))
         camera_data = torch.cat(listoftensors, 2)
         camera_data = camera_data.cuda().float()/255. - 0.5
         camera_data = torch.transpose(camera_data, 0, 2)
@@ -76,21 +90,30 @@ def Quartet(name='no_name'):
 
     def _function_from_torch(net_cuda,channel=0,offset=0):
         net_data = net_cuda.data.cpu().numpy()
-        q = (('left','now'),('right','now'),('left','prev'),('right','prev'))
-        for i in range(4):
+        configs  = (('left','now'),
+                    ('right','now'),
+                    ('left','prev'),
+                    ('right','prev'))
+        for i in rlen(configs):
             a = 3*i
             b = 3*(i+1)-1
             c = net_data[channel,offset+a:offset+b+1,:,:]
-            assert shape(c) == (3,full_height,full_width) or shape(c) == (3,meta_height,meta_width)
+
+            assert shape(c) == (3,full_height,full_width) \
+                or shape(c) == (3,meta_height,meta_width)
+
             c = c.transpose(1,2,0) 
-            assert shape(c) == (full_height,full_width,3) or shape(c) == (meta_height,meta_width,3)
+
+            assert shape(c) == (full_height,full_width,3) \
+                or shape(c) == (meta_height,meta_width,3)
+
             c = z55(c) # now in rgb
             if shape(c)[0] > 30:
                 size_ = 'full'
             else:
                 size_ = 'small'
-            side = q[i][0]
-            when = q[i][1]
+            side = configs[i][0]
+            when = configs[i][1]
             D[side][when][size_] = c
 
     D['display'] = _function_display
@@ -101,7 +124,7 @@ def Quartet(name='no_name'):
 
 
 
-def ZED():
+def ZED(): #######################################
     D={}
     D['full_shape'] = (full_height,full_width)
     D['small_shape'] = (meta_height,meta_width)
@@ -120,32 +143,42 @@ def ZED():
             if len(D[list_side]) > max_len:
                 D[list_side] = D[list_side][-min_len:]
 
-
     def _function_build_quartet(label_frames=True):
         D['stats']['call'] += 1
-        if True:#try:
+        try:
 
             for i in [-1,-2,-3]:
 
-                dt_now = D['left_list'][i]['ts'] - D['right_list'][-1]['ts']
+                dt_now = D['left_list'][i]['ts'] \
+                        - D['right_list'][-1]['ts']
                 if dt_now > -0.01 and dt_now < 0.02:
                     break
             else:
                 D['stats']['fail c']+=1
                 return None
 
-            dt_left = D['left_list'][i]['ts'] - D['left_list'][i-1]['ts']
-            dt_right = D['right_list'][-1]['ts'] - D['right_list'][-2]['ts']
+            dt_left = D['left_list'][i]['ts'] \
+                    - D['left_list'][i-1]['ts']
+
+            dt_right = D['right_list'][-1]['ts'] \
+                    - D['right_list'][-2]['ts']
             
             if dt_left > 0.025 and dt_left < 0.04:
                 if dt_right > 0.025 and dt_right < 0.04:
 
                     Q = Quartet(name='from ROS')
 
-                    Q['left']['now']['full'] = D['left_list'][i]['img'].copy() # temp?
-                    Q['right']['now']['full'] = D['right_list'][-1]['img'].copy()
-                    Q['left']['prev']['full'] = D['left_list'][i-1]['img'].copy()
-                    Q['right']['prev']['full'] = D['right_list'][-2]['img'].copy()
+                    Q['left']['now']['full'] = \
+                        D['left_list'][i]['img'].copy()#copy()temp?
+
+                    Q['right']['now']['full'] = \
+                        D['right_list'][-1]['img'].copy()
+
+                    Q['left']['prev']['full'] = \
+                        D['left_list'][i-1]['img'].copy()
+
+                    Q['right']['prev']['full'] = \
+                        D['right_list'][-2]['img'].copy()
 
                     if label_frames:
                         for side in ['left','right']:
@@ -160,15 +193,19 @@ def ZED():
                                     cv2.FONT_HERSHEY_SIMPLEX,
                                     1.0,color,2)
 
-
                     Q['left']['now']['small'] = \
-                        cv2.resize(Q['left']['now']['full'],(meta_width,meta_height))
+                        cv2.resize(Q['left']['now']['full'],
+                            (meta_width,meta_height))
                     Q['right']['now']['small'] = \
-                        cv2.resize(Q['right']['now']['full'],(meta_width,meta_height))
+                        cv2.resize(Q['right']['now']['full'],
+                            (meta_width,meta_height))
                     Q['left']['prev']['small'] = \
-                        cv2.resize(Q['left']['prev']['full'],(meta_width,meta_height))
+                        cv2.resize(Q['left']['prev']['full'],
+                            (meta_width,meta_height))
                     Q['right']['prev']['small'] = \
-                        cv2.resize(Q['right']['prev']['full'],(meta_width,meta_height))
+                        cv2.resize(Q['right']['prev']['full'],
+                            (meta_width,meta_height))
+
                     D['stats']['success']+=1
 
                     return Q
@@ -179,11 +216,13 @@ def ZED():
                 D['stats']['fail b']+=1
                 return None
 
-        else:#except Exception as e:
+        except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
-            file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            file_name = os.path.split(
+                exc_tb.tb_frame.f_code.co_filename)[1]
             CS_('Exception!',emphasis=True)
-            CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+            CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),
+                emphasis=False)
             return None
 
     D['limit_list_lengths'] = _function_limit_list_lengths
@@ -193,8 +232,6 @@ def ZED():
 
 
 Zed = ZED()
-
-
 def left_callback(data):
     Zed['left_list'].append(Camera_Shot(data))
     Zed['limit_list_lengths'](6,4)
@@ -204,21 +241,28 @@ def left_callback(data):
 def right_callback(data):
     Zed['right_list'].append(Camera_Shot(data))
 
-
-
-bcs = '/bair_car'
+bcs = ''
+for t in rospy.get_published_topics():
+    if '/bair_car/zed' in t[0]:
+        bcs = '/bair_car'
+        break
 
 rospy.Subscriber(
-    bcs+"/zed/right/image_rect_color",Image,right_callback,queue_size = 1)
+    bcs+"/zed/right/image_rect_color",
+    Image,
+    right_callback,
+    queue_size = 1)
+
 rospy.Subscriber(
-    bcs+"/zed/left/image_rect_color",Image,left_callback,queue_size = 1)
+    bcs+"/zed/left/image_rect_color",
+    Image,
+    left_callback,
+    queue_size = 1)
 
 
 
 QUIT = False
-
-def maintain_quartet_list(Q_list):
-
+def maintain_quartet_list(Q_list): ##############################
     hz = Timer(60)
     print_timer = Tr(60)
     timer = Timer()
@@ -240,21 +284,24 @@ def maintain_quartet_list(Q_list):
                 hz.freq()
                 print_timer.message(
                     d2s(
-                        dp(timer.time()),
-                        dp(100*Zed['stats']['success']/(1.0*Zed['stats']['call'])),'%'))
+                        dp(timer.time()),'seconds',
+                        dp(100*Zed['stats']['success']/
+                            (1.0*Zed['stats']['call'])),'%'))
             else:
                 time.sleep(1/10000.)
         except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
-            file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            file_name = os.path.split(
+                exc_tb.tb_frame.f_code.co_filename)[1]
             CS_('Exception!',emphasis=True)
-            CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+            CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),
+                emphasis=False)
 
     cg('\nExiting maintain_quartet_list thread.\n')
 
 
-Q_list = []
 
+Q_list = []
 threading.Thread(target=maintain_quartet_list,args=[Q_list]).start()
 
 
@@ -272,9 +319,9 @@ if __name__ == '__main__':
     camera_data = camera_data.cuda().float()
     camera_data = torch.autograd.Variable(camera_data)
 
-    hz = Timer(30)
+    hz = Timer(10)
     wait = Timer()
-    wait2 = Timer(30)
+    wait2 = Timer(10)
     size_ = 'full'
 
     while True:
@@ -289,7 +336,7 @@ if __name__ == '__main__':
             if wait2.check():
                 cr('wait.time() =',int(wait.time()))
                 wait2.reset()
-        if True:#try:
+        try:
             if len(Q_list) > 0:
                 Q = Q_list[-1]
                 if Q['ready']:
@@ -300,17 +347,18 @@ if __name__ == '__main__':
                     camera_data = Q['to_torch'](size_=size_)
                     U = Quartet(name='from torch '+size_)
                     if size_ == 'small':
-                        metadata[0,128+1+4:128+1+4+12,:,:] = camera_data
+                        metadata[0,128+1+4:128+1+4+12,:,:] = \
+                            camera_data
                         offset = 128+1+4   
                         U['from_torch'](metadata,offset=offset)
                     else:
                         offset = 0   
-                        U['from_torch'](camera_data,offset=offset)
+                        U['from_torch'](camera_data,offset=offset)   #
 
-                    U['display'](1000,1000,1000,size_,4)
+                    U['display'](delay_now=1,size_=size_,scale=4)
                     continue
             time.sleep(1./100000.)
-        """
+        
         except KeyboardInterrupt:
             QUIT = True
             cr('\n\n*** KeyboardInterrupt ***\n')
@@ -318,13 +366,15 @@ if __name__ == '__main__':
 
         except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
-            file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            file_name = os.path.split(
+                exc_tb.tb_frame.f_code.co_filename)[1]
             CS_('Exception!',emphasis=True)
-            CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+            CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),
+                emphasis=False)
             #QUIT = True
             #cr('\n\n*** Exception ***\n')
             #time.sleep(1)
-        """
+        
         
         
 

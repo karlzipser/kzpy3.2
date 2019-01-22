@@ -1051,7 +1051,7 @@ def print_Arguments():
 
 identify_file_str = """
 if '__file__' not in locals():
-	__file__ = ' __file__ '
+	__file__ = 'INTERPRETER'
 cprint('using '+__file__,'yellow')
 	"""
 exec(identify_file_str)
@@ -1061,7 +1061,7 @@ identify_file_str_future = """
 from __future__ import division
 from __future__ import print_function
 if '__file__' not in locals():
-	__file__ = ' __file__ '
+	__file__ = 'INTERPRETER'
 cprint('using '+__file__,'yellow')
 	"""
 #exec(identify_file_str_future)
