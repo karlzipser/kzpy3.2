@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 from kzpy3.utils3 import *
-#import os, sys, shutil, subprocess, time
 import rospy
 import std_msgs.msg
 exec(identify_file_str)

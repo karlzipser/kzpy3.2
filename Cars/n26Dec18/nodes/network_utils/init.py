@@ -7,38 +7,8 @@ import torch.autograd
 import rospy
 exec(identify_file_str)
 
-def Torch_Network(weight_file_path):
-    
-    if True:#try:
-        D = {}
-        D['heading'] = {}
-        D['encoder'] = {}
-        D['motor'] = {}
-        D['save_data'] = torch.load(weight_file_path)
-        print("Torch_Network():: Loading "+weight_file_path)
-        from kzpy3.Train_app.nets.SqueezeNet40 import SqueezeNet
-        D['solver'] = SqueezeNet().cuda()
-        D['solver'].load_state_dict(D['save_data']['net'])
-        D['solver'].eval()
-        print("Torch_Network():: Loading complete.")
 
-    else:#except Exception as e:
-        exc_type, exc_obj, exc_tb = sys.exc_info()
-        file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-        cr('Exception!')
-        cr(d2s(exc_type,file_name,exc_tb.tb_lineno))
-
-    def _run_model(input,metadata):
-        D['output'] = D['solver'](input, torch.autograd.Variable(metadata))       
-        return D['output'][0][:].data[0]
-
-    D['run_model'] = _run_model
-    
-    return D
-
-
-
-def prepare_behavioral_metadata():
+def metadata_init():
     """Making metadata tensors in advance so they 
 need not be constructed during runtime.
 For SqueezeNet40 models."""
@@ -82,8 +52,67 @@ For SqueezeNet40 models."""
                 metadata[0,-mode_ctr,:,:] = 0.0; mode_ctr += 1
 
         Metadata_tensors[the_behaviorial_mode] = metadata
-
+        cm(103)
     return Metadata_tensors
+
+
+
+from kzpy3.utils3 import *
+import rospy
+import std_msgs.msg
+import geometry_msgs.msg
+#from std_msgs.msg import Int32MultiArray
+#from sensor_msgs.msg import Image
+def ros_init(N):
+
+    for k in ['current','torch','timer','mode','net']:
+        N[k] = {}
+
+    N['current']['camera'] = 49
+    N['current']['steer'] = 49
+    N['current']['motor'] = 49
+
+    N['torch']['camera'] = 49
+    N['torch']['steer'] = 49
+    N['torch']['motor'] = 49
+
+    N['timer']['parameter_file_load'] = Timer(2)
+    N['timer']['waiting'] = Timer(1)
+    N['timer']['frequency'] = Timer(5)
+    N['timer']['show'] = Timer(0.25)
+    N['timer']['print'] = Timer(0.5)
+
+    N['mode']['human_agent'] = 1
+    N['mode']['behavioral_mode'] = 'direct'
+    N['mode']['drive_mode'] = 1
+
+    N['net']['Torch_network'] = None
+    N['net']['loaded_net'] = False
+
+
+    def human_agent_callback(msg):
+        N['mode']['human_agent'] = msg.data
+
+    def drive_mode_callback(msg):
+        N['mode']['drive_mode'] = msg.data
+        
+    def behavioral_mode_callback(msg):
+        N['mode']['behavioral_mode'] = msg.data
+
+    N['bcs'] = ''
+    for t in rospy.get_published_topics():
+        if '/bair_car/zed' in t[0]:
+            N['bcs'] = '/bair_car'
+            break
+
+    rospy.Subscriber(N['bcs']+'/human_agent', std_msgs.msg.Int32, callback=human_agent_callback)
+    rospy.Subscriber(N['bcs']+'/behavioral_mode', std_msgs.msg.String, callback=behavioral_mode_callback)
+    rospy.Subscriber(N['bcs']+'/drive_mode', std_msgs.msg.Int32, callback=drive_mode_callback)
+
+    N['pub'] = {}
+    N['pub']['cmd/camera'] = rospy.Publisher('cmd/camera',std_msgs.msg.Int32,queue_size=5)
+    N['pub']['cmd/steer'] = rospy.Publisher('cmd/steer',std_msgs.msg.Int32,queue_size=5)
+    N['pub']['cmd/motor'] = rospy.Publisher('cmd/motor',std_msgs.msg.Int32,queue_size=5)
 
 
 #EOF
