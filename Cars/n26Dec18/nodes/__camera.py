@@ -82,7 +82,7 @@ def Quartet(name='no_name'):
         camera_data = torch.transpose(camera_data, 0, 2)
         camera_data = torch.transpose(camera_data, 1, 2)
         camera_data = camera_data.unsqueeze(0)
-        #camera_data = torch.autograd.Variable(camera_data)
+        camera_data = torch.autograd.Variable(camera_data)
         return camera_data
 
     def _function_from_torch(net_cuda,channel=0,offset=0):
@@ -260,10 +260,10 @@ rospy.Subscriber(
 
 QUIT = False
 def maintain_quartet_list(Q_list): ##############################
-    cb('*** starting maintain_quartet_list(Q_list) thread. ***')
     hz = Timer(60)
     print_timer = Tr(60)
     timer = Timer()
+    
     while True:
         if rospy.is_shutdown():
             break
@@ -278,9 +278,9 @@ def maintain_quartet_list(Q_list): ##############################
                     Q_list.append(Q)
                 while len(Q_list) > 3:
                     Q_list.pop(0)
-                hz.freq(" (camera.py) ")
+                hz.freq()
                 print_timer.message(
-                    d2s(" (camera.py)",
+                    d2s(
                         dp(timer.time()),'seconds',
                         dp(100*Zed['stats']['success']/
                             (1.0*Zed['stats']['call'])),'%'))
@@ -344,7 +344,8 @@ if __name__ == '__main__':
                     camera_data = Q['to_torch'](size_=size_)
                     U = Quartet(name='from torch '+size_)
                     if size_ == 'small':
-                        metadata[0,128+1+4:128+1+4+12,:,:] = camera_data
+                        metadata[0,128+1+4:128+1+4+12,:,:] = \
+                            camera_data
                         offset = 128+1+4   
                         U['from_torch'](metadata,offset=offset)
                     else:

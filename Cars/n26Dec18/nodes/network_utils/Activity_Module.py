@@ -1,9 +1,7 @@
-#from Parameters_Module import *
-#exec(identify_file_str)
 from kzpy3.vis3 import *
 import torch
 import torch.nn.utils as nnutils
-
+exec(identify_file_str)
 
 
 def Net_Activity(*args):

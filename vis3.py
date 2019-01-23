@@ -5,7 +5,10 @@ import matplotlib
 try:
     import cv2
 except:
-    print("Couldn't import cv2")
+    cr("*** Couldn't import cv2 ***")
+    if 'torch' in sys.modules:
+        cr("Note, torch already imported. This can block normal cv2 import.")
+    raw_enter()
 from scipy.optimize import curve_fit
 
 

@@ -6,7 +6,27 @@ import_list = ['os','os.path','shutil','scipy','scipy.io','string','glob','time'
 import_from_list = [['FROM','pprint','pprint'],['FROM','termcolor','cprint']]
 import_as_list = [['AS','numpy','np'],['AS','cPickle','pickle']]
 
+identify_file_str = """
+if '__file__' not in locals():
+	__file__ = 'INTERPRETER'
+cprint('using '+__file__,'yellow')
 
+CCVerbose = {}
+CCFile = {}
+CCVerbose['magenta'] = True
+CCFile['magenta'] = __file__.replace(opjk(),'').replace(opjh(),'')
+def ccm(*args,**kwargs):
+    if not CCVerbose['magenta']:
+       return
+    cprint(d2s_spacer(tuple(list(args)+['\t'+CCFile['magenta']]),spacer=' '),'magenta')
+    if 'ra' in kwargs:
+	    if kwargs['ra'] == 1:
+    		cprint('\b  (hit Enter to continue)','magenta')
+    		raw_input()
+	"""
+#exec(identify_file_str)
+#if '__file__' not in locals():
+#	__file__ = 'INTERPRETER'return raw_input(optional_str+'Hit enter to continue > ')
 ####################################
 # exception format:
 if False:
@@ -205,18 +225,20 @@ def cs(*args):
 
 
 CVerbose = {}
-for color in ['red','yellow','green','blue','magenta','cyan','white','Grey']:
+CFile = {}
+for color in ['red','yellow','green','blue','magenta','cyan','white','Grey']: #
 	an_exec_string = """
 CVerbose['COLOR'] = True
+CFile['COLOR'] = ''
 def cQ(*args):
 	if not CVerbose['COLOR']:
 		return
-	cprint(d2s_spacer(args,spacer=' '),'COLOR')
+	cprint(d2s_spacer(tuple(list(args)+['\t'+CFile['COLOR']])   ,spacer=' '),'COLOR')
 """
 	exec(an_exec_string.replace('Q',color[0]).replace('COLOR',color).replace('Grey','grey'))
 
 
-
+#
 
 
 
@@ -1049,12 +1071,8 @@ def print_Arguments():
 	else:
 		cb('No Arguments')
 
-identify_file_str = """
-if '__file__' not in locals():
-	__file__ = 'INTERPRETER'
-cprint('using '+__file__,'yellow')
-	"""
-exec(identify_file_str)
+
+
 #
 #####################################################
 identify_file_str_future = """
