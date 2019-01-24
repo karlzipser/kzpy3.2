@@ -1,0 +1,40 @@
+#!/usr/bin/env python
+from kzpy3.utils3 import *
+print_Arguments()
+cmd_to_show = ['python','ls']
+pro_to_show = ['kzpy3/Cars/n26Dec18/nodes/network_node.py']
+h=txt_file_to_list_of_strings(opjD('hist.txt'))
+H = {}
+for i in h:
+    s = i.split(' ')
+    cmd = s[3]
+    if cmd not in H:
+        H[cmd] = {}
+    if len(s) > 4:
+        pro = s[4]
+        if pro not in H[cmd]:
+            H[cmd][pro] = []
+        H[cmd][pro].append(' '.join(s[3:]))
+
+ks = sorted(H.keys())
+
+lst = []
+ctr = 0
+for k in ks:
+    if k in cmd_to_show:
+        #cw(k)
+        es = sorted(H[k].keys())
+        for e in es:
+            if e in pro_to_show:
+                l = H[k][e]
+                l = list(set(l))
+                for m in l:
+                    lst.append(m)
+                    if is_even(ctr):
+                        c_ = cb
+                    else:
+                        c_ = cg
+                    c_(ctr,m)
+                    ctr += 1
+a = input('->')
+os.system(lst[a])

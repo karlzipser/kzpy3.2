@@ -8,15 +8,21 @@ import network_utils.camera
 import network_utils.Activity_Module
 import default_values
 exec(identify_file_str)
-CVerbose['magenta'] = False
-CCVerbose['magenta'] = False
+CVerbose['magenta'] = True
+CCVerbose['magenta'] = True
 N = default_values.P
 N['desktop_mode'] = False
+# python kzpy3/Cars/n26Dec18/nodes/network_node.py desktop_mode 1 display 1 delay_blank 500 delay_prev 500 delay_now 750
+# python kzpy3/Cars/n26Dec18/nodes/network_node.py desktop_mode 1 display 1 delay_now 66
+for arg,val in [('display',False),('delay_blank',0),('delay_prev',0),('delay_now',1)]:
+    if arg not in Arguments:
+        Arguments[arg] = val
 try:
     if Arguments['desktop_mode']:
         N['desktop_mode'] = True
 except:
     pass
+print_Arguments()
 cw(d2s("N['desktop_mode'] ==",N['desktop_mode'],"\t"))
 
 ###################################################################
@@ -50,7 +56,6 @@ if __name__ == '__main__':
                     #ccm('b')
                     Q = network_utils.camera.Q_list[-1]
                     if Q['ready']:
-
                         #ccm('c')
                         Q['ready'] = False
                         #Q['display'](1000,1000,1000,size_,4)
@@ -63,13 +68,22 @@ if __name__ == '__main__':
                             torch_metadata = N['behavioral_metadatas'][behavioral_mode]
                         torch_metadata[0,(1+4):(1+4+12),:,:] = torch_small_camera_data
                         network_utils.run.step(torch_camera_data,torch_metadata,N)
-
-                        Q2 = network_utils.camera.Quartet('camera from Quartet')
-                        Q2['from_torch'](N['net']['Torch_network']['solver'].A['camera_input'])
-                        Q2['display'](
-                            delay_blank=1000,
-                            delay_prev=1000,
-                            delay_now=1000)
+                        if Arguments['display']:
+                            Q2 = network_utils.camera.Quartet('camera from Quartet')
+                            if Arguments['display'] == 'camera_input':
+                                Q2['from_torch'](N['net']['Torch_network']['solver'].A['camera_input'])
+                            elif Arguments['display'] == 'pre_metadata_features_metadata':
+                                Q2['from_torch'](
+                                    N['net']['Torch_network']['solver'].A['pre_metadata_features_metadata'],
+                                    offset=128+4+1)
+                            else:
+                                cr("*** Error, could not interpret Arguments['display'] ==",Arguments['display'])
+                                assert(False)
+                            Q2['display'](
+                                delay_blank = Arguments['delay_blank'],
+                                delay_prev = Arguments['delay_prev'],
+                                delay_now = Arguments['delay_now'])
+                                
             else:
                 cy("network_utils.run.ready(N) == False")
                 time.sleep(2)

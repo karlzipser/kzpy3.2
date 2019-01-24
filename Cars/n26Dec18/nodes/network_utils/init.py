@@ -47,24 +47,20 @@ def ros_init(N):
     def behavioral_mode_callback(msg):
         N['mode']['behavioral_mode'] = msg.data
 
-    N['bcs'] = ''
-    for t in rospy.get_published_topics():
-        if '/bair_car/zed' in t[0]:
-            N['bcs'] = '/bair_car'
-            break
+    bcs = '/bair_car'
 
     rospy.Subscriber(
-        N['bcs']+'/human_agent',
+        bcs+'/human_agent',
         std_msgs.msg.Int32,
         callback=human_agent_callback)
 
     rospy.Subscriber(
-        N['bcs']+'/behavioral_mode',
+        bcs+'/behavioral_mode',
         std_msgs.msg.String,
         callback=behavioral_mode_callback)
 
     rospy.Subscriber(
-        N['bcs']+'/drive_mode',
+        bcs+'/drive_mode',
         std_msgs.msg.Int32,
         callback=drive_mode_callback)
 

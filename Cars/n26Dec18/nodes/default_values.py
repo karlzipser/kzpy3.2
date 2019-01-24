@@ -6,11 +6,11 @@ _ = P
 #_['use SqueezeNet40_multirun!!!'] = True
 _['agent_is_human'] = True
 _['use_motor_PID'] = True
-_['desktop version'] = False # Note, unrelated to 'desktop_mode' command line arg
-if _['desktop version']:
-	_['bcs'] = ''
-else:
-	_['bcs'] = '/bair_car'
+_['mock_arduino_version'] = True # Note, unrelated to 'desktop_mode' command line arg
+#if _['mock_arduino_version']:
+#	_['bcs'] = ''
+#else:
+#	_['bcs'] = '/bair_car'
 _['desktop version/artifical mode'] = False
 _['desktop version/pwm to screen'] = True
 _['customers'] = ['Arduino','Network','Weights','Flex','Network_ldr',]
@@ -141,7 +141,7 @@ _['To Expose']['Arduino'] = [
 
 	'human_PID_motor_percent',
 	'now in calibration mode',
-	'desktop version',
+	'mock_arduino_version',
 	'desktop version/pwm to screen',
 
 	'delta servo_pwm for calibration',

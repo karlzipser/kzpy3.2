@@ -32,23 +32,27 @@ rospy.Subscriber('cmd/camera', std_msgs.msg.Int32, callback=cmd_camera_callback)
 rospy.Subscriber('cmd/motor', std_msgs.msg.Int32, callback=cmd_motor_callback)
 rospy.Subscriber('/data_saving', std_msgs.msg.Int32, callback=data_saving_callback)
 
-_['human_agent_pub'] = rospy.Publisher('human_agent', std_msgs.msg.Int32, queue_size=5) 
-_['drive_mode_pub'] = rospy.Publisher('drive_mode', std_msgs.msg.Int32, queue_size=5) 
-_['behavioral_mode_pub'] = rospy.Publisher('behavioral_mode', std_msgs.msg.String, queue_size=5)
-_['place_choice_pub'] = rospy.Publisher('place_choice', std_msgs.msg.String, queue_size=5)
-_['button_number_pub'] = rospy.Publisher('button_number', std_msgs.msg.Int32, queue_size=5) 
-_['steer_pub'] = rospy.Publisher('steer', std_msgs.msg.Int32, queue_size=5) 
-_['motor_pub'] = rospy.Publisher('motor', std_msgs.msg.Int32, queue_size=5) 
-_['encoder_pub'] = rospy.Publisher('encoder', std_msgs.msg.Float32, queue_size=5)
-_['gyro_pub'] = rospy.Publisher('gyro', geometry_msgs.msg.Vector3, queue_size=10)
-_['gyro_heading_pub'] = rospy.Publisher('gyro_heading', geometry_msgs.msg.Vector3, queue_size=10)
-_['acc_pub'] = rospy.Publisher('acc', geometry_msgs.msg.Vector3, queue_size=10)
-_['servo_pwm_min_pub'] = rospy.Publisher('servo_pwm_min', std_msgs.msg.Int32, queue_size=5) 
-_['servo_pwm_max_pub'] = rospy.Publisher('servo_pwm_max', std_msgs.msg.Int32, queue_size=5) 
-_['servo_pwm_null_pub'] = rospy.Publisher('servo_pwm_null', std_msgs.msg.Int32, queue_size=5) 
-_['motor_pwm_min_pub'] = rospy.Publisher('motor_pwm_min', std_msgs.msg.Int32, queue_size=5) 
-_['motor_pwm_null_pub'] = rospy.Publisher('motor_pwm_null', std_msgs.msg.Int32, queue_size=5) 
-_['motor_pwm_max_pub'] = rospy.Publisher('motor_pwm_max', std_msgs.msg.Int32, queue_size=5)
+bcs = ''
+if _['mock_arduino_version']:
+    bcs = '/bair_car/'
+
+_['human_agent_pub'] = rospy.Publisher(bcs+'human_agent', std_msgs.msg.Int32, queue_size=5) 
+_['drive_mode_pub'] = rospy.Publisher(bcs+'drive_mode', std_msgs.msg.Int32, queue_size=5) 
+_['behavioral_mode_pub'] = rospy.Publisher(bcs+'behavioral_mode', std_msgs.msg.String, queue_size=5)
+_['place_choice_pub'] = rospy.Publisher(bcs+'place_choice', std_msgs.msg.String, queue_size=5)
+_['button_number_pub'] = rospy.Publisher(bcs+'button_number', std_msgs.msg.Int32, queue_size=5) 
+_['steer_pub'] = rospy.Publisher(bcs+'steer', std_msgs.msg.Int32, queue_size=5) 
+_['motor_pub'] = rospy.Publisher(bcs+'motor', std_msgs.msg.Int32, queue_size=5) 
+_['encoder_pub'] = rospy.Publisher(bcs+'encoder', std_msgs.msg.Float32, queue_size=5)
+_['gyro_pub'] = rospy.Publisher(bcs+'gyro', geometry_msgs.msg.Vector3, queue_size=10)
+_['gyro_heading_pub'] = rospy.Publisher(bcs+'gyro_heading', geometry_msgs.msg.Vector3, queue_size=10)
+_['acc_pub'] = rospy.Publisher(bcs+'acc', geometry_msgs.msg.Vector3, queue_size=10)
+_['servo_pwm_min_pub'] = rospy.Publisher(bcs+'servo_pwm_min', std_msgs.msg.Int32, queue_size=5) 
+_['servo_pwm_max_pub'] = rospy.Publisher(bcs+'servo_pwm_max', std_msgs.msg.Int32, queue_size=5) 
+_['servo_pwm_null_pub'] = rospy.Publisher(bcs+'servo_pwm_null', std_msgs.msg.Int32, queue_size=5) 
+_['motor_pwm_min_pub'] = rospy.Publisher(bcs+'motor_pwm_min', std_msgs.msg.Int32, queue_size=5) 
+_['motor_pwm_null_pub'] = rospy.Publisher(bcs+'motor_pwm_null', std_msgs.msg.Int32, queue_size=5) 
+_['motor_pwm_max_pub'] = rospy.Publisher(bcs+'motor_pwm_max', std_msgs.msg.Int32, queue_size=5)
 
 from default_values import flex_names
 for name in flex_names:
@@ -105,7 +109,7 @@ _['publish_FLEX_data'] = _publish_FLEX_data
 
 #########################################
 #
-if not _['desktop version']:
+if not _['mock_arduino_version']:
     baudrate = 115200
     timeout = 0.1
     import arduino_utils.serial_init
@@ -136,7 +140,7 @@ if _['USE_MSE'] and 'MSE' in _['Arduinos'].keys():
     arduino_utils.tactic_rc_controller.TACTIC_RC_controller(_)
     CS("!!!!!!!!!! found 'MSE' !!!!!!!!!!!",emphasis=True)
 
-    if not _['desktop version']:
+    if not _['mock_arduino_version']:
         import arduino_utils.calibration_mode
         arduino_utils.calibration_mode.Calibration_Mode(_)
     else:
@@ -182,7 +186,7 @@ while _['ABORT'] == False:
 
         if parameter_file_load_timer.check():
 
-            if True:#_['button_number'] == 4 or _['desktop version']:
+            if True:#_['button_number'] == 4 or _['mock_arduino_version']:
 
                 Topics = menu2.load_Topics(
                     opjk("Cars/n26Dec18/nodes"),

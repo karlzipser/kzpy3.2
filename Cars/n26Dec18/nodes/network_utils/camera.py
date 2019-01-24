@@ -1,20 +1,25 @@
 #!/usr/bin/env python
 ########################## 70 ########################################
 from kzpy3.vis3 import *
+import default_values
 import rospy
 import torch
 import torch.autograd
 import cv_bridge
 from sensor_msgs.msg import Image
 exec(identify_file_str)
-
+CVerbose['magenta'] = False
+CCVerbose['magenta'] = False
 full_width,full_height = 168,94
 meta_width,meta_height = 41,23
 
 bridge = cv_bridge.CvBridge()
 def Camera_Shot(data): #######################################
     D = {}
+    #cm("Camera_Shot(data)")
     img = bridge.imgmsg_to_cv2(data,'rgb8')
+    #print shape(img)
+    #mi(img);spause()
     if shape(img)[0] > 94:
         img = cv2.resize(img,(full_width,full_height))
     D['img'] = img
@@ -40,10 +45,10 @@ def Quartet(name='no_name'):
     def _function_display(delay_blank=0,
         delay_prev=0,
         delay_now=0,
-        size_='full',
         scale=4):
+        size_= D['size_']
         shape_ = np.shape(D['left']['now'][size_])
-        #print shape_
+        ccm(shape_)
         width,height = shape_[1],shape_[0]
         img_now = np.zeros(
             (height,2*width+int(width/16),3),np.uint8) + 127
@@ -96,7 +101,12 @@ def Quartet(name='no_name'):
         for i in rlen(configs):
             a = 3*i
             b = 3*(i+1)-1
+
+            
+
             c = net_data[channel,offset+a:offset+b+1,:,:]
+
+            ccm(1,shape(c))
 
             assert shape(c) == (3,full_height,full_width) \
                 or shape(c) == (3,meta_height,meta_width)
@@ -106,11 +116,14 @@ def Quartet(name='no_name'):
             assert shape(c) == (full_height,full_width,3) \
                 or shape(c) == (meta_height,meta_width,3)
 
+            ccm(2,shape(c))
+
             c = z55(c) # now in rgb
             if shape(c)[0] > 30:
-                size_ = 'full'
+                D['size_'] = 'full'
             else:
-                size_ = 'small'
+                D['size_'] = 'small'
+            ccm(D['size_'])
             side = configs[i][0]
             when = configs[i][1]
             D[side][when][size_] = c
@@ -143,86 +156,128 @@ def ZED(): #######################################
                 D[list_side] = D[list_side][-min_len:]
 
     def _function_build_quartet(label_frames=False):
+
         D['stats']['call'] += 1
-        try:
 
-            for i in [-1,-2,-3]:
+        if False:#default_values.P['mock_arduino_version']:
 
-                dt_now = D['left_list'][i]['ts'] \
-                        - D['right_list'][-1]['ts']
-                if dt_now > -0.01 and dt_now < 0.02:
-                    break
-            else:
-                D['stats']['fail c']+=1
-                return None
+            Q = Quartet(name='from ROS')
 
-            dt_left = D['left_list'][i]['ts'] \
-                    - D['left_list'][i-1]['ts']
+            Q['left']['now']['full'] = \
+                D['left_list'][-1]['img']
 
-            dt_right = D['right_list'][-1]['ts'] \
-                    - D['right_list'][-2]['ts']
-            
-            if dt_left > 0.025 and dt_left < 0.04:
-                if dt_right > 0.025 and dt_right < 0.04:
+            Q['right']['now']['full'] = \
+                D['right_list'][-1]['img']
 
-                    Q = Quartet(name='from ROS')
+            Q['left']['prev']['full'] = \
+                D['left_list'][-2]['img']
 
-                    Q['left']['now']['full'] = \
-                        D['left_list'][i]['img'].copy()#copy()temp?
+            Q['right']['prev']['full'] = \
+                D['right_list'][-2]['img']
 
-                    Q['right']['now']['full'] = \
-                        D['right_list'][-1]['img'].copy()
+            D['stats']['success']+=1
 
-                    Q['left']['prev']['full'] = \
-                        D['left_list'][i-1]['img'].copy()
+            return Q
 
-                    Q['right']['prev']['full'] = \
-                        D['right_list'][-2]['img'].copy()
+        else:
+            try:
 
-                    if label_frames:
-                        for side in ['left','right']:
-                            for when in ['now','prev']:
-                                color = (0,255,0)
-                                if when == 'now':
-                                    color = (255,0,0)
-                                cv2.putText(
-                                    Q[side][when]['full'],
-                                    d2s(side,when),
-                                    (10,20),
-                                    cv2.FONT_HERSHEY_SIMPLEX,
-                                    1.0,color,2)
+                for i in [-1,-2,-3]:
 
-                    Q['left']['now']['small'] = \
-                        cv2.resize(Q['left']['now']['full'],
-                            (meta_width,meta_height))
-                    Q['right']['now']['small'] = \
-                        cv2.resize(Q['right']['now']['full'],
-                            (meta_width,meta_height))
-                    Q['left']['prev']['small'] = \
-                        cv2.resize(Q['left']['prev']['full'],
-                            (meta_width,meta_height))
-                    Q['right']['prev']['small'] = \
-                        cv2.resize(Q['right']['prev']['full'],
-                            (meta_width,meta_height))
-
-                    D['stats']['success']+=1
-
-                    return Q
+                    dt_now = D['left_list'][i]['ts'] \
+                            - D['right_list'][-1]['ts']
+                    if dt_now > -0.01 and dt_now < 0.02:
+                        break
                 else:
-                    D['stats']['fail a']+=1
+                    D['stats']['fail c']+=1
                     return None
-            else:
-                D['stats']['fail b']+=1
-                return None
 
-        except Exception as e:
-            exc_type, exc_obj, exc_tb = sys.exc_info()
-            file_name = os.path.split(
-                exc_tb.tb_frame.f_code.co_filename)[1]
-            CS_('Exception!',emphasis=True)
-            CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),
-                emphasis=False)
-            return None
+                dt_left = D['left_list'][i]['ts'] \
+                        - D['left_list'][i-1]['ts']
+
+                dt_right = D['right_list'][-1]['ts'] \
+                        - D['right_list'][-2]['ts']
+                
+                if dt_left > 0.025 and dt_left < 0.04:
+                    if dt_right > 0.025 and dt_right < 0.04:
+
+                        Q = Quartet(name='from ROS')
+
+
+                        if label_frames:
+
+                            Q['left']['now']['full'] = \
+                                D['left_list'][i]['img'].copy()
+
+                            Q['right']['now']['full'] = \
+                                D['right_list'][-1]['img'].copy()
+
+                            Q['left']['prev']['full'] = \
+                                D['left_list'][i-1]['img'].copy()
+
+                            Q['right']['prev']['full'] = \
+                                D['right_list'][-2]['img'].copy()
+
+                        else:
+
+                            Q['left']['now']['full'] = \
+                                D['left_list'][i]['img']
+
+                            Q['right']['now']['full'] = \
+                                D['right_list'][-1]['img']
+
+                            Q['left']['prev']['full'] = \
+                                D['left_list'][i-1]['img']
+
+                            Q['right']['prev']['full'] = \
+                                D['right_list'][-2]['img']
+
+
+                        if label_frames:
+                            for side in ['left','right']:
+                                for when in ['now','prev']:
+                                    color = (0,255,0)
+                                    if when == 'now':
+                                        color = (255,0,0)
+                                    cv2.putText(
+                                        Q[side][when]['full'],
+                                        d2s(side,when),
+                                        (10,20),
+                                        cv2.FONT_HERSHEY_SIMPLEX,
+                                        1.0,color,2)
+
+
+                        Q['left']['now']['small'] = \
+                            cv2.resize(Q['left']['now']['full'],
+                                (meta_width,meta_height))
+                        Q['right']['now']['small'] = \
+                            cv2.resize(Q['right']['now']['full'],
+                                (meta_width,meta_height))
+                        Q['left']['prev']['small'] = \
+                            cv2.resize(Q['left']['prev']['full'],
+                                (meta_width,meta_height))
+                        Q['right']['prev']['small'] = \
+                            cv2.resize(Q['right']['prev']['full'],
+                                (meta_width,meta_height))
+
+                        D['stats']['success']+=1
+
+                        return Q
+                    else:
+                        D['stats']['fail a']+=1
+                        return None
+                else:
+                    D['stats']['fail b']+=1
+                    return None
+
+            except Exception as e:
+                exc_type, exc_obj, exc_tb = sys.exc_info()
+                file_name = os.path.split(
+                    exc_tb.tb_frame.f_code.co_filename)[1]
+                CS_('Exception!',emphasis=True)
+                CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),
+                    emphasis=False)
+                return None
 
     D['limit_list_lengths'] = _function_limit_list_lengths
     D['build_quartet'] = _function_build_quartet
@@ -240,20 +295,21 @@ def left_callback(data):
 def right_callback(data):
     Zed['right_list'].append(Camera_Shot(data))
 
-bcs = ''
-for t in rospy.get_published_topics():
-    if '/bair_car/zed' in t[0]:
-        bcs = '/bair_car'
-        break
+
+
+
+
+
+
 
 rospy.Subscriber(
-    bcs+"/zed/right/image_rect_color",
+    "/bair_car/zed/right/image_rect_color",
     Image,
     right_callback,
     queue_size = 1)
 
 rospy.Subscriber(
-    bcs+"/zed/left/image_rect_color",
+    "/bair_car/zed/left/image_rect_color",
     Image,
     left_callback,
     queue_size = 1)
@@ -262,6 +318,7 @@ rospy.Subscriber(
 
 QUIT = False
 def maintain_quartet_list(Q_list): ##############################
+
     cb('*** starting maintain_quartet_list(Q_list) thread. ***')
     hz = Timer(60)
     print_timer = Tr(60)
@@ -271,13 +328,15 @@ def maintain_quartet_list(Q_list): ##############################
             break
         if QUIT == True:
             break
-        try:
+        if True:#try:
+
             if len(Zed['left_list']) > 3 and Zed['left_ready']:
 
                 Zed['left_ready'] = False
                 Q = Zed['build_quartet']()
                 if Q != None:
                     Q_list.append(Q)
+                    #ccm('22')
                 while len(Q_list) > 3:
                     Q_list.pop(0)
                 hz.freq(" (camera.py) ")
@@ -288,7 +347,7 @@ def maintain_quartet_list(Q_list): ##############################
                             (1.0*Zed['stats']['call'])),'%'))
             else:
                 time.sleep(1/10000.)
-        except Exception as e:
+        else:#except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             file_name = os.path.split(
                 exc_tb.tb_frame.f_code.co_filename)[1]
@@ -304,7 +363,7 @@ Q_list = []
 threading.Thread(target=maintain_quartet_list,args=[Q_list]).start()
 
 
-
+"""
 
 if __name__ == '__main__':
 
@@ -373,7 +432,7 @@ if __name__ == '__main__':
             #cr('\n\n*** Exception ***\n')
             #time.sleep(1)
         
-        
+"""
         
 
 #EOF

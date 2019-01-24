@@ -8,7 +8,7 @@ from cv_bridge import CvBridge,CvBridgeError
 
 Pub = {}
 for side in ['left','right']:
-    Pub[side] = rospy.Publisher("/zed/"+side+"/image_rect_color",Image,queue_size=1)
+    Pub[side] = rospy.Publisher("/bair_car/zed/"+side+"/image_rect_color",Image,queue_size=1)
 def Mock_ZEDpublish(P,index):
     for side in ['left','right']:
         if P['desktop version/artifical mode']:

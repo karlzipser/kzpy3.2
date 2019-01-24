@@ -50,6 +50,7 @@ def load_parameters(_,customer):
 
 
 
+
 if __name__ == '__main__':
     while not _['ABORT']:
 

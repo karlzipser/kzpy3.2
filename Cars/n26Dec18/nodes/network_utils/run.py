@@ -24,7 +24,7 @@ def ready(N):
         ccm(11)
     elif N['mode']['human_agent'] == 0 \
         and N['mode']['drive_mode'] == 1 \
-        and N['mode']['behavioral_mode'] in Metadata_tensors.keys():
+        and N['mode']['behavioral_mode'] in N['behavioral_metadatas'].keys():
         ccm(12)
         pass
     else:
@@ -36,7 +36,7 @@ def ready(N):
     if N['net']['Torch_network'] == None:
         cb('waiting for network')
         return False
-    ccm('ready')
+    #ccm('ready')
     return True
 
 

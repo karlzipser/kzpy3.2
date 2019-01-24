@@ -10,11 +10,12 @@ identify_file_str = """
 if '__file__' not in locals():
 	__file__ = 'INTERPRETER'
 cprint('using '+__file__,'yellow')
-
+#from inspect import currentframe,getframeinfo
+#frameinfo = getframeinfo(currentframe())
 CCVerbose = {}
 CCFile = {}
 CCVerbose['magenta'] = True
-CCFile['magenta'] = __file__.replace(opjk(),'').replace(opjh(),'')
+CCFile['magenta'] = fname(__file__)#.replace(opjk(),'').replace(opjh(),'')
 def ccm(*args,**kwargs):
     if not CCVerbose['magenta']:
        return
