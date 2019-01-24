@@ -17,7 +17,7 @@ try:
         N['desktop_mode'] = True
 except:
     pass
-raw_enter(d2s("N['desktop_mode'] ==",N['desktop_mode'],"\t"))
+cw(d2s("N['desktop_mode'] ==",N['desktop_mode'],"\t"))
 
 ###################################################################
 #
@@ -33,7 +33,7 @@ ccm(100)
 
 if __name__ == '__main__':
 
-    if True:#try:
+    try:
         #ccm(101)
         hz = Timer(10)
 
@@ -51,18 +51,25 @@ if __name__ == '__main__':
                     Q = network_utils.camera.Q_list[-1]
                     if Q['ready']:
 
-                            #ccm('c')
-                            Q['ready'] = False
-                            #Q['display'](1000,1000,1000,size_,4)
-                            hz.freq(' (main) ')
-                            #wait.reset()
-                            torch_camera_data           = Q['to_torch'](size_='full')
-                            torch_small_camera_data    = Q['to_torch'](size_='small')
-                            behavioral_mode = N['mode']['behavioral_mode']
-                            if behavioral_mode in N['behavioral_metadatas']:
-                                torch_metadata = N['behavioral_metadatas'][behavioral_mode]
-                            torch_metadata[0,(1+4):(1+4+12),:,:] = torch_small_camera_data
-                            network_utils.run.step(torch_camera_data,torch_metadata,N)
+                        #ccm('c')
+                        Q['ready'] = False
+                        #Q['display'](1000,1000,1000,size_,4)
+                        hz.freq(' (main) ')
+                        #wait.reset()
+                        torch_camera_data           = Q['to_torch'](size_='full')
+                        torch_small_camera_data    = Q['to_torch'](size_='small')
+                        behavioral_mode = N['mode']['behavioral_mode']
+                        if behavioral_mode in N['behavioral_metadatas']:
+                            torch_metadata = N['behavioral_metadatas'][behavioral_mode]
+                        torch_metadata[0,(1+4):(1+4+12),:,:] = torch_small_camera_data
+                        network_utils.run.step(torch_camera_data,torch_metadata,N)
+
+                        Q2 = network_utils.camera.Quartet('camera from Quartet')
+                        Q2['from_torch'](N['net']['Torch_network']['solver'].A['camera_input'])
+                        Q2['display'](
+                            delay_blank=1000,
+                            delay_prev=1000,
+                            delay_now=1000)
             else:
                 cy("network_utils.run.ready(N) == False")
                 time.sleep(2)
@@ -72,12 +79,13 @@ if __name__ == '__main__':
         network_utils.camera.QUIT = True
         ccm(103)
         cg('Exiting network_node.py.')
-    """
+    
     except KeyboardInterrupt:
         raise
         network_utils.camera.QUIT = True
         cr('\n\n*** KeyboardInterrupt ***\n')
         time.sleep(1)
+    """
     except Exception as e:
         raise
         network_utils.camera.QUIT = True

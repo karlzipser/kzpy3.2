@@ -73,7 +73,7 @@ def Quartet(name='no_name'):
 
     def _function_to_torch(size_='full'):
         listoftensors = []
-        for when in ['now','prev']:
+        for when in ['prev','now']:
             for side in (['left','right']):
                 listoftensors.append(
                     torch.from_numpy(D[side][when][size_]))
@@ -87,10 +87,12 @@ def Quartet(name='no_name'):
 
     def _function_from_torch(net_cuda,channel=0,offset=0):
         net_data = net_cuda.data.cpu().numpy()
-        configs  = (('left','now'),
-                    ('right','now'),
+        configs  = (
                     ('left','prev'),
-                    ('right','prev'))
+                    ('right','prev'),
+                    ('left','now'),
+                    ('right','now'),
+                    )
         for i in rlen(configs):
             a = 3*i
             b = 3*(i+1)-1
@@ -140,7 +142,7 @@ def ZED(): #######################################
             if len(D[list_side]) > max_len:
                 D[list_side] = D[list_side][-min_len:]
 
-    def _function_build_quartet(label_frames=True):
+    def _function_build_quartet(label_frames=False):
         D['stats']['call'] += 1
         try:
 

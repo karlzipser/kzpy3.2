@@ -3,6 +3,7 @@ import default_values
 import Batch_Module
 import Network_Module
 import kzpy3.Menu_app.menu2 as menu2
+
 exec(identify_file_str)
 
 _ = default_values.P
@@ -46,7 +47,7 @@ Timer_updates = {
 startup_timer = Timer()
 
 for a in Arguments.keys():
-	_[a] = Arguments[a]
+    _[a] = Arguments[a]
 print_Arguments()
 
 _['print_timer'] = Timer(_['print_timer_time'])
@@ -54,10 +55,10 @@ _['loss_timer'] = Timer(_['loss_timer_time'])
 _['menu_load_timer'] = Timer(_['menu_load_timer_time'])
 _['spause_timer'] = Timer(_['spause_timer_time'])
 if _['trigger print timer?']:
-	_['print_timer'].trigger()
+    _['print_timer'].trigger()
 _['reload_image_file_timer'] = Timer(_['reload_image_file_timer_time'])
 if _['trigger loss_timer?']:
-	_['loss_timer'].trigger()
+    _['loss_timer'].trigger()
 
 _['NETWORK_OUTPUT_FOLDER'] = opjD('Networks',fname(_['project_path']))
 if _['RESUME']:
@@ -81,43 +82,56 @@ timer = Timer(_['run time before quitting'])
 
 while _['ABORT'] == False:
 
-	##################################
-	#
-	load_parameters(_,customer='train menu')
+    ##################################
+    #
+    load_parameters(_,customer='train menu')
 
-	for u in Timer_updates.keys():
-		if u in _['updated']:
-			_[Timer_updates[u]] = Timer(_[u])
-			_['updated'].remove(u)
-	#
-	##################################
+    for u in Timer_updates.keys():
+        if u in _['updated']:
+            _[Timer_updates[u]] = Timer(_[u])
+            _['updated'].remove(u)
+    #
+    ##################################
 
-	if timer.check():
-		cg("\n\nQuitting after runing for",timer.time(),"seconds.\n\n")
-		_['save_net_timer'].trigger()
-		Network['SAVE_NET']()
-		break
+    if timer.check():
+        cg("\n\nQuitting after runing for",timer.time(),"seconds.\n\n")
+        _['save_net_timer'].trigger()
+        Network['SAVE_NET']()
+        break
 
-	Batch['CLEAR']()
+    Batch['CLEAR']()
 
-	Batch['FILL']()
+    Batch['FILL']()
 
-	Batch['FORWARD']()
+    Batch['FORWARD']()
 
-	Batch['DISPLAY']()
+    Batch['DISPLAY']()
 
-	Batch['BACKWARD']()
+    if False:
+        ###############################
+        #
+        import kzpy3.Cars.n26Dec18.nodes.network_utils.camera as camera
+        Q2 = camera.Quartet('camera from Quartet')
+        Q2['from_torch'](Network['net'].A['camera_input'])
+        Q2['display'](
+            delay_blank=1000,
+            delay_prev=1000,
+            delay_now=1000)    
+        #
+        ###############################
+
+    Batch['BACKWARD']()
 
     
 
 # Start training with 12 mini metadata images at 9am 12Dec2018
 
-	menu_reminder.message(d2s("\n\nTo start menu:\n\tpython kzpy3/Menu_app/menu2.py path",_['project_path'],"dic P\n\n"))
+    menu_reminder.message(d2s("\n\nTo start menu:\n\tpython kzpy3/Menu_app/menu2.py path",_['project_path'],"dic P\n\n"))
 
 
 
 
-	
+    
 
 
 
