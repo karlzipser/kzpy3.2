@@ -9,7 +9,7 @@ import cv_bridge
 from sensor_msgs.msg import Image
 exec(identify_file_str)
 CVerbose['magenta'] = False
-CCVerbose['magenta'] = False
+CCVerbose['magenta'] = True
 full_width,full_height = 168,94
 meta_width,meta_height = 41,23
 
@@ -42,11 +42,13 @@ def Quartet(name='no_name'):
 
     D['ready'] = True
 
-    def _function_display(delay_blank=0,
+    def _function_display(
+        delay_blank=0,
         delay_prev=0,
         delay_now=0,
-        scale=4):
-        size_= D['size_']
+        scale=4,
+        size_=None):
+
         shape_ = np.shape(D['left']['now'][size_])
         ccm(shape_)
         width,height = shape_[1],shape_[0]
@@ -120,14 +122,23 @@ def Quartet(name='no_name'):
 
             c = z55(c) # now in rgb
             if shape(c)[0] > 30:
+                size_ = 'full'
+            else:
+                size_ = 'small'
+            ccm(size_)
+            side = configs[i][0]
+            when = configs[i][1]
+            D[side][when][size_] = c
+            """
+            if shape(c)[0] > 30:
                 D['size_'] = 'full'
             else:
                 D['size_'] = 'small'
             ccm(D['size_'])
             side = configs[i][0]
             when = configs[i][1]
-            D[side][when][size_] = c
-
+            D[side][when][D['size_']] = c
+            """
     D['display'] = _function_display
     D['to_torch'] = _function_to_torch
     D['from_torch'] = _function_from_torch

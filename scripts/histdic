@@ -1,40 +1,63 @@
 #!/usr/bin/env python
 from kzpy3.utils3 import *
+import pyperclip
+
 print_Arguments()
-cmd_to_show = ['python','ls']
+cmd_to_show = ['python']
 pro_to_show = ['kzpy3/Cars/n26Dec18/nodes/network_node.py']
-h=txt_file_to_list_of_strings(opjD('hist.txt'))
-H = {}
-for i in h:
-    s = i.split(' ')
-    cmd = s[3]
-    if cmd not in H:
-        H[cmd] = {}
-    if len(s) > 4:
-        pro = s[4]
-        if pro not in H[cmd]:
-            H[cmd][pro] = []
-        H[cmd][pro].append(' '.join(s[3:]))
 
-ks = sorted(H.keys())
+while True:
+    clear_screen()
+    h=txt_file_to_list_of_strings(opjD('hist.txt'))
+    H = {}
+    for i in h:
+        s = i.split(' ')
+        cmd = s[3]
+        if cmd not in H:
+            H[cmd] = {}
+        if len(s) > 4:
+            pro = s[4]
+            if pro not in H[cmd]:
+                H[cmd][pro] = []
+            H[cmd][pro].append(' '.join(s[3:]))
 
-lst = []
-ctr = 0
-for k in ks:
-    if k in cmd_to_show:
-        #cw(k)
-        es = sorted(H[k].keys())
-        for e in es:
-            if e in pro_to_show:
-                l = H[k][e]
-                l = list(set(l))
-                for m in l:
-                    lst.append(m)
-                    if is_even(ctr):
-                        c_ = cb
-                    else:
-                        c_ = cg
-                    c_(ctr,m)
-                    ctr += 1
-a = input('->')
-os.system(lst[a])
+    ks = sorted(H.keys())
+
+    lst = []
+    ctr = 0
+    cy('0 quit')
+    for k in ks:
+        if k in cmd_to_show:
+            #cw(k)
+            es = sorted(H[k].keys())
+            for e in es:
+                if True:#e in pro_to_show:
+                    l = H[k][e]
+                    l = list(set(l))
+                    for m in l:
+                        lst.append(m)
+                        if 'menu2' in m:
+                            c_ = cy
+                        elif 'Cars' in m:#is_even(ctr):
+                            c_ = cg
+                        elif 'Train' in m:
+                            c_ = cb
+                        else:
+                            c_ = cm
+                        c_(ctr+1,m.replace('kzpy3/',''))
+                        ctr += 1
+    try:
+        a = input('-> ')
+        assert type(a) == int
+    except:
+        continue
+    if a == 0:
+        break
+    a -= 1
+    #os.system(lst[a])
+    pyperclip.copy(lst[a])
+    cy("In clipboard:","'"+lst[a]+"'")
+    raw_enter()
+
+
+

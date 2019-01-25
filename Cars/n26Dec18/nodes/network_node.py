@@ -8,8 +8,8 @@ import network_utils.camera
 import network_utils.Activity_Module
 import default_values
 exec(identify_file_str)
-CVerbose['magenta'] = True
-CCVerbose['magenta'] = True
+CVerbose['magenta'] = False
+CCVerbose['magenta'] = False
 N = default_values.P
 N['desktop_mode'] = False
 # python kzpy3/Cars/n26Dec18/nodes/network_node.py desktop_mode 1 display 1 delay_blank 500 delay_prev 500 delay_now 750
@@ -72,17 +72,20 @@ if __name__ == '__main__':
                             Q2 = network_utils.camera.Quartet('camera from Quartet')
                             if Arguments['display'] == 'camera_input':
                                 Q2['from_torch'](N['net']['Torch_network']['solver'].A['camera_input'])
+                                size_ = 'full'
                             elif Arguments['display'] == 'pre_metadata_features_metadata':
                                 Q2['from_torch'](
                                     N['net']['Torch_network']['solver'].A['pre_metadata_features_metadata'],
                                     offset=128+4+1)
+                                size_ = 'small'
                             else:
                                 cr("*** Error, could not interpret Arguments['display'] ==",Arguments['display'])
                                 assert(False)
                             Q2['display'](
                                 delay_blank = Arguments['delay_blank'],
                                 delay_prev = Arguments['delay_prev'],
-                                delay_now = Arguments['delay_now'])
+                                delay_now = Arguments['delay_now'],
+                                size_=size_)
                                 
             else:
                 cy("network_utils.run.ready(N) == False")
