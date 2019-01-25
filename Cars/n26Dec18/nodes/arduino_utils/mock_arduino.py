@@ -110,6 +110,7 @@ class Mock_Arduino:
                 if len(self.motor_pers) > 5000:
                     self.motor_pers = self.motor_pers[-5000:]
                 lst = [
+                    (str(self.P['button_number']),0),
                     ('S',servo_per),
                     ('C',camera_per),
                     ('M',motor_per),
@@ -119,9 +120,9 @@ class Mock_Arduino:
                 np.random.shuffle(lst)
                 row_str = format_row(lst)
                 if self.P['agent_is_human']:
-                    cr(row_str)
+                    cprint(row_str,'red')
                 else:
-                    cg(row_str)
+                    cprint(row_str,'green')
                     
     def readline(self):
         _ = self.P

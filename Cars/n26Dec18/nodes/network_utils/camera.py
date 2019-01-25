@@ -9,11 +9,12 @@ import cv_bridge
 from sensor_msgs.msg import Image
 exec(identify_file_str)
 CVerbose['magenta'] = False
-CCVerbose['magenta'] = True
+CCVerbose['magenta'] = False
 full_width,full_height = 168,94
 meta_width,meta_height = 41,23
 
 bridge = cv_bridge.CvBridge()
+
 def Camera_Shot(data): #######################################
     D = {}
     #cm("Camera_Shot(data)")
@@ -23,9 +24,13 @@ def Camera_Shot(data): #######################################
     if shape(img)[0] > 94:
         img = cv2.resize(img,(full_width,full_height))
     D['img'] = img
-    D['ts'] = data.header.stamp.secs + \
-                 data.header.stamp.nsecs / 10.0**9
-    D['seq'] = data.header.seq
+    if not default_values.P['mock_arduino_version']:
+        D['ts'] = data.header.stamp.secs + \
+                     data.header.stamp.nsecs / 10.0**9
+        D['seq'] = data.header.seq
+    else:
+        D['ts'] = time.time()
+        #D['seq'] = data.header.seq
     return D
 
 
@@ -197,7 +202,7 @@ def ZED(): #######################################
 
                     dt_now = D['left_list'][i]['ts'] \
                             - D['right_list'][-1]['ts']
-                    if dt_now > -0.01 and dt_now < 0.02:
+                    if (dt_now > -0.01 and dt_now < 0.02) or default_values.P['mock_arduino_version']:
                         break
                 else:
                     D['stats']['fail c']+=1
@@ -209,8 +214,8 @@ def ZED(): #######################################
                 dt_right = D['right_list'][-1]['ts'] \
                         - D['right_list'][-2]['ts']
                 
-                if dt_left > 0.025 and dt_left < 0.04:
-                    if dt_right > 0.025 and dt_right < 0.04:
+                if (dt_left > 0.025 and dt_left < 0.04) or default_values.P['mock_arduino_version']:
+                    if (dt_right > 0.025 and dt_right < 0.04) or default_values.P['mock_arduino_version']:
 
                         Q = Quartet(name='from ROS')
 

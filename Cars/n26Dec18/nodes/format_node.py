@@ -47,9 +47,9 @@ while True:
     if _['ready']:
         _['ready'] = False
         print(format_row([
-            ('s',_['cmd/steer']),
-            ('c',_['cmd/camera']),
-            ('m', _['cmd/motor'])]))
+            ('s',100-_['cmd/steer']),
+            ('c',100-_['cmd/camera']),
+            ('m',_['cmd/motor'])]))
         wait.reset()
     else:
         time.sleep(0.0001)
