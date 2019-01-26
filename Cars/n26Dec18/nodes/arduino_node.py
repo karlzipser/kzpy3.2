@@ -129,8 +129,9 @@ else:
         _['desktop version/index'] = _['desktop version/start index']
     else:
         _['desktop version/L'],_['desktop version/O'],___ = open_run(
-            run_name='tegra-ubuntu_19Oct18_08h55m02s',
-            h5py_path=opjm('rosbags'),
+            #run_name='tegra-ubuntu_19Oct18_08h55m02s',
+            run_name='tegra-ubuntu_15Nov18_20h53m56s',
+            h5py_path=opjm('rosbags/tu_15to16Nov2018/locations/local/left_direct_stop/h5py'),
             want_list=['L','O'],
             verbose=True
         )
