@@ -2,7 +2,7 @@
 from kzpy3.vis3 import *
 import rospy
 import network_utils.init
-import network_utils.menu_and_net
+import network_utils.menu_and_load_net
 import network_utils.run
 import network_utils.camera
 import network_utils.Activity_Module
@@ -45,7 +45,7 @@ if __name__ == '__main__':
 
         while not rospy.is_shutdown() and N['ABORT'] == False:
             #ccm(102)
-            network_utils.menu_and_net.read_menu_and_load_network(N)
+            network_utils.menu_and_load_net.read_menu_and_load_network(N)
 
             if network_utils.run.ready(N):
 
