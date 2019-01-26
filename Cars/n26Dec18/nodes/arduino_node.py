@@ -33,7 +33,7 @@ rospy.Subscriber('cmd/motor', std_msgs.msg.Int32, callback=cmd_motor_callback)
 rospy.Subscriber('/data_saving', std_msgs.msg.Int32, callback=data_saving_callback)
 
 bcs = ''
-if _['mock_arduino_version']:
+if _['MOCK_ARDUINO_VERSION']:
     bcs = '/bair_car/'
 
 _['human_agent_pub'] = rospy.Publisher(bcs+'human_agent', std_msgs.msg.Int32, queue_size=5) 
@@ -109,7 +109,7 @@ _['publish_FLEX_data'] = _publish_FLEX_data
 
 #########################################
 #
-if not _['mock_arduino_version']:
+if not _['MOCK_ARDUINO_VERSION']:
     baudrate = 115200
     timeout = 0.1
     import arduino_utils.serial_init
@@ -141,7 +141,7 @@ if _['USE_MSE'] and 'MSE' in _['Arduinos'].keys():
     arduino_utils.tactic_rc_controller.TACTIC_RC_controller(_)
     CS("!!!!!!!!!! found 'MSE' !!!!!!!!!!!",emphasis=True)
 
-    if not _['mock_arduino_version']:
+    if not _['MOCK_ARDUINO_VERSION']:
         import arduino_utils.calibration_mode
         arduino_utils.calibration_mode.Calibration_Mode(_)
     else:
@@ -187,7 +187,7 @@ while _['ABORT'] == False:
 
         if parameter_file_load_timer.check():
 
-            if True:#_['button_number'] == 4 or _['mock_arduino_version']:
+            if True:#_['button_number'] == 4 or _['MOCK_ARDUINO_VERSION']:
 
                 Topics = menu2.load_Topics(
                     opjk("Cars/n26Dec18/nodes"),

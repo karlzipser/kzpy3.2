@@ -3,11 +3,11 @@ from kzpy3.utils3 import *
 import pyperclip
 
 print_Arguments()
-cmd_to_show = ['python']
+cmd_to_show = ['python','nmc']
 pro_to_show = ['kzpy3/Cars/n26Dec18/nodes/network_node.py']
 
 while True:
-    clear_screen()
+    #clear_screen()
     h=txt_file_to_list_of_strings(opjD('hist.txt'))
     #h=txt_file_to_list_of_strings(opjh('.bash_history'))
     H = {}
@@ -59,6 +59,7 @@ while True:
     pyperclip.copy(lst[a])
     cy("In clipboard:","'"+lst[a]+"'")
     answer = raw_input('run (y/[n])?')
+    cm('***'+answer+'***')
     if answer == 'y':
         os.system(lst[a])
 

@@ -24,7 +24,7 @@ def Camera_Shot(data): #######################################
     if shape(img)[0] > 94:
         img = cv2.resize(img,(full_width,full_height))
     D['img'] = img
-    if not default_values.P['mock_arduino_version']:
+    if not default_values.P['MOCK_ARDUINO_VERSION']:
         D['ts'] = data.header.stamp.secs + \
                      data.header.stamp.nsecs / 10.0**9
         D['seq'] = data.header.seq
@@ -175,7 +175,7 @@ def ZED(): #######################################
 
         D['stats']['call'] += 1
 
-        if False:#default_values.P['mock_arduino_version']:
+        if False:#default_values.P['MOCK_ARDUINO_VERSION']:
 
             Q = Quartet(name='from ROS')
 
@@ -202,7 +202,7 @@ def ZED(): #######################################
 
                     dt_now = D['left_list'][i]['ts'] \
                             - D['right_list'][-1]['ts']
-                    if (dt_now > -0.01 and dt_now < 0.02) or default_values.P['mock_arduino_version']:
+                    if (dt_now > -0.01 and dt_now < 0.02) or default_values.P['MOCK_ARDUINO_VERSION']:
                         break
                 else:
                     D['stats']['fail c']+=1
@@ -214,8 +214,8 @@ def ZED(): #######################################
                 dt_right = D['right_list'][-1]['ts'] \
                         - D['right_list'][-2]['ts']
                 
-                if (dt_left > 0.025 and dt_left < 0.04) or default_values.P['mock_arduino_version']:
-                    if (dt_right > 0.025 and dt_right < 0.04) or default_values.P['mock_arduino_version']:
+                if (dt_left > 0.025 and dt_left < 0.04) or default_values.P['MOCK_ARDUINO_VERSION']:
+                    if (dt_right > 0.025 and dt_right < 0.04) or default_values.P['MOCK_ARDUINO_VERSION']:
 
                         Q = Quartet(name='from ROS')
 

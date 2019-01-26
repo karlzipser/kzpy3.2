@@ -11,17 +11,16 @@ exec(identify_file_str)
 CVerbose['magenta'] = False
 CCVerbose['magenta'] = False
 N = default_values.P
-N['desktop_mode'] = False
+
 # python kzpy3/Cars/n26Dec18/nodes/network_node.py desktop_mode 1 display 1 delay_blank 500 delay_prev 500 delay_now 750
 # python kzpy3/Cars/n26Dec18/nodes/network_node.py desktop_mode 1 display 1 delay_now 66
 for arg,val in [('display',False),('delay_blank',0),('delay_prev',0),('delay_now',1)]:
     if arg not in Arguments:
         Arguments[arg] = val
-try:
+N['desktop_mode'] = False
+if 'desktop_mode' in Arguments:
     if Arguments['desktop_mode']:
         N['desktop_mode'] = True
-except:
-    pass
 print_Arguments()
 cw(d2s("N['desktop_mode'] ==",N['desktop_mode'],"\t"))
 
