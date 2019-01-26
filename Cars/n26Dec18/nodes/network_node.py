@@ -45,7 +45,7 @@ if __name__ == '__main__':
 
         while not rospy.is_shutdown() and N['ABORT'] == False:
             #ccm(102)
-            network_utils.menu_and_net.read_menu_and_network(N)
+            network_utils.menu_and_net.read_menu_and_load_network(N)
 
             if network_utils.run.ready(N):
 
