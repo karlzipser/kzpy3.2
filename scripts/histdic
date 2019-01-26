@@ -9,6 +9,7 @@ pro_to_show = ['kzpy3/Cars/n26Dec18/nodes/network_node.py']
 while True:
     clear_screen()
     h=txt_file_to_list_of_strings(opjD('hist.txt'))
+    #h=txt_file_to_list_of_strings(opjh('.bash_history'))
     H = {}
     for i in h:
         s = i.split(' ')
@@ -57,7 +58,8 @@ while True:
     #os.system(lst[a])
     pyperclip.copy(lst[a])
     cy("In clipboard:","'"+lst[a]+"'")
-    raw_enter()
-
+    answer = raw_input('run (y/[n])?')
+    if answer == 'y':
+        os.system(lst[a])
 
 
