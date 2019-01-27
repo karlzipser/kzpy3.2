@@ -154,6 +154,7 @@ _['To Expose']['Network'] = [
 	'network_camera_gain',
 	'network_camera_gain_direct',
 	'network_motor_gain',
+	'network_motor_gain_direct',
 	'network_motor_offset',
 	'network_servo_smoothing_parameter',
 	'network_motor_smoothing_parameter',
