@@ -61,7 +61,7 @@ _['motor_pwm_max'] = _['servo_pwm_null']
 #_['behavioral_mode_choice'] = 'direct'
 #_['place_choice'] = 'local'
 _['servo_pwm_smooth_manual_offset'] = 0
-_['camera_pwm_manual_offset'] = 0	
+_['camera_pwm_manual_offset'] = 130	
 _['HUMAN_SMOOTHING_PARAMETER_1'] = 0.75
 
 _['pid_motor_slope'] = (60-49)/3.0
@@ -168,6 +168,10 @@ _['To Expose']['Network'] = [
 	'camera_auto_zero_for_small_values_int',
 	'network_reverse_motor_gain',
 	'net_hide_colors',
+	'network_servo_smoothing_parameter_direct',
+	'network_steer_gain_direct',
+	'network_camera_gain_direct',       
+	'network_camera_smoothing_parameter_direct',
 ]
 _['To Expose']['Network_ldr'] = [
 	'max motor',
@@ -213,13 +217,19 @@ _['LOAD NETWORK'] = False
 _['network_output_sample'] = 0 # >= 0, <= 9
 _['network_steer_gain'] = 4.0
 _['network_camera_gain'] = 8.0
-_['network_camera_gain_direct'] = -1
+#_['network_camera_gain_direct'] = -1
 _['network_motor_gain'] = 1.0
 _['network_reverse_motor_gain'] = 1.5
 _['network_motor_offset'] = 0
 _['network_servo_smoothing_parameter'] = 0.85
 _['network_motor_smoothing_parameter'] = 0.85
 _['network_camera_smoothing_parameter'] = 0.0
+
+_['network_servo_smoothing_parameter_direct'] = 0.85
+_['network_steer_gain_direct'] = 4.0
+_['network_camera_gain_direct'] = 0.0         
+_['network_camera_smoothing_parameter_direct'] = 0.0
+
 _['USE_NETWORK'] = True
 _['GREY_OUT_TOP_OF_IMAGE'] = False
 _['USE_LAST_IMAGE_ONLY'] = False
