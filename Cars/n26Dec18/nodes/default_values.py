@@ -218,7 +218,7 @@ _['network_output_sample'] = 0 # >= 0, <= 9
 _['network_steer_gain'] = 4.0
 _['network_camera_gain'] = 8.0
 #_['network_camera_gain_direct'] = -1
-_['network_motor_gain'] = 1.0
+_['network_motor_gain'] = 0.6
 _['network_reverse_motor_gain'] = 1.5
 _['network_motor_offset'] = 0
 _['network_servo_smoothing_parameter'] = 0.85
@@ -229,6 +229,7 @@ _['network_servo_smoothing_parameter_direct'] = 0.85
 _['network_steer_gain_direct'] = 4.0
 _['network_camera_gain_direct'] = 0.0         
 _['network_camera_smoothing_parameter_direct'] = 0.0
+_['network_motor_gain_direct'] = 0.8
 
 _['USE_NETWORK'] = True
 _['GREY_OUT_TOP_OF_IMAGE'] = False

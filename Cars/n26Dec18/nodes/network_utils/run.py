@@ -70,14 +70,26 @@ def step(camera_data,metadata,N):
 def get_adjusted_commands(torch_camera,torch_steer,torch_motor,N):
 
     sm = N['network_motor_smoothing_parameter']
-    ss = N['network_servo_smoothing_parameter']
+
     if torch_motor >= 49:
-        gm = N['network_motor_gain']
+        if N['mode']['behavioral_mode'] == 'direct':
+            gm = N['network_motor_gain_direct']
+        else:
+            gm = N['network_motor_gain']
     else:
         gm = N['network_reverse_motor_gain']
-    gs = N['network_steer_gain']
-    gc = N['network_camera_gain']          
-    sc = N['network_camera_smoothing_parameter']
+
+    if N['mode']['behavioral_mode'] == 'direct':
+        ss = N['network_servo_smoothing_parameter_direct']
+        gs = N['network_steer_gain_direct']
+        gc = N['network_camera_gain_direct']          
+        sc = N['network_camera_smoothing_parameter_direct']
+    else:
+        ss = N['network_servo_smoothing_parameter']
+        gs = N['network_steer_gain']
+        gc = N['network_camera_gain']          
+        sc = N['network_camera_smoothing_parameter']
+
 
     N['current']['camera'] = (1.0-sc)*torch_camera + sc*N['current']['camera']
     N['current']['steer'] = (1.0-ss)*torch_steer + ss*N['current']['steer']
