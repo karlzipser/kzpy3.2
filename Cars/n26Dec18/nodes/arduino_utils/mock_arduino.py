@@ -97,34 +97,34 @@ class Mock_Arduino:
                 camera_per = 100-camera_pwm/2000.*100
                 motor_per = motor_pwm/2000.*100
                 
-                """
-                self.servo_pers.append(servo_per)
-                self.motor_pers.append(motor_per)
+                if False:
+                    self.servo_pers.append(servo_per)
+                    self.motor_pers.append(motor_per)
 
-                servo_median,motor_median = 0,0
-                if len(self.servo_pers) > 100:
-                    servo_median = np.median(self.servo_pers)
-                if len(self.servo_pers) > 6000:
-                    self.servo_pers = self.servo_pers[-5000:]
-                if len(self.motor_pers) > 100:
-                    motor_median = np.median(self.motor_pers)
-                if len(self.motor_pers) > 5000:
-                    self.motor_pers = self.motor_pers[-5000:]
-                """
-                lst = [
-                    (str(self.P['button_number']),0),
-                    ('S',servo_per),
-                    ('C',camera_per),
-                    ('M',motor_per),
-                    #('.',servo_median),
-                    #('.',motor_median),
-                ]
-                np.random.shuffle(lst)
-                row_str = format_row(lst)
-                if self.P['agent_is_human']:
-                    cprint(row_str,'red')
-                else:
-                    cprint(row_str,'green')
+                    servo_median,motor_median = 0,0
+                    if len(self.servo_pers) > 100:
+                        servo_median = np.median(self.servo_pers)
+                    if len(self.servo_pers) > 6000:
+                        self.servo_pers = self.servo_pers[-5000:]
+                    if len(self.motor_pers) > 100:
+                        motor_median = np.median(self.motor_pers)
+                    if len(self.motor_pers) > 5000:
+                        self.motor_pers = self.motor_pers[-5000:]
+                    
+                    lst = [
+                        (str(self.P['button_number']),0),
+                        ('S',servo_per),
+                        ('C',camera_per),
+                        ('M',motor_per),
+                        ('.',servo_median),
+                        ('.',motor_median),
+                    ]
+                    np.random.shuffle(lst)
+                    row_str = format_row(lst)
+                    if self.P['agent_is_human']:
+                        cprint(row_str,'red')
+                    else:
+                        cprint(row_str,'green')
                 
                     
     def readline(self):
