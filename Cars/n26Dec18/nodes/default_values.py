@@ -16,6 +16,7 @@ _['MOCK_ARDUINO_VERSION'] = True # Note, unrelated to 'desktop_mode' command lin
 
 _['MOCK_ARDUINO_VERSION/run_name'] = 'Mr_Purple_20Nov18_16h24m20s'
 #_['MOCK_ARDUINO_VERSION/run_name'] = 'Mr_Purple_20Nov18_16h41m03s'
+
 _['MOCK_ARDUINO_VERSION/h5py_path'] = opjm('rosbags/h5py')
 
 _['MOCK_ARDUINO_VERSION/nvidia_run_name'] = _['MOCK_ARDUINO_VERSION/run_name']
@@ -173,7 +174,7 @@ _['To Expose']['Arduino'] = [
 
 	'human_PID_motor_percent',
 	'now in calibration mode',
-	'MOCK_ARDUINO_VERSION',
+	#'MOCK_ARDUINO_VERSION',
 	'desktop version/pwm to screen',
 
 	'delta servo_pwm for calibration',
