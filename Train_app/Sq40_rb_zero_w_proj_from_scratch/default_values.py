@@ -108,6 +108,7 @@ _['LIDAR_extension'] = ".Depth_image.log.resize.flip.with_left_ts.h5py"
 
 _['comparison losses'] = [lo(most_recent_file_in_folder(opjD('Networks/net_24Dec2018_12imgs_projections/loss'),['.loss_avg.pkl'],[]))]
 _['comparison losses'] += [lo(most_recent_file_in_folder(opjD('Networks/Sq40_proj_from_scratch_premeta_from_24Dec/loss'),['.loss_avg.pkl'],[]))]
+_['comparison losses'] += [lo(most_recent_file_in_folder(opjD('Networks/net_15Sept2018_1Nov_with_reverse_with_12imgs/loss'),['.loss_avg.pkl'],[]))]
 
 
 _['frequency_timer'] = Timer(0.5*minute)
