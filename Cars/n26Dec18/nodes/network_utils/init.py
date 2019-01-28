@@ -87,8 +87,8 @@ def ros_init(N):
         N['flex_steer'] = msg.data
 
     if N['use flex']:
-        rospy.Subscriber('/cmd/flex_motor', std_msgs.msg.Int32, callback=flex_motor__callback)
-        rospy.Subscriber('/cmd/flex_steer', std_msgs.msg.Int32, callback=flex_steer__callback)
+        rospy.Subscriber('/bair_car/cmd/flex_motor', std_msgs.msg.Int32, callback=flex_motor__callback)
+        rospy.Subscriber('/bair_car/cmd/flex_steer', std_msgs.msg.Int32, callback=flex_steer__callback)
     #
     ########################################################################
 

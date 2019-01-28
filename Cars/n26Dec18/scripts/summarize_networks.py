@@ -1,5 +1,7 @@
 #!/usr/bin/env python
-
+"""
+python kzpy3/Cars/n26Dec18/scripts/summarize_networks.py src ~/Desktop/ dst ~/Desktop/ print_only False
+"""
 from kzpy3.utils3 import *
 exec(identify_file_str)
 #Arguments['src'] = opjD()
@@ -10,6 +12,8 @@ dst = Arguments['dst']
 print_only = False
 if 'print_only' in Arguments:
     print_only = Arguments['print_only']
+    if print_only == 'False':
+        print_only = False
 
 net_folders = sggo(src,'Networks','*')
 Nets = {}
