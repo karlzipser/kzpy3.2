@@ -97,6 +97,7 @@ class Mock_Arduino:
                 camera_per = 100-camera_pwm/2000.*100
                 motor_per = motor_pwm/2000.*100
                 
+                """
                 self.servo_pers.append(servo_per)
                 self.motor_pers.append(motor_per)
 
@@ -115,8 +116,8 @@ class Mock_Arduino:
                     ('S',servo_per),
                     ('C',camera_per),
                     ('M',motor_per),
-                    ('.',servo_median),
-                    ('.',motor_median),
+                    #('.',servo_median),
+                    #('.',motor_median),
                 ]
                 np.random.shuffle(lst)
                 row_str = format_row(lst)
@@ -124,7 +125,7 @@ class Mock_Arduino:
                     cprint(row_str,'red')
                 else:
                     cprint(row_str,'green')
-                """
+                
                     
     def readline(self):
         _ = self.P
