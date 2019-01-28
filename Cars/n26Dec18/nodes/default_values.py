@@ -6,7 +6,7 @@ _ = P
 #_['use SqueezeNet40_multirun!!!'] = True
 _['agent_is_human'] = True
 _['use_motor_PID'] = True
-_['MOCK_ARDUINO_VERSION'] = True # Note, unrelated to 'desktop_mode' command line arg
+_['MOCK_ARDUINO_VERSION'] = False # Note, unrelated to 'desktop_mode' command line arg
 
 #_['MOCK_ARDUINO_VERSION/nvidia_run_name'] = 'tegra-ubuntu_15Nov18_20h53m56s'
 #_['MOCK_ARDUINO_VERSION/nvidia_h5py_path'] = opjm('rosbags/tu_15to16Nov2018/locations/local/left_direct_stop/h5py')
