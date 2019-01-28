@@ -5,7 +5,7 @@ exec(identify_file_str)
 #CFile['magenta'] == __file__
 CVerbose['magenta'] = False
 CCVerbose['magenta'] = False
-print_timer = Timer(0)
+print_timer = Timer(1/4.)
 frequency_timer = Timer(5)
 
 def ready(N):
@@ -59,15 +59,20 @@ def step(camera_data,metadata,N):
     
     adjusted_camera,adjusted_steer,adjusted_motor = \
         get_adjusted_commands(torch_camera,torch_steer,torch_motor,N)
-    cfun = cg
-    if N['flex_motor'] < 47:
-        #cm(1)
-        cfun = cb
-    cfun(adjusted_camera,adjusted_steer,adjusted_motor,N['flex_motor'])
+
+    if print_timer.check():
+        if N['flex_motor'] < 47:
+            cfun = cb
+        else:
+            cfun = cg
+        cfun(adjusted_camera,adjusted_steer,adjusted_motor,N['flex_motor'])
+        print_timer.reset()
+
     N['pub']['cmd/camera'].publish(std_msgs.msg.Int32(adjusted_camera))
     N['pub']['cmd/steer'].publish(std_msgs.msg.Int32(adjusted_steer))
     N['pub']['cmd/motor'].publish(std_msgs.msg.Int32(adjusted_motor))
     frequency_timer.freq(name='network',do_print=True)
+
 
 
 
