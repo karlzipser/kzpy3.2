@@ -31,10 +31,10 @@ def setup():
         if _['data_saving'] == 1 and _['data_saving_prev'] == 0:
             _['data_saving changed up'] = True
 
-    rospy.init_node('run_arduino',anonymous=True,disable_signals=True)
-    rospy.Subscriber('/bair_car/cmd/steer', std_msgs.msg.Int32, callback=cmd_steer_callback)
-    rospy.Subscriber('/bair_car/cmd/camera', std_msgs.msg.Int32, callback=cmd_camera_callback)
-    rospy.Subscriber('/bair_car/cmd/motor', std_msgs.msg.Int32, callback=cmd_motor_callback)
+    rospy.init_node('format',anonymous=True,disable_signals=True)
+    rospy.Subscriber('/cmd/steer', std_msgs.msg.Int32, callback=cmd_steer_callback)
+    rospy.Subscriber('/cmd/camera', std_msgs.msg.Int32, callback=cmd_camera_callback)
+    rospy.Subscriber('/cmd/motor', std_msgs.msg.Int32, callback=cmd_motor_callback)
     rospy.Subscriber('/bair_car/data_saving', std_msgs.msg.Int32, callback=data_saving_callback)
     time.sleep(1)
     wait.reset()

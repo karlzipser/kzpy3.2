@@ -164,6 +164,7 @@ class Mock_Arduino:
                         rstr = "('"+d2c(n+"'",L[n][index])+')'
                     else:
                         rstr = ""
+                    break
                 elif self.atype == 'IMU' and Timers['IMU'].check():
                     Timers['IMU'].reset()
                     n = np.random.choice(imu_names)

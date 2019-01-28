@@ -19,7 +19,7 @@ import std_msgs.msg
 import rospy
 
 #N = {}
-N['flex_weight_file_path'] = most_recent_file_in_folder(opjD('networks/net_flex/weights'))
+N['flex_weight_file_path'] = most_recent_file_in_folder(opjm('rosbags/net_flex/weights'))
 N['flex_network_output_sample'] = 9
 
 
@@ -197,6 +197,8 @@ while not rospy.is_shutdown():
         flex_torch_motor, flex_torch_steer = Flex_torch_network['run_model'](flex_data, N)
         flex_steer_cmd_pub.publish(std_msgs.msg.Int32(flex_torch_steer))
         flex_motor_cmd_pub.publish(std_msgs.msg.Int32(flex_torch_motor))
+
+        print(format_row([('S',flex_torch_steer),('M',flex_torch_motor)]))
 
         if graphics:
             dimg[fx.num_backward_timesteps,:,:]=2000

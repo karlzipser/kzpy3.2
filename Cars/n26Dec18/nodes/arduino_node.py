@@ -56,7 +56,8 @@ _['motor_pwm_max_pub'] = rospy.Publisher(bcs+'motor_pwm_max', std_msgs.msg.Int32
 
 from default_values import flex_names
 for name in flex_names:
-    _[d2n(name,'_pub')] = rospy.Publisher(name,std_msgs.msg.Int32,queue_size=5)
+    _[d2n(name,'_pub')] = rospy.Publisher(bcs+name,std_msgs.msg.Int32,queue_size=5)
+
 
 imu_rename_dic = {}
 imu_rename_dic['gyro'] = 'gyro_pub'
@@ -121,8 +122,8 @@ else:
     arduino_utils.mock_arduino.put_mock_Arduinos_into_P(_)
     if username != 'nvidia':
         _['desktop version/L'],_['desktop version/O'],___ = open_run(
-            run_name='tegra-ubuntu_19Oct18_08h55m02s',
-            h5py_path=opjD('Data/1_TB_Samsung_n1/tu_18to19Oct2018/locations/local/left_right_center/h5py'),
+            run_name=_['MOCK_ARDUINO_VERSION/run_name'],
+            h5py_path=_['MOCK_ARDUINO_VERSION/h5py_path'],
             want_list=['L','O'],
             verbose=True
         )
@@ -130,8 +131,8 @@ else:
     else:
         _['desktop version/L'],_['desktop version/O'],___ = open_run(
             #run_name='tegra-ubuntu_19Oct18_08h55m02s',
-            run_name='tegra-ubuntu_15Nov18_20h53m56s',
-            h5py_path=opjm('rosbags/tu_15to16Nov2018/locations/local/left_direct_stop/h5py'),
+            run_name=_['MOCK_ARDUINO_VERSION/nvidia_run_name'],
+            h5py_path=_['MOCK_ARDUINO_VERSION/nvidia_h5py_path'],
             want_list=['L','O'],
             verbose=True
         )

@@ -6,7 +6,35 @@ _ = P
 #_['use SqueezeNet40_multirun!!!'] = True
 _['agent_is_human'] = True
 _['use_motor_PID'] = True
-_['MOCK_ARDUINO_VERSION'] = False # Note, unrelated to 'desktop_mode' command line arg
+_['MOCK_ARDUINO_VERSION'] = True # Note, unrelated to 'desktop_mode' command line arg
+_['MOCK_ARDUINO_VERSION/nvidia_run_name'] = 'tegra-ubuntu_15Nov18_20h53m56s'
+_['MOCK_ARDUINO_VERSION/nvidia_h5py_path'] = opjm('rosbags/tu_15to16Nov2018/locations/local/left_direct_stop/h5py')
+#_['MOCK_ARDUINO_VERSION/run_name'] = 'tegra-ubuntu_19Oct18_08h55m02s'
+#_['MOCK_ARDUINO_VERSION/h5py_path'] = opjD('Data/1_TB_Samsung_n1/tu_18to19Oct2018/locations/local/left_right_center/h5py')
+
+#_['MOCK_ARDUINO_VERSION/run_name'] = 'Mr_Purple_20Nov18_16h24m20s'
+_['MOCK_ARDUINO_VERSION/run_name'] = 'Mr_Purple_20Nov18_16h41m03s'
+_['MOCK_ARDUINO_VERSION/h5py_path'] = opjm('rosbags/h5py')
+
+
+"""
+    if username != 'nvidia':
+        _['desktop version/L'],_['desktop version/O'],___ = open_run(
+            run_name='tegra-ubuntu_19Oct18_08h55m02s',
+            h5py_path=opjD('Data/1_TB_Samsung_n1/tu_18to19Oct2018/locations/local/left_right_center/h5py'),
+            want_list=['L','O'],
+            verbose=True
+        )
+        _['desktop version/index'] = _['desktop version/start index']
+    else:
+        _['desktop version/L'],_['desktop version/O'],___ = open_run(
+            #run_name='tegra-ubuntu_19Oct18_08h55m02s',
+            run_name='tegra-ubuntu_15Nov18_20h53m56s',
+            h5py_path=opjm('rosbags/tu_15to16Nov2018/locations/local/left_direct_stop/h5py'),
+            want_list=['L','O'],
+            verbose=True
+"""
+
 #if _['MOCK_ARDUINO_VERSION']:
 #	_['bcs'] = ''
 #else:
@@ -170,8 +198,7 @@ _['To Expose']['Network'] = [
 	'network_reverse_motor_gain',
 	'net_hide_colors',
 	'network_servo_smoothing_parameter_direct',
-	'network_steer_gain_direct',
-	'network_camera_gain_direct',       
+	'network_steer_gain_direct',       
 	'network_camera_smoothing_parameter_direct',
 ]
 _['To Expose']['Network_ldr'] = [

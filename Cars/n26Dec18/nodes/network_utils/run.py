@@ -59,7 +59,11 @@ def step(camera_data,metadata,N):
     
     adjusted_camera,adjusted_steer,adjusted_motor = \
         get_adjusted_commands(torch_camera,torch_steer,torch_motor,N)
-
+    cfun = cg
+    if N['flex_motor'] < 47:
+        cm(1)
+        cfun = cb
+    cfun(adjusted_camera,adjusted_steer,adjusted_motor,N['flex_motor'])
     N['pub']['cmd/camera'].publish(std_msgs.msg.Int32(adjusted_camera))
     N['pub']['cmd/steer'].publish(std_msgs.msg.Int32(adjusted_steer))
     N['pub']['cmd/motor'].publish(std_msgs.msg.Int32(adjusted_motor))
@@ -67,28 +71,42 @@ def step(camera_data,metadata,N):
 
 
 
+
+
+
 def get_adjusted_commands(torch_camera,torch_steer,torch_motor,N):
 
-    sm = N['network_motor_smoothing_parameter']
-
-    if torch_motor >= 49:
-        if N['mode']['behavioral_mode'] == 'direct':
-            gm = N['network_motor_gain_direct']
-        else:
-            gm = N['network_motor_gain']
-    else:
-        gm = N['network_reverse_motor_gain']
-
-    if N['mode']['behavioral_mode'] == 'direct':
-        ss = N['network_servo_smoothing_parameter_direct']
-        gs = N['network_steer_gain_direct']
-        gc = N['network_camera_gain_direct']          
+    if N['use flex'] and N['flex_motor'] < 47:
+        cm(0)
+        torch_steer = N['flex_steer'] # consider sum
+        torch_motor = N['flex_motor']
+        sm = N['flex_motor_smoothing_parameter']
+        ss = N['flex_servo_smoothing_parameter']
+        gm = N['flex_motor_gain']
+        gs = N['flex_steer_gain']
         sc = N['network_camera_smoothing_parameter_direct']
+        gc = N['network_camera_gain_direct']
     else:
-        ss = N['network_servo_smoothing_parameter']
-        gs = N['network_steer_gain']
-        gc = N['network_camera_gain']          
-        sc = N['network_camera_smoothing_parameter']
+        sm = N['network_motor_smoothing_parameter']
+
+        if torch_motor >= 49:
+            if N['mode']['behavioral_mode'] == 'direct':
+                gm = N['network_motor_gain_direct']
+            else:
+                gm = N['network_motor_gain']
+        else:
+            gm = N['network_reverse_motor_gain']
+
+        if N['mode']['behavioral_mode'] == 'direct':
+            ss = N['network_servo_smoothing_parameter_direct']
+            gs = N['network_steer_gain_direct']
+            gc = N['network_camera_gain_direct']          
+            sc = N['network_camera_smoothing_parameter_direct']
+        else:
+            ss = N['network_servo_smoothing_parameter']
+            gs = N['network_steer_gain']
+            gc = N['network_camera_gain']          
+            sc = N['network_camera_smoothing_parameter']
 
 
     N['current']['camera'] = (1.0-sc)*torch_camera + sc*N['current']['camera']
