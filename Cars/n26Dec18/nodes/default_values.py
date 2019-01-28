@@ -14,8 +14,8 @@ _['MOCK_ARDUINO_VERSION'] = True # Note, unrelated to 'desktop_mode' command lin
 #_['MOCK_ARDUINO_VERSION/run_name'] = 'tegra-ubuntu_19Oct18_08h55m02s'
 #_['MOCK_ARDUINO_VERSION/h5py_path'] = opjD('Data/1_TB_Samsung_n1/tu_18to19Oct2018/locations/local/left_right_center/h5py')
 
-#_['MOCK_ARDUINO_VERSION/run_name'] = 'Mr_Purple_20Nov18_16h24m20s'
-_['MOCK_ARDUINO_VERSION/run_name'] = 'Mr_Purple_20Nov18_16h41m03s'
+_['MOCK_ARDUINO_VERSION/run_name'] = 'Mr_Purple_20Nov18_16h24m20s'
+#_['MOCK_ARDUINO_VERSION/run_name'] = 'Mr_Purple_20Nov18_16h41m03s'
 _['MOCK_ARDUINO_VERSION/h5py_path'] = opjm('rosbags/h5py')
 
 _['MOCK_ARDUINO_VERSION/nvidia_run_name'] = _['MOCK_ARDUINO_VERSION/run_name']
