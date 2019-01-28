@@ -61,7 +61,7 @@ def step(camera_data,metadata,N):
         get_adjusted_commands(torch_camera,torch_steer,torch_motor,N)
     cfun = cg
     if N['flex_motor'] < 47:
-        cm(1)
+        #cm(1)
         cfun = cb
     cfun(adjusted_camera,adjusted_steer,adjusted_motor,N['flex_motor'])
     N['pub']['cmd/camera'].publish(std_msgs.msg.Int32(adjusted_camera))
@@ -77,7 +77,7 @@ def step(camera_data,metadata,N):
 def get_adjusted_commands(torch_camera,torch_steer,torch_motor,N):
 
     if N['use flex'] and N['flex_motor'] < 47:
-        cm(0)
+        #cm(0)
         torch_steer = N['flex_steer'] # consider sum
         torch_motor = N['flex_motor']
         sm = N['flex_motor_smoothing_parameter']

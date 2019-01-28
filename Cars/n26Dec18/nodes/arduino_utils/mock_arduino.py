@@ -109,6 +109,7 @@ class Mock_Arduino:
                     motor_median = np.median(self.motor_pers)
                 if len(self.motor_pers) > 5000:
                     self.motor_pers = self.motor_pers[-5000:]
+                """
                 lst = [
                     (str(self.P['button_number']),0),
                     ('S',servo_per),
@@ -123,6 +124,7 @@ class Mock_Arduino:
                     cprint(row_str,'red')
                 else:
                     cprint(row_str,'green')
+                """
                     
     def readline(self):
         _ = self.P

@@ -157,7 +157,7 @@ Flex_torch_network = Flex_Torch_Network(N)
 
 dimg = zeros((19,18,3))
 
-time.sleep(10)
+time.sleep(10) # waiting avoids errors because of slow loading of torch
 
 while not rospy.is_shutdown():
 
