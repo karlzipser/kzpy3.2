@@ -198,7 +198,7 @@ while not rospy.is_shutdown():
         flex_steer_cmd_pub.publish(std_msgs.msg.Int32(flex_torch_steer))
         flex_motor_cmd_pub.publish(std_msgs.msg.Int32(flex_torch_motor))
 
-        print(format_row([('S',flex_torch_steer),('M',flex_torch_motor)]))
+        #print(format_row([('S',flex_torch_steer),('M',flex_torch_motor)]))
 
         if graphics:
             dimg[fx.num_backward_timesteps,:,:]=2000
