@@ -83,7 +83,7 @@ ready_to_run = False
 
 def Flex_Torch_Network(N):
     global ready_to_run
-    if True:#try:
+    if True: #try:
         D = {}
         D['save_data'] = torch.load(N['flex_weight_file_path'])
         D['solver'] = SqueezeNet().cuda()
