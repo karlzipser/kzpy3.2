@@ -154,6 +154,8 @@ Flex_torch_network = Flex_Torch_Network(N)
 
 dimg = zeros((19,18,3))
 
+time.sleep(10)
+
 while not rospy.is_shutdown():
 
     try:
