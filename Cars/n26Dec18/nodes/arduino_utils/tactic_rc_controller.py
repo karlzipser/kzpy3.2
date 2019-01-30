@@ -25,7 +25,8 @@ def Pid_Processing_Motor():
         D['pid_motor_percent'] = max(D['pid_motor_percent'],P['pid_steer_steer_percent_min'])
         if D['pid_motor_percent'] > P['max motor']:
             D['pid_motor_percent'] = 49
-            P['Arduinos']['SOUND'].write(P['sound/failure 1'])
+            if 'SOUND' in P['Arduinos']:
+                P['Arduinos']['SOUND'].write(P['sound/failure 1'])
         return D['pid_motor_percent']
     D['do'] = _do
     return D
@@ -82,7 +83,8 @@ def drive_car(P):
 
     if P['data_saving changed up']:
         P['data_saving changed up'] = False
-        P['Arduinos']['SOUND'].write(P['sound/save tune'])
+        if 'SOUND' in P['Arduinos']:
+            P['Arduinos']['SOUND'].write(P['sound/save tune'])
 
     if P['calibrated'] == True:
         P['human']['servo_percent'] = servo_pwm_to_percent(P['servo_pwm_smooth'],P)
