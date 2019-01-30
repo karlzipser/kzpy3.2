@@ -56,7 +56,9 @@ _['USE_IMU'] = True
 _['USE_ROS'] = HAVE_ROS
 _['human_PID_motor_percent'] = 53
 _['max motor'] = 63
-_['min motor'] = 0#49-(63-49)
+_['min motor'] = 49-(63-49)
+_['flex max motor'] = _['max motor']
+_['flex min motor'] = _['min motor']
 _['show_net_input'] = False
 _['show_net_activity'] = False
 _['menu name'] = 'arduino menu'
@@ -157,6 +159,11 @@ flex_names = [
 ]
 
 for f in flex_names:
+    _[f+'/gain'] = 1.0
+
+
+
+for f in flex_names:
     _[f] = {}
 _['to_hide'] = []
 
@@ -218,8 +225,11 @@ _['To Expose']['Flex'] = [
 	'flex_motor_gain',
 	'flex_steer_gain',
     'flex_network_output_sample',
+    'flex min motor',
+    'flex max motor',
 ]
-
+for f in flex_names:
+    _['To Expose']['Flex'].append(f+'/gain')
 
 
 if username == 'nvidia':
@@ -274,6 +284,8 @@ _['flex_motor_smoothing_parameter'] = _['network_motor_smoothing_parameter']
 _['flex_servo_smoothing_parameter'] = _['network_servo_smoothing_parameter']
 _['flex_motor_gain'] = _['network_motor_gain']
 _['flex_steer_gain'] = _['network_steer_gain']
+_['flex_network_output_sample'] = 9
+
 _['camera_move_threshold'] = 0
 _['camera_auto_zero_for_small_values_int'] = 0
 ###########################

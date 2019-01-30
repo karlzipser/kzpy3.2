@@ -20,7 +20,7 @@ import rospy
 
 #N = {}
 N['flex_weight_file_path'] = most_recent_file_in_folder(opjm('rosbags/net_flex/weights'))
-N['flex_network_output_sample'] = 9
+
 
 
 rospy.init_node('flex_network_node',anonymous=True,disable_signals=True)
@@ -55,7 +55,8 @@ def FLEX__callback(msg):
     #F['FLEX'].append(msg.data)
     #if len(F['FLEX']) > 18:
     #    F['FLEX'] = F['FLEX'][-18:]
-    advance(F['FLEX'],msg.data,18)
+    adjusted_data = msg.data * N['FLEX/gain']
+    advance(F['FLEX'],adjusted_data,18)
     #advance(F['FLEX_ts'],time.time(),18)
 rospy.Subscriber('/bair_car/FLEX', std_msgs.msg.Int32, callback=FLEX__callback)
     """
@@ -200,6 +201,10 @@ while not rospy.is_shutdown():
 
         flex_data = Flex_torch_network['format_flex_data'](img3)
         flex_torch_motor, flex_torch_steer = Flex_torch_network['run_model'](flex_data, N)
+
+        flex_torch_motor = min(flex_torch_motor,N['flex max motor'])
+        flex_torch_motor = max(flex_torch_motor,N['flex min motor'])
+
         flex_steer_cmd_pub.publish(std_msgs.msg.Int32(flex_torch_steer))
         flex_motor_cmd_pub.publish(std_msgs.msg.Int32(flex_torch_motor))
 
