@@ -217,6 +217,7 @@ _['To Expose']['Flex'] = [
 	'flex_servo_smoothing_parameter',
 	'flex_motor_gain',
 	'flex_steer_gain',
+    'flex_network_output_sample',
 ]
 
 
@@ -224,7 +225,7 @@ _['To Expose']['Flex'] = [
 if username == 'nvidia':
 	_['weight_file_path'] = opjm("rosbags/Network_Weights")
 else:
-	_['weight_file_path'] = opjD('Networks/_net_15Sept2018_1Nov_with_reverse_')
+	_['weight_file_path'] = opjD('Network_Weights')
 
 try:
 	_['To Expose']['Weights'] = []
