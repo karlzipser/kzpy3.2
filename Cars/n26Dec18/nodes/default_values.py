@@ -199,18 +199,19 @@ _['To Expose']['Network'] = [
 	'show_net_input',
 	'show_net_activity',
 	'camera_move_threshold',
-	'camera_auto_zero_for_small_values_int',
+	#'camera_auto_zero_for_small_values_int',
 	'network_reverse_motor_gain',
 	'net_hide_colors',
 	'network_servo_smoothing_parameter_direct',
 	'network_steer_gain_direct',       
 	'network_camera_smoothing_parameter_direct',
 ]
+"""
 _['To Expose']['Network_ldr'] = [
 	'max motor',
 	'min motor',
 ]
-
+"""
 _['To Expose']['Flex'] = [
 	'flex_motor_smoothing_parameter',
 	'flex_servo_smoothing_parameter',
