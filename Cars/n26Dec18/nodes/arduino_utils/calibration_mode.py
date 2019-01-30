@@ -22,7 +22,8 @@ def _calibrate_run_loop(P):
         if P['now in calibration mode']:
             if prev == False:
                 P['calibration mode timer'].reset()
-                P['Arduinos']['SOUND'].write(P['sound/calibrate tune'])
+                if 'SOUND' in P['Arduinos']:
+                    P['Arduinos']['SOUND'].write(P['sound/calibrate tune'])
                 prev = True
             else:
                 pass
