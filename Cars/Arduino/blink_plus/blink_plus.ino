@@ -31,7 +31,7 @@ void setup() {
   Serial.begin(115200);
   Serial.setTimeout(5);
 }
-int t = 500;
+int t = 2000;
 int i = 2;
 // the loop function runs over and over again forever
 void loop() {
