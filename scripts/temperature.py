@@ -10,11 +10,13 @@ Args = parser.parse_args().__dict__
 if Args['Fahrenheit'] == None and Args['Celsius'] == None:
 	cr(Args)
 	cr("*** Error, Args['Fahrenheit'] == None and Args['Celsius'] == None")
+	cr("One temperature must be specified.")
 	sys.exit()
 
 if Args['Fahrenheit'] != None and Args['Celsius'] != None:
 	cr(Args)
 	cr("*** Error, Args['Fahrenheit'] != None and Args['Celsius'] != None")
+	cr("Only one temperature can be specified.")
 	sys.exit()
 
 if Args['Fahrenheit'] != None:
