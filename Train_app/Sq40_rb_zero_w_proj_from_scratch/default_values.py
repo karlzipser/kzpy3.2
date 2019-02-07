@@ -19,7 +19,10 @@ minutes = minute
 hour = 60*minute
 hours = hour
 
+
 _['display'] = False
+
+
 _['num loss_list_avg steps to show'] = None
 _['ABORT'] = False
 _['customers'] = ['train menu']
@@ -55,7 +58,7 @@ for k in _.keys():
 ###############################################################
 ###############################################################
 _['start menu automatically'] = False
-_['reload_image_file_timer_time'] = 35*minutes
+_['reload_image_file_timer_time'] = 30*minutes
 _['lacking runs'] = {}
 _['freeze premetadata weights'] = False
 if _['freeze premetadata weights']:
@@ -76,7 +79,7 @@ _['start time'] = time_str()
 _['start time numeric'] = time.time()
 _['max_num_runs_to_open'] = 900
 _['min_num_runs_to_open'] = 1
-_['run time before quitting'] = 0.5*hour
+_['run time before quitting'] = 1.5*hours
 _['experiments_folders'] = []
 _['trigger print timer?'] = True
 _['trigger loss_timer?'] = True

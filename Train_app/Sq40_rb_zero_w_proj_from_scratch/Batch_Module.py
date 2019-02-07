@@ -133,8 +133,8 @@ def Batch(_,the_network=None):
 				_['Loaded_image_files'][f]['normal'].close()
 				_['Loaded_image_files'][f]['flip'].close()
 				_['Loaded_image_files'][f]['projections'].close()
-				_['Loaded_image_files'][f]['normal projections'].close()
-				_['Loaded_image_files'][f]['flip projections'].close()
+				#_['Loaded_image_files'][f]['normal projections'].close()
+				#_['Loaded_image_files'][f]['flip projections'].close()
 
 				_['Loaded_image_files'][f]['left_timestamp_metadata'].close()
 				if _['use_LIDAR']:

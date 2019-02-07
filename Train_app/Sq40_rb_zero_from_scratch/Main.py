@@ -1,7 +1,7 @@
 from kzpy3.utils3 import *
-import default_values
-import Batch_Module
-import Network_Module
+import kzpy3.Train_app.Sq40_rb_zero_from_scratch.default_values as default_values
+import kzpy3.Train_app.Sq40_rb_zero_from_scratch.Batch_Module as Batch_Module
+import kzpy3.Train_app.Sq40_rb_zero_from_scratch.Network_Module as Network_Module
 import kzpy3.Menu_app.menu2 as menu2
 exec(identify_file_str)
 
@@ -66,7 +66,7 @@ if _['RESUME']:
 else:
     cr("\n*********** STARTING FROM RANDOM WEIGHTS ***********\n")
     raw_enter()
-
+_['WEIGHTS_FILE_PATH']='/home/karlzipser/Desktop/Networks/_net_15Sept2018_1Nov_with_reverse_with_12imgs/weights/net_24Dec18_16h59m53s.infer'
 Network = Network_Module.Pytorch_Network(_)
 
 Batch = Batch_Module.Batch(_,the_network=Network)
@@ -79,24 +79,18 @@ menu_reminder = Timer(10*60)
 menu_reminder.trigger()
 timer = Timer(_['run time before quitting'])
 
-while _['ABORT'] == False:
-
+#while _['ABORT'] == False:
+if True:
 	##################################
 	#
-	load_parameters(_,customer='train menu')
+	#load_parameters(_,customer='train menu')
 
-	for u in Timer_updates.keys():
-		if u in _['updated']:
-			_[Timer_updates[u]] = Timer(_[u])
-			_['updated'].remove(u)
+	#for u in Timer_updates.keys():
+	#	if u in _['updated']:
+	#		_[Timer_updates[u]] = Timer(_[u])
+	#		_['updated'].remove(u)
 	#
 	##################################
-
-	if timer.check():
-		cg("\n\nQuitting after runing for",timer.time(),"seconds.\n\n")
-		_['save_net_timer'].trigger()
-		Network['SAVE_NET']()
-		break
 
 	Batch['CLEAR']()
 
@@ -112,11 +106,17 @@ while _['ABORT'] == False:
 
 # Start training with 12 mini metadata images at 9am 12Dec2018
 
-	menu_reminder.message(d2s("\n\nTo start menu:\n\tpython kzpy3/Menu_app/menu2.py path",_['project_path'],"dic P\n\n"))
+#menu_reminder.message(d2s("\n\nTo start menu:\n\tpython kzpy3/Menu_app/menu2.py path",_['project_path'],"dic P\n\n"))
 
 
 
-
+"""
+if timer.check():
+    cg("\n\nQuitting after runing for",timer.time(),"seconds.\n\n")
+    _['save_net_timer'].trigger()
+    Network['SAVE_NET']()
+    break
+"""
 	
 
 

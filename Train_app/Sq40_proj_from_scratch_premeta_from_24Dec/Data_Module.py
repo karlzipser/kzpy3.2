@@ -19,9 +19,9 @@ def prepare_data_for_training(_):
 				locations_to_classify = [opjD("Data/2_TB_Samsung_n3/rosbags__preprocessed_data")]
 			
 			for l in locations_to_classify:
-				cb("classify_data.find_locations('",l,"'),_['experiments_folders'])...")
+				#cb("classify_data.find_locations('",l,"'),_['experiments_folders'])...")
 				classify_data.find_locations(l,_['experiments_folders'],False)
-				cb("...done.")
+				#cb("...done.")
 			if _['verbose']: print len(_['experiments_folders'])
 			if _['verbose']: print _['experiments_folders']
 			#raw_enter()
@@ -53,9 +53,9 @@ def prepare_data_for_training(_):
 				locations_to_classify = [opjm('2_TB_Samsung_n3/rosbags__preprocessed_data')]
 			
 			for l in locations_to_classify:
-				cb("classify_data.find_locations('",l,"'),_['experiments_folders'])...")
+				#cb("classify_data.find_locations('",l,"'),_['experiments_folders'])...")
 				classify_data.find_locations(l,_['experiments_folders'],False)
-				cb("...done.")
+				#cb("...done.")
 			if _['verbose']: print len(_['experiments_folders'])
 			if _['verbose']: print _['experiments_folders']
 			#raw_enter()
@@ -85,10 +85,10 @@ def prepare_data_for_training(_):
 
 
 	def equalize_to_max_len(M):
-		cg("equalize_to_max_len()")
-		cg("\tinitial lengths:")
+		#cg("equalize_to_max_len()")
+		#cg("\tinitial lengths:")
 		for k in M.keys():
-			cg("\t\t",k,len(M[k]))
+			pass#cg("\t\t",k,len(M[k]))
 		lens = []
 		steer_types = M.keys()
 
@@ -107,27 +107,30 @@ def prepare_data_for_training(_):
 
 		for k in steer_types:
 			assert (len(M[k]) == max_len) or (len(M[k]) == 0)
-		cg("\tfinal lengths:")
+		#cg("\tfinal lengths:")
 		for k in M.keys():
-			cg("\t\t",k,len(M[k]))
+			pass#cg("\t\t",k,len(M[k]))
 
 	B = {}
 	B['left'] = []
 	B['right'] = []
 	B['direct'] = []
+	setup_timer = Timer(10)
+	setup_timer.trigger()
 	if True:
 		for experiments_folder in _['experiments_folders']:
+			setup_timer.message('setting up')
 			if fname(experiments_folder)[0] == '_':
 				continue
-			cg("experiments_folder =",experiments_folder)
+			#cg("experiments_folder =",experiments_folder)
 			locations = sggo(experiments_folder,'*')
 			for location in locations:
 				if fname(location)[0] == '_':
-					spd2s('ignoring',location,"because of '_'" )
+					#spd2s('ignoring',location,"because of '_'" )
 					continue
-				if _['verbose']: cg("\t",location)
+				#if _['verbose']: cg("\t",location)
 				b_modes = sggo(location,'*')
-				if _['verbose']: cg("\t\tbehavioral modes at this location:", b_modes)
+				#if _['verbose']: cg("\t\tbehavioral modes at this location:", b_modes)
 				for e in b_modes:
 					if fname(e)[0] == '_':
 						continue
@@ -141,9 +144,9 @@ def prepare_data_for_training(_):
 					if fname(e) == 'furtive':
 						continue
 					"""
-					cb("\t",fname(e))
+					#cb("\t",fname(e))
 
-					_data_moments_indexed = lo(opj(e,'data_moments_dic.pkl'))
+					_data_moments_indexed = lo(opj(e,'data_moments_dic.pkl'),noisy=False)
 					#########################################################################
 					# Validation to be done with separate runs, so combine all data here.
 					#########################################################################
@@ -177,16 +180,16 @@ def prepare_data_for_training(_):
 									skip = True
 									break
 							if not skip:
-								print fname(r)
+								#print fname(r)
 								assert(fname(r) not in _['run_name_to_run_path'])
 								_['run_name_to_run_path'][fname(r)] = r
 					else:
 						for r in sggo(e,'h5py','*'):
-							print fname(r)
+							#print fname(r)
 							assert(fname(r) not in _['run_name_to_run_path'])
 							_['run_name_to_run_path'][fname(r)] = r
 				
-		cg("***********************************")
+		#cg("***********************************")
 		equalize_to_max_len(B)
 
 		for b in B.keys():
@@ -201,17 +204,17 @@ def prepare_data_for_training(_):
 				break
 		num_runs_to_use = max(_['min_num_runs_to_open'],int(_['proportion of runs to use']*len(runs_weighted)))
 		runs_to_use = runs_weighted[:num_runs_to_use]
-		cr(runs_weighted)
-		cg(runs_to_use)
+		#cr(runs_weighted)
+		#cg(runs_to_use)
 		data_moments_indexed = []
 		for d in _['data_moments_indexed']:
 			if d['run_name'] in runs_to_use:
 				data_moments_indexed.append(d)
 		_['data_moments_indexed'] = data_moments_indexed
 
-		cb("\tlen( _['data_moments_indexed'] ) =", len( _['data_moments_indexed']) )
-		cg("len(_['data_moments_indexed']) =",len(_['data_moments_indexed']))
-		cg("len(_['heading_pause_data_moments_indexed']) =",len(_['heading_pause_data_moments_indexed']))
+		#cb("\tlen( _['data_moments_indexed'] ) =", len( _['data_moments_indexed']) )
+		#cg("len(_['data_moments_indexed']) =",len(_['data_moments_indexed']))
+		#cg("len(_['heading_pause_data_moments_indexed']) =",len(_['heading_pause_data_moments_indexed']))
 
 		_['net_projection_runs'] = []
 		temp = sggo(opjD('Data/Network_Predictions_projected/*.flip.h5py'))

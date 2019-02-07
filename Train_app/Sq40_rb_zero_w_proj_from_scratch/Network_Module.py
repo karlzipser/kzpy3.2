@@ -1,6 +1,10 @@
 from kzpy3.utils3 import *
 import torch
+
 from kzpy3.Train_app.nets.SqueezeNet40 import SqueezeNet
+
+#from kzpy3.Train_app.nets.SqueezeNet40_fine_grain_activations import SqueezeNet
+
 exec(identify_file_str)
 
 def Pytorch_Network(_):
