@@ -38,7 +38,7 @@ if _['MOCK_ARDUINO_VERSION']:
 
 _['human_agent_pub'] = rospy.Publisher(bcs+'human_agent', std_msgs.msg.Int32, queue_size=5) 
 _['drive_mode_pub'] = rospy.Publisher(bcs+'drive_mode', std_msgs.msg.Int32, queue_size=5) 
-_['behavioral_mode_pub'] = rospy.Publisher(bcs+'behavioral_mode', std_msgs.msg.String, queue_size=5)
+#_['behavioral_mode_pub'] = rospy.Publisher(bcs+'behavioral_mode', std_msgs.msg.String, queue_size=5)
 _['place_choice_pub'] = rospy.Publisher(bcs+'place_choice', std_msgs.msg.String, queue_size=5)
 _['button_number_pub'] = rospy.Publisher(bcs+'button_number', std_msgs.msg.Int32, queue_size=5) 
 _['steer_pub'] = rospy.Publisher(bcs+'steer', std_msgs.msg.Int32, queue_size=5) 
@@ -77,7 +77,7 @@ def _publish_MSE_data(_):
     _['motor_pub'].publish(std_msgs.msg.Int32(_['human']['motor_percent']))
     _['button_number_pub'].publish(std_msgs.msg.Int32(_['button_number']))
     _['encoder_pub'].publish(std_msgs.msg.Float32(_['encoder']))
-    _['behavioral_mode_pub']
+    #_['behavioral_mode_pub']
     if MSE_low_frequency_pub_timer.check():
 
         if _['button_number'] == 1:

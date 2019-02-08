@@ -2,9 +2,19 @@
 from kzpy3.utils3 import *
 import pyperclip
 
+
+cmd_to_show = ['python','nmc','bagloop']
+#pro_to_show = ['kzpy3/Cars/n26Dec18/nodes/network_node.py']
+if 'app' not in Arguments:
+    Arguments['app'] = 'all'
+
+for filt in ['ignore','require']:
+    if filt not in Arguments:
+        Arguments[filt] = []
+    else:
+        Arguments[filt] = Arguments[filt].split(',')
+
 print_Arguments()
-cmd_to_show = ['python','nmc']
-pro_to_show = ['kzpy3/Cars/n26Dec18/nodes/network_node.py']
 
 while True:
     #clear_screen()
@@ -32,10 +42,29 @@ while True:
             #cw(k)
             es = sorted(H[k].keys())
             for e in es:
-                if True:#e in pro_to_show:
+                try:
+                    app = e.split('/')[1]
+                except:
+                    app = 'no app'
+                if Arguments['app'] == 'all' or app == Arguments['app']:
                     l = H[k][e]
                     l = list(set(l))
                     for m in l:
+                        #cr(m)
+                        continue_ = False
+                        for ig in Arguments['ignore']:
+                            if ig in m:
+                                continue_ = True
+                                break
+                        if continue_:
+                            continue
+                        continue_ = False
+                        for ig in Arguments['require']:
+                            if ig not in m:
+                                continue_ = True
+                                break
+                        if continue_:
+                            continue
                         lst.append(m)
                         if 'menu2' in m:
                             c_ = cy
@@ -45,7 +74,10 @@ while True:
                             c_ = cb
                         else:
                             c_ = cm
-                        c_(ctr+1,m.replace('kzpy3/',''))
+                        if Arguments['app'] != 'all' or Arguments['app'] != 'no app':
+                            n = m.replace(Arguments['app']+'/','')
+                            n = n.replace('kzpy3/','')
+                        c_(ctr+1,n)
                         ctr += 1
     try:
         a = input('-> ')
@@ -61,6 +93,7 @@ while True:
     answer = raw_input('run (y/[n])?')
     cm('***'+answer+'***')
     if answer == 'y':
-        os.system(lst[a])
-
-
+        #os.system(lst[a])
+        sys_str = d2n("gnome-terminal  --geometry 40x30+100+200 -x "+lst[a])
+        os.system(sys_str)
+#EOF

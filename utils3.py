@@ -364,7 +364,16 @@ def d2n(*args):
 def d2f(*args):
 	return d2s_spacer(args[1:],spacer=args[0])
 def pd2s(*args):
-	cprint(d2s(*args))#,'yellow')
+	cprint(d2s(*args))
+def pd2n(*args):
+	print(d2n(*args))
+rd = '\x1b[31m'
+gr = '\x1b[32m'
+yl = '\x1b[33m'
+bl = '\x1b[34m'
+mg = '\x1b[35m'
+lb = '\x1b[36m'
+wh = '\x1b[29m'
 def spd2s(*args):
 	d_ = d2s(*args)
 	l_ = len(d_)
