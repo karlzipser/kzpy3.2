@@ -15,6 +15,14 @@ rospy.init_node('control_node',anonymous=True,disable_signals=True)
 #
 ###################################################################
 
+vel_encoding_coeficient = 1.0/2.3
+
+DIRECT = 2
+LEFT = 1
+RIGHT = 3
+GHOST = 4
+UNKNOWN = 5
+
 C = {}
 
 for src in ['net','flex']:
@@ -30,25 +38,48 @@ C['error_count'] = 0
 C['encoder'] = 0.
 C['encoder/error'] = 0
 C['encoder/smooth'] = 0.
+C['velocity'] = 0.
 C['heading'] = 0.
 C['reference_heading'] = 0.
 C['distance'] = 0.
 C['reference_distance'] = 0.
 C['human_agent'] = 1
 C['drive_mode'] = 0
-C['behavioral_mode'] = 'ghost'
+C['behavioral_mode'] = GHOST
+C['behavior_names'] = {
+    LEFT:'left',
+    RIGHT:'right',
+    DIRECT:'direct',
+    GHOST:'ghost',
+    UNKNOWN:'unknown',
+}
+
+'left right red'
+'left right red, left blink yellow'
+'left right red, right blink yellow'
+'left right blink yellow'
+'blue'
+'white'
+'green'
+'purple'
+'left right green'
+
 C['human_agent/prev'] = 1
 C['drive_mode/prev'] = 0
 C['button_number/prev'] = 2
-C['behavioral_mode/prev'] = 'ghost'
+C['behavioral_mode/prev'] = GHOST
 C['behavioral_mode/timer'] = Timer()
+C['behavioral_mode_pub_timer'] = Timer(2/30.)
+C['lights_pub_ready'] = False
 C['drive_mode/timer'] = Timer()
 C['human_agent/timer'] = Timer()
 C['button_number/timer'] = Timer()
+C['still_timer'] = Timer()
+C['collision_timer'] = Timer()
 
 C['ready'] = False
-C['encoder_time'] = 0.0
-C['encoder_time_prev'] = 0.0
+C['encoder_time'] = time.time()
+C['encoder_time_prev'] = time.time() - 1/30.
 
 bcs = '/bair_car'
 
@@ -64,17 +95,48 @@ def flex_steer_callback(msg):
 
 def flex_motor_callback(msg):
     C['flex/motor'] = msg.data
+    if C['flex/motor'] < 40:
+        C['collision_timer'].reset()
 
 s = 0.9
 def encoder_callback(msg):
     C['encoder'] = msg.data
     C['encoder_time'] = time.time()
-    C['distance'] += C['encoder'] * (C['encoder_time']-C['encoder_time_prev'])
-    C['encoder_time_prev'] = C['encoder_time']
     C['encoder/smooth'] = (1.0-s)*C['encoder'] + s*C['encoder/smooth']
+    C['velocity'] = vel_encoding_coeficient * C['encoder/smooth']
+    if C['velocity'] > 0.1:
+        C['still_timer'].reset()
+    C['distance'] += C['velocity'] * (C['encoder_time']-C['encoder_time_prev'])
+    C['encoder_time_prev'] = C['encoder_time']
+
+
+
 
 def gyro_heading_callback(msg):
     C['heading'] = msg.x
+
+    C['behavioral_mode/prev'] = C['behavioral_mode']
+
+    if C['button_number'] == 1 or C['button_number'] == 3:
+
+        if np.abs(C['heading']-C['reference_heading']) > P['d_heading_for_end_turning']:
+            C['behavioral_mode'] = DIRECT
+        elif C['button_number'] == 1:
+            C['behavioral_mode'] = LEFT
+        elif C['button_number'] == 3:
+            C['behavioral_mode'] = RIGHT
+    elif C['button_number'] == 2:
+        C['behavioral_mode'] = DIRECT
+    elif C['button_number'] == 4:
+        C['behavioral_mode'] = GHOST
+    else:
+        C['behavioral_mode'] = UNKNOWN
+    if C['behavioral_mode/prev'] != C['behavioral_mode']:
+        C['lights_pub_ready'] = True
+    else: 
+        C['lights_pub_ready'] = False
+
+
 
 def human_agent_callback(msg):
     C['human_agent'] = msg.data
@@ -92,17 +154,10 @@ def button_number_callback(msg):
     C['button_number'] = msg.data
     if C['button_number'] != C['button_number/prev']:
         C['button_number/timer'].reset()
-    C['button_number/prev'] = C['button_number']
-
-"""
-def behavioral_mode_callback(msg):
-    C['behavioral_mode'] = msg.data
-    if C['behavioral_mode'] != C['behavioral_mode/prev']:
-        C['behavioral_mode/timer'].reset()
         C['reference_heading'] = C['heading']
         C['reference_distance'] = C['distance']
-    C['behavioral_mode/prev'] = C['behavioral_mode']
-"""
+    C['button_number/prev'] = C['button_number']
+
 
 
 
@@ -118,7 +173,9 @@ rospy.Subscriber(bcs+'/drive_mode',std_msgs.msg.Int32,callback=drive_mode_callba
 rospy.Subscriber(bcs+'/gyro_heading',geometry_msgs.msg.Vector3,callback=gyro_heading_callback)
 C['cmd/steer/pub'] = rospy.Publisher('cmd/steer',std_msgs.msg.Int32,queue_size=5)
 C['cmd/motor/pub'] = rospy.Publisher('cmd/motor',std_msgs.msg.Int32,queue_size=5)
-C['behavioral_mode_pub'] = rospy.Publisher(bcs+'behavioral_mode', std_msgs.msg.String, queue_size=5)
+C['behavioral_mode_pub'] = rospy.Publisher('behavioral_mode', std_msgs.msg.String, queue_size=5)
+C['lights_pub'] = rospy.Publisher('lights', std_msgs.msg.String, queue_size=5)
+
 
 print_timer = Timer(0.2)
 parameter_file_load_timer = Timer(2)
@@ -152,7 +209,6 @@ def check_value(val,mn,mx,mn_err,mx_err,default):
     if int(val) > mx_err or int(val) < mn_err:
         error = 1
         val = default
-        raw_enter()
     else:
         val = bound_value(val,mn,mx)
     return val,error
@@ -182,17 +238,19 @@ def print_topics():
         if error > 0:
             er = rd
         pd2n(
-            er,error,sp,
+            #er,error,sp,
             #ns,int(C['net/steer']),sp,
             nm,int(C['net/motor']),sp,
             #fs,int(C['flex/steer']),sp,
             fm,int(C['flex/motor']),sp,
-            en,dp(C['encoder']),sp,
-            bl,C['error_count'],sp,
-            gr,dp(C['encoder/smooth']),sp,
-            lb,dp(C['heading']-C['reference_heading']),sp,
-            gr,C['button_number'],sp,
-            gr,dp(C['distance']-C['reference_distance']),sp,
+            yl,dp(C['velocity'],1),sp,
+            mg,dp(C['still_timer'].time(),1),sp,
+            gr,dp(C['collision_timer'].time(),1),sp,
+            lb,int(C['heading']-C['reference_heading']),sp,
+            rd,C['button_number'],sp,
+            rd,C['behavior_names'][C['behavioral_mode']],sp,
+            gr,dp(C['distance']-C['reference_distance'],1),sp,
+            rd,C['error_count'],sp,
         )
 
 
@@ -291,6 +349,13 @@ if __name__ == '__main__':
     while not rospy.is_shutdown() and P['ABORT'] == False:
 
         if C['ready']:
+
+            if C['behavioral_mode_pub_timer'].check():
+                C['behavioral_mode_pub_timer'].reset()
+                C['behavioral_mode_pub'].publish(C['behavior_names'][C['behavioral_mode']])
+            C['lights_pub_ready'] == True:
+                C['lights_pub'].publish[C['behavioral_mode/lights'][C['behavioral_mode']]]
+                C['lights_pub_ready'] = False
 
             C['ready'] = False
 
