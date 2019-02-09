@@ -40,7 +40,7 @@ _['MOCK_ARDUINO_VERSION/nvidia_h5py_path'] = _['MOCK_ARDUINO_VERSION/h5py_path']
             want_list=['L','O'],
             verbose=True
 """
-
+_['d_heading_for_end_turning'] = 45
 #if _['MOCK_ARDUINO_VERSION']:
 #	_['bcs'] = ''
 #else:
@@ -187,6 +187,7 @@ _['To Expose']['Arduino'] = [
 
 	'delta servo_pwm for calibration',
 	'delta motor_pwm for calibration',
+    'd_heading_for_end_turning',
 ]
 
 _['To Expose']['Network'] = [

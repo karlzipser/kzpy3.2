@@ -99,7 +99,7 @@ def Flex_Torch_Network(N):
         CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)        
     def _run_model(input,N):
         D['output'] = D['solver'](input)
-        if N['flex_graphics']:
+        if False:#N['flex_graphics']:
             st = []
             #print D['output']
             #raw_enter()
@@ -210,8 +210,11 @@ while not rospy.is_shutdown() and not N['ABORT']:
                 dimg[fx.num_backward_timesteps,:,:]=2000
                 dimg[fx.num_backward_timesteps,0,:]=-2000
                 dimg[:fx.num_backward_timesteps,:,:] = img3
-                mi(z2o(dimg),'img');spause()
-
+                #mi(z2o(dimg),'img');spause()
+                mci(z55(dimg),
+                    scale=12.0,
+                    delay=1,
+                    title='flex net input')
         except Exception as e:
             error_ctr += 1
             exc_type, exc_obj, exc_tb = sys.exc_info()

@@ -170,6 +170,8 @@ def update_button_servo_motor_encoder(P):
     P['servo_pwm'] = serial_input[2]
     P['motor_pwm'] = serial_input[3]
     P['encoder'] = serial_input[4]
+    if P['motor_pwm'] < P['motor_pwm_null']:
+        P['encoder'] *= -1.0
 
     bpwm = P['button_pwm']
     

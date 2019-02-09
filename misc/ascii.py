@@ -2,7 +2,7 @@
 
 
 
-c=d2n('\x1b[31m','nice!','\x1b[32m','color','\x1b[40m\x1b[32m',' blah','\x1b[0m')
+c=d2n('\x1b[31m','nice!','\x1b[32m','color','\x1b[40m',' \x1b[31m','blah','\x1b[104m','done','\x1b[32m')
 print c
 
 xsx='\x1b[0m'
@@ -10,19 +10,23 @@ xs0=xsx+'\x1b[31m'
 xs1=xsx+'\x1b[32m'
 xs3=xsx+'\x1b[40m\x1b[32m'
 
-p2s(0,xsx+xs0,1,xs1,2,xs3,3,4)
+print(d2n('\x1b[31m','nice!','\x1b[32m','color','\x1b[40m',' \x1b[31m','blah','\x1b[104m','done','\x1b[32m'))
+
+
+
 def p2s(*args,**kwargs):
     #print type(args)
     args = list(args)
     ##print(d2s(*list(args)))
     print(d2n(*([xsx]+args+[xsx])))
+p2s(0,xsx+xs0,1,xs1,2,xs3,3,4)
 p2s('hi',1,a=3)
 p2s(0,xsx+xs0,1,xs1,2,xs3,3,4,a=32)
 p2s(0,xsx+xs0,1,xs1,2,xs3,3,4,a=32)
 p2s(0,xs0,1,xs1,2,xs3,3,4,xs1,'adfasdfa')
 p2s(0,xs0,1,xs1,2,xs3,3,4,xsx,xs1,'adfasdfa')
 
-for i in range(256):
+for i in range(108):
     x = d2n('\x1b[',i,'m')
     p2s(x,i)
 
@@ -31,6 +35,10 @@ def n(*args,**kwargs):
     print(args,type(args))
     print(kwargs,type(kwargs))
 n(1,2,3,level=0,test=9,a='aa')
+
+
+
+
 
 
 
