@@ -49,7 +49,7 @@ _['desktop version/artifical mode'] = False
 _['desktop version/pwm to screen'] = True
 _['customers'] = ['Arduino','Network','Weights','Flex','Control',] #,'Network_ldr',]
 _['drive_mode'] = 0
-_['use sound'] = True
+_['use lights'] = True
 _['now in calibration mode'] = False
 _['use flex'] = True
 _['USE_MSE'] = True
@@ -128,18 +128,18 @@ _['desktop version/start index'] = 5000
 _['delta servo_pwm for calibration'] = 900
 _['delta motor_pwm for calibration'] = 800
 
-_['sound/left (button 1)'] = 	'1' # blinking left light, sound
-_['sound/left (button 2)'] = 	'2' # steady red light, sound
-_['sound/left (button 3)'] = 	'3' # blinking right light, sound
-_['sound/ghost (button 4)'] = 	'4' # purple horizontal light, sound
-_['sound/save tune'] = 			'49' # save tune
-_['sound/calibrate tune'] = 	'50' # calibrate tune
-_['sound/success 1'] = 			'30' # success 1 sound, white horizontal light on
-_['sound/success 2'] = 			'31' # success 1 sound, green horizontal light on
-_['sound/failure 1'] = 			'60' # failure 1 sound, white horizontal light off
-_['sound/failure 2'] = 			'61' # failure 2 sound, green horizontal light off
-_['sound/human, YES'] = 		'100'
-_['sound/human, NO'] = 			'101'
+_['lights/left (button 1)'] = 	'1' # blinking left light, lights
+_['lights/left (button 2)'] = 	'2' # steady red light, lights
+_['lights/left (button 3)'] = 	'3' # blinking right light, lights
+_['lights/ghost (button 4)'] = 	'4' # purple horizontal light, lights
+_['lights/save tune'] = 			'49' # save tune
+_['lights/calibrate tune'] = 	'50' # calibrate tune
+_['lights/success 1'] = 			'30' # success 1 lights, white horizontal light on
+_['lights/success 2'] = 			'31' # success 1 lights, green horizontal light on
+_['lights/failure 1'] = 			'60' # failure 1 lights, white horizontal light off
+_['lights/failure 2'] = 			'61' # failure 2 lights, green horizontal light off
+_['lights/human, YES'] = 		'100'
+_['lights/human, NO'] = 			'101'
 _['net_hide_colors'] = []
 
 
@@ -177,7 +177,6 @@ _['To Expose']['Arduino'] = [
 	'servo_pwm_smooth_manual_offset',
 	'camera_pwm_manual_offset',
 	#'use LIDAR',
-	'use sound',
 	'use_motor_PID',
 
 	'human_PID_motor_percent',

@@ -3,7 +3,7 @@ from kzpy3.utils3 import *
 import pyperclip
 
 
-cmd_to_show = ['python','nmc','bagloop']
+cmd_to_show = ['python','nmc','bagloop','histdic']
 #pro_to_show = ['kzpy3/Cars/n26Dec18/nodes/network_node.py']
 if 'app' not in Arguments:
     Arguments['app'] = 'all'
@@ -23,6 +23,7 @@ while True:
     H = {}
     for i in h:
         s = i.split(' ')
+        #cm("'",s,"s")
         cmd = s[3]
         if cmd not in H:
             H[cmd] = {}

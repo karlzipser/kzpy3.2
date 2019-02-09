@@ -22,6 +22,12 @@ LEFT = 1
 RIGHT = 3
 GHOST = 4
 UNKNOWN = 5
+BLUE = 100
+WHITE = 101
+GREEN = 102
+PURPLE = 103
+LEFT_GREEN = 104
+RIGHT_GREEN = 105
 
 C = {}
 
@@ -54,19 +60,23 @@ C['behavior_names'] = {
     UNKNOWN:'unknown',
 }
 
-'left right red'
-'left right red, left blink yellow'
-'left right red, right blink yellow'
-'left right blink yellow'
-'blue'
-'white'
-'green'
-'purple'
-'left right green'
+C['lights'] = {
+    DIRECT: 'left right red',
+    LEFT:   'left right red, left blink yellow',
+    RIGHT:  'left right red, right blink yellow',
+    GHOST:  'left right blink yellow',
+    BLUE:   'blue',
+    WHITE:  'white',
+    GREEN:  'green',
+    PURPLE: 'purple',
+    LEFT_GREEN:'left green',
+    RIGHT_GREEN:'right green',
+}
 
 C['human_agent/prev'] = 1
 C['drive_mode/prev'] = 0
-C['button_number/prev'] = 2
+C['button_number'] = 4
+C['button_number/prev'] = 4
 C['behavioral_mode/prev'] = GHOST
 C['behavioral_mode/timer'] = Timer()
 C['behavioral_mode_pub_timer'] = Timer(2/30.)
@@ -133,8 +143,7 @@ def gyro_heading_callback(msg):
         C['behavioral_mode'] = UNKNOWN
     if C['behavioral_mode/prev'] != C['behavioral_mode']:
         C['lights_pub_ready'] = True
-    else: 
-        C['lights_pub_ready'] = False
+
 
 
 
@@ -168,14 +177,13 @@ rospy.Subscriber('flex/motor', std_msgs.msg.Float32, callback=flex_motor_callbac
 rospy.Subscriber('/bair_car/encoder', std_msgs.msg.Float32, callback=encoder_callback)
 rospy.Subscriber(bcs+'/human_agent',std_msgs.msg.Int32,callback=human_agent_callback)
 rospy.Subscriber(bcs+'/button_number',std_msgs.msg.Int32,callback=button_number_callback)
-#rospy.Subscriber(bcs+'/behavioral_mode',std_msgs.msg.String,callback=behavioral_mode_callback)
 rospy.Subscriber(bcs+'/drive_mode',std_msgs.msg.Int32,callback=drive_mode_callback)
 rospy.Subscriber(bcs+'/gyro_heading',geometry_msgs.msg.Vector3,callback=gyro_heading_callback)
+
 C['cmd/steer/pub'] = rospy.Publisher('cmd/steer',std_msgs.msg.Int32,queue_size=5)
 C['cmd/motor/pub'] = rospy.Publisher('cmd/motor',std_msgs.msg.Int32,queue_size=5)
 C['behavioral_mode_pub'] = rospy.Publisher('behavioral_mode', std_msgs.msg.String, queue_size=5)
 C['lights_pub'] = rospy.Publisher('lights', std_msgs.msg.String, queue_size=5)
-
 
 print_timer = Timer(0.2)
 parameter_file_load_timer = Timer(2)
@@ -252,6 +260,36 @@ def print_topics():
             gr,dp(C['distance']-C['reference_distance'],1),sp,
             rd,C['error_count'],sp,
         )
+
+
+
+
+
+if __name__ == '__main__':
+
+    while not rospy.is_shutdown() and P['ABORT'] == False:
+
+        if C['ready']:
+
+            if C['behavioral_mode_pub_timer'].check():
+                C['behavioral_mode_pub_timer'].reset()
+                C['behavioral_mode_pub'].publish(C['behavior_names'][C['behavioral_mode']])
+            
+            if C['lights_pub_ready'] == True:
+                C['lights_pub'].publish(C['lights'][C['behavioral_mode']])
+                C['lights_pub_ready'] = False
+
+            C['ready'] = False
+
+            for src in ['net','flex']:
+                for typ in ['steer','motor']:
+                    val,error = check_value(C[opj(src,typ)],0,99,-20,119,49.)
+                    C[opj(src,typ,'check')] = val
+                    C[opj(src,typ,'error')] = error
+
+            print_topics()
+
+            check_menu()
 
 
 """
@@ -343,31 +381,6 @@ def get_adjusted_commands(torch_camera,torch_steer,torch_motor,N):
 
 
 
-
-if __name__ == '__main__':
-
-    while not rospy.is_shutdown() and P['ABORT'] == False:
-
-        if C['ready']:
-
-            if C['behavioral_mode_pub_timer'].check():
-                C['behavioral_mode_pub_timer'].reset()
-                C['behavioral_mode_pub'].publish(C['behavior_names'][C['behavioral_mode']])
-            C['lights_pub_ready'] == True:
-                C['lights_pub'].publish[C['behavioral_mode/lights'][C['behavioral_mode']]]
-                C['lights_pub_ready'] = False
-
-            C['ready'] = False
-
-            for src in ['net','flex']:
-                for typ in ['steer','motor']:
-                    val,error = check_value(C[opj(src,typ)],0,99,-20,119,49.)
-                    C[opj(src,typ,'check')] = val
-                    C[opj(src,typ,'error')] = error
-
-            print_topics()
-
-            check_menu()
 
 
 

@@ -26,11 +26,30 @@ def data_saving_callback(msg):
     if _['data_saving'] == 1 and _['data_saving_prev'] == 0:
         _['data_saving changed up'] = True
 
+Lights = {
+    'left right red'    :,
+    'left right red, left blink yellow' :,
+    'left right red, right blink yellow'    :,
+    'left right blink yellow'   :,
+    'blue'  :,
+    'white' :,
+    'green' :,
+    'purple'    :,
+    'left green'    :,
+    'right green'   :,
+}
+
+def lights_callback(msg):
+    _['lights'] = msg.data
+    if 'LIGHTS' in _['Arduinos']:
+            _['Arduinos']['LIGHTS'].write(d2n(""" "(""",Lights[_['lights']],""")" """)) 
+
 rospy.init_node('run_arduino',anonymous=True,disable_signals=True)
 rospy.Subscriber('cmd/steer', std_msgs.msg.Int32, callback=cmd_steer_callback)
 rospy.Subscriber('cmd/camera', std_msgs.msg.Int32, callback=cmd_camera_callback)
 rospy.Subscriber('cmd/motor', std_msgs.msg.Int32, callback=cmd_motor_callback)
 rospy.Subscriber('/data_saving', std_msgs.msg.Int32, callback=data_saving_callback)
+rospy.Subscriber('/lights', std_msgs.msg.String, callback=lights_callback)
 
 bcs = ''
 if _['MOCK_ARDUINO_VERSION']:

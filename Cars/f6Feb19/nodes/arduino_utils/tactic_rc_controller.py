@@ -25,8 +25,8 @@ def Pid_Processing_Motor():
         D['pid_motor_percent'] = max(D['pid_motor_percent'],P['pid_steer_steer_percent_min'])
         if D['pid_motor_percent'] > P['max motor']:
             D['pid_motor_percent'] = 49
-            if 'SOUND' in P['Arduinos']:
-                P['Arduinos']['SOUND'].write(P['sound/failure 1'])
+            if 'LIGHTS' in P['Arduinos']:
+                P['Arduinos']['LIGHTS'].write(P['lights/failure 1'])
         return D['pid_motor_percent']
     D['do'] = _do
     return D
@@ -83,8 +83,8 @@ def drive_car(P):
 
     if P['data_saving changed up']:
         P['data_saving changed up'] = False
-        if 'SOUND' in P['Arduinos']:
-            P['Arduinos']['SOUND'].write(P['sound/save tune'])
+        if 'LIGHTS' in P['Arduinos']:
+            P['Arduinos']['LIGHTS'].write(P['lights/save tune'])
 
     if P['calibrated'] == True:
         P['human']['servo_percent'] = servo_pwm_to_percent(P['servo_pwm_smooth'],P)
@@ -96,8 +96,8 @@ def drive_car(P):
     if (P['agent_is_human'] or P['button_number'] == 4) and not P['now in calibration mode']:
 
         if sound_timer.check():
-            if 'SOUND' in P['Arduinos']:
-                P['Arduinos']['SOUND'].write(P['sound/human, YES'])
+            if 'LIGHTS' in P['Arduinos']:
+                P['Arduinos']['LIGHTS'].write(P['lights/human, YES'])
             sound_timer.reset()
         else:
             pass
@@ -116,8 +116,8 @@ def drive_car(P):
     elif (not P['agent_is_human'] and P['button_number'] != 4) and not P['now in calibration mode']:
 
         if sound_timer.check():
-            if 'SOUND' in P['Arduinos']:
-                P['Arduinos']['SOUND'].write(P['sound/human, NO'])
+            if 'LIGHTS' in P['Arduinos']:
+                P['Arduinos']['LIGHTS'].write(P['lights/human, NO'])
             sound_timer.reset()
         else:
             pass
@@ -193,8 +193,8 @@ def update_button_servo_motor_encoder(P):
 
     if P['button_number'] != P['button_number_prev']:
         pd2s("P['button_number'] =",P['button_number'])
-        if 'SOUND' in P['Arduinos']:
-            P['Arduinos']['SOUND'].write(d2n(""" "(""",P['button_number'],""")" """))
+        if 'LIGHTS' in P['Arduinos']:
+            P['Arduinos']['LIGHTS'].write(d2n(""" "(""",P['button_number'],""")" """))
 
     P['button_number_prev'] = P['button_number']
 
