@@ -27,22 +27,23 @@ def data_saving_callback(msg):
         _['data_saving changed up'] = True
 
 Lights = {
-    'left right red'    :,
-    'left right red, left blink yellow' :,
-    'left right red, right blink yellow'    :,
-    'left right blink yellow'   :,
-    'blue'  :,
-    'white' :,
-    'green' :,
-    'purple'    :,
-    'left green'    :,
-    'right green'   :,
+    'left right red'    :62,
+    'left right red, left blink yellow' :61,
+    'left right red, right blink yellow'    :63,
+    'blue'  :5,
+    'white' :7,
+    'green' :6,
+    'purple'    :118,
+    'blue off'  :115,
+    'white off' :117,
+    'green off' :116,
+    'purple off'    :119,
 }
 
 def lights_callback(msg):
     _['lights'] = msg.data
     if 'LIGHTS' in _['Arduinos']:
-            _['Arduinos']['LIGHTS'].write(d2n(""" "(""",Lights[_['lights']],""")" """)) 
+        _['Arduinos']['LIGHTS'].write(d2n(""" "(""",Lights[_['lights']],""")" """)) 
 
 rospy.init_node('run_arduino',anonymous=True,disable_signals=True)
 rospy.Subscriber('cmd/steer', std_msgs.msg.Int32, callback=cmd_steer_callback)

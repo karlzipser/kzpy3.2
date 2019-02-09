@@ -26,8 +26,11 @@ BLUE = 100
 WHITE = 101
 GREEN = 102
 PURPLE = 103
-LEFT_GREEN = 104
-RIGHT_GREEN = 105
+BLUE_OFF = 104
+WHITE_OFF = 105
+GREEN_OFF = 106
+PURPLE_OFF = 107
+
 
 C = {}
 
@@ -69,10 +72,15 @@ C['lights'] = {
     WHITE:  'white',
     GREEN:  'green',
     PURPLE: 'purple',
-    LEFT_GREEN:'left green',
-    RIGHT_GREEN:'right green',
+    BLUE_OFF:   'blue off',
+    WHITE_OFF:  'white off',
+    GREEN_OFF:  'green off',
+    PURPLE_OFF: 'purple off',
 }
 
+for c in ['blue','white','purple','green']:
+    C[c+' is on'] = False
+    C[c+' timer'] = Timer(0.5)
 C['human_agent/prev'] = 1
 C['drive_mode/prev'] = 0
 C['button_number'] = 4
@@ -98,6 +106,14 @@ def net_steer_callback(msg):
 
 def net_motor_callback(msg):
     C['net/motor'] = msg.data
+    if C['net/motor'] < 49:
+        if C['blue is on'] == False:
+            C['lights_pub'].publish(C['lights'][BLUE])
+            C['blue is on'] = True
+            C['blue timer'].reset()
+    elif C['blue is on'] == True and C['blue timer'].check():
+        C['lights_pub'].publish(C['lights'][BLUE_OFF])
+        C['blue is on'] = False
     C['ready'] = True
 
 def flex_steer_callback(msg):
@@ -107,7 +123,12 @@ def flex_motor_callback(msg):
     C['flex/motor'] = msg.data
     if C['flex/motor'] < 40:
         C['collision_timer'].reset()
-
+        if C['white is on'] == False:
+            C['lights_pub'].publish(C['lights'][WHITE])
+            C['white is on'] = True
+    if C['white is on'] == True and C['white timer'].check():
+        C['lights_pub'].publish(C['lights'][WHITE_OFF])
+        C['white is on'] = False
 s = 0.9
 def encoder_callback(msg):
     C['encoder'] = msg.data
