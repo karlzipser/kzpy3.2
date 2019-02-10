@@ -40,7 +40,8 @@ def assign_serial_connections(P,sers):
         for _ in xrange(100000):
             try:
                 ser_str = ser.readline()
-                print ctr,ser_str
+                if len(ser_str) > 0:
+                    cy(ctr,ser_str)
                 ctr += 1
                 exec('ser_tuple = list({0})'.format(ser_str))
                 if ser_tuple[0] in ['mse']:
