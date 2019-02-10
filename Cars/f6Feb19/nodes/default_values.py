@@ -130,9 +130,10 @@ _['delta motor_pwm for calibration'] = 800
 
 
 _['Arduinos'] = {}
-def light(num):
+def _fun_light(num):
     if 'LIGHTS' in _['Arduinos']:
         _['Arduinos']['LIGHTS'].write(d2n(""" "(""",num,""")" """))
+_['light'] = _fun_light
 
 _['Lights'] = {
     'left right red'    :62,

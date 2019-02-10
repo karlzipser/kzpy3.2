@@ -27,15 +27,15 @@ def _calibrate_run_loop(P):
                 pass
         elif not P['now in calibration mode']:
             prev = False
-            P.light(P['Lights']['purple off'])
+            P['light'](P['Lights']['purple off'])
             #P['Arduinos']['LIGHTS'].write("(119)")
             time.sleep(0.25)
             continue
         if P['calibrated']:
-            P.light(P['Lights']['purple'])
+            P['light'](P['Lights']['purple'])
             #P['Arduinos']['LIGHTS'].write("(118)")#d2n(""" "(""",P['Lights']['purple'],""")" """))
         else:
-            P.light(P['Lights']['purple blink'])
+            P['light'](P['Lights']['purple blink'])
             #P['Arduinos']['LIGHTS'].write("(120)")#d2n(""" "(""",P['Lights']['purple blink'],""")" """))
         
         if P['calibration mode timer'].time() < P['CALIBRATION_NULL_START_TIME']:
