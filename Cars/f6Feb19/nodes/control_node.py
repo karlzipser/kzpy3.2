@@ -162,11 +162,10 @@ def gyro_heading_callback(msg):
             C['behavioral_mode'] = LEFT
 
     elif C['button_number'] == 3:
-        if C['heading']-C['reference_heading'] > P['d_heading_for_end_turning']:
+        if C['heading']-C['reference_heading'] < -P['d_heading_for_end_turning']:
             C['behavioral_mode'] = DIRECT
         else:
             C['behavioral_mode'] = RIGHT
-
 
     elif C['button_number'] == 2:
         C['behavioral_mode'] = DIRECT
