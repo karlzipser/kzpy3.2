@@ -215,7 +215,7 @@ while _['ABORT'] == False:
             time.sleep(0.1)
 
     except KeyboardInterrupt:
-        P['light'](_['Lights']['lights out'])
+        _['light'](_['Lights']['lights out'])
         time.sleep(0.5)
         _['ABORT'] = True
     except Exception as e:
@@ -225,7 +225,9 @@ while _['ABORT'] == False:
 #########################################
 
 
-
+_['light'](_['Lights']['lights out'])
+time.sleep(0.5)
+_['ABORT'] = True
 
 CS('End arduino_node.py main loop.')
 
