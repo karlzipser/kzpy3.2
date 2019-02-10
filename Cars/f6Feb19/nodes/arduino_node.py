@@ -20,6 +20,7 @@ def cmd_camera_callback(msg):
     _['cmd/camera'] = msg.data
 def cmd_motor_callback(msg):
     _['cmd/motor'] = msg.data
+    print _['cmd/motor']
 def data_saving_callback(msg):
     _['data_saving_prev'] = _['data_saving']
     _['data_saving'] = msg.data
@@ -30,6 +31,7 @@ Lights = {
     'left right red'    :62,
     'left right red, left blink yellow' :61,
     'left right red, right blink yellow'    :63,
+    'left right blink yellow' :64,
     'blue'  :5,
     'white' :7,
     'green' :6,
