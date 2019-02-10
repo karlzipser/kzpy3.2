@@ -334,7 +334,7 @@ if __name__ == '__main__':
             C['new_motor'] = adjusted_motor()
 
             C['cmd/motor/pub'].publish(C['new_motor'])
-            C['cmd/motor/pub'].publish(C['net/steer'])
+            C['cmd/steer/pub'].publish(C['net/steer'])
 
             print_topics()
 
