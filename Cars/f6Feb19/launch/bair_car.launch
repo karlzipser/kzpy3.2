@@ -16,6 +16,9 @@
         <node name="flex_network_node" pkg="bair_car" type="flex_network_node.py" output="screen">
         </node>
 
+        <node name="control_node" pkg="bair_car" type="control_node.py" output="screen">
+        </node>
+
         <group ns="zed" if="$(arg use_zed)">        
             <include file="$(find zed_wrapper)/launch/zed_tf.launch" />
 
