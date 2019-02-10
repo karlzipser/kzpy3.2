@@ -192,10 +192,10 @@ def button_number_callback(msg):
 
 
 
-rospy.Subscriber('net/steer', std_msgs.msg.Float32, callback=net_steer_callback)
-rospy.Subscriber('net/motor', std_msgs.msg.Float32, callback=net_motor_callback)
-rospy.Subscriber('flex/steer', std_msgs.msg.Float32, callback=flex_steer_callback)
-rospy.Subscriber('flex/motor', std_msgs.msg.Float32, callback=flex_motor_callback)
+rospy.Subscriber('/bair_car/net/steer', std_msgs.msg.Float32, callback=net_steer_callback)
+rospy.Subscriber('/bair_car/net/motor', std_msgs.msg.Float32, callback=net_motor_callback)
+rospy.Subscriber('/bair_car/flex/steer', std_msgs.msg.Float32, callback=flex_steer_callback)
+rospy.Subscriber('/bair_car/flex/motor', std_msgs.msg.Float32, callback=flex_motor_callback)
 rospy.Subscriber('/bair_car/encoder', std_msgs.msg.Float32, callback=encoder_callback)
 rospy.Subscriber(bcs+'/human_agent',std_msgs.msg.Int32,callback=human_agent_callback)
 rospy.Subscriber(bcs+'/button_number',std_msgs.msg.Int32,callback=button_number_callback)
