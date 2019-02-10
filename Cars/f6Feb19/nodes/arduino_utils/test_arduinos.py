@@ -28,7 +28,7 @@ for ser in sers:
         #print 'a'
         if True:#timer.check():
             #print 'b'
-            ser.write(d2n("(",ctr,",",ctr+5000,",",ctr+10000,")"))
+            #ser.write(d2n("(",ctr,",",ctr+5000,",",ctr+10000,")"))
             ctr += 1
 
             read_str = ser.readline()
