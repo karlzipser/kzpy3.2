@@ -48,7 +48,7 @@ def assign_serial_connections(P,sers):
                     CS("\tusing 'motor_servo_encoder.ino'",emphasis=True)
                     P['Arduinos']['MSE'] = ser
                     break
-                elif ser_tuple[0] in ['sound']:
+                elif ser_tuple[0] in ['sound','lights']:
                     print(d2s('Port',ser.port,'is the LIGHTS:',ser_str))
                     print("\tusing '?.ino'")
                     P['Arduinos']['LIGHTS'] = ser
