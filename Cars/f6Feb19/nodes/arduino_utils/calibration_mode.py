@@ -35,7 +35,7 @@ def _calibrate_run_loop(P):
             P['light'](P['Lights']['purple'])
             #P['Arduinos']['LIGHTS'].write("(118)")#d2n(""" "(""",P['Lights']['purple'],""")" """))
         else:
-            pass#P['light'](P['Lights']['purple blink'])
+            P['light'](P['Lights']['purple blink'])
             #P['Arduinos']['LIGHTS'].write("(120)")#d2n(""" "(""",P['Lights']['purple blink'],""")" """))
         
         if P['calibration mode timer'].time() < P['CALIBRATION_NULL_START_TIME']:
