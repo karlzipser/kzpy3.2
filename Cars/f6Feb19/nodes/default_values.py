@@ -310,7 +310,7 @@ _['flex_motor_smoothing_parameter'] = _['network_motor_smoothing_parameter']
 _['flex_servo_smoothing_parameter'] = _['network_servo_smoothing_parameter']
 _['flex_motor_gain'] = 3.
 _['flex_steer_gain'] = _['network_steer_gain']
-_['flex_network_output_sample'] = 9
+_['flex_network_output_sample'] = 0
 
 _['camera_move_threshold'] = 0
 _['camera_auto_zero_for_small_values_int'] = 0

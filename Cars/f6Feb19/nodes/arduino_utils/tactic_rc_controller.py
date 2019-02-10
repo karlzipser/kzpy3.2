@@ -25,8 +25,8 @@ def Pid_Processing_Motor():
         D['pid_motor_percent'] = max(D['pid_motor_percent'],P['pid_steer_steer_percent_min'])
         if D['pid_motor_percent'] > P['max motor']:
             D['pid_motor_percent'] = 49
-            if 'LIGHTS' in P['Arduinos']:
-                P['Arduinos']['LIGHTS'].write(P['lights/failure 1'])
+            #if 'LIGHTS' in P['Arduinos']:
+            #    P['Arduinos']['LIGHTS'].write(P['lights/failure 1'])
         return D['pid_motor_percent']
     D['do'] = _do
     return D
