@@ -215,13 +215,15 @@ while _['ABORT'] == False:
             time.sleep(0.1)
 
     except KeyboardInterrupt:
+        P['light'](_['Lights']['lights out'])
+        time.sleep(0.5)
         _['ABORT'] = True
     except Exception as e:
         print '*********** here ************'
         CS_(d2s('Main loop exception',e))
 #
 #########################################
-P['light'](_['Lights']['lights out'])
+
 
 
 
