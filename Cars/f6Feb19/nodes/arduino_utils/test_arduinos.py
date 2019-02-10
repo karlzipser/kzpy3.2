@@ -34,5 +34,5 @@ for ser in sers:
 
             print(read_str)
 
-        long_timer.reset()
+    long_timer.reset()
 
