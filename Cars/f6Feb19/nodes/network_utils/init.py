@@ -75,22 +75,7 @@ def ros_init(N):
     N['pub']['net/motor'] = rospy.Publisher(
         'net/motor',std_msgs.msg.Float32,queue_size=5)
 
-    ########################################################################
-    #  flex ROS
-    N['flex_motor'] = 49
-    N['flex_steer'] = 49
 
-    def flex_motor__callback(msg):
-        N['flex_motor'] = msg.data
-
-    def flex_steer__callback(msg):
-        N['flex_steer'] = msg.data
-
-    if N['use flex']:
-        rospy.Subscriber('/bair_car/cmd/flex_motor', std_msgs.msg.Int32, callback=flex_motor__callback)
-        rospy.Subscriber('/bair_car/cmd/flex_steer', std_msgs.msg.Int32, callback=flex_steer__callback)
-    #
-    ########################################################################
 
 
 
