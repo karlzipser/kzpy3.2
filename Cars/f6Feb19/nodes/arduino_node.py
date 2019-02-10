@@ -98,8 +98,9 @@ def _publish_MSE_data(_):
     _['button_number_pub'].publish(std_msgs.msg.Int32(_['button_number']))
     _['encoder_pub'].publish(std_msgs.msg.Float32(_['encoder']))
     #_['behavioral_mode_pub']
-    if MSE_low_frequency_pub_timer.check():
 
+    if MSE_low_frequency_pub_timer.check():
+        """
         if _['button_number'] == 1:
             behavioral_mode_choice = 'left'
         elif _['button_number'] == 2:
@@ -109,7 +110,7 @@ def _publish_MSE_data(_):
         else:
             behavioral_mode_choice = 'ghost'
         _['behavioral_mode_pub'].publish(d2s(behavioral_mode_choice))
-
+        """
 
         if _['agent_is_human'] == True:
             _['human_agent_pub'].publish(std_msgs.msg.Int32(1))
