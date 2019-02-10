@@ -16,11 +16,11 @@ _['data_saving_prev'] = 0
 _['data_saving changed up'] = False
 def cmd_steer_callback(msg):
     _['cmd/steer'] = msg.data
+    cr(_['cmd/steer'])
 def cmd_camera_callback(msg):
     _['cmd/camera'] = msg.data
 def cmd_motor_callback(msg):
     _['cmd/motor'] = msg.data
-    print _['cmd/motor']
 def data_saving_callback(msg):
     _['data_saving_prev'] = _['data_saving']
     _['data_saving'] = msg.data
@@ -35,8 +35,8 @@ def lights_callback(msg):
         _['Arduinos']['LIGHTS'].write(d2n(""" "(""",_['Lights'][_['lights']],""")" """)) 
 
 rospy.init_node('run_arduino',anonymous=True,disable_signals=True)
-rospy.Subscriber('cmd/steer', std_msgs.msg.Int32, callback=cmd_steer_callback)
-rospy.Subscriber('cmd/camera', std_msgs.msg.Int32, callback=cmd_camera_callback)
+rospy.Subscriber('/cmd/steer', std_msgs.msg.Int32, callback=cmd_steer_callback)
+rospy.Subscriber('/cmd/camera', std_msgs.msg.Int32, callback=cmd_camera_callback)
 rospy.Subscriber('/cmd/motor', std_msgs.msg.Int32, callback=cmd_motor_callback)
 rospy.Subscriber('data_saving', std_msgs.msg.Int32, callback=data_saving_callback)
 rospy.Subscriber('/lights', std_msgs.msg.String, callback=lights_callback)
@@ -185,7 +185,7 @@ else:
 
 #########################################
 #
-print 'arduino_node.py main loop'
+cy('arduino_node.py main loop')
 
 import kzpy3.Menu_app.menu2 as menu2
 
