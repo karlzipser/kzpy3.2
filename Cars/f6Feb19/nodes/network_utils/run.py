@@ -62,7 +62,7 @@ def step(camera_data,metadata,N):
             cfun = cr
         else:
             cfun = cg
-        cfun(int(torch_steer),int(torch_motor))
+        cfun(int(torch_steer),int(torch_motor),N['mode']['behavioral_mode'])
         print_timer.reset()
 
     #N['pub']['cmd/camera'].publish(std_msgs.msg.Int32(adjusted_camera))

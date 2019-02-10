@@ -55,7 +55,7 @@ def ros_init(N):
         callback=human_agent_callback)
 
     rospy.Subscriber(
-        bcs+'/behavioral_mode',
+        '/behavioral_mode',
         std_msgs.msg.String,
         callback=behavioral_mode_callback)
 
