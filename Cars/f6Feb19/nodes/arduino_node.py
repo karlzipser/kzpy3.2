@@ -16,7 +16,6 @@ _['data_saving_prev'] = 0
 _['data_saving changed up'] = False
 def cmd_steer_callback(msg):
     _['cmd/steer'] = msg.data
-    cr(_['cmd/steer'])
 def cmd_camera_callback(msg):
     _['cmd/camera'] = msg.data
 def cmd_motor_callback(msg):

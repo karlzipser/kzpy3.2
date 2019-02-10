@@ -124,11 +124,13 @@ def net_motor_callback(msg):
 def flex_steer_callback(msg):
     C['flex/steer'] = msg.data
 
+C['white timer'] = Timer(0.25)
 def flex_motor_callback(msg):
     C['flex/motor'] = msg.data
     if C['flex/motor'] < 40:
-        C['collision_timer'].reset()
+        C['collision_timer'].reset() 
         if C['white is on'] == False:
+            C['white timer'].reset()
             C['lights_pub'].publish(C['lights'][WHITE])
             C['white is on'] = True
     if C['white is on'] == True and C['white timer'].check():
