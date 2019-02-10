@@ -97,7 +97,7 @@ if __name__ == '__main__':
             network_utils.camera.QUIT = True
             cr('\n\n*** KeyboardInterrupt ***\n')
             break
-        
+        """
         except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             file_name = os.path.split(
@@ -105,7 +105,7 @@ if __name__ == '__main__':
             CS_('Exception!',emphasis=True)
             CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),
                 emphasis=False)
-        
+        """
         
             
 
