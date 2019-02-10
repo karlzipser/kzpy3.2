@@ -19,7 +19,7 @@ for ACM_port in ACM_ports:
         pass
 
 timer = Timer(1)
-long_timer = Timer(30)
+long_timer = Timer(10)
 
 ctr = 0
 for ser in sers:
@@ -34,5 +34,5 @@ for ser in sers:
 
             print(read_str)
 
-            timer.reset()
+        long_timer.reset()
 
