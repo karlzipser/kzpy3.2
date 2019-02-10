@@ -187,7 +187,7 @@ class Mock_Arduino:
 
 def put_mock_Arduinos_into_P(P):
     P['Arduinos'] = {}
-    for a in ['MSE','FLEX','IMU','SOUND']:
+    for a in ['MSE','FLEX','IMU','LIGHTS']:
         P['Arduinos'][a] = Mock_Arduino(P,a)
 
 

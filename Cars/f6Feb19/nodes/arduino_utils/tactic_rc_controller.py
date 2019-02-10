@@ -83,8 +83,10 @@ def drive_car(P):
 
     if P['data_saving changed up']:
         P['data_saving changed up'] = False
-        if 'LIGHTS' in P['Arduinos']:
-            P['Arduinos']['LIGHTS'].write(P['lights/save tune'])
+        for i in range(10):
+            print("drive_car(P):: P['data_saving changed up']")
+        #if 'LIGHTS' in P['Arduinos']:
+        #    P['Arduinos']['LIGHTS'].write(P['lights/save tune'])
 
     if P['calibrated'] == True:
         P['human']['servo_percent'] = servo_pwm_to_percent(P['servo_pwm_smooth'],P)

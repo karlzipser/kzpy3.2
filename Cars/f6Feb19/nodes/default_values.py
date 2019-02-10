@@ -128,6 +128,23 @@ _['desktop version/start index'] = 5000
 _['delta servo_pwm for calibration'] = 900
 _['delta motor_pwm for calibration'] = 800
 
+
+_['Lights'] = {
+    'left right red'    :62,
+    'left right red, left blink yellow' :61,
+    'left right red, right blink yellow'    :63,
+    'left right blink yellow' :64,
+    'blue'  :5,
+    'white' :7,
+    'green' :6,
+    'purple'    :118,
+    'purple blink'    :120,
+    'blue off'  :115,
+    'white off' :117,
+    'green off' :116,
+    'purple off'    :119,
+}
+"""
 _['lights/left (button 1)'] = 	'1' # blinking left light, lights
 _['lights/left (button 2)'] = 	'2' # steady red light, lights
 _['lights/left (button 3)'] = 	'3' # blinking right light, lights
@@ -140,6 +157,7 @@ _['lights/failure 1'] = 			'60' # failure 1 lights, white horizontal light off
 _['lights/failure 2'] = 			'61' # failure 2 lights, green horizontal light off
 _['lights/human, YES'] = 		'100'
 _['lights/human, NO'] = 			'101'
+"""
 _['net_hide_colors'] = []
 
 
