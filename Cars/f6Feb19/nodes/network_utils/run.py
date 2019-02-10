@@ -60,8 +60,6 @@ def step(camera_data,metadata,N):
     if print_timer.check():
         if torch_steer > 99 or torch_steer < 0 or torch_motor > 99 or torch_motor < 0:
             cfun = cr
-        elif N['flex_motor'] < 47:
-            cfun = cb
         else:
             cfun = cg
         cfun(int(torch_steer),int(torch_motor))
@@ -71,93 +69,6 @@ def step(camera_data,metadata,N):
     N['pub']['net/steer'].publish(std_msgs.msg.Float32(torch_steer))
     N['pub']['net/motor'].publish(std_msgs.msg.Float32(torch_motor))
     frequency_timer.freq(name='network',do_print=True)
-
-
-
-
-
-
-
-def get_adjusted_commands(torch_camera,torch_steer,torch_motor,N):
-
-    if N['use flex'] and N['flex_motor'] < 47:
-        #cm(0)
-        torch_steer = N['flex_steer'] # consider sum
-        torch_motor = N['flex_motor']
-        sm = N['flex_motor_smoothing_parameter']
-        ss = N['flex_servo_smoothing_parameter']
-        gm = N['flex_motor_gain']
-        gs = N['flex_steer_gain']
-        sc = N['network_camera_smoothing_parameter_direct']
-        gc = N['network_camera_gain_direct']
-    else:
-        sm = N['network_motor_smoothing_parameter']
-
-        if torch_motor >= 49:
-            if N['mode']['behavioral_mode'] == 'direct':
-                gm = N['network_motor_gain_direct']
-            else:
-                gm = N['network_motor_gain']
-        else:
-            gm = N['network_reverse_motor_gain']
-
-        if N['mode']['behavioral_mode'] == 'direct':
-            ss = N['network_servo_smoothing_parameter_direct']
-            gs = N['network_steer_gain_direct']
-            gc = N['network_camera_gain_direct']          
-            sc = N['network_camera_smoothing_parameter_direct']
-        else:
-            ss = N['network_servo_smoothing_parameter']
-            gs = N['network_steer_gain']
-            gc = N['network_camera_gain']          
-            sc = N['network_camera_smoothing_parameter']
-
-
-    N['current']['camera'] = (1.0-sc)*torch_camera + sc*N['current']['camera']
-    N['current']['steer'] = (1.0-ss)*torch_steer + ss*N['current']['steer']
-    N['current']['motor'] = (1.0-sm)*torch_motor + sm*N['current']['motor']
-
-    adjusted_motor = int(gm*(N['current']['motor']-49) + N['network_motor_offset'] + 49)
-    adjusted_steer = int(gs*(N['current']['steer']-49) + 49)
-    adjusted_camera = int(gc*(N['current']['camera']-49) + 49)
-
-    adjusted_motor = bound_value(adjusted_motor,0,99)
-    adjusted_steer = bound_value(adjusted_steer,0,99)
-    adjusted_camera = bound_value(adjusted_camera,0,99)
-
-    adjusted_motor = min(adjusted_motor,N['max motor'])
-    adjusted_motor = max(adjusted_motor,N['min motor'])
-
-    #print(format_row([('s',adjusted_steer),('c',adjusted_camera),('m',adjusted_motor)]))
-    """
-    if print_timer.check():
-        cg('c:',adjusted_camera,
-        '\ts:',adjusted_steer,
-        N['mode']['behavioral_mode'],'\tm:',
-        adjusted_motor,"\t",file)
-        print_timer.reset()
-    """
-    return adjusted_camera,adjusted_steer,adjusted_motor
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
