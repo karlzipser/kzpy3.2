@@ -22,6 +22,7 @@ timer = Timer(1)
 long_timer = Timer(10)
 
 ctr = 0
+ctr2 = 0
 for ser in sers:
     while not long_timer.check():
         #print 'a'
@@ -32,7 +33,7 @@ for ser in sers:
 
             read_str = ser.readline()
 
-            print(read_str)
-
+            cg(ctr2,') ',read_str)
+    ctr2 += 1
     long_timer.reset()
 
