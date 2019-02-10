@@ -36,7 +36,8 @@ C = {}
 
 for src in ['net','flex']:
     for typ in ['steer','motor','steer/smooth','motor/smooth']:
-        C[opj('/bair_car'+src,typ)] = 49.
+        print opj('/bair_car',src,typ)
+        C[opj('/bair_car',src,typ)] = 49.
 for src in ['net','flex']:
     for typ in ['steer','motor']:
         C[opj(src,typ,'error')] = 0
