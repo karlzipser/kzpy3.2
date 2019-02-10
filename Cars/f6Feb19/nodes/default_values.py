@@ -154,8 +154,8 @@ _['lights/calibrate tune'] = 	'50' # calibrate tune
 _['lights/success 1'] = 			'30' # success 1 lights, white horizontal light on
 _['lights/success 2'] = 			'31' # success 1 lights, green horizontal light on
 """
-_['lights/failure 1'] = 			'60' # failure 1 lights, white horizontal light off
-_['lights/failure 2'] = 			'61' # failure 2 lights, green horizontal light off
+#_['lights/failure 1'] = 			'60' # failure 1 lights, white horizontal light off
+#_['lights/failure 2'] = 			'61' # failure 2 lights, green horizontal light off
 _['lights/human, YES'] = 		'100'
 _['lights/human, NO'] = 			'101'
 
