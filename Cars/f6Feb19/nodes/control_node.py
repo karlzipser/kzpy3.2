@@ -35,7 +35,7 @@ PURPLE_OFF = 107
 C = {}
 
 for src in ['net','flex']:
-    for typ in ['steer','motor']:
+    for typ in ['steer','motor','steer/smooth','motor/smooth']:
         C[opj(src,typ)] = 49.
 for src in ['net','flex']:
     for typ in ['steer','motor']:
@@ -257,6 +257,7 @@ def print_topics():
         fm = lb
         fs = lb
         en = yl
+        nmo = gr
         sp = ' '
         if C['net/motor'] < 47:
             nm = rd
@@ -266,12 +267,15 @@ def print_topics():
             en = rd
         if error > 0:
             er = rd
+        if C['new_motor'] < 49:
+            nmo = rd
         pd2n(
             #er,error,sp,
             #ns,int(C['net/steer']),sp,
             nm,int(C['net/motor']),sp,
             #fs,int(C['flex/steer']),sp,
             fm,int(C['flex/motor']),sp,
+            nmo,C['new_motor'],sp,
             yl,dp(C['velocity'],1),sp,
             mg,dp(C['still_timer'].time(),1),sp,
             gr,dp(C['collision_timer'].time(),1),sp,
@@ -283,6 +287,24 @@ def print_topics():
         )
 
 
+def adjusted_motor():
+
+    flex = C['flex/motor']
+    flex = min(49,flex)
+    flex = P['flex_motor_gain']*(flex-49) + 49
+    s = P['flex_motor_smoothing_parameter']
+    C['flex/motor/smooth'] = (1.0-s)*flex + s*C['flex/motor/smooth']
+
+    motor = C['net/motor']
+    motor = P['network_motor_gain']*(motor-49) + 49
+    s = P['network_motor_smoothing_parameter']
+    C['net/motor/smooth'] = (1.0-s)*motor + s*C['net/motor/smooth']
+
+    new_motor = C['net/motor/smooth'] + C['flex/motor/smooth']-49
+
+    new_motor = bound_value(intr(new_motor),P['min motor'],P['max motor'])
+
+    return new_motor
 
 
 
@@ -307,6 +329,8 @@ if __name__ == '__main__':
                     val,error = check_value(C[opj(src,typ)],0,99,-20,119,49.)
                     C[opj(src,typ,'check')] = val
                     C[opj(src,typ,'error')] = error
+
+            C['new_motor'] = adjusted_motor()
 
             print_topics()
 
