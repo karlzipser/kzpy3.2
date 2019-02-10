@@ -157,6 +157,7 @@ def update_button_servo_motor_encoder(P):
         P['Arduinos']['MSE'].flushInput()
         P['Arduinos']['MSE'].flushOutput()
         flush_timer.reset()
+        print _['cmd/motor']
 
     try:
         exec('serial_input = list({0})'.format(read_str))
