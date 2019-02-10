@@ -129,6 +129,11 @@ _['delta servo_pwm for calibration'] = 900
 _['delta motor_pwm for calibration'] = 800
 
 
+_['Arduinos'] = {}
+def light(num):
+    if 'LIGHTS' in _['Arduinos']:
+        _['Arduinos']['LIGHTS'].write(d2n(""" "(""",num,""")" """))
+
 _['Lights'] = {
     'left right red'    :62,
     'left right red, left blink yellow' :61,
@@ -143,6 +148,8 @@ _['Lights'] = {
     'white off' :117,
     'green off' :116,
     'purple off'    :119,
+    'lights out'    :22,
+    'lights enabled'    :21,
 }
 """
 _['lights/left (button 1)'] = 	'1' # blinking left light, lights

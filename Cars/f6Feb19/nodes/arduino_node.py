@@ -221,7 +221,7 @@ while _['ABORT'] == False:
         CS_(d2s('Main loop exception',e))
 #
 #########################################
-       
+light(_['Lights']['lights out'])
 
 
 
