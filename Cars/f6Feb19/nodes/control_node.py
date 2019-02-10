@@ -101,6 +101,11 @@ C['encoder_time_prev'] = time.time() - 1/30.
 
 bcs = '/bair_car'
 
+C['cmd/steer/pub'] = rospy.Publisher('cmd/steer',std_msgs.msg.Int32,queue_size=5)
+C['cmd/motor/pub'] = rospy.Publisher('cmd/motor',std_msgs.msg.Int32,queue_size=5)
+C['behavioral_mode_pub'] = rospy.Publisher('behavioral_mode', std_msgs.msg.String, queue_size=5)
+C['lights_pub'] = rospy.Publisher('lights', std_msgs.msg.String, queue_size=5)
+
 def net_steer_callback(msg):
     C['net/steer'] = msg.data
 
@@ -201,10 +206,6 @@ rospy.Subscriber(bcs+'/button_number',std_msgs.msg.Int32,callback=button_number_
 rospy.Subscriber(bcs+'/drive_mode',std_msgs.msg.Int32,callback=drive_mode_callback)
 rospy.Subscriber(bcs+'/gyro_heading',geometry_msgs.msg.Vector3,callback=gyro_heading_callback)
 
-C['cmd/steer/pub'] = rospy.Publisher('cmd/steer',std_msgs.msg.Int32,queue_size=5)
-C['cmd/motor/pub'] = rospy.Publisher('cmd/motor',std_msgs.msg.Int32,queue_size=5)
-C['behavioral_mode_pub'] = rospy.Publisher('behavioral_mode', std_msgs.msg.String, queue_size=5)
-C['lights_pub'] = rospy.Publisher('lights', std_msgs.msg.String, queue_size=5)
 
 print_timer = Timer(0.2)
 parameter_file_load_timer = Timer(2)
