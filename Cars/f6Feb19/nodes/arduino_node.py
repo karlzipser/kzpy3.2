@@ -40,7 +40,7 @@ rospy.Subscriber('/cmd/motor', std_msgs.msg.Int32, callback=cmd_motor_callback)
 rospy.Subscriber('data_saving', std_msgs.msg.Int32, callback=data_saving_callback)
 rospy.Subscriber('/lights', std_msgs.msg.String, callback=lights_callback)
 
-bcs = ''
+bcs = '/bair_car/'
 if _['MOCK_ARDUINO_VERSION']:
     bcs = '/bair_car/'
 
