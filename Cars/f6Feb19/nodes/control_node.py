@@ -349,7 +349,7 @@ def adjusted_steer():
     C['net/steer/smooth'] = (1.0-s)*steer + s*C['net/steer/smooth']
 
     if C['flex/motor/smooth'] < P['flex/motor collision threshold']:
-        new_steer = bound_value(intr(C['flex/steer']),0,99))
+        new_steer = bound_value(intr(C['flex/steer']),0,99)
     else:
         new_steer = bound_value(intr(C['net/steer/smooth']),0,99)
         if C['net/motor/smooth'] < 49:
