@@ -2,9 +2,7 @@ from kzpy3.utils3 import *
 import network_utils.menu_and_net
 import std_msgs.msg
 exec(identify_file_str)
-#CFile['magenta'] == __file__
-CVerbose['magenta'] = False
-CCVerbose['magenta'] = False
+
 print_timer = Timer(1/4.)
 frequency_timer = Timer(5)
 
