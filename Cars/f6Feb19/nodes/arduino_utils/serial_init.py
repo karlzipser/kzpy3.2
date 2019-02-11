@@ -28,7 +28,7 @@ def get_arduino_serial_connections(baudrate, timeout):
     for ACM_port in ACM_ports:
         try:
             sers.append(serial.Serial(ACM_port, baudrate=baudrate, timeout=timeout))
-            print('Opened {0}'.format(ACM_port))
+            cy('Opened {0}'.format(ACM_port))
         except:
             pass
     return sers
@@ -71,7 +71,7 @@ def assign_serial_connections(P,sers):
                 pass
         else:
             CS_('Unable to identify port {0}'.format(ser.port))
-    print 'Finished scanning serial ports.'
+    cy('Finished scanning serial ports.')
 
     if 'LIGHTS' in P['Arduinos'] and 'MSE' in P['Arduinos'] and 'IMU' in P['Arduinos']:
         P['Arduinos']['LIGHTS'].write("(50)")

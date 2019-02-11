@@ -6,7 +6,7 @@ def IMU_Arduino(P):
     threading.Thread(target=_IMU_run_loop,args=[P]).start()
 
 def _IMU_run_loop(P):
-    print '_IMU_run_loop'
+    cy('_IMU_run_loop')
     flush_seconds = 0.1
     flush_timer = Timer(flush_seconds)
     time.sleep(0.1)
