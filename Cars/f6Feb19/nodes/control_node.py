@@ -310,7 +310,7 @@ def print_topics():
 
 
 def adjusted_motor():
-
+    """
     if C['still_timer'].time() > 1.0:
         if C['from still motor offset'] == 0.:
             C['from still motor offset timer'].reset()
@@ -324,6 +324,7 @@ def adjusted_motor():
             C['lights_pub'].publish(C['lights'][GREEN_OFF])
             print 'GREEN OFF'
         C['from still motor offset'] = 0.
+    """
     #########
     C['from still motor offset'] = 0.
     #########
@@ -338,7 +339,7 @@ def adjusted_motor():
     motor = C['net/motor']
     if C['behavioral_mode'] == DIRECT:
         gain = P['network_motor_gain_direct']
-        s = P['network_motor_smoothing_parameter_direct']
+        s = P['network_motor_smoothing_parameter']
     else:
         gain = P['network_motor_gain']
         s = P['network_motor_smoothing_parameter']
