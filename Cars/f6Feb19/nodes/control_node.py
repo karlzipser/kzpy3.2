@@ -304,6 +304,7 @@ def print_topics():
             rd,C['behavior_names'][C['behavioral_mode']],sp,
             gr,dp(C['distance']-C['reference_distance'],1),sp,
             rd,C['error_count'],sp,
+            yl,C['from still motor offset'],sp,
         )
 
 
