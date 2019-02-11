@@ -352,7 +352,7 @@ def adjusted_camera():
 
     camera = gain*(camera-49) + 49
 
-    C['net/camera/smooth'] = (1.0-s)*steer + s*C['net/camera/smooth']
+    C['net/camera/smooth'] = (1.0-s)*camera + s*C['net/camera/smooth']
 
     new_camera = bound_value(intr(C['net/camera/smooth']),0,99)
 
