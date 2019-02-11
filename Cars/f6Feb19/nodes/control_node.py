@@ -311,13 +311,14 @@ def print_topics():
 
 def adjusted_motor():
 
-    if C['still_timer'].time() > 1.0 and C['still_timer'].time() < 3.0:
+    if C['still_timer'].time() > 1.0:
         if C['from still motor offset'] == 0.:
+            C['from still motor offset timer'].reset()
             C['from still motor offset'] = np.random.choice([-10,10])
             C['lights_pub'].publish(C['lights'][GREEN])
             print 'GREEN'
-        else:
-            C['from still motor offset'] *= 0.999
+    elif not C['from still motor offset timer'].check():
+        C['from still motor offset'] *= 0.99
     else:
         if np.abs(C['from still motor offset']) > 0:
             C['lights_pub'].publish(C['lights'][GREEN_OFF])
