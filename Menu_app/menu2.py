@@ -1,4 +1,5 @@
 from kzpy3.utils3 import *
+exec(identify_file_str)
 """
 e.g.,
 

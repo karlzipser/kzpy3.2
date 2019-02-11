@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from kzpy3.utils3 import *
-
+exec(identify_file_str)
 import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument('--Fahrenheit','-f',required=False,type=float,)
@@ -28,7 +28,8 @@ if Args['Fahrenheit'] != None:
 		cc = cg
 	else:
 		cc = cb
-	cc('\n\t',Args['Fahrenheit'],'degrees F =',C,'degrees C\n')
+	cc('\n\t',Args['Fahrenheit'],'degrees F =',C,'degrees C')
+	print('\n')
 	
 else:
 	F = dp((Args['Celsius'] * 9/5.) + 32)
