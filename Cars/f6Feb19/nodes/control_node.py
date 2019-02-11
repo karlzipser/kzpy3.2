@@ -152,6 +152,7 @@ s = 0.9
 def encoder_callback(msg):
     #print(-1)
     C['encoder'] = msg.data
+    print C['encoder']
     """
     C['encoder_time'] = time.time()
     #print(-2)
