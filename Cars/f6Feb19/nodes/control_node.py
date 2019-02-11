@@ -35,7 +35,7 @@ PURPLE_OFF = 107
 C = {}
 
 for src in ['net','flex']:
-    for typ in ['steer','motor','steer/smooth','motor/smooth']:
+    for typ in ['steer','motor','camera','steer/smooth','motor/smooth','camera/smooth']:
         C[opj(src,typ)] = 49.
 for src in ['net','flex']:
     for typ in ['steer','motor']:
@@ -103,6 +103,7 @@ bcs = '/bair_car'
 
 C['cmd/steer/pub'] = rospy.Publisher('cmd/steer',std_msgs.msg.Int32,queue_size=5)
 C['cmd/motor/pub'] = rospy.Publisher('cmd/motor',std_msgs.msg.Int32,queue_size=5)
+C['cmd/camera/pub'] = rospy.Publisher('cmd/camera',std_msgs.msg.Int32,queue_size=5)
 C['behavioral_mode_pub'] = rospy.Publisher('behavioral_mode', std_msgs.msg.String, queue_size=5)
 C['lights_pub'] = rospy.Publisher('lights', std_msgs.msg.String, queue_size=5)
 
