@@ -83,8 +83,7 @@ def drive_car(P):
 
     if P['data_saving changed up']:
         P['data_saving changed up'] = False
-        for i in range(100):
-            print("drive_car(P):: P['data_saving changed up']")
+        cy("drive_car(P):: P['data_saving changed up']",int(time.time()))
         #if 'LIGHTS' in P['Arduinos']:
         #    P['Arduinos']['LIGHTS'].write(P['lights/save tune'])
 
