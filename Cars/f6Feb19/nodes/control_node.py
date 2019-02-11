@@ -134,6 +134,7 @@ def flex_steer_callback(msg):
 C['white timer'] = Timer(0.25)
 def flex_motor_callback(msg):
     C['flex/motor'] = msg.data
+    """
     if C['flex/motor'] < P['flex/motor collision threshold']:
         C['collision_timer'].reset()
     if C['flex/motor'] < P['flex/motor white light threshold']:
@@ -144,6 +145,7 @@ def flex_motor_callback(msg):
     if C['white is on'] == True and C['white timer'].check():
         C['lights_pub'].publish(C['lights'][WHITE_OFF])
         C['white is on'] = False
+    """
 
 
 s = 0.9
