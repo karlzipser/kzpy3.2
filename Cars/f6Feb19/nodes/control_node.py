@@ -259,7 +259,7 @@ def print_topics():
         print_timer.reset()
         error = 0
         for src in ['net','flex']:
-            for typ in ['steer','motor']:
+            for typ in ['steer','motor','camera']:
                 error += C[opj(src,typ,'error')]
         C['error_count'] += error
         er = bl
