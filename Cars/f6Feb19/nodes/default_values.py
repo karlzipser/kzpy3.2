@@ -97,7 +97,7 @@ _['Arduinos'] = {}
 def _fun_light(num):
     if 'LIGHTS' in _['Arduinos']:
         _['Arduinos']['LIGHTS'].write(d2n(""" "(""",num,""")" """))
-        cy('light signal',n)
+        #cy('light signal',num)
 _['light'] = _fun_light
 _['Lights'] = {
     'left right red'    :62,
