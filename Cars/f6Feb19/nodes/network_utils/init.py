@@ -76,9 +76,6 @@ def ros_init(N):
     N['pub']['net/motor'] = rospy.Publisher(
         'net/motor',std_msgs.msg.Float32,queue_size=5)
 
-    N['pub']['behavioral_mode'] = rospy.Publisher(
-        'behavioral_mode',std_msgs.msg.String,queue_size=5)
-
 
 
 
