@@ -134,7 +134,7 @@ def flex_steer_callback(msg):
 C['white timer'] = Timer(0.25)
 def flex_motor_callback(msg):
     C['flex/motor'] = msg.data
-    """
+    
     if C['flex/motor'] < P['flex/motor collision threshold']:
         C['collision_timer'].reset()
     if C['flex/motor'] < P['flex/motor white light threshold']:
@@ -145,7 +145,7 @@ def flex_motor_callback(msg):
     if C['white is on'] == True and C['white timer'].check():
         C['lights_pub'].publish(C['lights'][WHITE_OFF])
         C['white is on'] = False
-    """
+    
 
 
 s = 0.9
@@ -328,7 +328,7 @@ def adjusted_motor():
     C['net/motor/smooth'] = (1.0-s)*motor + s*C['net/motor/smooth']
     C['net/motor/smooth'] = bound_value(C['net/motor/smooth'],0,99)
     new_motor = C['net/motor/smooth'] + C['flex/motor/smooth']-49
-    #new_motor += C['from still motor offset']
+    new_motor += C['from still motor offset']
     new_motor = bound_value(intr(new_motor),P['min motor'],P['max motor'])
     print new_motor
     C['new_motor'] = new_motor
@@ -407,7 +407,10 @@ if __name__ == '__main__':
                     C[opj(src,typ,'error')] = error
             #cm(5)
 
-            #cm(6)
+            adjusted_motor()
+            adjusted_steer()
+            adjusted_camera()
+
             C['cmd/motor/pub'].publish(C['new_motor'])
             C['cmd/steer/pub'].publish(C['new_steer'])
             C['cmd/camera/pub'].publish(C['new_camera'])
