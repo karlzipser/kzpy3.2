@@ -309,7 +309,7 @@ def adjusted_motor():
         else:
             C['from still motor offset'] *= 0.9
     else:
-        if np.abs(C['from still motor offset']) > 0
+        if np.abs(C['from still motor offset']) > 0:
             C['lights_pub'].publish(C['lights'][GREEN_OFF])
         C['from still motor offset'] = 0.
 
