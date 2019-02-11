@@ -68,6 +68,7 @@ def step(camera_data,metadata,N):
     #N['pub']['cmd/camera'].publish(std_msgs.msg.Int32(adjusted_camera))
     N['pub']['net/steer'].publish(std_msgs.msg.Float32(torch_steer))
     N['pub']['net/motor'].publish(std_msgs.msg.Float32(torch_motor))
+    N['pub']['behavioral_mode'].publish(std_msgs.msg.String(N['mode']['behavioral_mode']))
     frequency_timer.freq(name='network',do_print=True)
 
 
