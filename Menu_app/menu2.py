@@ -276,6 +276,7 @@ def load_Topics(input_path,first_load=False,customer=''):
         #cr("TEMP  return None")
         return None
 
+"""
 def load_menu_data(path,Parameters,first_load=False,customer=''):
     timer = Timer(0.5)
     if True:#try:
@@ -283,12 +284,14 @@ def load_menu_data(path,Parameters,first_load=False,customer=''):
             if timer.check():
                 Topics = load_Topics(path,first_load,customer)
                 if type(Topics) == dict:
-                    for t in Topics['To Expose'][Q]:
+                    for t in Parameters['To Expose'][Q]:#Topics['To Expose'][Q]:
                         if '!!!' in t:
                             cm(__file__,", not updating",t)
                             pass
-                        else:
+                        elif t in Topics:
                             Parameters[t] = Topics[t]
+                        else:
+                            raw_enter(d2s(t,"not in Topics!"))
                 timer.reset()
             else:
                 time.sleep(0.1)
@@ -298,7 +301,7 @@ def load_menu_data(path,Parameters,first_load=False,customer=''):
         file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
         CS_('Exception!',exception=True,newline=False)
         CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
-
+"""
 
 
 if __name__ == '__main__':

@@ -67,9 +67,6 @@ def ros_init(N):
 
     N['pub'] = {}
 
-    #N['pub']['cmd/camera'] = rospy.Publisher(
-    #    'cmd/camera',std_msgs.msg.Int32,queue_size=5)
-
     N['pub']['net/steer'] = rospy.Publisher(
         'net/steer',std_msgs.msg.Float32,queue_size=5)
 
@@ -99,9 +96,6 @@ For SqueezeNet40 models."""
     for the_behaviorial_mode in TP['behavioral_modes']:
 
         metadata = torch.FloatTensor(1,128,23,41).cuda()
-        #metadata = torch.from_numpy(zeros((1,128,23,41))).cuda()
-
-        #raw_enter(d2s("type(metadata) =",type(metadata)))
 
         typical_encoder_value = 3.0
 
@@ -129,6 +123,7 @@ For SqueezeNet40 models."""
 
         Metadata_tensors[the_behaviorial_mode] = metadata
         cm(103)
+        
     N['behavioral_metadatas'] = Metadata_tensors
 
 

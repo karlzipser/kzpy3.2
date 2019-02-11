@@ -31,7 +31,6 @@ WHITE_OFF = 105
 GREEN_OFF = 106
 PURPLE_OFF = 107
 
-
 C = {}
 
 for src in ['net','flex']:
@@ -129,8 +128,9 @@ def flex_steer_callback(msg):
 C['white timer'] = Timer(0.25)
 def flex_motor_callback(msg):
     C['flex/motor'] = msg.data
-    if C['flex/motor'] < 40:
-        C['collision_timer'].reset() 
+    if C['flex/motor'] < P['flex/motor collision threshold']:
+        C['collision_timer'].reset()
+    if C['flex/motor'] < P['flex/motor white light threshold']:
         if C['white is on'] == False:
             C['white timer'].reset()
             C['lights_pub'].publish(C['lights'][WHITE])
@@ -138,6 +138,8 @@ def flex_motor_callback(msg):
     if C['white is on'] == True and C['white timer'].check():
         C['lights_pub'].publish(C['lights'][WHITE_OFF])
         C['white is on'] = False
+
+
 s = 0.9
 def encoder_callback(msg):
     C['encoder'] = msg.data
@@ -148,8 +150,6 @@ def encoder_callback(msg):
         C['still_timer'].reset()
     C['distance'] += C['velocity'] * (C['encoder_time']-C['encoder_time_prev'])
     C['encoder_time_prev'] = C['encoder_time']
-
-
 
 
 def gyro_heading_callback(msg):
@@ -182,19 +182,19 @@ def gyro_heading_callback(msg):
         C['lights_pub_ready'] = True
 
 
-
-
 def human_agent_callback(msg):
     C['human_agent'] = msg.data
     if C['human_agent'] != C['human_agent/prev']:
         C['human_agent/timer'].reset()
     C['human_agent/prev'] = C['human_agent']
 
+
 def drive_mode_callback(msg):
     C['drive_mode'] = msg.data
     if C['drive_mode'] != C['drive_mode/prev']:
         C['drive_mode/timer'].reset()
     C['drive_mode/prev'] = C['drive_mode']
+
 
 def button_number_callback(msg):
     C['button_number'] = msg.data
@@ -203,8 +203,6 @@ def button_number_callback(msg):
         C['reference_heading'] = C['heading']
         C['reference_distance'] = C['distance']
     C['button_number/prev'] = C['button_number']
-
-
 
 
 rospy.Subscriber('/bair_car/net/steer', std_msgs.msg.Float32, callback=net_steer_callback)
@@ -217,13 +215,8 @@ rospy.Subscriber(bcs+'/button_number',std_msgs.msg.Int32,callback=button_number_
 rospy.Subscriber(bcs+'/drive_mode',std_msgs.msg.Int32,callback=drive_mode_callback)
 rospy.Subscriber(bcs+'/gyro_heading',geometry_msgs.msg.Vector3,callback=gyro_heading_callback)
 
-
 print_timer = Timer(0.2)
 parameter_file_load_timer = Timer(2)
-
-
-
-
 
 
 def check_menu():
@@ -282,10 +275,7 @@ def print_topics():
         if C['new_motor'] < 49:
             nmo = rd
         pd2n(
-            #er,error,sp,
-            #ns,int(C['net/steer']),sp,
             nm,int(C['net/motor']),sp,
-            #fs,int(C['flex/steer']),sp,
             fm,int(C['flex/motor']),sp,
             nmo,C['new_motor'],sp,
             yl,dp(C['velocity'],1),sp,
@@ -300,22 +290,17 @@ def print_topics():
 
 
 def adjusted_motor():
-
     flex = C['flex/motor']
     flex = min(49,flex)
     flex = P['flex_motor_gain']*(flex-49) + 49
     s = P['flex_motor_smoothing_parameter']
     C['flex/motor/smooth'] = (1.0-s)*flex + s*C['flex/motor/smooth']
-
     motor = C['net/motor']
     motor = P['network_motor_gain']*(motor-49) + 49
     s = P['network_motor_smoothing_parameter']
     C['net/motor/smooth'] = (1.0-s)*motor + s*C['net/motor/smooth']
-
     new_motor = C['net/motor/smooth'] + C['flex/motor/smooth']-49
-
     new_motor = bound_value(intr(new_motor),P['min motor'],P['max motor'])
-
     return new_motor
 
 
@@ -378,7 +363,7 @@ if __name__ == '__main__':
             
             #cm(4)
             for src in ['net','flex']:
-                for typ in ['steer','motor']:
+                for typ in ['camera','steer','motor']:
                     val,error = check_value(C[opj(src,typ)],0,99,-20,119,49.)
                     C[opj(src,typ,'check')] = val
                     C[opj(src,typ,'error')] = error
@@ -394,99 +379,6 @@ if __name__ == '__main__':
             print_topics()
             #cm(8)
             check_menu()
-
-
-"""
-collisions
-
-def Driving(C):
-    D = {}
-    return D
-
-def Not_Moving_Motor_Off(C):
-    D = {}
-    return D
-
-def Not_Moving_Motor_On(C):
-    D = {}
-    return D
-
-def Repeated_Collisions(C):
-    D = {}
-
-def Driving_Backwards(C):
-    D = {}
-"""
-
-
-
-
-"""
-def get_adjusted_commands(torch_camera,torch_steer,torch_motor,N):
-
-
-        N['flex_motor_smoothing_parameter']
-        N['flex_servo_smoothing_parameter']
-        N['flex_motor_gain']
-        N['flex_steer_gain']
-        N['network_camera_smoothing_parameter_direct']
-        N['network_camera_gain_direct']
-        N['network_motor_smoothing_parameter']
-
-        if torch_motor >= 49:
-            if N['mode']['behavioral_mode'] == 'direct':
-                gm = N['network_motor_gain_direct']
-            else:
-                gm = N['network_motor_gain']
-        else:
-            gm = N['network_reverse_motor_gain']
-
-        if N['mode']['behavioral_mode'] == 'direct':
-            ss = N['network_servo_smoothing_parameter_direct']
-            gs = N['network_steer_gain_direct']
-            gc = N['network_camera_gain_direct']          
-            sc = N['network_camera_smoothing_parameter_direct']
-        else:
-            ss = N['network_servo_smoothing_parameter']
-            gs = N['network_steer_gain']
-            gc = N['network_camera_gain']          
-            sc = N['network_camera_smoothing_parameter']
-
-
-    N['current']['camera'] = (1.0-sc)*torch_camera + sc*N['current']['camera']
-    N['current']['steer'] = (1.0-ss)*torch_steer + ss*N['current']['steer']
-    N['current']['motor'] = (1.0-sm)*torch_motor + sm*N['current']['motor']
-
-    adjusted_motor = int(gm*(N['current']['motor']-49) + N['network_motor_offset'] + 49)
-    adjusted_steer = int(gs*(N['current']['steer']-49) + 49)
-    adjusted_camera = int(gc*(N['current']['camera']-49) + 49)
-
-    adjusted_motor = bound_value(adjusted_motor,0,99)
-    adjusted_steer = bound_value(adjusted_steer,0,99)
-    adjusted_camera = bound_value(adjusted_camera,0,99)
-
-    adjusted_motor = min(adjusted_motor,N['max motor'])
-    adjusted_motor = max(adjusted_motor,N['min motor'])
-"""
-    #print(format_row([('s',adjusted_steer),('c',adjusted_camera),('m',adjusted_motor)]))
-"""
-    if print_timer.check():
-        cg('c:',adjusted_camera,
-        '\ts:',adjusted_steer,
-        N['mode']['behavioral_mode'],'\tm:',
-        adjusted_motor,"\t",file)
-        print_timer.reset()
-    
-    return adjusted_camera,adjusted_steer,adjusted_motor
-"""
-
-
-
-
-
-
-
-
 
 
 #EOF

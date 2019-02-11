@@ -4,50 +4,17 @@ exec(identify_file_str)
 P = {}
 _ = P
 _['project_path'] = pname(__file__)
-#_['use SqueezeNet40_multirun!!!'] = True
 _['agent_is_human'] = True
 _['use_motor_PID'] = True
 _['MOCK_ARDUINO_VERSION'] = False # Note, unrelated to 'desktop_mode' command line arg
-
-#_['MOCK_ARDUINO_VERSION/nvidia_run_name'] = 'tegra-ubuntu_15Nov18_20h53m56s'
-#_['MOCK_ARDUINO_VERSION/nvidia_h5py_path'] = opjm('rosbags/tu_15to16Nov2018/locations/local/left_direct_stop/h5py')
-
-#_['MOCK_ARDUINO_VERSION/run_name'] = 'tegra-ubuntu_19Oct18_08h55m02s'
-#_['MOCK_ARDUINO_VERSION/h5py_path'] = opjD('Data/1_TB_Samsung_n1/tu_18to19Oct2018/locations/local/left_right_center/h5py')
-
 _['MOCK_ARDUINO_VERSION/run_name'] = 'Mr_Purple_20Nov18_16h24m20s'
-#_['MOCK_ARDUINO_VERSION/run_name'] = 'Mr_Purple_20Nov18_16h41m03s'
-
 _['MOCK_ARDUINO_VERSION/h5py_path'] = opjm('rosbags/h5py')
-
 _['MOCK_ARDUINO_VERSION/nvidia_run_name'] = _['MOCK_ARDUINO_VERSION/run_name']
 _['MOCK_ARDUINO_VERSION/nvidia_h5py_path'] = _['MOCK_ARDUINO_VERSION/h5py_path']
-
-"""
-    if username != 'nvidia':
-        _['desktop version/L'],_['desktop version/O'],___ = open_run(
-            run_name='tegra-ubuntu_19Oct18_08h55m02s',
-            h5py_path=opjD('Data/1_TB_Samsung_n1/tu_18to19Oct2018/locations/local/left_right_center/h5py'),
-            want_list=['L','O'],
-            verbose=True
-        )
-        _['desktop version/index'] = _['desktop version/start index']
-    else:
-        _['desktop version/L'],_['desktop version/O'],___ = open_run(
-            #run_name='tegra-ubuntu_19Oct18_08h55m02s',
-            run_name='tegra-ubuntu_15Nov18_20h53m56s',
-            h5py_path=opjm('rosbags/tu_15to16Nov2018/locations/local/left_direct_stop/h5py'),
-            want_list=['L','O'],
-            verbose=True
-"""
 _['d_heading_for_end_turning'] = 45
-#if _['MOCK_ARDUINO_VERSION']:
-#	_['bcs'] = ''
-#else:
-#	_['bcs'] = '/bair_car'
 _['desktop version/artifical mode'] = False
 _['desktop version/pwm to screen'] = True
-_['customers'] = ['Arduino','Network','Weights','Flex','Control',] #,'Network_ldr',]
+_['customers'] = ['Arduino','Network','Weights','Flex','Control',]
 _['drive_mode'] = 0
 _['use lights'] = True
 _['now in calibration mode'] = False
@@ -60,6 +27,8 @@ _['max motor'] = 63
 _['min motor'] = 25
 _['flex max motor'] = _['max motor']
 _['flex min motor'] = _['min motor']
+_['flex/motor collision threshold'] = 40
+_['flex/motor white light threshold'] = 48
 _['show_net_input'] = False
 _['show_net_activity'] = False
 _['menu name'] = 'arduino menu'
@@ -94,12 +63,9 @@ _['servo_pwm_min'] = _['servo_pwm_null']
 _['servo_pwm_max'] = _['servo_pwm_null']
 _['motor_pwm_min'] = _['servo_pwm_null']
 _['motor_pwm_max'] = _['servo_pwm_null']
-#_['behavioral_mode_choice'] = 'direct'
-#_['place_choice'] = 'local'
 _['servo_pwm_smooth_manual_offset'] = 0
 _['camera_pwm_manual_offset'] = 130	
 _['HUMAN_SMOOTHING_PARAMETER_1'] = 0.75
-
 _['pid_motor_slope'] = (60-49)/3.0
 _['pid_motor_gain'] = 0.05
 _['pid_encoder_max'] = 4.0
@@ -127,14 +93,11 @@ _['autostart menu'] = False
 _['desktop version/start index'] = 5000
 _['delta servo_pwm for calibration'] = 900
 _['delta motor_pwm for calibration'] = 800
-
-
 _['Arduinos'] = {}
 def _fun_light(num):
     if 'LIGHTS' in _['Arduinos']:
         _['Arduinos']['LIGHTS'].write(d2n(""" "(""",num,""")" """))
 _['light'] = _fun_light
-
 _['Lights'] = {
     'left right red'    :62,
     'left right red, left blink yellow' :61,
@@ -152,24 +115,9 @@ _['Lights'] = {
     'lights out'    :22,
     'lights enabled'    :21,
 }
-"""
-_['lights/left (button 1)'] = 	'1' # blinking left light, lights
-_['lights/left (button 2)'] = 	'2' # steady red light, lights
-_['lights/left (button 3)'] = 	'3' # blinking right light, lights
-_['lights/ghost (button 4)'] = 	'4' # purple horizontal light, lights
-_['lights/save tune'] = 			'49' # save tune
-_['lights/calibrate tune'] = 	'50' # calibrate tune
-_['lights/success 1'] = 			'30' # success 1 lights, white horizontal light on
-_['lights/success 2'] = 			'31' # success 1 lights, green horizontal light on
-"""
-#_['lights/failure 1'] = 			'60' # failure 1 lights, white horizontal light off
-#_['lights/failure 2'] = 			'61' # failure 2 lights, green horizontal light off
 _['lights/human, YES'] = 		'100'
 _['lights/human, NO'] = 			'101'
-
 _['net_hide_colors'] = []
-
-
 
 flex_names = [
 	'FL0',
@@ -185,37 +133,26 @@ flex_names = [
 	'FC2',
 	'FC3',
 ]
-
 for f in flex_names:
     _[f+'/gain'] = 1.0
-
-
 
 for f in flex_names:
     _[f] = {}
 _['to_hide'] = []
-
 _['To Expose'] = {}
 _['To Expose']['Arduino'] = [
 	'ABORT',
-	#'behavioral_mode_choice',
 	'agent_is_human',
-	#'place_choice',
 	'servo_pwm_smooth_manual_offset',
 	'camera_pwm_manual_offset',
-	#'use LIDAR',
 	'use_motor_PID',
-
 	'human_PID_motor_percent',
 	'now in calibration mode',
-	#'MOCK_ARDUINO_VERSION',
 	'desktop version/pwm to screen',
-
 	'delta servo_pwm for calibration',
 	'delta motor_pwm for calibration',
     'd_heading_for_end_turning',
 ]
-
 _['To Expose']['Network'] = [
     'ABORT',
 	'network_output_sample',
@@ -235,19 +172,12 @@ _['To Expose']['Network'] = [
 	'show_net_input',
 	'show_net_activity',
 	'camera_move_threshold',
-	#'camera_auto_zero_for_small_values_int',
 	'network_reverse_motor_gain',
 	'net_hide_colors',
 	'network_servo_smoothing_parameter_direct',
 	'network_steer_gain_direct',       
 	'network_camera_smoothing_parameter_direct',
 ]
-"""
-_['To Expose']['Network_ldr'] = [
-	'max motor',
-	'min motor',
-]
-"""
 _['To Expose']['Control'] = [
     'ABORT',
 ]
@@ -261,6 +191,8 @@ _['To Expose']['Flex'] = [
     'flex min motor',
     'flex max motor',
     'flex_graphics',
+	'flex/motor collision threshold',
+	'flex/motor white light threshold',
 ]
 for f in flex_names:
     _['To Expose']['Flex'].append(f+'/gain')
@@ -296,20 +228,17 @@ _['LOAD NETWORK'] = False
 _['network_output_sample'] = 0 # >= 0, <= 9
 _['network_steer_gain'] = 4.0
 _['network_camera_gain'] = 8.0
-#_['network_camera_gain_direct'] = -1
 _['network_motor_gain'] = 1.0
 _['network_reverse_motor_gain'] = 1.5
 _['network_motor_offset'] = 0
 _['network_servo_smoothing_parameter'] = 0.85
 _['network_motor_smoothing_parameter'] = 0.85
 _['network_camera_smoothing_parameter'] = 0.0
-
 _['network_servo_smoothing_parameter_direct'] = 0.85
 _['network_steer_gain_direct'] = 4.0
 _['network_camera_gain_direct'] = 0.0         
 _['network_camera_smoothing_parameter_direct'] = 0.0
 _['network_motor_gain_direct'] = 1.0
-
 _['USE_NETWORK'] = True
 _['GREY_OUT_TOP_OF_IMAGE'] = False
 _['USE_LAST_IMAGE_ONLY'] = False
@@ -319,7 +248,6 @@ _['flex_servo_smoothing_parameter'] = _['network_servo_smoothing_parameter']
 _['flex_motor_gain'] = 3.
 _['flex_steer_gain'] = _['network_steer_gain']
 _['flex_network_output_sample'] = 0
-
 _['camera_move_threshold'] = 0
 _['camera_auto_zero_for_small_values_int'] = 0
 ###########################
