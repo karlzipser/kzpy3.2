@@ -159,7 +159,7 @@ def encoder_callback(msg):
     C['velocity'] = vel_encoding_coeficient * C['encoder/smooth']
     if C['new_motor'] < 49:
         C['velocity'] *= -1.
-    if C['velocity'] > 0.1:
+    if np.abs(C['velocity'] > 0.1):
         C['still_timer'].reset()
     #print C['velocity'],C['encoder']
     C['distance'] += C['velocity'] * (C['encoder_time']-C['encoder_time_prev'])
@@ -310,13 +310,13 @@ def print_topics():
 
 def adjusted_motor():
 
-    if C['still_timer'].time() > 1.0 and C['still_timer'].time() < 10.0:
+    if C['still_timer'].time() > 1.0 and C['still_timer'].time() < 3.0:
         if C['from still motor offset'] == 0.:
             C['from still motor offset'] = np.random.choice([-10,10])
             C['lights_pub'].publish(C['lights'][GREEN])
             print 'GREEN'
         else:
-            C['from still motor offset'] *= 0.99
+            C['from still motor offset'] *= 0.999
     else:
         if np.abs(C['from still motor offset']) > 0:
             C['lights_pub'].publish(C['lights'][GREEN_OFF])
