@@ -108,6 +108,7 @@ C['lights_pub'] = rospy.Publisher('lights', std_msgs.msg.String, queue_size=5)
 
 def net_steer_callback(msg):
     C['net/steer'] = msg.data
+    C['net/camera'] = C['net/steer']
 
 def net_motor_callback(msg):
     C['net/motor'] = msg.data
@@ -317,6 +318,45 @@ def adjusted_motor():
     return new_motor
 
 
+def adjusted_steer():
+
+    steer = C['net/steer']
+
+    if C['behavioral_mode'] == DIRECT:
+        gain = P['network_steer_gain_direct']
+        s = P['network_servo_smoothing_parameter_direct']
+    else:
+        gain = P['network_steer_gain']
+        s = P['network_servo_smoothing_parameter']
+
+    steer = gain*(steer-49) + 49
+
+    C['net/steer/smooth'] = (1.0-s)*steer + s*C['net/steer/smooth']
+
+    new_steer = bound_value(intr(C['net/steer/smooth']),0,99)
+
+    return new_steer
+
+
+def adjusted_camera():
+
+    camera = C['net/camera']
+
+    if C['behavioral_mode'] == DIRECT:
+        gain = P['network_camera_gain_direct']
+        s = P['network_camera_smoothing_parameter_direct']
+    else:
+        gain = P['network_camera_gain']
+        s = P['network_camera_smoothing_parameter']
+
+    camera = gain*(camera-49) + 49
+
+    C['net/camera/smooth'] = (1.0-s)*steer + s*C['net/camera/smooth']
+
+    new_camera = bound_value(intr(C['net/camera/smooth']),0,99)
+
+    return new_camera
+
 
 if __name__ == '__main__':
     ready = Timer(1/30.)
@@ -343,9 +383,12 @@ if __name__ == '__main__':
                     C[opj(src,typ,'error')] = error
             #cm(5)
             C['new_motor'] = adjusted_motor()
+            C['new_steer'] = adjusted_steer()
+            C['new_camera'] = adjusted_camera()
             #cm(6)
             C['cmd/motor/pub'].publish(C['new_motor'])
-            C['cmd/steer/pub'].publish(C['net/steer'])
+            C['cmd/steer/pub'].publish(C['net_steer'])
+            C['cmd/camera/pub'].publish(C['net_camera'])
             #cm(7)
             print_topics()
             #cm(8)
