@@ -321,34 +321,34 @@ def adjusted_motor():
 if __name__ == '__main__':
     ready = Timer(1/30.)
     while not rospy.is_shutdown() and P['ABORT'] == False:
-        cm(0)
+        #cm(0)
         if ready.check():
             ready.reset()
-            cm(1)
+            #cm(1)
             if C['behavioral_mode_pub_timer'].check():
                 C['behavioral_mode_pub_timer'].reset()
                 C['behavioral_mode_pub'].publish(C['behavior_names'][C['behavioral_mode']])
                 cy('published',C['behavior_names'][C['behavioral_mode']])
-            cm(2)
+            #cm(2)
             if C['lights_pub_ready'] == True:
                 C['lights_pub'].publish(C['lights'][C['behavioral_mode']])
                 C['lights_pub_ready'] = False
-            cm(3)
+            #cm(3)
             
-            cm(4)
+            #cm(4)
             for src in ['net','flex']:
                 for typ in ['steer','motor']:
                     val,error = check_value(C[opj(src,typ)],0,99,-20,119,49.)
                     C[opj(src,typ,'check')] = val
                     C[opj(src,typ,'error')] = error
-            cm(5)
+            #cm(5)
             C['new_motor'] = adjusted_motor()
-            cm(6)
+            #cm(6)
             C['cmd/motor/pub'].publish(C['new_motor'])
             C['cmd/steer/pub'].publish(C['net/steer'])
-            cm(7)
+            #cm(7)
             print_topics()
-            cm(8)
+            #cm(8)
             check_menu()
 
 
