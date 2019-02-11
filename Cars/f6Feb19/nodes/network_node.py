@@ -8,8 +8,7 @@ import network_utils.camera
 import network_utils.Activity_Module
 import default_values
 exec(identify_file_str)
-CVerbose['magenta'] = False
-CCVerbose['magenta'] = False
+
 N = default_values.P
 
 # python kzpy3/Cars/n26Dec18/nodes/network_node.py desktop_mode 1 display 'camera_input' delay_blank 500 delay_prev 500 delay_now 750
