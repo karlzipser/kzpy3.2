@@ -363,7 +363,7 @@ def adjusted_steer():
         new_steer = bound_value(intr(C['flex/steer']),0,99)
     else:
         new_steer = bound_value(intr(C['net/steer/smooth']),0,99)
-        if C['net_motor'] < 49:
+        if C['new_motor'] < 49:
             new_steer = 99-new_steer            
 
     C['new_steer'] = new_steer
