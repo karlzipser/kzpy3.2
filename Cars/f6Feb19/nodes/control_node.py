@@ -295,10 +295,12 @@ def adjusted_motor():
     flex = P['flex_motor_gain']*(flex-49) + 49
     s = P['flex_motor_smoothing_parameter']
     C['flex/motor/smooth'] = (1.0-s)*flex + s*C['flex/motor/smooth']
+    C['flex/motor/smooth'] = bound_value(C['flex/motor/smooth'],0,49)
     motor = C['net/motor']
     motor = P['network_motor_gain']*(motor-49) + 49
     s = P['network_motor_smoothing_parameter']
     C['net/motor/smooth'] = (1.0-s)*motor + s*C['net/motor/smooth']
+    C['net/motor/smooth'] = bound_value(C['net/motor/smooth'],0,99)
     new_motor = C['net/motor/smooth'] + C['flex/motor/smooth']-49
     new_motor = bound_value(intr(new_motor),P['min motor'],P['max motor'])
     return new_motor

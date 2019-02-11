@@ -10,24 +10,22 @@ identify_file_str = """
 if '__file__' not in locals():
 	__file__ = 'INTERPRETER'
 cprint('using '+__file__,'yellow')
-#from inspect import currentframe,getframeinfo
-#frameinfo = getframeinfo(currentframe())
-CCVerbose = {}
-CCFile = {}
-CCVerbose['magenta'] = True
-CCFile['magenta'] = fname(__file__)#.replace(opjk(),'').replace(opjh(),'')
-def ccm(*args,**kwargs):
-    if not CCVerbose['magenta']:
-       return
-    cprint(d2s_spacer(tuple(list(args)+['\t'+CCFile['magenta']]),spacer=' '),'magenta')
-    if 'ra' in kwargs:
-	    if kwargs['ra'] == 1:
-    		cprint('\b  (hit Enter to continue)','magenta')
-    		raw_input()
+CVerbose = {}
+cfile = fname(__file__)#.replace(opjk(),'').replace(opjh(),'')
+cstr = "CVerbose['COLOR'] = True\\n"+\
+	"def cQ(*args,**kwargs):\\n"+\
+	"\tif not CVerbose['COLOR']:\\n"+\
+    "\t\treturn\\n"+\
+    "\tcprint(d2s_spacer(tuple(list(args)+['\t'+cfile]),spacer=' '),'COLOR')\\n"+\
+    "\tif 'ra' in kwargs:\\n"+\
+	"\t\tif kwargs['ra'] == 1:\\n"+\
+    "\t\t\tcprint('\b  (hit Enter to continue)','COLOR')\\n"+\
+    "\t\t\traw_input()\\n"
+for color in ['red','yellow','green','blue','magenta','cyan','white','Grey']:
+	an_exec_string = cstr.replace('Q',color[0]).replace('COLOR',color).replace('Grey','grey')
+	exec(an_exec_string)
 	"""
-#exec(identify_file_str)
-#if '__file__' not in locals():
-#	__file__ = 'INTERPRETER'return raw_input(optional_str+'Hit enter to continue > ')
+
 ####################################
 # exception format:
 if False:
@@ -224,19 +222,19 @@ def cs(*args):
 	CS(d2s_spacer(args,spacer=' '))
 
 
-
-CVerbose = {}
-CFile = {}
-for color in ['red','yellow','green','blue','magenta','cyan','white','Grey']: #
-	an_exec_string = """
-CVerbose['COLOR'] = True
-CFile['COLOR'] = ''
-def cQ(*args):
-	if not CVerbose['COLOR']:
-		return
-	cprint(d2s_spacer(tuple(list(args)+['\t'+CFile['COLOR']])   ,spacer=' '),'COLOR')
-"""
-	exec(an_exec_string.replace('Q',color[0]).replace('COLOR',color).replace('Grey','grey'))
+if False:
+	CVerbose = {}
+	CFile = {}
+	for color in ['red','yellow','green','blue','magenta','cyan','white','Grey']: #
+		an_exec_string = """
+	CVerbose['COLOR'] = True
+	CFile['COLOR'] = ''
+	def cQ(*args):
+		if not CVerbose['COLOR']:
+			return
+		cprint(d2s_spacer(tuple(list(args)+['\t'+CFile['COLOR']])   ,spacer=' '),'COLOR')
+	"""
+		exec(an_exec_string.replace('Q',color[0]).replace('COLOR',color).replace('Grey','grey'))
 
 
 #
