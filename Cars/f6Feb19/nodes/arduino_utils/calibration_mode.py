@@ -31,22 +31,21 @@ def _calibrate_run_loop(P):
             #P['Arduinos']['LIGHTS'].write("(119)")
             time.sleep(0.25)
             continue
-        if P['calibrated']:
-            P['light'](P['Lights']['purple'])
-            #P['Arduinos']['LIGHTS'].write("(118)")#d2n(""" "(""",P['Lights']['purple'],""")" """))
-        else:
-            P['light'](P['Lights']['purple blink'])
+
             #P['Arduinos']['LIGHTS'].write("(120)")#d2n(""" "(""",P['Lights']['purple blink'],""")" """))
         
         if P['calibration mode timer'].time() < P['CALIBRATION_NULL_START_TIME']:
+            P['light'](P['Lights']['purple off'])
             time.sleep(0.01)
 
         elif P['calibration mode timer'].time() < P['CALIBRATION_NULL_START_TIME']+0.1:
+            P['light'](P['Lights']['purple off'])
             P['calibrated'] = False
             P['servo_pwm_null'] = P['servo_pwm']
             P['motor_pwm_null'] = P['motor_pwm']
 
         elif P['calibration mode timer'].time() < P['CALIBRATION_START_TIME']:
+            P['light'](P['Lights']['purple off'])
             s = P['HUMAN_SMOOTHING_PARAMETER_1']
             P['servo_pwm_null'] = (1.0-s)*P['servo_pwm'] + s*P['servo_pwm_null']
             P['motor_pwm_null'] = (1.0-s)*P['motor_pwm'] + s*P['motor_pwm_null']
@@ -57,6 +56,11 @@ def _calibrate_run_loop(P):
             P['servo_pwm_smooth'] = P['servo_pwm_null']
             P['motor_pwm_smooth'] = P['motor_pwm_null']
         else:
+            if P['calibrated']:
+                P['light'](P['Lights']['purple'])
+                #P['Arduinos']['LIGHTS'].write("(118)")#d2n(""" "(""",P['Lights']['purple'],""")" """))
+            else:
+                P['light'](P['Lights']['purple blink'])
             start.message('Calibrate now.')
             if P['servo_pwm_max'] < P['servo_pwm']:
                 P['servo_pwm_max'] = P['servo_pwm']
