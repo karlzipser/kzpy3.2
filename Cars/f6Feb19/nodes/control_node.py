@@ -152,11 +152,12 @@ s = 0.9
 def encoder_callback(msg):
     #print(-1)
     C['encoder'] = msg.data
+    """
     C['encoder_time'] = time.time()
     #print(-2)
     C['encoder/smooth'] = (1.0-s)*C['encoder'] + s*C['encoder/smooth']
     C['velocity'] = vel_encoding_coeficient * C['encoder/smooth']
-    """
+    
     print(0)
     if C['new_motor'] < 49:
         C['velocity'] *= -1.
