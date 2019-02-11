@@ -38,10 +38,10 @@ for src in ['net','flex']:
     for typ in ['steer','motor','camera','steer/smooth','motor/smooth','camera/smooth']:
         C[opj(src,typ)] = 49.
 for src in ['net','flex']:
-    for typ in ['steer','motor']:
+    for typ in ['steer','motor','camera']:
         C[opj(src,typ,'error')] = 0
 for src in ['net','flex']:
-    for typ in ['steer','motor']:
+    for typ in ['steer','motor','camera']:
         C[opj(src,typ,'check')] = 49.
 C['error_count'] = 0
 C['encoder'] = 0.
