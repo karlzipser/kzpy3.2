@@ -46,7 +46,7 @@ def ros_init(N):
         
     def behavioral_mode_callback(msg):
         N['mode']['behavioral_mode'] = msg.data
-        print N['mode']['behavioral_mode']
+        #print N['mode']['behavioral_mode']
 
     bcs = '/bair_car'
 

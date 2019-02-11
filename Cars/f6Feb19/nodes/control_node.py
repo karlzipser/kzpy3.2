@@ -328,7 +328,7 @@ if __name__ == '__main__':
             if C['behavioral_mode_pub_timer'].check():
                 C['behavioral_mode_pub_timer'].reset()
                 C['behavioral_mode_pub'].publish(C['behavior_names'][C['behavioral_mode']])
-                cy('published',C['behavior_names'][C['behavioral_mode']])
+                #cy('published',C['behavior_names'][C['behavioral_mode']])
             #cm(2)
             if C['lights_pub_ready'] == True:
                 C['lights_pub'].publish(C['lights'][C['behavioral_mode']])
