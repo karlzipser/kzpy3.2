@@ -111,7 +111,7 @@ for im in import_list + import_from_list + import_as_list:
 				print('Failed to import '+im[1]+' as '+im[2])           
 
 
-exec(identify_file_str)
+
 
 na = np.array
 
@@ -1443,6 +1443,6 @@ def sort_dir_by_ctime(dir_path):
 
 
 
-		
+exec(identify_file_str)	
 #EOF
 
