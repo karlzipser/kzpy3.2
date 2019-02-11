@@ -150,8 +150,10 @@ def flex_motor_callback(msg):
 
 s = 0.9
 def encoder_callback(msg):
+    cm(-1)
     C['encoder'] = msg.data
     C['encoder_time'] = time.time()
+    cm(-2)
     C['encoder/smooth'] = (1.0-s)*C['encoder'] + s*C['encoder/smooth']
     C['velocity'] = vel_encoding_coeficient * C['encoder/smooth']
     cm(0)
