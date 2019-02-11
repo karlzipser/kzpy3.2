@@ -324,6 +324,9 @@ def adjusted_motor():
             C['lights_pub'].publish(C['lights'][GREEN_OFF])
             print 'GREEN OFF'
         C['from still motor offset'] = 0.
+    #########
+    C['from still motor offset'] = 0.
+    #########
 
     flex = C['flex/motor']
     flex = min(49,flex)
