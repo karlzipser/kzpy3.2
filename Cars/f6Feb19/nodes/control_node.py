@@ -160,6 +160,7 @@ def encoder_callback(msg):
     if C['new_motor'] < 49:
         C['velocity'] *= -1.
     if np.abs(C['velocity'] > 0.1):
+        print "reset"
         C['still_timer'].reset()
     #print C['velocity'],C['encoder']
     C['distance'] += C['velocity'] * (C['encoder_time']-C['encoder_time_prev'])
