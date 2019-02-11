@@ -159,7 +159,7 @@ def encoder_callback(msg):
     C['velocity'] = vel_encoding_coeficient * C['encoder/smooth']
     if C['new_motor'] < 49:
         C['velocity'] *= -1.
-    if np.abs(C['velocity'] > 0.1):
+    if np.abs(C['velocity']) > 0.1:
         print "reset"
         C['still_timer'].reset()
     #print C['velocity'],C['encoder']
