@@ -119,7 +119,7 @@ def net_motor_callback(msg):
     elif C['blue is on'] == True and C['blue timer'].check():
         C['lights_pub'].publish(C['lights'][BLUE_OFF])
         C['blue is on'] = False
-    C['ready'] = True
+    
 
 def flex_steer_callback(msg):
     C['flex/steer'] = msg.data
@@ -319,10 +319,11 @@ def adjusted_motor():
 
 
 if __name__ == '__main__':
-
+    ready = Timer(1/30.)
     while not rospy.is_shutdown() and P['ABORT'] == False:
         cm(0)
-        if C['ready']:
+        if ready.check():
+            ready.reset()
             cm(1)
             if C['behavioral_mode_pub_timer'].check():
                 C['behavioral_mode_pub_timer'].reset()
@@ -333,7 +334,7 @@ if __name__ == '__main__':
                 C['lights_pub'].publish(C['lights'][C['behavioral_mode']])
                 C['lights_pub_ready'] = False
             cm(3)
-            C['ready'] = False
+            
             cm(4)
             for src in ['net','flex']:
                 for typ in ['steer','motor']:
