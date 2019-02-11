@@ -8,8 +8,7 @@ import torch.autograd
 import cv_bridge
 from sensor_msgs.msg import Image
 exec(identify_file_str)
-CVerbose['magenta'] = False
-CCVerbose['magenta'] = False
+
 full_width,full_height = 168,94
 meta_width,meta_height = 41,23
 
