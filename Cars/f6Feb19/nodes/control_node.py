@@ -333,8 +333,13 @@ def adjusted_motor():
     C['flex/motor/smooth'] = bound_value(C['flex/motor/smooth'],0,49)
 
     motor = C['net/motor']
-    motor = P['network_motor_gain']*(motor-49) + 49
-    s = P['network_motor_smoothing_parameter']
+    if C['behavioral_mode'] == DIRECT:
+        gain = P['network_motor_gain_direct']
+        s = P['network_motor_smoothing_parameter_direct']
+    else:
+        gain = P['network_motor_gain']
+        s = P['network_motor_smoothing_parameter']
+    
     C['net/motor/smooth'] = (1.0-s)*motor + s*C['net/motor/smooth']
     C['net/motor/smooth'] = bound_value(C['net/motor/smooth'],0,99)
     new_motor = C['net/motor/smooth'] + C['flex/motor/smooth']-49
