@@ -308,11 +308,13 @@ def adjusted_motor():
         if C['from still motor offset'] == 0.:
             C['from still motor offset'] = np.random.choice([-5,5])
             C['lights_pub'].publish(C['lights'][GREEN])
+            print 'GREEN'
         else:
             C['from still motor offset'] *= 0.9
     else:
         if np.abs(C['from still motor offset']) > 0:
             C['lights_pub'].publish(C['lights'][GREEN_OFF])
+            print 'GREEN OFF'
         C['from still motor offset'] = 0.
 
     flex = C['flex/motor']
@@ -330,7 +332,6 @@ def adjusted_motor():
     new_motor = C['net/motor/smooth'] + C['flex/motor/smooth']-49
     new_motor += C['from still motor offset']
     new_motor = bound_value(intr(new_motor),P['min motor'],P['max motor'])
-    print new_motor
     C['new_motor'] = new_motor
 
 
