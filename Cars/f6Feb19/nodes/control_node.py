@@ -150,12 +150,13 @@ def flex_motor_callback(msg):
 
 s = 0.9
 def encoder_callback(msg):
-    print(-1)
+    #print(-1)
     C['encoder'] = msg.data
     C['encoder_time'] = time.time()
-    print(-2)
+    #print(-2)
     C['encoder/smooth'] = (1.0-s)*C['encoder'] + s*C['encoder/smooth']
     C['velocity'] = vel_encoding_coeficient * C['encoder/smooth']
+    """
     print(0)
     if C['new_motor'] < 49:
         C['velocity'] *= -1.
@@ -165,6 +166,7 @@ def encoder_callback(msg):
     C['distance'] += C['velocity'] * (C['encoder_time']-C['encoder_time_prev'])
     C['encoder_time_prev'] = C['encoder_time']
     print(2)
+    """
 
 
 def gyro_heading_callback(msg):
