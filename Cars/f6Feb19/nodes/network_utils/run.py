@@ -13,17 +13,17 @@ def ready(N):
     for n in N['net_hide_colors']:
         CVerbose[n] = False
 
-    ccm(10)
+    cm(10)
     time.sleep(0.0001)
     if N['desktop_mode']:
         N['mode']['human_agent'] = 0
         N['mode']['drive_mode'] = 1
         N['mode']['behavioral_mode'] = 'direct'
-        ccm(11)
+        cm(11)
     elif N['mode']['human_agent'] == 0 \
         and N['mode']['drive_mode'] == 1 \
         and N['mode']['behavioral_mode'] in N['behavioral_metadatas'].keys():
-        ccm(12)
+        cm(12)
         pass
     else:
         cr('human_agent ==',N['mode']['human_agent'],
@@ -34,7 +34,7 @@ def ready(N):
     if N['net']['Torch_network'] == None:
         cb('waiting for network')
         return False
-    #ccm('ready')
+    #cm('ready')
     return True
 
 
