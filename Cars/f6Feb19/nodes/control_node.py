@@ -44,7 +44,7 @@ for src in ['net','flex']:
         C[opj(src,typ,'check')] = 49.
 
 C['from still motor offset'] = 0.
-
+C['from still motor offset timer'] = Timer(1)
 C['error_count'] = 0
 C['encoder'] = 0.
 C['encoder/error'] = 0
