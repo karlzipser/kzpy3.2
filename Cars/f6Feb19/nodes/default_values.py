@@ -4,7 +4,7 @@ exec(identify_file_str)
 P = {}
 _ = P
 _['project_path'] = pname(__file__)
-_['agent_is_human'] = True
+_['agent_is_human'] = False
 _['use_motor_PID'] = True
 _['MOCK_ARDUINO_VERSION'] = False # Note, unrelated to 'desktop_mode' command line arg
 _['MOCK_ARDUINO_VERSION/run_name'] = 'Mr_Purple_20Nov18_16h24m20s'

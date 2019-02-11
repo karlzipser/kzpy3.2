@@ -42,6 +42,9 @@ for src in ['net','flex']:
 for src in ['net','flex']:
     for typ in ['steer','motor','camera']:
         C[opj(src,typ,'check')] = 49.
+
+C['from still motor offset'] = 0.
+
 C['error_count'] = 0
 C['encoder'] = 0.
 C['encoder/error'] = 0
@@ -93,7 +96,9 @@ C['human_agent/timer'] = Timer()
 C['button_number/timer'] = Timer()
 C['still_timer'] = Timer()
 C['collision_timer'] = Timer()
-
+C['new_motor'] = 49
+C['new_steer'] = 49
+C['new_camera'] = 49
 C['ready'] = False
 C['encoder_time'] = time.time()
 C['encoder_time_prev'] = time.time() - 1/30.
@@ -125,6 +130,7 @@ def net_motor_callback(msg):
 def flex_steer_callback(msg):
     C['flex/steer'] = msg.data
 
+
 C['white timer'] = Timer(0.25)
 def flex_motor_callback(msg):
     C['flex/motor'] = msg.data
@@ -146,6 +152,8 @@ def encoder_callback(msg):
     C['encoder_time'] = time.time()
     C['encoder/smooth'] = (1.0-s)*C['encoder'] + s*C['encoder/smooth']
     C['velocity'] = vel_encoding_coeficient * C['encoder/smooth']
+    if C['new_motor'] < 49:
+        C['velocity'] *= -1.
     if C['velocity'] > 0.1:
         C['still_timer'].reset()
     C['distance'] += C['velocity'] * (C['encoder_time']-C['encoder_time_prev'])
@@ -219,6 +227,7 @@ print_timer = Timer(0.2)
 parameter_file_load_timer = Timer(2)
 
 
+
 def check_menu():
     if parameter_file_load_timer.check():
         parameter_file_load_timer.reset()
@@ -238,6 +247,7 @@ def check_menu():
                     P[t] = Topics[t]
         
 
+
 def check_value(val,mn,mx,mn_err,mx_err,default):
     error = 0
     if int(val) > mx_err or int(val) < mn_err:
@@ -246,6 +256,7 @@ def check_value(val,mn,mx,mn_err,mx_err,default):
     else:
         val = bound_value(val,mn,mx)
     return val,error
+
 
 
 def print_topics():
@@ -290,20 +301,36 @@ def print_topics():
 
 
 def adjusted_motor():
+
+    if C['still_timer'].time() > 1.0 and C['still_timer'].time() < 3.0:
+        if C['from still motor offset'] == 0.:
+            C['from still motor offset'] = np.random.choice([-5,5])
+            C['lights_pub'].publish(C['lights'][GREEN])
+        else:
+            C['from still motor offset'] *= 0.9
+    else:
+        if np.abs(C['from still motor offset']) > 0
+            C['lights_pub'].publish(C['lights'][GREEN_OFF])
+        C['from still motor offset'] = 0.
+
     flex = C['flex/motor']
     flex = min(49,flex)
     flex = P['flex_motor_gain']*(flex-49) + 49
     s = P['flex_motor_smoothing_parameter']
     C['flex/motor/smooth'] = (1.0-s)*flex + s*C['flex/motor/smooth']
     C['flex/motor/smooth'] = bound_value(C['flex/motor/smooth'],0,49)
+
     motor = C['net/motor']
     motor = P['network_motor_gain']*(motor-49) + 49
     s = P['network_motor_smoothing_parameter']
     C['net/motor/smooth'] = (1.0-s)*motor + s*C['net/motor/smooth']
     C['net/motor/smooth'] = bound_value(C['net/motor/smooth'],0,99)
     new_motor = C['net/motor/smooth'] + C['flex/motor/smooth']-49
+    new_motor += C['from still motor offset']
     new_motor = bound_value(intr(new_motor),P['min motor'],P['max motor'])
-    return new_motor
+
+    C['new_motor'] = new_motor
+
 
 
 def adjusted_steer():
@@ -321,9 +348,15 @@ def adjusted_steer():
 
     C['net/steer/smooth'] = (1.0-s)*steer + s*C['net/steer/smooth']
 
-    new_steer = bound_value(intr(C['net/steer/smooth']),0,99)
+    if C['flex/motor/smooth'] < P['flex/motor collision threshold']:
+        new_steer = bound_value(intr(C['flex/steer']),0,99))
+    else:
+        new_steer = bound_value(intr(C['net/steer/smooth']),0,99)
+        if C['net/motor/smooth'] < 49:
+            new_steer = 99-new_steer            
 
-    return new_steer
+    C['new_steer'] = new_steer
+
 
 
 def adjusted_camera():
@@ -343,7 +376,8 @@ def adjusted_camera():
 
     new_camera = bound_value(intr(C['net/camera/smooth']),0,99)
 
-    return new_camera
+    C['new_camera'] = new_camera
+
 
 
 if __name__ == '__main__':
@@ -370,9 +404,7 @@ if __name__ == '__main__':
                     C[opj(src,typ,'check')] = val
                     C[opj(src,typ,'error')] = error
             #cm(5)
-            C['new_motor'] = adjusted_motor()
-            C['new_steer'] = adjusted_steer()
-            C['new_camera'] = adjusted_camera()
+
             #cm(6)
             C['cmd/motor/pub'].publish(C['new_motor'])
             C['cmd/steer/pub'].publish(C['new_steer'])
