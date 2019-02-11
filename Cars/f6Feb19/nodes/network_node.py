@@ -41,7 +41,7 @@ if __name__ == '__main__':
 
     while not rospy.is_shutdown() and N['ABORT'] == False:
 
-        try:
+        if True:#try:
             network_utils.menu_and_net.read_menu_and_load_network(N)
 
             if network_utils.run.ready(N):
@@ -84,7 +84,7 @@ if __name__ == '__main__':
             else:
                 cy("network_utils.run.ready(N) == False")
                 time.sleep(2)
-
+        """
         except KeyboardInterrupt:
             network_utils.camera.QUIT = True
             cr('\n\n*** KeyboardInterrupt ***\n')
@@ -97,10 +97,11 @@ if __name__ == '__main__':
             CS_('Exception!',emphasis=True)
             CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),
                 emphasis=False)
+        """
         
         
     network_utils.camera.QUIT = True
-    ccm(103)
+    cm(103)
     cg('Exiting network_node.py.')
 
 
