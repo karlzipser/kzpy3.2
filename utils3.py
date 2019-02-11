@@ -25,7 +25,7 @@ for color in ['red','yellow','green','blue','magenta','cyan','white','Grey']:
 	an_exec_string = cstr.replace('Q',color[0]).replace('COLOR',color).replace('Grey','grey')
 	exec(an_exec_string)
 	"""
-exec(identify_file_str)
+
 ####################################
 # exception format:
 if False:
@@ -111,7 +111,7 @@ for im in import_list + import_from_list + import_as_list:
 				print('Failed to import '+im[1]+' as '+im[2])           
 
 
-
+exec(identify_file_str)
 
 na = np.array
 
