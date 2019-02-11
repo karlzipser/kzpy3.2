@@ -158,6 +158,7 @@ def encoder_callback(msg):
         C['velocity'] *= -1.
     if C['velocity'] > 0.1:
         C['still_timer'].reset()
+    print C['velocity'],C['encoder']
     C['distance'] += C['velocity'] * (C['encoder_time']-C['encoder_time_prev'])
     C['encoder_time_prev'] = C['encoder_time']
 
