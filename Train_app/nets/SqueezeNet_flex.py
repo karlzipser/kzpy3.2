@@ -1,6 +1,5 @@
 from kzpy3.utils3 import *
 exec(identify_file_str)
-spd2s('Using SqueezeNet !!!!!!!!!!!!!!!!!!')
 import math
 import torch
 import torch.nn as nn

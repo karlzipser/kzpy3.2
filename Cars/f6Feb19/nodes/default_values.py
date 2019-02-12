@@ -4,31 +4,42 @@ exec(identify_file_str)
 P = {}
 _ = P
 _['project_path'] = pname(__file__)
+
 _['agent_is_human'] = False
-_['use_motor_PID'] = True
+
 _['MOCK_ARDUINO_VERSION'] = False # Note, unrelated to 'desktop_mode' command line arg
 _['MOCK_ARDUINO_VERSION/run_name'] = 'Mr_Purple_20Nov18_16h24m20s'
 _['MOCK_ARDUINO_VERSION/h5py_path'] = opjm('rosbags/h5py')
 _['MOCK_ARDUINO_VERSION/nvidia_run_name'] = _['MOCK_ARDUINO_VERSION/run_name']
 _['MOCK_ARDUINO_VERSION/nvidia_h5py_path'] = _['MOCK_ARDUINO_VERSION/h5py_path']
-_['d_heading_for_end_turning'] = 45
+
 _['desktop version/artifical mode'] = False
 _['desktop version/pwm to screen'] = True
+
 _['customers'] = ['Arduino','Network','Weights','Flex','Control',]
 _['drive_mode'] = 0
 _['use lights'] = True
 _['now in calibration mode'] = False
-_['use flex'] = True
+
 _['USE_MSE'] = True
 _['USE_IMU'] = True
 _['USE_ROS'] = HAVE_ROS
-_['human_PID_motor_percent'] = 53
+
+_['d_heading_for_end_turning'] = 45
 _['max motor'] = 63
-_['min motor'] = 25
+_['min motor'] = 30
+
+_['use flex'] = True
+_['flex_motor_smoothing_parameter'] = _['network_motor_smoothing_parameter']
+_['flex_servo_smoothing_parameter'] = _['network_servo_smoothing_parameter']
+_['flex_motor_gain'] = 1.5
+_['flex_steer_gain'] = _['network_steer_gain']
+_['flex_network_output_sample'] = 0
 _['flex max motor'] = _['max motor']
 _['flex min motor'] = _['min motor']
 _['flex/motor collision threshold'] = 40
-_['flex/motor white light threshold'] = 48
+_['flex/motor white light threshold'] = 45
+
 _['show_net_input'] = False
 _['show_net_activity'] = False
 _['menu name'] = 'arduino menu'
@@ -57,15 +68,25 @@ _['network']['servo_percent'] = 49
 _['network']['motor_percent'] = 49
 _['IMU_SMOOTHING_PARAMETER'] = 0.95
 _['Hz'] = {}
+
 _['servo_pwm_null'] = 1450
 _['motor_pwm_null'] = _['servo_pwm_null']
 _['servo_pwm_min'] = _['servo_pwm_null']
 _['servo_pwm_max'] = _['servo_pwm_null']
 _['motor_pwm_min'] = _['servo_pwm_null']
 _['motor_pwm_max'] = _['servo_pwm_null']
+
+_['servo_pwm_smooth'] = 1000
+_['motor_pwm_smooth'] = 1000
+
 _['servo_pwm_smooth_manual_offset'] = 0
+
 _['camera_pwm_manual_offset'] = 130	
+
 _['HUMAN_SMOOTHING_PARAMETER_1'] = 0.75
+
+_['use_motor_PID'] = True
+_['human_PID_motor_percent'] = 53
 _['pid_motor_slope'] = (60-49)/3.0
 _['pid_motor_gain'] = 0.05
 _['pid_encoder_max'] = 4.0
@@ -77,11 +98,11 @@ _['pid_steer_gain']= 0.05
 _['pid_steer_delta_max']= 0.05
 _['pid_steer_steer_percent_max']= 99
 _['pid_steer_steer_percent_min'] = 0
+
 _['button_delta'] = 50
 _['button_number'] = 0
 _['button_timer'] = Timer()
-_['servo_pwm_smooth'] = 1000
-_['motor_pwm_smooth'] = 1000
+
 _['encoder_smooth'] = 0.0
 _['encoder'] = 0.0
 _['network']['camera_percent'] = 49
@@ -139,6 +160,7 @@ for f in flex_names:
 
 for f in flex_names:
     _[f] = {}
+
 _['to_hide'] = []
 _['To Expose'] = {}
 _['To Expose']['Arduino'] = [
@@ -177,7 +199,6 @@ _['To Expose']['Network'] = [
 	'net_hide_colors',
 	'network_servo_smoothing_parameter_direct',
 	'network_steer_gain_direct',       
-	'network_camera_smoothing_parameter_direct',
 ]
 _['To Expose']['Control'] = [
     'ABORT',
@@ -227,28 +248,22 @@ _['LOAD NETWORK'] = False
 
 ############# NETWORK PARAMETERS
 _['network_output_sample'] = 0 # >= 0, <= 9
-_['network_steer_gain'] = 4.0
-_['network_camera_gain'] = 8.0
-_['network_motor_gain'] = 1.0
-_['network_reverse_motor_gain'] = 1.5
+_['network_steer_gain'] = 2.0
+_['network_camera_gain'] = 4.0
+_['network_motor_gain'] = 0.8
+_['network_reverse_motor_gain'] = 1.
 _['network_motor_offset'] = 0
 _['network_servo_smoothing_parameter'] = 0.85
 _['network_motor_smoothing_parameter'] = 0.85
 _['network_camera_smoothing_parameter'] = 0.0
 _['network_servo_smoothing_parameter_direct'] = 0.85
-_['network_steer_gain_direct'] = 4.0
+_['network_steer_gain_direct'] = 1.5
 _['network_camera_gain_direct'] = 0.0         
-_['network_camera_smoothing_parameter_direct'] = 0.0
 _['network_motor_gain_direct'] = 1.0
 _['USE_NETWORK'] = True
 _['GREY_OUT_TOP_OF_IMAGE'] = False
 _['USE_LAST_IMAGE_ONLY'] = False
 _['visualize_activations'] = False
-_['flex_motor_smoothing_parameter'] = _['network_motor_smoothing_parameter']
-_['flex_servo_smoothing_parameter'] = _['network_servo_smoothing_parameter']
-_['flex_motor_gain'] = 1.5
-_['flex_steer_gain'] = _['network_steer_gain']
-_['flex_network_output_sample'] = 0
 _['camera_move_threshold'] = 0
 _['camera_auto_zero_for_small_values_int'] = 0
 ###########################

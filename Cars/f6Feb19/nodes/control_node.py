@@ -385,7 +385,7 @@ def adjusted_camera():
 
     if C['behavioral_mode'] == DIRECT:
         gain = P['network_camera_gain_direct']
-        s = P['network_camera_smoothing_parameter_direct']
+        s = P['network_camera_smoothing_parameter']
     else:
         gain = P['network_camera_gain']
         s = P['network_camera_smoothing_parameter']
