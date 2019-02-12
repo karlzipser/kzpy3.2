@@ -159,7 +159,7 @@ _['Lights'] = {
 }
 _['lights/human, YES'] = 		'100'
 _['lights/human, NO'] = 			'101'
-_['net_hide_colors'] = []
+_['net_hide_colors'] = ['magenta']
 
 flex_names = [
 	'FL0',
