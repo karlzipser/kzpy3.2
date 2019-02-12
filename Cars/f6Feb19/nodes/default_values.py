@@ -28,7 +28,27 @@ _['USE_ROS'] = HAVE_ROS
 _['d_heading_for_end_turning'] = 45
 _['max motor'] = 63
 _['min motor'] = 30
-
+############# NETWORK PARAMETERS
+_['network_output_sample'] = 0 # >= 0, <= 9
+_['network_steer_gain'] = 2.0
+_['network_camera_gain'] = 4.0
+_['network_motor_gain'] = 0.8
+_['network_reverse_motor_gain'] = 1.
+_['network_motor_offset'] = 0
+_['network_servo_smoothing_parameter'] = 0.85
+_['network_motor_smoothing_parameter'] = 0.85
+_['network_camera_smoothing_parameter'] = 0.0
+_['network_servo_smoothing_parameter_direct'] = 0.85
+_['network_steer_gain_direct'] = 1.5
+_['network_camera_gain_direct'] = 0.0         
+_['network_motor_gain_direct'] = 1.0
+_['USE_NETWORK'] = True
+_['GREY_OUT_TOP_OF_IMAGE'] = False
+_['USE_LAST_IMAGE_ONLY'] = False
+_['visualize_activations'] = False
+_['camera_move_threshold'] = 0
+_['camera_auto_zero_for_small_values_int'] = 0
+###########################
 _['use flex'] = True
 _['flex_motor_smoothing_parameter'] = _['network_motor_smoothing_parameter']
 _['flex_servo_smoothing_parameter'] = _['network_servo_smoothing_parameter']
@@ -246,26 +266,6 @@ except Exception as e:
 
 _['LOAD NETWORK'] = False
 
-############# NETWORK PARAMETERS
-_['network_output_sample'] = 0 # >= 0, <= 9
-_['network_steer_gain'] = 2.0
-_['network_camera_gain'] = 4.0
-_['network_motor_gain'] = 0.8
-_['network_reverse_motor_gain'] = 1.
-_['network_motor_offset'] = 0
-_['network_servo_smoothing_parameter'] = 0.85
-_['network_motor_smoothing_parameter'] = 0.85
-_['network_camera_smoothing_parameter'] = 0.0
-_['network_servo_smoothing_parameter_direct'] = 0.85
-_['network_steer_gain_direct'] = 1.5
-_['network_camera_gain_direct'] = 0.0         
-_['network_motor_gain_direct'] = 1.0
-_['USE_NETWORK'] = True
-_['GREY_OUT_TOP_OF_IMAGE'] = False
-_['USE_LAST_IMAGE_ONLY'] = False
-_['visualize_activations'] = False
-_['camera_move_threshold'] = 0
-_['camera_auto_zero_for_small_values_int'] = 0
-###########################
+
 
 #EOF
