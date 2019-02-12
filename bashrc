@@ -30,7 +30,11 @@ alias fixScreen='DISPLAY=:0 xrandr --output HDMI-0 --mode 1024x768'
 #alias cm='python kzpy3/Menu_app/menu2.py path kzpy3/Cars/n11Oct2018_car_with_nets/nodes dic P'
 #alias cmen='python kzpy3/Menu_app/menu2.py path kzpy3/Cars/n26Dec18/nodes dic P'
 alias cmen='python kzpy3/Menu_app/menu2.py path kzpy3/Cars/f6Feb2019/nodes dic P'
-alias runall='rla&;python kzpy3/Cars/f6Feb19/nodes/arduino_node.py&;python kzpy3/Cars/f6Feb19/nodes/network_node.py&lpython kzpy3/Cars/f6Feb19/nodes/flex_network_node.py;python kzpy3/Cars/f6Feb19/nodes/control_node.py&'
+alias A1='rla'
+alias A2='python kzpy3/Cars/f6Feb19/nodes/arduino_node.py'
+alias A3='python kzpy3/Cars/f6Feb19/nodes/network_node.py'
+alias A4='python kzpy3/Cars/f6Feb19/nodes/flex_network_node.py
+alias A5='python kzpy3/Cars/f6Feb19/nodes/control_node.py'
 alias kx='killall xterm'
 alias rosdo="sudo chmod -R 777 /media/$(whoami)/rosbags*"
 alias kr='~/kzpy3/scripts/kill_ros.sh'
