@@ -310,7 +310,7 @@ def print_topics():
 
 
 def adjusted_motor():
-    """
+    #"""
     if C['still_timer'].time() > 1.0:
         if C['from still motor offset'] == 0.:
             C['from still motor offset timer'].reset()
@@ -324,9 +324,9 @@ def adjusted_motor():
             C['lights_pub'].publish(C['lights'][GREEN_OFF])
             print 'GREEN OFF'
         C['from still motor offset'] = 0.
-    """
+    #"""
     #########
-    C['from still motor offset'] = 0.
+    #C['from still motor offset'] = 0.
     #########
 
     flex = C['flex/motor']
