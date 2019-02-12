@@ -360,6 +360,12 @@ def adjusted_steer():
 
     if C['behavioral_mode'] == DIRECT:
         gain = P['network_steer_gain_direct']
+        if C['new_motor'] > 58:
+            gain *= 0.75
+        elif C['new_motor'] < 51:
+            gain *= 2.0
+        elif C['new_motor'] < 55:
+            gain *= 1.5
         s = P['network_servo_smoothing_parameter_direct']
     else:
         gain = P['network_steer_gain']
@@ -379,13 +385,14 @@ def adjusted_steer():
     C['new_steer'] = new_steer
 
 
-
 def adjusted_camera():
 
     camera = C['net/camera']
 
     if C['behavioral_mode'] == DIRECT:
         gain = P['network_camera_gain_direct']
+        if C['new_motor'] < 51:
+            gain = 4.0
         s = P['network_camera_smoothing_parameter']
     else:
         gain = P['network_camera_gain']
