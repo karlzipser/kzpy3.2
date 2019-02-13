@@ -261,7 +261,7 @@ def get_Data_moment(_,dm=None,FLIP=None):
 
 
 		#cm(len(F['left_image']['vals']))
-		cm(il0)
+		#cm(il0)
 		#if dm['left_ts_index'][0] + 100 > len(F['left_image']['vals']): #########################
 		#	return False #########################
 
