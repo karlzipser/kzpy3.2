@@ -3,7 +3,7 @@ exec(identify_file_str)
 
 def prepare_data_for_training(_):
 	
-	full = False
+	full = True
 
 	_['experiments_folders'] = []
 
@@ -163,7 +163,7 @@ def prepare_data_for_training(_):
 
 
 blank_meta = np.zeros((23,41,3),np.uint8)
-blank_camera = np.zeros((94,168,3),np.uint8)
+blank_camera = blank_meta#np.zeros((94,168,3),np.uint8)
 
 
 def indicies_offset():##############################3
@@ -266,6 +266,7 @@ def get_Data_moment(_,dm=None,FLIP=None):
 		#	return False #########################
 
 		index_offset,z2o_logtime = indicies_offset()
+		#print index_offset,z2o_logtime
 		if 'left_image' in F:
 			if 'vals' in F['left_image']:
 				if index_offset + il0 > len(F['left_image']['vals']):
@@ -283,6 +284,9 @@ def get_Data_moment(_,dm=None,FLIP=None):
 				blank_meta[:,:,1] = S[indx][:,:,0]
 				blank_meta[:,:,2] = S[indx][:,:,2]
 				Data_moment[pro] = blank_meta
+			#Data_moment[pro] = cv2.resize(Data_moment[pro],(168,94))
+				
+
 			"""
 			if not FLIP:
 				Data_moment['projections'] = S[il0]
@@ -292,12 +296,12 @@ def get_Data_moment(_,dm=None,FLIP=None):
 				blank_meta[:,:,2] = S[il0][:,:,2]
 				Data_moment['projections'] = blank_meta
 			"""
-		mi(Data_moment['projections'],1)#;spause();raw_enter()
-		mi(Data_moment['projections2'],2);spause();time.sleep(0.3)
-		
+		#mi(Data_moment['projections'],1)#;spause();raw_enter()
+		#mi(Data_moment['projections2'],2);spause();time.sleep(0.3)
+	
+
 		Data_moment['left'] = {}
 		Data_moment['right'] = {}
-
 
 		if False: # for full zeroing of camera inputs
 			Data_moment['left'][0] = blank_camera
@@ -307,12 +311,14 @@ def get_Data_moment(_,dm=None,FLIP=None):
 			return Data_moment
 
 		else: # below is the normal case
-			if not FLIP:
+			if True:#not FLIP:
 				if il0+1 < len(F['left_image']['vals']) and ir0+1 < len(F['right_image']['vals']):
-					Data_moment['left'][0] = F['left_image']['vals'][il0]
-					Data_moment['right'][0] = F['right_image']['vals'][ir0]
-					Data_moment['left'][1] = F['left_image']['vals'][il0+1] # note, ONE frame
-					Data_moment['right'][1] = F['right_image']['vals'][ir0+1]
+					#mi(Data_moment['projections'],1);plt.title(shape(Data_moment['projections']))#;spause();raw_enter()
+					#mi(Data_moment['projections2'],2);plt.title(shape(Data_moment['projections2']));spause();time.sleep(0.3)
+					Data_moment['left'][0] = Data_moment['projections']
+					Data_moment['right'][0] = Data_moment['projections2']
+					Data_moment['left'][1] = 0*Data_moment['projections']
+					Data_moment['right'][1] = 0*Data_moment['projections2']
 				else:
 					spd2s('if il0+1 < len(F[left_image][vals]) and ir0+1 < len(F[right_image][vals]): NOT TRUE!')
 					return False
@@ -326,6 +332,13 @@ def get_Data_moment(_,dm=None,FLIP=None):
 					spd2s('if il0+1 < len(F[left_image_flip][vals]) and ir0+1 < len(F[right_image_flip][vals]): NOT TRUE!')
 
 					return False
+
+			#Data_moment['steer'] *= 0
+			Data_moment['steer'][:] = z2o_logtime
+			#cm(Data_moment['steer'][0])
+			#Data_moment['motor'] *= 0
+			#Data_moment['gyro_heading_x'] *= 0
+			#Data_moment['encoder_meo'] *= 0
 
 			return Data_moment
 

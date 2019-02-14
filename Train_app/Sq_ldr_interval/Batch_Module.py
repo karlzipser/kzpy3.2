@@ -171,7 +171,8 @@ def Batch(_,the_network=None):
 
 				
 				Data_moment = Data_Module.get_Data_moment(_,dm=dm,FLIP=FLIP)
-
+				#if type(Data_moment) == dict:
+				#	cy(Data_moment['steer'][0])
 				if Data_moment == False:
 					continue
 
@@ -248,7 +249,7 @@ def Batch(_,the_network=None):
 				if True:
 					for j in [0,2,1]:
 						img = D['zeros, metadata_size']
-						img[0,0,:,:] = Data_moment['projections'][:,:,j]
+						#img[0,0,:,:] = Data_moment['projections'][:,:,j]
 						img = torch.from_numpy(img)
 						img = img.cuda().float()/255.
 						cat_list.append(img)
@@ -340,13 +341,14 @@ def Batch(_,the_network=None):
 				###################################################################
 				#### TARGET DATA
 				sv = Data_moment['steer']
-				mv = Data_moment['motor']
-				hv = Data_moment['gyro_heading_x']
-				ev = Data_moment['encoder_meo']
+				mv = 0*Data_moment['motor']
+				hv = 0*Data_moment['gyro_heading_x']
+				ev = 0*Data_moment['encoder_meo']
 
 				rv = _['prediction_range']
 
 				sv = array(sv)[rv]
+				sv[1:] = 0
 				mv = array(mv)[rv]
 				hv = array(hv)[rv]
 				ev = array(ev)[rv]
@@ -357,7 +359,9 @@ def Batch(_,the_network=None):
 
 				hv = hv - hv[0]
 
-				steer = torch.from_numpy(sv).cuda().float() / 99.
+				
+				steer = torch.from_numpy(sv).cuda().float() #/ 99.
+
 				motor = torch.from_numpy(mv).cuda().float() / 99.
 				heading = (torch.from_numpy(hv).cuda().float()) / 90.0
 				encoder = (torch.from_numpy(ev).cuda().float()) / 5.0
@@ -400,7 +404,8 @@ def Batch(_,the_network=None):
 		True
 		#Trial_loss_record = D['network'][data_moment_loss_record]
 		D['network']['optimizer'].zero_grad()
-		D['outputs'] = D['network']['net'](torch.autograd.Variable(D['camera_data']), torch.autograd.Variable(D['metadata'])).cuda()
+		D['outputs'] = D['network']['net'](torch.autograd.Variable(D['camera_data'])).cuda()
+		#D['outputs'] = D['network']['net'](torch.autograd.Variable(D['camera_data']), torch.autograd.Variable(D['metadata'])).cuda()
 		D['loss'] = D['network']['criterion'](D['outputs'], torch.autograd.Variable(D['target_data']))
 
 
@@ -470,7 +475,7 @@ def Batch(_,the_network=None):
 				if _['verbose']: print(d2s(i,'camera_data min,max =',av.min(),av.max()))
 				
 				Net_activity = Activity_Module.Net_Activity('P',_,'batch_num',i, 'activiations',D['network']['net'].A)
-				Net_activity['view']('moment_index',i,'delay',33, 'scales',{'camera_input':0,'pre_metadata_features':0,'pre_metadata_features_metadata':1,'post_metadata_features':0})
+				Net_activity['view']('moment_index',i,'delay',33, 'scales',{'camera_input':1,'pre_metadata_features':1,'pre_metadata_features_metadata':1,'post_metadata_features':1})
 				bm = 'unknown behavioral_mode'
 				for j in range(len(_['behavioral_modes'])):
 					if mv[-(j+1),0,0]:
@@ -536,7 +541,7 @@ def Batch(_,the_network=None):
 			median_val = np.median(na(_['LOSS_LIST_AVG'][-u:]))
 			plt.title(d2s('1000*median =',dp(1000.0*median_val,3)))
 			plot([0,q],[median_val,median_val],'r')
-			plt.xlim(0,q);plt.ylim(0,0.03)
+			plt.xlim(0,q);plt.ylim(0,0.003)
 			spause()
 			_['loss_timer'].reset()
 

@@ -27,8 +27,8 @@ _['To Expose'] = {}
 _['verbose'] = False
 _['loss figure size'] = (3,16)
 _['figure size'] = (5,5)
-_['loss_timer_time'] = 1*minute
-_['print_timer_time'] = 15
+_['loss_timer_time'] = 5*minutes
+_['print_timer_time'] = 5*minutes
 _['menu_load_timer_time'] = 10
 _['spause_timer_time'] = 10
 _['percent_of_loss_list_avg_to_show'] = 100.0
@@ -66,7 +66,7 @@ if _['freeze premetadata weights']:
 
 _['updated'] = []
 _['DISPLAY_EACH'] = False
-_['RESUME'] = False
+_['RESUME'] = True
 _['BATCH_SIZE'] = 64
 _['REQUIRE_ONE'] = []
 _['save_net_timer'] = Timer(1000*hours) #i.e., not used now
@@ -101,9 +101,10 @@ _['GPU'] = 0
                                                         
 _['LIDAR_path'] = opjm('1_TB_Samsung_n1','_.Depth_images.log.resize.flip.left_ts')
 _['LIDAR_extension'] = ".Depth_image.log.resize.flip.with_left_ts.h5py"
-_['comparison losses'] = [lo(most_recent_file_in_folder(opjD('Networks/Sq40_initial_full_zeroing_and_projections_from_scratch/loss'),['.loss_avg.pkl'],[]))]
-_['comparison losses'] += [lo(most_recent_file_in_folder(opjD('Networks/net_24Dec2018_12imgs_projections/loss'),['.loss_avg.pkl'],[]))]
-_['comparison losses'] += [lo(most_recent_file_in_folder(opjD('Networks/Sq40_rb_zero_from_scratch/loss'),['.loss_avg.pkl'],[]))]
+_['comparison losses'] = []
+#_['comparison losses'] = [lo(most_recent_file_in_folder(opjD('Networks/Sq40_initial_full_zeroing_and_projections_from_scratch/loss'),['.loss_avg.pkl'],[]))]
+#_['comparison losses'] += [lo(most_recent_file_in_folder(opjD('Networks/net_24Dec2018_12imgs_projections/loss'),['.loss_avg.pkl'],[]))]
+#_['comparison losses'] += [lo(most_recent_file_in_folder(opjD('Networks/Sq40_rb_zero_from_scratch/loss'),['.loss_avg.pkl'],[]))]
 _['frequency_timer'] = Timer(0.5*minute)
 _['duration timer'] = Timer()
 _['TRAIN_TIME'] = 60*5.0
