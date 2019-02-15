@@ -31,6 +31,9 @@ def Batch(_,the_network=None):
 	_['metadata_constant_gradients'] = False
 	_['long_ctr'] = -1
 	_['LOSS_LIST'] = []
+	_['results'] = {}
+	_['results']['target'] = []
+	_['results']['output'] = []
 	if 'LOSS_LIST_AVG' not in _:
 		_['LOSS_LIST_AVG'] = []
 	_['reload_image_file_timer'].trigger()
@@ -445,6 +448,26 @@ def Batch(_,the_network=None):
 
 
 
+	def _function_accumlate_results():
+		if len(_['results']['target']) > 10000:#70000:
+			figure('results')
+			clf()
+			plot(_['results']['target'],_['results']['output'],'k,')
+			plt_square()
+			xylim(0,1,0,1)
+			spause()
+			_['results']['target'] = []
+			_['results']['output'] = []
+		for i in range(_['BATCH_SIZE']):
+			ov = D['outputs'][i].data.cpu().numpy()
+			tv = D['target_data'][i].cpu().numpy()
+			z1 = tv[0]
+			t = np.e**(z1*5-1.1)
+			z2 = ov[0]
+			o = np.e**(z2*5-1.1)
+			_['results']['target'].append(z1)
+			_['results']['output'].append(z2)
+		#print len(_['results']['target'])
 
 	def _function_display():
 		if not _['display']:
@@ -555,6 +578,9 @@ def Batch(_,the_network=None):
 		D['DISPLAY'] = _function_display_each
 	else:
 		D['DISPLAY'] = _function_display
+	D['ACCUMULATE_RESULTS'] = _function_accumlate_results
+
+
 	return D
 
 

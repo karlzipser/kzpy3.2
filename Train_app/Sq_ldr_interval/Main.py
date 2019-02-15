@@ -105,6 +105,8 @@ while _['ABORT'] == False:
 
     Batch['FORWARD']()
 
+    Batch['ACCUMULATE_RESULTS']()
+
     Batch['DISPLAY']()
 
     if False:
