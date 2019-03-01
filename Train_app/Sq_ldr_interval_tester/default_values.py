@@ -33,15 +33,10 @@ _['menu_load_timer_time'] = 10
 _['spause_timer_time'] = 10
 _['percent_of_loss_list_avg_to_show'] = 100.0
 _['cmd/clear_screen'] = False
-
-
-#_['parameter_file_menu_load_timer_time'] = minute
-
-
-	#raw_enter(d2n("_['prediction_range'] = ",_['prediction_range'],', len = ',len(_['prediction_range']),', okay? '))
-	# array([ 1, 10, 20, 30, 40, 50, 59, 69, 79, 89])
-	# len(a) = 10
-#_['gray_out_random_value'] = 0.0
+_['the run name'] = 'tegra-ubuntu_15Nov18_20h52m45s'#tegra-ubuntu_16Nov18_13h02m06s'
+_['LDR ref index'] = -1
+_['LDR index'] = 0
+_['LDR timer time'] = 10
 
 _['To Expose']['train menu'] = sorted(_.keys())
 to_hide = ['To Expose','customers']
@@ -63,6 +58,9 @@ if _['freeze premetadata weights']:
 	_['update premetadata weights from other model'] = most_recent_file_in_folder(opjD('Networks/net_24Dec2018_12imgs_projections/weights'),['.infer'],[])
 
 
+_['LDR timer'] = Timer(_['LDR timer time'])
+_['LDR values'] = []
+
 
 _['updated'] = []
 _['DISPLAY_EACH'] = False
@@ -78,7 +76,7 @@ _['start time numeric'] = time.time()
 _['max_num_runs_to_open'] = 1
 _['min_num_runs_to_open'] = 1
 _['run time before quitting'] = 60*minutes
-_['reload_image_file_timer_time'] =  30*minutes
+_['reload_image_file_timer_time'] =  3000*minutes
 _['experiments_folders'] = []
 _['trigger print timer?'] = True
 _['trigger loss_timer?'] = True

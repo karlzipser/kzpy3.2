@@ -57,10 +57,11 @@ def Batch(_,the_network=None):
 		shuffled_keys = _['run_name_to_run_path'].keys()
 		random.shuffle(shuffled_keys)
 
-
+		f = _['the run name']
+		assert f in _['run_name_to_run_path'].keys()
 		#for f in shuffled_keys[:_['max_num_runs_to_open']]:
 		if True:
-			f = sorted(_['run_name_to_run_path'])[0]#.keys()
+			#f = sorted(_['run_name_to_run_path'])[0]#.keys()
 			#if f not in GOOD_LIST:
 			#	#cr(f,"NOT LEAVING OUT THIS FILE")
 			#	continue
@@ -152,10 +153,7 @@ def Batch(_,the_network=None):
 
 
 
-	_['LDR ref index'] = 8000
-	_['LDR index'] = 5000
-	_['LDR values'] = []
-	_['LDR timer'] = Timer(1)
+
 
 	def _function_fill():
 
@@ -170,15 +168,23 @@ def Batch(_,the_network=None):
 			if True:#try:
 				if _['long_ctr'] == -1 or _['long_ctr'] >= len(_['data_moments_indexed_loaded']):
 					_['long_ctr'] = 0
-					random.shuffle(_['data_moments_indexed_loaded'])
-					cy('random.shuffle(_[data_moments_indexed_loaded])')
-				
+					#random.shuffle(_['data_moments_indexed_loaded'])
+					#cy('random.shuffle(_[data_moments_indexed_loaded])',ra=1)
+				if _['LDR ref index'] == -1:
+					_['LDR ref index'] = np.random.randint(4100,len(_['Loaded_image_files'][_['the run name']]['normal']['left_image']['vals']))
+					cg("_['LDR ref index'] =",_['LDR ref index'])
 				FLIP = False #:#random.choice([0,1])
 				dm = _['data_moments_indexed_loaded'][_['long_ctr']]; _['long_ctr'] += 1#; ctr += 1
 
 				dm['LDR ref index'] = _['LDR ref index']
 				dm['LDR index'] = _['LDR index']
 				_['LDR index'] += 1
+				#cg(type(_['Loaded_image_files'][_['the run name']]['normal']))
+				#cb(_['Loaded_image_files'][_['the run name']]['normal'].keys())
+				if _['LDR index'] >= len(_['Loaded_image_files'][_['the run name']]['normal']['left_image']['vals']):
+					_['ABORT'] = True
+					#cr('*** done ***')
+					#return
 
 				Data_moment = Data_Module.get_Data_moment(_,dm=dm,FLIP=FLIP)
 
@@ -420,7 +426,7 @@ def Batch(_,the_network=None):
 		D['loss'] = D['network']['criterion'](D['outputs'], torch.autograd.Variable(D['target_data']))
 		_['LDR values'].append(D['outputs'].data.cpu().numpy()[0][0])
 		if _['LDR timer'].check():
-			_['LDR timer'].reset()
+			_['LDR timer'] = Timer(_['LDR timer time'])
 			figure(99)
 			clf()
 			plot(_['LDR values'],'.')

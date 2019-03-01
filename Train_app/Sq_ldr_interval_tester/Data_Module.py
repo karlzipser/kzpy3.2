@@ -173,7 +173,7 @@ def indicies_offset():##############################3
 	#target = logtime
 	return intr(lintime*30.),max((logtime+1.1)/5.,0)
 
-timer = Timer(0.5)
+timer = Timer(5)
 def get_Data_moment(_,dm=None,FLIP=None):
 
 	try:
@@ -354,6 +354,7 @@ def get_Data_moment(_,dm=None,FLIP=None):
 	    file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
 	    CS_('Exception!',emphasis=True)
 	    CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+	    _['ABORT'] = True
 
 	return False
 

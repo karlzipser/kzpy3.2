@@ -131,7 +131,13 @@ while _['ABORT'] == False:
     menu_reminder.message(d2s("\n\nTo start menu:\n\tpython kzpy3/Menu_app/menu2.py path",_['project_path'],"dic P\n\n"))
 
 
+Q = {
+    'LDR values':_['LDR values'],
+    'the run name':_['the run name'],
+    'LDR ref index':_['LDR ref index'],
+    }
 
+so(opjD(_['the run name']+'__interval_tests__ref_index_'+str(_['LDR ref index'])),Q)
 
     
 
