@@ -173,6 +173,16 @@ def indicies_offset():##############################3
 	#target = logtime
 	return intr(lintime*30.),max((logtime+1.1)/5.,0)
 
+def net_val_to_lintime(net_val):
+	logtime = net_val*5.0-1.1
+	lintime = np.e**logtime -0.25
+	return lintime
+
+def linttime_to_net_val(lintime):
+	logtime = np.log(lintime+0.25)
+	net_val = max((logtime+1.1)/5.,0)
+	return net_val
+
 
 def get_Data_moment(_,dm=None,FLIP=None):
 

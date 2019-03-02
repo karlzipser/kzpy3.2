@@ -74,11 +74,11 @@ def Batch(_,the_network=None):
 					S = h5r(opjD('Data','Network_Predictions_projected',f+'.net_projections.h5py'))
 
 					_['Loaded_image_files'][f]['normal'] = O
-					_['Loaded_image_files'][f]['flip'] = F
+					#_['Loaded_image_files'][f]['flip'] = F
 					_['Loaded_image_files'][f]['left_timestamp_metadata'] = L
 					_['Loaded_image_files'][f]['projections'] = S
 					_['Loaded_image_files'][f]['normal projections'] = S['normal']
-					_['Loaded_image_files'][f]['flip projections'] = S['flip']
+					#_['Loaded_image_files'][f]['flip projections'] = S['flip']
 
 					if _['use_LIDAR']:
 						path = opj(_['LIDAR_path'],f+_['LIDAR_extension'])

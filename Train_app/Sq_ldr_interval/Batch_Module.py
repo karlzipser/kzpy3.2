@@ -447,11 +447,23 @@ def Batch(_,the_network=None):
 			#D['successes'] = 0			
 
 
+	def linttime_to_net_val(lintime):
+		"""
+		1s -> 0.265 net_val
+		"""
+		logtime = np.log(lintime+0.25)
+		net_val = max((logtime+1.1)/5.,0)
+		return net_val
 
 	def _function_accumlate_results():
+
 		if len(_['results']['target']) > 10000:#70000:
 			figure('results')
 			clf()
+			for i in range(30):
+				x = linttime_to_net_val(i)
+				plot([x,x],[0,1],'c-')
+			plot(_['results']['target'],_['results']['output'],'y.')
 			plot(_['results']['target'],_['results']['output'],'k,')
 			#plt_square()
 			xylim(0,1,0,1)

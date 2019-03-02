@@ -284,20 +284,7 @@ def get_Data_moment(_,dm=None,FLIP=None):
 				blank_meta[:,:,1] = S[indx][:,:,0]
 				blank_meta[:,:,2] = S[indx][:,:,2]
 				Data_moment[pro] = blank_meta
-			#Data_moment[pro] = cv2.resize(Data_moment[pro],(168,94))
-				
 
-			"""
-			if not FLIP:
-				Data_moment['projections'] = S[il0]
-			else:
-				blank_meta[:,:,0] = S[il0][:,:,1]
-				blank_meta[:,:,1] = S[il0][:,:,0]
-				blank_meta[:,:,2] = S[il0][:,:,2]
-				Data_moment['projections'] = blank_meta
-			"""
-		#mi(Data_moment['projections'],1)#;spause();raw_enter()
-		#mi(Data_moment['projections2'],2);spause();time.sleep(0.3)
 	
 
 		Data_moment['left'] = {}
@@ -366,30 +353,59 @@ if False:
 	O = h5r(O_path)
 	imgs = O['left_image']['vals']
 	files = sggo(opjD(rn+'*'))
-	for f in files:
-		values = lo(f)['LDR values']
-		s = []
-		indicies = []
-		threshold = 0.0
-		ctr = 0
-		while ctr < 81:
-			ctr = 0
-			threshold += 0.01
-			for i in rlen(values):
-				if values[i] < threshold:
-					ctr += 1
 
-		for i in rlen(values):
-			if values[i] < threshold:
-				indicies.append(i)
-				s.append(imgs[i,:,:,:])
-				#print i
-				#clf();mi(imgs[i,:,:,:],2);pause(0.1)
-		print ctr,threshold,len(values)
-		s = na(s)
-		v = vis_square2(z55(s))
-		mi(v);spause()
-		raw_enter()
+	min_index = 5500
+	cr('min_index =',min_index)
+	for f in files:
+
+		try:
+			all_values = lo(f)['LDR values']
+			values = []
+
+			while i < len(all_values):
+				indx = i
+				#print i,len(all_values)
+				max_val = all_values[i]
+				for j in range(60):
+					if i+j >= len(all_values):
+						break
+					if all_values[i+j] > max_val:
+						indx = i+j
+						max_val = all_values[i+j]
+				i += j
+				values.append((indx,max_val))
+			s = []
+			indicies = []
+			threshold = 0.0
+			ctr = 0
+			while (ctr < 81 and threshold < 0.5) or (ctr < 9 and threshold < 0.75):
+				ctr = 0
+				threshold += 0.01
+				for i in rlen(values):
+					val = values[i][1]
+					if val < threshold:
+						ctr += 1
+
+			for i in rlen(values):
+				idx = values[i][0]
+				val = values[i][1]
+				if val < threshold:
+					if idx > min_index:
+						indicies.append(idx)
+						s.append(imgs[idx,:,:,:])
+						#print i
+						#clf();mi(imgs[i,:,:,:],2);pause(0.1)
+			print ctr,threshold,len(values)
+			s = na(s)
+			v = vis_square2(z55(s))
+			mi(v);spause()
+			raw_enter()
+
+		except Exception as e:
+			exc_type, exc_obj, exc_tb = sys.exc_info()
+			file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+			CS_('Exception!',emphasis=True)
+			CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)	
 
 """
 a=[]
