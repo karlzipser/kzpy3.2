@@ -360,17 +360,19 @@ def get_Data_moment(_,dm=None,FLIP=None):
 
 
 if False:
-	O_path = opjD('Data/2_TB_Samsung_n3/rosbags__preprocessed_data/tu_15to16Nov2018/locations/local/left_direct_stop/h5py/tegra-ubuntu_15Nov18_20h52m45s/original_timestamp_data.h5py')
+	rn = 'tegra-ubuntu_15Nov18_20h52m45s'
+	rn = 'tegra-ubuntu_15Nov18_20h53m56s'
+	O_path = opjD('Data/2_TB_Samsung_n3/rosbags__preprocessed_data/tu_15to16Nov2018/locations/local/left_direct_stop/h5py/'+rn+'/original_timestamp_data.h5py')
 	O = h5r(O_path)
 	imgs = O['left_image']['vals']
-	files = sggo(opjD('tegra-ubuntu_15Nov*'))
+	files = sggo(opjD(rn+'*'))
 	for f in files:
 		values = lo(f)['LDR values']
 		s = []
 		indicies = []
 		threshold = 0.0
 		ctr = 0
-		while ctr < 25:
+		while ctr < 81:
 			ctr = 0
 			threshold += 0.01
 			for i in rlen(values):

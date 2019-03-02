@@ -79,58 +79,63 @@ del startup_timer
 menu_reminder = Timer(10*60)
 menu_reminder.trigger()
 timer = Timer(_['run time before quitting'])
+try:
+    while _['ABORT'] == False:
 
-while _['ABORT'] == False:
-
-    ##################################
-    #
-    load_parameters(_,customer='train menu')
-
-    for u in Timer_updates.keys():
-        if u in _['updated']:
-            _[Timer_updates[u]] = Timer(_[u])
-            _['updated'].remove(u)
-    #
-    ##################################
-
-    if timer.check():
-        cg("\n\nQuitting after runing for",timer.time(),"seconds.\n\n")
-        _['save_net_timer'].trigger()
-        Network['SAVE_NET']()
-        break
-
-    Batch['CLEAR']()
-
-    Batch['FILL']()
-
-    Batch['FORWARD']()
-
-    Batch['ACCUMULATE_RESULTS']()
-
-    Batch['DISPLAY']()
-
-    if False:
-        ###############################
+        ##################################
         #
-        import kzpy3.Cars.n26Dec18.nodes.network_utils.camera as camera
-        Q2 = camera.Quartet('camera from Quartet')
-        Q2['from_torch'](Network['net'].A['camera_input'])
-        Q2['display'](
-            delay_blank=1000,
-            delay_prev=1000,
-            delay_now=1000)    
+        load_parameters(_,customer='train menu')
+
+        for u in Timer_updates.keys():
+            if u in _['updated']:
+                _[Timer_updates[u]] = Timer(_[u])
+                _['updated'].remove(u)
         #
-        ###############################
+        ##################################
 
-    #Batch['BACKWARD']()
+        if timer.check():
+            cg("\n\nQuitting after runing for",timer.time(),"seconds.\n\n")
+            _['save_net_timer'].trigger()
+            Network['SAVE_NET']()
+            break
 
+        Batch['CLEAR']()
+
+        Batch['FILL']()
+
+        Batch['FORWARD']()
+
+        Batch['ACCUMULATE_RESULTS']()
+
+        Batch['DISPLAY']()
+
+        if False:
+            ###############################
+            #
+            import kzpy3.Cars.n26Dec18.nodes.network_utils.camera as camera
+            Q2 = camera.Quartet('camera from Quartet')
+            Q2['from_torch'](Network['net'].A['camera_input'])
+            Q2['display'](
+                delay_blank=1000,
+                delay_prev=1000,
+                delay_now=1000)    
+            #
+            ###############################
+
+        #Batch['BACKWARD']()
+
+except Exception as e:
+    exc_type, exc_obj, exc_tb = sys.exc_info()
+    file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+    CS_('Exception!',emphasis=True)
+    CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)    
     
 
 # Start training with 12 mini metadata images at 9am 12Dec2018
 
     menu_reminder.message(d2s("\n\nTo start menu:\n\tpython kzpy3/Menu_app/menu2.py path",_['project_path'],"dic P\n\n"))
 
-
+#cg('here',ra=True)
 Q = {
     'LDR values':_['LDR values'],
     'the run name':_['the run name'],
@@ -138,7 +143,7 @@ Q = {
     }
 
 so(opjD(_['the run name']+'__interval_tests__ref_index_'+str(_['LDR ref index'])),Q)
-
+#cb('here',ra=True)
     
 
 

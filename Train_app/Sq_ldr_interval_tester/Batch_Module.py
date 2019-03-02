@@ -171,7 +171,7 @@ def Batch(_,the_network=None):
 					#random.shuffle(_['data_moments_indexed_loaded'])
 					#cy('random.shuffle(_[data_moments_indexed_loaded])',ra=1)
 				if _['LDR ref index'] == -1:
-					_['LDR ref index'] = np.random.randint(4100,len(_['Loaded_image_files'][_['the run name']]['normal']['left_image']['vals']))
+					_['LDR ref index'] = np.random.randint(5000,len(_['Loaded_image_files'][_['the run name']]['normal']['left_image']['vals']))
 					cg("_['LDR ref index'] =",_['LDR ref index'])
 				FLIP = False #:#random.choice([0,1])
 				dm = _['data_moments_indexed_loaded'][_['long_ctr']]; _['long_ctr'] += 1#; ctr += 1
