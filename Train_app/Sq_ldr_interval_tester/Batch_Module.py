@@ -164,7 +164,7 @@ def Batch(_,the_network=None):
 
 		ctr = 0
 		_['current_batch'] = []
-		while ctr < D['batch_size']:
+		while ctr < D['batch_size'] and _['ABORT'] == False:
 			if True:#try:
 				if _['long_ctr'] == -1 or _['long_ctr'] >= len(_['data_moments_indexed_loaded']):
 					_['long_ctr'] = 0
@@ -418,7 +418,8 @@ def Batch(_,the_network=None):
 
 
 	def _function_forward():
-		True
+		if _['ABORT'] == True:
+			return
 		#Trial_loss_record = D['network'][data_moment_loss_record]
 		D['network']['optimizer'].zero_grad()
 		D['outputs'] = D['network']['net'](torch.autograd.Variable(D['camera_data'])).cuda()
@@ -434,6 +435,8 @@ def Batch(_,the_network=None):
 
 	na = np.array
 	def _function_backward():
+		if _['ABORT'] == True:
+			return
 		try:
 			D['tries'] += 1
 			D['loss'].backward()
