@@ -276,16 +276,14 @@ def get_Data_moment(_,dm=None,FLIP=None):
 		else:
 			return False
 
-		for pro,indx in [('projections',dm['LDR ref index']),('projections2',dm['LDR index'])]: ######################
-			if not FLIP:
-				Data_moment[pro] = S[indx] ###############
-			else:
-				blank_meta[:,:,0] = S[indx][:,:,1]
-				blank_meta[:,:,1] = S[indx][:,:,0]
-				blank_meta[:,:,2] = S[indx][:,:,2]
-				Data_moment[pro] = blank_meta
-
-	
+		#for pro,indx in [('projections',dm['LDR ref index']),('projections2',dm['LDR index'])]: ######################
+		#	Data_moment[pro] = S[indx] ###############
+		indx = dm['LDR index']
+		Data_moment['projections2'] = S[indx] ###############
+		Data_moment['projections'] = _['LDR ref image'] ###############
+		#figure(1);clf();mi(Data_moment['projections'],1)#;spause();raw_enter()
+		#figure(2);clf();mi(Data_moment['projections2'],2);spause()#;raw_enter()
+		
 
 		Data_moment['left'] = {}
 		Data_moment['right'] = {}
@@ -345,8 +343,6 @@ def get_Data_moment(_,dm=None,FLIP=None):
 
 	return False
 
-
-	
 
 
 

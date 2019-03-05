@@ -1,9 +1,14 @@
 from kzpy3.vis3 import *
 exec(identify_file_str)
 
+did_it = False
 def prepare_data_for_training(_):
+	global did_it
+	if did_it:
+		return
+	did_it = True
 	
-	full = False
+	full = True
 
 	_['experiments_folders'] = []
 
@@ -276,16 +281,28 @@ def get_Data_moment(_,dm=None,FLIP=None):
 		else:
 			return False
 
-		for pro,indx in [('projections',dm['LDR ref index']),('projections2',dm['LDR index'])]: ######################
-			if not FLIP:
-				Data_moment[pro] = S[indx] ###############
-			else:
-				blank_meta[:,:,0] = S[indx][:,:,1]
-				blank_meta[:,:,1] = S[indx][:,:,0]
-				blank_meta[:,:,2] = S[indx][:,:,2]
-				Data_moment[pro] = blank_meta
+		
 
-	
+
+
+
+		#for pro,indx in [('projections',dm['LDR ref index']),('projections2',dm['LDR index'])]: ######################
+		#	Data_moment[pro] = S[indx] ###############
+
+		
+		#Data_moment['projections2'] = S[dm['LDR index']]
+		#Data_moment['projections'] = _['LDR ref image']
+
+		
+		indx = dm['LDR index']
+		Data_moment['projections2'] = S[indx] ###############
+		Data_moment['projections'] = _['LDR ref image'] ###############
+
+		
+
+
+
+
 
 		Data_moment['left'] = {}
 		Data_moment['right'] = {}
@@ -296,6 +313,12 @@ def get_Data_moment(_,dm=None,FLIP=None):
 			Data_moment['left'][1] = blank_camera
 			Data_moment['right'][1] = blank_camera
 			return Data_moment
+
+
+
+
+
+
 
 		else: # below is the normal case
 			if True:#not FLIP:
@@ -344,11 +367,6 @@ def get_Data_moment(_,dm=None,FLIP=None):
 	    _['ABORT'] = True
 
 	return False
-
-
-	
-
-
 
 
 #EOF

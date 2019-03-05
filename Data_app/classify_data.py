@@ -1,4 +1,5 @@
 from kzpy3.vis3 import *
+exec(identify_file_str)
 
 """
 	%paste
@@ -8,7 +9,8 @@ from kzpy3.vis3 import *
 """
 
 def has_subdirectory(path):
-	assert os.path.isdir(path) == True
+	if not os.path.isdir(path) == True:
+		return False
 	in_dir = sggo(path,'*')
 	for f in in_dir:
 		if os.path.isdir(f):
@@ -82,7 +84,16 @@ def find_locations(path,L,verbose=True):
 
 
 
-
+def run_paths(locations,Runs):
+	for l in locations:
+		for local in sggo(l,'*'):
+			for b in sggo(local,'*'):
+				cg(b)
+				runs = sggo(b,'h5py','*')
+				for r in runs:
+					cr(r)
+					if is_preprocessed_run(r):
+						Runs[fname(r)] = r
 
 
 def classify_data(path,R):

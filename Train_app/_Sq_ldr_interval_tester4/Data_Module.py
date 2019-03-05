@@ -346,7 +346,82 @@ def get_Data_moment(_,dm=None,FLIP=None):
 	return False
 
 
-	
+if False:
+	rn = 'tegra-ubuntu_15Nov18_20h52m45s'
+	rn = 'tegra-ubuntu_15Nov18_20h53m56s'
+	O_path = opjD('Data/2_TB_Samsung_n3/rosbags__preprocessed_data/tu_15to16Nov2018/locations/local/left_direct_stop/h5py/'+rn+'/original_timestamp_data.h5py')
+	O = h5r(O_path)
+	imgs = O['left_image']['vals']
+	files = sggo(opjD(rn+'*'))
+
+	min_index = 5500
+	cr('min_index =',min_index)
+	for f in files:
+
+		try:
+			all_values = lo(f)['LDR values']
+			values = []
+
+			while i < len(all_values):
+				indx = i
+				#print i,len(all_values)
+				max_val = all_values[i]
+				for j in range(60):
+					if i+j >= len(all_values):
+						break
+					if all_values[i+j] > max_val:
+						indx = i+j
+						max_val = all_values[i+j]
+				i += j
+				values.append((indx,max_val))
+			s = []
+			indicies = []
+			threshold = 0.0
+			ctr = 0
+			while (ctr < 81 and threshold < 0.5) or (ctr < 9 and threshold < 0.75):
+				ctr = 0
+				threshold += 0.01
+				for i in rlen(values):
+					val = values[i][1]
+					if val < threshold:
+						ctr += 1
+
+			for i in rlen(values):
+				idx = values[i][0]
+				val = values[i][1]
+				if val < threshold:
+					if idx > min_index:
+						indicies.append(idx)
+						s.append(imgs[idx,:,:,:])
+						#print i
+						#clf();mi(imgs[i,:,:,:],2);pause(0.1)
+			print ctr,threshold,len(values)
+			s = na(s)
+			v = vis_square2(z55(s))
+			mi(v);spause()
+			raw_enter()
+
+		except Exception as e:
+			exc_type, exc_obj, exc_tb = sys.exc_info()
+			file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+			CS_('Exception!',emphasis=True)
+			CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)	
+
+"""
+a=[]
+b=[]
+for i in range(50000):
+	x,y = indicies_offset()
+	a.append(x)
+	b.append(y)
+figure(1)
+clf()
+hist(a,5000)
+figure(2)
+clf()
+hist(sorted(b),5000)
+"""
+# 17Dec2018 introducing projections into training, 12 Dec introduced small images.
 
 
 
