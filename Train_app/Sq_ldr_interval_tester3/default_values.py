@@ -37,7 +37,7 @@ _['the run name'] =  'tegra-ubuntu_15Nov18_20h52m45s'#'tegra-ubuntu_16Nov18_13h0
 _['LDR index'] = 0
 _['LDR timer time'] = 10
 _['the ref run name'] = 'tegra-ubuntu_15Nov18_20h53m56s'
-_['LDR ref index'] = 39689
+_['LDR ref index'] = 33117#28993#39689
 _['LDR ref image'] = None
 
 _['To Expose']['train menu'] = sorted(_.keys())

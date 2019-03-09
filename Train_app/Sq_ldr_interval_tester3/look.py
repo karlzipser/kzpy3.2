@@ -7,7 +7,7 @@ Runs = {}
 find_locations(opjD('Data'),locations,False)
 run_paths(locations,Runs)
 
-if True:
+if False:
     #rn = 'tegra-ubuntu_15Nov18_20h52m45s'
     rn = 'tegra-ubuntu_15Nov18_20h53m56s'
 
@@ -90,7 +90,7 @@ if True:
 
 
 
-if False:
+if True:
     #rn = 'tegra-ubuntu_15Nov18_20h52m45s'
     rn = 'tegra-ubuntu_15Nov18_20h53m56s'
     O_path = opjD('Data/2_TB_Samsung_n3/rosbags__preprocessed_data/tu_15to16Nov2018/locations/local/left_direct_stop/h5py/'+rn+'/original_timestamp_data.h5py')
@@ -117,7 +117,7 @@ if False:
             values = []
 
             while i < len(all_values):
-                indx = i
+                indx = 22042#i
                 #print i,len(all_values)
                 max_val = all_values[i]
                 for j in range(300):
