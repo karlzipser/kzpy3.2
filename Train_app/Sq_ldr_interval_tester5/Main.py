@@ -102,13 +102,14 @@ C = {
 cluster_list = [
     [C],
 ]
-
+count_timer = Timer(5)
+save_timer = Timer(60*10)
 
 while _['ABORT'] == False:
 
     other_name = a_key(Files)
     other_index = np.random.randint(len(Files[other_name]))
-    cb(other_index)
+    #cb(other_index)
     other_img = Files[other_name][other_index].copy()
     the_img = other_img
     blank_meta[:,:,0] = the_img[:,:,1]
@@ -117,13 +118,13 @@ while _['ABORT'] == False:
     other_img = the_img.copy()
 
     cluster_found = False
-
+    #cr(cluster_list,ra=1)
     for c in cluster_list:
         C = np.random.choice(c)
-        print C
+        
         ref_name = C['name']
         ref_index = C['index']
-        cg(ref_index)
+        #cg(ref_index)
         ref_img = Files[ref_name][ref_index].copy()
         the_img = ref_img
         blank_meta[:,:,0] = the_img[:,:,1]
@@ -160,52 +161,49 @@ while _['ABORT'] == False:
 
         value = Batch['FORWARD']()
         
-        if value < 0.3:
+        if value < 0.25:
             c.append({'name':other_name,'index':other_index})
             cluster_found = True
-
             mi(ref_img,'ref_run')
             mi(other_img,'other_run')
             spause()
-            print value,(ref_index,other_index,len(cluster_list))
-            
+            #print value,(ref_index,other_index,len(cluster_list))
             break
 
-        if cluster_found == False:
-            cluster_list.append([{'name':other_name,'index':other_index}])
+    if cluster_found == False:
+        cluster_list.append([{'name':other_name,'index':other_index}])
 
 
 
-        menu_reminder.message(d2s("\n\nTo start menu:\n\tpython kzpy3/Menu_app/menu2.py path",_['project_path'],"dic P\n\n"))
-        ##################################
-        #
-        load_parameters(_,customer='train menu')
+    menu_reminder.message(d2s("\n\nTo start menu:\n\tpython kzpy3/Menu_app/menu2.py path",_['project_path'],"dic P\n\n"))
+    ##################################
+    #
+    load_parameters(_,customer='train menu')
 
-        for u in Timer_updates.keys():
-            if u in _['updated']:
-                _[Timer_updates[u]] = Timer(_[u])
-                _['updated'].remove(u)
-        #
-        ##################################
+    for u in Timer_updates.keys():
+        if u in _['updated']:
+            _[Timer_updates[u]] = Timer(_[u])
+            _['updated'].remove(u)
+    #
+    ##################################
 
-
+    if count_timer.check():
+        count_timer.reset()
+        counts = []
+        total = 0
+        for c in cluster_list:
+            counts.append(len(c))
+            total += len(c)-1
+        cg(total/(1.0*len(cluster_list)))
+        figure('counts');clf();plot(counts,'.');spause()
     
-    
+    if save_timer.check():
+        save_timer.reset()
+        so(opjD('cluster_list'),cluster_list)
 
 # Start training with 12 mini metadata images at 9am 12Dec2018
 
-    
-#cg('here',ra=True)
-Q = {
-    'LDR values':_['LDR values'],
-    'the run name':_['the run name'],
-    'LDR ref index':_['LDR ref index'],
-    }
-
-so(opjD(_['the run name']+'__interval_tests__ref_index_'+str(_['LDR ref index'])),Q)
-#cb('here',ra=True)
-    
-
+ 
 
 
 #EOF
