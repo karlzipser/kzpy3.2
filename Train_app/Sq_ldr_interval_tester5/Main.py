@@ -161,7 +161,7 @@ while _['ABORT'] == False:
 
         value = Batch['FORWARD']()
         
-        if value < 0.25:
+        if value < 0.25 and (other_name != ref_name or np.abs(ref_index-other_index) > 30*60):
             c.append({'name':other_name,'index':other_index})
             cluster_found = True
             mi(ref_img,'ref_run')
@@ -194,7 +194,7 @@ while _['ABORT'] == False:
         for c in cluster_list:
             counts.append(len(c))
             total += len(c)-1
-        cg(total/(1.0*len(cluster_list)))
+        cg(total/(1.0*len(cluster_list)),ref_index-other_index)
         figure('counts');clf();plot(counts,'.');spause()
     
     if save_timer.check():
