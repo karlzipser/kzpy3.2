@@ -1,4 +1,4 @@
-from kzpy3.utils3 import *
+from kzpy3.vis3 import *
 import default_values
 import Batch_Module
 import Network_Module
@@ -79,9 +79,104 @@ del startup_timer
 menu_reminder = Timer(10*60)
 menu_reminder.trigger()
 timer = Timer(_['run time before quitting'])
-try:
-    while _['ABORT'] == False:
 
+files = sggo('/home/karlzipser/Desktop/Data/Network_Predictions_projected/*.net_projections.h5py')
+Files = {}
+for f in files:
+    name = fname(f).split('.')[0]
+    Files[name] = h5r(f)['normal']
+
+blank_meta = np.zeros((23,41,3),np.uint8)
+
+
+
+
+
+
+seed_name = a_key(Files)
+seed_index = np.random.randint(len(Files[seed_name]))
+C = {
+    'name':seed_name,
+    'index':seed_index,
+}
+cluster_list = [
+    [C],
+]
+
+
+while _['ABORT'] == False:
+
+    other_name = a_key(Files)
+    other_index = np.random.randint(len(Files[other_name]))
+    cb(other_index)
+    other_img = Files[other_name][other_index].copy()
+    the_img = other_img
+    blank_meta[:,:,0] = the_img[:,:,1]
+    blank_meta[:,:,1] = the_img[:,:,0]
+    blank_meta[:,:,2] = the_img[:,:,2]
+    other_img = the_img.copy()
+
+    cluster_found = False
+
+    for c in cluster_list:
+        C = np.random.choice(c)
+        print C
+        ref_name = C['name']
+        ref_index = C['index']
+        cg(ref_index)
+        ref_img = Files[ref_name][ref_index].copy()
+        the_img = ref_img
+        blank_meta[:,:,0] = the_img[:,:,1]
+        blank_meta[:,:,1] = the_img[:,:,0]
+        blank_meta[:,:,2] = the_img[:,:,2]
+        ref_img = the_img.copy()
+
+        """
+        for r in ['ref_run','other_run']:
+            the_run = a_key(Files)
+            the_run_len = len(Files[the_run])
+            the_index = np.random.randint(the_run_len)
+
+            the_img = Files[the_run][the_index]
+            blank_meta[:,:,0] = the_img[:,:,1]
+            blank_meta[:,:,1] = the_img[:,:,0]
+            blank_meta[:,:,2] = the_img[:,:,2]
+            _[r] = {}
+            _[r]['Imgs'] = blank_meta.copy()
+            _[r]['index'] = the_index
+            _[r]['name'] = the_run
+        """
+
+        Batch['CLEAR']()
+
+        Batch['FILL'](
+            ref_name,
+            ref_index,
+            ref_img,
+            other_name,
+            other_index,
+            other_img,       
+        )
+
+        value = Batch['FORWARD']()
+        
+        if value < 0.3:
+            c.append({'name':other_name,'index':other_index})
+            cluster_found = True
+
+            mi(ref_img,'ref_run')
+            mi(other_img,'other_run')
+            spause()
+            print value,(ref_index,other_index,len(cluster_list))
+            
+            break
+
+        if cluster_found == False:
+            cluster_list.append([{'name':other_name,'index':other_index}])
+
+
+
+        menu_reminder.message(d2s("\n\nTo start menu:\n\tpython kzpy3/Menu_app/menu2.py path",_['project_path'],"dic P\n\n"))
         ##################################
         #
         load_parameters(_,customer='train menu')
@@ -93,48 +188,13 @@ try:
         #
         ##################################
 
-        if timer.check():
-            cg("\n\nQuitting after runing for",timer.time(),"seconds.\n\n")
-            _['save_net_timer'].trigger()
-            Network['SAVE_NET']()
-            break
 
-        Batch['CLEAR']()
-
-        Batch['FILL']()
-
-        Batch['FORWARD']()
-
-        Batch['ACCUMULATE_RESULTS']()
-
-        Batch['DISPLAY']()
-
-        if False:
-            ###############################
-            #
-            import kzpy3.Cars.n26Dec18.nodes.network_utils.camera as camera
-            Q2 = camera.Quartet('camera from Quartet')
-            Q2['from_torch'](Network['net'].A['camera_input'])
-            Q2['display'](
-                delay_blank=1000,
-                delay_prev=1000,
-                delay_now=1000)    
-            #
-            ###############################
-
-        #Batch['BACKWARD']()
-
-except Exception as e:
-    exc_type, exc_obj, exc_tb = sys.exc_info()
-    file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-    CS_('Exception!',emphasis=True)
-    CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)    
+    
     
 
 # Start training with 12 mini metadata images at 9am 12Dec2018
 
-    menu_reminder.message(d2s("\n\nTo start menu:\n\tpython kzpy3/Menu_app/menu2.py path",_['project_path'],"dic P\n\n"))
-
+    
 #cg('here',ra=True)
 Q = {
     'LDR values':_['LDR values'],

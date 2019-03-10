@@ -117,7 +117,7 @@ if True:
             values = []
 
             while i < len(all_values):
-                indx = 22042#i
+                indx = i
                 #print i,len(all_values)
                 max_val = all_values[i]
                 for j in range(300):

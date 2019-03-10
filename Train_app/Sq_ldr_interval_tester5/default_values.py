@@ -36,7 +36,7 @@ _['cmd/clear_screen'] = False
 _['the run name'] =  'tegra-ubuntu_15Nov18_20h53m56s'  #'tegra-ubuntu_15Nov18_20h52m45s'#tegra-ubuntu_16Nov18_13h02m06s'
 _['LDR ref index'] = -1
 _['LDR index'] = 0
-_['LDR timer time'] = 10
+_['LDR timer time'] = 1*minutes
 
 _['To Expose']['train menu'] = sorted(_.keys())
 to_hide = ['To Expose','customers']
