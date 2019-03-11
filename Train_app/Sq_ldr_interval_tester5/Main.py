@@ -92,16 +92,19 @@ blank_meta = np.zeros((23,41,3),np.uint8)
 
 
 
+if 'cluster_list' not in Arguments:
+    seed_name = a_key(Files)
+    seed_index = np.random.randint(len(Files[seed_name]))
+    C = {
+        'name':seed_name,
+        'index':seed_index,
+    }
+    cluster_list = [
+        [C],
+    ]
+else:
+    cluster_list = lo(Arguments['cluster_list'])
 
-seed_name = a_key(Files)
-seed_index = np.random.randint(len(Files[seed_name]))
-C = {
-    'name':seed_name,
-    'index':seed_index,
-}
-cluster_list = [
-    [C],
-]
 count_timer = Timer(5)
 save_timer = Timer(60*10)
 
@@ -132,21 +135,7 @@ while _['ABORT'] == False:
         blank_meta[:,:,2] = the_img[:,:,2]
         ref_img = the_img.copy()
 
-        """
-        for r in ['ref_run','other_run']:
-            the_run = a_key(Files)
-            the_run_len = len(Files[the_run])
-            the_index = np.random.randint(the_run_len)
 
-            the_img = Files[the_run][the_index]
-            blank_meta[:,:,0] = the_img[:,:,1]
-            blank_meta[:,:,1] = the_img[:,:,0]
-            blank_meta[:,:,2] = the_img[:,:,2]
-            _[r] = {}
-            _[r]['Imgs'] = blank_meta.copy()
-            _[r]['index'] = the_index
-            _[r]['name'] = the_run
-        """
 
         Batch['CLEAR']()
 
@@ -167,7 +156,7 @@ while _['ABORT'] == False:
             mi(ref_img,'ref_run')
             mi(other_img,'other_run')
             spause()
-            #print value,(ref_index,other_index,len(cluster_list))
+            cg(ref_index-other_index)
             break
 
     if cluster_found == False:
@@ -194,7 +183,7 @@ while _['ABORT'] == False:
         for c in cluster_list:
             counts.append(len(c))
             total += len(c)-1
-        cg(total/(1.0*len(cluster_list)),ref_index-other_index)
+        cb(total/(1.0*len(cluster_list)),total)
         figure('counts');clf();plot(counts,'.');spause()
     
     if save_timer.check():
