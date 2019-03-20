@@ -92,18 +92,7 @@ blank_meta = np.zeros((23,41,3),np.uint8)
 
 
 
-if 'cluster_list' not in Arguments:
-    seed_name = a_key(Files)
-    seed_index = np.random.randint(len(Files[seed_name]))
-    C = {
-        'name':seed_name,
-        'index':seed_index,
-    }
-    cluster_list = [
-        [C],
-    ]
-else:
-    cluster_list = lo(Arguments['cluster_list'])
+cluster_list = lo(Arguments['cluster_list'])
 
 
 if 'prune' in Arguments:
@@ -114,81 +103,80 @@ if 'prune' in Arguments:
     cluster_list = cl
 
 count_timer = Timer(30)
-save_timer = Timer(60*10)
+save_timer = Timer(60*1)
 
+
+
+affinity = zeros((1024,1024))
+
+i_time = Timer()
 while _['ABORT'] == False:
 
     other_name = a_key(Files)
     other_index = np.random.randint(len(Files[other_name]))
-    #cb(other_index)
+
     other_img = Files[other_name][other_index].copy()
     the_img = other_img
-    blank_meta[:,:,0] = the_img[:,:,1]
-    blank_meta[:,:,1] = the_img[:,:,0]
-    blank_meta[:,:,2] = the_img[:,:,2]
+
     other_img = the_img.copy()
 
     cluster_found = False
-    #cr(cluster_list,ra=1)
-    #np.random.shuffle(cluster_list)
-    indicies = range(len(cluster_list))
-    np.random.shuffle(indicies)
-    for i in indicies:
+
+    
+
+    for i in range(len(cluster_list)):
+
+        cg(i,int(i_time.time()),'s')
+
         c = cluster_list[i]
-        C = np.random.choice(c)
         C = c[0]
         ref_name = C['name']
         ref_index = C['index']
-        #cg(ref_index)
         ref_img = Files[ref_name][ref_index].copy()
         the_img = ref_img
-        blank_meta[:,:,0] = the_img[:,:,1]
-        blank_meta[:,:,1] = the_img[:,:,0]
-        blank_meta[:,:,2] = the_img[:,:,2]
+
         ref_img = the_img.copy()
 
+        for j in range(len(cluster_list)):
+            #cb(i,j)
+            #cr(A)
+            #if j in A[i]:
+            #    cm(0)
+            #    continue
+            #if j in A:
+            #    if i in A[j]:
+            #        cm(1)
+            #        continue
 
+            _c = cluster_list[j]
+            _C = _c[0]
+            _ref_name = _C['name']
+            _ref_index = _C['index']
+            _ref_img = Files[_ref_name][_ref_index].copy()
+            _the_img = _ref_img
+            _ref_img = _the_img.copy()
+            Batch['CLEAR']()
 
-        Batch['CLEAR']()
+            Batch['FILL'](
+                ref_name,
+                ref_index,
+                ref_img,
+                _ref_name,
+                _ref_index,
+                _ref_img,       
+            )
 
-        Batch['FILL'](
-            ref_name,
-            ref_index,
-            ref_img,
-            other_name,
-            other_index,
-            other_img,       
-        )
+            value = Batch['FORWARD']()
 
-        value = Batch['FORWARD']()
-        
-        if value < 0.133 and (other_name != ref_name or np.abs(ref_index-other_index) > 30*60):
-            c.append({'name':other_name,'index':other_index})
-            cluster_found = True
-            mi(ref_img,'ref_run')
-            mi(other_img,'other_run')
-            spause()
-            #cg(ref_index-other_index)
-            break
+            affinity[i][j] = value
+            #if i != j:
+            #    affinity[j][i] = value
 
-    if len(cluster_list) < 1024:
-        if cluster_found == False:
-            cluster_list.append([{'name':other_name,'index':other_index}])
+        if save_timer.check():
+            save_timer.reset()
+            so(opjD('affinity'),affinity)
 
-
-
-    menu_reminder.message(d2s("\n\nTo start menu:\n\tpython kzpy3/Menu_app/menu2.py path",_['project_path'],"dic P\n\n"))
-    ##################################
-    #
-    load_parameters(_,customer='train menu')
-
-    for u in Timer_updates.keys():
-        if u in _['updated']:
-            _[Timer_updates[u]] = Timer(_[u])
-            _['updated'].remove(u)
-    #
-    ##################################
-
+    """
     if count_timer.check():
         count_timer.reset()
         counts = []
@@ -198,10 +186,8 @@ while _['ABORT'] == False:
             total += len(c)-1
         cb(total/(1.0*len(cluster_list)),total)
         figure('counts');clf();plot(counts,'.');spause()
-    
-    if save_timer.check():
-        save_timer.reset()
-        so(opjD('cluster_list'),cluster_list)
+    """
+
 
 # Start training with 12 mini metadata images at 9am 12Dec2018
 

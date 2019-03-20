@@ -90,7 +90,7 @@ def Batch(_,the_network=None):
 		D['camera_data'] = torch.cat((torch.unsqueeze(camera_data, 0), D['camera_data']), 0)
 
 
-
+		_['frequency_timer'].freq(d2s('train duration =',int(_['duration timer'].time()),"\t"))
 	
 
 
