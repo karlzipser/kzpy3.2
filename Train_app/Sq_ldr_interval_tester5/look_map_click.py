@@ -7,7 +7,7 @@ exec(identify_file_str)
 if 'm' not in locals():
     m = lo(opjD('m'))
 
-Arguments['cluster_list'] = opjD('cluster_list.pkl')
+Arguments['cluster_list'] = opjD('cluster_list_166.pkl')
 cluster_list = lo(Arguments['cluster_list'])
 
 files = sggo('/home/karlzipser/Desktop/Data/Network_Predictions_projected/*.net_projections.h5py')
@@ -44,6 +44,11 @@ for x in range(32):
                 traj_img /=4
                 traj_img += 64
                 break
+        if m[x,y] < 0:
+            traj_img *= 0
+        if False:
+            if len(cluster_list[m[x,y]])>4:
+                traj_img *= 0
         t.append(traj_img)
 
 t = na(t)
@@ -55,10 +60,25 @@ mi(w,'rgb');spause()
 k = 'rgb3'
 #k = 'flat2'
 k = 'ignore3'
+k = 'rgb separate'
+k = 'rgb separate 2'
+k = 'strong edge'
+k = 'rgb separate 3'
+k = 'rgb blurry'
+k = 'strong edge 2'
+k = 'rgb blurry 2'
+k = 'strong edge 3'
+k = 'soft edge'
+k = 'pointy corner'
+k = 'center yellow'
+k = 'rgb blurry 3'
+k = 'rgb blurry 4'
+k = 'other'
 
 if k not in Clusters:
     Clusters[k] = []
 while True:
+    cg('topic is',"\""+k+"\"")
     xy_list = Cdat['CLICK'](NUM_PTS=1)
     mx = int(xy_list[0][0]/43)
     my = int(xy_list[0][1]/25)
@@ -66,6 +86,43 @@ while True:
     cg(mx,my,idnum)
     Clusters[k].append(idnum)
     pts_plot(na(xy_list),'w')
+
+
+if False:
+    Cluster_directional2 = {}
+
+    Cluster_directional2['rgb separate'] = \
+        Clusters['rgb separate'] + \
+        Clusters['rgb separate 2'] + \
+        Clusters['rgb separate 3']
+
+    Cluster_directional2['rgb blurry'] = \
+        Clusters['rgb blurry'] + \
+        Clusters['rgb blurry 2'] + \
+        Clusters['rgb blurry 3'] + \
+        Clusters['rgb blurry 4']
+
+    Cluster_directional2['strong edge'] = \
+        Clusters['strong edge'] + \
+        Clusters['strong edge 2'] + \
+        Clusters['strong edge 3']
+
+    Cluster_directional2['pointy corner'] = \
+        Clusters['pointy corner']
+
+    Cluster_directional2['center yellow'] = \
+        Clusters['center yellow']
+
+    Cluster_directional2['soft edge'] = \
+        Clusters['soft edge']
+
+    Cluster_directional2['strong edge'] = \
+        Clusters['strong edge']
+
+    Cluster_directional2['other'] = \
+        Clusters['other']
+
+    so(opjD('Clusters_directional2'),Cluster_directional2)
 
 
 

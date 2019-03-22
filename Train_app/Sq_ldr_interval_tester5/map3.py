@@ -88,6 +88,8 @@ def probe_affinity(m):
     for x in range(31):
         for y in range(31):
             m0 = m[x,y]
+            if m0 < 0:
+                continue
             m1 = m[x+1,y]
             a += affinity[m0,m1]
             ctr += 1.0
@@ -99,7 +101,7 @@ def probe_affinity(m):
 
 
 m_best = m.copy()
-gtimer = Timer(5)
+gtimer = Timer(1)
 save_timer = Timer(60*10)
 for i in range(10000000):#000):
     if False:#save_timer.check():
