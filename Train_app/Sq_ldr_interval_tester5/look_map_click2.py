@@ -4,7 +4,7 @@ from kzpy3.Data_app.classify_data import find_locations,run_paths
 exec(identify_file_str)
 
 CA()
-fig = figure('rgb',figsize=(28,20))
+fig = figure('rgb',figsize=(30,20))
 Cdat = Click_Data(FIG=fig)
 
 if 'm' not in locals():
@@ -133,7 +133,17 @@ if False:
 
     so(opjD('Clusters_directional2'),Cluster_directional2)
 
+    sparse += do_it('sparse',hide=mini_base+half_base+broad_base+two_3rds_base,grey=sparse)
+    half_base += do_it('half_base',hide=sparse+mini_base+broad_base+two_3rds_base,grey=half_base)
+    broad_base += do_it('broad_base',hide=mini_base+sparse+half_base+two_3rds_base,grey=broad_base)
+    two_3rds_base += do_it('two_3rds_base',hide=sparse+mini_base+half_base+broad_base,grey=two_3rds_base)
+    mini_base += do_it('mini_base',hide=sparse+half_base+broad_base+two_3rds_base,grey=mini_base)
 
+    so(opjD('sparse'),sparse)
+    so(opjD('half_base'),half_base)
+    so(opjD('broad_base'),broad_base)
+    so(opjD('two_3rds_base'),two_3rds_base)
+    so(opjD('mini_base'),mini_base)
 
 
 #EOF
