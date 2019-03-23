@@ -3,6 +3,9 @@ exec(identify_file_str)
 from kzpy3.Data_app.classify_data import find_locations,run_paths
 exec(identify_file_str)
 
+CA()
+fig = figure('rgb',figsize=(28,20))
+Cdat = Click_Data(FIG=fig)
 
 if 'm' not in locals():
     m = lo(opjD('m'))
@@ -17,80 +20,81 @@ for f in files:
     Files[name] = h5r(f)['normal']
 
 
-CA()
-fig = figure('rgb')
-Cdat = Click_Data(FIG=fig)
-xy_list = Cdat['CLICK'](NUM_PTS=1)
-pts_plot(na(xy_list),'r')
 
 
-t = []
-#mm = m.flatten()
 
-if 'Clusters' not in locals():
-    Clusters = {}
+def do_it(topic,hide=[],grey=[]):
 
-for x in range(32):
-    for y in range(32):
+    t = []
+    
+    data_list = []
 
-        C = cluster_list[m[x,y]][0]
-        other_name = C['name']
-        other_index = C['index']
+    for x in range(32):
+        for y in range(32):
 
-        traj_img = Files[other_name][other_index].copy()
-        
-        for k in Clusters.keys():
-            if m[x,y] in Clusters[k]:
+            C = cluster_list[m[x,y]][0]
+            other_name = C['name']
+            other_index = C['index']
+
+            traj_img = Files[other_name][other_index].copy()
+            
+            if m[x,y] in grey:
                 traj_img /=4
                 traj_img += 64
-                break
-        if m[x,y] < 0:
-            traj_img *= 0
-        if False:
-            if len(cluster_list[m[x,y]])>4:
+                
+            if m[x,y] in hide:
                 traj_img *= 0
-        t.append(traj_img)
+
+            if m[x,y] < 0:
+                traj_img *= 0
+
+            if False:
+                if len(cluster_list[m[x,y]])>4:
+                    traj_img *= 0
+
+            t.append(traj_img)
+
+    t = na(t)
+
+    w = vis_square2(z55(t),2,127)
+
+    mi(w,'rgb');spause()
+
+    k = 'new'
+    if k not in Clusters:
+        Clusters[k] = []
+
+    while True:
+        cg('topic is',"\""+k+"\"")
+        xy_list = Cdat['CLICK'](NUM_PTS=1)
+        if xy_list == [[None,None]]:
+            cr("exiting do_it()")
+            break
+        mx = int(xy_list[0][0]/43)
+        my = int(xy_list[0][1]/25)
+        idnum = m[my,mx]
+
+        cg(mx,my,idnum)
+        data_list.append(idnum)
+        pts_plot(na(xy_list),'w')
+
+    try:
+        saved_log = loD('saved_log')
+    except:
+        saved_log = []
+
+    saved_log.append([topic,dl,time.time()])
+
+    so(opjD('saved_log'),saved_log)
+
+    return data_list
+
+#do_it()
 
 
-t = na(t)
 
-w = vis_square2(z55(t),2,127)
-#print cluster
-mi(w,'rgb');spause()
 
-k = 'rgb3'
-#k = 'flat2'
-k = 'ignore3'
-k = 'rgb separate'
-k = 'rgb separate 2'
-k = 'strong edge'
-k = 'rgb separate 3'
-k = 'rgb blurry'
-k = 'strong edge 2'
-k = 'rgb blurry 2'
-k = 'strong edge 3'
-k = 'soft edge'
-k = 'pointy corner'
-k = 'center yellow'
-k = 'rgb blurry 3'
-k = 'rgb blurry 4'
-k = 'other'
 
-if k not in Clusters:
-    Clusters[k] = []
-while True:
-    cg('topic is',"\""+k+"\"")
-    xy_list = Cdat['CLICK'](NUM_PTS=1)
-    mx = int(xy_list[0][0]/43)
-    my = int(xy_list[0][1]/25)
-    idnum = m[my,mx]
-    if False:#idnum in [961,258]:
-        k = 'other'
-        cr("Changing topic!")
-        break
-    cg(mx,my,idnum)
-    Clusters[k].append(idnum)
-    pts_plot(na(xy_list),'w')
 
 
 if False:

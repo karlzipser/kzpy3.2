@@ -437,7 +437,12 @@ def load_obj(name,noisy=True):
 			print(d2s('. . . loaded in',dp(timer.time()),'seconds.\r')),
 			#sys.stdout.flush()
 		return o
+		
 lo = load_obj
+
+def loD(name,noisy=True):
+	return load_obj(opjD(name),noisy)
+
 def so(arg1,arg2,noisy=True):
 	try:
 		if type(arg1) == str and type(arg2) != str:
