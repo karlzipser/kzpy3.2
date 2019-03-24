@@ -145,5 +145,12 @@ if False:
     so(opjD('two_3rds_base'),two_3rds_base)
     so(opjD('mini_base'),mini_base)
 
+if False:
+    c=loD('cluster_list_166')
+    clens = []
+    for d in c:
+        clens.append(len(d))
+    hist(clens)
+
 
 #EOF
