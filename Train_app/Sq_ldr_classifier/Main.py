@@ -1,4 +1,4 @@
-from kzpy3.vis3 import *
+from kzpy3.utils3 import *
 import default_values
 import Batch_Module
 import Network_Module
@@ -80,118 +80,63 @@ menu_reminder = Timer(10*60)
 menu_reminder.trigger()
 timer = Timer(_['run time before quitting'])
 
-files = sggo('/home/karlzipser/Desktop/Data/Network_Predictions_projected/*.net_projections.h5py')
-Files = {}
-for f in files:
-    name = fname(f).split('.')[0]
-    Files[name] = h5r(f)['normal']
-
-blank_meta = np.zeros((23,41,3),np.uint8)
-
-
-
-
-
-cluster_list = lo(Arguments['cluster_list'])
-
-
-if 'prune' in Arguments:
-    cl = []
-    for c in cluster_list:
-        if len(c) > Arguments['prune']:
-            cl.append(c)
-    cluster_list = cl
-
-count_timer = Timer(30)
-save_timer = Timer(60*1)
-
-
-
-affinity = zeros((1024,1024))
-
-i_time = Timer()
 while _['ABORT'] == False:
 
-    other_name = a_key(Files)
-    other_index = np.random.randint(len(Files[other_name]))
+    ##################################
+    #
+    load_parameters(_,customer='train menu')
 
-    other_img = Files[other_name][other_index].copy()
-    the_img = other_img
+    for u in Timer_updates.keys():
+        if u in _['updated']:
+            _[Timer_updates[u]] = Timer(_[u])
+            _['updated'].remove(u)
+    #
+    ##################################
 
-    other_img = the_img.copy()
+    if timer.check():
+        cg("\n\nQuitting after runing for",timer.time(),"seconds.\n\n")
+        _['save_net_timer'].trigger()
+        Network['SAVE_NET']()
+        break
 
-    cluster_found = False
+
+
+    Batch['CLEAR']()
+
+    Batch['FILL']()
+
+    Batch['FORWARD']()
+
+    #Batch['ACCUMULATE_RESULTS']()
+
+    Batch['DISPLAY']()
+
+    if False:
+        ###############################
+        #
+        import kzpy3.Cars.n26Dec18.nodes.network_utils.camera as camera
+        Q2 = camera.Quartet('camera from Quartet')
+        Q2['from_torch'](Network['net'].A['camera_input'])
+        Q2['display'](
+            delay_blank=1000,
+            delay_prev=1000,
+            delay_now=1000)    
+        #
+        ###############################
+
+    Batch['BACKWARD']()
 
     
 
-    for i in range(len(cluster_list)):
-
-        cg(i,int(i_time.time()),'s')
-
-        c = cluster_list[i]
-        C = c[0]
-        ref_name = C['name']
-        ref_index = C['index']
-        ref_img = Files[ref_name][ref_index].copy()
-        the_img = ref_img
-
-        ref_img = the_img.copy()
-
-        for j in range(len(cluster_list)):
-            #cb(i,j)
-            #cr(A)
-            #if j in A[i]:
-            #    cm(0)
-            #    continue
-            #if j in A:
-            #    if i in A[j]:
-            #        cm(1)
-            #        continue
-
-            _c = cluster_list[j]
-            _C = _c[0]
-            _ref_name = _C['name']
-            _ref_index = _C['index']
-            _ref_img = Files[_ref_name][_ref_index].copy()
-            _the_img = _ref_img
-            _ref_img = _the_img.copy()
-            Batch['CLEAR']()
-
-            Batch['FILL'](
-                ref_name,
-                ref_index,
-                ref_img,
-                _ref_name,
-                _ref_index,
-                _ref_img,       
-            )
-
-            value = Batch['FORWARD']()
-
-            affinity[i][j] = value
-            #if i != j:
-            #    affinity[j][i] = value
-
-        if save_timer.check():
-            save_timer.reset()
-            so(opjD('affinity'),affinity)
-
-    """
-    if count_timer.check():
-        count_timer.reset()
-        counts = []
-        total = 0
-        for c in cluster_list:
-            counts.append(len(c))
-            total += len(c)-1
-        cb(total/(1.0*len(cluster_list)),total)
-        figure('counts');clf();plot(counts,'.');spause()
-    """
-
-
 # Start training with 12 mini metadata images at 9am 12Dec2018
 
- 
+    menu_reminder.message(d2s("\n\nTo start menu:\n\tpython kzpy3/Menu_app/menu2.py path",_['project_path'],"dic P\n\n"))
+
+
+
+
+    
+
 
 
 #EOF

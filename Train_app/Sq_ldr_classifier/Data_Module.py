@@ -3,7 +3,7 @@ exec(identify_file_str)
 
 def prepare_data_for_training(_):
 	
-	full = False
+	full = True
 
 	_['experiments_folders'] = []
 
@@ -159,7 +159,7 @@ def prepare_data_for_training(_):
 		for r in temp:
 			run_name = r.split('.')[0]
 			_['net_projection_runs'].append(fname(run_name))
-
+	print("done setting up.")
 
 
 blank_meta = np.zeros((23,41,3),np.uint8)
@@ -173,10 +173,90 @@ def indicies_offset():##############################3
 	#target = logtime
 	return intr(lintime*30.),max((logtime+1.1)/5.,0)
 
-timer = Timer(5)
+def net_val_to_lintime(net_val):
+	logtime = net_val*5.0-1.1
+	lintime = np.e**logtime -0.25
+	return lintime
+
+def linttime_to_net_val(lintime):
+	logtime = np.log(lintime+0.25)
+	net_val = max((logtime+1.1)/5.,0)
+	return net_val
+
+
+
+
+H_dic = loD("H_dic")
+cluster_list = loD('cluster_list_25_1st_pass.pkl')
+Index_to_clusters = {}
+indicies = range(1024)#list(set(range(1024))-set(H_dic['sparse']))
+for i in indicies:
+	Index_to_clusters[i] = []
+for h in H_dic.keys():
+	if h == 'all_1024':
+		continue
+	if 'top_' in h:
+		continue
+	for j in H_dic[h]:
+		Index_to_clusters[j].append(h)
+for k in Index_to_clusters.keys():
+	if 'sparse' in Index_to_clusters[k]:
+		del Index_to_clusters[k]
+if False:
+	q = []
+	for k in Index_to_clusters.keys():
+		q.append( len(set(Index_to_clusters[k])))
+		if len(Index_to_clusters[k]) > 4:
+			print Index_to_clusters[k]
+	hist(q)
+
+Category_numbers = {
+	'broad_base':0,
+	'half_base':1,
+	'mini_base':2,
+	'two_3rds_base':3,
+
+	'mixed':4,
+	'nearly_separate':5,
+	'separate':6,
+
+	'flat_top':7,
+	'notched_top':8,
+	'pointy_top':9,
+	'round_top':10,
+	'separated_top':11,
+
+	'base_1':12,
+	'base_2':13,
+	'base_3':14,
+	'base_4':15,
+	'base_5':16,
+}
+
+category_number_zeros = zeros(len(Category_numbers))
+
+
+def adsfds(cluster_list,Index_to_clusters):
+	i = a_key(Index_to_clusters)
+	C = np.random.choice(cluster_list[i])
+	r_name = C['name']
+	c_index = C['index']
+	categories = Index_to_clusters[i]
+	category_numbers = category_number_zeros * 0
+	for c in categories:
+		category_numbers[Category_numbers[c]] = 1
+	return r_name,c_index,category_numbers
+
+if False:
+	r_name,c_index,category_numbers = adsfds(cluster_list,Index_to_clusters)
+
+
+
 def get_Data_moment(_,dm=None,FLIP=None):
 
-	try:
+	r_name,c_index,category_numbers = adsfds(cluster_list,Index_to_clusters)
+
+	if True:#try:
 		if dm['run_name'] in _['lacking runs']:
 			return False
 		Data_moment = {}
@@ -228,7 +308,7 @@ def get_Data_moment(_,dm=None,FLIP=None):
 		Data_moment['steer'][Data_moment['steer']>99] = 99
 
 		Data_moment['labels'] = {}
-		Data_moment['name'] = dm['run_name']
+		Data_moment['name'] = r_name # dm['run_name'] # 1 ############################################
 		
 		if _['use_LIDAR']:
 			if 'depth' not in _['Loaded_image_files'][Data_moment['name']]:
@@ -248,10 +328,15 @@ def get_Data_moment(_,dm=None,FLIP=None):
 
 
 
-		tl0 = dm['left_ts_index'][0]; il0 = dm['left_ts_index'][1]
+		tl0 = dm['left_ts_index'][0]; il0 = dm['left_ts_index'][1] # 2 ############################################
 		tr0 = dm['right_ts_index'][0]; ir0 = dm['right_ts_index'][1]
 
+		if Data_moment['name'] not in _['Loaded_image_files']:
+			cr(Data_moment['name'],"not in _['Loaded_image_files']")
+			return False
+
 		if FLIP:
+
 			F = _['Loaded_image_files'][Data_moment['name']]['flip']
 			S = _['Loaded_image_files'][Data_moment['name']]['flip projections']
 		else:
@@ -259,14 +344,8 @@ def get_Data_moment(_,dm=None,FLIP=None):
 			S = _['Loaded_image_files'][Data_moment['name']]['normal projections']
 
 
-
-		#cm(len(F['left_image']['vals']))
-		#cm(il0)
-		#if dm['left_ts_index'][0] + 100 > len(F['left_image']['vals']): #########################
-		#	return False #########################
-
 		index_offset,z2o_logtime = indicies_offset()
-		#print index_offset,z2o_logtime
+
 		if 'left_image' in F:
 			if 'vals' in F['left_image']:
 				if index_offset + il0 > len(F['left_image']['vals']):
@@ -276,9 +355,9 @@ def get_Data_moment(_,dm=None,FLIP=None):
 		else:
 			return False
 
-		for pro,indx in [('projections',dm['LDR ref index']),('projections2',dm['LDR index'])]: ######################
+		for pro,indx in [('projections',c_index),('projections2',c_index)]: # 3 ############################################
 			if not FLIP:
-				Data_moment[pro] = S[indx] ###############
+				Data_moment[pro] = S[indx] 
 			else:
 				blank_meta[:,:,0] = S[indx][:,:,1]
 				blank_meta[:,:,1] = S[indx][:,:,0]
@@ -286,7 +365,6 @@ def get_Data_moment(_,dm=None,FLIP=None):
 				Data_moment[pro] = blank_meta
 
 	
-
 		Data_moment['left'] = {}
 		Data_moment['right'] = {}
 
@@ -299,54 +377,39 @@ def get_Data_moment(_,dm=None,FLIP=None):
 
 		else: # below is the normal case
 			if True:#not FLIP:
-				if il0+1 < len(F['left_image']['vals']) and ir0+1 < len(F['right_image']['vals']):
-					#mi(Data_moment['projections'],1);plt.title(shape(Data_moment['projections']))#;spause();raw_enter()
-					#mi(Data_moment['projections2'],2);plt.title(shape(Data_moment['projections2']));spause();time.sleep(0.3)
+				if c_index+1 < len(F['left_image']['vals']):
+
 					Data_moment['left'][0] = Data_moment['projections']
-					Data_moment['right'][0] = Data_moment['projections2']
-					Data_moment['left'][1] = 0*Data_moment['projections']
-					Data_moment['right'][1] = 0*Data_moment['projections2']
-					if timer.check():
-						timer.reset()
-						mci(z55(Data_moment['projections']),title='left')
-						mci(z55(Data_moment['projections2']),title='right')
-						mci(F['left_image']['vals'][indx],title='left rgb')
+
 				else:
 					spd2s('if il0+1 < len(F[left_image][vals]) and ir0+1 < len(F[right_image][vals]): NOT TRUE!')
 					return False
 			else:
-				if il0+1 < len(F['left_image_flip']['vals']) and ir0+1 < len(F['right_image_flip']['vals']):
-					Data_moment['right'][0] = F['left_image_flip']['vals'][il0]
+				if c_index+1 < len(F['left_image_flip']['vals']):
+
 					Data_moment['left'][0] = F['right_image_flip']['vals'][ir0]
-					Data_moment['right'][1] = F['left_image_flip']['vals'][il0+1]
-					Data_moment['left'][1] = F['right_image_flip']['vals'][ir0+1]
+
 				else:
 					spd2s('if il0+1 < len(F[left_image_flip][vals]) and ir0+1 < len(F[right_image_flip][vals]): NOT TRUE!')
 
 					return False
 
-			#Data_moment['steer'] *= 0
-			Data_moment['steer'][:] = z2o_logtime
-			#cm(Data_moment['steer'][0])
-			#Data_moment['motor'] *= 0
-			#Data_moment['gyro_heading_x'] *= 0
-			#Data_moment['encoder_meo'] *= 0
+			Data_moment['category_numbers'] = category_numbers # 4 ############################################
 
 			return Data_moment
 
 		return False
 
-	except Exception as e:
+	else:#except Exception as e:
 	    exc_type, exc_obj, exc_tb = sys.exc_info()
 	    file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
 	    CS_('Exception!',emphasis=True)
 	    CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
-	    _['ABORT'] = True
 
 	return False
 
 
-	
+
 
 
 
