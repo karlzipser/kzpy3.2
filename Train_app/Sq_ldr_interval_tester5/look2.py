@@ -16,7 +16,7 @@ for r in Runs.keys():
 
 
 
-Arguments['cluster_list'] = opjD('cluster_list_166.pkl')
+Arguments['cluster_list'] = opjD('cluster_list.pkl')
 cluster_list = lo(Arguments['cluster_list'])
 
 files = sggo('/home/karlzipser/Desktop/Data/Network_Predictions_projected/*.net_projections.h5py')
@@ -53,13 +53,14 @@ for cluster in rlen(cluster_list):
     traj_ = figure('traj')
     z_ = figure('z')
     mi(v,'rgb');mi(w,'traj');mi(z55(z),'z');spause()
-    #rgb_.savefig(opjD('rgb',d2n(ctr,'.png')))
+    imsave(opjD('rgb',d2n(ctr,'.png')),v)
+    imsave(opjD('z',d2n(ctr,'.png')),z55(z))
     #z_.savefig(opjD('z',d2n(ctr,'.png')))
     #traj_.savefig(opjD('traj',d2n(ctr,'.png')))
     #raw_enter()
 
 
-    cg(ctr,ra=1)#raw_enter()
+    cg(ctr,ra=0)#raw_enter()
     #time.sleep(2)
     ctr += 1
 

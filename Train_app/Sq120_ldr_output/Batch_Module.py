@@ -531,7 +531,7 @@ def Batch(_,the_network=None):
 				plot([30,30],[-1.0,1.0],'k:')
 				plot([60,60],[-1.0,1.0],'k:')
 				plot([90,90],[-1.0,1.0],'k:')
-				plot(ov,'og'); plot(tv,'or'); plt.title(D['names'][0])
+				plot(ov,'o-g'); plot(tv,'o-r'); plt.title(D['names'][0])
 				#print(tv)
 				if D['flips'][0]:
 					flip_str = '(flip)'

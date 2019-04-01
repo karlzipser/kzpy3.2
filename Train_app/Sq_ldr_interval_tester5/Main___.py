@@ -162,7 +162,7 @@ while _['ABORT'] == False:
 
         value = Batch['FORWARD']()
         
-        if value < 0.25 and (other_name != ref_name or np.abs(ref_index-other_index) > 30*60):
+        if value < 0.133 and (other_name != ref_name or np.abs(ref_index-other_index) > 30*60):
             c.append({'name':other_name,'index':other_index})
             cluster_found = True
             mi(ref_img,'ref_run')
@@ -201,7 +201,7 @@ while _['ABORT'] == False:
     
     if save_timer.check():
         save_timer.reset()
-        so(opjD('cluster_list_166'),cluster_list)
+        so(opjD('cluster_list'),cluster_list)
 
 # Start training with 12 mini metadata images at 9am 12Dec2018
 

@@ -19,13 +19,38 @@ for f in files:
     name = fname(f).split('.')[0]
     Files[name] = h5r(f)['normal']
 
-
+"""
+H = {}
 hand_clicked_clusters = opjD('hand_clicked_clusters')
 clist = sggo(hand_clicked_clusters,'*.pkl')
 for c in clist:
     f = fname(c).replace(".pkl",'')
-    exec_str = d2s(f,'=',"lo('"+c+"')")
+    exec_str = d2n("H['",f,"'] =","list(set(lo('",c,"')))")
     exec(exec_str)
+"""
+
+def dic_do_it(H={},topic='',hide_topics=[],just_show=False):
+    assert len(topic) > 0
+    grey = H[topic]
+    hide = []
+    for h in hide_topics:
+        if h != topic:
+            hide += H[h]
+        else:
+            cr('not hiding',h,'which is in hide_topics')
+    if topic not in H:
+        H[topic] = []
+    cg('topic:',topic)
+    cb('hide:',hide)
+    cg('grey:',grey)
+
+    if just_show == False:
+        H[topic] += do_it(topic,hide=hide,grey=grey,show=None)
+        for h in H:
+            H[h] = list(set(H[h]))
+        soD(H,d2n('H.',time.time()))
+    else:
+        do_it(topic,show=H[topic])
 
 
 def do_it(topic='',hide=[],grey=[],show=None):
@@ -67,7 +92,7 @@ def do_it(topic='',hide=[],grey=[],show=None):
 
     w = vis_square2(z55(t),2,127)
 
-    mi(w,'rgb');spause()
+    mi(w,'rgb',img_title=topic);spause()
 
 
     if type(show) != list:

@@ -457,7 +457,19 @@ def so(arg1,arg2,noisy=True):
 	except:
 		exec(EXCEPT_STR)
 
-
+def soD(arg1,arg2,noisy=True):
+	try:
+		if type(arg1) == str and type(arg2) != str:
+			save_obj(arg2,opjD(arg1),noisy)
+			return
+		if type(arg2) == str and type(arg1) != str:
+			save_obj(arg1,opjD(arg2),noisy)
+			return
+		if type(arg2) == str and type(arg1) == str:
+			pd2s('def so(arg1,arg2): both args cannot be strings')
+		assert(False)
+	except:
+		exec(EXCEPT_STR)
 
 def txt_file_to_list_of_strings(path_and_filename):
 	f = open(path_and_filename,"r") #opens file with name of "test.txt"
