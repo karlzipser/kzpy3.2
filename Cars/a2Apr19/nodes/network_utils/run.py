@@ -45,15 +45,20 @@ def step(camera_data,metadata,N):
 
     torch_motor = 100. * output[10+N['network_output_sample']]
     torch_steer = 100. * output[N['network_output_sample']]
-    #torch_motor = max(0, torch_motor)
-    #torch_steer = max(0, torch_steer)
-    #torch_motor = min(99, torch_motor)
-    #torch_steer = min(99, torch_steer)
-    #torch_camera = torch_steer
-    N['net']['output'] = output
+
+    torch_encoder0 = 100. * output[-30:-20]
+    torch_encoder1 = 100. * output[-20:-10]
+    torch_encoder2 = 100. * output[-10:]
+
+    torch_header0 = 100. * output[-60:-50]
+    torch_header1 = 100. * output[-50:-40]
+    torch_header2 = 100. * output[-40:-30]
+
+    cr(torch_header0.astype(int))
+    cg(torch_header1.astype(int))
+    cb(torch_header2.astype(int))
     
-    #adjusted_camera,adjusted_steer,adjusted_motor = \
-    #    get_adjusted_commands(torch_camera,torch_steer,torch_motor,N)
+    N['net']['output'] = output
 
     if print_timer.check():
         if torch_steer > 99 or torch_steer < 0 or torch_motor > 99 or torch_motor < 0:
@@ -63,9 +68,11 @@ def step(camera_data,metadata,N):
         cfun(int(torch_steer),int(torch_motor),N['mode']['behavioral_mode'])
         print_timer.reset()
 
-    #N['pub']['cmd/camera'].publish(std_msgs.msg.Int32(adjusted_camera))
     N['pub']['net/steer'].publish(std_msgs.msg.Float32(torch_steer))
     N['pub']['net/motor'].publish(std_msgs.msg.Float32(torch_motor))
+
+
+
     frequency_timer.freq(name='network',do_print=True)
 
 
