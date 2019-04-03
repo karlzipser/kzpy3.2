@@ -56,14 +56,21 @@ if __name__ == '__main__':
                         hz.freq(' (main) ')
 
                         torch_camera_data           = Q['to_torch'](size_='full')
+
                         torch_small_camera_data    = Q['to_torch'](size_='small')
+
                         behavioral_mode = N['mode']['behavioral_mode']
+
                         if behavioral_mode in N['behavioral_metadatas']:
                             torch_metadata = N['behavioral_metadatas'][behavioral_mode]
+
                         torch_metadata[0,(1+4):(1+4+12),:,:] = torch_small_camera_data
+
                         network_utils.run.step(torch_camera_data,torch_metadata,N)
+
                         if Arguments['display']:
                             Q2 = network_utils.camera.Quartet('camera from Quartet')
+                            
                             if Arguments['display'] == 'camera_input':
                                 Q2['from_torch'](N['net']['Torch_network']['solver'].A['camera_input'])
                                 size_ = 'full'

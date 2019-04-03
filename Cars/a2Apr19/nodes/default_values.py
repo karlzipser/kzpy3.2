@@ -264,7 +264,8 @@ except Exception as e:
     CS_('Exception!',emphasis=True)
     CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
 
-_['LOAD NETWORK'] = True
+_['LOAD NETWORK'] = False
+
 
 
 

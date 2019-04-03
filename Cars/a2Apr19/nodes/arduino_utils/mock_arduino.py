@@ -171,7 +171,11 @@ class Mock_Arduino:
                 elif self.atype == 'IMU' and Timers['IMU'].check():
                     Timers['IMU'].reset()
                     n = np.random.choice(imu_names)
-                    rstr = "('"+d2c(n+"'",L[n+'_x'][index],L[n+'_y'][index],L[n+'_z'][index])+')'
+                    if n == 'head':
+                        m = 'gyro_heading'
+                    else:
+                        m = n
+                    rstr = "('"+d2c(n+"'",L[m+'_x'][index],L[m+'_y'][index],L[m+'_z'][index])+')'
                     break
                 else:
                     time.sleep(1/30./30.)

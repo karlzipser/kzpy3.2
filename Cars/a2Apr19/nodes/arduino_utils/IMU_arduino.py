@@ -24,6 +24,7 @@ def _IMU_run_loop(P):
             time.sleep(0.001)
         try:
             read_str = P['Arduinos']['IMU'].readline()
+            #print read_str
             if flush_timer.check():
                 P['Arduinos']['IMU'].flushInput();P['Arduinos']['IMU'].flushOutput()
                 flush_timer.reset()            
