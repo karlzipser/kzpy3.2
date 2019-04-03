@@ -169,7 +169,7 @@ def Batch(_,the_network=None):
 					random.shuffle(_['data_moments_indexed_loaded'])
 					cy('random.shuffle(_[data_moments_indexed_loaded])')
 				
-				FLIP = random.choice([False,True])
+				FLIP = random.choice([0,1])
 				dm = _['data_moments_indexed_loaded'][_['long_ctr']]; _['long_ctr'] += 1#; ctr += 1
 
 				
@@ -343,10 +343,9 @@ def Batch(_,the_network=None):
 				###################################################################
 				###################################################################
 				#### TARGET DATA
-				#target_array = zeros(40)
+				target_array = zeros(40)
 
-				#target_array[:len(Data_moment['category_numbers'])] = Data_moment['category_numbers']
-				target_array = Data_moment['category_numbers']
+				target_array[:len(Data_moment['category_numbers'])] = Data_moment['category_numbers']
 
 				target_array = torch.from_numpy(target_array).cuda().float()
 
@@ -501,20 +500,13 @@ def Batch(_,the_network=None):
 						bm = _['behavioral_modes'][j]
 					#else:
 					#	cr(_['behavioral_modes'][j],'unknown behavioral_mode !!!')
-
 				figure(fname(_['project_path'])+' steer '+_['start time'],figsize=_['figure size'])
 				clf()
 				plt.title(d2s(i))
 				ylim(-1.05,1.05);xlim(0,len(tv))
 				plot([-1,20],[0.49,0.49],'k');
 				plot([-1,20],[0.0,0.0],'k')
-				for x in [0,4,7,12]:
-					plot([x,x],[-1,2],'b')
-				for x in [3,6,11,16]:
-					plot([x,x],[-1,2],'c:')
-				plot(ov,'og-'); plot(tv,'or-'); plt.title(D['names'][0])
-				xylim(-0.5,16.5,-0.1,1.1)
-
+				plot(ov,'og'); plot(tv,'or'); plt.title(D['names'][0])
 				if D['flips'][0]:
 					flip_str = '(flip)'
 				else:
@@ -567,7 +559,7 @@ def Batch(_,the_network=None):
 			median_val = np.median(na(_['LOSS_LIST_AVG'][-u:]))
 			plt.title(d2s('1000*median =',dp(1000.0*median_val,3)))
 			plot([0,q],[median_val,median_val],'r')
-			#plt.xlim(0,q);plt.ylim(0.00075,0.0015)
+			plt.xlim(0,q);plt.ylim(0.00075,0.0015)
 			spause()
 			_['loss_timer'].reset()
 

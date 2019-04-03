@@ -3,10 +3,11 @@ import default_values
 import Batch_Module
 import Network_Module
 import kzpy3.Menu_app.menu2 as menu2
-
 exec(identify_file_str)
 
 _ = default_values.P
+
+# python kzpy3/Train_app/Sq_ldr_interval_tester5/Main.py cluster_list ~/Desktop/cluster_list_25_1st_pass.pkl threshold 0.25
 
 ####################### MENU ################################
 #
@@ -208,6 +209,12 @@ while _['ABORT'] == False:
 # Start training with 12 mini metadata images at 9am 12Dec2018
 
  
-
+if False:
+    c=loD('cluster_list_25_1st_pass.pkl')
+    clens = []
+    for d in c:
+        clens.append(len(d))
+    hist(clens)
+    print np.median(clens)
 
 #EOF

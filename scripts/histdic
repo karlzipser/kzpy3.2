@@ -84,7 +84,7 @@ while True:
                         if Arguments['app'] != 'all' or Arguments['app'] != 'no app':
                             n = m.replace(Arguments['app']+'/','')
                             n = n.replace('kzpy3/','')
-                        c_(ctr+1,n)
+                        c_(ctr+1,n,ctr+1)
                         ctr += 1
     try:
         a = input('-> ')

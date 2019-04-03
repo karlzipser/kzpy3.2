@@ -3,7 +3,7 @@ exec(identify_file_str)
 
 def prepare_data_for_training(_):
 	
-	full = True
+	full = False
 
 	_['experiments_folders'] = []
 
@@ -212,10 +212,10 @@ if False:
 
 Category_numbers = {
 	'broad_base':0,
-	'two_3rds_base':1,
-	'half_base':2,
-	'mini_base':3,
-	
+	'half_base':1,
+	'mini_base':2,
+	'two_3rds_base':3,
+
 	'mixed':4,
 	'nearly_separate':5,
 	'separate':6,
@@ -232,32 +232,11 @@ Category_numbers = {
 	'base_4':15,
 	'base_5':16,
 }
-Category_numbers_flip = Category_numbers.copy()
-Category_numbers_flip['base_5'] = 12
-Category_numbers_flip['base_4'] = 13
-Category_numbers_flip['base_3'] = 14
-Category_numbers_flip['base_2'] = 15
-Category_numbers_flip['base_1'] = 16
-
-
-q =	{
-		'broad_base':0,'two_3rds_base':1,'half_base':2,'mini_base':3,
-
-		'mixed':4,'nearly_separate':5,'separate':6,
-
-		'flat_top':7,'notched_top':8,'pointy_top':9,'round_top':10,'separated_top':11,
-
-		'base_1':12,'base_2':13,'base_3':14,'base_4':15,'base_5':16,
-}
 
 category_number_zeros = zeros(len(Category_numbers))
 
 
-def adsfds(cluster_list,Index_to_clusters,flip):
-	if flip:
-		CN = Category_numbers_flip
-	else:
-		CN = Category_numbers
+def adsfds(cluster_list,Index_to_clusters):
 	i = a_key(Index_to_clusters)
 	C = np.random.choice(cluster_list[i])
 	r_name = C['name']
@@ -265,7 +244,7 @@ def adsfds(cluster_list,Index_to_clusters,flip):
 	categories = Index_to_clusters[i]
 	category_numbers = category_number_zeros * 0
 	for c in categories:
-		category_numbers[CN[c]] = 1
+		category_numbers[Category_numbers[c]] = 1
 	return r_name,c_index,category_numbers
 
 if False:
@@ -273,19 +252,15 @@ if False:
 
 
 
-not_flip_ctr = 0
-flip_ctr = 0
-flip_ctr_timer = Timer(10)
-
 def get_Data_moment(_,dm=None,FLIP=None):
-	global not_flip_ctr,flip_ctr
-	r_name,c_index,category_numbers = adsfds(cluster_list,Index_to_clusters,FLIP)
+
+	r_name,c_index,category_numbers = adsfds(cluster_list,Index_to_clusters)
 
 	if True:#try:
 		if dm['run_name'] in _['lacking runs']:
 			return False
 		Data_moment = {}
-		Data_moment['FLIP'] = FLIP
+		Data_moment['FLIP'] = True#FLIP
 		left_index = dm['left_ts_index'][1]
 		steer_len = len(_['Loaded_image_files'][dm['run_name']]['left_timestamp_metadata']['steer'])
 		data_len = min(steer_len - left_index,90)
@@ -353,14 +328,16 @@ def get_Data_moment(_,dm=None,FLIP=None):
 
 
 
-
+		tl0 = dm['left_ts_index'][0]; il0 = dm['left_ts_index'][1] # 2 ############################################
+		tr0 = dm['right_ts_index'][0]; ir0 = dm['right_ts_index'][1]
 
 		if Data_moment['name'] not in _['Loaded_image_files']:
 			#cr(Data_moment['name'],"not in _['Loaded_image_files']")
 			return False
 
-		
+		#print FLIP
 		if FLIP:
+
 			F = _['Loaded_image_files'][Data_moment['name']]['flip']
 			S = _['Loaded_image_files'][Data_moment['name']]['flip projections']
 		else:
@@ -368,63 +345,64 @@ def get_Data_moment(_,dm=None,FLIP=None):
 			S = _['Loaded_image_files'][Data_moment['name']]['normal projections']
 
 
+		index_offset,z2o_logtime = indicies_offset()
 
-
-		for n in ['left_image','left_image_flip']:
-			if n in F:
-				if 'vals' in F[n]:
-					if 0 + c_index > len(F[n]['vals']):
-						cm(0,FLIP)
-						return False
-				else:
-					cm(1,FLIP)
+		if 'left_image' in F:
+			if 'vals' in F['left_image']:
+				if index_offset + il0 > len(F['left_image']['vals']):
 					return False
 			else:
-				pass
-				#cm(2,FLIP)
-				#return False
+				return False
+		else:
+			return False
 
-
-		#cb(FLIP)
-		for pro,indx in [('projections',c_index)]:#,('projections2',c_index)]: # 3 ############################################
+		for pro,indx in [('projections',c_index),('projections2',c_index)]: # 3 ############################################
 			if not FLIP:
-				not_flip_ctr += 1
-				Data_moment[pro] = S[indx].copy()
+				Data_moment[pro] = S[indx] 
 			else:
-				if True:
-					blank_meta[:,:,0] = S[indx][:,:,1]
-					blank_meta[:,:,1] = S[indx][:,:,0]
-					blank_meta[:,:,2] = S[indx][:,:,2]
-					Data_moment[pro] = blank_meta.copy()
-				else:
-					Data_moment[pro] = S[indx].copy()
-				flip_ctr += 1
-		if flip_ctr_timer.check():
-			flip_ctr_timer.reset()
-			cm(not_flip_ctr,flip_ctr)
+				blank_meta[:,:,0] = S[indx][:,:,1]
+				blank_meta[:,:,1] = S[indx][:,:,0]
+				blank_meta[:,:,2] = S[indx][:,:,2]
+				Data_moment[pro] = blank_meta
 
-
+		mi(_['Loaded_image_files'][Data_moment['name']]['normal projections'][indx],'normal')
+		mi(_['Loaded_image_files'][Data_moment['name']]['flip projections'][indx],'flip')
+		raw_enter()
+	
 		Data_moment['left'] = {}
 		Data_moment['right'] = {}
 
-		for n in ['left_image','left_image_flip']:
-			if n in F:
-				if c_index+1 < len(F[n]['vals']):
+		if False: # for full zeroing of camera inputs
+			Data_moment['left'][0] = blank_camera
+			Data_moment['right'][0] = blank_camera
+			Data_moment['left'][1] = blank_camera
+			Data_moment['right'][1] = blank_camera
+			return Data_moment
+
+		else: # below is the normal case
+			if True:#not FLIP:
+				if c_index+1 < len(F['left_image']['vals']):
+
 					Data_moment['left'][0] = Data_moment['projections']
-					break
+
 				else:
-					spd2s("if c_index+1 < len(F['left_image(_flip)']['vals']): NOT TRUE!")
+					spd2s('if il0+1 < len(F[left_image][vals]) and ir0+1 < len(F[right_image][vals]): NOT TRUE!')
+					return False
+			else:
+				if c_index+1 < len(F['left_image_flip']['vals']):
+
+					Data_moment['left'][0] = F['right_image_flip']['vals'][ir0]
+
+				else:
+					spd2s('if il0+1 < len(F[left_image_flip][vals]) and ir0+1 < len(F[right_image_flip][vals]): NOT TRUE!')
+
 					return False
 
+			Data_moment['category_numbers'] = category_numbers # 4 ############################################
 
+			return Data_moment
 
-
-
-		Data_moment['category_numbers'] = category_numbers # 4 ############################################
-
-		return Data_moment
-
-
+		return False
 
 	else:#except Exception as e:
 	    exc_type, exc_obj, exc_tb = sys.exc_info()

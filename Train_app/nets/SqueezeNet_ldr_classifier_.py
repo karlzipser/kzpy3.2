@@ -40,17 +40,17 @@ class SqueezeNet(nn.Module):
         self.N_FRAMES = 2
         self.N_STEPS = 10
         self.pre_metadata_features = nn.Sequential(
-            nn.Conv2d(3, 6, kernel_size=3, stride=1),
+            nn.Conv2d(3, 8, kernel_size=3, stride=1),
             nn.ReLU(inplace=True),
             nn.MaxPool2d(kernel_size=3, stride=2, ceil_mode=True),
-            Fire(6, 3, 3, 3),            
+            Fire(8, 4, 8, 8),            
             )
         self.post_metadata_features = nn.Sequential(
-            Fire(6, 3, 3, 3),
+            Fire(16, 8, 16, 16),
             nn.MaxPool2d(kernel_size=3, stride=2, ceil_mode=True),
-            Fire(6, 4, 8, 8),
+            Fire(32, 16, 32,32),
         )
-        final_conv = nn.Conv2d(16, 17, kernel_size=1)
+        final_conv = nn.Conv2d(64, 17, kernel_size=1)
         self.final_output = nn.Sequential(
             nn.Dropout(p=0.5),
             final_conv,
