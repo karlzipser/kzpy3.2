@@ -225,31 +225,37 @@ def prepare_data_for_training(_):
 		"""
 
 
-Network_Predictions = {}
-def load_Network_Predictions():
+
+def load_Network_Predictions(_):
+	Network_Predictions = {}
 	files = sggo(opjD('Data/Network_Predictions/*.pkl'))
 	cy(files)
 	timer = Timer(60)
 	for f in files:
+		k = fname(f).replace('.net_predictions.pkl','')
+		if k not in _['run_name_to_run_path'].keys():
+			cr(fname(f))
+			cr('not loading Network_Predictions for',f)
+			continue
 		if False:#timer.check():
 			cm('done')
 			return
 		if fname(f) != 'runs.pkl':
-			k = fname(f).replace('.net_predictions.pkl','')
-			cg(k)
+			cb('loading',k)
 			Network_Predictions[k] = lo(f)
 		else:
 			cr(f)
-load_Network_Predictions()
+	return Network_Predictions
+
 
 
 
 blank_meta = np.zeros((23,41,3),np.uint8)
 blank_camera = np.zeros((94,168,3),np.uint8)
 
-def get_Data_moment(_,dm=None,FLIP=None):
+def get_Data_moment(_,Network_Predictions,dm=None,FLIP=None):
 
-	try:
+	if True:#try:
 		if dm['run_name'] in _['lacking runs']:
 			return False
 		Data_moment = {}
@@ -389,7 +395,7 @@ def get_Data_moment(_,dm=None,FLIP=None):
 
 		return False
 
-	except Exception as e:
+	else:#except Exception as e:
 	    exc_type, exc_obj, exc_tb = sys.exc_info()
 	    file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
 	    CS_('Exception!',emphasis=True)

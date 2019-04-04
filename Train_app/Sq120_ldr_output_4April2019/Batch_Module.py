@@ -44,6 +44,7 @@ def Batch(_,the_network=None):
 	_['reload_image_file_timer'].trigger()
 
 	Data_Module.prepare_data_for_training(_)
+	Network_Predictions = Data_Module.load_Network_Predictions(_)
 
 	zero_matrix = torch.FloatTensor(1, 1, 23, 41).zero_().cuda()
 	one_matrix = torch.FloatTensor(1, 1, 23, 41).fill_(1).cuda()
@@ -67,7 +68,7 @@ def Batch(_,the_network=None):
 			if f not in GOOD_LIST:
 				#cr(f,"NOT LEAVING OUT THIS FILE")
 				continue
-			cg(f)
+			cg('_load_image_files():',f)
 			_['Loaded_image_files'][f] = {}
 			if True:
 				try:
@@ -178,7 +179,7 @@ def Batch(_,the_network=None):
 				dm = _['data_moments_indexed_loaded'][_['long_ctr']]; _['long_ctr'] += 1#; ctr += 1
 
 				
-				Data_moment = Data_Module.get_Data_moment(_,dm=dm,FLIP=FLIP)
+				Data_moment = Data_Module.get_Data_moment(_,Network_Predictions,dm=dm,FLIP=FLIP)
 
 				if Data_moment == False:
 					continue
@@ -371,11 +372,15 @@ def Batch(_,the_network=None):
 
 
 				for s in ['left','direct','right']:
-					if True:#False:#Data_moment['labels'][s]:
+					if Data_moment['labels'][s]:#True:#False:#Data_moment['labels'][s]:
 						for m in ['steer','motor','gyro_heading_x','encoder_meo']:
 							n = Tranlation[m]
 							Data_moment['predictions'][s][n] = Data_moment[m]
 						break
+					#else:
+					#	for m in ['steer','motor','gyro_heading_x','encoder_meo']:
+					#		n = Tranlation[m]
+					#		Data_moment['predictions'][s][n] = Data_moment[m]*0						
 
 				sv = np.concatenate((
 					Data_moment['predictions']['left']['steer'],

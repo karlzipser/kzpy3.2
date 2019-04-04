@@ -1,5 +1,8 @@
 if N['use SqueezeNet40_multirun!!!']:
-    encoder0_pub = rospy.Publisher('encoder0',Int32MultiArray,queue_size = 10)
+
+N['pub']['net/steer'] = rospy.Publisher('encoder0',Int32MultiArray,queue_size = 10)
+
+    encoder0_pub = 
     encoder1_pub = rospy.Publisher('encoder1',Int32MultiArray,queue_size = 10)
     encoder2_pub = rospy.Publisher('encoder2',Int32MultiArray,queue_size = 10)
 

@@ -1,7 +1,5 @@
 
 from kzpy3.vis3 import *
-import kzpy3.VT_net3.default_values as default_values
-import fit3d
 import rospy
 import std_msgs.msg
 import geometry_msgs.msg
@@ -9,16 +7,12 @@ import sensor_msgs.msg
 import cv2
 import cv_bridge
 import torch
+import default_values
+import fit3d
 torch.set_default_tensor_type('torch.FloatTensor') 
 torch.cuda.set_device(0)
 torch.cuda.device(0)
 P = default_values.P
-
-
-
-
-
-
 
 
 ########################################################################################
@@ -47,44 +41,52 @@ CAR['encoder'] = 0
 pub = rospy.Publisher("/ldr_img",sensor_msgs.msg.Image,queue_size=1)
 
 def header0_callback(data):
-    NET['headings'][0] = na(data.data).astype(float)/1000.
+    NET['headings'][0] = na(data.data).astype(float)/1000.*90.
 
 rospy.Subscriber('/header0', std_msgs.msg.Int32MultiArray, callback=header0_callback)
 
+
 def header1_callback(data):
-    NET['headings'][1] = na(data.data).astype(float)/1000.
+    NET['headings'][1] = na(data.data).astype(float)/1000.*90.
 
 rospy.Subscriber('/header1', std_msgs.msg.Int32MultiArray, callback=header1_callback)
 
+
 def header2_callback(data):
-    NET['headings'][2] = na(data.data).astype(float)/1000.
+    NET['headings'][2] = na(data.data).astype(float)/1000.*90.
 
 rospy.Subscriber('/header2', std_msgs.msg.Int32MultiArray, callback=header2_callback)
 
+
 def encoder0_callback(data):
-    NET['encoders'][0] = na(data.data).astype(float)/1000.
+    NET['encoders'][0] = na(data.data).astype(float)/1000.*5.
 
 rospy.Subscriber('/encoder0', std_msgs.msg.Int32MultiArray, callback=encoder0_callback)
 
+
 def encoder1_callback(data):
-    NET['encoders'][1] = na(data.data).astype(float)/1000.
+    NET['encoders'][1] = na(data.data).astype(float)/1000.*5.
 
 rospy.Subscriber('/encoder1', std_msgs.msg.Int32MultiArray, callback=encoder1_callback)
 
+
 def encoder2_callback(data):
-    NET['encoders'][2] = na(data.data).astype(float)/1000.
+    NET['encoders'][2] = na(data.data).astype(float)/1000.*5.
 
 rospy.Subscriber('/encoder2', std_msgs.msg.Int32MultiArray, callback=encoder2_callback)
+
 
 def motor0_callback(data):
     NET['motor'][0] = na(data.data)
 
 rospy.Subscriber('/motor0', std_msgs.msg.Int32MultiArray, callback=motor0_callback)
 
+
 def motor1_callback(data):
     NET['motor'][1] = na(data.data)
 
 rospy.Subscriber('/motor1', std_msgs.msg.Int32MultiArray, callback=motor1_callback)
+
 
 def motor2_callback(data):
     NET['motor'][2] = na(data.data)
@@ -99,15 +101,25 @@ def motor2_callback(data):
     
 rospy.Subscriber('/motor2', std_msgs.msg.Int32MultiArray, callback=motor2_callback)
 
+
 def gyro_heading_x_callback(data):
     CAR['gyro_heading_x'] = data.x
+
 rospy.Subscriber('/bair_car/gyro_heading', geometry_msgs.msg.Vector3, callback=gyro_heading_x_callback)
+
+
 def encoder_callback(data):
     CAR['encoder'] = data.data
+
 rospy.Subscriber('/bair_car/encoder', std_msgs.msg.Float32, callback=encoder_callback)
+
+
 def motor_callback(data):
     CAR['motor'] = data.data
+
 rospy.Subscriber('/bair_car/motor', std_msgs.msg.Int32, callback=motor_callback)
+
+
 rospy.init_node('VT_node',anonymous=True,disable_signals=True)
 ####
 ########################################################################################
@@ -164,6 +176,10 @@ timer.trigger()
 
 while True:#not timer.check():
     try:
+        if True:
+            cr( NET['headings'][0])
+            cb( NET['headings'][1])
+            cg( NET['headings'][2])
         timer.message(d2s('VT_net3: running for',int(long_timer.time()),'seconds.'))
         for direction in ['left','right','direct']:
             i = Direction_codes[direction]

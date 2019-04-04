@@ -46,17 +46,6 @@ def step(camera_data,metadata,N):
     torch_motor = 100. * output[10+N['network_output_sample']]
     torch_steer = 100. * output[N['network_output_sample']]
 
-    torch_encoder0 = 100. * output[-30:-20]
-    torch_encoder1 = 100. * output[-20:-10]
-    torch_encoder2 = 100. * output[-10:]
-
-    torch_header0 = 100. * output[-60:-50]
-    torch_header1 = 100. * output[-50:-40]
-    torch_header2 = 100. * output[-40:-30]
-
-    cr(torch_header0.astype(int))
-    cg(torch_header1.astype(int))
-    cb(torch_header2.astype(int))
     
     N['net']['output'] = output
 
@@ -71,6 +60,23 @@ def step(camera_data,metadata,N):
     N['pub']['net/steer'].publish(std_msgs.msg.Float32(torch_steer))
     N['pub']['net/motor'].publish(std_msgs.msg.Float32(torch_motor))
 
+
+    N['pub']['net/encoder0'].publish(data=1000*output[-30:-20])
+    N['pub']['net/encoder1'].publish(data=1000*output[-20:-10])
+    N['pub']['net/encoder2'].publish(data=1000*output[-10:])
+
+    N['pub']['net/header0'].publish(data=1000*output[-60:-50])
+    N['pub']['net/header1'].publish(data=1000*output[-50:-40])
+    N['pub']['net/header2'].publish(data=1000*output[-40:-30])
+
+    N['pub']['net/motor0'].publish(data=100*output[-90:-80])
+    N['pub']['net/motor1'].publish(data=100*output[-80:-70])
+    N['pub']['net/motor2'].publish(data=100*output[-70:-60])
+
+    if True:
+        cr((output[-60:-50]*1000).astype(int)/1000.0)
+        cb((output[-50:-40]*1000).astype(int)/1000.0)
+        cg((output[-40:-30]*1000).astype(int)/1000.0)
 
 
     frequency_timer.freq(name='network',do_print=True)
