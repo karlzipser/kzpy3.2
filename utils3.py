@@ -16,7 +16,11 @@ cstr = "CVerbose['COLOR'] = True\\n"+\
 	"def cQ(*args,**kwargs):\\n"+\
 	"\tif not CVerbose['COLOR']:\\n"+\
     "\t\treturn\\n"+\
-    "\tcprint(d2s_spacer(tuple(list(args)+['\t('+cfile+'.py)']),spacer=' '),'COLOR')\\n"+\
+    "\tif 'sf' in kwargs and not kwargs['sf']:\\n"+\
+    "\t\tscf = ''\\n"+\
+    "\telse:\\n"+\
+    "\t\tscf = '\t('+cfile+'.py)'\\n"+\
+    "\tcprint(d2s_spacer(tuple(list(args)+['\t'+scf]),spacer=' '),'COLOR')\\n"+\
     "\tif 'ra' in kwargs:\\n"+\
 	"\t\tif kwargs['ra'] == 1:\\n"+\
     "\t\t\tcprint('\b  (hit Enter to continue)','COLOR')\\n"+\
