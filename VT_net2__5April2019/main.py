@@ -1,12 +1,18 @@
 ##############################################################
 ####################### IMPORT ################################
-## python kzpy3/VT_net2_/main.py run tegra-ubuntu_29Oct18_13h28m05s
+## python kzpy3/VT_net2__5April2019/main.py run tegra-ubuntu_29Oct18_13h28m05s
+############
 from kzpy3.vis3 import *
 from scipy.optimize import curve_fit
 import kzpy3.Menu_app.menu2 as menu2
 import default_values
-cr(__file__)
-cr(pname(__file__))
+import fit3d#_torch as fit3d
+exec(identify_file_str)
+
+
+_ = default_values._
+#cr(__file__)
+#cr(pname(__file__))
 project_path = pname(__file__).replace(opjh(),'')
 if project_path[0] == '/':
     project_path = project_path[1:]
@@ -37,7 +43,7 @@ def load_parameters(_,customer='VT menu'):
     if parameter_file_load_timer.check():
         Topics = menu2.load_Topics(project_path,first_load=False,customer=customer)
         if type(Topics) == dict:
-            for t in Topics['To Expose']['VT menu']:
+            for t in Topics['To Expose'][customer]:
                 if t in Arguments:
                     topic_warning(t)
                 if '!' in t:
@@ -45,20 +51,6 @@ def load_parameters(_,customer='VT menu'):
                 else:
                     _[t] = Topics[t]
         parameter_file_load_timer.reset()
-
-
-start_signal = True
-if _['wait for start signal']:
-    cr('Wait for impulse click from menu...')
-    start_signal = False
-while start_signal == False:
-    if _['ABORT'] == True:
-        sys.exit()
-    load_parameters(_)
-    if _['cmd/an impulse (click)']:
-        _['cmd/an impulse (click)'] = False
-        cr('An impulse, test of click. Continue work...')
-        start_signal = True
 
 ##
 ##############################################################
@@ -74,7 +66,7 @@ for r in runs:
     Runs[fname(r)] = r
 run_path = Runs[Arguments['run']]
 run_path = run_path.replace('/media/karlzipser','/home/karlzipser/Desktop/Data')
-#cg('run_path =',run_path,ra=1)
+
 U = lo(opjD('Data/Network_Predictions',fname(run_path)+'.net_predictions.pkl'))
 
 L,O,___ = open_run(run_name=Arguments['run'],h5py_path=pname(run_path),want_list=['L','O'])
@@ -120,8 +112,10 @@ def vec(heading,encoder,motor,sample_frequency=30.0):
     a *= velocity/sample_frequency
     return array(a)
 
+
 def f(x,A,B):
     return A*x + B
+
 
 def get_predictions2D(behavioral_mode,headings,encoders,motors):
     xy = array([0.0,0.0])
@@ -208,6 +202,9 @@ def get_prediction_images_3D(pts2D_1step_list,left_index):
     metadata_3D_img = (255*img2).astype(np.uint8)
 
     return left_camera_3D_img,metadata_3D_img
+##
+##############################################################
+##############################################################
 
 
 
@@ -225,42 +222,28 @@ if __name__ == '__main__':
 
     pts2D_multi_step = []
 
-    while _['index'] < len(U['ts']):
+    while _['index'] < len(U['ts']) and not _['ABORT']:
 
-        ##########################################################
-        #
         load_parameters(_)
-        if _['cmd/an impulse (click)']:
-            _['cmd/an impulse (click)'] = False
-            cr('An impulse, test of click.')
-        #
-        ##########################################################
-
-        if _['ABORT'] == True:
-            break
 
         Pts2D_1step = {}
 
-        ##########################################################
-        #
         try:
 
             for behavioral_mode in _['behavioral_mode_list']:
                 headings = _['U_heading_gain'] * U[behavioral_mode][_['index']]['heading']
                 encoders = U[behavioral_mode][_['index']]['encoder']
-                pts2D_1step = get_predictions2D(behavioral_mode,headings,encoders,_['motors'])
-                Pts2D_1step[behavioral_mode] = pts2D_1step
-            #################
-            #
+                Pts2D_1step[behavioral_mode] = get_predictions2D(behavioral_mode,headings,encoders,_['motors'])
+                 
             Prediction2D_plot['clear']()
-            #
-            #################
+
             pts2D_multi_step.append({})
 
             for behavioral_mode in _['behavioral_mode_list']:
                 
                 if len(pts2D_multi_step) > _['num timesteps']:
                     pts2D_multi_step = pts2D_multi_step[-_['num timesteps']:]
+
                 pts2D_multi_step[-1][behavioral_mode] = list(Pts2D_1step[behavioral_mode])
 
             indx = _['index']
