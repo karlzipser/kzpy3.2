@@ -273,6 +273,7 @@ def get_Data_moment(_,Network_Predictions,dm=None,FLIP=None):
 				Data_moment['predictions'][s] = Network_Predictions[dm['run_name']][s][_index].copy()
 			elif False:
 				Data_moment['predictions'][s] = Network_Predictions[dm['run_name']][s][_index]
+			#Data_moment['predictions'][s]['heading'] -= Data_moment['predictions'][s]['heading'][0]
 			if FLIP:
 				Data_moment['predictions'][s]['steer'] = 99 - Data_moment['predictions'][s]['steer']
 				Data_moment['predictions'][s]['heading'] = -1 * Data_moment['predictions'][s]['heading']

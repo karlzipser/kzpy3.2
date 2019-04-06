@@ -41,7 +41,7 @@ CAR['encoder'] = 0
 pub = rospy.Publisher("/ldr_img",sensor_msgs.msg.Image,queue_size=1)
 
 def header0_callback(data):
-    NET['headings'][0] = na(data.data).astype(float)/1000.*90.
+    NET['headings'][2] = na(data.data).astype(float)/1000.*90.
 
 rospy.Subscriber('/header0', std_msgs.msg.Int32MultiArray, callback=header0_callback)
 
@@ -53,13 +53,13 @@ rospy.Subscriber('/header1', std_msgs.msg.Int32MultiArray, callback=header1_call
 
 
 def header2_callback(data):
-    NET['headings'][2] = na(data.data).astype(float)/1000.*90.
+    NET['headings'][0] = na(data.data).astype(float)/1000.*90.
 
 rospy.Subscriber('/header2', std_msgs.msg.Int32MultiArray, callback=header2_callback)
 
 
 def encoder0_callback(data):
-    NET['encoders'][0] = na(data.data).astype(float)/1000.*5.
+    NET['encoders'][2] = na(data.data).astype(float)/1000.*5.
 
 rospy.Subscriber('/encoder0', std_msgs.msg.Int32MultiArray, callback=encoder0_callback)
 
@@ -71,13 +71,13 @@ rospy.Subscriber('/encoder1', std_msgs.msg.Int32MultiArray, callback=encoder1_ca
 
 
 def encoder2_callback(data):
-    NET['encoders'][2] = na(data.data).astype(float)/1000.*5.
+    NET['encoders'][0] = na(data.data).astype(float)/1000.*5.
 
 rospy.Subscriber('/encoder2', std_msgs.msg.Int32MultiArray, callback=encoder2_callback)
 
 
 def motor0_callback(data):
-    NET['motor'][0] = na(data.data)
+    NET['motor'][2] = na(data.data)
 
 rospy.Subscriber('/motor0', std_msgs.msg.Int32MultiArray, callback=motor0_callback)
 
@@ -89,7 +89,7 @@ rospy.Subscriber('/motor1', std_msgs.msg.Int32MultiArray, callback=motor1_callba
 
 
 def motor2_callback(data):
-    NET['motor'][2] = na(data.data)
+    NET['motor'][0] = na(data.data)
     NET['ts_prev'] = NET['ts']
     NET['ts'] = time.time()
     NET['sample_frequency'] = 1.0 / (NET['ts']-NET['ts_prev'])
@@ -176,7 +176,7 @@ timer.trigger()
 
 while True:#not timer.check():
     try:
-        if True:
+        if False:
             cr( NET['headings'][0])
             cb( NET['headings'][1])
             cg( NET['headings'][2])
@@ -202,7 +202,7 @@ while True:#not timer.check():
 
         if len(xys) > P['num timesteps']*3:
             xys = xys[-P['num timesteps']*3:,:]
-        if False:
+        if True:
             Img['clear']()
             Img['pts_plot'](xys[:,:2]) 
             for xy in xys:

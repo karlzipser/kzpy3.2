@@ -6,7 +6,7 @@ import Activity_Module
 exec(identify_file_str)
 
 
-Tranlation = {
+Translation = {
 	'steer':'steer',
 	'motor':'motor',
 	'gyro_heading_x':'heading',
@@ -374,12 +374,12 @@ def Batch(_,the_network=None):
 				for s in ['left','direct','right']:
 					if Data_moment['labels'][s]:#True:#False:#Data_moment['labels'][s]:
 						for m in ['steer','motor','gyro_heading_x','encoder_meo']:
-							n = Tranlation[m]
+							n = Translation[m]
 							Data_moment['predictions'][s][n] = Data_moment[m]
 						break
 					#else:
 					#	for m in ['steer','motor','gyro_heading_x','encoder_meo']:
-					#		n = Tranlation[m]
+					#		n = Translation[m]
 					#		Data_moment['predictions'][s][n] = Data_moment[m]*0						
 
 				sv = np.concatenate((

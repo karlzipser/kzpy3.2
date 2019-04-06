@@ -73,7 +73,7 @@ def step(camera_data,metadata,N):
     N['pub']['net/motor1'].publish(data=100*output[-80:-70])
     N['pub']['net/motor2'].publish(data=100*output[-70:-60])
 
-    if True:
+    if False:
         cr((output[-60:-50]*1000).astype(int)/1000.0)
         cb((output[-50:-40]*1000).astype(int)/1000.0)
         cg((output[-40:-30]*1000).astype(int)/1000.0)
