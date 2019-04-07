@@ -73,7 +73,7 @@ L,O,___ = open_run(run_name=Arguments['run'],h5py_path=pname(run_path),want_list
 
 _['headings'] = L['gyro_heading_x'][:]
 _['encoders'] = L['encoder'][:]
-#_['motors'] = L['motor'][:]
+_['motors'] = L['motor'][:]
 
 Left_timestamps_to_left_indicies = {}
 t0 = L['ts'][0]
@@ -117,20 +117,22 @@ def f(x,A,B):
     return A*x + B
 
 
-def get_predictions2D(headings,encoders,motors,sample_frequency):
+def get_predictions2D(behavioral_mode,headings,encoders,motors):
     xy = array([0.0,0.0])
     xys = []
+
     for i in range(len(headings)):
         v = vec(headings[i],encoders[i],motors[i],_['vec sample frequency']) #3.33)
         xy += v
         xys.append(xy.copy())
-    if False:
-        points_to_fit = na(xys[:3])
-        x = points_to_fit[:,0]
-        y = points_to_fit[:,1]
-        m,b = curve_fit(f,x,y)[0]
-        ang = np.degrees(angle_between([0,1],[1,m]))
-        pts2D_1step = na(xys)
+
+    points_to_fit = na(xys[:3])
+    x = points_to_fit[:,0]
+    y = points_to_fit[:,1]
+    m,b = curve_fit(f,x,y)[0]
+    ang = np.degrees(angle_between([0,1],[1,m]))
+
+    pts2D_1step = na(xys)
     return pts2D_1step
 
 
@@ -202,48 +204,13 @@ def get_prediction_images_3D(pts2D_1step_list,left_index):
 ##
 ##############################################################
 ##############################################################
-###
-def get__pts2D_multi_step(d_heading,encoder,headings,encoders,motors,sample_frequency):
 
-    for behavioral_mode in _['behavioral_mode_list']:
 
-        Pts2D_1step[behavioral_mode] = 
-            get_predictions2D(
-                headings,
-                encoders,
-                motors)
-    
-    pts2D_multi_step.append({})
 
-    for behavioral_mode in _['behavioral_mode_list']:
-        
-        if len(pts2D_multi_step) > _['num timesteps']:
-            pts2D_multi_step = pts2D_multi_step[-_['num timesteps']:]
-
-        pts2D_multi_step[-1][behavioral_mode] = Pts2D_1step[behavioral_mode] #list(Pts2D_1step[behavioral_mode])
-
-    velocity = encoder * _['vel-encoding coeficient']
-
-    trajectory_vector = na([0,1]) * velocity / sample_frequency
-
-    for behavioral_mode in _['behavioral_mode_list']:
-
-        for i in rlen(pts2D_multi_step):
-            pts2D_multi_step[i][behavioral_mode] = rotatePolygon(pts2D_multi_step[i][behavioral_mode],-d_heading)
-
-        pts2D_multi_step[-1][behavioral_mode].append(trajectory_vector)
-
-        for i in rlen(pts2D_multi_step):
-
-            pts2D_multi_step[i][behavioral_mode] = pts2D_multi_step[i][behavioral_mode] - pts2D_multi_step[-1][behavioral_mode][-1]
-
-    return pts2D_multi_step
-###
 ##############################################################
 ##############################################################
 ##############################################################
 ###
-
 if __name__ == '__main__':
 
 
@@ -262,45 +229,49 @@ if __name__ == '__main__':
 
         try:
 
-            ################################################################
-            #
-            indx = _['index']
-
-            d_heading = _['headings'][indx]-_['headings'][indx-1]
-
-            encoder = _['encoders'][indx]
-
             for behavioral_mode in _['behavioral_mode_list']:
-
-                headings[behavioral_mode] = _['U_heading_gain'] * U[behavioral_mode][_['index']]['heading']
-
-                encoders[behavioral_mode] = U[behavioral_mode][_['index']]['encoder']
-
-                motors[behavioral_mode] = L['motor'][_['index']:_['index'+len(headings['behavioral_mode'])]
-            #
-            ################################################################
-            
-            pts2D_multi_step = get__pts2D_multi_step(d_heading,encoder,headings,encoders,motors,sample_frequency)
-
+                headings = _['U_heading_gain'] * U[behavioral_mode][_['index']]['heading']
+                encoders = U[behavioral_mode][_['index']]['encoder']
+                Pts2D_1step[behavioral_mode] = get_predictions2D(behavioral_mode,headings,encoders,_['motors'])
+                 
             Prediction2D_plot['clear']()
 
+            pts2D_multi_step.append({})
+
             for behavioral_mode in _['behavioral_mode_list']:
+                
+                if len(pts2D_multi_step) > _['num timesteps']:
+                    pts2D_multi_step = pts2D_multi_step[-_['num timesteps']:]
 
+                pts2D_multi_step[-1][behavioral_mode] = list(Pts2D_1step[behavioral_mode])
+
+            indx = _['index']
+            d_heading = _['headings'][indx]-_['headings'][indx-1]
+            encoder = _['encoders'][indx]
+            velocity = encoder * _['vel-encoding coeficient']
+            trajectory_vector = na([0,1]) * velocity / sample_frequency
+
+            for behavioral_mode in _['behavioral_mode_list']:        
                 for i in rlen(pts2D_multi_step):
-
-                    #pts2D_multi_step[i][behavioral_mode] = pts2D_multi_step[i][behavioral_mode] - pts2D_multi_step[-1][behavioral_mode][-1]
-       
+                    pts2D_multi_step[i][behavioral_mode] = rotatePolygon(pts2D_multi_step[i][behavioral_mode],-d_heading)
+                pts2D_multi_step[-1][behavioral_mode].append(trajectory_vector)
+                for i in rlen(pts2D_multi_step):
+                    pts2D_multi_step[i][behavioral_mode] = pts2D_multi_step[i][behavioral_mode] - pts2D_multi_step[-1][behavioral_mode][-1]
+                    ###################
+                    #
                     Prediction2D_plot['pts_plot'](na(pts2D_multi_step[i][behavioral_mode]),Colors[behavioral_mode],add_mode=True)
-       
+                    #
+                    ###################
+
             left_index = Left_timestamps_to_left_indicies[(1000.0*(U['ts'][_['index']] - t0)).astype(int)]
-
             left_camera_3D_img,metadata_3D_img = get_prediction_images_3D(pts2D_multi_step,left_index)
-
             if _['save metadata']:
                 metadata_img_list[left_index] = metadata_3D_img
 
+      
+            #cv2.waitKey(1)
             if _['show timer'].check():
-                _['show timer'] = Timer(_['show timer time'])
+                
                 #################
                 # 
                 Prediction2D_plot['show'](scale=_['Prediction2D_plot scale'])
@@ -308,9 +279,7 @@ if __name__ == '__main__':
                 mci(metadata_3D_img,title='metadata_3D_img',delay=_['cv2 delay'],scale=_['metadata_3D_img scale'])
                 #
                 #################
-                 
-
-
+                _['show timer'] = Timer(_['show timer time']) 
 
 
         except Exception as e:
