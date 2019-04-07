@@ -1,18 +1,11 @@
-##############################################################
 ####################### IMPORT ################################
-## python kzpy3/VT_net2__5April2019/main.py run tegra-ubuntu_29Oct18_13h28m05s
-############
+# python kzpy3/VT_net2_/main.py run tegra-ubuntu_29Oct18_13h28m05s
 from kzpy3.vis3 import *
 from scipy.optimize import curve_fit
 import kzpy3.Menu_app.menu2 as menu2
 import default_values
-import fit3d#_torch as fit3d
-exec(identify_file_str)
-
-
-_ = default_values._
-#cr(__file__)
-#cr(pname(__file__))
+cr(__file__)
+cr(pname(__file__))
 project_path = pname(__file__).replace(opjh(),'')
 if project_path[0] == '/':
     project_path = project_path[1:]
@@ -21,16 +14,14 @@ cg(sys_str)
 os.system(sys_str)
 cg("To start menu:\n\tpython kzpy3/Menu_app/menu2.py path",project_path,"dic _")
 
-import fit3d#_torch as fit3d
+import fit3d_torch as fit3d
 exec(identify_file_str)
 _ = default_values._
-##
-##############################################################
+#
 ##############################################################
 
-##############################################################
 ####################### MENU ################################
-##
+#
 if _['start menu automatically'] and using_linux():
     dic_name = "_"
     sys_str = d2n("gnome-terminal --geometry 40x30+100+200 -x python kzpy3/Menu_app/menu2.py path ",project_path," dic ",dic_name)
@@ -43,7 +34,7 @@ def load_parameters(_,customer='VT menu'):
     if parameter_file_load_timer.check():
         Topics = menu2.load_Topics(project_path,first_load=False,customer=customer)
         if type(Topics) == dict:
-            for t in Topics['To Expose'][customer]:
+            for t in Topics['To Expose']['VT menu']:
                 if t in Arguments:
                     topic_warning(t)
                 if '!' in t:
@@ -52,21 +43,31 @@ def load_parameters(_,customer='VT menu'):
                     _[t] = Topics[t]
         parameter_file_load_timer.reset()
 
-##
-##############################################################
+
+start_signal = True
+if _['wait for start signal']:
+    cr('Wait for impulse click from menu...')
+    start_signal = False
+while start_signal == False:
+    if _['ABORT'] == True:
+        sys.exit()
+    load_parameters(_)
+    if _['cmd/an impulse (click)']:
+        _['cmd/an impulse (click)'] = False
+        cr('An impulse, test of click. Continue work...')
+        start_signal = True
+
+#
 ##############################################################
 
 ##############################################################
-##############################################################
-##
+#
 assert 'run' in Arguments
 runs = lo(opjD('Data/Network_Predictions/runs.pkl'))
 Runs = {}
 for r in runs:
     Runs[fname(r)] = r
 run_path = Runs[Arguments['run']]
-run_path = run_path.replace('/media/karlzipser','/home/karlzipser/Desktop/Data')
-
 U = lo(opjD('Data/Network_Predictions',fname(run_path)+'.net_predictions.pkl'))
 
 L,O,___ = open_run(run_name=Arguments['run'],h5py_path=pname(run_path),want_list=['L','O'])
@@ -86,23 +87,19 @@ for i in rlen(L['ts']):
     Left_timestamps_to_left_indicies[t] = i
     if _['save metadata']:
         metadata_img_list.append(blank_meta)
-##
-#############################################################################
-##############################################################
 
-##############################################################
 #############################################################################
-##
+
+#############################################################################
+
 Colors = {'direct':'b','left':'r','right':'g'}
 RGBs = {'direct':(0,0,255),'right':(0,255,0),'left':(255,0,0)}
 Color_index = {'direct':2,'right':1,'left':0}
-##
-##############################################################
+#
 ##############################################################
 
 ##############################################################
-##############################################################
-##
+#
 def vec(heading,encoder,motor,sample_frequency=30.0):
     velocity = encoder * _['vel-encoding coeficient'] # rough guess
     if motor < 49:
@@ -112,10 +109,8 @@ def vec(heading,encoder,motor,sample_frequency=30.0):
     a *= velocity/sample_frequency
     return array(a)
 
-
 def f(x,A,B):
     return A*x + B
-
 
 def get_predictions2D(behavioral_mode,headings,encoders,motors):
     xy = array([0.0,0.0])
@@ -188,6 +183,7 @@ def get_prediction_images_3D(pts2D_1step_list,left_index):
                     CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
                     cr(r)
 
+
     img = cv2.resize(img,(168*2,94*2))
     if _['use center line']:
         img[:,168,:] = int((127+255)/2)
@@ -201,16 +197,10 @@ def get_prediction_images_3D(pts2D_1step_list,left_index):
     metadata_3D_img = (255*img2).astype(np.uint8)
 
     return left_camera_3D_img,metadata_3D_img
-##
-##############################################################
-##############################################################
 
 
 
-##############################################################
-##############################################################
-##############################################################
-###
+
 if __name__ == '__main__':
 
 
@@ -221,28 +211,42 @@ if __name__ == '__main__':
 
     pts2D_multi_step = []
 
-    while _['index'] < len(U['ts']) and not _['ABORT']:
+    while _['index'] < len(U['ts']):
 
+        ##########################################################
+        #
         load_parameters(_)
+        if _['cmd/an impulse (click)']:
+            _['cmd/an impulse (click)'] = False
+            cr('An impulse, test of click.')
+        #
+        ##########################################################
+
+        if _['ABORT'] == True:
+            break
 
         Pts2D_1step = {}
 
+        ##########################################################
+        #
         try:
 
             for behavioral_mode in _['behavioral_mode_list']:
                 headings = _['U_heading_gain'] * U[behavioral_mode][_['index']]['heading']
                 encoders = U[behavioral_mode][_['index']]['encoder']
-                Pts2D_1step[behavioral_mode] = get_predictions2D(behavioral_mode,headings,encoders,_['motors'])
-                 
+                pts2D_1step = get_predictions2D(behavioral_mode,headings,encoders,_['motors'])
+                Pts2D_1step[behavioral_mode] = pts2D_1step
+            #################
+            #
             Prediction2D_plot['clear']()
-
+            #
+            #################
             pts2D_multi_step.append({})
 
             for behavioral_mode in _['behavioral_mode_list']:
                 
                 if len(pts2D_multi_step) > _['num timesteps']:
                     pts2D_multi_step = pts2D_multi_step[-_['num timesteps']:]
-
                 pts2D_multi_step[-1][behavioral_mode] = list(Pts2D_1step[behavioral_mode])
 
             indx = _['index']
@@ -274,9 +278,9 @@ if __name__ == '__main__':
                 
                 #################
                 # 
-                Prediction2D_plot['show'](scale=_['Prediction2D_plot scale'])
+                Prediction2D_plot['show']()
                 mci(left_camera_3D_img,title='left_camera_3D_img',delay=_['cv2 delay'],scale=_['3d image scale'])
-                mci(metadata_3D_img,title='metadata_3D_img',delay=_['cv2 delay'],scale=_['metadata_3D_img scale'])
+                mci(metadata_3D_img,title='metadata_3D_img',delay=_['cv2 delay'])
                 #
                 #################
                 _['show timer'] = Timer(_['show timer time']) 
@@ -311,11 +315,5 @@ if __name__ == '__main__':
         F.close()
         cb("F.close()")
 
-###
-##############################################################
-##############################################################
-##############################################################
-
 cg('\n\nDone.\n')
-
 #EOF
