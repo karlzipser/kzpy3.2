@@ -14,17 +14,21 @@ today = datetime.date.today()
 one_day = datetime.timedelta(days=1)
 pr = datetime.datetime.strptime('17032019', "%d%m%Y").date()
 pr2 = one_day*c + pr
-def fr(pr):
-	for i in range(8,19+1):
+def fr(pr,today):
+	for i in range((today-pr).days,19+1):
 		clr='green'#cc = cg
-		if i < 11:
+		if i < 0:
+			clr = 'grey'
+		elif i < 8:
+			clr = 'magenta'
+		elif i < 11:
 			clr='yellow'#cc = cb
-		if i > 16:
+		elif i > 16:
 			clr='yellow'#cc = cb
 		day = i*one_day+pr
 		#cc(day,day-today,sf=0)
 		print colored(d2n(Days[day.weekday()],' ',day.month,'/',day.day,' '),clr),colored(d2s((day-today).days,'days'),'white')
 
-fr(pr2)
+fr(pr2,today)
 
 #EOF
