@@ -67,13 +67,13 @@ for r in runs:
 run_path = Runs[Arguments['run']]
 run_path = run_path.replace('/media/karlzipser','/home/karlzipser/Desktop/Data')
 
-U = lo(opjD('Data/Network_Predictions',fname(run_path)+'.net_predictions.pkl'))
+if True:
+    U = lo(opjD('Data/Network_Predictions',fname(run_path)+'.net_predictions.pkl'))
+    L,O,___ = open_run(run_name=Arguments['run'],h5py_path=pname(run_path),want_list=['L','O'])
+    _['headings'] = L['gyro_heading_x'][:]
+    _['encoders'] = L['encoder'][:]
+    #_['motors'] = L['motor'][:]
 
-L,O,___ = open_run(run_name=Arguments['run'],h5py_path=pname(run_path),want_list=['L','O'])
-
-_['headings'] = L['gyro_heading_x'][:]
-_['encoders'] = L['encoder'][:]
-#_['motors'] = L['motor'][:]
 
 Left_timestamps_to_left_indicies = {}
 t0 = L['ts'][0]
@@ -100,10 +100,28 @@ Color_index = {'direct':2,'right':1,'left':0}
 ##############################################################
 ##############################################################
 
+
+import std_msgs.msg
+from std_msgs.msg import Int32MultiArray
+Pub = {}
+for modality in ['headings','encoders','motors']:
+    Pub[modality] = {}
+    for behavioral_mode in _['behavioral_mode_list']:
+        Pub[modality][behavioral_mode] = rospy.Publisher(modality+'_'+behavioral_mode,Int32MultiArray,queue_size = 10)
+        cg(Pub[modality][behavioral_mode]) 
+Pub['d_heading'] = rospy.Publisher('d_heading',std_msgs.msg.Float32,queue_size=5)
+Pub['encoder'] = rospy.Publisher('encoder',std_msgs.msg.Float32,queue_size=5)
+
+
+rospy.init_node('VT_node',anonymous=True,disable_signals=True)
+
+
+
+
 ##############################################################
 ##############################################################
 ##
-def vec(heading,encoder,motor,sample_frequency=30.0):
+def vec(heading,encoder,motor,sample_frequency,_):
     velocity = encoder * _['vel-encoding coeficient'] # rough guess
     if motor < 49:
         velocity *= -1.0
@@ -117,11 +135,11 @@ def f(x,A,B):
     return A*x + B
 
 
-def get_predictions2D(headings,encoders,motors,sample_frequency):
+def get_predictions2D(headings,encoders,motors,sample_frequency,_):
     xy = array([0.0,0.0])
     xys = []
     for i in range(len(headings)):
-        v = vec(headings[i],encoders[i],motors[i],_['vec sample frequency']) #3.33)
+        v = vec(headings[i],encoders[i],motors[i],_['vec sample frequency'],_) #3.33)
         xy += v
         xys.append(xy.copy())
     if False:
@@ -130,13 +148,12 @@ def get_predictions2D(headings,encoders,motors,sample_frequency):
         y = points_to_fit[:,1]
         m,b = curve_fit(f,x,y)[0]
         ang = np.degrees(angle_between([0,1],[1,m]))
-        pts2D_1step = na(xys)
+    pts2D_1step = na(xys)
     return pts2D_1step
 
 
-def get_prediction_images_3D(pts2D_1step_list,left_index):
+def get_prediction_images_3D(pts2D_1step_list,img,_):#left_index):
     rmax = 7
-    img = O['left_image']['vals'][left_index].copy()
     metadata_version_list = None
     img1 = cv2.resize(img,(41,23))
     metadata_version_list = []
@@ -203,15 +220,19 @@ def get_prediction_images_3D(pts2D_1step_list,left_index):
 ##############################################################
 ##############################################################
 ###
-def get__pts2D_multi_step(d_heading,encoder,headings,encoders,motors,sample_frequency):
+def get__pts2D_multi_step(d_heading,encoder,headings,encoders,motors,sample_frequency,pts2D_multi_step,_):
+
+    Pts2D_1step = {}
 
     for behavioral_mode in _['behavioral_mode_list']:
 
-        Pts2D_1step[behavioral_mode] = 
+        Pts2D_1step[behavioral_mode] = \
             get_predictions2D(
-                headings,
-                encoders,
-                motors)
+                headings[behavioral_mode],
+                encoders[behavioral_mode],
+                motors[behavioral_mode],
+                sample_frequency,
+                _)
     
     pts2D_multi_step.append({})
 
@@ -240,15 +261,103 @@ def get__pts2D_multi_step(d_heading,encoder,headings,encoders,motors,sample_freq
     return pts2D_multi_step
 ###
 ##############################################################
-##############################################################
-##############################################################
+
+
+
+
+################################################################
+################################################################
 ###
+def prepare_2D_and_3D_images(Prediction2D_plot,pts2D_multi_step,source,_):
+
+    d_heading,encoder,headings,encoders,motors = get_SOURCE_DEPENDENT_data(source,_)
+
+    pts2D_multi_step = get__pts2D_multi_step(d_heading,encoder,headings,encoders,motors,sample_frequency,pts2D_multi_step,_)
+
+    Prediction2D_plot['clear']()
+
+    for behavioral_mode in _['behavioral_mode_list']:
+
+        for i in rlen(pts2D_multi_step):
+
+            Prediction2D_plot['pts_plot'](na(pts2D_multi_step[i][behavioral_mode]),Colors[behavioral_mode],add_mode=True)
+
+    img = get_SOURCE_DEPENDENT_img(source,_)
+
+    left_camera_3D_img,metadata_3D_img = get_prediction_images_3D(pts2D_multi_step,img,_)
+
+    return Prediction2D_plot,left_camera_3D_img,metadata_3D_img
+###
+################################################################
+################################################################
+###
+def show_maybe_save_images(Prediction2D_plot,left_camera_3D_img,metadata_3D_img,_):
+
+    if _['save metadata']:
+        metadata_img_list[left_index] = metadata_3D_img
+
+    if _['show timer'].check():
+        _['show timer'] = Timer(_['show timer time'])
+        Prediction2D_plot['show'](scale=_['Prediction2D_plot scale'])
+        mci(left_camera_3D_img,title='left_camera_3D_img',delay=_['cv2 delay'],scale=_['3d image scale'])
+        mci(metadata_3D_img,title='metadata_3D_img',delay=_['cv2 delay'],scale=_['metadata_3D_img scale'])
+###
+################################################################
+################################################################
+################################################################
+###
+
+
+
+
+################################################################
+################################################################
+###
+def get_SOURCE_DEPENDENT_data(source,_):
+
+    if source == 1:
+
+        indx = _['index']
+
+        d_heading = _['headings'][indx]-_['headings'][indx-1]
+
+        encoder = _['encoders'][indx]
+
+        headings,encoders,motors = {},{},{}
+
+        for behavioral_mode in _['behavioral_mode_list']:
+
+            headings[behavioral_mode] = _['U_heading_gain'] * U[behavioral_mode][_['index']]['heading']
+
+            encoders[behavioral_mode] = U[behavioral_mode][_['index']]['encoder']
+
+            motors[behavioral_mode] = L['motor'][_['index']:_['index']+len(headings[behavioral_mode])]
+
+        return d_heading,encoder,headings,encoders,motors
+    else:
+        assert False
+###
+################################################################
+################################################################
+###
+def get_SOURCE_DEPENDENT_img(source,_):
+    left_index = Left_timestamps_to_left_indicies[(1000.0*(U['ts'][_['index']] - t0)).astype(int)]
+    img = O['left_image']['vals'][left_index].copy()
+    return img
+###
+################################################################
+################################################################
+
+
+
+
+
 
 if __name__ == '__main__':
 
+    Prediction2D_plot = CV2Plot(height_in_pixels=41,width_in_pixels=61,pixels_per_unit=7,y_origin_in_pixels=41)
 
-    Prediction2D_plot = CV2Plot(height_in_pixels=23,width_in_pixels=41,pixels_per_unit=7,y_origin_in_pixels=23) ###########
-    Prediction2D_plot['verbose'] = False ###########
+    Prediction2D_plot['verbose'] = False
 
     sample_frequency = 30.0
 
@@ -258,62 +367,27 @@ if __name__ == '__main__':
 
         load_parameters(_)
 
-        Pts2D_1step = {}
+        Data = {}
 
-        try:
+        """
+        d_heading,encoder,Data['headings'],Data['encoders'],Data['motors'] = get_SOURCE_DEPENDENT_data(1,_)
 
-            ################################################################
-            #
-            indx = _['index']
-
-            d_heading = _['headings'][indx]-_['headings'][indx-1]
-
-            encoder = _['encoders'][indx]
-
+        for modality in ['headings','encoders','motors']:
             for behavioral_mode in _['behavioral_mode_list']:
+                Pub[modality][behavioral_mode].publish(data=1000*Data[modality][behavioral_mode])
+        Pub['d_heading'].publish(data=d_heading)
+        Pub['encoder'].publish(data=encoder)
+        time.sleep(0.1)
+        """
 
-                headings[behavioral_mode] = _['U_heading_gain'] * U[behavioral_mode][_['index']]['heading']
+        if True:#try:
 
-                encoders[behavioral_mode] = U[behavioral_mode][_['index']]['encoder']
+            Prediction2D_plot,left_camera_3D_img,metadata_3D_img = \
+                prepare_2D_and_3D_images(Prediction2D_plot,pts2D_multi_step,1,_)
 
-                motors[behavioral_mode] = L['motor'][_['index']:_['index'+len(headings['behavioral_mode'])]
-            #
-            ################################################################
-            
-            pts2D_multi_step = get__pts2D_multi_step(d_heading,encoder,headings,encoders,motors,sample_frequency)
+            show_maybe_save_images(Prediction2D_plot,left_camera_3D_img,metadata_3D_img,_)  
 
-            Prediction2D_plot['clear']()
-
-            for behavioral_mode in _['behavioral_mode_list']:
-
-                for i in rlen(pts2D_multi_step):
-
-                    #pts2D_multi_step[i][behavioral_mode] = pts2D_multi_step[i][behavioral_mode] - pts2D_multi_step[-1][behavioral_mode][-1]
-       
-                    Prediction2D_plot['pts_plot'](na(pts2D_multi_step[i][behavioral_mode]),Colors[behavioral_mode],add_mode=True)
-       
-            left_index = Left_timestamps_to_left_indicies[(1000.0*(U['ts'][_['index']] - t0)).astype(int)]
-
-            left_camera_3D_img,metadata_3D_img = get_prediction_images_3D(pts2D_multi_step,left_index)
-
-            if _['save metadata']:
-                metadata_img_list[left_index] = metadata_3D_img
-
-            if _['show timer'].check():
-                _['show timer'] = Timer(_['show timer time'])
-                #################
-                # 
-                Prediction2D_plot['show'](scale=_['Prediction2D_plot scale'])
-                mci(left_camera_3D_img,title='left_camera_3D_img',delay=_['cv2 delay'],scale=_['3d image scale'])
-                mci(metadata_3D_img,title='metadata_3D_img',delay=_['cv2 delay'],scale=_['metadata_3D_img scale'])
-                #
-                #################
-                 
-
-
-
-
-        except Exception as e:
+        else:#except Exception as e:
             cr('*** index',_['index'],'failed ***')
             exc_type, exc_obj, exc_tb = sys.exc_info()
             file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
@@ -321,11 +395,12 @@ if __name__ == '__main__':
             CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)  
         #
         ##########################################################
-
+        
 
         _['index'] += _['step_size']
         _['timer'].freq(d2s("_['index'] =",_['index'], int(100*_['index']/(1.0*len(U['ts']))),'%'))
 
+        
 
     if _['save metadata']:
         file_path = opj(_['dst path'],fname(run_path)+'.net_projections.h5py')

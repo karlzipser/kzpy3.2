@@ -122,6 +122,13 @@ fi
 #
 #######################################################
 
+#### TEMP ####
+alias A1="python kzpy3/Train_app/Sq40_proj_from_scratch_premeta_from_24Dec/trainloop.py"
+alias A2="python kzpy3/Train_app/Sq120_ldr_output_4April2019/trainloop.py "
+alias A3="python kzpy3/Train_app/Sq_ldr_interval_tester5/Main.py cluster_list ~/Desktop/cluster_list_25_1st_pass.pkl threshold 0.25"
+alias A4="python kzpy3/Train_app/Sq_ldr_classifier_/trainloop.py"
+
+
 date
 
 alias pcal='python ~/kzpy3/scripts/pcal.py'
