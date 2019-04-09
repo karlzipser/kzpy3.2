@@ -11,8 +11,8 @@ exec(identify_file_str)
 
 
 _ = default_values._
-#cr(__file__)
-#cr(pname(__file__))
+
+
 project_path = pname(__file__).replace(opjh(),'')
 if project_path[0] == '/':
     project_path = project_path[1:]
@@ -25,10 +25,10 @@ import fit3d#_torch as fit3d
 exec(identify_file_str)
 _ = default_values._
 ##
-##############################################################
-##############################################################
+#############################################################
+#############################################################
 
-##############################################################
+#############################################################
 ####################### MENU ################################
 ##
 if _['start menu automatically'] and using_linux():
@@ -72,8 +72,6 @@ if True:
     L,O,___ = open_run(run_name=Arguments['run'],h5py_path=pname(run_path),want_list=['L','O'])
     _['headings'] = L['gyro_heading_x'][:]
     _['encoders'] = L['encoder'][:]
-    #_['motors'] = L['motor'][:]
-
 
 Left_timestamps_to_left_indicies = {}
 t0 = L['ts'][0]
@@ -87,11 +85,11 @@ for i in rlen(L['ts']):
     if _['save metadata']:
         metadata_img_list.append(blank_meta)
 ##
-#############################################################################
+##############################################################
 ##############################################################
 
 ##############################################################
-#############################################################################
+##############################################################
 ##
 Colors = {'direct':'b','left':'r','right':'g'}
 RGBs = {'direct':(0,0,255),'right':(0,255,0),'left':(255,0,0)}
@@ -100,9 +98,14 @@ Color_index = {'direct':2,'right':1,'left':0}
 ##############################################################
 ##############################################################
 
+
+
+##############################################################
+##############################################################
+###
 S = {}
 import std_msgs.msg
-import geometry_msgs.msg
+#import geometry_msgs.msg
 from std_msgs.msg import Int32MultiArray
 
 
@@ -117,7 +120,7 @@ rospy.Subscriber('/MODALITY_SIDE', std_msgs.msg.Int32MultiArray, callback= MODAL
 
         """
         s = s.replace('MODALITY',modality).replace('SIDE',side)
-        print s
+        #print s
         exec(s)
 
 bcs = '/'
@@ -135,50 +138,6 @@ def encoder_callback(data):
     S['sample_frequency'] = 1.0 / (S['ts']-S['ts_prev'])
 rospy.Subscriber(bcs+'encoder', std_msgs.msg.Float32, callback=encoder_callback)
 
-def gyro_heading_x_callback(data):
-    S['gyro_heading_x_prev'] = S['gyro_heading_x']
-    S['gyro_heading_x'] = data.x
-    S['d_heading'] = S['gyro_heading_x'] - S['gyro_heading_x_prev']
-rospy.Subscriber(bcs+'gyro_heading', geometry_msgs.msg.Vector3, callback=gyro_heading_x_callback)
-
-
-
-"""
-def motor0_callback(data):
-    NET['motor'][0] = na(data.data)
-
-rospy.Subscriber('/motor0', std_msgs.msg.Int32MultiArray, callback=motor0_callback)
-
-def motor1_callback(data):
-    NET['motor'][1] = na(data.data)
-
-rospy.Subscriber('/motor1', std_msgs.msg.Int32MultiArray, callback=motor1_callback)
-
-def motor2_callback(data):
-    NET['motor'][2] = na(data.data)
-    NET['ts_prev'] = NET['ts']
-    NET['ts'] = time.time()
-    NET['sample_frequency'] = 1.0 / (NET['ts']-NET['ts_prev'])
-    NET['gyro_heading_x_prev'] = NET['gyro_heading_x']
-    NET['gyro_heading_x'] = CAR['gyro_heading_x']
-    NET['d_heading'] = NET['gyro_heading_x'] - NET['gyro_heading_x_prev']
-    NET['velocity'] = CAR['encoder'] * P['vel-encoding coeficient']
-    NET['trajectory_vector_magnitude'] = NET['velocity'] / NET['sample_frequency']
-    
-rospy.Subscriber('/motor2', std_msgs.msg.Int32MultiArray, callback=motor2_callback)
-
-def gyro_heading_x_callback(data):
-    CAR['gyro_heading_x'] = data.x
-rospy.Subscriber('/bair_car/gyro_heading', geometry_msgs.msg.Vector3, callback=gyro_heading_x_callback)
-def encoder_callback(data):
-    CAR['encoder'] = data.data
-rospy.Subscriber('/bair_car/encoder', std_msgs.msg.Float32, callback=encoder_callback)
-def motor_callback(data):
-    CAR['motor'] = data.data
-rospy.Subscriber('/bair_car/motor', std_msgs.msg.Int32, callback=motor_callback)
-"""
-
-
 Pub = {}
 for modality in ['headings','encoders','motors']:
     Pub[modality] = {}
@@ -187,17 +146,17 @@ for modality in ['headings','encoders','motors']:
 Pub['d_heading'] = rospy.Publisher('d_heading',std_msgs.msg.Float32,queue_size=5)
 Pub['encoder'] = rospy.Publisher('encoder',std_msgs.msg.Float32,queue_size=5)
 
-
-
-
 rospy.init_node('VT_node',anonymous=True,disable_signals=True)
+###
+##############################################################
+##############################################################
 
 
 
 
 ##############################################################
 ##############################################################
-##
+###
 def vec(heading,encoder,motor,sample_frequency,_):
     velocity = encoder * _['vel-encoding coeficient'] # rough guess
     if motor < 49:
@@ -449,6 +408,7 @@ def get_SOURCE_DEPENDENT_img(source,_):
 
 
 if __name__ == '__main__':
+    
 
     Prediction2D_plot = CV2Plot(height_in_pixels=141,width_in_pixels=61,pixels_per_unit=7,y_origin_in_pixels=41)
 
@@ -459,38 +419,39 @@ if __name__ == '__main__':
     pts2D_multi_step = []
 
     while _['index'] < len(U['ts']) and not _['ABORT']:
+        try:
+            load_parameters(_)
 
-        load_parameters(_)
+            Data = {}
 
-        Data = {}
+            if True:
+                d_heading,encoder,Data['headings'],Data['encoders'],Data['motors'] = get_SOURCE_DEPENDENT_data('preprocessed',_)
 
-        if True:
-            d_heading,encoder,Data['headings'],Data['encoders'],Data['motors'] = get_SOURCE_DEPENDENT_data('preprocessed',_)
+                for modality in ['headings','encoders','motors']:
+                    for behavioral_mode in _['behavioral_mode_list']:
+                        Pub[modality][behavioral_mode].publish(data=1000*Data[modality][behavioral_mode])
+                Pub['d_heading'].publish(data=d_heading)
+                Pub['encoder'].publish(data=encoder)
 
-            for modality in ['headings','encoders','motors']:
-                for behavioral_mode in _['behavioral_mode_list']:
-                    Pub[modality][behavioral_mode].publish(data=1000*Data[modality][behavioral_mode])
-            Pub['d_heading'].publish(data=d_heading)
-            Pub['encoder'].publish(data=encoder)
-            time.sleep(0.1)
-        
+                #time.sleep(0.1)
+            
 
-        if True:
-            if True:#try:
+            if True:
+                if True:#try:
 
-                Prediction2D_plot,left_camera_3D_img,metadata_3D_img = \
-                    prepare_2D_and_3D_images(Prediction2D_plot,pts2D_multi_step,'ROS',_)
+                    Prediction2D_plot,left_camera_3D_img,metadata_3D_img = \
+                        prepare_2D_and_3D_images(Prediction2D_plot,pts2D_multi_step,'ROS',_)
 
-                show_maybe_save_images(Prediction2D_plot,left_camera_3D_img,metadata_3D_img,_)  
+                    show_maybe_save_images(Prediction2D_plot,left_camera_3D_img,metadata_3D_img,_)  
 
-            else:#except Exception as e:
-                cr('*** index',_['index'],'failed ***')
-                exc_type, exc_obj, exc_tb = sys.exc_info()
-                file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-                CS_('Exception!',emphasis=True)
-                CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)  
-            #
-            ##########################################################
+        except Exception as e:
+            cr('*** index',_['index'],'failed ***')
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            CS_('Exception!',emphasis=True)
+            CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)  
+                #
+                ##########################################################
         
         _['index'] += _['step_size']
         _['timer'].freq(d2s("_['index'] =",_['index'], int(100*_['index']/(1.0*len(U['ts']))),'%'))
