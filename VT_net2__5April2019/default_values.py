@@ -28,6 +28,7 @@ _['behavioral_mode_list'] = ['left','direct','right']
 _['use center line'] = True
 _['cmd/an impulse (click)'] = False
 _['show timer time'] = 0
+_['add_mode'] = True
 _['To Expose']['VT menu'] = sorted(_.keys())
 to_hide = ['To Expose','customers']
 for h in to_hide:

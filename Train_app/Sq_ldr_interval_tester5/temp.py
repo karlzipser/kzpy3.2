@@ -17,4 +17,12 @@ for x in range(n):
 mi(m)
 
 
+
+clusters = loD('cluster_list_25_1st_pass.pkl')
+
+indicies = []
+c = []
+for i in range(1024):
+    for j in range(len(clusters[i])):
+        indicies.append(clusters[i][j]['index'])
 #EOF

@@ -3,7 +3,7 @@ exec(identify_file_str)
 
 def prepare_data_for_training(_):
 	
-	full = False
+	full = True
 
 	_['experiments_folders'] = []
 
