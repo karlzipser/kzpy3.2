@@ -136,7 +136,13 @@ def encoder_callback(data):
     S['ts_prev'] = S['ts']
     S['ts'] = time.time()
     S['sample_frequency'] = 1.0 / (S['ts']-S['ts_prev'])
+
 rospy.Subscriber(bcs+'encoder', std_msgs.msg.Float32, callback=encoder_callback)
+
+def d_heading_callback(data):
+    S['d_heading'] = data.data
+
+rospy.Subscriber(bcs+'d_heading', std_msgs.msg.Float32, callback=d_heading_callback)
 
 Pub = {}
 for modality in ['headings','encoders','motors']:
@@ -256,7 +262,7 @@ def get_prediction_images_3D(pts2D_1step_list,img,_):#left_index):
 ##############################################################
 ##############################################################
 ###
-def get__pts2D_multi_step(d_heading,encoder,headings,encoders,motors,sample_frequency,pts2D_multi_step,_):
+def get__pts2D_multi_step(d_heading,encoder,sample_frequency,headings,encoders,motors,pts2D_multi_step,_):
 
     Pts2D_1step = {}
 
@@ -306,9 +312,9 @@ def get__pts2D_multi_step(d_heading,encoder,headings,encoders,motors,sample_freq
 ###
 def prepare_2D_and_3D_images(Prediction2D_plot,pts2D_multi_step,source,_):
 
-    d_heading,encoder,headings,encoders,motors = get_SOURCE_DEPENDENT_data(source,_)
+    d_heading,encoder,sample_frequency,headings,encoders,motors = get_SOURCE_DEPENDENT_data(source,_)
 
-    pts2D_multi_step = get__pts2D_multi_step(d_heading,encoder,headings,encoders,motors,sample_frequency,pts2D_multi_step,_)
+    pts2D_multi_step = get__pts2D_multi_step(d_heading,encoder,sample_frequency,headings,encoders,motors,pts2D_multi_step,_)
 
     Prediction2D_plot['clear']()
 
@@ -335,6 +341,11 @@ def show_maybe_save_images(Prediction2D_plot,left_camera_3D_img,metadata_3D_img,
     if _['show timer'].check():
         _['show timer'] = Timer(_['show timer time'])
         Prediction2D_plot['show'](scale=_['Prediction2D_plot scale'])
+        img = Prediction2D_plot['image']
+        img = z55(np.log10(1.0*img+1.0)*10.0)
+        img[41,:,:] = 128
+        img[:,31,:] = 128
+        mci(img,title='X',scale=4)
         mci(left_camera_3D_img,title='left_camera_3D_img',delay=_['cv2 delay'],scale=_['3d image scale'])
         mci(metadata_3D_img,title='metadata_3D_img',delay=_['cv2 delay'],scale=_['metadata_3D_img scale'])
 ###
@@ -361,7 +372,10 @@ def get_SOURCE_DEPENDENT_data(source,_):
 
         encoder = _['encoders'][indx]
 
-        
+        #sample_frequency = 1.0 / (L['left_timestamp_index'][_['index']]-L['left_timestamp_index'][_['index']-1])
+
+        sample_frequency = 30.0
+        S['sample_frequency'] = sample_frequency #temp
 
         for behavioral_mode in _['behavioral_mode_list']:
 
@@ -384,12 +398,13 @@ def get_SOURCE_DEPENDENT_data(source,_):
         motors['right'] =       S['motors_right']
         d_heading =             S['d_heading']
         encoder =               S['encoder']
+        sample_frequency =      S['sample_frequency']
 
     else:
 
         assert False
 
-    return d_heading,encoder,headings,encoders,motors
+    return d_heading,encoder,sample_frequency,headings,encoders,motors
 ###
 ################################################################
 ################################################################
@@ -410,11 +425,11 @@ def get_SOURCE_DEPENDENT_img(source,_):
 if __name__ == '__main__':
     
 
-    Prediction2D_plot = CV2Plot(height_in_pixels=141,width_in_pixels=61,pixels_per_unit=7,y_origin_in_pixels=41)
+    Prediction2D_plot = CV2Plot(height_in_pixels=141,width_in_pixels=62,pixels_per_unit=7,y_origin_in_pixels=41)
 
     Prediction2D_plot['verbose'] = False
 
-    sample_frequency = 30.0
+    #
 
     pts2D_multi_step = []
 
@@ -425,7 +440,7 @@ if __name__ == '__main__':
             Data = {}
 
             if True:
-                d_heading,encoder,Data['headings'],Data['encoders'],Data['motors'] = get_SOURCE_DEPENDENT_data('preprocessed',_)
+                d_heading,encoder,sample_frequency,Data['headings'],Data['encoders'],Data['motors'] = get_SOURCE_DEPENDENT_data('preprocessed',_)
 
                 for modality in ['headings','encoders','motors']:
                     for behavioral_mode in _['behavioral_mode_list']:
@@ -454,7 +469,7 @@ if __name__ == '__main__':
                 ##########################################################
         
         _['index'] += _['step_size']
-        _['timer'].freq(d2s("_['index'] =",_['index'], int(100*_['index']/(1.0*len(U['ts']))),'%'))
+        _['timer'].freq(d2s("_['index'] =",_['index'], int(100*_['index']/(1.0*len(U['ts']))),'%',"S['sample_frequency'] =",dp(S['sample_frequency'],1),"S['d_heading'] =",dp(S['d_heading'])))
 
         
 
