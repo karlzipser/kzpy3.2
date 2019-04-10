@@ -148,7 +148,7 @@ def left_callback(data):
 
 
 rospy.Subscriber(
-    "/bair_car/zed/left/image_rect_color",
+    bcs+"/zed/left/image_rect_color",
     Image,
     left_callback,
     queue_size = 1)
