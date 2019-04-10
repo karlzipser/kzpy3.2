@@ -98,7 +98,7 @@ Color_index = {'direct':2,'right':1,'left':0}
 ##############################################################
 ###
 S = {}
-bcs = '/'
+bcs = '/bair_car/'
 S['ts'] = 0
 S['ts_prev'] = 0
 S['sample_frequency'] = 0
@@ -110,6 +110,9 @@ S['encoder'] = 0
 import std_msgs.msg
 import geometry_msgs.msg
 from std_msgs.msg import Int32MultiArray
+from sensor_msgs.msg import Image
+import cv_bridge
+bridge = cv_bridge.CvBridge()
 
 for modality in ['headings','encoders','motors']:
     for side in ['left','direct','right']:
@@ -140,11 +143,22 @@ def gyro_heading_x_callback(data):
 
 rospy.Subscriber(bcs+'gyro_heading', geometry_msgs.msg.Vector3, callback=gyro_heading_x_callback)
 
+def left_callback(data):
+    S['left_image'] = bridge.imgmsg_to_cv2(data,'rgb8')
+
+
+rospy.Subscriber(
+    "/bair_car/zed/left/image_rect_color",
+    Image,
+    left_callback,
+    queue_size = 1)
+
+
 ###
 #####################################################
 #####################################################
 
-if True:
+if False:
     Pub = {}
     for modality in ['headings','encoders','motors']:
         Pub[modality] = {}
@@ -323,7 +337,8 @@ def prepare_2D_and_3D_images(Prediction2D_plot,pts2D_multi_step,source,_):
 
             Prediction2D_plot['pts_plot'](na(pts2D_multi_step[i][behavioral_mode]),Colors[behavioral_mode],add_mode=_['add_mode'])
 
-    img = get_SOURCE_DEPENDENT_img(source,_)
+    #img = get_SOURCE_DEPENDENT_img(source,_)
+    img = S['left_image']
 
     left_camera_3D_img,metadata_3D_img = get_prediction_images_3D(pts2D_multi_step,img,_)
 
@@ -456,7 +471,7 @@ if __name__ == '__main__':
 
             if True:
                 if True:#try:
-
+                    #print S
                     Prediction2D_plot,left_camera_3D_img,metadata_3D_img = \
                         prepare_2D_and_3D_images(Prediction2D_plot,pts2D_multi_step,'ROS',_)
 
@@ -471,8 +486,9 @@ if __name__ == '__main__':
                 #
                 ##########################################################
         
-        _['index'] += _['step_size']
-        _['timer'].freq(d2s("_['index'] =",_['index'], int(100*_['index']/(1.0*len(U['ts']))),'%',"S['sample_frequency'] =",dp(S['sample_frequency'],1),"S['d_heading'] =",dp(S['d_heading'])))
+        if False:
+            _['index'] += _['step_size']
+            _['timer'].freq(d2s("_['index'] =",_['index'], int(100*_['index']/(1.0*len(U['ts']))),'%',"S['sample_frequency'] =",dp(S['sample_frequency'],1),"S['d_heading'] =",dp(S['d_heading'])))
 
         
 
