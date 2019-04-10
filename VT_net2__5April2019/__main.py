@@ -8,7 +8,10 @@ import kzpy3.Menu_app.menu2 as menu2
 import default_values
 import fit3d#_torch as fit3d
 exec(identify_file_str)
+
+
 _ = default_values._
+
 
 project_path = pname(__file__).replace(opjh(),'')
 if project_path[0] == '/':
@@ -18,6 +21,9 @@ cg(sys_str)
 os.system(sys_str)
 cg("To start menu:\n\tpython kzpy3/Menu_app/menu2.py path",project_path,"dic _")
 
+import fit3d#_torch as fit3d
+exec(identify_file_str)
+_ = default_values._
 ##
 #############################################################
 #############################################################
@@ -82,7 +88,6 @@ for i in rlen(L['ts']):
 ##############################################################
 ##############################################################
 
-
 ##############################################################
 ##############################################################
 ##
@@ -94,22 +99,15 @@ Color_index = {'direct':2,'right':1,'left':0}
 ##############################################################
 
 
+
 ##############################################################
 ##############################################################
 ###
 S = {}
-bcs = '/'
-S['ts'] = 0
-S['ts_prev'] = 0
-S['sample_frequency'] = 0
-S['gyro_heading_x'] = 0
-S['gyro_heading_x_prev'] = 0
-S['d_heading'] = 0
-S['encoder'] = 0
-
 import std_msgs.msg
-import geometry_msgs.msg
+#import geometry_msgs.msg
 from std_msgs.msg import Int32MultiArray
+
 
 for modality in ['headings','encoders','motors']:
     for side in ['left','direct','right']:
@@ -125,38 +123,41 @@ rospy.Subscriber('/MODALITY_SIDE', std_msgs.msg.Int32MultiArray, callback= MODAL
         #print s
         exec(s)
 
+bcs = '/'
+S['ts'] = 0
+S['ts_prev'] = 0
+S['sample_frequency'] = 0
+S['gyro_heading_x'] = 0
+S['gyro_heading_x_prev'] = 0
+S['d_heading'] = 0
+
 def encoder_callback(data):
     S['encoder'] = data.data
-
-rospy.Subscriber(bcs+'encoder', std_msgs.msg.Float32, callback=encoder_callback)
-
-def gyro_heading_x_callback(data):
-    S['gyro_heading_x_prev'] = S['gyro_heading_x']
-    S['gyro_heading_x'] = data.x
-    S['d_heading'] = S['gyro_heading_x'] - S['gyro_heading_x_prev']
     S['ts_prev'] = S['ts']
     S['ts'] = time.time()
     S['sample_frequency'] = 1.0 / (S['ts']-S['ts_prev'])
 
-rospy.Subscriber(bcs+'gyro_heading', geometry_msgs.msg.Vector3, callback=gyro_heading_x_callback)
+rospy.Subscriber(bcs+'encoder', std_msgs.msg.Float32, callback=encoder_callback)
 
-###
-#####################################################
-#####################################################
+def d_heading_callback(data):
+    S['d_heading'] = data.data
 
-if True:
-    Pub = {}
-    for modality in ['headings','encoders','motors']:
-        Pub[modality] = {}
-        for behavioral_mode in _['behavioral_mode_list']:
-            Pub[modality][behavioral_mode] = rospy.Publisher(modality+'_'+behavioral_mode,Int32MultiArray,queue_size = 10)
-    Pub['gyro_heading'] = rospy.Publisher(bcs+'gyro_heading', geometry_msgs.msg.Vector3, queue_size=10)
-    Pub['encoder'] = rospy.Publisher(bcs+'encoder',std_msgs.msg.Float32,queue_size=5)
+rospy.Subscriber(bcs+'d_heading', std_msgs.msg.Float32, callback=d_heading_callback)
+
+Pub = {}
+for modality in ['headings','encoders','motors']:
+    Pub[modality] = {}
+    for behavioral_mode in _['behavioral_mode_list']:
+        Pub[modality][behavioral_mode] = rospy.Publisher(modality+'_'+behavioral_mode,Int32MultiArray,queue_size = 10) 
+Pub['d_heading'] = rospy.Publisher('d_heading',std_msgs.msg.Float32,queue_size=5)
+Pub['encoder'] = rospy.Publisher('encoder',std_msgs.msg.Float32,queue_size=5)
 
 rospy.init_node('VT_node',anonymous=True,disable_signals=True)
 ###
 ##############################################################
 ##############################################################
+
+
 
 
 ##############################################################
@@ -311,7 +312,7 @@ def get__pts2D_multi_step(d_heading,encoder,sample_frequency,headings,encoders,m
 ###
 def prepare_2D_and_3D_images(Prediction2D_plot,pts2D_multi_step,source,_):
 
-    d_heading,gyro_heading_x,encoder,sample_frequency,headings,encoders,motors = get_SOURCE_DEPENDENT_data(source,_)
+    d_heading,encoder,sample_frequency,headings,encoders,motors = get_SOURCE_DEPENDENT_data(source,_)
 
     pts2D_multi_step = get__pts2D_multi_step(d_heading,encoder,sample_frequency,headings,encoders,motors,pts2D_multi_step,_)
 
@@ -339,13 +340,12 @@ def show_maybe_save_images(Prediction2D_plot,left_camera_3D_img,metadata_3D_img,
 
     if _['show timer'].check():
         _['show timer'] = Timer(_['show timer time'])
-        #Prediction2D_plot['show'](scale=_['Prediction2D_plot scale'])
+        Prediction2D_plot['show'](scale=_['Prediction2D_plot scale'])
         img = Prediction2D_plot['image']
         img = z55(np.log10(1.0*img+1.0)*10.0)
-        img = cv2.resize(img, (0,0), fx=4, fy=4, interpolation=0)
-        img[4*41+1,:,:] = 128
-        img[:,4*31+1,:] = 128
-        mci(img,title='X',scale=1)
+        img[41,:,:] = 128
+        img[:,31,:] = 128
+        mci(img,title='X',scale=4)
         mci(left_camera_3D_img,title='left_camera_3D_img',delay=_['cv2 delay'],scale=_['3d image scale'])
         mci(metadata_3D_img,title='metadata_3D_img',delay=_['cv2 delay'],scale=_['metadata_3D_img scale'])
 ###
@@ -369,8 +369,6 @@ def get_SOURCE_DEPENDENT_data(source,_):
         indx = _['index']
 
         d_heading = _['headings'][indx]-_['headings'][indx-1]
-
-        gyro_heading_x = _['headings'][indx]
 
         encoder = _['encoders'][indx]
 
@@ -399,7 +397,6 @@ def get_SOURCE_DEPENDENT_data(source,_):
         motors['direct'] =      S['motors_direct']
         motors['right'] =       S['motors_right']
         d_heading =             S['d_heading']
-        gyro_heading_x =        S['gyro_heading_x']
         encoder =               S['encoder']
         sample_frequency =      S['sample_frequency']
 
@@ -407,7 +404,7 @@ def get_SOURCE_DEPENDENT_data(source,_):
 
         assert False
 
-    return d_heading,gyro_heading_x,encoder,sample_frequency,headings,encoders,motors
+    return d_heading,encoder,sample_frequency,headings,encoders,motors
 ###
 ################################################################
 ################################################################
@@ -442,13 +439,13 @@ if __name__ == '__main__':
 
             Data = {}
 
-            if False:
-                d_heading,gyro_heading_x,encoder,sample_frequency,Data['headings'],Data['encoders'],Data['motors'] = get_SOURCE_DEPENDENT_data('preprocessed',_)
+            if True:
+                d_heading,encoder,sample_frequency,Data['headings'],Data['encoders'],Data['motors'] = get_SOURCE_DEPENDENT_data('preprocessed',_)
 
                 for modality in ['headings','encoders','motors']:
                     for behavioral_mode in _['behavioral_mode_list']:
                         Pub[modality][behavioral_mode].publish(data=1000*Data[modality][behavioral_mode])
-                Pub['gyro_heading'].publish(geometry_msgs.msg.Vector3(*[gyro_heading_x,0,0]))
+                Pub['d_heading'].publish(data=d_heading)
                 Pub['encoder'].publish(data=encoder)
 
                 #time.sleep(0.1)

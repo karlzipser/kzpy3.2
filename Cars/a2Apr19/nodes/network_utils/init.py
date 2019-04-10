@@ -65,26 +65,19 @@ def ros_init(N):
         std_msgs.msg.Int32,
         callback=drive_mode_callback)
 
-    N['pub'] = {}
+    N['Pub'] = {}
 
-    N['pub']['net/steer'] = rospy.Publisher(
-        'net/steer',std_msgs.msg.Float32,queue_size=5)
+    N['Pub']['cmd/steer'] = rospy.Publisher(
+        'cmd/steer',std_msgs.msg.Float32,queue_size=5)
 
-    N['pub']['net/motor'] = rospy.Publisher(
-        'net/motor',std_msgs.msg.Float32,queue_size=5)
+    N['Pub']['cmd/motor'] = rospy.Publisher(
+        'cmd/motor',std_msgs.msg.Float32,queue_size=5)
 
+    for modality in ['headings','encoders','motors']:
+        N['Pub'][modality] = {}
+        for behavioral_mode in ['left','direct','right']:
+            N['Pub'][modality][behavioral_mode] = rospy.Publisher(modality+'_'+behavioral_mode,Int32MultiArray,queue_size = 10)
 
-    N['pub']['net/encoder0'] = rospy.Publisher('encoder0',Int32MultiArray,queue_size = 10)
-    N['pub']['net/encoder1'] = rospy.Publisher('encoder1',Int32MultiArray,queue_size = 10)
-    N['pub']['net/encoder2'] = rospy.Publisher('encoder2',Int32MultiArray,queue_size = 10)
-
-    N['pub']['net/header0'] = rospy.Publisher('header0',Int32MultiArray,queue_size = 10)
-    N['pub']['net/header1'] = rospy.Publisher('header1',Int32MultiArray,queue_size = 10)
-    N['pub']['net/header2'] = rospy.Publisher('header2',Int32MultiArray,queue_size = 10)
-
-    N['pub']['net/motor0'] = rospy.Publisher('motor0',Int32MultiArray,queue_size = 10)
-    N['pub']['net/motor1'] = rospy.Publisher('motor1',Int32MultiArray,queue_size = 10)
-    N['pub']['net/motor2'] = rospy.Publisher('motor2',Int32MultiArray,queue_size = 10)
 
 def metadata_init(N):
     """Making metadata tensors in advance so they 

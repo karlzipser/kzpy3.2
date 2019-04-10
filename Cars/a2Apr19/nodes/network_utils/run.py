@@ -6,6 +6,8 @@ exec(identify_file_str)
 print_timer = Timer(1/4.)
 frequency_timer = Timer(5)
 
+
+
 def ready(N):
 
     for n in CVerbose:
@@ -57,21 +59,30 @@ def step(camera_data,metadata,N):
         cfun(int(torch_steer),int(torch_motor),N['mode']['behavioral_mode'])
         print_timer.reset()
 
-    N['pub']['net/steer'].publish(std_msgs.msg.Float32(torch_steer))
-    N['pub']['net/motor'].publish(std_msgs.msg.Float32(torch_motor))
+    Data = {'encoders':{},'headings':{},'motors':{}}
+    Data['encoders']['left'] = 5.0*output[-30:-20]
+    Data['encoders']['direct'] = 5.0*output[-20:-10]
+    Data['encoders']['right'] = 5.0*output[-10:]
+    Data['headings']['left'] = 90.0*output[-60:-50]
+    Data['headings']['direct'] = 90.0*output[-50:-40]
+    Data['headings']['right'] = 90.0*output[-40:-30]
+    Data['motors']['left'] = 99*output[-90:-80]
+    Data['motors']['direct'] = 99*output[-80:-70]
+    Data['motors']['right'] = 99*output[-70:-60]
+
+ 
+
+    for modality in ['headings','encoders','motors']:
+        for behavioral_mode in ['left','direct','right']:
+            N['Pub'][modality][behavioral_mode].publish(data=1000*Data[modality][behavioral_mode])
+            print modality,behavioral_mode,Data[modality][behavioral_mode]
 
 
-    N['pub']['net/encoder0'].publish(data=1000*output[-30:-20])
-    N['pub']['net/encoder1'].publish(data=1000*output[-20:-10])
-    N['pub']['net/encoder2'].publish(data=1000*output[-10:])
 
-    N['pub']['net/header0'].publish(data=1000*output[-60:-50])
-    N['pub']['net/header1'].publish(data=1000*output[-50:-40])
-    N['pub']['net/header2'].publish(data=1000*output[-40:-30])
+    N['Pub']['cmd/steer'].publish(data=torch_steer)
+    N['Pub']['cmd/motor'].publish(data=torch_motor)
 
-    N['pub']['net/motor0'].publish(data=100*output[-90:-80])
-    N['pub']['net/motor1'].publish(data=100*output[-80:-70])
-    N['pub']['net/motor2'].publish(data=100*output[-70:-60])
+
 
     if False:
         cr((output[-60:-50]*1000).astype(int)/1000.0)
