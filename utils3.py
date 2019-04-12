@@ -19,7 +19,7 @@ cstr = "CVerbose['COLOR'] = True\\n"+\
     "\tif 'sf' in kwargs and not kwargs['sf']:\\n"+\
     "\t\tscf = ''\\n"+\
     "\telse:\\n"+\
-    "\t\tscf = '\t('+cfile+'.py)'\\n"+\
+    "\t\tscf = '\t('+cfile+')'\\n"+\
     "\tcprint(d2s_spacer(tuple(list(args)+['\t'+scf]),spacer=' '),'COLOR')\\n"+\
     "\tif 'ra' in kwargs:\\n"+\
 	"\t\tif kwargs['ra'] == 1:\\n"+\

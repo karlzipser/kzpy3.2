@@ -442,8 +442,18 @@ def Batch(_,the_network=None):
 
 
 	def _function_display():
+
+		if 'display on' not in _:
+			_['display on'] = False
+		if _['display']:
+			_['display on'] = True
 		if not _['display']:
+			if _['display on']:
+				CA()
+				_['display on'] = False
 			return
+
+
 		#cv2.waitKey(1) # This is to keep cv2 windows alive
 		if _['spause_timer'].check():
 			spause()

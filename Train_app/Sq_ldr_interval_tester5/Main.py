@@ -34,6 +34,40 @@ def load_parameters(_,customer='train menu'):
                 cg("Updated parameter this load:\n\t",_['updated this load'])
                 cb("Updated parameter:\n\t",_['updated'])
         _['menu_load_timer'].reset()
+
+
+def get_cleaned_cluster_list(c):
+    #c=loD('cluster_list_25_1st_pass.pkl')
+    C = {}
+    for i in rlen(c):
+        for j in rlen(c[i]):
+            D = c[i][j]
+            t = (D['name'],D['index'])
+            if t not in C:
+                C[t] = [i]
+            else:
+                C[t].append(i)
+        #C[t] = list(set(C[t]))
+        #cg(C[t],ra=0)
+
+    cleaned = []
+    for i in range(1024):
+        cleaned.append([])
+
+    
+    for t in C.keys():
+        indicies = C[t]
+        choice = np.random.choice(indicies)
+        cleaned[choice].append({'index':t[1],'name':t[0]})
+
+    clens = []
+    for d in cleaned:
+        clens.append(len(d))
+    figure('hist')
+    hist(clens)
+    cg(np.median(clens),ra=1)
+    CA()
+    return cleaned
 # 
 ##############################################################
 
@@ -108,6 +142,7 @@ if 'cluster_list' not in Arguments:
 else:
     cluster_list = lo(Arguments['cluster_list'])
 
+#cluster_list = get_cleaned_cluster_list(cluster_list)
 
 if 'prune' in Arguments:
     cl = []
@@ -209,12 +244,6 @@ while _['ABORT'] == False:
 # Start training with 12 mini metadata images at 9am 12Dec2018
 
  
-if False:
-    c=loD('cluster_list_25_1st_pass.pkl')
-    clens = []
-    for d in c:
-        clens.append(len(d))
-    hist(clens)
-    print np.median(clens)
+# 539997 before cleaning, 486598 after. 11 April 2019
 
 #EOF

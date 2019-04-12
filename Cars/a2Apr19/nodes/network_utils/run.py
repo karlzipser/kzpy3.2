@@ -75,7 +75,7 @@ def step(camera_data,metadata,N):
     for modality in ['headings','encoders','motors']:
         for behavioral_mode in ['left','direct','right']:
             N['Pub'][modality][behavioral_mode].publish(data=1000*Data[modality][behavioral_mode])
-            print modality,behavioral_mode,Data[modality][behavioral_mode]
+            #print modality,behavioral_mode,Data[modality][behavioral_mode]
 
 
 

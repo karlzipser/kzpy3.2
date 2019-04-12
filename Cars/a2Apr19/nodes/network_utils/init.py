@@ -7,7 +7,9 @@ import rospy
 import std_msgs.msg
 #import geometry_msgs.msg
 from std_msgs.msg import Int32MultiArray
-#from sensor_msgs.msg import Image
+from sensor_msgs.msg import Image
+import cv_bridge
+bridge = cv_bridge.CvBridge()
 exec(identify_file_str)
 
 
@@ -78,6 +80,9 @@ def ros_init(N):
         for behavioral_mode in ['left','direct','right']:
             N['Pub'][modality][behavioral_mode] = rospy.Publisher(modality+'_'+behavioral_mode,Int32MultiArray,queue_size = 10)
 
+    def ldr_callback(data):
+        N['ldr_img'] = bridge.imgmsg_to_cv2(data,'rgb8')
+    rospy.Subscriber("/ldr_img",Image,ldr_callback,queue_size = 1)
 
 def metadata_init(N):
     """Making metadata tensors in advance so they 

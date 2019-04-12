@@ -18,10 +18,12 @@ def Camera_Shot(data): #######################################
     D = {}
     #cm("Camera_Shot(data)")
     img = bridge.imgmsg_to_cv2(data,'rgb8')
+    #mci(img,title='zed img',delay=10)
     #print shape(img)
-    #mi(img);spause()
+    
     if shape(img)[0] > 94:
         img = cv2.resize(img,(full_width,full_height))
+    
     D['img'] = img
     if not default_values.P['MOCK_ARDUINO_VERSION']:
         D['ts'] = data.header.stamp.secs + \
@@ -54,7 +56,7 @@ def Quartet(name='no_name'):
         size_=None):
 
         shape_ = np.shape(D['left']['now'][size_])
-        ccm(shape_)
+        #ccm(shape_)
         width,height = shape_[1],shape_[0]
         img_now = np.zeros(
             (height,2*width+int(width/16),3),np.uint8) + 127

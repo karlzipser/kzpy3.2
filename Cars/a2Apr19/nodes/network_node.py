@@ -8,7 +8,7 @@ import network_utils.camera
 import network_utils.Activity_Module
 import default_values
 exec(identify_file_str)
-
+import torch
 N = default_values.P
 
 # python kzpy3/Cars/n26Dec18/nodes/network_node.py desktop_mode 1 display 'camera_input' delay_blank 500 delay_prev 500 delay_now 750
@@ -50,7 +50,9 @@ if __name__ == '__main__':
 
                     Q = network_utils.camera.Q_list[-1]
                     if Q['ready']:
-
+                        
+                        Q['display'](size_='full',delay_now=1)
+                        
                         Q['ready'] = False
 
                         hz.freq(' (main) ')
@@ -66,6 +68,17 @@ if __name__ == '__main__':
 
                         torch_metadata[0,(1+4):(1+4+12),:,:] = torch_small_camera_data
 
+                        if 'ldr_img' in N:
+
+                            mci(N['ldr_img'],color_mode=cv2.COLOR_RGB2BGR,delay=33,title='network node ldr',scale=8)
+                            ctr = 0
+                            
+                            for i in [0,2,1]: # center left right
+                                #mi(N['ldr_img'][:,:,i],i)
+                                torch_metadata[0,5+12+ctr,:,:] = torch.from_numpy((N['ldr_img'][:,:,i]*1.0)).cuda().float()/255.0
+                                ctr += 1
+                            #spause()
+                            #mci()
                         network_utils.run.step(torch_camera_data,torch_metadata,N)
 
                         if Arguments['display']:

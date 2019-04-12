@@ -1,6 +1,7 @@
 ##############################################################
 ####################### IMPORT ################################
 ## python kzpy3/VT_net2__5April2019/main.py run tegra-ubuntu_29Oct18_13h28m05s
+## can run with ROS with car network running, or from preprocessed data.
 ############
 from kzpy3.vis3 import *
 from scipy.optimize import curve_fit
@@ -337,8 +338,8 @@ def prepare_2D_and_3D_images(Prediction2D_plot,pts2D_multi_step,source,_):
 
             Prediction2D_plot['pts_plot'](na(pts2D_multi_step[i][behavioral_mode]),Colors[behavioral_mode],add_mode=_['add_mode'])
 
-    img = get_SOURCE_DEPENDENT_img(source,_)
-    #img = S['left_image']
+    #img = get_SOURCE_DEPENDENT_img(source,_)
+    img = S['left_image']
 
     left_camera_3D_img,metadata_3D_img = get_prediction_images_3D(pts2D_multi_step,img,_)
 

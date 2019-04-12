@@ -1,6 +1,18 @@
 ##############################################################
 ####################### IMPORT ################################
-## python kzpy3/VT_net2__5April2019/main.py run tegra-ubuntu_29Oct18_13h28m05s
+#
+# Start car nodes:
+#
+#   roscore
+#   python kzpy3/Cars/a2Apr19/nodes/arduino_node.py
+#   python kzpy3/Cars/a2Apr19/nodes/network_node.py desktop_mode 1
+#   python kzpy3/Menu_app/menu2.py path kzpy3/Cars/a2Apr19/nodes dic P
+#
+# In menu, set weights and set load network. [8/10/-1],[8/10/y]
+#
+# Then start:
+#   python kzpy3/VT_net2__11April2019/main.py
+# 
 ############
 from kzpy3.vis3 import *
 from scipy.optimize import curve_fit
@@ -8,10 +20,7 @@ import kzpy3.Menu_app.menu2 as menu2
 import default_values
 import fit3d#_torch as fit3d
 exec(identify_file_str)
-
-
 _ = default_values._
-
 
 project_path = pname(__file__).replace(opjh(),'')
 if project_path[0] == '/':
@@ -20,10 +29,6 @@ sys_str = d2s('mkdir -p',opj(project_path,'__local__'))
 cg(sys_str)
 os.system(sys_str)
 cg("To start menu:\n\tpython kzpy3/Menu_app/menu2.py path",project_path,"dic _")
-
-import fit3d#_torch as fit3d
-exec(identify_file_str)
-_ = default_values._
 ##
 #############################################################
 #############################################################
@@ -51,42 +56,12 @@ def load_parameters(_,customer='VT menu'):
                 else:
                     _[t] = Topics[t]
         parameter_file_load_timer.reset()
-
 ##
 ##############################################################
 ##############################################################
 
-##############################################################
-##############################################################
-##
-assert 'run' in Arguments
-runs = lo(opjD('Data/Network_Predictions/runs.pkl'))
-Runs = {}
-for r in runs:
-    Runs[fname(r)] = r
-run_path = Runs[Arguments['run']]
-run_path = run_path.replace('/media/karlzipser','/home/karlzipser/Desktop/Data')
 
-if True:
-    U = lo(opjD('Data/Network_Predictions',fname(run_path)+'.net_predictions.pkl'))
-    L,O,___ = open_run(run_name=Arguments['run'],h5py_path=pname(run_path),want_list=['L','O'])
-    _['headings'] = L['gyro_heading_x'][:]
-    _['encoders'] = L['encoder'][:]
 
-Left_timestamps_to_left_indicies = {}
-t0 = L['ts'][0]
-
-if _['save metadata']:
-    metadata_img_list = []
-blank_meta = np.zeros((23,41,3),np.uint8)
-for i in rlen(L['ts']):
-    t = (1000.0*(L['ts'][i] - t0)).astype(int)
-    Left_timestamps_to_left_indicies[t] = i
-    if _['save metadata']:
-        metadata_img_list.append(blank_meta)
-##
-##############################################################
-##############################################################
 
 ##############################################################
 ##############################################################
@@ -99,15 +74,25 @@ Color_index = {'direct':2,'right':1,'left':0}
 ##############################################################
 
 
-
 ##############################################################
 ##############################################################
 ###
 S = {}
-import std_msgs.msg
-#import geometry_msgs.msg
-from std_msgs.msg import Int32MultiArray
+bcs = '/bair_car/'
+S['ts'] = 0
+S['ts_prev'] = 0
+S['sample_frequency'] = 0
+S['gyro_heading_x'] = 0
+S['gyro_heading_x_prev'] = 0
+S['d_heading'] = 0
+S['encoder'] = 0
 
+import std_msgs.msg
+import geometry_msgs.msg
+from std_msgs.msg import Int32MultiArray
+from sensor_msgs.msg import Image
+import cv_bridge
+bridge = cv_bridge.CvBridge()
 
 for modality in ['headings','encoders','motors']:
     for side in ['left','direct','right']:
@@ -120,44 +105,40 @@ rospy.Subscriber('/MODALITY_SIDE', std_msgs.msg.Int32MultiArray, callback= MODAL
 
         """
         s = s.replace('MODALITY',modality).replace('SIDE',side)
-        #print s
         exec(s)
 
-bcs = '/'
-S['ts'] = 0
-S['ts_prev'] = 0
-S['sample_frequency'] = 0
-S['gyro_heading_x'] = 0
-S['gyro_heading_x_prev'] = 0
-S['d_heading'] = 0
 
 def encoder_callback(data):
     S['encoder'] = data.data
+
+rospy.Subscriber(bcs+'encoder', std_msgs.msg.Float32, callback=encoder_callback)
+
+
+def gyro_heading_x_callback(data):
+    S['gyro_heading_x_prev'] = S['gyro_heading_x']
+    S['gyro_heading_x'] = data.x
+    S['d_heading'] = S['gyro_heading_x'] - S['gyro_heading_x_prev']
     S['ts_prev'] = S['ts']
     S['ts'] = time.time()
     S['sample_frequency'] = 1.0 / (S['ts']-S['ts_prev'])
 
-rospy.Subscriber(bcs+'encoder', std_msgs.msg.Float32, callback=encoder_callback)
+rospy.Subscriber(bcs+'gyro_heading', geometry_msgs.msg.Vector3, callback=gyro_heading_x_callback)
 
-def d_heading_callback(data):
-    S['d_heading'] = data.data
 
-rospy.Subscriber(bcs+'d_heading', std_msgs.msg.Float32, callback=d_heading_callback)
+def left_callback(data):
+    S['left_image'] = bridge.imgmsg_to_cv2(data,'rgb8')
 
-Pub = {}
-for modality in ['headings','encoders','motors']:
-    Pub[modality] = {}
-    for behavioral_mode in _['behavioral_mode_list']:
-        Pub[modality][behavioral_mode] = rospy.Publisher(modality+'_'+behavioral_mode,Int32MultiArray,queue_size = 10) 
-Pub['d_heading'] = rospy.Publisher('d_heading',std_msgs.msg.Float32,queue_size=5)
-Pub['encoder'] = rospy.Publisher('encoder',std_msgs.msg.Float32,queue_size=5)
 
+rospy.Subscriber(bcs+"/zed/left/image_rect_color",Image,left_callback,queue_size = 1)
+###
+#####################################################
+#####################################################
+
+pub = rospy.Publisher("/ldr_img",Image,queue_size=1)
 rospy.init_node('VT_node',anonymous=True,disable_signals=True)
 ###
 ##############################################################
 ##############################################################
-
-
 
 
 ##############################################################
@@ -283,7 +264,7 @@ def get__pts2D_multi_step(d_heading,encoder,sample_frequency,headings,encoders,m
         if len(pts2D_multi_step) > _['num timesteps']:
             pts2D_multi_step = pts2D_multi_step[-_['num timesteps']:]
 
-        pts2D_multi_step[-1][behavioral_mode] = Pts2D_1step[behavioral_mode] #list(Pts2D_1step[behavioral_mode])
+        pts2D_multi_step[-1][behavioral_mode] = Pts2D_1step[behavioral_mode]
 
     velocity = encoder * _['vel-encoding coeficient']
 
@@ -303,6 +284,7 @@ def get__pts2D_multi_step(d_heading,encoder,sample_frequency,headings,encoders,m
     return pts2D_multi_step
 ###
 ##############################################################
+################################################################
 
 
 
@@ -312,7 +294,7 @@ def get__pts2D_multi_step(d_heading,encoder,sample_frequency,headings,encoders,m
 ###
 def prepare_2D_and_3D_images(Prediction2D_plot,pts2D_multi_step,source,_):
 
-    d_heading,encoder,sample_frequency,headings,encoders,motors = get_SOURCE_DEPENDENT_data(source,_)
+    d_heading,gyro_heading_x,encoder,sample_frequency,headings,encoders,motors = get_SOURCE_DEPENDENT_data(source,_)
 
     pts2D_multi_step = get__pts2D_multi_step(d_heading,encoder,sample_frequency,headings,encoders,motors,pts2D_multi_step,_)
 
@@ -324,7 +306,7 @@ def prepare_2D_and_3D_images(Prediction2D_plot,pts2D_multi_step,source,_):
 
             Prediction2D_plot['pts_plot'](na(pts2D_multi_step[i][behavioral_mode]),Colors[behavioral_mode],add_mode=_['add_mode'])
 
-    img = get_SOURCE_DEPENDENT_img(source,_)
+    img = S['left_image']
 
     left_camera_3D_img,metadata_3D_img = get_prediction_images_3D(pts2D_multi_step,img,_)
 
@@ -340,14 +322,15 @@ def show_maybe_save_images(Prediction2D_plot,left_camera_3D_img,metadata_3D_img,
 
     if _['show timer'].check():
         _['show timer'] = Timer(_['show timer time'])
-        Prediction2D_plot['show'](scale=_['Prediction2D_plot scale'])
         img = Prediction2D_plot['image']
         img = z55(np.log10(1.0*img+1.0)*10.0)
-        img[41,:,:] = 128
-        img[:,31,:] = 128
-        mci(img,title='X',scale=4)
+        img = cv2.resize(img, (0,0), fx=4, fy=4, interpolation=0)
+        img[4*41+1,:,:] = 128
+        img[:,4*31+1,:] = 128
+        mci(img,title='X',scale=1)
         mci(left_camera_3D_img,title='left_camera_3D_img',delay=_['cv2 delay'],scale=_['3d image scale'])
         mci(metadata_3D_img,title='metadata_3D_img',delay=_['cv2 delay'],scale=_['metadata_3D_img scale'])
+
 ###
 ################################################################
 ################################################################
@@ -366,24 +349,7 @@ def get_SOURCE_DEPENDENT_data(source,_):
 
     if source == 'preprocessed':
 
-        indx = _['index']
-
-        d_heading = _['headings'][indx]-_['headings'][indx-1]
-
-        encoder = _['encoders'][indx]
-
-        #sample_frequency = 1.0 / (L['left_timestamp_index'][_['index']]-L['left_timestamp_index'][_['index']-1])
-
-        sample_frequency = 30.0
-        S['sample_frequency'] = sample_frequency #temp
-
-        for behavioral_mode in _['behavioral_mode_list']:
-
-            headings[behavioral_mode] = _['U_heading_gain'] * U[behavioral_mode][_['index']]['heading']
-
-            encoders[behavioral_mode] = U[behavioral_mode][_['index']]['encoder']
-
-            motors[behavioral_mode] = L['motor'][_['index']:_['index']+len(headings[behavioral_mode])]
+        assert False
 
     elif source == 'ROS':
 
@@ -397,28 +363,18 @@ def get_SOURCE_DEPENDENT_data(source,_):
         motors['direct'] =      S['motors_direct']
         motors['right'] =       S['motors_right']
         d_heading =             S['d_heading']
+        gyro_heading_x =        S['gyro_heading_x']
         encoder =               S['encoder']
         sample_frequency =      S['sample_frequency']
-
+        cy(headings['left'])
     else:
 
         assert False
 
-    return d_heading,encoder,sample_frequency,headings,encoders,motors
+    return d_heading,gyro_heading_x,encoder,sample_frequency,headings,encoders,motors
 ###
 ################################################################
 ################################################################
-###
-def get_SOURCE_DEPENDENT_img(source,_):
-    left_index = Left_timestamps_to_left_indicies[(1000.0*(U['ts'][_['index']] - t0)).astype(int)]
-    img = O['left_image']['vals'][left_index].copy()
-    return img
-###
-################################################################
-################################################################
-
-
-
 
 
 
@@ -429,49 +385,26 @@ if __name__ == '__main__':
 
     Prediction2D_plot['verbose'] = False
 
-    #
-
     pts2D_multi_step = []
 
-    while _['index'] < len(U['ts']) and not _['ABORT']:
+    while not _['ABORT']:
         try:
             load_parameters(_)
 
-            Data = {}
+            Prediction2D_plot,left_camera_3D_img,metadata_3D_img = prepare_2D_and_3D_images(Prediction2D_plot,pts2D_multi_step,'ROS',_)
 
-            if True:
-                d_heading,encoder,sample_frequency,Data['headings'],Data['encoders'],Data['motors'] = get_SOURCE_DEPENDENT_data('preprocessed',_)
+            show_maybe_save_images(Prediction2D_plot,left_camera_3D_img,metadata_3D_img,_)
 
-                for modality in ['headings','encoders','motors']:
-                    for behavioral_mode in _['behavioral_mode_list']:
-                        Pub[modality][behavioral_mode].publish(data=1000*Data[modality][behavioral_mode])
-                Pub['d_heading'].publish(data=d_heading)
-                Pub['encoder'].publish(data=encoder)
-
-                #time.sleep(0.1)
-            
-
-            if True:
-                if True:#try:
-
-                    Prediction2D_plot,left_camera_3D_img,metadata_3D_img = \
-                        prepare_2D_and_3D_images(Prediction2D_plot,pts2D_multi_step,'ROS',_)
-
-                    show_maybe_save_images(Prediction2D_plot,left_camera_3D_img,metadata_3D_img,_)  
+            pub.publish(cv_bridge.CvBridge().cv2_to_imgmsg(metadata_3D_img,'rgb8'))
 
         except Exception as e:
-            cr('*** index',_['index'],'failed ***')
+            #cr('*** index',_['index'],'failed ***')
             exc_type, exc_obj, exc_tb = sys.exc_info()
             file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             CS_('Exception!',emphasis=True)
             CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)  
                 #
-                ##########################################################
-        
-        _['index'] += _['step_size']
-        _['timer'].freq(d2s("_['index'] =",_['index'], int(100*_['index']/(1.0*len(U['ts']))),'%',"S['sample_frequency'] =",dp(S['sample_frequency'],1),"S['d_heading'] =",dp(S['d_heading'])))
-
-        
+                ##########################################################  
 
     if _['save metadata']:
         file_path = opj(_['dst path'],fname(run_path)+'.net_projections.h5py')

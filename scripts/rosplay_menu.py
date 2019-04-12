@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from kzpy3.utils3 import *
-do_limit = True
+do_limit = False
 task = 'echo'
 if 'Arguments' in locals():
 	if 'task' in Arguments:
@@ -53,7 +53,10 @@ while not done:
 			done = True
 		else:
 			if HAVE_ROS:
-				os.system(d2s('rostopic',task,rl[n-2]))
+				if False:#task == 'image_view':
+					os.system(d2s("python kzpy3/scripts/show_image_from_ros.py topic",rl[n-2]),ra=1)
+				else:
+					os.system(d2s('rostopic',task,rl[n-2]))
 			else:
 				os.system(d2s('ls -al',rl[n-2]))
 	except:

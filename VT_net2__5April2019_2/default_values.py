@@ -22,12 +22,13 @@ _['Prediction2D_plot scale'] = 8.3
 _['num timesteps'] = 30
 _['load_timer_time'] = 2
 _['U_heading_gain'] = 2.0
-_['index'] = 4800
+_['initial index'] = 4800
 _['backup parameter'] = 1.0
 _['behavioral_mode_list'] = ['left','direct','right']
 _['use center line'] = True
 _['cmd/an impulse (click)'] = False
 _['show timer time'] = 0
+_['add_mode'] = True
 _['To Expose']['VT menu'] = sorted(_.keys())
 to_hide = ['To Expose','customers']
 for h in to_hide:
@@ -42,6 +43,6 @@ _['start menu automatically'] = True
 _['vel-encoding coeficient'] = (1.0/2.3)
 _['show timer'] = Timer(_['show timer time'])
 _['wait for start signal'] = False
-
+_['index'] = _['initial index']
 
 #EOF
