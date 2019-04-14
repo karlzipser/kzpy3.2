@@ -141,7 +141,7 @@ try:
 	imsave = scipy.misc.imsave
 except:
 	print("failed: imread = scipy.misc.imread, imsave = scipy.misc.imsave")
-	
+
 degrees = np.degrees
 
 arange = np.arange
@@ -633,7 +633,7 @@ def _code_to_clipboard(code,start,stop):
 	try:
 		import pyperclip
 	except:
-		print "Failed: import pyperclip"
+		print("Failed: import pyperclip")
 		assert False
 	code_str = '\n'.join(code[start:stop])
 	cprint(code_str,'yellow')
