@@ -139,6 +139,7 @@ username = getpass.getuser()
 try:
 	imread = scipy.misc.imread
 	imsave = scipy.misc.imsave
+	imresize = scipy.misc.imresize
 except:
 	print("failed: imread = scipy.misc.imread, imsave = scipy.misc.imsave")
 
@@ -170,7 +171,7 @@ randint = np.random.randint
 randn = np.random.randn
 zeros = np.zeros
 ones = np.ones
-imresize = scipy.misc.imresize
+
 reshape = np.reshape
 mod = np.mod
 array = np.array
