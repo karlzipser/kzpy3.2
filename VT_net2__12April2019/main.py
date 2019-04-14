@@ -1,36 +1,27 @@
-##############################################################
-####################### IMPORT ################################
-############
 """
 
 roscore
-# python kzpy3/VT_net2__5April2019_2/publish.py run tegra-ubuntu_29Oct18_13h28m05s pub_predictions 1
-python kzpy3/VT_net2__5April2019_2/publish.py run tegra-ubuntu_29Oct18_13h28m05s pub_predictions 0
+python kzpy3/VT_net2__5April2019_2/publish.py run tegra-ubuntu_29Oct18_13h28m05s pub_predictions 1
 python kzpy3/VT_net2__5April2019_2/main.py
-python kzpy3/Cars/a2Apr19/nodes/network_node.py desktop_mode 1
 python kzpy3/scripts/show_image_from_ros.py scale 3 topic /bair_car/zed/right/image_rect_color
 python kzpy3/scripts/show_image_from_ros.py scale 3 topic /bair_car/zed/left/image_rect_color
 python kzpy3/scripts/show_image_from_ros.py scale 3 topic /ldr_img
 rosplay_menu.py limit 0
 
 """
+##############################################################
+####################### IMPORT ################################
+############
 from kzpy3.vis3 import *
 from scipy.optimize import curve_fit
 import kzpy3.Menu_app.menu2 as menu2
 import default_values
 from subscribe import S
 import prediction_images
+from sensor_msgs.msg import Image
+import cv_bridge
 exec(identify_file_str)
 _ = default_values._
-
-project_path = pname(__file__).replace(opjh(),'')
-if project_path[0] == '/':
-    project_path = project_path[1:]
-sys_str = d2s('mkdir -p',opj(project_path,'__local__'))
-cg(sys_str)
-os.system(sys_str)
-cg("To start menu:\n\tpython kzpy3/Menu_app/menu2.py path",project_path,"dic _")
-
 ##
 #############################################################
 #############################################################
@@ -40,6 +31,14 @@ cg("To start menu:\n\tpython kzpy3/Menu_app/menu2.py path",project_path,"dic _")
 #############################################################
 ####################### MENU ################################
 ##
+project_path = pname(__file__).replace(opjh(),'')
+if project_path[0] == '/':
+    project_path = project_path[1:]
+sys_str = d2s('mkdir -p',opj(project_path,'__local__'))
+cg(sys_str)
+os.system(sys_str)
+cg("To start menu:\n\tpython kzpy3/Menu_app/menu2.py path",project_path,"dic _")
+
 if _['start menu automatically'] and using_linux():
     dic_name = "_"
     sys_str = d2n("gnome-terminal --geometry 40x30+100+200 -x python kzpy3/Menu_app/menu2.py path ",project_path," dic ",dic_name)
@@ -67,9 +66,6 @@ def load_parameters(_,customer='VT menu'):
 
 
 
-
-from sensor_msgs.msg import Image
-import cv_bridge
 rospy.init_node('main',anonymous=True)
 Pub = {}
 Pub['ldr_img'] = rospy.Publisher("/ldr_img",Image,queue_size=1)
@@ -77,7 +73,6 @@ Pub['ldr_img'] = rospy.Publisher("/ldr_img",Image,queue_size=1)
 
 if __name__ == '__main__':
 
-    
     Prediction2D_plot = CV2Plot(height_in_pixels=141,width_in_pixels=62,pixels_per_unit=7,y_origin_in_pixels=41)
 
     Prediction2D_plot['verbose'] = False
@@ -85,20 +80,6 @@ if __name__ == '__main__':
     pts2D_multi_step = []
 
     while not _['ABORT']:
-
-        """
-        k = mci(S['left_image'],title='left_image',scale=4.0)
-        if ord('q') == k:
-            _['ABORT'] = True
-        figure(1)
-        clf()
-        plot(S['headings_left'],'r.-')
-        plot(S['headings_direct'],'b.-')
-        plot(S['headings_right'],'g.-')
-        ylim(-90,90)
-        spause()
-        """
-
 
         try:
             load_parameters(_)
@@ -131,12 +112,8 @@ if __name__ == '__main__':
             file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             CS_('Exception!',emphasis=True)
             CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)  
-                #
-                ##########################################################
         
       
-
-    
 ###
 ##############################################################
 ##############################################################

@@ -136,12 +136,8 @@ host_name = socket.gethostname()
 home_path = os.path.expanduser("~")
 username = getpass.getuser()
 
-try:
-	imread = scipy.misc.imread
-	imsave = scipy.misc.imsave
-except:
-	print("failed: imread = scipy.misc.imread, imsave = scipy.misc.imsave")
-	
+imread = scipy.misc.imread
+imsave = scipy.misc.imsave
 degrees = np.degrees
 
 arange = np.arange
@@ -630,11 +626,7 @@ def code_to_code_str(path,start='symbols'):#start=-1,stop=-1):
 c2cs = code_to_code_str
 
 def _code_to_clipboard(code,start,stop):
-	try:
-		import pyperclip
-	except:
-		print "Failed: import pyperclip"
-		assert False
+	import pyperclip
 	code_str = '\n'.join(code[start:stop])
 	cprint(code_str,'yellow')
 	if using_osx():

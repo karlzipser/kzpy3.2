@@ -51,7 +51,7 @@ if __name__ == '__main__':
                     Q = network_utils.camera.Q_list[-1]
                     if Q['ready']:
                         
-                        Q['display'](size_='full',delay_now=1)
+                        #Q['display'](size_='full',delay_now=1)
                         
                         Q['ready'] = False
 
@@ -70,13 +70,13 @@ if __name__ == '__main__':
 
                         if 'ldr_img' in N:
 
-                            mci(N['ldr_img'],color_mode=cv2.COLOR_RGB2BGR,delay=33,title='network node ldr',scale=8)
+                            mci(N['ldr_img'],color_mode=cv2.COLOR_RGB2BGR,delay=33,title='network_node.py /ldr',scale=8)
                             ctr = 0
-                            
-                            for i in [0,2,1]: # center left right
-                                #mi(N['ldr_img'][:,:,i],i)
-                                torch_metadata[0,5+12+ctr,:,:] = torch.from_numpy((N['ldr_img'][:,:,i]*1.0)).cuda().float()/255.0
-                                ctr += 1
+                            if True:
+                                for i in [0,2,1]: # center left right
+                                    #mi(N['ldr_img'][:,:,i],i)
+                                    torch_metadata[0,5+12+ctr,:,:] = torch.from_numpy((N['ldr_img'][:,:,i]*1.0)).cuda().float()/255.0
+                                    ctr += 1
                             #spause()
                             #mci()
                         network_utils.run.step(torch_camera_data,torch_metadata,N)
