@@ -8,6 +8,7 @@ roscore
 python kzpy3/VT_net2__5April2019_2/publish.py run tegra-ubuntu_29Oct18_13h28m05s pub_predictions 0
 python kzpy3/VT_net2__5April2019_2/main.py
 python kzpy3/Cars/a2Apr19/nodes/network_node.py desktop_mode 1
+python kzpy3/Menu_app/menu2.py path kzpy3/Cars/a2Apr19/nodes dic P
 python kzpy3/scripts/show_image_from_ros.py scale 3 topic /bair_car/zed/right/image_rect_color
 python kzpy3/scripts/show_image_from_ros.py scale 3 topic /bair_car/zed/left/image_rect_color
 python kzpy3/scripts/show_image_from_ros.py scale 3 topic /ldr_img

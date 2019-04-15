@@ -8,8 +8,8 @@ _['project_path'] = pname(__file__)
 _['agent_is_human'] = False
 
 _['MOCK_ARDUINO_VERSION'] = True # Note, unrelated to 'desktop_mode' command line arg
-_['MOCK_ARDUINO_VERSION/run_name'] = 'tegra-ubuntu_16Nov18_13h02m06s'
-_['MOCK_ARDUINO_VERSION/h5py_path'] = opjm('/home/karlzipser/Desktop/Data/2_TB_Samsung_n3/rosbags__preprocessed_data/tu_15to16Nov2018/locations/local/left_direct_stop/h5py')
+_['MOCK_ARDUINO_VERSION/run_name'] = 'Mr_Purple_20Nov18_16h24m20s'
+_['MOCK_ARDUINO_VERSION/h5py_path'] = opjm('rosbags/h5py')
 _['MOCK_ARDUINO_VERSION/nvidia_run_name'] = _['MOCK_ARDUINO_VERSION/run_name']
 _['MOCK_ARDUINO_VERSION/nvidia_h5py_path'] = _['MOCK_ARDUINO_VERSION/h5py_path']
 
@@ -29,8 +29,6 @@ _['d_heading_for_end_turning'] = 45
 _['max motor'] = 63
 _['min motor'] = 30
 ############# NETWORK PARAMETERS
-_['use_ldr_img'] = False
-_['ldr_gain'] = 1.0
 _['network_output_sample'] = 0 # >= 0, <= 9
 _['network_steer_gain'] = 2.0
 _['network_camera_gain'] = 4.0
@@ -220,9 +218,7 @@ _['To Expose']['Network'] = [
 	'network_reverse_motor_gain',
 	'net_hide_colors',
 	'network_servo_smoothing_parameter_direct',
-	'network_steer_gain_direct',
-    'use_ldr_img',
-    'ldr_gain',
+	'network_steer_gain_direct',       
 ]
 _['To Expose']['Control'] = [
     'ABORT',
@@ -268,9 +264,8 @@ except Exception as e:
     CS_('Exception!',emphasis=True)
     CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
 
-_['LOAD NETWORK'] = False
+_['LOAD NETWORK'] = True
 
-_['modalities'] = ['headings','encoders','motors']
-_['topic_suffix'] = ''
+
 
 #EOF

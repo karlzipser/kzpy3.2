@@ -8,7 +8,7 @@ import network_utils.camera
 import network_utils.Activity_Module
 import default_values
 exec(identify_file_str)
-import torch
+
 N = default_values.P
 
 # python kzpy3/Cars/n26Dec18/nodes/network_node.py desktop_mode 1 display 'camera_input' delay_blank 500 delay_prev 500 delay_now 750
@@ -50,41 +50,20 @@ if __name__ == '__main__':
 
                     Q = network_utils.camera.Q_list[-1]
                     if Q['ready']:
-                        
-                        #Q['display'](size_='full',delay_now=1)
-                        
+
                         Q['ready'] = False
 
                         hz.freq(' (main) ')
 
                         torch_camera_data           = Q['to_torch'](size_='full')
-
                         torch_small_camera_data    = Q['to_torch'](size_='small')
-
                         behavioral_mode = N['mode']['behavioral_mode']
-
                         if behavioral_mode in N['behavioral_metadatas']:
                             torch_metadata = N['behavioral_metadatas'][behavioral_mode]
-
                         torch_metadata[0,(1+4):(1+4+12),:,:] = torch_small_camera_data
-
-                        if 'ldr_img' in N:
-
-                            ctr = 0
-                            
-                            for i in [0,2,1]: # center left right [???]
-
-                                if N['use_ldr_img']:
-                                    torch_metadata[0,5+12+ctr,:,:] = torch.from_numpy((N['ldr_img'][:,:,i]*1.0)).cuda().float()/255.0*N['ldr_gain']
-                                else:
-                                    torch_metadata[0,5+12+ctr,:,:] *= 0
-                                ctr += 1
-
                         network_utils.run.step(torch_camera_data,torch_metadata,N)
-
                         if Arguments['display']:
                             Q2 = network_utils.camera.Quartet('camera from Quartet')
-                            
                             if Arguments['display'] == 'camera_input':
                                 Q2['from_torch'](N['net']['Torch_network']['solver'].A['camera_input'])
                                 size_ = 'full'

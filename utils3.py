@@ -56,6 +56,9 @@ if False:
 def et():
 	print(
 		"""
+except KeyboardInterrupt:
+    cr('\n\n*** KeyboardInterrupt ***\n')
+    sys.exit()
 except Exception as e:
 	exc_type, exc_obj, exc_tb = sys.exc_info()
 	file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]

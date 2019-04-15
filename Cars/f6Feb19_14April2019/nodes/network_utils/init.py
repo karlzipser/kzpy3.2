@@ -6,10 +6,8 @@ import torch
 import rospy
 import std_msgs.msg
 #import geometry_msgs.msg
-from std_msgs.msg import Int32MultiArray
-from sensor_msgs.msg import Image
-import cv_bridge
-bridge = cv_bridge.CvBridge()
+#from std_msgs.msg import Int32MultiArray
+#from sensor_msgs.msg import Image
 exec(identify_file_str)
 
 
@@ -67,22 +65,17 @@ def ros_init(N):
         std_msgs.msg.Int32,
         callback=drive_mode_callback)
 
-    N['Pub'] = {}
+    N['pub'] = {}
 
-    N['Pub']['cmd/steer'] = rospy.Publisher(
-        'cmd/steer',std_msgs.msg.Float32,queue_size=5)
+    N['pub']['net/steer'] = rospy.Publisher(
+        'net/steer',std_msgs.msg.Float32,queue_size=5)
 
-    N['Pub']['cmd/motor'] = rospy.Publisher(
-        'cmd/motor',std_msgs.msg.Float32,queue_size=5)
+    N['pub']['net/motor'] = rospy.Publisher(
+        'net/motor',std_msgs.msg.Float32,queue_size=5)
 
-    for modality in N['modalities']:
-        N['Pub'][modality] = {}
-        for behavioral_mode in ['left','direct','right']:
-            N['Pub'][modality][behavioral_mode] = rospy.Publisher(modality+'_'+behavioral_mode+N['topic_suffix'],Int32MultiArray,queue_size = 10)
 
-    def ldr_callback(data):
-        N['ldr_img'] = bridge.imgmsg_to_cv2(data,'rgb8')
-    rospy.Subscriber("/ldr_img",Image,ldr_callback,queue_size = 1)
+
+
 
 def metadata_init(N):
     """Making metadata tensors in advance so they 
@@ -124,7 +117,7 @@ For SqueezeNet40 models."""
 
         for b in TP['behavioral_modes']:
             if b == the_behaviorial_mode:
-                metadata[0,-mode_ctr,:,:] = 0.0; mode_ctr += 1######1.0; mode_ctr += 1
+                metadata[0,-mode_ctr,:,:] = 1.0; mode_ctr += 1
             else:
                 metadata[0,-mode_ctr,:,:] = 0.0; mode_ctr += 1
 

@@ -14,19 +14,28 @@ import cv_bridge
 exec(identify_file_str)
 _ = default_values._
 
+Defaults = {
+    'pub_predictions':True,
+    'step':False,
+    'run':'tegra-ubuntu_29Oct18_13h28m05s',
+}
+for k in Defaults:
+    if k not in Arguments:
+        Arguments[k] = Defaults[k]
 
-if 'pub_predictions' not in Arguments:
-    Arguments['pub_predictions'] = True
     
 ##############################################################
 ##############################################################
 ##
 bcs = '/bair_car/'
 Pub = {}
+extra = ''
+if Arguments['pub_predictions'] == 9:
+    extra = '_'
 for modality in ['headings','encoders','motors']:
     Pub[modality] = {}
     for behavioral_mode in _['behavioral_mode_list']:
-        Pub[modality][behavioral_mode] = rospy.Publisher(modality+'_'+behavioral_mode,Int32MultiArray,queue_size = 1)
+        Pub[modality][behavioral_mode] = rospy.Publisher(modality+'_'+behavioral_mode+extra,Int32MultiArray,queue_size = 1)
 Pub['gyro_heading'] = rospy.Publisher(bcs+'gyro_heading', geometry_msgs.msg.Vector3, queue_size=1)
 Pub['encoder'] = rospy.Publisher(bcs+'encoder',std_msgs.msg.Float32,queue_size=1)
 Pub['human_agent'] = rospy.Publisher(bcs+'human_agent',std_msgs.msg.Int32,queue_size=1)
@@ -44,11 +53,10 @@ rospy.init_node('publish_node',anonymous=True,disable_signals=True)
 ##############################################################
 ##############################################################
 ##
-Arguments['run'] = 'tegra-ubuntu_29Oct18_13h28m05s'
 
-assert 'run' in Arguments
 runs = lo(opjD('Data/Network_Predictions/runs.pkl'))
 Runs = {}
+
 for r in runs:
     Runs[fname(r)] = r
 run_path = Runs[Arguments['run']]
@@ -118,55 +126,73 @@ def get_data(_):
 ##############################################################
 ##############################################################
 ###
+
+rate_timer = Timer(1/30.)
+
 if __name__ == '__main__':
     
-    while _['index'] < len(U['ts']) and not _['ABORT']:
+    try:
+        while _['index'] < len(U['ts']) and not _['ABORT']:
 
-        time.sleep(1/30.)
+            if rate_timer.check():
+                rate_timer.reset()
+                Data = {}
 
-        Data = {}
+                d_heading,sample_frequency,left_image,right_image,gyro_heading_x,encoder,Data['headings'],Data['encoders'],Data['motors'] = get_data(_)
 
-        d_heading,sample_frequency,left_image,right_image,gyro_heading_x,encoder,Data['headings'],Data['encoders'],Data['motors'] = get_data(_)
+                if Arguments['pub_predictions']:
+                    for modality in ['headings','encoders','motors']:
+                        for behavioral_mode in _['behavioral_mode_list']:
+                            Pub[modality][behavioral_mode].publish(data=1000*Data[modality][behavioral_mode])
 
-        if Arguments['pub_predictions']:
-            for modality in ['headings','encoders','motors']:
-                for behavioral_mode in _['behavioral_mode_list']:
-                    Pub[modality][behavioral_mode].publish(data=1000*Data[modality][behavioral_mode])
+                Pub['gyro_heading'].publish(geometry_msgs.msg.Vector3(*[gyro_heading_x,0,0]))
 
-        Pub['gyro_heading'].publish(geometry_msgs.msg.Vector3(*[gyro_heading_x,0,0]))
+                Pub['encoder'].publish(data=encoder)
 
-        Pub['encoder'].publish(data=encoder)
-
-        Pub['human_agent'].publish(data=0)
-        Pub['behavioral_mode'].publish(data='direct')
-        Pub['drive_mode'].publish(data=1)
+                Pub['human_agent'].publish(data=0)
+                Pub['behavioral_mode'].publish(data='direct')
+                Pub['drive_mode'].publish(data=1)
 
 
-        Pub['left_image'].publish(cv_bridge.CvBridge().cv2_to_imgmsg(left_image,'rgb8'))
+                Pub['left_image'].publish(cv_bridge.CvBridge().cv2_to_imgmsg(left_image,'rgb8'))
 
-        Pub['right_image'].publish(cv_bridge.CvBridge().cv2_to_imgmsg(right_image,'rgb8'))
-        
+                Pub['right_image'].publish(cv_bridge.CvBridge().cv2_to_imgmsg(right_image,'rgb8'))
+                
+                if Arguments['step']:
+                    cg("_['index'] =",_['index'],ra=1)
+                _['index'] += _['step_size']
+                _['timer'].freq(d2s("_['index'] =",_['index'], int(100*_['index']/(1.0*len(U['ts']))),'%'))
+                #,"S['sample_frequency'] =",dp(S['sample_frequency'],1),"S['d_heading'] =",dp(S['d_heading'])))
 
-        _['index'] += _['step_size']
-        _['timer'].freq(d2s("_['index'] =",_['index'], int(100*_['index']/(1.0*len(U['ts']))),'%'))
-        #,"S['sample_frequency'] =",dp(S['sample_frequency'],1),"S['d_heading'] =",dp(S['d_heading'])))
+                
 
-        
+            if _['save metadata']:
+                file_path = opj(_['dst path'],fname(run_path)+'.net_projections.h5py')
+                os.system(d2s('mkdir -p',pname(file_path)))
+                cb("F = h5w(",file_path,")")
+                metadata_img_list_FLIP = []
+                for img in metadata_img_list:
+                    metadata_img_list_FLIP.append(cv2.flip(img,1))
+                F = h5w(file_path)
+                Data = {'normal':na(metadata_img_list,np.uint8),'flip':na(metadata_img_list_FLIP,np.uint8),}
+                for d in Data:
+                    cb("F.create_dataset(",d,",data=Data[",d,"])")
+                    F.create_dataset(d,data=Data[d])
+                F.close()
+                cb("F.close()")
 
-    if _['save metadata']:
-        file_path = opj(_['dst path'],fname(run_path)+'.net_projections.h5py')
-        os.system(d2s('mkdir -p',pname(file_path)))
-        cb("F = h5w(",file_path,")")
-        metadata_img_list_FLIP = []
-        for img in metadata_img_list:
-            metadata_img_list_FLIP.append(cv2.flip(img,1))
-        F = h5w(file_path)
-        Data = {'normal':na(metadata_img_list,np.uint8),'flip':na(metadata_img_list_FLIP,np.uint8),}
-        for d in Data:
-            cb("F.create_dataset(",d,",data=Data[",d,"])")
-            F.create_dataset(d,data=Data[d])
-        F.close()
-        cb("F.close()")
+            else:
+                time.sleep(2/1000.)
+
+    except KeyboardInterrupt:
+        cr('\n\n*** KeyboardInterrupt ***\n')
+        sys.exit()
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        CS_('Exception!',emphasis=True)
+        CS_(d2s(exc_type,file_name,exc_tb.tb_lineno,'\t',time.time()),emphasis=False)
+        time.sleep(1)
 
 ###
 ##############################################################

@@ -9,10 +9,10 @@ import rospy
 from sensor_msgs.msg import Image
 bridge = CvBridge()
 
-
-for k in [('s',3600),('scale',1),('topic',"/bair_car/zed/left/image_rect_color")]:
-    if k[0] not in Arguments:
-         Arguments[k[0]] = k[1]
+Defaults = {'s':3600,'scale':1,'topic':"/bair_car/zed/left/image_rect_color"}
+for k in Defaults:
+    if k not in Arguments:
+         Arguments[k] = Defaults[k]
 
 rospy.init_node('listener',anonymous=True)
 

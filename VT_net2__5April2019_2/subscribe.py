@@ -47,7 +47,7 @@ def gyro_heading_x_callback(data):
     S['d_heading'] = S['gyro_heading_x'] - S['gyro_heading_x_prev']
     S['ts_prev'] = S['ts']
     S['ts'] = time.time()
-    S['sample_frequency'] = 1.0 / (S['ts']-S['ts_prev'])
+    S['sample_frequency'] = 30.#1.0 / (S['ts']-S['ts_prev'])
 
 rospy.Subscriber(bcs+'gyro_heading', geometry_msgs.msg.Vector3, callback=gyro_heading_x_callback,queue_size=qs)
 

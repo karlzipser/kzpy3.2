@@ -254,11 +254,14 @@ try:
         cv2.destroyAllWindows()
     CA = function_close_all_windows
 
-    def mci(img,delay=33,title='mci',scale=1.0,color_mode=cv2.COLOR_RGB2BGR):
+    def mci(img,delay=33,title='mci',scale=1.0,color_mode=cv2.COLOR_RGB2BGR,fx=0,fy=0):
+        if not fx and not fx:
+            fx = scale
+            fy = scale
         if len(shape(img)) == 2:
             color_mode = cv2.COLOR_GRAY2BGR
         img = cv2.cvtColor(img,color_mode)
-        scale_img = cv2.resize(img, (0,0), fx=scale, fy=scale, interpolation=0)
+        scale_img = cv2.resize(img, (0,0), fx=fx, fy=fy, interpolation=0)
         cv2.imshow(title,scale_img)
         k = cv2.waitKey(delay)
         return k
@@ -810,13 +813,13 @@ def CV2Plot(height_in_pixels,width_in_pixels,pixels_per_unit,x_origin_in_pixels=
     if D['verbose']:
         cy(x_origin_in_pixels,y_origin_in_pixels)
     D['image'] = zeros((height_in_pixels,width_in_pixels,3),np.uint8)
-    def function_show(autocontrast=True,delay=1,title='image',scale=1.0):
+    def function_show(autocontrast=True,delay=1,title='image',scale=1.0,fx=0,fy=0):
         
         img = D['image']
         if autocontrast:
             img = z2_255_by_channel(img)
             #cg(img.min(),img.max())
-        mci(img,scale=scale,delay=delay,title=title)
+        return mci(img,scale=scale,fx=fx,fy=fy,delay=delay,title=title)
     def function_safe(px,py):
         if px >= 0:
             if py >= 0:

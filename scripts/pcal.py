@@ -12,8 +12,9 @@ Days = {
 c = 28
 today = datetime.date.today()
 one_day = datetime.timedelta(days=1)
-pr = datetime.datetime.strptime('17032019', "%d%m%Y").date()
-pr2 = one_day*c + pr
+#pr = datetime.datetime.strptime('17032019', "%d%m%Y").date()
+#pr2 = one_day*c + pr
+pr2 = datetime.datetime.strptime('12042019', "%d%m%Y").date()
 def fr(pr,today):
 	for i in range((today-pr).days,19+1):
 		clr='green'#cc = cg
