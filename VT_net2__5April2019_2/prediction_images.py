@@ -89,7 +89,7 @@ def get_prediction_images_3D(pts2D_1step_list,img,_):#left_index):
                         good = False
                     if good:               
                         #img1[cy,cx,:] = RGBs[behavioral_mode]
-                        img2[cy,cx,Color_index[behavioral_mode]] += i**2/(_['num timesteps']**2.0)
+                        img2[cy,cx,Color_index[behavioral_mode]] += q**2/(_['num timesteps']**2.0)
 
                 except Exception as e:
                     exc_type, exc_obj, exc_tb = sys.exc_info()
@@ -145,7 +145,7 @@ def get__pts2D_multi_step(d_heading,encoder,sample_frequency,headings,encoders,m
     for behavioral_mode in _['behavioral_mode_list']:
 
         for i in rlen(pts2D_multi_step):
-            pts2D_multi_step[i][behavioral_mode] = rotatePolygon(pts2D_multi_step[i][behavioral_mode],-d_heading)
+            pts2D_multi_step[i][behavioral_mode] = rotatePolygon(pts2D_multi_step[i][behavioral_mode],-d_heading*_['d_heading_multiplier'])
 
         pts2D_multi_step[-1][behavioral_mode].append(trajectory_vector)
 

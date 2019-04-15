@@ -45,10 +45,12 @@ rospy.Subscriber(bcs+'encoder', std_msgs.msg.Float32, callback=encoder_callback,
 def gyro_heading_x_callback(data):
     S['gyro_heading_x_prev'] = S['gyro_heading_x']
     S['gyro_heading_x'] = data.x
-    S['d_heading'] = S['gyro_heading_x'] - S['gyro_heading_x_prev']
+    S['d_heading'] = 2*(S['gyro_heading_x']-S['gyro_heading_x_prev'])
     S['ts_prev'] = S['ts']
     S['ts'] = time.time()
-    S['sample_frequency'] = 30.#1.0 / (S['ts']-S['ts_prev'])
+    #S['sample_frequency'] = 30.
+    S['sample_frequency'] = 1.0 / (S['ts']-S['ts_prev'])
+
 
 rospy.Subscriber(bcs+'gyro_heading', geometry_msgs.msg.Vector3, callback=gyro_heading_x_callback,queue_size=qs)
 
