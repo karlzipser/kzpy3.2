@@ -14,7 +14,21 @@ python kzpy3/scripts/show_image_from_ros.py scale 3 topic /bair_car/zed/left/ima
 python kzpy3/scripts/show_image_from_ros.py scale 3 topic /ldr_img
 rosplay_menu.py limit 0
 
+
+#15April2019
+roscore
+python kzpy3/VT_net2__5April2019_2/publish.py  pub_predictions 9 step 0
+python kzpy3/VT_net2__5April2019_2/main.py # _['topic_suffix'] = ''
+python kzpy3/VT_net2__5April2019_2/main.py # _['topic_suffix'] = '_'
+python kzpy3/scripts/plot_topics.py topics headings_left_,headings_right_,headings_direct_ colors red,green,blue falloff 0.7
+python kzpy3/scripts/plot_topics.py topics headings_left,headings_right,headings_direct colors red,green,blue falloff 0.7
+python kzpy3/Menu_app/menu2.py path kzpy3/Cars/a2Apr19/nodes dic P
+python kzpy3/Cars/a2Apr19/nodes/network_node.py desktop_mode 1
+rosplay_menu.py
+
+
 """
+
 from kzpy3.vis3 import *
 from scipy.optimize import curve_fit
 import kzpy3.Menu_app.menu2 as menu2
@@ -87,20 +101,6 @@ if __name__ == '__main__':
 
     while not _['ABORT']:
 
-        """
-        k = mci(S['left_image'],title='left_image',scale=4.0)
-        if ord('q') == k:
-            _['ABORT'] = True
-        figure(1)
-        clf()
-        plot(S['headings_left'],'r.-')
-        plot(S['headings_direct'],'b.-')
-        plot(S['headings_right'],'g.-')
-        ylim(-90,90)
-        spause()
-        """
-
-
         try:
             load_parameters(_)
 
@@ -122,24 +122,23 @@ if __name__ == '__main__':
             Prediction2D_plot,left_camera_3D_img,metadata_3D_img = \
                 prediction_images.prepare_2D_and_3D_images(Prediction2D_plot,pts2D_multi_step,d_heading,encoder,sample_frequency,headings,encoders,motors,S['left_image'],_)
 
-            prediction_images.show_maybe_save_images(Prediction2D_plot,left_camera_3D_img,metadata_3D_img,_)  
 
-            Pub['ldr_img'].publish(cv_bridge.CvBridge().cv2_to_imgmsg(metadata_3D_img,'rgb8'))
+            prediction_images.show_maybe_save_images(Prediction2D_plot,left_camera_3D_img,metadata_3D_img,_)
+
+            if not _['skip_3D']:
+                Pub['ldr_img'].publish(cv_bridge.CvBridge().cv2_to_imgmsg(metadata_3D_img,'rgb8'))
 
         except Exception as e:
             cr('*** index',_['index'],'failed ***')
             exc_type, exc_obj, exc_tb = sys.exc_info()
             file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             CS_('Exception!',emphasis=True)
-            CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)  
-                #
-                ##########################################################
+            CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+            time.sleep(1)  
         
       
 
     
-###
-##############################################################
 ##############################################################
 ##############################################################
 

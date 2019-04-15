@@ -29,7 +29,7 @@ _['use center line'] = True
 _['cmd/an impulse (click)'] = False
 _['show timer time'] = 0
 _['add_mode'] = True
-
+_['skip_3D'] = False
 _['To Expose']['VT menu'] = sorted(_.keys())
 to_hide = ['To Expose','customers']
 for h in to_hide:

@@ -178,7 +178,10 @@ def prepare_2D_and_3D_images(Prediction2D_plot,pts2D_multi_step,d_heading,encode
     #img = get_SOURCE_DEPENDENT_img(source,_)
     #img = 
 
-    left_camera_3D_img,metadata_3D_img = get_prediction_images_3D(pts2D_multi_step,img,_)
+    if _['skip_3D']:
+        left_camera_3D_img,metadata_3D_img = False,False
+    else:
+        left_camera_3D_img,metadata_3D_img = get_prediction_images_3D(pts2D_multi_step,img,_)
 
     return Prediction2D_plot,left_camera_3D_img,metadata_3D_img
 ###
@@ -199,8 +202,9 @@ def show_maybe_save_images(Prediction2D_plot,left_camera_3D_img,metadata_3D_img,
         img[4*41+1,:,:] = 128
         img[:,4*31+1,:] = 128
         mci(img,title='X',scale=1)
-        mci(left_camera_3D_img,title='left_camera_3D_img',delay=_['cv2 delay'],scale=_['3d image scale'])
-        mci(metadata_3D_img,title='metadata_3D_img',delay=_['cv2 delay'],scale=_['metadata_3D_img scale'])
+        if not _['skip_3D']:
+            mci(left_camera_3D_img,title='left_camera_3D_img',delay=_['cv2 delay'],scale=_['3d image scale'])
+            mci(metadata_3D_img,title='metadata_3D_img',delay=_['cv2 delay'],scale=_['metadata_3D_img scale'])
 ###
 ################################################################
 ################################################################
