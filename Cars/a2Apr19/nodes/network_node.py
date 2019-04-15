@@ -73,12 +73,14 @@ if __name__ == '__main__':
                             ctr = 0
                             
                             for i in [0,2,1]: # center left right [???]
-
+                                if False:
+                                    mci(N['ldr_img'][:,:,i],title=str(i))
                                 if N['use_ldr_img']:
                                     torch_metadata[0,5+12+ctr,:,:] = torch.from_numpy((N['ldr_img'][:,:,i]*1.0)).cuda().float()/255.0*N['ldr_gain']
                                 else:
                                     torch_metadata[0,5+12+ctr,:,:] *= 0
                                 ctr += 1
+
 
                         network_utils.run.step(torch_camera_data,torch_metadata,N)
 

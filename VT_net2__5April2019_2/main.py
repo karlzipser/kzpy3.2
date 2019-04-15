@@ -73,7 +73,7 @@ from sensor_msgs.msg import Image
 import cv_bridge
 rospy.init_node('main',anonymous=True)
 Pub = {}
-Pub['ldr_img'] = rospy.Publisher("/ldr_img",Image,queue_size=1)
+Pub['ldr_img'] = rospy.Publisher("/ldr_img"+_['topic_suffix'],Image,queue_size=1)
 
 
 if __name__ == '__main__':

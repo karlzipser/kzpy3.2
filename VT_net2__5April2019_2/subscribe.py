@@ -7,6 +7,7 @@ import std_msgs.msg
 import geometry_msgs.msg
 from std_msgs.msg import Int32MultiArray
 from sensor_msgs.msg import Image
+import default_values
 import cv_bridge
 bridge = cv_bridge.CvBridge()
 
@@ -28,11 +29,11 @@ for modality in ['headings','encoders','motors']:
 def MODALITY_SIDE_callback(data):
     S['MODALITY_SIDE'] = na(data.data).astype(float)/1000.
 
-rospy.Subscriber('/MODALITY_SIDE', std_msgs.msg.Int32MultiArray, callback= MODALITY_SIDE_callback,queue_size=qs)
+rospy.Subscriber('/MODALITY_SIDE-TOPIC-SUFFIX', std_msgs.msg.Int32MultiArray, callback= MODALITY_SIDE_callback,queue_size=qs)
 
 
         """
-        s = s.replace('MODALITY',modality).replace('SIDE',side)
+        s = s.replace('MODALITY',modality).replace('SIDE',side).replace('-TOPIC-SUFFIX',default_values._['topic_suffix'])
         #print s
         exec(s)
 

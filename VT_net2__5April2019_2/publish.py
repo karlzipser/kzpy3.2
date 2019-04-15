@@ -3,8 +3,8 @@
 ## python kzpy3/VT_net2__5April2019/main.py run tegra-ubuntu_29Oct18_13h28m05s
 ############
 from kzpy3.vis3 import *
-import kzpy3.VT_net2__5April2019_2.default_values as default_values
-import kzpy3.VT_net2__5April2019_2.fit3d as fit3d#_torch as fit3d
+import default_values
+import fit3d#_torch as fit3d
 import std_msgs.msg
 import geometry_msgs.msg
 from std_msgs.msg import Int32MultiArray

@@ -52,7 +52,7 @@ def get_prediction_images_3D(pts2D_1step_list,img,_):#left_index):
     metadata_version_list = None
     img1 = cv2.resize(img,(41,23))
     metadata_version_list = []
-    img2 = 0*img1.astype(np.float)
+    img2 = 0.0*img1.astype(np.float)
     for q in range(len(pts2D_1step_list)-1,-1,-1):
         Pts2D_1step = pts2D_1step_list[q]
 
@@ -88,8 +88,8 @@ def get_prediction_images_3D(pts2D_1step_list,img,_):#left_index):
                     elif cy < 0 or cy >= 23:
                         good = False
                     if good:               
-                        img1[cy,cx,:] = RGBs[behavioral_mode]
-                        img2[cy,cx,Color_index[behavioral_mode]] += 1
+                        #img1[cy,cx,:] = RGBs[behavioral_mode]
+                        img2[cy,cx,Color_index[behavioral_mode]] += i**2/(_['num timesteps']**2.0)
 
                 except Exception as e:
                     exc_type, exc_obj, exc_tb = sys.exc_info()
@@ -108,7 +108,7 @@ def get_prediction_images_3D(pts2D_1step_list,img,_):#left_index):
         for c in range(3):
             if img2[y,:,c].max() > 0:
                 img2[y,:,c] = z2o(img2[y,:,c])
-    metadata_3D_img = (255*img2).astype(np.uint8)
+    metadata_3D_img = z55(img2)#(255*img2).astype(np.uint8)
 
     return left_camera_3D_img,metadata_3D_img
 ##

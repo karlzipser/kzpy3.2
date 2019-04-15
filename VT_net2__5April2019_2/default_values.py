@@ -29,6 +29,7 @@ _['use center line'] = True
 _['cmd/an impulse (click)'] = False
 _['show timer time'] = 0
 _['add_mode'] = True
+
 _['To Expose']['VT menu'] = sorted(_.keys())
 to_hide = ['To Expose','customers']
 for h in to_hide:
@@ -44,5 +45,5 @@ _['vel-encoding coeficient'] = (1.0/2.3)
 _['show timer'] = Timer(_['show timer time'])
 _['wait for start signal'] = False
 _['index'] = _['initial index']
-
+_['topic_suffix'] = ''
 #EOF
