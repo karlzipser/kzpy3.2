@@ -1,8 +1,8 @@
 clear
 echo "Start kzpy3/bashrc..."
 alias ls='ls -alh'
-alias rhz='rostopic hz /bair_car/zed/left/image_rect_color'
-alias rls='ls -al /media/nvidia/rosbags'
+#alias rhz='rostopic hz /bair_car/zed/left/image_rect_color'
+#alias rls='ls -al /media/nvidia/rosbags'
 alias rrm='rm ~/catkin_ws/src/bair_car/rosbags/*'
 alias rlog='rm -r ~/.ros/log/*'
 alias rla='rlog;roslaunch bair_car bair_car.launch use_zed:=true record:=true' 
@@ -17,7 +17,7 @@ alias ren='rostopic echo /bair_car/encoder'
 alias rcd='cd /media/nvidia/rosbags'
 alias ssd='sudo shutdown -h now'
 alias srb='sudo reboot'
-alias rcn='echo $COMPUTER_NAME'
+#alias rcn='echo $COMPUTER_NAME'
 alias rivl='rosrun image_view image_view image:=/bair_car/zed/left/image_rect_color'
 alias rivr='rosrun image_view image_view image:=/bair_car/zed/right/image_rect_color'
 alias rri='rosrun image_view image_view image:=/bair_car/os1_node/image'
@@ -29,13 +29,15 @@ alias fixScreen='DISPLAY=:0 xrandr --output HDMI-0 --mode 1024x768'
 #alias cm='python kzpy3/Menu_app/menu2.py path kzpy3/Cars/n11Oct2018_car_with_nets/nodes/Default_values/arduino dic P'
 #alias cm='python kzpy3/Menu_app/menu2.py path kzpy3/Cars/n11Oct2018_car_with_nets/nodes dic P'
 #alias cmen='python kzpy3/Menu_app/menu2.py path kzpy3/Cars/n26Dec18/nodes dic P'
-alias cmen='python kzpy3/Menu_app/menu2.py path kzpy3/Cars/f6Feb19/nodes dic P'
-alias A1='rla'
-alias A2='python kzpy3/Cars/f6Feb19/nodes/arduino_node.py'
-alias A3='python kzpy3/Cars/f6Feb19/nodes/network_node.py'
-alias A4='python kzpy3/Cars/f6Feb19/nodes/flex_network_node.py'
-alias A5='python kzpy3/Cars/f6Feb19/nodes/control_node.py'
-alias kx='killall xterm'
+#alias cmen='python kzpy3/Menu_app/menu2.py path kzpy3/Cars/f6Feb19/nodes dic P'
+
+#alias A1='rla'
+#alias A2='python kzpy3/Cars/f6Feb19/nodes/arduino_node.py'
+#alias A3='python kzpy3/Cars/f6Feb19/nodes/network_node.py'
+#alias A4='python kzpy3/Cars/f6Feb19/nodes/flex_network_node.py'
+#alias A5='python kzpy3/Cars/f6Feb19/nodes/control_node.py'
+
+#alias kx='killall xterm'
 alias rosdo="sudo chmod -R 777 /media/$(whoami)/rosbags*"
 alias kr='~/kzpy3/scripts/kill_ros.sh'
 alias ssx='screen -S SX'
@@ -59,9 +61,9 @@ alias rGraph='python ~/kzpy3/Grapher_app_for_live_ros_data/Main.py'
 #alias Train='ulimit -Sn 65000; python ~/kzpy3/Train_app/Train_SqueezeNet_31May3018/Main.py'
 #alias Train_='ulimit -Sn 65000; python ~/kzpy3/Train_app/Train_SqueezeNet_31May3018_temp_sequential/Main.py'
 #alias Train40='ulimit -Sn 65000; python ~/kzpy3/Train_app/Train_SqueezeNet_15Sept2018_1Nov/Main.py'
-alias train='ulimit -Sn 65000; python ~/kzpy3/Train_app/Train_SqueezeNet_15Sept2018_1Nov_14Nov/Main.py'
+#alias train='ulimit -Sn 65000; python ~/kzpy3/Train_app/Train_SqueezeNet_15Sept2018_1Nov_14Nov/Main.py'
 
-alias Localization='python ~/kzpy3/Localization_app/Main.py'
+#alias Localization='python ~/kzpy3/Localization_app/Main.py'
 
 
 
@@ -78,7 +80,7 @@ alias pgacp='cd ~/kzpy3; git pull; gacp; cd'
 alias pgp='cd ~/kzpy3; git pull; cd'
 git config --global credential.helper "cache --timeout=86400"
 alias ipy="ipython --no-banner"
-alias td2="mv ~/Desktop/* ~/Desktop2/"
+#alias td2="mv ~/Desktop/* ~/Desktop2/"
 
 export PYTHONPATH=~:$PYTHONPATH
 #export PYTHONSTARTUP=~/kzpy3/utils.py
@@ -127,6 +129,7 @@ alias A1="python kzpy3/Train_app/Sq40_proj_from_scratch_premeta_from_24Dec/train
 alias A2="python kzpy3/Train_app/Sq120_ldr_output_4April2019/trainloop.py "
 alias A3="python kzpy3/Train_app/Sq_ldr_interval_tester5/Main.py cluster_list ~/Desktop/cluster_list_25_1st_pass.pkl threshold 0.25"
 alias A4="python kzpy3/Train_app/Sq_ldr_classifier_/trainloop.py"
+alias A5="python kzpy3/Train_app/Sq120_ldr_output_2nd_training_16April2019/trainloop.py "
 
 
 date

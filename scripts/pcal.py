@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from kzpy3.utils3 import *
 from termcolor import colored
 Days = {
