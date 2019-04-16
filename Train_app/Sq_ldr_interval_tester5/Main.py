@@ -151,7 +151,7 @@ if 'prune' in Arguments:
             cl.append(c)
     cluster_list = cl
 
-count_timer = Timer(30)
+count_timer = Timer(60)
 save_timer = Timer(60*5)
 
 while _['ABORT'] == False:
@@ -203,9 +203,10 @@ while _['ABORT'] == False:
         if value < 0.25 and (other_name != ref_name or np.abs(ref_index-other_index) > 30*60):
             c.append({'name':other_name,'index':other_index})
             cluster_found = True
-            mi(ref_img,'ref_run')
-            mi(other_img,'other_run')
-            spause()
+            if _['display']:
+                mi(ref_img,'ref_run')
+                mi(other_img,'other_run')
+                spause()
             #cg(ref_index-other_index)
             break
 
@@ -235,7 +236,10 @@ while _['ABORT'] == False:
             counts.append(len(c))
             total += len(c)-1
         cb(total/(1.0*len(cluster_list)),total)
-        figure('counts');clf();plot(counts,'.');spause()
+        if _['display']:
+            figure('counts');clf();plot(counts,'.');spause()
+        else:
+            CA()
     
     if save_timer.check():
         save_timer.reset()
