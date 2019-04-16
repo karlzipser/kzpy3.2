@@ -134,7 +134,7 @@ alias A5="python kzpy3/Train_app/Sq120_ldr_output_2nd_training_16April2019/train
 
 date
 
-alias pcal='python ~/kzpy3/scripts/pcal.py'
+#alias pcal='python ~/kzpy3/scripts/pcal.py'
 #export ccar='kzpy3/Cars/car_24July2018/nodes'
 #export ctrain='kzpy3/Train_app'
 #export cmenu='kzpy3/Menu_app'
