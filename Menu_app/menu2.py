@@ -190,7 +190,7 @@ def menu2(Topics,path):
                 name = Number_name_binding[choice_number]
                 if name in to_expose_keys:
                     continue
-                message = name+' value not changed'
+                message = name+' value not changed!!!!!!!!!!!!!!!!'
                 current_val = Topics[name]
                 if type(current_val) == bool:
                     if 'click' in name:
