@@ -198,6 +198,12 @@ while _['ABORT'] == False:
                         else:
                             _[t] = Topics[t]
                 parameter_file_load_timer.reset()
+
+                vrb = True
+                if not _['ardunio print']:
+                    vrb = False
+                for c in ['yellow','green','blue','magenta','cyan','white','Grey']:
+                    CVerbose[c] = vrb
         else:
             time.sleep(0.1)
 
@@ -206,7 +212,7 @@ while _['ABORT'] == False:
         time.sleep(0.5)
         _['ABORT'] = True
     except Exception as e:
-        print '*********** here ************'
+        cr('*********** here ************')
         CS_(d2s('Main loop exception',e))
 #
 #########################################

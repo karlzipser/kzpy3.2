@@ -124,7 +124,7 @@ if __name__ == '__main__':
         
         
     network_utils.camera.QUIT = True
-    cm(103)
+
     cg('Exiting network_node.py.')
 
 

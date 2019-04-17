@@ -28,6 +28,11 @@ _['USE_ROS'] = HAVE_ROS
 _['d_heading_for_end_turning'] = 45
 _['max motor'] = 63
 _['min motor'] = 30
+
+_['arduino print'] = True
+_['network print'] = True
+_['control print'] = True
+_['flex print'] = True
 ############# NETWORK PARAMETERS
 _['use_ldr_img'] = False
 _['ldr_gain'] = 1.0

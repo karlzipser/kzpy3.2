@@ -16,10 +16,8 @@ bridge = cv_bridge.CvBridge()
 
 def Camera_Shot(data): #######################################
     D = {}
-    #cm("Camera_Shot(data)")
+
     img = bridge.imgmsg_to_cv2(data,'rgb8')
-    #mci(img,title='zed img',delay=10)
-    #print shape(img)
     
     if shape(img)[0] > 94:
         img = cv2.resize(img,(full_width,full_height))
@@ -31,7 +29,7 @@ def Camera_Shot(data): #######################################
         D['seq'] = data.header.seq
     else:
         D['ts'] = time.time()
-        #D['seq'] = data.header.seq
+
     return D
 
 
@@ -56,7 +54,7 @@ def Quartet(name='no_name'):
         size_=None):
 
         shape_ = np.shape(D['left']['now'][size_])
-        #ccm(shape_)
+
         width,height = shape_[1],shape_[0]
         img_now = np.zeros(
             (height,2*width+int(width/16),3),np.uint8) + 127
@@ -95,7 +93,7 @@ def Quartet(name='no_name'):
         camera_data = torch.transpose(camera_data, 0, 2)
         camera_data = torch.transpose(camera_data, 1, 2)
         camera_data = camera_data.unsqueeze(0)
-        #camera_data = torch.autograd.Variable(camera_data)
+
         return camera_data
 
     def _function_from_torch(net_cuda,channel=0,offset=0):
@@ -353,7 +351,7 @@ def maintain_quartet_list(Q_list): ##############################
                 Q = Zed['build_quartet']()
                 if Q != None:
                     Q_list.append(Q)
-                    #ccm('22')
+
                 while len(Q_list) > 3:
                     Q_list.pop(0)
                 hz.freq(" (camera.py) ")

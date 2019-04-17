@@ -253,7 +253,11 @@ def check_menu():
                     pass
                 else:
                     P[t] = Topics[t]
-        
+            vrb = True
+            if not _['control print']:
+                vrb = False
+            for c in ['yellow','green','blue','magenta','cyan','white','Grey']:
+                CVerbose[c] = vrb
 
 
 def check_value(val,mn,mx,mn_err,mx_err,default):
@@ -268,6 +272,8 @@ def check_value(val,mn,mx,mn_err,mx_err,default):
 
 
 def print_topics():
+    if not _['control print']:
+        return
     if print_timer.check():
         print_timer.reset()
         error = 0
@@ -318,13 +324,13 @@ def adjusted_motor():
             C['from still motor offset timer'].reset()
             C['from still motor offset'] = np.random.choice([-10,10])
             C['lights_pub'].publish(C['lights'][GREEN])
-            print 'GREEN'
+            cy('GREEN')
     elif not C['from still motor offset timer'].check():
         C['from still motor offset'] *= 0.99
     else:
         if np.abs(C['from still motor offset']) > 0:
             C['lights_pub'].publish(C['lights'][GREEN_OFF])
-            print 'GREEN OFF'
+            cy('GREEN OFF')
         C['from still motor offset'] = 0.
 
     flex = C['flex/motor']
