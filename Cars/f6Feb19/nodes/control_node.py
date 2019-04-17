@@ -321,13 +321,13 @@ def adjusted_motor():
             C['from still motor offset timer'].reset()
             C['from still motor offset'] = np.random.choice([-10,10])
             C['lights_pub'].publish(C['lights'][GREEN])
-            cg('GREEN')
+            #cg('GREEN')
     elif not C['from still motor offset timer'].check():
         C['from still motor offset'] *= 0.99
     else:
         if np.abs(C['from still motor offset']) > 0:
             C['lights_pub'].publish(C['lights'][GREEN_OFF])
-            cg('GREEN OFF')
+            #cg('GREEN OFF')
         C['from still motor offset'] = 0.
 
 
@@ -417,7 +417,7 @@ if __name__ == '__main__':
 
         if ready.check():
             ready.reset()
-            if C['behavioral_mode'] == GHOST or not C['net callback timer'].check():
+            if True:#C['behavioral_mode'] == GHOST or not C['net callback timer'].check():
 
                 if C['behavioral_mode_pub_timer'].check():
                     C['behavioral_mode_pub_timer'].reset()
