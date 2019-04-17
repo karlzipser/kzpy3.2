@@ -1,0 +1,25 @@
+#!/usr/bin/env python
+#from kzpy3.utils3 import *
+#exec(identify_file_str)
+
+
+def et():
+	print(
+		"""
+except KeyboardInterrupt:
+    cr('*** KeyboardInterrupt ***')
+    sys.exit()
+except Exception as e:
+	exc_type, exc_obj, exc_tb = sys.exc_info()
+	file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+	CS_('Exception!',emphasis=True)
+	CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)		
+
+		"""
+		)
+
+if __name__ == '__main__':
+	et()
+
+
+#EOF
