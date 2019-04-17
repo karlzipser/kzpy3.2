@@ -202,6 +202,10 @@ _['To Expose']['Arduino'] = [
 	'delta servo_pwm for calibration',
 	'delta motor_pwm for calibration',
     'd_heading_for_end_turning',
+    'arduino print',
+    'network print',
+    'control print',
+    'flex print',
 ]
 _['To Expose']['Network'] = [
     'ABORT',
