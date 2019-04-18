@@ -1,0 +1,21 @@
+use: _net_15Sept2018_1Nov_with_reverse_with_12imgs
+
+
+<<<<<<<<<<<<< Weights >>>>>>>>>>>>>
+0) reload; 1) exit; 2) load; 3) save; 4) hide; 
+5) Arduino; 6) Control; 7) Flex; 8) Network; 
+9) Sq40_initia_premetadata_zeroing (6): 0  int
+10) Sq40_initia_premetadata_zeroing_premeta_returned (6): 0  int
+11) Sq40_initial_full_zeroing_and_projections (6): 0  int
+12) Sq40_initial_full_zeroing_and_projections_from_scratch (6): 0  int
+13) Sq40_rb_zero_from_scratch (6): 0  int
+14) Sq40_zeroing_and_projections (6): 0  int
+15) Sq40_zeroing_inputs (6): 0  int
+16) Train_SqueezeNet_24Dec2018_from_scratch (6): 0  int
+17) _net_15Sept2018_1Nov_with_reverse_ (5): 0  int
+18) _net_15Sept2018_1Nov_with_reverse_with_12imgs (6): -1  int
+19) net_24Dec2018_12imgs_projections (6): 0  int
+20) net_flex (0): 0  int
+21) net_indoors_Sept2017 (6): 0  int
+#  changed _net_15Sept2018_1Nov_with_reverse_with_12imgs (6)
+

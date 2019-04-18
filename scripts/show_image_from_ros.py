@@ -35,7 +35,7 @@ def action(topic,scale=1,delay=33,s=3600):
     global ROS_initalized
     if not ROS_initalized:
         rospy.Subscriber(topic,Image,image_callback,queue_size = 1)
-        rospy.init_node('show_image_from_ros_'+str(np.random.randint(100000)),anonymous=True)
+        rospy.init_node('show_image_from_ros_'+str(np.random.randint(1000000)),anonymous=True)
         ROS_initalized = True
 
     main_timer = Timer(s)
