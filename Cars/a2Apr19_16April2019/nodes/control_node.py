@@ -254,7 +254,7 @@ def check_menu():
                 else:
                     P[t] = Topics[t]
             vrb = True
-            if not _['control print']:
+            if not P['control print']:
                 vrb = False
             for c in ['yellow','green','blue','magenta','cyan','white','Grey']:
                 CVerbose[c] = vrb
@@ -272,7 +272,7 @@ def check_value(val,mn,mx,mn_err,mx_err,default):
 
 
 def print_topics():
-    if not _['control print']:
+    if not P['control print']:
         return
     if print_timer.check():
         print_timer.reset()
