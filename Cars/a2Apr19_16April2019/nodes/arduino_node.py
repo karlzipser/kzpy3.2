@@ -212,8 +212,10 @@ while _['ABORT'] == False:
         time.sleep(0.5)
         _['ABORT'] = True
     except Exception as e:
-        cr('*********** here ************')
-        CS_(d2s('Main loop exception',e))
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        CS_('Exception!',emphasis=True)
+        CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)    
 #
 #########################################
 
