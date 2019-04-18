@@ -61,6 +61,7 @@ def Flex_Torch_Network(N):
         file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
         CS_('Exception!',emphasis=True)
         CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+        return False
 
     def _run_model(input,N):
         D['output'] = D['solver'](input)
@@ -90,7 +91,12 @@ parameter_file_load_timer = Timer(2)
 
 print_timer = Timer(5);ctr = 0;error_ctr = 0
 
-Flex_torch_network = Flex_Torch_Network(N)
+while True:
+    Flex_torch_network = Flex_Torch_Network(N)
+    if Flex_Torch_Network != False:
+        break
+    else:
+        time.sleep(1)
 
 dimg = zeros((19,18,3))
 
