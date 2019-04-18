@@ -93,7 +93,8 @@ print_timer = Timer(5);ctr = 0;error_ctr = 0
 
 while True:
     Flex_torch_network = Flex_Torch_Network(N)
-    if Flex_Torch_Network != False:
+    if Flex_Torch_network != False:
+        cb(Flex_torch_network,ra=1)
         break
     else:
         cr('failed to load flex network')
