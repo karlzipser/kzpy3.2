@@ -96,6 +96,7 @@ while True:
     if Flex_Torch_Network != False:
         break
     else:
+        cr('failed to load flex network')
         time.sleep(1)
 
 dimg = zeros((19,18,3))
