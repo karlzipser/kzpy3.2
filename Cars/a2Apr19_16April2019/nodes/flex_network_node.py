@@ -19,7 +19,11 @@ import rospy
 
 N['flex_weight_file_path'] = most_recent_file_in_folder(opjm('rosbags/net_flex'))
 
-rospy.init_node('flex_network_node',anonymous=True,disable_signals=True)
+if __name__ == '__main__':
+    cy('attempting to run flex_network_node as seperate process, i.e., rospy node',ra=1)
+    rospy.init_node('flex_network_node',anonymous=True,disable_signals=True)
+else:
+    cy('attempting to run flex_network_node as thread',ra=1)
 
 flex_names = default_values.flex_names
 
