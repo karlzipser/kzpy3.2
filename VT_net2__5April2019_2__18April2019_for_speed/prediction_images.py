@@ -37,22 +37,20 @@ def get_predictions2D(headings,encoders,motors,sample_frequency,_):
         v = vec(headings[i],encoders[i],motors[i],_['vec sample frequency'],_) #3.33)
         xy += v
         xys.append(xy.copy())
-    if False:
-        points_to_fit = na(xys[:3])
-        x = points_to_fit[:,0]
-        y = points_to_fit[:,1]
-        m,b = curve_fit(f,x,y)[0]
-        ang = np.degrees(angle_between([0,1],[1,m]))
     pts2D_1step = na(xys)
     return pts2D_1step
 
 
-def get_prediction_images_3D(pts2D_1step_list,img,_):#left_index):
+
+
+zeros_23_41_3 = np.zeros((23,41,3))
+
+
+def get_prediction_images_3D(pts2D_1step_list,img,_):
     rmax = 7
-    metadata_version_list = None
-    img1 = cv2.resize(img,(41,23))
     metadata_version_list = []
-    img2 = 0.0*img1.astype(np.float)
+    img2 = zeros_23_41_3.copy()
+
     for q in range(len(pts2D_1step_list)-1,-1,-1):
         Pts2D_1step = pts2D_1step_list[q]
 
@@ -62,34 +60,38 @@ def get_prediction_images_3D(pts2D_1step_list,img,_):#left_index):
                 a = pts2D_1step[i,:]
                 if a[1]<0:
                     continue
-                try:
-                    r = int(5.0/np.sqrt(a[0]**2+(a[1])**2))
-                except:
-                    r = 1
+                if _['graphics 3']:
+                    try:
+                        r = int(5.0/np.sqrt(a[0]**2+(a[1])**2))
+                    except:
+                        r = 1
         
                 b = fit3d.Point3(a[0], 0, a[1]-_['backup parameter'])
                 c = fit3d.project(b, fit3d.mat)
 
                 try:
-                    if True:
-                        good = True
-                        if c.x < 0 or c.x >= 168:
-                            good = False
-                        elif c.y < 0 or c.y >= 94:
-                            good = False
-                        if good:             
-                            if r < rmax:
-                                cv2.circle(img,(int(c.x),int(c.y)),r,RGBs[behavioral_mode])
+
                     good = True
-                    cx = intr(c.x * 0.245)
-                    cy = intr(c.y * 0.245)
-                    if cx < 0 or cx >= 41:
+
+                    if c.x < 0 or c.x >= 168:
                         good = False
-                    elif cy < 0 or cy >= 23:
+                    elif c.y < 0 or c.y >= 94:
                         good = False
-                    if good:               
-                        #img1[cy,cx,:] = RGBs[behavioral_mode]
-                        img2[cy,cx,Color_index[behavioral_mode]] += q**2/(_['num timesteps']**2.0)
+
+                    if good and _['graphics 3']:             
+                        if r < rmax:
+                            cv2.circle(img,(int(c.x),int(c.y)),r,RGBs[behavioral_mode])
+
+                    if _['graphics 2']:
+                        good = True
+                        cx = intr(c.x * 0.245)
+                        cy = intr(c.y * 0.245)
+                        if cx < 0 or cx >= 41:
+                            good = False
+                        elif cy < 0 or cy >= 23:
+                            good = False
+                        if good:               
+                            img2[cy,cx,Color_index[behavioral_mode]] += q**2/(_['num timesteps']**2.0)
 
                 except Exception as e:
                     exc_type, exc_obj, exc_tb = sys.exc_info()
@@ -98,17 +100,22 @@ def get_prediction_images_3D(pts2D_1step_list,img,_):#left_index):
                     CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
                     cr(r)
 
-    img = cv2.resize(img,(168*2,94*2))
-    if _['use center line']:
-        img[:,168,:] = int((127+255)/2)
-    left_camera_3D_img = img
+    if _['graphics 3']:
+        img = cv2.resize(img,(168*2,94*2))
+        if _['use center line']:
+            img[:,168,:] = int((127+255)/2)
+        left_camera_3D_img = img
+    else:
+        left_camera_3D_img = False
 
-
-    for y in range(11,23):
-        for c in range(3):
-            if img2[y,:,c].max() > 0:
-                img2[y,:,c] = z2o(img2[y,:,c])
-    metadata_3D_img = z55(img2)#(255*img2).astype(np.uint8)
+    if _['graphics 2']:
+        for y in range(11,23):
+            for c in range(3):
+                if img2[y,:,c].max() > 0:
+                    img2[y,:,c] = z2o(img2[y,:,c])
+        metadata_3D_img = z55(img2)
+    else:
+        metadata_3D_img = False
 
     return left_camera_3D_img,metadata_3D_img
 ##
@@ -167,21 +174,18 @@ def prepare_2D_and_3D_images(Prediction2D_plot,pts2D_multi_step,d_heading,encode
 
     pts2D_multi_step = get__pts2D_multi_step(d_heading,encoder,sample_frequency,headings,encoders,motors,pts2D_multi_step,_)
 
-    Prediction2D_plot['clear']()
+    if _['graphics 1']:
+        Prediction2D_plot['clear']()
 
-    for behavioral_mode in _['behavioral_mode_list']:
+        for behavioral_mode in _['behavioral_mode_list']:
 
-        for i in rlen(pts2D_multi_step):
+            for i in rlen(pts2D_multi_step):
 
-            Prediction2D_plot['pts_plot'](na(pts2D_multi_step[i][behavioral_mode]),Colors[behavioral_mode],add_mode=_['add_mode'])
+                Prediction2D_plot['pts_plot'](na(pts2D_multi_step[i][behavioral_mode]),Colors[behavioral_mode],add_mode=_['add_mode'])
 
-    #img = get_SOURCE_DEPENDENT_img(source,_)
-    #img = 
 
-    if _['skip_3D']:
-        left_camera_3D_img,metadata_3D_img = False,False
-    else:
-        left_camera_3D_img,metadata_3D_img = get_prediction_images_3D(pts2D_multi_step,img,_)
+
+    left_camera_3D_img,metadata_3D_img = get_prediction_images_3D(pts2D_multi_step,img,_)
 
     return Prediction2D_plot,left_camera_3D_img,metadata_3D_img
 ###
@@ -195,15 +199,17 @@ def show_maybe_save_images(Prediction2D_plot,left_camera_3D_img,metadata_3D_img,
 
     if _['show timer'].check():
         _['show timer'] = Timer(_['show timer time'])
-        #Prediction2D_plot['show'](scale=_['Prediction2D_plot scale'])
-        img = Prediction2D_plot['image']
-        img = z55(np.log10(1.0*img+1.0)*10.0)
-        img = cv2.resize(img, (0,0), fx=4, fy=4, interpolation=0)
-        img[4*41+1,:,:] = 128
-        img[:,4*31+1,:] = 128
-        mci(img,title='X',scale=1)
-        if not _['skip_3D']:
+        if _['graphics 1']:
+            img = Prediction2D_plot['image']
+            img = z55(np.log10(1.0*img+1.0)*10.0)
+            img = cv2.resize(img, (0,0), fx=4, fy=4, interpolation=0)
+            img[4*41+1,:,:] = 128
+            img[:,4*31+1,:] = 128
+            mci(img,title='X',scale=1)
+
+        if _['graphics 3']:
             mci(left_camera_3D_img,title='left_camera_3D_img',delay=_['cv2 delay'],scale=_['3d image scale'])
+        if False:#_['graphics 2']: 
             mci(metadata_3D_img,title='metadata_3D_img',delay=_['cv2 delay'],scale=_['metadata_3D_img scale'])
 ###
 ################################################################

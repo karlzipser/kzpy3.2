@@ -35,9 +35,16 @@ def get_arduino_serial_connections(baudrate, timeout):
 
 def assign_serial_connections(P,sers):
     ctr = 0
+    timer = Timer(30)
+    timer2 = Timer(1)
     P['Arduinos'] = {}
     for ser in sers:
         for _ in xrange(100000):
+            if timer.check():
+                if 'MSE' not in P['Arduinos']:
+                    if timer2.check():
+                        timer2.reset()
+                        cr("*** Is transmitter turned on? ***")
             try:
                 ser_str = ser.readline()
                 if len(ser_str) > 0:
