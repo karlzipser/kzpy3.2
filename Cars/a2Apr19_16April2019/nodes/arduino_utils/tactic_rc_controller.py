@@ -57,10 +57,10 @@ def _TACTIC_RC_controller_run_loop(P):
 
         time.sleep(0.001)
 
-        if True:#try:
+        try:
             update_button_servo_motor_encoder(P)
 
-        else:#except Exception as e:
+        except Exception as e:
             print('_TACTIC_RC_controller_run_loop')
             exc_type, exc_obj, exc_tb = sys.exc_info()
             file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
