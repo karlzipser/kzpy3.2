@@ -22,10 +22,10 @@ LEFT = 1
 RIGHT = 3
 GHOST = 4
 UNKNOWN = 5
-BLUE = 100
-WHITE = 101
-GREEN = 102
-PURPLE = 103
+BLUE = 100 # motor < 49
+WHITE = 101 # flex
+GREEN = 102 # adjusted_motor / motor is still or nearly so, random steps to get somewhere
+PURPLE = 103 # calibration mode
 BLUE_OFF = 104
 WHITE_OFF = 105
 GREEN_OFF = 106
@@ -102,6 +102,8 @@ C['new_camera'] = 49
 C['ready'] = False
 C['encoder_time'] = time.time()
 C['encoder_time_prev'] = time.time() - 1/30.
+C['net callback timer'] = Timer(1)
+C['net callback timer'].trigger()
 
 bcs = '/bair_car'
 
@@ -114,6 +116,7 @@ C['lights_pub'] = rospy.Publisher('lights', std_msgs.msg.String, queue_size=5)
 def net_steer_callback(msg):
     C['net/steer'] = msg.data
     C['net/camera'] = C['net/steer']
+    C['net callback timer'].reset()
 
 def net_motor_callback(msg):
     C['net/motor'] = msg.data
@@ -150,19 +153,19 @@ def flex_motor_callback(msg):
 
 s = 0.9
 def encoder_callback(msg):
-    #print(-1)
+
     C['encoder'] = msg.data
-    #print C['encoder']
+
     C['encoder_time'] = time.time()
-    #print(-2)
+
     C['encoder/smooth'] = (1.0-s)*C['encoder'] + s*C['encoder/smooth']
     C['velocity'] = vel_encoding_coeficient * C['encoder/smooth']
     if C['new_motor'] < 49:
         C['velocity'] *= -1.
     if np.abs(C['velocity']) > 0.1:
-        #print "reset"
+
         C['still_timer'].reset()
-    #print C['velocity'],C['encoder']
+
     C['distance'] += C['velocity'] * (C['encoder_time']-C['encoder_time_prev'])
     C['encoder_time_prev'] = C['encoder_time']
 
@@ -268,6 +271,8 @@ def check_value(val,mn,mx,mn_err,mx_err,default):
 
 
 def print_topics():
+    if not P['control print']:
+        return
     if print_timer.check():
         print_timer.reset()
         error = 0
@@ -316,18 +321,15 @@ def adjusted_motor():
             C['from still motor offset timer'].reset()
             C['from still motor offset'] = np.random.choice([-10,10])
             C['lights_pub'].publish(C['lights'][GREEN])
-            print 'GREEN'
+            #cg('GREEN')
     elif not C['from still motor offset timer'].check():
         C['from still motor offset'] *= 0.99
     else:
         if np.abs(C['from still motor offset']) > 0:
             C['lights_pub'].publish(C['lights'][GREEN_OFF])
-            print 'GREEN OFF'
+            #cg('GREEN OFF')
         C['from still motor offset'] = 0.
-    #"""
-    #########
-    #C['from still motor offset'] = 0.
-    #########
+
 
     flex = C['flex/motor']
     flex = min(49,flex)
@@ -360,12 +362,13 @@ def adjusted_steer():
 
     if C['behavioral_mode'] == DIRECT:
         gain = P['network_steer_gain_direct']
-        if C['new_motor'] > 58:
+        if C['velocity'] > 1.1:
             gain *= 0.75
-        elif C['new_motor'] < 51:
+        elif C['velocity'] < 0.33:
             gain *= 2.0
-        elif C['new_motor'] < 55:
+        elif C['velocity'] < 0.66:
             gain *= 1.5
+        # also, slow down when turning to damp ossilations
         s = P['network_servo_smoothing_parameter_direct']
     else:
         gain = P['network_steer_gain']
@@ -391,7 +394,7 @@ def adjusted_camera():
 
     if C['behavioral_mode'] == DIRECT:
         gain = P['network_camera_gain_direct']
-        if C['new_motor'] < 51:
+        if C['velocity'] < 0.33:
             gain = 4.0
         s = P['network_camera_smoothing_parameter']
     else:
@@ -411,38 +414,34 @@ def adjusted_camera():
 if __name__ == '__main__':
     ready = Timer(1/30.)
     while not rospy.is_shutdown() and P['ABORT'] == False:
-        #cm(0)
+
         if ready.check():
             ready.reset()
-            #cm(1)
-            if C['behavioral_mode_pub_timer'].check():
-                C['behavioral_mode_pub_timer'].reset()
-                C['behavioral_mode_pub'].publish(C['behavior_names'][C['behavioral_mode']])
-                #cy('published',C['behavior_names'][C['behavioral_mode']])
-            #cm(2)
-            if C['lights_pub_ready'] == True:
-                C['lights_pub'].publish(C['lights'][C['behavioral_mode']])
-                C['lights_pub_ready'] = False
-            #cm(3)
-            
-            #cm(4)
-            for src in ['net','flex']:
-                for typ in ['camera','steer','motor']:
-                    val,error = check_value(C[opj(src,typ)],0,99,-20,119,49.)
-                    C[opj(src,typ,'check')] = val
-                    C[opj(src,typ,'error')] = error
-            #cm(5)
+            if True:#C['behavioral_mode'] == GHOST or not C['net callback timer'].check():
 
-            adjusted_motor()
-            adjusted_steer()
-            adjusted_camera()
+                if C['behavioral_mode_pub_timer'].check():
+                    C['behavioral_mode_pub_timer'].reset()
+                    C['behavioral_mode_pub'].publish(C['behavior_names'][C['behavioral_mode']])
+                if C['lights_pub_ready'] == True:
+                    C['lights_pub'].publish(C['lights'][C['behavioral_mode']])
+                    C['lights_pub_ready'] = False
 
-            C['cmd/motor/pub'].publish(C['new_motor'])
-            C['cmd/steer/pub'].publish(C['new_steer'])
-            C['cmd/camera/pub'].publish(C['new_camera'])
-            #cm(7)
+                for src in ['net','flex']:
+                    for typ in ['camera','steer','motor']:
+                        val,error = check_value(C[opj(src,typ)],0,99,-20,119,49.)
+                        C[opj(src,typ,'check')] = val
+                        C[opj(src,typ,'error')] = error
+
+                adjusted_motor()
+                adjusted_steer()
+                adjusted_camera()
+
+                C['cmd/motor/pub'].publish(C['new_motor'])
+                C['cmd/steer/pub'].publish(C['new_steer'])
+                C['cmd/camera/pub'].publish(C['new_camera'])
+
             print_topics()
-            #cm(8)
+
             check_menu()
 
 

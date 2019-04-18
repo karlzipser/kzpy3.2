@@ -13,17 +13,17 @@ def ready(N):
     for n in N['net_hide_colors']:
         CVerbose[n] = False
 
-    cm(10)
+
     time.sleep(0.0001)
     if N['desktop_mode']:
         N['mode']['human_agent'] = 0
         N['mode']['drive_mode'] = 1
         N['mode']['behavioral_mode'] = 'direct'
-        cm(11)
+
     elif N['mode']['human_agent'] == 0 \
         and N['mode']['drive_mode'] == 1 \
         and N['mode']['behavioral_mode'] in N['behavioral_metadatas'].keys():
-        cm(12)
+
         pass
     else:
         cr('human_agent ==',N['mode']['human_agent'],
@@ -56,6 +56,11 @@ def step(camera_data,metadata,N):
     #    get_adjusted_commands(torch_camera,torch_steer,torch_motor,N)
 
     if print_timer.check():
+        
+        do_print = N['network print']
+        for c in ['red','yellow','green','blue','magenta','cyan','white','Grey']:
+            CVerbose[c] = do_print
+
         if torch_steer > 99 or torch_steer < 0 or torch_motor > 99 or torch_motor < 0:
             cfun = cr
         else:

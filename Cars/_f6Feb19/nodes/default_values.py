@@ -28,6 +28,11 @@ _['USE_ROS'] = HAVE_ROS
 _['d_heading_for_end_turning'] = 45
 _['max motor'] = 63
 _['min motor'] = 30
+
+_['arduino print'] = True
+_['network print'] = True
+_['control print'] = True
+_['flex print'] = True
 ############# NETWORK PARAMETERS
 _['network_output_sample'] = 0 # >= 0, <= 9
 _['network_steer_gain'] = 2.0
@@ -195,6 +200,10 @@ _['To Expose']['Arduino'] = [
 	'delta servo_pwm for calibration',
 	'delta motor_pwm for calibration',
     'd_heading_for_end_turning',
+    'arduino print',
+    'network print',
+    'control print',
+    'flex print',
 ]
 _['To Expose']['Network'] = [
     'ABORT',

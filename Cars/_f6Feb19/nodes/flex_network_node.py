@@ -104,7 +104,10 @@ while not rospy.is_shutdown() and not N['ABORT']:
     if rate_timer.check():
         rate_timer.reset()
         try:
-            hz.freq('flex')
+            do_print = True
+            if not N['flex print']:
+                do_print = False
+            hz.freq('flex',do_print=do_print)
 
             if parameter_file_load_timer.check():
 
@@ -122,7 +125,9 @@ while not rospy.is_shutdown() and not N['ABORT']:
 
                 parameter_file_load_timer.reset()
 
-            print_timer.message(d2s("ctr,error =",ctr,',',error_ctr));ctr+=1
+            if N['flex print']:
+                print_timer.message(d2s("ctr,error =",ctr,',',error_ctr));
+            ctr+=1
             time.sleep(0.01)
 
             img3 = na(fx.make_flex_image(F))
