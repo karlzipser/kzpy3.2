@@ -7,7 +7,7 @@ _['project_path'] = pname(__file__)
 
 _['agent_is_human'] = False
 
-_['MOCK_ARDUINO_VERSION'] = True # Note, unrelated to 'desktop_mode' command line arg
+_['MOCK_ARDUINO_VERSION'] = False # Note, unrelated to 'desktop_mode' command line arg
 _['MOCK_ARDUINO_VERSION/run_name'] = 'tegra-ubuntu_16Nov18_13h02m06s'
 _['MOCK_ARDUINO_VERSION/h5py_path'] = opjm('/home/karlzipser/Desktop/Data/2_TB_Samsung_n3/rosbags__preprocessed_data/tu_15to16Nov2018/locations/local/left_direct_stop/h5py')
 _['MOCK_ARDUINO_VERSION/nvidia_run_name'] = _['MOCK_ARDUINO_VERSION/run_name']
