@@ -54,14 +54,17 @@ def Pytorch_Network(_):
     except:
         cr('*** Failed to create default network output folders ***')
 
-    def _function_save_net():
-        if _['save_net_timer'].check():
+    def _function_save_net(temp=False):
+        if _['save_net_timer'].check() or temp:
             pd2s('2 lr=',D['net'].lr)
             print('saving net state . . .')
-
             weights = {'net':D['net'].state_dict().copy()}
             for key in weights['net']:
                 weights['net'][key] = weights['net'][key].cuda(device=0)
+            if temp:
+                torch.save(weights, opj(_['NETWORK_OUTPUT_FOLDER'],'weights','temp.infer'))
+                cb('. . . done saving temp.infer')
+                return
             torch.save(weights, opj(_['NETWORK_OUTPUT_FOLDER'],'weights',_['SAVE_FILE_NAME']+'_'+time_str()+'.infer'))
             so(_['LOSS_LIST_AVG'],opj(_['NETWORK_OUTPUT_FOLDER'],'loss',_['SAVE_FILE_NAME']+'_'+time_str()+'.loss_avg'))
             if 'dm_ctrs' in _:

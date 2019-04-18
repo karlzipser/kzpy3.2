@@ -4,7 +4,7 @@ exec(identify_file_str)
 
 
 commands = [
-	 "python kzpy3/Train_app/Sq40_proj_from_scratch_premeta_from_24Dec/trainloop.py",
+	 # "python kzpy3/Train_app/Sq40_proj_from_scratch_premeta_from_24Dec/trainloop.py",
 	"python kzpy3/Train_app/Sq120_ldr_output_4April2019/trainloop.py",
 	"python kzpy3/Menu_app/menu2.py path kzpy3/Train_app/Sq120_ldr_output_4April2019 dic P",
 	# "python kzpy3/Train_app/Sq_ldr_interval_tester5/Main.py cluster_list ~/Desktop/cluster_list_25_1st_pass.pkl threshold 0.25",

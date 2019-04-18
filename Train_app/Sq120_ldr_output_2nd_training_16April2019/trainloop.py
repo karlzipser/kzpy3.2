@@ -2,7 +2,7 @@
 from kzpy3.utils3 import *
 import default_values
 
-cr("\nproject path =",default_values.P['project_path'],"\nMake sure this is correct.\n")
+cg("\nproject path =",default_values.P['project_path'],"\n\nMake sure this is correct.\n")
 raw_enter()
 timer = Timer(4*7*24*3600)
 

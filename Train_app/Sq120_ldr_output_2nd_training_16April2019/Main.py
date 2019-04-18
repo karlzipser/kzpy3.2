@@ -79,6 +79,7 @@ del startup_timer
 menu_reminder = Timer(10*60)
 menu_reminder.trigger()
 timer = Timer(_['run time before quitting'])
+short_timer = Timer(_['short timer time'])
 
 while _['ABORT'] == False:
 
@@ -99,6 +100,10 @@ while _['ABORT'] == False:
         Network['SAVE_NET']()
         break
 
+    if short_timer.check() or _['short timer time'] < short_timer.time():
+        short_timer = Timer(_['short timer time'])
+        Network['SAVE_NET'](temp=True)
+        
     Batch['CLEAR']()
 
     Batch['FILL']()
