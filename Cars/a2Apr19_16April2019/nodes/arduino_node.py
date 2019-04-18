@@ -200,7 +200,7 @@ while _['ABORT'] == False:
                 parameter_file_load_timer.reset()
 
                 vrb = True
-                if not _['ardunio print']:
+                if not _['arduino print']:
                     vrb = False
                 for c in ['yellow','green','blue','magenta','cyan','white','Grey']:
                     CVerbose[c] = vrb
