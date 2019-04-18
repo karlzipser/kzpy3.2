@@ -72,6 +72,7 @@ def step(camera_data,metadata,N):
 
     #torch_motor = 100. * output[10+N['network_output_sample']]
     #torch_steer = 100. * output[N['network_output_sample']]
+    # ghost problem
     torch_steer = 99./1000. * Data['steers'][N['mode']['behavioral_mode']][N['network_output_sample']]
     torch_motor = 99./1000. * Data['motors'][N['mode']['behavioral_mode']][N['network_output_sample']]
 
