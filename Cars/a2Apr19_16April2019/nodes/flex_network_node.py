@@ -17,7 +17,7 @@ import roslib
 import std_msgs.msg
 import rospy
 
-N['flex_weight_file_path'] = most_recent_file_in_folder(opjm('rosbags/net_flex/weights'))
+N['flex_weight_file_path'] = most_recent_file_in_folder(opjm('rosbags/net_flex'))
 
 rospy.init_node('flex_network_node',anonymous=True,disable_signals=True)
 
