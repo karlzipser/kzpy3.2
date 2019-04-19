@@ -82,7 +82,7 @@ if __name__ == '__main__':
             if yes_no == 'y' or yes_no == '':
                 #os.system("gnome-terminal --geometry 40x30+100+200 -x python  kzpy3/Menu_app/menu2.py path kzpy3/Cars/a2Apr19_16April2019/nodes dic P")
                 try:
-                    print cmd_str,cmd_str[0]
+                    #print cmd_str,cmd_str[0]
                     if cmd_str[0] == '@':
                         os.system(cmd_str[1:])
                     else:
