@@ -222,7 +222,7 @@ def flex_thread(N):
         else:
             time.sleep(0.001)
 
-threading.Thread(target=flex_thread,args=[N]).start()
+
 
 #############        
 ##############################################################################################################
@@ -293,6 +293,8 @@ network_utils.init.metadata_init(N)
 if __name__ == '__main__':
 
     hz = Timer(10)
+
+    threading.Thread(target=flex_thread,args=[N]).start()
 
     while not rospy.is_shutdown() and N['ABORT'] == False:
 
