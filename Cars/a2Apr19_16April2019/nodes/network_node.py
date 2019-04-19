@@ -108,6 +108,7 @@ from kzpy3.Train_app.nets.SqueezeNet_flex import SqueezeNet
 def Flex_Torch_Network(N):
     global ready_to_run
     try:
+        print("Flex_Torch_Network(N):: Start loading...")
         D = {}
         D['save_data'] = torch.load(N['flex_weight_file_path'])
         D['solver'] = SqueezeNet().cuda()
@@ -196,7 +197,6 @@ def flex_thread(N):
                 print_timer.message(d2s("ctr,error =",ctr,',',error_ctr));ctr+=1
                 time.sleep(0.01)
 
-                print F
                 img3 = na(fx.make_flex_image(F))
 
                 flex_data = Flex_torch_network['format_flex_data'](img3)
