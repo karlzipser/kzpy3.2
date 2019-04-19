@@ -24,15 +24,6 @@ if 'desktop_mode' in Arguments:
 print_Arguments()
 cw(d2s("N['desktop_mode'] ==",N['desktop_mode'],"\t"))
 
-###################################################################
-#
-rospy.init_node('network_node',anonymous=True,disable_signals=True)
-#
-###################################################################
-
-network_utils.init.ros_init(N)
-
-network_utils.init.metadata_init(N)
 
 
 
@@ -286,6 +277,15 @@ threading.Thread(target=flex_thread,args=[N]).start()
 
 
 
+###################################################################
+#
+rospy.init_node('network_node',anonymous=True,disable_signals=True)
+#
+###################################################################
+
+network_utils.init.ros_init(N)
+
+network_utils.init.metadata_init(N)
 
 
 
