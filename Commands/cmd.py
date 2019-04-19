@@ -82,18 +82,16 @@ if __name__ == '__main__':
             if yes_no == 'y' or yes_no == '':
                 #os.system("gnome-terminal --geometry 40x30+100+200 -x python  kzpy3/Menu_app/menu2.py path kzpy3/Cars/a2Apr19_16April2019/nodes dic P")
                 try:
-                    os.system("gnome-terminal --geometry 50x30+100+200 -x "+cmd_str)
+                    print cmd_str,cmd_str[0]
+                    if cmd_str[0] == '@':
+                        os.system(cmd_str[1:])
+                    else:
+                        os.system("gnome-terminal --geometry 50x30+100+200 -x "+cmd_str)
                 except Exception as e:
                     exc_type, exc_obj, exc_tb = sys.exc_info()
                     file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
                     CS_('Exception!',emphasis=True)
                     CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)                    
-
-#EOF
-
-    
-
-
 
 """
 rd = '\x1b[31m'
@@ -104,3 +102,11 @@ mg = '\x1b[35m'
 lb = '\x1b[36m'
 wh = '\x1b[29m'
 """
+
+#EOF
+
+    
+
+
+
+

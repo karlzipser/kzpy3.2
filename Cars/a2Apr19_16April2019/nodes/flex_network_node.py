@@ -5,22 +5,24 @@ exec(identify_file_str)
 sbpd2s("flex_network_node.py")
 import default_values
 N = default_values.P
-
 if not N['use flex']:
     cb("Not using flex_network_node")
     while not rospy.is_shutdown():
         time.sleep(10)
-
 import rospy
 import kzpy3.Data_app.collect_flex_data2 as fx
 import roslib
 import std_msgs.msg
-import rospy
+import torch
+import torch.nn as nn
+from torch.autograd import Variable
+exec(identify_file_str)
 
 N['flex_weight_file_path'] = most_recent_file_in_folder(opjm('rosbags/net_flex'))
+#N['flex_weight_file_path'] = most_recent_file_in_folder('/home/karlzipser/Desktop/Network_Weights/net_flex')
 
 if __name__ == '__main__':
-    cg('\nAttempting to run flex_network_node as seperate process, i.e., rospy node',ra=0)
+    cg('\nAttempting to run flex_network_node as seperate process, i.e., a rospy node',ra=0)
     rospy.init_node('flex_network_node',anonymous=True,disable_signals=True)
 else:
     cg('/nAttempting to run flex_network_node as thread',ra=1)
@@ -42,11 +44,8 @@ rospy.Subscriber('/bair_car/FLEX', std_msgs.msg.Int32, callback=FLEX__callback)
 flex_steer_cmd_pub = rospy.Publisher('flex/steer', std_msgs.msg.Float32, queue_size=5)
 flex_motor_cmd_pub = rospy.Publisher('flex/motor', std_msgs.msg.Float32, queue_size=5)
 
-import torch
-import torch.nn as nn
-from torch.autograd import Variable
-exec(identify_file_str)
-import rospy
+
+
 from kzpy3.Train_app.nets.SqueezeNet_flex import SqueezeNet
 
 
@@ -106,7 +105,9 @@ while True:
 
 dimg = zeros((19,18,3))
 
-time.sleep(10) # waiting avoids errors because of slow loading of torch
+for i in range(10):
+    cm('waiting to start flex_network_node',i)
+    time.sleep(1) # waiting avoids errors because of slow loading of torch
 
 rate_timer = Timer(1/35.)
 hz = Timer(5)

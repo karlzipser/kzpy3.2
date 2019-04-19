@@ -95,7 +95,7 @@ fi
 
 
 export PATH=~/kzpy3/scripts:$PATH
-export PATH=~/kzpy3/scratch:$PATH
+export PATH=~/kzpy3/Commands:$PATH
 export PATH=~/kzpy3/misc:$PATH
 
 

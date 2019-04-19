@@ -33,4 +33,7 @@ def fr(pr,today):
 
 fr(pr2,today)
 
+if 'wait' in Arguments:
+	if Arguments['wait']:
+		raw_enter()
 #EOF
