@@ -60,7 +60,7 @@ import kzpy3.Menu_app.menu2 as menu2
 exec(identify_file_str)
 sbpd2s("flex_network_node.py")
 import default_values
-N = default_values.P
+#N = default_values.P
 if not N['use flex']:
     cb("Not using flex_network_node")
     while not rospy.is_shutdown():
@@ -77,7 +77,7 @@ exec(identify_file_str)
 N['flex_weight_file_path'] = most_recent_file_in_folder(opjm('rosbags/net_flex'))
 #N['flex_weight_file_path'] = most_recent_file_in_folder('/home/karlzipser/Desktop/Network_Weights/net_flex')
 
-if __name__ == '__main__':
+if False:# __name__ == '__main__':
     cg('\nAttempting to run flex_network_node as seperate process, i.e., a rospy node',ra=0)
     rospy.init_node('flex_network_node',anonymous=True,disable_signals=True)
 else:
