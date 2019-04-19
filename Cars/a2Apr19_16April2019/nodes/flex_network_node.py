@@ -116,7 +116,7 @@ while not rospy.is_shutdown() and not N['ABORT']:
 
     if rate_timer.check():
         rate_timer.reset()
-        try:
+        if True:#try:
             hz.freq('flex')
 
             if parameter_file_load_timer.check():
@@ -154,7 +154,7 @@ while not rospy.is_shutdown() and not N['ABORT']:
                     scale=12.0,
                     delay=1,
                     title='flex net input')
-        except Exception as e:
+        else:#except Exception as e:
             error_ctr += 1
             exc_type, exc_obj, exc_tb = sys.exc_info()
             file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
