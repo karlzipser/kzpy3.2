@@ -11,15 +11,21 @@ if '__file__' not in locals():
 	__file__ = 'INTERPRETER'
 cprint('using '+__file__,'yellow')
 CVerbose = {}
+CShowFile = {}
 cfile = fname(__file__)#.replace(opjk(),'').replace(opjh(),'')
 cstr = "CVerbose['COLOR'] = True\\n"+\
+	"CShowFile['COLOR'] = True\\n"+\
 	"def cQ(*args,**kwargs):\\n"+\
 	"\tif not CVerbose['COLOR']:\\n"+\
     "\t\treturn\\n"+\
+	"\tif CShowFile['COLOR']:\\n"+\
+    "\t\tccfile = '('+cfile+')'\\n"+\
+    "\telse:\\n"+\
+    "\t\tccfile = ''\\n"+\
     "\tif 'sf' in kwargs and not kwargs['sf']:\\n"+\
     "\t\tscf = ''\\n"+\
     "\telse:\\n"+\
-    "\t\tscf = '\t('+cfile+')'\\n"+\
+    "\t\tscf = \tccfile\\n"+\
     "\tcprint(d2s_spacer(tuple(list(args)+['\t'+scf]),spacer=' '),'COLOR')\\n"+\
     "\tif 'ra' in kwargs:\\n"+\
 	"\t\tif kwargs['ra'] == 1:\\n"+\
