@@ -25,7 +25,7 @@ if __name__ == '__main__':
     cg('\nAttempting to run flex_network_node as seperate process, i.e., a rospy node',ra=0)
     rospy.init_node('flex_network_node',anonymous=True,disable_signals=True)
 else:
-    cg('/nAttempting to run flex_network_node as thread',ra=1)
+    cg('/nAttempting to run flex_network_node as thread',ra=0)
 
 flex_names = default_values.flex_names
 
