@@ -173,7 +173,7 @@ def flex_thread(N):
 
         if rate_timer.check():
             rate_timer.reset()
-            if True:#try:
+            try:
                 hz.freq('flex')
 
                 if parameter_file_load_timer.check():
@@ -212,7 +212,7 @@ def flex_thread(N):
                         scale=12.0,
                         delay=1,
                         title='flex net input')
-            else:#except Exception as e:
+            except Exception as e:
                 error_ctr += 1
                 exc_type, exc_obj, exc_tb = sys.exc_info()
                 file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
