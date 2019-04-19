@@ -148,7 +148,7 @@ def Flex_Torch_Network(N):
 
 parameter_file_load_timer = Timer(2)
 
-print_timer = Timer(5);ctr = 0;error_ctr = 0
+
 
 while True:
     Flex_torch_network = Flex_Torch_Network(N)
@@ -169,6 +169,7 @@ rate_timer = Timer(1/35.)
 hz = Timer(5)
 
 def flex_thread(N):
+    print_timer = Timer(5);ctr = 0;error_ctr = 0
     while not rospy.is_shutdown() and not N['ABORT']:
 
         if rate_timer.check():
