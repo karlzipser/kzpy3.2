@@ -51,7 +51,7 @@ from kzpy3.Train_app.nets.SqueezeNet_flex import SqueezeNet
 
 def Flex_Torch_Network(N):
     global ready_to_run
-    if True:#try:
+    try:
         D = {}
         D['save_data'] = torch.load(N['flex_weight_file_path'])
         D['solver'] = SqueezeNet().cuda()
@@ -59,7 +59,7 @@ def Flex_Torch_Network(N):
         D['solver'].eval()
         print("Flex_Torch_Network(N):: Loading complete.")
 
-    else:#except Exception as e:
+    except Exception as e:
         exc_type, exc_obj, exc_tb = sys.exc_info()
         file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
         CS_('Exception!',emphasis=True)
@@ -138,6 +138,7 @@ while not rospy.is_shutdown() and not N['ABORT']:
             print_timer.message(d2s("ctr,error =",ctr,',',error_ctr));ctr+=1
             time.sleep(0.01)
 
+            print F
             img3 = na(fx.make_flex_image(F))
 
             flex_data = Flex_torch_network['format_flex_data'](img3)
