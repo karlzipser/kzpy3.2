@@ -14,7 +14,7 @@ _ = {
                 'ldr_img, show_image_from_ros':'show_image_from_ros.py topic ldr_img',
                 'left, show_image_from_ros':'show_image_from_ros.py',
                 'rosplay_menu.py','rosplay_menu.py',
-                'rosplay_menu.py task hz','rosplay_menu.py task hz',
+                'rosplay_menu.py task hz':'rosplay_menu.py task hz',
             },
 
         },
