@@ -13,7 +13,7 @@ _ = {
                 'VT_net2__5April2019_2__18April2019_for_speed':'python kzpy3/VT_net2__5April2019_2__18April2019_for_speed/main.py',
                 'ldr_img, show_image_from_ros':'show_image_from_ros.py topic ldr_img',
                 'left, show_image_from_ros':'show_image_from_ros.py',
-                'rosplay_menu.py','rosplay_menu.py',
+                'rosplay_menu.py':'rosplay_menu.py',
                 'rosplay_menu.py task hz':'rosplay_menu.py task hz',
             },
 
