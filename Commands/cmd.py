@@ -4,16 +4,39 @@ import default_values
 exec(identify_file_str)
 _ = default_values._
 
+
+os.system('mkdir -p '+opjk('Commands','__local__'))
+
+
+
+if 'set' in Arguments:
+    if type(Arguments['set']) == int:
+        arg_choice_list = [Arguments['set']]
+    elif Arguments['set'] == 'clear':
+        arg_choice_list = []
+    else:
+        arg_choice_list = Arguments['set'].split(',')
+        arg_choice_list.reverse()
+    so(opjk('Commands','__local__','arg_choice_list.pkl'),arg_choice_list)
+
+
+try:
+    arg_choice_list = lo(opjk('Commands','__local__','arg_choice_list.pkl'))
+except:
+    arg_choice_list = []
+
 for k in CShowFile.keys():
     CShowFile[k] = False
+
+#cy(Arguments,arg_choice_list,ra=1)
 
 C = _['commands']
 
 key_list = []
 
 def show_menu(C,key_list):
-    clear_screen()
-    #print "\n"
+    #clear_screen()
+    print(mg+"____________________\n")
     cprint(d2s('keypath:',key_list_to_path(key_list)),attrs=['bold','reverse'],color='white',on_color='on_blue') 
     sorted_keys = sorted(C.keys())
     if len(key_list) == 0:
@@ -53,7 +76,10 @@ if __name__ == '__main__':
 
         sorted_keys = show_menu(C_,key_list)
 
-        raw_choice = raw_input(mg+'choice: '+lb)
+        if len(arg_choice_list) > 0:
+            raw_choice = arg_choice_list.pop()
+        else:
+            raw_choice = raw_input(mg+'choice: '+lb)
 
         if str_is_int(raw_choice):
             choice = int(raw_choice)
@@ -83,10 +109,10 @@ if __name__ == '__main__':
                 #os.system("gnome-terminal --geometry 40x30+100+200 -x python  kzpy3/Menu_app/menu2.py path kzpy3/Cars/a2Apr19_16April2019/nodes dic P")
                 try:
                     #print cmd_str,cmd_str[0]
-                    if cmd_str[0] == '@':
-                        os.system(cmd_str[1:])
+                    if cmd_str[0] != '@':
+                        os.system(cmd_str)
                     else:
-                        os.system("gnome-terminal --geometry 50x30+100+200 -x "+cmd_str)
+                        os.system("gnome-terminal --geometry 50x30+100+200 -x "+cmd_str[1:])
                 except Exception as e:
                     exc_type, exc_obj, exc_tb = sys.exc_info()
                     file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
