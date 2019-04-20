@@ -289,7 +289,8 @@ network_utils.init.ros_init(N)
 network_utils.init.metadata_init(N)
 
 
-
+camera_motion_ldr_modulator_timer = Timer(1)
+camera_motion_ldr_modulator_notification_Timer = Timer(0.5)
 
 if __name__ == '__main__':
 
@@ -328,13 +329,26 @@ if __name__ == '__main__':
 
                         if 'ldr_img' in N:
 
+                            camera_modulated_ldr_gain = 0.0
+
+                            if np.abs(N['cmd/camera']-49) > 5:
+                                camera_motion_ldr_modulator_timer.reset()
+                                camera_motion_ldr_modulator_notification_Timer.message("np.abs(N['cmd/camera']-49) > 5")
+
+                            elif not camera_motion_ldr_modulator_timer.check():
+                                camera_motion_ldr_modulator_notification_Timer.message('not camera_motion_ldr_modulator_timer.check()')
+                                
+                            else:
+                                camera_modulated_ldr_gain = N['ldr_gain']
+
+                            
                             ctr = 0
                             
                             for i in [0,2,1]: # center left right [???]
                                 if False:
                                     mci(N['ldr_img'][:,:,i],title=str(i))
-                                if N['use_ldr_img']:
-                                    torch_metadata[0,5+12+ctr,:,:] = torch.from_numpy((N['ldr_img'][:,:,i]*1.0)).cuda().float()/255.0*N['ldr_gain']
+                                if True:#N['use_ldr_img']:
+                                    torch_metadata[0,5+12+ctr,:,:] = torch.from_numpy((N['ldr_img'][:,:,i]*1.0)).cuda().float()/255.0*camera_modulated_ldr_gain
                                 else:
                                     torch_metadata[0,5+12+ctr,:,:] *= 0
                                 ctr += 1

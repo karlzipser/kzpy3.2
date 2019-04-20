@@ -34,7 +34,7 @@ _['network print'] = True
 _['control print'] = True
 _['flex print'] = True
 ############# NETWORK PARAMETERS
-_['use_ldr_img'] = True
+#_['use_ldr_img'] = True
 _['ldr_gain'] = 0.333
 _['network_output_sample'] = 0 # >= 0, <= 9
 _['network_steer_gain'] = 2.0
@@ -230,7 +230,7 @@ _['To Expose']['Network'] = [
 	'net_hide_colors',
 	'network_servo_smoothing_parameter_direct',
 	'network_steer_gain_direct',
-    'use_ldr_img',
+    #'use_ldr_img',
     'ldr_gain',
 ]
 _['To Expose']['Control'] = [
