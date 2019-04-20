@@ -50,6 +50,9 @@ def ros_init(N):
         N['mode']['behavioral_mode'] = msg.data
         #print N['mode']['behavioral_mode']
 
+    def cmd_camera_callback(msg):
+        N['cmd/camera'] = msg.data
+
     bcs = '/bair_car'
 
     rospy.Subscriber(
@@ -63,9 +66,9 @@ def ros_init(N):
         callback=behavioral_mode_callback)
 
     rospy.Subscriber(
-        bcs+'/drive_mode',
+        '/cmd/camera',
         std_msgs.msg.Int32,
-        callback=drive_mode_callback)
+        callback=cmd_camera_callback)
 
     N['Pub'] = {}
 
