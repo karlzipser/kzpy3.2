@@ -330,7 +330,7 @@ if __name__ == '__main__':
                         if 'ldr_img' in N:
 
                             camera_modulated_ldr_gain = 0.0
-
+                            print(N['cmd/camera'],np.abs(N['cmd/camera']-49))
                             if np.abs(N['cmd/camera']-49) > 5:
                                 camera_motion_ldr_modulator_timer.reset()
                                 print("np.abs(N['cmd/camera']-49) > 5")#camera_motion_ldr_modulator_notification_Timer.message("np.abs(N['cmd/camera']-49) > 5")
