@@ -339,6 +339,7 @@ if __name__ == '__main__':
                                 print('not camera_motion_ldr_modulator_timer.check()')#camera_motion_ldr_modulator_notification_Timer.message('not camera_motion_ldr_modulator_timer.check()')
 
                             else:
+                                print("N['ldr_gain']")
                                 camera_modulated_ldr_gain = N['ldr_gain']
 
                             
