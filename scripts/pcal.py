@@ -10,30 +10,71 @@ Days = {
 	5:'Sat',
 	6:'Sun',
 }
-c = 28
+
 today = datetime.date.today()
 one_day = datetime.timedelta(days=1)
 #pr = datetime.datetime.strptime('17032019', "%d%m%Y").date()
 #pr2 = one_day*c + pr
-pr2 = datetime.datetime.strptime('13042019', "%d%m%Y").date()
-def fr(pr,today):
-	for i in range((today-pr).days,19+1):
-		clr='green'#cc = cg
-		if i < 0:
-			clr = 'grey'
-		elif i < 8:
-			clr = 'magenta'
-		elif i < 11:
-			clr='yellow'#cc = cb
-		elif i > 16:
-			clr='yellow'#cc = cb
-		day = i*one_day+pr
-		#cc(day,day-today,sf=0)
-		print colored(d2n(Days[day.weekday()],' ',day.month,'/',day.day,' '),clr),colored(d2s((day-today).days,'days'),'white')
+pr = datetime.datetime.strptime('13042019', "%d%m%Y").date()
 
-fr(pr2,today)
+
+Day_colors = {}
+dcs = [((1,7),'red'),((8,9),'yellow'),((10,14),'green'),((15,16),'yellow'),((17,28),'blue'),]
+for d in dcs:
+	r = d[0]
+	c = d[1]
+	for i in range(r[0]-1,r[1]):
+		#print i,c
+		Day_colors[i] = c
+
+#for i in range(-27,27+28):
+#	Day_colors[i] = np.mod(i,28)
+
+
+
+def fr(pr,today,past_days,future_days):
+
+	pday_int = (pr-today).days
+	#cr('pday_int =',pday_int)
+	for i in range(past_days,future_days):
+
+		day = i*one_day+today
+
+		#print day
+		j = np.mod(i-pday_int,28)
+		#print day,j,Day_colors[j]
+
+		#,colored(d2s((day-today).days,'days'),'white')
+		day_count = (day-today).days
+		attrs=['bold','reverse']
+		show_today = ''
+		if day_count == 0:
+			today_attrs = attrs
+			attrs.append('underline')
+			show_today = 'today'
+		else:
+			today_attrs = []
+
+
+		print colored(d2n(Days[day.weekday()],' ',day.month,'/',day.day,' '),Day_colors[j],attrs=attrs),colored(d2s(day_count,show_today),'white',attrs=today_attrs)
+
+
+
+
+past_days= -7
+future_days = 28
+
+if 'p' in Arguments:
+	past_days = -Arguments['p']
+
+if 'f' in Arguments:
+	future_days = Arguments['f']
+
+fr(pr,today,past_days,future_days)
 
 if 'wait' in Arguments:
 	if Arguments['wait']:
 		raw_enter()
+
+
 #EOF
