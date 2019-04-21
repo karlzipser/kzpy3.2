@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 from kzpy3.utils3 import *
 from termcolor import colored
+
+set_Argument_defaults(Arguments,{'p':7,'f':28})
+
+
 Days = {
 	0:'Mon',
 	1:'Tue',
@@ -33,7 +37,7 @@ for d in dcs:
 
 
 def fr(pr,today,past_days,future_days):
-
+	past_days *= -1
 	pday_int = (pr-today).days
 	#cr('pday_int =',pday_int)
 	for i in range(past_days,future_days):
@@ -61,16 +65,8 @@ def fr(pr,today,past_days,future_days):
 
 
 
-past_days= -7
-future_days = 28
+fr(pr,today,Arguments['p'],Arguments['f'])
 
-if 'p' in Arguments:
-	past_days = -Arguments['p']
-
-if 'f' in Arguments:
-	future_days = Arguments['f']
-
-fr(pr,today,past_days,future_days)
 
 if 'wait' in Arguments:
 	if Arguments['wait']:

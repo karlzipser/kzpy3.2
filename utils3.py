@@ -1118,7 +1118,10 @@ def print_Arguments():
 	else:
 		cb('No Arguments')
 
-
+def set_Argument_defaults(Arguments,Defaults):
+	for k in Defaults:
+		if k not in Arguments:
+			Arguments[k] = Defaults[k]
 
 #
 #####################################################
