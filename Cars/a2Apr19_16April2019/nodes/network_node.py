@@ -333,10 +333,10 @@ if __name__ == '__main__':
                             #print(N['cmd/camera'],np.abs(N['cmd/camera']-49))
                             if np.abs(N['cmd/camera']-49) > 5:
                                 camera_motion_ldr_modulator_timer.reset()
-                                print("np.abs(N['cmd/camera']-49) > 5")#camera_motion_ldr_modulator_notification_Timer.message("np.abs(N['cmd/camera']-49) > 5")
+                                #print("np.abs(N['cmd/camera']-49) > 5")#camera_motion_ldr_modulator_notification_Timer.message("np.abs(N['cmd/camera']-49) > 5")
 
                             elif not camera_motion_ldr_modulator_timer.check():
-                                print('not camera_motion_ldr_modulator_timer.check()')#camera_motion_ldr_modulator_notification_Timer.message('not camera_motion_ldr_modulator_timer.check()')
+                                #print('not camera_motion_ldr_modulator_timer.check()')#camera_motion_ldr_modulator_notification_Timer.message('not camera_motion_ldr_modulator_timer.check()')
 
                             else:
                                 #print("N['ldr_gain']")
