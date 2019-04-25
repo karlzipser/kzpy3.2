@@ -25,6 +25,7 @@ def Pid_Processing_Motor():
         D['pid_motor_percent'] = max(D['pid_motor_percent'],P['pid_steer_steer_percent_min'])
         if D['pid_motor_percent'] > P['max motor']:
             D['pid_motor_percent'] = 49
+            cr("*** D['pid_motor_percent'] = 49 ***")
             #if 'LIGHTS' in P['Arduinos']:
             #    P['Arduinos']['LIGHTS'].write(P['lights/failure 1'])
         return D['pid_motor_percent']
@@ -103,7 +104,7 @@ def drive_car(P):
         else:
             pass
 
-        if P['use_motor_PID'] and P['button_number'] != 4:
+        if P['use_human_motor_PID'] and P['button_number'] != 4:
             #_motor_pwm = motor_percent_to_pwm(
             #        Pid_processing_motor['do'](P['human_PID_motor_percent'],P['encoder_smooth'],P),P)
             human_pid_motor_percent = Pid_processing_motor['do'](
@@ -126,7 +127,7 @@ def drive_car(P):
         _camera_pwm = servo_percent_to_pwm(P['cmd/camera'],P)
         _servo_pwm = servo_percent_to_pwm(P['cmd/steer'],P)
   
-        if P['use_motor_PID'] and P['cmd/motor'] > 49: # This because of flex
+        if P['use_net_motor_PID'] and P['cmd/motor'] > 49: # This because of flex
             _motor_pwm = motor_percent_to_pwm(
                 Pid_processing_motor['do'](P['cmd/motor'],P['encoder_smooth'],P),P)
         else:

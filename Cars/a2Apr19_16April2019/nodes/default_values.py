@@ -40,6 +40,7 @@ _['network_output_sample'] = 0 # >= 0, <= 9
 _['network_steer_gain'] = 2.0
 _['network_camera_gain'] = 4.0
 _['network_motor_gain'] = 0.8
+_['low velocity direct steer gain'] = 4.0
 _['network_reverse_motor_gain'] = 1.
 _['network_motor_offset'] = 0
 _['network_servo_smoothing_parameter'] = 0.85
@@ -112,7 +113,8 @@ _['camera_pwm_manual_offset'] = 130
 
 _['HUMAN_SMOOTHING_PARAMETER_1'] = 0.75
 
-_['use_motor_PID'] = True
+_['use_net_motor_PID'] = True
+_['use_human_motor_PID'] = False
 _['human_PID_motor_percent'] = 53
 _['pid_motor_slope'] = (60-49)/3.0
 _['pid_motor_gain'] = 0.05
@@ -195,7 +197,7 @@ _['To Expose']['Arduino'] = [
 	'agent_is_human',
 	'servo_pwm_smooth_manual_offset',
 	'camera_pwm_manual_offset',
-	'use_motor_PID',
+	'use_human_motor_PID',
 	'human_PID_motor_percent',
 	'now in calibration mode',
 	'desktop version/pwm to screen',
@@ -230,8 +232,10 @@ _['To Expose']['Network'] = [
 	'net_hide_colors',
 	'network_servo_smoothing_parameter_direct',
 	'network_steer_gain_direct',
+	'low velocity direct steer gain',
     #'use_ldr_img',
     'ldr_gain',
+    'use_net_motor_PID',
 ]
 _['To Expose']['Control'] = [
     'ABORT',

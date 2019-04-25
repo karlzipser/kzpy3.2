@@ -300,18 +300,18 @@ def print_topics():
         if C['new_motor'] < 49:
             nmo = rd
         pd2n(
-            nm,int(C['net/motor']),sp,
-            fm,int(C['flex/motor']),sp,
-            nmo,C['new_motor'],sp,
-            yl,dp(C['velocity'],1),sp,
-            mg,dp(C['still_timer'].time(),1),sp,
-            gr,dp(C['collision_timer'].time(),1),sp,
-            lb,int(C['heading']-C['reference_heading']),sp,
-            rd,C['button_number'],sp,
+            nm,'net/motor ',int(C['net/motor']),sp,
+            fm,'flex/motor ',int(C['flex/motor']),sp,
+            nmo,'new_motor ',C['new_motor'],sp,
+            yl,'velocity ',dp(C['velocity'],1),sp,
+            #mg,dp(C['still_timer'].time(),1),sp,
+            #gr,dp(C['collision_timer'].time(),1),sp,
+            lb,'ref head ',int(C['heading']-C['reference_heading']),sp,
+            #rd,C['button_number'],sp,
             rd,C['behavior_names'][C['behavioral_mode']],sp,
-            gr,dp(C['distance']-C['reference_distance'],1),sp,
-            rd,C['error_count'],sp,
-            yl,C['from still motor offset'],sp,
+            gr,'distance ',dp(C['distance']-C['reference_distance'],1),sp,
+            #rd,C['error_count'],sp,
+            #yl,C['from still motor offset'],sp,
         )
 
 
@@ -353,6 +353,12 @@ def adjusted_motor():
     C['net/motor/smooth'] = bound_value(C['net/motor/smooth'],0,99)
     new_motor = C['net/motor/smooth'] + C['flex/motor/smooth']-49
     new_motor += C['from still motor offset']
+    if P['max motor'] < 49:
+        P['max motor'] = 49
+        cr("*** Error, P['max motor'] < 49")
+    if P['min motor'] > 49:
+        P['min motor'] = 49
+        cr("*** Error, P['min motor'] > 49")
     new_motor = bound_value(intr(new_motor),P['min motor'],P['max motor'])
     C['new_motor'] = new_motor
 
@@ -367,11 +373,11 @@ def adjusted_steer():
     if C['behavioral_mode'] == DIRECT:
         gain = P['network_steer_gain_direct']
         if C['velocity'] > 1.1:
-            gain *= 0.75
+            gain *= 1.0
         elif C['velocity'] < 0.33:
-            gain *= 2.0
+            gain *= 4.0
         elif C['velocity'] < 0.66:
-            gain *= 1.5
+            gain *= 2.0
         # also, slow down when turning to damp ossilations
         s = P['network_servo_smoothing_parameter_direct']
     else:
@@ -402,7 +408,7 @@ def adjusted_camera():
     if C['behavioral_mode'] == DIRECT:
         gain = P['network_camera_gain_direct']
         if C['velocity'] < 0.33:
-            gain = 4.0
+            gain = P['low velocity direct steer gain']
         s = P['network_camera_smoothing_parameter']
     else:
         gain = P['network_camera_gain']
