@@ -300,16 +300,17 @@ def print_topics():
         if C['new_motor'] < 49:
             nmo = rd
         pd2n(
-            nm,'net/motor ',int(C['net/motor']),sp,
-            fm,'flex/motor ',int(C['flex/motor']),sp,
-            nmo,'new_motor ',C['new_motor'],sp,
-            yl,'velocity ',dp(C['velocity'],1),sp,
+            nm,'net/mo ',int(C['net/motor']),sp,
+            fm,'flex/mo ',int(C['flex/motor']),sp,
+            nmo,'new_mo ',C['new_motor'],sp,
+            rd,'from still motor offset',C['from still motor offset'],
+            yl,'vel ',dp(C['velocity'],1),sp,
             #mg,dp(C['still_timer'].time(),1),sp,
             #gr,dp(C['collision_timer'].time(),1),sp,
-            lb,'ref head ',int(C['heading']-C['reference_heading']),sp,
+            lb,'ref hd ',int(C['heading']-C['reference_heading']),sp,
             #rd,C['button_number'],sp,
             rd,C['behavior_names'][C['behavioral_mode']],sp,
-            gr,'distance ',dp(C['distance']-C['reference_distance'],1),sp,
+            gr,'dist ',dp(C['distance']-C['reference_distance'],1),sp,
             #rd,C['error_count'],sp,
             #yl,C['from still motor offset'],sp,
         )

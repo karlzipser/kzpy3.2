@@ -22,10 +22,10 @@ def Pid_Processing_Motor():
             delta = max(delta,-P['pid_motor_delta_max'])
         D['pid_motor_percent'] += delta
         D['pid_motor_percent'] = min(D['pid_motor_percent'],P['pid_motor_percent_max'])
-        D['pid_motor_percent'] = max(D['pid_motor_percent'],P['pid_steer_steer_percent_min'])
+        D['pid_motor_percent'] = max(D['pid_motor_percent'],P['pid_motor_percent_min'])
         if D['pid_motor_percent'] > P['max motor']:
-            D['pid_motor_percent'] = 49
-            cr("*** D['pid_motor_percent'] = 49 ***")
+            D['pid_motor_percent'] = P['max motor'] # 49 #25 April 2019
+            cr("*** D['pid_motor_percent'] was > 49 ***")
             #if 'LIGHTS' in P['Arduinos']:
             #    P['Arduinos']['LIGHTS'].write(P['lights/failure 1'])
         return D['pid_motor_percent']
