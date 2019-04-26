@@ -57,7 +57,7 @@ _['visualize_activations'] = False
 _['camera_move_threshold'] = 0
 _['camera_auto_zero_for_small_values_int'] = 0
 _['cmd_camera_to_camera_heading_cooeficient'] = 0.0
-_['new_camera'] = 49
+_['temp_camera'] = 49
 ###########################
 _['use flex'] = True
 _['flex_motor_smoothing_parameter'] = _['network_motor_smoothing_parameter']
@@ -239,7 +239,7 @@ _['To Expose']['Network'] = [
     'ldr_gain',
     'use_net_motor_PID',
     'cmd_camera_to_camera_heading_cooeficient',
-    'TEMP STEER',
+    'temp_camera',
 ]
 _['To Expose']['Control'] = [
     'ABORT',
