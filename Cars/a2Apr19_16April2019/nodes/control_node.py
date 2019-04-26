@@ -325,13 +325,13 @@ def adjusted_motor():
             C['from still motor offset timer'].reset()
             C['from still motor offset'] = np.random.choice([0.,0.])# temp change [-10.,10.])
             C['lights_pub'].publish(C['lights'][GREEN])
-            cy('GREEN')
+            #cy('GREEN')
     elif not C['from still motor offset timer'].check():
         C['from still motor offset'] *= 0.99
     else:
         if np.abs(C['from still motor offset']) > 0:
             C['lights_pub'].publish(C['lights'][GREEN_OFF])
-            cy('GREEN OFF')
+            #cy('GREEN OFF')
         C['from still motor offset'] = 0.
 
     flex = C['flex/motor']
@@ -398,7 +398,7 @@ def adjusted_steer():
 
     C['new_steer'] = new_steer
 
-    C['new_steer'] = P['TEMP STEER']
+    
 
 
 
@@ -425,7 +425,7 @@ def adjusted_camera():
 
     C['new_camera'] = new_camera
 
-
+    C['new_camera'] = P['new_camera']
 
 
 
