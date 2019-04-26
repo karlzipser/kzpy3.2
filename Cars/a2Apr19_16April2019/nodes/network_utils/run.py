@@ -68,7 +68,7 @@ def step(camera_data,metadata,N):
 
     for modality in N['modalities']:
         for behavioral_mode in ['left','direct','right']:
-            if 'modality' == 'headings':
+            if modality == 'headings':
                 c = camera_heading
                 print Data[modality][behavioral_mode],c
             else:
