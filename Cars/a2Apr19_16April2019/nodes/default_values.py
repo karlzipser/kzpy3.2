@@ -56,6 +56,7 @@ _['USE_LAST_IMAGE_ONLY'] = False
 _['visualize_activations'] = False
 _['camera_move_threshold'] = 0
 _['camera_auto_zero_for_small_values_int'] = 0
+_['cmd_camera_to_camera_heading_cooeficient'] = 0.0
 ###########################
 _['use flex'] = True
 _['flex_motor_smoothing_parameter'] = _['network_motor_smoothing_parameter']
@@ -236,6 +237,7 @@ _['To Expose']['Network'] = [
     #'use_ldr_img',
     'ldr_gain',
     'use_net_motor_PID',
+    'cmd_camera_to_camera_heading_cooeficient',
 ]
 _['To Expose']['Control'] = [
     'ABORT',
