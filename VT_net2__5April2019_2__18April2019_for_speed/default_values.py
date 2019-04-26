@@ -43,7 +43,7 @@ for k in _.keys():
 _['dst path'] = opjD('Data/Network_Predictions_projected_gain_2')
 _['timer'] = Timer(5)
 _['vec sample frequency'] = 3.33
-_['start menu automatically'] = True
+_['start menu automatically'] = False
 _['vel-encoding coeficient'] = (1.0/2.3)
 _['show timer'] = Timer(_['show timer time'])
 _['wait for start signal'] = False
