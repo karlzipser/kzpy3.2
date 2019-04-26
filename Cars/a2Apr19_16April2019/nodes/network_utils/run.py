@@ -70,6 +70,7 @@ def step(camera_data,metadata,N):
         for behavioral_mode in ['left','direct','right']:
             if 'modality' == 'headings':
                 c = camera_heading
+                print Data[modality][behavioral_mode],c
             else:
                 c = 0.
             N['Pub'][modality][behavioral_mode].publish(
