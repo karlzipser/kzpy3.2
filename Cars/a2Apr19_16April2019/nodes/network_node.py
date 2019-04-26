@@ -162,7 +162,7 @@ while True:
 
 dimg = zeros((19,18,3))
 
-for i in range(10):
+for i in range(3):
     cm('waiting to start flex_network_node',i)
     time.sleep(1) # waiting avoids errors because of slow loading of torch
 
