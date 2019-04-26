@@ -323,7 +323,7 @@ def adjusted_motor():
     if C['still_timer'].time() > 1.0:
         if C['from still motor offset'] == 0.:
             C['from still motor offset timer'].reset()
-            C['from still motor offset'] = np.random.choice([-10.,10.])
+            C['from still motor offset'] = np.random.choice([0.,0.])# temp change [-10.,10.])
             C['lights_pub'].publish(C['lights'][GREEN])
             cy('GREEN')
     elif not C['from still motor offset timer'].check():
@@ -397,6 +397,8 @@ def adjusted_steer():
             new_steer = 99-new_steer            
 
     C['new_steer'] = new_steer
+
+    C['new_steer'] = P['TEMP STEER']
 
 
 
