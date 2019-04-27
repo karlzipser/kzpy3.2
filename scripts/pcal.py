@@ -23,7 +23,7 @@ pr = datetime.datetime.strptime('13042019', "%d%m%Y").date()
 
 
 Day_colors = {}
-dcs = [((1,7),'red'),((8,9),'yellow'),((10,14),'green'),((15,16),'yellow'),((17,28),'blue'),]
+dcs = [((1,7),'red'),((8,9),'yellow'),((10,14),'green'),((15,16),'yellow'),((17,23),'blue'),((23,28),'cyan')]
 for d in dcs:
 	r = d[0]
 	c = d[1]
@@ -37,6 +37,7 @@ for d in dcs:
 
 
 def fr(pr,today,past_days,future_days):
+	clear_screen()
 	past_days *= -1
 	pday_int = (pr-today).days
 	#cr('pday_int =',pday_int)
@@ -62,6 +63,7 @@ def fr(pr,today,past_days,future_days):
 
 		print colored(d2n(Days[day.weekday()],' ',day.month,'/',day.day,' '),Day_colors[j],attrs=attrs),colored(d2s(day_count,show_today),'white',attrs=today_attrs)
 
+	print('\n\n')
 
 
 
