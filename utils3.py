@@ -1123,6 +1123,16 @@ def set_Argument_defaults(Arguments,Defaults):
 		if k not in Arguments:
 			Arguments[k] = Defaults[k]
 
+def require_Arguments(arglst):
+	fail = False
+	for a in arglst:
+		if a not in Arguments:
+			cr("***",__file__,"lacking command line argument ","'"+a+"'")
+			fail = True
+	if fail:
+		cr("Required arguments are:",arglst)
+		sys.exit(-1)
+
 #
 #####################################################
 identify_file_str_future = """
@@ -1446,15 +1456,7 @@ def format_row(list_of_sym_percent_pairs):
             row_str += ' '
     return row_str
 
-def require_Arguments(arglst):
-	fail = False
-	for a in arglst:
-		if a not in Arguments:
-			cr("***",__file__,"lacking command line argument ","'"+a+"'")
-			fail = True
-	if fail:
-		cr("Required arguments are:",arglst)
-		sys.exit(-1)
+
 
 
 
