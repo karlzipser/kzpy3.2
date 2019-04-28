@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from kzpy3.utils3 import *
-import default_values
+import default_values_v2 as default_values
 exec(identify_file_str)
 P = default_values.P
 
@@ -35,8 +35,8 @@ key_list = []
 message = ''
 
 def show_menu(C,key_list):
-    #clear_screen()
-    print(mg+"____________________\n")
+    clear_screen()
+    #print(mg+"____________________\n")
     cprint(d2s(key_list_to_path(key_list)),attrs=['bold','reverse'],color='white',on_color='on_blue') 
     sorted_keys = sorted(C.keys())
     if len(key_list) == 0:
@@ -44,15 +44,24 @@ def show_menu(C,key_list):
     else:
         s = '<up>'
     sorted_keys.insert(0,s)
+    cc = bl
     for i in rlen(sorted_keys):
+        if i == 0 and s == '<top>':
+            cb(s)
+            continue
         k = sorted_keys[i]
-        cc = cb
         if k in C:
             if type(C[k]) == dict:
-                cc = cg
+                cc = gr
             else:
-                cc = cy
-        cc(i,k)
+                cc = yl
+        v = ''
+        if k in C:
+            if type(C[k]) == tuple:
+                if C[k][0] == 'set value':
+                    v = C[k][1]
+        
+        cb(bl,i,cc,k,lb,v)
     return sorted_keys
 
 def key_list_to_path(key_list):
@@ -76,7 +85,8 @@ if __name__ == '__main__':
 
         sorted_keys = show_menu(C_,key_list)
 
-        print message
+        cw(message)
+        message = ''
 
         if len(arg_choice_list) > 0:
             raw_choice = arg_choice_list.pop()
@@ -123,19 +133,32 @@ if __name__ == '__main__':
                         file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
                         CS_('Exception!',emphasis=True)
                         CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
-                        #time.sleep(1)
+                        raw_enter()
 
             elif cmd_mode == 'set value':
                 try:
-                    value = input(d2n("enter value for '",key_choice,"' > "))
-                    print value
-                    message = d2n("set '",key_choice,"'' to ",value)
-                    time.sleep(1/4.)
+                    if type(C_[key_choice][1]) == bool:
+                        value = C_[key_choice][1]
+                        yes_no = raw_input(d2n("Toggle '",key_choice,"'? ([y]/n)"))
+                        if yes_no == 'y' or yes_no == '':
+                            value = not value
+                            message = d2n("(set '",key_choice,"' to ",value,')')
+                        if value:
+                            message = d2n("('",key_choice,"' unchanged)")
+                    else:
+                        value = input(d2n("Enter value for '",key_choice,"': "))
+                        message = d2n("(set '",key_choice,"' to ",value,')')
+                    print key_choice,value,C_[key_choice]
+                    C_[key_choice] = (cmd_mode,value)
+                    time.sleep(1/8.)
                 except Exception as e:
                     exc_type, exc_obj, exc_tb = sys.exc_info()
                     file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
                     CS_('Exception!',emphasis=True)
                     CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+                    raw_enter()
+
+
 
 
 

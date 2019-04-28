@@ -29,7 +29,7 @@ P = {
         'tests': {
             'a':('set value',3.3),
             'b':('set value',99),
-            'c':('set value',-1),
+            'c':('set value',True),
         }
 
     },
