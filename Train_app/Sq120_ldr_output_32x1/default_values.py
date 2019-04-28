@@ -93,7 +93,7 @@ elif _['use_LIDAR'] == False:
 	_['GPU'] = 0
 else:
 	_['GPU'] = 1
-_['GPU'] = np.random.choice([0,1])
+_['GPU'] = 1#np.random.choice([0,1])
 #
 ###############################################################
 

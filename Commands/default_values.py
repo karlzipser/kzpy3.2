@@ -13,6 +13,7 @@ _ = {
                 'left, show_image_from_ros':'show_image_from_ros.py',
                 'rosplay_menu.py':'rosplay_menu.py',
                 'rosplay_menu.py task hz':'rosplay_menu.py task hz',
+                #'all':'all',
             },
 
         },
@@ -25,6 +26,7 @@ _ = {
         'miscellaneous':{
             'pcal':'@ python kzpy3/scripts/pcal.py wait True',
             'pcal2':' python kzpy3/scripts/pcal.py wait True',
+            'view weights 32x1':"gnome-terminal --tab -e 'python kzpy3/Train_app/Sq120_ldr_output_32x1/view_weights.py'"
         },
 
     },

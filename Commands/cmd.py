@@ -38,7 +38,7 @@ key_list = []
 def show_menu(C,key_list):
     #clear_screen()
     print(mg+"____________________\n")
-    cprint(d2s('keypath:',key_list_to_path(key_list)),attrs=['bold','reverse'],color='white',on_color='on_blue') 
+    cprint(d2s(key_list_to_path(key_list)),attrs=['bold','reverse'],color='white',on_color='on_blue') 
     sorted_keys = sorted(C.keys())
     if len(key_list) == 0:
         s = '<top>'
@@ -105,16 +105,26 @@ if __name__ == '__main__':
         else:
             cmd_str = C_[key_choice]
             
-            yes_no = raw_input(d2s(cmd_str,' ([y]/n) '))
+            #yes_no = raw_input(d2s(cmd_str,' ([y]/n) '))
+            yes_no = 'y'
             if yes_no == 'y' or yes_no == '':
                 #os.system("gnome-terminal --geometry 40x30+100+200 -x python  kzpy3/Menu_app/menu2.py path kzpy3/Cars/a2Apr19_16April2019/nodes dic P")
-                try:
+                if True:#try:
                     #print cmd_str,cmd_str[0]
-                    if cmd_str[0] != '@':
+
+                    if cmd_str == 'all':
+                        all_str = 'gnome-terminal '
+                        for q in sorted_keys:
+                            if q in ['<up>','<top>','all']:
+                                continue
+                            all_str += d2s(' --tab -e',C_[q])
+                        cg(all_str)
+                        os.system(all_str)
+                    elif cmd_str[0] != '@':
                         os.system(cmd_str)
                     else:
                         os.system("gnome-terminal --geometry 50x30+100+200 -x "+cmd_str[1:])
-                except Exception as e:
+                else:#except Exception as e:
                     exc_type, exc_obj, exc_tb = sys.exc_info()
                     file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
                     CS_('Exception!',emphasis=True)

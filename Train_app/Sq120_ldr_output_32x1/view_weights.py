@@ -33,6 +33,7 @@ figure(_['WEIGHTS_FILE_PATH'].replace(opjh(),'')+' ',figsize=figsize)
 plot([0,164],[0,0],'b-')
 
 w = q.transpose(1,0)
+so(opjD('w'),w)
 for i in range(len(w)):
     c = 'c.'
     if i in [128+4+13,128+4+14,128+4+15]:
