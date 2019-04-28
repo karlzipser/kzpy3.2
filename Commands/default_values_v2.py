@@ -1,3 +1,8 @@
+try:
+    from kzpy3.Commands.other import Q
+except:
+    Q = ('set value','dic not found')
+from kzpy3.utils3 import *
 
 P = {
 
@@ -30,7 +35,11 @@ P = {
             'a':('set value',3.3),
             'b':('set value',99),
             'c':('set value',True),
-        }
+            'd':('set value','abc'),
+            'e':('set value',[1]),
+        },
+        'Q':Q,
+        'some data':('active',opjD('temp.pkl')),
 
     },
 }

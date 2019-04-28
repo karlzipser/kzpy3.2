@@ -51,7 +51,9 @@ def show_menu(C,key_list):
             continue
         k = sorted_keys[i]
         if k in C:
-            if type(C[k]) == dict:
+            if type(C[k]) == tuple and C[k][0] == 'active':
+                cc = rd
+            elif type(C[k]) == dict:
                 cc = gr
             else:
                 cc = yl
@@ -139,7 +141,7 @@ if __name__ == '__main__':
                 try:
                     if type(C_[key_choice][1]) == bool:
                         value = C_[key_choice][1]
-                        yes_no = raw_input(d2n("Toggle '",key_choice,"'? ([y]/n)"))
+                        yes_no = raw_input(d2n("Toggle '",key_choice,"'? ([y]/n) "))
                         if yes_no == 'y' or yes_no == '':
                             value = not value
                             message = d2n("(set '",key_choice,"' to ",value,')')
@@ -147,6 +149,9 @@ if __name__ == '__main__':
                             message = d2n("('",key_choice,"' unchanged)")
                     else:
                         value = input(d2n("Enter value for '",key_choice,"': "))
+                        if type(value) != type(C_[key_choice][1]):
+                            message = d2n("!!! type(",value,") != type(",C_[key_choice][1],") !!!")
+                            continue
                         message = d2n("(set '",key_choice,"' to ",value,')')
                     print key_choice,value,C_[key_choice]
                     C_[key_choice] = (cmd_mode,value)
@@ -158,6 +163,8 @@ if __name__ == '__main__':
                     CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
                     raw_enter()
 
+            elif cmd_mode == 'active':
+                cr('active stuff!',ra=1)
 
 
 
