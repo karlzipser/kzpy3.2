@@ -18,10 +18,17 @@ _ = {
 
         },
         'Train_app':{
-            'Sq120_ldr_output_4April2019':'python kzpy3/Train_app/Sq120_ldr_output_4April2019/trainloop.py',
-            'Sq120_ldr_output_4April2019 menu':'python kzpy3/Menu_app/menu2.py path kzpy3/Train_app/Sq120_ldr_output_4April2019 dic P',
-            'Sq120_ldr_output_2nd_training_16April2019':'python kzpy3/Train_app/Sq120_ldr_output_2nd_training_16April2019/trainloop.py',
-            'Sq120_ldr_output_2nd_training_16April2019 menu':'python kzpy3/Menu_app/menu2.py path kzpy3/Train_app/Sq120_ldr_output_2nd_training_16April2019 dic P',
+            'run':{
+                'Sq120_ldr_output_4April2019':'python kzpy3/Train_app/Sq120_ldr_output_4April2019/trainloop.py',
+                'Sq120_ldr_output_2nd_training_16April2019':'python kzpy3/Train_app/Sq120_ldr_output_2nd_training_16April2019/trainloop.py',
+                'Sq120_ldr_output_32x1':'python kzpy3/Train_app/Sq120_ldr_output_32x1/trainloop.py',
+
+            },
+            'menu':{
+                'Sq120_ldr_output_4April2019':'python kzpy3/Menu_app/menu2.py path kzpy3/Train_app/Sq120_ldr_output_4April2019 dic P',
+                'Sq120_ldr_output_2nd_training_16April2019':'python kzpy3/Menu_app/menu2.py path kzpy3/Train_app/Sq120_ldr_output_2nd_training_16April2019 dic P',
+                'Sq120_ldr_output_32x1':'python kzpy3/Menu_app/menu2.py path kzpy3/Train_app/Sq120_ldr_output_32x1 dic P',
+            },
         },
         'miscellaneous':{
             'pcal':'@ python kzpy3/scripts/pcal.py wait True',
