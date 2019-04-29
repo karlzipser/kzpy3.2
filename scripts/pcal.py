@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 from kzpy3.utils3 import *
 from termcolor import colored
+from datetime import date
 
 set_Argument_defaults(Arguments,{'p':7,'f':28})
+
 
 
 Days = {
@@ -16,11 +18,12 @@ Days = {
 }
 
 today = datetime.date.today()
+ref_day = date(2019,4,29)
 one_day = datetime.timedelta(days=1)
-#pr = datetime.datetime.strptime('17032019', "%d%m%Y").date()
-#pr2 = one_day*c + pr
+
 pr = datetime.datetime.strptime('13042019', "%d%m%Y").date()
 
+my_day_pattern = [0,0, 1,1, 0,0,0,0,0, 1,1,1,1,1]
 
 Day_colors = {}
 dcs = [((1,7),'red'),((8,9),'yellow'),((10,14),'green'),((15,16),'yellow'),((17,23),'blue'),((23,28),'cyan')]
@@ -51,7 +54,8 @@ def fr(pr,today,past_days,future_days):
 
 		#,colored(d2s((day-today).days,'days'),'white')
 		day_count = (day-today).days
-		attrs=['bold','reverse']
+		attrs=[]
+		
 		show_today = ''
 		if day_count == 0:
 			today_attrs = attrs
@@ -59,9 +63,12 @@ def fr(pr,today,past_days,future_days):
 			show_today = 'today'
 		else:
 			today_attrs = []
-
-
-		print colored(d2n(Days[day.weekday()],' ',day.month,'/',day.day,' '),Day_colors[j],attrs=attrs),colored(d2s(day_count,show_today),'white',attrs=today_attrs)
+		show_mine = ''
+		mine = my_day_pattern[np.mod(i+(today-ref_day).days,14)]
+		if mine:
+			#show_mine = '*'
+			attrs=['bold','reverse']
+		print colored(d2n(show_mine,Days[day.weekday()],' ',day.month,'/',day.day,' '),Day_colors[j],attrs=attrs),colored(d2s(day_count,show_today),'white',attrs=today_attrs)
 
 	print('\n\n')
 
