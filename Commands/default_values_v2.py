@@ -39,7 +39,8 @@ P = {
             'e':('set value',[1]),
         },
         'Q':Q,
-        'some data':('active',opjD('temp.pkl')),
+        'some data':('active',opjD('a')),
+        'python':('python',0),
 
     },
 }

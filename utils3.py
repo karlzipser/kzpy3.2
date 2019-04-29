@@ -1480,7 +1480,16 @@ def sort_dir_by_ctime(dir_path):
 
 
 
-
+def getch():
+	import sys, termios, tty, os, time
+	fd = sys.stdin.fileno()
+	old_settings = termios.tcgetattr(fd)
+	try:
+		tty.setraw(sys.stdin.fileno())
+		ch = sys.stdin.read(1)
+	finally:
+		termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+	return ch
 
 
 

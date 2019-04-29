@@ -53,6 +53,8 @@ def show_menu(C,key_list):
         if k in C:
             if type(C[k]) == tuple and C[k][0] == 'active':
                 cc = rd
+            elif type(C[k]) == tuple and C[k][0] == 'python':
+                cc = lb
             elif type(C[k]) == dict:
                 cc = gr
             else:
@@ -66,12 +68,53 @@ def show_menu(C,key_list):
         cb(bl,i,cc,k,lb,v)
     return sorted_keys
 
+
+
 def key_list_to_path(key_list):
     s = ''
     for k in key_list:
         s += '/'
         s += k
     return s
+
+
+
+
+
+def Dic_Loader(path,wait_time=0.2):
+    D = {}
+    if '.pkl' not in path:
+        path = path+'.pkl'
+    D['path'] = path
+    D['mtime_prev'] = -1
+    D['wait time'] = wait_time
+    D['wait timer'] = Timer(D['wait time'])
+    D['Dic'] = None
+
+    def function_load():
+        if D['wait timer'].check():
+            D['wait timer'].reset()
+            if file_modified_test():
+                D['Dic'] = lo(D['path'])
+                return True
+        time.sleep(D['wait time']/2.)
+        return False
+
+    def file_modified_test():
+        D['mtime'] = os.path.getmtime(D['path'])
+        if D['mtime'] > D['mtime_prev']:
+            D['mtime_prev'] = D['mtime']
+            return True
+        return False
+
+    D['load'] = function_load
+
+    return D
+
+        
+
+
+
 
 if __name__ == '__main__':
 
@@ -164,8 +207,28 @@ if __name__ == '__main__':
                     raw_enter()
 
             elif cmd_mode == 'active':
-                cr('active stuff!',ra=1)
+                
+                    A = Dic_Loader(C_[key_choice][1])
+                    while True:
+                        try:
+                            if A['load']():
+                                clear_screen()
+                                for k in sorted(A['Dic'].keys()):
+                                    cw(gr,str(k)+')',yl,A['Dic'][k])
+                                cw(lb,time_str('Pretty'))
+                        except KeyboardInterrupt:
+                            cr('*** KeyboardInterrupt ***')
+                            break
+                        except Exception as e:
+                            exc_type, exc_obj, exc_tb = sys.exc_info()
+                            file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                            CS_('Exception!',emphasis=True)
+                            CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
 
+            elif cmd_mode == 'python':
+                code = raw_input(d2n("Enter python code: "))
+                exec(code)
+                raw_enter()
 
 
 
