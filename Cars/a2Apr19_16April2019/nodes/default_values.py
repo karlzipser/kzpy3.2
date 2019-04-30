@@ -35,11 +35,11 @@ _['control print'] = True
 _['flex print'] = True
 ############# NETWORK PARAMETERS
 #_['use_ldr_img'] = True
-_['ldr_gain'] = 0.333
+_['ldr_gain'] = 0.0
 _['network_output_sample'] = 0 # >= 0, <= 9
 _['network_steer_gain'] = 2.0
 _['network_camera_gain'] = 4.0
-_['network_motor_gain'] = 0.8
+_['network_motor_gain'] = 0.0
 _['low velocity direct steer gain'] = 4.0
 _['network_reverse_motor_gain'] = 1.
 _['network_motor_offset'] = 0
@@ -49,14 +49,14 @@ _['network_camera_smoothing_parameter'] = 0.75
 _['network_servo_smoothing_parameter_direct'] = 0.85
 _['network_steer_gain_direct'] = 1.5
 _['network_camera_gain_direct'] = 0.0         
-_['network_motor_gain_direct'] = 1.0
+_['network_motor_gain_direct'] = 0.0
 _['USE_NETWORK'] = True
 _['GREY_OUT_TOP_OF_IMAGE'] = False
 _['USE_LAST_IMAGE_ONLY'] = False
 _['visualize_activations'] = False
 _['camera_move_threshold'] = 0
 _['camera_auto_zero_for_small_values_int'] = 0
-_['cmd_camera_to_camera_heading_cooeficient'] = 0.0
+_['cmd_camera_to_camera_heading_cooeficient'] = 0.75
 _['temp_camera'] = 49
 ###########################
 _['use flex'] = False

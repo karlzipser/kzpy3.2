@@ -425,7 +425,7 @@ def adjusted_camera():
 
     C['new_camera'] = new_camera
 
-    C['new_camera'] = P['temp_camera']
+    #C['new_camera'] = P['temp_camera']
 
 
 
