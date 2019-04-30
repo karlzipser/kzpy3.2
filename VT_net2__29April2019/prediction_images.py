@@ -180,6 +180,7 @@ def Array(n_dims,max_len):
     D['ctr'] = 0
     D['key_ctr'] = 0
     D['Dic'] = {}
+
     def function_check_len():
         ctr = D['ctr']
         max_len = D['max_len']
@@ -203,10 +204,21 @@ def Array(n_dims,max_len):
         D['Dic'][D['key_ctr']] = info
         D['ctr'] += 1
         D['key_ctr'] += 1
+
+    def function_rotate(deg):
+        rotatePolygon__array_version(D['array'],deg)
+
     D['append'] = function_append
+    D['rotate'] = function_rotate
+
     return D
 
-
+if True:
+    A = Array(2,7) 
+    for i in range(50):
+        A['append'](na([i,i]),i*i)
+        A['rotate'](1.)
+        cg(A['data'],ra=1)
 
 ##############################################################
 ###

@@ -595,13 +595,13 @@ def rotatePolygon(polygon,theta):
         rotatedPolygon.append(( corner[0]*math.cos(theta)-corner[1]*math.sin(theta) , corner[0]*math.sin(theta)+corner[1]*math.cos(theta)) )
     return rotatedPolygon
 
-"""
+
 def rotatePolygon__array_version(polygon,theta):
     theta = math.radians(theta)
     for i in rlen(polygon):
         corner = polygon[i,:]
         polygon[i,:] = na(( corner[0]*math.cos(theta)-corner[1]*math.sin(theta) , corner[0]*math.sin(theta)+corner[1]*math.cos(theta)) )
-"""
+
 
 
 def rotatePolygon_cuda(polygon,theta):
