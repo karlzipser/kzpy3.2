@@ -296,7 +296,8 @@ if __name__ == '__main__':
 
     hz = Timer(10)
 
-    threading.Thread(target=flex_thread,args=[N]).start()
+    if N['use flex']:
+        threading.Thread(target=flex_thread,args=[N]).start()
 
     while not rospy.is_shutdown() and N['ABORT'] == False:
 
