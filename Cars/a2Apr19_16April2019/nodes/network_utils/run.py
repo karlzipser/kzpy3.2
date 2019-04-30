@@ -64,7 +64,6 @@ def step(camera_data,metadata,N):
     Data['steers']['right'] = 99*output[-100:-90]
 
     camera_heading = (N['cmd/camera']-49) * N['cmd_camera_to_camera_heading_cooeficient']
-    print camera_heading,N['cmd/camera']
 
     for modality in N['modalities']:
         for behavioral_mode in ['left','direct','right']:
