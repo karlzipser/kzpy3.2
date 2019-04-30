@@ -504,7 +504,10 @@ def Plot(xy_pix_sizes,origin,xy_mults):
 def xylim(a,b,c,d):
     xlim(a,b)
     ylim(c,d)
-
+def xyliml(lst):
+    xlim(lst[0],lst[1])
+    ylim(lst[2],lst[3])
+    
 def xysqlim(a):
     xylim(-a,a,-a,a)
 

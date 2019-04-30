@@ -8,10 +8,10 @@
 
 #18April2019
 roscore
-python kzpy3/VT_net2__5April2019_2__18April2019_for_speed/publish.py  pub_predictions 1 step 0
-python kzpy3/VT_net2__5April2019_2__18April2019_for_speed/publish.py  pub_predictions 9 step 0
-python kzpy3/VT_net2__5April2019_2__18April2019_for_speed/main.py # _['topic_suffix'] = ''
-python kzpy3/VT_net2__5April2019_2__18April2019_for_speed/main.py # _['topic_suffix'] = '_'
+python kzpy3/VT_net2__29April2019/publish.py  pub_predictions 1 step 0
+python kzpy3/VT_net2__29April2019/publish.py  pub_predictions 9 step 0
+python kzpy3/VT_net2__29April2019/main.py # _['topic_suffix'] = ''
+python kzpy3/VT_net2__29April2019/main.py # _['topic_suffix'] = '_'
 python kzpy3/scripts/plot_topics.py topics headings_left_,headings_right_,headings_direct_ colors red,green,blue falloff 0.7
 python kzpy3/scripts/plot_topics.py topics headings_left,headings_right,headings_direct colors red,green,blue falloff 0.7
 python kzpy3/Menu_app/menu2.py path kzpy3/Cars/a2Apr19/nodes dic P
@@ -81,7 +81,6 @@ rospy.init_node('main',anonymous=True)
 Pub = {}
 Pub['ldr_img'] = rospy.Publisher("/ldr_img"+_['topic_suffix'],Image,queue_size=1)
 
-
 if __name__ == '__main__':
 
     
@@ -91,8 +90,11 @@ if __name__ == '__main__':
 
     pts2D_multi_step = []
 
+    path_pts2D = []
+
     while not _['ABORT']:
 
+        #if True:
         try:
             load_parameters(_)
 
@@ -110,16 +112,35 @@ if __name__ == '__main__':
             gyro_heading_x =        S['gyro_heading_x']
             encoder =               S['encoder']
             sample_frequency =      S['sample_frequency']
+            if 'behavioral_mode' not in S:
+                motor = S['motor']
+            elif S['behavioral_mode'] not in ['left','direct','right'] or S['human_agent']:
+                motor = S['motor']
+            else:
+                motor = S['cmd/motor']
+            direction = 1.
+            if motor < 49:
+                direction = -1.
 
 
             Prediction2D_plot,left_camera_3D_img,metadata_3D_img = \
                 prediction_images.prepare_2D_and_3D_images(Prediction2D_plot,pts2D_multi_step,d_heading,encoder,sample_frequency,headings,encoders,motors,S['left_image'],_)
 
 
+            path_pts2D = prediction_images.get__path_pts2D(d_heading,encoder,sample_frequency,direction,path_pts2D,_)
+
+            path_pts2D = path_pts2D[-min(len(path_pts2D),300):]
+
+            clf();plt_square();xyliml(_['plot xylims']);pts_plot(na(path_pts2D),sym=_['pts sym']);spause();
+
             prediction_images.show_maybe_save_images(Prediction2D_plot,left_camera_3D_img,metadata_3D_img,_)
 
             Pub['ldr_img'].publish(cv_bridge.CvBridge().cv2_to_imgmsg(metadata_3D_img,'rgb8'))
 
+        #else:
+        except KeyboardInterrupt:
+            cr('*** KeyboardInterrupt ***')
+            sys.exit()
         except Exception as e:
             cr('*** index',_['index'],'failed ***')
             exc_type, exc_obj, exc_tb = sys.exc_info()
