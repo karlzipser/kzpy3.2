@@ -80,7 +80,7 @@ import cv_bridge
 rospy.init_node('main',anonymous=True)
 Pub = {}
 Pub['ldr_img'] = rospy.Publisher("/ldr_img"+_['topic_suffix'],Image,queue_size=1)
-
+Path_pts2D = prediction_images.Array(300,2)
 if __name__ == '__main__':
 
     
@@ -93,9 +93,9 @@ if __name__ == '__main__':
     path_pts2D = []
 
     while not _['ABORT']:
-
-        #if True:
-        try:
+        time.sleep(0.001)
+        if True:
+        #try:
             load_parameters(_)
 
             headings,encoders,motors = {},{},{}
@@ -127,21 +127,38 @@ if __name__ == '__main__':
                 prediction_images.prepare_2D_and_3D_images(Prediction2D_plot,pts2D_multi_step,d_heading,encoder,sample_frequency,headings,encoders,motors,S['left_image'],_)
 
 
+            prediction_images.get__path_pts2D(d_heading,encoder,sample_frequency,direction,Path_pts2D,_)
+
+
+            clf()
+            plt_square()
+            xyliml(_['plot xylims'])
+            pts_plot(Path_pts2D['array'],sym=_['pts sym'])
+            d = Path_pts2D['data']
+            e = d[d[:,2]<0]
+            pts_plot(e,color='b',sym=_['pts sym'])
+            spause()
+
+
+
+            """
             path_pts2D = prediction_images.get__path_pts2D(d_heading,encoder,sample_frequency,direction,path_pts2D,_)
 
             path_pts2D = path_pts2D[-min(len(path_pts2D),300):]
 
             clf();plt_square();xyliml(_['plot xylims']);pts_plot(na(path_pts2D),sym=_['pts sym']);spause();
+            """
+
 
             prediction_images.show_maybe_save_images(Prediction2D_plot,left_camera_3D_img,metadata_3D_img,_)
 
             Pub['ldr_img'].publish(cv_bridge.CvBridge().cv2_to_imgmsg(metadata_3D_img,'rgb8'))
 
-        #else:
-        except KeyboardInterrupt:
+        else:
+        #except KeyboardInterrupt:
             cr('*** KeyboardInterrupt ***')
             sys.exit()
-        except Exception as e:
+        #except Exception as e:
             cr('*** index',_['index'],'failed ***')
             exc_type, exc_obj, exc_tb = sys.exc_info()
             file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]

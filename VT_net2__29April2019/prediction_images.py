@@ -171,12 +171,15 @@ def get__pts2D_multi_step(d_heading,encoder,sample_frequency,headings,encoders,m
 
 
 
-def Array(n_dims,max_len):
+def Array(max_len,n_dims):#,n_code_dims=0):
     D = {}
     D['max_len'] = max_len
-    D['data'] = zeros((2*max_len,n_dims+1))
+    D['n_dims'] = n_dims
+    #D['n_code_dims'] = n_code_dims
+    D['data'] = zeros((2*max_len,n_dims+1+1))#+n_code_dims))
     D['array'] = D['data'][:,:n_dims]
     D['keys'] = D['data'][:,-1]
+    D['code'] = D['data'][:,n_dims]#:n_dims+n_code_dims]
     D['ctr'] = 0
     D['key_ctr'] = 0
     D['Dic'] = {}
@@ -196,33 +199,44 @@ def Array(n_dims,max_len):
                 if k not in kys:
                     del D['Dic'][k]
 
-    def function_append(a,info=None):
+    #zero_code_array = zeros(n_code_dims)
+
+    def function_append(a,code,dic_info=None):#,code_array=zero_code_array,dic_info=None):
         function_check_len()
         ctr = D['ctr']
         D['array'][ctr,:] = a
         D['keys'][ctr] = D['key_ctr']
-        D['Dic'][D['key_ctr']] = info
+        D['code'][ctr] = code #code_array
+        D['Dic'][D['key_ctr']] = dic_info
         D['ctr'] += 1
         D['key_ctr'] += 1
 
     def function_rotate(deg):
         rotatePolygon__array_version(D['array'],deg)
 
+    def function_zero():
+        D['array'][:D['ctr'],:] -= D['array'][D['ctr']-1] #path_pts2D[-1]
+
     D['append'] = function_append
     D['rotate'] = function_rotate
+    D['zero'] = function_zero
 
     return D
 
-if True:
-    A = Array(2,7) 
+if False:
+    A = Array(7,2)#,2) 
     for i in range(50):
-        A['append'](na([i,i]),i*i)
+        A['append'](na([i,i]),np.random.randint(4),i*i)
         A['rotate'](1.)
+        A['zero']()
         cg(A['data'],ra=1)
+
+
+
 
 ##############################################################
 ###
-def get__path_pts2D(d_heading,encoder,sample_frequency,direction,path_pts2D,_):
+def _get__path_pts2D(d_heading,encoder,sample_frequency,direction,path_pts2D,_):
 
     #d_heading *= direction # test only
 
@@ -244,6 +258,24 @@ def get__path_pts2D(d_heading,encoder,sample_frequency,direction,path_pts2D,_):
 ###
 ##############################################################
 
+##############################################################
+###
+def get__path_pts2D(d_heading,encoder,sample_frequency,direction,Path_pts2D,_):
+
+    velocity = encoder * _['vel-encoding coeficient'] * direction
+
+    trajectory_vector = na([0,1]) * velocity / sample_frequency
+
+    try:
+        Path_pts2D['rotate'](-d_heading*_['d_heading_multiplier'])
+    except:
+        pass
+    Path_pts2D['append'](trajectory_vector,direction)
+
+    Path_pts2D['zero']()
+
+###
+##############################################################
 
 ################################################################
 ################################################################
