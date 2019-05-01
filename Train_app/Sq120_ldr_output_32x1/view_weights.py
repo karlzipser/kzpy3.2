@@ -16,12 +16,37 @@ if 'path' in Arguments:
 if False:
     _['WEIGHTS_FILE_PATH'] = opjD('Networks/net_24Dec2018_12imgs_projections/weights/net_25Dec18_20h12m56s.infer')#opjD('temp')
 
+
+
+if True:
+    import torch
+    def load_net(path):
+        save_data = torch.load(path)
+        net = save_data['net']
+        return net
+    A = load_net(most_recent_file_in_folder(opjD('Networks/Sq120_ldr_output_32x1/weights'),['.infer'],[]))
+    B = load_net(opjD('Networks/Sq120_ldr_output_32x1/weights/Sq120_32x1_from_Sq120.infer'))
+    a = A['post_metadata_features.0.squeeze.weight'].cpu().numpy()[16:,:,0,0]
+    b = B['post_metadata_features.0.squeeze.weight'].cpu().numpy()[16:,:,0,0]
+    a.resize(16*164)
+    b.resize(16*164)
+    CA()
+    figure('xy')
+    plot(b,a,'.')
+    plt_square()
+    figure('hist')
+    h = []
+    for i in rlen(a):
+        h.append(a[i]-b[i])
+    hist(h)
+
+
 Network = Network_Module.Pytorch_Network(_)
 n = Network['net']
 
 save_data = torch.load(_['WEIGHTS_FILE_PATH'])
 n=save_data['net'] 
-figsize=(40,6)
+figsize=(20,3)
 p = n['post_metadata_features.0.squeeze.weight'] 
 q = p.cpu().numpy() 
 q = q[:,:,0,0] 
