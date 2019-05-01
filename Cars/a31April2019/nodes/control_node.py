@@ -472,7 +472,7 @@ def adjusted_camera():
     else:
         new_camera = C['human/steer']
 
-    if np.abs(C['new_camera']-new_camera) > 30
+    if np.abs(C['new_camera']-new_camera) > 30:
         if np.abs(C['new_camera']-49) > np.abs(new_camera-49):
             new_camera = 49
 
