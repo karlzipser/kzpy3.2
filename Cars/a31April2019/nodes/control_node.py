@@ -480,16 +480,7 @@ def adjusted_camera():
         C['saccade timer'].reset()
         C['new_camera'] = new_camera
 
-    else:
-        if C['saccadic suppression timer'].check():
-            C['saccadic suppression timer'] = Timer(999)
-            C['fixation timer'] = Timer(1/3.)
-        elif C['fixation timer'].check():
-            C['fixation timer'] = Timer(999)
-            C['new_camera'] = new_camera
-            C['saccadic suppression timer'] = Timer(1/6.)
-        else:
-            pass
+
 
 
     #C['new_camera'] = P['temp_camera']
