@@ -475,7 +475,7 @@ def adjusted_camera():
     if np.abs(C['new_camera']-new_camera) > 30:
         if np.abs(C['new_camera']-49) > np.abs(new_camera-49):
             new_camera = 49
-            C['saccade timer'].trigger():
+            C['saccade timer'].trigger()
 
     if C['saccade timer'].check():
         C['saccade timer'].reset()
