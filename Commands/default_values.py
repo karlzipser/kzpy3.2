@@ -14,6 +14,7 @@ _ = {
                 'rosplay_menu.py':'rosplay_menu.py',
                 'rosplay_menu.py task hz':'rosplay_menu.py task hz',
                 'VT menu':'python kzpy3/Menu_app/menu2.py path kzpy3/VT_net2__5April2019_2__18April2019_for_speed dic _',
+                'pgp':'cd ~/kzpy3; git pull; cd',
             },
 
         },

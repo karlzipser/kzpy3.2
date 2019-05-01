@@ -317,7 +317,7 @@ def print_topics():
             nm,'net/mo ',int(C['net/motor']),sp,
             fm,'flex/mo ',int(C['flex/motor']),sp,
             nmo,'new_mo ',C['new_motor'],sp,
-            nmo,'new_cam ',C['new_camera'],sp,,
+            nmo,'new_cam ',C['new_camera'],sp,
             rd,'still ',C['from still motor offset'],
             yl,'vel ',dp(C['velocity'],1),sp,
             #mg,dp(C['still_timer'].time(),1),sp,
