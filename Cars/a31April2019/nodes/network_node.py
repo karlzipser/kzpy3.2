@@ -74,7 +74,7 @@ if N['use flex']:
     from torch.autograd import Variable
     exec(identify_file_str)
 
-    N['flex_weight_file_path'] = most_recent_file_in_folder(opjm('rosbags/net_flex'))
+    N['flex_weight_file_path'] = most_recent_file_in_folder(opjm('rosbags/Network_Weights/net_flex'))
     #N['flex_weight_file_path'] = most_recent_file_in_folder('/home/karlzipser/Desktop/Network_Weights/net_flex')
 
     if False:# __name__ == '__main__':

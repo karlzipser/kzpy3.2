@@ -111,6 +111,19 @@ C['cmd/camera/pub'] = rospy.Publisher('cmd/camera',std_msgs.msg.Int32,queue_size
 C['behavioral_mode_pub'] = rospy.Publisher('behavioral_mode', std_msgs.msg.String, queue_size=5)
 C['lights_pub'] = rospy.Publisher('lights', std_msgs.msg.String, queue_size=5)
 
+
+
+#################
+#
+def human_steer_callback(msg):
+    C['human/steer'] = msg.data
+rospy.Subscriber(bcs+'steer', std_msgs.msg.Float32, callback=human_steer_callback)
+#
+#################
+
+
+
+
 def net_steer_callback(msg):
     C['net/steer'] = msg.data
     C['net/camera'] = C['net/steer']
@@ -426,7 +439,8 @@ def adjusted_camera():
     C['new_camera'] = new_camera
 
     #C['new_camera'] = P['temp_camera']
-
+    if C['button_number'] == 4: # 27April2019
+        C['new_camera'] = C['human/steer']
 
 
 if __name__ == '__main__':

@@ -8,7 +8,7 @@ frequency_timer = Timer(5)
 
 
 
-def ready(N):
+def __ready(N):
     for n in CVerbose:
         CVerbose[n] = True
     for n in N['net_hide_colors']:
@@ -33,6 +33,28 @@ def ready(N):
         return False
     return True
 
+
+
+
+def ready(N):
+    for n in CVerbose:
+        CVerbose[n] = True
+    for n in N['net_hide_colors']:
+        CVerbose[n] = False
+    time.sleep(0.0001)
+    if N['net']['Torch_network'] == None:
+        cb('waiting for network')
+        return False
+    if N['desktop_mode']:
+        N['mode']['human_agent'] = 0
+        N['mode']['drive_mode'] = 1
+        N['mode']['behavioral_mode'] = 'direct'
+
+    if N['mode']['behavioral_mode'] not in N['behavioral_metadatas'].keys():
+        N['mode']['behavioral_mode'] = 'direct'
+        # 27April2019, this is part of attempt to have network run continuously
+
+    return True
 
 
 
