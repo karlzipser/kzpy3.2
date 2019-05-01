@@ -50,9 +50,7 @@ def ready(N):
         N['mode']['drive_mode'] = 1
         N['mode']['behavioral_mode'] = 'direct'
 
-    if N['mode']['behavioral_mode'] not in N['behavioral_metadatas'].keys():
-        N['mode']['behavioral_mode'] = 'direct'
-        # 27April2019, this is part of attempt to have network run continuously
+
 
     return True
 
@@ -102,6 +100,9 @@ def step(camera_data,metadata,N):
     #torch_motor = 100. * output[10+N['network_output_sample']]
     #torch_steer = 100. * output[N['network_output_sample']]
     # ghost problem
+    if N['mode']['behavioral_mode'] not in N['behavioral_metadatas'].keys():
+        N['mode']['behavioral_mode'] = 'direct'
+        # 27April2019, this is part of attempt to have network run continuously
     torch_steer = Data['steers'][N['mode']['behavioral_mode']][N['network_output_sample']]
     torch_motor = Data['motors'][N['mode']['behavioral_mode']][N['network_output_sample']]
 
