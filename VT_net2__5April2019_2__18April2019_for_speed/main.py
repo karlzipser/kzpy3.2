@@ -94,15 +94,21 @@ if __name__ == '__main__':
     headings,encoders,motors = {},{},{}
 
     mov = Timer(_['mov timer time'])
-    mov.trigger()
+    
     """
     headings['left'] =      S['headings_left']
     headings['direct'] =    S['headings_direct']
     headings['right'] =     S['headings_right']
     """
     while not _['ABORT']:
-
+        first = True
         try:
+            if first:
+                headings['left'] =      S['headings_left']
+                headings['direct'] =    S['headings_direct']
+                headings['right'] =     S['headings_right']
+                first = False
+
             load_parameters(_)
 
             camera_heading = (S['cmd/camera']-49) * _['cmd_camera_to_camera_heading_cooeficient']
