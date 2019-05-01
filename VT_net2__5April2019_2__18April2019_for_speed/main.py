@@ -122,9 +122,11 @@ if __name__ == '__main__':
                 headings['left'] =      S['headings_left'] + camera_heading
                 headings['direct'] =    S['headings_direct'] + camera_heading
                 headings['right'] =     S['headings_right'] + camera_heading
+            elif not np.abs(S['delta cmd/camera']) < 3:
+                mov.reset()
             else:
                 print S['delta cmd/camera'],S['cmd/camera'],mov.check()
-                mov.reset()
+                
                 
             encoders['left'] =      S['encoders_left']
             encoders['direct'] =    S['encoders_direct']
