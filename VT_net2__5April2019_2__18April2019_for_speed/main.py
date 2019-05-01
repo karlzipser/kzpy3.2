@@ -67,7 +67,6 @@ def load_parameters(_,customer='VT menu'):
                 else:
                     _[t] = Topics[t]
         parameter_file_load_timer.reset()
-        mov = Timer(_['mov timer time'])
 
 ##
 ##############################################################
@@ -103,14 +102,19 @@ if __name__ == '__main__':
     """
     while not _['ABORT']:
         first = True
+        mov = Timer(_['mov timer time'])
         try:
             if first:
                 headings['left'] =      S['headings_left']
                 headings['direct'] =    S['headings_direct']
                 headings['right'] =     S['headings_right']
                 first = False
-
+            mt_prev = _['mov timer time']
             load_parameters(_)
+            if mt_prev !=  _['mov timer time']:
+                mov = Timer(_['mov timer time'])
+                cg('new mov timer')
+            
 
             camera_heading = (S['cmd/camera']-49) * _['cmd_camera_to_camera_heading_cooeficient']
 
