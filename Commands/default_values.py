@@ -13,7 +13,7 @@ _ = {
                 'left, show_image_from_ros':'show_image_from_ros.py',
                 'rosplay_menu.py':'rosplay_menu.py',
                 'rosplay_menu.py task hz':'rosplay_menu.py task hz',
-                #'all':'all',
+                'VT menu':'python kzpy3/Menu_app/menu2.py path kzpy3/VT_net2__5April2019_2__18April2019_for_speed dic _',
             },
 
         },
