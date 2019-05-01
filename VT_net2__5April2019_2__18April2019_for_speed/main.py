@@ -102,7 +102,7 @@ if __name__ == '__main__':
 
             camera_heading = (S['cmd/camera']-49) * _['cmd_camera_to_camera_heading_cooeficient']
 
-            if np.abs(S['delta cmd/camera']) < 3 or not mov.check():
+            if np.abs(S['delta cmd/camera']) < 3 and not mov.check():
                 headings['left'] =      S['headings_left'] + camera_heading
                 headings['direct'] =    S['headings_direct'] + camera_heading
                 headings['right'] =     S['headings_right'] + camera_heading
