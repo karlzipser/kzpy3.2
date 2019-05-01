@@ -443,9 +443,9 @@ def adjusted_camera():
     C['new_camera'] = new_camera
 
     #C['new_camera'] = P['temp_camera']
-    if True:#C['button_number'] == 4: # 27April2019
+    if C['button_number'] == 4: # 27April2019
         C['new_camera'] = C['human/steer']
-        print C['new_camera']
+        #print C['new_camera']
 
 
 
