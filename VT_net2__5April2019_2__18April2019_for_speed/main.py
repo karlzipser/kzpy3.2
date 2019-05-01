@@ -96,6 +96,10 @@ if __name__ == '__main__':
     mov = Timer(_['mov timer time'])
     mov.trigger()
 
+    headings['left'] =      S['headings_left']
+    headings['direct'] =    S['headings_direct']
+    headings['right'] =     S['headings_right']
+
     while not _['ABORT']:
 
         try:
