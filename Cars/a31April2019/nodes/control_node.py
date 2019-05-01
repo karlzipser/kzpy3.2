@@ -57,6 +57,7 @@ C['reference_distance'] = 0.
 C['human_agent'] = 1
 C['drive_mode'] = 0
 C['behavioral_mode'] = GHOST
+C['human/steer'] = 49
 C['behavior_names'] = {
     LEFT:'left',
     RIGHT:'right',
