@@ -67,6 +67,7 @@ def load_parameters(_,customer='VT menu'):
                 else:
                     _[t] = Topics[t]
         parameter_file_load_timer.reset()
+        mov = Timer(_['mov timer time'])
 
 ##
 ##############################################################
@@ -93,7 +94,7 @@ if __name__ == '__main__':
 
     headings,encoders,motors = {},{},{}
 
-    mov = Timer(_['mov timer time'])
+    
     
     """
     headings['left'] =      S['headings_left']
