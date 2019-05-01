@@ -93,7 +93,7 @@ if __name__ == '__main__':
 
     headings,encoders,motors = {},{},{}
 
-
+    mov = Timer(0.2)
 
     while not _['ABORT']:
 
@@ -102,12 +102,12 @@ if __name__ == '__main__':
 
             camera_heading = (S['cmd/camera']-49) * _['cmd_camera_to_camera_heading_cooeficient']
 
-            if np.abs(S['delta cmd/camera']) < 3:
+            if np.abs(S['delta cmd/camera']) < 3 or not mov.check():
                 headings['left'] =      S['headings_left'] + camera_heading
                 headings['direct'] =    S['headings_direct'] + camera_heading
                 headings['right'] =     S['headings_right'] + camera_heading
             else:
-                pass
+                mov.reset()
                 print S['delta cmd/camera'],S['cmd/camera']
             encoders['left'] =      S['encoders_left']
             encoders['direct'] =    S['encoders_direct']
