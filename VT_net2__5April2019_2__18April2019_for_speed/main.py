@@ -119,11 +119,11 @@ if __name__ == '__main__':
             camera_heading = (S['cmd/camera']-49) * _['cmd_camera_to_camera_heading_cooeficient']
 
             if np.abs(S['delta cmd/camera']) > 3:
-                cb(1)
+                cb(np.abs(S['delta cmd/camera']))
                 mov.reset()
 
             if not mov.check():
-                cg(2)
+                cg(mov.time())
                 pass
 
             else:
