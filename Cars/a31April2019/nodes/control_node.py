@@ -420,8 +420,7 @@ def adjusted_steer():
 
 
 
-
-def adjusted_camera():
+def __adjusted_camera():
 
     camera = C['net/camera']
 
@@ -448,7 +447,9 @@ def adjusted_camera():
         #print C['new_camera']
 
 
-def __adjusted_camera():
+C['saccade timer'] = Timer(1/3.)
+
+def adjusted_camera():
 
     camera = C['net/camera']
 
@@ -471,7 +472,12 @@ def __adjusted_camera():
     else:
         new_camera = C['human/steer']
 
-    if not P['use saccadic suppression']:
+    if np.abs(C['new_camera']-new_camera) > 30
+        if np.abs(C['new_camera']-49) > np.abs(new_camera-49):
+            new_camera = 49
+
+    if C['saccade timer'].check():
+        C['saccade timer'].reset()
         C['new_camera'] = new_camera
 
     else:

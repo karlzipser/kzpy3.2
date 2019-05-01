@@ -94,14 +94,8 @@ if __name__ == '__main__':
     headings,encoders,motors = {},{},{}
 
     
-    
-    """
-    headings['left'] =      S['headings_left']
-    headings['direct'] =    S['headings_direct']
-    headings['right'] =     S['headings_right']
-    """
     mov = Timer(_['mov timer time'])
-    
+
     while not _['ABORT']:
         first = True
         
