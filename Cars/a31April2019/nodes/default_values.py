@@ -238,7 +238,7 @@ _['To Expose']['Network'] = [
     #'use_ldr_img',
     'ldr_gain',
     'use_net_motor_PID',
-    'cmd_camera_to_camera_heading_cooeficient',
+    #'cmd_camera_to_camera_heading_cooeficient',
     'temp_camera',
 ]
 _['To Expose']['Control'] = [
