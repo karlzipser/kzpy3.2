@@ -448,6 +448,49 @@ def adjusted_camera():
         #print C['new_camera']
 
 
+def __adjusted_camera():
+
+    camera = C['net/camera']
+
+    if C['behavioral_mode'] == DIRECT:
+        gain = P['network_camera_gain_direct']
+        if C['velocity'] < 0.33:
+            gain = P['low velocity direct steer gain']
+        s = P['network_camera_smoothing_parameter']
+    else:
+        gain = P['network_camera_gain']
+        s = P['network_camera_smoothing_parameter']
+
+    camera = gain*(camera-49) + 49
+
+    C['net/camera/smooth'] = (1.0-s)*camera + s*C['net/camera/smooth']
+
+    if C['button_number'] != 4:
+        new_camera = bound_value(intr(C['net/camera/smooth']),0,99)
+     # 27April2019
+    else:
+        new_camera = C['human/steer']
+
+    if not P['use saccadic suppression']:
+        C['new_camera'] = new_camera
+
+    else:
+        if C['saccadic suppression timer'].check():
+            C['saccadic suppression timer'] = Timer(999)
+            C['fixation timer'] = Timer(1/3.)
+        elif C['fixation timer'].check():
+            C['fixation timer'] = Timer(999)
+            C['new_camera'] = new_camera
+            C['saccadic suppression timer'] = Timer(1/6.)
+        else:
+            pass
+
+
+    #C['new_camera'] = P['temp_camera']
+
+        #print C['new_camera']
+
+
 
 
 

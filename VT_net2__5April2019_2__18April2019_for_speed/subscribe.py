@@ -56,6 +56,19 @@ def gyro_heading_x_callback(data):
 
 rospy.Subscriber(bcs+'gyro_heading', geometry_msgs.msg.Vector3, callback=gyro_heading_x_callback,queue_size=qs)
 
+def cmd_camera_callback(msg):
+    S['cmd/camera'] = msg.data
+
+rospy.Subscriber(
+    '/cmd/camera',
+    std_msgs.msg.Int32,
+    callback=cmd_camera_callback)
+
+
+
+
+
+
 if default_values._['graphics 3']:
 
     def left_callback(data):

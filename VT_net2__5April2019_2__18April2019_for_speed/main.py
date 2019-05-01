@@ -96,10 +96,12 @@ if __name__ == '__main__':
         try:
             load_parameters(_)
 
+            camera_heading = (S['cmd/camera']-49) * _['cmd_camera_to_camera_heading_cooeficient']
+
             headings,encoders,motors = {},{},{}
-            headings['left'] =      S['headings_left']
-            headings['direct'] =    S['headings_direct']
-            headings['right'] =     S['headings_right']
+            headings['left'] =      S['headings_left'] + camera_heading
+            headings['direct'] =    S['headings_direct'] + camera_heading
+            headings['right'] =     S['headings_right'] + camera_heading
             encoders['left'] =      S['encoders_left']
             encoders['direct'] =    S['encoders_direct']
             encoders['right'] =     S['encoders_right']
