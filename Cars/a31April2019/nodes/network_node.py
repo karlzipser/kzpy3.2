@@ -300,8 +300,8 @@ if __name__ == '__main__':
         threading.Thread(target=flex_thread,args=[N]).start()
 
     while not rospy.is_shutdown() and N['ABORT'] == False:
-        if True:
-        #try:
+        #if True:
+        try:
             network_utils.menu_and_net.read_menu_and_load_network(N)
 
             if network_utils.run.ready(N):
@@ -382,13 +382,13 @@ if __name__ == '__main__':
             else:
                 cy("network_utils.run.ready(N) == False")
                 time.sleep(2)
-        else:
-        #except KeyboardInterrupt:
+        #else:
+        except KeyboardInterrupt:
             network_utils.camera.QUIT = True
             cr('\n\n*** KeyboardInterrupt ***\n')
             break
         
-        #except Exception as e:
+        except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             file_name = os.path.split(
                 exc_tb.tb_frame.f_code.co_filename)[1]
