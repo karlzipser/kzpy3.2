@@ -232,7 +232,7 @@ def button_number_callback(msg):
 #
 def human_steer_callback(msg):
     C['human/steer'] = msg.data
-rospy.Subscriber(bcs+'steer', std_msgs.msg.Int32, callback=human_steer_callback)
+rospy.Subscriber(bcs+'/steer', std_msgs.msg.Int32, callback=human_steer_callback)
 #
 #################
 
