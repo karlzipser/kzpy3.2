@@ -119,7 +119,7 @@ if __name__ == '__main__':
                 headings['right'] =     S['headings_right'] + camera_heading
             else:
                 mov.reset()
-                print S['delta cmd/camera'],S['cmd/camera']
+                print S['delta cmd/camera'],S['cmd/camera'],mov.check()
             encoders['left'] =      S['encoders_left']
             encoders['direct'] =    S['encoders_direct']
             encoders['right'] =     S['encoders_right']
