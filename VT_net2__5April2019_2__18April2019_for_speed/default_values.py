@@ -51,4 +51,5 @@ _['wait for start signal'] = False
 _['index'] = _['initial index']
 _['topic_suffix'] = ''
 _['behavioral_mode_list'] = ['left','direct','right']
+_['mov timer time'] = 0.1
 #EOF

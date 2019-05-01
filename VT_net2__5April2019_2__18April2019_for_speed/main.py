@@ -93,7 +93,7 @@ if __name__ == '__main__':
 
     headings,encoders,motors = {},{},{}
 
-    mov = Timer(1)
+    mov = Timer(_['mov timer time'])
 
     while not _['ABORT']:
 
