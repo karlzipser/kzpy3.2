@@ -1,1 +1,5 @@
 gnome-terminal --tab -e "roscore" --tab -e "python kzpy3/Train_app/Sq120_ldr_output_32x1/view_weights.py"
+
+
+
+gnome-terminal --tab -e "ssh -Y nvidia@192.168.1.106" --tab -e "ssh -Y nvidia@192.168.1.106" --tab -e "ssh -Y nvidia@192.168.1.106" --tab -e "ssh -Y nvidia@192.168.1.106" --tab -e "ssh -Y nvidia@192.168.1.106" --tab -e "ssh -Y nvidia@192.168.1.106" --tab -e "ssh -Y nvidia@192.168.1.106" --tab -e "ssh -Y nvidia@192.168.1.106" --tab -e "ssh -Y nvidia@192.168.1.106" --tab -e "ssh -Y nvidia@192.168.1.106" --tab -e "ssh -Y nvidia@192.168.1.106"
