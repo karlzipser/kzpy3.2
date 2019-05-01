@@ -114,13 +114,7 @@ C['lights_pub'] = rospy.Publisher('lights', std_msgs.msg.String, queue_size=5)
 
 
 
-#################
-#
-def human_steer_callback(msg):
-    C['human/steer'] = msg.data
-rospy.Subscriber(bcs+'steer', std_msgs.msg.Float32, callback=human_steer_callback)
-#
-#################
+
 
 
 
@@ -233,6 +227,14 @@ def button_number_callback(msg):
         C['reference_heading'] = C['heading']
         C['reference_distance'] = C['distance']
     C['button_number/prev'] = C['button_number']
+
+#################
+#
+def human_steer_callback(msg):
+    C['human/steer'] = msg.data
+rospy.Subscriber(bcs+'steer', std_msgs.msg.Int32, callback=human_steer_callback)
+#
+#################
 
 
 rospy.Subscriber('/net/steer', std_msgs.msg.Float32, callback=net_steer_callback)
