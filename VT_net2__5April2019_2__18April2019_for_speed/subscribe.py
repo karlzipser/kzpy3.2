@@ -25,6 +25,8 @@ S['gyro_heading_x_prev'] = 0
 S['d_heading'] = 0
 S['encoder'] = 0
 S['left_image'] = False
+S['delta cmd/camera'] = 0
+S['cmd/camera'] = 49
 for modality in ['headings','encoders','motors']:
     for side in ['left','direct','right']:
         s = """
@@ -57,6 +59,7 @@ def gyro_heading_x_callback(data):
 rospy.Subscriber(bcs+'gyro_heading', geometry_msgs.msg.Vector3, callback=gyro_heading_x_callback,queue_size=qs)
 
 def cmd_camera_callback(msg):
+    S['delta cmd/camera'] = msg.data - S['cmd/camera']
     S['cmd/camera'] = msg.data
 
 rospy.Subscriber(
