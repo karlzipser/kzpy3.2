@@ -22,7 +22,7 @@ _['cv2 delay'] = 1
 _['3d image scale'] = 1.0
 _['metadata_3D_img scale'] = 8.3
 _['Prediction2D_plot scale'] = 8.3
-_['num timesteps'] = 30
+_['num timesteps'] = 6
 _['load_timer_time'] = 2
 _['U_heading_gain'] = 2.0
 _['initial index'] = 4800
@@ -34,6 +34,7 @@ _['add_mode'] = True
 _['skip_3D'] = False
 _['d_heading_multiplier'] = 1.0
 _['cmd_camera_to_camera_heading_cooeficient'] = 0.
+_['mov timer time'] = 0.1
 _['To Expose']['VT menu'] = sorted(_.keys())
 to_hide = ['To Expose','customers']
 for h in to_hide:
@@ -51,5 +52,5 @@ _['wait for start signal'] = False
 _['index'] = _['initial index']
 _['topic_suffix'] = ''
 _['behavioral_mode_list'] = ['left','direct','right']
-_['mov timer time'] = 0.1
+
 #EOF
