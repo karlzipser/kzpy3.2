@@ -94,6 +94,7 @@ if __name__ == '__main__':
     headings,encoders,motors = {},{},{}
 
     mov = Timer(_['mov timer time'])
+    mov.trigger()
 
     while not _['ABORT']:
 
