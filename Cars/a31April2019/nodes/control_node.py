@@ -447,7 +447,7 @@ def __adjusted_camera():
         #print C['new_camera']
 
 
-C['saccade timer'] = Timer(1/3.)
+C['saccade timer'] = Timer(2)
 
 def adjusted_camera():
 
