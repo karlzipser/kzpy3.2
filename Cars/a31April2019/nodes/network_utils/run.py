@@ -50,7 +50,8 @@ def ready(N):
         N['mode']['drive_mode'] = 1
         N['mode']['behavioral_mode'] = 'direct'
 
-
+    if N['mode']['behavioral_mode'] not in N['behavioral_metadatas'].keys():
+        N['mode']['behavioral_mode'] = 'direct'
 
     return True
 
