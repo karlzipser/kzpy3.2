@@ -100,9 +100,11 @@ if __name__ == '__main__':
     headings['direct'] =    S['headings_direct']
     headings['right'] =     S['headings_right']
     """
+    mov = Timer(_['mov timer time'])
+    
     while not _['ABORT']:
         first = True
-        mov = Timer(_['mov timer time'])
+        
         try:
             if first:
                 headings['left'] =      S['headings_left']
