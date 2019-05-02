@@ -342,15 +342,15 @@ def adjusted_motor():
     if C['still_timer'].time() > 1.0:
         if C['from still motor offset'] == 0.:
             C['from still motor offset timer'].reset()
-            C['from still motor offset'] = np.random.choice([-10.,10.])
+            C['from still motor offset'] = np.random.choice([0.,0.])#[-10.,10.])
             C['lights_pub'].publish(C['lights'][GREEN])
-            #cy('GREEN')
+            cy('GREEN')
     elif not C['from still motor offset timer'].check():
         C['from still motor offset'] *= 0.99
     else:
         if np.abs(C['from still motor offset']) > 0:
             C['lights_pub'].publish(C['lights'][GREEN_OFF])
-            #cy('GREEN OFF')
+            cy('GREEN OFF')
         C['from still motor offset'] = 0.
 
     flex = C['flex/motor']
