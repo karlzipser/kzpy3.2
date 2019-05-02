@@ -94,7 +94,7 @@ if __name__ == '__main__':
     headings,encoders,motors = {},{},{}
 
     
-    mov = Timer(_['mov timer time'])
+    mov = Timer(_['99 mov timer time'])
 
     while not _['ABORT']:
         first = True
@@ -105,25 +105,27 @@ if __name__ == '__main__':
                 headings['direct'] =    S['headings_direct']
                 headings['right'] =     S['headings_right']
                 first = False
-            mt_prev = _['mov timer time']
+            mt_prev = _['99 mov timer time']
             load_parameters(_)
-            if mt_prev !=  _['mov timer time']:
-                mov = Timer(_['mov timer time'])
-                cg('new mov timer, t =',mov.time_s)
+            if mt_prev !=  _['99 mov timer time']:
+                #mov.time_s = _['99 mov timer time']
+                #mov.trigger()
+                cg('*** new 99 mov timer time, t =',_['99 mov timer time'],'***')
             
 
             camera_heading = (S['cmd/camera']-49) * _['cmd_camera_to_camera_heading_cooeficient']
 
             if np.abs(S['delta cmd/camera']) > 3:
                 cb(np.abs(S['delta cmd/camera']))
+                mov.time_s = _['99 mov timer time'] * S['delta cmd/camera']/99. + 3/30.
                 mov.reset()
 
             if not mov.check():
-                cg(mov.time())
+                cg("mov.time() =",intr(1000*mov.time()),"ms")
                 pass
 
             else:
-                cr(3)
+                #cr(3)
                 headings['left'] =      S['headings_left'] + camera_heading
                 headings['direct'] =    S['headings_direct'] + camera_heading
                 headings['right'] =     S['headings_right'] + camera_heading

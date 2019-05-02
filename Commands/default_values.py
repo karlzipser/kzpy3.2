@@ -1,4 +1,6 @@
 #
+
+
 _ = {
 
     'commands':{
@@ -30,10 +32,18 @@ _ = {
                 'Sq120_ldr_output_2nd_training_16April2019':'python kzpy3/Menu_app/menu2.py path kzpy3/Train_app/Sq120_ldr_output_2nd_training_16April2019 dic P',
                 'Sq120_ldr_output_32x1':'python kzpy3/Menu_app/menu2.py path kzpy3/Train_app/Sq120_ldr_output_32x1 dic P',
             },
+            'all':"gnome-terminal"+\
+                " --tab -e 'python kzpy3/Train_app/Sq120_ldr_output_4April2019/trainloop.py'"+\
+                " --tab -e 'python kzpy3/Train_app/Sq120_ldr_output_2nd_training_16April2019/trainloop.py'"+\
+                " --tab -e 'python kzpy3/Train_app/Sq120_ldr_output_32x1/trainloop.py'"+\
+                " --tab -e 'python kzpy3/Menu_app/menu2.py path kzpy3/Train_app/Sq120_ldr_output_4April2019 dic P'"+\
+                " --tab -e 'python kzpy3/Menu_app/menu2.py path kzpy3/Train_app/Sq120_ldr_output_2nd_training_16April2019 dic P'"+\
+                " --tab -e 'python kzpy3/Menu_app/menu2.py path kzpy3/Train_app/Sq120_ldr_output_32x1 dic P'",
+
         },
         'miscellaneous':{
-            'pcal':'@ python kzpy3/scripts/pcal.py wait True',
-            'pcal2':' python kzpy3/scripts/pcal.py wait True',
+            'pcal (other terminal)':'@ python kzpy3/scripts/pcal.py wait True',
+            'pcal':' python kzpy3/scripts/pcal.py wait True',
             'view weights 32x1':"gnome-terminal --tab -e 'python kzpy3/Train_app/Sq120_ldr_output_32x1/view_weights.py'"
         },
 

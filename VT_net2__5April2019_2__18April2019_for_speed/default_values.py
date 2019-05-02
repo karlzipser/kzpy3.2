@@ -34,7 +34,7 @@ _['add_mode'] = True
 _['skip_3D'] = False
 _['d_heading_multiplier'] = 1.0
 _['cmd_camera_to_camera_heading_cooeficient'] = 0.
-_['mov timer time'] = 0.1
+_['99 mov timer time'] = 1.0
 _['To Expose']['VT menu'] = sorted(_.keys())
 to_hide = ['To Expose','customers']
 for h in to_hide:
