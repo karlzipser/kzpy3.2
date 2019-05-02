@@ -88,11 +88,11 @@ if N['use flex']:
     F = {}
     for f in flex_names:
         s = """
-    F['FLEX'] = []
-    def FLEX__callback(msg):
-        adjusted_data = msg.data * N['FLEX/gain']
-        advance(F['FLEX'],adjusted_data,18)
-    rospy.Subscriber('/bair_car/FLEX', std_msgs.msg.Int32, callback=FLEX__callback)
+F['FLEX'] = []
+def FLEX__callback(msg):
+    adjusted_data = msg.data * N['FLEX/gain']
+    advance(F['FLEX'],adjusted_data,18)
+rospy.Subscriber('/bair_car/FLEX', std_msgs.msg.Int32, callback=FLEX__callback)
         """
         exec_str = s.replace('FLEX',f)
         exec(exec_str)
