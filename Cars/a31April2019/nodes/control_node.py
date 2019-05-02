@@ -494,7 +494,7 @@ def adjusted_camera():
         cy("C['saccade timer'].reset()")
         C['new_camera'] = new_camera
     else:
-        cg("not C['saccade timer'].check()",C['saccade timer'].time_s)
+        cg("not C['saccade timer'].check()",int(1000*C['saccade timer'].time_s),camera_delta)
 
 
 
