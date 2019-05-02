@@ -241,6 +241,7 @@ _['To Expose']['Network'] = [
     'use_net_motor_PID',
     #'cmd_camera_to_camera_heading_cooeficient',
     'temp_camera',
+    'saccade timer parameter',
 ]
 _['To Expose']['Control'] = [
     'ABORT',
