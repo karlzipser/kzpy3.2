@@ -25,7 +25,7 @@ def Pid_Processing_Motor():
         D['pid_motor_percent'] = max(D['pid_motor_percent'],P['pid_motor_percent_min'])
         if D['pid_motor_percent'] > P['max motor']:
             D['pid_motor_percent'] = P['max motor'] # 49 #25 April 2019
-            cr("*** D['pid_motor_percent'] was > 49 ***")
+            cr("*** D['pid_motor_percent'] =="['pid_motor_percent'],"was >",P['max motor'],"i.e., P['max motor']")
             #if 'LIGHTS' in P['Arduinos']:
             #    P['Arduinos']['LIGHTS'].write(P['lights/failure 1'])
         return D['pid_motor_percent']
