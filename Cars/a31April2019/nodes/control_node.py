@@ -338,7 +338,7 @@ def print_topics():
 
 
 def adjusted_motor():
-
+    """
     if C['still_timer'].time() > 1.0:
         if C['from still motor offset'] == 0.:
             C['from still motor offset timer'].reset()
@@ -352,7 +352,7 @@ def adjusted_motor():
             C['lights_pub'].publish(C['lights'][GREEN_OFF])
             cy('GREEN OFF')
         C['from still motor offset'] = 0.
-
+    """
     flex = C['flex/motor']
     flex = min(49,flex)
     flex = P['flex_motor_gain']*(flex-49) + 49
@@ -372,7 +372,7 @@ def adjusted_motor():
     C['net/motor/smooth'] = (1.0-s)*motor + s*C['net/motor/smooth']
     C['net/motor/smooth'] = bound_value(C['net/motor/smooth'],0,99)
     new_motor = C['net/motor/smooth'] + C['flex/motor/smooth']-49
-    new_motor += C['from still motor offset']
+    #new_motor += C['from still motor offset']
     if P['max motor'] < 49:
         P['max motor'] = 49
         cr("*** Error, P['max motor'] < 49")
