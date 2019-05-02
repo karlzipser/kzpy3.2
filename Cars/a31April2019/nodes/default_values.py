@@ -27,7 +27,7 @@ _['USE_ROS'] = HAVE_ROS
 
 _['d_heading_for_end_turning'] = 45
 _['max motor'] = 63
-_['min motor'] = 30
+_['min motor'] = 39
 
 _['arduino print'] = True
 _['network print'] = True
@@ -60,7 +60,7 @@ _['saccade timer parameter'] = 1.0
 #_['cmd_camera_to_camera_heading_cooeficient'] = 0. #0.75
 _['temp_camera'] = 49
 ###########################
-_['use flex'] = False
+_['use flex'] = True
 _['flex_motor_smoothing_parameter'] = _['network_motor_smoothing_parameter']
 _['flex_servo_smoothing_parameter'] = _['network_servo_smoothing_parameter']
 _['flex_motor_gain'] = 1.5

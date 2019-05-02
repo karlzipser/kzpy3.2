@@ -342,7 +342,7 @@ def adjusted_motor():
     if C['still_timer'].time() > 1.0:
         if C['from still motor offset'] == 0.:
             C['from still motor offset timer'].reset()
-            C['from still motor offset'] = np.random.choice([0.,0.])# temp change [-10.,10.])
+            C['from still motor offset'] = np.random.choice([-10.,10.])
             C['lights_pub'].publish(C['lights'][GREEN])
             #cy('GREEN')
     elif not C['from still motor offset timer'].check():
@@ -491,10 +491,11 @@ def adjusted_camera():
     if C['saccade timer'].check():
         C['saccade timer'].time_s = min(0.8,P['saccade timer parameter']*(np.abs(camera_delta)/49.*1000. + 200)/1000.)
         C['saccade timer'].reset()
-        cy("C['saccade timer'].reset()")
+        #cy("C['saccade timer'].reset()")
         C['new_camera'] = new_camera
     else:
-        cg("not C['saccade timer'].check()",int(1000*C['saccade timer'].time_s),camera_delta)
+        pass
+        #cg("not C['saccade timer'].check()",int(1000*C['saccade timer'].time_s),camera_delta)
 
 
 
