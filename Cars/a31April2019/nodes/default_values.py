@@ -56,6 +56,7 @@ _['USE_LAST_IMAGE_ONLY'] = False
 _['visualize_activations'] = False
 _['camera_move_threshold'] = 0
 _['camera_auto_zero_for_small_values_int'] = 0
+_['saccade timer parameter'] = 1.0
 #_['cmd_camera_to_camera_heading_cooeficient'] = 0. #0.75
 _['temp_camera'] = 49
 ###########################

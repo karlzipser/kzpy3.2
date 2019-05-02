@@ -489,7 +489,7 @@ def adjusted_camera():
                 C['saccade timer'].trigger()
 
     if C['saccade timer'].check():
-        C['saccade timer'].time_s = (np.abs(camera_delta)/99.*400. + 200)/1000.
+        C['saccade timer'].time_s = P['saccade timer parameter']*(np.abs(camera_delta)/99.*400. + 200)/1000.
         C['saccade timer'].reset()
         cy("C['saccade timer'].reset()")
         C['new_camera'] = new_camera
