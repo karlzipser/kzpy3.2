@@ -34,9 +34,13 @@ P = {
         'tests': {
             'a':('set value',3.3),
             'b':('set value',99),
-            'c':('set value',True),
-            'd':('set value','abc'),
-            'e':('set value',[1]),
+            'more': {
+                'c':('set value',True),
+                'more': {
+                    'd':('set value','abc'),
+                    'e':('set value',[1]),
+                }
+            },
         },
         'Q':Q,
         'some data':('active',opjD('a')),

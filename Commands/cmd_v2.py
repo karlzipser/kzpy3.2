@@ -17,7 +17,6 @@ if 'set' in Arguments:
         arg_choice_list.reverse()
     so(opjk('Commands','__local__','arg_choice_list.pkl'),arg_choice_list)
 
-
 try:
     arg_choice_list = lo(opjk('Commands','__local__','arg_choice_list.pkl'))
 except:
@@ -26,13 +25,57 @@ except:
 for k in CShowFile.keys():
     CShowFile[k] = False
 
-#cy(Arguments,arg_choice_list,ra=1)
+
+
 
 C = P['commands']
 
 key_list = []
 
 message = ''
+
+def load_C(C):
+    if len(sggo(opjk('Commands','__local__','ready'))) == 0:
+        return False
+    if len(sggo(opjk('Commands','__local__','C.writing.pkl'))) > 0:
+        return False
+    if len(sggo(opjk('Commands','__local__','C.pkl'))) == 0:
+        return False
+    try:
+        D = lo(opjk('Commands','__local__','C.pkl')))
+    except:
+        return False
+    if len(sggo(opjk('Commands','__local__','ready'))) == 0:
+        return False
+    if len(sggo(opjk('Commands','__local__','C.writing.pkl'))) > 0:
+        return False
+    if len(sggo(opjk('Commands','__local__','C.pkl'))) == 0:
+        return False
+    for k in C.keys():
+        C[k] = D[k]
+    return True
+
+def save_C(C):
+    try:
+        sys_str = d2s('rm',opjk('Commands','__local__','ready'))
+        print sys_str
+        os.system(sys_str)
+    except:
+        cr(sys_str,"failed")
+    so(C,opjk('Commands','__local__','C.writing.pkl'))
+    time.sleep(0.1)
+    try:
+        sys_str = d2s('rm',opjk('Commands','__local__','C.pkl'))
+        print sys_str
+        os.system(sys_str)
+    except:
+        cr(sys_str,"failed")
+    sys_str = d2s('mv',opjk('Commands','__local__','C.writing.pkl'),opjk('Commands','__local__','C.pkl'))
+    print sys_str
+    os.system(sys_str)
+    sys_str = d2s('touch',opjk('Commands','__local__','ready'))
+    print sys_str
+    os.system(sys_str)    
 
 def show_menu(C,key_list):
     clear_screen()
@@ -198,6 +241,7 @@ if __name__ == '__main__':
                         message = d2n("(set '",key_choice,"' to ",value,')')
                     print key_choice,value,C_[key_choice]
                     C_[key_choice] = (cmd_mode,value)
+                    save_C(C)
                     time.sleep(1/8.)
                 except Exception as e:
                     exc_type, exc_obj, exc_tb = sys.exc_info()
@@ -229,6 +273,8 @@ if __name__ == '__main__':
                 code = raw_input(d2n("Enter python code: "))
                 exec(code)
                 raw_enter()
+
+        
 
 
 
