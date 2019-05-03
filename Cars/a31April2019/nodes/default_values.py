@@ -211,6 +211,8 @@ _['To Expose']['Arduino'] = [
     'network print',
     'control print',
     'flex print',
+    'max motor',
+    'min motor',
 ]
 _['To Expose']['Network'] = [
     'ABORT',
