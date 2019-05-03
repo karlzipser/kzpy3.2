@@ -291,6 +291,8 @@ network_utils.init.metadata_init(N)
 
 camera_motion_ldr_modulator_timer = Timer(1)
 camera_motion_ldr_modulator_notification_Timer = Timer(0.5)
+ldr_on_timer = Timer(N['ldr_on_time'])
+ldr_off_timer = Timer(N['ldr_off_time'])
 
 if __name__ == '__main__':
 
