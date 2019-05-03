@@ -57,6 +57,8 @@ _['visualize_activations'] = False
 _['camera_move_threshold'] = 0
 _['camera_auto_zero_for_small_values_int'] = 0
 _['saccade timer parameter'] = 1.0
+_['ldr_on_time'] = 0.5
+_['ldr_off_time'] = 0.2
 #_['cmd_camera_to_camera_heading_cooeficient'] = 0. #0.75
 _['temp_camera'] = 49
 ###########################
@@ -244,6 +246,8 @@ _['To Expose']['Network'] = [
     #'cmd_camera_to_camera_heading_cooeficient',
     'temp_camera',
     'saccade timer parameter',
+    'ldr_on_time',
+    'ldr_off_time',
 ]
 _['To Expose']['Control'] = [
     'ABORT',
