@@ -177,6 +177,8 @@ def encoder_callback(msg):
     C['encoder_time_prev'] = C['encoder_time']
 
 
+C['turned'] = False
+C['purple on'] = False
 
 def gyro_heading_callback(msg):
     C['heading'] = msg.x
@@ -184,25 +186,47 @@ def gyro_heading_callback(msg):
     C['behavioral_mode/prev'] = C['behavioral_mode']
 
     if C['button_number'] == 1:
-        if C['heading']-C['reference_heading'] > P['d_heading_for_end_turning']:
+        if C['heading']-C['reference_heading'] > P['d_heading_for_end_turning'] or C['turned']:
             C['behavioral_mode'] = DIRECT
+            C['turned'] = True
+            if not C['purple on']:
+                C['lights_pub'].publish(C['lights'][PURPLE])
+                C['purple on'] = True
         else:
             C['behavioral_mode'] = LEFT
+            if C['purple on']:
+                C['lights_pub'].publish(C['lights'][PURPLE_OFF])
+                C['purple on'] = False
 
     elif C['button_number'] == 3:
-        if C['heading']-C['reference_heading'] < -P['d_heading_for_end_turning']:
+        if C['heading']-C['reference_heading'] < -P['d_heading_for_end_turning'] or C['turned']:
             C['behavioral_mode'] = DIRECT
+            C['turned'] = True
+            if not C['purple on']:
+                C['lights_pub'].publish(C['lights'][PURPLE])
+                C['purple on'] = True
         else:
             C['behavioral_mode'] = RIGHT
+            if C['purple on']:
+                C['lights_pub'].publish(C['lights'][PURPLE_OFF])
+                C['purple on'] = False
 
     elif C['button_number'] == 2:
         C['behavioral_mode'] = DIRECT
-
+        C['turned'] = False
+        if C['purple on']:
+            C['lights_pub'].publish(C['lights'][PURPLE_OFF])
+            C['purple on'] = False
+                
     elif C['button_number'] == 4:
         C['behavioral_mode'] = GHOST
-
+        C['turned'] = False
+        if C['purple on']:
+            C['lights_pub'].publish(C['lights'][PURPLE_OFF])
+            C['purple on'] = False
     else:
         C['behavioral_mode'] = UNKNOWN
+        C['turned'] = False
 
     if C['behavioral_mode/prev'] != C['behavioral_mode']:
         C['lights_pub_ready'] = True

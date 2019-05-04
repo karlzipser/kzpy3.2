@@ -25,8 +25,8 @@ _['USE_MSE'] = True
 _['USE_IMU'] = True
 _['USE_ROS'] = HAVE_ROS
 
-_['d_heading_for_end_turning'] = 45
-_['max motor'] = 63
+_['d_heading_for_end_turning'] = 90
+_['max motor'] = 75
 _['min motor'] = 39
 
 _['arduino print'] = True
@@ -35,11 +35,11 @@ _['control print'] = True
 _['flex print'] = True
 ############# NETWORK PARAMETERS
 #_['use_ldr_img'] = True
-_['ldr_gain'] = 0.1
+_['ldr_gain'] = 1.0
 _['network_output_sample'] = 0 # >= 0, <= 9
 _['network_steer_gain'] = 2.0
 _['network_camera_gain'] = 4.0
-_['network_motor_gain'] = 0.0
+_['network_motor_gain'] = 1.0
 _['low velocity direct steer gain'] = 4.0
 _['network_reverse_motor_gain'] = 1.
 _['network_motor_offset'] = 0
@@ -49,7 +49,7 @@ _['network_camera_smoothing_parameter'] = 0.75
 _['network_servo_smoothing_parameter_direct'] = 0.85
 _['network_steer_gain_direct'] = 1.5
 _['network_camera_gain_direct'] = 0.5         
-_['network_motor_gain_direct'] = 0.0
+_['network_motor_gain_direct'] = 1.
 _['USE_NETWORK'] = True
 _['GREY_OUT_TOP_OF_IMAGE'] = False
 _['USE_LAST_IMAGE_ONLY'] = False
@@ -60,7 +60,7 @@ _['saccade timer parameter'] = 1.0
 _['ldr_on_time'] = 0.5
 _['ldr_off_time'] = 0.2
 #_['cmd_camera_to_camera_heading_cooeficient'] = 0. #0.75
-_['temp_camera'] = 49
+#_['temp_camera'] = 49
 ###########################
 _['use flex'] = True
 _['flex_motor_smoothing_parameter'] = _['network_motor_smoothing_parameter']
