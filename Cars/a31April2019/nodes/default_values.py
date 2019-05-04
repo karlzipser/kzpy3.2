@@ -60,7 +60,7 @@ _['saccade timer parameter'] = 1.0
 _['ldr_on_time'] = 0.5
 _['ldr_off_time'] = 0.2
 #_['cmd_camera_to_camera_heading_cooeficient'] = 0. #0.75
-#_['temp_camera'] = 49
+_['temp_camera'] = 49
 ###########################
 _['use flex'] = True
 _['flex_motor_smoothing_parameter'] = _['network_motor_smoothing_parameter']
