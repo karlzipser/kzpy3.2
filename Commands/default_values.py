@@ -18,6 +18,16 @@ _ = {
                 'VT menu':'python kzpy3/Menu_app/menu2.py path kzpy3/VT_net2__5April2019_2__18April2019_for_speed dic _',
                 'pgp':'cd ~/kzpy3; git pull; cd',
             },
+            'a2Apr19_16April2019_mess_with':{
+                'network_node':'python kzpy3/Cars/a2Apr19_16April2019_mess_with/nodes/network_node.py',
+                'control_node':'kzpy3/Cars/a2Apr19_16April2019_mess_with/nodes/control_node.py',
+                'menu2':'python kzpy3/Menu_app/menu2.py path kzpy3/Cars/a2Apr19_16April2019_mess_with/nodes dic P', 
+                'VT_net2__29April2019':'python kzpy3/VT_net2__29April2019/main.py',
+                'ldr_img, show_image_from_ros':'show_image_from_ros.py topic ldr_img',
+                'left, show_image_from_ros':'show_image_from_ros.py',
+                'VT menu':'python kzpy3/Menu_app/menu2.py path kzpy3/VT_net2__29April2019 dic _',
+                'play':"cd '/media/karlzipser/rosbags/new/Mr_Purple_23Apr19_19h20m40s'; rosbag play -s 300 *.bag",
+            },
 
         },
         'Train_app':{

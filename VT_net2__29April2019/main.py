@@ -121,7 +121,7 @@ if __name__ == '__main__':
             direction = 1.
             if motor < 49:
                 direction = -1.
-
+            print direction,dp(encoder,1),motor,S['cmd/motor'],S['motor']
 
             Prediction2D_plot,left_camera_3D_img,metadata_3D_img = \
                 prediction_images.prepare_2D_and_3D_images(Prediction2D_plot,pts2D_multi_step,d_heading,encoder,sample_frequency,headings,encoders,motors,S['left_image'],_)

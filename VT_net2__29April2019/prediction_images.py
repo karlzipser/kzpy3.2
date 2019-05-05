@@ -270,7 +270,7 @@ def get__path_pts2D(d_heading,encoder,sample_frequency,direction,Path_pts2D,_):
         Path_pts2D['rotate'](-d_heading*_['d_heading_multiplier'])
     except:
         pass
-    print direction,encoder
+    #print direction,encoder
     if direction < 0 or encoder < 0.1:
         val = -1
     else:
