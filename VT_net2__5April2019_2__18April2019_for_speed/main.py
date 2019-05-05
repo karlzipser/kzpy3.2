@@ -86,6 +86,7 @@ if __name__ == '__main__':
 
     
     Prediction2D_plot = CV2Plot(height_in_pixels=141,width_in_pixels=62,pixels_per_unit=7,y_origin_in_pixels=41)
+    #Prediction2D_plot = CV2Plot(height_in_pixels=41,width_in_pixels=41,pixels_per_unit=7,y_origin_in_pixels=39)
 
     Prediction2D_plot['verbose'] = False
 

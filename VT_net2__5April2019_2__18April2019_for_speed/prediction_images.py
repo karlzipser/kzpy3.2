@@ -203,8 +203,8 @@ def show_maybe_save_images(Prediction2D_plot,left_camera_3D_img,metadata_3D_img,
             img = Prediction2D_plot['image']
             img = z55(np.log10(1.0*img+1.0)*10.0)
             img = cv2.resize(img, (0,0), fx=4, fy=4, interpolation=0)
-            img[4*41+1,:,:] = 128
-            img[:,4*31+1,:] = 128
+            #img[4*41+1,:,:] = 128
+            #img[:,4*31+1,:] = 128
             mci(img,title='X',scale=1)
 
         if _['graphics 3']:
