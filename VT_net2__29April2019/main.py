@@ -133,7 +133,7 @@ if __name__ == '__main__':
             clf()
             plt_square()
             xyliml(_['plot xylims'])
-            pts_plot(Path_pts2D['array'],sym=_['pts sym'])
+            pts_plot(Path_pts2D['array'],sym=',')#_['pts sym'])
             d = Path_pts2D['data']
             e = d[d[:,2]<0]
             pts_plot(e,color='b',sym=_['pts sym'])

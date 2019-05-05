@@ -187,7 +187,7 @@ def Array(max_len,n_dims):#,n_code_dims=0):
     def function_check_len():
         ctr = D['ctr']
         max_len = D['max_len']
-        cm(max_len,ctr-max_len,ctr)
+        #cm(max_len,ctr-max_len,ctr)
         if ctr > 1.5*max_len:
             cm(max_len,ctr-max_len,ctr)
             D['data'][:max_len,:] = D['data'][ctr-max_len:ctr,:]
@@ -270,7 +270,12 @@ def get__path_pts2D(d_heading,encoder,sample_frequency,direction,Path_pts2D,_):
         Path_pts2D['rotate'](-d_heading*_['d_heading_multiplier'])
     except:
         pass
-    Path_pts2D['append'](trajectory_vector,direction)
+    print direction,encoder
+    if direction < 0 or encoder < 0.1:
+        val = -1
+    else:
+        val = 1
+    Path_pts2D['append'](trajectory_vector,val)
 
     Path_pts2D['zero']()
 
