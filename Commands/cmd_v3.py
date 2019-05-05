@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from kzpy3.utils3 import *
-import default_values_v2 as default_values
+import default_values_v3 as default_values
 exec(identify_file_str)
 P = default_values.P
 
