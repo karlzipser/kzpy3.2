@@ -271,7 +271,7 @@ def get__path_pts2D(d_heading,encoder,sample_frequency,direction,Path_pts2D,_):
     except:
         pass
     #print direction,encoder
-    if direction < 0 or encoder < 0.1:
+    if encoder < 0.1:#direction < 0 or encoder < 0.1:
         val = -1
     else:
         val = 1

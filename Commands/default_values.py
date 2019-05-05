@@ -24,7 +24,7 @@ _ = {
                 'menu2':'python kzpy3/Menu_app/menu2.py path kzpy3/Cars/a2Apr19_16April2019_mess_with/nodes dic P', 
                 'VT_net2__29April2019':'python kzpy3/VT_net2__29April2019/main.py',
                 'ldr_img, show_image_from_ros':'show_image_from_ros.py topic ldr_img',
-                'left, show_image_from_ros':'show_image_from_ros.py',
+                'left, show_image_from_ros':'show_image_from_ros.py scale 4',
                 'VT menu':'python kzpy3/Menu_app/menu2.py path kzpy3/VT_net2__29April2019 dic _',
                 'play':"cd '/media/karlzipser/rosbags/new/Mr_Purple_23Apr19_19h20m40s'; rosbag play -s 300 *.bag",
             },
