@@ -65,10 +65,14 @@ def fr(pr,today,past_days,future_days):
 			today_attrs = []
 		show_mine = ''
 		mine = my_day_pattern[np.mod(i+(today-ref_day).days,14)]
+		mmm = '_'
 		if mine:
 			#show_mine = '*'
 			attrs=['bold','reverse']
-		print colored(d2n(show_mine,Days[day.weekday()],' ',day.month,'/',day.day,' '),Day_colors[j],attrs=attrs),colored(d2s(day_count,show_today),'white',attrs=today_attrs)
+			
+			if j <= 8 or j >= 18:
+				mmm = 'mmm'
+		print colored(d2n(show_mine,Days[day.weekday()],' ',day.month,'/',day.day,' '),Day_colors[j],attrs=attrs),colored(d2s(day_count,show_today),'white',attrs=today_attrs),mmm
 
 	print('\n\n')
 
