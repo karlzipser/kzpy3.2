@@ -20,7 +20,8 @@ def Camera_Shot(data): #######################################
     img = bridge.imgmsg_to_cv2(data,'rgb8')
     
     if shape(img)[0] > 94:
-        img = cv2.resize(img,(full_width,full_height))
+        img = cv2.resize(img,(full_width,full_height),interpolation=0)
+        cr('img = cv2.resize(img,(full_width,full_height),interpolation=0)')
     
     D['img'] = img
     if not default_values.P['MOCK_ARDUINO_VERSION']:
@@ -264,16 +265,16 @@ def ZED(): #######################################
 
                         Q['left']['now']['small'] = \
                             cv2.resize(Q['left']['now']['full'],
-                                (meta_width,meta_height))
+                                (meta_width,meta_height),interpolation=0)
                         Q['right']['now']['small'] = \
                             cv2.resize(Q['right']['now']['full'],
-                                (meta_width,meta_height))
+                                (meta_width,meta_height),interpolation=0)
                         Q['left']['prev']['small'] = \
                             cv2.resize(Q['left']['prev']['full'],
-                                (meta_width,meta_height))
+                                (meta_width,meta_height),interpolation=0)
                         Q['right']['prev']['small'] = \
                             cv2.resize(Q['right']['prev']['full'],
-                                (meta_width,meta_height))
+                                (meta_width,meta_height),interpolation=0)
 
                         D['stats']['success']+=1
 

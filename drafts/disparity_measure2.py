@@ -132,6 +132,27 @@ if False:
         spause()
         raw_enter()
 
+if False:
+    a = zeros((1000,1000,3),np.uint8)
+    for i in [4,3,2,1,0]:#[0,1,2,3,4]:
+        t=Timer(5)
+        ctr = 0
+        while not t.check():
+            b = cv2.resize(a,(200,200),interpolation=i)
+            ctr += 1
+        print i,ctr
+    """
+    0 77149
+    1 12078
+    2 12149
+    3 2780
+    4 1326
 
+    4 1320
+    3 2616
+    2 11522
+    1 11470
+    0 66809
+    """
 #EOF
 
