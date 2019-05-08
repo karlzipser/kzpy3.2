@@ -3,10 +3,14 @@ from kzpy3.utils3 import *
 import default_values_v3 as default_values
 exec(identify_file_str)
 P = default_values.P
+for k in CShowFile.keys():
+    CShowFile[k] = False
 
 
+
+#############################################
+# Arguments, setup
 os.system('mkdir -p '+opjk('Commands','__local__'))
-
 if 'set' in Arguments:
     if type(Arguments['set']) == int:
         arg_choice_list = [Arguments['set']]
@@ -16,31 +20,19 @@ if 'set' in Arguments:
         arg_choice_list = Arguments['set'].split(',')
         arg_choice_list.reverse()
     so(opjk('Commands','__local__','arg_choice_list.pkl'),arg_choice_list)
-
 try:
     arg_choice_list = lo(opjk('Commands','__local__','arg_choice_list.pkl'))
 except:
     arg_choice_list = []
-
-for k in CShowFile.keys():
-    CShowFile[k] = False
+#
+#############################################
 
 
 C = P['commands']
-
 key_list = []
-
 message = ''
 
-"""
-def dic_copy(A,B):
-    if type of A != dict:
-        return
-    for k in A.keys():
-        if k in B:
-            A[k] = B[k]
-            dic_copy(A[k],B[k])
-"""
+
 
 
 def load_C(C):
@@ -92,7 +84,6 @@ def save_C(C):
 
 def show_menu(C,key_list):
     clear_screen()
-    #print(mg+"____________________\n")
     cprint(d2s(key_list_to_path(key_list)),attrs=['bold','reverse'],color='white',on_color='on_blue') 
     sorted_keys = sorted(C.keys())
     if len(key_list) == 0:
@@ -126,13 +117,13 @@ def show_menu(C,key_list):
 
 
 
+
 def key_list_to_path(key_list):
     s = ''
     for k in key_list:
         s += '/'
         s += k
     return s
-
 
 
 
@@ -175,11 +166,12 @@ def Dic_Loader(path,wait_time=0.2):
 if __name__ == '__main__':
 
     while True:
+
         load_C(C)
 
         C_ = C
-        for k in key_list:
 
+        for k in key_list:
             if type(C_[k]) == dict:
                 C_ = C_[k]
             else:
@@ -188,6 +180,7 @@ if __name__ == '__main__':
         sorted_keys = show_menu(C_,key_list)
 
         cw(message)
+
         message = ''
 
         if len(arg_choice_list) > 0:
@@ -247,7 +240,7 @@ if __name__ == '__main__':
                 yes_no = 'y'#raw_input(d2s(cmd_str,' ([y]/n) '))
 
                 if yes_no == 'y' or yes_no == '':
-                    #os.system("gnome-terminal --geometry 40x30+100+200 -x python  kzpy3/Menu_app/menu2.py path kzpy3/Cars/a2Apr19_16April2019/nodes dic P")
+
                     try:
                         if cmd_str[0] != '@':
                             os.system(cmd_str)
