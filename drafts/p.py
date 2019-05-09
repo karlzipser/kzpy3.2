@@ -1,5 +1,5 @@
 from kzpy3.vis3 import *
-import kzpy3.VT_net2__29April2019.fit3d as fit3d
+import kzpy3.misc.fit3d as fit3d
 
 if 'O' not in locals():
     if using_osx():
@@ -19,7 +19,7 @@ mi(I['L'][10000])
 #plt_square()#xylim(0,168,0,94)
 
 for x in arange(-0.5,0.505,0.1):
-    for yy in arange(-1.,3.05,0.1):
+    for yy in arange(0.,3.05,0.1):
         y = yy
         #x = np.random.random()*1.-0.5
         #y = np.random.random()*10.-1
@@ -40,3 +40,4 @@ for x in arange(-0.5,0.505,0.1):
             plot(c.x,c.y,'r.')
             spause()
             time.sleep(0.001)
+raw_enter()
