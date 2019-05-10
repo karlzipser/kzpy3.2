@@ -124,7 +124,10 @@ for im in import_list + import_from_list + import_as_list:
 				print('Failed to import '+im[1]+' as '+im[2])           
 
 
-
+rnd = np.random.random
+rndint = np.random.randint
+rndn = np.random.randn
+rndchoice = np.random.choice
 
 na = np.array
 

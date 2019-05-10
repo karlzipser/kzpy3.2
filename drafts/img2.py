@@ -1,5 +1,5 @@
 from kzpy3.vis3 import *
-
+"""
 def place_img_f_in_img_g(x0,y0,f,g,bottom=False,center=False):
 	sf = shape(f)
 	sg = shape(g)
@@ -43,7 +43,7 @@ def place_img_f_in_img_g(x0,y0,f,g,bottom=False,center=False):
 	g0[  y0_:y1_+y0d_-y0d_,  x0_:x1_+x0d_-x0d_,:] = f.copy()[-y0d_:y1_+u,-x0d_:x1_+q,:]
 
 	return g0
-
+"""
 
 
 
