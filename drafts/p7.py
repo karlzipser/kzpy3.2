@@ -98,17 +98,20 @@ if __name__ == '__main__':
         Imgs['R'] = O['right_image']['vals']
 
     if True:
+
+        xy_range = []
+        for x_ in arange(-0.5,0.51,0.25):
+            for y_ in arange(0.,3.1,0.25):
+                xy_range.append([x_,y_,np.sqrt(x_**2+y_**2)])
+        xy_range = na(xy_range)
+        xy_range = xy_range[xy_range[:,2].argsort()]
+
         for j in range(100):
             i = np.random.randint(5000,len(Imgs['L']))
             I = {'R':Imgs['R'][i],'L':Imgs['L'][i]}
-            mi(I['R'],'R')
-            mi(I['L'],'L')
-            xy_range = []
-            for x_ in arange(-0.5,0.51,0.25):
-                for y_ in arange(0.,3.1,0.25):
-                    xy_range.append([x_,y_,np.sqrt(x_**2+y_**2)])
-            xy_range = na(xy_range)
-            xy_range = xy_range[xy_range[:,2].argsort()]
+            #mi(I['R'],'R')
+            #mi(I['L'],'L')
+
             for r in range(len(xy_range)-1,0,-1):
                 x_,y_ = xy_range[r,0],xy_range[r,1]
                 x,y,disparity,width = \
@@ -118,7 +121,7 @@ if __name__ == '__main__':
                     width = intr(width)
                     if width < 1:
                         width = 1
-                    print R[width][0],width
+                    #print R[width][0],width
                     f = R[width][np.random.choice(len(R[width]))]
                     #f = z55((0.5+np.random.random((3*intr(width),intr(width),3))).astype(int))
                     #f = z55(np.random.random((3*intr(width),intr(width),3)))
@@ -143,14 +146,16 @@ if __name__ == '__main__':
                         #
                         if f != None:
                             I[s] = place_img_f_in_img_g(x,y,f,I[s],bottom=1,center=1)
-                        mi(I[s],s)
-                        plot(x,y,'r.')
-                        spause()
+                        #mi(I[s],s)
+                        #plot(x,y,'r.')
+                        #spause()
                         #raw_enter()
-
+            for s in ['L','R']:
+                mi(I[s],s)
             spause()
             raw_enter()
 
+"""
 if True:
     
     def random_black_white_rectangle(width,height,scale):
@@ -189,7 +194,7 @@ if True:
     R[1] = R[2]
     for i in range(max_width+1,4*max_width):
         R[i] = R[max_width]
-
+"""
 #EOF
 
 
