@@ -46,7 +46,7 @@ b = -21.76993126
 
 backup_parameter = 1.0
 
-if False:
+if True:
     for j in range(100):
         i = np.random.randint(5000,len(I['L']))
         mi(I['R'][i],'R')

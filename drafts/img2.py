@@ -1,15 +1,26 @@
 from kzpy3.vis3 import *
 
-
-
-
-
-
-def place(x0,y0,f,g,bottom=True):
+def place_img_f_in_img_g(x0,y0,f,g,bottom=False,center=False):
 	sf = shape(f)
 	sg = shape(g)
 	if bottom:
 		y0 -= sf[0]
+	if center:
+		x0 -= sf[1]/2
+
+	def corner(a,b_min,b_max):
+		if a <= b_max:
+			if a >= b_min:
+				aa = a
+				da = 0
+			else:
+				aa = b_min
+				da = a - b_min
+		elif a > b_max:
+			aa = b_max
+			da = b_max - a
+		return aa,da
+
 	x0_,x0d_ = corner(x0,0,sg[1])
 	x1 = x0 + sf[1]
 	x1_,x1d_ = corner(x1,0,sg[1])
@@ -36,30 +47,28 @@ def place(x0,y0,f,g,bottom=True):
 
 
 
-def corner(a,b_min,b_max):
-	if a <= b_max:
-		if a >= b_min:
-			aa = a
-			da = 0
-		else:
-			aa = b_min
-			da = a - b_min
-	elif a > b_max:
-		aa = b_max
-		da = b_max - a
-	return aa,da
 
 
 
 
+q = 'quit'
 while True:
 	if 'f' not in locals():
 		f = imread(opjD('fig2.png'))[:,:,:3]
 		g = imread(opjD('gnd.png'))[:,:,:3]
 
 
-	x,y,b = input('> ')
-	img = place(x,y,f,g,bottom=b)
+	inputs = input('> ')
+	if inputs == q:
+		break
+	x = inputs[0]
+	y = inputs[1]
+	b,c = 0,0
+	if len(inputs) > 2:
+		b = inputs[2]
+	if len(inputs) > 3:
+		c = inputs[3]
+	img = place_img_f_in_img_g(x,y,f,g,bottom=b,center=c)
 	mi(img)
 	plot(x,y,'r.')
 	spause()
