@@ -3,12 +3,6 @@ import kzpy3.misc.fit3d as fit3d
 exec(identify_file_str)
 
 
-
-
-
-
-    
-
 def random_black_white_rectangle(width,height):#,scale):
     a = np.random.randint(
         high=2,
@@ -18,13 +12,6 @@ def random_black_white_rectangle(width,height):#,scale):
     b = zeros((height,width,3))
     for i in range(3):
         b[:,:,i] = a
-    """
-    c = cv2.resize(
-        b,
-        (intr(width*scale),intr(height*scale)),
-        interpolation=0
-    )
-    """
     d = z55(b)
     return(d)
 
@@ -86,14 +73,12 @@ def past_rectangles_into_drive_images(
 
 
 
-
 if __name__ == '__main__':
 
     num_rectangle_patterns = 15
     R = Random_black_white_rectangle_collection(
         num_rectangle_patterns=num_rectangle_patterns
     )
-
 
     if 'O' not in locals():
         if using_osx():
@@ -103,7 +88,6 @@ if __name__ == '__main__':
         Imgs = {}
         Imgs['L'] = O['left_image']['vals']
         Imgs['R'] = O['right_image']['vals']
-
 
     xy_ranges = []
     for x_ in arange(-0.5,0.51,0.25):
@@ -130,26 +114,28 @@ if __name__ == '__main__':
             if rng > 0.72:
                 xys_.append(xy)
         xys = na(xys_)
-        i = 10000+j#np.random.randint(5000,len(Imgs['L']))
+
+        i = 10000+j
+
         I = {'R':Imgs['R'][i],'L':Imgs['L'][i]}
 
         past_rectangles_into_drive_images(xys,I,R)
+
+        xys[:,1] -= 0.0375
 
         shape_ = np.shape(I['L'])
         width,height = shape_[1],shape_[0]
         img_now = np.zeros((height,2*width+int(width/16),3),np.uint8) + 127
         img_now[:,:width,:] =   I['R']
         img_now[:,-width:,:] =  I['L']
-        #fi=input('fi')
+
         figure('fig',figsize=(12,4))
         mi(img_now,'fig')
         spause()
         k = raw_enter()
         if k == 'q':
             break
-        xys[:,1] -= 0.0375
-
-
+        
 #EOF
 
 
