@@ -107,6 +107,42 @@ else:
 
 
 
+def pt_in_2D_to_image(x_meters,y_meters):
+    b = Point3(x_meters,0,y_meters)
+    c = project(b, mat)
+    return c.x,c.y
+
+def pt_in_2D_to_image_with_disparity(
+    x_meters,
+    y_meters,
+    m_disparity=0.47885706 ,# from Mr. Blue
+    b_disparity=-21.76993126
+):
+    b_ = Point3(x_meters,0,y_meters)
+    c = project(b_, mat)
+    disparity = max(0,c.y*m_disparity+b_disparity)
+    return c.x,c.y,disparity
+
+def width_at_y(
+    w,
+    y,
+    m_width = 4.97,
+    b_width = -242.
+):
+    return max(0.,w*(m_width*y + b_width))
+
+def pt_in_2D_to_image_with_disparity_and_width(
+    x_meters,
+    y_meters,
+    width_meters,
+    backup_parameter=1.
+):
+    x,y,disparity = pt_in_2D_to_image_with_disparity(x_meters,y_meters-backup_parameter)
+    width = width_at_y(width_meters,y)
+    return x,y,disparity,width
+
+
+
 
 
 

@@ -1496,7 +1496,15 @@ def getch():
 
 
 
-
+def sort_by_column(a,col,reverse=False):
+    a = na(a)
+    if reverse:
+        a *= -1
+    a = a[a[:,col].argsort()]
+    if reverse:
+        a *= -1
+    return a
+    
 
 
 exec(identify_file_str)	
