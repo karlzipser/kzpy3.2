@@ -86,23 +86,17 @@ def past_rectangles_into_drive_images(
     for xy in xys:
         cg(xy)
         x_,y_ = xy[0],xy[1]
-
-        x,y,disparity,width = \
-            pt_in_2D_to_image_with_disparity_and_width(x_,y_,0.1)
-
+        x,y,disparity,width = pt_in_2D_to_image_with_disparity_and_width(x_,y_,0.1)
         width = intr(width)
         if width > 0:
             if width < 1:
                 width = 1
             f = R[width][np.random.choice(len(R[width]))]
-
-            for s in ['L','R']:
-                
+            for s in ['L','R']:  
                 if s == 'L':
                     x_ = x
                 else:
                     x_ = x - disparity
- 
                 good = True
                 if x_ < 0 or x_ >= 168:
                     good = False
