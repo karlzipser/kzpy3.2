@@ -1,6 +1,118 @@
 from kzpy3.vis3 import *
 import kzpy3.misc.fit3d as fit3d
 exec(identify_file_str)
+"""
+def abc(
+    left_now,
+    right_now,
+    xy_ranges,
+    R,
+    need_to_sort_ranges=False
+):
+    if need_to_sort_ranges:
+        xy_ranges = na(xy_ranges)
+        xy_ranges = xy_ranges[xy_ranges[:,2].argsort()]
+    I = {
+        'L':{
+            'now':left_now,
+        },
+        'R':{
+            'now':right_now,
+        },
+    }
+    for r in len(xy_ranges):
+    
+        x_,y_ = xy_ranges[r,0],xy_ranges[r,1]
+
+        x,y,disparity,width = pt_in_2D_to_image_with_disparity_and_width(x_,y_,0.1)
+
+        if width > 0:
+            width = intr(width)
+            if width < 1:
+                width = 1
+            f = R[width][np.random.choice(len(R[width]))]
+
+            for s in ['L','R']:
+                
+                x_ = x
+
+                if s == 'R':
+
+                    x_ -= disparity
+
+                good = True
+                if x_ < 0 or x_ >= 168:
+                    good = False
+                elif y < 0 or y >= 94:
+                    good = False
+
+                if good: 
+                    I[s][w] = place_img_f_in_img_g(x_,y,f,I[s],bottom=1,center=1)
+
+    return I['L'],I['R']
+
+
+
+
+
+def abc(
+    left_now,
+    right_now,
+    left_prev,
+    right_prev,
+    xy_ranges,
+    need_to_sort_ranges=False
+):
+    if need_to_sort_ranges:
+        xy_ranges = na(xy_ranges)
+        xy_ranges = xy_ranges[xy_ranges[:,2].argsort()]
+
+    I = {
+        'L':{
+            'now':left_now,
+            'prev':left_prev,
+        },
+        'R':{
+            'now':right_now,
+            'prev':right_prev,
+        },
+    }
+
+    for r in len(xy_ranges):
+    
+        x_,y_ = xy_ranges[r,0],xy_ranges[r,1]
+
+        x,y,disparity,width = pt_in_2D_to_image_with_disparity_and_width(x_,y_,0.1)
+
+        if width > 0:
+            width = intr(width)
+            if width < 1:
+                width = 1
+            f = R[width][np.random.choice(len(R[width]))]
+
+            for w in ['now','prev']:
+
+                for s in ['L','R']:
+                    
+                    x_ = x
+
+                    if s == 'R':
+
+                        x_ -= disparity
+
+                    good = True
+                    if x_ < 0 or x_ >= 168:
+                        good = False
+                    elif y < 0 or y >= 94:
+                        good = False
+
+                    if good: 
+                        I[s][w] = place_img_f_in_img_g(x_,y,f,I[s],bottom=1,center=1)
+
+    return I['L']['now'],I['R']['now'],I['L']['prev'],I['R']['prev']
+"""
+
+
 
 
 
@@ -93,19 +205,22 @@ if __name__ == '__main__':
 
 
 
-    xy_range = []
+    xy_ranges = []
     for x_ in arange(-0.5,0.51,0.25):
         for y_ in arange(0.,3.1,0.25):
-            xy_range.append([x_,y_,np.sqrt(x_**2+y_**2)])
-    xy_range = na(xy_range)
-    xy_range = xy_range[xy_range[:,2].argsort()]
+            xy_ranges.append([x_,y_,np.sqrt(x_**2+y_**2)])
+
+    xy_ranges = na(xy_ranges)
+    xy_ranges = xy_ranges[xy_ranges[:,2].argsort()]
 
     for j in range(100):
         i = np.random.randint(5000,len(Imgs['L']))
         I = {'R':Imgs['R'][i],'L':Imgs['L'][i]}
 
-        for r in range(len(xy_range)-1,0,-1):
-            x_,y_ = xy_range[r,0],xy_range[r,1]
+
+        for r in range(len(xy_ranges)-1,0,-1):
+
+            x_,y_ = xy_ranges[r,0],xy_ranges[r,1]
             x,y,disparity,width = \
                 pt_in_2D_to_image_with_disparity_and_width(x_,y_,0.1)
             if width > 0 and np.random.random() < 0.15:
