@@ -67,13 +67,13 @@ def Random_black_white_rectangle_collection(
     for i in range(2,max_width+1):
         if i not in R:
             R[i] = []
-        if not is_even(i):
+        if False:#not is_even(i):
             R[i] = R[i-1]
         else:
             for j in range(5):
                 R[i].append(random_black_white_rectangle(width,height,i/4.))
     R[1] = R[2]
-    for i in range(max_width+1,4*max_width):
+    for i in range(max_width+1,100000):
         R[i] = R[max_width]
     return R
 
@@ -138,18 +138,19 @@ if __name__ == '__main__':
     xy_ranges = na(xy_ranges)
     xy_ranges = xy_ranges[xy_ranges[:,2].argsort()]
 
+    xys = []
+    for r in rlen(xy_ranges):
+        if np.random.random() < 0.11:
+            xys.append(xy_ranges[r,:])
+    xys = sort_by_column(xys,2,reverse=True)
 
     for j in range(100):
 
-        i = np.random.randint(5000,len(Imgs['L']))
+        i = 10000+j#np.random.randint(5000,len(Imgs['L']))
         I = {'R':Imgs['R'][i],'L':Imgs['L'][i]}
 
 
-        xys = []
-        for r in rlen(xy_ranges):
-            if np.random.random() < 0.11:
-                xys.append(xy_ranges[r,:])
-        xys = sort_by_column(xys,2,reverse=True)
+
 
         past_rectangles_into_drive_images(xys,I,R)
 
@@ -166,6 +167,7 @@ if __name__ == '__main__':
         k = raw_enter()
         if k == 'q':
             break
+        xys[:,1] -= 0.0375
 
 
 #EOF
