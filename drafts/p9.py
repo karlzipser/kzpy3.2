@@ -91,7 +91,7 @@ if __name__ == '__main__':
 
     xy_ranges = []
     for x_ in arange(-0.5,0.51,0.25):
-        for y_ in arange(0.,3.1,0.25):
+        for y_ in arange(0.,13.1,0.25):
             q = rndint(num_rectangle_patterns)
             xy_ranges.append([x_,y_,np.sqrt(x_**2+y_**2),q])
     xy_ranges = na(xy_ranges)
