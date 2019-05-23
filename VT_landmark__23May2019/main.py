@@ -64,8 +64,9 @@ if __name__ == '__main__':
         #if True:
         try:
             load_parameters(_)
+            gyro_heading_x_prev = gyro_heading_x
             gyro_heading_x =        S['gyro_heading_x']
-            cy(S['gyro_heading_x'])
+            #cy(S['gyro_heading_x'])
             encoder =               S['encoder']
             if 'behavioral_mode' not in S:
                 motor = S['motor']
@@ -80,7 +81,7 @@ if __name__ == '__main__':
             #
             #cm(direction,dp(encoder,1),motor,S['cmd/motor'],S['motor'])
 
-            gyro_heading_x_prev = gyro_heading_x
+            
             ts_prev = ts
             ts = time.time()
             dts = ts - ts_prev
