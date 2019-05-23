@@ -133,7 +133,7 @@ if __name__ == '__main__':
                     x_origin_in_pixels=None,
                     y_origin_in_pixels=None,
                     use_CV2_plot=True,
-                    use_maplotlib=True,
+                    use_maplotlib=False,
                     do_print=True,
                     clear=True
                 )
