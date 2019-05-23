@@ -112,6 +112,7 @@ if __name__ == '__main__':
                 clf()
                 plt_square()
                 #xyliml(_['plot xylims'])
+                print Path_pts2D['array']
                 pts_plot(Path_pts2D['array'],sym=_['pts sym'])#_['pts sym'])
                 d = Path_pts2D['data']
                 e = d[d[:,2]<0]
