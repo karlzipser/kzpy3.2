@@ -19,7 +19,8 @@ def Random_black_white_rectangle_collection(
     max_width=20,
     width=8,
     height=16,
-    num_rectangle_patterns=1
+    num_rectangle_patterns=1,
+    even_only=False
 ):
     rectangles = []
     for i in range(num_rectangle_patterns):
@@ -28,7 +29,7 @@ def Random_black_white_rectangle_collection(
     for i in range(2,max_width+1):
         if i not in R:
             R[i] = []
-        if False:#not is_even(i):
+        if even_only and not is_even(i):
             R[i] = R[i-1]
         else:
             for j in range(num_rectangle_patterns):
@@ -37,7 +38,7 @@ def Random_black_white_rectangle_collection(
                     (intr(width*i/4.),intr(height*i/4.)),
                     interpolation=0
                 )
-                R[i].append(c)#,i/4.))
+                R[i].append(c)
     R[1] = R[2]
     for i in range(max_width+1,100000):
         R[i] = R[max_width]
@@ -45,98 +46,33 @@ def Random_black_white_rectangle_collection(
 
 
 def paste_rectangles_into_drive_images(
-    x_y_range_id_array,
-    L_img,
-    R_img,
+    xys,
+    I,
     R
 ):
-    I = {'L':L_img,'R':R_img}
-
-    for xy in x_y_range_id_array:
-        cg(dp(xy[0]),bl,dp(xy[1]),yl,dp(xy[2]),mg,dp(xy[3]),sf=0)
+    for xy in xys:
         x_,y_,rng,rectangle_pattern = xy[0],xy[1],xy[2],int(xy[3])
         x,y,disparity,width = fit3d.pt_in_2D_to_image_with_disparity_and_width(x_,y_,0.1)
         width = intr(width)
         if width > 0 and rng > 0.:
-            if width < 1:
-                width = 1
             f = R[width][rectangle_pattern]
             for s in ['L','R']:  
                 if s == 'L':
                     x_ = x
                 else:
                     x_ = x - disparity
-                good = True
- 
-                if good:
-                    try:
-                        I[s] = place_img_f_in_img_g(x_,y,f,I[s],bottom=1,center=1)
-                    except:
-                        cr('place_img_f_in_img_g failure')
+                try:
+                    I[s] = place_img_f_in_img_g(x_,y,f,I[s],bottom=1,center=1)
+                except:
+                    cr('place_img_f_in_img_g failure')
 
 
-
-
-def modify_quartet(
-    L_now,
-    R_now,
-    L_prev,
-    R_prev,
-    x_y_id_array_now,
-    x_y_id_array_prev,
-    Rectangles
-):
-    D = {
-        'now':{
-            'L':L_now,
-            'R':R_now,
-            'xys':x_y_id_array_now,
-        },
-        'prev':{
-            'L':L_prev,
-            'R':R_prev,
-            'xys':x_y_id_array_prev,
-        }
-    }
-    for when in ['prev','now']:
-        xys_ = []
-        for xy in D[when]['xys']:
-            rng = np.sqrt(xy[0]**2+xy[1]**2)
-            if xy[1] < 0:
-                rng = -rng
-            xys_.append(xy.copy())
-        xys = na(xys_)
-
-        paste_rectangles_into_drive_images(
-            xys,
-            D[when]['L'],
-            D[when]['R'],
-            Rectangles
-        )
-
-        if '   BLOCK   graphics':
-            shape_ = np.shape(D['now']['L'])
-            width,height = shape_[1],shape_[0]
-            img_now = np.zeros((height,2*width+int(width/16),3),np.uint8) + 127
-            img_now[:,:width,:] =   D['now']['R']
-            img_now[:,-width:,:] =  D['now']['L']
-            figure('fig',figsize=(12,4))
-            mi(img_now,'fig')
-            spause()
-            k = raw_enter()
-            if k == 'q':
-                break
-        
-
-
-if __name__ == '__main__':
-
+def setup():
     if '   BLOCK   set up rectangles':
         num_rectangle_patterns = 15
         R = Random_black_white_rectangle_collection( ###########
             num_rectangle_patterns=num_rectangle_patterns
         )
-
     if '   BLOCK   access file images':
         if 'O' not in locals():
             if using_osx():
@@ -146,7 +82,6 @@ if __name__ == '__main__':
             Imgs = {}
             Imgs['L'] = O['left_image']['vals']
             Imgs['R'] = O['right_image']['vals']
-
     if '   BLOCK   set up ranges':
         xy_ranges = []
         for x_ in arange(-0.5,0.51,0.25):
@@ -161,19 +96,73 @@ if __name__ == '__main__':
             if np.random.random() < 0.11:
                 xys.append(xy_ranges[r,:])
         xys = sort_by_column(xys,2,reverse=True) ##############
+    return R,Imgs,xys
 
-    i = 5000
-    modify_quartet(
-        Imgs['L'][i],
-        Imgs['R'][i],
-        Imgs['L'][i-1],
-        Imgs['R'][i-1],
-        xys,
-        xys,
-        R
-    )   
+if __name__ == '__main__':
 
 
+    R,Imgs,xys = setup()
+    num_steps = 1
+    for j in range(0,10000,num_steps):
+
+        if '   BLOCK   select xy points':
+            xys_ = []
+            for xy in xys:
+                rng = np.sqrt(xy[0]**2+xy[1]**2)
+                if xy[1] < 0:
+                    rng = -rng
+                xy[2] = rng
+                if rng > 0.72:
+                    xys_.append(xy)
+            xys = na(xys_)
+            Xys = {}
+            for when in ['now','prev']:
+                Xys[when] = xys.copy()
+                if when == 'prev':
+                    Xys[when][:,1] += 0.0375
+
+        if '   BLOCK   select images':
+            i = 10000+j
+            I = {
+                'now':{'R':Imgs['R'][i].copy(),'L':Imgs['L'][i].copy()},
+                'prev':{'R':Imgs['R'][i-1].copy(),'L':Imgs['L'][i-1].copy()},
+            }
+
+
+        if '   BLOCK   create quartet images': 
+            for when in ['now','prev']:
+                paste_rectangles_into_drive_images(
+                    Xys[when],
+                    I[when],
+                    R
+                )
+
+
+        if '   BLOCK   move points backward':
+            xys[:,1] -= 0.0375 * num_steps
+
+
+        if '   BLOCK   graphics':
+            for when in ['prev','now']:
+                print when,j
+                shape_ = np.shape(I[when]['L'])
+                width,height = shape_[1],shape_[0]
+                img_now = np.zeros((height,2*width+int(width/16),3),np.uint8) + 127
+                img_now[:,:width,:] =   I[when]['R']
+                img_now[:,-width:,:] =  I[when]['L']
+                figure('when',figsize=(12,4))
+                mi(img_now,'when')
+                spause()
+                if when == 'prev':
+                    plot([0,50],[0,50],'r')
+                    spause()
+                    time.sleep(1.5)
+                    raw_enter('prev')
+                if when == 'now':
+                    k = raw_enter("'q-enter' to quit, ")
+                #if k == 'q':
+                #    break
+        
 #EOF
 
 

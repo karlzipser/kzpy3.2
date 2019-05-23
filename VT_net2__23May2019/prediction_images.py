@@ -123,7 +123,7 @@ def get_prediction_images_3D(pts2D_1step_list,img,_):
 
 ##############################################################
 ###
-def get__pts2D_multi_step(d_heading,encoder,sample_frequency,headings,encoders,motors,pts2D_multi_step,_):
+def get__pts2D_multi_step(d_heading,encoder,sample_frequency,headings,encoders,motors,pts2D_multi_step):
 
     Pts2D_1step = {}
 
@@ -171,15 +171,14 @@ def get__pts2D_multi_step(d_heading,encoder,sample_frequency,headings,encoders,m
 
 
 
-def Array(max_len,n_dims):#,n_code_dims=0):
+def Array(max_len,n_dims):
     D = {}
     D['max_len'] = max_len
     D['n_dims'] = n_dims
-    #D['n_code_dims'] = n_code_dims
-    D['data'] = zeros((2*max_len,n_dims+1+1))#+n_code_dims))
+    D['data'] = zeros((2*max_len,n_dims+1+1))
     D['array'] = D['data'][:,:n_dims]
     D['keys'] = D['data'][:,-1]
-    D['code'] = D['data'][:,n_dims]#:n_dims+n_code_dims]
+    D['code'] = D['data'][:,n_dims]
     D['ctr'] = 0
     D['key_ctr'] = 0
     D['Dic'] = {}
@@ -187,7 +186,6 @@ def Array(max_len,n_dims):#,n_code_dims=0):
     def function_check_len():
         ctr = D['ctr']
         max_len = D['max_len']
-        #cm(max_len,ctr-max_len,ctr)
         if ctr > 1.5*max_len:
             cm(max_len,ctr-max_len,ctr)
             D['data'][:max_len,:] = D['data'][ctr-max_len:ctr,:]
@@ -199,14 +197,12 @@ def Array(max_len,n_dims):#,n_code_dims=0):
                 if k not in kys:
                     del D['Dic'][k]
 
-    #zero_code_array = zeros(n_code_dims)
-
-    def function_append(a,code,dic_info=None):#,code_array=zero_code_array,dic_info=None):
+    def function_append(a,code,dic_info=None):
         function_check_len()
         ctr = D['ctr']
         D['array'][ctr,:] = a
         D['keys'][ctr] = D['key_ctr']
-        D['code'][ctr] = code #code_array
+        D['code'][ctr] = code
         if dic_info != None:
             D['Dic'][D['key_ctr']] = dic_info
         D['ctr'] += 1
@@ -216,7 +212,7 @@ def Array(max_len,n_dims):#,n_code_dims=0):
         rotatePolygon__array_version(D['array'],deg)
 
     def function_zero():
-        D['array'][:D['ctr'],:] -= D['array'][D['ctr']-1] #path_pts2D[-1]
+        D['array'][:D['ctr'],:] -= D['array'][D['ctr']-1]
 
     D['append'] = function_append
     D['rotate'] = function_rotate
@@ -224,48 +220,26 @@ def Array(max_len,n_dims):#,n_code_dims=0):
 
     return D
 
-if False:
-    A = Array(7,2)#,2) 
+def test_Array():
+    A = Array(7,2)
     for i in range(50):
         A['append'](na([i,i]),np.random.randint(4),i*i)
         A['rotate'](1.)
         A['zero']()
         for j in rlen(A['array']):
             a = A['data'][j,:] 
-            cg(a[2],')',yl,a[:2],bl,a[3],sf=0)
+            cg(int(a[2]),yl,(intr(a[0]),intr(a[1])),bl,int(a[3]),sf=0)
         raw_enter()
-        #cg(A['data'],ra=1)
+
+
+
 
 
 
 
 ##############################################################
 ###
-def _get__path_pts2D(d_heading,encoder,sample_frequency,direction,path_pts2D,_):
-
-    #d_heading *= direction # test only
-
-    velocity = encoder * _['vel-encoding coeficient'] * direction
-
-    trajectory_vector = na([0,1]) * velocity / sample_frequency
-
-    try:
-        path_pts2D = rotatePolygon(path_pts2D,-d_heading*_['d_heading_multiplier'])
-    except:
-        pass
-    path_pts2D.append(trajectory_vector)
-
-    path_pts2D = na(path_pts2D)
-
-    path_pts2D -= path_pts2D[-1]
-
-    return list(path_pts2D)
-###
-##############################################################
-
-##############################################################
-###
-def get__path_pts2D(d_heading,encoder,sample_frequency,direction,Path_pts2D,_):
+def get__path_pts2D(d_heading,encoder,sample_frequency,direction,value,Path_pts2D):
 
     velocity = encoder * _['vel-encoding coeficient'] * direction
 
@@ -276,11 +250,8 @@ def get__path_pts2D(d_heading,encoder,sample_frequency,direction,Path_pts2D,_):
     except:
         pass
     #print direction,encoder
-    if encoder < 0.1:#direction < 0 or encoder < 0.1:
-        val = -1
-    else:
-        val = 1
-    Path_pts2D['append'](trajectory_vector,val)
+
+    Path_pts2D['append'](trajectory_vector,value,{'velocity':velocity})
 
     Path_pts2D['zero']()
 
@@ -290,9 +261,9 @@ def get__path_pts2D(d_heading,encoder,sample_frequency,direction,Path_pts2D,_):
 ################################################################
 ################################################################
 ###
-def prepare_2D_and_3D_images(Prediction2D_plot,pts2D_multi_step,d_heading,encoder,sample_frequency,headings,encoders,motors,img,_):
+def prepare_2D_and_3D_images(Prediction2D_plot,pts2D_multi_step,d_heading,encoder,sample_frequency,headings,encoders,motors,img):
 
-    pts2D_multi_step = get__pts2D_multi_step(d_heading,encoder,sample_frequency,headings,encoders,motors,pts2D_multi_step,_)
+    pts2D_multi_step = get__pts2D_multi_step(d_heading,encoder,sample_frequency,headings,encoders,motors,pts2D_multi_step)
 
     if _['graphics 1']:
         Prediction2D_plot['clear']()

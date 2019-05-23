@@ -107,7 +107,7 @@ if __name__ == '__main__':
         xys = sort_by_column(xys,2,reverse=True) ##############
 
 
-    for j in range(100):
+    for j in range(10000):
 
         if '   BLOCK   select xy points':
             xys_ = []
@@ -138,7 +138,7 @@ if __name__ == '__main__':
             figure('fig',figsize=(12,4))
             mi(img_now,'fig')
             spause()
-            k = raw_enter()
+            k = raw_enter(" ['q' to quit]")
             if k == 'q':
                 break
         
