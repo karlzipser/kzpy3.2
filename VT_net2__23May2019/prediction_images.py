@@ -123,7 +123,7 @@ def get_prediction_images_3D(pts2D_1step_list,img,_):
 
 ##############################################################
 ###
-def get__pts2D_multi_step(d_heading,encoder,sample_frequency,headings,encoders,motors,pts2D_multi_step):
+def get__pts2D_multi_step(d_heading,encoder,sample_frequency,headings,encoders,motors,pts2D_multi_step,_):
 
     Pts2D_1step = {}
 
@@ -239,7 +239,7 @@ def test_Array():
 
 ##############################################################
 ###
-def get__path_pts2D(d_heading,encoder,sample_frequency,direction,value,Path_pts2D):
+def get__path_pts2D(d_heading,encoder,sample_frequency,direction,value,Path_pts2D,_):
 
     velocity = encoder * _['vel-encoding coeficient'] * direction
 
@@ -270,10 +270,12 @@ def prepare_2D_and_3D_images(
     headings,
     encoders,
     motors,
-    img
+    img,
+    _
 ):
 
-    pts2D_multi_step = get__pts2D_multi_step(d_heading,encoder,sample_frequency,headings,encoders,motors,pts2D_multi_step)
+    pts2D_multi_step = get__pts2D_multi_step(
+        d_heading,encoder,sample_frequency,headings,encoders,motors,pts2D_multi_step,_)
 
     if _['graphics 1']:
         Prediction2D_plot['clear']()

@@ -138,7 +138,8 @@ if __name__ == '__main__':
                 headings,
                 encoders,
                 motors,
-                S['left_image']
+                S['left_image'],
+                _
             )
 
 
@@ -151,7 +152,8 @@ if __name__ == '__main__':
                 d_heading,encoder,
                 sample_frequency,
                 direction,value,
-                Path_pts2D
+                Path_pts2D,
+                _
             )
 
             if graphics_timer.check():
