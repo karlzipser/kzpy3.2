@@ -74,7 +74,8 @@ def Array(max_len,n_dims):
         y_origin_in_pixels=None,
         use_CV2_plot=True,
         use_maplotlib=True,
-        do_print=True):
+        do_print=True,
+        clear=True):
         if D['CV2Plot'] == None:
             D['CV2Plot'] = CV2Plot(
                 height_in_pixels,
@@ -83,6 +84,8 @@ def Array(max_len,n_dims):
                 x_origin_in_pixels,
                 y_origin_in_pixels
             )
+        if clear:
+            D['CV2Plot']['clear']()
         if do_print:
             for j in rlen(D['array']):
                 a = D['data'][j,:] 
