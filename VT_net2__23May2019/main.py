@@ -95,8 +95,7 @@ if __name__ == '__main__':
 
     while not _['ABORT']:
         time.sleep(0.001)
-        if True:
-        #try:
+        try:
             load_parameters(_)
 
             headings,encoders,motors = {},{},{}
@@ -176,11 +175,10 @@ if __name__ == '__main__':
 
             Pub['ldr_img'].publish(cv_bridge.CvBridge().cv2_to_imgmsg(metadata_3D_img,'rgb8'))
 
-        else:
-        #except KeyboardInterrupt:
+        except KeyboardInterrupt:
             cr('*** KeyboardInterrupt ***')
             sys.exit()
-        #except Exception as e:
+        except Exception as e:
             cr('*** index',_['index'],'failed ***')
             exc_type, exc_obj, exc_tb = sys.exc_info()
             file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
