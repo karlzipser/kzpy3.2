@@ -52,6 +52,7 @@ def load_parameters(_,customer='VT menu'):
 
 Path_pts2D = prediction_images.Array(_['num Array pts'],2)
 
+rospy.init_node('main',anonymous=True)
 
 if __name__ == '__main__':
 
