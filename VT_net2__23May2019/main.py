@@ -95,8 +95,8 @@ if __name__ == '__main__':
 
     while not _['ABORT']:
         time.sleep(0.001)
-        if True:
-        #try:
+        #if True:
+        try:
             load_parameters(_)
 
             headings,encoders,motors = {},{},{}
@@ -124,6 +124,10 @@ if __name__ == '__main__':
                 direction = -1.
             print direction,dp(encoder,1),motor,S['cmd/motor'],S['motor']
 
+        except:
+            print "fail"
+
+        if True:
             Prediction2D_plot,left_camera_3D_img,metadata_3D_img = prediction_images.prepare_2D_and_3D_images(
                 Prediction2D_plot,
                 pts2D_multi_step,
