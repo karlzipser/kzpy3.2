@@ -110,22 +110,32 @@ if __name__ == '__main__':
                 Path_pts2D,
                 _
             )
-            cm(d_heading,encoder,sample_frequency,direction,value)
-            #print Path_pts2D['array']
+
             if graphics_timer.check():
                 graphics_timer.time_s = _['graphics_timer time']
                 graphics_timer.reset()
-                #cm(time.time())
-                clf()
-                plt_square()
-                #xyliml(_['plot xylims'])
-                #print Path_pts2D['array']
-                pts_plot(Path_pts2D['array'],sym=_['pts sym'])#_['pts sym'])
-                d = Path_pts2D['data']
-                e = d[d[:,2]<0]
-                pts_plot(e,color='b',sym=_['pts sym'])
-                spause()
 
+                if False:
+                    clf()
+                    plt_square()
+                    #xyliml(_['plot xylims'])
+                    #print Path_pts2D['array']
+                    pts_plot(Path_pts2D['array'],sym=_['pts sym'])#_['pts sym'])
+                    d = Path_pts2D['data']
+                    e = d[d[:,2]<0]
+                    pts_plot(e,color='b',sym=_['pts sym'])
+                    spause()
+
+                Path_pts2D['show'](
+                    height_in_pixels=200,
+                    width_in_pixels=200,
+                    pixels_per_unit=6.,
+                    x_origin_in_pixels=None,
+                    y_origin_in_pixels=None,
+                    use_CV2_plot=True,
+                    use_maplotlib=True,
+                    do_print=True
+                )
 
         else:
         #except KeyboardInterrupt:

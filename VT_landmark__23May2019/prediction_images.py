@@ -13,6 +13,7 @@ def Array(max_len,n_dims):
     D['ctr'] = 0
     D['key_ctr'] = 0
     D['Dic'] = {}
+    D['CV2Plot'] = None
 
     def function_check_len():
         ctr = D['ctr']
@@ -37,7 +38,7 @@ def Array(max_len,n_dims):
             D['Dic'][D['key_ctr']] = dic_info
         D['ctr'] += 1
         D['key_ctr'] += 1
-
+        D['C'] = None
     def function_rotate(deg):
         rotatePolygon__array_version(D['array'],deg)
 
@@ -45,21 +46,62 @@ def Array(max_len,n_dims):
         D['array'][:D['ctr'],:] -= D['array'][D['ctr']-1]
 
     def function_test_Array():
-        A = Array(7,2)
+        A = Array(30,2)
+        CA()
+        height_in_pixels = 200
+        width_in_pixels = 200
         for i in range(50):
-            A['append'](na([i,i]),np.random.randint(4),i*i)
-            A['rotate'](1.)
+            A['append'](na([0,1]),np.random.randint(4),i*i)
+            A['rotate'](3.)
             A['zero']()
-            for j in rlen(A['array']):
-                a = A['data'][j,:] 
-                cg(int(a[2]),yl,(intr(a[0]),intr(a[1])),bl,int(a[3]),sf=0)
+            A['show'](
+                height_in_pixels=height_in_pixels,
+                width_in_pixels=width_in_pixels,
+                x_origin_in_pixels=0,
+                y_origin_in_pixels=0,
+                do_print=False,
+                use_maplotlib=False
+            )
+            #height_in_pixels+=3*i
+            #width_in_pixels+=3*i
             raw_enter()
+
+    def function_show(
+        height_in_pixels=200,
+        width_in_pixels=200,
+        pixels_per_unit=3,
+        x_origin_in_pixels=None,
+        y_origin_in_pixels=None,
+        use_CV2_plot=True,
+        use_maplotlib=True,
+        do_print=True):
+        if D['CV2Plot'] == None:
+            D['CV2Plot'] = CV2Plot(
+                height_in_pixels,
+                width_in_pixels,
+                pixels_per_unit,
+                x_origin_in_pixels,
+                y_origin_in_pixels
+            )
+        if do_print:
+            for j in rlen(D['array']):
+                a = D['data'][j,:] 
+                cg(int(a[2]),yl,(intr(a[0]),intr(a[1])),bl,int(a[3]),sf=0)
+        if use_CV2_plot:
+            D['CV2Plot']['pts_plot'](D['array'])
+            D['CV2Plot']['show']()
+        if use_maplotlib:
+            pts_plot(D['array'])
+            xysqlim(30)
+            plt_square()
+            spause()
+
 
     D['append'] = function_append
     D['rotate'] = function_rotate
     D['zero'] = function_zero
     D['test'] = function_test_Array
-
+    D['show'] = function_show
     return D
 
 
