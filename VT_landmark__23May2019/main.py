@@ -112,7 +112,7 @@ if __name__ == '__main__':
             )
             cm(d_heading,encoder,sample_frequency,direction,value)
             #print Path_pts2D['array']
-            if False:#graphics_timer.check():
+            if graphics_timer.check():
                 graphics_timer.time_s = _['graphics_timer time']
                 graphics_timer.reset()
                 #cm(time.time())
