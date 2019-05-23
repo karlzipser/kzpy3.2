@@ -80,7 +80,7 @@ import cv_bridge
 rospy.init_node('main',anonymous=True)
 Pub = {}
 Pub['ldr_img'] = rospy.Publisher("/ldr_img"+_['topic_suffix'],Image,queue_size=1)
-Path_pts2D = prediction_images.Array(300,2)
+Path_pts2D = prediction_images.Array(_['num Array pts'],2)
 if __name__ == '__main__':
 
     Prediction2D_plot = CV2Plot(height_in_pixels=141,width_in_pixels=62,pixels_per_unit=7,y_origin_in_pixels=41)
@@ -159,6 +159,7 @@ if __name__ == '__main__':
             if graphics_timer.check():
                 graphics_timer.time_s = _['graphics_timer time']
                 graphics_timer.reset()
+                cm(time.time())
                 clf()
                 plt_square()
                 xyliml(_['plot xylims'])

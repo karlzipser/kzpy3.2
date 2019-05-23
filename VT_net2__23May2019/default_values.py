@@ -15,6 +15,7 @@ _['To Expose'] = {}
 _['graphics 1'] = False
 _['graphics 2'] = True
 _['graphics 3'] = False
+_['num Array pts'] = 50
 _['graphics_timer time'] = 1/4.
 _['save metadata'] = False
 _['step_size'] = 1
