@@ -64,6 +64,7 @@ if __name__ == '__main__':
         try:
             load_parameters(_)
             gyro_heading_x =        S['gyro_heading_x']
+            cy(S['gyro_heading_x'])
             encoder =               S['encoder']
             if 'behavioral_mode' not in S:
                 motor = S['motor']
@@ -110,7 +111,7 @@ if __name__ == '__main__':
             if False:#graphics_timer.check():
                 graphics_timer.time_s = _['graphics_timer time']
                 graphics_timer.reset()
-                cm(time.time())
+                #cm(time.time())
                 clf()
                 plt_square()
                 #xyliml(_['plot xylims'])
