@@ -96,7 +96,7 @@ def Array(max_len,n_dims):
         if use_maplotlib:
             clf()
             pts_plot(D['array'])
-            xysqlim(30)
+            xysqlim(10)
             plt_square()
             spause()
 
