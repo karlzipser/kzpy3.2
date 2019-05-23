@@ -135,7 +135,7 @@ if __name__ == '__main__':
                     use_CV2_plot=True,
                     use_maplotlib=False,
                     do_print=False,
-                    clear=True
+                    clear=False
                 )
 
         else:
