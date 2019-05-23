@@ -18,7 +18,7 @@ def Array(max_len,n_dims):
         ctr = D['ctr']
         max_len = D['max_len']
         if ctr > 1.5*max_len:
-            cm(max_len,ctr-max_len,ctr)
+            #cm(max_len,ctr-max_len,ctr)
             D['data'][:max_len,:] = D['data'][ctr-max_len:ctr,:]
             D['data'][-max_len:,:] = 0
             D['ctr'] = max_len

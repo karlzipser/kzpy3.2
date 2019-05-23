@@ -75,7 +75,8 @@ if __name__ == '__main__':
             if motor < 49:
                 direction = -1.
 
-            cm(direction,dp(encoder,1),motor,S['cmd/motor'],S['motor'])
+            #
+            #cm(direction,dp(encoder,1),motor,S['cmd/motor'],S['motor'])
 
             gyro_heading_x_prev = gyro_heading_x
             ts_prev = ts
