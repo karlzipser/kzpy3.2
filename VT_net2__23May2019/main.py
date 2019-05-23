@@ -110,6 +110,7 @@ if __name__ == '__main__':
             motors['direct'] =      S['motors_direct']
             motors['right'] =       S['motors_right']
             d_heading =             S['d_heading']
+            print d_heading
             gyro_heading_x =        S['gyro_heading_x']
             encoder =               S['encoder']
             sample_frequency =      S['sample_frequency']
