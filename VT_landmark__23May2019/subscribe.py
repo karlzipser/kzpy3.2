@@ -17,12 +17,7 @@ bridge = cv_bridge.CvBridge()
 S = {}
 qs = 1
 bcs = '/bair_car/'
-S['ts'] = 0
-S['ts_prev'] = 0
-S['sample_frequency'] = 0
 S['gyro_heading_x'] = 0
-S['gyro_heading_x_prev'] = 0
-S['d_heading'] = 0
 S['encoder'] = 0
 S['motor'] = 49
 S['cmd/motor'] = 49
@@ -79,13 +74,13 @@ rospy.Subscriber(
     callback=behavioral_mode_callback)
 
 def gyro_heading_x_callback(data):
-    S['gyro_heading_x_prev'] = S['gyro_heading_x']
+    #S['gyro_heading_x_prev'] = S['gyro_heading_x']
     S['gyro_heading_x'] = data.x
-    S['d_heading'] = 2*(S['gyro_heading_x']-S['gyro_heading_x_prev'])
-    S['ts_prev'] = S['ts']
-    S['ts'] = time.time()
+    #S['ts_prev'] = S['ts']
+    #S['ts'] = time.time()
     #S['sample_frequency'] = 30.
-    S['sample_frequency'] = 1.0 / (S['ts']-S['ts_prev'])
+    #S['sample_frequency'] = 1.0 / (S['ts']-S['ts_prev'])
+    #S['d_heading'] = (S['gyro_heading_x']-S['gyro_heading_x_prev']) * S['sample_frequency']
 
 
 rospy.Subscriber(bcs+'gyro_heading', geometry_msgs.msg.Vector3, callback=gyro_heading_x_callback,queue_size=qs)
