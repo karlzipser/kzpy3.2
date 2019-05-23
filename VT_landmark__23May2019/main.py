@@ -57,7 +57,7 @@ if __name__ == '__main__':
 
     graphics_timer = Timer(_['graphics_timer time'])
     ts = time.time()
-    
+
     while not _['ABORT']:
         time.sleep(0.001)
         #if True:
@@ -111,8 +111,8 @@ if __name__ == '__main__':
                 cm(time.time())
                 clf()
                 plt_square()
-                xyliml(_['plot xylims'])
-                pts_plot(Path_pts2D['array'],sym=',')#_['pts sym'])
+                #xyliml(_['plot xylims'])
+                pts_plot(Path_pts2D['array'],sym=_['pts sym'])#_['pts sym'])
                 d = Path_pts2D['data']
                 e = d[d[:,2]<0]
                 pts_plot(e,color='b',sym=_['pts sym'])
