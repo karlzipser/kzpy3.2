@@ -104,8 +104,8 @@ if __name__ == '__main__':
                 Path_pts2D,
                 _
             )
-
-            if graphics_timer.check():
+            print Path_pts2D['array']
+            if False:#graphics_timer.check():
                 graphics_timer.time_s = _['graphics_timer time']
                 graphics_timer.reset()
                 cm(time.time())
