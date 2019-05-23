@@ -54,6 +54,8 @@ Path_pts2D = prediction_images.Array(_['num Array pts'],2)
 
 rospy.init_node('main',anonymous=True)
 
+gyro_heading_x = 0
+
 if __name__ == '__main__':
 
     graphics_timer = Timer(_['graphics_timer time'])
