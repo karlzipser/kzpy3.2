@@ -94,6 +94,7 @@ def Array(max_len,n_dims):
             D['CV2Plot']['pts_plot'](D['array'])
             D['CV2Plot']['show']()
         if use_maplotlib:
+            clf()
             pts_plot(D['array'])
             xysqlim(30)
             plt_square()
