@@ -45,26 +45,68 @@ def Array(max_len,n_dims):
     def function_zero():
         D['array'][:D['ctr'],:] -= D['array'][D['ctr']-1]
 
-    def function_test_Array():
-        A = Array(30,2)
+    def function_test_Array(test_num=1):
+        
         CA()
         height_in_pixels = 200
         width_in_pixels = 200
-        for i in range(50):
-            A['append'](na([0,1]),np.random.randint(4),i*i)
-            A['rotate'](3.)
-            A['zero']()
+
+        if test_num == 1:
+            A = Array(30,2)
+            for i in range(50):
+                A['append'](na([0,1]),np.random.randint(4),i*i)
+                A['rotate'](3.)
+                A['zero']()
+                A['show'](
+                    height_in_pixels=height_in_pixels,
+                    width_in_pixels=width_in_pixels,
+                    x_origin_in_pixels=0,
+                    y_origin_in_pixels=0,
+                    do_print=False,
+                    use_maplotlib=False
+                )
+                raw_enter()
+
+        elif test_num == 2:
+            height_in_pixels = 200
+            width_in_pixels = 200
+            A = Array(500,2)
+            for i in range(500):
+                r = rndn(2)
+                if r[0] >= 0 and r[1] >= 0:
+                    c = 1
+                elif r[0] <= 0 and r[1] <= 0:
+                    c = 2
+                else:
+                    c = 0
+                A['append'](r,code=c)
             A['show'](
                 height_in_pixels=height_in_pixels,
                 width_in_pixels=width_in_pixels,
-                x_origin_in_pixels=0,
-                y_origin_in_pixels=0,
+                pixels_per_unit=30,
                 do_print=False,
-                use_maplotlib=False
+                use_maplotlib=False,
+                color=(255,0,0),
+                code=1,
+                show=False
             )
-            #height_in_pixels+=3*i
-            #width_in_pixels+=3*i
+            A['show'](
+                do_print=False,
+                use_maplotlib=False,
+                color=(0,0,255),
+                code=2,
+                clear=False,
+                show=False,
+            )
+            A['show'](
+                do_print=False,
+                use_maplotlib=False,
+                color=(0,255,0),
+                code=0,
+                clear=False
+            )
             raw_enter()
+    
 
     def function_show(
         height_in_pixels=200,
@@ -75,7 +117,16 @@ def Array(max_len,n_dims):
         use_CV2_plot=True,
         use_maplotlib=True,
         do_print=True,
-        clear=True):
+        clear=True,
+        color=(255,255,255),
+        code=None,
+        show=True,
+    ):
+        if code == None:
+            the_array = D['array']
+        else:
+            the_array = D['array'][D['code']==code]
+
         if D['CV2Plot'] == None:
             D['CV2Plot'] = CV2Plot(
                 height_in_pixels,
@@ -91,15 +142,17 @@ def Array(max_len,n_dims):
                 a = D['data'][j,:] 
                 cg(int(a[2]),yl,(intr(a[0]),intr(a[1])),bl,int(a[3]),sf=0)
         if use_CV2_plot:
-            D['CV2Plot']['pts_plot'](D['array'])
-            D['CV2Plot']['show']()
+            D['CV2Plot']['pts_plot'](the_array,c=color)
+            if show:
+                D['CV2Plot']['show']()
         if use_maplotlib:
-            clf()
-            pts_plot(D['array'])
-            xysqlim(10)
-            plt_square()
-            spause()
-
+            if clear:
+                clf()
+            pts_plot(the_array,color=rndchoice(['r','g','k','b','m','c']))
+            if show:
+                #xysqlim(10)
+                plt_square()
+                spause()
 
     D['append'] = function_append
     D['rotate'] = function_rotate
@@ -108,7 +161,8 @@ def Array(max_len,n_dims):
     D['show'] = function_show
     return D
 
-
+if False:
+    A = Array(30,2);A['test'](2)
 
 ##############################################################
 ###

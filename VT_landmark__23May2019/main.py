@@ -102,9 +102,11 @@ if __name__ == '__main__':
         if True:
 
             if encoder < 0.1:#direction < 0 or encoder < 0.1:
-                value = -1
-            else:
+                value = 0
+            elif direction > 0:
                 value = 1
+            else:
+                value = -1
 
             prediction_images.get__path_pts2D(
                 d_heading,
@@ -120,27 +122,34 @@ if __name__ == '__main__':
                 graphics_timer.time_s = _['graphics_timer time']
                 graphics_timer.reset()
 
-                if False:
-                    clf()
-                    plt_square()
-                    #xyliml(_['plot xylims'])
-                    #print Path_pts2D['array']
-                    pts_plot(Path_pts2D['array'],sym=_['pts sym'])#_['pts sym'])
-                    d = Path_pts2D['data']
-                    e = d[d[:,2]<0]
-                    pts_plot(e,color='b',sym=_['pts sym'])
-                    spause()
-
                 Path_pts2D['show'](
                     height_in_pixels=200,
                     width_in_pixels=200,
                     pixels_per_unit=_['pixels_per_unit'],
                     x_origin_in_pixels=None,
                     y_origin_in_pixels=None,
-                    use_CV2_plot=True,
                     use_maplotlib=False,
                     do_print=False,
-                    clear=True
+                    clear=True,
+                    code=0,
+                    color=(255,255,0),
+                    show=False,
+                )
+                Path_pts2D['show'](
+                    use_maplotlib=False,
+                    do_print=False,
+                    clear=False,
+                    code=-1,
+                    color=(255,0,0),
+                    show=False,
+                )
+                Path_pts2D['show'](
+                    use_maplotlib=False,
+                    do_print=False,
+                    clear=False,
+                    code=1,
+                    color=(0,255,0),
+                    show=True,
                 )
 
         else:
