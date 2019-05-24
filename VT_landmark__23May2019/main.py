@@ -59,7 +59,7 @@ gyro_heading_x = 0
 if __name__ == '__main__':
 
     graphics_timer = Timer(_['graphics_timer time'])
-    delay_timer = Timer(1/30.)
+    delay_timer = Timer(1/10.)
     ts = time.time()
 
     while not _['ABORT']:
