@@ -87,6 +87,7 @@ if __name__ == '__main__':
             continue
         try:
             headings,encoders,motors = {},{},{}
+            """
             headings['left'] =      S['headings_left']
             headings['direct'] =    S['headings_direct']
             headings['right'] =     S['headings_right']
@@ -96,6 +97,7 @@ if __name__ == '__main__':
             motors['left'] =        S['motors_left']
             motors['direct'] =      S['motors_direct']
             motors['right'] =       S['motors_right']
+            """
             gyro_heading_x_prev =   gyro_heading_x
             gyro_heading_x =        S['gyro_heading_x']
             encoder =               S['encoder']
