@@ -101,7 +101,7 @@ if __name__ == '__main__':
                 motors['direct'] =      S['motors_direct']
                 motors['right'] =       S['motors_right']
             except:
-                err_timer.message('No net predictions coming in.')
+                err_timer.message(d2s('No net predictions coming in,',time.time()))
             
             gyro_heading_x_prev =   gyro_heading_x
             gyro_heading_x =        S['gyro_heading_x']
@@ -185,7 +185,7 @@ if __name__ == '__main__':
                     show=True,
                 )
 
-            if False:
+            if True:
                 (
                     Prediction2D_plot,
                     left_camera_3D_img,
