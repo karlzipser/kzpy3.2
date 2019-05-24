@@ -116,7 +116,11 @@ if __name__ == '__main__':
             sample_frequency = 1.0 / dts
             d_heading = gyro_heading_x - gyro_heading_x_prev
 
-        except:
+        except Exception as e:
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            CS_('Exception!',emphasis=True)
+            CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)    
             print "fail",time.time()
             continue
 
