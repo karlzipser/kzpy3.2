@@ -134,7 +134,7 @@ if __name__ == '__main__':
                 Path_pts2D['show'](
                     height_in_pixels=200,
                     width_in_pixels=200,
-                    pixels_per_unit=60./4./4.,
+                    pixels_per_unit=_['pixels_per_unit'],
                     x_origin_in_pixels=None,
                     y_origin_in_pixels=None,
                     use_CV2_plot=True,
