@@ -185,7 +185,7 @@ if __name__ == '__main__':
                     show=True,
                 )
 
-            if True:
+            if len(motors.keys()) > 0:
                 (
                     Prediction2D_plot,
                     left_camera_3D_img,
