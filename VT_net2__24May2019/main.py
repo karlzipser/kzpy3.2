@@ -61,10 +61,13 @@ Path_pts2D = prediction_images.Array(_['num Array pts'],2)
 Pub = {}
 Pub['ldr_img'] = rospy.Publisher("/ldr_img"+_['topic_suffix'],Image,queue_size=1)
 
+
+
 if __name__ == '__main__':
 
     graphics_timer = Timer(_['graphics_timer time'])
     delay_timer = Timer(1/10.)
+    err_timer = Timer(5)
     ts = time.time()
     gyro_heading_x = 0
     
@@ -86,18 +89,20 @@ if __name__ == '__main__':
             load_parameters(_)
             continue
         try:
-            headings,encoders,motors = {},{},{}
-            """
-            headings['left'] =      S['headings_left']
-            headings['direct'] =    S['headings_direct']
-            headings['right'] =     S['headings_right']
-            encoders['left'] =      S['encoders_left']
-            encoders['direct'] =    S['encoders_direct']
-            encoders['right'] =     S['encoders_right']
-            motors['left'] =        S['motors_left']
-            motors['direct'] =      S['motors_direct']
-            motors['right'] =       S['motors_right']
-            """
+            try:
+                headings,encoders,motors = {},{},{}
+                headings['left'] =      S['headings_left']
+                headings['direct'] =    S['headings_direct']
+                headings['right'] =     S['headings_right']
+                encoders['left'] =      S['encoders_left']
+                encoders['direct'] =    S['encoders_direct']
+                encoders['right'] =     S['encoders_right']
+                motors['left'] =        S['motors_left']
+                motors['direct'] =      S['motors_direct']
+                motors['right'] =       S['motors_right']
+            except:
+                err_timer.message('No net predictions coming in.')
+            
             gyro_heading_x_prev =   gyro_heading_x
             gyro_heading_x =        S['gyro_heading_x']
             encoder =               S['encoder']
