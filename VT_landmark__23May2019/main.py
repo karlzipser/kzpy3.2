@@ -148,7 +148,7 @@ if __name__ == '__main__':
                     do_print=False,
                     clear=False,
                     code=0,
-                    color=(0,255,0),
+                    color=(100,100,255),
                     show=True,
                 )
 
