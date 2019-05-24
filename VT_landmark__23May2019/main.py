@@ -131,7 +131,7 @@ if __name__ == '__main__':
                     use_maplotlib=False,
                     do_print=False,
                     clear=True,
-                    code=0,
+                    code=1,
                     color=(255,255,0),
                     show=False,
                 )
@@ -147,7 +147,7 @@ if __name__ == '__main__':
                     use_maplotlib=False,
                     do_print=False,
                     clear=False,
-                    code=1,
+                    code=0,
                     color=(0,255,0),
                     show=True,
                 )
