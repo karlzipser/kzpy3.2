@@ -59,10 +59,15 @@ gyro_heading_x = 0
 if __name__ == '__main__':
 
     graphics_timer = Timer(_['graphics_timer time'])
+    delay_timer = Timer(1/10.)
     ts = time.time()
 
     while not _['ABORT']:
-        time.sleep(0.001)
+        if delay_timer.check():
+            delay_timer.reset()
+        else:
+            time.sleep(0.01)
+            continue
         #if True:
         try:
             load_parameters(_)
