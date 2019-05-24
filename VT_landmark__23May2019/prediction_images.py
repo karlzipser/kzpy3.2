@@ -127,7 +127,7 @@ def get__path_pts2D(
     trajectory_vector = na([0,1]) * velocity / sample_frequency
 
     try:
-        Path_pts2D['rotate'](-d_heading * sample_frequency * _['d_heading_multiplier'])
+        Path_pts2D['rotate'](-d_heading / sample_frequency * _['d_heading_multiplier'])
     except:
         pass
 
