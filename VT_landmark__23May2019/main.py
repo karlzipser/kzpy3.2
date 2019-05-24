@@ -132,7 +132,7 @@ if __name__ == '__main__':
                     do_print=False,
                     clear=True,
                     code=1,
-                    color=(255,255,0),
+                    color=(255/4,255/4,0),
                     show=False,
                 )
                 Path_pts2D['show'](
@@ -140,7 +140,7 @@ if __name__ == '__main__':
                     do_print=False,
                     clear=False,
                     code=-1,
-                    color=(255,0,0),
+                    color=(255/4,0,0),
                     show=False,
                 )
                 Path_pts2D['show'](
@@ -148,7 +148,7 @@ if __name__ == '__main__':
                     do_print=False,
                     clear=False,
                     code=0,
-                    color=(100,100,255),
+                    color=(255,255,255),
                     show=True,
                 )
 
