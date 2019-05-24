@@ -9,7 +9,7 @@ import prediction_images
 from sensor_msgs.msg import Image
 import cv_bridge
 exec(identify_file_str)
-_ = default_values._
+P = default_values.P
 
 rospy.init_node('main',anonymous=True)
 
@@ -19,7 +19,7 @@ if project_path[0] == '/':
 sys_str = d2s('mkdir -p',opj(project_path,'__local__'))
 cg(sys_str)
 os.system(sys_str)
-cg("To start menu:\n\tpython kzpy3/Menu_app/menu2.py path",project_path,"dic _")
+cg("To start menu:\n\tpython kzpy3/Menu_app/menu2.py path",project_path,"dic P")
 
 ##
 #############################################################
@@ -30,15 +30,15 @@ cg("To start menu:\n\tpython kzpy3/Menu_app/menu2.py path",project_path,"dic _")
 #############################################################
 ####################### MENU ################################
 ##
-if _['start menu automatically'] and using_linux():
-    dic_name = "_"
+if P['start menu automatically'] and using_linux():
+    dic_name = "P"
     sys_str = d2n("gnome-terminal --geometry 40x30+100+200 -x python kzpy3/Menu_app/menu2.py path ",project_path," dic ",dic_name)
     cr(sys_str)
     os.system(sys_str)
 
-parameter_file_load_timer = Timer(_['load_timer_time'])
+parameter_file_load_timer = Timer(P['load_timer_time'])
 
-def load_parameters(_,customer='VT menu'):
+def load_parameters(P,customer='VT menu'):
     if parameter_file_load_timer.check():
         Topics = menu2.load_Topics(project_path,first_load=False,customer=customer)
         if type(Topics) == dict:
@@ -48,7 +48,7 @@ def load_parameters(_,customer='VT menu'):
                 if '!' in t:
                     pass
                 else:
-                    _[t] = Topics[t]
+                    P[t] = Topics[t]
         parameter_file_load_timer.reset()
 
 ##
@@ -56,16 +56,17 @@ def load_parameters(_,customer='VT menu'):
 ##############################################################
 
 
-Path_pts2D = prediction_images.Array(_['num Array pts'],2)
+Path_pts2D = prediction_images.Array(P['num Array pts'],2)
 
 Pub = {}
-Pub['ldr_img'] = rospy.Publisher("/ldr_img"+_['topic_suffix'],Image,queue_size=1)
+Pub['ldr_img'] = rospy.Publisher("/ldr_img"+P['topic_suffix'],Image,queue_size=1)
 
-
+if True:
+    A = Array(30,2);A['test'](1)
 
 if __name__ == '__main__':
 
-    graphics_timer = Timer(_['graphics_timer time'])
+    graphics_timer = Timer(P['graphics_timer time'])
     delay_timer = Timer(1/10.)
     err_timer = Timer(5)
     ts = time.time()
@@ -80,13 +81,13 @@ if __name__ == '__main__':
     path_pts2D = []
 
     
-    while not _['ABORT']:
+    while not P['ABORT']:
 
         if delay_timer.check():
             delay_timer.reset()
         else:
             time.sleep(0.01)
-            load_parameters(_)
+            load_parameters(P)
             continue
         try:
             try:
@@ -148,17 +149,17 @@ if __name__ == '__main__':
                 direction,
                 value,
                 Path_pts2D,
-                _,
+                P,
             )
 
             if graphics_timer.check():
-                graphics_timer.time_s = _['graphics_timer time']
+                graphics_timer.time_s = P['graphics_timer time']
                 graphics_timer.reset()
 
                 Path_pts2D['show'](
                     height_in_pixels=200,
                     width_in_pixels=200,
-                    pixels_per_unit=_['pixels_per_unit'],
+                    pixels_per_unit=P['pixels_per_unit'],
                     x_origin_in_pixels=None,
                     y_origin_in_pixels=None,
                     use_maplotlib=False,
@@ -201,7 +202,7 @@ if __name__ == '__main__':
                         encoders,
                         motors,
                         S['left_image'],
-                        _,
+                        P,
                 )
 
 
@@ -209,7 +210,7 @@ if __name__ == '__main__':
                     Prediction2D_plot,
                     left_camera_3D_img,
                     metadata_3D_img,
-                    _,
+                    P,
                 )
 
                 Pub['ldr_img'].publish(
@@ -224,7 +225,7 @@ if __name__ == '__main__':
             cr('*** KeyboardInterrupt ***')
             sys.exit()
         #except Exception as e:
-            cr('*** index',_['index'],'failed ***')
+            cr('*** index',P['index'],'failed ***')
             exc_type, exc_obj, exc_tb = sys.exc_info()
             file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             CS_('Exception!',emphasis=True)
