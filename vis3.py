@@ -864,9 +864,14 @@ def CV2Plot(height_in_pixels,width_in_pixels,pixels_per_unit,x_origin_in_pixels=
                 c = [255,255,255]
         for i in rlen(xys):
             D['plot point (xy_version)'](xys[i,0],xys[i,1],c,add_mode)
+    def function_grid(c=[255,0,0]):
+        D['image'][:,int(width_in_pixels/2),:] = c
+        D['image'][int(height_in_pixels/2),:,:] = c
+
     def function_clear():
         D['image'] *= 0
     D['show'] = function_show
+    D['grid'] = function_grid
     D['safe?'] = function_safe
     D['plot point (xy_version)'] = function_plot_point_xy_version
     D['get pixel'] = function_get_pixel

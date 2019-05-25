@@ -22,7 +22,7 @@ ref_day = date(2019,4,29)
 one_day = datetime.timedelta(days=1)
 
 #pr = datetime.datetime.strptime('13042019', "%d%m%Y").date()
-pr = datetime.datetime.strptime('08052019', "%d%m%Y").date()
+pr = datetime.datetime.strptime('25052019', "%d%m%Y").date()
 
 my_day_pattern = [0,0, 1,1, 0,0,0,0,0, 1,1,1,1,1]
 
