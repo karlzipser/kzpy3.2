@@ -4,15 +4,6 @@ import kzpy3.misc.fit3d as fit3d
 
 
 
-
-
-
-
-
-
-
-            
-
 ##############################################################
 ##############################################################
 ###
@@ -152,10 +143,23 @@ def Array(
 ##############################################################
 
 
+def point_in_3D_to_point_in_2D(a,backup_parameter=1.0):
+    if a[1]<0:
+        return False,False
+
+    b = fit3d.Point3(a[0], 0, a[1] - backup_parameter)
+    c = fit3d.project(b, fit3d.mat)
+
+    if c.x < 0 or c.x >= 168:
+        return False,False
+
+    elif c.y < 0 or c.y >= 94:
+        return False,False
+
+    return c.x,c.y
 
 
-
-def test_Array(test_num=1):
+def test_Array():
 
     n = 20*20*10
     A = Array(n,2)
@@ -203,20 +207,7 @@ def test_Array(test_num=1):
 
 
 
-def point_in_3D_to_point_in_2D(a,backup_parameter=1.0):
-    if a[1]<0:
-        return False,False
 
-    b = fit3d.Point3(a[0], 0, a[1] - backup_parameter)
-    c = fit3d.project(b, fit3d.mat)
-
-    if c.x < 0 or c.x >= 168:
-        return False,False
-
-    elif c.y < 0 or c.y >= 94:
-        return False,False
-
-    return c.x,c.y
 
 
 
