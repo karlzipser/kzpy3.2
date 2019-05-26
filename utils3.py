@@ -401,7 +401,21 @@ yl = '\x1b[33m'
 bl = '\x1b[34m'
 mg = '\x1b[35m'
 lb = '\x1b[36m'
-wh = '\x1b[29m'
+wh = '\x1b[37m'
+
+wh_bk = '\x1b[40m'
+wh_rd = '\x1b[41m'
+wh_gr = '\x1b[42m'
+wh_bl = '\x1b[44m'
+wh_mg = '\x1b[45m'
+wh_lb = '\x1b[46m'
+
+mg = '\x1b[35m'
+lb = '\x1b[36m'
+wh = '\x1b[37m'
+
+og = '\x1b[91m'
+
 def spd2s(*args):
 	d_ = d2s(*args)
 	l_ = len(d_)

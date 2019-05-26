@@ -1,7 +1,11 @@
-Q = {
-    'a':('set value',3.3),
-    'b':('set value',99),
-    'c':('set value',True),
-    'd':('set value','abc'),
-    'e':('set value',[1]),
-}
+from kzpy3.utils3 import *
+
+timer = Timer(0.1)
+
+while True:
+	if timer.check():
+		timer.reset()
+		soD('a',{'one':rndn(3),'two':rndint(100)})
+	else:
+		time.sleep(0.01)
+		continue
