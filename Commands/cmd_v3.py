@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from kzpy3.utils3 import *
+from kzpy3.vis3 import *
 import default_values_v3 as default_values
 exec(identify_file_str)
 P = default_values.P
@@ -165,6 +165,8 @@ def Dic_Loader(path,wait_time=0.2):
 
 if __name__ == '__main__':
 
+    ABORT = False
+
     while True:
 
         load_C(C)
@@ -179,9 +181,10 @@ if __name__ == '__main__':
 
         sorted_keys = show_menu(C_,key_list)
 
-        cw(message)
+        cw(message); message = ''
 
-        message = ''
+        if ABORT == True:
+            break
 
         if len(arg_choice_list) > 0:
             raw_choice = arg_choice_list.pop()
@@ -189,6 +192,12 @@ if __name__ == '__main__':
             raw_choice = raw_input(mg+'choice: '+lb)
 
         if raw_choice == '':
+            message = "other commands: 'load','save','q'"
+            continue
+
+        if raw_choice == 'q':
+            message = "\ndone.\n"
+            ABORT = True
             continue
 
         if raw_choice == 'load':
@@ -302,6 +311,10 @@ if __name__ == '__main__':
 
             elif cmd_mode == 'python':
                 code = raw_input(d2n("Enter python code: "))
+                d = code.split(';')
+                if 'print' not in d[-1]:
+                    d[-1]=d2s('print(',d[-1],')')
+                code = ';'.join(d)
                 exec(code)
                 raw_enter()
 
