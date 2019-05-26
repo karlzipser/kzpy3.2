@@ -90,7 +90,7 @@ def save_C(C):
 def show_menu(C,key_list):
     clear_screen()
     cprint(
-        d2s(key_list_to_path(key_list)),
+        '/'.join(key_list),
         attrs=['bold','reverse'],
         color='white',
         on_color='on_blue'
@@ -117,23 +117,21 @@ def show_menu(C,key_list):
             else:
                 cc = yl
         v = ''
+        edited = ''
         if k in C:
             if type(C[k]) == tuple:
                 if C[k][0] == 'set value':
                     v = C[k][1]
-        
-        cb(bl,i,cc,k,lb,v)
+                    if len(C[k]) > 2:
+                        if C[k][2] == 'edited':
+                            edited = '*'
+
+        cb(bl,i,cc,k,lb,v,edited)
     return sorted_keys
 
 
 
 
-def key_list_to_path(key_list):
-    s = ''
-    for k in key_list:
-        s += '/'
-        s += k
-    return s
 
 
 
@@ -295,7 +293,7 @@ if __name__ == '__main__':
                             continue
                         message = d2n("(set '",key_choice,"' to ",value,')')
                     print key_choice,value,C_[key_choice]
-                    C_[key_choice] = (cmd_mode,value)
+                    C_[key_choice] = (cmd_mode,value,'edited')
                     save_C(C)
                     time.sleep(1/8.)
                 except Exception as e:

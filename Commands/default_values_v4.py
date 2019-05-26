@@ -1,11 +1,13 @@
 try:
-    from kzpy3.Commands.other import Q
+    from kzpy3.Commands.Q import Q
+    for q in Q:
+        Q[q] = ('set value',Q[q])
 except:
     Q = ('set value','dic not found')
 from kzpy3.utils3 import *
 
-P = {
 
+P = {
     'commands':{
         'Cars':{
             'a2Apr19_16April2019':{
