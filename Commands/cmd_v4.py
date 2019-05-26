@@ -200,7 +200,7 @@ if __name__ == '__main__':
             raw_choice = raw_input(mg+'choice: '+lb)
 
         if raw_choice == '':
-            message = "other commands: 'load','save','q'"
+            message = "other commands: 'load','save','q' (quit), 'p' (python)"
             continue
 
         if raw_choice == 'q':
@@ -208,16 +208,40 @@ if __name__ == '__main__':
             ABORT = True
             continue
 
+
+        if raw_choice == 'p':
+            try:
+                code = raw_input(d2n("Enter python code: "))
+                d = code.split(';')
+                if 'print' not in d[-1]:
+                    d[-1]=d2s('print(',d[-1],')')
+                code = ';'.join(d)
+                exec(code)
+                raw_enter()
+                continue
+            except Exception as e:
+                exc_type, exc_obj, exc_tb = sys.exc_info()
+                file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                message = d2s('Exception!',exc_type,file_name,exc_tb.tb_lineno)
+                continue
+
+
         if raw_choice == 'load':
             try:
-                lst = sggo(opjk('Commands','__local__','C.*.pkl'))
+                files_mtimes = get_files_sorted_by_mtime(opjk('Commands','__local__','C.*.pkl'))
+                lst = []
+                for f in files_mtimes:
+                    lst.append(f[0])
                 if len(lst) < 1:
                     message = "No C.*.pkl's to load"
                     continue
+                lst.reverse()
                 for i in rlen(lst):
                     print(d2n(i,') ',fname(lst[i]).split('.')[-2]))
                 num = input('num: ')
-                C = lo(opjk('Commands','__local__','C.'+fname(lst[num]).split('.')[-2]+'.pkl'))
+                f = opjk('Commands','__local__','C.'+fname(lst[num]).split('.')[-2]+'.pkl')
+                C = lo(f)
+                message = d2s('loaded',f)
                 save_C(C)
             except:
                 message = "load failed"
@@ -231,7 +255,9 @@ if __name__ == '__main__':
                 message="asdfdasfadsf"
                 pass
             save_C(C)
-            os.system(d2s("cp",opjk('Commands','__local__','C.pkl'),opjk('Commands','__local__','C.'+name+'.pkl')))
+            f = opjk('Commands','__local__','C.'+name+'.pkl')
+            os.system(d2s("cp",opjk('Commands','__local__','C.pkl'),f))
+            message = d2s('saved',f)
             continue
 
         if str_is_int(raw_choice):

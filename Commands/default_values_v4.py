@@ -1,7 +1,8 @@
 try:
     from kzpy3.Commands.Q import Q
+    Q_ = {}
     for q in Q:
-        Q[q] = ('set value',Q[q])
+        Q[_q] = ('set value',Q[q])
 except:
     Q = ('set value','dic not found')
 from kzpy3.utils3 import *
@@ -44,9 +45,9 @@ P = {
                 }
             },
         },
-        'Q':Q,
+        'Q':Q_,
         'some data':('active',opjD('a')),
-        'python':('python',0),
+        #'python':('python',0),
 
     },
 }
