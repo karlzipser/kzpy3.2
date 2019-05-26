@@ -1,17 +1,13 @@
 from kzpy3.vis3 import *
-
-import kzpy3.misc.fit3d as fit3d
-
+import fit3d
 
 
-##############################################################
-##############################################################
-###
 def Array(
     max_len,
     n_dims,
     name = None,
 ):
+
     D = {}
     D['max_len'] = max_len
     D['n_dims'] = n_dims
@@ -28,6 +24,15 @@ def Array(
     D['name'] = name
 
 
+
+    def function_assign_plot(
+        P
+    ):
+        assert dic_is_type(P,'CV2Plot')
+        D['plot'] = P
+
+
+
     def function_setup_plot(
         height_in_pixels,
         width_in_pixels,
@@ -35,7 +40,6 @@ def Array(
         x_origin_in_pixels=None,
         y_origin_in_pixels=None,
     ):
-
         D['plot'] = CV2Plot(
             height_in_pixels,
             width_in_pixels,
@@ -43,6 +47,7 @@ def Array(
             x_origin_in_pixels,
             y_origin_in_pixels,
         )
+
 
 
     def function_check_len(
@@ -58,6 +63,8 @@ def Array(
                 for k in D['Dic'].keys():
                     if k not in kys:
                         del D['Dic'][k]
+
+
 
     def function_append(
         a,
@@ -76,6 +83,7 @@ def Array(
         D['key_ctr'] += 1
 
 
+
     def function_rotate(
         deg
     ):
@@ -85,10 +93,10 @@ def Array(
         )
 
 
+
     def function_zero(
     ):
         D['array'][:D['ctr'],:] -= D['array'][D['ctr']-1]
-
 
 
 
@@ -108,113 +116,56 @@ def Array(
         else:
             the_array = D['array'][D['code']==code]
 
-
         if clear:
             D['plot']['clear']()
+
         if grid:
-            D['plot']['grid']()
+            D['plot']['grid'](c=[127,63,0])
+
         if do_print:
             for j in rlen(D['array']):
                 a = D['data'][j,:] 
                 cg(int(a[2]),yl,(intr(a[0]),intr(a[1])),bl,int(a[3]),sf=0)
+
         if use_CV2_plot:
             D['plot']['pts_plot'](the_array,c=color)
             if show:
                 D['plot']['show'](title=D['name'],scale=scale)
+
         if use_maplotlib:
             if clear:
                 clf()
             pts_plot(the_array,color=rndchoice(['r','g','k','b','m','c']))
             if show:
-                #xysqlim(10)
                 plt_square()
                 spause()
+
+
+    def function_to_3D(A):
+        for j in range(A['ctr']):
+            a = A['array'][j,:]
+            c = fit3d.point_in_3D_to_point_in_2D(
+                a,
+                height_in_pixels = D['plot']['height_in_pixels'],
+                width_in_pixels = D['plot']['width_in_pixels']
+            )
+            if c[0] != False:
+                D['append'](na([c[0],D['plot']['height_in_pixels']-c[1]]))
+
+
 
     D['append'] = function_append
     D['rotate'] = function_rotate
     D['zero'] = function_zero
     D['setup_plot'] = function_setup_plot
+    D['assign_plot'] = function_assign_plot
     D['show'] = function_show
+    D['to_3D'] = function_to_3D
+
+
+
     return D
 
 
-###
-##############################################################
-##############################################################
-
-
-def point_in_3D_to_point_in_2D(a,backup_parameter=1.0):
-    if a[1]<0:
-        return False,False
-
-    b = fit3d.Point3(a[0], 0, a[1] - backup_parameter)
-    c = fit3d.project(b, fit3d.mat)
-
-    if c.x < 0 or c.x >= 168:
-        return False,False
-
-    elif c.y < 0 or c.y >= 94:
-        return False,False
-
-    return c.x,c.y
-
-
-def test_Array():
-
-    n = 20*20*10
-    A = Array(n,2)
-    B = Array(n,2)
-
-    A['setup_plot'](
-        height_in_pixels=500,
-        width_in_pixels=500,
-        pixels_per_unit=50,
-    )
-    B['setup_plot'](
-        height_in_pixels=94,
-        width_in_pixels=168,
-        x_origin_in_pixels=0,
-        y_origin_in_pixels=94,
-        pixels_per_unit=1,
-    )
-    
-    for x in arange(-0.0,10,1):
-        for y in arange(0,10,.1):
-            A['append'](na([x,y]))
-    for x in arange(-10,0,.1):
-        for y in arange(0,10,1):
-            A['append'](na([x,y]))
-
-    for j in range(A['ctr']):
-        a = A['array'][j,:]
-        c = point_in_3D_to_point_in_2D(a)
-        if c[0] != False:
-            B['append'](na([c[0],94-c[1]]))
-
-    A['show'](
-        do_print=False,
-        use_maplotlib=False,
-    )
-
-    B['show'](
-        do_print=False,
-        use_maplotlib=False,
-        grid=False,
-        scale=3.0,
-    )
-    
-    
-
-
-
-
-
-
-
-
-
-if __name__ == '__main__':
-    test_Array()
-    raw_enter()
 
 #EOF

@@ -812,11 +812,20 @@ def CV2Plot(height_in_pixels,width_in_pixels,pixels_per_unit,x_origin_in_pixels=
     if y_origin_in_pixels == None:
         y_origin_in_pixels = intr(height_in_pixels/2.0)
     D = {}
+    D['type'] = 'CV2Plot'
     D['verbose'] = False
     if D['verbose']:
         cy(x_origin_in_pixels,y_origin_in_pixels)
     D['image'] = zeros((height_in_pixels,width_in_pixels,3),np.uint8)
-    def function_show(autocontrast=True,delay=1,title='image',scale=1.0,fx=0,fy=0):
+
+    D['height_in_pixels'] = height_in_pixels
+    D['width_in_pixels'] = width_in_pixels
+    D['pixels_per_unit'] = pixels_per_unit
+    D['x_origin_in_pixels'] = x_origin_in_pixels
+    D['y_origin_in_pixels'] = y_origin_in_pixels
+
+
+    def function_show(autocontrast=False,delay=1,title='image',scale=1.0,fx=0,fy=0):
         
         img = D['image']
         if autocontrast:

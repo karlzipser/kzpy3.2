@@ -262,6 +262,15 @@ if False:
 
 
 
+def dic_is_type(Dic,type_str):
+    assert type(Dic) == dict
+    assert type(type_str) == str
+    if 'type' in Dic.keys():
+        if Dic['type'] == type_str:
+            return True
+    return False
+
+
 def zeroToOneRange(m):
 	min_n = 1.0*np.min(m)
 	return (1.0*m-min_n)/(1.0*np.max(m)-min_n)
