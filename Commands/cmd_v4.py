@@ -6,7 +6,9 @@ P = default_values.P
 for k in CShowFile.keys():
     CShowFile[k] = False
 
-
+sys_str = d2s('rm',opjk('Commands','__local__','C.pkl'))
+print sys_str
+os.system(sys_str)
 
 #############################################
 # Arguments, setup

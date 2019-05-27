@@ -1,11 +1,16 @@
-try:
-    from kzpy3.Commands.Q import Q
+from kzpy3.utils3 import *
+
+if True:#try:
+    #from kzpy3.Commands.Q import Q
+    c = file_to_text(opjk('Commands/Q.py'))
+    exec(c)
+    cg(Q,ra=1)
     Q_ = {}
     for q in Q:
-        Q[_q] = ('set value',Q[q])
-except:
+        Q_[q] = ('set value',Q[q])
+    cy(Q,ra=1)
+else:#except:
     Q = ('set value','dic not found')
-from kzpy3.utils3 import *
 
 
 P = {
