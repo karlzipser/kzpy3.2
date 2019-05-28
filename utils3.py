@@ -395,6 +395,10 @@ def pd2s(*args):
 	cprint(d2s(*args))
 def pd2n(*args):
 	print(d2n(*args))
+
+#if False:
+#	for i in range(256):
+#		print d2n('\x1b[',i,'m',i,' test','\x1b[36m')
 rd = '\x1b[31m'
 gr = '\x1b[32m'
 yl = '\x1b[33m'
@@ -415,6 +419,7 @@ lb = '\x1b[36m'
 wh = '\x1b[37m'
 
 og = '\x1b[91m'
+underlined = '\x1b[4m'
 
 def spd2s(*args):
 	d_ = d2s(*args)
