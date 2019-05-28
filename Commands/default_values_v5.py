@@ -1,9 +1,5 @@
 from kzpy3.utils3 import *
 
-
-
-
-
 P = {
     'commands':{
         'Cars':{
