@@ -168,7 +168,8 @@ def Dic_Loader(path,wait_time=0.2):
 
     return D
 
-        
+
+
 
 
 
@@ -265,10 +266,10 @@ if __name__ == '__main__':
         if str_is_int(raw_choice):
             choice = int(raw_choice)
         else:
-            cr("*** choice","'"+raw_choice+"'",'is not an integer',ra=1)
+            message = d2s("*** choice","'"+raw_choice+"'",'is not an integer')
             continue
         if choice < 0 or choice+1 > len(sorted_keys):
-            cr('*** choice is out of range',ra=1)
+            message = '*** choice is out of range'
             continue
 
         key_choice = sorted_keys[choice]
@@ -277,7 +278,7 @@ if __name__ == '__main__':
             if sorted_keys[0] == '<up>':
                 key_list.pop()
             else:
-                cr("*** can't go up, already at top",ra=1)
+                message = "*** can't go up, already at top"
                 continue
         elif type(C_[key_choice]) == dict:
             key_list.append(key_choice)

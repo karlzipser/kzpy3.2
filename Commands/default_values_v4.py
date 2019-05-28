@@ -1,16 +1,17 @@
 from kzpy3.utils3 import *
 
-if True:#try:
-    #from kzpy3.Commands.Q import Q
-    c = file_to_text(opjk('Commands/Q.py'))
-    exec(c)
-    cg(Q,ra=1)
-    Q_ = {}
-    for q in Q:
-        Q_[q] = ('set value',Q[q])
-    cy(Q,ra=1)
-else:#except:
-    Q = ('set value','dic not found')
+def normal_dic_to_dic_in_Command_form(D):
+    for d in D.keys():
+        if type(D[d]) == dict:
+            normal_dic_to_dic_in_Command_form(D[d])
+        else:
+            D[d] = ('set value',D[d])
+
+
+c = file_to_text(opjk('Commands/Q.py'))
+exec(c)
+normal_dic_to_dic_in_Command_form(Q)
+
 
 
 P = {
@@ -50,7 +51,7 @@ P = {
                 }
             },
         },
-        'Q':Q_,
+        'Q':Q,
         'some data':('active',opjD('a')),
         #'python':('python',0),
 

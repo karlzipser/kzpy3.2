@@ -1,7 +1,7 @@
 from kzpy3.vis3 import *
 import threading
 
-for a in [('wait',25),('path',None),('skip',0)]:
+for a in [('wait',25),('path',None),('skip',0),('start',0)]:
 	if a[0] not in Arguments:
 		Arguments[a[0]] = a[1]
 
@@ -37,7 +37,7 @@ def get_frames(cap):
 			print 'abort'
 			break
 
-#cap.set(0,100)
+cap.set(1,Arguments['start'])
 
 threading.Thread(target=get_frames,args=[cap]).start()
 
