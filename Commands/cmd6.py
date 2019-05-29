@@ -86,11 +86,7 @@ def save_C(C,project_path):
     os.system(sys_str)    
 
 
-from kzpy3.Commands.temp2 import Q
-D2 = Default_Values(Q,opjk('Commands'),['a','b'])
 
-from kzpy3.Commands.temp3 import Q
-D3 = Default_Values(Q,opjk('Commands'))
 
 
 def show_menu(C):
@@ -147,11 +143,6 @@ def show_menu(C):
                             edited = '*'
 
         cb(bl,i,cc+k+colored.attr('res_underlined'),val_color,v,edited)
-    #return sorted_keys
-
-
-
-
 
 
 
@@ -188,27 +179,17 @@ def Dic_Loader(path,wait_time=0.2):
 
 
 
-def normal_dic_to_dic_in_Command_form(D):
-    for d in D.keys():
-        if type(D[d]) == dict:
-            normal_dic_to_dic_in_Command_form(D[d])
-        else:
-            D[d] = ('set value',D[d])
-
-
-c = file_to_text(opjk('Commands/Q.py'))
-exec(c)
-normal_dic_to_dic_in_Command_form(Q)
-
-def assign_path(Q,path):
-    Q['_path_'] = ('const',path)
-    for q in Q.keys():
-        if type(Q[q]) == dict:
-            assign_path(Q[q],path)
 
 if __name__ == '__main__':
 
     ABORT = False
+
+
+    from kzpy3.Commands.temp2 import Q
+    D2 = Default_Values(Q,opjk('Commands'),['a','b'])
+
+    from kzpy3.Commands.temp3 import Q
+    D3 = Default_Values(Q,opjk('Commands'))
 
     while True:
 
