@@ -13,28 +13,50 @@ def Default_Values(Q,project_path,parent_keys=[]):
     D['.pkl'] = opj(project_path,'__local__','default_values.pkl')
     os.system('rm '+D['.pkl'])
     D['parent_keys'] = parent_keys
-    D['current_keys'] = []
+    D['current_keys'] = ['Q']
     D['Q'] = Q
-    D['R'] = {}
     add_keys(D,D['Q'])
     def function_save():
         save_C(D['Q'],D['project_path'])
     def function_load():
         load_C(D['Q'],D['project_path'])
-        D['R'] = {}
-        add_keys(D,D['Q'])
+        add_keys(D,['Q']+D['Q'])
+    def function_up():
+        if len(D['current_keys']) > 1:
+            D['current_keys'].pop()
+        else:
+            cr('***','cannot go up.')
+    def function_down(key):
+        if key in key_access(D,D['current_keys']):
+            D['current_keys'].append(key)
+        else:
+            cr('***',key,'not there.')
+    def function_show():
+        show_menu(key_access(D,D['current_keys']))
+    D['up'] = function_up
+    D['down'] = function_down
     D['load'] = function_load
     D['save'] = function_save
-    D['show'] = show_menu(D['R']['/'.join(D['current_keys'])])
+    D['show'] = function_show
     return D
 
 
-def add_keys(D,E,keys=[]):
-    key_path = '/'.join(keys)
-    if len(key_path) > 0:
-        D['R'][key_path] = E
+
+def key_access(Dic,keys,start=True):
+    if start:
+        keys_copy = []
+        for k in D['current_keys']:
+            keys_copy.append(k)
+        keys = keys_copy
+    key = keys.pop(0)
+    assert key in Dic.keys()
+    if type(Dic[key]) == dict and len(keys) > 0:
+        return key_access(Dic[key],keys,start=False)
     else:
-        D['R'] = {}
+        return Dic[key]
+
+
+def add_keys(D,E,keys=[]):
     E['--keys--'] = keys
     for k in E.keys():
         if type(E[k]) == dict:
@@ -64,7 +86,6 @@ def load_C(C,project_path,name='default_values'):
 
 
 def save_C(C,project_path,name='default_values'):
-    print 1
     try:
         sys_str = d2s('rm',opj(project_path,'__local__','ready'))
         os.system(sys_str)
@@ -84,9 +105,6 @@ def save_C(C,project_path,name='default_values'):
     sys_str = d2s('touch',opj(project_path,'__local__','ready'))
     print sys_str
     os.system(sys_str)    
-
-
-
 
 
 def show_menu(C):
@@ -145,8 +163,6 @@ def show_menu(C):
         cb(bl,i,cc+k+colored.attr('res_underlined'),val_color,v,edited)
 
 
-
-
 def Dic_Loader(path,wait_time=0.2):
     D = {}
     if '.pkl' not in path:
@@ -177,7 +193,9 @@ def Dic_Loader(path,wait_time=0.2):
 
     return D
 
-
+from kzpy3.Commands.temp3 import Q
+D = Default_Values(Q,opjk('Commands'))
+D['show']()
 
 #EOF
 
