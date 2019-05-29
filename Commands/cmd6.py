@@ -11,6 +11,7 @@ def Default_Values(Q,project_path,parent_keys=[]):
     os.system('mkdir -p '+opj(project_path,'__local__'))
     D['project_path'] = project_path
     D['.pkl'] = opj(project_path,'__local__','default_values.pkl')
+    os.system('rm '+D['.pkl'])
     D['parent_keys'] = parent_keys
     D['Q'] = Q
     D['R'] = {}
@@ -34,7 +35,7 @@ def add_keys(D,E,keys=[]):
         D['R'][key_path] = E
     else:
         D['R'] = {}
-    E['==keys=='] = keys
+    E['--keys--'] = keys
     for k in E.keys():
         if type(E[k]) == dict:
             add_keys(D,E[k],keys+[k])
@@ -92,76 +93,23 @@ from kzpy3.Commands.temp3 import Q
 D3 = Default_Values(Q,opjk('Commands'))
 
 
-
-
-#############################################
-# Arguments, setup
-os.system('mkdir -p '+opjk('Commands','__local__'))
-sys_str = d2s('rm',opjk('Commands','__local__','C.pkl'))
-print sys_str
-os.system(sys_str)
-#
-#############################################
-
-C = P['commands']
-key_list = []
-message = ''
-
-def load_C(C):
-    if len(sggo(opjk('Commands','__local__','ready'))) == 0:
-        return False
-    if len(sggo(opjk('Commands','__local__','C.writing.pkl'))) > 0:
-        return False
-    if len(sggo(opjk('Commands','__local__','C.pkl'))) == 0:
-        return False
-    try:
-        D = lo(opjk('Commands','__local__','C.pkl'))
-    except:
-        return False
-    if len(sggo(opjk('Commands','__local__','ready'))) == 0:
-        return False
-    if len(sggo(opjk('Commands','__local__','C.writing.pkl'))) > 0:
-        return False
-    if len(sggo(opjk('Commands','__local__','C.pkl'))) == 0:
-        return False
-    for k in C.keys():
-        C[k] = D[k]
-    return True
-
-
-
-def save_C(C):
-    try:
-        sys_str = d2s('rm',opjk('Commands','__local__','ready'))
-        os.system(sys_str)
-    except:
-        cr(sys_str,"failed")
-    so(C,opjk('Commands','__local__','C.writing.pkl'))
-    time.sleep(0.1)
-    try:
-        sys_str = d2s('rm',opjk('Commands','__local__','C.pkl'))
-        print sys_str
-        os.system(sys_str)
-    except:
-        cr(sys_str,"failed")
-    sys_str = d2s('mv',opjk('Commands','__local__','C.writing.pkl'),opjk('Commands','__local__','C.pkl'))
-    print sys_str
-    os.system(sys_str)
-    sys_str = d2s('touch',opjk('Commands','__local__','ready'))
-    print sys_str
-    os.system(sys_str)    
-
-
-
-def show_menu(C,key_list):
+def show_menu(C):
     clear_screen()
+    if '--keys--' in C:
+        key_list = C['--keys--']
+    else:
+        key_list = ['no keys']
     cprint(
         '/'.join(key_list),
         attrs=['bold','reverse'],
         color='white',
         on_color='on_blue'
     ) 
-    sorted_keys = sorted(C.keys())
+    sorted_keys_ = sorted(C.keys())
+    sorted_keys = []
+    for k in sorted_keys_:
+        if len(k) < 2 or (len(k) > 2 and k[:2] != '--' and k[-2:] != '--'):
+            sorted_keys.append(k)
     if len(key_list) == 0:
         s = '<top>'
     else:
@@ -199,7 +147,7 @@ def show_menu(C,key_list):
                             edited = '*'
 
         cb(bl,i,cc+k+colored.attr('res_underlined'),val_color,v,edited)
-    return sorted_keys
+    #return sorted_keys
 
 
 
