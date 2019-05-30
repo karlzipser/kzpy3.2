@@ -24,15 +24,17 @@ def Default_Values(Q,project_path,parent_keys=[]):
     def function_up():
         if len(D['current_keys']) > 1:
             D['current_keys'].pop()
+            return ''
         else:
-            cr('***','cannot go up.')
+            return d2s('***','cannot go up.')
     def function_down(key):
         if key in key_access(D,D['current_keys']):
             D['current_keys'].append(key)
+            return ''
         else:
-            cr('***',key,'not there.')
+            return d2s('***',key,'not there.')
     def function_show():
-        show_menu(key_access(D,D['current_keys']))
+        return show_menu(key_access(D,D['current_keys']))
     D['up'] = function_up
     D['down'] = function_down
     D['load'] = function_load
@@ -58,6 +60,8 @@ def key_access(Dic,keys,start=True):
 
 def add_keys(D,E,keys=[]):
     E['--keys--'] = keys
+    if '--mode--' not in E:
+        E['--mode--'] = 'var'
     for k in E.keys():
         if type(E[k]) == dict:
             add_keys(D,E[k],keys+[k])
@@ -106,6 +110,13 @@ def save_C(C,project_path,name='default_values'):
     print sys_str
     os.system(sys_str)    
 
+def is_meta_key(k):
+    if len(k) < 2:
+        return False
+    if k[:2] != '--' and k[-2:] != '--':
+        return False
+    else:
+        return True
 
 def show_menu(C):
     clear_screen()
@@ -122,7 +133,7 @@ def show_menu(C):
     sorted_keys_ = sorted(C.keys())
     sorted_keys = []
     for k in sorted_keys_:
-        if len(k) < 2 or (len(k) > 2 and k[:2] != '--' and k[-2:] != '--'):
+        if True:#not is_meta_key(k):
             sorted_keys.append(k)
     if len(key_list) == 0:
         s = '<top>'
@@ -133,34 +144,37 @@ def show_menu(C):
     for i in rlen(sorted_keys):
         if i == 0 and s == '<top>':
             cb(s)
-            continue
+            return ''
         k = sorted_keys[i]
         val_color = lb
-        if k in C:
-            if type(C[k]) == tuple and C[k][0] == 'active':
-                cc = og
-            elif type(C[k]) == tuple and C[k][0] == 'python':
-                cc = lb
-            elif type(C[k]) == tuple and C[k][0] == 'path':
-                cc = gr+underlined
-            elif type(C[k]) == tuple and C[k][0] == 'const':
-                cc = colored.fg('grey_23')
-                val_color = cc
-            elif type(C[k]) == dict:
-                cc = wh+underlined
-            else:
-                cc = yl
         v = ''
         edited = ''
         if k in C:
-            if type(C[k]) == tuple:
-                if C[k][0] == 'set value' or C[k][0] == 'const':
-                    v = C[k][1]
-                    if len(C[k]) > 2:
-                        if C[k][2] == 'edited':
-                            edited = '*'
+            if type(C[k]) == dict:
+                ctr = 0
+                for l in C[k]:
+                    if not is_meta_key(l):
+                        ctr += 1
+                v = d2n(ctr)
+                cc = wh+underlined
+                val_color = wh
+            elif is_meta_key(k):
+                v = C[k]
+                cc = colored.fg('grey_23') 
+            elif C['--mode--'] == 'bash':
+                cc = og
+                v = ''
+            elif C['--mode--'] == 'const':
+                v = C[k]
+                cc = wh
+                val_color = wh
+            else:
+                v = C[k]
+                cc = yl
 
         cb(bl,i,cc+k+colored.attr('res_underlined'),val_color,v,edited)
+    print sorted_keys
+    return sorted_keys
 
 
 def Dic_Loader(path,wait_time=0.2):
@@ -192,6 +206,160 @@ def Dic_Loader(path,wait_time=0.2):
     D['load'] = function_load
 
     return D
+
+
+
+
+
+def choice(sorted_keys):
+
+    global ABORT
+
+    raw_choice = raw_input(mg+'choice: '+lb)
+
+    if raw_choice == '':
+        message = "other commands: 'load','save','q' (quit), 'p' (python)"
+        return message,'continue'
+        
+    if raw_choice == 'q':
+        message = "\ndone.\n"
+        ABORT = True
+        return message,'quit'
+
+    if raw_choice == 'p':
+        menu_python()
+        return '','continue'
+
+    if str_is_int(raw_choice):
+        choice = int(raw_choice)
+    else:
+        message = d2s("*** choice","'"+raw_choice+"'",'is not an integer')
+        return message,'fail'
+
+    if choice < 0 or choice+1 > len(sorted_keys):
+        message = '*** choice is out of range'
+        return message,'fail'
+
+    key_choice = sorted_keys[choice]
+
+    return key_choice,'choose'
+
+
+
+def menu_python():
+    try:
+        code = raw_input(d2n("Enter python code: "))
+        d = code.split(';')
+        if 'print' not in d[-1]:
+            d[-1]=d2s('print(',d[-1],')')
+        code = ';'.join(d)
+        exec(code)
+        raw_enter()
+        return ''
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        message = d2s('Exception!',exc_type,file_name,exc_tb.tb_lineno)
+        return message
+
+    """
+    if choice == 0:
+        return ('up')
+
+    elif type(C_[key_choice]) == dict:
+        ('down',key_choice)
+
+    else:
+        cmd_mode = C_[key_choice][0]
+        cmd_str = C_[key_choice][1]
+        
+        if cmd_mode == 'bash':
+            yes_no = 'y'#raw_input(d2s(cmd_str,' ([y]/n) '))
+
+            if yes_no == 'y' or yes_no == '':
+
+                try:
+                    if cmd_str[0] != '@':
+                        os.system(cmd_str)
+                    else:
+                        os.system("gnome-terminal --geometry 50x30+100+200 -x "+cmd_str[1:])
+                        raw_enter()
+                except Exception as e:
+                    exc_type, exc_obj, exc_tb = sys.exc_info()
+                    file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                    CS_('Exception!',emphasis=True)
+                    CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+                    raw_enter()
+
+        elif cmd_mode == 'set value':
+            try:
+                if type(C_[key_choice][1]) == bool:
+                    value = C_[key_choice][1]
+                    yes_no = raw_input(d2n("Toggle '",key_choice,"'? ([y]/n) "))
+                    if yes_no == 'y' or yes_no == '':
+                        value = not value
+                        message = d2n("(set '",key_choice,"' to ",value,')')
+                    if value:
+                        message = d2n("('",key_choice,"' unchanged)")
+                else:
+                    value = input(d2n("Enter value for '",key_choice,"': "))
+                    if type(value) != type(C_[key_choice][1]):
+                        message = d2n("!!! type(",value,") != type(",C_[key_choice][1],") !!!")
+                        return message
+                    message = d2n("(set '",key_choice,"' to ",value,')')
+                print key_choice,value,C_[key_choice]
+                C_[key_choice] = (cmd_mode,value,'edited')
+                save_C(C)
+                time.sleep(1/8.)
+            except Exception as e:
+                exc_type, exc_obj, exc_tb = sys.exc_info()
+                file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                CS_('Exception!',emphasis=True)
+                CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+                raw_enter()
+
+        elif cmd_mode == 'active':
+            
+                A = Dic_Loader(C_[key_choice][1])
+                while True:
+                    try:
+                        if A['load']():
+                            clear_screen()
+                            for k in sorted(A['Dic'].keys()):
+                                cw(gr,str(k)+')',yl,A['Dic'][k])
+                            cw(lb,time_str('Pretty'))
+                    except KeyboardInterrupt:
+                        cr('*** KeyboardInterrupt ***')
+                        break
+                    except Exception as e:
+                        exc_type, exc_obj, exc_tb = sys.exc_info()
+                        file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                        CS_('Exception!',emphasis=True)
+                        CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+
+        elif cmd_mode == 'python':
+            code = raw_input(d2n("Enter python code: "))
+            d = code.split(';')
+            if 'print' not in d[-1]:
+                d[-1]=d2s('print(',d[-1],')')
+            code = ';'.join(d)
+            exec(code)
+            raw_enter()
+
+        elif cmd_mode == 'path':
+            c = file_to_text(C_[key_choice][1])
+            C_[key_choice][1]
+            exec(c)
+            normal_dic_to_dic_in_Command_form(Q)
+            assign_path(Q,C_[key_choice][1])
+            Q['_path_'] = ('const',C_[key_choice][1])
+            C_[key_choice] = Q
+            save_C(C)
+            key_list.append(key_choice)
+    """
+
+
+
 
 from kzpy3.Commands.temp3 import Q
 D = Default_Values(Q,opjk('Commands'))
