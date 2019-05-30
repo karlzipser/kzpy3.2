@@ -24,22 +24,60 @@ def Default_Values(Q,project_path,parent_keys=[]):
     def function_up():
         if len(D['current_keys']) > 1:
             D['current_keys'].pop()
-            return ''
+            return {
+                'message':  'went up',
+                'action':   'success',
+            }
         else:
-            return d2s('***','cannot go up.')
+            return {
+                'message':  d2s('***','at <top>, cannot go up.'),
+                'action':   'failure',
+            }
     def function_down(key):
-        if key in key_access(D,D['current_keys']):
+        K = key_access(D,D['current_keys'])
+        if key in K and type(K[key]) == dict:
             D['current_keys'].append(key)
-            return ''
+            return {
+                'message':  d2s('down to',key),
+                'action':   'success',
+            }
         else:
-            return d2s('***',key,'not there.')
+            return {
+                'message':  d2s('***',key,'not there, cannot go down to it.'),
+                'action':   'failure',
+            } 
     def function_show():
         return show_menu(key_access(D,D['current_keys']))
+    def function_menu():
+        while True:
+            items = D['show']()
+            R = choice(items)
+            cb('R =',R)
+            if R['action'] == 'quit':
+                sys.exit()
+            elif R['action'] == 'continue':
+                continue
+            elif R['action'] == 'choose':
+                if R['message'] == '<up>':
+                    S = D['up']()
+                    cb('S =',S)
+                else:
+                    S = D['down'](R['message'])
+                    cb('S =',S)
+                    if S['action'] == 'success':
+                        continue
+                    else:
+                        print("need to set",R['message'])
+                        continue
+
+        return a
+
     D['up'] = function_up
     D['down'] = function_down
     D['load'] = function_load
     D['save'] = function_save
     D['show'] = function_show
+    D['menu'] = function_menu
     return D
 
 
@@ -118,12 +156,16 @@ def is_meta_key(k):
     else:
         return True
 
+def clear_screen():
+    cr("\nclear screen\n")
+
 def show_menu(C):
     clear_screen()
     if '--keys--' in C:
         key_list = C['--keys--']
     else:
         key_list = ['no keys']
+    #cg(key_list,ra=1)
     cprint(
         '/'.join(key_list),
         attrs=['bold','reverse'],
@@ -140,11 +182,12 @@ def show_menu(C):
     else:
         s = '<up>'
     sorted_keys.insert(0,s)
+    #cy(sorted_keys,ra=1)
     cc = bl
     for i in rlen(sorted_keys):
         if i == 0 and s == '<top>':
             cb(s)
-            return ''
+            continue#return ''
         k = sorted_keys[i]
         val_color = lb
         v = ''
@@ -173,7 +216,7 @@ def show_menu(C):
                 cc = yl
 
         cb(bl,i,cc+k+colored.attr('res_underlined'),val_color,v,edited)
-    print sorted_keys
+    #print sorted_keys
     return sorted_keys
 
 
@@ -213,37 +256,46 @@ def Dic_Loader(path,wait_time=0.2):
 
 def choice(sorted_keys):
 
-    global ABORT
-
     raw_choice = raw_input(mg+'choice: '+lb)
 
     if raw_choice == '':
-        message = "other commands: 'load','save','q' (quit), 'p' (python)"
-        return message,'continue'
+        return {
+            'message':"other commands: 'load','save','q' (quit), 'p' (python)",
+            'action':'continue',
+        }
         
     if raw_choice == 'q':
-        message = "\ndone.\n"
-        ABORT = True
-        return message,'quit'
+        return {
+            'message':  "\ndone.\n",
+            'action':   'quit',
+        }
 
     if raw_choice == 'p':
         menu_python()
-        return '','continue'
+        return {
+            'message':  "ran python",
+            'action':   'continue',
+        }
 
     if str_is_int(raw_choice):
         choice = int(raw_choice)
     else:
-        message = d2s("*** choice","'"+raw_choice+"'",'is not an integer')
-        return message,'fail'
+        return {
+            'message':  d2s("*** choice","'"+raw_choice+"'",'is not an integer'),
+            'action':   'continue',
+        }
 
     if choice < 0 or choice+1 > len(sorted_keys):
-        message = '*** choice is out of range'
-        return message,'fail'
-
+        return {
+            'message':  '*** choice is out of range',
+            'action':   'continue',
+        }
     key_choice = sorted_keys[choice]
 
-    return key_choice,'choose'
-
+    return {
+        'message':  key_choice,
+        'action':   'choose',
+    }
 
 
 def menu_python():
@@ -364,7 +416,9 @@ def menu_python():
 from kzpy3.Commands.temp3 import Q
 D = Default_Values(Q,opjk('Commands'))
 D['show']()
-
+raw_enter()
+D['down']('tests')
+D['show']()
 #EOF
 
 
