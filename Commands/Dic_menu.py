@@ -30,7 +30,7 @@ def Default_Values(Q,project_path,parent_keys=[]):
             }
         else:
             return {
-                'message':  d2s('***','at <top>, cannot go up.'),
+                'message':  d2s('***','cannot go up.'),
                 'action':   'failure',
             }
     def function_down(key):
@@ -51,10 +51,14 @@ def Default_Values(Q,project_path,parent_keys=[]):
         return show_menu(key_access(D,D['current_keys']),message)
 
     def function_menu():
+        #D['load']()
         message = ''
         while True:
             items = D['show'](message)
-            R = choice(items)
+            while True:
+                R = choice(items)
+                if R['message'] != 'ran python':
+                    break
             #cb('R =',R)
             if R['action'] == 'quit':
                 cw("\ndone.\n")
@@ -71,6 +75,8 @@ def Default_Values(Q,project_path,parent_keys=[]):
                     S = D['up']()
                     message = S['message']
                     cb('S =',S)
+                elif R['message'] == '<top>':
+                    message = 'already at <top>'
                 else:
                     S = D['down'](R['message'])
                     #cb('S =',S)
@@ -78,9 +84,10 @@ def Default_Values(Q,project_path,parent_keys=[]):
                     if S['action'] == 'success':
                         continue
                     else:
-                        message = d2s("need to set",R['message'])
+                        K = key_access(D,D['current_keys'])
+                        #message = d2s("need to set",R['message'],'(',K[R['message']],')')
+                        message = set_value(D,R['message'])
                         continue
-
 
 
 
@@ -92,6 +99,25 @@ def Default_Values(Q,project_path,parent_keys=[]):
     D['menu'] = function_menu
     return D
 
+
+def set_value(D,key):
+    K = key_access(D,D['current_keys'])
+    if K['--mode--'] == 'const':
+        message = d2s(key,'is constant, not changed.')
+        return message
+    if K['--mode--'] == 'bash':
+        os.system(K[key])
+        raw_enter()
+        message = K[key]
+        return message
+    value = input(d2n("Enter value for '",key,"' (",K[key],"): "))
+    if type(value) != type(K[key]):
+        message = d2n("*** type(",value,") != type(",K[key],")")
+    else:
+        K[key] = value
+        message = d2n("set '",key,"' to ",value,'')
+        D['save']()
+    return message
 
 
 def key_access(Dic,keys,start=True):
@@ -168,8 +194,8 @@ def is_meta_key(k):
     else:
         return True
 
-def clear_screen():
-    cr("\nclear screen\n")
+#def clear_screen():
+#    cr("\nclear screen\n")
 
 def show_menu(C,message):
     clear_screen()
@@ -187,7 +213,7 @@ def show_menu(C,message):
     sorted_keys_ = sorted(C.keys())
     sorted_keys = []
     for k in sorted_keys_:
-        if True:#not is_meta_key(k):
+        if not is_meta_key(k):
             sorted_keys.append(k)
     if len(key_list) == 0:
         s = '<top>'
@@ -228,7 +254,7 @@ def show_menu(C,message):
                 cc = yl
 
         cb(bl,i,cc+k+colored.attr('res_underlined'),val_color,v,edited)
-    cw(message)
+    cg('$',message)
     #print sorted_keys
     return sorted_keys
 
@@ -269,7 +295,7 @@ def Dic_Loader(path,wait_time=0.2):
 
 def choice(sorted_keys):
 
-    raw_choice = raw_input(mg+'choice: '+lb)
+    raw_choice = raw_input(wh+'choice: '+lb)
 
     if raw_choice == '':
         return {
@@ -285,6 +311,7 @@ def choice(sorted_keys):
 
     if raw_choice == 'p':
         menu_python()
+        #return choice(sorted_keys)
         return {
             'message':  "ran python",
             'action':   'continue',
@@ -319,7 +346,7 @@ def menu_python():
             d[-1]=d2s('print(',d[-1],')')
         code = ';'.join(d)
         exec(code)
-        raw_enter()
+        #raw_enter()
         return ''
     except Exception as e:
         exc_type, exc_obj, exc_tb = sys.exc_info()

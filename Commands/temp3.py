@@ -2,9 +2,10 @@ from kzpy3.utils3 import *
 
 Q = {
 
-    'BARS':{
+    'CARS':{
         'a2Apr19_16April2019':{
             '--mode--':'bash',
+            'ls':                          'ls -al',
             'arduino_node':                'python kzpy3/Cars/a2Apr19_16April2019/nodes/arduino_node.py',
             'network_node':                'python kzpy3/Cars/a2Apr19_16April2019/nodes/network_node.py',
             'control_node':                'kzpy3/Cars/a2Apr19_16April2019/nodes/control_node.py',
@@ -26,7 +27,7 @@ Q = {
     },
     'miscellaneous':{
         '--mode--':'bash',
-        'pcal':     'python kzpy3/scripts/pcal wait True',
+        'pcal':     'python kzpy3/scripts/pcal',
     },
     'tests': {
         'a': 3.3,
