@@ -22,7 +22,7 @@ def Default_Values(Q,project_path,parent_keys=[]):
         load_C(D['Q'],D['project_path'])
         add_keys(D,['Q']+D['Q'])
     def function_up():
-        if len(D['current_keys']) > 1:
+        if len(D['current_keys']) > 0:
             D['current_keys'].pop()
             return {
                 'message':  'went up',
@@ -46,31 +46,43 @@ def Default_Values(Q,project_path,parent_keys=[]):
                 'message':  d2s('***',key,'not there, cannot go down to it.'),
                 'action':   'failure',
             } 
-    def function_show():
-        return show_menu(key_access(D,D['current_keys']))
+
+    def function_show(message=''):
+        return show_menu(key_access(D,D['current_keys']),message)
+
     def function_menu():
+        message = ''
         while True:
-            items = D['show']()
+            items = D['show'](message)
             R = choice(items)
-            cb('R =',R)
+            #cb('R =',R)
             if R['action'] == 'quit':
-                sys.exit()
+                cw("\ndone.\n")
+                return#sys.exit()
+            elif R['action'] == 'failure':
+                message = R['message']
+                continue
             elif R['action'] == 'continue':
+                message = 'continue'
                 continue
             elif R['action'] == 'choose':
+                
                 if R['message'] == '<up>':
                     S = D['up']()
+                    message = S['message']
                     cb('S =',S)
                 else:
                     S = D['down'](R['message'])
-                    cb('S =',S)
+                    #cb('S =',S)
+                    message = S['message']
                     if S['action'] == 'success':
                         continue
                     else:
-                        print("need to set",R['message'])
+                        message = d2s("need to set",R['message'])
                         continue
 
-        return a
+
+
 
     D['up'] = function_up
     D['down'] = function_down
@@ -159,7 +171,7 @@ def is_meta_key(k):
 def clear_screen():
     cr("\nclear screen\n")
 
-def show_menu(C):
+def show_menu(C,message):
     clear_screen()
     if '--keys--' in C:
         key_list = C['--keys--']
@@ -216,6 +228,7 @@ def show_menu(C):
                 cc = yl
 
         cb(bl,i,cc+k+colored.attr('res_underlined'),val_color,v,edited)
+    cw(message)
     #print sorted_keys
     return sorted_keys
 
@@ -282,13 +295,13 @@ def choice(sorted_keys):
     else:
         return {
             'message':  d2s("*** choice","'"+raw_choice+"'",'is not an integer'),
-            'action':   'continue',
+            'action':   'failure',
         }
 
     if choice < 0 or choice+1 > len(sorted_keys):
         return {
             'message':  '*** choice is out of range',
-            'action':   'continue',
+            'action':   'failure',
         }
     key_choice = sorted_keys[choice]
 
@@ -415,10 +428,8 @@ def menu_python():
 
 from kzpy3.Commands.temp3 import Q
 D = Default_Values(Q,opjk('Commands'))
-D['show']()
-raw_enter()
-D['down']('tests')
-D['show']()
+D['menu']()
+
 #EOF
 
 
