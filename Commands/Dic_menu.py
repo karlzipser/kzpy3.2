@@ -55,46 +55,55 @@ def Default_Values(Q,project_path,parent_keys=[],read_only=False):
     def function_show(message=''):
         clear_screen()
         print D['project_path'].replace(opjh(),'')
-        return show_menu(key_access(D,D['current_keys']),message)
+        return show_menu(key_access(D,D['current_keys']),message,D['parent_keys'])
 
     def function_menu():
         message = ''
         if not D['read_only']:
             D['save']()
-        while True:
-            D['load']()
-            items = D['show'](message)
+        try:
             while True:
-                R = make_choice(items)
-                if R['message'] != 'ran python':
-                    break
-            if R['action'] == 'quit':
-                cw("\ndone.\n")
-                return #sys.exit()
-            elif R['action'] == 'failure':
-                message = R['message']
-                continue
-            elif R['action'] == 'continue':
-                message = R['message'] #'continue'
-                continue
-            elif R['action'] == 'choose':
-                
-                if R['message'] == '<up>':
-                    S = D['up']()
-                    message = S['message']
-                    cb('S =',S)
-                elif R['message'] == '<top>':
-                    message = 'already at <top>'
-                else:
-                    S = D['down'](R['message'])
-                    message = S['message']
-                    if S['action'] == 'success':
-                        continue
-                    else:
-                        K = key_access(D,D['current_keys'])
-                        message = set_value(D,R['message'])
-                        continue
+                D['load']()
+                items = D['show'](message)
 
+                while True:
+                    R = make_choice(items)
+                    if R['message'] != 'ran python':
+                        break
+                if R['action'] == 'quit':
+                    cw("\ndone.\n")
+                    return #sys.exit()
+                elif R['action'] == 'failure':
+                    message = R['message']
+                    continue
+                elif R['action'] == 'continue':
+                    message = R['message'] #'continue'
+                    continue
+                elif R['action'] == 'choose':
+                    
+                    if R['message'] == '<up>':
+                        S = D['up']()
+                        message = S['message']
+                        cb('S =',S)
+                    elif R['message'] == '<top>':
+                        message = 'already at <top>'
+                    else:
+                        S = D['down'](R['message'])
+                        message = S['message']
+                        if S['action'] == 'success':
+                            continue
+                        else:
+                            K = key_access(D,D['current_keys'])
+                            message = set_value(D,R['message'])
+                            continue
+        except KeyboardInterrupt:
+            cr('*** KeyboardInterrupt ***')
+            sys.exit()
+        except Exception as e:
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            CS_('Exception!',emphasis=True)
+            CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
 
 
     D['up'] = function_up
@@ -217,23 +226,28 @@ def is_meta_key(k):
 def clear_screen():
     cr("\nclear screen\n")
 
-def show_menu(C,message):
+def show_menu(C,message,parent_keys=[]):
     if '--keys--' in C:
         key_list = C['--keys--']
     else:
         key_list = ['no keys']
+    """
     cprint(
         '/'+'/'.join(key_list),
         attrs=['bold','reverse'],
         color='white',
         on_color='on_blue'
+    )
+    """
+    cw(
+        bl+'/'.join(parent_keys)+'/'+wh+'/'.join(key_list),
     ) 
     sorted_keys_ = sorted(C.keys())
     sorted_keys = []
     for k in sorted_keys_:
         if not is_meta_key(k):
             sorted_keys.append(k)
-    if len(key_list) == 0:
+    if len(key_list) == 0 and len(parent_keys) == 0:
         s = '<top>'
     else:
         s = '<up>'
@@ -253,7 +267,6 @@ def show_menu(C,message):
                 for l in C[k]:
                     if not is_meta_key(l):
                         ctr += 1
-                #v = d2n(ctr)
                 v = ''
                 cc = wh+underlined
                 val_color = wh
@@ -392,7 +405,11 @@ if __name__ == '__main__':
     exec(exec_str)
 
     Dics[dic_project_path] = \
-        Default_Values(Q,dic_project_path,read_only=Arguments['read_only'])
+        Default_Values(
+            Q,
+            dic_project_path,
+            read_only=Arguments['read_only'],
+            parent_keys=['x','y','z'])
 
     if Arguments['read_only']:
         Dics[dic_project_path]['load']()
