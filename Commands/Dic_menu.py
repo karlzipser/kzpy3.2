@@ -137,7 +137,7 @@ def set_value(D,key):
 def key_access(Dic,keys,start=True):
     if start:
         keys_copy = []
-        for k in D['current_keys']:
+        for k in Dic['current_keys']:
             keys_copy.append(k)
         keys = keys_copy
     key = keys.pop(0)
@@ -380,10 +380,8 @@ if __name__ == '__main__':
         if d not in Arguments:
             Arguments[d] = Default_Args[d]
 
+    Dics = {}
 
-
-    #dic_path = Arguments['dic_path']
-    #dic_project_path = '/'.join(dic_path.split('/')[:-1])
     dic_project_path = Arguments['dic_project_path']
 
     exec_str = d2s(
@@ -392,17 +390,15 @@ if __name__ == '__main__':
         'import Q',
     )
     exec(exec_str)
-    D = Default_Values(Q,dic_project_path,read_only=Arguments['read_only'])
 
-    if False:
-        from kzpy3.Commands.temp3 import Q
-        D = Default_Values(Q,opjk('Commands'),read_only=Arguments['read_only'])
+    Dics[dic_project_path] = \
+        Default_Values(Q,dic_project_path,read_only=Arguments['read_only'])
 
     if Arguments['read_only']:
-        D['load']()
+        Dics[dic_project_path]['load']()
 
     if Arguments['menu']:
-        D['menu']()
+        Dics[dic_project_path]['menu']()
 
 
 
