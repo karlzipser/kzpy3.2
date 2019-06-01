@@ -6,9 +6,8 @@ import kzpy3.Menu_app.menu2 as menu2
 import default_values
 from subscribe import S
 import prediction_images
-#from kzpy3.Array_ import Array
-import kzpy3.Array_.Array
-import kzpy3.Array_.test_Array
+import kzpy3.Array.Array
+import kzpy3.Array.test_Array
 from sensor_msgs.msg import Image
 import cv_bridge
 exec(identify_file_str)
@@ -61,7 +60,11 @@ def load_parameters(P,customer='VT menu'):
 
 #Path_pts2D = prediction_images.Array(P['num Array pts'],2)
 Path_pts2D = kzpy3.Array_.Array.Array(P['num Array pts'],2)
-
+Path_pts2D['setup_plot'](
+    height_in_pixels=200,
+    width_in_pixels=200,
+    pixels_per_unit=P['pixels_per_unit'],
+)
 
 Pub = {}
 Pub['ldr_img'] = rospy.Publisher("/ldr_img"+P['topic_suffix'],Image,queue_size=1)
@@ -163,33 +166,37 @@ if __name__ == '__main__':
                 graphics_timer.reset()
 
                 Path_pts2D['show'](
-                    height_in_pixels=200,
-                    width_in_pixels=200,
-                    pixels_per_unit=P['pixels_per_unit'],
-                    x_origin_in_pixels=None,
-                    y_origin_in_pixels=None,
+                    use_CV2_plot=True,
                     use_maplotlib=False,
                     do_print=False,
                     clear=True,
-                    code=1,
                     color=(255/2,255/2,0),
+                    code=1,
                     show=False,
+                    grid=False,
+                    scale=1.0,
                 )
                 Path_pts2D['show'](
+                    use_CV2_plot=True,
                     use_maplotlib=False,
                     do_print=False,
                     clear=False,
-                    code=-1,
                     color=(255/2,0,0),
+                    code=-1,
                     show=False,
+                    grid=False,
+                    scale=1.0,
                 )
                 Path_pts2D['show'](
+                    use_CV2_plot=True,
                     use_maplotlib=False,
                     do_print=False,
                     clear=False,
-                    code=0,
                     color=(255,255,255),
+                    code=0,
                     show=True,
+                    grid=False,
+                    scale=1.0,
                 )
 
             if len(motors.keys()) > 0:
