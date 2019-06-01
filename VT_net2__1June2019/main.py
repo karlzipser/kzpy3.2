@@ -65,6 +65,19 @@ Path_pts2D['setup_plot'](
     width_in_pixels=200,
     pixels_per_unit=P['pixels_per_unit'],
 )
+Path_pts3D = kzpy3.Array.Array.Array(P['num Array pts'],2)
+height_in_pixels=94
+width_in_pixels=168
+x_origin_in_pixels=0
+y_origin_in_pixels=height_in_pixels
+pixels_per_unit=1
+Path_pts3D['setup_plot'](
+    height_in_pixels=height_in_pixels,
+    width_in_pixels=width_in_pixels,
+    x_origin_in_pixels=x_origin_in_pixels,
+    y_origin_in_pixels=y_origin_in_pixels,
+    pixels_per_unit=pixels_per_unit,
+)
 
 Pub = {}
 Pub['ldr_img'] = rospy.Publisher("/ldr_img"+P['topic_suffix'],Image,queue_size=1)
@@ -197,6 +210,14 @@ if __name__ == '__main__':
                     show=True,
                     grid=False,
                     scale=1.0,
+                )
+                Path_pts3D['to_3D'](Path_pts2D)
+                Path_pts3D['show'](
+                    do_print=False,
+                    use_maplotlib=False,
+                    grid=False,
+                    scale=1.0,
+                    color=(0,127,255),
                 )
 
             if len(motors.keys()) > 0:
