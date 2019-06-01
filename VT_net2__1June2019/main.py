@@ -6,7 +6,8 @@ import kzpy3.Menu_app.menu2 as menu2
 import default_values
 from subscribe import S
 import prediction_images
-from kzpy3.Array_ import Array
+#from kzpy3.Array_ import Array
+import kzpy3.Array_
 from sensor_msgs.msg import Image
 import cv_bridge
 exec(identify_file_str)
@@ -63,7 +64,7 @@ Pub = {}
 Pub['ldr_img'] = rospy.Publisher("/ldr_img"+P['topic_suffix'],Image,queue_size=1)
 
 if True:
-    A = Array(30,2);A['test'](1)
+    A = kzpy3.Array_.Array(30,2);A['test'](1)
 
 if __name__ == '__main__':
 
