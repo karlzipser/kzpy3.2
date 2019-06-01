@@ -39,7 +39,7 @@ rospy.Subscriber('/MODALITY_SIDE-TOPIC-SUFFIX', std_msgs.msg.Int32MultiArray, ca
 
 
         """
-        s = s.replace('MODALITY',modality).replace('SIDE',side).replace('-TOPIC-SUFFIX',default_values._['topic_suffix'])
+        s = s.replace('MODALITY',modality).replace('SIDE',side).replace('-TOPIC-SUFFIX',default_values.P['topic_suffix'])
         #print s
         exec(s)
 
@@ -90,7 +90,7 @@ def gyro_heading_x_callback(data):
 
 rospy.Subscriber(bcs+'gyro_heading', geometry_msgs.msg.Vector3, callback=gyro_heading_x_callback,queue_size=qs)
 
-if default_values._['graphics 3']:
+if default_values.P['graphics 3']:
 
     def left_callback(data):
         S['left_image'] = bridge.imgmsg_to_cv2(data,'rgb8')
