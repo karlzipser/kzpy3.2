@@ -359,7 +359,7 @@ def Array(max_len,n_dims):
     D['show'] = function_show
     return D
 
-if True:
+if False:
     A = Array(30,2);A['test'](1)
 ###
 ##############################################################
