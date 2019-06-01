@@ -66,7 +66,7 @@ Pub['ldr_img'] = rospy.Publisher("/ldr_img"+P['topic_suffix'],Image,queue_size=1
 
 if True:
     A = kzpy3.Array_.Array.Array(30,2)
-    kzpy3.Array_.Array.test_Array()
+    kzpy3.Array_.test_Array.test_Array()
 
 if __name__ == '__main__':
 
