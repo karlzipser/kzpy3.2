@@ -6,7 +6,7 @@ for k in CShowFile.keys():
     CShowFile[k] = False
 
 
-def Default_Values(Q,project_path,parent_keys=[],read_only=False):
+def Default_Values(Q,project_path,parent_keys=[],read_only=False,Dics={}):
     D = {}
     os.system('mkdir -p '+opj(project_path,'__local__'))
     D['project_path'] = project_path
@@ -16,6 +16,7 @@ def Default_Values(Q,project_path,parent_keys=[],read_only=False):
     D['current_keys'] = ['Q']
     D['Q'] = Q
     D['read_only'] = read_only
+    D['Dics'] = Dics
     if not read_only:
         os.system('rm '+D['.pkl'])
     add_keys(D,D['Q'])
@@ -94,7 +95,7 @@ def Default_Values(Q,project_path,parent_keys=[],read_only=False):
                             continue
                         else:
                             K = key_access(D,D['current_keys'])
-                            message = set_value(D,R['message'])
+                            message = set_value(D,R['message'])['message']
                             continue
         except KeyboardInterrupt:
             cr('*** KeyboardInterrupt ***')
@@ -119,19 +120,24 @@ def set_value(D,key):
     K = key_access(D,D['current_keys'])
     if K['--mode--'] == 'const':
         message = d2s(key,'is constant, not changed.')
-        return message
+        return {'message':message}
     if K['--mode--'] == 'bash':
         os.system(K[key])
         raw_enter()
         message = K[key]
-        return message
+        return {'message':message}
+    if K['--mode--'] == 'extern':
+        #cr('leaving',D['project_path'],'for',K[key],ra=1)
+        start_Dic(K[key],D['Dics'],parent_keys=D['current_keys'])
+        message = d2s('returned to',D['project_path'])
+        return {'message':message}
     if type(K[key]) == bool:
         yes_no = raw_input(d2n("Toggle '",key,"'? ([y]/n) "))
         if yes_no == 'y' or yes_no == '':
             value = not K[key]
         else:
             message = d2n("'",key,"' unchanged")
-            return message
+            return {'message':message}
     else:
         value = input(d2n("Enter value for '",key,"' (",K[key],"): "))
     if type(value) != type(K[key]):
@@ -140,7 +146,7 @@ def set_value(D,key):
         K[key] = value
         message = d2n("set '",key,"' to ",value,'')
         D['save']()
-    return message
+    return {'message':message}
 
 
 def key_access(Dic,keys,start=True):
@@ -378,7 +384,7 @@ def menu_python():
         exc_type, exc_obj, exc_tb = sys.exc_info()
         file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
         message = d2s('Exception!',exc_type,file_name,exc_tb.tb_lineno)
-        return message
+        return {'message':message}
 
 
 if __name__ == '__main__':
@@ -386,20 +392,20 @@ if __name__ == '__main__':
     Default_Args = {
         'menu':True,
         'read_only':False,
-        'dic_project_path':opjk('Commands/A'),
     }
 
     for d in Default_Args:
         if d not in Arguments:
             Arguments[d] = Default_Args[d]
 
+    
+
+    dic_project_path = opjk('Commands')
     Dics = {}
-
-    dic_project_path = Arguments['dic_project_path']
-
+    """
     exec_str = d2s(
         'from',
-        project_path__to__project_import_prefix(dic_project_path)+'.default_values',
+        project_path__to__project_import_prefix(dic_project_path)+'.defaults',
         'import Q',
     )
     exec(exec_str)
@@ -409,7 +415,30 @@ if __name__ == '__main__':
             Q,
             dic_project_path,
             read_only=Arguments['read_only'],
-            parent_keys=['x','y','z'])
+            parent_keys=[])
+
+    if Arguments['read_only']:
+        Dics[dic_project_path]['load']()
+
+    if Arguments['menu']:
+        Dics[dic_project_path]['menu']()
+    """
+
+def start_Dic(dic_project_path,Dics,parent_keys=[]):
+    if True:#dic_project_path not in Dics:
+        exec_str = d2s(
+            'from',
+            project_path__to__project_import_prefix(dic_project_path)+'.defaults',
+            'import Q',
+        )
+        exec(exec_str)
+        Dics[dic_project_path] = \
+            Default_Values(
+                Q,
+                dic_project_path,
+                read_only=Arguments['read_only'],
+                parent_keys=parent_keys,
+                Dics=Dics)
 
     if Arguments['read_only']:
         Dics[dic_project_path]['load']()
@@ -418,6 +447,12 @@ if __name__ == '__main__':
         Dics[dic_project_path]['menu']()
 
 
+start_Dic(dic_project_path=dic_project_path,Dics=Dics)
+
+
+
+
+#EOF
 
 
 
