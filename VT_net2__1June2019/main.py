@@ -217,6 +217,7 @@ if __name__ == '__main__':
                     use_maplotlib=False,
                     grid=False,
                     scale=1.0,
+                    clear=True,
                     color=(0,127,255),
                 )
 
