@@ -6,6 +6,7 @@ import kzpy3.Menu_app.menu2 as menu2
 import default_values
 from subscribe import S
 import prediction_images
+from kzpy3.Array import Array
 from sensor_msgs.msg import Image
 import cv_bridge
 exec(identify_file_str)
@@ -61,7 +62,7 @@ Path_pts2D = prediction_images.Array(P['num Array pts'],2)
 Pub = {}
 Pub['ldr_img'] = rospy.Publisher("/ldr_img"+P['topic_suffix'],Image,queue_size=1)
 
-if False:
+if True:
     A = Array(30,2);A['test'](1)
 
 if __name__ == '__main__':
