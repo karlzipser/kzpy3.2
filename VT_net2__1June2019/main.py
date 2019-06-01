@@ -8,6 +8,7 @@ from subscribe import S
 import prediction_images
 #from kzpy3.Array_ import Array
 import kzpy3.Array_.Array
+import kzpy3.Array_.test_Array
 from sensor_msgs.msg import Image
 import cv_bridge
 exec(identify_file_str)
