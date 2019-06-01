@@ -59,12 +59,14 @@ def load_parameters(P,customer='VT menu'):
 ##############################################################
 
 
-Path_pts2D = prediction_images.Array(P['num Array pts'],2)
+#Path_pts2D = prediction_images.Array(P['num Array pts'],2)
+Path_pts2D = kzpy3.Array_.Array.Array(P['num Array pts'],2)
+
 
 Pub = {}
 Pub['ldr_img'] = rospy.Publisher("/ldr_img"+P['topic_suffix'],Image,queue_size=1)
 
-if True:
+if False:
     A = kzpy3.Array_.Array.Array(30,2)
     kzpy3.Array_.test_Array.test_Array()
 
