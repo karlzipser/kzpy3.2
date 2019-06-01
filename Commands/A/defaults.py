@@ -46,6 +46,11 @@ Q = {
     'some data':{
         '--active--': opjD('a'),
     },
+    'W':{
+        '--mode--':'extern',
+        'A':opjk('Commands/A'),
+        'B':opjk('Commands/B'),
+    }
 }
 
 

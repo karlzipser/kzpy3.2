@@ -73,7 +73,7 @@ def Default_Values(Q,project_path,parent_keys=[],read_only=False,Dics={}):
                         break
                 if R['action'] == 'quit':
                     cw("\ndone.\n")
-                    return #sys.exit()
+                    sys.exit()#return
                 elif R['action'] == 'failure':
                     message = R['message']
                     continue
@@ -128,7 +128,7 @@ def set_value(D,key):
         return {'message':message}
     if K['--mode--'] == 'extern':
         #cr('leaving',D['project_path'],'for',K[key],ra=1)
-        start_Dic(K[key],D['Dics'],parent_keys=D['current_keys'])
+        start_Dic(K[key],D['Dics'],parent_keys=D['parent_keys']+D['current_keys'][1:]+[key])
         message = d2s('returned to',D['project_path'])
         return {'message':message}
     if type(K[key]) == bool:
@@ -139,7 +139,11 @@ def set_value(D,key):
             message = d2n("'",key,"' unchanged")
             return {'message':message}
     else:
-        value = input(d2n("Enter value for '",key,"' (",K[key],"): "))
+        try:
+            value = input(d2n("Enter value for '",key,"' (",K[key],"): "))
+        except:
+            message = d2s(key,'not changed')
+            return {'message':message}
     if type(value) != type(K[key]):
         message = d2n("*** type(",value,") != type(",K[key],")")
     else:
@@ -203,6 +207,7 @@ def load_C(C,project_path,name='default_values'):
 def save_C(C,project_path,name='default_values'):
     try:
         sys_str = d2s('rm',opj(project_path,'__local__','ready'))
+        print sys_str
         os.system(sys_str)
     except:
         cr(sys_str,"failed")
@@ -387,43 +392,6 @@ def menu_python():
         return {'message':message}
 
 
-if __name__ == '__main__':
-
-    Default_Args = {
-        'menu':True,
-        'read_only':False,
-    }
-
-    for d in Default_Args:
-        if d not in Arguments:
-            Arguments[d] = Default_Args[d]
-
-    
-
-    dic_project_path = opjk('Commands')
-    Dics = {}
-    """
-    exec_str = d2s(
-        'from',
-        project_path__to__project_import_prefix(dic_project_path)+'.defaults',
-        'import Q',
-    )
-    exec(exec_str)
-
-    Dics[dic_project_path] = \
-        Default_Values(
-            Q,
-            dic_project_path,
-            read_only=Arguments['read_only'],
-            parent_keys=[])
-
-    if Arguments['read_only']:
-        Dics[dic_project_path]['load']()
-
-    if Arguments['menu']:
-        Dics[dic_project_path]['menu']()
-    """
-
 def start_Dic(dic_project_path,Dics,parent_keys=[]):
     if True:#dic_project_path not in Dics:
         exec_str = d2s(
@@ -447,7 +415,22 @@ def start_Dic(dic_project_path,Dics,parent_keys=[]):
         Dics[dic_project_path]['menu']()
 
 
-start_Dic(dic_project_path=dic_project_path,Dics=Dics)
+if __name__ == '__main__':
+
+    Default_Args = {
+        'menu':True,
+        'read_only':False,
+    }
+
+    for d in Default_Args:
+        if d not in Arguments:
+            Arguments[d] = Default_Args[d]
+
+    dic_project_path = opjk('Commands')
+
+    Dics = {}
+
+    start_Dic(dic_project_path=dic_project_path,Dics=Dics)
 
 
 
