@@ -7,7 +7,7 @@ import default_values
 from subscribe import S
 import prediction_images
 #from kzpy3.Array_ import Array
-import kzpy3.Array_
+import kzpy3.Array_.Array
 from sensor_msgs.msg import Image
 import cv_bridge
 exec(identify_file_str)
