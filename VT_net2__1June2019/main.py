@@ -58,16 +58,16 @@ def load_parameters(P,customer='VT menu'):
 ##############################################################
 ##############################################################
 
-
+cm(0,ra=1)
 Path_pts2D = prediction_images.Array(P['num Array pts'],2)
 
 Pub = {}
 Pub['ldr_img'] = rospy.Publisher("/ldr_img"+P['topic_suffix'],Image,queue_size=1)
-
+cm(1,ra=1)
 if True:
     A = kzpy3.Array_.Array.Array(30,2)
     kzpy3.Array_.test_Array.test_Array()
-
+cm(2,ra=1)
 if __name__ == '__main__':
 
     graphics_timer = Timer(P['graphics_timer time'])
@@ -75,7 +75,7 @@ if __name__ == '__main__':
     err_timer = Timer(5)
     ts = time.time()
     gyro_heading_x = 0
-    
+    cm(3,ra=1)
     Prediction2D_plot = CV2Plot(height_in_pixels=141,width_in_pixels=62,pixels_per_unit=7,y_origin_in_pixels=41)
 
     Prediction2D_plot['verbose'] = False
@@ -84,9 +84,9 @@ if __name__ == '__main__':
 
     path_pts2D = []
 
-    
+    cm(4,ra=1)
     while not P['ABORT']:
-
+        cm(0,ra=1)
         if delay_timer.check():
             delay_timer.reset()
         else:
