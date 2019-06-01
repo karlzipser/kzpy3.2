@@ -166,11 +166,11 @@ def get__pts2D_multi_step(d_heading,encoder,sample_frequency,headings,encoders,m
 
 
 
-def point_in_3D_to_point_in_2D(a):
+def point_in_3D_to_point_in_2D(a,backup_parameter=1.):
     if a[1]<0:
         return False,False
 
-    b = fit3d.Point3(a[0], 0, a[1]-P['backup parameter'])
+    b = fit3d.Point3(a[0], 0, a[1]-backup_parameter)
     c = fit3d.project(b, fit3d.mat)
 
     if c.x < 0 or c.x >= 168:
