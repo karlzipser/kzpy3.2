@@ -59,7 +59,7 @@ def load_parameters(P,customer='VT menu'):
 
 
 #Path_pts2D = prediction_images.Array(P['num Array pts'],2)
-Path_pts2D = kzpy3.Array_.Array.Array(P['num Array pts'],2)
+Path_pts2D = kzpy3.Array.Array.Array(P['num Array pts'],2)
 Path_pts2D['setup_plot'](
     height_in_pixels=200,
     width_in_pixels=200,
