@@ -6,7 +6,7 @@ import kzpy3.Menu_app.menu2 as menu2
 import default_values
 from subscribe import S
 import prediction_images
-from kzpy3.Array import Array
+from kzpy3.Array_ import Array
 from sensor_msgs.msg import Image
 import cv_bridge
 exec(identify_file_str)
