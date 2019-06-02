@@ -164,7 +164,7 @@ def Array(
             )
             if c[0] != False:
                 D['append'](
-                    na([c[0],D['plot']['height_in_pixels']-c[1]])
+                    na([c[0],D['plot']['height_in_pixels']-c[1]]),
                     code=code,
                     dic_info=dic_info
                 )
