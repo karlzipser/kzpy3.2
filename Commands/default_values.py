@@ -1,5 +1,5 @@
 #
-
+from kzpy3.utils3 import *
 
 _ = {
 
@@ -17,6 +17,8 @@ _ = {
                 'rosplay_menu.py task hz':'rosplay_menu.py task hz',
                 'VT menu':'python kzpy3/Menu_app/menu2.py path kzpy3/VT_net2__5April2019_2__18April2019_for_speed dic _',
                 'pgp':'cd ~/kzpy3; git pull; cd',
+                'VT_net2__1June2019':'python kzpy3/VT_net2__1June2019/main.py',
+                'VT_net2__1June2019 menu':'python kzpy3/Menu_app/menu2.py path kzpy3/VT_net2__1June2019 dic P',
             },
             'a2Apr19_16April2019_mess_with':{
                 'network_node':'python kzpy3/Cars/a2Apr19_16April2019_mess_with/nodes/network_node.py',
@@ -52,8 +54,7 @@ _ = {
 
         },
         'miscellaneous':{
-            'pcal (other terminal)':'@ python kzpy3/scripts/pcal.py wait True',
-            'pcal':' python kzpy3/scripts/pcal.py wait True',
+            'pcal':'python '+opjk('scripts/pcal'),
             'view weights 32x1':"gnome-terminal --tab -e 'python kzpy3/Train_app/Sq120_ldr_output_32x1/view_weights.py'"
         },
 

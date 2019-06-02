@@ -183,7 +183,7 @@ if __name__ == '__main__':
                     use_maplotlib=False,
                     do_print=False,
                     clear=True,
-                    color=(255/2,255/2,0),
+                    color=(255,255,0),
                     code=1,
                     show=False,
                     grid=False,
@@ -194,7 +194,7 @@ if __name__ == '__main__':
                     use_maplotlib=False,
                     do_print=False,
                     clear=False,
-                    color=(255/2,0,0),
+                    color=(255,0,0),
                     code=-1,
                     show=False,
                     grid=False,
@@ -211,6 +211,7 @@ if __name__ == '__main__':
                     grid=False,
                     scale=1.0,
                 )
+
                 Path_pts3D['to_3D'](Path_pts2D)
                 Path_pts3D['show'](
                     do_print=False,
@@ -218,8 +219,32 @@ if __name__ == '__main__':
                     grid=False,
                     scale=1.0,
                     clear=True,
-                    color=(0,127,255),
+                    code=1,
+                    color=(0,255,0), #(0,127,255),
+                    show=False,
                     background_image=S['left_image'],
+                )
+                Path_pts3D['show'](
+                    do_print=False,
+                    use_maplotlib=False,
+                    grid=False,
+                    scale=1.0,
+                    clear=False,
+                    code=-1,
+                    color=(255,0,0), #(0,127,255),
+                    show=False,
+                    #background_image=S['left_image'],
+                )
+                Path_pts3D['show'](
+                    do_print=False,
+                    use_maplotlib=False,
+                    grid=False,
+                    scale=1.0,
+                    clear=False,
+                    code=0,
+                    color=(255,255,255), #(0,127,255),
+                    show=True,
+                    #background_image=S['left_image'],
                 )
 
             if len(motors.keys()) > 0:

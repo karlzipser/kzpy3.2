@@ -154,6 +154,8 @@ def Array(
     def function_to_3D(A):
         D['ctr'] = 0
         for j in range(A['ctr']):
+            code = A['code'][j]
+            dic_info = A['keys'][j]
             a = A['array'][j,:]
             c = fit3d.point_in_3D_to_point_in_2D(
                 a,
@@ -161,7 +163,12 @@ def Array(
                 width_in_pixels = D['plot']['width_in_pixels']
             )
             if c[0] != False:
-                D['append'](na([c[0],D['plot']['height_in_pixels']-c[1]]))
+                D['append'](
+                    na([c[0],D['plot']['height_in_pixels']-c[1]])
+                    code=code,
+                    dic_info=dic_info
+                )
+
 
 
 
