@@ -111,11 +111,13 @@ def Array(
         grid=True,
         scale=1.0,
     ):
-        max_len = min(D['ctr'],D['max_len'])
+        mx = min(D['ctr'],D['max_len'])
+        cr(mx,D['ctr'],D['max_len'])
+        
         if code == None:
-            the_array = D['array'][:max_len,:]
+            the_array = D['array'][:,:]
         else:
-            the_array = D['array'][D['code']==code][:max_len,:]
+            the_array = D['array'][D['code']==code][:mx,:]
 
         if clear:
             D['plot']['clear']()
@@ -143,6 +145,7 @@ def Array(
 
 
     def function_to_3D(A):
+        D['ctr'] = 0
         for j in range(A['ctr']):
             a = A['array'][j,:]
             c = fit3d.point_in_3D_to_point_in_2D(
