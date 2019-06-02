@@ -423,9 +423,6 @@ def adjusted_camera():
 
     new_camera = bound_value(intr(C['net/camera/smooth']),0,99)
 
-    if C['human_agent']:
-        new_camera = 49
-        
     C['new_camera'] = new_camera
 
     #C['new_camera'] = P['temp_camera']
