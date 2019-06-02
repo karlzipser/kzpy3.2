@@ -123,8 +123,8 @@ def Array(
         if clear:
             if type(background_image) != type(None):
                 #cg("1111111")
-                assert shape(D['plot']['img']) == shape(background_image)
-                D['plot']['img'] = background_image
+                assert shape(D['plot']['image']) == shape(background_image)
+                D['plot']['image'] = background_image
                 #mci(background_image,title='l')
             else:
                 D['plot']['clear']()
