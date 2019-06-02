@@ -111,10 +111,11 @@ def Array(
         grid=True,
         scale=1.0,
     ):
+        max_len = min(D['ctr'],D['max_len'])
         if code == None:
-            the_array = D['array']
+            the_array = D['array'][:max_len,:]
         else:
-            the_array = D['array'][D['code']==code]
+            the_array = D['array'][D['code']==code][:max_len,:]
 
         if clear:
             D['plot']['clear']()
