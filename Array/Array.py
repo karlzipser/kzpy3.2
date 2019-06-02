@@ -128,7 +128,7 @@ def Array(
                 mci(background_image,title='l')
             else:
                 D['plot']['clear']()
-                cg("1111111")
+                cg("2222222")
         if grid:
             D['plot']['grid'](c=[127,63,0])
 
