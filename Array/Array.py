@@ -121,7 +121,7 @@ def Array(
             the_array = D['array'][D['code']==code][:mx,:]
 
         if clear:
-            if background_image != None:
+            if type(background_image) != type(None):
                 #cg("1111111")
                 assert shape(D['plot']['img']) == shape(background_image)
                 D['plot']['img'] = background_image
