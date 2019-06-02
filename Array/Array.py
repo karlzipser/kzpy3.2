@@ -110,9 +110,10 @@ def Array(
         show=True,
         grid=True,
         scale=1.0,
+        background_image=None
     ):
         mx = min(D['ctr'],D['max_len'])
-        cr(mx,D['ctr'],D['max_len'])
+        #cr(mx,D['ctr'],D['max_len'])
         
         if code == None:
             the_array = D['array'][:mx,:]
@@ -120,7 +121,11 @@ def Array(
             the_array = D['array'][D['code']==code][:mx,:]
 
         if clear:
-            D['plot']['clear']()
+            if background_image:
+                assert shape(D['plot']['img']) = shape(background_image)
+                D['plot']['img'] = background_image
+            else:
+                D['plot']['clear']()
 
         if grid:
             D['plot']['grid'](c=[127,63,0])

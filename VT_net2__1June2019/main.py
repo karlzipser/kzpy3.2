@@ -219,6 +219,7 @@ if __name__ == '__main__':
                     scale=1.0,
                     clear=True,
                     color=(0,127,255),
+                    background_image=S['left_image'],
                 )
 
             if len(motors.keys()) > 0:
