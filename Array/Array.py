@@ -121,14 +121,14 @@ def Array(
             the_array = D['array'][D['code']==code][:mx,:]
 
         if clear:
-            if background_image:
-                cg("1111111")
+            if background_image != None:
+                #cg("1111111")
                 assert shape(D['plot']['img']) == shape(background_image)
                 D['plot']['img'] = background_image
-                mci(background_image,title='l')
+                #mci(background_image,title='l')
             else:
                 D['plot']['clear']()
-                cg("2222222")
+                #cg("2222222")
         if grid:
             D['plot']['grid'](c=[127,63,0])
 
