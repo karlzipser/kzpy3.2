@@ -122,11 +122,13 @@ def Array(
 
         if clear:
             if background_image:
+                cg("1111111")
                 assert shape(D['plot']['img']) == shape(background_image)
                 D['plot']['img'] = background_image
+                mci(background_image,title='l')
             else:
                 D['plot']['clear']()
-
+                cg("1111111")
         if grid:
             D['plot']['grid'](c=[127,63,0])
 
