@@ -94,6 +94,10 @@ if default_values.P['graphics 3']:
 
     def left_callback(data):
         S['left_image'] = bridge.imgmsg_to_cv2(data,'rgb8')
+if True:
+
+    def left_callback(data):
+        S['left_image'] = bridge.imgmsg_to_cv2(data,'rgb8')
 
 
     rospy.Subscriber(bcs+"zed/left/image_rect_color",Image,left_callback,queue_size=qs)
