@@ -115,7 +115,7 @@ def Array(
         cr(mx,D['ctr'],D['max_len'])
         
         if code == None:
-            the_array = D['array'][:,:]
+            the_array = D['array'][:mx,:]
         else:
             the_array = D['array'][D['code']==code][:mx,:]
 
