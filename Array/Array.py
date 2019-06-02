@@ -122,7 +122,7 @@ def Array(
 
         if clear:
             if background_image:
-                assert shape(D['plot']['img']) = shape(background_image)
+                assert shape(D['plot']['img']) == shape(background_image)
                 D['plot']['img'] = background_image
             else:
                 D['plot']['clear']()
