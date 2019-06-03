@@ -183,6 +183,21 @@ def point_in_3D_to_point_in_2D(a,backup_parameter=1.):
 
 ##############################################################
 ###
+
+
+
+def non_linear_fit(vel):
+    q = 4.078*vel + 2.978
+    if q > 5.75:
+        return 5.75
+    elif q < 0:
+        return 0
+    else:
+        return q
+def non_linear_correction(vel):
+    return 5.75/non_linear_fit(vel)
+
+
 def get__path_pts2D(
     d_heading,
     encoder,
@@ -194,6 +209,7 @@ def get__path_pts2D(
 ):
     # 226.5 inches = 5.75 meters, .338 meters per tile
     velocity = encoder * P['vel-encoding coeficient'] * direction
+    velocity = non_linear_correction(velocity)
 
     P['velocity'] = velocity
 
