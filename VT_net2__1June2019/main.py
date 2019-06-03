@@ -206,7 +206,7 @@ if __name__ == '__main__':
                     color=(255,255,255),
                     code=0,
                     show=True,
-                    grid=False,
+                    grid=True,
                     scale=1.0,
                 )
 
@@ -214,7 +214,7 @@ if __name__ == '__main__':
                 Path_pts3D['show'](
                     do_print=False,
                     use_maplotlib=False,
-                    grid=True,
+                    grid=False,
                     scale=1.0,
                     clear=True,
                     code=1,
