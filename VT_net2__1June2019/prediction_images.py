@@ -209,7 +209,7 @@ def get__path_pts2D(
 ):
     # 226.5 inches = 5.75 meters, .338 meters per tile
     velocity = encoder * P['vel-encoding coeficient'] * direction
-    velocity = non_linear_correction(velocity)
+    velocity = non_linear_correction(velocity) * velocity
 
     P['velocity'] = velocity
 
