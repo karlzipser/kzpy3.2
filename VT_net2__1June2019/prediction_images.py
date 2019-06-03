@@ -192,14 +192,14 @@ def get__path_pts2D(
     Path_pts2D,
     P
 ):
-
+    # 226.5 inches = 5.75 meters, .338 meters per tile
     velocity = encoder * P['vel-encoding coeficient'] * direction
 
     magnitude = velocity / sample_frequency
 
     trajectory_vector = na([0,1]) * magnitude
 
-    P['distance'] += magnitude
+    P['distance'] += magnitude# / sample_frequency
 
     try:
         Path_pts2D['rotate'](-d_heading / sample_frequency * P['d_heading_multiplier'])
