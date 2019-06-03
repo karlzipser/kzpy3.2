@@ -195,6 +195,8 @@ def get__path_pts2D(
     # 226.5 inches = 5.75 meters, .338 meters per tile
     velocity = encoder * P['vel-encoding coeficient'] * direction
 
+    P['velocity'] = velocity
+
     magnitude = velocity / sample_frequency
 
     trajectory_vector = na([0,1]) * magnitude

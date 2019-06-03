@@ -244,7 +244,7 @@ if __name__ == '__main__':
                     show=True,
                     #background_image=S['left_image'],
                 )
-                print(dp(P['distance']))
+                print(dp(P['distance']),dp(P['velocity']))
             if len(motors.keys()) > 0:
                 (
                     Prediction2D_plot,
