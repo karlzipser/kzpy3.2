@@ -210,7 +210,7 @@ if __name__ == '__main__':
                     scale=1.0,
                 )
 
-                Path_pts3D['to_3D'](Path_pts2D)
+                Path_pts3D['to_3D'](Path_pts2D,P['backup parameter'])
                 Path_pts3D['show'](
                     do_print=False,
                     use_maplotlib=False,

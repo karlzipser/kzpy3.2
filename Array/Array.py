@@ -151,7 +151,7 @@ def Array(
                 spause()
 
 
-    def function_to_3D(A):
+    def function_to_3D(A,backup_parameter=1.0):
         D['ctr'] = 0
         for j in range(A['ctr']):
             code = A['code'][j]
@@ -160,7 +160,8 @@ def Array(
             c = fit3d.point_in_3D_to_point_in_2D(
                 a,
                 height_in_pixels = D['plot']['height_in_pixels'],
-                width_in_pixels = D['plot']['width_in_pixels']
+                width_in_pixels = D['plot']['width_in_pixels'],
+                backup_parameter=backup_parameter,
             )
             if c[0] != False:
                 D['append'](
