@@ -64,6 +64,7 @@ def get_prediction_images_3D(pts2D_1step_list,img,P):
                         r = 1
         
                 b = fit3d.Point3(a[0], 0, a[1]-P['backup parameter'])
+                cg(P['backup parameter'])
                 c = fit3d.project(b, fit3d.mat)
 
                 try:
