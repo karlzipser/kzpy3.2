@@ -190,8 +190,8 @@ def non_linear_fit(vel):
     q = 4.078*vel + 2.978
     if q > 5.75:
         return 5.75
-    elif q < 0:
-        return 0
+    elif q < 0.25:
+        return 0.25
     else:
         return q
 def non_linear_correction(vel):
