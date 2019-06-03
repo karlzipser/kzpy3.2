@@ -12,11 +12,11 @@ P['To Expose'] = {}
 ###############################################3
 
 # walking pace ~= 1.4 m/s
+P['distance'] = 0.
 P['graphics 1'] = False
 P['graphics 2'] = True
 P['graphics 3'] = False
-P['pixels_per_unit'] = 10.
-P['num Array pts'] = 300
+P['vel-encoding coeficient'] = (1.0/2.3)
 P['graphics_timer time'] = 1/4.
 P['save metadata'] = False
 P['step_size'] = 1
@@ -49,11 +49,12 @@ P['dst path'] = opjD('Data/Network_Predictions_projected_gain_2')
 P['timer'] = Timer(5)
 P['vec sample frequency'] = 3.33
 P['start menu automatically'] = False
-P['vel-encoding coeficient'] = (1.0/2.3)
 P['show timer'] = Timer(P['show timer time'])
 P['wait for start signal'] = False
 P['index'] = P['initial index']
 P['topic_suffix'] = ''
 P['behavioral_mode_list'] = ['left','direct','right']
+P['pixels_per_unit'] = 10.
+P['num Array pts'] = 300
 
 #EOF

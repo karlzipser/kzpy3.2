@@ -58,7 +58,6 @@ def load_parameters(P,customer='VT menu'):
 ##############################################################
 
 
-#Path_pts2D = prediction_images.Array(P['num Array pts'],2)
 Path_pts2D = kzpy3.Array.Array.Array(P['num Array pts'],2)
 Path_pts2D['setup_plot'](
     height_in_pixels=200,
@@ -138,7 +137,6 @@ if __name__ == '__main__':
             direction = 1.
             if motor < 49:
                 direction = -1.
-            #print direction,dp(encoder,1),motor,S['cmd/motor'],S['motor']
 
             ts_prev = ts
             ts = time.time()
@@ -246,7 +244,7 @@ if __name__ == '__main__':
                     show=True,
                     #background_image=S['left_image'],
                 )
-
+                print(dp(P['distance']))
             if len(motors.keys()) > 0:
                 (
                     Prediction2D_plot,
