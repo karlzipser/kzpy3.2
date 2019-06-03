@@ -214,7 +214,7 @@ if __name__ == '__main__':
                 Path_pts3D['show'](
                     do_print=False,
                     use_maplotlib=False,
-                    grid=False,
+                    grid=True,
                     scale=1.0,
                     clear=True,
                     code=1,
@@ -236,7 +236,7 @@ if __name__ == '__main__':
                 Path_pts3D['show'](
                     do_print=False,
                     use_maplotlib=False,
-                    grid=False,
+                    grid=True,
                     scale=1.0,
                     clear=False,
                     code=0,
@@ -245,6 +245,7 @@ if __name__ == '__main__':
                     #background_image=S['left_image'],
                 )
                 print(dp(P['distance']),dp(P['velocity']))
+
             if len(motors.keys()) > 0:
                 (
                     Prediction2D_plot,

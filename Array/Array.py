@@ -153,6 +153,7 @@ def Array(
 
     def function_to_3D(A,backup_parameter=1.0):
         D['ctr'] = 0
+        D['data'] *= 0
         for j in range(A['ctr']):
             code = A['code'][j]
             dic_info = A['keys'][j]
@@ -169,6 +170,7 @@ def Array(
                     code=code,
                     dic_info=dic_info
                 )
+        cm("function_to_3D,D['ctr'] =",D['ctr'])
 
 
 
