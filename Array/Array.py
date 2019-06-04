@@ -216,7 +216,7 @@ def Array(
                     code=code,
                     dic_info=dic_info
                 )
-        cm("function_to_3D,D['ctr'] =",D['ctr'])
+        #cm("function_to_3D,D['ctr'] =",D['ctr'])
 
 
 

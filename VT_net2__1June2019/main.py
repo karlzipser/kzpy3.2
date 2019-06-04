@@ -290,7 +290,7 @@ if __name__ == '__main__':
                     background_image=S['left_image'],
                 )
 
-                print(dp(P['distance']),dp(P['velocity']))
+                cg(dp(P['distance']),dp(P['velocity']))
 
             if len(motors.keys()) > 0:
                 (
