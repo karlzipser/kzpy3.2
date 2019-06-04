@@ -204,6 +204,7 @@ if __name__ == '__main__':
                 graphics_timer.time_s = P['graphics_timer time']
                 graphics_timer.reset()
 
+                Path_pts2D['check_ts'](30)
                 Path_pts2D['show'](
                     use_CV2_plot=True,
                     use_maplotlib=False,

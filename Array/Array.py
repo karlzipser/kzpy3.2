@@ -73,15 +73,15 @@ def Array(
 
         found = False
         for i in range(ctr):
-            cg(i,D['keys'][i],D['Dic'][D['keys'][i]])
+            #cg(i,D['keys'][i],D['Dic'][D['keys'][i]])
             ts = D['Dic'][D['keys'][i]]['time']
-            print now,ts,now-ts,i
-            cm(dp(now - ts))
+            #print now,ts,now-ts,i
+            #cm(dp(now - ts))
             if now - ts <= t:
                 found = True
                 break
         if found:
-            cm(ctr-i,i,ctr)
+            #cm(ctr-i,i,ctr)
             D['data'][:ctr-i,:] = D['data'][i:ctr,:]
             D['data'][ctr-i:,:] = 0
             D['ctr'] = ctr-i
