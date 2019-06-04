@@ -73,6 +73,8 @@ def Array(
 
         found = False
         for i in range(ctr):
+            cg(i,D['keys'][i])
+            cb(D['Dic'][D['keys'][i]])
             ts = D['Dic'][D['keys'][i]]['time']
             print now,ts,now-ts,i
             cm(dp(now - ts))
