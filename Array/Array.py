@@ -206,14 +206,14 @@ def Array(
             a = A['array'][j,:]
             if 'a_prev' in locals():
                 dist = np.sqrt((a[0]-a_prev[0])**2+(a[1]-a_prev[1])**2)
-                cy(ctr,dp(dist),dp(min_dist))
+                cy(D['ctr'],dp(dist),dp(min_dist))
             if min_dist > 0 and D['ctr'] > 0:#j > 0:
                 dist = np.sqrt((a[0]-a_prev[0])**2+(a[1]-a_prev[1])**2)
                 if dist < min_dist:
-                    cr(ctr,dp(dist),dp(min_dist))
+                    cr(dp(dist),dp(min_dist))
                     continue
                 else:
-                    cg(ctr,dp(dist),dp(min_dist))
+                    cg(dp(dist),dp(min_dist))
             c = fit3d.point_in_3D_to_point_in_2D(
                 a,
                 height_in_pixels = D['plot']['height_in_pixels'],
