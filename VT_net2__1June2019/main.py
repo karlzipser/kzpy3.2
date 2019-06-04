@@ -275,14 +275,14 @@ if __name__ == '__main__':
                 )
 
                 Barrier_pts3D['to_3D'](Path_pts2D,P['backup parameter'])
-                Barrier_pts3D['check_ts'](5)
+                #Barrier_pts3D['check_ts'](5)
                 Barrier_pts3D['show'](
                     do_print=False,
                     use_maplotlib=False,
                     use_CV2_circles=True,
                     grid=True,
                     scale=1.0,
-                    clear=False,
+                    clear=True,
                     code=0,
                     color=(255,255,255), #(0,127,255),
                     show=True,
