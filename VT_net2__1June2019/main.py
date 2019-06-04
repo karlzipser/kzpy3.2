@@ -73,6 +73,7 @@ Path_pts2D['setup_plot'](
     width_in_pixels=200,
     pixels_per_unit=P['pixels_per_unit'],
 )
+
 Path_pts3D = kzpy3.Array.Array.Array(P['num Array pts'],2)
 height_in_pixels=94
 width_in_pixels=168
@@ -86,6 +87,21 @@ Path_pts3D['setup_plot'](
     y_origin_in_pixels=y_origin_in_pixels,
     pixels_per_unit=pixels_per_unit,
 )
+
+Barrier_pts3D = kzpy3.Array.Array.Array(5,2)
+height_in_pixels=94
+width_in_pixels=168
+x_origin_in_pixels=0
+y_origin_in_pixels=height_in_pixels
+pixels_per_unit=1
+Barrier_pts3D['setup_plot'](
+    height_in_pixels=height_in_pixels,
+    width_in_pixels=width_in_pixels,
+    x_origin_in_pixels=x_origin_in_pixels,
+    y_origin_in_pixels=y_origin_in_pixels,
+    pixels_per_unit=pixels_per_unit,
+)
+
 
 Pub = {}
 Pub['ldr_img'] = rospy.Publisher("/ldr_img"+P['topic_suffix'],Image,queue_size=1)
@@ -248,7 +264,7 @@ if __name__ == '__main__':
                 Path_pts3D['show'](
                     do_print=False,
                     use_maplotlib=False,
-                    use_CV2_circles=True,
+                    use_CV2_circles=False,
                     grid=True,
                     scale=1.0,
                     clear=False,
@@ -257,6 +273,22 @@ if __name__ == '__main__':
                     show=True,
                     #background_image=S['left_image'],
                 )
+
+                Barrier_pts3D['to_3D'](Path_pts2D,P['backup parameter'])
+                Barrier_pts3D['check_ts'](5)
+                Barrier_pts3D['show'](
+                    do_print=False,
+                    use_maplotlib=False,
+                    use_CV2_circles=True,
+                    grid=True,
+                    scale=1.0,
+                    clear=False,
+                    code=0,
+                    color=(255,255,255), #(0,127,255),
+                    show=True,
+                    background_image=S['left_image'],
+                )
+
                 print(dp(P['distance']),dp(P['velocity']))
 
             if len(motors.keys()) > 0:

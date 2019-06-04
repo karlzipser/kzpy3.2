@@ -225,7 +225,11 @@ def get__path_pts2D(
     except:
         pass
 
-    Path_pts2D['append'](trajectory_vector,value,{'velocity':velocity})
+    Path_pts2D['append'](
+        trajectory_vector,
+        value,
+        {'time':time.time(),'velocity':velocity}
+    )
 
     Path_pts2D['zero']()
 
