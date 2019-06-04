@@ -170,7 +170,7 @@ if __name__ == '__main__':
                 value = 1
             else:
                 value = -1
-            pop = True
+            pop = False #True
             if value == 0:
                 pop = False
             prediction_images.get__path_pts2D(
