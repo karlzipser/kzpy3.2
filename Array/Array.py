@@ -209,7 +209,7 @@ def Array(
                 if dist < min_dist:
                     #cr(dist)
                     continue
-                else:
+                #else:
                     #cg(dist)
             c = fit3d.point_in_3D_to_point_in_2D(
                 a,
