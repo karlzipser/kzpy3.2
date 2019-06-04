@@ -1,6 +1,6 @@
 from kzpy3.vis3 import *
-
 import kzpy3.misc.fit3d as fit3d#_torch as fit3d
+exec(identify_file_str)
 
 ##############################################################
 ##############################################################

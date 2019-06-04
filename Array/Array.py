@@ -1,6 +1,6 @@
 from kzpy3.vis3 import *
 import fit3d
-
+exec(identify_file_str)
 
 def Array(
     max_len,
@@ -204,13 +204,13 @@ def Array(
             code = A['code'][j]
             dic_info = A['Dic'][A['keys'][j]]
             a = A['array'][j,:]
-            if min_dist > 0 and j > 0:
+            if min_dist > 0 and D['ctr'] > 0:#j > 0:
                 dist = np.sqrt((a[0]-a_prev[0])**2+(a[1]-a_prev[1])**2)
                 if dist < min_dist:
-                    cr(dist)
+                    cr(dp(dist),dp(min_dist))
                     continue
                 else:
-                    cg(dist)
+                    cg(dp(dist),dp(min_dist))
             c = fit3d.point_in_3D_to_point_in_2D(
                 a,
                 height_in_pixels = D['plot']['height_in_pixels'],
