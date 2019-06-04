@@ -73,7 +73,7 @@ def Array(
 
         found = False
         for i in range(ctr):
-            #cg(i,D['keys'][i],D['Dic'][D['keys'][i]],D['Dic'][D['keys'][i]])
+            cg(i,D['keys'][i],D['Dic'][D['keys'][i]])
             ts = D['Dic'][D['keys'][i]]['time']
             print now,ts,now-ts,i
             cm(dp(now - ts))
@@ -202,7 +202,7 @@ def Array(
         D['data'] *= 0
         for j in range(A['ctr']):
             code = A['code'][j]
-            dic_info = A['keys'][j]
+            dic_info = A['Dic'][A['keys'][j]]
             a = A['array'][j,:]
             c = fit3d.point_in_3D_to_point_in_2D(
                 a,
