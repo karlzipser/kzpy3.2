@@ -204,9 +204,9 @@ def Array(
             code = A['code'][j]
             dic_info = A['Dic'][A['keys'][j]]
             a = A['array'][j,:]
-            if 'a_prev' in locals():
-                dist = np.sqrt((a[0]-a_prev[0])**2+(a[1]-a_prev[1])**2)
-                cy(D['ctr'],dp(dist),dp(min_dist))
+            #if 'a_prev' in locals():
+            #    dist = np.sqrt((a[0]-a_prev[0])**2+(a[1]-a_prev[1])**2)
+            #    cy(D['ctr'],dp(dist),dp(min_dist))
             if min_dist > 0 and D['ctr'] > 0:#j > 0:
                 dist = np.sqrt((a[0]-a_prev[0])**2+(a[1]-a_prev[1])**2)
                 if dist < min_dist:
