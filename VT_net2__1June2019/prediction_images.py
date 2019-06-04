@@ -165,7 +165,7 @@ def get__pts2D_multi_step(d_heading,encoder,sample_frequency,headings,encoders,m
 
 
 
-
+"""
 def point_in_3D_to_point_in_2D(a,backup_parameter=1.):
     if a[1]<0:
         return False,False
@@ -180,7 +180,7 @@ def point_in_3D_to_point_in_2D(a,backup_parameter=1.):
         return False,False
 
     return c.x,c.y
-
+"""
 ##############################################################
 ###
 
@@ -205,7 +205,8 @@ def get__path_pts2D(
     direction,
     value,
     Path_pts2D,
-    P
+    P,
+    pop=False,
 ):
     # 226.5 inches = 5.75 meters, .338 meters per tile
     velocity = encoder * P['vel-encoding coeficient'] * direction
@@ -227,6 +228,9 @@ def get__path_pts2D(
     Path_pts2D['append'](trajectory_vector,value,{'velocity':velocity})
 
     Path_pts2D['zero']()
+
+    if pop:
+        Path_pts2D['pop']()
 
 ###
 ##############################################################

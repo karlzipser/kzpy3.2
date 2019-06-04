@@ -27,7 +27,16 @@ cg("To start menu:\n\tpython kzpy3/Menu_app/menu2.py path",project_path,"dic P")
 #############################################################
 #############################################################
 
-
+if False:
+    def test(A={
+        'a':1,
+        'b':[1,2,3],
+    }):
+        B = {
+        'a':A['b'],
+        'b':A['a'],
+        }
+        return B
 
 #############################################################
 ####################### MENU ################################
@@ -153,15 +162,17 @@ if __name__ == '__main__':
             continue
 
 
-        if True:
+        if True: #try:
 
-            if encoder < 0.1:#direction < 0 or encoder < 0.1:
+            if encoder < 0.1: #direction < 0 or encoder < 0.1:
                 value = 0
             elif direction > 0:
                 value = 1
             else:
                 value = -1
-
+            pop = True
+            if value == 0:
+                pop = False
             prediction_images.get__path_pts2D(
                 d_heading,
                 encoder,

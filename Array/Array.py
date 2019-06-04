@@ -82,7 +82,9 @@ def Array(
         D['ctr'] += 1
         D['key_ctr'] += 1
 
-
+    def function_pop():
+        D['ctr'] -= 1
+        D['key_ctr'] -= 1      
 
     def function_rotate(
         deg
@@ -176,6 +178,7 @@ def Array(
 
 
     D['append'] = function_append
+    D['pop'] = function_pop
     D['rotate'] = function_rotate
     D['zero'] = function_zero
     D['setup_plot'] = function_setup_plot
