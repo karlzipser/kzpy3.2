@@ -56,7 +56,7 @@ P['wait for start signal'] = False
 P['index'] = P['initial index']
 P['topic_suffix'] = ''
 P['behavioral_mode_list'] = ['left','direct','right']
-P['pixels_per_unit'] = 10.
+P['pixels_per_unit'] = 20.
 P['num Array pts'] = 300
 
 #EOF
