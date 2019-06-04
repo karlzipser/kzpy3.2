@@ -275,7 +275,7 @@ if __name__ == '__main__':
                     #background_image=S['left_image'],
                 )
 
-                Barrier_pts3D['to_3D'](Path_pts2D,P['backup parameter'])
+                Barrier_pts3D['to_3D'](Path_pts2D,P['backup parameter'],min_dist=0.5)
                 Barrier_pts3D['check_ts'](P['circle_lifetime'])
                 Barrier_pts3D['show'](
                     do_print=False,
@@ -284,8 +284,8 @@ if __name__ == '__main__':
                     grid=True,
                     scale=1.0,
                     clear=True,
-                    code=0,
-                    color=(255,255,255), #(0,127,255),
+                    code=-1,
+                    color=(255,0,0), #(0,127,255),
                     show=True,
                     background_image=S['left_image'],
                 )

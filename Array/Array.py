@@ -197,13 +197,20 @@ def Array(
                 spause()
 
 
-    def function_to_3D(A,backup_parameter=1.0):
+    def function_to_3D(A,backup_parameter=1.,min_dist=0.):
         D['ctr'] = 0
         D['data'] *= 0
         for j in range(A['ctr']):
             code = A['code'][j]
             dic_info = A['Dic'][A['keys'][j]]
             a = A['array'][j,:]
+            if min_dist > 0 and j > 0:
+                dist = np.sqrt((a[0]-a_prev[0])**2+(a[1]-a_prev[1])**2)
+                if dist < min_dist:
+                    cr(dist)
+                    continue
+                else:
+                    cg(dist)
             c = fit3d.point_in_3D_to_point_in_2D(
                 a,
                 height_in_pixels = D['plot']['height_in_pixels'],
@@ -216,6 +223,7 @@ def Array(
                     code=code,
                     dic_info=dic_info
                 )
+            a_prev = a.copy()
         #cm("function_to_3D,D['ctr'] =",D['ctr'])
 
 
