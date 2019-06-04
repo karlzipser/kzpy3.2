@@ -204,7 +204,7 @@ if __name__ == '__main__':
                 graphics_timer.time_s = P['graphics_timer time']
                 graphics_timer.reset()
 
-                Path_pts2D['check_ts'](30)
+                Path_pts2D['check_ts'](P['point_lifetime'])
                 Path_pts2D['show'](
                     use_CV2_plot=True,
                     use_maplotlib=False,
@@ -276,7 +276,7 @@ if __name__ == '__main__':
                 )
 
                 Barrier_pts3D['to_3D'](Path_pts2D,P['backup parameter'])
-                Barrier_pts3D['check_ts'](5)
+                Barrier_pts3D['check_ts'](P['circle_lifetime'])
                 Barrier_pts3D['show'](
                     do_print=False,
                     use_maplotlib=False,
