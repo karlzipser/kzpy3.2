@@ -181,6 +181,7 @@ if __name__ == '__main__':
                 value,
                 Path_pts2D,
                 P,
+                pop=pop,
             )
 
             if graphics_timer.check():
