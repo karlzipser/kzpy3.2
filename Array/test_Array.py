@@ -48,6 +48,7 @@ def test_Array():
     B['show'](
         do_print=False,
         use_maplotlib=False,
+        use_CV2_circles=True,
         grid=False,
         scale=1.0,
         color=(0,127,255),

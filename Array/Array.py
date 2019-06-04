@@ -65,6 +65,35 @@ def Array(
                         del D['Dic'][k]
 
 
+    def function_check_ts(
+        t,
+    ):
+        now = time.time()
+        ctr = D['ctr']
+
+        found = False
+        for i in range(ctr):
+            ts = D['Dic'][D['keys'][i]]['time']
+            print now,ts,now-ts,i
+            cm(dp(now - ts))
+            if now - ts <= t:
+                found = True
+                break
+        if found:
+            cm(ctr-i,i,ctr)
+            D['data'][:ctr-i,:] = D['data'][i:ctr,:]
+            D['data'][ctr-i:,:] = 0
+            D['ctr'] = ctr-i
+            if len(D['Dic'].keys()) > 0:
+                kys = list(D['keys'])
+                for k in D['Dic'].keys():
+                    if k not in kys:
+                        del D['Dic'][k]
+        else:
+            D['data'] *= 0
+            D['ctr'] = 0
+            for k in D['Dic'].keys():
+                del D['Dic'][k]
 
     def function_append(
         a,
@@ -83,6 +112,7 @@ def Array(
         D['key_ctr'] += 1
 
     def function_pop():
+        D['data'][ctr,:] = 0.
         D['ctr'] -= 1
         D['key_ctr'] -= 1      
 
@@ -104,6 +134,7 @@ def Array(
 
     def function_show(
         use_CV2_plot=True,
+        use_CV2_circles = False,
         use_maplotlib=True,
         do_print=True,
         clear=True,
@@ -139,10 +170,22 @@ def Array(
                 a = D['data'][j,:] 
                 cg(int(a[2]),yl,(intr(a[0]),intr(a[1])),bl,int(a[3]),sf=0)
 
-        if use_CV2_plot:
+        if use_CV2_circles and use_CV2_plot:
+            for i in range(shape(the_array)[0]):
+                x,y = int(the_array[i,0]),int(the_array[i,1])
+                y = D['plot']['height_in_pixels'] - y
+                cv2.circle(
+                    D['plot']['image'],
+                    (x,y),
+                    2,
+                    color,
+                    -1
+                )
+        else:
             D['plot']['pts_plot'](the_array,c=color)
-            if show:
-                D['plot']['show'](title=D['name'],scale=scale)
+
+        if show:
+            D['plot']['show'](title=D['name'],scale=scale)
 
         if use_maplotlib:
             if clear:
@@ -185,7 +228,7 @@ def Array(
     D['assign_plot'] = function_assign_plot
     D['show'] = function_show
     D['to_3D'] = function_to_3D
-
+    D['check_ts'] = function_check_ts
 
 
     return D

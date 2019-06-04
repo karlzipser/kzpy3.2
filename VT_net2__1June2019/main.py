@@ -248,6 +248,7 @@ if __name__ == '__main__':
                 Path_pts3D['show'](
                     do_print=False,
                     use_maplotlib=False,
+                    use_CV2_circles=True,
                     grid=True,
                     scale=1.0,
                     clear=False,
