@@ -340,7 +340,7 @@ if __name__ == '__main__':
                             I[when],
                             Rectangles,
                         )
-                    mci(S['left_image'],title='left.')
+                    #mci(S['left_image'],title='left.')
 
 
 
