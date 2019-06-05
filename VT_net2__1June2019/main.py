@@ -305,6 +305,7 @@ if __name__ == '__main__':
 
                 #xys = Barrier_pts3D['array'][:Barrier_pts3D['ctr'],:]
                 xys = pts_3d
+                cy(xys)
                 if len(xys) > 0:
                     xys4 = []
                     for i in rlen(xys):
