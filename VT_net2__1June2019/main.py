@@ -313,10 +313,12 @@ if __name__ == '__main__':
                 #cy(xys)
                 xys4 = na(xys4)
                 xys4_prev = xys4.copy()
-                xys4_prev[:,1] -= 0.0375
+                cg(xys4)
+                cb(xys4_prev)
+                xys4_prev[:,1] += 0.0375
                 Xys = {
                     'now':  xys4,
-                    'prev': xys4_prev + 0.0375,
+                    'prev': xys4_prev,
                 }
 
                 I = {
