@@ -281,7 +281,7 @@ if __name__ == '__main__':
                     #background_image=S['left_image'],
                 )
                 
-                Barrier_pts3D['to_3D'](
+                pts_3d = Barrier_pts3D['to_3D'](
                     Path_pts2D,
                     P['backup parameter'],
                     min_dist=0.5,
@@ -303,7 +303,8 @@ if __name__ == '__main__':
 
                 #for i in range(Barrier_pts3D['ctr']):
 
-                xys = Barrier_pts3D['array'][:Barrier_pts3D['ctr'],:]
+                #xys = Barrier_pts3D['array'][:Barrier_pts3D['ctr'],:]
+                xys = pts_3d
                 if len(xys) > 0:
                     xys4 = []
                     for i in rlen(xys):

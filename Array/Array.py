@@ -192,6 +192,7 @@ def Array(
     def function_to_3D(A,backup_parameter=1.,min_dist=0.,codes=[]):
         D['ctr'] = 0
         D['data'] *= 0
+        pts_3d = []
         len_codes = len(codes)
         for j in range(A['ctr']):
             code = int(A['code'][j])
@@ -206,6 +207,7 @@ def Array(
                     continue
                 else:
                     pass
+            pts_3d.append(a)
             c = fit3d.point_in_3D_to_point_in_2D(
                 a,
                 height_in_pixels = D['plot']['height_in_pixels'],
@@ -222,6 +224,7 @@ def Array(
                 if min_dist > 0.:
                     pass
             a_prev = a.copy()
+        return pts_3d
 
 
 
