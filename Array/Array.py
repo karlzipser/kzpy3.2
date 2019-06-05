@@ -220,7 +220,9 @@ def Array(
                 width_in_pixels = D['plot']['width_in_pixels'],
                 backup_parameter=backup_parameter,
             )
+            cb(c)
             if c[0] != False:
+                
                 D['append'](
                     na([c[0],D['plot']['height_in_pixels']-c[1]]),
                     code=code,
