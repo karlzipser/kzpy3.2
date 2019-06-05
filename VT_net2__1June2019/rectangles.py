@@ -49,14 +49,15 @@ def Random_black_white_rectangle_collection(
 def paste_rectangles_into_drive_images(
     xys,
     I,
-    R
+    R,
+    backup_parameter,
 ):
     #for xy in xys:
     for i in rlen(xys):
         xy = xys[i]
         #print xy
         x_,y_,rng,rectangle_pattern = xy[0],xy[1],xy[2],int(xy[3])
-        x,y,disparity,width = fit3d.pt_in_2D_to_image_with_disparity_and_width(x_,y_,0.1)
+        x,y,disparity,width = fit3d.pt_in_2D_to_image_with_disparity_and_width(x_,y_,0.1,backup_parameter)
         width = intr(width)
         if width > 0 and rng > 0.:
             print I.keys()

@@ -339,6 +339,7 @@ if __name__ == '__main__':
                             Xys[when],
                             I[when],
                             Rectangles,
+                            P['backup parameter'],
                         )
                     #mci(S['left_image'],title='left.')
 
