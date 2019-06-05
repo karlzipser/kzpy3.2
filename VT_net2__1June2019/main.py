@@ -301,32 +301,32 @@ if __name__ == '__main__':
                     background_image=S['left_image'],
                 )
 
-                for i in range(Barrier_pts3D['ctr']):
+                #for i in range(Barrier_pts3D['ctr']):
 
-                    xys = Barrier_pts3D['array'][i,:]
-                    cg(Barrier_pts3D['array'])
-                    cy(xys)
-                    Xys = {
-                        'now':  xys,
-                        'prev': xys + 0.0375,
-                    }
+                xys = Barrier_pts3D['array'][:Barrier_pts3D['ctr'],:]
+                #cg(Barrier_pts3D['array'])
+                #cy(xys)
+                Xys = {
+                    'now':  xys,
+                    'prev': xys + 0.0375,
+                }
 
-                    I = {
-                        'now':{
-                            'Rectangles':S['left_image'],
-                            'L':S['left_image'],
-                        },
-                        'prev':{
-                            'Rectangles':S['left_image'],
-                            'L':S['left_image'],
-                        },
-                    }
-                    for when in ['now','prev']:
-                        rectangles.paste_rectangles_into_drive_images(
-                            Xys[when],
-                            I[when],
-                            Rectangles,
-                        )
+                I = {
+                    'now':{
+                        'Rectangles':S['left_image'],
+                        'L':S['left_image'],
+                    },
+                    'prev':{
+                        'Rectangles':S['left_image'],
+                        'L':S['left_image'],
+                    },
+                }
+                for when in ['now','prev']:
+                    rectangles.paste_rectangles_into_drive_images(
+                        Xys[when],
+                        I[when],
+                        Rectangles,
+                    )
 
 
 
