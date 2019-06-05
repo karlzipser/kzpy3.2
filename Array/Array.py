@@ -202,14 +202,14 @@ def Array(
         D['data'] *= 0
         len_codes = len(codes)
         for j in range(A['ctr']):
-            code = A['code'][j]
+            code = int(A['code'][j])
             dic_info = A['Dic'][A['keys'][j]]
             a = A['array'][j,:]
             #if 'a_prev' in locals():
             #    dist = np.sqrt((a[0]-a_prev[0])**2+(a[1]-a_prev[1])**2)
             #    cy(D['ctr'],dp(dist),dp(min_dist))
             cr(len_codes,code,codes)
-            if len_codes > 0 and int(code) not in codes:
+            if len_codes > 0 and code not in codes:
                 continue
             if min_dist > 0 and D['ctr'] > 0:#j > 0:
                 dist = np.sqrt((a[0]-a_prev[0])**2+(a[1]-a_prev[1])**2)

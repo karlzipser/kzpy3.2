@@ -279,7 +279,7 @@ if __name__ == '__main__':
                     Path_pts2D,
                     P['backup parameter'],
                     min_dist=0.5,
-                    codes=[0],
+                    codes=[-1],
                 )
                 Barrier_pts3D['check_ts'](P['circle_lifetime'])
                 Barrier_pts3D['show'](
