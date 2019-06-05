@@ -59,18 +59,19 @@ def paste_rectangles_into_drive_images(
         x,y,disparity,width = fit3d.pt_in_2D_to_image_with_disparity_and_width(x_,y_,0.1)
         width = intr(width)
         if width > 0 and rng > 0.:
-            f = R[width][rectangle_pattern]
-            for s in ['L','R']:
-                mi(f);spause();raw_enter()
-                mi(I[s]);spause();raw_enter()
-                if s == 'L':
-                    x_ = x
-                else:
-                    x_ = x - disparity
-                try:
-                    I[s] = place_img_f_in_img_g(x_,y,f,I[s],bottom=1,center=1)
-                except:
-                    cr('place_img_f_in_img_g failure')
+            if 'L' in I and 'R' in I:
+                f = R[width][rectangle_pattern]
+                for s in ['L','R']:
+                    #mi(f);spause();raw_enter()
+                    #mi(I[s]);spause();raw_enter()
+                    if s == 'L':
+                        x_ = x
+                    else:
+                        x_ = x - disparity
+                    try:
+                        I[s] = place_img_f_in_img_g(x_,y,f,I[s],bottom=1,center=1)
+                    except:
+                        cr('place_img_f_in_img_g failure')
 
 
 def test_setup(num_rectangle_patterns):
