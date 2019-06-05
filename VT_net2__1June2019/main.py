@@ -326,12 +326,12 @@ if __name__ == '__main__':
                     temp = S['left_image'].copy()
                     I = {
                         'now':{
-                            'R':S['left_image'],
-                            'L':temp,
+                            'R':temp,
+                            'L':S['left_image'],
                         },
                         'prev':{
-                            'R':S['left_image'],
-                            'L':S['left_image'],
+                            'R':temp,
+                            'L':temp,
                         },
                     }
                     for when in ['now','prev']:
@@ -340,7 +340,7 @@ if __name__ == '__main__':
                             I[when],
                             Rectangles,
                         )
-                    mci(temp,title='left.')
+                    mci(S['left_image'],title='left.')
 
 
 
