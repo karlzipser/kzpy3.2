@@ -73,15 +73,11 @@ def Array(
 
         found = False
         for i in range(ctr):
-            #cg(i,D['keys'][i],D['Dic'][D['keys'][i]])
             ts = D['Dic'][D['keys'][i]]['time']
-            #print now,ts,now-ts,i
-            #cm(dp(now - ts))
             if now - ts <= t:
                 found = True
                 break
         if found:
-            #cm(ctr-i,i,ctr)
             D['data'][:ctr-i,:] = D['data'][i:ctr,:]
             D['data'][ctr-i:,:] = 0
             D['ctr'] = ctr-i
@@ -147,7 +143,6 @@ def Array(
         background_image=None
     ):
         mx = min(D['ctr'],D['max_len'])
-        #cr(mx,D['ctr'],D['max_len'])
         
         if code == None:
             the_array = D['array'][:mx,:]
@@ -156,13 +151,10 @@ def Array(
 
         if clear:
             if type(background_image) != type(None):
-                #cg("1111111")
                 assert shape(D['plot']['image']) == shape(background_image)
                 D['plot']['image'] = background_image
-                #mci(background_image,title='l')
             else:
                 D['plot']['clear']()
-                #cg("2222222")
         if grid:
             D['plot']['grid'](c=[127,63,0])
 
@@ -205,19 +197,14 @@ def Array(
             code = int(A['code'][j])
             dic_info = A['Dic'][A['keys'][j]]
             a = A['array'][j,:]
-            #if 'a_prev' in locals():
-            #    dist = np.sqrt((a[0]-a_prev[0])**2+(a[1]-a_prev[1])**2)
-            #    cy(D['ctr'],dp(dist),dp(min_dist))
-            #cr(len_codes,code,codes)
+
             if len_codes > 0 and code not in codes:
                 continue
             if min_dist > 0 and D['ctr'] > 0:#j > 0:
                 dist = np.sqrt((a[0]-a_prev[0])**2+(a[1]-a_prev[1])**2)
                 if dist < min_dist:
-                    #cr(dp(dist),dp(min_dist))
                     continue
                 else:
-                    cg(dp(dist),dp(min_dist))
                     pass
             c = fit3d.point_in_3D_to_point_in_2D(
                 a,
@@ -234,9 +221,7 @@ def Array(
                 )
                 if min_dist > 0.:
                     pass
-                    cb(c,code,D['ctr'])
             a_prev = a.copy()
-        #cm("function_to_3D,D['ctr'] =",D['ctr'])
 
 
 
@@ -254,6 +239,21 @@ def Array(
 
     return D
 
+
+
+
+if False:
+    from kzpy3.Array.Array import *
+
+    A=Array(12,2)
+
+    for i in range(10):
+        A['append'](na([i,i]),dic_info={'time':time.time()})
+        time.sleep(1)
+
+    for i in range(100):
+        A['check_ts'](30);pprint(A['data']);cg(A['ctr'])
+        time.sleep(1.7)
 
 
 #EOF

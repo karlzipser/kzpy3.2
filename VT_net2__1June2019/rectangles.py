@@ -68,14 +68,8 @@ def paste_rectangles_into_drive_images(
                     cr('place_img_f_in_img_g failure')
 
 
-def setup(num_rectangle_patterns):
-    """
-    if '   BLOCK   set up rectangles':
-        num_rectangle_patterns = 15
-        R = Random_black_white_rectangle_collection( ###########
-            num_rectangle_patterns=num_rectangle_patterns
-        )
-    """
+def test_setup(num_rectangle_patterns):
+    
     if '   BLOCK   access file images':
         if 'O' not in locals():
             if using_osx():
@@ -87,8 +81,8 @@ def setup(num_rectangle_patterns):
             Imgs['R'] = O['right_image']['vals']
     if '   BLOCK   set up ranges':
         xy_ranges = []
-        for x_ in arange(-0.5,0.51,0.25):
-            for y_ in arange(0.,13.1,0.25):
+        for x_ in arange(-0.5,0.51,0.45):
+            for y_ in arange(0.,13.1,0.45):
                 q = rndint(num_rectangle_patterns)
                 xy_ranges.append([x_,y_,np.sqrt(x_**2+y_**2),q])
         xy_ranges = na(xy_ranges)
@@ -98,16 +92,18 @@ def setup(num_rectangle_patterns):
         for r in rlen(xy_ranges):
             if np.random.random() < 0.11:
                 xys.append(xy_ranges[r,:])
-        xys = sort_by_column(xys,2,reverse=True) ##############
+        xys = sort_by_column(xys,2,reverse=True)
     return Imgs,xys
 
 
 
 if __name__ == '__main__':
 
+    raw_enter()
+
     num_rectangle_patterns = 4
 
-    Imgs,xys = setup(num_rectangle_patterns)
+    Imgs,xys = test_setup(num_rectangle_patterns)
 
     R = Random_black_white_rectangle_collection(
         num_rectangle_patterns=num_rectangle_patterns
@@ -116,7 +112,7 @@ if __name__ == '__main__':
     num_steps = 1
     for j in range(0,10000,num_steps):
 
-        if '   BLOCK   select xy points':
+        if 'setup xys and r0 etc':
             xys_ = []
             for xy in xys:
                 rng = np.sqrt(xy[0]**2+xy[1]**2)
@@ -127,40 +123,49 @@ if __name__ == '__main__':
                     xys_.append(xy)
             xys = na(xys_)
 
-            """
-            Xys = {}
-            for when in ['now','prev']:
-                Xys[when] = xys.copy()
-                if when == 'prev':
-                    Xys[when][:,1] += 0.0375
-            """
-
-            Xys = {
-                'now':  xys.copy(),
-                'prev': xys.copy() + 0.0375,
-            }
-
-        if '   BLOCK   select images':
             i = 10000+j
-            I = {
-                'now':{'R':Imgs['R'][i].copy(),'L':Imgs['L'][i].copy()},
-                'prev':{'R':Imgs['R'][i-1].copy(),'L':Imgs['L'][i-1].copy()},
-            }
+            l0 = Imgs['L'][i].copy()
+            r0 = Imgs['R'][i].copy()
+            ln1 = Imgs['L'][i-1].copy()
+            rn1 = Imgs['R'][i-1].copy()
 
-        if '   BLOCK   create quartet images': 
-            for when in ['now','prev']:
-                paste_rectangles_into_drive_images(
-                    Xys[when],
-                    I[when],
-                    R
-                )
+
+
+
+
+
+        Xys = {
+            'now':  xys,
+            'prev': xys + 0.0375,
+        }
+
+        I = {
+            'now':{
+                'R':r0,
+                'L':l0
+            },
+            'prev':{
+                'R':rn1,
+                'L':ln1
+            },
+        }
+
+        for when in ['now','prev']:
+            paste_rectangles_into_drive_images(
+                Xys[when],
+                I[when],
+                R
+            )
+
+
+
 
         if '   BLOCK   move points backward':
             xys[:,1] -= 0.0375 * num_steps
 
 
         if '   BLOCK   graphics':
-            for when in ['prev','now']:
+            for when in ['now']:#['prev','now']:
                 print when,j
                 shape_ = np.shape(I[when]['L'])
                 width,height = shape_[1],shape_[0]

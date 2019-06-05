@@ -110,6 +110,10 @@ if False:
     A = kzpy3.Array_.Array.Array(30,2)
     kzpy3.Array_.test_Array.test_Array()
 
+Rectangles = rectangles.Random_black_white_rectangle_collection(
+    num_rectangle_patterns=num_rectangle_patterns
+)
+
 if __name__ == '__main__':
 
     graphics_timer = Timer(P['graphics_timer time'])
@@ -178,7 +182,8 @@ if __name__ == '__main__':
             continue
 
 
-        if True: #try:
+        #try:
+        if True:
 
             if encoder < 0.1: #direction < 0 or encoder < 0.1:
                 value = 0
@@ -238,7 +243,7 @@ if __name__ == '__main__':
                     grid=True,
                     scale=1.0,
                 )
-                """
+                
                 Path_pts3D['to_3D'](Path_pts2D,P['backup parameter'])
                 Path_pts3D['show'](
                     do_print=False,
@@ -260,7 +265,6 @@ if __name__ == '__main__':
                     code=-1,
                     color=(255,0,0), #(0,127,255),
                     show=False,
-                    #background_image=S['left_image'],
                 )
                 Path_pts3D['show'](
                     do_print=False,
@@ -274,7 +278,7 @@ if __name__ == '__main__':
                     show=True,
                     #background_image=S['left_image'],
                 )
-                """
+                
                 Barrier_pts3D['to_3D'](
                     Path_pts2D,
                     P['backup parameter'],
@@ -292,8 +296,39 @@ if __name__ == '__main__':
                     code=0,
                     color=(255,0,0), #(0,127,255),
                     show=True,
-                    #background_image=S['left_image'],
+                    background_image=S['left_image'],
                 )
+
+                for i in range(Barrier_pts3D['ctr']):
+
+                    xys = Barrier_pts3D['array'][i,:]
+
+                    Xys = {
+                        'now':  xys,
+                        'prev': xys + 0.0375,
+                    }
+
+                    I = {
+                        'now':{
+                            'Rectangles':S['left_image'],
+                            'L':S['left_image'],
+                        },
+                        'prev':{
+                            'Rectangles':S['left_image'],
+                            'L':S['left_image'],
+                        },
+                    }
+                    for when in ['now','prev']:
+                        rectangles.paste_rectangles_into_drive_images(
+                            Xys[when],
+                            I[when],
+                            Rectangles,
+                        )
+
+
+
+
+
 
                 #cg(dp(P['distance']),dp(P['velocity']))
 

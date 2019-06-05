@@ -11,9 +11,6 @@ import default_values
 import cv_bridge
 bridge = cv_bridge.CvBridge()
 
-
-
-
 S = {}
 qs = 1
 bcs = '/bair_car/'
@@ -28,6 +25,7 @@ S['motor'] = 49
 S['cmd/motor'] = 49
 S['human_agent'] = 49
 S['left_image'] = False
+S['right_image'] = False
 
 for modality in ['headings','encoders','motors']:
     for side in ['left','direct','right']:
@@ -40,7 +38,6 @@ rospy.Subscriber('/MODALITY_SIDE-TOPIC-SUFFIX', std_msgs.msg.Int32MultiArray, ca
 
         """
         s = s.replace('MODALITY',modality).replace('SIDE',side).replace('-TOPIC-SUFFIX',default_values.P['topic_suffix'])
-        #print s
         exec(s)
 
 def encoder_callback(data):
@@ -84,7 +81,6 @@ def gyro_heading_x_callback(data):
     S['d_heading'] = 2*(S['gyro_heading_x']-S['gyro_heading_x_prev'])
     S['ts_prev'] = S['ts']
     S['ts'] = time.time()
-    #S['sample_frequency'] = 30.
     S['sample_frequency'] = 1.0 / (S['ts']-S['ts_prev'])
 
 
@@ -95,14 +91,15 @@ if default_values.P['graphics 3']:
     def left_callback(data):
         S['left_image'] = bridge.imgmsg_to_cv2(data,'rgb8')
 if True:
-
     def left_callback(data):
         S['left_image'] = bridge.imgmsg_to_cv2(data,'rgb8')
-
+    def right_callback(data):
+        S['right_image'] = bridge.imgmsg_to_cv2(data,'rgb8')
 
     rospy.Subscriber(bcs+"zed/left/image_rect_color",Image,left_callback,queue_size=qs)
+    rospy.Subscriber(bcs+"zed/right/image_rect_color",Image,right_callback,queue_size=qs)
 ###
 #####################################################
 #####################################################
 
-
+#EOF

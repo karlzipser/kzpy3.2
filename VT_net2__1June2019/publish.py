@@ -4,13 +4,12 @@
 ############
 from kzpy3.vis3 import *
 import default_values
-import fit3d#_torch as fit3d
+import fit3d
 import std_msgs.msg
 import geometry_msgs.msg
 from std_msgs.msg import Int32MultiArray
 from sensor_msgs.msg import Image
 import cv_bridge
-#bridge = cv_bridge.CvBridge()
 exec(identify_file_str)
 _ = default_values._
 
@@ -104,7 +103,6 @@ def get_data(_):
         sample_frequency = 1.0 / (L['left_timestamp_index'][_['index']]-L['left_timestamp_index'][_['index']-1])
     else:
         sample_frequency = 30.0
-        #cr('sample_frequency = 30.0')
 
     for behavioral_mode in _['behavioral_mode_list']:
 
@@ -167,7 +165,6 @@ if __name__ == '__main__':
                     cg("_['index'] =",_['index'],ra=1)
                 _['index'] += _['step_size']
                 _['timer'].freq(d2s("_['index'] =",_['index'], int(100*_['index']/(1.0*len(U['ts']))),'%'))
-                #,"S['sample_frequency'] =",dp(S['sample_frequency'],1),"S['d_heading'] =",dp(S['d_heading'])))
 
                 
 
@@ -205,7 +202,5 @@ if __name__ == '__main__':
 ##############################################################
 
 cg('\n\nDone.\n')
-
-#EOF
 
 #EOF
