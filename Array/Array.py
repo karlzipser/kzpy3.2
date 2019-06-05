@@ -229,7 +229,7 @@ def Array(
             if c[0] != False:
                 if min_dist > 0.:
                     pass
-                    cb(c)
+                    cb(c,code)
                 D['append'](
                     na([c[0],D['plot']['height_in_pixels']-c[1]]),
                     code=code,
