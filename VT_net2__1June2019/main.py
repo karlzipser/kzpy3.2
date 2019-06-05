@@ -6,6 +6,7 @@ import kzpy3.Menu_app.menu2 as menu2
 import default_values
 from subscribe import S
 import prediction_images
+import kzpy3.VT_net2__1June2019.rectangles as rectangles
 import kzpy3.Array.Array
 import kzpy3.Array.test_Array
 from sensor_msgs.msg import Image
