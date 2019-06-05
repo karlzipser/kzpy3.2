@@ -304,11 +304,19 @@ if __name__ == '__main__':
                 #for i in range(Barrier_pts3D['ctr']):
 
                 xys = Barrier_pts3D['array'][:Barrier_pts3D['ctr'],:]
+                xys4 = []
+                for i in rlen(xys):
+                    x_ = xys[0]
+                    y_ = xys[1]
+                    xys4.append([x_,y_,np.sqrt(x_**2+y_**2),np.mod(i,num_rectangle_patterns)])
                 #cg(Barrier_pts3D['array'])
                 #cy(xys)
+                xys4 = na(xys4)
+                xys4_prev = xys4.copy()
+                xys4_prev[:,1] -= 0.0375
                 Xys = {
-                    'now':  xys,
-                    'prev': xys + 0.0375,
+                    'now':  xys4,
+                    'prev': xys4_prev + 0.0375,
                 }
 
                 I = {
