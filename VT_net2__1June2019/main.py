@@ -304,7 +304,8 @@ if __name__ == '__main__':
                 for i in range(Barrier_pts3D['ctr']):
 
                     xys = Barrier_pts3D['array'][i,:]
-
+                    cg(Barrier_pts3D['array'])
+                    cy(xys)
                     Xys = {
                         'now':  xys,
                         'prev': xys + 0.0375,
