@@ -54,7 +54,7 @@ def paste_rectangles_into_drive_images(
     #for xy in xys:
     for i in rlen(xys):
         xy = xys[i]
-        print xy
+        #print xy
         x_,y_,rng,rectangle_pattern = xy[0],xy[1],xy[2],int(xy[3])
         x,y,disparity,width = fit3d.pt_in_2D_to_image_with_disparity_and_width(x_,y_,0.1)
         width = intr(width)
@@ -69,6 +69,8 @@ def paste_rectangles_into_drive_images(
                     else:
                         x_ = x - disparity
                     try:
+                        mci(f,title=s+'f')
+                        mci(I[s],title=s+'I')
                         I[s] = place_img_f_in_img_g(x_,y,f,I[s],bottom=1,center=1)
                         mci(I[s],title=s)
                     except:

@@ -305,7 +305,7 @@ if __name__ == '__main__':
 
                 #xys = Barrier_pts3D['array'][:Barrier_pts3D['ctr'],:]
                 xys = na(pts_3d)
-                cy(xys)
+                #cy(xys)
                 if len(xys) > 0:
                     xys4 = []
                     for i in rlen(xys):
@@ -316,8 +316,8 @@ if __name__ == '__main__':
                     #cy(xys)
                     xys4 = na(xys4)
                     xys4_prev = xys4.copy()
-                    cg(xys4)
-                    cb(xys4_prev)
+                    #cg(xys4)
+                    #cb(xys4_prev)
                     xys4_prev[:,1] += 0.0375
                     Xys = {
                         'now':  xys4,
