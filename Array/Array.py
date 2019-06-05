@@ -210,19 +210,20 @@ def Array(
             if min_dist > 0 and D['ctr'] > 0:#j > 0:
                 dist = np.sqrt((a[0]-a_prev[0])**2+(a[1]-a_prev[1])**2)
                 if dist < min_dist:
-                    cr(dp(dist),dp(min_dist))
+                    #cr(dp(dist),dp(min_dist))
                     continue
                 else:
-                    cg(dp(dist),dp(min_dist))
+                    #cg(dp(dist),dp(min_dist))
+                    pass
             c = fit3d.point_in_3D_to_point_in_2D(
                 a,
                 height_in_pixels = D['plot']['height_in_pixels'],
                 width_in_pixels = D['plot']['width_in_pixels'],
                 backup_parameter=backup_parameter,
             )
-            cb(c)
+            
             if c[0] != False:
-                
+                cb(c)
                 D['append'](
                     na([c[0],D['plot']['height_in_pixels']-c[1]]),
                     code=code,
