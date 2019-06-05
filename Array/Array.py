@@ -227,14 +227,14 @@ def Array(
             )
             
             if c[0] != False:
-                if min_dist > 0.:
-                    pass
-                    cb(c,code,D['ctr'])
                 D['append'](
                     na([c[0],D['plot']['height_in_pixels']-c[1]]),
                     code=code,
                     dic_info=dic_info
                 )
+                if min_dist > 0.:
+                    pass
+                    cb(c,code,D['ctr'])
             a_prev = a.copy()
         #cm("function_to_3D,D['ctr'] =",D['ctr'])
 
