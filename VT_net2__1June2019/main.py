@@ -256,7 +256,7 @@ if __name__ == '__main__':
                     code=1,
                     color=(0,255,0), #(0,127,255),
                     show=False,
-                    background_image=S['left_image'],
+                    #background_image=S['left_image'],
                 )
                 Path_pts3D['show'](
                     do_print=False,
@@ -298,7 +298,7 @@ if __name__ == '__main__':
                     code=0,
                     color=(255,0,0), #(0,127,255),
                     show=True,
-                    background_image=S['left_image'],
+                    #background_image=S['left_image'],
                 )
 
                 #for i in range(Barrier_pts3D['ctr']):
@@ -323,11 +323,11 @@ if __name__ == '__main__':
                         'now':  xys4,
                         'prev': xys4_prev,
                     }
-
+                    temp = S['left_image'].copy()
                     I = {
                         'now':{
                             'Rectangles':S['left_image'],
-                            'L':S['left_image'],
+                            'L':temp,
                         },
                         'prev':{
                             'Rectangles':S['left_image'],
@@ -340,7 +340,7 @@ if __name__ == '__main__':
                             I[when],
                             Rectangles,
                         )
-                    mci(S['left_image'],title='left.')
+                    mci(temp,title='left.')
 
 
 
