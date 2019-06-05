@@ -214,10 +214,10 @@ def Array(
             if min_dist > 0 and D['ctr'] > 0:#j > 0:
                 dist = np.sqrt((a[0]-a_prev[0])**2+(a[1]-a_prev[1])**2)
                 if dist < min_dist:
-                    #cr(dp(dist),dp(min_dist))
+                    cr(dp(dist),dp(min_dist))
                     continue
                 else:
-                    #cg(dp(dist),dp(min_dist))
+                    cg(dp(dist),dp(min_dist))
                     pass
             c = fit3d.point_in_3D_to_point_in_2D(
                 a,
