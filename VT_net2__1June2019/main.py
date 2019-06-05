@@ -340,7 +340,7 @@ if __name__ == '__main__':
                             I[when],
                             Rectangles,
                         )
-                    #mci(temp,title='left.')
+                    mci(temp,title='left.')
 
 
 
