@@ -115,6 +115,7 @@ num_rectangle_patterns = 4
 Rectangles = rectangles.Random_black_white_rectangle_collection(
     num_rectangle_patterns=num_rectangle_patterns
 )
+stop_timer = Timer(1/2.)
 
 if __name__ == '__main__':
 
@@ -187,7 +188,8 @@ if __name__ == '__main__':
         #try:
         if True:
 
-            if encoder < 0.01: #direction < 0 or encoder < 0.1:
+            if encoder < 0.01 and stop_timer.check(): #direction < 0 or encoder < 0.1:
+                stop_timer.reset()
                 value = 0
             elif direction > 0:
                 value = 1
