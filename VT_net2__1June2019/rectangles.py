@@ -70,6 +70,7 @@ def paste_rectangles_into_drive_images(
                         x_ = x - disparity
                     try:
                         I[s] = place_img_f_in_img_g(x_,y,f,I[s],bottom=1,center=1)
+                        mci(I[s],title=s)
                     except:
                         cr('place_img_f_in_img_g failure')
 
