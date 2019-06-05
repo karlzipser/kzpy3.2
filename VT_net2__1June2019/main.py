@@ -304,39 +304,40 @@ if __name__ == '__main__':
                 #for i in range(Barrier_pts3D['ctr']):
 
                 xys = Barrier_pts3D['array'][:Barrier_pts3D['ctr'],:]
-                xys4 = []
-                for i in rlen(xys):
-                    x_ = xys[0]
-                    y_ = xys[1]
-                    xys4.append([x_,y_,np.sqrt(x_**2+y_**2),np.mod(i,num_rectangle_patterns)])
-                #cg(Barrier_pts3D['array'])
-                #cy(xys)
-                xys4 = na(xys4)
-                xys4_prev = xys4.copy()
-                cg(xys4)
-                cb(xys4_prev)
-                xys4_prev[:,1] += 0.0375
-                Xys = {
-                    'now':  xys4,
-                    'prev': xys4_prev,
-                }
+                if len(xys) > 0:
+                    xys4 = []
+                    for i in rlen(xys):
+                        x_ = xys[0]
+                        y_ = xys[1]
+                        xys4.append([x_,y_,np.sqrt(x_**2+y_**2),np.mod(i,num_rectangle_patterns)])
+                    #cg(Barrier_pts3D['array'])
+                    #cy(xys)
+                    xys4 = na(xys4)
+                    xys4_prev = xys4.copy()
+                    cg(xys4)
+                    cb(xys4_prev)
+                    xys4_prev[:,1] += 0.0375
+                    Xys = {
+                        'now':  xys4,
+                        'prev': xys4_prev,
+                    }
 
-                I = {
-                    'now':{
-                        'Rectangles':S['left_image'],
-                        'L':S['left_image'],
-                    },
-                    'prev':{
-                        'Rectangles':S['left_image'],
-                        'L':S['left_image'],
-                    },
-                }
-                for when in ['now','prev']:
-                    rectangles.paste_rectangles_into_drive_images(
-                        Xys[when],
-                        I[when],
-                        Rectangles,
-                    )
+                    I = {
+                        'now':{
+                            'Rectangles':S['left_image'],
+                            'L':S['left_image'],
+                        },
+                        'prev':{
+                            'Rectangles':S['left_image'],
+                            'L':S['left_image'],
+                        },
+                    }
+                    for when in ['now','prev']:
+                        rectangles.paste_rectangles_into_drive_images(
+                            Xys[when],
+                            I[when],
+                            Rectangles,
+                        )
 
 
 
