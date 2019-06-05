@@ -115,7 +115,7 @@ num_rectangle_patterns = 4
 Rectangles = rectangles.Random_black_white_rectangle_collection(
     num_rectangle_patterns=num_rectangle_patterns
 )
-stop_timer = Timer(1/2.)
+stop_timer = Timer(3.)
 
 if __name__ == '__main__':
 
