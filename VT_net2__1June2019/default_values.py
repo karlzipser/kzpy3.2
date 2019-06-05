@@ -16,6 +16,7 @@ P['distance'] = 0.
 P['graphics 1'] = False
 P['graphics 2'] = True
 P['graphics 3'] = False
+P['slow_encoder_s'] = 0.9
 P['point_lifetime'] = 20
 P['circle_lifetime'] = 10
 P['vel-encoding coeficient'] = 0.35#0.387#(1.0/2.3)

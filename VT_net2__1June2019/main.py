@@ -118,6 +118,7 @@ Rectangles = rectangles.Random_black_white_rectangle_collection(
 stop_timer = Timer(3.)
 slow_encoder = 0
 
+
 if __name__ == '__main__':
 
     graphics_timer = Timer(P['graphics_timer time'])
@@ -188,7 +189,7 @@ if __name__ == '__main__':
 
         #try:
         if True:
-            s = 0.99
+            s = P['slow_encoder_s']
             slow_encoder = s*slow_encoder+(1-s)*encoder
             print slow_encoder
             if slow_encoder < 0.01 and stop_timer.check(): #direction < 0 or encoder < 0.1:
