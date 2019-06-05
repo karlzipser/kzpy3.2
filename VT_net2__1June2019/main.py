@@ -187,7 +187,7 @@ if __name__ == '__main__':
         #try:
         if True:
 
-            if encoder < 0.1: #direction < 0 or encoder < 0.1:
+            if encoder < 0.033: #direction < 0 or encoder < 0.1:
                 value = 0
             elif direction > 0:
                 value = 1
