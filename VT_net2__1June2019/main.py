@@ -111,6 +111,7 @@ if False:
     A = kzpy3.Array_.Array.Array(30,2)
     kzpy3.Array_.test_Array.test_Array()
 
+num_rectangle_patterns = 4
 Rectangles = rectangles.Random_black_white_rectangle_collection(
     num_rectangle_patterns=num_rectangle_patterns
 )
