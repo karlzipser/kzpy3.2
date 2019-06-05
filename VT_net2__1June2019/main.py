@@ -307,8 +307,8 @@ if __name__ == '__main__':
                 if len(xys) > 0:
                     xys4 = []
                     for i in rlen(xys):
-                        x_ = xys[0]
-                        y_ = xys[1]
+                        x_ = xys[i,0]
+                        y_ = xys[i,1]
                         xys4.append([x_,y_,np.sqrt(x_**2+y_**2),np.mod(i,num_rectangle_patterns)])
                     #cg(Barrier_pts3D['array'])
                     #cy(xys)
