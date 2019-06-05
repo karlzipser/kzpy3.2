@@ -238,7 +238,7 @@ if __name__ == '__main__':
                     grid=True,
                     scale=1.0,
                 )
-
+                """
                 Path_pts3D['to_3D'](Path_pts2D,P['backup parameter'])
                 Path_pts3D['show'](
                     do_print=False,
@@ -274,7 +274,7 @@ if __name__ == '__main__':
                     show=True,
                     #background_image=S['left_image'],
                 )
-
+                """
                 Barrier_pts3D['to_3D'](
                     Path_pts2D,
                     P['backup parameter'],
