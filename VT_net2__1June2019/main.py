@@ -326,11 +326,11 @@ if __name__ == '__main__':
                     temp = S['left_image'].copy()
                     I = {
                         'now':{
-                            'Rectangles':S['left_image'],
+                            'R':S['left_image'],
                             'L':temp,
                         },
                         'prev':{
-                            'Rectangles':S['left_image'],
+                            'R':S['left_image'],
                             'L':S['left_image'],
                         },
                     }
