@@ -214,7 +214,7 @@ def Array(
             if min_dist > 0 and D['ctr'] > 0:#j > 0:
                 dist = np.sqrt((a[0]-a_prev[0])**2+(a[1]-a_prev[1])**2)
                 if dist < min_dist:
-                    cr(dp(dist),dp(min_dist))
+                    #cr(dp(dist),dp(min_dist))
                     continue
                 else:
                     cg(dp(dist),dp(min_dist))
