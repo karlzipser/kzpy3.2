@@ -60,7 +60,9 @@ def paste_rectangles_into_drive_images(
         width = intr(width)
         if width > 0 and rng > 0.:
             f = R[width][rectangle_pattern]
-            for s in ['L','R']:  
+            for s in ['L','R']:
+                mi(f);spause();raw_enter()
+                mi(I[s]);spause();raw_enter()
                 if s == 'L':
                     x_ = x
                 else:
