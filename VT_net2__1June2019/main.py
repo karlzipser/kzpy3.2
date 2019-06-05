@@ -289,10 +289,10 @@ if __name__ == '__main__':
                     grid=True,
                     scale=1.0,
                     clear=True,
-                    code=-1 ,
+                    code=0,
                     color=(255,0,0), #(0,127,255),
                     show=True,
-                    background_image=S['left_image'],
+                    #background_image=S['left_image'],
                 )
 
                 #cg(dp(P['distance']),dp(P['velocity']))
