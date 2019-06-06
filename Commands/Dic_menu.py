@@ -55,7 +55,7 @@ def Default_Values(Q,project_path,parent_keys=[],read_only=False,Dics={}):
 
     def function_show(message=''):
         clear_screen()
-        print D['project_path'].replace(opjh(),'')
+        cg(D['project_path'].replace(opjh(),'~/'))
         return show_menu(key_access(D,D['current_keys']),message,D['parent_keys'])
 
     def function_menu():
@@ -250,8 +250,9 @@ def show_menu(C,message,parent_keys=[]):
         on_color='on_blue'
     )
     """
+    q = '/'
     cw(
-        bl+'/'.join(parent_keys)+'/'+wh+'/'.join(key_list),
+        bl+q.join(parent_keys)+q+wh+q.join(key_list),
     ) 
     sorted_keys_ = sorted(C.keys())
     sorted_keys = []
