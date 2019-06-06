@@ -89,7 +89,7 @@ Path_pts3D['setup_plot'](
     pixels_per_unit=pixels_per_unit,
 )
 
-Barrier_pts3D = kzpy3.Array.Array.Array(P['num Array pts'],2)
+Barrier_pts3D = kzpy3.Array.Array.Array(5,2)#P['num Array pts'],2)
 height_in_pixels=94
 width_in_pixels=168
 x_origin_in_pixels=0

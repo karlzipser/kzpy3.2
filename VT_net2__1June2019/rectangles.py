@@ -61,8 +61,8 @@ def paste_rectangles_into_drive_images(
         width = intr(width)
         if width > 0 and rng > 0.:
             #print I.keys()
-            if 'L' in I and 'R' in I:
-                print width,rectangle_pattern
+            if 'L' in I and 'R' in I and width in R:
+                #print width,rectangle_pattern
                 f = R[width][rectangle_pattern]
                 for s in ['L','R']:
                     #mi(f);spause();raw_enter()
