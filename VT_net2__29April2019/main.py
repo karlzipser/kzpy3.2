@@ -121,7 +121,7 @@ if __name__ == '__main__':
             direction = 1.
             if motor < 49:
                 direction = -1.
-            print direction,dp(encoder,1),motor,S['cmd/motor'],S['motor']
+            #print direction,dp(encoder,1),motor,S['cmd/motor'],S['motor']
 
             Prediction2D_plot,left_camera_3D_img,metadata_3D_img = \
                 prediction_images.prepare_2D_and_3D_images(Prediction2D_plot,pts2D_multi_step,d_heading,encoder,sample_frequency,headings,encoders,motors,S['left_image'],_)
@@ -129,15 +129,15 @@ if __name__ == '__main__':
 
             prediction_images.get__path_pts2D(d_heading,encoder,sample_frequency,direction,Path_pts2D,_)
 
-
-            clf()
-            plt_square()
-            xyliml(_['plot xylims'])
-            pts_plot(Path_pts2D['array'],sym=',')#_['pts sym'])
-            d = Path_pts2D['data']
-            e = d[d[:,2]<0]
-            pts_plot(e,color='b',sym=_['pts sym'])
-            spause()
+            if False:
+                clf()
+                plt_square()
+                xyliml(_['plot xylims'])
+                pts_plot(Path_pts2D['array'],sym=',')#_['pts sym'])
+                d = Path_pts2D['data']
+                e = d[d[:,2]<0]
+                pts_plot(e,color='b',sym=_['pts sym'])
+                spause()
 
 
 

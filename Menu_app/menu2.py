@@ -9,6 +9,8 @@ e.g.,
 
 def menu2(Topics,path):
 
+    os.system(d2s("mkdir -p",opj(path,'__local__')))
+
     assert 'ABORT' in Topics
     assert 'To Expose' in Topics
 

@@ -52,8 +52,50 @@ ctr = 1
 for i in range(10000,11000):
 	imsave(opjD('temp_imgs',d2n(ctr,'.png')),o[left_image][vals][i])
 	ctr+=1
+"""
+
 
 """
+L=h5r('/home/karlzipser/Desktop/out_0.25_2_4.h5py')
+a = L['left']
+b = L['ldr']
+fx,fy=4.,4.
+os.system(d2s('mkdir -p',opjD('temp_imgs')))
+os.system(d2s('rm',opjD('temp_imgs','*.png')))
+ctr = 1
+for i in range(0,len(a)/100):
+	e = cv2.resize(b[i,:,:,:], (168,94), interpolation=0)
+	f = a[i,:,:,:]
+	g = np.concatenate((f,e[94/2:,:,:]),axis=0)
+	imsave(opjD('temp_imgs',d2n(ctr,'.png')),g)
+	ctr+=1
+os.system("ffmpeg -i ~/Desktop/temp_imgs/%d.png -pix_fmt yuv420p -r 30 -b:v 14000k ~/Desktop/temp.mpg")
+
+"""
+if False:
+	L=h5r('/home/karlzipser/Desktop/out_0.25_0_4.h5py')
+	a = L['left']
+	b = L['ldr']
+	fx,fy=4.,4.
+	os.system(d2s('mkdir -p',opjD('temp2_imgs')))
+	os.system(d2s('rm',opjD('temp2_imgs','*.png')))
+	os.system(d2s('rm',opjD('temp2.mpg')))
+	ctr = 1
+	len_a = len(a)
+	timer = Timer(5)
+	for i in range(0,len(a)):
+		timer.message(d2s(i))
+		e = cv2.resize(b[i,:,:,:], (168,94), interpolation=0)
+		f = a[i,:,:,:].copy()
+		for x in range(168):
+			for y in range(94):
+				if max(e[y,x,:])>0:
+					f[y,x,:]=e[y,x,:]
+		#g = np.concatenate((f,e[94/2:,:,:]),axis=0)
+		#mi(f);spause();raw_enter()
+		imsave(opjD('temp2_imgs',d2n(ctr,'.png')),f)
+		ctr+=1
+	os.system("ffmpeg -i ~/Desktop/temp_imgs/%d.png -pix_fmt yuv420p -r 30 -b:v 14000k ~/Desktop/temp2.mpg")	
 
 
 """
