@@ -349,15 +349,15 @@ if __name__ == '__main__':
                             'L':temp,
                         },
                     }
-                    for when in ['now','prev']:
-                        rectangles.paste_rectangles_into_drive_images(
+                    for when in ['now']:#,'prev']:
+                        I_L=rectangles.paste_rectangles_into_drive_images(
                             Xys[when],
                             I[when],
                             Rectangles,
                             P['backup parameter'],
                         )
                     #mci(S['left_image'],title='left.')
-                    imsave(opjm('rosbags/imgs/'+d2n(img_ctr,'.png')),S['left_image'])#Barrier_pts3D['plot']['image'])
+                    imsave(opjm('rosbags/imgs/'+d2n(img_ctr,'.png')),I_L)#S['left_image'])#Barrier_pts3D['plot']['image'])
 
 
 

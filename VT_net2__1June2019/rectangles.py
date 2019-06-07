@@ -79,6 +79,7 @@ def paste_rectangles_into_drive_images(
                     except:
                         cr('place_img_f_in_img_g failure')
     mci(I['L'],title='L_')
+    return I['L']
 
 
 def test_setup(num_rectangle_patterns):
