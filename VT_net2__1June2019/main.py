@@ -124,7 +124,7 @@ raw_enter()
 if __name__ == '__main__':
 
     graphics_timer = Timer(P['graphics_timer time'])
-    delay_timer = Timer(1/10.)
+    delay_timer = Timer(1/30.)
     err_timer = Timer(5)
     ts = time.time()
     gyro_heading_x = 0
