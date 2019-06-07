@@ -304,13 +304,13 @@ if __name__ == '__main__':
                     do_print=False,
                     use_maplotlib=False,
                     use_CV2_circles=True,
-                    grid=True,
+                    grid=False,
                     scale=1.0,
                     clear=True,
                     code=0,
                     color=(255,0,0), #(0,127,255),
                     show=True,
-                    #background_image=S['left_image'],
+                    background_image=S['left_image'],
                 )
                 img_ctr += 1
                 imsave(opjm('rosbags/imgs/'+d2n(img_ctr,'.png')),Barrier_pts3D['plot']['image'])
