@@ -312,7 +312,7 @@ if __name__ == '__main__':
                     #background_image=S['left_image'],
                 )
                 img_ctr += 1
-                imsave(opjm('rosbags/imgs/'+d2n(ctr,'.png')),Barrier_pts3D['plot']['image'])
+                imsave(opjm('rosbags/imgs/'+d2n(img_ctr,'.png')),Barrier_pts3D['plot']['image'])
                 #for i in range(Barrier_pts3D['ctr']):
 
                 #xys = Barrier_pts3D['array'][:Barrier_pts3D['ctr'],:]
