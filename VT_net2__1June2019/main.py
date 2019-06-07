@@ -119,6 +119,7 @@ stop_timer = Timer(P['stop_timer_time'])
 slow_encoder = 0
 img_ctr = 0
 os.system('mkdir -p '+opjm('rosbags/imgs'))
+raw_enter()
 
 if __name__ == '__main__':
 
