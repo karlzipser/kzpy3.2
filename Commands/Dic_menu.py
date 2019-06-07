@@ -250,7 +250,7 @@ def show_menu(C,message,parent_keys=[]):
         on_color='on_blue'
     )
     """
-    q = '/'
+    q = ': '
     cw(
         bl+q.join(parent_keys)+q+wh+q.join(key_list),
     ) 
@@ -286,7 +286,7 @@ def show_menu(C,message,parent_keys=[]):
                 v = C[k]
                 cc = colored.fg('grey_23') 
             elif C['--mode--'] == 'bash':
-                cc = og
+                cc = lb
                 v = ''
             elif C['--mode--'] == 'const':
                 v = C[k]
