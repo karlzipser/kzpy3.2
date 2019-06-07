@@ -119,7 +119,7 @@ stop_timer = Timer(P['stop_timer_time'])
 slow_encoder = 0
 img_ctr = 0
 os.system('mkdir -p '+opjm('rosbags/imgs'))
-raw_enter()
+#raw_enter()
 
 if __name__ == '__main__':
 
@@ -300,6 +300,7 @@ if __name__ == '__main__':
                     codes=[0],
                 )
                 Barrier_pts3D['check_ts'](P['circle_lifetime'])
+                """
                 Barrier_pts3D['show'](
                     do_print=False,
                     use_maplotlib=False,
@@ -312,8 +313,9 @@ if __name__ == '__main__':
                     show=True,
                     background_image=S['left_image'],
                 )
+                """
                 img_ctr += 1
-                imsave(opjm('rosbags/imgs/'+d2n(img_ctr,'.png')),Barrier_pts3D['plot']['image'])
+                #imsave(opjm('rosbags/imgs/'+d2n(img_ctr,'.png')),Barrier_pts3D['plot']['image'])
                 #for i in range(Barrier_pts3D['ctr']):
 
                 #xys = Barrier_pts3D['array'][:Barrier_pts3D['ctr'],:]
@@ -355,7 +357,7 @@ if __name__ == '__main__':
                             P['backup parameter'],
                         )
                     #mci(S['left_image'],title='left.')
-
+                    imsave(opjm('rosbags/imgs/'+d2n(img_ctr,'.png')),S['left_image'])#Barrier_pts3D['plot']['image'])
 
 
 
