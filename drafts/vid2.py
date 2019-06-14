@@ -1,7 +1,7 @@
 from kzpy3.vis3 import *
 import threading
 
-for a in [('wait',25),('path',None),('skip',0),('start',0)]:
+for a in [('wait',1),('path',None),('skip',0),('start',0)]:
 	if a[0] not in Arguments:
 		Arguments[a[0]] = a[1]
 
@@ -24,7 +24,7 @@ def get_frames(cap):
 	ctr = 0
 	while True:
 		
-		if len(frames) < 10:
+		if len(frames) < 100:
 			ret,frame = cap.read()
 			if ctr >= Arguments['skip'] or not ret:
 				frames.append((ret,frame))
