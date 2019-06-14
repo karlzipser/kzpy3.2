@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 from kzpy3.vis3 import *
-import colored
+try:
+    import colored
+    have_colored = True
+except:
+    have_colored = False
 exec(identify_file_str)
 for k in CShowFile.keys():
     CShowFile[k] = False
@@ -302,7 +306,10 @@ def show_menu(C,message,parent_keys=[]):
                 val_color = wh
             elif is_meta_key(k):
                 v = C[k]
-                cc = colored.fg('grey_23') 
+                if have_colored:
+                    cc = colored.fg('grey_23') 
+                else:
+                    cc = cg
             elif C['--mode--'] == 'bash':
                 cc = lb
                 v = ''
@@ -313,8 +320,11 @@ def show_menu(C,message,parent_keys=[]):
             else:
                 v = C[k]
                 cc = yl
-
-        cb(bl,i,cc+k+colored.attr('res_underlined'),val_color,v,edited)
+        if have_colored:
+            atr = colored.attr('res_underlined')
+        else:
+            atr = ''
+        cb(bl,i,cc+k+atr,val_color,v,edited)
     cg('$',message)
     return sorted_keys
 
