@@ -2217,4 +2217,27 @@ while not tr.c():
 cg(ctr/1000000,'M',dp(tr.count/t/1000000),'MHz')
 
 
+
+def large_files(start=opjh(),F={}):
+    files = sggo(start,'*')
+    for f in files:
+        if os.path.isdir(f):
+            cg(f)
+            try:
+                F = large_files(f,F)
+            except:
+                cr(1)
+        else:
+            try:
+                F[f] = os.path.getsize(f)
+                cm(f,F[f])
+            except:
+                cr(2)
+    return F
+
+import operator
+G = sorted(F.items(), key=operator.itemgetter(1))
+
+
+
 #EOF

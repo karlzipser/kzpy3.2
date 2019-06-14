@@ -1320,7 +1320,7 @@ if True:
 		size_of_filesystem_in_bytes = statvfs.f_frsize * statvfs.f_blocks     # Size of filesystem in bytes
 		#print statvfs.f_frsize * statvfs.f_bfree      # Actual number of free bytes
 		number_of_free_bytes_that_ordinary_users_have = statvfs.f_frsize * statvfs.f_bavail     # Number of free bytes that ordinary users
-		percent_free = int(100*number_of_free_bytes_that_ordinary_users_have/size_of_filesystem_in_bytes)
+		percent_free = dp(100*number_of_free_bytes_that_ordinary_users_have/(1.0*size_of_filesystem_in_bytes))
 		return percent_free
 
 

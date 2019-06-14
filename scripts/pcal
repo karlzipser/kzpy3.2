@@ -5,8 +5,6 @@ from datetime import date
 
 set_Argument_defaults(Arguments,{'p':7,'f':28})
 
-
-
 Days = {
 	0:'Mon',
 	1:'Tue',
@@ -24,6 +22,7 @@ one_day = datetime.timedelta(days=1)
 #pr = datetime.datetime.strptime('13042019', "%d%m%Y").date()
 pr = datetime.datetime.strptime('25052019', "%d%m%Y").date()
 pr = datetime.datetime.strptime('27052019', "%d%m%Y").date()
+#pr = datetime.datetime.strptime('07062019', "%d%m%Y").date()
 
 my_day_pattern = [0,0, 1,1, 0,0,0,0,0, 1,1,1,1,1]
 

@@ -81,6 +81,7 @@ alias pgp='cd ~/kzpy3; git pull; cd'
 git config --global credential.helper "cache --timeout=86400"
 alias ipy="ipython --no-banner"
 #alias td2="mv ~/Desktop/* ~/Desktop2/"
+alias m="~/kzpy3/Menu/Menu.py"
 
 export PYTHONPATH=~:$PYTHONPATH
 #export PYTHONSTARTUP=~/kzpy3/utils.py
@@ -97,6 +98,7 @@ fi
 export PATH=~/kzpy3/scripts:$PATH
 export PATH=~/kzpy3/Commands:$PATH
 export PATH=~/kzpy3/misc:$PATH
+export PATH=~/kzpy3/Menu:$PATH
 
 
 

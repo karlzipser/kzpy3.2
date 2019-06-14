@@ -7,7 +7,7 @@ raw_enter(' other.py ')
 while True:
 	if timer.check():
 		timer.reset()
-		soD('a',{'df':percent_disk_free(opjh()),'two':rndint(100)})
+		soD('a',{'df':percent_disk_free('/'),'two':rndint(100)})
 	else:
 		time.sleep(0.01)
 		continue
