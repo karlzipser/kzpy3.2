@@ -40,7 +40,7 @@ Q = {
             },
         },
     },
-    'some': {
+    'some active data': {
         '--mode--':'active',
         'a':opjD('a'),
         'b':opjD('a'),

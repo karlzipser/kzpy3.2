@@ -260,8 +260,8 @@ def is_meta_key(k):
     else:
         return True
 
-def clear_screen():
-    cr("\nclear screen\n")
+#def clear_screen():
+#    cr("\nclear screen\n")
 
 def show_menu(C,message,parent_keys=[]):
     if '--keys--' in C:
