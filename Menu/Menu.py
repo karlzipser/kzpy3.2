@@ -10,6 +10,19 @@ for k in CShowFile.keys():
     CShowFile[k] = False
 
 
+if 'Arguments' not in locals():
+    Arguments = {}
+
+Default_Args = {
+    'menu':True,
+    'read_only':False,
+}
+
+for d in Default_Args:
+    if d not in Arguments:
+        Arguments[d] = Default_Args[d]
+
+
 def Default_Values(Q,project_path,parent_keys=[],read_only=False,Dics={}):
     D = {}
     os.system('mkdir -p '+opj(project_path,'__local__'))
@@ -421,7 +434,7 @@ def menu_python():
         return {'message':message}
 
 
-def start_Dic(dic_project_path,Dics,parent_keys=[]):
+def start_Dic(dic_project_path,Dics,parent_keys=[],Arguments=Arguments):
     if True:#dic_project_path not in Dics:
         exec_str = d2s(
             'from',
@@ -443,17 +456,10 @@ def start_Dic(dic_project_path,Dics,parent_keys=[]):
     if Arguments['menu']:
         Dics[dic_project_path]['menu']()
 
+    return Dics[dic_project_path]
+
 
 if __name__ == '__main__':
-
-    Default_Args = {
-        'menu':True,
-        'read_only':False,
-    }
-
-    for d in Default_Args:
-        if d not in Arguments:
-            Arguments[d] = Default_Args[d]
 
     dic_project_path = opjk('Menu')
 
@@ -466,12 +472,6 @@ if __name__ == '__main__':
 
 #EOF
 
-
-
-#EOF
-
-
-    
 
 
 
