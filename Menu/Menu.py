@@ -23,7 +23,14 @@ for d in Default_Args:
         Arguments[d] = Default_Args[d]
 
 
-def Default_Values(Q,project_path,parent_keys=[],read_only=False,Dics={}):
+def Default_Values(
+    Q,
+    project_path,
+    parent_keys=[],
+    read_only=False,
+    Dics={},
+    load_timer_time=0.1
+):
     D = {}
     os.system('mkdir -p '+opj(project_path,'__local__'))
     D['project_path'] = project_path
@@ -34,6 +41,7 @@ def Default_Values(Q,project_path,parent_keys=[],read_only=False,Dics={}):
     D['Q'] = Q
     D['read_only'] = read_only
     D['Dics'] = Dics
+    D['load_timer'] = Timer(load_timer_time)
     if not read_only:
         os.system('rm '+D['.pkl'])
     add_keys(D,D['Q'])
@@ -42,8 +50,13 @@ def Default_Values(Q,project_path,parent_keys=[],read_only=False,Dics={}):
             return
         save_C(D['Q'],D['project_path'])
     def function_load():
-        load_C(D['Q'],D['project_path'])
-        add_keys(D,D['Q'])
+        if D['load_timer'].check():
+            cm(0)
+            D['load_timer'].reset()
+            load_C(D['Q'],D['project_path'])
+            add_keys(D,D['Q'])
+        else:
+            cm(1)
     def function_up():
         if len(D['current_keys']) > 0:
             D['current_keys'].pop()
@@ -434,7 +447,13 @@ def menu_python():
         return {'message':message}
 
 
-def start_Dic(dic_project_path,Dics,parent_keys=[],Arguments=Arguments):
+def start_Dic(
+    dic_project_path,
+    Dics,
+    parent_keys=[],
+    Arguments=Arguments,
+    load_timer_time=0.1,
+):
     if True:#dic_project_path not in Dics:
         exec_str = d2s(
             'from',
@@ -448,7 +467,9 @@ def start_Dic(dic_project_path,Dics,parent_keys=[],Arguments=Arguments):
                 dic_project_path,
                 read_only=Arguments['read_only'],
                 parent_keys=parent_keys,
-                Dics=Dics)
+                Dics=Dics,
+                load_timer_time=load_timer_time,
+            )
 
     if Arguments['read_only']:
         Dics[dic_project_path]['load']()
