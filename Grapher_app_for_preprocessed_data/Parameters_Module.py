@@ -2,6 +2,7 @@ from Paths_Module import *
 from misc.All_Names_Module import *
 exec(identify_file_str)
 
+"""
 try:
 	if len(sggo("kzpy3/Grapher_app_for_preprocessed_data/__local__/Parameters_Module__local_.py")) > 0:
 		q = raw_input('load __local__ parameters? (y/n)')
@@ -11,7 +12,9 @@ try:
 		q = 'no'
 except:
 	print('__local__.Parameters_Module__local_ not found')
+"""
 
+q = 'n'
 if q != 'y':
 
 	_ = dictionary_access

@@ -39,8 +39,12 @@ or:
 
 
 To view, e.g.:
-	pGraph runs /media/karlzipser/rosbags/h5py
+
+	pGraph runs /media/karlzipser/rosbags/h5py/
+
 or:
+
+	pGraph
 
 """)
 time.sleep(2)
