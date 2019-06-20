@@ -32,9 +32,9 @@ print(Args)
 print("""
 To process data, e.g.:
 
-	Data SRC /media/karlzipser/rosbags/new DST /media/karlzipser/rosbags/runs
+	Data src /media/karlzipser/rosbags/new dst /media/karlzipser/rosbags/runs
 or:
-	Data DST /media/karlzipser/rosbags/runs
+	Data dst /media/karlzipser/rosbags/runs
 
 To view, e.g.:
 	pGraph runs /media/rosbags/runs/h5py
