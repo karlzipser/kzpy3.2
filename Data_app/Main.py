@@ -81,7 +81,7 @@ for r in runs:
 	if fname(r) in preexisting_processed_runs:
 		pd2s(fname(r),'already processed.')
 		continue
-	bags = sgg(opj(r,'*.bag'))
+	bags = sgg(opj(r,'*.bag.too_small'))+sgg(opj(r,'*.bag'))
 	cprint(d2s("\t",fname(r),len(bags)))
 	mtimes = []
 	for b in bags:
