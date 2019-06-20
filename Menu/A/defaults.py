@@ -29,6 +29,7 @@ Q = {
         'pcal':     'python kzpy3/scripts/pcal',
         'test_Array':'python kzpy3/Array/test_Array.py',
         'menu test':'python kzpy3/Menu/_test.py',
+        'pgp':'pgp':'cd ~/kzpy3; git pull; cd',
     },
     'tests': {
         'a': 3.3,
