@@ -32,12 +32,16 @@ print(Args)
 print("""
 To process data, e.g.:
 
-	Data src /media/karlzipser/rosbags/new dst /media/karlzipser/rosbags/runs
+	Data src /media/karlzipser/rosbags/new dst /media/karlzipser/rosbags/
+
 or:
-	Data dst /media/karlzipser/rosbags/runs
+	Data
+
 
 To view, e.g.:
-	pGraph runs /media/rosbags/runs/h5py
+	pGraph runs /media/karlzipser/rosbags/h5py
+or:
+
 """)
 time.sleep(2)
 

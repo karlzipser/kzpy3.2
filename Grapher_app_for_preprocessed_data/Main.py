@@ -26,8 +26,19 @@ exec(identify_file_str)
 """
 _ = dictionary_access
 
-for a in Arguments.keys():
-	_(P,a,equals,_(Arguments,a))
+#for a in Arguments.keys():
+#	_(P,a,equals,_(Arguments,a))
+
+
+Default_Args = {
+    'runs':'/media/karlzipser/h5py',
+}
+
+for d in Default_Args:
+    if d not in Arguments:
+        Arguments[d] = Default_Args[d]
+    P[d] = Arguments[d]
+
 
 #cv2.destroyAllWindows()
 #mci(P[IMAGE2][img],title=steer)
