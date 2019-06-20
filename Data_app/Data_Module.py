@@ -264,7 +264,7 @@ def Left_Timestamp_Metadata(run_name=None,h5py_path=None):
 	L = h5w(opj(pname(pathv),'left_timestamp_metadata_right_ts.h5py'))
 
 	if len(F['left_image']['ts']) == 0:
-		raw_enter(">>>> Warning!!! len(F['left_image']['ts']) == 0\n")
+		raw_enter(">>>> Warning!!! len(F['left_image']['ts']) == 0\n\n"+pathv)
 		ts = arange(F['steer']['ts'][0],F['steer']['ts'][-1],1/30.)
 		L.create_dataset('ts',data=ts)
 	else:
