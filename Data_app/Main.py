@@ -43,11 +43,13 @@ time.sleep(2)
 
 bag_folders_src_ = opjm('rosbags/new')
 h5py_dst = opjm('rosbags/h5py')
-os.system('mkdir -p '+h5py_dst)
+
 
 if 'src' in Args and 'dst' in Args:
 	bag_folders_src_ = Args['src']
 	h5py_dst = Args['dst']
+
+os.system('mkdir -p '+h5py_dst)
 
 assert_disk_locations(bag_folders_src_)
 runs = sgg(opj(bag_folders_src_,'*'))
