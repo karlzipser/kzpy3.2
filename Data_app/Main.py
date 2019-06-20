@@ -29,6 +29,12 @@ for a in Args.keys():
 
 print(Args)
 
+print("""
+To process data, e.g.:
+	Data SRC /media/karlzipser/rosbags/new DST /media/karlzipser/rosbags/runs
+To view, e.g.:
+	pGraph runs /media/rosbags/runs/h5py
+""")
 
 bag_folders_src_ = opjm('rosbags/new')
 h5py_dst = opjm('rosbags/h5py')

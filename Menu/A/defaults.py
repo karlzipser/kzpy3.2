@@ -27,6 +27,8 @@ Q = {
     'miscellaneous':{
         '--mode--':'bash',
         'pcal':     'python kzpy3/scripts/pcal',
+        'test_Array':'python kzpy3/Array/test_Array.py',
+        'menu test':'python kzpy3/Menu/_test.py',
     },
     'tests': {
         'a': 3.3,

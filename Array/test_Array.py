@@ -25,16 +25,11 @@ def test_Array():
         color=(255,255,255),
     )
 
-    height_in_pixels=94*2
-    width_in_pixels=168*2
-    x_origin_in_pixels=0
-    y_origin_in_pixels=height_in_pixels
-
     B['setup_plot'](
-        height_in_pixels=height_in_pixels,
-        width_in_pixels=width_in_pixels,
-        x_origin_in_pixels=x_origin_in_pixels,
-        y_origin_in_pixels=y_origin_in_pixels,
+        height_in_pixels=94,
+        width_in_pixels=168,
+        x_origin_in_pixels=0,
+        y_origin_in_pixels=94,
     )
     
     B['to_3D'](A)
