@@ -31,13 +31,19 @@ print(Args)
 
 print("""
 To process data, e.g.:
+
 	Data SRC /media/karlzipser/rosbags/new DST /media/karlzipser/rosbags/runs
+or:
+	Data DST /media/karlzipser/rosbags/runs
+
 To view, e.g.:
 	pGraph runs /media/rosbags/runs/h5py
 """)
+time.sleep(2)
 
 bag_folders_src_ = opjm('rosbags/new')
 h5py_dst = opjm('rosbags/h5py')
+os.system('mkdir -p '+h5py_dst)
 
 if 'src' in Args and 'dst' in Args:
 	bag_folders_src_ = Args['src']
