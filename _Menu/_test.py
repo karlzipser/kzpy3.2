@@ -1,9 +1,10 @@
 from kzpy3.vis3 import *
-import Menu
+import kzpy3.Menu.Menu as Menu
 
 Q = Menu.start_Dic(
     dic_project_path=opjk('Menu','A'),
     Dics={},
+    load_timer_time=1,
     Arguments={
         'menu':False,
         'read_only':False,

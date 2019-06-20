@@ -36,7 +36,7 @@ def Array(
     def function_setup_plot(
         height_in_pixels,
         width_in_pixels,
-        pixels_per_unit,
+        pixels_per_unit=1,
         x_origin_in_pixels=None,
         y_origin_in_pixels=None,
     ):
@@ -132,13 +132,13 @@ def Array(
     def function_show(
         use_CV2_plot=True,
         use_CV2_circles = False,
-        use_maplotlib=True,
-        do_print=True,
+        use_maplotlib=False,
+        do_print=False,
         clear=True,
         color=(255,255,255),
         code=None,
         show=True,
-        grid=True,
+        grid=False,
         scale=1.0,
         background_image=None
     ):
@@ -196,7 +196,10 @@ def Array(
         len_codes = len(codes)
         for j in range(A['ctr']):
             code = int(A['code'][j])
-            dic_info = A['Dic'][A['keys'][j]]
+            try:
+                dic_info = A['Dic'][A['keys'][j]]
+            except:
+                dic_info = None
             a = A['array'][j,:]
 
             if len_codes > 0 and code not in codes:
@@ -243,20 +246,6 @@ def Array(
     return D
 
 
-
-
-if False:
-    from kzpy3.Array.Array import *
-
-    A=Array(12,2)
-
-    for i in range(10):
-        A['append'](na([i,i]),dic_info={'time':time.time()})
-        time.sleep(1)
-
-    for i in range(100):
-        A['check_ts'](30);pprint(A['data']);cg(A['ctr'])
-        time.sleep(1.7)
 
 
 #EOF
