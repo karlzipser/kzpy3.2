@@ -357,11 +357,10 @@ while True:
 				clicked_ = False
 				break
 	except Exception as e:
-		print("********** loop Exception ***********************")
-		print(e.message, e.args)
-		#print('run name = '+run_name_)
-		time.sleep(1)
-		print(time.time)
+		exc_type, exc_obj, exc_tb = sys.exc_info()
+		file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+		CS_('Exception!',emphasis=True)
+		CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
 
 
 #EOF
