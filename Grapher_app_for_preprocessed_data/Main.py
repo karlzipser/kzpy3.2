@@ -87,6 +87,7 @@ def setup(P):
 #############################################################
 ####################### MENU ################################
 ##
+import kzpy3.Menu.Menu as Menu
 Q = Menu.start_Dic(
     dic_project_path=opjk('Grapher_app_for_preprocessed_data'),
     Arguments={
