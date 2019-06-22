@@ -341,6 +341,7 @@ while True:
                             mouse_red_zone_warning_timer_ = Timer(2)
                         else:
                             cmd_tuplev = P[CV2_KEY_COMMANDS][mv]
+                            print cmd_tuplev[0]
                             exec(cmd_tuplev[0])
                         key_decodedv = True
             if not key_decodedv:
