@@ -95,7 +95,7 @@ Q = Menu.start_Dic(
     }
 )
 
-parameter_file_load_timer = Timer(0.1)#Q['TO_HIDE']]['load_timer_time'])
+parameter_file_load_timer = Timer(1)#Q['TO_HIDE']]['load_timer_time'])
 
 def load_parameters(P,Q,customer='pGraph'):
     #print 1
@@ -118,7 +118,7 @@ def load_parameters(P,Q,customer='pGraph'):
                 #print 5
         if update:
             setup(P)
-        raw_enter()
+        #raw_enter()
 ##
 ##############################################################
 ##############################################################
