@@ -359,7 +359,7 @@ while True:
 	except Exception as e:
 		print("********** loop Exception ***********************")
 		print(e.message, e.args)
-		print('run name = '+run_name_)
+		#print('run name = '+run_name_)
 		time.sleep(1)
 		print(time.time)
 
