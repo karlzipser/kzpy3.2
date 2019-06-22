@@ -126,6 +126,7 @@ show_menu_ = True
 first_time_ = True
 
 while True:
+    print 0
     try:
         load_parameters(P,Q)
         run_name_ = P[ICONS][P[CURRENT_ICON_NAME]][name]
