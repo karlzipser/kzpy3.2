@@ -222,7 +222,7 @@ while True:
 			I[topic_][img][cx_-10:-10,cy_-10:-10,:] = cv2.resize(camera_img_, (0,0), fx=4, fy=4)
 
 			try:
-				print run_name,shape(L['left_to_lidar_index']
+				print run_name,shape(L['left_to_lidar_index'])
 				lidar_index_ = L['left_to_lidar_index'][img_index_]
 				lidar_img_ = O['image']['vals'][lidar_index_][:]
 				cx_ = (P[Y_PIXEL_SIZE]-P[CAMERA_SCALE]*shape(lidar_img_)[0])
