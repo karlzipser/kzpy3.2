@@ -1,0 +1,7 @@
+http://wiki.ros.org/ROS/NetworkSetup
+
+169.254.131.241
+169.254.131.242
+
+export ROS_HOSTNAME=localhost
+export ROS_MASTER_URI=http://localhost:11311
