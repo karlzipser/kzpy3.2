@@ -78,8 +78,7 @@ def setup(P):
 
 	P[CURRENT_ICON_NAME] = name_
 
-	show_menu_ = True
-	first_time_ = True
+
 
 
 
@@ -117,6 +116,8 @@ def load_parameters(P,Q,customer='pGraph'):
 
 
 setup(P)
+show_menu_ = True
+first_time_ = True
 
 while True:
 	try:
