@@ -98,13 +98,17 @@ Q = Menu.start_Dic(
 parameter_file_load_timer = Timer(0.1)#Q['TO_HIDE']]['load_timer_time'])
 
 def load_parameters(P,Q,customer='pGraph'):
+    print 1
     if parameter_file_load_timer.check():
+        print 2
         parameter_file_load_timer.reset()
         update = False
         Q['load']()
         for e in Q['Q']:
+            print 3
             print(e)
             for k in Q['Q'][e]:
+                print k
                 if P[k] != Q['Q'][e][k]:
                     print (P[k],Q['Q'][e][k])
                     P[k] = Q['Q'][e][k]
