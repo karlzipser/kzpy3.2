@@ -128,7 +128,7 @@ show_menu_ = True
 first_time_ = True
 raw_enter()
 while True:
-    print 0
+    ## 0
     try:
         print ""
         run_name_ = P[ICONS][P[CURRENT_ICON_NAME]][name]
@@ -334,6 +334,7 @@ while True:
 
             for mv in P[CV2_KEY_COMMANDS]:
                 if len(mv) > 0:
+                    print key_,mv
                     if key_ == ord(mv):
                         if P[MOUSE_IN_RED_ZONE]:
                             mouse_red_zone_warning_timer_ = Timer(2)
