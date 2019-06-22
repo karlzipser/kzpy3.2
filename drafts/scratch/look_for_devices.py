@@ -35,7 +35,8 @@ if True:
 			H[hostname] = 0
 
 	for i in range(10,14):
-		hostname = d2p(192,168,1,i)
+		hostname = d2p(169,254,131,i)
+		#hostname = d2p(192,168,1,i)
 		threading.Thread(target=ping_test,args=[hostname]).start()
 """
 if False:
