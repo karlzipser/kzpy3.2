@@ -128,6 +128,8 @@ def opj(*args):
 	return os.path.join(*str_args)
 def opjh(*args):
 	return opj(home_path,opj(*args))
+def opjk(*args):
+	return opjh('kzpy3',opj(*args))
 def opjD(*args):
 	return opjh('Desktop',opj(*args))
 def opjm(*args):
