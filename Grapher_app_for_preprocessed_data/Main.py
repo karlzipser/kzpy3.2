@@ -120,7 +120,7 @@ setup(P)
 
 while True:
 	try:
-		load_parameters()
+		load_parameters(P)
 		run_name_ = P[ICONS][P[CURRENT_ICON_NAME]][name]
 		l_ = opj(P[ICONS][P[CURRENT_ICON_NAME]][path],'left_timestamp_metadata_right_ts.h5py')
 		if len(sgg(l_)) == 0:
