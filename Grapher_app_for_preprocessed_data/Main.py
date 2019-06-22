@@ -98,7 +98,7 @@ Q = Menu.start_Dic(
 
 parameter_file_load_timer = Timer(0.1)#Q['TO_HIDE']]['load_timer_time'])
 
-def load_parameters(P,customer='pGraph'):
+def load_parameters(P,Q,customer='pGraph'):
     if parameter_file_load_timer.check():
     	parameter_file_load_timer.reset()
     	update = False
@@ -120,7 +120,7 @@ setup(P)
 
 while True:
 	try:
-		load_parameters(P)
+		load_parameters(P,Q)
 		run_name_ = P[ICONS][P[CURRENT_ICON_NAME]][name]
 		l_ = opj(P[ICONS][P[CURRENT_ICON_NAME]][path],'left_timestamp_metadata_right_ts.h5py')
 		if len(sgg(l_)) == 0:
