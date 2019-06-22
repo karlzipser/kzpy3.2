@@ -228,8 +228,11 @@ while True:
 				cx_ = (P[Y_PIXEL_SIZE]-P[CAMERA_SCALE]*shape(lidar_img_)[0])
 				cy_ = (P[X_PIXEL_SIZE]-P[CAMERA_SCALE]*shape(lidar_img_)[1])
 				I[topic_][img][cx_-10:-10,cy_-10:-10,:] = cv2.resize(lidar_img_, (0,0), fx=1, fy=1)
-			except:
-				print '.'
+			except Exception as e:
+				exc_type, exc_obj, exc_tb = sys.exc_info()
+				file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+				CS_('Exception!',emphasis=True)
+				CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
 
 			if P[MOUSE_IN_RED_ZONE] == True:
 				cv2.rectangle(I[topic_][img],(cy_-10,cx_-10),(P[X_PIXEL_SIZE]-3-10,P[Y_PIXEL_SIZE]-3-10), (255,0,0), 3)
