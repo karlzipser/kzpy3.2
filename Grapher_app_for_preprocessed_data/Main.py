@@ -40,50 +40,86 @@ for d in Default_Args:
     P[d] = Arguments[d]
 
 
-#cv2.destroyAllWindows()
-#mci(P[IMAGE2][img],title=steer)
+def setup(P):
+	#cv2.destroyAllWindows()
+	#mci(P[IMAGE2][img],title=steer)
 
-P[X_PIXEL_SIZE_INIT],P[Y_PIXEL_SIZE_INIT] = P[X_PIXEL_SIZE],P[Y_PIXEL_SIZE]
-##################3
-P[ICONS] = {}
+	P[X_PIXEL_SIZE_INIT],P[Y_PIXEL_SIZE_INIT] = P[X_PIXEL_SIZE],P[Y_PIXEL_SIZE]
+	##################3
+	P[ICONS] = {}
+
+	h5py_runs_ = []
+	#assert_disk_locations(P[DATASET_PATHS])
+	assert_disk_locations(P['runs'])
+
+	#for dataset_path_ in P[DATASET_PATHS]:
+	for dataset_path_ in [P['runs']]:
+		print dataset_path_
+		h5py_runs_ += sggo(dataset_path_,'*')
+
+	icon_row_counter_ = 0
+	icon_column_counter_ = 0
+	for i_ in rlen(h5py_runs_):
+		O = h5r(opj(h5py_runs_[i_],'original_timestamp_data.h5py'))
+		icon_img_ = O[left_image][vals][int(len(O[left_image][vals])/2)][:]
+		icon_img_ = cv2.resize(icon_img_, (0,0), fx=0.5, fy=0.5)
+		name_ = fname(h5py_runs_[i_])
+		P[ICONS][name_] = Graph_Module.Icon(
+							y,int(10+1.1*icon_column_counter_*shape(icon_img_)[1]),
+							x,0.52*P[Y_PIXEL_SIZE] + 1.1*icon_row_counter_*shape(icon_img_)[0],
+							img,icon_img_,
+							Img,None,
+							path,h5py_runs_[i_],
+							name,name_)
+		icon_column_counter_ += 1
+		if icon_column_counter_ >= P[MAX_ICONS_PER_ROW]:
+			icon_column_counter_ = 0
+			icon_row_counter_ += 1
+
+	P[CURRENT_ICON_NAME] = name_
+
+	show_menu_ = True
+	first_time_ = True
 
 
-h5py_runs_ = []
-#assert_disk_locations(P[DATASET_PATHS])
-assert_disk_locations(P['runs'])
-
-#for dataset_path_ in P[DATASET_PATHS]:
-for dataset_path_ in [P['runs']]:
-	print dataset_path_
-	h5py_runs_ += sggo(dataset_path_,'*')
-
-icon_row_counter_ = 0
-icon_column_counter_ = 0
-for i_ in rlen(h5py_runs_):
-	O = h5r(opj(h5py_runs_[i_],'original_timestamp_data.h5py'))
-	icon_img_ = O[left_image][vals][int(len(O[left_image][vals])/2)][:]
-	icon_img_ = cv2.resize(icon_img_, (0,0), fx=0.5, fy=0.5)
-	name_ = fname(h5py_runs_[i_])
-	P[ICONS][name_] = Graph_Module.Icon(
-						y,int(10+1.1*icon_column_counter_*shape(icon_img_)[1]),
-						x,0.52*P[Y_PIXEL_SIZE] + 1.1*icon_row_counter_*shape(icon_img_)[0],
-						img,icon_img_,
-						Img,None,
-						path,h5py_runs_[i_],
-						name,name_)
-	icon_column_counter_ += 1
-	if icon_column_counter_ >= P[MAX_ICONS_PER_ROW]:
-		icon_column_counter_ = 0
-		icon_row_counter_ += 1
-
-P[CURRENT_ICON_NAME] = name_
 
 
-show_menu_ = True
-first_time_ = True
+#############################################################
+####################### MENU ################################
+##
+Q = Menu.start_Dic(
+    dic_project_path=opjk('Grapher_app_for_preprocessed_data'),
+    Arguments={
+        'menu':False,
+        'read_only':False,
+    }
+)
+
+parameter_file_load_timer = Timer(0.1)#Q['TO_HIDE']]['load_timer_time'])
+
+def load_parameters(P,customer='pGraph'):
+    if parameter_file_load_timer.check():
+    	parameter_file_load_timer.reset()
+    	update = False
+        Q['load']()
+        for e in Q['Q']:
+            for k in Q['Q'][e]:
+            	if P[k] != Q['Q'][e][k]:
+                	P[k] = Q['Q'][e][k]
+                	update = True
+        if update:
+			setup(P)
+
+##
+##############################################################
+##############################################################
+
+
+setup(P)
 
 while True:
 	try:
+		load_parameters()
 		run_name_ = P[ICONS][P[CURRENT_ICON_NAME]][name]
 		l_ = opj(P[ICONS][P[CURRENT_ICON_NAME]][path],'left_timestamp_metadata_right_ts.h5py')
 		if len(sgg(l_)) == 0:
