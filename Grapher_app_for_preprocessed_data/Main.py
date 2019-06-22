@@ -222,12 +222,13 @@ while True:
 			I[topic_][img][cx_-10:-10,cy_-10:-10,:] = cv2.resize(camera_img_, (0,0), fx=4, fy=4)
 
 			try:
-				print run_name,shape(L['left_to_lidar_index'])
+				print run_name_,shape(L['left_to_lidar_index'])
 				lidar_index_ = L['left_to_lidar_index'][img_index_]
 				lidar_img_ = O['image']['vals'][lidar_index_][:]
-				cx_ = (P[Y_PIXEL_SIZE]-P[CAMERA_SCALE]*shape(lidar_img_)[0])
-				cy_ = (P[X_PIXEL_SIZE]-P[CAMERA_SCALE]*shape(lidar_img_)[1])
-				I[topic_][img][cx_-10:-10,cy_-10:-10,:] = cv2.resize(lidar_img_, (0,0), fx=1, fy=1)
+				mci(lidar_img_,title='l')
+				#cx_ = (P[Y_PIXEL_SIZE]-P[CAMERA_SCALE]*shape(lidar_img_)[0])
+				#cy_ = (P[X_PIXEL_SIZE]-P[CAMERA_SCALE]*shape(lidar_img_)[1])
+				#I[topic_][img][cx_-10:-10,cy_-10:-10,:] = cv2.resize(lidar_img_, (0,0), fx=1, fy=1)
 			except Exception as e:
 				exc_type, exc_obj, exc_tb = sys.exc_info()
 				file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
