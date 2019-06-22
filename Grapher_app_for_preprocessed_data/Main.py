@@ -108,7 +108,10 @@ def load_parameters(P,Q,customer='pGraph'):
             print 3
 
             print k
-            if P[k] != Q['Q'][e][k]:
+            if k not in P:
+                P[k] = Q['Q'][e][k]
+                update = True
+            elif P[k] != Q['Q'][e][k]:
                 print (P[k],Q['Q'][e][k])
                 P[k] = Q['Q'][e][k]
                 update = True
