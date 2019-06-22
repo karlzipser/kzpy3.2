@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-from kzpy3.utils2 import *
+from kzpy3.utils3 import *
 
 if False:
 	for i in range(0,256):
