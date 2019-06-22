@@ -257,7 +257,7 @@ while True:
 			cx_ = (P[Y_PIXEL_SIZE]-P[CAMERA_SCALE]*shape(camera_img_)[0])
 			cy_ = (P[X_PIXEL_SIZE]-P[CAMERA_SCALE]*shape(camera_img_)[1])
 			I[topic_][img][cx_-10:-10,cy_-10:-10,:] = cv2.resize(camera_img_, (0,0), fx=4, fy=4)
-
+			"""
 			try:
 				print run_name_,shape(L['left_to_lidar_index'])
 				lidar_index_ = L['left_to_lidar_index'][img_index_]
@@ -272,7 +272,7 @@ while True:
 				file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
 				CS_('Exception!',emphasis=True)
 				CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
-
+			"""
 			if P[MOUSE_IN_RED_ZONE] == True:
 				cv2.rectangle(I[topic_][img],(cy_-10,cx_-10),(P[X_PIXEL_SIZE]-3-10,P[Y_PIXEL_SIZE]-3-10), (255,0,0), 3)
 
