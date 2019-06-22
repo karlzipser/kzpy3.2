@@ -111,11 +111,14 @@ def load_parameters(P,Q,customer='pGraph'):
                 P[k] = Q['Q'][k]
                 update = True
                 #print 4
+            P[k] = Q['Q'][k]
+            """
             elif P[k] != Q['Q'][k]:
                 #print (P[k],Q['Q'][k])
                 P[k] = Q['Q'][k]
                 update = True
                 #print 5
+            """
         if update:
             setup(P)
         #raw_enter()
