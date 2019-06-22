@@ -78,6 +78,36 @@ def setup(P):
 
     P[CURRENT_ICON_NAME] = name_
 
+    run_name_ = P[ICONS][P[CURRENT_ICON_NAME]][name]
+    l_ = opj(P[ICONS][P[CURRENT_ICON_NAME]][path],'left_timestamp_metadata_right_ts.h5py')
+    if len(sgg(l_)) == 0:
+        l_ =  opj(P[ICONS][P[CURRENT_ICON_NAME]][path],'left_timestamp_metadata.h5py')
+    o_  = opj(P[ICONS][P[CURRENT_ICON_NAME]][path],'original_timestamp_data.h5py')
+    L = h5r(l_)
+    O = h5r(o_ )
+    ts_ = L[ts][:]
+    ts_ = ts_.copy()
+    ts_ -= ts_[0]
+    Timestamp_to_left_image = {}
+    for i_ in rlen(ts_):
+        Timestamp_to_left_image[ts_[i_]] = i_
+    P[END_TIME] =  max(ts_)
+    P[START_TIME] = 0
+    P[START_TIME_INIT],P[END_TIME_INIT] = P[START_TIME],P[END_TIME]
+
+    I = {}
+
+    zero_baselinev_ = 0*ts_
+    baseline_with_tics_ = zero_baselinev_.copy()
+    for i in rlen(baseline_with_tics_):
+        if np.mod(int(ts_[i]),10.0) == 0:
+            baseline_with_tics_[i] = 1.0
+
+    mouse_red_zone_warning_timer_ = Timer(0)
+
+    img_index_timer_ = Timer(1)
+    img_index_list_ = []
+    display_ratev = 0
 
 
 
@@ -128,39 +158,12 @@ raw_enter()
 while True:
     print 0
     try:
-        print "load_parameters(P,Q)"
-        run_name_ = P[ICONS][P[CURRENT_ICON_NAME]][name]
-        l_ = opj(P[ICONS][P[CURRENT_ICON_NAME]][path],'left_timestamp_metadata_right_ts.h5py')
-        if len(sgg(l_)) == 0:
-            l_ =  opj(P[ICONS][P[CURRENT_ICON_NAME]][path],'left_timestamp_metadata.h5py')
-        o_  = opj(P[ICONS][P[CURRENT_ICON_NAME]][path],'original_timestamp_data.h5py')
-        L = h5r(l_)
-        O = h5r(o_ )
-        ts_ = L[ts][:]
-        ts_ = ts_.copy()
-        ts_ -= ts_[0]
-        Timestamp_to_left_image = {}
-        for i_ in rlen(ts_):
-            Timestamp_to_left_image[ts_[i_]] = i_
-        P[END_TIME] =  max(ts_)
-        P[START_TIME] = 0
-        P[START_TIME_INIT],P[END_TIME_INIT] = P[START_TIME],P[END_TIME]
+        
 
-        I = {}
-
-        zero_baselinev_ = 0*ts_
-        baseline_with_tics_ = zero_baselinev_.copy()
-        for i in rlen(baseline_with_tics_):
-            if np.mod(int(ts_[i]),10.0) == 0:
-                baseline_with_tics_[i] = 1.0
-
-        mouse_red_zone_warning_timer_ = Timer(0)
-
-        img_index_timer_ = Timer(1)
-        img_index_list_ = []
-        display_ratev = 0
 
         while True:
+            #print "load_parameters(P,Q)"
+            load_parameters(P,Q)
 
             P[IMAGE2] = Graph_Module.Image2(
                 xmin,P[START_TIME],
