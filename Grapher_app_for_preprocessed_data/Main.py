@@ -104,15 +104,14 @@ def load_parameters(P,Q,customer='pGraph'):
         parameter_file_load_timer.reset()
         update = False
         Q['load']()
-        for e in Q['Q']:
+        for k in Q['Q']:
             print 3
-            print(e)
-            for k in Q['Q'][e]:
-                print k
-                if P[k] != Q['Q'][e][k]:
-                    print (P[k],Q['Q'][e][k])
-                    P[k] = Q['Q'][e][k]
-                    update = True
+
+            print k
+            if P[k] != Q['Q'][e][k]:
+                print (P[k],Q['Q'][e][k])
+                P[k] = Q['Q'][e][k]
+                update = True
         if update:
             setup(P)
 
