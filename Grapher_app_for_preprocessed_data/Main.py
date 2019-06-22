@@ -334,7 +334,7 @@ while True:
 
 
             for mv in P[CV2_KEY_COMMANDS]:
-                if len(mv) > 0:
+                if len(mv) > 0 and mv != '--mode--':
                     print key_,mv
                     if key_ == ord(mv):
                         if P[MOUSE_IN_RED_ZONE]:
