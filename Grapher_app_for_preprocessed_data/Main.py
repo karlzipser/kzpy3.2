@@ -220,6 +220,14 @@ while True:
 			cx_ = (P[Y_PIXEL_SIZE]-P[CAMERA_SCALE]*shape(camera_img_)[0])
 			cy_ = (P[X_PIXEL_SIZE]-P[CAMERA_SCALE]*shape(camera_img_)[1])
 			I[topic_][img][cx_-10:-10,cy_-10:-10,:] = cv2.resize(camera_img_, (0,0), fx=4, fy=4)
+
+			lidar_index_ = L['left_to_lidar_index'][img_index_]
+			lidar_img_ = O['image']['vals'][lidar_index_][:]
+			cx_ = (P[Y_PIXEL_SIZE]-P[CAMERA_SCALE]*shape(lidar_img_)[0])
+			cy_ = (P[X_PIXEL_SIZE]-P[CAMERA_SCALE]*shape(lidar_img_)[1])
+			I[topic_][img][cx_-10:-10,cy_-10:-10,:] = cv2.resize(lidar_img_, (0,0), fx=1, fy=1)
+
+
 			if P[MOUSE_IN_RED_ZONE] == True:
 				cv2.rectangle(I[topic_][img],(cy_-10,cx_-10),(P[X_PIXEL_SIZE]-3-10,P[Y_PIXEL_SIZE]-3-10), (255,0,0), 3)
 

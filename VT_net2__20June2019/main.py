@@ -28,16 +28,7 @@ cg("To start menu:\n\tpython kzpy3/Menu_app/menu2.py path",project_path,"dic P")
 #############################################################
 #############################################################
 
-if False:
-    def test(A={
-        'a':1,
-        'b':[1,2,3],
-    }):
-        B = {
-        'a':A['b'],
-        'b':A['a'],
-        }
-        return B
+
 
 #############################################################
 ####################### MENU ################################
@@ -57,7 +48,7 @@ def load_parameters(P,customer='VT menu'):
         Q['load']()
         for e in ['TO_EXPOSE','TO_HIDE']:
             for k in Q['Q'][e]:
-                P[k] = Q['Q'][e]
+                P[k] = Q['Q'][e][k]
         P['show timer'] = Timer(P['show timer time'])
         parameter_file_load_timer.reset()
 
