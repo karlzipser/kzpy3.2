@@ -118,6 +118,7 @@ def load_parameters(P,Q,customer='pGraph'):
                 #print 5
         if update:
             setup(P)
+        raw_enter()
 ##
 ##############################################################
 ##############################################################
@@ -126,7 +127,7 @@ def load_parameters(P,Q,customer='pGraph'):
 setup(P)
 show_menu_ = True
 first_time_ = True
-raw_enter()
+#raw_enter()
 while True:
     ## 0
     try:
