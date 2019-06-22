@@ -124,7 +124,7 @@ def load_parameters(P,Q,customer='pGraph'):
 setup(P)
 show_menu_ = True
 first_time_ = True
-
+raw_enter()
 while True:
     print 0
     try:
