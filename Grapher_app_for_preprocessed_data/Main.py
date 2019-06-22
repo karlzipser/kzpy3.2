@@ -227,7 +227,7 @@ while True:
                 #cx_ = (P[Y_PIXEL_SIZE]-P[CAMERA_SCALE]*shape(lidar_img_)[0])
                 #cy_ = (P[X_PIXEL_SIZE]-P[CAMERA_SCALE]*shape(lidar_img_)[1])
                 #I[topic_][img][cx_-10:-10,cy_-10:-10,:] = cv2.resize(lidar_img_, (0,0), fx=1, fy=1)
-                I[topic_][img][:shape(lidar_img_)[0],-shape(lidar_img_)[1]:,:] = cv2.resize(lidar_img_, (0,0), fx=1, fy=1)
+                I[topic_][img][-shape(lidar_img_)[0]:,:shape(lidar_img_)[1],:] = cv2.resize(lidar_img_, (0,0), fx=1, fy=1)
  
 
 
