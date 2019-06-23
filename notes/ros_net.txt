@@ -8,15 +8,13 @@ export ROS_IP=169.254.131.242
 export ROS_MASTER_URI=http://169.254.131.242:11311
 
 
-
-
 1) network tx1 & tx2
-	* passwords/keys
-	* sudos
-	* set date over net
-	* figure how to update kzpy3 (via github or rsync)
-	* chech torch.__version__ on each system
-	* name each system
+	√* passwords/keys
+	√* sudos
+	√* set date over net
+	√* figure how to update kzpy3 (via github or rsync)
+	* check torch.__version__ on each system
+	√* name each system
 2) figure out how to train using trajectories to plan obstacles
 3) fix car mechanically (camera mount, body)
 4) run net car, figure out current system

@@ -2240,4 +2240,18 @@ G = sorted(F.items(), key=operator.itemgetter(1))
 
 
 
+def date_and_time_setting_strings():
+    now = datetime.datetime.now()
+    date_str = now.strftime('20%y%m%d')
+    time_str = now.strftime('%H:%M:%S')
+    date_str = "sudo date +%Y%m%d -s "+date_str
+    time_str = "sudo date +%T -s "+time_str
+    return date_str,time_str
+
+def ssh_date_time(host_ip,user='nvidia'):
+    date_str,time_str = date_and_time_setting_strings()
+    sys_str = d2n('ssh ',user+'@'+host_ip," '",date_str,'; ',time_str,"'")
+    print sys_str
+    os.system(sys_str)
+
 #EOF
