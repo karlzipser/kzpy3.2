@@ -1,7 +1,41 @@
 http://wiki.ros.org/ROS/NetworkSetup
 
-169.254.131.241
-169.254.131.242
 
-export ROS_HOSTNAME=localhost
-export ROS_MASTER_URI=http://localhost:11311
+169.254.131.241
+
+
+export ROS_IP=169.254.131.242
+export ROS_MASTER_URI=http://169.254.131.242:11311
+
+
+
+
+1) network tx1 & tx2
+	* passwords/keys
+	* sudos
+	* set date over net
+	* figure how to update kzpy3 (via github or rsync)
+	* chech torch.__version__ on each system
+	* name each system
+2) figure out how to train using trajectories to plan obstacles
+3) fix car mechanically (camera mount, body)
+4) run net car, figure out current system
+5) run net car, paste in obstacles
+6) set up networked tx1 & tx2 as part of my carry everywhere system
+7) figure out which nets and computations to run on which computers
+
+
+rsync -ravL kzpy3/* nvidia@169.254.131.241:kzpy3/
+
+
+sudo visudo
+# add as last line:
+nvidia ALL=(ALL) NOPASSWD: ALL
+
+scp nvidia@169.254.131.241:'.ssh/id_rsa.pub' ~/Desktop/authorized_keys
+cat Desktop/authorized_keys >> ~/kzpy3/misc/authorized_keys
+
+torch.__version__
+
+
+#EOF
