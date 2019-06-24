@@ -1554,7 +1554,7 @@ def date_and_time_setting_strings():
 def ssh_date_time(host_ip,user='nvidia'):
     date_str,time_str = date_and_time_setting_strings()
     sys_str = d2n('ssh ',user+'@'+host_ip," '",date_str,'; ',time_str,"'")
-    print sys_str
+    print(sys_str)
     os.system(sys_str)
 
 def update_TXs(ips=[]):
