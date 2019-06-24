@@ -1,12 +1,30 @@
 #!/usr/bin/env python
 from kzpy3.vis3 import *
-exec(identify_file_str)
+
+Defaults = {'s':3600,'scale':1,'delay':33,'topic':"/bair_car/zed/left/image_rect_color",'help':0}
+for k in Defaults:
+    if k not in Arguments:
+        Arguments[k] = Defaults[k]
+if Arguments['help']:
+    print("Default Arguments:")
+    pprint(Defaults)
+    sys.exit()
+for k in Arguments:
+    if type(Arguments[k]) == str:
+        Argk = d2n("'",Arguments[k],"'")
+    else:
+        Argk = Arguments[k]
+    exec_str = d2s(k,'=',Argk)
+    cg(exec_str)
+    exec(exec_str)
+
 import roslib
 import std_msgs.msg
 import geometry_msgs.msg
 from cv_bridge import CvBridge,CvBridgeError
 import rospy
 from sensor_msgs.msg import Image
+exec(identify_file_str)
 bridge = CvBridge()
 
 
@@ -60,18 +78,7 @@ def action(topic,scale=1,delay=33,s=3600):
 
 if __name__ == '__main__':
 
-    Defaults = {'s':3600,'scale':1,'delay':33,'topic':"/bair_car/zed/left/image_rect_color"}
-    for k in Defaults:
-        if k not in Arguments:
-            Arguments[k] = Defaults[k]
-    for k in Arguments:
-        if type(Arguments[k]) == str:
-            Argk = d2n("'",Arguments[k],"'")
-        else:
-            Argk = Arguments[k]
-        exec_str = d2s(k,'=',Argk)
-        cg(exec_str)
-        exec(exec_str)
+
 
     action(topic,scale,delay,s)
 

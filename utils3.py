@@ -1542,7 +1542,6 @@ def sort_by_column(a,col,reverse=False):
     return a
     
 
-
 def date_and_time_setting_strings():
     now = datetime.datetime.now()
     date_str = now.strftime('20%y%m%d')
@@ -1551,9 +1550,9 @@ def date_and_time_setting_strings():
     time_str = "sudo date +%T -s "+time_str
     return date_str,time_str
 
-def ssh_date_time(host_ip,user='nvidia'):
+def ssh_date_time(host_ip,user='nvidia',timeout=10):
     date_str,time_str = date_and_time_setting_strings()
-    sys_str = d2n('ssh ',user+'@'+host_ip," '",date_str,'; ',time_str,"'")
+    sys_str = d2n('ssh -o ConnectTimeout=',timeout,' ',user+'@'+host_ip," '",date_str,'; ',time_str,"'")
     print(sys_str)
     os.system(sys_str)
 
