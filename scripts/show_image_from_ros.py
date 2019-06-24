@@ -1,22 +1,18 @@
 #!/usr/bin/env python
 from kzpy3.vis3 import *
 
-Defaults = {'s':3600,'scale':1,'delay':33,'topic':"/bair_car/zed/left/image_rect_color",'help':0}
-for k in Defaults:
-    if k not in Arguments:
-        Arguments[k] = Defaults[k]
-if Arguments['help']:
-    print("Default Arguments:")
-    pprint(Defaults)
-    sys.exit()
-for k in Arguments:
-    if type(Arguments[k]) == str:
-        Argk = d2n("'",Arguments[k],"'")
-    else:
-        Argk = Arguments[k]
-    exec_str = d2s(k,'=',Argk)
-    cg(exec_str)
-    exec(exec_str)
+setup_Default_Arguments(
+    {
+        's':3600,
+        'scale':1,
+        'delay':33,
+        'topic':"/bair_car/zed/left/image_rect_color",
+        'help':0
+    }
+)
+
+print_Arguments()
+raw_enter()
 
 import roslib
 import std_msgs.msg
@@ -78,7 +74,15 @@ def action(topic,scale=1,delay=33,s=3600):
 
 if __name__ == '__main__':
 
-
+    # puting Arguments into named variable, normally I don't do this.
+    for k in Arguments:
+        if type(Arguments[k]) == str:
+            Argk = d2n("'",Arguments[k],"'")
+        else:
+            Argk = Arguments[k]
+        exec_str = d2s(k,'=',Argk)
+        cg(exec_str)
+        exec(exec_str)
 
     action(topic,scale,delay,s)
 
