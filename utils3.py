@@ -1578,7 +1578,9 @@ def _update_TXs(ips=[]):
         ssh_date_time(ip)
         os.system("rsync -ravL --exclude '*.pyc' --exclude '*.pkl' kzpy3/* nvidia@"+ip+":kzpy3/")
 
-def update_TXs_range(start,stop,base_ip='169.254.131'):
+def update_TXs_range(start,stop=None,base_ip='169.254.131'):
+    if stop == None:
+        stop = start
     for i in range(start,stop+1):
         ip = d2n(base_ip,'.',i)
         threading.Thread(target=ssh_date_time_rsync,args=[ip]).start()

@@ -1,14 +1,20 @@
-http://wiki.ros.org/ROS/NetworkSetup
 
-into .bashrc
-	export ROS_IP=169.254.131.242
-	export ROS_MASTER_URI=http://169.254.131.242:11311
 
-in python:
-	ips=['169.254.131.240','169.254.131.241','169.254.131.242']
-	update_TXs(ips) 
+3) fix car mechanically (camera mount, body)
+4) run net car, figure out current system
+5) run net car, paste in obstacles
+2) figure out how to train using trajectories to plan obstacles
 
-1) network tx1 & tx2
+10) new lidar
+
+) train model to go from image to trajectory scene categorization
+) validation, code
+) validation, data
+) consider concatenating metadata to next layer
+) straighten camera and lidar better
+
+√) try to publish a convolutional layer, check speed
+√1) network tx1 & tx2
 	√* passwords/keys
 	√* sudos
 	√* set date over net
@@ -18,20 +24,9 @@ in python:
 √7) figure out which nets and computations to run on which computers
 √6) set up networked tx1 & tx2 as part of my carry-everywhere system
 √8) find various mini hdmi cables
+√9) start data collection
 
-3) fix car mechanically (camera mount, body)
-4) run net car, figure out current system
-9) start data collection
-10) new lidar
 
-5) run net car, paste in obstacles
-2) figure out how to train using trajectories to plan obstacles
-
-) train model to go from image to trajectory scene categorization
-) validation, code
-) validation, data
-) consider concatenating metadata to next layer
-) try to publish a convolutional layer, check speed
 
 #####
 # used in update_TXs()
@@ -47,4 +42,14 @@ cat Desktop/authorized_keys >> ~/kzpy3/misc/authorized_keys
 torch.__version__
 
 
+
+http://wiki.ros.org/ROS/NetworkSetup
+
+into .bashrc
+	export ROS_IP=169.254.131.242
+	export ROS_MASTER_URI=http://169.254.131.242:11311
+
+in python:
+	ips=['169.254.131.240','169.254.131.241','169.254.131.242']
+	update_TXs(ips) 
 #EOF
