@@ -1565,11 +1565,23 @@ def ssh_date_time(host_ip,user='nvidia',timeout=10):
     print(sys_str)
     os.system(sys_str)
 
+def ssh_date_time_rsync(ip,user='nvidia',timeout=10):
+    ssh_date_time(ip)
+    os.system("rsync -ravL --exclude '*.pyc' --exclude '*.pkl' kzpy3/* nvidia@"+ip+":kzpy3/")
+
 def update_TXs(ips=[]):
     for ip in ips:
-        ssh_date_time(ip)
-        os.system("rsync -ravL kzpy3/* nvidia@"+ip+":kzpy3/")
+        threading.Thread(target=ssh_date_time_rsync,args=[ip]).start()
 
+def _update_TXs(ips=[]):
+    for ip in ips:
+        ssh_date_time(ip)
+        os.system("rsync -ravL --exclude '*.pyc' --exclude '*.pkl' kzpy3/* nvidia@"+ip+":kzpy3/")
+
+def update_TXs_range(start,stop,base_ip='169.254.131'):
+    for i in range(start,stop+1):
+        ip = d2n(base_ip,'.',i)
+        threading.Thread(target=ssh_date_time_rsync,args=[ip]).start()
 
 exec(identify_file_str) 
 #EOF

@@ -30,6 +30,8 @@ in python:
 ) train model to go from image to trajectory scene categorization
 ) validation, code
 ) validation, data
+) consider concatenating metadata to next layer
+) try to publish a convolutional layer, check speed
 
 #####
 # used in update_TXs()

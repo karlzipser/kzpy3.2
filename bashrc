@@ -1,5 +1,6 @@
 clear
 echo "Start kzpy3/bashrc..."
+
 alias ls='ls -alh'
 #alias rhz='rostopic hz /bair_car/zed/left/image_rect_color'
 #alias rls='ls -al /media/nvidia/rosbags'
@@ -89,9 +90,11 @@ export PYTHONPATH=~:$PYTHONPATH
 
 if [ "$(whoami)" == "nvidia" ]
   then
+    sudo bash ~/kzpy3/scripts/clean_pycs.sh ~/kzpy3
     export PYTHONSTARTUP=~/kzpy3/utils3.py
   else
     export PYTHONSTARTUP=~/kzpy3/vis3.py
+    bash ~/kzpy3/scripts/clean_pycs.sh ~/kzpy3
 fi
 
 
@@ -126,13 +129,9 @@ fi
 #
 #######################################################
 
-#### TEMP ####
-alias A1="python kzpy3/Train_app/Sq40_proj_from_scratch_premeta_from_24Dec/trainloop.py"
-alias A2="python kzpy3/Train_app/Sq120_ldr_output_4April2019/trainloop.py "
-alias A3="python kzpy3/Train_app/Sq_ldr_interval_tester5/Main.py cluster_list ~/Desktop/cluster_list_25_1st_pass.pkl threshold 0.25"
-alias A4="python kzpy3/Train_app/Sq_ldr_classifier_/trainloop.py"
-alias A5="python kzpy3/Train_app/Sq120_ldr_output_2nd_training_16April2019/trainloop.py "
-
+alias rzl='show_image_from_ros.py scale 2 topic /bair_car/zed/left/image_rect_color'
+alias rzr='show_image_from_ros.py scale 2 topic /bair_car/zed/right/image_rect_color'
+alias rou='show_image_from_ros.py scale 2 topic /os1_node/image'
 
 date
 
