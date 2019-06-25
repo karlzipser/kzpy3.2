@@ -16,11 +16,11 @@ in python:
 	√* check torch.__version__ on each system
 	√* name each system
 √7) figure out which nets and computations to run on which computers
+√6) set up networked tx1 & tx2 as part of my carry-everywhere system
+√8) find various mini hdmi cables
 
 3) fix car mechanically (camera mount, body)
 4) run net car, figure out current system
-6) set up networked tx1 & tx2 as part of my carry-everywhere system
-8) find various mini hdmi cables
 9) start data collection
 10) new lidar
 
