@@ -538,7 +538,7 @@ def adjusted_camera():
     ###################
     # TEMP
     if True:
-        C['new_camera'] = bound_value(intr(C['net/motor/smooth']),0,99)
+        C['new_camera'] = bound_value(intr(C['net/camera/smooth']),0,99)
     #
     ###################
 

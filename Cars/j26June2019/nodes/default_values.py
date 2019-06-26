@@ -114,7 +114,7 @@ _['motor_pwm_smooth'] = 1000
 
 _['servo_pwm_smooth_manual_offset'] = 0
 
-_['camera_pwm_manual_offset'] = 90	
+_['camera_pwm_manual_offset'] = 0
 
 _['HUMAN_SMOOTHING_PARAMETER_1'] = 0.75
 
