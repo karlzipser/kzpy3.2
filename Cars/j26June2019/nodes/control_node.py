@@ -408,7 +408,7 @@ def adjusted_motor():
     ###################
     # TEMP
     if True:
-        C['new_motor'] = bound_value(intr(C['net/motor/smooth']))
+        C['new_motor'] = bound_value(intr(C['net/motor/smooth']),P['min motor'],P['max motor'])
     #
     ###################
 
