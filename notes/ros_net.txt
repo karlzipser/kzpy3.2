@@ -2,11 +2,12 @@
 
 3) fix car mechanically (camera mount, body)
 4) run net car, figure out current system
-5) run net car, paste in obstacles
-2) figure out how to train using trajectories to plan obstacles
+
 
 10) new lidar
 
+5) run net car, paste in obstacles
+2) figure out how to train using trajectories to plan obstacles
 ) train model to go from image to trajectory scene categorization
 ) validation, code
 ) validation, data

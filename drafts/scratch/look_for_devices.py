@@ -24,19 +24,21 @@ if False:
 
 if True:
 	H = {}
-
+	hosts = []
 	def ping_test(hostname):
 		print hostname
 		response = os.system("ping -c 10 " + hostname)
 		if response == 0:
 			H[hostname] = 1
 			pd2s(hostname,'is','up')
+			hosts.append(hostname)
+			cg(hosts)
 		else:
 			H[hostname] = 0
 
-	for i in range(10,14):
-		#hostname = d2p(169,254,131,i)
-		hostname = d2p(192,168,1,i)
+	for i in range(200,255):
+		hostname = d2p(169,254,131,i)
+		#hostname = d2p(192,168,1,i)
 		threading.Thread(target=ping_test,args=[hostname]).start()
 """
 if False:
