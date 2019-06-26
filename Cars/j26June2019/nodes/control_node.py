@@ -396,7 +396,9 @@ def adjusted_motor():
     C['net/motor/smooth'] = bound_value(C['net/motor/smooth'],0,99)
 
     new_motor = C['net/motor/smooth'] + C['flex/motor/smooth']-49
-    new_motor += C['from still motor offset']
+    ##### TEMP
+    #new_motor += C['from still motor offset']
+    ######
     if P['max motor'] < 49:
         P['max motor'] = 49
         cr("*** Error, P['max motor'] < 49")
@@ -405,12 +407,14 @@ def adjusted_motor():
         cr("*** Error, P['min motor'] > 49")
     new_motor = bound_value(intr(new_motor),P['min motor'],P['max motor'])
     C['new_motor'] = new_motor
+    """
     ###################
     # TEMP
     if True:
         C['new_motor'] = bound_value(intr(C['net/motor/smooth']),P['min motor'],P['max motor'])
     #
     ###################
+    """
 
 
 
