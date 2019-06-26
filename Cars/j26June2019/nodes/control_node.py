@@ -385,16 +385,16 @@ def adjusted_motor():
     C['flex/motor/smooth'] = bound_value(C['flex/motor/smooth'],0,49)
 
     motor = C['net/motor']
+    s = P['network_motor_smoothing_parameter']
     if C['behavioral_mode'] == DIRECT:
         gain = P['network_motor_gain_direct']
-        s = P['network_motor_smoothing_parameter']
     else:
         gain = P['network_motor_gain']
-        s = P['network_motor_smoothing_parameter']
-    #print gain
+
     motor = gain*(motor-49) + 49
     C['net/motor/smooth'] = (1.0-s)*motor + s*C['net/motor/smooth']
     C['net/motor/smooth'] = bound_value(C['net/motor/smooth'],0,99)
+
     new_motor = C['net/motor/smooth'] + C['flex/motor/smooth']-49
     new_motor += C['from still motor offset']
     if P['max motor'] < 49:
@@ -408,7 +408,7 @@ def adjusted_motor():
     ###################
     # TEMP
     if True:
-        C['new_motor'] = bound_value(C['net/motor'],P['min motor'],P['max motor'])
+        C['new_motor'] = bound_value(intr(C['net/motor/smooth']))
     #
     ###################
 
@@ -450,7 +450,7 @@ def adjusted_steer():
     ###################
     # TEMP
     if True:
-        C['new_steer'] = bound_value(C['net/steer'],0,99)
+        C['new_steer'] = bound_value(intr(C['net/steer/smooth']),0,99)
     #
     ###################
     
@@ -538,7 +538,7 @@ def adjusted_camera():
     ###################
     # TEMP
     if True:
-        C['new_camera'] = bound_value(C['net/camera'],0,99)
+        C['new_camera'] = bound_value(intr(C['net/motor/smooth']),0,99)
     #
     ###################
 
