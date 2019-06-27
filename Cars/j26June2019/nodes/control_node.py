@@ -201,7 +201,7 @@ def gyro_heading_callback(msg):
         if C['heading']-C['reference_heading'] < -P['d_heading_for_end_turning'] or C['turned']:
             C['behavioral_mode'] = DIRECT
             C['turned'] = True
-            if not C['purple on']:
+            if True:#not C['purple on']:
                 C['lights_pub'].publish(C['lights'][PURPLE])
                 print 'purple'
                 C['purple on'] = True
