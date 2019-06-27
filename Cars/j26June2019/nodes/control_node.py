@@ -188,7 +188,8 @@ def gyro_heading_callback(msg):
         if C['heading']-C['reference_heading'] > P['d_heading_for_end_turning'] or C['turned']:
             C['behavioral_mode'] = DIRECT
             C['turned'] = True
-            if not C['purple on']:
+            # Light gets turned off in Arduino so need to keep turning it on.
+            if True:#not C['purple on']:
                 C['lights_pub'].publish(C['lights'][PURPLE])
                 C['purple on'] = True
         else:
@@ -201,9 +202,10 @@ def gyro_heading_callback(msg):
         if C['heading']-C['reference_heading'] < -P['d_heading_for_end_turning'] or C['turned']:
             C['behavioral_mode'] = DIRECT
             C['turned'] = True
-            if True:#not C['purple on']:
+            # Light gets turned off in Arduino so need to keep turning it on.
+            if True:#not C['purple on']: 
                 C['lights_pub'].publish(C['lights'][PURPLE])
-                print 'purple'
+                #print 'purple'
                 C['purple on'] = True
         else:
             C['behavioral_mode'] = RIGHT
@@ -357,22 +359,31 @@ def print_topics():
 
 
 
-
-def adjusted_motor():
-    
+def from_still_motor_offset():
+    """
+    If the car is not moving, some random action may get it back on
+    course. This is expressed as C['from still motor offset'] which
+    will be added to the motor command.
+    """
     if C['still_timer'].time() > 1.0:
-        if C['from still motor offset'] == 0.:
+        if C['from still motor offset'] < 0.1:
             C['from still motor offset timer'].reset()
             C['from still motor offset'] = np.random.choice([-10.,10.])
             C['lights_pub'].publish(C['lights'][GREEN])
-            cy('GREEN')
+            #cy('GREEN')
     elif not C['from still motor offset timer'].check():
-        C['from still motor offset'] *= 0.99
+        C['from still motor offset'] *= 0.99 # note depends on run speed
     else:
         if np.abs(C['from still motor offset']) > 0:
             C['lights_pub'].publish(C['lights'][GREEN_OFF])
-            cy('GREEN OFF')
-        C['from still motor offset'] = 0.
+            #cy('GREEN OFF')
+        C['from still motor offset'] = 0.   
+
+
+def adjusted_motor():
+    
+    from_still_motor_offset()
+    still_motor_offset = P['still_motor_offset_gain'] * C['from still motor offset']
     
     flex = C['flex/motor']
     flex = min(49,flex)
@@ -392,10 +403,8 @@ def adjusted_motor():
     C['net/motor/smooth'] = (1.0-s)*motor + s*C['net/motor/smooth']
     C['net/motor/smooth'] = bound_value(C['net/motor/smooth'],0,99)
 
-    new_motor = C['net/motor/smooth'] + C['flex/motor/smooth']-49
-    ##### TEMP
-    #new_motor += C['from still motor offset']
-    ######
+    new_motor = C['net/motor/smooth'] + C['flex/motor/smooth']-49 + still_motor_offset
+
     if P['max motor'] < 49:
         P['max motor'] = 49
         cr("*** Error, P['max motor'] < 49")
@@ -404,14 +413,7 @@ def adjusted_motor():
         cr("*** Error, P['min motor'] > 49")
     new_motor = bound_value(intr(new_motor),P['min motor'],P['max motor'])
     C['new_motor'] = new_motor
-    """
-    ###################
-    # TEMP
-    if True:
-        C['new_motor'] = bound_value(intr(C['net/motor/smooth']),P['min motor'],P['max motor'])
-    #
-    ###################
-    """
+
 
 
 

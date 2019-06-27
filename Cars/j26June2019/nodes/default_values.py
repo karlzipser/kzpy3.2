@@ -26,7 +26,7 @@ _['USE_MSE'] = True
 _['USE_IMU'] = True
 _['USE_ROS'] = HAVE_ROS
 
-_['d_heading_for_end_turning'] = 90
+_['d_heading_for_end_turning'] = 60
 _['max motor'] = 75
 _['min motor'] = 39
 
@@ -61,6 +61,7 @@ _['ldr_on_time'] = 0.5
 _['ldr_off_time'] = 0.2
 #_['cmd_camera_to_camera_heading_cooeficient'] = 0. #0.75
 _['temp_camera'] = 49
+_['still_motor_offset_gain'] = 1.0
 ###########################
 _['use flex'] = True
 _['flex_motor_smoothing_parameter'] = _['network_motor_smoothing_parameter']
@@ -114,7 +115,7 @@ _['motor_pwm_smooth'] = 1000
 
 _['servo_pwm_smooth_manual_offset'] = 0
 
-_['camera_pwm_manual_offset'] = 0
+_['camera_pwm_manual_offset'] = 133
 
 _['HUMAN_SMOOTHING_PARAMETER_1'] = 0.75
 
@@ -218,6 +219,7 @@ _['To Expose']['Arduino'] = [
 ]
 _['To Expose']['Network'] = [
     'ABORT',
+    'still_motor_offset_gain',
 	'network_output_sample',
 	'network_steer_gain',
 	'network_camera_gain',
