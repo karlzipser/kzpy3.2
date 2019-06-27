@@ -203,6 +203,7 @@ def gyro_heading_callback(msg):
             C['turned'] = True
             if not C['purple on']:
                 C['lights_pub'].publish(C['lights'][PURPLE])
+                print 'purple'
                 C['purple on'] = True
         else:
             C['behavioral_mode'] = RIGHT
