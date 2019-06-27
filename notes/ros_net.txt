@@ -1,9 +1,6 @@
 
 
-3) fix car mechanically (camera mount, body)
 4) run net car, figure out current system
-
-
 10) new lidar
 
 5) run net car, paste in obstacles
@@ -13,6 +10,8 @@
 ) validation, data
 ) consider concatenating metadata to next layer
 ) straighten camera and lidar better
+
+
 
 √) try to publish a convolutional layer, check speed
 √1) network tx1 & tx2
@@ -26,6 +25,7 @@
 √6) set up networked tx1 & tx2 as part of my carry-everywhere system
 √8) find various mini hdmi cables
 √9) start data collection
+√3) fix car mechanically (camera mount, body)
 
 
 

@@ -170,7 +170,6 @@ def encoder_callback(msg):
     if C['new_motor'] < 49:
         C['velocity'] *= -1.
     if np.abs(C['velocity']) > 0.1:
-
         C['still_timer'].reset()
 
     C['distance'] += C['velocity'] * (C['encoder_time']-C['encoder_time_prev'])
@@ -254,13 +253,9 @@ def button_number_callback(msg):
         C['reference_distance'] = C['distance']
     C['button_number/prev'] = C['button_number']
 
-#################
-#
+
 def human_steer_callback(msg):
     C['human/steer'] = msg.data
-rospy.Subscriber(bcs+'/steer', std_msgs.msg.Int32, callback=human_steer_callback)
-#
-#################
 
 
 rospy.Subscriber('/net/steer', std_msgs.msg.Float32, callback=net_steer_callback)
@@ -272,6 +267,7 @@ rospy.Subscriber(bcs+'/human_agent',std_msgs.msg.Int32,callback=human_agent_call
 rospy.Subscriber(bcs+'/button_number',std_msgs.msg.Int32,callback=button_number_callback)
 rospy.Subscriber(bcs+'/drive_mode',std_msgs.msg.Int32,callback=drive_mode_callback)
 rospy.Subscriber(bcs+'/gyro_heading',geometry_msgs.msg.Vector3,callback=gyro_heading_callback)
+rospy.Subscriber(bcs+'/steer', std_msgs.msg.Int32, callback=human_steer_callback)
 
 print_timer = Timer(0.2)
 parameter_file_load_timer = Timer(2)
@@ -344,9 +340,9 @@ def print_topics():
         pd2n(
             nm,'net/mo ',int(C['net/motor']),sp,
             fm,'flex/mo ',int(C['flex/motor']),sp,
-            nmo,'new_mo ',C['new_motor'],sp,
-            nmo,'new_cam ',C['new_camera'],sp,
-            rd,'still ',C['from still motor offset'],sp,
+            nmo,'new_mo ',int(C['new_motor']),sp,
+            nmo,'new_cam ',int(C['new_camera']),sp,
+            rd,'still ',dp(C['from still motor offset']),sp,
             yl,'vel ',dp(C['velocity'],1),sp,
             #mg,dp(C['still_timer'].time(),1),sp,
             #gr,dp(C['collision_timer'].time(),1),sp,
