@@ -101,7 +101,7 @@ Barrier_pts3D['setup_plot'](
 Pub = {}
 Pub['ldr_img'] = rospy.Publisher("/ldr_img"+P['topic_suffix'],Image,queue_size=1)
 Pub['rectangles_xys'] = rospy.Publisher(
-    'array',
+    'rectangles_xys',
     std_msgs.msg.Float32MultiArray,
     queue_size = 1
 )
