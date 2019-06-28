@@ -137,13 +137,15 @@ if __name__ == '__main__':
 
     
     while not P['ABORT']:
-
+        load_parameters(P)
+        """
         if delay_timer.check():
             delay_timer.reset()
         else:
             time.sleep(0.01)
             load_parameters(P)
             continue
+        """
         try:
             try:
                 headings,encoders,motors = {},{},{}
