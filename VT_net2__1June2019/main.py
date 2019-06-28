@@ -43,7 +43,9 @@ if P['start menu automatically'] and using_linux():
 parameter_file_load_timer = Timer(P['load_timer_time'])
 
 def load_parameters(P,customer='VT menu'):
+    cm(0)
     if parameter_file_load_timer.check():
+        parameter_file_load_timer.reset()
         Topics = menu2.load_Topics(project_path,first_load=False,customer=customer)
         if type(Topics) == dict:
             for t in Topics['To Expose'][customer]:
@@ -53,7 +55,7 @@ def load_parameters(P,customer='VT menu'):
                     pass
                 else:
                     P[t] = Topics[t]
-        parameter_file_load_timer.reset()
+        
 
 ##
 ##############################################################
@@ -328,7 +330,7 @@ if __name__ == '__main__':
                     #cy(xys)
                     xys4 = na(xys4)
                     Pub['rectangles_xys'].publish(data=xys4.reshape(4*len(xys4)))
-                    print 'published xys4'
+                    #print 'published xys4'
                     xys4_prev = xys4.copy()
                     #cg(xys4)
                     #cb(xys4_prev)
