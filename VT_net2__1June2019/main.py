@@ -10,6 +10,7 @@ import kzpy3.VT_net2__1June2019.rectangles as rectangles
 import kzpy3.Array.Array
 import kzpy3.Array.test_Array
 from sensor_msgs.msg import Image
+import std_msgs.msg
 import cv_bridge
 exec(identify_file_str)
 P = default_values.P
