@@ -120,7 +120,7 @@ slow_encoder = 0
 img_ctr = 0
 os.system('mkdir -p '+opjm('rosbags/imgs'))
 #raw_enter()
-
+rate = Timer(5)
 if __name__ == '__main__':
 
     graphics_timer = Timer(P['graphics_timer time'])
@@ -193,7 +193,7 @@ if __name__ == '__main__':
         if True:
             s = P['slow_encoder_s']
             slow_encoder = s*slow_encoder+(1-s)*encoder
-            print slow_encoder
+            #print slow_encoder
             if slow_encoder < 0.01 and stop_timer.check(): #direction < 0 or encoder < 0.1:
                 stop_timer.time_s = P['stop_timer_time']
                 stop_timer.reset()
@@ -217,6 +217,7 @@ if __name__ == '__main__':
             )
 
             if graphics_timer.check():
+                rate.freq()
                 graphics_timer.time_s = P['graphics_timer time']
                 graphics_timer.reset()
 
@@ -325,7 +326,7 @@ if __name__ == '__main__':
                     xys4 = []
                     for i in rlen(xys):
                         x_ = xys[i,0]
-                        y_ = xys[i,1]
+                        y_ = xys[i,1] + 1 ##### TEMP #########
                         xys4.append([x_,y_,np.sqrt(x_**2+y_**2),np.mod(i,num_rectangle_patterns)])
                     #cg(Barrier_pts3D['array'])
                     #cy(xys)
