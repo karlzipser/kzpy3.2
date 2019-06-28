@@ -40,6 +40,7 @@ _['network_output_sample'] = 0 # >= 0, <= 9
 _['network_steer_gain'] = 2.0
 _['network_camera_gain'] = 4.0
 _['network_motor_gain'] = 1.0
+_['from still motor offset gain'] = 1.0
 _['low velocity direct steer gain'] = 4.0
 _['network_reverse_motor_gain'] = 1.
 _['network_motor_offset'] = 0
