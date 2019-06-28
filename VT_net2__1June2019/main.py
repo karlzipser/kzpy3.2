@@ -28,16 +28,7 @@ cg("To start menu:\n\tpython kzpy3/Menu_app/menu2.py path",project_path,"dic P")
 #############################################################
 #############################################################
 
-if False:
-    def test(A={
-        'a':1,
-        'b':[1,2,3],
-    }):
-        B = {
-        'a':A['b'],
-        'b':A['a'],
-        }
-        return B
+
 
 #############################################################
 ####################### MENU ################################
@@ -106,7 +97,11 @@ Barrier_pts3D['setup_plot'](
 
 Pub = {}
 Pub['ldr_img'] = rospy.Publisher("/ldr_img"+P['topic_suffix'],Image,queue_size=1)
-
+Pub['rectangles_xys'] = rospy.Publisher(
+    'array',
+    std_msgs.msg.Float32MultiArray,
+    queue_size = 1
+)
 if False:
     A = kzpy3.Array_.Array.Array(30,2)
     kzpy3.Array_.test_Array.test_Array()
@@ -331,6 +326,7 @@ if __name__ == '__main__':
                     #cg(Barrier_pts3D['array'])
                     #cy(xys)
                     xys4 = na(xys4)
+                    Pub['rectangles_xys'].publish(data=data.reshape(4*len(xys4)))
                     xys4_prev = xys4.copy()
                     #cg(xys4)
                     #cb(xys4_prev)
