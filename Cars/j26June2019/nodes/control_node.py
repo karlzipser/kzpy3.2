@@ -368,7 +368,7 @@ def from_still_motor_offset():
     if C['still_timer'].time() > 1.0:
         if C['from still motor offset'] < 0.1:
             C['from still motor offset timer'].reset()
-            C['from still motor offset'] = np.random.choice([-10.,10.])
+            C['from still motor offset'] = np.random.choice([-10.,-10.])
             C['lights_pub'].publish(C['lights'][GREEN])
             #cy('GREEN')
     elif not C['from still motor offset timer'].check():
