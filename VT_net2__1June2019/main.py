@@ -327,7 +327,7 @@ if __name__ == '__main__':
                     #cg(Barrier_pts3D['array'])
                     #cy(xys)
                     xys4 = na(xys4)
-                    Pub['rectangles_xys'].publish(data=data.reshape(4*len(xys4)))
+                    Pub['rectangles_xys'].publish(data=xys4.reshape(4*len(xys4)))
                     xys4_prev = xys4.copy()
                     #cg(xys4)
                     #cb(xys4_prev)
