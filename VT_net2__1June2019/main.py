@@ -137,7 +137,7 @@ if __name__ == '__main__':
 
     
     while not P['ABORT']:
-        load_parameters(P)
+        
         """
         if delay_timer.check():
             delay_timer.reset()
@@ -147,6 +147,7 @@ if __name__ == '__main__':
             continue
         """
         try:
+            load_parameters(P)
             try:
                 headings,encoders,motors = {},{},{}
                 headings['left'] =      S['headings_left']
