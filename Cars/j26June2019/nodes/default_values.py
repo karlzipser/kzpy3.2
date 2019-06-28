@@ -28,7 +28,7 @@ _['USE_ROS'] = HAVE_ROS
 
 _['d_heading_for_end_turning'] = 60
 _['max motor'] = 75
-_['min motor'] = 39
+_['min motor'] = 30
 
 _['arduino print'] = True
 _['network print'] = True
