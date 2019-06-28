@@ -74,7 +74,7 @@ def Array(
         found = False
         for i in range(ctr):
             ts = D['Dic'][D['keys'][i]]['time']
-            if now - ts <= t:
+            if now - ts > t:#<= t:
                 found = True
                 break
         if found:
