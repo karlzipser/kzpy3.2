@@ -41,7 +41,7 @@ Q = Menu.start_Dic(
     }
 )
 
-parameter_file_load_timer = Timer(Q['TO_HIDE']]['load_timer_time'])
+parameter_file_load_timer = Timer(Q['TO_HIDE']['load_timer_time'])
 
 def load_parameters(P,customer='VT menu'):
     if parameter_file_load_timer.check():
