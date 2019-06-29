@@ -1,12 +1,8 @@
 #!/usr/bin/env python
 from kzpy3.utils3 import *
 import torch
-#import torch.nn
-#import torch.autograd
 import rospy
 import std_msgs.msg
-#import geometry_msgs.msg
-from std_msgs.msg import Int32MultiArray
 from sensor_msgs.msg import Image
 import cv_bridge
 bridge = cv_bridge.CvBridge()
@@ -39,6 +35,8 @@ def ros_init(N):
     N['net']['Torch_network'] = None
     N['net']['loaded_net'] = False
 
+    N['rectangles_xys'] = na([])
+
 
     def human_agent_callback(msg):
         N['mode']['human_agent'] = msg.data
@@ -48,11 +46,9 @@ def ros_init(N):
         
     def behavioral_mode_callback(msg):
         N['mode']['behavioral_mode'] = msg.data
-        #print N['mode']['behavioral_mode']
 
     def rectangles_xys_callback(data):
         N['rectangles_xys'] = na(data.data)
-
 
     def cmd_camera_callback(msg):
         N['cmd/camera'] = msg.data
@@ -85,7 +81,12 @@ def ros_init(N):
     for modality in N['modalities']:
         N['Pub'][modality] = {}
         for behavioral_mode in ['left','direct','right']:
-            N['Pub'][modality][behavioral_mode] = rospy.Publisher(modality+'_'+behavioral_mode+N['topic_suffix'],Int32MultiArray,queue_size = 10)
+            N['Pub'][modality][behavioral_mode] = \
+                rospy.Publisher(
+                    modality+'_'+behavioral_mode+N['topic_suffix'],
+                    std_msgs.msg.Int32MultiArray,
+                    queue_size = 10
+                )
 
     def ldr_callback(data):
         N['ldr_img'] = bridge.imgmsg_to_cv2(data,'rgb8')

@@ -36,6 +36,7 @@ _['flex print'] = True
 ############# NETWORK PARAMETERS
 #_['use_ldr_img'] = True
 _['ldr_gain'] = 0.0
+_['backup parameter'] = 0.5
 _['network_output_sample'] = 0 # >= 0, <= 9
 _['network_steer_gain'] = 2.0
 _['network_camera_gain'] = 4.0

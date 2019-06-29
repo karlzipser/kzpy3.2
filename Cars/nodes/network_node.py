@@ -317,7 +317,8 @@ if __name__ == '__main__':
 
                         hz.freq(' (main) ')
 
-                        Q['add_rectangles'](N['rectangles_xys'])
+                        if len(N['rectangles_xys']) > 0:
+                            Q['add_rectangles'](N['rectangles_xys'])
 
                         torch_camera_data           = Q['to_torch'](size_='full')
 

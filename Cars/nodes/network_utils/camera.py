@@ -75,9 +75,8 @@ def Quartet(name='no_name'):
                 Xys[when],
                 I[when],
                 Rectangles,
-                P['backup parameter'],
+                N['backup parameter'],
             )
-
 
     def _function_display(
         delay_blank=0,
