@@ -342,42 +342,43 @@ if __name__ == '__main__':
                     xys4 = na(xys4)
                     Pub['rectangles_xys'].publish(data=xys4.reshape(4*len(xys4)))
                     #print 'published xys4'
-                    try:
-                        xys4 = S['rectangles_xys'].reshape(len(S['rectangles_xys'])/4,4)
-                        xys4_prev = xys4.copy()
-                        #cg(xys4)
-                        #cb(xys4_prev)
-                        xys4_prev[:,1] += 0.0375
-                        Xys = {
-                            'now':  xys4,
-                            'prev': xys4_prev,
-                        }
-                        temp = S['left_image'].copy()
-                        I = {
-                            'now':{
-                                'R':temp,
-                                'L':S['left_image'],
-                            },
-                            'prev':{
-                                'R':temp,
-                                'L':temp,
-                            },
-                        }
-                        for when in ['now']:#,'prev']:
-                            rectangles.paste_rectangles_into_drive_images(
-                                Xys[when],
-                                I[when],
-                                Rectangles,
-                                P['backup parameter'],
-                            )
-                        mci(I['now']['L'],title="left")
-                        #mci(S['left_image'],title='left.')
-                        #imsave(opjm('rosbags/imgs/'+d2n(img_ctr,'.png')),I_L)#S['left_image'])#Barrier_pts3D['plot']['image'])
-                    except Exception as e:
-                        exc_type, exc_obj, exc_tb = sys.exc_info()
-                        file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-                        CS_('Exception!',emphasis=True)
-                        CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)        
+                    if False:
+                        try:
+                            xys4 = S['rectangles_xys'].reshape(len(S['rectangles_xys'])/4,4)
+                            xys4_prev = xys4.copy()
+                            #cg(xys4)
+                            #cb(xys4_prev)
+                            xys4_prev[:,1] += 0.0375
+                            Xys = {
+                                'now':  xys4,
+                                'prev': xys4_prev,
+                            }
+                            temp = S['left_image'].copy()
+                            I = {
+                                'now':{
+                                    'R':temp,
+                                    'L':S['left_image'],
+                                },
+                                'prev':{
+                                    'R':temp,
+                                    'L':temp,
+                                },
+                            }
+                            for when in ['now']:#,'prev']:
+                                rectangles.paste_rectangles_into_drive_images(
+                                    Xys[when],
+                                    I[when],
+                                    Rectangles,
+                                    P['backup parameter'],
+                                )
+                            mci(I['now']['L'],title="left")
+                            #mci(S['left_image'],title='left.')
+                            #imsave(opjm('rosbags/imgs/'+d2n(img_ctr,'.png')),I_L)#S['left_image'])#Barrier_pts3D['plot']['image'])
+                        except Exception as e:
+                            exc_type, exc_obj, exc_tb = sys.exc_info()
+                            file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                            CS_('Exception!',emphasis=True)
+                            CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)        
 
 
 

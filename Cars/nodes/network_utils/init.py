@@ -50,6 +50,10 @@ def ros_init(N):
         N['mode']['behavioral_mode'] = msg.data
         #print N['mode']['behavioral_mode']
 
+    def rectangles_xys_callback(data):
+        N['rectangles_xys'] = na(data.data)
+
+
     def cmd_camera_callback(msg):
         N['cmd/camera'] = msg.data
 
@@ -86,6 +90,14 @@ def ros_init(N):
     def ldr_callback(data):
         N['ldr_img'] = bridge.imgmsg_to_cv2(data,'rgb8')
     rospy.Subscriber("/ldr_img",Image,ldr_callback,queue_size = 1)
+
+    rospy.Subscriber(
+        'rectangles_xys',
+        std_msgs.msg.Float32MultiArray,
+        callback=rectangles_xys_callback,
+        queue_size=2)
+
+
 
 def metadata_init(N):
     """Making metadata tensors in advance so they 
