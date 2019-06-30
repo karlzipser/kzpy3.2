@@ -540,7 +540,7 @@ def adjusted_camera():
 
     ###################
     # TEMP
-    if True:
+    if False:
         C['new_camera'] = bound_value(intr(C['net/camera/smooth']),0,99)
     #
     ###################

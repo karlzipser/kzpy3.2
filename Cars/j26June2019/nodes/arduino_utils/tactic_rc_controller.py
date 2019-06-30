@@ -117,7 +117,8 @@ def drive_car(P):
             P['human']['motor_percent'] = human_pid_motor_percent # now this can be published
         else:
             _motor_pwm = P['motor_pwm_smooth']
-        write_str = get_write_str(P['servo_pwm_smooth'],P['servo_pwm_null'],_motor_pwm,P)
+        #write_str = get_write_str(P['servo_pwm_smooth'],P['servo_pwm_null'],_motor_pwm,P)
+        write_str = get_write_str(P['servo_pwm_smooth'],P['servo_pwm_smooth'],_motor_pwm,P)
 
     elif (not P['agent_is_human'] and P['button_number'] != 4) and not P['now in calibration mode']:
 

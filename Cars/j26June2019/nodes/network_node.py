@@ -9,9 +9,11 @@ import network_utils.Activity_Module
 import default_values
 exec(identify_file_str)
 import torch
+import kzpy3.VT_net2__1June2019.default_values as VT_net2__1June2019_default_values
 #import flex_network_node
 N = default_values.P
 
+N['circle_lifetime'] = VT_net2__1June2019_default_values.P['circle_lifetime']
 # python kzpy3/Cars/n26Dec18/nodes/network_node.py desktop_mode 1 display 'camera_input' delay_blank 500 delay_prev 500 delay_now 750
 # python kzpy3/Cars/n26Dec18/nodes/network_node.py desktop_mode 1 display 'pre_metadata_features_metadata' delay_now 66
 for arg,val in [('display',False),('delay_blank',0),('delay_prev',0),('delay_now',1)]:
@@ -257,18 +259,22 @@ if __name__ == '__main__':
                         Q['ready'] = False
 
                         hz.freq(' (main) ')
-                        cm(3)
-                        cr('rectangles_xys' in N)
-                        cr(len(N['rectangles_xys']))
+                        #cm(3)
+                        #cr('rectangles_xys' in N)
+                        #cr(len(N['rectangles_xys']))
+                            
+                        if time.time() - N['rectangles_xys_timestamp'] > N['circle_lifetime']:
+                            N['rectangles_xys'] = na([])
+
                         if len(N['rectangles_xys']) > 0:
                             cr('***')
                             Q['add_rectangles'](N['rectangles_xys'],N['backup parameter'])
-                        cm(4)
+                        #cm(4)
                         mci(Q['left']['now']['full'])
-                        cm("mci(Q['left']['now']['full'])")
+                        #cm("mci(Q['left']['now']['full'])")
                         
                         torch_camera_data           = Q['to_torch'](size_='full')
-                        cm(5)
+                        #cm(5)
                         torch_small_camera_data    = Q['to_torch'](size_='small')
 
                         behavioral_mode = N['mode']['behavioral_mode']

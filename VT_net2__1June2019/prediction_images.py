@@ -203,8 +203,11 @@ def get__path_pts2D(
     P['distance'] += magnitude# / sample_frequency
 
     try:
-        Path_pts2D['rotate'](-d_heading / sample_frequency * P['d_heading_multiplier'])
+        a = -d_heading / sample_frequency * P['d_heading_multiplier']
+        #cy(dp(a))
+        Path_pts2D['rotate'](a)
     except:
+        cr('rotate error')
         pass
 
     Path_pts2D['append'](

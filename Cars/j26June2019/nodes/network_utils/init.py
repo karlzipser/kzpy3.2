@@ -39,6 +39,7 @@ def ros_init(N):
     N['net']['Torch_network'] = None
     N['net']['loaded_net'] = False
     N['rectangles_xys'] = na([])
+    N['rectangles_xys_timestamp'] = time.time()
 
     def human_agent_callback(msg):
         N['mode']['human_agent'] = msg.data
@@ -55,6 +56,7 @@ def ros_init(N):
 
     def rectangles_xys_callback(data):
         N['rectangles_xys'] = na(data.data)
+        N['rectangles_xys_timestamp'] = time.time()
 
     bcs = '/bair_car'
 

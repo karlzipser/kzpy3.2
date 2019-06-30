@@ -26,6 +26,8 @@ S['cmd/motor'] = 49
 S['human_agent'] = 49
 S['left_image'] = False
 S['right_image'] = False
+S['delta cmd/camera'] = 0
+S['cmd/camera'] = 49
 
 for modality in ['headings','encoders','motors']:
     for side in ['left','direct','right']:
@@ -52,6 +54,9 @@ def cmd_motor_callback(msg):
 def human_agent_callback(data):
     S['human_agent'] = data.data
 
+def cmd_camera_callback(msg):
+    S['delta cmd/camera'] = msg.data - S['cmd/camera']
+    S['cmd/camera'] = msg.data
 
 rospy.Subscriber(bcs+'encoder', std_msgs.msg.Float32, callback=encoder_callback,queue_size=qs)
 
@@ -74,6 +79,11 @@ rospy.Subscriber(
     '/behavioral_mode',
     std_msgs.msg.String,
     callback=behavioral_mode_callback)
+
+rospy.Subscriber(
+    '/bair_car/steer',#'/cmd/camera',
+    std_msgs.msg.Int32,
+    callback=cmd_camera_callback)
 
 def gyro_heading_x_callback(data):
     S['gyro_heading_x_prev'] = S['gyro_heading_x']

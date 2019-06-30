@@ -12,6 +12,7 @@ P['To Expose'] = {}
 ###############################################3
 
 # walking pace ~= 1.4 m/s
+P['cmd_camera_to_camera_heading_cooeficient'] = 0.75
 P['distance'] = 0.
 P['graphics 1'] = False
 P['graphics 2'] = True

@@ -1,18 +1,22 @@
+) should pasting program also do trajectories?
+) get Menu working in place of Commands
+) get Menu to work over net
+) get camera angle into rectangle display
 
-
-4) run net car, figure out current system
+) improve how obstacles are pasted in
+) straighten camera and lidar better
 10) new lidar
 
-5) run net car, paste in obstacles
-2) figure out how to train using trajectories to plan obstacles
-) train model to go from image to trajectory scene categorization
+2) figure out how to train using trajectories to plan obstacles in metadata layer
+
 ) validation, code
 ) validation, data
 ) consider concatenating metadata to next layer
-) straighten camera and lidar better
 
+) train model to go from image to trajectory scene categorization
 
-
+√4) run net car, figure out current system
+√5) run net car, paste in obstacles
 √) try to publish a convolutional layer, check speed
 √1) network tx1 & tx2
 	√* passwords/keys

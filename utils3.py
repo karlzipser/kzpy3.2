@@ -1150,7 +1150,8 @@ def setup_Default_Arguments(Defaults):
     if Arguments['help']:
         print("\nDefault Arguments")
         for k in sorted(Defaults):
-            print(d2n('\t',k,':',Arguments[k],' (',type(Arguments[k]),')'))
+            print(d2n('\t',k,':\t',Arguments[k]))#,' (',type(Arguments[k]),')'))
+        print("")
         sys.exit()              
 
 def print_Arguments():
@@ -1568,6 +1569,7 @@ def ssh_date_time(host_ip,user='nvidia',timeout=10):
 def ssh_date_time_rsync(ip,user='nvidia',timeout=10):
     ssh_date_time(ip)
     os.system("rsync -ravL --exclude '*.pyc' --exclude '*.pkl' kzpy3/* nvidia@"+ip+":kzpy3/")
+    cy(ip,'finished.')
 
 def update_TXs(ips=[]):
     for ip in ips:

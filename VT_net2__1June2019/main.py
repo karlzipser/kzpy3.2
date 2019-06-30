@@ -134,6 +134,7 @@ if __name__ == '__main__':
     err_timer = Timer(5)
     ts = time.time()
     gyro_heading_x = 0
+    camera_heading = 0
     
     Prediction2D_plot = CV2Plot(height_in_pixels=141,width_in_pixels=62,pixels_per_unit=7,y_origin_in_pixels=41)
 
@@ -189,6 +190,15 @@ if __name__ == '__main__':
             sample_frequency = 1.0 / dts
             d_heading = gyro_heading_x - gyro_heading_x_prev
 
+
+            camera_heading_prev = camera_heading
+
+            camera_heading = (S['cmd/camera']-49) * P['cmd_camera_to_camera_heading_cooeficient']
+
+            d_camera_heading = camera_heading - camera_heading_prev
+            #cy(dp(d_camera_heading),dp(d_heading))
+
+
         except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
@@ -215,7 +225,7 @@ if __name__ == '__main__':
             if value == 0:
                 pop = False
             prediction_images.get__path_pts2D(
-                d_heading,
+                d_heading + d_camera_heading,
                 encoder,
                 sample_frequency,
                 direction,
@@ -231,78 +241,78 @@ if __name__ == '__main__':
                 graphics_timer.reset()
 
                 Path_pts2D['check_ts'](P['point_lifetime'])
-                """
-                Path_pts2D['show'](
-                    use_CV2_plot=True,
-                    use_maplotlib=False,
-                    do_print=False,
-                    clear=True,
-                    color=(255,255,0),
-                    code=1,
-                    show=False,
-                    grid=False,
-                    scale=1.0,
-                )
-                Path_pts2D['show'](
-                    use_CV2_plot=True,
-                    use_maplotlib=False,
-                    do_print=False,
-                    clear=False,
-                    color=(255,0,0),
-                    code=-1,
-                    show=False,
-                    grid=False,
-                    scale=1.0,
-                )
-                Path_pts2D['show'](
-                    use_CV2_plot=True,
-                    use_maplotlib=False,
-                    do_print=False,
-                    clear=False,
-                    color=(255,255,255),
-                    code=0,
-                    show=True,
-                    grid=True,
-                    scale=1.0,
-                )
-                """
+                if True:
+                    Path_pts2D['show'](
+                        use_CV2_plot=True,
+                        use_maplotlib=False,
+                        do_print=False,
+                        clear=True,
+                        color=(255,255,0),
+                        code=1,
+                        show=False,
+                        grid=False,
+                        scale=1.0,
+                    )
+                    Path_pts2D['show'](
+                        use_CV2_plot=True,
+                        use_maplotlib=False,
+                        do_print=False,
+                        clear=False,
+                        color=(255,0,0),
+                        code=-1,
+                        show=False,
+                        grid=False,
+                        scale=1.0,
+                    )
+                    Path_pts2D['show'](
+                        use_CV2_plot=True,
+                        use_maplotlib=False,
+                        do_print=False,
+                        clear=False,
+                        color=(255,255,255),
+                        code=0,
+                        show=True,
+                        grid=True,
+                        scale=1.0,
+                    )
+                
                 
                 Path_pts3D['to_3D'](Path_pts2D,P['backup parameter'])
-                """
-                Path_pts3D['show'](
-                    do_print=False,
-                    use_maplotlib=False,
-                    grid=False,
-                    scale=1.0,
-                    clear=True,
-                    code=1,
-                    color=(0,255,0), #(0,127,255),
-                    show=False,
-                    #background_image=S['left_image'],
-                )
-                Path_pts3D['show'](
-                    do_print=False,
-                    use_maplotlib=False,
-                    grid=False,
-                    scale=1.0,
-                    clear=False,
-                    code=-1,
-                    color=(255,0,0), #(0,127,255),
-                    show=False,
-                )
-                Path_pts3D['show'](
-                    do_print=False,
-                    use_maplotlib=False,
-                    use_CV2_circles=False,
-                    grid=True,
-                    scale=1.0,
-                    clear=False,
-                    code=0,
-                    color=(255,255,255), #(0,127,255),
-                    show=True,
-                    #background_image=S['left_image'],
-                )
-                """
+                if True:
+                    Path_pts3D['show'](
+                        do_print=False,
+                        use_maplotlib=False,
+                        grid=False,
+                        scale=1.0,
+                        clear=True,
+                        code=1,
+                        color=(0,255,0), #(0,127,255),
+                        show=False,
+                        #background_image=S['left_image'],
+                    )
+                    Path_pts3D['show'](
+                        do_print=False,
+                        use_maplotlib=False,
+                        grid=False,
+                        scale=1.0,
+                        clear=False,
+                        code=-1,
+                        color=(255,0,0), #(0,127,255),
+                        show=False,
+                    )
+                    Path_pts3D['show'](
+                        do_print=False,
+                        use_maplotlib=False,
+                        use_CV2_circles=False,
+                        grid=True,
+                        scale=1.0,
+                        clear=False,
+                        code=0,
+                        color=(255,255,255), #(0,127,255),
+                        show=True,
+                        background_image=S['left_image'],
+                    )
+                    
                 pts_3d = Barrier_pts3D['to_3D'](
                     Path_pts2D,
                     P['backup parameter'],
@@ -310,20 +320,20 @@ if __name__ == '__main__':
                     codes=[0],
                 )
                 Barrier_pts3D['check_ts'](P['circle_lifetime'])
-                """
-                Barrier_pts3D['show'](
-                    do_print=False,
-                    use_maplotlib=False,
-                    use_CV2_circles=True,
-                    grid=False,
-                    scale=1.0,
-                    clear=True,
-                    code=0,
-                    color=(255,0,0), #(0,127,255),
-                    show=True,
-                    background_image=S['left_image'],
-                )
-                """
+                if True:
+                    Barrier_pts3D['show'](
+                        do_print=False,
+                        use_maplotlib=False,
+                        use_CV2_circles=True,
+                        grid=False,
+                        scale=1.0,
+                        clear=True,
+                        code=0,
+                        color=(255,0,0), #(0,127,255),
+                        show=True,
+                        background_image=S['left_image'],
+                    )
+                    
                 img_ctr += 1
                 #imsave(opjm('rosbags/imgs/'+d2n(img_ctr,'.png')),Barrier_pts3D['plot']['image'])
                 #for i in range(Barrier_pts3D['ctr']):
@@ -381,10 +391,6 @@ if __name__ == '__main__':
                             CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)        
 
 
-
-
-
-                #cg(dp(P['distance']),dp(P['velocity']))
 
             if len(motors.keys()) > 0:
                 (

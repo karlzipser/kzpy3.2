@@ -9,41 +9,114 @@ exec(identify_file_str)
 for k in CShowFile.keys():
     CShowFile[k] = False
 
+"""
+import kzpy3.Menu.main as m
+DV = m.Default_Values
+A={'1':{2:3,3:4}}
+E = DV(A,opjD(),[])
+E['show']() 
+E['down']('1')
+E['show']()
+E['set_value'](2)
+"""
 
 if 'Arguments' not in locals():
     Arguments = {}
 
-Default_Args = {
-    'menu':True,
-    'read_only':False,
-}
+setup_Default_Arguments(
+    {
+        'menu':True,
+        'read_only':False,
+        'help':False,
+    }
+)
 
-for d in Default_Args:
-    if d not in Arguments:
-        Arguments[d] = Default_Args[d]
 
-
-def Default_Values(Q,project_path,parent_keys=[],read_only=False,Dics={}):
+def Default_Values(
+    Q,
+    project_path,
+    parent_keys=[],
+    read_only=False,
+    Dics={}
+):
     D = {}
     os.system('mkdir -p '+opj(project_path,'__local__'))
     D['project_path'] = project_path
     D['.pkl'] = opj(project_path,'__local__','default_values.pkl')
-    
     D['parent_keys'] = parent_keys
     D['current_keys'] = ['Q']
     D['Q'] = Q
     D['read_only'] = read_only
     D['Dics'] = Dics
+    def __add_keys(E,keys=[]):
+        E['--keys--'] = keys
+        if '--mode--' not in E:
+            if D['read_only']:
+                E['--mode--'] = 'const'
+            else:
+                E['--mode--'] = 'var'
+        elif D['read_only'] and E['--mode--'] == 'var':
+            E['--mode--'] = 'const'
+        for k in E.keys():
+            if type(E[k]) == dict:
+                __add_keys(E[k],keys+[k])
     if not read_only:
         os.system('rm '+D['.pkl'])
-    add_keys(D,D['Q'])
+    __add_keys(D['Q'])
+
+    def __load_C(C,project_path,name='default_values'):
+        
+        if len(sggo(opj(project_path,'__local__','ready'))) == 0:
+            return False
+        if len(sggo(opj(project_path,'__local__',name+'.writing.pkl'))) > 0:
+            return False
+        if len(sggo(opj(project_path,'__local__',name+'.pkl'))) == 0:
+            return False
+        try:
+            D = lo(opj(project_path,'__local__',name+'.pkl'))
+        except:
+            return False
+        if len(sggo(opj(project_path,'__local__','ready'))) == 0:
+            return False
+        if len(sggo(opj(project_path,'__local__',name+'.writing.pkl'))) > 0:
+            return False
+        if len(sggo(opj(project_path,'__local__',name+'.pkl'))) == 0:
+            return False
+        for k in C.keys():
+            C[k] = D[k]
+        return True
+
+
+    def __save_C(C,project_path,name='default_values'):
+        
+        try:
+            sys_str = d2s('rm',opj(project_path,'__local__','ready'))
+            print sys_str
+            os.system(sys_str)
+        except:
+            cr(sys_str,"failed")
+        so(C,opj(project_path,'__local__',name+'.writing.pkl'))
+        time.sleep(0.1)
+        try:
+            sys_str = d2s('rm',opj(project_path,'__local__',name+'.pkl'))
+            print sys_str
+            os.system(sys_str)
+        except:
+            cr(sys_str,"failed")
+        sys_str = d2s('mv',opj(project_path,'__local__',name+'.writing.pkl'),opj(project_path,'__local__',name+'.pkl'))
+        print sys_str
+        os.system(sys_str)
+        sys_str = d2s('touch',opj(project_path,'__local__','ready'))
+        print sys_str
+        os.system(sys_str)  
+
     def function_save():
         if D['read_only']:
             return
-        save_C(D['Q'],D['project_path'])
+        __save_C(D['Q'],D['project_path'])
     def function_load():
-        load_C(D['Q'],D['project_path'])
-        add_keys(D,D['Q'])
+        __load_C(D['Q'],D['project_path'])
+        __add_keys(D['Q'])
     def function_up():
         if len(D['current_keys']) > 0:
             D['current_keys'].pop()
@@ -74,6 +147,69 @@ def Default_Values(Q,project_path,parent_keys=[],read_only=False,Dics={}):
         clear_screen()
         cg(D['project_path'].replace(opjh(),'~/'))
         return show_menu(key_access(D,D['current_keys']),message,D['parent_keys'])
+
+
+    def function_set_value(key):
+        K = key_access(D,D['current_keys'])
+        if K['--mode--'] == 'const':
+            message = d2s(key,'is constant, not changed.')
+            return {'message':message}
+        if K['--mode--'] == 'bash':
+            os.system(K[key])
+            raw_enter()
+            message = K[key]
+            return {'message':message}
+        if K['--mode--'] == 'extern':
+            #cr('leaving',D['project_path'],'for',K[key],ra=1)
+            start_Dic(K[key],D['Dics'],parent_keys=D['parent_keys']+D['current_keys'][1:]+[key])
+            message = d2s('returned to',D['project_path'])
+            return {'message':message}
+
+
+        if K['--mode--'] == 'active':
+            
+            A = Dic_Loader(K[key])
+            
+            while True:
+                
+                try:
+                    if A['load']():
+                        clear_screen()
+                        for k in sorted(A['Dic'].keys()):
+                            cw(gr,str(k)+')',yl,A['Dic'][k])
+                        cw(lb,time_str('Pretty'))
+                    else:
+                        pass#print 0
+                except KeyboardInterrupt:
+                    cr('*** KeyboardInterrupt ***')
+                    break
+                except Exception as e:
+                    exc_type, exc_obj, exc_tb = sys.exc_info()
+                    file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                    CS_('Exception!',emphasis=True)
+                    CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+            return {'message':'did active'}
+
+        if type(K[key]) == bool:
+            yes_no = raw_input(d2n("Toggle '",key,"'? ([y]/n) "))
+            if yes_no == 'y' or yes_no == '':
+                value = not K[key]
+            else:
+                message = d2n("'",key,"' unchanged")
+                return {'message':message}
+        else:
+            try:
+                value = input(d2n("Enter value for '",key,"' (",K[key],"): "))
+            except:
+                message = d2s(key,'not changed')
+                return {'message':message}
+        if type(value) != type(K[key]):
+            message = d2n("*** type(",value,") != type(",K[key],")")
+        else:
+            K[key] = value
+            message = d2n("set '",key,"' to ",value,'')
+            D['save']()
+        return {'message':message}
 
     def function_menu():
         message = ''
@@ -112,7 +248,7 @@ def Default_Values(Q,project_path,parent_keys=[],read_only=False,Dics={}):
                             continue
                         else:
                             K = key_access(D,D['current_keys'])
-                            message = set_value(D,R['message'])['message']
+                            message = D['set_value'](D,R['message'])['message']
                             continue
         except KeyboardInterrupt:
             cr('*** KeyboardInterrupt ***')
@@ -130,70 +266,11 @@ def Default_Values(Q,project_path,parent_keys=[],read_only=False,Dics={}):
     D['save'] = function_save
     D['show'] = function_show
     D['menu'] = function_menu
+    D['set_value'] = function_set_value
     return D
 
 
-def set_value(D,key):
-    K = key_access(D,D['current_keys'])
-    if K['--mode--'] == 'const':
-        message = d2s(key,'is constant, not changed.')
-        return {'message':message}
-    if K['--mode--'] == 'bash':
-        os.system(K[key])
-        raw_enter()
-        message = K[key]
-        return {'message':message}
-    if K['--mode--'] == 'extern':
-        #cr('leaving',D['project_path'],'for',K[key],ra=1)
-        start_Dic(K[key],D['Dics'],parent_keys=D['parent_keys']+D['current_keys'][1:]+[key])
-        message = d2s('returned to',D['project_path'])
-        return {'message':message}
 
-
-    if K['--mode--'] == 'active':
-        
-        A = Dic_Loader(K[key])
-        
-        while True:
-            
-            try:
-                if A['load']():
-                    clear_screen()
-                    for k in sorted(A['Dic'].keys()):
-                        cw(gr,str(k)+')',yl,A['Dic'][k])
-                    cw(lb,time_str('Pretty'))
-                else:
-                    pass#print 0
-            except KeyboardInterrupt:
-                cr('*** KeyboardInterrupt ***')
-                break
-            except Exception as e:
-                exc_type, exc_obj, exc_tb = sys.exc_info()
-                file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-                CS_('Exception!',emphasis=True)
-                CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
-        return {'message':'did active'}
-
-    if type(K[key]) == bool:
-        yes_no = raw_input(d2n("Toggle '",key,"'? ([y]/n) "))
-        if yes_no == 'y' or yes_no == '':
-            value = not K[key]
-        else:
-            message = d2n("'",key,"' unchanged")
-            return {'message':message}
-    else:
-        try:
-            value = input(d2n("Enter value for '",key,"' (",K[key],"): "))
-        except:
-            message = d2s(key,'not changed')
-            return {'message':message}
-    if type(value) != type(K[key]):
-        message = d2n("*** type(",value,") != type(",K[key],")")
-    else:
-        K[key] = value
-        message = d2n("set '",key,"' to ",value,'')
-        D['save']()
-    return {'message':message}
 
 
 def key_access(Dic,keys,start=True):
@@ -210,66 +287,16 @@ def key_access(Dic,keys,start=True):
         return Dic[key]
 
 
-def add_keys(D,E,keys=[]):
-    E['--keys--'] = keys
-    if '--mode--' not in E:
-        if D['read_only']:
-            E['--mode--'] = 'const'
-        else:
-            E['--mode--'] = 'var'
-    elif D['read_only'] and E['--mode--'] == 'var':
-        E['--mode--'] = 'const'
-
-    for k in E.keys():
-        if type(E[k]) == dict:
-            add_keys(D,E[k],keys+[k])
 
 
-def load_C(C,project_path,name='default_values'):
-    if len(sggo(opj(project_path,'__local__','ready'))) == 0:
-        return False
-    if len(sggo(opj(project_path,'__local__',name+'.writing.pkl'))) > 0:
-        return False
-    if len(sggo(opj(project_path,'__local__',name+'.pkl'))) == 0:
-        return False
-    try:
-        D = lo(opj(project_path,'__local__',name+'.pkl'))
-    except:
-        return False
-    if len(sggo(opj(project_path,'__local__','ready'))) == 0:
-        return False
-    if len(sggo(opj(project_path,'__local__',name+'.writing.pkl'))) > 0:
-        return False
-    if len(sggo(opj(project_path,'__local__',name+'.pkl'))) == 0:
-        return False
-    for k in C.keys():
-        C[k] = D[k]
-    return True
 
 
-def save_C(C,project_path,name='default_values'):
-    try:
-        sys_str = d2s('rm',opj(project_path,'__local__','ready'))
-        print sys_str
-        os.system(sys_str)
-    except:
-        cr(sys_str,"failed")
-    so(C,opj(project_path,'__local__',name+'.writing.pkl'))
-    time.sleep(0.1)
-    try:
-        sys_str = d2s('rm',opj(project_path,'__local__',name+'.pkl'))
-        print sys_str
-        os.system(sys_str)
-    except:
-        cr(sys_str,"failed")
-    sys_str = d2s('mv',opj(project_path,'__local__',name+'.writing.pkl'),opj(project_path,'__local__',name+'.pkl'))
-    print sys_str
-    os.system(sys_str)
-    sys_str = d2s('touch',opj(project_path,'__local__','ready'))
-    print sys_str
-    os.system(sys_str)    
 
-def is_meta_key(k):
+
+
+def __is_meta_key(k):
+    if type(k) != str:
+        return False
     if len(k) < 2:
         return False
     if k[:2] != '--' and k[-2:] != '--':
@@ -280,7 +307,7 @@ def is_meta_key(k):
 #def clear_screen():
 #    cr("\nclear screen\n")
 
-def show_menu(C,message,parent_keys=[]):
+def __show_menu(C,message,parent_keys=[]):
     if '--keys--' in C:
         key_list = C['--keys--']
     else:
@@ -337,7 +364,7 @@ def show_menu(C,message,parent_keys=[]):
             atr = colored.attr('res_underlined')
         else:
             atr = ''
-        cb(bl,i,cc+k+atr,val_color,v,edited)
+        cb(bl,i,d2n(cc,k,atr),val_color,v,edited)
     cg('$',message)
     return sorted_keys
 
