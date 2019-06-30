@@ -253,13 +253,22 @@ if __name__ == '__main__':
                     Q = network_utils.camera.Q_list[-1]
 
                     if Q['ready']:
-                                                
+                                       
                         Q['ready'] = False
 
                         hz.freq(' (main) ')
-
+                        cm(3)
+                        cr('rectangles_xys' in N)
+                        cr(len(N['rectangles_xys']))
+                        if len(N['rectangles_xys']) > 0:
+                            cr('***')
+                            Q['add_rectangles'](N['rectangles_xys'],N['backup parameter'])
+                        cm(4)
+                        mci(Q['left']['now']['full'])
+                        cm("mci(Q['left']['now']['full'])")
+                        
                         torch_camera_data           = Q['to_torch'](size_='full')
-
+                        cm(5)
                         torch_small_camera_data    = Q['to_torch'](size_='small')
 
                         behavioral_mode = N['mode']['behavioral_mode']

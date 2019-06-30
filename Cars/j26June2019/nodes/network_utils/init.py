@@ -38,7 +38,7 @@ def ros_init(N):
 
     N['net']['Torch_network'] = None
     N['net']['loaded_net'] = False
-
+    N['rectangles_xys'] = na([])
 
     def human_agent_callback(msg):
         N['mode']['human_agent'] = msg.data
@@ -52,6 +52,9 @@ def ros_init(N):
 
     def cmd_camera_callback(msg):
         N['cmd/camera'] = msg.data
+
+    def rectangles_xys_callback(data):
+        N['rectangles_xys'] = na(data.data)
 
     bcs = '/bair_car'
 
@@ -69,6 +72,12 @@ def ros_init(N):
         '/cmd/camera',
         std_msgs.msg.Int32,
         callback=cmd_camera_callback)
+
+    rospy.Subscriber(
+        'rectangles_xys',
+        std_msgs.msg.Float32MultiArray,
+        callback=rectangles_xys_callback,
+        queue_size=2)
 
     N['Pub'] = {}
 

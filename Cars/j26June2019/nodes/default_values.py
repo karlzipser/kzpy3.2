@@ -36,6 +36,7 @@ _['control print'] = True
 _['flex print'] = True
 ############# NETWORK PARAMETERS
 _['ldr_gain'] = 1.0
+_['backup parameter'] = 0.5
 _['network_output_sample'] = 0 # >= 0, <= 9
 _['network_steer_gain'] = 2.0
 _['network_camera_gain'] = 4.0
@@ -64,7 +65,7 @@ _['ldr_off_time'] = 0.2
 _['temp_camera'] = 49
 _['still_motor_offset_gain'] = 1.0
 ###########################
-_['use flex'] = True
+_['use flex'] = False
 _['flex_motor_smoothing_parameter'] = _['network_motor_smoothing_parameter']
 _['flex_servo_smoothing_parameter'] = _['network_servo_smoothing_parameter']
 _['flex_motor_gain'] = 1.5

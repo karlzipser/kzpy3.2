@@ -7,12 +7,19 @@ import torch
 import torch.autograd
 import cv_bridge
 from sensor_msgs.msg import Image
+import kzpy3.VT_net2__1June2019.rectangles as rectangles
+
 exec(identify_file_str)
 
 full_width,full_height = 168,94
 meta_width,meta_height = 41,23
 
 bridge = cv_bridge.CvBridge()
+
+num_rectangle_patterns = 4
+Rectangles = rectangles.Random_black_white_rectangle_collection(
+    num_rectangle_patterns=num_rectangle_patterns
+)
 
 def Camera_Shot(data): #######################################
     D = {}
@@ -83,6 +90,43 @@ def Quartet(name='no_name'):
                 delay=delay_now,
                 title='Quartet '+D['name'])
 
+    def _function_add_rectangles(rectangles_xys,backup_parameter):
+        xys4 = rectangles_xys.reshape(len(rectangles_xys)/4,4)
+        #cy(xys4)
+        xys4_prev = xys4.copy()
+        xys4_prev[:,1] += 0.0375
+        #cm(-1)
+        I = {
+            'now':{
+                'R':D['right']['now']['full'],
+                'L':D['left']['now']['full'],
+            },
+            'prev':{
+                'R':D['right']['prev']['full'],
+                'L':D['left']['prev']['full'],
+            },
+        }
+        #cm(0)
+        Xys = {
+            'now':  xys4,
+            'prev': xys4_prev,
+        }
+        for when in ['now','prev']:
+            rectangles.paste_rectangles_into_drive_images(
+                Xys[when],
+                I[when],
+                Rectangles,
+                backup_parameter,
+            )
+        #cm(1)
+        D['right']['now']['full'] = I['now']['R']
+        D['left']['now']['full'] = I['now']['L']
+        D['right']['prev']['full'] = I['prev']['R']
+        D['left']['prev']['full'] = I['prev']['L']
+        #mci(I['now']['L'],title='add_rectangles')
+        #mci(D['right']['now']['full'],title='add_rectangles')
+
+
     def _function_to_torch(size_='full'):
         listoftensors = []
         for when in ['prev','now']:
@@ -147,6 +191,7 @@ def Quartet(name='no_name'):
     D['display'] = _function_display
     D['to_torch'] = _function_to_torch
     D['from_torch'] = _function_from_torch
+    D['add_rectangles'] = _function_add_rectangles
 
     return D
 
