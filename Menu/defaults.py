@@ -1,5 +1,5 @@
 from kzpy3.utils3 import *
-
+"""
 Q = {
     'CARS':{
         'j26June2019':{
@@ -79,12 +79,38 @@ Q = {
         'a':opjD('a'),
         'b':opjD('a'),
     },
-    'W':{
+    'with defaults':{
         '--mode--':'extern',
         'A':opjk('Menu/A'),
         'B':opjk('Menu/B'),
     }
 }
+"""
+Q = {
+    '--mode--':'extern',
+}
+
+ignore_list = ['Menu']
+
+items = sggo(opjk('*'))
+for m in items:
+    if fname(m) in ignore_list:
+        continue
+    if len(sggo(m,'defaults.py')) == 1:
+        Q[fname(m)] = m
+
+items = sggo(opjk('Cars/*'))
+for m in items:
+    if fname(m) in ignore_list:
+        continue
+    n = opj(m,'nodes')
+    if len(sggo(n,'defaults.py')) == 1:
+        Q[opj('Cars',fname(m))] = n
+
+
+
+
+
 
 
 #EOF

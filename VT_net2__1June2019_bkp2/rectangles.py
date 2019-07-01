@@ -10,7 +10,7 @@ def random_black_white_rectangle(width,height):
         size=(height,width)
     )
     b = zeros((height,width,3))
-    for i in [1]:#range(3):
+    for i in range(3):
         b[:,:,i] = a
     d = z55(b)
     return(d)

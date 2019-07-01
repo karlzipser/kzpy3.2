@@ -29,6 +29,19 @@ S['right_image'] = False
 S['delta cmd/camera'] = 0
 S['cmd/camera'] = 49
 
+for modality in ['headings','encoders','motors']:
+    for side in ['left','direct','right']:
+        s = """
+def MODALITY_SIDE_callback(data):
+    S['MODALITY_SIDE'] = na(data.data).astype(float)/1000.
+
+rospy.Subscriber('/MODALITY_SIDE-TOPIC-SUFFIX', std_msgs.msg.Int32MultiArray, callback= MODALITY_SIDE_callback,queue_size=qs)
+
+
+        """
+        s = s.replace('MODALITY',modality).replace('SIDE',side).replace('-TOPIC-SUFFIX',default_values.P['topic_suffix'])
+        exec(s)
+
 def encoder_callback(data):
     S['encoder'] = data.data
 
@@ -83,19 +96,18 @@ def gyro_heading_x_callback(data):
 
 rospy.Subscriber(bcs+'gyro_heading', geometry_msgs.msg.Vector3, callback=gyro_heading_x_callback,queue_size=qs)
 
-if False:
-    if default_values.P['graphics 3']:
+if default_values.P['graphics 3']:
 
-        def left_callback(data):
-            S['left_image'] = bridge.imgmsg_to_cv2(data,'rgb8')
-    if True:
-        def left_callback(data):
-            S['left_image'] = bridge.imgmsg_to_cv2(data,'rgb8')
-        def right_callback(data):
-            S['right_image'] = bridge.imgmsg_to_cv2(data,'rgb8')
+    def left_callback(data):
+        S['left_image'] = bridge.imgmsg_to_cv2(data,'rgb8')
+if True:
+    def left_callback(data):
+        S['left_image'] = bridge.imgmsg_to_cv2(data,'rgb8')
+    def right_callback(data):
+        S['right_image'] = bridge.imgmsg_to_cv2(data,'rgb8')
 
-        rospy.Subscriber(bcs+"zed/left/image_rect_color",Image,left_callback,queue_size=qs)
-        rospy.Subscriber(bcs+"zed/right/image_rect_color",Image,right_callback,queue_size=qs)
+    rospy.Subscriber(bcs+"zed/left/image_rect_color",Image,left_callback,queue_size=qs)
+    rospy.Subscriber(bcs+"zed/right/image_rect_color",Image,right_callback,queue_size=qs)
 ###
 #####################################################
 #####################################################

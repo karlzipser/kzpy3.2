@@ -461,7 +461,7 @@ def start_Dic(dic_project_path,Dics={},parent_keys=[],Arguments=Arguments):
 
 if __name__ == '__main__':
 
-    dic_project_path = opjk('Menu/A/Cars')
+    dic_project_path = opjk('Menu')
 
     Dics = {}
 
