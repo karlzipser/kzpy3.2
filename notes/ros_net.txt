@@ -1,3 +1,7 @@
+) trajectory to motor commands
+) dic as class
+) save dic as dirs
+
 ) should pasting program also do trajectories?
 ) get Menu working in place of Commands
 ) get Menu to work over net

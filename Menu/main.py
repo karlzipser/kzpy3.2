@@ -8,6 +8,16 @@ except:
 exec(identify_file_str)
 for k in CShowFile.keys():
     CShowFile[k] = False
+if 'Arguments' not in locals():
+    Arguments = {}
+setup_Default_Arguments(
+    {
+        'menu':True,
+        'read_only':False,
+        'help':False,
+    }
+)
+
 
 """
 import kzpy3.Menu.main as m
@@ -20,16 +30,6 @@ E['show']()
 E['set_value'](2)
 """
 
-if 'Arguments' not in locals():
-    Arguments = {}
-
-setup_Default_Arguments(
-    {
-        'menu':True,
-        'read_only':False,
-        'help':False,
-    }
-)
 
 
 def Default_Values(
@@ -48,6 +48,7 @@ def Default_Values(
     D['Q'] = Q
     D['read_only'] = read_only
     D['Dics'] = Dics
+
     def __add_keys(E,keys=[]):
         E['--keys--'] = keys
         if '--mode--' not in E:
@@ -60,12 +61,12 @@ def Default_Values(
         for k in E.keys():
             if type(E[k]) == dict:
                 __add_keys(E[k],keys+[k])
+
     if not read_only:
         os.system('rm '+D['.pkl'])
     __add_keys(D['Q'])
 
     def __load_C(C,project_path,name='default_values'):
-        
         if len(sggo(opj(project_path,'__local__','ready'))) == 0:
             return False
         if len(sggo(opj(project_path,'__local__',name+'.writing.pkl'))) > 0:
@@ -86,9 +87,7 @@ def Default_Values(
             C[k] = D[k]
         return True
 
-
     def __save_C(C,project_path,name='default_values'):
-        
         try:
             sys_str = d2s('rm',opj(project_path,'__local__','ready'))
             print sys_str
@@ -114,9 +113,11 @@ def Default_Values(
         if D['read_only']:
             return
         __save_C(D['Q'],D['project_path'])
+
     def function_load():
         __load_C(D['Q'],D['project_path'])
         __add_keys(D['Q'])
+
     def function_up():
         if len(D['current_keys']) > 0:
             D['current_keys'].pop()
@@ -129,6 +130,7 @@ def Default_Values(
                 'message':  d2s('***','cannot go up.'),
                 'action':   'failure',
             }
+
     def function_down(key):
         K = key_access(D,D['current_keys'])
         if key in K and type(K[key]) == dict:
@@ -146,8 +148,7 @@ def Default_Values(
     def function_show(message=''):
         clear_screen()
         cg(D['project_path'].replace(opjh(),'~/'))
-        return show_menu(key_access(D,D['current_keys']),message,D['parent_keys'])
-
+        return __show_menu(key_access(D,D['current_keys']),message,D['parent_keys'])
 
     def function_set_value(key):
         K = key_access(D,D['current_keys'])
@@ -164,14 +165,9 @@ def Default_Values(
             start_Dic(K[key],D['Dics'],parent_keys=D['parent_keys']+D['current_keys'][1:]+[key])
             message = d2s('returned to',D['project_path'])
             return {'message':message}
-
-
         if K['--mode--'] == 'active':
-            
             A = Dic_Loader(K[key])
-            
             while True:
-                
                 try:
                     if A['load']():
                         clear_screen()
@@ -189,7 +185,6 @@ def Default_Values(
                     CS_('Exception!',emphasis=True)
                     CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
             return {'message':'did active'}
-
         if type(K[key]) == bool:
             yes_no = raw_input(d2n("Toggle '",key,"'? ([y]/n) "))
             if yes_no == 'y' or yes_no == '':
@@ -215,11 +210,10 @@ def Default_Values(
         message = ''
         if not D['read_only']:
             D['save']()
-        try:
+        if True:#try:
             while True:
                 D['load']()
                 items = D['show'](message)
-
                 while True:
                     R = make_choice(items)
                     if R['message'] != 'ran python':
@@ -234,7 +228,6 @@ def Default_Values(
                     message = R['message'] #'continue'
                     continue
                 elif R['action'] == 'choose':
-                    
                     if R['message'] == '<up>':
                         S = D['up']()
                         message = S['message']
@@ -248,8 +241,9 @@ def Default_Values(
                             continue
                         else:
                             K = key_access(D,D['current_keys'])
-                            message = D['set_value'](D,R['message'])['message']
+                            message = D['set_value'](R['message'])['message']
                             continue
+        """
         except KeyboardInterrupt:
             cr('*** KeyboardInterrupt ***')
             sys.exit()
@@ -258,6 +252,82 @@ def Default_Values(
             file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             CS_('Exception!',emphasis=True)
             CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+        """
+
+
+    def __is_meta_key(k):
+        if type(k) != str:
+            return False
+        if len(k) < 2:
+            return False
+        if k[:2] != '--' and k[-2:] != '--':
+            return False
+        else:
+            return True
+
+    #def clear_screen():
+    #    cr("\nclear screen\n")
+
+    def __show_menu(C,message,parent_keys=[]):
+        if '--keys--' in C:
+            key_list = C['--keys--']
+        else:
+            key_list = ['no keys']
+        q = ': '
+        cw(
+            bl+q.join(parent_keys)+q+wh+q.join(key_list),
+        ) 
+        sorted_keys_ = sorted(C.keys())
+        sorted_keys = []
+        for k in sorted_keys_:
+            if not __is_meta_key(k):
+                sorted_keys.append(k)
+        if len(key_list) == 0 and len(parent_keys) == 0:
+            s = '<top>'
+        else:
+            s = '<up>'
+        sorted_keys.insert(0,s)
+        cc = bl
+        for i in rlen(sorted_keys):
+            if i == 0 and s == '<top>':
+                cb(s)
+                continue #return ''
+            k = sorted_keys[i]
+            val_color = lb
+            v = ''
+            edited = ''
+            if k in C:
+                if type(C[k]) == dict:
+                    ctr = 0
+                    for l in C[k]:
+                        if not __is_meta_key(l):
+                            ctr += 1
+                    v = ''
+                    cc = wh+underlined
+                    val_color = wh
+                elif __is_meta_key(k):
+                    v = C[k]
+                    if have_colored:
+                        cc = colored.fg('grey_23') 
+                    else:
+                        cc = cg
+                elif C['--mode--'] == 'bash':
+                    cc = lb
+                    v = ''
+                elif C['--mode--'] == 'const':
+                    v = C[k]
+                    cc = wh
+                    val_color = wh
+                else:
+                    v = C[k]
+                    cc = yl
+            if have_colored:
+                atr = colored.attr('res_underlined')
+            else:
+                atr = ''
+            cb(bl,i,d2n(cc,k,atr),val_color,v,edited)
+        cg('$',message)
+        return sorted_keys
 
 
     D['up'] = function_up
@@ -293,80 +363,6 @@ def key_access(Dic,keys,start=True):
 
 
 
-
-def __is_meta_key(k):
-    if type(k) != str:
-        return False
-    if len(k) < 2:
-        return False
-    if k[:2] != '--' and k[-2:] != '--':
-        return False
-    else:
-        return True
-
-#def clear_screen():
-#    cr("\nclear screen\n")
-
-def __show_menu(C,message,parent_keys=[]):
-    if '--keys--' in C:
-        key_list = C['--keys--']
-    else:
-        key_list = ['no keys']
-    q = ': '
-    cw(
-        bl+q.join(parent_keys)+q+wh+q.join(key_list),
-    ) 
-    sorted_keys_ = sorted(C.keys())
-    sorted_keys = []
-    for k in sorted_keys_:
-        if not is_meta_key(k):
-            sorted_keys.append(k)
-    if len(key_list) == 0 and len(parent_keys) == 0:
-        s = '<top>'
-    else:
-        s = '<up>'
-    sorted_keys.insert(0,s)
-    cc = bl
-    for i in rlen(sorted_keys):
-        if i == 0 and s == '<top>':
-            cb(s)
-            continue #return ''
-        k = sorted_keys[i]
-        val_color = lb
-        v = ''
-        edited = ''
-        if k in C:
-            if type(C[k]) == dict:
-                ctr = 0
-                for l in C[k]:
-                    if not is_meta_key(l):
-                        ctr += 1
-                v = ''
-                cc = wh+underlined
-                val_color = wh
-            elif is_meta_key(k):
-                v = C[k]
-                if have_colored:
-                    cc = colored.fg('grey_23') 
-                else:
-                    cc = cg
-            elif C['--mode--'] == 'bash':
-                cc = lb
-                v = ''
-            elif C['--mode--'] == 'const':
-                v = C[k]
-                cc = wh
-                val_color = wh
-            else:
-                v = C[k]
-                cc = yl
-        if have_colored:
-            atr = colored.attr('res_underlined')
-        else:
-            atr = ''
-        cb(bl,i,d2n(cc,k,atr),val_color,v,edited)
-    cg('$',message)
-    return sorted_keys
 
 
 def Dic_Loader(path,wait_time=0.2):
@@ -488,7 +484,7 @@ def start_Dic(dic_project_path,Dics={},parent_keys=[],Arguments=Arguments):
 
 if __name__ == '__main__':
 
-    dic_project_path = opjk('Menu/A/Cars')
+    dic_project_path = opjk('Menu')#/A/Cars')
 
     Dics = {}
 
