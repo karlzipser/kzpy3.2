@@ -112,6 +112,7 @@ Rectangles = rectangles.Random_black_white_rectangle_collection(
 )
 stop_timer = Timer(P['stop_timer_time'])
 slow_encoder = 0
+slow_motor = 49
 os.system('mkdir -p '+opjm('rosbags/imgs'))
 #raw_enter()
 rate = Timer(5)
@@ -123,7 +124,7 @@ if __name__ == '__main__':
     ts = time.time()
     gyro_heading_x = 0
     camera_heading = 0
-    direction = 1.
+    direction2 = 1
 
 
     
@@ -168,21 +169,29 @@ if __name__ == '__main__':
         if True:
             s = P['slow_encoder_s']
             slow_encoder = s*slow_encoder+(1-s)*encoder
+            slow_motor = s*slow_motor+(1-s)*motor
+            direction = 1.
+            if slow_motor < 45:
+                direction = -1.
 
-            if slow_encoder > 0.01:
-                if motor < 49:
-                    direction = -1.
-                else:
-                    direction = 1.
-
-            if slow_encoder < 0.01 and intr(direction) == 1 and stop_timer.check(): #direction < 0 or encoder < 0.1:
+            if slow_encoder > 0.1:
+                if slow_motor < 45:
+                    direction2 = -1
+                elif slow_motor > 54:
+                    direction2 = 1
+            
+            if slow_encoder < 0.01 and direction2 == 1 and stop_timer.check(): #direction < 0 or encoder < 0.1:
                 stop_timer.time_s = P['stop_timer_time']
                 stop_timer.reset()
                 value = 0
-            elif direction > 0:
+                cb('yes')
+            elif direction2 > 0:
                 value = 1
             else:
                 value = -1
+
+            cg(dp(slow_encoder,2),dp(slow_motor,2),direction,direction2)
+
             pop = False #True
             if value == 0:
                 pop = False

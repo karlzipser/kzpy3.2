@@ -195,9 +195,27 @@ def Default_Values(
         else:
             try:
                 value = input(d2n("Enter value for '",key,"' (",K[key],"): "))
+
+                if type(K[key]) == np.ndarray:
+                    if value in ['s','show']:
+                        if len(shape(K[key])) > 1 and len(shape(K[key])) < 4:
+                            clf();
+                            mi(K[key])
+                            spause()
+                            return {'message':d2s('mi ',key)}
+                        elif len(shape(K[key])) == 1:
+                            clf();
+                            plot(K[key],'b.-')
+                            spause()
+                            return {'message':d2s('plot',key)}
+                        else:
+                            return {'message':d2s('cannot show',key)}
+                    
             except:
                 message = d2s(key,'not changed')
                 return {'message':message}
+
+
         if type(value) != type(K[key]):
             message = d2n("*** type(",value,") != type(",K[key],")")
         else:
@@ -319,7 +337,10 @@ def Default_Values(
                     cc = wh
                     val_color = wh
                 else:
-                    v = C[k]
+                    if type(C[k]) == np.ndarray:
+                        v = d2s('array with shape',shape(C[k]))
+                    else:
+                        v = C[k]
                     cc = yl
             if have_colored:
                 atr = colored.attr('res_underlined')
@@ -403,7 +424,7 @@ def make_choice(sorted_keys):
 
     if raw_choice == '':
         return {
-            'message':"other commands: 'q' (quit), 'p' (python)",
+            'message':"other commands: 'q' (quit), 'p' (python), 's' (show array)",
             'action':'continue',
         }
         

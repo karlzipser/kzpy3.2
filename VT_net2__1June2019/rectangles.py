@@ -10,8 +10,8 @@ def random_black_white_rectangle(width,height):
         size=(height,width)
     )
     b = zeros((height,width,3))
-    for i in [1]:#range(3):
-        b[:,:,i] = a
+    b[:,:,0] = 1-a
+    b[:,:,1] = a
     d = z55(b)
     return(d)
 

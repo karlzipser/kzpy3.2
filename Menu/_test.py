@@ -2,7 +2,7 @@ from kzpy3.vis3 import *
 import Menu
 
 Q = Menu.start_Dic(
-    dic_project_path=opjk('Menu','A'),
+    dic_project_path=opjk('Commands','A'),
     Dics={},
     Arguments={
         'menu':False,
