@@ -194,23 +194,35 @@ def Default_Values(
                 return {'message':message}
         else:
             try:
-                value = input(d2n("Enter value for '",key,"' (",K[key],"): "))
+                if type(K[key]) == np.ndarray:
+                    d = d2s('current shape',shape(K[key]))
+                else:
+                    d = K[key]
+                value = input(d2n("Enter value for '",key,"' (",d,"): "))
 
                 if type(K[key]) == np.ndarray:
-                    if value in ['s','show']:
-                        if len(shape(K[key])) > 1 and len(shape(K[key])) < 4:
-                            clf();
-                            mi(K[key])
-                            spause()
-                            return {'message':d2s('mi ',key)}
-                        elif len(shape(K[key])) == 1:
-                            clf();
-                            plot(K[key],'b.-')
-                            spause()
-                            return {'message':d2s('plot',key)}
-                        else:
-                            return {'message':d2s('cannot show',key)}
-                    
+                    if type(value) == str:
+                        if value == 's':
+                            if len(shape(K[key])) > 1 and len(shape(K[key])) < 4:
+                                clf();
+                                mi(K[key])
+                                spause()
+                                return {'message':d2s('mi ',key)}
+                            elif len(shape(K[key])) == 1:
+                                clf();
+                                plot(K[key],'b.-')
+                                spause()
+                                return {'message':d2s('plot',key)}
+                            else:
+                                return {'message':d2s('cannot show',key)}
+                        elif value == 'h':
+                            if len(shape(K[key])) == 1:
+                                clf();
+                                hist(K[key])
+                                spause()
+                                return {'message':d2s('hist',key)}
+                            else:
+                                return {'message':d2s('cannot hist',key)}                    
             except:
                 message = d2s(key,'not changed')
                 return {'message':message}
@@ -424,7 +436,7 @@ def make_choice(sorted_keys):
 
     if raw_choice == '':
         return {
-            'message':"other commands: 'q' (quit), 'p' (python), 's' (show array)",
+            'message':"other commands: q(quit) p(python) s(show array) h(hist array)",
             'action':'continue',
         }
         

@@ -1,3 +1,8 @@
+) not getting most of trajectory predictions
+) need to train to avoid metadata rectangles
+) need much better knowledge of movement of car at low speeds
+	--maybe predict speed from visual data, or use ZED odometry
+) set up GPS data collection
 ) trajectory to motor commands
 ) dic as class
 ) save dic as dirs
