@@ -1587,6 +1587,57 @@ def update_TXs_range(start,stop=None,base_ip='169.254.131'):
         ip = d2n(base_ip,'.',i)
         threading.Thread(target=ssh_date_time_rsync,args=[ip]).start()
 
-exec(identify_file_str) 
+if False:
+    def key_get_set(D,key_list,value=None):
+        key = key_list.pop(0)
+        assert key in D.keys()
+        if len(key_list) == 0:
+            if value != None:
+                D[key] = value
+                return value
+            else:
+                return D[key]
+        else:
+            return key_get_set(D[key],key_list,value)
+    kg = key_get_set
+
+
+# https://stackoverflow.com/questions/14692690/access-nested-dictionary-items-via-a-list-of-keys
+from functools import reduce  # forward compatibility for Python 3
+import operator
+def getFromDict(dataDict, mapList):
+    return reduce(operator.getitem, mapList, dataDict)
+def setInDict(dataDict, mapList, value):
+    getFromDict(dataDict, mapList[:-1])[mapList[-1]] = value
+def key_get_set(D,key_list,value=None):
+    """
+    Get or set value in dictionary with list of keys.
+
+    e.g.s,
+        Q = {1:{2:{3:4}}}
+        print(Q)
+        print(kg(Q,[1,2,3]))
+        print(Q)
+        print(kg(Q,[1,2,3],{4:5}))
+        print(Q)
+        keys = [1,2,3]
+        print(kg(Q,keys+[4]))
+        print(kg(Q,(keys,4)))
+        kg(Q,(keys,4),10)
+        print(Q)
+    """
+    if type(key_list) == tuple:
+        key_list = key_list[0] + [key_list[1]]
+    if value == None:
+        return getFromDict(D,key_list)
+    else:
+        setInDict(D,key_list,value)
+        return value
+kg = key_get_set
+
+exec(identify_file_str)
+
+
+
 #EOF
 
