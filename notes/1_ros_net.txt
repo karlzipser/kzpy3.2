@@ -1,20 +1,16 @@
-) not getting most of trajectory predictions
+) not getting most out of trajectory predictions
 ) draw lines for trajectory prediction
 ) need to train to avoid metadata rectangles
-) need much better knowledge of movement of car at low speeds
+) * need much better knowledge of movement of car at low speeds
 	--maybe predict speed from visual data, or use ZED odometry
 ) set up GPS data collection
 ) trajectory to motor commands
-) dic as class
 ) save dic as dirs
-) make compact TX that can be thrown in backpack. Box perhaps.
-) make good way to carry macbook with cables
-
-) should pasting program also do trajectories?
+) * make compact TX that can be thrown in backpack. Box perhaps.
+	Dedicated backpack?
+) * make good way to carry macbook with cables
 ) get Menu working in place of Commands
 ) get Menu to work over net
-) get camera angle into rectangle display
-
 ) improve how obstacles are pasted in
 ) straighten camera and lidar better
 10) new lidar
@@ -31,12 +27,12 @@
 √5) run net car, paste in obstacles
 √) try to publish a convolutional layer, check speed
 √1) network tx1 & tx2
-	√* passwords/keys
-	√* sudos
-	√* set date over net
-	√* figure how to update kzpy3 (via github or rsync)
-	√* check torch.__version__ on each system
-	√* name each system
+	√ passwords/keys
+	√ sudos
+	√ set date over net
+	√ figure how to update kzpy3 (via github or rsync)
+	√ check torch.__version__ on each system
+	√ name each system
 √7) figure out which nets and computations to run on which computers
 √6) set up networked tx1 & tx2 as part of my carry-everywhere system
 √8) find various mini hdmi cables
