@@ -3,12 +3,9 @@
 ) need to train to avoid metadata rectangles
 ) * need much better knowledge of movement of car at low speeds
 	--maybe predict speed from visual data, or use ZED odometry
-) set up GPS data collection
 ) trajectory to motor commands
 ) save dic as dirs
-) * make compact TX that can be thrown in backpack. Box perhaps.
 	Dedicated backpack?
-) * make good way to carry macbook with cables
 ) get Menu working in place of Commands
 ) get Menu to work over net
 ) improve how obstacles are pasted in
@@ -23,6 +20,10 @@
 
 ) train model to go from image to trajectory scene categorization
 
+
+√) * make good way to carry macbook with cables
+√) * make compact TX that can be thrown in backpack. Box perhaps.
+√) set up GPS data collection
 √4) run net car, figure out current system
 √5) run net car, paste in obstacles
 √) try to publish a convolutional layer, check speed
