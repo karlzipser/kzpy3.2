@@ -267,7 +267,7 @@ if __name__ == '__main__':
                             N['rectangles_xys'] = na([])
 
                         if len(N['rectangles_xys']) > 0:
-                            cr('***')
+                            #cr('***')
                             Q['add_rectangles'](N['rectangles_xys'],N['backup parameter'])
                         #cm(4)
                         mci(Q['left']['now']['full'])
@@ -294,14 +294,14 @@ if __name__ == '__main__':
                                 ldr_off_timer.time_s = N['ldr_off_time']
                                 ldr_off_timer.reset()
                                 ldr_on_off = 0.0
-                                cy('ldr_on_off = 0.0')
+                                #cy('ldr_on_off = 0.0')
                             elif ldr_off_timer.check():
                                 ldr_off_timer.time_s = 999
                                 ldr_off_timer.reset()
                                 ldr_on_timer.time_s = N['ldr_on_time']
                                 ldr_on_timer.reset()
                                 ldr_on_off = 1.0
-                                cg('ldr_on_off = 1.0')
+                                #cg('ldr_on_off = 1.0')
 
                             current_ldr_gain = N['ldr_gain'] * ldr_on_off
 

@@ -5,6 +5,21 @@ exec(identify_file_str)
 baudrate = 115200
 timeout = 0.1
 
+km_per_one_degree_of_latitude_38_degrees = 110.99421 # 111.03 
+km_per_one_degree_of_longitude_38_degrees = 87.97371 # 85.39
+garden_table_latitude = 37.88139 
+garden_table_longitude = -122.27233
+
+def gps_to_km(
+    lat,
+    lon,
+    lat_ref=garden_table_latitude,
+    lon_ref=garden_table_longitude,
+):
+    x = -km_per_one_degree_of_longitude_38_degrees * (lon-lon_ref)
+    y = km_per_one_degree_of_latitude_38_degrees * (lat-lat_ref)
+    return x,y
+
 def get_arduino_serial_connections(baudrate, timeout):
     if using_linux():
         arduino_serial_prefix = 'ttyACM'
@@ -77,9 +92,53 @@ if __name__ == '__main__':
             assert(m in ['GPS3'])
             GPS3_input.append(time.time())
             data.append(GPS3_input)
-            xys.append([GPS3_input[1],GPS3_input[2]])
+            x,y = gps_to_km(GPS3_input[1],GPS3_input[2])
+            xys.append([x,y])
             cb('GPS3_input =',GPS3_input)
         except:
             pass
+
+if False:
+    O=lo('/Users/karlzipser/Desktop/_GPS3/1562023175.39.pkl')
+    CA()
+
+    #pts_plot(xys);plt_square()
+
+    w = 300
+
+    M = CV2Plot(
+        height_in_pixels=w,
+        width_in_pixels=w,
+        pixels_per_unit=w/2000.,
+    )
+    N = CV2Plot(
+        height_in_pixels=w,
+        width_in_pixels=w,
+        pixels_per_unit=w/100.,
+    )
+
+    xys = na(O['xys'])
+    xys[:,0] -= xys[0,0]#garden_table_latitude
+    xys[:,1] -= xys[0,1]#garden_table_longitude
+    xys[:,0] *= km_per_one_degree_of_latitude_38_degrees * 1000
+    xys[:,1] *= km_per_one_degree_of_longitude_38_degrees * 1000
+    a=0*xys
+    a[:,0]=xys[:,1]
+    a[:,1]=xys[:,0]
+    M['clear']()
+    M['pts_plot'](a)
+    M['show'](title='M')
+
+    xys = na(O['xys'])
+    xys[:,0] -= xys[-1,0]
+    xys[:,1] -= xys[-1,1]
+    xys[:,0] *= km_per_one_degree_of_latitude_38_degrees * 1000
+    xys[:,1] *= km_per_one_degree_of_longitude_38_degrees * 1000
+    a=0*xys
+    a[:,0]=xys[:,1]
+    a[:,1]=xys[:,0]
+    N['clear']()
+    N['pts_plot'](a)
+    N['show'](title='N')
 
 #EOF

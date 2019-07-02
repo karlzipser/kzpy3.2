@@ -1,4 +1,5 @@
 ) not getting most of trajectory predictions
+) draw lines for trajectory prediction
 ) need to train to avoid metadata rectangles
 ) need much better knowledge of movement of car at low speeds
 	--maybe predict speed from visual data, or use ZED odometry
@@ -6,6 +7,8 @@
 ) trajectory to motor commands
 ) dic as class
 ) save dic as dirs
+) make compact TX that can be thrown in backpack. Box perhaps.
+) make good way to carry macbook with cables
 
 ) should pasting program also do trajectories?
 ) get Menu working in place of Commands

@@ -24,7 +24,6 @@ sys_str = d2s('mkdir -p',opj(project_path,'__local__'))
 cg(sys_str)
 os.system(sys_str)
 cg("To start menu:\n\tpython kzpy3/Menu_app/menu2.py path",project_path,"dic P")
-
 ##
 #############################################################
 #############################################################
@@ -55,8 +54,6 @@ def load_parameters(P,customer='VT menu'):
                     pass
                 else:
                     P[t] = Topics[t]
-        
-
 ##
 ##############################################################
 ##############################################################
@@ -97,25 +94,25 @@ Barrier_pts3D['setup_plot'](
     pixels_per_unit=pixels_per_unit,
 )
 
-
 Pub = {}
 Pub['rectangles_xys'] = rospy.Publisher(
     'rectangles_xys',
     std_msgs.msg.Float32MultiArray,
-    queue_size = 1
+    queue_size = 1,
 )
-
 
 num_rectangle_patterns = 4
 Rectangles = rectangles.Random_black_white_rectangle_collection(
-    num_rectangle_patterns=num_rectangle_patterns
+    num_rectangle_patterns=num_rectangle_patterns,
 )
+
 stop_timer = Timer(P['stop_timer_time'])
 slow_encoder = 0
 slow_motor = 49
 os.system('mkdir -p '+opjm('rosbags/imgs'))
-#raw_enter()
 rate = Timer(5)
+
+
 if __name__ == '__main__':
 
     graphics_timer = Timer(P['graphics_timer time'])
@@ -126,8 +123,6 @@ if __name__ == '__main__':
     camera_heading = 0
     direction2 = 1
 
-
-    
     while not P['ABORT']:
         
         try:
@@ -141,7 +136,6 @@ if __name__ == '__main__':
                 motor = S['motor']
             else:
                 motor = S['cmd/motor']
-
 
             ts_prev = ts
             ts = time.time()
@@ -164,12 +158,12 @@ if __name__ == '__main__':
             print "fail",time.time()
             continue
 
-
         #try:
         if True:
             s = P['slow_encoder_s']
-            slow_encoder = s*slow_encoder+(1-s)*encoder
-            slow_motor = s*slow_motor+(1-s)*motor
+            slow_encoder = s*slow_encoder + (1-s)*encoder
+            slow_motor = s*slow_motor + (1-s)*motor
+
             direction = 1.
             if slow_motor < 45:
                 direction = -1.
@@ -184,7 +178,6 @@ if __name__ == '__main__':
                 stop_timer.time_s = P['stop_timer_time']
                 stop_timer.reset()
                 value = 0
-                cb('yes')
             elif direction2 > 0:
                 value = 1
             else:

@@ -806,7 +806,13 @@ def Click_Data(**Args):
 ########################################################################################
 ########################################################################################
 ####
-def CV2Plot(height_in_pixels,width_in_pixels,pixels_per_unit,x_origin_in_pixels=None,y_origin_in_pixels=None):
+def CV2Plot(
+    height_in_pixels,
+    width_in_pixels,
+    pixels_per_unit,
+    x_origin_in_pixels=None,
+    y_origin_in_pixels=None,
+):
     if x_origin_in_pixels == None:
         x_origin_in_pixels = intr(width_in_pixels/2.0)
     if y_origin_in_pixels == None:
