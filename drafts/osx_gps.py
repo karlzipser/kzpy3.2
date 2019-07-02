@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from kzpy3.utils3 import *
+from kzpy3.vis3 import *
 exec(identify_file_str)
 
 baudrate = 115200
@@ -62,6 +62,46 @@ def assign_serial_connections(P,sers):
             CS_('Unable to identify port {0}'.format(ser.port))
     cy('Finished scanning serial ports.')
 
+w = 300
+M = CV2Plot(
+    height_in_pixels=w,
+    width_in_pixels=w,
+    pixels_per_unit=w/1000.,
+)
+N = CV2Plot(
+    height_in_pixels=w,
+    width_in_pixels=w,
+    pixels_per_unit=w/100.,
+)
+
+def show_(xys_raw):
+    
+    #cm(0)
+    xys = na(xys_raw)
+    xys[:,0] -= xys[0,0]#garden_table_latitude
+    xys[:,1] -= xys[0,1]#garden_table_longitude
+    xys[:,0] *= km_per_one_degree_of_latitude_38_degrees * 1000
+    xys[:,1] *= km_per_one_degree_of_longitude_38_degrees * 1000
+    #cm(1)
+    a=0*xys
+    a[:,0]=xys[:,1]
+    a[:,1]=xys[:,0]
+    M['clear']()
+    M['pts_plot'](a)
+    M['show'](title='M')
+    #cm(2)
+    xys = na(xys_raw)
+    xys[:,0] -= xys[-1,0]
+    xys[:,1] -= xys[-1,1]
+    xys[:,0] *= km_per_one_degree_of_latitude_38_degrees * 1000
+    xys[:,1] *= km_per_one_degree_of_longitude_38_degrees * 1000
+    a=0*xys
+    #cm(3)
+    a[:,0]=xys[:,1]
+    a[:,1]=xys[:,0]
+    N['clear']()
+    N['pts_plot'](a)
+    N['show'](title='N')
 
 if __name__ == '__main__':
     # python kzpy3/drafts/osx_gps.py
@@ -70,16 +110,17 @@ if __name__ == '__main__':
     P = {}
     sers = get_arduino_serial_connections(baudrate,timeout)
     assign_serial_connections(P,sers)
-    file_timer = Timer(60)
+    file_timer = Timer(120)
     data = []
     xys = []
     os.system('mkdir -p '+opjD('GPS3'))
+    start_time = time.time()
     while True:
         if file_timer.check():
             file_timer.reset()
-            so(opjD('GPS3',d2n(time.time(),'.pkl')),{'data':data,'xys':xys})
-            data = []
-            xys = []
+            so(opjD('GPS3',d2n(start_time,'_',int(time.time()-start_time),'.pkl')),{'data':data,'xys':xys})
+            #data = []
+            #xys = []
         try:
             read_str = P['Arduinos']['GPS3'].readline()
             #cg('read_str =',read_str,sf=0)
@@ -92,10 +133,22 @@ if __name__ == '__main__':
             assert(m in ['GPS3'])
             GPS3_input.append(time.time())
             data.append(GPS3_input)
-            x,y = gps_to_km(GPS3_input[1],GPS3_input[2])
+            #x,y = gps_to_km(GPS3_input[1],GPS3_input[2])
+            x,y = GPS3_input[1],GPS3_input[2]
             xys.append([x,y])
             cb('GPS3_input =',GPS3_input)
-        except:
+            show_(xys)
+
+        except KeyboardInterrupt:
+            cr('*** KeyboardInterrupt ***')
+            sys.exit()
+        except Exception as e:
+            """
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            CS_('Exception!',emphasis=True)
+            CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)    
+            """
             pass
 
 if False:
@@ -104,41 +157,7 @@ if False:
 
     #pts_plot(xys);plt_square()
 
-    w = 300
 
-    M = CV2Plot(
-        height_in_pixels=w,
-        width_in_pixels=w,
-        pixels_per_unit=w/2000.,
-    )
-    N = CV2Plot(
-        height_in_pixels=w,
-        width_in_pixels=w,
-        pixels_per_unit=w/100.,
-    )
 
-    xys = na(O['xys'])
-    xys[:,0] -= xys[0,0]#garden_table_latitude
-    xys[:,1] -= xys[0,1]#garden_table_longitude
-    xys[:,0] *= km_per_one_degree_of_latitude_38_degrees * 1000
-    xys[:,1] *= km_per_one_degree_of_longitude_38_degrees * 1000
-    a=0*xys
-    a[:,0]=xys[:,1]
-    a[:,1]=xys[:,0]
-    M['clear']()
-    M['pts_plot'](a)
-    M['show'](title='M')
-
-    xys = na(O['xys'])
-    xys[:,0] -= xys[-1,0]
-    xys[:,1] -= xys[-1,1]
-    xys[:,0] *= km_per_one_degree_of_latitude_38_degrees * 1000
-    xys[:,1] *= km_per_one_degree_of_longitude_38_degrees * 1000
-    a=0*xys
-    a[:,0]=xys[:,1]
-    a[:,1]=xys[:,0]
-    N['clear']()
-    N['pts_plot'](a)
-    N['show'](title='N')
 
 #EOF
