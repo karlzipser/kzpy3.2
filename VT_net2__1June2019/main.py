@@ -111,7 +111,12 @@ slow_encoder = 0
 slow_motor = 49
 os.system('mkdir -p '+opjm('rosbags/imgs'))
 rate = Timer(5)
-
+move_timer = Timer(0.1)
+avg_motor_val_prev = 49
+avg_motor_val = 49
+avg_encoder_val_prev = 0
+avg_encoder_val = 0
+first_slowdown = False
 
 if __name__ == '__main__':
 
@@ -149,7 +154,9 @@ if __name__ == '__main__':
 
             d_camera_heading = camera_heading - camera_heading_prev
 
-
+        except KeyboardInterrupt:
+            cr('*** KeyboardInterrupt ***')
+            sys.exit()
         except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
@@ -160,6 +167,34 @@ if __name__ == '__main__':
 
         #try:
         if True:
+            if encoder < 0.01 and not first_slowdown:
+                first_slowdown = True
+                avg_motor_val_prev = avg_motor_val
+                avg_encoder_val_prev = avg_encoder_val
+                sum_encoder_val = 0.
+                sum_encoder_ctr = 0.
+                sum_motor_val = 0.
+                sum_motor_ctr = 0.
+            else:
+                first_slowdown = False
+                sum_encoder_val += encoder
+                sum_encoder_ctr += 1.
+                sum_motor_val += motor
+                sum_motor_ctr += 1.
+            avg_motor_val = sum_motor_val/(max(sum_motor_ctr,1.0))
+            avg_encoder_val = sum_encoder_val/(max(sum_encoder_ctr,1.0))
+            msg = d2s(
+                dp(avg_encoder_val),dp(avg_motor_val),
+                dp(avg_encoder_val_prev),dp(avg_motor_val_prev)
+            )
+            cr(encoder)
+            cg(msg)
+            #move_timer.message(msg)
+
+
+
+
+
             s = P['slow_encoder_s']
             slow_encoder = s*slow_encoder + (1-s)*encoder
             slow_motor = s*slow_motor + (1-s)*motor
@@ -183,7 +218,7 @@ if __name__ == '__main__':
             else:
                 value = -1
 
-            cg(dp(slow_encoder,2),dp(slow_motor,2),direction,direction2)
+            #cg(dp(slow_encoder,2),dp(slow_motor,2),direction,direction2)
 
             pop = False #True
             if value == 0:

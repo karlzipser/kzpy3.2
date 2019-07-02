@@ -1,3 +1,4 @@
+) train net to measure speed (cmd/motor and encoder), direction (multi frames)
 ) not getting most out of trajectory predictions
 ) draw lines for trajectory prediction
 ) need to train to avoid metadata rectangles
