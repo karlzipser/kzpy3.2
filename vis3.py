@@ -799,20 +799,11 @@ def Click_Data(**Args):
 
 
 
-
-
-
 ########################################################################################
 ########################################################################################
 ########################################################################################
 ####
-def CV2Plot(
-    height_in_pixels,
-    width_in_pixels,
-    pixels_per_unit,
-    x_origin_in_pixels=None,
-    y_origin_in_pixels=None,
-):
+def CV2Plot(height_in_pixels,width_in_pixels,pixels_per_unit,x_origin_in_pixels=None,y_origin_in_pixels=None):
     if x_origin_in_pixels == None:
         x_origin_in_pixels = intr(width_in_pixels/2.0)
     if y_origin_in_pixels == None:
@@ -898,6 +889,142 @@ def CV2Plot(
 ########################################################################################
 #
 
+
+########################################################################################
+########################################################################################
+########################################################################################
+####
+def __CV2Plot(
+    height_in_pixels,
+    width_in_pixels,
+    pixels_per_unit=None,
+    pixels_per_unit_x=None,
+    pixels_per_unit_y=None,
+    x_origin_in_pixels=None,
+    y_origin_in_pixels=None,
+):
+    if x_origin_in_pixels == None:
+        x_origin_in_pixels = intr(width_in_pixels/2.0)
+    if y_origin_in_pixels == None:
+        y_origin_in_pixels = intr(height_in_pixels/2.0)
+    assert is_number(height_in_pixels)
+    assert is_number(width_in_pixels)
+    assert is_number(x_origin_in_pixels)
+    assert is_number(y_origin_in_pixels)
+    D = {}
+    D['type'] = 'CV2Plot'
+    D['verbose'] = False
+    if D['verbose']:
+        cy(x_origin_in_pixels,y_origin_in_pixels)
+    D['image'] = zeros((height_in_pixels,width_in_pixels,3),np.uint8)
+    D['height_in_pixels'] = height_in_pixels
+    D['width_in_pixels'] = width_in_pixels
+    if pixels_per_unit_x == None and pixels_per_unit_y == None:
+        if pixels_per_unit == None:
+            D['pixels_per_unit_x'] = 1
+            D['pixels_per_unit_y'] = 1
+        else:
+            assert is_number(pixels_per_unit)
+            D['pixels_per_unit_x'] = pixels_per_unit
+            D['pixels_per_unit_y'] = pixels_per_unit
+    else:
+        assert pixels_per_unit_x != None and pixels_per_unit_y != None
+        assert is_number(pixels_per_unit_x)
+        assert is_number(pixels_per_unit_y)
+        D['pixels_per_unit_x'] = pixels_per_unit_x
+        D['pixels_per_unit_y'] = pixels_per_unit_y      
+    D['x_origin_in_pixels'] = x_origin_in_pixels
+    D['y_origin_in_pixels'] = y_origin_in_pixels
+
+    def function_show(
+        autocontrast=False,
+        delay=1,
+        title='image',
+        scale=1.0,
+        fx=0,
+        fy=0
+    ):
+        img = D['image']
+        if autocontrast:
+            img = z2_255_by_channel(img)
+            #cg(img.min(),img.max())
+        return mci(img,scale=scale,fx=fx,fy=fy,delay=delay,title=title)
+
+    def function_safe(px,py):
+        if px >= 0:
+            if py >= 0:
+                if py < D['height_in_pixels']:
+                    if px < D['width_in_pixels']:
+                        return True
+        if D['verbose']:
+            cr('not safe')
+        return False
+
+    def function_get_pixel(x,y):
+        px = intr(x * D['pixels_per_unit_x'])
+        py = intr(-y * D['pixels_per_unit_y'])
+        px += D['x_origin_in_pixels']
+        py += D['y_origin_in_pixels']
+        if D['verbose']:
+            cb(x,y,"->",px,py)
+        return px,py
+
+    def function_plot_point_xy_version(
+        x,
+        y,
+        c=[255,255,255],
+        add_mode=False
+    ):
+        px,py = D['get pixel'](x,y)
+        if D['safe?'](px,py):
+            if not add_mode:
+                D['image'][py,px,:] = c
+            else:
+                D['image'][py,px,:] += na(c,np.uint8)
+
+    def function_pts_plot(
+        xys,
+        c=[255,255,255],
+        add_mode=False
+    ):
+        if type(c) == str:
+            if add_mode:
+                n = 1
+            else:
+                n = 255
+            if c == 'r':
+                c = [n,0,0]
+            elif c == 'g':
+                c = [0,n,0]
+            elif c == 'b':
+                c = [0,0,n]  
+            else:
+                cr('warning, unknown color:',c)
+                c = [255,255,255]
+        for i in rlen(xys):
+            D['plot point (xy_version)'](xys[i,0],xys[i,1],c,add_mode)
+
+    def function_grid(c=[255,0,0]):
+        D['image'][:,int(D['width_in_pixels']/2),:] = c
+        D['image'][int(D['height_in_pixels']/2),:,:] = c
+
+    def function_clear():
+        D['image'] *= 0
+
+    D['show'] = function_show
+    D['grid'] = function_grid
+    D['safe?'] = function_safe
+    D['plot point (xy_version)'] = function_plot_point_xy_version
+    D['get pixel'] = function_get_pixel
+    D['pts_plot'] = function_pts_plot
+    D['clear'] = function_clear
+
+    return D
+
+#
+########################################################################################
+#
+
 ########################################################################################
 ########################################################################################
 ########################################################################################
@@ -914,7 +1041,7 @@ def CV2Plot1(img,pixels_per_unit,x_origin_in_pixels=None,y_origin_in_pixels=None
     if D['verbose']:
         cy(x_origin_in_pixels,y_origin_in_pixels)
     D['image'] = zeros((height_in_pixels,width_in_pixels,3),np.uint8)
-    def function_show(autocontrast=True,delay=1,title='image',scale=1.0):
+    def function_show(autocontrast=False,delay=1,title='image',scale=1.0):
         
         img = D['image']
         if autocontrast:

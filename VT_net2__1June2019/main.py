@@ -219,7 +219,7 @@ if __name__ == '__main__':
                 value = -1
 
             #cg(dp(slow_encoder,2),dp(slow_motor,2),direction,direction2)
-
+            
             pop = False #True
             if value == 0:
                 pop = False

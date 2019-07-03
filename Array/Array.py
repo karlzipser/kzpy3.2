@@ -142,8 +142,8 @@ def Array(
         scale=1.0,
         background_image=None
     ):
-        mx = min(D['ctr'],D['max_len'])
-        
+        #mx = min(D['ctr'],D['max_len'])
+        mx = D['ctr']
         if code == None:
             the_array = D['array'][:mx,:]
         else:
@@ -161,7 +161,7 @@ def Array(
         if do_print:
             for j in rlen(D['array']):
                 a = D['data'][j,:] 
-                cg(int(a[2]),yl,(intr(a[0]),intr(a[1])),bl,int(a[3]),sf=0)
+                cg(dp(a[2]),yl,(dp(a[0]),dp(a[1])),bl,int(a[3]),sf=0)
 
         if use_CV2_circles and use_CV2_plot:
             for i in range(shape(the_array)[0]):
@@ -175,6 +175,7 @@ def Array(
                     -1
                 )
         else:
+            #cg(the_array,ra=1)
             D['plot']['pts_plot'](the_array,c=color)
 
         if show:
@@ -183,6 +184,7 @@ def Array(
         if use_maplotlib:
             if clear:
                 clf()
+
             pts_plot(the_array,color=rndchoice(['r','g','k','b','m','c']))
             if show:
                 plt_square()
