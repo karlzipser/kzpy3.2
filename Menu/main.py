@@ -31,7 +31,6 @@ E['set_value'](2)
 """
 
 
-
 def Default_Values(
     Q,
     project_path,
@@ -497,6 +496,7 @@ def start_Dic(dic_project_path,Dics={},parent_keys=[],Arguments=Arguments):
             project_path__to__project_import_prefix(dic_project_path)+'.defaults',
             'import Q',
         )
+        #cy(exec_str,ra=1)
         exec(exec_str)
         Dics[dic_project_path] = \
             Default_Values(
@@ -517,8 +517,10 @@ def start_Dic(dic_project_path,Dics={},parent_keys=[],Arguments=Arguments):
 
 if __name__ == '__main__':
 
-    dic_project_path = opjk('Menu')#/A/Cars')
-
+    if 'kpath' not in Arguments:
+        dic_project_path = opjk('Menu')#/A/Cars'
+    else:
+        dic_project_path = opjk(Arguments['kpath'])
     Dics = {}
 
     start_Dic(dic_project_path=dic_project_path,Dics=Dics)

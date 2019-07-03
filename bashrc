@@ -83,7 +83,7 @@ git config --global credential.helper "cache --timeout=86400"
 alias ipy="ipython --no-banner"
 #alias td2="mv ~/Desktop/* ~/Desktop2/"
 alias c="~/kzpy3/Commands/cmd.py"
-alias m="~/kzpy3/Menu/Menu.py"
+alias m="~/kzpy3/Menu/main.py"
 
 
 export PYTHONPATH=~:$PYTHONPATH

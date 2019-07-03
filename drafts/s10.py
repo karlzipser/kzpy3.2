@@ -205,20 +205,26 @@ while True:
 
 
 #,a
+
+
+
+
+import Menu.main
 CA()
 
-"""
-time_width
+def file_modified_test(path,mtime_prev):
+    mtime = os.path.getmtime(path)
+    if mtime > mtime_prev:
+        return mtime
+    else:
+        return 0
 
-y = mx + b
 
-scale
 
-offset
-"""
 
-def value_to_y(value,scale,offset):
-    y = value * scale + offset
+
+def value_to_y(value,scale,offset,height):
+    y = value * scale + offset*height
     return intr(y)
 
 
@@ -233,8 +239,6 @@ shift_timer = Timer(1/180.)
 hz = Timer(1)
 
 
-
-
 def shift(big,small):
     big[:,0:-width_small,:] = big[:,width_small:,:]
     big[:,-1:,:] = small
@@ -242,55 +246,80 @@ def shift(big,small):
 big = 255*rnd((height,width,3))
 big = big.astype(np.uint8)
 
+Q = Menu.main.start_Dic(
+    dic_project_path=opjk('drafts'),
+    Dics={},
+    Arguments={
+        'menu':False,
+        'read_only':False,
+    }
+)
 
 
-T = {
-    'a':{
-        'scale': 80.,
-        'offset': height/2.,
-        'color': [255,255,255],
-        'value': 0,
-    },
-    'b':{
-        'scale': 20.,
-        'offset': height/4.,
-        'color': [0,255,0],
-        'value': 0,
-    },
-    'c':{
-        'scale': 75.,
-        'offset': 3.*height/4.,
-        'color': [255,0,255],
-        'value': 0,
-    },    
-}
+
+
+change_timer = Timer(1)
+load_timer = Timer(0.5)
+
+mtime_prev = -1
 
 while True:
-
+    if load_timer.check():
+        load_timer.reset()
+        try:
+            t = file_modified_test(opjk('drafts/__local__/default_values.pkl'),mtime_prev)
+            if t:
+                mtime_prev = t
+                Q['load']()
+                T = Q['Q']
+        except:
+            pass
+    #print T
     if shift_timer.check():
-
+        if shift_timer.time_s != T['timers']['shift']:
+            shift_timer = Timer(T['timers']['shift'])
+        if show_timer.time_s != T['timers']['show']:
+            show_timer = Timer(T['timers']['show'])
         shift_timer.reset()
         hz.freq()
-
+        if change_timer.check():
+            change_timer.reset()
+            #cg('T',T['window']['height'],T['window']['width'])
+            """
+            T['window']['height'] = rndint(100,300)
+            T['window']['width'] = rndint(400,600)
+            T['timers']['shift'] = 1/(1.0*rndint(60,300))
+            T['timers']['show'] = 1/(1.0*rndint(10,60))
+            """
+        if shape(big) != (T['window']['height'],T['window']['width'],3):
+            print 'need to reset',shape(big),(T['window']['height'],T['window']['width'],3)
+            big = np.zeros((T['window']['height'],T['window']['width'],3),np.uint8)
+            small = np.zeros((T['window']['height'],1,3),np.uint8)
         small *= 0
 
-        T['a']['value'] = np.sin(5*time.time())
-        T['b']['value'] = np.sin(2*time.time())
-        T['c']['value'] = np.sin(20*time.time())
+        T['data']['a']['value'] = np.sin(5*time.time())
+        T['data']['b']['value'] = np.sin(2*time.time())
+        T['data']['c']['value'] = np.sin(20*time.time())
 
-        for k in T.keys():
+        for k in T['data'].keys():
+            if k[:2] == '--':
+                continue
             y = value_to_y(
-                T[k]['value'],
-                T[k]['scale'],
-                T[k]['offset']
+                T['data'][k]['value'],
+                T['data'][k]['scale'],
+                T['data'][k]['offset'],
+                T['window']['height'],
             )
-            if y >= 0 and y < height:
-                small[y,0,:] = T[k]['color']
+            if y >= 0 and y < T['window']['height']:
+                try:
+                    small[y,0,:] = T['data'][k]['color']
+                except:
+                    cr(0)
 
         shift(big,small)
 
         if False:
-            small = 255*rnd((height,width_small,3))
+            small = 255*rnd((T['window']['height'],width_small,3))
             small = small.astype(np.uint8)
             shift(big,small)
 
@@ -300,7 +329,6 @@ while True:
         if k == ord('q'):
             CA()
             break
-
 
 
 #,b

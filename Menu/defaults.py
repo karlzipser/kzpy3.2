@@ -90,7 +90,7 @@ Q = {
     '--mode--':'extern',
 }
 
-ignore_list = ['Menu']
+ignore_list = []#['Menu']
 
 items = sggo(opjk('*'))
 for m in items:
