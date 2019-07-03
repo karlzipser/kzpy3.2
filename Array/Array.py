@@ -179,7 +179,7 @@ def Array(
             D['plot']['pts_plot'](the_array,c=color)
 
         if show:
-            D['plot']['show'](title=D['name'],scale=scale)
+            return D['plot']['show'](title=D['name'],scale=scale)
 
         if use_maplotlib:
             if clear:

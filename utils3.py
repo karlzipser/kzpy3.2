@@ -1635,6 +1635,40 @@ def key_get_set(D,key_list,value=None):
         return value
 kg = key_get_set
 
+
+
+def get_code_snippet():
+    code_file = most_recent_py_file()
+    code_lst = txt_file_to_list_of_strings(code_file)
+    snippet_lst = []
+    started = False
+    for c in code_lst:
+        if not started and c == '#,a':
+            started = True
+        if started and c == '#,b':
+            break
+        if started:
+            snippet_lst.append(c)
+    setClipboardData('\n'.join(snippet_lst))
+
+gsp = get_code_snippet
+
+def most_recent_py_file(path=opjk()):
+    max_mtime = 0
+    for dirname,subdirs,files in os.walk(path):
+        for fname in files:
+            if len(fname) >= 3:
+                if fname[-3:] == '.py':
+                    full_path = os.path.join(dirname,fname)
+                    mtime = os.stat(full_path).st_mtime
+                    if mtime > max_mtime:
+                        max_mtime = mtime
+                        max_dir = dirname
+                        max_file = fname
+    return opj(max_dir,max_file)
+
+
+
 exec(identify_file_str)
 
 
