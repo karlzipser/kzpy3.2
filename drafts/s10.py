@@ -166,7 +166,7 @@ while not ABORT:
 #,b
 
 
-#,
+#,a
 CA()
 width = 600
 height = 200
@@ -204,7 +204,7 @@ while True:
 
 
 
-#,a
+#,
 
 
 
@@ -256,7 +256,7 @@ Q = Menu.main.start_Dic(
 )
 
 
-
+T = Q['Q']
 
 change_timer = Timer(1)
 load_timer = Timer(0.5)
@@ -273,7 +273,7 @@ while True:
                 Q['load']()
                 T = Q['Q']
         except:
-            pass
+            cr(1)
     #print T
     if shift_timer.check():
         if shift_timer.time_s != T['timers']['shift']:

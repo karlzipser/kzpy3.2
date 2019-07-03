@@ -47,6 +47,7 @@ def Default_Values(
     D['Q'] = Q
     D['read_only'] = read_only
     D['Dics'] = Dics
+    D['mtime_prev'] = -1
 
     def __add_keys(E,keys=[]):
         E['--keys--'] = keys
@@ -61,9 +62,7 @@ def Default_Values(
             if type(E[k]) == dict:
                 __add_keys(E[k],keys+[k])
 
-    if not read_only:
-        os.system('rm '+D['.pkl'])
-    __add_keys(D['Q'])
+
 
     def __load_C(C,project_path,name='default_values'):
         if len(sggo(opj(project_path,'__local__','ready'))) == 0:
@@ -74,7 +73,11 @@ def Default_Values(
             return False
         try:
             D = lo(opj(project_path,'__local__',name+'.pkl'))
-        except:
+        except Exception as e:
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            CS_('Exception!',emphasis=True)
+            CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
             return False
         if len(sggo(opj(project_path,'__local__','ready'))) == 0:
             return False
@@ -113,9 +116,21 @@ def Default_Values(
             return
         __save_C(D['Q'],D['project_path'])
 
+    if not read_only:
+        os.system('rm '+D['.pkl'])
+    __add_keys(D['Q'])
+    function_save() # this line added 3 July 2019
+
     def function_load():
-        __load_C(D['Q'],D['project_path'])
-        __add_keys(D['Q'])
+        t = file_modified_test(
+            opj(D['.pkl']),
+            D['mtime_prev']
+        )
+        #print t,dp(D['mtime_prev'])
+        if t:
+            D['mtime_prev'] = t
+            __load_C(D['Q'],D['project_path'])
+            __add_keys(D['Q'])
 
     def function_up():
         if len(D['current_keys']) > 0:

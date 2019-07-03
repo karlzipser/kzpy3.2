@@ -1668,6 +1668,12 @@ def most_recent_py_file(path=opjk()):
     return opj(max_dir,max_file)
 
 
+def file_modified_test(path,mtime_prev):
+    mtime = os.path.getmtime(path)
+    if mtime > mtime_prev:
+        return mtime
+    else:
+        return 0
 
 exec(identify_file_str)
 

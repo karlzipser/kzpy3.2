@@ -7,8 +7,8 @@ Q = {
         'shift':1/180.,
     },
     'window':{
-        'height':400,
-        'width':1200,
+        'height':100,
+        'width':300,
     },
     'data':{
         'a':{
@@ -29,5 +29,12 @@ Q = {
             'color': [255,0,255],
             'value': 0,
         },
-    },  
+    },
+    'params':{
+        'thread_delay':0.001,
+    },
+    'read_only':{
+        '--mode--':'const',
+        'ABORT':0.,
+    }
 }
