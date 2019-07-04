@@ -1595,7 +1595,7 @@ def ssh_date_time(host_ip,user='nvidia',timeout=10):
 def ssh_date_time_rsync(ip,user='nvidia',timeout=10):
     ssh_date_time(ip)
     os.system("rsync -ravL --exclude '*.pyc' --exclude '*.pkl' kzpy3/* nvidia@"+ip+":kzpy3/")
-    cy(ip,'finished.')
+    cprint(d2s(ip,'finished.'),'white','on_blue')
 
 def update_TXs(ips=[]):
     for ip in ips:

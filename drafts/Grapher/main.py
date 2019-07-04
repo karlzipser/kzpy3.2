@@ -31,7 +31,7 @@ def new_images(T):
 ###
 def grapher():
 
-    T = Q['Q']
+    #T = Q['Q']
     show_timer = Timer(T['times']['show'])
     shift_timer = Timer(T['times']['shift'])
     baseline_timer = Timer(T['times']['baseline_ticks'])
@@ -52,7 +52,7 @@ def grapher():
         Q['load']()
 
         if shift_timer.check():
-            T = Q['Q']
+            #T = Q['Q']
             if shift_timer.time_s != T['times']['shift']:
                 shift_timer = Timer(T['times']['shift'])
             if show_timer.time_s != T['times']['show']:
@@ -70,11 +70,16 @@ def grapher():
             P['images']['small'] *= 0
 
             for k in T['data'].keys():
+
                 if k[:2] == '--':
                     continue
+
+                if T['data'][k]['value'] == None:
+                    continue
+
                 y = value_to_y(
                     T['data'][k]['value'],
-                    T['data'][k]['scale'],
+                    -T['data'][k]['scale'],
                     T['data'][k]['offset'],
                     T['window']['height'],
                 )
@@ -84,7 +89,7 @@ def grapher():
                         P['images']['small'][y,0,:] = T['data'][k]['color']
 
                         if baseline_timer.check():
-                            baseline_timer.reset()
+                            #baseline_timer.reset()
                             y = value_to_y(
                                 T['data'][k]['baseline'],
                                 T['data'][k]['scale'],
@@ -93,7 +98,7 @@ def grapher():
                             )
 
                             if second_timer.check():
-                                second_timer.reset()
+                                #second_timer.reset()
                                 d = 1
                             else:
                                 d = 0
@@ -101,6 +106,11 @@ def grapher():
 
                     except:
                         cr(0)
+
+                if baseline_timer.check():
+                    baseline_timer.reset()
+                if second_timer.check():
+                    second_timer.reset()
 
             shift(P['images']['big'],P['images']['small'])
 
@@ -117,7 +127,7 @@ if __name__ == '__main__':
     prnt = Timer(1)
     show_timer = Timer(T['times']['show'])
     while True:
-        T = Q['Q']
+        #T = Q['Q']
         time.sleep(T['params']['thread_delay'])
         T['data']['a']['value'] = np.sin(5*time.time())
         T['data']['b']['value'] = np.sin(2*time.time())

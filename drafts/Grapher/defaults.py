@@ -15,11 +15,25 @@ Q = {
         'width':width,
     },
     'data':{
+        'encoder':{
+            'scale': 15.,
+            'offset': 1/2.,
+            'color': [255,255,255],
+            'value': None,
+            'baseline': 0,
+        },
+        'd_heading':{
+            'scale': .1,
+            'offset': 0.55,
+            'color': [255,0,0],
+            'value': None,
+            'baseline': 0,
+        },
         'a':{
             'scale': -15.,
             'offset': 1/2.,
-            'color': [255,255,255],
-            'value': 0,
+            'color': [255,255,0],
+            'value': 0.2,
             'baseline': 0,
         },
         'b':{
