@@ -15,6 +15,28 @@ T = Q['Q']
 import kzpy3.drafts.Grapher.defaults as defaults
 P = defaults.P
 
+
+if HAVE_ROS:
+    import rospy
+    import std_msgs.msg
+    import geometry_msgs.msg
+    ###################################################################
+    #
+    rospy.init_node('control_node',anonymous=True,disable_signals=True)
+    #
+    ###################################################################
+    C = {}
+    C['encoder'] = 0.
+    C['encoder_time'] = time.time()
+    bcs = '/bair_car'
+    s = 0.9
+    def encoder_callback(msg):
+
+        C['encoder'] = msg.data
+        C['encoder_time'] = time.time()
+    rospy.Subscriber(bcs+'/encoder', std_msgs.msg.Float32, callback=encoder_callback)
+
+
 if __name__ == '__main__':
     
     threading.Thread(target=main.grapher,args=[]).start()
@@ -23,7 +45,10 @@ if __name__ == '__main__':
     while True:
         T = Q['Q']
         time.sleep(T['params']['thread_delay'])
-        T['data']['a']['value'] = np.sin(5*time.time())
+        if HAVE_ROS:
+            T['data']['a']['value'] = C['encoder']
+        else:
+            T['data']['a']['value'] = np.sin(5*time.time())
         T['data']['b']['value'] = np.sin(2*time.time())
         T['data']['c']['value'] = np.sin(20*time.time())
         #prnt.message(d2s(T['read_only']['ABORT']))
