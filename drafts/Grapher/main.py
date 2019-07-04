@@ -34,6 +34,8 @@ def grapher():
     T = Q['Q']
     show_timer = Timer(T['times']['show'])
     shift_timer = Timer(T['times']['shift'])
+    baseline_timer = Timer(T['times']['baseline_ticks'])
+    second_timer = Timer(1)
 
     new_images(T)
 
@@ -55,6 +57,8 @@ def grapher():
                 shift_timer = Timer(T['times']['shift'])
             if show_timer.time_s != T['times']['show']:
                 show_timer = Timer(T['times']['show'])
+            if baseline_timer.time_s != T['times']['baseline_ticks']:
+                baseline_timer = Timer(T['times']['baseline_ticks'])
             shift_timer.reset()
 
             if shape(P['images']['big']) != (T['window']['height'],T['window']['width'],3):
@@ -74,9 +78,27 @@ def grapher():
                     T['data'][k]['offset'],
                     T['window']['height'],
                 )
+
                 if y >= 0 and y < T['window']['height']:
                     try:
                         P['images']['small'][y,0,:] = T['data'][k]['color']
+
+                        if baseline_timer.check():
+                            baseline_timer.reset()
+                            y = value_to_y(
+                                T['data'][k]['baseline'],
+                                T['data'][k]['scale'],
+                                T['data'][k]['offset'],
+                                T['window']['height'],
+                            )
+
+                            if second_timer.check():
+                                second_timer.reset()
+                                d = 1
+                            else:
+                                d = 0
+                            P['images']['small'][y-d:y+d+1,0,:] = T['data'][k]['color']
+
                     except:
                         cr(0)
 

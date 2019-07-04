@@ -12,6 +12,8 @@ Q = Menu.main.start_Dic(
 )
 T = Q['Q']
 
+# cd /media/nvidia/rosbags/processed_20Jun19_15h14m12s/tegra-ubuntu_13Mar19_17h52m59s
+
 import kzpy3.drafts.Grapher.defaults as defaults
 P = defaults.P
 
@@ -42,9 +44,12 @@ if __name__ == '__main__':
     threading.Thread(target=main.grapher,args=[]).start()
     prnt = Timer(1)
     show_timer = Timer(T['times']['show'])
+    
     while True:
         T = Q['Q']
         time.sleep(T['params']['thread_delay'])
+
+
         if HAVE_ROS:
             T['data']['a']['value'] = C['encoder']
         else:

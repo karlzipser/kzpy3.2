@@ -1,13 +1,14 @@
 from kzpy3.utils3 import *
 project_path = pname(__file__)
 
-width = 600
+width = 300
 height = 200
 
 Q = {
     'times':{
         'show':1/30.,
-        'shift':1/180.,
+        'shift': 0.0222,#1/180.,
+        'baseline_ticks':1/10.
     },
     'window':{
         'height':height,
@@ -15,10 +16,11 @@ Q = {
     },
     'data':{
         'a':{
-            'scale': 80.,
+            'scale': -15.,
             'offset': 1/2.,
             'color': [255,255,255],
             'value': 0,
+            'baseline': 0,
         },
         'b':{
             'scale': 20.,
