@@ -75,8 +75,8 @@ P['topic_keys_sorted'] = [
 	]
 P['topic_keys_sorted'] += flex_names
 
-P[X_PIXEL_SIZE] = 800
-P[Y_PIXEL_SIZE] = 800
+P[X_PIXEL_SIZE] = 400
+P[Y_PIXEL_SIZE] = 400
 P[SCREEN_X] = 20
 P[SCREEN_Y] = 40
 P[CAMERA_SCALE] = 1

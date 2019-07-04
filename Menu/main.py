@@ -305,7 +305,7 @@ def Default_Values(
             file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             CS_('Exception!',emphasis=True)
             CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
-        """
+       """ 
 
 
     def __is_meta_key(k):
@@ -318,8 +318,8 @@ def Default_Values(
         else:
             return True
 
-    #def clear_screen():
-    #    cr("\nclear screen\n")
+    def clear_screen():
+        cr("\nclear screen\n")
 
     def __show_menu(C,message,parent_keys=[]):
         if '--keys--' in C:
@@ -405,6 +405,7 @@ def key_access(Dic,keys,start=True):
         for k in Dic['current_keys']:
             keys_copy.append(k)
         keys = keys_copy
+    #cg(keys,ra=1)
     key = keys.pop(0)
     assert key in Dic.keys()
     if type(Dic[key]) == dict and len(keys) > 0:

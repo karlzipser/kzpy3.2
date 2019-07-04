@@ -948,7 +948,13 @@ def pythonpaths(paths):
         sys.path.append(opjh(p))
 
 
-def find_files_recursively(src,pattern,FILES_ONLY=False,DIRS_ONLY=False):
+def find_files_recursively(
+    src,
+    pattern,
+    FILES_ONLY=False,
+    DIRS_ONLY=False,
+    ignore_underscore=False,
+):
     """
     https://stackoverflow.com/questions/2186525/use-a-glob-to-find-files-recursively-in-python
     """
@@ -968,6 +974,9 @@ def find_files_recursively(src,pattern,FILES_ONLY=False,DIRS_ONLY=False):
         else:
             use_list = filenames+dirnames
         for filename in fnmatch.filter(use_list, pattern):
+            """
+
+            """
             file = opj(root,filename)
             folder = pname(file).replace(src,'')
             if folder not in folders:
@@ -977,6 +986,23 @@ def find_files_recursively(src,pattern,FILES_ONLY=False,DIRS_ONLY=False):
             if timer.check():
                 print(d2s(time_str('Pretty'),ctr,'matches'))
                 timer.reset()
+
+    print(folders)
+    print(type(folders))
+    if ignore_underscore:
+        folders_ = {}
+        for f in folders:
+            ignore = False
+            g = f.split('/')
+            for h in g:
+                if h[0] == '_':
+                    cb('ignoring',f)
+                    ignore = True
+                    break
+            if not ignore:
+                folders_[f] = folders[f]
+        folders = folders_
+
     data = {}
     data['paths'] = folders
     data['parent_folders'] = [fname(f) for f in folders.keys()]
@@ -1650,6 +1676,7 @@ def get_code_snippet():
         if started:
             snippet_lst.append(c)
     setClipboardData('\n'.join(snippet_lst))
+    cb('setClipboardData() from',code_file)
 
 gsp = get_code_snippet
 
