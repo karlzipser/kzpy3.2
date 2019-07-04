@@ -48,7 +48,7 @@ def Default_Values(
     D['read_only'] = read_only
     D['Dics'] = Dics
     D['mtime_prev'] = -1
-
+    D['load_timer'] = Timer(0.1)
     def __add_keys(E,keys=[]):
         E['--keys--'] = keys
         if '--mode--' not in E:
@@ -87,6 +87,7 @@ def Default_Values(
             return False
         for k in C.keys():
             C[k] = D[k]
+
         return True
 
     def __save_C(C,project_path,name='default_values'):
@@ -122,15 +123,23 @@ def Default_Values(
     function_save() # this line added 3 July 2019
 
     def function_load():
-        t = file_modified_test(
-            opj(D['.pkl']),
-            D['mtime_prev']
-        )
-        #print t,dp(D['mtime_prev'])
-        if t:
-            D['mtime_prev'] = t
-            __load_C(D['Q'],D['project_path'])
-            __add_keys(D['Q'])
+        if D['load_timer'].check():
+            D['load_timer'].reset()
+        else:
+            return
+        #print 'load check'
+        try:
+            t = file_modified_test(
+                opj(D['.pkl']),
+                D['mtime_prev']
+            )
+            #print t,dp(D['mtime_prev'])
+            if t:
+                D['mtime_prev'] = t
+                __load_C(D['Q'],D['project_path'])
+                __add_keys(D['Q'])
+        except:
+            cr('function_load(): load failed')
 
     def function_up():
         if len(D['current_keys']) > 0:

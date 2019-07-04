@@ -1,14 +1,17 @@
 from kzpy3.utils3 import *
 project_path = pname(__file__)
 
+width = 600
+height = 200
+
 Q = {
-    'timers':{
+    'times':{
         'show':1/30.,
         'shift':1/180.,
     },
     'window':{
-        'height':100,
-        'width':300,
+        'height':height,
+        'width':width,
     },
     'data':{
         'a':{
@@ -32,9 +35,19 @@ Q = {
     },
     'params':{
         'thread_delay':0.001,
+        'ABORT':False,
     },
+    'images2':{
+        'test':rndn(100,200,3),
+    },
+}
+
+P = {
     'read_only':{
-        '--mode--':'const',
-        'ABORT':0.,
-    }
+        'ABORT':False,
+    },
+    'images':{
+        'big':np.zeros((height,width,3),np.uint8),
+        'small':np.zeros((height,1,3),np.uint8),
+    },    
 }
