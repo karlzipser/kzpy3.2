@@ -1,22 +1,24 @@
 from kzpy3.utils3 import *
 project_path = pname(__file__)
 
-width = 300
-height = 200
+width = 400
+height = 400
 
 Q = {
-    'times':{
+    'ABORT': False,
+    'times': {
         'show':1/30.,
-        'shift': 0.0222,#1/180.,
+        'shift': 1/100.,
         'baseline_ticks':1/10.,
         'thread_delay':0.001,
     },
-    'window':{
+    'window': {
         'height':height,
         'width':width,
     },
+    'topics': ['encoder','d_heading','human/steer'],
+    'image_topics': ['right_image'],
     'data':{
-    
         'encoder':{
             'scale': 10.,
             'offset': 0.5,
@@ -31,7 +33,20 @@ Q = {
             'value': None,
             'baseline': 0,
         },
-
+        'human/motor':{
+            'scale': 1,
+            'offset': 0.5,
+            'color': [0,255,255],
+            'value': None,
+            'baseline': 49,
+        },
+        'human/steer':{
+            'scale': 1,
+            'offset': 0.5,
+            'color': [255,255,0],
+            'value': None,
+            'baseline': 49,
+        },
         'a':{
             'scale': 15.,
             'offset': 1/2.,
@@ -54,9 +69,17 @@ Q = {
             'baseline': 0.5,
         },
     },
-    'ABORT':False,
-    'images2':{
-        'test':rndn(100,200,3),
+
+    'images':{
+        'right_image':{
+            'scale': 0.25,
+            'y_offset': 0,
+            'x_offset': 0,
+            'x_align': 'right',
+            'y_align': 'bottom',
+            'value': None,
+        },
+        
     },
 }
 

@@ -34,7 +34,7 @@ def grapher():
     show_timer = Timer(T['times']['show'])
     shift_timer = Timer(T['times']['shift'])
     baseline_timer = Timer(T['times']['baseline_ticks'])
-    second_timer = Timer(1)
+    #second_timer = Timer(1)
 
     new_images(T)
 
@@ -89,7 +89,7 @@ def grapher():
                                 T['window']['height'],
                             )
 
-                            if second_timer.check():
+                            if False:#second_timer.check():
                                 d = 1
                             else:
                                 d = 0
@@ -104,10 +104,33 @@ def grapher():
 
             if baseline_timer.check():
                 baseline_timer.reset()
-            if second_timer.check():
-                second_timer.reset()
+            #if second_timer.check():
+            #    second_timer.reset()
+
+            shp = shape(T['images']['right_image']['value'])
+            if len(shp) == 3:
+                a = 0
+                b = shp[0]
+                c = 0
+                d = shp[1]
+                if T['images']['right_image']['x_align'] == 'right':
+                    c = T['window']['width'] - shp[1]
+                    d = T['window']['width']
+                P['images']['big'][a:b,c:d,:] *= 0
 
             shift(P['images']['big'],P['images']['small'])
+
+            shp = shape(T['images']['right_image']['value'])
+
+        if len(shp) == 3:
+            a = 0
+            b = shp[0]
+            c = 0
+            d = shp[1]
+            if T['images']['right_image']['x_align'] == 'right':
+                c = T['window']['width'] - shp[1]
+                d = T['window']['width']
+            P['images']['big'][a:b,c:d,:] = T['images']['right_image']['value']
 
     cg('grapher() thread done.')
 ###
@@ -122,7 +145,6 @@ if __name__ == '__main__':
     prnt = Timer(1)
     show_timer = Timer(T['times']['show'])
     while True:
-        #T = Q['Q']
         time.sleep(T['times']['thread_delay'])
         T['data']['a']['value'] = np.sin(5*time.time())
         T['data']['b']['value'] = np.sin(2*time.time())

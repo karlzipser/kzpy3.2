@@ -1173,12 +1173,13 @@ def setup_Default_Arguments(Defaults):
     for k in Defaults:
         if k not in Arguments:
             Arguments[k] = Defaults[k]
-    if Arguments['help']:
-        print("\nDefault Arguments")
-        for k in sorted(Defaults):
-            print(d2n('\t',k,':\t',Arguments[k]))#,' (',type(Arguments[k]),')'))
-        print("")
-        sys.exit()              
+    if 'help' in Arguments:
+        if Arguments['help']:
+            print("\nDefault Arguments")
+            for k in sorted(Defaults):
+                print(d2n('\t',k,':\t',Arguments[k]),' (',type(Arguments[k]),')')
+            print("")
+            sys.exit()              
 
 def print_Arguments():
     if len(Arguments) > 0:
@@ -1680,7 +1681,7 @@ def get_code_snippet():
 
 gsp = get_code_snippet
 
-def most_recent_py_file(path=opjk()):
+def most_recent_py_file(path=opjk(),return_mtime=False):
     max_mtime = 0
     for dirname,subdirs,files in os.walk(path):
         for fname in files:
@@ -1692,7 +1693,10 @@ def most_recent_py_file(path=opjk()):
                         max_mtime = mtime
                         max_dir = dirname
                         max_file = fname
-    return opj(max_dir,max_file)
+    if return_mtime:
+        return opj(max_dir,max_file),max_mtime
+    else:
+        return opj(max_dir,max_file)
 
 
 def file_modified_test(path,mtime_prev):
