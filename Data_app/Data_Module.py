@@ -36,7 +36,7 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 	for v in all_topics_:
 		if v != 'points' and v != 'image':
 			bair_all_topics_.append('/bair_car/'+v)
-	P['use_LIDAR']:
+	if P['use_LIDAR']:
 		bair_all_topics_.append('/os1_node/points')
 		bair_all_topics_.append('/os1_node/image')
 
