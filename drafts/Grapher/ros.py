@@ -1,4 +1,5 @@
 from kzpy3.vis3 import *
+assert HAVE_ROS
 import Menu.main
 import kzpy3.drafts.Grapher.main as main
 
@@ -19,75 +20,70 @@ import kzpy3.drafts.Grapher.defaults as defaults
 P = defaults.P
 
 
-if HAVE_ROS:
-    import rospy
-    import std_msgs.msg
-    import geometry_msgs.msg
-    ###################################################################
-    #
-    rospy.init_node('control_node',anonymous=True,disable_signals=True)
-    #
-    ###################################################################
-    S = {}
-    S['encoder'] = 0.
+
+import rospy
+import std_msgs.msg
+import geometry_msgs.msg
+###################################################################
+#
+rospy.init_node('control_node',anonymous=True,disable_signals=True)
+#
+###################################################################
+S = {}
+S['encoder'] = 0.
+S['encoder_time'] = time.time()
+S['gyro_heading_x'] = 0
+S['gyro_heading_x_prev'] = 0
+S['ts_prev'] = 0
+S['ts'] = 0
+S['d_heading'] = 0
+
+bcs = '/bair_car'
+s = 0.9
+
+def encoder_callback(msg):
+    S['encoder'] = msg.data
     S['encoder_time'] = time.time()
-    S['gyro_heading_x'] = 0
-    S['gyro_heading_x_prev'] = 0
-    S['ts_prev'] = 0
-    S['ts'] = 0
-    S['d_heading'] = 0
+rospy.Subscriber(bcs+'/encoder', std_msgs.msg.Float32, callback=encoder_callback)
 
-    bcs = '/bair_car'
-    s = 0.9
-
-    def encoder_callback(msg):
-        S['encoder'] = msg.data
-        S['encoder_time'] = time.time()
-    rospy.Subscriber(bcs+'/encoder', std_msgs.msg.Float32, callback=encoder_callback)
-
-    def gyro_heading_x_callback(data):
-        S['gyro_heading_x_prev'] = S['gyro_heading_x']
-        S['gyro_heading_x'] = data.x
-        S['d_heading'] = 2*(S['gyro_heading_x']-S['gyro_heading_x_prev'])
-        S['ts_prev'] = S['ts']
-        S['ts'] = time.time()
-        S['sample_frequency'] = 1.0 / (S['ts']-S['ts_prev'])
-        #print S['d_heading']
-    rospy.Subscriber(bcs+'/gyro_heading', geometry_msgs.msg.Vector3, callback=gyro_heading_x_callback,queue_size=5)
+def gyro_heading_x_callback(data):
+    S['gyro_heading_x_prev'] = S['gyro_heading_x']
+    S['gyro_heading_x'] = data.x
+    S['d_heading'] = 2*(S['gyro_heading_x']-S['gyro_heading_x_prev'])
+    S['ts_prev'] = S['ts']
+    S['ts'] = time.time()
+    S['sample_frequency'] = 1.0 / (S['ts']-S['ts_prev'])
+    #print S['d_heading']
+rospy.Subscriber(bcs+'/gyro_heading', geometry_msgs.msg.Vector3, callback=gyro_heading_x_callback,queue_size=5)
 
 
-if __name__ == '__main__':
-    
-    threading.Thread(target=main.grapher,args=[]).start()
-    prnt = Timer(1)
-    show_timer = Timer(T['times']['show'])
-    
-    while True:
-        #T = Q['Q']
-        time.sleep(T['params']['thread_delay'])
 
 
-        if HAVE_ROS:
-            T['data']['encoder']['value'] = S['encoder']
-            T['data']['d_heading']['value'] = S['d_heading']
-            #print T['data']['d_heading']['value']
+threading.Thread(target=main.grapher,args=[]).start()
+prnt = Timer(1)
+show_timer = Timer(T['times']['show'])
+
+while True:
+    #T = Q['Q']
+    time.sleep(T['times']['thread_delay'])
 
 
-        #T['data']['a']['value'] = np.sin(5*time.time())
-        T['data']['b']['value'] = np.sin(2*time.time())
-        T['data']['c']['value'] = np.sin(20*time.time())
-        #prnt.message(d2s(T['read_only']['ABORT']))
-        if show_timer.check():
-            show_timer.reset()
-            k = mci(P['images']['big'],delay=1,scale=1)
-            if k == ord('q'):
-                CA()
-                #T['read_only']['ABORT'] = True
-                T['params']['ABORT'] = True
-                break
-        if T['params']['ABORT']:
+
+    T['data']['encoder']['value'] = S['encoder']
+    T['data']['d_heading']['value'] = S['d_heading']
+    #print T['data']['d_heading']['value']
+
+    if show_timer.check():
+        show_timer.reset()
+        k = mci(P['images']['big'],delay=1,scale=1)
+        if k == ord('q'):
+            CA()
+            #T['read_only']['ABORT'] = True
+            T['ABORT'] = True
             break
-    cb('main() done.')
+    if T['ABORT']:
+        break
+cb('main() done.')
 
 
 #EOF

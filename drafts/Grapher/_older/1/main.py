@@ -31,6 +31,7 @@ def new_images(T):
 ###
 def grapher():
 
+    #T = Q['Q']
     show_timer = Timer(T['times']['show'])
     shift_timer = Timer(T['times']['shift'])
     baseline_timer = Timer(T['times']['baseline_ticks'])
@@ -40,14 +41,18 @@ def grapher():
 
     while True:
 
-        time.sleep(T['times']['thread_delay'])
+        time.sleep(T['params']['thread_delay'])
 
-        if T['ABORT']:
+        #if T['read_only']['ABORT']:
+        #    break
+
+        if T['params']['ABORT']:
             break
 
         Q['load']()
 
         if shift_timer.check():
+            #T = Q['Q']
             if shift_timer.time_s != T['times']['shift']:
                 shift_timer = Timer(T['times']['shift'])
             if show_timer.time_s != T['times']['show']:
@@ -57,7 +62,9 @@ def grapher():
             shift_timer.reset()
 
             if shape(P['images']['big']) != (T['window']['height'],T['window']['width'],3):
-                print 'need to reset window'
+                #print 'need to reset',shape(big),(T['window']['height'],'to',T['window']['width'],3)
+                #P['images']['big'] = np.zeros((T['window']['height'],T['window']['width'],3),np.uint8)
+                #P['images']['small'] = np.zeros((T['window']['height'],1,3),np.uint8)
                 new_images(T)
 
             P['images']['small'] *= 0
@@ -82,30 +89,28 @@ def grapher():
                         P['images']['small'][y,0,:] = T['data'][k]['color']
 
                         if baseline_timer.check():
+                            #baseline_timer.reset()
                             y = value_to_y(
                                 T['data'][k]['baseline'],
-                                -T['data'][k]['scale'],
+                                T['data'][k]['scale'],
                                 T['data'][k]['offset'],
                                 T['window']['height'],
                             )
 
                             if second_timer.check():
+                                #second_timer.reset()
                                 d = 1
                             else:
                                 d = 0
                             P['images']['small'][y-d:y+d+1,0,:] = T['data'][k]['color']
 
-                    except Exception as e:
-                        exc_type, exc_obj, exc_tb = sys.exc_info()
-                        file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-                        CS_('Exception!',emphasis=True)
-                        CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)    
+                    except:
                         cr(0)
 
-            if baseline_timer.check():
-                baseline_timer.reset()
-            if second_timer.check():
-                second_timer.reset()
+                if baseline_timer.check():
+                    baseline_timer.reset()
+                if second_timer.check():
+                    second_timer.reset()
 
             shift(P['images']['big'],P['images']['small'])
 
@@ -123,20 +128,20 @@ if __name__ == '__main__':
     show_timer = Timer(T['times']['show'])
     while True:
         #T = Q['Q']
-        time.sleep(T['times']['thread_delay'])
+        time.sleep(T['params']['thread_delay'])
         T['data']['a']['value'] = np.sin(5*time.time())
         T['data']['b']['value'] = np.sin(2*time.time())
-        T['data']['c']['value'] = np.sin(10*time.time())
-
+        T['data']['c']['value'] = np.sin(20*time.time())
+        #prnt.message(d2s(T['read_only']['ABORT']))
         if show_timer.check():
             show_timer.reset()
             k = mci(P['images']['big'],delay=1,scale=1)
             if k == ord('q'):
                 CA()
-
-                T['ABORT'] = True
+                #T['read_only']['ABORT'] = True
+                T['params']['ABORT'] = True
                 break
-        if T['ABORT']:
+        if T['params']['ABORT']:
             break
     cb('main() done.')
 

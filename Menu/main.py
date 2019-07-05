@@ -263,7 +263,7 @@ def Default_Values(
         message = ''
         if not D['read_only']:
             D['save']()
-        if True:#try:
+        try:
             while True:
                 D['load']()
                 items = D['show'](message)
@@ -296,7 +296,7 @@ def Default_Values(
                             K = key_access(D,D['current_keys'])
                             message = D['set_value'](R['message'])['message']
                             continue
-        """
+        
         except KeyboardInterrupt:
             cr('*** KeyboardInterrupt ***')
             sys.exit()
@@ -305,7 +305,7 @@ def Default_Values(
             file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             CS_('Exception!',emphasis=True)
             CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
-       """ 
+       
 
 
     def __is_meta_key(k):
