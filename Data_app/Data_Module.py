@@ -36,8 +36,9 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 	for v in all_topics_:
 		if v != 'points' and v != 'image':
 			bair_all_topics_.append('/bair_car/'+v)
-	bair_all_topics_.append('/os1_node/points')
-	bair_all_topics_.append('/os1_node/image')
+	P['use_LIDAR']:
+		bair_all_topics_.append('/os1_node/points')
+		bair_all_topics_.append('/os1_node/image')
 
 	Rename = {}
 	Rename['zed/left/image_rect_color'] = 'left_image'
@@ -291,40 +292,46 @@ def Left_Timestamp_Metadata(run_name=None,h5py_path=None):
 		left_ts_deltasv[iv] = L['ts'][iv] - L['ts'][iv-1]
 	L.create_dataset('left_ts_deltas',data=left_ts_deltasv)
 
-	#################### lidar image indicies ###########################
-	#
-	lidar_ts = F['image']['ts'][:]
-	left_camera_ts = L['ts'][:]
-
-	lidar_index = 0
-
-	D_left_to_lidar_index = 0 * left_camera_ts
-
-	len_left_ts = len(left_camera_ts)
-
-	finished = False
-
-	for i in range(len_left_ts):
-	    if finished:
-	        break
-
-	    left_ts = left_camera_ts[i]
-
-	    while lidar_ts[lidar_index] < left_ts:
-
-	        if lidar_index >= len(lidar_ts)-1:
-	            finished = True
-	        if finished:
-	            break
-
-	        lidar_index += 1
-
-	    D_left_to_lidar_index[i] = lidar_index
 
 
-	L.create_dataset('left_to_lidar_index',data=D_left_to_lidar_index)
-	#
-	#####################################################################
+	if P['use_LIDAR']:
+		#################### lidar image indicies ###########################
+		#
+		lidar_ts = F['image']['ts'][:]
+		left_camera_ts = L['ts'][:]
+
+		lidar_index = 0
+
+		D_left_to_lidar_index = 0 * left_camera_ts
+
+		len_left_ts = len(left_camera_ts)
+
+		finished = False
+
+		for i in range(len_left_ts):
+		    if finished:
+		        break
+
+		    left_ts = left_camera_ts[i]
+
+		    while lidar_ts[lidar_index] < left_ts:
+
+		        if lidar_index >= len(lidar_ts)-1:
+		            finished = True
+		        if finished:
+		            break
+
+		        lidar_index += 1
+
+		    D_left_to_lidar_index[i] = lidar_index
+
+
+		L.create_dataset('left_to_lidar_index',data=D_left_to_lidar_index)
+		#
+		#####################################################################
+
+
+
 
 	L.close()
 	F.close()

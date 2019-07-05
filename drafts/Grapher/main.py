@@ -154,15 +154,18 @@ if __name__ == '__main__':
         T['data']['c']['value'] = np.sin(10*time.time())
 
         if show_timer.check():
+            if T['CLEAR']:
+                T['CLEAR'] = False
+                P['images']['big'] *= 0
             show_timer.reset()
             k = mci(P['images']['big'],delay=1,scale=1)
             if k == ord('q'):
                 CA()
-
                 T['ABORT'] = True
                 break
         if T['ABORT']:
             break
+
     cb('main() done.')
 
 

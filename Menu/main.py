@@ -209,12 +209,14 @@ def Default_Values(
                     CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
             return {'message':'did active'}
         if type(K[key]) == bool:
-            yes_no = raw_input(d2n("Toggle '",key,"'? ([y]/n) "))
-            if yes_no == 'y' or yes_no == '':
-                value = not K[key]
-            else:
-                message = d2n("'",key,"' unchanged")
-                return {'message':message}
+            value = not K[key]
+            if False: # older version with toggle check
+                yes_no = raw_input(d2n("Toggle '",key,"'? ([y]/n) "))
+                if yes_no == 'y' or yes_no == '':
+                    value = not K[key]
+                else:
+                    message = d2n("'",key,"' unchanged")
+                    return {'message':message}
         else:
             try:
                 if type(K[key]) == np.ndarray:
@@ -279,6 +281,10 @@ def Default_Values(
                     continue
                 elif R['action'] == 'continue':
                     message = R['message'] #'continue'
+                    continue
+                elif R['action'] == 'save':
+                    message = R['message']
+                    D['save']()
                     continue
                 elif R['action'] == 'choose':
                     if R['message'] == '<up>':
@@ -358,12 +364,17 @@ def Default_Values(
                     v = ''
                     cc = wh+underlined
                     val_color = wh
+
+                elif k.isupper():
+                    C[k] = False
+                    v = '' # '<auto False>'
+                    cc = wh+wh_bk
                 elif __is_meta_key(k):
                     v = C[k]
                     if have_colored:
                         cc = colored.fg('grey_23') 
                     else:
-                        cc = cg
+                        cc = gr
                 elif C['--mode--'] == 'bash':
                     cc = lb
                     v = ''
@@ -460,7 +471,7 @@ def make_choice(sorted_keys):
 
     if raw_choice == '':
         return {
-            'message':"other commands: q(quit) p(python) s(show array) h(hist array)",
+            'message':"other commands: q(quit) p(python) s(show array) h(hist array) r(resave)",
             'action':'continue',
         }
         
@@ -477,6 +488,12 @@ def make_choice(sorted_keys):
             'action':   'continue',
         }
 
+    if raw_choice == 'r':
+        return {
+            'message':  "resaved",
+            'action':   'save',
+        }
+    
     if str_is_int(raw_choice):
         choice = int(raw_choice)
     else:

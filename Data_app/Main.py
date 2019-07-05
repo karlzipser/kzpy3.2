@@ -110,7 +110,8 @@ for r in runs:
 	if True:#try:
 		Data_Module.Original_Timestamp_Data(bag_folder_path=r, h5py_path=h5py_dst)
 		Data_Module.make_flip_images(h5py_folder=opj(h5py_dst,fname(r)))
-		Data_Module.make_flip_lidar_images(h5py_folder=opj(h5py_dst,fname(r)))
+		if P['use_LIDAR']:
+			Data_Module.make_flip_lidar_images(h5py_folder=opj(h5py_dst,fname(r)))
 		Data_Module.Left_Timestamp_Metadata(run_name=fname(r), h5py_path=h5py_dst)
 	else:#except Exception as e:
 		print("**********for r in runs: Exception ***********************")

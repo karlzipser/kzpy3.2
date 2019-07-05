@@ -79,6 +79,9 @@ while True:
         T['images'][topic]['value'] = S[topic]
 
     if show_timer.check():
+        if T['CLEAR']:
+            T['CLEAR'] = False
+            P['images']['big'] *= 0
         show_timer.reset()
         k = mci(P['images']['big'],delay=1,scale=1)
         if k == ord('q'):

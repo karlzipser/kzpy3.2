@@ -8,6 +8,7 @@ network input = (94, 168, 3)
 """
 
 P = {}
+P['use_LIDAR'] = False
 
 P['SINGLE_VALUE_TOPICS'] = [
 	'button_number',
@@ -69,7 +70,7 @@ P['MEO_PARAMS'] = {'acc_x':50,'acc_y':50,'acc_z':50,'gyro_x':50,'gyro_y':50,'gyr
 
 P['USE_ARUCO'] = False
 
-P['Allow below-size bag files?'] = True
+P['Allow below-size bag files?'] = False
 
 P['min bagfile size'] = 0.99 * 1074813904
 P['min bagfile size'] = 90000000
