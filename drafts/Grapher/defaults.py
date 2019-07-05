@@ -2,7 +2,7 @@ from kzpy3.utils3 import *
 project_path = pname(__file__)
 
 width = 400
-height = 400
+height = 500
 
 Q = {
     'ABORT': False,
@@ -15,6 +15,8 @@ Q = {
     'window': {
         'height':height,
         'width':width,
+        'shift_top':100,
+        'shift_bottom':height-100,
     },
     'topics': ['encoder','d_heading','human/steer'],
     'image_topics': ['right_image'],
@@ -71,6 +73,14 @@ Q = {
     },
 
     'images':{
+        'left_image':{
+            'scale': 0.25,
+            'y_offset': 0,
+            'x_offset': 0,
+            'x_align': 'left',
+            'y_align': 'top',
+            'value': None,
+        },
         'right_image':{
             'scale': 0.25,
             'y_offset': 0,
@@ -78,8 +88,7 @@ Q = {
             'x_align': 'right',
             'y_align': 'bottom',
             'value': None,
-        },
-        
+        },      
     },
 }
 

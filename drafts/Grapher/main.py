@@ -15,9 +15,9 @@ T = Q['Q']
 import kzpy3.drafts.Grapher.defaults as defaults
 P = defaults.P
 
-def shift(big,small):
-    big[:,0:-1,:] = big[:,1:,:]
-    big[:,-1:,:] = small
+def shift(big,small,top,bottom):
+    big[top:bottom,0:-1,:] = big[top:bottom,1:,:]
+    big[top:bottom,-1:,:] = small[top:bottom,:,:]
 
 def value_to_y(value,scale,offset,height):
     y = value * scale + offset*height
@@ -104,33 +104,36 @@ def grapher():
 
             if baseline_timer.check():
                 baseline_timer.reset()
-            #if second_timer.check():
-            #    second_timer.reset()
 
-            shp = shape(T['images']['right_image']['value'])
+            shift(
+                P['images']['big'],
+                P['images']['small'],
+                T['window']['shift_top'],
+                T['window']['shift_bottom'],
+            )
+
+        for img in T['image_topics']:
+            shp = shape(T['images'][img]['value'])
+
             if len(shp) == 3:
                 a = 0
                 b = shp[0]
                 c = 0
                 d = shp[1]
-                if T['images']['right_image']['x_align'] == 'right':
+                if T['images'][img]['x_align'] == 'right':
                     c = T['window']['width'] - shp[1]
                     d = T['window']['width']
-                P['images']['big'][a:b,c:d,:] *= 0
+                if T['images'][img]['y_align'] == 'bottom':
+                    a = T['window']['height'] - shp[0]
+                    b = T['window']['height']
+                
+                a += T['images'][img]['y_offset']
+                b += T['images'][img]['y_offset']
+                c += T['images'][img]['x_offset']
+                d += T['images'][img]['x_offset']
 
-            shift(P['images']['big'],P['images']['small'])
+                P['images']['big'][a:b,c:d,:] = T['images'][img]['value']
 
-            shp = shape(T['images']['right_image']['value'])
-
-        if len(shp) == 3:
-            a = 0
-            b = shp[0]
-            c = 0
-            d = shp[1]
-            if T['images']['right_image']['x_align'] == 'right':
-                c = T['window']['width'] - shp[1]
-                d = T['window']['width']
-            P['images']['big'][a:b,c:d,:] = T['images']['right_image']['value']
 
     cg('grapher() thread done.')
 ###
