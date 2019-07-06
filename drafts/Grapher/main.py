@@ -24,11 +24,14 @@ def value_to_y(value,scale,offset,height):
     return intr(y)
 
 def new_images(T):
-    P['images']['big'] = 255*rnd((T['window']['height'],T['window']['width'],3))
+    P['images']['big'] = 0*rnd((T['window']['height'],T['window']['width'],3))
     P['images']['big'] = P['images']['big'].astype(np.uint8)
     P['images']['small'] = np.zeros((T['window']['height'],1,3),np.uint8) 
 ###########################################################################
 ###
+
+pause = False
+
 def grapher():
 
     show_timer = Timer(T['times']['show'])
@@ -45,9 +48,13 @@ def grapher():
         if T['ABORT']:
             break
 
+        if T['pAUSE']:
+            time.sleep(0.1)
+            continue
+
         Q['load']()
 
-        if shift_timer.check():
+        if shift_timer.check(): 
             if shift_timer.time_s != T['times']['shift']:
                 shift_timer = Timer(T['times']['shift'])
             if show_timer.time_s != T['times']['show']:

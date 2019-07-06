@@ -2,6 +2,8 @@
 from kzpy3.vis3 import *
 exec(identify_file_str)
 
+# python kzpy3/drafts/osx_gps.py
+
 baudrate = 115200
 timeout = 0.1
 
@@ -66,37 +68,32 @@ w = 300
 M = CV2Plot(
     height_in_pixels=w,
     width_in_pixels=w,
-    pixels_per_unit=w/1000.,
+    pixels_per_unit=w/5000.,
 )
 N = CV2Plot(
     height_in_pixels=w,
     width_in_pixels=w,
-    pixels_per_unit=w/100.,
+    pixels_per_unit=w/200.,
 )
 
 def show_(xys_raw):
-    
-    #cm(0)
     xys = na(xys_raw)
-    xys[:,0] -= xys[0,0]#garden_table_latitude
-    xys[:,1] -= xys[0,1]#garden_table_longitude
+    xys[:,0] -= xys[0,0]
+    xys[:,1] -= xys[0,1]
     xys[:,0] *= km_per_one_degree_of_latitude_38_degrees * 1000
     xys[:,1] *= km_per_one_degree_of_longitude_38_degrees * 1000
-    #cm(1)
     a=0*xys
     a[:,0]=xys[:,1]
     a[:,1]=xys[:,0]
     M['clear']()
     M['pts_plot'](a)
     M['show'](title='M')
-    #cm(2)
     xys = na(xys_raw)
     xys[:,0] -= xys[-1,0]
     xys[:,1] -= xys[-1,1]
     xys[:,0] *= km_per_one_degree_of_latitude_38_degrees * 1000
     xys[:,1] *= km_per_one_degree_of_longitude_38_degrees * 1000
     a=0*xys
-    #cm(3)
     a[:,0]=xys[:,1]
     a[:,1]=xys[:,0]
     N['clear']()
@@ -104,7 +101,6 @@ def show_(xys_raw):
     N['show'](title='N')
 
 if __name__ == '__main__':
-    # python kzpy3/drafts/osx_gps.py
     flush_seconds = 0.1
     flush_timer = Timer(flush_seconds)
     P = {}
@@ -119,11 +115,9 @@ if __name__ == '__main__':
         if file_timer.check():
             file_timer.reset()
             so(opjD('GPS3',d2n(start_time,'_',int(time.time()-start_time),'.pkl')),{'data':data,'xys':xys})
-            #data = []
-            #xys = []
+
         try:
             read_str = P['Arduinos']['GPS3'].readline()
-            #cg('read_str =',read_str,sf=0)
             if flush_timer.check():
                 P['Arduinos']['GPS3'].flushInput()
                 P['Arduinos']['GPS3'].flushOutput()
@@ -133,7 +127,6 @@ if __name__ == '__main__':
             assert(m in ['GPS3'])
             GPS3_input.append(time.time())
             data.append(GPS3_input)
-            #x,y = gps_to_km(GPS3_input[1],GPS3_input[2])
             x,y = GPS3_input[1],GPS3_input[2]
             xys.append([x,y])
             cb('GPS3_input =',GPS3_input)
@@ -150,14 +143,6 @@ if __name__ == '__main__':
             CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)    
             """
             pass
-
-if False:
-    O=lo('/Users/karlzipser/Desktop/_GPS3/1562023175.39.pkl')
-    CA()
-
-    #pts_plot(xys);plt_square()
-
-
 
 
 #EOF

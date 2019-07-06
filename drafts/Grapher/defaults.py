@@ -1,15 +1,18 @@
 from kzpy3.utils3 import *
 project_path = pname(__file__)
 
+# Mr_Purple_28Jun19_13h35m10s
+
 width = 400
 height = 400
 
 Q = {
     'ABORT': False,
     'CLEAR': False,
+    'pAUSE': False,
     'times': {
         'show':1/30.,
-        'shift': 1/100.,
+        'shift': 1/20.,
         'baseline_ticks':1/10.,
         'thread_delay':0.001,
     },
@@ -19,14 +22,23 @@ Q = {
         'shift_top':100,
         'shift_bottom':height-0,
     },
-    'topics': ['encoder','d_heading','human/steer'],
+    #'topics': ['encoder','d_heading','human/steer'],
+    'topics': ['encoder','slow_encoder','human/motor'],
     'image_topics': ['left_image','right_image'],
     'data':{
         'encoder':{
             'scale': 10.,
             'offset': 0.5,
-            'color': [255,255,255],
+            'color': [150,150,150],
             'value': None,
+            'baseline': 0,
+        },
+        'slow_encoder':{
+            'scale': 10.,
+            'offset': 0.5,
+            'color': [255,255,0],
+            'value': None,
+            's': 0.99,
             'baseline': 0,
         },
         'd_heading':{
@@ -37,6 +49,13 @@ Q = {
             'baseline': 0,
         },
         'human/motor':{
+            'scale': 1,
+            'offset': 0.5,
+            'color': [0,255,255],
+            'value': None,
+            'baseline': 49,
+        },
+        'cmd/motor':{
             'scale': 1,
             'offset': 0.5,
             'color': [0,255,255],

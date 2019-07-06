@@ -30,40 +30,6 @@ subscribe.rospy.init_node('control_node',anonymous=True,disable_signals=True)
 #
 ###################################################################
 
-if False:
-    ###################################################################
-    #
-    S = {}
-    S['encoder'] = 0.
-    S['encoder_time'] = time.time()
-    S['gyro_heading_x'] = 0
-    S['gyro_heading_x_prev'] = 0
-    S['ts_prev'] = 0
-    S['ts'] = 0
-    S['d_heading'] = 0
-
-    bcs = '/bair_car'
-    s = 0.9
-
-    def encoder_callback(msg):
-        S['encoder'] = msg.data
-        S['encoder_time'] = time.time()
-    rospy.Subscriber(bcs+'/encoder', std_msgs.msg.Float32, callback=encoder_callback)
-
-    def gyro_heading_x_callback(data):
-        S['gyro_heading_x_prev'] = S['gyro_heading_x']
-        S['gyro_heading_x'] = data.x
-        S['d_heading'] = 2*(S['gyro_heading_x']-S['gyro_heading_x_prev'])
-        S['ts_prev'] = S['ts']
-        S['ts'] = time.time()
-        S['sample_frequency'] = 1.0 / (S['ts']-S['ts_prev'])
-    rospy.Subscriber(bcs+'/gyro_heading', geometry_msgs.msg.Vector3, callback=gyro_heading_x_callback,queue_size=5)
-    #
-    ###################################################################
-
-
-
-
 threading.Thread(target=main.grapher,args=[]).start()
 prnt = Timer(1)
 show_timer = Timer(T['times']['show'])
@@ -72,8 +38,18 @@ while True:
 
     time.sleep(T['times']['thread_delay'])
 
+    s = T['data']['slow_encoder']['s']
+    if T['data']['slow_encoder']['value'] == None:
+        T['data']['slow_encoder']['value'] = 0.
+    if T['data']['encoder']['value'] == None:
+        T['data']['encoder']['value'] = 0.
+    T['data']['slow_encoder']['value'] = \
+        s*T['data']['slow_encoder']['value'] + (1-s)*T['data']['encoder']['value']
+    #slow_motor = s*slow_motor + (1-s)*motor
+
     for topic in T['topics']:
-        T['data'][topic]['value'] = S[topic]
+        if topic in S:
+            T['data'][topic]['value'] = S[topic]
 
     for topic in T['image_topics']:
         T['images'][topic]['value'] = S[topic]
@@ -88,6 +64,9 @@ while True:
             CA()
             T['ABORT'] = True
             break
+        if k == ord(' '):
+            T['pAUSE'] = not T['pAUSE']
+            cg('pAUSE =',T['pAUSE'])
     if T['ABORT']:
         break
 
