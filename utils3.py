@@ -1164,6 +1164,10 @@ if temp != None:
     Arguments = {}
     for a in Args.keys():
         ar = Args[a]
+        if True:
+            assert a[0] == '-'
+            assert a[1] == '-'
+            a = a[2:]
         if str_is_int(ar):
             Arguments[a] = int(ar)
         else:

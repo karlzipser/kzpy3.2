@@ -17,7 +17,7 @@ while True:
 
 		bag_size = os.path.getsize(latest_rosbag)
 
-		bag_size = dp(bag_size/1000000000.)
+		bag_size = dp(bag_size/10**9.)
 
 		print(d2s(bag_num,bag_size,'GB',bag_time,'s',time_str('TimeShort')))
 

@@ -147,8 +147,6 @@ def grapher():
 ###########################################################################
 
 
-
-
 if __name__ == '__main__':
     k = -1
     threading.Thread(target=grapher,args=[]).start()

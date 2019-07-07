@@ -23,7 +23,6 @@ T = Q['Q']
 
 P = defaults.P
 
-
 ###################################################################
 #
 subscribe.rospy.init_node('control_node',anonymous=True,disable_signals=True)
@@ -46,7 +45,6 @@ while True:
         T['data']['encoder']['value'] = 0.
     T['data']['slow_encoder']['value'] = \
         s*T['data']['slow_encoder']['value'] + (1-s)*T['data']['encoder']['value']
-    #slow_motor = s*slow_motor + (1-s)*motor
 
     for topic in T['topics']:
         if topic in S:
@@ -74,6 +72,5 @@ while True:
         break
 
 cb('main() done.')
-
 
 #EOF

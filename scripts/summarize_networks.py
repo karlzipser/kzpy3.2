@@ -6,10 +6,18 @@ from kzpy3.utils3 import *
 exec(identify_file_str)
 #Arguments['src'] = opjD()
 #Arguments['dst'] = opjm('rosbags')
+setup_Default_Arguments(
+    {
+        'src': opjD(),
+        'dst' = opjm('rosbags'),
+        'print_only': False,
+    }
+)
 print_Arguments()
 src = Arguments['src']
 dst = Arguments['dst']
 print_only = False
+
 if 'print_only' in Arguments:
     print_only = Arguments['print_only']
     if print_only == 'False':
@@ -29,7 +37,6 @@ for n in net_folders:
             for w in wrange:
                 selected_weights_files.append(weight_files[w])
             Nets[fname(n)] = selected_weights_files
-
 
 for n in Nets:
     ndst = opj(dst,'Network_Weights',n)
