@@ -33,6 +33,7 @@ subscribe.rospy.init_node('control_node',anonymous=True,disable_signals=True)
 threading.Thread(target=main.grapher,args=[]).start()
 prnt = Timer(1)
 show_timer = Timer(T['times']['show'])
+k = -1
 
 while True:
 
@@ -55,6 +56,8 @@ while True:
         T['images'][topic]['value'] = S[topic]
 
     if show_timer.check():
+        if k == ord('c'):
+            T['CLEAR'] = True
         if T['CLEAR']:
             T['CLEAR'] = False
             P['images']['big'] *= 0

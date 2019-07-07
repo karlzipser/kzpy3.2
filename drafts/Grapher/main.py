@@ -150,7 +150,7 @@ def grapher():
 
 
 if __name__ == '__main__':
-    
+    k = -1
     threading.Thread(target=grapher,args=[]).start()
     prnt = Timer(1)
     show_timer = Timer(T['times']['show'])
@@ -161,6 +161,8 @@ if __name__ == '__main__':
         T['data']['c']['value'] = np.sin(10*time.time())
 
         if show_timer.check():
+            if k == ord('c'):
+                T['CLEAR'] = True
             if T['CLEAR']:
                 T['CLEAR'] = False
                 P['images']['big'] *= 0
