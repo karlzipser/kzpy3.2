@@ -1,29 +1,32 @@
-) train net to measure speed (cmd/motor and encoder), direction (multi frames)
+) train net to measure velocity (from motor and encoder)
+	-build new net to use 12 frames
+	-smaller version of Sq network
+	-run frames forward and backward, like left-right flip
+	-search dataset for examples of different encoder levels
 ) not getting most out of trajectory predictions
 ) draw lines for trajectory prediction
 ) need to train to avoid metadata rectangles
 ) * need much better knowledge of movement of car at low speeds
 	--maybe predict speed from visual data, or use ZED odometry
+) retrain flex net to advance human commands in time.
 ) trajectory to motor commands
 ) save dic as dirs
-	Dedicated backpack?
-) get Menu working in place of Commands
 ) get Menu to work over net
 ) improve how obstacles are pasted in
 ) straighten camera and lidar better
-10) new lidar
-
-2) figure out how to train using trajectories to plan obstacles in metadata layer
-
-) validation, code
-) validation, data
+) new lidar
+) figure out how to train using trajectories to plan obstacles in metadata layer
+) validation code
+) find validation data
 ) consider concatenating metadata to next layer
-
+) figure out how to deal with data with auto driving and no motor command. Fix this to save 	motor data, and also automatically vary speed.
 ) train model to go from image to trajectory scene categorization
 
 
-√) * make good way to carry macbook with cables
-√) * make compact TX that can be thrown in backpack. Box perhaps.
+) √ Jetson Dedicated backpack?
+) √ get Menu working in place of Commands
+√) make good way to carry macbook with cables
+√) make compact TX that can be thrown in backpack. Box perhaps.
 √) set up GPS data collection
 √4) run net car, figure out current system
 √5) run net car, paste in obstacles
