@@ -176,6 +176,7 @@ if __name__ == '__main__':
             break
         if k == ord(' '):
             T['pAUSE'] = not T['pAUSE']
+            time.sleep(0.1)
             #cg('pAUSE =',T['pAUSE'])
 
     cb('main() done.')
