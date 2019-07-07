@@ -2,7 +2,7 @@ from kzpy3.vis3 import *
 import Menu.main
 
 Q = Menu.main.start_Dic(
-    dic_project_path=opjk('drafts/Grapher'),
+    dic_project_path=pname(opjh(__file__)),
     Dics={},
     Arguments={
         'menu':False,
@@ -175,7 +175,7 @@ if __name__ == '__main__':
         if k == ord(' '):
             T['pAUSE'] = not T['pAUSE']
             cg('pAUSE =',T['pAUSE'])
-            
+
     cb('main() done.')
 
 

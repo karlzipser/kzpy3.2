@@ -1,3 +1,6 @@
+) save cmd/'s properly
+) why is camera angle not influincing pasted rectangle position?
+) save pid motor values properly
 ) train net to measure velocity (from motor and encoder)
 	-build new net to use 12 frames
 	-smaller version of Sq network
