@@ -1,4 +1,6 @@
+#!/usr/bin/env python
 from kzpy3.utils3 import *
+assert HAVE_ROS
 
 current_bag_number = 0
 

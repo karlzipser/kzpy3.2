@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 from kzpy3.utils2 import *
 
 while True:

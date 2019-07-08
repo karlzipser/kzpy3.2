@@ -1,5 +1,6 @@
 ## General (from caffe .gitignore)
 __local__
+*.lock
 *.h5py
 *.hdf5
 *.local

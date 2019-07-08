@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 from kzpy3.vis3 import *
+assert HAVE_ROS
 
 setup_Default_Arguments(
     {

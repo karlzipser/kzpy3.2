@@ -4,6 +4,7 @@ python kzpy3/scripts/temp.py topics headings_left,headings_right,headings_direct
 """
 
 from kzpy3.vis3 import *
+assert HAVE_ROS
 import rospy
 import std_msgs.msg
 import geometry_msgs.msg

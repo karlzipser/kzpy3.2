@@ -309,13 +309,21 @@ def load_menu_data(path,Parameters,first_load=False,customer=''):
 
 if __name__ == '__main__':
     path = Arguments['path']
+    #cg(1,path)
+    path = path.replace(opjh(),'')
+    #cg(2,path)
     module = path.replace('/','.').replace('.py','')
+    #cg(3,module)
+    if module[0] == '.':
+        module = module[1:]
+    if module[-1] == '.':
+        module = module[:-1]
     CS_(module,'module')
     dic = Arguments['dic']
     CS_(dic,'dic')
-
+    #cg(4,module,ra=1)
     exec_str = d2n('import ',module,'.default_values as default_values')
-    cr(exec_str)
+    #cr(5,exec_str)
     exec(exec_str)
 
     exec(d2n('Topics = default_values.',dic))

@@ -62,6 +62,9 @@ if False:
         exec(EXCEPT_STR)
         raw_enter()
 
+def raw_enter(optional_str=''):
+    return raw_input(optional_str+'Hit enter to continue > ')
+
 def et():
     print(
         """
@@ -522,6 +525,75 @@ def soD(arg1,arg2,noisy=True):
         assert(False)
     except:
         exec(EXCEPT_STR)
+
+
+
+
+try:
+    from filelock import Timeout, FileLock
+    def soL(arg1,arg2,noisy=True):
+        try:
+            if type(arg1) == str and type(arg2) != str:
+                name = arg1
+                obj = arg2
+            elif type(arg2) == str and type(arg1) != str:
+                name = arg2
+                obj = arg1
+            elif type(arg2) == str and type(arg1) == str:
+                pd2s('def so(arg1,arg2): both args cannot be strings')
+                assert(False)
+            else:
+                assert(False)
+        except Exception as e:
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            CS_('Exception!',emphasis=True)
+            CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+
+        lock_path = name + '.lock'
+        lock = FileLock(lock_path, timeout=1)
+
+        while True:
+            try:
+                lock.acquire()
+                save_obj(obj,name,noisy)
+                lock.release()
+                break
+            except Timeout:
+                print("Another instance of this application currently holds the lock.")
+
+
+    def loL(name,noisy=True):
+        lock_path = name + '.lock'
+        lock = FileLock(lock_path, timeout=1)
+        while True:
+            try:
+                lock.acquire()
+                o = load_obj(name,noisy)
+                lock.release()
+                return o
+            except Timeout:
+                print("Another instance of this application currently holds the lock.")
+
+
+    def loState():
+        return loL(opjk('__local__/State'))
+
+    def soState(State):
+        try:
+            Original_state = lo(opjk('__local__/State'))
+        except:
+            Original_state = {}
+        for k in State:
+            Original_state[k] = State[k]
+        os.system(d2s('mkdir -p',opjk('__local__')))
+        os.system(d2s('touch',opjk('__local__/__init__.py')))
+        soL(Original_state,opjk('__local__/State'))
+except:
+    print("unable to import filelock")
+
+
+
 
 def txt_file_to_list_of_strings(path_and_filename):
     f = open(path_and_filename,"r") #opens file with name of "test.txt"
@@ -1083,11 +1155,11 @@ def is_even(q):
 
 
 
-
+"""
 def img_to_img_uint8(d):
     img = d['img']
     return (255.0*z2o(img)).astype(np.uint8)
-
+"""
 
 
 
@@ -1164,16 +1236,24 @@ if temp != None:
     Arguments = {}
     for a in Args.keys():
         ar = Args[a]
-        if True:
+        if a[0] == '-':
             assert a[0] == '-'
             assert a[1] == '-'
             a = a[2:]
+        else:
+            pd2s('*** Warning, argument',"'"+k+"'",'not proceeded by -- on command line ***')
+            raw_enter()
         if str_is_int(ar):
             Arguments[a] = int(ar)
+        elif ',' in ar:
+            Arguments[a] = ar.split(',')
         else:
             Arguments[a] = ar
 
 def setup_Default_Arguments(Defaults):
+    for k in Arguments:
+        if k not in Defaults:
+            cr("*** Warning, unexpected argument","'"+k+"'",'***',ra=1)
     for k in Defaults:
         if k not in Arguments:
             Arguments[k] = Defaults[k]
@@ -1233,8 +1313,7 @@ def find_nearest(array,value):
     return array[idx]
 
 
-def raw_enter(optional_str=''):
-    return raw_input(optional_str+'Hit enter to continue > ')
+
 
 
 def bound_value(the_value,the_min,the_max):
@@ -1583,41 +1662,6 @@ def sort_by_column(a,col,reverse=False):
     return a
     
 
-def date_and_time_setting_strings():
-    now = datetime.datetime.now()
-    date_str = now.strftime('20%y%m%d')
-    time_str = now.strftime('%H:%M:%S')
-    date_str = "sudo date +%Y%m%d -s "+date_str
-    time_str = "sudo date +%T -s "+time_str
-    return date_str,time_str
-
-def ssh_date_time(host_ip,user='nvidia',timeout=10):
-    date_str,time_str = date_and_time_setting_strings()
-    sys_str = d2n('ssh -o ConnectTimeout=',timeout,' ',user+'@'+host_ip," '",date_str,'; ',time_str,"'")
-    print(sys_str)
-    os.system(sys_str)
-
-def ssh_date_time_rsync(ip,user='nvidia',timeout=10):
-    ssh_date_time(ip)
-    os.system("rsync -ravL --exclude '*.pyc' --exclude '*.pkl' kzpy3/* nvidia@"+ip+":kzpy3/")
-    cprint(d2s(ip,'finished.'),'white','on_blue')
-
-def update_TXs(ips=[]):
-    for ip in ips:
-        threading.Thread(target=ssh_date_time_rsync,args=[ip]).start()
-
-def _update_TXs(ips=[]):
-    for ip in ips:
-        ssh_date_time(ip)
-        os.system("rsync -ravL --exclude '*.pyc' --exclude '*.pkl' kzpy3/* nvidia@"+ip+":kzpy3/")
-
-def update_TXs_range(start,stop=None,base_ip='169.254.131'):
-    if stop == None:
-        stop = start
-    for i in range(start,stop+1):
-        ip = d2n(base_ip,'.',i)
-        threading.Thread(target=ssh_date_time_rsync,args=[ip]).start()
-
 if False:
     def key_get_set(D,key_list,value=None):
         key = key_list.pop(0)
@@ -1710,9 +1754,51 @@ def file_modified_test(path,mtime_prev):
     else:
         return 0
 
+
+
+
+
+
+def date_and_time_setting_strings():
+    now = datetime.datetime.now()
+    date_str = now.strftime('20%y%m%d')
+    time_str = now.strftime('%H:%M:%S')
+    date_str = "sudo date +%Y%m%d -s "+date_str
+    time_str = "sudo date +%T -s "+time_str
+    return date_str,time_str
+
+def ssh_date_time(host_ip,user='nvidia',timeout=10):
+    date_str,time_str = date_and_time_setting_strings()
+    sys_str = d2n('ssh -o ConnectTimeout=',timeout,' ',user+'@'+host_ip," '",date_str,'; ',time_str,"'")
+    print(sys_str)
+    os.system(sys_str)
+
+if False:
+    def ssh_date_time_rsync(ip,user='nvidia',timeout=10):
+        ssh_date_time(ip)
+        os.system("rsync -ravL --exclude '*.pyc' --exclude '*.lock' --exclude '*.pkl' kzpy3/* nvidia@"+ip+":kzpy3/")
+        cprint(d2s(ip,'finished.'),'white','on_blue')
+
+def rsync(ip,user='nvidia',timeout=10):
+    os.system("rsync -ravL --exclude '*.pyc' --exclude '*.pkl' kzpy3/* nvidia@"+ip+":kzpy3/")
+    cprint(d2s(ip,'finished.'),'white','on_blue')
+
+def update_TXs(ips=[]):
+    for ip in ips:
+        threading.Thread(target=rsync,args=[ip]).start()
+
+def update_TXs_range(start,stop=None,base_ip='169.254.131'):
+    if stop == None:
+        stop = start+1
+    ips = []
+    for i in range(start,stop):
+        ips.append(d2n(base_ip,'.',i))
+    update_TXs(ips)
+
+
+
+
+
 exec(identify_file_str)
-
-
-
 #EOF
 

@@ -13,7 +13,7 @@ rosbag play -s 5 recorded1.bag
 """
 
 from kzpy3.utils3 import *
-
+assert HAVE_ROS
 try:
 	bagpath = Arguments['path']
 except:

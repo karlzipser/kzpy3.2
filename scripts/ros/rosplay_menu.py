@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 from kzpy3.utils3 import *
+assert HAVE_ROS
+
 do_limit = False
 task = 'echo'
 if 'Arguments' in locals():

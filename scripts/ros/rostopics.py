@@ -1,4 +1,7 @@
+#!/usr/bin/env python
+
 from kzpy3.utils3 import *
+assert HAVE_ROS
 
 Int = 'std_msgs.msg.Int32'
 Float = 'std_msgs.msg.Float32'

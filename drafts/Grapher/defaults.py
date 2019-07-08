@@ -23,7 +23,7 @@ Q = {
         'shift_bottom':height-0,
     },
     #'topics': ['encoder','d_heading','human/steer'],
-    'topics': ['encoder','slow_encoder','human/motor'],
+    'topics': ['encoder','slow_encoder','cmd/motor'],
     'image_topics': ['left_image','right_image'],
     'data':{
         'encoder':{
@@ -39,10 +39,20 @@ Q = {
             'color': [255,255,0],
             'value': None,
             's': 0.99,
+            'src': 'encoder',
+            'baseline': 0,
+        },
+        'slow_cmd/motor':{
+            'scale': 10.,
+            'offset': 0.5,
+            'color': [255,255,0],
+            'value': None,
+            's': 0.99,
+            'src': 'cmd/motor',
             'baseline': 0,
         },
         'd_heading':{
-            'scale': 40,
+            'scale': 40.,
             'offset': 0.75,
             'color': [255,0,0],
             'value': None,
@@ -56,14 +66,14 @@ Q = {
             'baseline': 49,
         },
         'cmd/motor':{
-            'scale': 1,
+            'scale': 1.,
             'offset': 0.5,
             'color': [0,255,255],
             'value': None,
             'baseline': 49,
         },
         'human/steer':{
-            'scale': 1,
+            'scale': 1.,
             'offset': 0.5,
             'color': [255,255,0],
             'value': None,
