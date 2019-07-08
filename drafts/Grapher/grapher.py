@@ -19,8 +19,8 @@ def shift(big,small,top,bottom):
     big[top:bottom,0:-1,:] = big[top:bottom,1:,:]
     big[top:bottom,-1:,:] = small[top:bottom,:,:]
 
-def value_to_y(value,scale,offset,height):
-    y = value * scale + offset*height
+def value_to_y(value,baseline,scale,offset,height):
+    y = (value-baseline) * scale + offset #*height
     return intr(y)
 
 def new_images(T):
@@ -79,6 +79,7 @@ def grapher():
 
                 y = value_to_y(
                     T['data'][k]['value'],
+                    T['data'][k]['baseline'],
                     -T['data'][k]['scale'],
                     T['data'][k]['offset'],
                     T['window']['height'],
@@ -86,6 +87,7 @@ def grapher():
                 if 'value_smooth' in T['data'][k]:
                     y_smooth = value_to_y(
                         T['data'][k]['value_smooth'],
+                        T['data'][k]['baseline'],
                         -T['data'][k]['scale'],
                         T['data'][k]['offset'],
                         T['window']['height'],
@@ -96,12 +98,13 @@ def grapher():
                     try:
 
                         if 'value_smooth' in T['data'][k]:
-                            P['images']['small'][y_smooth,0,:] = [255,255,0]
+                            P['images']['small'][y_smooth,0,:] = T['parameters']['smooth_color']
 
                         P['images']['small'][y,0,:] = T['data'][k]['color']
 
                         if baseline_timer.check():
                             y = value_to_y(
+                                T['data'][k]['baseline'],
                                 T['data'][k]['baseline'],
                                 -T['data'][k]['scale'],
                                 T['data'][k]['offset'],

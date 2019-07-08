@@ -45,9 +45,17 @@ while True:
                 if 's' in T['data'][topic]:
                     s = T['data'][topic]['s']
                     if 'value_smooth' not in T['data'][topic]:
-                       T['data'][topic]['value_smooth'] = 0. 
+                       T['data'][topic]['value_smooth'] = T['data'][topic]['value'] 
                     T['data'][topic]['value_smooth'] = \
                         s*T['data'][topic]['value_smooth'] + (1-s)*T['data'][topic]['value']
+
+        d = 0
+        if T['data']['encoder']['value_smooth'] > 0.1:
+            if T['data']['cmd/motor']['value_smooth'] > 50:
+                d = 1
+            elif T['data']['cmd/motor']['value_smooth'] < 48:
+                d = -1
+        T['data']['drive_direction']['value'] = d
 
 
         for topic in T['image_topics']:
