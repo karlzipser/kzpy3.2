@@ -24,9 +24,11 @@ Q = {
     },
     'parameters': {
         'smooth_color':[255,255,255],
+        'still_threshold': 0.1,
+        'not_still_threshold': 0.1,
     },
     #'topics': ['encoder','d_heading','human/steer'],
-    'topics': ['encoder','cmd/motor'],
+    'topics': ['encoder','human/motor'],
     'image_topics': ['left_image','right_image'],
     'data':{
         'encoder':{
@@ -35,7 +37,7 @@ Q = {
             'color': [0,255,255],
             'value': None,
             'baseline': 0,
-            's': 0.99,
+            's': 0.75,
         },
         'd_heading':{
             'scale': 40.,
@@ -45,16 +47,24 @@ Q = {
             'baseline': 0,
         },
         'human/motor':{
-            'scale': 1,
-            'offset': 0.5,
-            'color': [0,255,255],
+            'scale': 5,
+            'offset': 300,
+            'color': [0,255,0],
             'value': None,
             'baseline': 49,
+            's': 0.5,
         },
         'drive_direction':{
             'scale': 20.,
-            'offset': 170,
-            'color': [0,0,255],
+            'offset': 150,
+            'color': [255,255,255],
+            'value': None,
+            'baseline': 0.,
+        },
+        'still':{
+            'scale': 20.,
+            'offset': 350,
+            'color': [0,255,255],
             'value': None,
             'baseline': 0.,
         },
@@ -64,7 +74,7 @@ Q = {
             'color': [0,255,0],
             'value': None,
             'baseline': 49,
-            's': 0.99,
+            's': 0.995,
         },
         'human/steer':{
             'scale': 1.,

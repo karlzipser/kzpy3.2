@@ -63,6 +63,7 @@ C['human_agent'] = 1
 C['drive_mode'] = 0
 C['behavioral_mode'] = GHOST
 C['human/steer'] = 49
+C['drive_direction'] = 0
 C['behavior_names'] = {
     LEFT:'left',
     RIGHT:'right',
@@ -266,6 +267,10 @@ def button_number_callback(msg):
 def human_steer_callback(msg):
     C['human/steer'] = msg.data
 
+def drive_direction_callback(msg):
+    C['drive_direction'] = msg.data
+
+
 
 rospy.Subscriber('/net/steer', std_msgs.msg.Float32, callback=net_steer_callback)
 rospy.Subscriber('/net/motor', std_msgs.msg.Float32, callback=net_motor_callback)
@@ -277,6 +282,7 @@ rospy.Subscriber(bcs+'/button_number',std_msgs.msg.Int32,callback=button_number_
 rospy.Subscriber(bcs+'/drive_mode',std_msgs.msg.Int32,callback=drive_mode_callback)
 rospy.Subscriber(bcs+'/gyro_heading',geometry_msgs.msg.Vector3,callback=gyro_heading_callback)
 rospy.Subscriber(bcs+'/steer', std_msgs.msg.Int32, callback=human_steer_callback)
+rospy.Subscriber('/drive_direction',std_msgs.msg.Int32,callback=drive_direction_callback)
 
 print_timer = Timer(0.2)
 parameter_file_load_timer = Timer(2)
@@ -564,6 +570,16 @@ if __name__ == '__main__':
 
         if ready.check():
             ready.reset()
+            #print C['drive_direction']
+            if C['drive_direction'] < 0:
+                C['lights_pub'].publish(C['lights'][PURPLE])
+                C['lights_pub'].publish(C['lights'][GREEN_OFF])
+            elif C['drive_direction'] > 0:
+                C['lights_pub'].publish(C['lights'][PURPLE_OFF])
+                C['lights_pub'].publish(C['lights'][GREEN])
+            else:
+                C['lights_pub'].publish(C['lights'][PURPLE])
+                C['lights_pub'].publish(C['lights'][GREEN])
 
             if C['behavioral_mode_pub_timer'].check():
                 C['behavioral_mode_pub_timer'].reset()

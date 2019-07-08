@@ -15,13 +15,20 @@ T = Q['Q']
 
 P = defaults.P
 
+still_stop = False
+still_start = False
+the_motor = 'human/motor'
 
 if HAVE_ROS:
     import kzpy3.drafts.Grapher.subscribe as subscribe
+    import std_msgs.msg
     S = subscribe.S
+    Pub = {}
+    Pub['drive_direction'] = rospy.Publisher('drive_direction',std_msgs.msg.Int32,queue_size=1)
+    pub_timer = Timer(0.1)
     ###################################################################
     #
-    subscribe.rospy.init_node('control_node',anonymous=True,disable_signals=True)
+    subscribe.rospy.init_node('grapher_node',anonymous=True,disable_signals=True)
     #
     ###################################################################
 
@@ -49,13 +56,54 @@ while True:
                     T['data'][topic]['value_smooth'] = \
                         s*T['data'][topic]['value_smooth'] + (1-s)*T['data'][topic]['value']
 
-        d = 0
-        if T['data']['encoder']['value_smooth'] > 0.1:
-            if T['data']['cmd/motor']['value_smooth'] > 50:
-                d = 1
-            elif T['data']['cmd/motor']['value_smooth'] < 48:
-                d = -1
+
+        if T['data']['encoder']['value_smooth'] < T['parameters']['still_threshold']:
+            still_stop = False
+            if still_start == False:
+                still_start = Timer()
+            q = 1
+        else:
+            still_start = False
+            if still_stop == False:
+                still_stop = Timer()
+            q = 0
+
+        if still_start != False:
+            t0 = still_start.time()
+        else:
+            t0 = 0
+
+        if still_stop != False:
+            t1 = still_stop.time()
+        else:
+            t1 = 0
+
+        ##cg(dp(t0),still_start,dp(t1),still_stop)
+
+        if q == 1:
+            d = 0
+        elif T['data']['encoder']['value_smooth'] > T['parameters']['not_still_threshold']:
+            if still_start != False:
+                if still_start.time() > 0.2:
+                    if T['data'][the_motor]['value_smooth'] > 50:
+                        d = 1
+                    elif T['data'][the_motor]['value_smooth'] < 48:
+                        d = -1
+            elif still_stop != False:
+                if still_stop.time() > 0.2:
+                    if T['data'][the_motor]['value_smooth'] > 50:
+                        d = 1
+                    elif T['data'][the_motor]['value_smooth'] < 48:
+                        d = -1
+
         T['data']['drive_direction']['value'] = d
+        if pub_timer.check():
+            pub_timer.reset()
+            Pub['drive_direction'].publish(data=d)
+
+        T['data']['still']['value'] = q
+
+
 
 
         for topic in T['image_topics']:
