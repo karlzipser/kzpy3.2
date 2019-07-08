@@ -14,6 +14,11 @@ P = default_values.P
 rospy.init_node('control_node',anonymous=True,disable_signals=True)
 #
 ###################################################################
+green_for_from_still_motor_offset = False
+purple_for_gyro_heading_callback = False
+green_for_forward = True
+purple_for_reverse = True
+green_and_purple_for_still = True
 
 vel_encoding_coeficient = 1.0/2.3
 
@@ -189,13 +194,14 @@ def gyro_heading_callback(msg):
             C['behavioral_mode'] = DIRECT
             C['turned'] = True
             # Light gets turned off in Arduino so need to keep turning it on.
-            if True:#not C['purple on']:
+            if purple_for_gyro_heading_callback:
                 C['lights_pub'].publish(C['lights'][PURPLE])
-                C['purple on'] = True
+            C['purple on'] = True
         else:
             C['behavioral_mode'] = LEFT
             if C['purple on']:
-                C['lights_pub'].publish(C['lights'][PURPLE_OFF])
+                if purple_for_gyro_heading_callback:
+                    C['lights_pub'].publish(C['lights'][PURPLE_OFF])
                 C['purple on'] = False
 
     elif C['button_number'] == 3:
@@ -369,14 +375,16 @@ def from_still_motor_offset():
         if C['from still motor offset'] < 0.1:
             C['from still motor offset timer'].reset()
             C['from still motor offset'] = np.random.choice([10.,-10.])
-            C['lights_pub'].publish(C['lights'][GREEN])
+            if green_for_from_still_motor_offset:
+                C['lights_pub'].publish(C['lights'][GREEN])
             #cy('GREEN')
     elif not C['from still motor offset timer'].check():
         C['from still motor offset'] *= 0.99 # note depends on run speed
     else:
         if np.abs(C['from still motor offset']) > 0:
-            C['lights_pub'].publish(C['lights'][GREEN_OFF])
-            #cy('GREEN OFF')
+            if green_for_from_still_motor_offset:
+                C['lights_pub'].publish(C['lights'][GREEN_OFF])
+                #cy('GREEN OFF')
         C['from still motor offset'] = 0.   
 
 

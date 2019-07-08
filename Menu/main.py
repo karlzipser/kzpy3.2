@@ -173,15 +173,19 @@ def Default_Values(
         cg(D['project_path'].replace(opjh(),'~/'))
         return __show_menu(key_access(D,D['current_keys']),message,D['parent_keys'])
 
-    def function_set_value(key):
+    def function_set_value(key,arg_str=None):
         K = key_access(D,D['current_keys'])
         if K['--mode--'] == 'const':
             message = d2s(key,'is constant, not changed.')
             return {'message':message}
         if K['--mode--'] == 'bash':
-            os.system(K[key])
+            if arg_str != None:
+                sys_str = d2s(K[key],arg_str)
+            else:
+                sys_str = K[key]
+            os.system(sys_str)
             raw_enter()
-            message = K[key]
+            message = sys_str
             return {'message':message}
         if K['--mode--'] == 'extern':
             #cr('leaving',D['project_path'],'for',K[key],ra=1)
@@ -300,8 +304,8 @@ def Default_Values(
                         if S['action'] == 'success':
                             continue
                         else:
-                            K = key_access(D,D['current_keys'])
-                            message = D['set_value'](R['message'])['message']
+                            #K = key_access(D,D['current_keys'])
+                            message = D['set_value'](R['message'],R['arg_str'])['message']
                             continue
         """
         except KeyboardInterrupt:
@@ -470,6 +474,13 @@ def make_choice(sorted_keys):
 
     raw_choice = raw_input(wh+'choice: '+lb)
 
+    arg_str = None
+    if ',' in raw_choice:
+        choice_lst = raw_choice.split(',')
+        raw_choice = choice_lst[0]
+        arg_str = choice_lst[1]
+
+
     if raw_choice == '':
         return {
             'message':"other commands: q(quit) p(python) s(show array) h(hist array) r(resave)",
@@ -494,7 +505,8 @@ def make_choice(sorted_keys):
             'message':  "resaved",
             'action':   'save',
         }
-    
+
+
     if str_is_int(raw_choice):
         choice = int(raw_choice)
     else:
@@ -513,6 +525,7 @@ def make_choice(sorted_keys):
     return {
         'message':  key_choice,
         'action':   'choose',
+        'arg_str': arg_str,
     }
 
 
