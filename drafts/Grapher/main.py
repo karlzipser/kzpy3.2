@@ -39,21 +39,16 @@ while True:
 
     if HAVE_ROS:
 
-        s = T['data']['slow_encoder']['s']
-        if T['data']['slow_encoder']['value'] == None:
-            T['data']['slow_encoder']['value'] = 0.
-
-        if T['data']['encoder']['value'] == None:
-            T['data']['encoder']['value'] = 0.
-        T['data']['slow_encoder']['value'] = \
-            s*T['data']['slow_encoder']['value'] + (1-s)*T['data']['encoder']['value']
-
-
         for topic in T['topics']:
             if topic in S:
                 T['data'][topic]['value'] = S[topic]
-                print topic,S[topic]
-                #if 's' in topics:
+                if 's' in T['data'][topic]:
+                    s = T['data'][topic]['s']
+                    if 'value_smooth' not in T['data'][topic]:
+                       T['data'][topic]['value_smooth'] = 0. 
+                    T['data'][topic]['value_smooth'] = \
+                        s*T['data'][topic]['value_smooth'] + (1-s)*T['data'][topic]['value']
+
 
         for topic in T['image_topics']:
             T['images'][topic]['value'] = S[topic]

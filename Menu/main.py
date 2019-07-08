@@ -475,8 +475,9 @@ def make_choice(sorted_keys):
     raw_choice = raw_input(wh+'choice: '+lb)
 
     arg_str = None
-    if ',' in raw_choice:
-        choice_lst = raw_choice.split(',')
+    if '`' in raw_choice:
+        choice_lst = raw_choice.split('`')
+        assert len(choice_lst) == 2
         raw_choice = choice_lst[0]
         arg_str = choice_lst[1]
 

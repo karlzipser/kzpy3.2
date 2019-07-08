@@ -1638,7 +1638,6 @@ def sort_dir_by_ctime(dir_path):
 
 
 
-
 def getch():
     import sys, termios, tty, os, time
     fd = sys.stdin.fileno()
@@ -1794,7 +1793,6 @@ def update_TXs_range(start,stop=None,base_ip='169.254.131'):
     for i in range(start,stop):
         ips.append(d2n(base_ip,'.',i))
     update_TXs(ips)
-
 
 
 

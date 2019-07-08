@@ -83,9 +83,21 @@ def grapher():
                     T['data'][k]['offset'],
                     T['window']['height'],
                 )
+                if 'value_smooth' in T['data'][k]:
+                    y_smooth = value_to_y(
+                        T['data'][k]['value_smooth'],
+                        -T['data'][k]['scale'],
+                        T['data'][k]['offset'],
+                        T['window']['height'],
+                    )
 
                 if y >= 0 and y < T['window']['height']:
+                    
                     try:
+
+                        if 'value_smooth' in T['data'][k]:
+                            P['images']['small'][y_smooth,0,:] = [255,255,0]
+
                         P['images']['small'][y,0,:] = T['data'][k]['color']
 
                         if baseline_timer.check():
@@ -95,12 +107,7 @@ def grapher():
                                 T['data'][k]['offset'],
                                 T['window']['height'],
                             )
-
-                            if False:#second_timer.check():
-                                d = 1
-                            else:
-                                d = 0
-                            P['images']['small'][y-d:y+d+1,0,:] = T['data'][k]['color']
+                            P['images']['small'][y,0,:] = T['data'][k]['color']
 
                     except Exception as e:
                         exc_type, exc_obj, exc_tb = sys.exc_info()
