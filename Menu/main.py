@@ -93,7 +93,7 @@ def Default_Values(
     def __save_C(C,project_path,name='default_values'):
         try:
             sys_str = d2s('rm',opj(project_path,'__local__','ready'))
-            print sys_str
+            #print sys_str
             os.system(sys_str)
         except:
             cr(sys_str,"failed")
@@ -101,15 +101,15 @@ def Default_Values(
         time.sleep(0.1)
         try:
             sys_str = d2s('rm',opj(project_path,'__local__',name+'.pkl'))
-            print sys_str
+            #print sys_str
             os.system(sys_str)
         except:
             cr(sys_str,"failed")
         sys_str = d2s('mv',opj(project_path,'__local__',name+'.writing.pkl'),opj(project_path,'__local__',name+'.pkl'))
-        print sys_str
+        #print sys_str
         os.system(sys_str)
         sys_str = d2s('touch',opj(project_path,'__local__','ready'))
-        print sys_str
+        #print sys_str
         os.system(sys_str)  
 
     def function_save():
@@ -269,7 +269,7 @@ def Default_Values(
         message = ''
         if not D['read_only']:
             D['save']()
-        if True:#try:
+        try:
             while True:
                 D['load']()
                 items = D['show'](message)
@@ -307,7 +307,7 @@ def Default_Values(
                             #K = key_access(D,D['current_keys'])
                             message = D['set_value'](R['message'],R['arg_str'])['message']
                             continue
-        """
+        
         except KeyboardInterrupt:
             cr('*** KeyboardInterrupt ***')
             sys.exit()
@@ -316,7 +316,7 @@ def Default_Values(
             file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             CS_('Exception!',emphasis=True)
             CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
-       """
+       
 
 
     def __is_meta_key(k):

@@ -20,12 +20,6 @@ def shift(big,small,top,bottom):
     big[top:bottom,-1:,:] = small[top:bottom,:,:]
 
 def value_to_y(value,baseline,scale,offset,height):
-    if False:
-        cg(value)
-        cb(baseline)
-        cg(scale)
-        cb(offset)
-        cg(height)
     y = (value-baseline) * scale + offset #*height
     return intr(y)
 

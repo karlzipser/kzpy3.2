@@ -90,9 +90,9 @@ fi
 #
 #######################################################
 
-alias rzl='show_image_from_ros.py scale 2 topic /bair_car/zed/left/image_rect_color'
-alias rzr='show_image_from_ros.py scale 2 topic /bair_car/zed/right/image_rect_color'
-alias rou='show_image_from_ros.py scale 2 topic /os1_node/image'
+alias rzl='show_image_from_ros.py --scale 2 --topic /bair_car/zed/left/image_rect_color'
+alias rzr='show_image_from_ros.py --scale 2 --topic /bair_car/zed/right/image_rect_color'
+alias rou='show_image_from_ros.py --scale --2 topic /os1_node/image'
 
 date
 

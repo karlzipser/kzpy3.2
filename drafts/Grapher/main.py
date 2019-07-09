@@ -14,10 +14,10 @@ Q = Menu.main.start_Dic(
 T = Q['Q']
 
 P = defaults.P
-
-still_stop = False
-still_start = False
-the_motor = 'human/motor'
+P['still'] = {}
+P['still']['end'] = False
+P['still']['begin'] = False
+P['direction'] = 0
 
 if HAVE_ROS:
     import kzpy3.drafts.Grapher.subscribe as subscribe
@@ -40,68 +40,88 @@ k = -1
 ignore_repeat = Timer(0.2)
 
 
+# put rate dependence of s into equation.
+
+def assign_values_and_smoothed_values(T):
+    for topic in T['topics']:
+        if topic.replace('_list','') in S:
+            if '_list' in topic:
+                T['data'][topic]['value'] = max(S[topic])
+                #cb(topic,T['data'][topic]['value'])
+            else:
+                T['data'][topic]['value'] = S[topic]
+            #cr(S[topic])
+            if 's' in T['data'][topic]:
+                s = T['data'][topic]['s']
+                if 'value_smooth' not in T['data'][topic]:
+                   T['data'][topic]['value_smooth'] = T['data'][topic]['value'] 
+                T['data'][topic]['value_smooth'] = \
+                    s*T['data'][topic]['value_smooth'] + (1-s)*T['data'][topic]['value']
+
+
+
+def evaluate_if_is_car_still(T,P):
+    if T['data']['encoder']['value_smooth'] < T['parameters']['still_threshold']:
+        #P['still']['end'] = False
+        if P['still']['begin'] == False:
+            P['still']['begin'] = Timer()
+        #P['still']['value'] = 1
+    else:
+        P['still']['begin'] = False
+        if P['still']['end'] == False:
+            P['still']['end'] = Timer()
+        P['still']['value'] = 0
+    T['data']['still']['value'] = P['still']
+
+
+
+def determine_and_publish_direction(T,P):
+    if 'value_smooth' in T['data'][T['parameters']['the_motor']]:
+        if P['still']['value'] == 1:
+            P['direction'] = 0
+        elif T['data']['encoder']['value_smooth'] > T['parameters']['not_still_threshold']:
+            if P['still']['begin'] != False:
+                if P['still']['begin'].time() > 0.2:
+                    if T['data'][T['parameters']['the_motor']]['value_smooth'] > 50:
+                        P['direction'] = 1
+                    elif T['data'][T['parameters']['the_motor']]['value_smooth'] < 48:
+                        P['direction'] = -1
+            elif P['still']['end'] != False:
+                if P['still']['end'].time() > 0.2:
+                    if T['data'][T['parameters']['the_motor']]['value_smooth'] > 50:
+                        P['direction'] = 1
+                    elif T['data'][T['parameters']['the_motor']]['value_smooth'] < 48:
+                        P['direction'] = -1
+
+        T['data']['drive_direction']['value'] = P['direction']
+
+        if pub_timer.check():
+            pub_timer.reset()
+            Pub['drive_direction'].publish(data=P['direction'])
+
+
+
+
+
 while True:
 
     time.sleep(T['times']['thread_delay'])
 
     if HAVE_ROS:
 
-        for topic in T['topics']:
-            if topic in S:
-                T['data'][topic]['value'] = S[topic]
-                if 's' in T['data'][topic]:
-                    s = T['data'][topic]['s']
-                    if 'value_smooth' not in T['data'][topic]:
-                       T['data'][topic]['value_smooth'] = T['data'][topic]['value'] 
-                    T['data'][topic]['value_smooth'] = \
-                        s*T['data'][topic]['value_smooth'] + (1-s)*T['data'][topic]['value']
+
+        #S['encdoer_list']
 
 
-        if T['data']['encoder']['value_smooth'] < T['parameters']['still_threshold']:
-            still_stop = False
-            if still_start == False:
-                still_start = Timer()
-            q = 1
-        else:
-            still_start = False
-            if still_stop == False:
-                still_stop = Timer()
-            q = 0
 
-        if still_start != False:
-            t0 = still_start.time()
-        else:
-            t0 = 0
+        assign_values_and_smoothed_values(T)
 
-        if still_stop != False:
-            t1 = still_stop.time()
-        else:
-            t1 = 0
+        #evaluate_if_is_car_still(T,P)
 
-        ##cg(dp(t0),still_start,dp(t1),still_stop)
+        #determine_and_publish_direction(T,P)
 
-        if q == 1:
-            d = 0
-        elif T['data']['encoder']['value_smooth'] > T['parameters']['not_still_threshold']:
-            if still_start != False:
-                if still_start.time() > 0.2:
-                    if T['data'][the_motor]['value_smooth'] > 50:
-                        d = 1
-                    elif T['data'][the_motor]['value_smooth'] < 48:
-                        d = -1
-            elif still_stop != False:
-                if still_stop.time() > 0.2:
-                    if T['data'][the_motor]['value_smooth'] > 50:
-                        d = 1
-                    elif T['data'][the_motor]['value_smooth'] < 48:
-                        d = -1
+    
 
-        T['data']['drive_direction']['value'] = d
-        if pub_timer.check():
-            pub_timer.reset()
-            Pub['drive_direction'].publish(data=d)
-
-        T['data']['still']['value'] = q
 
 
 
@@ -113,6 +133,9 @@ while True:
         T['data']['a']['value'] = np.sin(5*time.time())
         T['data']['b']['value'] = np.sin(2*time.time())
         T['data']['c']['value'] = np.sin(10*time.time())
+
+
+
 
 
     if show_timer.check():

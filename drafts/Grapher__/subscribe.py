@@ -12,24 +12,24 @@ bridge = cv_bridge.CvBridge()
 S = {}
 qs = 1
 bcs = '/bair_car/'
-encoder_list_len = 10
 S['ts'] = 0
 S['ts_prev'] = 0
 S['sample_frequency'] = 0
 S['gyro_heading_x'] = 0
 S['gyro_heading_x_prev'] = 0
 S['d_heading'] = 0
+
+
 S['cmd/motor'] = 49
 S['human_agent'] = 49
 S['left_image'] = False
 S['right_image'] = False
 S['delta cmd/camera'] = 0
 S['cmd/camera'] = 49
-S['encoder_list'] = []
+
 S['encoder'] = 0
 def encoder_callback(data):
     S['encoder'] = data.data
-    advance(S['encoder_list'],S['encoder'],encoder_list_len)
 rospy.Subscriber(bcs+'encoder', std_msgs.msg.Float32, callback=encoder_callback,queue_size=qs)
 
 S['human/motor'] = 49
