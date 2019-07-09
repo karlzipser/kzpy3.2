@@ -133,6 +133,7 @@ while True:
         T['data']['a']['value'] = np.sin(5*time.time())
         T['data']['b']['value'] = np.sin(2*time.time())
         T['data']['c']['value'] = np.sin(10*time.time())
+        
 
 
 

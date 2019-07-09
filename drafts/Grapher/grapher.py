@@ -76,13 +76,13 @@ def grapher():
             P['images']['small'] *= 0
 
             for k in T['data'].keys():
-
+                
                 if k[:2] == '--':
                     continue
 
                 if T['data'][k]['value'] == None:
                     continue
-
+                cm(k,'0')
                 y = value_to_y(
                     T['data'][k]['value'],
                     T['data'][k]['baseline'],

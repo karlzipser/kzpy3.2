@@ -6,6 +6,25 @@
 def et():
 	print(
 		"""
+
+import Menu.main
+Q = Menu.main.start_Dic(
+    dic_project_path=pname(opjh(__file__)),
+    Dics={},
+    Arguments={
+        'menu':False,
+        'read_only':False,
+    }
+)
+Q['load']()
+T = Q['Q']
+import kzpy3.drafts.Grapher.defaults as defaults
+P = defaults.P
+
+
+
+
+
 except KeyboardInterrupt:
     cr('*** KeyboardInterrupt ***')
     sys.exit()
