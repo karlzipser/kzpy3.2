@@ -2,6 +2,7 @@ from kzpy3.vis3 import *
 import Menu.main
 import kzpy3.drafts.Grapher.grapher as grapher
 import kzpy3.drafts.Grapher.defaults as defaults
+from kzpy3.drafts.Markov.main import Driving_direction_model
 
 Q = Menu.main.start_Dic(
     dic_project_path=opjk('drafts/Grapher'),
@@ -116,6 +117,13 @@ while True:
 
         assign_values_and_smoothed_values(T)
 
+
+        Driving_direction_model['step'](
+            {
+                'encoder': T['data']['encoder']['value'],
+                'motor': T['data']['motor']['value'],            
+            }
+        )
         #evaluate_if_is_car_still(T,P)
 
         #determine_and_publish_direction(T,P)

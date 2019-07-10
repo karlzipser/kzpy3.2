@@ -1,9 +1,48 @@
 from kzpy3.utils3 import *
 
 
+UP = 'UP'
+DN = 'DN'
+tc = 'time_constant'
+dst = 'destination'
 
-def Net(box_list):
+
+
+def Net(Compact_notation,start):
     D = {}
+    C = Compact_notation
+    Boxes = {}
+    for d in C.keys():
+        arrow_list = []
+        for u in C[d].keys(): 
+            X = C[d][u]
+            keys = X.keys()
+            keys.remove(tc)
+            keys.remove(dst)
+            var_dic_list = []
+            for k in keys:
+                s = k.split('__')
+                name = s[0]
+                val = X[k]
+                if s[1] == 'greater_than':
+                    op = greater_than
+                elif s[1] == 'less_than':
+                    op = less_than
+                var_dic_list.append({'name':name,'op':op,'val':val,})
+            arrow_list.append(
+                Arrow(
+                    var_dic_list=var_dic_list,
+                    transition_probability=X[tc],
+                    destination=X[dst],
+                )
+            )
+        Boxes[d] = Box(d,arrow_list)
+    D['Boxes'] = Boxes
+    assert start in D['Boxes']
+    D['current_box'] = start
+    def function_step(Environment):
+        D['current_box'] = D['Boxes'][D['current_box']]['evaluate'](Environment)
+    D['step'] = function_step
     return D
 
 
@@ -16,14 +55,14 @@ def Box(name,arrow_list):
     D['timer'] = Timer()
     D['timer'].time_s = -1
     def function_evaluate(Environment):
+        cb('in',D['name'])
         np.random.shuffle(arrow_list)
         for A in arrow_list:
-            d = A['evaluate'](Environment)
-            if d != False:
-                cg(d)
-                return d
-        cr(False)
-        return False
+            destination = A['evaluate'](Environment)
+            if destination != False:
+                cg('enter',destination)
+                return destination
+        return D['name'] # i.e., stay in same box
     D['evaluate'] = function_evaluate
     return D
 
@@ -44,8 +83,8 @@ def Arrow(var_dic_list,transition_probability,destination):
             op = Vars[n]['op']
             f = op.func_name
             e = Environment[n]
-            cy(D['destination'],val,f,e, op(val,e))
-            if not op(val,e):
+            cy('\t',D['destination'],e,f,val, op(e,val))
+            if not op(e,val):
                 return False
         return D['destination']
     D['evaluate'] = function_evaluate
