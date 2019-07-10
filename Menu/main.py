@@ -199,7 +199,7 @@ def Default_Values(
                     if A['load']():
                         clear_screen()
                         for k in sorted(A['Dic'].keys()):
-                            cw(gr,str(k)+')',yl,A['Dic'][k])
+                            cw(gr,str(k)+')',yl,dp(A['Dic'][k]))
                         cw(lb,time_str('Pretty'))
                     else:
                         pass#print 0
@@ -256,8 +256,11 @@ def Default_Values(
                 message = d2s(key,'not changed')
                 return {'message':message}
 
+        if type(K[key]) == float and type(value) == int:
+            value = float(value)
 
         if type(value) != type(K[key]):
+            beep()
             message = d2n("*** type(",value,") != type(",K[key],")")
         else:
             K[key] = value
@@ -282,6 +285,7 @@ def Default_Values(
                     cw("\ndone.\n")
                     sys.exit()#return
                 elif R['action'] == 'failure':
+                    beep()
                     message = R['message']
                     continue
                 elif R['action'] == 'continue':
@@ -329,7 +333,7 @@ def Default_Values(
         else:
             return True
 
-    def clear_screen():
+    def ___clear_screen():
         cr("\nclear screen\n")
 
     def __show_menu(C,message,parent_keys=[]):

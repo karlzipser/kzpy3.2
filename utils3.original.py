@@ -866,6 +866,7 @@ class Timer:
         else:
             return False
     def c(self):
+        cr('*** warning, Timer.c() used ***',ra=1)
         return self.check()
     def time(self):
         return time.time() - self.start_time

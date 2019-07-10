@@ -46,7 +46,7 @@ Q = {
     },
     'some active data': {
         '--mode--':'active',
-        'a':opjD('a'),
+        'values':opjD('values'),
         'b':opjD('a'),
     },
     'W':{

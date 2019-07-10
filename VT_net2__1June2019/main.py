@@ -187,8 +187,8 @@ if __name__ == '__main__':
                 dp(avg_encoder_val),dp(avg_motor_val),
                 dp(avg_encoder_val_prev),dp(avg_motor_val_prev)
             )
-            cr(encoder)
-            cg(msg)
+            #cr(encoder)
+            #cg(msg)
             #move_timer.message(msg)
 
 

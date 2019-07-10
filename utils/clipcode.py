@@ -1,4 +1,5 @@
-from kzpy3.utils.common import *
+from kzpy3.utils.files import *
+#from kzpy3.utils.printing import *
 
 def get_code_snippet():
     code_file = most_recent_py_file()
@@ -89,3 +90,5 @@ def _code_to_clipboard(code,start,stop):
 
 
 exec(identify_file_str)
+
+#EOF

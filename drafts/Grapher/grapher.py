@@ -75,13 +75,20 @@ def grapher():
 
             P['images']['small'] *= 0
 
-            for k in T['data'].keys():
+            if T['parameters']['save_topics']:
+                Save = {}
+
+            for k in T['topics']: #T['data'].keys():
                 
                 if k[:2] == '--':
                     continue
 
                 if T['data'][k]['value'] == None:
                     continue
+
+                if T['parameters']['save_topics']:
+                    Save[k] = T['data'][k]['value']
+
                 #cm(k,'0')
                 y = value_to_y(
                     T['data'][k]['value'],
@@ -124,6 +131,9 @@ def grapher():
                         CS_('Exception!',emphasis=True)
                         CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)    
                         cr(0)
+
+            if T['parameters']['save_topics']:
+                so(opjD('values'),Save,noisy=False)
 
             if baseline_timer.check():
                 baseline_timer.reset()

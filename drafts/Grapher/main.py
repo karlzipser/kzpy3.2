@@ -2,7 +2,7 @@ from kzpy3.vis3 import *
 import Menu.main
 import kzpy3.drafts.Grapher.grapher as grapher
 import kzpy3.drafts.Grapher.defaults as defaults
-from kzpy3.drafts.Markov.main import Driving_direction_model
+import kzpy3.drafts.Markov.main as Markov_main
 
 Q = Menu.main.start_Dic(
     dic_project_path=opjk('drafts/Grapher'),
@@ -45,9 +45,9 @@ ignore_repeat = Timer(0.2)
 
 def assign_values_and_smoothed_values(T):
     for topic in T['topics']:
-        if topic.replace('_list','') in S:
-            if '_list' in topic:
-                T['data'][topic]['value'] = max(S[topic])
+        if topic.replace('_var','') in S:
+            if '_var' in topic:
+                T['data'][topic]['value'] = np.var(S[topic])
                 #cb(topic,T['data'][topic]['value'])
             else:
                 T['data'][topic]['value'] = S[topic]
@@ -77,6 +77,7 @@ def evaluate_if_is_car_still(T,P):
 
 
 def determine_and_publish_direction(T,P):
+
     if 'value_smooth' in T['data'][T['parameters']['the_motor']]:
         if P['still']['value'] == 1:
             P['direction'] = 0
@@ -113,28 +114,40 @@ while True:
 
     if HAVE_ROS:
 
+        #print S['button_number']
+        if S['button_number'] == 4:
+            T['parameters']['the_motor'] = 'human/motor'
+        else:
+            T['parameters']['the_motor'] = 'cmd/motor'
+            
 
         #S['encdoer_list']
-
+        #print S['button_number'],T['parameters']['the_motor'],S['human/motor'],S['cmd/motor']
 
 
         assign_values_and_smoothed_values(T)
 
-
-        box = Driving_direction_model['step'](
-            {
-                'encoder': T['data']['encoder']['value'],
-                'motor': T['data']['cmd/motor']['value'],            
-            }
-        )
+        if T['data']['encoder']['value'] != None and \
+            T['data'][T['parameters']['the_motor']]['value'] != None:
+            box = Markov_main.Driving_direction_model['step'](
+                {
+                    'encoder': T['data']['encoder']['value'],
+                    'motor': T['data'][T['parameters']['the_motor']]['value'],            
+                }
+            )
+        else:
+            cr('no data for markov')
 
         #evaluate_if_is_car_still(T,P)
 
         #determine_and_publish_direction(T,P)
 
-        if pub_timer.check():
+        if pub_timer.check() and 'box' in locals():
             pub_timer.reset()
-            Pub['drive_direction'].publish(data=Z[box])  
+            print box
+            data = Z[box]
+            #cb(data)
+            Pub['drive_direction'].publish(data=data)  
 
 
 

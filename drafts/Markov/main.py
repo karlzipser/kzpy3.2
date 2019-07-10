@@ -1,7 +1,7 @@
-#,a
+
 from kzpy3.utils3 import *
 import kzpy3.drafts.Markov.markov as markov
-import kzpy3.drafts.Markov.defaults as defaults
+#import kzpy3.drafts.Markov.defaults as defaults
 
 
 UP = markov.UP
@@ -18,7 +18,7 @@ fast_fwd = 'fast_forward'
 slow_bkw = 'slow_backward'
 fast_bkw = 'fast_backward'
 
-k = 0.1
+k = 1.
 
 Compact_notation = {
     still: {
@@ -26,18 +26,18 @@ Compact_notation = {
         DN: { en_gt:.01, mo_lt: 48, tc:k, dst:slow_bkw },
     },
     slow_fwd: {
-        UP: { en_gt:.1, mo_gt: 52, tc:k, dst:fast_fwd },
-        DN: { en_lt:.1, mo_lt:50, tc:k, dst:still },
+        UP: { en_gt:.1, mo_gt: 55, tc:k, dst:fast_fwd },
+        DN: { en_lt:.1, mo_lt:53, tc:k, dst:still },
     },
     fast_fwd: {
-        DN: { en_lt:.1, mo_lt: 52, tc:k, dst:slow_fwd },
+        DN: { en_lt:.1, mo_lt: 55, tc:k, dst:slow_fwd },
     },
     slow_bkw: {
-        UP: { en_lt:.01, mo_lt: 48, tc:k, dst:still },
-        DN: { en_gt:.1, mo_lt: 46, tc:k, dst:fast_bkw },
+        UP: { en_lt:.01, mo_gt: 43, tc:k, dst:still },
+        DN: { en_gt:.1, mo_lt: 40, tc:k, dst:fast_bkw },
     },
     fast_bkw: {
-        UP: { en_lt:.1, mo_gt: 46, tc:k, dst:slow_bkw },
+        UP: { en_lt:.1, mo_gt: 40, tc:k, dst:slow_bkw },
     },
 }
 
@@ -58,7 +58,7 @@ if __name__ == '__main__':
         Driving_direction_model['step'](environment())
         raw_enter()
 
-#,b
+
 
 
 #EOF

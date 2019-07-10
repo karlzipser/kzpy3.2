@@ -7,7 +7,6 @@ tc = 'time_constant'
 dst = 'destination'
 
 
-
 def Net(Compact_notation,start):
     D = {}
     C = Compact_notation
@@ -62,11 +61,11 @@ def Box(name,arrow_list):
         for A in arrow_list:
             destination = A['evaluate'](Environment)
             if destination != False:
-                #cg('enter',destination)
                 return destination
         return D['name'] # i.e., stay in same box
     D['evaluate'] = function_evaluate
     return D
+
 
 
 def Arrow(var_dic_list,transition_probability,destination):
@@ -85,7 +84,6 @@ def Arrow(var_dic_list,transition_probability,destination):
             op = Vars[n]['op']
             f = op.func_name
             e = Environment[n]
-            #cy('\t',D['destination'],e,f,val, op(e,val))
             if not op(e,val):
                 return False
         return D['destination']
@@ -93,20 +91,21 @@ def Arrow(var_dic_list,transition_probability,destination):
     return D
 
 
+
 def less_than(a,b):
     if a < b:
         return True
     else:
         return False
+
 def greater_than(a,b):
     return less_than(-a,-b)
+
 def equals(a,b):
     if a == b:
         return True
     else:
         return False
         
-
-
 
 #EOF

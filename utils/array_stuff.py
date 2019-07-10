@@ -1,6 +1,8 @@
 from kzpy3.utils.common import *
 
-
+def intr(n):
+    return np.int(np.round(n))
+    
 def zeroToOneRange(m):
     min_n = 1.0*np.min(m)
     return (1.0*m-min_n)/(1.0*np.max(m)-min_n)
@@ -146,3 +148,5 @@ def sort_by_column(a,col,reverse=False):
     return a
 
 exec(identify_file_str)
+
+#EOF
