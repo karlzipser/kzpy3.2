@@ -18,7 +18,7 @@ fast_fwd = 'fast_forward'
 slow_bkw = 'slow_backward'
 fast_bkw = 'fast_backward'
 
-k = 0.25
+k = 0.1
 
 Compact_notation = {
     still: {

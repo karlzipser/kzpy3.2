@@ -82,7 +82,7 @@ def grapher():
 
                 if T['data'][k]['value'] == None:
                     continue
-                cm(k,'0')
+                #cm(k,'0')
                 y = value_to_y(
                     T['data'][k]['value'],
                     T['data'][k]['baseline'],

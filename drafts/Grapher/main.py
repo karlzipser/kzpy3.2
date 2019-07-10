@@ -96,13 +96,16 @@ def determine_and_publish_direction(T,P):
 
         T['data']['drive_direction']['value'] = P['direction']
 
-        if pub_timer.check():
-            pub_timer.reset()
-            Pub['drive_direction'].publish(data=P['direction'])
 
 
 
-
+Z = {
+    'still': 0,
+    'slow_forward': 1,
+    'fast_forward': 1,
+    'slow_backward': -1,
+    'fast_backward': -1,
+}
 
 while True:
 
@@ -118,17 +121,20 @@ while True:
         assign_values_and_smoothed_values(T)
 
 
-        Driving_direction_model['step'](
+        box = Driving_direction_model['step'](
             {
                 'encoder': T['data']['encoder']['value'],
-                'motor': T['data']['motor']['value'],            
+                'motor': T['data']['cmd/motor']['value'],            
             }
         )
+
         #evaluate_if_is_car_still(T,P)
 
         #determine_and_publish_direction(T,P)
 
-    
+        if pub_timer.check():
+            pub_timer.reset()
+            Pub['drive_direction'].publish(data=Z[box])  
 
 
 

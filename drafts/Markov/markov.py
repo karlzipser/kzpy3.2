@@ -42,6 +42,7 @@ def Net(Compact_notation,start):
     D['current_box'] = start
     def function_step(Environment):
         D['current_box'] = D['Boxes'][D['current_box']]['evaluate'](Environment)
+        return D['current_box']
     D['step'] = function_step
     return D
 
@@ -54,13 +55,14 @@ def Box(name,arrow_list):
     D['arrow_list'] = arrow_list
     D['timer'] = Timer()
     D['timer'].time_s = -1
+    print_timer = Timer(0.2)
     def function_evaluate(Environment):
-        cb('in',D['name'])
+        print_timer.message(D['name'])
         np.random.shuffle(arrow_list)
         for A in arrow_list:
             destination = A['evaluate'](Environment)
             if destination != False:
-                cg('enter',destination)
+                #cg('enter',destination)
                 return destination
         return D['name'] # i.e., stay in same box
     D['evaluate'] = function_evaluate
@@ -83,7 +85,7 @@ def Arrow(var_dic_list,transition_probability,destination):
             op = Vars[n]['op']
             f = op.func_name
             e = Environment[n]
-            cy('\t',D['destination'],e,f,val, op(e,val))
+            #cy('\t',D['destination'],e,f,val, op(e,val))
             if not op(e,val):
                 return False
         return D['destination']
