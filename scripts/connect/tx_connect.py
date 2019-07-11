@@ -28,6 +28,8 @@ if False:
 
 mtime = 0
 
+ssh_date_time(d2n(Arguments['base_ip'],'.',Arguments['start']))
+
 while True:
 	if Arguments['rsync']:
 		_,max_mtime = most_recent_py_file(return_mtime=True)

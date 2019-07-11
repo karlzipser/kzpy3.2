@@ -1,24 +1,31 @@
 from kzpy3.utils3 import *
 
+menus = 'menus'
+run_options = 'run programs'
 Q = {
-    'defaults.py': {
+    menus: {
         '--mode--':'extern',
     },
-    'main.py': {
+    run_options: {
         '--mode--':'bash',
     },
     'scripts': {
         '--mode--':'bash',
     },
+    "ssh's": {
+    	'--mode--':'bash',
+    	'Mr_New 169.254.131.242':'ssh -X nvidia@169.254.131.242',
+    	'Mr_Purple 169.254.131.243':'ssh -X nvidia@169.254.131.243',
+    }
 }
 
 data = find_files_recursively(opjk(),'defaults.py',FILES_ONLY=True,ignore_underscore=True) 
 for d in data['paths'].keys():
-    Q['defaults.py'][d] = opjk(d)
+    Q[menus][d] = opjk(d)
 
 data = find_files_recursively(opjk(),'main.py',FILES_ONLY=True,ignore_underscore=True) 
 for d in data['paths'].keys():
-    Q['main.py'][d] = 'python '+opjk(d,'main.py')
+    Q[run_options][d] = 'python '+opjk(d,'main.py')
 
 dir_lst = [opjk('scripts')]
 folders = sggo(opjk('scripts/*'))

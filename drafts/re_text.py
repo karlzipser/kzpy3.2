@@ -41,14 +41,18 @@ def visit(path):
         cb('ignoring',path)
         return
     files = sggo(path,'*')
-    for f in files:  
+    for f in files:
+        ignoring_f = False
         if os.path.isdir(f):
             visit(f)
         elif f[-3:] == '.py':
             for i in file_ignore_list:
                 if i in f:
                     cb('ignoring',f)
-                    continue   
+                    ignoring_f = True
+                    break
+            if ignoring_f:
+                continue 
             code = txt_file_to_list_of_strings(f)
             for line in code:
                 for fun in functions:
@@ -62,7 +66,7 @@ def visit(path):
 
 visit(opjk())
 
-if False:
+if False: 
     raw_enter()
     import operator
     sorted_Functions_used = \
@@ -79,6 +83,17 @@ for f in sorted(Functions_used.keys()):
 import operator
 sorted_C = \
     sorted(C.items(), key=operator.itemgetter(1))
-
+for s in sorted_C:
+    count = s[1]
+    name = s[0]
+    pd2s(count,'\t',name)
+soL(
+    opjD('Function_use_analysis'),
+    {
+        'functions':functions,
+        'Functions_used':Functions_used,
+        'sorted_C':sorted_C,
+    },
+)
 #,b
 #EOF

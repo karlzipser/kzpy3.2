@@ -394,9 +394,6 @@ def from_still_motor_offset():
         C['from still motor offset'] = 0.   
 
 
-
-
-
 def adjusted_motor():
     
     from_still_motor_offset()
@@ -411,13 +408,10 @@ def adjusted_motor():
 
     motor = C['net/motor']
     s = P['network_motor_smoothing_parameter']
-    if motor > 49:
-        if C['behavioral_mode'] == DIRECT:
-            gain = P['network_motor_gain_direct']
-        else:
-            gain = P['network_motor_gain']
+    if C['behavioral_mode'] == DIRECT:
+        gain = P['network_motor_gain_direct']
     else:
-        gain = P['network_reverse_motor_gain']
+        gain = P['network_motor_gain']
 
     motor = gain*(motor-49) + 49
     C['net/motor/smooth'] = (1.0-s)*motor + s*C['net/motor/smooth']
@@ -478,6 +472,34 @@ def adjusted_steer():
     ###################
     
 
+
+
+
+def __adjusted_camera():
+
+    camera = C['net/camera']
+
+    if C['behavioral_mode'] == DIRECT:
+        gain = P['network_camera_gain_direct']
+        if C['velocity'] < 0.33:
+            gain = P['low velocity direct steer gain']
+        s = P['network_camera_smoothing_parameter']
+    else:
+        gain = P['network_camera_gain']
+        s = P['network_camera_smoothing_parameter']
+
+    camera = gain*(camera-49) + 49
+
+    C['net/camera/smooth'] = (1.0-s)*camera + s*C['net/camera/smooth']
+
+    new_camera = bound_value(intr(C['net/camera/smooth']),0,99)
+
+    C['new_camera'] = new_camera
+
+    #C['new_camera'] = P['temp_camera']
+    if C['button_number'] == 4: # 27April2019
+        C['new_camera'] = C['human/steer']
+        #print C['new_camera']
 
 
 

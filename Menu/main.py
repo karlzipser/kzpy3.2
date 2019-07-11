@@ -170,7 +170,7 @@ def Default_Values(
 
     def function_show(message=''):
         clear_screen()
-        cg(D['project_path'].replace(opjh(),'~/'))
+        cg(host_name+', '+username+'\n',D['project_path'].replace(opjh(),'~/'))
         return __show_menu(key_access(D,D['current_keys']),message,D['parent_keys'])
 
     def function_set_value(key,arg_str=None):

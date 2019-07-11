@@ -1,11 +1,6 @@
 from kzpy3.utils.common import *
 
-def str_is_int(s):
-    try:
-        int(s)
-        return True
-    except:
-        return False
+
 
 def get_safe_name(name):
     lst = []

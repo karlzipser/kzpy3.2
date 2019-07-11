@@ -1207,6 +1207,7 @@ if temp != None:
             assert a[1] == '-'
             a = a[2:]
         else:
+            print(Args)
             pd2s('*** Warning, argument',"'"+k+"'",'not proceeded by -- on command line ***')
             raw_enter()
         if str_is_int(ar):
@@ -1739,7 +1740,7 @@ def ssh_date_time(host_ip,user='nvidia',timeout=10):
     os.system(sys_str)
 
 def rsync(ip,user='nvidia',timeout=10):
-    os.system("rsync -ravL --exclude '*.pyc' --exclude '*.pkl' kzpy3/* nvidia@"+ip+":kzpy3/")
+    os.system("rsync -ravL --delete --exclude '*.pyc' --exclude '*.pkl' kzpy3/* nvidia@"+ip+":kzpy3/")
     cprint(d2s(ip,'finished.'),'white','on_blue')
     beep()
 

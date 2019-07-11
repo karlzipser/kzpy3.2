@@ -65,6 +65,8 @@ array = np.array
 
 
 from utils.printing import *
+from utils.have_using import *
+
 def fname(path):
     return path.split('/')[-1]
 
@@ -87,7 +89,12 @@ def is_even(q):
     return False
     
 
-
+def str_is_int(s):
+    try:
+        int(s)
+        return True
+    except:
+        return False
 
 def rlen(a):
     return range(len(a))
@@ -298,6 +305,7 @@ if temp != None:
             assert a[1] == '-'
             a = a[2:]
         else:
+            print(Args)
             pd2s('*** Warning, argument',"'"+k+"'",'not proceeded by -- on command line ***')
             raw_enter()
         if str_is_int(ar):
