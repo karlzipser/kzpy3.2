@@ -169,7 +169,7 @@ def Default_Values(
 
     def function_down(key):
         K = key_access(D,D['current_keys'])
-        print K.keys(),type(K[key])
+        #print K.keys(),type(K[key])
         if key in K and type(K[key]) == dict:
             D['current_keys'].append(key)
             return {

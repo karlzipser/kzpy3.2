@@ -12,6 +12,7 @@ Q = {
 	'..Mr_New 169.254.131.242':'ssh -X nvidia@169.254.131.242',
 	'..Mr_Purple 169.254.131.243':'ssh -X nvidia@169.254.131.243',
 }
-
+#for k in sorted(Q.keys()):
+#	cg(Q[k])
 
 #EOF

@@ -318,7 +318,7 @@ if temp != None:
 def setup_Default_Arguments(Defaults):
     for k in Arguments:
         if k not in Defaults:
-            cr("*** Warning, unexpected argument","'"+k+"'",'***',ra=1)
+            cr("*** Warning, unexpected argument","'"+k+"'",'***')
     for k in Defaults:
         if k not in Arguments:
             Arguments[k] = Defaults[k]
