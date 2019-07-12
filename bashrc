@@ -19,7 +19,7 @@ alias rivl='rosrun image_view image_view image:=/bair_car/zed/left/image_rect_co
 alias rivr='rosrun image_view image_view image:=/bair_car/zed/right/image_rect_color'
 alias rri='rosrun image_view image_view image:=/bair_car/os1_node/image'
 alias zed_explorer='/usr/local/zed/tools/ZED\ Explorer'
-alias pgacps='bash ~/kzpy3/scripts/pgacpssh.sh'
+alias pgacps='bash ~/kzpy3/scripts/connect/pgacpssh.sh'
 alias fixScreen='DISPLAY=:0 xrandr --output HDMI-0 --mode 1024x768'
 
 alias rosdo="sudo chmod -R 777 /media/$(whoami)/rosbags*"
