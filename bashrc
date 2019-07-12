@@ -47,7 +47,7 @@ alias rGraph='python ~/kzpy3/Grapher_app_for_live_ros_data/Main.py'
 
 #alias c="~/kzpy3/Commands/cmd.py"
 alias m="~/kzpy3/Menu/main.py"
-alias m1="python ~/kzpy3/Menu/main.py --kpath ~/kzpy3/Cars/j26June2019/nodes/"
+alias mq="~/kzpy3/Menu/main.py --path kzpy3/Menu/quick"
 
 alias gacp="git add .;git commit -m 'gacp';git push origin master"
 alias pgacp='cd ~/kzpy3; git pull; gacp; cd'

@@ -346,10 +346,11 @@ def find_files_recursively(
             ignore = False
             g = f.split('/')
             for h in g:
-                if h[0] == '_':
-                    #cb('ignoring',f)
-                    ignore = True
-                    break
+                if len(h) > 0:
+                    if h[0] == '_':
+                        #cb('ignoring',f)
+                        ignore = True
+                        break
             if not ignore:
                 folders_[f] = folders[f]
         folders = folders_

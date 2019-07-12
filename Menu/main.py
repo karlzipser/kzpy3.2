@@ -15,7 +15,7 @@ setup_Default_Arguments(
         'menu': True,
         'read_only': False,
         'help': False,
-        'kpath': opjk('Menu'),
+        'path': 'kzpy3/Menu',
         #'start_keys':[],
     }
 )
@@ -102,20 +102,28 @@ def Default_Values(
             os.system(sys_str)
         except:
             cr(sys_str,"failed")
+        #cr("so(C,",opj(project_path,'__local__',name+'.writing.pkl'),ra=1)
         so(C,opj(project_path,'__local__',name+'.writing.pkl'))
+        #cm(-1)
+        #cm(0,ra=1)
         time.sleep(0.1)
         try:
             sys_str = d2s('rm',opj(project_path,'__local__',name+'.pkl'))
             #print sys_str
             os.system(sys_str)
+            #cm(1,ra=1)
         except:
             cr(sys_str,"failed")
+            #cm(2,ra=1)
         sys_str = d2s('mv',opj(project_path,'__local__',name+'.writing.pkl'),opj(project_path,'__local__',name+'.pkl'))
         #print sys_str
+        #cm(3,ra=1)
         os.system(sys_str)
+        #cm(4,ra=1)
         sys_str = d2s('touch',opj(project_path,'__local__','ready'))
         #print sys_str
         os.system(sys_str)  
+        #cm(5,ra=1)
 
     def function_save():
         if D['read_only']:
@@ -340,7 +348,7 @@ def Default_Values(
         else:
             return True
 
-    def ___clear_screen():
+    def clear_screen():
         cr("\nclear screen\n")
 
     def __show_menu(C,message,parent_keys=[]):
@@ -593,14 +601,10 @@ def start_Dic(dic_project_path,Dics={},parent_keys=[],Arguments=Arguments):
 
 if __name__ == '__main__':
 
-    if False:
-        if 'path' not in Arguments:
-            dic_project_path = opjk('Menu')#/A/Cars'
-        else:
-            dic_project_path = opjk(Arguments['kpath'])
+
     Dics = {}
 
-    start_Dic(dic_project_path=Arguments['kpath'],Dics=Dics)
+    start_Dic(dic_project_path=opjh(Arguments['path']),Dics=Dics)
 
 
 
