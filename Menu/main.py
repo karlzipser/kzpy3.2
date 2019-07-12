@@ -198,7 +198,7 @@ def Default_Values(
             else:
                 sys_str = K[key]
             os.system(sys_str)
-            raw_enter()
+            #raw_enter()
             message = sys_str
             return {'message':message}
         if K['--mode--'] == 'extern':
