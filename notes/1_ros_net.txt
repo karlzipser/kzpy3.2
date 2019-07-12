@@ -49,6 +49,12 @@
 
 
 
+
+osascript -e 'tell application "Terminal" to activate' -e 'tell application "System Events" to tell process "Terminal" to keystroke "t" using command down' -e 'tell application "Terminal" to do script "m" in selected tab of the front window'
+
+
+
+
 #####
 # used in update_TXs()
 rsync -ravL kzpy3/* nvidia@169.254.131.241:kzpy3/

@@ -12,23 +12,28 @@ if 'Arguments' not in locals():
     Arguments = {}
 setup_Default_Arguments(
     {
-        'menu':True,
-        'read_only':False,
-        'help':False,
+        'menu': True,
+        'read_only': False,
+        'help': False,
+        'kpath': opjk('Menu'),
+        #'start_keys':[],
     }
 )
 
 
-"""
-import kzpy3.Menu.main as m
-DV = m.Default_Values
-A={'1':{2:3,3:4}}
-E = DV(A,opjD(),[])
-E['show']() 
-E['down']('1')
-E['show']()
-E['set_value'](2)
-"""
+if False:
+    # example
+    import kzpy3.Menu.main as m
+    DV = m.Default_Values
+    A={'key 1':{'a':'x','b':'y'}}
+    E = DV(A,opjD(),[])
+    E['show']() 
+    E['down']('key 1')
+    E['show']()
+    E['set_value']('a')
+    E['show']()
+    E['set_value']('a',value='qqq')
+    E['show']()
 
 
 def Default_Values(
@@ -156,6 +161,7 @@ def Default_Values(
 
     def function_down(key):
         K = key_access(D,D['current_keys'])
+        print K.keys(),type(K[key])
         if key in K and type(K[key]) == dict:
             D['current_keys'].append(key)
             return {
@@ -173,7 +179,7 @@ def Default_Values(
         cg(host_name+', '+username+'\n',D['project_path'].replace(opjh(),'~/'))
         return __show_menu(key_access(D,D['current_keys']),message,D['parent_keys'])
 
-    def function_set_value(key,arg_str=None):
+    def function_set_value(key,arg_str=None,value=None):
         K = key_access(D,D['current_keys'])
         if K['--mode--'] == 'const':
             message = d2s(key,'is constant, not changed.')
@@ -227,7 +233,8 @@ def Default_Values(
                     d = d2s('current shape',shape(K[key]))
                 else:
                     d = K[key]
-                value = input(d2n("Enter value for '",key,"' (",d,"): "))
+                if value == None:
+                    value = input(d2n("Enter value for '",key,"' (",d,"): "))
 
                 if type(K[key]) == np.ndarray:
                     if type(value) == str:
@@ -309,7 +316,7 @@ def Default_Values(
                             continue
                         else:
                             #K = key_access(D,D['current_keys'])
-                            message = D['set_value'](R['message'],R['arg_str'])['message']
+                            message = D['set_value'](R['message'],arg_str=R['arg_str'])['message']
                             continue
         
         except KeyboardInterrupt:
@@ -570,6 +577,14 @@ def start_Dic(dic_project_path,Dics={},parent_keys=[],Arguments=Arguments):
     if Arguments['read_only']:
         Dics[dic_project_path]['load']()
 
+    if False:
+        cg(Arguments['start_keys'])
+        for k in Arguments['start_keys']:
+            cb(k,ra=1)
+            r = Dics[dic_project_path]['down'](k)
+            Dics[dic_project_path]['show']()
+            cy(r)
+
     if Arguments['menu']:
         Dics[dic_project_path]['menu']()
 
@@ -578,13 +593,14 @@ def start_Dic(dic_project_path,Dics={},parent_keys=[],Arguments=Arguments):
 
 if __name__ == '__main__':
 
-    if 'kpath' not in Arguments:
-        dic_project_path = opjk('Menu')#/A/Cars'
-    else:
-        dic_project_path = opjk(Arguments['kpath'])
+    if False:
+        if 'path' not in Arguments:
+            dic_project_path = opjk('Menu')#/A/Cars'
+        else:
+            dic_project_path = opjk(Arguments['kpath'])
     Dics = {}
 
-    start_Dic(dic_project_path=dic_project_path,Dics=Dics)
+    start_Dic(dic_project_path=Arguments['kpath'],Dics=Dics)
 
 
 

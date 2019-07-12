@@ -28,6 +28,7 @@ S['left_image'] = False
 S['right_image'] = False
 S['delta cmd/camera'] = 0
 S['cmd/camera'] = 49
+S['drive_direction'] = 0
 
 def encoder_callback(data):
     S['encoder'] = data.data
@@ -44,6 +45,11 @@ def human_agent_callback(data):
 def cmd_camera_callback(msg):
     S['delta cmd/camera'] = msg.data - S['cmd/camera']
     S['cmd/camera'] = msg.data
+
+def drive_direction_callback(msg):
+    S['drive_direction'] = msg.data
+rospy.Subscriber('/drive_direction',std_msgs.msg.Int32,callback=drive_direction_callback)
+
 
 rospy.Subscriber(bcs+'encoder', std_msgs.msg.Float32, callback=encoder_callback,queue_size=qs)
 

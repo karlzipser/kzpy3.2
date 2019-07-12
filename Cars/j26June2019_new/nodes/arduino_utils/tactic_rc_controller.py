@@ -81,16 +81,27 @@ def _TACTIC_RC_controller_run_loop(P):
 
 
 
-
 def drive_car(P):
+    if P['encoder_smooth'] < 0.025:
+        if not P['stopped']:
+            P['stopped'] = True
+            P['stopped_timer'].reset()
+    elif P['encoder_smooth'] > 0.1:
+        if P['stopped']:
+            P['stopped'] = False
+    if P['stopped_timer'].time() < P['stopped_time_min']:
+        P['stay_stopped'] = True
+    else:
+        P['stay_stopped'] = False
+
+    cg('stay_stopped',P['stay_stopped'],dp(P['stopped_timer'].time()),dp(P['stopped_time_min']))
 
     write_str = ''
 
     if P['data_saving changed up']:
         P['data_saving changed up'] = False
         cy("drive_car(P):: P['data_saving changed up']",int(time.time()))
-        #if 'LIGHTS' in P['Arduinos']:
-        #    P['Arduinos']['LIGHTS'].write(P['lights/save tune'])
+
 
     if P['calibrated'] == True:
         P['human']['servo_percent'] = servo_pwm_to_percent(P['servo_pwm_smooth'],P)
@@ -99,7 +110,7 @@ def drive_car(P):
         pass
 
 
-    if (P['agent_is_human'] or P['button_number'] == 4) and not P['now in calibration mode']:
+    if P['calibrated'] and (P['agent_is_human'] or P['button_number'] == 4) and not P['now in calibration mode']:
 
         if sound_timer.check():
             if 'LIGHTS' in P['Arduinos']:
@@ -109,15 +120,16 @@ def drive_car(P):
             pass
 
         if P['use_human_motor_PID'] and P['button_number'] != 4:
-            #_motor_pwm = motor_percent_to_pwm(
-            #        Pid_processing_motor['do'](P['human_PID_motor_percent'],P['encoder_smooth'],P),P)
             human_pid_motor_percent = Pid_processing_motor['do'](
                 P['human_PID_motor_percent'],P['encoder_smooth'],P)
             _motor_pwm = motor_percent_to_pwm(human_pid_motor_percent,P)
             P['human']['motor_percent'] = human_pid_motor_percent # now this can be published
         else:
-            _motor_pwm = P['motor_pwm_smooth']
-        #write_str = get_write_str(P['servo_pwm_smooth'],P['servo_pwm_null'],_motor_pwm,P)
+            if P['stay_stopped']:
+                _motor_percent = 49
+            else:
+                _motor_percent = motor_pwm_to_percent(P['motor_pwm_smooth'],P)
+            _motor_pwm = motor_percent_to_pwm(_motor_percent,P)
         write_str = get_write_str(P['servo_pwm_smooth'],P['servo_pwm_smooth'],_motor_pwm,P)
 
     elif (not P['agent_is_human'] and P['button_number'] != 4) and not P['now in calibration mode']:
@@ -249,7 +261,14 @@ def motor_pwm_to_percent(current_pwm,P):
 def servo_percent_to_pwm(percent,P):
     return percent_to_pwm(percent,P['servo_pwm_null'],P['servo_pwm_max'],P['servo_pwm_min'])
 
+if False:
+    def motor_percent_to_pwm(percent,P):
+        return percent_to_pwm(percent,P['motor_pwm_null'],P['motor_pwm_max'],P['motor_pwm_min'])
+
 def motor_percent_to_pwm(percent,P):
+    if P['motor backward max'] <= percent <= P['motor forward min']:
+        percent = 49
+        #pd2s(P['motor backward max'],P['motor forward min'])
     return percent_to_pwm(percent,P['motor_pwm_null'],P['motor_pwm_max'],P['motor_pwm_min'])
 
 def compare_percents_and_pwms(P):

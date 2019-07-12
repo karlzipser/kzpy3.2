@@ -307,7 +307,7 @@ if temp != None:
         else:
             print(Args)
             pd2s('*** Warning, argument',"'"+k+"'",'not proceeded by -- on command line ***')
-            raw_enter()
+            #raw_enter()
         if str_is_int(ar):
             Arguments[a] = int(ar)
         elif ',' in ar:

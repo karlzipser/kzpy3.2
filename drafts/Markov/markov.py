@@ -54,7 +54,7 @@ def Box(name,arrow_list):
     D['arrow_list'] = arrow_list
     D['timer'] = Timer()
     D['timer'].time_s = -1
-    print_timer = Timer(0.2)
+    print_timer = Timer(0.05)
     def function_evaluate(Environment):
         print_timer.message(D['name'])
         np.random.shuffle(arrow_list)

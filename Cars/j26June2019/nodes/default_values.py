@@ -8,13 +8,6 @@ print _['project_path']
 
 _['agent_is_human'] = False
 
-
-_['stopped_timer'] = Timer()
-_['stopped'] = False
-_['stay_stopped'] = False
-_['stopped_time_min'] = 0.5
-
-
 _['MOCK_ARDUINO_VERSION'] = False # Note, unrelated to 'desktop_mode' command line arg
 _['MOCK_ARDUINO_VERSION/run_name'] = 'tegra-ubuntu_16Nov18_13h02m06s'
 _['MOCK_ARDUINO_VERSION/h5py_path'] = opjm('/home/karlzipser/Desktop/Data/2_TB_Samsung_n3/rosbags__preprocessed_data/tu_15to16Nov2018/locations/local/left_direct_stop/h5py')
@@ -35,9 +28,8 @@ _['USE_ROS'] = HAVE_ROS
 
 _['d_heading_for_end_turning'] = 60
 _['max motor'] = 75
-_['min motor'] = 20
-_['motor backward max'] = 40
-_['motor forward min'] = 52
+_['min motor'] = 30
+
 _['arduino print'] = True
 _['network print'] = True
 _['control print'] = True
@@ -226,9 +218,6 @@ _['To Expose']['Arduino'] = [
     'flex print',
     'max motor',
     'min motor',
-    'motor backward max',
-    'motor forward min',
-    'stopped_time_min',
 ]
 _['To Expose']['Network'] = [
     'ABORT',
