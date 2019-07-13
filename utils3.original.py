@@ -9,7 +9,7 @@ import_as_list = [['AS','numpy','np'],['AS','cPickle','pickle']]
 identify_file_str = """
 if '__file__' not in locals():
     __file__ = 'INTERPRETER'
-cprint('using '+__file__,'yellow')
+#cprint('using '+__file__,'yellow')
 CVerbose = {}
 CShowFile = {}
 cfile = fname(__file__)#.replace(opjk(),'').replace(opjh(),'')
@@ -1033,10 +1033,11 @@ def find_files_recursively(
             ignore = False
             g = f.split('/')
             for h in g:
-                if h[0] == '_':
-                    cb('ignoring',f)
-                    ignore = True
-                    break
+                if len(h) > 0:
+                    if h[0] == '_':
+                        cb('ignoring',f)
+                        ignore = True
+                        break
             if not ignore:
                 folders_[f] = folders[f]
         folders = folders_

@@ -32,7 +32,7 @@ Q = {
     'car menu U'+SSH:	d2s('python','kzpy3/Menu_app/menu2.py','--path',opj('kzpy3/Cars',current_car,'nodes'),'--dic P'),
 	#'g Mr_New 169.254.131.242':'ssh -X nvidia@169.254.131.242',
 	#'h Mr_Purple 169.254.131.243':'ssh -X nvidia@169.254.131.243',
-    'Menu U': 'python kzpy3/Menu/main.py',
+    'Menu': 'python kzpy3/Menu/main.py',
     'ssh O': ssh_str,
     'roscore;rla U': 'roscore_rla.sh',
 }
@@ -53,7 +53,7 @@ for k in Q.keys():
         Q[l] = Q[k]
         del Q[k]
 
-for k in sorted(Q.keys()):
-	cg(Q[k])
+#for k in sorted(Q.keys()):
+#	cg(Q[k])
 
 #EOF

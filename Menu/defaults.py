@@ -49,10 +49,4 @@ for d in dir_lst:
 		os.system(d2s('chmod u+x',f))
 
 
-
-
-
-
-
-
 #EOF

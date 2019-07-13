@@ -45,6 +45,7 @@ alias rGraph='python ~/kzpy3/Grapher_app_for_live_ros_data/Main.py'
 
 alias m="~/kzpy3/Menu/main.py"
 alias n="~/kzpy3/Menu/main.py --path kzpy3/Menu/quick"
+alias otn='kzpy3/scripts/connect/open_tab_with_quick_menu.sh'
 
 alias gacp="git add .;git commit -m 'gacp';git push origin master"
 alias pgacp='cd ~/kzpy3; git pull; gacp; cd'
@@ -91,6 +92,8 @@ fi
 alias rzl='show_image_from_ros.py --scale 2 --topic /bair_car/zed/left/image_rect_color'
 alias rzr='show_image_from_ros.py --scale 2 --topic /bair_car/zed/right/image_rect_color'
 alias rou='show_image_from_ros.py --scale --2 topic /os1_node/image'
+
+python kzpy3/scripts/connect/quick_print.py
 
 date
 
