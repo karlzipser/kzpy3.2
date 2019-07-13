@@ -75,7 +75,7 @@ def FLEX__callback(msg):
     advance(F['FLEX'],adjusted_data,18)
 rospy.Subscriber('/bair_car/FLEX', std_msgs.msg.Int32, callback=FLEX__callback)
         """
-        exec_str = s.replace('FLEX',f)
+        exec_str = s.replace('FLEX',f) 
         exec(exec_str)
 
     flex_steer_cmd_pub = rospy.Publisher('flex/steer', std_msgs.msg.Float32, queue_size=5)
@@ -225,17 +225,17 @@ rospy.Subscriber('/bair_car/FLEX', std_msgs.msg.Int32, callback=FLEX__callback)
 rospy.init_node('network_node',anonymous=True,disable_signals=True)
 #
 ###################################################################
-
+cr(0)
 network_utils.init.ros_init(N)
-
+cr(1)
 network_utils.init.metadata_init(N)
-
+cr(2)
 
 camera_motion_ldr_modulator_timer = Timer(1)
 camera_motion_ldr_modulator_notification_Timer = Timer(0.5)
 ldr_on_timer = Timer(N['ldr_on_time'])
 ldr_off_timer = Timer(N['ldr_off_time'])
-
+cr(3)
 if __name__ == '__main__':
 
     hz = Timer(10)
@@ -244,18 +244,19 @@ if __name__ == '__main__':
         threading.Thread(target=flex_thread,args=[N]).start()
 
     while not rospy.is_shutdown() and N['ABORT'] == False:
+        cr(4)
         #if True:
         try:
             network_utils.menu_and_net.read_menu_and_load_network(N)
-
+            cr(5)
             if network_utils.run.ready(N):
-
+                cr(6)
                 if len(network_utils.camera.Q_list) > 0:
-
+                    cr(7)
                     Q = network_utils.camera.Q_list[-1]
-
+                    cr(8)
                     if Q['ready']:
-                                       
+                        cr(9)             
                         Q['ready'] = False
 
                         hz.freq(' (main) ')

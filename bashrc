@@ -95,8 +95,14 @@ alias rou='show_image_from_ros.py --scale --2 topic /os1_node/image'
 
 #python kzpy3/scripts/connect/quick_print.py
 
-
 date
-n
+
+if [ "$(whoami)" == "nvidia" ]
+  then
+    n
+  else
+    qssh.py
+fi
+
 echo "...End kzpy3/bashrc"
 #EOF

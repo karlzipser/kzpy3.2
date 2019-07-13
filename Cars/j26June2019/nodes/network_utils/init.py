@@ -113,7 +113,7 @@ For SqueezeNet40 models."""
     # Order must stay the same to be compatible with network.
 
     Metadata_tensors = {}
-    cm(5)
+    #cm(5)
     for the_behaviorial_mode in TP['behavioral_modes']:
 
         metadata = torch.FloatTensor(1,128,23,41).cuda()
@@ -144,7 +144,7 @@ For SqueezeNet40 models."""
                 metadata[0,-mode_ctr,:,:] = 0.0; mode_ctr += 1
 
         Metadata_tensors[the_behaviorial_mode] = metadata
-        cm(103)
+        #cm(103)
         
     N['behavioral_metadatas'] = Metadata_tensors
 
