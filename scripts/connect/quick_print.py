@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+
 from kzpy3.utils3 import *
 import Menu.main
 import kzpy3.Menu.quick.defaults as defaults
