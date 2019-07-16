@@ -25,6 +25,7 @@ alias fixScreen='DISPLAY=:0 xrandr --output HDMI-0 --mode 1024x768'
 alias rosdo="sudo chmod -R 777 /media/$(whoami)/rosbags*"
 alias rcd='cd /media/$(whoami)/rosbags'
 
+
 alias kr='~/kzpy3/scripts/kill_ros.sh'
 alias ssx='screen -S SX'
 alias ssy='screen -S SY'
