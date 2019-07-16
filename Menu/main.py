@@ -136,7 +136,6 @@ def Default_Values(
     function_save() # this line added 3 July 2019
 
     def function_load():
-
         if D['load_timer'].check():
             D['load_timer'].reset()
         else:
@@ -204,12 +203,7 @@ def Default_Values(
             return {'message':message}
         if K['--mode--'] == 'extern':
             #cr('leaving',D['project_path'],'for',K[key],ra=1)
-            start_Dic(
-                K[key],
-                D['Dics'],
-                parent_keys=D['parent_keys']+D['current_keys'][1:]+[key],
-                Arguments=Arguments,
-            )
+            start_Dic(K[key],D['Dics'],parent_keys=D['parent_keys']+D['current_keys'][1:]+[key])
             message = d2s('returned to',D['project_path'])
             return {'message':message}
         if K['--mode--'] == 'active':
@@ -293,7 +287,7 @@ def Default_Values(
         message = ''
         if not D['read_only']:
             D['save']()
-        if True:#try:
+        try:
             while True:
                 D['load']()
                 items = D['show'](message)
@@ -332,7 +326,7 @@ def Default_Values(
                             #K = key_access(D,D['current_keys'])
                             message = D['set_value'](R['message'],arg_str=R['arg_str'])['message']
                             continue
-        """
+        
         except KeyboardInterrupt:
             cr('*** KeyboardInterrupt ***')
             sys.exit()
@@ -341,7 +335,7 @@ def Default_Values(
             file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             CS_('Exception!',emphasis=True)
             CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
-        """
+       
 
 
     def __is_meta_key(k):
@@ -571,31 +565,7 @@ def menu_python():
         return {'message':message}
 
 
-
-if False:
-    def start_Dic(
-        dic_project_path,
-        Dics={},
-        parent_keys=[],
-        Arguments=Arguments
-    ):
-        pass
-def start_Dic(
-    dic_project_path=opjk(),
-    Dics={},
-    parent_keys=[],
-    Arguments={
-        'menu':False,
-        'read_only':False,
-    }
-):
-
-
-
-
-
-
-
+def start_Dic(dic_project_path,Dics={},parent_keys=[],Arguments=Arguments):
     if True:#dic_project_path not in Dics:
         exec_str = d2s(
             'from',
@@ -634,12 +604,10 @@ if __name__ == '__main__':
 
     Dics = {}
 
-    start_Dic(
-        dic_project_path=opjh(Arguments['path']),
-        Dics=Dics,
-        parent_keys=[],
-        Arguments=Arguments,
-    )
+    start_Dic(dic_project_path=opjh(Arguments['path']),Dics=Dics)
+
+
+
 
 #EOF
 

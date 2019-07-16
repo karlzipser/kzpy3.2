@@ -212,8 +212,8 @@ def get__path_pts2D(
 
     Path_pts2D['append'](
         trajectory_vector,
-        code=value,
-        dic_info={'time':time.time(),'velocity':velocity}
+        value,
+        {'time':time.time(),'velocity':velocity}
     )
 
     Path_pts2D['zero']()

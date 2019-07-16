@@ -2,11 +2,19 @@
 from kzpy3.utils3 import *
 import Menu.main
 
-Q_state = Menu.main.start_Dic()
-State = Q_state['Q']['State']
-Q_state['load'](noisy=False)
+Q = Menu.main.start_Dic(
+    dic_project_path=opjk(),
+    Dics={},
+    Arguments={
+        'menu':False,
+        'read_only':False,
+    }
+)
+T = Q['Q']
+Q['load']()
 
-ip = State['ssh']['ip_prefex']+State['ssh_ip_suffix']
+#user = T['State']['default_ssh_user']
+ip = T['State']['default_ssh_ip_prefex']+T['State']['default_ssh_ip_suffix']
 update_time = 1
 mtime = 0
 

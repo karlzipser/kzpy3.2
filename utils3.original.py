@@ -381,14 +381,13 @@ def pd2n(*args):
 #if False:
 #   for i in range(256):
 #       print d2n('\x1b[',i,'m',i,' test','\x1b[36m')
-rd = '\033[31m;49m'
-gr = '\033[32m;49m'
-yl = '\033[33m;49m'
-bl = '\033[1;34;49m'
-mg = '\033[35m;49m'
-lb = '\033[36m;49m'
-wh = '\033[37m;49m'
-og = '\033[91m;49m'
+rd = '\x1b[31m'
+gr = '\x1b[32m'
+yl = '\x1b[33m'
+bl = '\x1b[34m'
+mg = '\x1b[35m'
+lb = '\x1b[36m'
+wh = '\x1b[37m'
 
 wh_bk = '\x1b[40m'
 wh_rd = '\x1b[41m'
@@ -397,9 +396,11 @@ wh_bl = '\x1b[44m'
 wh_mg = '\x1b[45m'
 wh_lb = '\x1b[46m'
 
-trans = ';49m'
+mg = '\x1b[35m'
+lb = '\x1b[36m'
+wh = '\x1b[37m'
 
-
+og = '\x1b[91m'
 underlined = '\x1b[4m'
 
 def spd2s(*args):

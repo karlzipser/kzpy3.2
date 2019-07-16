@@ -104,6 +104,7 @@ Rectangles = rectangles.Random_black_white_rectangle_collection(
 )
 
 rate = Timer(5)
+P['just_stopped_from_forward_detected'] = Timer(1)
 
 if __name__ == '__main__':
 
@@ -134,12 +135,7 @@ if __name__ == '__main__':
 
             camera_heading_prev = camera_heading
 
-            if S['button_number'] == 4:
-                camera_percent = S['steer']
-            else:
-                camera_percent = S['cmd/camera']
-                
-            camera_heading = (camera_percent-49) * P['cmd_camera_to_camera_heading_cooeficient']
+            camera_heading = (S['cmd/camera']-49) * P['cmd_camera_to_camera_heading_cooeficient']
 
             d_camera_heading = camera_heading - camera_heading_prev
 
@@ -154,20 +150,28 @@ if __name__ == '__main__':
             print "fail",time.time()
             continue
         direction = S['drive_direction']
-        print S['just_stopped_from_forward']
+        
         pop = False #True
+        a = 0
         if S['just_stopped_from_forward'] == 0:
             pop = False
+        else:
+            if P['just_stopped_from_forward_detected'].check():
+                P['just_stopped_from_forward_detected'].reset()
+                a = 1  
+            else:
+                a = 0
         prediction_images.get__path_pts2D(
             d_heading + d_camera_heading,
             encoder,
             sample_frequency,
             direction,
-            S['just_stopped_from_forward'],
+            a,
             Path_pts2D,
             P,
             pop=pop,
         )
+        print S['just_stopped_from_forward'],a
 
         if graphics_timer.check():
             rate.freq()
@@ -202,8 +206,10 @@ if __name__ == '__main__':
                 for i in rlen(xys):
                     x_ = xys[i,0]
                     y_ = xys[i,1] + 1/3. ##### TEMP #########
-                    xys4.append([x_,y_,np.sqrt(x_**2+y_**2),np.mod(i,num_rectangle_patterns)])
-
+                    if y_ > 0:
+                        xys4.append([x_,y_,np.sqrt(x_**2+y_**2),np.mod(i,num_rectangle_patterns)])
+                        cg(dp(x_),dp(y_),dp(np.sqrt(x_**2+y_**2)))
+                #cg(len(xys4),dp(time.time()))
                 xys4 = na(xys4)
                 Pub['rectangles_xys'].publish(data=xys4.reshape(4*len(xys4)))
 

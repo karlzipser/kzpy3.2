@@ -1,0 +1,82 @@
+) save cmd/'s properly
+) why is camera angle not influincing pasted rectangle position?
+) save pid motor values properly
+) train net to measure velocity (from motor and encoder)
+	-build new net to use 12 frames
+	-smaller version of Sq network
+	-run frames forward and backward, like left-right flip
+	-search dataset for examples of different encoder levels
+) not getting most out of trajectory predictions
+) draw lines for trajectory prediction
+) need to train to avoid metadata rectangles
+) * need much better knowledge of movement of car at low speeds
+	--maybe predict speed from visual data, or use ZED odometry
+) retrain flex net to advance human commands in time.
+) trajectory to motor commands
+) save dic as dirs
+) get Menu to work over net
+) improve how obstacles are pasted in
+) straighten camera and lidar better
+) new lidar
+) figure out how to train using trajectories to plan obstacles in metadata layer
+) validation code
+) find validation data
+) consider concatenating metadata to next layer
+) figure out how to deal with data with auto driving and no motor command. Fix this to save 	motor data, and also automatically vary speed.
+) train model to go from image to trajectory scene categorization
+
+
+) √ Jetson Dedicated backpack?
+) √ get Menu working in place of Commands
+√) make good way to carry macbook with cables
+√) make compact TX that can be thrown in backpack. Box perhaps.
+√) set up GPS data collection
+√4) run net car, figure out current system
+√5) run net car, paste in obstacles
+√) try to publish a convolutional layer, check speed
+√1) network tx1 & tx2
+	√ passwords/keys
+	√ sudos
+	√ set date over net
+	√ figure how to update kzpy3 (via github or rsync)
+	√ check torch.__version__ on each system
+	√ name each system
+√7) figure out which nets and computations to run on which computers
+√6) set up networked tx1 & tx2 as part of my carry-everywhere system
+√8) find various mini hdmi cables
+√9) start data collection
+√3) fix car mechanically (camera mount, body)
+
+
+
+
+osascript -e 'tell application "Terminal" to activate' -e 'tell application "System Events" to tell process "Terminal" to keystroke "t" using command down' -e 'tell application "Terminal" to do script "m" in selected tab of the front window'
+
+
+
+
+#####
+# used in update_TXs()
+rsync -ravL kzpy3/* nvidia@169.254.131.241:kzpy3/
+
+sudo visudo
+# add as last line:
+nvidia ALL=(ALL) NOPASSWD: ALL
+
+scp nvidia@169.254.131.241:'.ssh/id_rsa.pub' ~/Desktop/authorized_keys
+cat Desktop/authorized_keys >> ~/kzpy3/misc/authorized_keys
+
+torch.__version__
+
+
+
+http://wiki.ros.org/ROS/NetworkSetup
+
+into .bashrc
+	export ROS_IP=169.254.131.242
+	export ROS_MASTER_URI=http://169.254.131.242:11311
+
+in python:
+	ips=['169.254.131.240','169.254.131.241','169.254.131.242']
+	update_TXs(ips) 
+#EOF

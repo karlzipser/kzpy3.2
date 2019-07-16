@@ -101,8 +101,7 @@ if [ "$(whoami)" == "nvidia" ]
   then
     n
   else
-    echo hi
-    #qssh.py
+    qssh.py
 fi
 
 echo "...End kzpy3/bashrc"

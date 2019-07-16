@@ -1,0 +1,39 @@
+
+
+https://stackoverflow.com/questions/27080085/how-to-convert-a-cvmat-into-a-sensor-msgs-in-ros
+
+#include <sensor_msgs/Image.h>
+#include <sensor_msgs/image_encodings.h>
+#include <cv_bridge/cv_bridge.h>
+
+cv::Mat img; // << image MUST be contained here
+cv_bridge::CvImage img_bridge;
+sensor_msgs::Image img_msg; // >> message to be sent
+
+std_msgs::Header header; // empty header
+header.seq = counter; // user defined counter
+header.stamp = ros::Time::now(); // time
+img_bridge = cv_bridge::CvImage(header, sensor_msgs::image_encodings::RGB8, img);
+img_bridge.toImageMsg(img_msg); // from cv_bridge to sensor_msgs::Image
+pub_img.publish(img_msg); // ros::Publisher pub_img = node.advertise<sensor_msgs::Image>("topic", queuesize);
+
+
+https://www.geeksforgeeks.org/opencv-c-plus-plus-program-to-create-a-single-colored-blank-image/
+
+
+
+
+zed-opencv-master, 110: slMat2cvMat
+
+
+
+zed-wrapper-nodelet.cpp, 960:
+    void ZEDWrapperNodelet::publishImage(sl::Mat img,
+                                         image_transport::Publisher& pubImg,
+                                         string imgFrameId, ros::Time t) {
+        pubImg.publish(sl_tools::imageToROSmsg(img, imgFrameId, t));
+    }
+
+
+
+https://docs.opencv.org/2.4/doc/tutorials/introduction/linux_gcc_cmake/linux_gcc_cmake.html

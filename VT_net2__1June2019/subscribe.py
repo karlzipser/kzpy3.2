@@ -30,45 +30,21 @@ S['delta cmd/camera'] = 0
 S['cmd/camera'] = 49
 S['drive_direction'] = 0
 S['just_stopped_from_forward'] = 0
-S['steer'] = 49
-
-S['button_number'] = 0
-def motor_callback(data):
-    S['button_number'] = data.data
-rospy.Subscriber(
-    bcs+'button_number',
-    std_msgs.msg.Int32,
-    callback=motor_callback,
-    queue_size=qs
-)
 
 def encoder_callback(data):
     S['encoder'] = data.data
-rospy.Subscriber(bcs+'encoder', std_msgs.msg.Float32, callback=encoder_callback,queue_size=qs)
 
 def motor_callback(data):
     S['motor'] = data.data
-rospy.Subscriber(bcs+'motor', std_msgs.msg.Int32, callback=motor_callback,queue_size=qs)
-
-def steer_callback(msg):
-    S['steer'] = msg.data
-rospy.Subscriber(bcs+'steer', std_msgs.msg.Int32, callback=steer_callback,queue_size=qs)
 
 def cmd_motor_callback(msg):
     S['cmd/motor'] = msg.data
-rospy.Subscriber(
-    '/cmd/motor',
-    std_msgs.msg.Int32,
-    callback=cmd_motor_callback)
 
 def human_agent_callback(data):
     S['human_agent'] = data.data
-rospy.Subscriber(
-    bcs+'human_agent',
-    std_msgs.msg.Int32,
-    callback=human_agent_callback)
 
 def cmd_camera_callback(msg):
+    S['delta cmd/camera'] = msg.data - S['cmd/camera']
     S['cmd/camera'] = msg.data
 
 def drive_direction_callback(msg):
@@ -79,19 +55,35 @@ def just_stopped_from_forward_callback(msg):
     S['just_stopped_from_forward'] = msg.data
 rospy.Subscriber('/just_stopped_from_forward',std_msgs.msg.Int32,callback=just_stopped_from_forward_callback)
 
-def cmd_steer_callback(msg):
-    S['cmd/steer'] = msg.data
+
+
+
+rospy.Subscriber(bcs+'encoder', std_msgs.msg.Float32, callback=encoder_callback,queue_size=qs)
+
+rospy.Subscriber(bcs+'motor', std_msgs.msg.Int32, callback=motor_callback,queue_size=qs)
+
 rospy.Subscriber(
-    '/cmd/steer',
+    bcs+'human_agent',
     std_msgs.msg.Int32,
-    callback=cmd_steer_callback)
+    callback=human_agent_callback)
+
+rospy.Subscriber(
+    '/cmd/motor',
+    std_msgs.msg.Int32,
+    callback=cmd_motor_callback)
 
 def behavioral_mode_callback(msg):
     S['behavioral_mode'] = msg.data
+
 rospy.Subscriber(
     '/behavioral_mode',
     std_msgs.msg.String,
     callback=behavioral_mode_callback)
+
+rospy.Subscriber(
+    '/bair_car/steer',#'/cmd/camera',
+    std_msgs.msg.Int32,
+    callback=cmd_camera_callback)
 
 def gyro_heading_x_callback(data):
     S['gyro_heading_x_prev'] = S['gyro_heading_x']
@@ -100,10 +92,9 @@ def gyro_heading_x_callback(data):
     S['ts_prev'] = S['ts']
     S['ts'] = time.time()
     S['sample_frequency'] = 1.0 / (S['ts']-S['ts_prev'])
+
+
 rospy.Subscriber(bcs+'gyro_heading', geometry_msgs.msg.Vector3, callback=gyro_heading_x_callback,queue_size=qs)
-
-
-
 
 if False:
     if default_values.P['graphics 3']:
