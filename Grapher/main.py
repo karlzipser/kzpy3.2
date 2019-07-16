@@ -20,6 +20,9 @@ P['still'] = {}
 P['still']['end'] = False
 P['still']['begin'] = False
 P['direction'] = 0
+P['just_stopped_from_forward_timer'] = Timer(1/3.)
+P['box_prev'] = 'still'
+P['box'] = 'still'
 
 if HAVE_ROS:
     import kzpy3.Grapher.subscribe as subscribe
@@ -27,7 +30,8 @@ if HAVE_ROS:
     S = subscribe.S
     Pub = {}
     Pub['drive_direction'] = rospy.Publisher('drive_direction',std_msgs.msg.Int32,queue_size=1)
-    pub_timer = Timer(0.1)
+    Pub['just_stopped_from_forward'] = rospy.Publisher('just_stopped_from_forward',std_msgs.msg.Int32,queue_size=1)
+    pub_timer = Timer(1/30.)
     ###################################################################
     #
     subscribe.rospy.init_node('grapher_node',anonymous=True,disable_signals=True)
@@ -62,7 +66,7 @@ def assign_values_and_smoothed_values(T):
 
 
 
-Z = {
+Directions = {
     'still': 0,
     'slow_forward': 1,
     'fast_forward': 1,
@@ -132,24 +136,29 @@ while True:
 
         if T['data']['encoder']['value'] != None and \
             T['data'][T['parameters']['the_motor']]['value'] != None:
-            box = Markov_main.Driving_direction_model['step'](
+            P['box_prev'] = P['box']
+            P['box'] = Markov_main.Driving_direction_model['step'](
                 {
                     'encoder': T['data']['encoder']['value'],
                     'motor': T['data'][T['parameters']['the_motor']]['value'],            
                 }
             )
+        if P['box_prev'] in ['slow_forward','fast_forward'] and P['box'] == 'still':
+            P['just_stopped_from_forward_timer'].reset()
         else:
             cr('no data for markov')
 
 
 
-        if pub_timer.check() and 'box' in locals():
+        if pub_timer.check():
             pub_timer.reset()
-            print box
-            data = Z[box]
-            #cb(data)
-            Pub['drive_direction'].publish(data=data)  
+            print P['box']
+            Pub['drive_direction'].publish(data=Directions[P['box']])
 
+            if not P['just_stopped_from_forward_timer'].check():
+                Pub['just_stopped_from_forward'].publish(data=1)
+            else:
+                Pub['just_stopped_from_forward'].publish(data=0)
 
 
 

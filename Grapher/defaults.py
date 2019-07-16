@@ -1,8 +1,6 @@
 from kzpy3.utils3 import *
 project_path = pname(__file__)
 
-# Mr_Purple_28Jun19_13h35m10s
-
 width = 400
 height = 400
 
@@ -27,15 +25,14 @@ Q = {
         'still_threshold': 0.1,
         'not_still_threshold': 0.1,
         'the_motor': 'human/motor',
-        'save_topics': True,
+        'save_topics': False,
         'grab_xy_points': False,
         'plot_xy_points': False,
         'save_xy_points':False,
 
     },
-    # 'human/motor','cmd/motor',
-    #'topics': ['encoder','d_heading','human/steer'],
-    'topics': ['human/motor','cmd/motor','encoder'],#,'encoder_var','acc_x','acc_x_var'],#,'acc_x','acc_y','acc_z'],
+
+    'topics': ['human/motor','cmd/motor','encoder'],
     'image_topics': ['left_image','right_image'],
     'data':{
 
@@ -102,7 +99,6 @@ Q = {
             'color': [255,0,0],
             'value': None,
             'baseline': 0.,
-            #'s': 0.75,
         },
         'drive_direction':{
             'scale': 20.,
@@ -126,7 +122,6 @@ Q = {
             'color': [0,255,255],
             'value': None,
             'baseline': 49,
-            #'s': 0.995,
         },
 
         'human/steer':{
@@ -183,9 +178,6 @@ Q = {
 }
 
 P = {
-    #'read_only':{
-    #    'ABORT':False,
-    #},
     'images':{
         'big':np.zeros((height,width,3),np.uint8),
         'small':np.zeros((height,1,3),np.uint8),

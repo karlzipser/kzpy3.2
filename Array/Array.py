@@ -92,9 +92,10 @@ def Array(
             for k in D['Dic'].keys():
                 del D['Dic'][k]
 
+### code=0
     def function_append(
         a,
-        code=0,
+        code=None, 
         dic_info=None,
     ):
         assert len(a) == D['n_dims']
@@ -196,6 +197,9 @@ def Array(
         D['data'] *= 0
         pts_3d = []
         len_codes = len(codes)
+        if len_codes == 0:
+            cr('*** len_codes == 0 **')
+            return pts_3d
         for j in range(A['ctr']):
             code = int(A['code'][j])
             try:
@@ -204,7 +208,7 @@ def Array(
                 dic_info = None
             a = A['array'][j,:]
 
-            if len_codes > 0 and code not in codes:
+            if code not in codes:
                 continue
             if min_dist > 0 and D['ctr'] > 0:#j > 0:
                 dist = np.sqrt((a[0]-a_prev[0])**2+(a[1]-a_prev[1])**2)

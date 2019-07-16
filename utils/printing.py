@@ -67,6 +67,24 @@ def pd2s(*args):
 def pd2n(*args):
     print(d2n(*args))
 
+base = '\033[1;'
+ascii_colors = {
+    'red':31,
+    'green':32,
+    'on_magenta':45,
+    'on_transparent':49
+}
+
+astr = d2n(
+    base,
+    ascii_colors['red'],
+    ';',
+    str(ascii_colors['on_magenta']) + 'm',
+)
+
+
+
+
 #if False:
 #   for i in range(256):
 #       print d2n('\x1b[',i,'m',i,' test','\x1b[36m')
@@ -91,6 +109,32 @@ wh = '\x1b[37m'
 
 og = '\x1b[91m'
 underlined = '\x1b[4m'
+
+
+
+
+rd = '\033[1;31;49m'
+gr = '\033[1;32;49m'
+yl = '\033[1;33;49m'
+bl = '\033[1;34;49m'
+mg = '\033[1;35;49m'
+lb = '\033[1;36;49m'
+wh = '\033[1;37;49m'
+og = '\033[1;91;49m'
+
+on_bk = '\x1b[40m'
+on_rd = '\x1b[41m'
+on_gr = '\x1b[42m'
+on_bl = '\x1b[44m'
+on_mg = '\x1b[45m'
+on_lb = '\x1b[46m'
+
+
+
+underlined = '\x1b[4m'
+
+
+
 
 def spd2s(*args):
     d_ = d2s(*args)

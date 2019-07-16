@@ -8,10 +8,7 @@ from subscribe import S
 import prediction_images
 import kzpy3.VT_net2__1June2019.rectangles as rectangles
 import kzpy3.Array.Array
-import kzpy3.Array.test_Array
-from sensor_msgs.msg import Image
 import std_msgs.msg
-import cv_bridge
 exec(identify_file_str)
 P = default_values.P
 
@@ -106,27 +103,14 @@ Rectangles = rectangles.Random_black_white_rectangle_collection(
     num_rectangle_patterns=num_rectangle_patterns,
 )
 
-stop_timer = Timer(P['stop_timer_time'])
-slow_encoder = 0
-slow_motor = 49
-os.system('mkdir -p '+opjm('rosbags/imgs'))
 rate = Timer(5)
-move_timer = Timer(0.1)
-avg_motor_val_prev = 49
-avg_motor_val = 49
-avg_encoder_val_prev = 0
-avg_encoder_val = 0
-first_slowdown = False
 
 if __name__ == '__main__':
 
     graphics_timer = Timer(P['graphics_timer time'])
-    delay_timer = Timer(1/30.)
-    err_timer = Timer(5)
     ts = time.time()
     gyro_heading_x = 0
     camera_heading = 0
-    direction2 = 1
 
     while not P['ABORT']:
         
@@ -150,7 +134,12 @@ if __name__ == '__main__':
 
             camera_heading_prev = camera_heading
 
-            camera_heading = (S['cmd/camera']-49) * P['cmd_camera_to_camera_heading_cooeficient']
+            if S['button_number'] == 4:
+                camera_percent = S['steer']
+            else:
+                camera_percent = S['cmd/camera']
+                
+            camera_heading = (camera_percent-49) * P['cmd_camera_to_camera_heading_cooeficient']
 
             d_camera_heading = camera_heading - camera_heading_prev
 
@@ -165,16 +154,16 @@ if __name__ == '__main__':
             print "fail",time.time()
             continue
         direction = S['drive_direction']
-        value = S['drive_direction']
+        print S['just_stopped_from_forward']
         pop = False #True
-        if value == 0:
+        if S['just_stopped_from_forward'] == 0:
             pop = False
         prediction_images.get__path_pts2D(
             d_heading + d_camera_heading,
             encoder,
             sample_frequency,
             direction,
-            value,
+            S['just_stopped_from_forward'],
             Path_pts2D,
             P,
             pop=pop,
@@ -185,103 +174,29 @@ if __name__ == '__main__':
             graphics_timer.time_s = P['graphics_timer time']
             graphics_timer.reset()
 
-            Path_pts2D['check_ts'](P['point_lifetime'])
-            if False:
-                Path_pts2D['show'](
-                    use_CV2_plot=True,
-                    use_maplotlib=False,
-                    do_print=False,
-                    clear=True,
-                    color=(255,255,0),
-                    code=1,
-                    show=False,
-                    grid=False,
-                    scale=1.0,
-                )
-                Path_pts2D['show'](
-                    use_CV2_plot=True,
-                    use_maplotlib=False,
-                    do_print=False,
-                    clear=False,
-                    color=(255,0,0),
-                    code=-1,
-                    show=False,
-                    grid=False,
-                    scale=1.0,
-                )
-                Path_pts2D['show'](
-                    use_CV2_plot=True,
-                    use_maplotlib=False,
-                    do_print=False,
-                    clear=False,
-                    color=(255,255,255),
-                    code=0,
-                    show=True,
-                    grid=True,
-                    scale=1.0,
-                )
+            Path_pts2D['check_ts'](
+                P['point_lifetime'],
+            )
             
-            
-            Path_pts3D['to_3D'](Path_pts2D,P['backup parameter'])
             if False:
-                Path_pts3D['show'](
-                    do_print=False,
-                    use_maplotlib=False,
-                    grid=False,
-                    scale=1.0,
-                    clear=True,
-                    code=1,
-                    color=(0,255,0), #(0,127,255),
-                    show=False,
-                    #background_image=S['left_image'],
-                )
-                Path_pts3D['show'](
-                    do_print=False,
-                    use_maplotlib=False,
-                    grid=False,
-                    scale=1.0,
-                    clear=False,
-                    code=-1,
-                    color=(255,0,0), #(0,127,255),
-                    show=False,
-                )
-                Path_pts3D['show'](
-                    do_print=False,
-                    use_maplotlib=False,
-                    use_CV2_circles=False,
-                    grid=True,
-                    scale=1.0,
-                    clear=False,
-                    code=0,
-                    color=(255,255,255), #(0,127,255),
-                    show=True,
-                    background_image=S['left_image'],
+                Path_pts3D['to_3D'](
+                    Path_pts2D,
+                    P['backup parameter'],
                 )
                 
             pts_3d = Barrier_pts3D['to_3D'](
                 Path_pts2D,
                 P['backup parameter'],
                 min_dist=0.5,
-                codes=[0],
+                codes=[1],
             )
-            Barrier_pts3D['check_ts'](P['circle_lifetime'])
-            if False:
-                Barrier_pts3D['show'](
-                    do_print=False,
-                    use_maplotlib=False,
-                    use_CV2_circles=True,
-                    grid=False,
-                    scale=1.0,
-                    clear=True,
-                    code=0,
-                    color=(255,0,0), #(0,127,255),
-                    show=True,
-                    background_image=S['left_image'],
-                )
-                
 
+            Barrier_pts3D['check_ts'](
+                P['circle_lifetime'],
+            )
+        
             xys = na(pts_3d)
-            #cy(xys)
+
             if len(xys) > 0:
                 xys4 = []
                 for i in rlen(xys):
@@ -292,59 +207,8 @@ if __name__ == '__main__':
                 xys4 = na(xys4)
                 Pub['rectangles_xys'].publish(data=xys4.reshape(4*len(xys4)))
 
-                if False:
-                    try:
-                        xys4 = S['rectangles_xys'].reshape(len(S['rectangles_xys'])/4,4)
-                        xys4_prev = xys4.copy()
-                        #cg(xys4)
-                        #cb(xys4_prev)
-                        xys4_prev[:,1] += 0.0375
-                        Xys = {
-                            'now':  xys4,
-                            'prev': xys4_prev,
-                        }
-                        temp = S['left_image'].copy()
-                        I = {
-                            'now':{
-                                'R':temp,
-                                'L':S['left_image'],
-                            },
-                            'prev':{
-                                'R':temp,
-                                'L':temp,
-                            },
-                        }
-                        for when in ['now']:#,'prev']:
-                            rectangles.paste_rectangles_into_drive_images(
-                                Xys[when],
-                                I[when],
-                                Rectangles,
-                                P['backup parameter'],
-                            )
-                        #mci(I['now']['L'],title="left")
-                        #mci(S['left_image'],title='left.')
-                        #imsave(opjm('rosbags/imgs/'+d2n(img_ctr,'.png')),I_L)#S['left_image'])#Barrier_pts3D['plot']['image'])
-                    except Exception as e:
-                        exc_type, exc_obj, exc_tb = sys.exc_info()
-                        file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-                        CS_('Exception!',emphasis=True)
-                        CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)        
 
-
-
-            
-
-        else:
-        #except KeyboardInterrupt:
-            cr('*** KeyboardInterrupt ***')
-            sys.exit()
-        #except Exception as e:
-            cr('*** index',P['index'],'failed ***')
-            exc_type, exc_obj, exc_tb = sys.exc_info()
-            file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            CS_('Exception!',emphasis=True)
-            CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
-            time.sleep(1)  
+ 
         
       
 

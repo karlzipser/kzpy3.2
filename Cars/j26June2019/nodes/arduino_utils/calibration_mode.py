@@ -61,6 +61,7 @@ def _calibrate_run_loop(P):
                 #P['Arduinos']['LIGHTS'].write("(118)")#d2n(""" "(""",P['Lights']['purple'],""")" """))
             else:
                 P['light'](P['Lights']['purple blink'])
+
             start.message('Calibrate now.')
             if P['servo_pwm_max'] < P['servo_pwm']:
                 P['servo_pwm_max'] = P['servo_pwm']
@@ -70,6 +71,9 @@ def _calibrate_run_loop(P):
                 P['motor_pwm_max'] = P['motor_pwm']
             if P['motor_pwm_min'] > P['motor_pwm']:
                 P['motor_pwm_min'] = P['motor_pwm']
+
+
+
             print_timer.message(
                 d2s(P['calibrated'],
                     int(P['servo_pwm_max'] - P['servo_pwm_min']),

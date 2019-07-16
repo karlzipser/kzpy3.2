@@ -105,7 +105,7 @@ class Timer:
         while not(self.check()):
             time.sleep(self.time_s/100.0)
         self.reset()   
-
+Tr = Timer
 
 
 exec(identify_file_str)

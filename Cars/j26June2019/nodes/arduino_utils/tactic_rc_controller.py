@@ -94,7 +94,7 @@ def drive_car(P):
     else:
         P['stay_stopped'] = False
 
-    cg('stay_stopped',P['stay_stopped'],dp(P['stopped_timer'].time()),dp(P['stopped_time_min']))
+    #cg('stay_stopped',P['stay_stopped'],dp(P['stopped_timer'].time()),dp(P['stopped_time_min']))
 
     write_str = ''
 
