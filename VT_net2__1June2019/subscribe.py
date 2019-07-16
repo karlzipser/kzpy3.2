@@ -37,6 +37,9 @@ def encoder_callback(data):
 def motor_callback(data):
     S['motor'] = data.data
 
+def steer_callback(data):
+    S['steer'] = data.data
+
 def cmd_motor_callback(msg):
     S['cmd/motor'] = msg.data
 
@@ -56,7 +59,15 @@ def just_stopped_from_forward_callback(msg):
 rospy.Subscriber('/just_stopped_from_forward',std_msgs.msg.Int32,callback=just_stopped_from_forward_callback)
 
 
-
+S['button_number'] = 0
+def button_number_callback(data):
+    S['button_number'] = data.data
+rospy.Subscriber(
+    bcs+'button_number',
+    std_msgs.msg.Int32,
+    callback=button_number_callback,
+    queue_size=qs
+)
 
 rospy.Subscriber(bcs+'encoder', std_msgs.msg.Float32, callback=encoder_callback,queue_size=qs)
 
@@ -82,6 +93,11 @@ rospy.Subscriber(
 
 rospy.Subscriber(
     '/bair_car/steer',#'/cmd/camera',
+    std_msgs.msg.Int32,
+    callback=steer_callback)
+
+rospy.Subscriber(
+    '/cmd/camera',#'/cmd/camera',
     std_msgs.msg.Int32,
     callback=cmd_camera_callback)
 

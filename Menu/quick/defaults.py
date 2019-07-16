@@ -35,6 +35,12 @@ Q = {
     'Menu': 'python kzpy3/Menu/main.py',
     'ssh O': ssh_str,
     'roscore;rla U': 'roscore_rla.sh',
+
+    'VT_net2__5April2019_2__18April2019_for_speed':'python kzpy3/VT_net2__5April2019_2__18April2019_for_speed/main.py',
+    'ldr_img, show_image_from_ros':'show_image_from_ros.py --topic ldr_img',
+    'rosplay_menu.py':'rosplay_menu.py',
+    'VT_net2__1June2019':'python kzpy3/VT_net2__1June2019/main.py',
+
 }
 if use_ssh:
     for k in Q.keys():

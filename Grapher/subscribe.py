@@ -51,12 +51,12 @@ rospy.Subscriber(
 
 
 S['button_number'] = 0
-def motor_callback(data):
+def button_number_callback(data):
     S['button_number'] = data.data
 rospy.Subscriber(
     bcs+'button_number',
     std_msgs.msg.Int32,
-    callback=motor_callback,
+    callback=button_number_callback,
     queue_size=qs
 )
 

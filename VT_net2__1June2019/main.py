@@ -120,24 +120,23 @@ if __name__ == '__main__':
             gyro_heading_x_prev =   gyro_heading_x
             gyro_heading_x =        S['gyro_heading_x']
             encoder =               S['encoder']
-            if 'behavioral_mode' not in S:
-                motor = S['motor']
-            elif S['behavioral_mode'] not in ['left','direct','right'] or S['human_agent']:
-                motor = S['motor']
+            camera_heading_prev = camera_heading
+            if S['button_number'] == 4:
+                #T['parameters']['the_motor'] = S['motor']
+                camera = S['steer']
             else:
-                motor = S['cmd/motor']
+                #T['parameters']['the_motor'] = S['cmd/motor']
+                camera = S['cmd/camera']
 
             ts_prev = ts
             ts = time.time()
             dts = ts - ts_prev
             sample_frequency = 1.0 / dts
             d_heading = gyro_heading_x - gyro_heading_x_prev
-
-            camera_heading_prev = camera_heading
-
-            camera_heading = (S['cmd/camera']-49) * P['cmd_camera_to_camera_heading_cooeficient']
+            camera_heading = (camera-49) * P['cmd_camera_to_camera_heading_cooeficient']
 
             d_camera_heading = camera_heading - camera_heading_prev
+            cm(d_camera_heading)
 
         except KeyboardInterrupt:
             cr('*** KeyboardInterrupt ***')
@@ -171,7 +170,7 @@ if __name__ == '__main__':
             P,
             pop=pop,
         )
-        print S['just_stopped_from_forward'],a
+        #print S['just_stopped_from_forward'],a
 
         if graphics_timer.check():
             rate.freq()
@@ -208,7 +207,7 @@ if __name__ == '__main__':
                     y_ = xys[i,1] + 1/3. ##### TEMP #########
                     if y_ > 0:
                         xys4.append([x_,y_,np.sqrt(x_**2+y_**2),np.mod(i,num_rectangle_patterns)])
-                        cg(dp(x_),dp(y_),dp(np.sqrt(x_**2+y_**2)))
+                        #cg(dp(x_),dp(y_),dp(np.sqrt(x_**2+y_**2)))
                 #cg(len(xys4),dp(time.time()))
                 xys4 = na(xys4)
                 Pub['rectangles_xys'].publish(data=xys4.reshape(4*len(xys4)))
