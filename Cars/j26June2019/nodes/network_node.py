@@ -264,8 +264,9 @@ if __name__ == '__main__':
                         #cr('rectangles_xys' in N)
                         #cr(len(N['rectangles_xys']))
                             
-                        if time.time() - N['rectangles_xys_timestamp'] > N['circle_lifetime']:
-                            N['rectangles_xys'] = na([])
+                        if False:
+                            if time.time() - N['rectangles_xys_timestamp'] > N['circle_lifetime']:
+                                N['rectangles_xys'] = na([])
 
                         if len(N['rectangles_xys']) > 0:
                             #cr('***')

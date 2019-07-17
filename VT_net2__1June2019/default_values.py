@@ -12,7 +12,7 @@ P['To Expose'] = {}
 ###############################################3
 
 # walking pace ~= 1.4 m/s
-P['cmd_camera_to_camera_heading_cooeficient'] = 0.75
+P['cmd_camera_to_camera_heading_cooeficient'] = 1.5 #0.75
 P['distance'] = 0.
 P['graphics 1'] = False
 P['graphics 2'] = True
@@ -20,8 +20,8 @@ P['graphics 3'] = False
 P['slow_encoder_s'] = 0.5
 P['stop_timer_time'] = 0.5
 P['slow_encoder_wait'] = 0.5
-P['point_lifetime'] = 10
-P['circle_lifetime'] = 10
+P['point_lifetime'] = 30
+P['circle_lifetime'] = 20
 P['vel-encoding coeficient'] = 0.5#0.387#(1.0/2.3)
 P['graphics_timer time'] = 0.#1/4.
 P['save metadata'] = False
@@ -35,7 +35,7 @@ P['num timesteps'] = 9
 P['load_timer_time'] = 2
 P['U_heading_gain'] = 2.0
 P['initial index'] = 4800
-P['backup parameter'] = 0.5#1.0
+P['backup parameter'] = 0.5 # 1.0
 P['use center line'] = True
 P['cmd/an impulse (click)'] = False
 P['show timer time'] = 0
@@ -62,5 +62,6 @@ P['topic_suffix'] = ''
 P['behavioral_mode_list'] = ['left','direct','right']
 P['pixels_per_unit'] = 20.
 P['num Array pts'] = 300
+P['num barrier pts'] = 5
 
 #EOF

@@ -44,7 +44,7 @@ _['control print'] = True
 _['flex print'] = True
 ############# NETWORK PARAMETERS
 _['ldr_gain'] = 1.0
-_['backup parameter'] = 0.5
+_['backup parameter'] = -1. #0.5
 _['network_output_sample'] = 0 # >= 0, <= 9
 _['network_steer_gain'] = 2.0
 _['network_camera_gain'] = 4.0
@@ -232,6 +232,7 @@ _['To Expose']['Arduino'] = [
 ]
 _['To Expose']['Network'] = [
     'ABORT',
+    'backup parameter',
     'still_motor_offset_gain',
 	'network_output_sample',
 	'network_steer_gain',

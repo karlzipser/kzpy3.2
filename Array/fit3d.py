@@ -155,7 +155,7 @@ def point_in_3D_to_point_in_2D(
 ):
     if a[1]<0:
         return False,False
-
+    #print backup_parameter
     b = Point3(a[0], 0, a[1] - backup_parameter)
     c = project(b,mat,height_in_pixels,width_in_pixels)
 

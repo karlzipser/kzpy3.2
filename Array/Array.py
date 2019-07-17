@@ -1,5 +1,5 @@
 from kzpy3.vis3 import *
-import fit3d
+import kzpy3.Array.fit3d as fit3d
 exec(identify_file_str)
 
 def Array(

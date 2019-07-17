@@ -77,7 +77,7 @@ Path_pts3D['setup_plot'](
     pixels_per_unit=pixels_per_unit,
 )
 
-Barrier_pts3D = kzpy3.Array.Array.Array(5,2)#P['num Array pts'],2)
+Barrier_pts3D = kzpy3.Array.Array.Array(P['num barrier pts'],2)
 height_in_pixels=94
 width_in_pixels=168
 x_origin_in_pixels=0
@@ -136,7 +136,7 @@ if __name__ == '__main__':
             camera_heading = (camera-49) * P['cmd_camera_to_camera_heading_cooeficient']
 
             d_camera_heading = camera_heading - camera_heading_prev
-            cm(d_camera_heading)
+            #cm(d_camera_heading)
 
         except KeyboardInterrupt:
             cr('*** KeyboardInterrupt ***')
@@ -180,12 +180,6 @@ if __name__ == '__main__':
             Path_pts2D['check_ts'](
                 P['point_lifetime'],
             )
-            
-            if False:
-                Path_pts3D['to_3D'](
-                    Path_pts2D,
-                    P['backup parameter'],
-                )
                 
             pts_3d = Barrier_pts3D['to_3D'](
                 Path_pts2D,
@@ -199,18 +193,17 @@ if __name__ == '__main__':
             )
         
             xys = na(pts_3d)
+            #print xys
 
-            if len(xys) > 0:
-                xys4 = []
-                for i in rlen(xys):
-                    x_ = xys[i,0]
-                    y_ = xys[i,1] + 1/3. ##### TEMP #########
-                    if y_ > 0:
-                        xys4.append([x_,y_,np.sqrt(x_**2+y_**2),np.mod(i,num_rectangle_patterns)])
-                        #cg(dp(x_),dp(y_),dp(np.sqrt(x_**2+y_**2)))
-                #cg(len(xys4),dp(time.time()))
-                xys4 = na(xys4)
-                Pub['rectangles_xys'].publish(data=xys4.reshape(4*len(xys4)))
+            #if len(xys) > 0:
+            xys4 = []
+            for i in rlen(xys):
+                x_ = xys[i,0]
+                y_ = xys[i,1] #+ 1/3. ##### TEMP #########
+                if y_ > -1:
+                    xys4.append([x_,y_,np.sqrt(x_**2+y_**2),np.mod(i,num_rectangle_patterns)])
+            xys4 = na(xys4)
+            Pub['rectangles_xys'].publish(data=xys4.reshape(4*len(xys4)))
 
 
  

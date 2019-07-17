@@ -59,7 +59,8 @@ def paste_rectangles_into_drive_images(
         x_,y_,rng,rectangle_pattern = xy[0],xy[1],xy[2],int(xy[3])
         x,y,disparity,width = fit3d.pt_in_2D_to_image_with_disparity_and_width(x_,y_,0.1,backup_parameter)
         width = intr(width)
-        if width > 0 and rng > 0.:
+        print rng
+        if width > 0 and rng > -1: #0.:
             #print I.keys()
             if 'L' in I and 'R' in I and width in R:
                 #print width,rectangle_pattern

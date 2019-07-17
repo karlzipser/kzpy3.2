@@ -210,6 +210,8 @@ def get__path_pts2D(
         cr('rotate error')
         pass
 
+    Path_pts2D['zero']()
+
     Path_pts2D['append'](
         trajectory_vector,
         value,
@@ -217,6 +219,7 @@ def get__path_pts2D(
     )
 
     Path_pts2D['zero']()
+   
 
     if pop:
         Path_pts2D['pop']()
