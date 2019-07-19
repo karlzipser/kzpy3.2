@@ -35,7 +35,7 @@ P['num timesteps'] = 9
 P['load_timer_time'] = 2
 P['U_heading_gain'] = 2.0
 P['initial index'] = 4800
-P['backup parameter'] = 0.5 # 1.0
+P['backup parameter'] = 4. #0.5 # 1.0
 P['use center line'] = True
 P['cmd/an impulse (click)'] = False
 P['show timer time'] = 0
@@ -44,6 +44,7 @@ P['skip_3D'] = False
 P['d_heading_multiplier'] = 10.5 #5.5 #6.8#8.5
 P['plot xylims'] = [-2.5,2.55,-3.,0.1]
 P['pts sym'] = '.'
+P['just_stopped_from_forward_detected_time'] = 1
 P['To Expose']['VT menu'] = sorted(P.keys())
 to_hide = ['To Expose','customers']
 for h in to_hide:
@@ -63,5 +64,6 @@ P['behavioral_mode_list'] = ['left','direct','right']
 P['pixels_per_unit'] = 20.
 P['num Array pts'] = 300
 P['num barrier pts'] = 5
+
 
 #EOF

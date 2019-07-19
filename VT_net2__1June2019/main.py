@@ -104,7 +104,7 @@ Rectangles = rectangles.Random_black_white_rectangle_collection(
 )
 
 rate = Timer(5)
-P['just_stopped_from_forward_detected'] = Timer(1)
+P['just_stopped_from_forward_detected'] = Timer(P['just_stopped_from_forward_detected_time'])
 
 if __name__ == '__main__':
 
@@ -156,6 +156,7 @@ if __name__ == '__main__':
             pop = False
         else:
             if P['just_stopped_from_forward_detected'].check():
+                P['just_stopped_from_forward_detected'].time_s = P['just_stopped_from_forward_detected_time']
                 P['just_stopped_from_forward_detected'].reset()
                 a = 1  
             else:
@@ -203,6 +204,10 @@ if __name__ == '__main__':
                 if y_ > -1:
                     xys4.append([x_,y_,np.sqrt(x_**2+y_**2),np.mod(i,num_rectangle_patterns)])
             xys4 = na(xys4)
+            try:
+                xys4 = xys4[ (xys4[:,2] ).argsort() ]
+            except:
+                print xys4
             Pub['rectangles_xys'].publish(data=xys4.reshape(4*len(xys4)))
 
 

@@ -53,13 +53,15 @@ def paste_rectangles_into_drive_images(
     backup_parameter,
 ):
     #for xy in xys:
+    ranges = []
     for i in rlen(xys):
         xy = xys[i]
         #print xy
         x_,y_,rng,rectangle_pattern = xy[0],xy[1],xy[2],int(xy[3])
         x,y,disparity,width = fit3d.pt_in_2D_to_image_with_disparity_and_width(x_,y_,0.1,backup_parameter)
         width = intr(width)
-        print rng
+        ranges.append(rng)
+        #print rng
         if width > 0 and rng > -1: #0.:
             #print I.keys()
             if 'L' in I and 'R' in I and width in R:
@@ -79,6 +81,7 @@ def paste_rectangles_into_drive_images(
                         #mci(I[s],title=s)
                     except:
                         cr('place_img_f_in_img_g failure')
+    print ranges
     #mci(I['L'],title='L_')
     #return I['L']
 

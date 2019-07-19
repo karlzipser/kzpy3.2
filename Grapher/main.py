@@ -146,7 +146,7 @@ while True:
         if P['box_prev'] in ['slow_forward','fast_forward'] and P['box'] == 'still':
             P['just_stopped_from_forward_timer'].reset()
         else:
-            cr('no data for markov')
+            pass #cr('no data for markov')
 
 
 
