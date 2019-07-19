@@ -10,6 +10,7 @@ Q = {
     'ABORT': False,
     'CLEAR': False,
     'pAUSE': False,
+    'use_graphics': False,
     'times': {
         'show':1/30.,
         'shift': 1/20.,

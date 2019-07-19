@@ -81,7 +81,7 @@ def paste_rectangles_into_drive_images(
                         #mci(I[s],title=s)
                     except:
                         cr('place_img_f_in_img_g failure')
-    print ranges
+    #print ranges
     #mci(I['L'],title='L_')
     #return I['L']
 

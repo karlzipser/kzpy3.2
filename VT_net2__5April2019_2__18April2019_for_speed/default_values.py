@@ -4,7 +4,8 @@ exec(identify_file_str)
 
 ###############################################3
 #
-_ = {}
+P = {}
+_ = P
 _['ABORT'] = False
 _['customers'] = ['VT menu']
 _['To Expose'] = {}
@@ -25,7 +26,7 @@ _['Prediction2D_plot scale'] = 8.3
 _['num timesteps'] = 8
 _['load_timer_time'] = 2
 _['U_heading_gain'] = 2.0
-_['initial index'] = 4800
+_['initial index'] = 0
 _['backup parameter'] = 1.0
 _['use center line'] = True
 _['cmd/an impulse (click)'] = False

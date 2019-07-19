@@ -104,7 +104,7 @@ Rectangles = rectangles.Random_black_white_rectangle_collection(
 )
 
 rate = Timer(5)
-P['just_stopped_from_forward_detected'] = Timer(P['just_stopped_from_forward_detected_time'])
+P['just_stopped_from_forward_detected'] = Timer(10**9)
 
 if __name__ == '__main__':
 
@@ -152,15 +152,18 @@ if __name__ == '__main__':
         
         pop = False #True
         a = 0
-        if S['just_stopped_from_forward'] == 0:
+        cm(0,a,S['just_stopped_from_forward'])
+        if P['just_stopped_from_forward_detected'].check():
+            P['just_stopped_from_forward_detected'].time_s = 10**9
+            P['just_stopped_from_forward_detected'].reset()
+            a = 1
             pop = False
-        else:
-            if P['just_stopped_from_forward_detected'].check():
-                P['just_stopped_from_forward_detected'].time_s = P['just_stopped_from_forward_detected_time']
-                P['just_stopped_from_forward_detected'].reset()
-                a = 1  
-            else:
-                a = 0
+            cm(1,a)
+        if S['just_stopped_from_forward'] == 1:
+            pop = False
+            P['just_stopped_from_forward_detected'].time_s = P['just_stopped_from_forward_detected_time']
+            P['just_stopped_from_forward_detected'].reset()
+            cm(2,a)
         prediction_images.get__path_pts2D(
             d_heading + d_camera_heading,
             encoder,
@@ -205,9 +208,9 @@ if __name__ == '__main__':
                     xys4.append([x_,y_,np.sqrt(x_**2+y_**2),np.mod(i,num_rectangle_patterns)])
             xys4 = na(xys4)
             try:
-                xys4 = xys4[ (xys4[:,2] ).argsort() ]
+                xys4 = xys4[ (-xys4[:,2] ).argsort() ]
             except:
-                print xys4
+                pass#print xys4
             Pub['rectangles_xys'].publish(data=xys4.reshape(4*len(xys4)))
 
 

@@ -43,8 +43,8 @@ _['network print'] = True
 _['control print'] = True
 _['flex print'] = True
 ############# NETWORK PARAMETERS
-_['ldr_gain'] = 1.0
-_['backup parameter'] = 1. #-0.1 #0.5
+_['ldr_gain'] = 0.1
+_['backup parameter'] = 1/3. #-0.1 #0.5
 _['network_output_sample'] = 0 # >= 0, <= 9
 _['network_steer_gain'] = 2.0
 _['network_camera_gain'] = 4.0
@@ -67,11 +67,11 @@ _['visualize_activations'] = False
 _['camera_move_threshold'] = 0
 _['camera_auto_zero_for_small_values_int'] = 0
 _['saccade timer parameter'] = 1.0
-_['ldr_on_time'] = 0.5
-_['ldr_off_time'] = 0.2
+_['ldr_on_time'] = 0.25
+_['ldr_off_time'] = 0.25
 #_['cmd_camera_to_camera_heading_cooeficient'] = 0. #0.75
 _['temp_camera'] = 49
-_['still_motor_offset_gain'] = 1.0
+_['still_motor_offset_gain'] = 0.0
 ###########################
 _['use flex'] = False
 _['flex_motor_smoothing_parameter'] = _['network_motor_smoothing_parameter']
@@ -129,7 +129,7 @@ _['camera_pwm_manual_offset'] = 133
 
 _['HUMAN_SMOOTHING_PARAMETER_1'] = 0.75
 
-_['use_net_motor_PID'] = True
+_['use_net_motor_PID'] = False
 _['use_human_motor_PID'] = False
 _['human_PID_motor_percent'] = 53
 _['pid_motor_slope'] = (60-49)/3.0

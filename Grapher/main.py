@@ -152,6 +152,7 @@ while True:
 
         if pub_timer.check():
             pub_timer.reset()
+            #if P['box_prev'] != P['box']:
             print P['box']
             Pub['drive_direction'].publish(data=Directions[P['box']])
 
@@ -176,7 +177,7 @@ while True:
 
 
 
-    if show_timer.check():
+    if show_timer.check() and T['use_graphics']:
         if k == ord('c'):
             T['CLEAR'] = True
         if T['CLEAR']:
