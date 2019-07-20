@@ -21,7 +21,7 @@ P['slow_encoder_s'] = 0.5
 P['stop_timer_time'] = 0.5
 P['slow_encoder_wait'] = 0.5
 P['point_lifetime'] = 30
-P['circle_lifetime'] = 20
+P['circle_lifetime'] = 8
 P['vel-encoding coeficient'] = 0.5#0.387#(1.0/2.3)
 P['graphics_timer time'] = 0.#1/4.
 P['save metadata'] = False
@@ -44,7 +44,7 @@ P['skip_3D'] = False
 P['d_heading_multiplier'] = 10.5 #5.5 #6.8#8.5
 P['plot xylims'] = [-2.5,2.55,-3.,0.1]
 P['pts sym'] = '.'
-P['just_stopped_from_forward_detected_time'] = 1
+P['just_stopped_from_forward_detected_time'] = 3
 P['To Expose']['VT menu'] = sorted(P.keys())
 to_hide = ['To Expose','customers']
 for h in to_hide:

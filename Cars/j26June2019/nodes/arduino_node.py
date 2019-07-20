@@ -226,5 +226,5 @@ _['ABORT'] = True
 
 CS('End arduino_node.py main loop.')
 
-
+raw_enter()
 #EOF

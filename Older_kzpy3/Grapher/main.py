@@ -20,7 +20,7 @@ P['still'] = {}
 P['still']['end'] = False
 P['still']['begin'] = False
 P['direction'] = 0
-P['just_stopped_from_forward_timer'] = Timer(1/3.)
+P['just_stopped_from_forward_timer'] = Timer(1.)
 P['box_prev'] = 'still'
 P['box'] = 'still'
 

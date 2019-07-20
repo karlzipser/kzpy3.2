@@ -2,6 +2,7 @@ from kzpy3.utils3 import *
 
 menus = 'menus'
 run_options = 'run programs'
+car_path = 'kzpy3/Cars/j26June2019/nodes'
 Q = {
     menus: {
         '--mode--':'extern',
@@ -16,7 +17,7 @@ Q = {
     	'--mode--':'bash',
     	'Mr_New 169.254.131.242':'ssh -X nvidia@169.254.131.242',
     	'Mr_Purple 169.254.131.243':'ssh -X nvidia@169.254.131.243',
-    }
+    },
 }
 
 data = find_files_recursively(opjk(),'defaults.py',FILES_ONLY=True,ignore_underscore=True) 

@@ -16,6 +16,8 @@ Q = {
     'pgp':'cd ~/kzpy3; git pull; cd',
     'VT_net2__1June2019':'python kzpy3/VT_net2__1June2019/main.py',
     'VT_net2__1June2019 menu':'python kzpy3/Menu_app/menu2.py --path kzpy3/VT_net2__1June2019 --dic P',
+
+    
 }
 
 

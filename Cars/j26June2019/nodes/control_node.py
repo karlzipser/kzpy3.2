@@ -424,6 +424,10 @@ def adjusted_motor():
     C['net/motor/smooth'] = bound_value(C['net/motor/smooth'],0,99)
 
     new_motor = C['net/motor/smooth'] + C['flex/motor/smooth']-49 + still_motor_offset
+    if new_motor > 50:
+        new_motor += P['network_motor_offset']
+    elif new_motor < 48:
+        new_motor += P['network_reverse_motor_offset']
 
     if P['max motor'] < 49:
         P['max motor'] = 49
@@ -545,47 +549,54 @@ def adjusted_camera():
 if __name__ == '__main__':
     ready = Timer(1/30.)
     while not rospy.is_shutdown() and P['ABORT'] == False:
+        try:
+            if ready.check():
+                ready.reset()
+                #print C['drive_direction']
+                if C['drive_direction'] < 0:
+                    C['lights_pub'].publish(C['lights'][PURPLE])
+                    C['lights_pub'].publish(C['lights'][GREEN_OFF])
+                elif C['drive_direction'] > 0:
+                    C['lights_pub'].publish(C['lights'][PURPLE_OFF])
+                    C['lights_pub'].publish(C['lights'][GREEN])
+                else:
+                    C['lights_pub'].publish(C['lights'][PURPLE])
+                    C['lights_pub'].publish(C['lights'][GREEN])
 
-        if ready.check():
-            ready.reset()
-            #print C['drive_direction']
-            if C['drive_direction'] < 0:
-                C['lights_pub'].publish(C['lights'][PURPLE])
-                C['lights_pub'].publish(C['lights'][GREEN_OFF])
-            elif C['drive_direction'] > 0:
-                C['lights_pub'].publish(C['lights'][PURPLE_OFF])
-                C['lights_pub'].publish(C['lights'][GREEN])
-            else:
-                C['lights_pub'].publish(C['lights'][PURPLE])
-                C['lights_pub'].publish(C['lights'][GREEN])
+                if C['behavioral_mode_pub_timer'].check():
+                    C['behavioral_mode_pub_timer'].reset()
+                    C['behavioral_mode_pub'].publish(C['behavior_names'][C['behavioral_mode']])
 
-            if C['behavioral_mode_pub_timer'].check():
-                C['behavioral_mode_pub_timer'].reset()
-                C['behavioral_mode_pub'].publish(C['behavior_names'][C['behavioral_mode']])
+                if C['lights_pub_ready'] == True:
+                    C['lights_pub'].publish(C['lights'][C['behavioral_mode']])
+                    C['lights_pub_ready'] = False
 
-            if C['lights_pub_ready'] == True:
-                C['lights_pub'].publish(C['lights'][C['behavioral_mode']])
-                C['lights_pub_ready'] = False
+                for src in ['net','flex']:
+                    for typ in ['camera','steer','motor']:
+                        val,error = check_value(C[opj(src,typ)],0,99,-20,119,49.)
+                        C[opj(src,typ,'check')] = val
+                        C[opj(src,typ,'error')] = error
 
-            for src in ['net','flex']:
-                for typ in ['camera','steer','motor']:
-                    val,error = check_value(C[opj(src,typ)],0,99,-20,119,49.)
-                    C[opj(src,typ,'check')] = val
-                    C[opj(src,typ,'error')] = error
+                adjusted_motor()
+                adjusted_steer()
+                adjusted_camera()
 
-            adjusted_motor()
-            adjusted_steer()
-            adjusted_camera()
+                C['cmd/motor/pub'].publish(C['new_motor'])
+                C['cmd/steer/pub'].publish(C['new_steer'])
+                C['cmd/camera/pub'].publish(C['new_camera'])
 
-            C['cmd/motor/pub'].publish(C['new_motor'])
-            C['cmd/steer/pub'].publish(C['new_steer'])
-            C['cmd/camera/pub'].publish(C['new_camera'])
+                print_topics()
 
-            print_topics()
+                check_menu()
 
-            check_menu()
+        except Exception as e:
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            CS_('Exception!',emphasis=True)
+            CS_(d2s(exc_type,file_name,exc_tb.tb_lineno,int(time.time())),emphasis=False)    
+            time.sleep(1)
 
-
+raw_enter('control_node done.')
 #EOF
 
     
