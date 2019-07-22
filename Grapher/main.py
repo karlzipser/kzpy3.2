@@ -143,8 +143,12 @@ while True:
                     'motor': T['data'][T['parameters']['the_motor']]['value'],            
                 }
             )
-        if P['box_prev'] in ['slow_forward','fast_forward'] and P['box'] == 'still':
+        #if P['box_prev'] in ['slow_forward','fast_forward'] and P['box'] == 'still':
+        #    P['just_stopped_from_forward_timer'].reset()
+
+        if P['box_prev'] in ['still'] and P['box'] in ['slow_backward']:
             P['just_stopped_from_forward_timer'].reset()
+
         else:
             pass #cr('no data for markov')
 
