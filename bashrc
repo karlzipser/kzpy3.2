@@ -104,9 +104,10 @@ if [ "$(whoami)" == "nvidia" ]
   then
     n
   else
-    echo 'ssh in 2'
-    sleep 2
-    qssh.py
+    echo 'done.'
+    #echo 'ssh in 2'
+    #sleep 2
+    #qssh.py
 fi
 
 
