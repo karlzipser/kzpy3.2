@@ -13,6 +13,9 @@ def get_code_snippet():
             break
         if started:
             snippet_lst.append(c)
+    #print snippet_lst
+    if len(snippet_lst) == 0:
+        cr('*** No code snippet. Did you use #,a and #,b ? ***')
     setClipboardData('\n'.join(snippet_lst))
     cb('setClipboardData() from',code_file)
 

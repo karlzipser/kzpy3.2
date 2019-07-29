@@ -1,5 +1,5 @@
-clear
-echo "Start kzpy3/bashrc..."
+#clear
+#echo "Start kzpy3/bashrc..."
 
 alias ls='ls -alh'
 alias rlog='rm -r ~/.ros/log/*'
@@ -80,12 +80,12 @@ export PATH=~/kzpy3/Menu:$PATH
 alias sb='cd;source ~/.bashrc'
 #######################################################
 #
-export COMPUTER_NAME=$HOSTNAME
-PS1="$COMPUTER_NAME> \W $ "
+export COMPUTER_NAME='' #$HOSTNAME
+PS1="$COMPUTER_NAME\W $ "
 if [ "$(whoami)" == "nvidia" ]
   then
-    #export COMPUTER_NAME=$HOSTNAME
-    #PS1="$COMPUTER_NAME> \W $ "
+    export COMPUTER_NAME=$HOSTNAME
+    PS1="$COMPUTER_NAME> \W $ "
     source /opt/ros/kinetic/setup.bash
     source ~/catkin_ws/devel/setup.bash
 fi
@@ -98,17 +98,17 @@ alias rou='show_image_from_ros.py --scale --2 topic /os1_node/image'
 
 #python kzpy3/scripts/connect/quick_print.py
 
-date
-echo "...End kzpy3/bashrc"
-if [ "$(whoami)" == "nvidia" ]
-  then
-    n
-  else
-    echo 'done.'
+#date
+#echo "...End kzpy3/bashrc"
+#if [ "$(whoami)" == "nvidia" ]
+#  then
+#    n
+#  else
+#    echo 'done.'
     #echo 'ssh in 2'
     #sleep 2
     #qssh.py
-fi
+#fi
 
 
 #EOF

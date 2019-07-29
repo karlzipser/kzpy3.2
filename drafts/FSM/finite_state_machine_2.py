@@ -3,16 +3,13 @@ from kzpy3.utils3 import *
 from kzpy3.drafts.FSM.defaults import *
 
 
-
-def Arrow(destination_name,function=function_true):
+def Arrow(destination_name,Environment,Host_Box,function=function_true):
     D = {}
-    D['destination_name'] = destination_name
-    def function_evaluate(Environment):
-        if rnd() > D['transition_probability']:
+    def function_evaluate():
+        if not function(Environment,Host_Box):
             return False
-        if not function(Environment):
-            return False
-        return D['destination_name']
+        else:
+            return destination_name
     D['evaluate'] = function_evaluate
     return D
 
