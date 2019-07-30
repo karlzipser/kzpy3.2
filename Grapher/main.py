@@ -20,7 +20,7 @@ P['still'] = {}
 P['still']['end'] = False
 P['still']['begin'] = False
 P['direction'] = 0
-P['just_stopped_from_forward_timer'] = Timer(1/3.)
+P['just_stopped_from_forward_timer'] = Timer(1/100.)
 P['box_prev'] = 'still'
 P['box'] = 'still'
 
@@ -148,8 +148,10 @@ while True:
 
         if P['box_prev'] in ['still'] and P['box'] in ['slow_backward']:
             P['just_stopped_from_forward_timer'].reset()
-
+            cg("P['box_prev'] in ['still'] and P['box'] in ['slow_backward']")
+            Pub['just_stopped_from_forward'].publish(data=1)
         else:
+            Pub['just_stopped_from_forward'].publish(data=0)
             pass #cr('no data for markov')
 
 
@@ -160,10 +162,6 @@ while True:
             print P['box']
             Pub['drive_direction'].publish(data=Directions[P['box']])
 
-            if not P['just_stopped_from_forward_timer'].check():
-                Pub['just_stopped_from_forward'].publish(data=1)
-            else:
-                Pub['just_stopped_from_forward'].publish(data=0)
 
 
 

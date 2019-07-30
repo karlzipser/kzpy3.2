@@ -48,14 +48,14 @@ _['backup parameter'] = 1/3. #-0.1 #0.5
 _['network_output_sample'] = 0 # >= 0, <= 9
 _['network_steer_gain'] = 2.0
 _['network_camera_gain'] = 4.0
-_['network_motor_gain'] = 1.0
+_['network_motor_gain'] = 0.8
 _['from still motor offset gain'] = 0.0
 _['low velocity direct steer gain'] = 4.0
 _['network_reverse_motor_gain'] = 2.
 _['network_motor_offset'] = 0
 _['network_reverse_motor_offset'] = -5
 _['network_servo_smoothing_parameter'] = 0.85
-_['network_motor_smoothing_parameter'] = 0.85
+_['network_motor_smoothing_parameter'] = 0.95
 _['network_camera_smoothing_parameter'] = 0.75
 _['network_servo_smoothing_parameter_direct'] = 0.85
 _['network_steer_gain_direct'] = 1.5
@@ -130,7 +130,7 @@ _['camera_pwm_manual_offset'] = 133
 
 _['HUMAN_SMOOTHING_PARAMETER_1'] = 0.75
 
-_['use_net_motor_PID'] = False
+_['use_net_motor_PID'] = True
 _['use_human_motor_PID'] = False
 _['human_PID_motor_percent'] = 53
 _['pid_motor_slope'] = (60-49)/3.0

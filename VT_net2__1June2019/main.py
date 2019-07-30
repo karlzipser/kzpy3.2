@@ -153,16 +153,22 @@ if __name__ == '__main__':
         pop = False #True
         a = 0
         #cm(0,a,S['just_stopped_from_forward'])
-        if P['just_stopped_from_forward_detected'].check() and direction == 0:
+        if False:#P['just_stopped_from_forward_detected'].check() and direction == 0:
             P['just_stopped_from_forward_detected'].time_s = 10**9
             P['just_stopped_from_forward_detected'].reset()
             a = 1
             pop = False
             #cm(1,a)
-        if S['just_stopped_from_forward'] == 1:
+            
+        print S['just_stopped_from_forward'],S['just_stopped_from_forward_hold']  
+        if S['just_stopped_from_forward_hold'] == 1:
+            S['just_stopped_from_forward_hold'] = 0
+            cb("S['just_stopped_from_forward'] == 1")
             pop = False
             P['just_stopped_from_forward_detected'].time_s = P['just_stopped_from_forward_detected_time']
             P['just_stopped_from_forward_detected'].reset()
+            P['just_stopped_from_forward_detected'].trigger()
+            a = 1
             #cm(2,a)
         prediction_images.get__path_pts2D(
             d_heading + d_camera_heading,

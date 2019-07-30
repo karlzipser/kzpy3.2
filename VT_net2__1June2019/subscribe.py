@@ -30,7 +30,7 @@ S['delta cmd/camera'] = 0
 S['cmd/camera'] = 49
 S['drive_direction'] = 0
 S['just_stopped_from_forward'] = 0
-
+S['just_stopped_from_forward_hold'] = 0
 def encoder_callback(data):
     S['encoder'] = data.data
 
@@ -56,6 +56,8 @@ rospy.Subscriber('/drive_direction',std_msgs.msg.Int32,callback=drive_direction_
 
 def just_stopped_from_forward_callback(msg):
     S['just_stopped_from_forward'] = msg.data
+    if S['just_stopped_from_forward']:
+        S['just_stopped_from_forward_hold'] = 1
 rospy.Subscriber('/just_stopped_from_forward',std_msgs.msg.Int32,callback=just_stopped_from_forward_callback)
 
 

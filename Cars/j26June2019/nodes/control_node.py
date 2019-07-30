@@ -426,7 +426,7 @@ def adjusted_motor():
     new_motor = C['net/motor/smooth'] + C['flex/motor/smooth']-49 + still_motor_offset
     if new_motor > 50:
         new_motor += P['network_motor_offset']
-    elif new_motor < 48:
+    elif new_motor < 47:
         new_motor += P['network_reverse_motor_offset']
 
     if P['max motor'] < 49:
