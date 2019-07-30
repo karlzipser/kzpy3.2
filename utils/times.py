@@ -74,7 +74,7 @@ class Timer:
         else:
             return False
     def c(self):
-        cr('*** warning, Timer.c() used ***',ra=1)
+        #cr('*** warning, Timer.c() used ***',ra=1)
         return self.check()
     def time(self):
         return time.time() - self.start_time
@@ -83,7 +83,7 @@ class Timer:
         self.count = 0
     def trigger(self):
         self.start_time = 0
-        print("*** warning, trigger used ***")
+        #print("*** warning, trigger used ***")
         #raw_enter()
     def freq(self,name='',do_print=True):
         self.count += 1

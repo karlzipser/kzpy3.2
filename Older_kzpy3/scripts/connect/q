@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-echo "*** q.sh ***"
-if [ $# -eq 0 ]
-  then
-    echo "No choice supplied, E.g., 1"
-else
-	python ~/kzpy3/scripts/connect/quick_ssh.py --choice $1
-fi
