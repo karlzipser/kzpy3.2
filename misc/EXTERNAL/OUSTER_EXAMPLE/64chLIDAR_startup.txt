@@ -12,8 +12,7 @@ journalctl -fu dnsmasq
 
 
 # viz demo (openGL)
-~/Desktop/ouster_example/ouster_viz/build/viz 192.168.1.[sensor] 192.168.1.240
-
+~/kzpy3/misc/EXTERNAL/OUSTER_EXAMPLE/ouster_viz/build/viz 192.168.1.250 192.168.1.240
 
 nc 192.168.1.250 7501
 get_config_txt
@@ -23,24 +22,21 @@ write_config_txt
 # ROS demo
 
 source ~/catkin_ws/myworkspace/devel/setup.bash
-
 export ROS_MASTER_URI=http://192.168.1.240:11311
 export ROS_IP=192.168.1.240
-
-[exit nc first!]
-roslaunch ouster_ros os1.launch os1_hostname:=192.168.1.[sensor] os1_udp_dest:=192.168.1.240
+#[exit nc first!]
+roslaunch ouster_ros os1.launch os1_hostname:=192.168.1.250 os1_udp_dest:=192.168.1.240 image:=true
 
 rostopic list
-#outputs:
-#/os1_node/imu
-#/os1_node/imu_packets
-#/os1_node/lidar_packets
-#/os1_node/points
-#/rosout
-#/rosout_agg
-
-rviz -d ~/Desktop/ouster_example/ouster_ros/viz.rviz
+# /img_node/intensity_image
+# /img_node/noise_image
+# /img_node/range_image
+# /os1_cloud_node/imu
+# /os1_cloud_node/points
+# /os1_node/imu_packets
+# /os1_node/lidar_packets
 
 
-export ROS_MASTER_URI=http://192.168.1.101:11311
-export ROS_IP=192.168.101
+
+
+
