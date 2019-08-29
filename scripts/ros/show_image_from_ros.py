@@ -54,7 +54,7 @@ def action(topic,scale=1,delay=33,s=3600,save_samples=False):
 
     save_samples_timer = Timer(1)
 
-    samples_dir = opjD(d2n(topic,'.',time.time()))
+    samples_dir = opjD(d2n(get_safe_name(topic),'.',time.time()))
 
     os.system(d2s('mkdir -p',samples_dir))
 

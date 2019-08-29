@@ -37,6 +37,6 @@ rostopic list
 # /os1_node/lidar_packets
 
 
-
+show_image_from_ros.py --topic /img_node/noise_image --save_samples 1 &
 
 
