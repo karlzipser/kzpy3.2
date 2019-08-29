@@ -8,7 +8,8 @@ setup_Default_Arguments(
         'scale':1,
         'delay':33,
         'topic':"/bair_car/zed/left/image_rect_color",
-        'help':0
+        'help':0,
+        'save_samples':False,
     }
 )
 print_Arguments()
@@ -40,7 +41,7 @@ def image_callback(data):
 
 
 
-def action(topic,scale=1,delay=33,s=3600):
+def action(topic,scale=1,delay=33,s=3600,save_samples=False):
     global ROS_initalized
     if not ROS_initalized:
         rospy.Subscriber(topic,Image,image_callback,queue_size = 1)
@@ -51,10 +52,27 @@ def action(topic,scale=1,delay=33,s=3600):
 
     waiting = Timer(1)
 
+    save_samples_timer = Timer(1)
+
+    samples_dir = opjD(d2n(topic,'.',time.time()))
+
+    os.system(d2s('mkdir -p',samples_dir))
+
+    ctr = 0
+
+    first_time = True
+
     while not main_timer.check():
 
         if len(image_list) > 2:
             img = image_list[-1]
+            if first_time:
+                first_time = False
+                pd2s(topic,"image shape =",shape(img))
+            if save_samples_timer.check():
+                save_samples_timer.reset()
+                imsave(opj(samples_dir,d2n(ctr,'.png')),img)
+            ctr += 1
             #mi(img);spause()
             q = mci(img,delay=33,title=topic,scale=scale)
             if q == ord('q'):
@@ -74,6 +92,7 @@ if __name__ == '__main__':
         Arguments['scale'],
         Arguments['delay'],
         Arguments['seconds'],
+        Arguments['save_samples'],
     )
 
     cb('\nDone.\n')
