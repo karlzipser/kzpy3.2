@@ -25,7 +25,7 @@ source ~/catkin_ws/myworkspace/devel/setup.bash
 export ROS_MASTER_URI=http://192.168.1.240:11311
 export ROS_IP=192.168.1.240
 #[exit nc first!]
-roslaunch ouster_ros os1.launch os1_hostname:=192.168.1.250 os1_udp_dest:=192.168.1.240 image:=true
+roslaunch ouster_ros os1.launch os1_hostname:=192.168.1.250 os1_udp_dest:=192.168.1.240 image:=true lidar_mode:=512x10
 
 rostopic list
 # /img_node/intensity_image
