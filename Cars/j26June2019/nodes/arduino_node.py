@@ -31,7 +31,10 @@ def data_saving_callback(msg):
 def lights_callback(msg):
     _['lights'] = msg.data
     if 'LIGHTS' in _['Arduinos']:
-        _['Arduinos']['LIGHTS'].write(d2n(""" "(""",_['Lights'][_['lights']],""")" """)) 
+        try:
+            _['Arduinos']['LIGHTS'].write(d2n(""" "(""",_['Lights'][_['lights']],""")" """))
+        except:
+            print('lights_callback(msg) lights write failed.')
 
 rospy.init_node('run_arduino',anonymous=True,disable_signals=True)
 rospy.Subscriber('/cmd/steer', std_msgs.msg.Int32, callback=cmd_steer_callback)
