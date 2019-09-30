@@ -162,8 +162,11 @@ _['delta servo_pwm for calibration'] = 900
 _['delta motor_pwm for calibration'] = 800
 _['Arduinos'] = {}
 def _fun_light(num):
-    if 'LIGHTS' in _['Arduinos']:
-        _['Arduinos']['LIGHTS'].write(d2n(""" "(""",num,""")" """))
+	try:
+	    if 'LIGHTS' in _['Arduinos']:
+	        _['Arduinos']['LIGHTS'].write(d2n(""" "(""",num,""")" """))
+	except:
+		print('_fun_light(num) lights write failed.')
         #cy('light signal',num)
 _['light'] = _fun_light
 _['Lights'] = {
