@@ -2,7 +2,7 @@ from kzpy3.vis3 import *
 import Menu.main
 
 Q = Menu.main.start_Dic(
-    dic_project_path=pname(opjk()),
+    dic_project_path=pname(opjk()), # i.e., use ~/kzpy3/defaults.py for data
     Arguments={
         'menu':False,
         'read_only':True,
@@ -10,11 +10,10 @@ Q = Menu.main.start_Dic(
 )
 Q['load']()
 T = Q['Q']
-pprint(Q)
 
+raw_enter('from command line: ~/kzpy3/Menu/main.py --path ~/kzpy3/')
 
-
-def abc():
+def sample_use_of_menu_data():
 
     while True:
 
@@ -28,7 +27,7 @@ def abc():
 
 
 if __name__ == '__main__':
-    abc()
+    sample_use_of_menu_data()
 
 
 #EOF
