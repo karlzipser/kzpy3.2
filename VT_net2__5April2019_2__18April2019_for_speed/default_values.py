@@ -13,9 +13,9 @@ _['To Expose'] = {}
 ###############################################3
 
 # walking pace ~= 1.4 m/s
-_['graphics 1'] = False
+_['graphics 1'] = True ####TEMP_CHANGE False
 _['graphics 2'] = True
-_['graphics 3'] = False
+_['graphics 3'] = True ####TEMP_CHANGE False
 _['save metadata'] = False
 _['step_size'] = 1
 _['cmd/clear_screen'] = False

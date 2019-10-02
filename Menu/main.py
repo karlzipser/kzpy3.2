@@ -139,7 +139,7 @@ def Default_Values(
         if D['load_timer'].check():
             D['load_timer'].reset()
         else:
-            return
+            return False
         #print 'load check'
         try:
             t = file_modified_test(
@@ -151,8 +151,12 @@ def Default_Values(
                 D['mtime_prev'] = t
                 __load_C(D['Q'],D['project_path'])
                 __add_keys(D['Q'])
+                return True
+            else:
+                return False
         except:
             cr('function_load(): load failed')
+            return False
 
     def function_up():
         if len(D['current_keys']) > 0:

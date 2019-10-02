@@ -6,32 +6,20 @@ setup_Default_Arguments(
 	{
 		'start': 242,
 		'stop': None,
-		#'base_ip': '169.254.131',
+		'base_ip': '169.254.131',
 		'update_time':1.,
 		'ssh': False,
 		'username': 'nvidia',
 		'rsync': True,
-		#'default_ssh_ip': None,
 	}
 )
 
-try:
-	State = loState()
-	#if Arguments['default_ssh_ip'] != False:
-	Arguments['default_ssh_ip'] = State['default_ssh_ip']
-	cg('*** using default_ssh_ip =',Arguments['default_ssh_ip'])
-except:
-	cb('not using default_ssh_ip')
-
-
 print_Arguments()
-
-
-
 
 mtime = 0
 
-ssh_date_time(Arguments['default_ssh_ip']) #d2n(Arguments['base_ip'],'.',Arguments['start']))
+ssh_ip = d2n(Arguments['base_ip'],'.',Arguments['start'])
+ssh_date_time(ssh_ip)
 
 while True:
 	if Arguments['rsync']:
@@ -44,9 +32,8 @@ while True:
 					Arguments['stop'],
 					Arguments['base_ip'],
 				)
-			update_TXs([Arguments['default_ssh_ip']])
+			update_TXs([ssh_ip,])
 	if Arguments['ssh'] or not Arguments['rsync']:
-		#cr(0,ra=1)
 		break
 	time.sleep(Arguments['update_time'])
 
@@ -58,5 +45,6 @@ if False:
 		#cr(host_str,ra=2)
 		os.system(d2s('ssh -X ',host_str))
 		#cr(2,ra=2)
+		
 		
 #EOF

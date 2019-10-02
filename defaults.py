@@ -6,6 +6,7 @@ Q = {
         'default_ssh_ip_suffix': '243',
         'default_ssh_user': 'nvidia',
         'use ssh for quick commands': False,
+        'temp':1,
     },
 }
 
