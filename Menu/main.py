@@ -1,4 +1,24 @@
 #!/usr/bin/env python
+
+"""
+to run from command line:
+
+    ~/kzpy3/Menu/main.py
+
+this opens the menu defined by:
+
+    ~/kzpy3/Menu/defaults.py
+
+Other menu paths can be specified, e.g.:
+
+    ~/kzpy3/Menu/main.py --path ~/kzpy3/Grapher/
+
+or
+
+    ~/kzpy3/Menu/main.py --path ~/kzpy3/
+    
+"""
+
 from kzpy3.vis3 import *
 try:
     import colored
