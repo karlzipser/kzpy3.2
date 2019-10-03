@@ -222,7 +222,7 @@ def Default_Values(
             else:
                 sys_str = K[key]
             os.system(sys_str)
-            #raw_enter()
+            raw_enter()
             message = sys_str
             return {'message':message}
         if K['--mode--'] == 'extern':
@@ -372,8 +372,8 @@ def Default_Values(
         else:
             return True
 
-    def clear_screen():
-        cr("\nclear screen\n")
+    #def clear_screen():
+    #    cr("\nclear screen\n")
 
     def __show_menu(C,message,parent_keys=[]):
         if '--keys--' in C:
@@ -527,7 +527,8 @@ def make_choice(sorted_keys):
 
     if raw_choice == '':
         return {
-            'message':"other commands: q(quit) p(python) s(show array) h(hist array) r(resave)",
+            'message':"other commands: q(quit) p(python) s(show array) h(hist array) r(resave)."+\
+            "\n\tUse ` after selection number to indicate command line args follow.",
             'action':'continue',
         }
         

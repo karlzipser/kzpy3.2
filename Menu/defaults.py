@@ -15,8 +15,9 @@ Q = {
     },
     "ssh's": {
     	'--mode--':'bash',
-    	'Mr_New 169.254.131.242':'ssh -X nvidia@169.254.131.242',
-    	'Mr_Purple 169.254.131.243':'ssh -X nvidia@169.254.131.243',
+    	'Mr_New enet 169.254.131.242':'ssh -Y nvidia@169.254.131.242',
+    	'Mr_Purple enet 169.254.131.243':'ssh -Y nvidia@169.254.131.243',
+        'Mr_Blue wifi 192.168.1.106':'ssh -Y 192.168.1.106',
     },
 }
 
