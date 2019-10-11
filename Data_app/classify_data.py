@@ -24,6 +24,8 @@ def all_files_have_suffix(path,suffix):
 	ctr = 0
 	for f in in_dir:
 		if os.path.isfile(f):
+			if f.split('.')[-1] == 'too_small':
+				continue
 			if f.split('.')[-1] != suffix:
 				return False
 			else:
