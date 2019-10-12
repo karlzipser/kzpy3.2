@@ -27,7 +27,7 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 	from cv_bridge import CvBridge, CvBridgeError
 	bridge = cv_bridge.CvBridge()
 
-	image_topicsv = ['zed/left/image_rect_color','zed/right/image_rect_color','image']
+	image_topicsv = ['zed/left/image_rect_color','zed/right/image_rect_color']#,'image']
 	single_value_topicsv = P['SINGLE_VALUE_TOPICS']
 	vector3_topicsv = P['VECTOR3_TOPICS']
 	string_topics = P['STRING_TOPICS']
