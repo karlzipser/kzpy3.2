@@ -8,7 +8,7 @@ network input = (94, 168, 3)
 """
 
 P = {}
-P['use_LIDAR'] = False
+P['use_LIDAR'] = True
 
 P['SINGLE_VALUE_TOPICS'] = [
 	'button_number',
