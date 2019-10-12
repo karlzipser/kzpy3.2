@@ -32,6 +32,7 @@ def get_unprocessed_run(src):
             experiments.append(e)
             cb('using', e)
 
+    print src,experiments
     for e in experiments:
         cb(e)
         locations = sggo(e,'locations/*')
