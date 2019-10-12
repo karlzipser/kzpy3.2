@@ -42,6 +42,7 @@ def get_unprocessed_run(src):
             for b in behavioral_modes:
                 cb(b)
                 runs_ = sggo(b,'h5py','*')
+            print runs_
             for r in runs_:
                 cb(r)
                 if 'Mr_Black' in r or fname(r)[0] == '_':
