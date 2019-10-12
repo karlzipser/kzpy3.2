@@ -695,6 +695,32 @@ if __name__ == '__main__':
 
     ############################
     #
+    if Arguments['task'] in ['raw','all']:
+        run_folder = get_unprocessed_run(Arguments['src'])
+        process_and_save_Depth_images(run_folder)
+
+    if Arguments['task'] in ['log','all']:
+        depth_images_path = Arguments['path']
+        make_log_versions_of_images(depth_images_path)
+
+    #elif Arguments['task'] == 'flip':
+    #   depth_images_path = Arguments['path']
+    #   make_flip_versions_of_images(depth_images_path)
+
+    if Arguments['task']  in ['resize_flip','all']:
+        depth_images_path = Arguments['path']
+        make_resize_and_flip_versions_of_images(depth_images_path)
+
+    if Arguments['task'] in ['left_ts','all']:
+        depth_images_path = Arguments['path']
+        runs_location = Arguments['runs_location']
+        asign_left_timestamps(depth_images_path,runs_location)
+
+    #
+    ############################
+    """
+    ############################
+    #
     if Arguments['task'] == 'raw':
         run_folder = get_unprocessed_run(Arguments['src'])
         process_and_save_Depth_images(run_folder)
@@ -719,7 +745,7 @@ if __name__ == '__main__':
         cr("Command line arguments do not specify a valid task.")
     #
     ############################
-
+    """
 
 
 """
