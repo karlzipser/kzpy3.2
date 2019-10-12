@@ -297,7 +297,7 @@ def Left_Timestamp_Metadata(run_name=None,h5py_path=None):
 	if P['use_LIDAR']:
 		#################### lidar image indicies ###########################
 		#
-		lidar_ts = F['image']['ts'][:]
+		#lidar_ts = F['image']['ts'][:]
 		left_camera_ts = L['ts'][:]
 
 		lidar_index = 0
