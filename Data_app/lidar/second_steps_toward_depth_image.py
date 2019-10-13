@@ -145,7 +145,7 @@ def process_and_save_Depth_images(run_folder):
             if ts < the_encoder_ts:
                 continue
 
-            mes = d2n("ts = ",ts," t = ",t," (",len(p),")")
+            mes = d2n("ts = ",ts," t = ",t,"/",len(p),", ",int(t/(1.0*len(p))*100),'%')
             print_timer.message(mes)
             cb(mes)
             """
