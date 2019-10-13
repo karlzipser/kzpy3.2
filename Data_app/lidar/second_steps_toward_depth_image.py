@@ -106,6 +106,7 @@ def process_and_save_Depth_images(run_folder):
     Depth_images['intensity'] = []
     Depth_images['reflectivity'] = []
     Depth_images['display'] = []
+    Depth_images['num_samples'] = []
 
 
     """
@@ -128,6 +129,7 @@ def process_and_save_Depth_images(run_folder):
     the_range = range_n180_180
 
     depth_img = zeros((32,len(the_range)))
+    num_samples_img = zeros((32,len(the_range)))
     #depth_img_prev = depth_img.copy()
 
     ctr1,ctr2=0,0
@@ -242,17 +244,23 @@ def process_and_save_Depth_images(run_folder):
                 ctr_10 = 0
                 for b in zranger:
                     m = []
+                    ns = []
                     ctr_11 = 0
                     for ai in sorted(Data[ky][b]):
-                        if len(Data[ky][b][ai])>1:
 
+                        num_samples = len(Data[ky][b][ai]) - 1
+                        ns.append(num_samples)
+                        if num_samples > 0:
                             m.append(np.mean(Data[ky][b][ai][1:]))
                         else:
                             m.append(0)
                         ctr_11 += 1
                     for dd in range(2):
                         depth_img[ctr_10,:] = m
+                        num_samples_img[ctr_10,:] = ns
                         ctr_10 += 1
+                if ky = 'depth':
+                    Depth_images['num_samples'].append(num_samples_img.copy())
                 Depth_images[ky].append(depth_img.copy())
 
             Depth_images['ts'].append(ts)
@@ -270,7 +278,7 @@ def process_and_save_Depth_images(run_folder):
                     mi(depth_img,d2n(the_run,': depth_img'));
                     plt.title(t)
                     spause()
-                for ky in ['depth','intensity','reflectivity']:
+                for ky in ['num_samples','depth','intensity','reflectivity']:
                     #mi(Depth_images[ky])
                     #print shape(Depth_images[ky])
                     #spause()
