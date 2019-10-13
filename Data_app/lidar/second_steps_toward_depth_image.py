@@ -172,7 +172,7 @@ def process_and_save_Depth_images(run_folder):
                 x = q[i,0]
                 y = q[i,1]
                 z = q[i,2]
-                intensity_maybe = q[i,3]
+                intensity_maybe = q[i,5]
                 reflectivity_maybe = q[i,4]
 
                 a = np.degrees(angle_between((1,0), (x,y)) )
