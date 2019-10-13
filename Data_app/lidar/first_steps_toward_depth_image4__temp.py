@@ -696,10 +696,9 @@ if __name__ == '__main__':
     ############################
     #
     if Arguments['task'] in ['raw','all']:
-        raw_enter(Arguments['task'])
         run_folder = get_unprocessed_run(Arguments['src'])
         process_and_save_Depth_images(run_folder)
-
+    """
     if Arguments['task'] in ['log','all']:
         depth_images_path = Arguments['path']
         make_log_versions_of_images(depth_images_path)
@@ -716,7 +715,7 @@ if __name__ == '__main__':
         depth_images_path = Arguments['path']
         runs_location = Arguments['runs_location']
         asign_left_timestamps(depth_images_path,runs_location)
-
+    """
     #
     ############################
     """
