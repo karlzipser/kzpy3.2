@@ -146,7 +146,7 @@ def process_and_save_Depth_images(run_folder):
                 continue
 
             mes = d2n("ts = ",ts," t = ",t," (",len(p),")")
-            print_timer.message()
+            print_timer.message(mes)
             cb(mes)
             """
             if left_t >= len(O['left_image']['ts']):
