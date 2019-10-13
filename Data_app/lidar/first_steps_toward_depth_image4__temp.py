@@ -275,9 +275,12 @@ def process_and_save_Depth_images(run_folder):
                 spause()
                 plot_timer.reset()
 
-        except:
-            print "break"
-            break
+        except Exception as e:
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            CS_('Exception!',emphasis=True)
+            CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)    
+
 
     try:
         os.system(d2s("rm",opjD('Depth_images',the_run)))
