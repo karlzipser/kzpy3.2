@@ -707,7 +707,8 @@ if __name__ == '__main__':
     ############################
     #
     Arguments['path'] = opjD('Depth_images')
-    Arguments['runs_location'] = Arguments['src']
+    if 'src' in Arguments:
+        Arguments['runs_location'] = Arguments['src']
     if Arguments['task'] in ['raw','all']:
         run_folder = get_unprocessed_run(Arguments['src'])
         process_and_save_Depth_images(run_folder)
