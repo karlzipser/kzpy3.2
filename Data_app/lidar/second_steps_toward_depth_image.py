@@ -6,7 +6,7 @@ from kzpy3.vis3 import *
 
 
 
-plot_timer = Timer(10)
+plot_timer = Timer(0.1)
 
 log_min,log_max = -0.25,1.5
 
@@ -276,7 +276,7 @@ def process_and_save_Depth_images(run_folder):
                     spause()
                 mci(
                     z55(depth_img),
-                    scale=2.0,
+                    scale=3.0,
                     color_mode=cv2.COLOR_GRAY2BGR,
                     title=d2n(the_run.replace('tegra-ubuntu_',''),': depth_img')
                 )
