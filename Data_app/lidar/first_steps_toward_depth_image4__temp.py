@@ -696,6 +696,7 @@ if __name__ == '__main__':
     ############################
     #
     if Arguments['task'] in ['raw','all']:
+        raw_enter(Arguments['task'])
         run_folder = get_unprocessed_run(Arguments['src'])
         process_and_save_Depth_images(run_folder)
 
