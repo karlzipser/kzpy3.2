@@ -93,7 +93,7 @@ def process_and_save_Depth_images(run_folder):
     p = O['points']['vals']
 
     exception_timer = Timer(30)
-    print_timer = Timer(0.1)
+    #print_timer = Timer(0.1)
     us=[]
 
     timer = Timer()
@@ -138,7 +138,7 @@ def process_and_save_Depth_images(run_folder):
 
     for t in range(len(p)):
 
-        try:
+        if True:#try:
 
             ts = O['points']['ts'][t]
             #print t,ts,the_encoder_ts
@@ -146,16 +146,9 @@ def process_and_save_Depth_images(run_folder):
                 continue
 
             mes = d2n("ts = ",ts," t = ",t,"/",len(p),", ",int(t/(1.0*len(p))*100),'%')
-            print_timer.message(mes)
-            cb(mes)
-            """
-            if left_t >= len(O['left_image']['ts']):
-                break
-            left_ts = O['left_image']['ts'][left_t]
-            while left_ts < ts:
-                left_t += 1
-                left_ts = O['left_image']['ts'][left_t]
-            """
+            #print_timer.message(mes)
+            cb(mes,sf=False)
+
             q = p[t,:,:].astype(np.float32)
 
             Depths = {}
@@ -272,13 +265,13 @@ def process_and_save_Depth_images(run_folder):
                     title=d2n(the_run.replace('tegra-ubuntu_',''),': depth_img')
                 )
                 plot_timer.reset()
-
+        """
         except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             CS_('Exception!',emphasis=True)
             CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)    
-
+        """
 
     try:
         os.system(d2s("rm",opjD('Depth_images',the_run)))
