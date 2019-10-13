@@ -272,6 +272,7 @@ def process_and_save_Depth_images(run_folder):
                     spause()
                 for ky in ['depth','intensity','reflectivity']:
                     mi(Depth_images[ky])
+                    print shape(Depth_images[ky])
                     spause()
                     raw_enter()
                     mci(
