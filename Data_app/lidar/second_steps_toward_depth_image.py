@@ -133,7 +133,7 @@ def process_and_save_Depth_images(run_folder):
     while O['encoder']['vals'][the_encoder_index] < 0.75:
         the_encoder_ts = O['encoder']['ts'][the_encoder_index]
         the_encoder_index += 1
-        cg('the_encoder_index =',the_encoder_index,'the_encoder_ts =',the_encoder_ts)
+        cg("O['encoder']['vals'][the_encoder_index] =",O['encoder']['vals'][the_encoder_index], 'the_encoder_index =',the_encoder_index)#,'the_encoder_ts =',the_encoder_ts)
     
     #spd2s(the_encoder_ts)
     raw_enter()
