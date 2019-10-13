@@ -273,6 +273,7 @@ def process_and_save_Depth_images(run_folder):
                 for ky in ['depth','intensity','reflectivity']:
                     mi(Depth_images[ky])
                     spause()
+                    raw_enter()
                     mci(
                         z55(Depth_images[ky]),
                         scale=3.0,
