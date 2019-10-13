@@ -102,9 +102,7 @@ def process_and_save_Depth_images(run_folder):
     Depth_images['run'] = the_run
     Depth_images['ts'] = []
     Depth_images['index'] = []
-    Depth_images['depth'] = []
-    Depth_images['intensity'] = []
-    Depth_images['reflectivity'] = []
+    Depth_images['real'] = []
     Depth_images['display'] = []
 
 
@@ -128,7 +126,7 @@ def process_and_save_Depth_images(run_folder):
     the_range = range_n180_180
 
     depth_img = zeros((32,len(the_range)))
-    #depth_img_prev = depth_img.copy()
+    depth_img_prev = depth_img.copy()
 
     ctr1,ctr2=0,0
     the_encoder_index = 0
@@ -155,17 +153,12 @@ def process_and_save_Depth_images(run_folder):
 
             q = p[t,:,:].astype(np.float32)
 
-            Data = {
-                'depth':{},
-                'intensity':{},
-                'reflectivity':{},
-            }
+            Depths = {}
 
-            for ky in Data.keys():
-                for b in zrange:
-                    Data[ky][b] = {}
-                    for a in the_range:
-                        Data[ky][b][a] = [0]
+            for b in zrange:
+                Depths[b] = {}
+                for a in the_range:
+                    Depths[b][a] = [0]
 
             for i in range(1024*16):
 
@@ -225,9 +218,7 @@ def process_and_save_Depth_images(run_folder):
 
                         dist = np.sqrt( x**2 + y**2 + z**2 )
 
-                        Data['depth'][bi][ai].append(dist)
-                        Data['intensity'][bi][ai].append(intensity_maybe)
-                        Data['reflectivity'][bi][ai].append(reflectivity_maybe)
+                        Depths[bi][ai].append(dist)
 
                     except Exception as e:
                         ctr1+=1
@@ -237,29 +228,30 @@ def process_and_save_Depth_images(run_folder):
                             cs(exc_type,file_name,exc_tb.tb_lineno,'exceptions are ',dp(100*ctr1/(1.0*ctr2)),"% of computations")
                             exception_timer.reset()
 
-            for ky in Data.keys():
-                depth_img *= 0
-                ctr_10 = 0
-                for b in zranger:
-                    m = []
-                    ctr_11 = 0
-                    for ai in sorted(Data[ky][b]):
-                        if len(Data[ky][b][ai])>1:
+            depth_img *= 0
 
-                            m.append(np.mean(Data[ky][b][ai][1:]))
-                        else:
-                            m.append(0)
-                        ctr_11 += 1
-                    for dd in range(2):
-                        depth_img[ctr_10,:] = m
-                        ctr_10 += 1
-                Depth_images[ky].append(depth_img.copy())
+            ctr_10 = 0
+            for b in zranger:
+                m = []
+                ctr_11 = 0
+                for ai in sorted(Depths[b]):
+                    if len(Depths[b][ai])>1:
+
+                        m.append(np.mean(Depths[b][ai][1:]))
+                    else:
+                        m.append(0)
+
+                    ctr_11 += 1
+
+                for dd in range(2):
+                    depth_img[ctr_10,:] = m
+                    ctr_10 += 1
 
             Depth_images['ts'].append(ts)
             Depth_images['index'].append(t)
-            
+            Depth_images['real'].append(depth_img.copy())
 
-            #depth_img_prev = depth_img.copy()
+            depth_img_prev = depth_img.copy()
 
             if True:#plot_timer.check():
                 #ti = d2n(the_run,': left')
@@ -270,14 +262,13 @@ def process_and_save_Depth_images(run_folder):
                     mi(depth_img,d2n(the_run,': depth_img'));
                     plt.title(t)
                     spause()
-                for ky in Data.keys():
-                    mci(
-                        z55(Data),
-                        scale=3.0,
-                        color_mode=cv2.COLOR_GRAY2BGR,
-                        title=d2n(the_run.replace('tegra-ubuntu_',''),': ',ky)
-                    )
-                #plot_timer.reset()
+                mci(
+                    z55(depth_img),
+                    scale=3.0,
+                    color_mode=cv2.COLOR_GRAY2BGR,
+                    title=d2n(the_run.replace('tegra-ubuntu_',''),': depth_img')
+                )
+                plot_timer.reset()
         """
         except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
@@ -294,7 +285,7 @@ def process_and_save_Depth_images(run_folder):
         CS_('Exception!',emphasis=True)
         CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
         
-    save_Depth_images(Data,the_run)
+    save_Depth_images(Depth_images,the_run)
 
 
 
@@ -307,7 +298,7 @@ def show_depth_imgs(Depth_images,start=0,stop=-1):
     else:
         the_run = Depth_images['run'][0] # because of hdf5 strings
 
-    for img,index in zip(Depth_images['depth'][start:stop],Depth_images['index'][start:stop]):
+    for img,index in zip(Depth_images['real'][start:stop],Depth_images['index'][start:stop]):
         figure(d2s(the_run,'show_depth_imgs'),figsize=(2,1))
         mi(img,d2s(the_run,'show_depth_imgs'));
         #plt.title(index)
@@ -349,7 +340,7 @@ def save_Depth_images(Depth_images,the_run,path=opjD('Depth_images')):
 if False: # sketch of making log verions
     CA()
     n = 7003
-    img = D['depth'][n][:]
+    img = D['real'][n][:]
     img[28,:] = img[27,:]
     img[29,:] = img[30,:]
     mn,mx = -0.5,0.7
@@ -392,7 +383,7 @@ def make_log_versions_of_images(depth_images_path):
 
         try:
             D = h5rw(depth_image_file)
-            r = D['depth'][:]
+            r = D['real'][:]
             pa = Progress_animator(len(r),message='r')
 
             display = False
