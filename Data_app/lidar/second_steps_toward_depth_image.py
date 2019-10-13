@@ -259,7 +259,7 @@ def process_and_save_Depth_images(run_folder):
                         depth_img[ctr_10,:] = m
                         num_samples_img[ctr_10,:] = ns
                         ctr_10 += 1
-                if ky = 'depth':
+                if ky == 'depth':
                     Depth_images['num_samples'].append(num_samples_img.copy())
                 Depth_images[ky].append(depth_img.copy())
 
