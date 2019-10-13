@@ -272,7 +272,7 @@ def process_and_save_Depth_images(run_folder):
                     spause()
                 for ky in Data.keys():
                     mci(
-                        z55(Data),
+                        z55(Data[ky]),
                         scale=3.0,
                         color_mode=cv2.COLOR_GRAY2BGR,
                         title=d2n(the_run.replace('tegra-ubuntu_',''),': ',ky)
