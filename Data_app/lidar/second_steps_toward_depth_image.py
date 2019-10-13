@@ -145,8 +145,9 @@ def process_and_save_Depth_images(run_folder):
             if ts < the_encoder_ts:
                 continue
 
-            
-            print_timer.message(d2s("ts =",ts,"t =",t,"(",len(p),")"))
+            mes = d2n("ts = ",ts," t = ",t," (",len(p),")")
+            print_timer.message()
+            cb(mes)
             """
             if left_t >= len(O['left_image']['ts']):
                 break
