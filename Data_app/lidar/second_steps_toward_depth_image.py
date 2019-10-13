@@ -249,7 +249,7 @@ def process_and_save_Depth_images(run_folder):
 
             depth_img_prev = depth_img.copy()
 
-            if plot_timer.check():
+            if True:#plot_timer.check():
                 #ti = d2n(the_run,': left')
                 #figure(ti,figsize=(4,2))
                 #mi(O['left_image']['vals'][left_t])
