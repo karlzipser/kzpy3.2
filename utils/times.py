@@ -108,6 +108,30 @@ class Timer:
 Tr = Timer
 
 
+
+def Progress_animator(total_count,update_Hz=1.0,message=''):
+    from kzpy3.misc.progress import ProgressBar2
+    D = {}
+    D['total_count'] = total_count
+    D['progress'] = ProgressBar2(total_count,message=' '+message+': ') 
+    D['progress timer'] = Timer(1.0/(1.0*update_Hz))
+    def _update_function(current_count):
+        if True:
+            if D['progress timer'].check():
+                #print 'CCC'
+                assert current_count < D['total_count']+1
+                D['progress'].animate(current_count)
+                D['progress timer'].reset()
+            else:
+                pass#time.sleep(0.1)
+        else:#except Exception as e:
+            pass
+    D['update'] = _update_function
+    return D
+
+
+
+
 exec(identify_file_str)
 
 #EOF
