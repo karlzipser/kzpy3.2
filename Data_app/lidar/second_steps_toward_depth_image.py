@@ -137,7 +137,7 @@ def process_and_save_Depth_images(run_folder):
         cg("O['encoder']['vals'][the_encoder_index] =",O['encoder']['vals'][the_encoder_index], 'the_encoder_index =',the_encoder_index)#,'the_encoder_ts =',the_encoder_ts)
     
     #spd2s(the_encoder_ts)
-    raw_enter()
+    #raw_enter()
 
     for t in range(len(p)):
 
