@@ -1,17 +1,9 @@
 
 from kzpy3.vis3 import *
 
-
-
-
-
-
 plot_timer = Timer(0.1)
 
 log_min,log_max = -0.25,1.5
-
-
-
 
 
 
@@ -52,8 +44,6 @@ def get_unprocessed_run(src):
                         cb('using', fname(r))
 
     temp = sggo(opjD('Depth_images/*'))
-
-
 
     runs_in_progress_or_done = []
 
@@ -103,7 +93,7 @@ def process_and_save_Depth_images(run_folder):
     p = O['points']['vals']
 
     exception_timer = Timer(30)
-    print_timer = Timer(10)
+    print_timer = Timer(0.1)
     us=[]
 
     timer = Timer()
