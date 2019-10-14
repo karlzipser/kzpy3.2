@@ -26,8 +26,7 @@ def get_unprocessed_run(src):
 
     run_folder = False
 
-    #for f in run_folders:
-    for r in run_folders: #"in sggo(f,'*'):
+    for r in run_folders:
         if fname(r)[0]!= '_':
             if 'Mr_Black' not in r:
 
@@ -35,11 +34,9 @@ def get_unprocessed_run(src):
                     run_folder = r
             if run_folder:
                 break
-    #if run_folder:
-    #   break
+
     return run_folder
     
-#run_folder = '/media/karlzipser/1_TB_Samsung_n1/tu_25to26Oct2018/locations/local/left_right_center/h5py/tegra-ubuntu_25Oct18_16h17m55s'
 
 
 
@@ -67,7 +64,6 @@ def process_and_save_Depth_images(run_folder,time_limit=None):
     p = O['points']['vals']
 
     exception_timer = Timer(30)
-    #print_timer = Timer(0.1)
     us=[]
 
     timer = Timer()
@@ -98,7 +94,6 @@ def process_and_save_Depth_images(run_folder,time_limit=None):
 
     depth_img = zeros((32,len(the_range)))
     num_samples_img = zeros((32,len(the_range)))
-    #depth_img_prev = depth_img.copy()
 
     ctr1,ctr2=0,0
     the_encoder_index = 0
@@ -245,29 +240,17 @@ def process_and_save_Depth_images(run_folder,time_limit=None):
                 Depth_images['num_samples'][-1]
             )
             print type(Depth_images['depth']),shape(Depth_images['depth']),shape(Depth_images['depth'][-1])
-            #depth_img_prev = depth_img.copy()
 
             if True:#plot_timer.check():
-                #ti = d2n(the_run,': left')
-                #figure(ti,figsize=(4,2))
-                #mi(O['left_image']['vals'][left_t])
-                if False:
-                    figure(d2n(the_run,': depth_img'),figsize=(4,2))
-                    mi(depth_img,d2n(the_run,': depth_img'));
-                    plt.title(t)
-                    spause()
+
                 for ky in ['num_samples','depth','intensity','reflectivity']:
-                    #mi(Depth_images[ky])
-                    #print shape(Depth_images[ky])
-                    #spause()
-                    #raw_enter()
                     mci(
                         z55(Depth_images[ky][-1]),
                         scale=3.0,
                         color_mode=cv2.COLOR_GRAY2BGR,
                         title=d2n(the_run.replace('tegra-ubuntu_',''),': ',ky)
                     )
-                #plot_timer.reset()
+
         """
         except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
@@ -302,7 +285,7 @@ def show_depth_imgs(Depth_images,start=0,stop=-1):
     for img,index in zip(Depth_images['depth'][start:stop],Depth_images['index'][start:stop]):
         figure(d2s(the_run,'show_depth_imgs'),figsize=(2,1))
         mi(img,d2s(the_run,'show_depth_imgs'));
-        #plt.title(index)
+
         spause()
 
 
@@ -369,8 +352,7 @@ def make_log_versions_of_images(depth_images_path):
             pa = Progress_animator(len(r),message='r')
 
             display = False
-            #r[:,28,:] = r[:,27,:] # get adjacent data into these typically blank rows
-            #r[:,29,:] = r[:,30,:]
+
 
             shape_r = shape(r[0])
             height,width = shape_r[0],shape_r[1]
@@ -550,7 +532,6 @@ def asign_left_timestamps(depth_images_path,runs_location):
                     cg(sggo(r,'left_timestamp_metadata_right_ts.h5py'))
 
 
-    #depth_image_files = sggo(opjD('Depth_images','*.Depth_images.with_flip.with_flip.h5py'))
     depth_image_files = sggo(depth_images_path,'*.Depth_image.log.resize.flip.h5py')
 
     for depth_image_file in depth_image_files:
@@ -660,11 +641,6 @@ if False:
                 os.system(d2s("cp",opj(src,s+"*"),dst))
 
 
-    """
-    src = opjD('Depth_images')
-    dst = opjD('Depth_images.log')
-    transfer_lacking(src,dst)
-    """
     
     src = opjD('Depth_images.log')
     dst = opjD('Depth_images.log.resize.flip')
@@ -682,6 +658,7 @@ if __name__ == '__main__':
     if 'src' in Arguments:
         Arguments['runs_location'] = Arguments['src']
 
+
     if Arguments['task'] in ['raw','all']:
         run_folder = get_unprocessed_run(Arguments['src'])
         if run_folder:
@@ -694,13 +671,11 @@ if __name__ == '__main__':
         depth_images_path = Arguments['path']
         make_log_versions_of_images(depth_images_path)
 
-    #elif Arguments['task'] == 'flip':
-    #   depth_images_path = Arguments['path']
-    #   make_flip_versions_of_images(depth_images_path)
 
     if Arguments['task']  in ['resize_flip','all']:
         depth_images_path = Arguments['path']
         make_resize_and_flip_versions_of_images(depth_images_path)
+
 
     if Arguments['task'] in ['left_ts','all']:
         depth_images_path = Arguments['path']
