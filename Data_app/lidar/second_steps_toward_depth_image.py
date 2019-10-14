@@ -347,10 +347,11 @@ def save_Depth_images(Depth_images,the_run,path=opjD('Depth_images')):
     D = Depth_images
     file_path = opj(path,d2p(the_run,'Depth_image','h5py'))
     F = h5w(file_path)
-    pd2s('saving',the_run,'Depth_images')
+    pd2s('saving',the_run,'Depth_images...')
 
     for topic_ in Depth_images.keys():
         pd2s('\t',topic_,len(D[topic_]))
+        print D[topic_]
         cs( type(D[topic_]),shape(D[topic_]))
         if type(D[topic_]) == str:
             try:
@@ -364,6 +365,7 @@ def save_Depth_images(Depth_images,the_run,path=opjD('Depth_images')):
         else:
             F.create_dataset(topic_,data=D[topic_])     
     F.close()
+    pd2s('...saving complete.')
 
 
 
