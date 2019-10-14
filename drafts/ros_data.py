@@ -31,3 +31,12 @@ if __name__ == '__main__':
 		if answer:
 			runs_with_lidar.append(r)
 	soD(runs_with_lidar,'runs_with_lidar')
+
+	if False:
+		from kzpy3.drafts.runs_with_points import *
+		top = opjm('ExtraDrive3')
+		M = find_files_recursively(top,'*.bag',FILES_ONLY=True)
+		runs = M['parent_folders']
+		for r in runs_with_points:
+			if r in runs:
+				print r
