@@ -1,5 +1,6 @@
 
 from kzpy3.vis3 import *
+from kzpy3.drafts.randinfill import *
 
 plot_timer = Timer(0.1)
 
