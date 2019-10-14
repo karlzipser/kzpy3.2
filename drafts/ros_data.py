@@ -23,4 +23,4 @@ if __name__ == '__main__':
 	for k in M['paths'].keys():
 		p = opj(src,k,M['paths'][k][0])
 		r = k.split('/')[-1]
-		print k,h5py_file_has_topic(p,'points')
+		print r,h5py_file_has_topic(p,'points')
