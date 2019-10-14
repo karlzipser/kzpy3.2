@@ -9,41 +9,6 @@ log_min,log_max = -0.25,1.5
 
 
 def get_unprocessed_run(src):
-    if False:
-        experiments = []
-        locations = []
-        behavioral_mode = []
-        h5py = []
-        run_folders = []
-
-        #experiments_ = sggo(opjm('/media/karlzipser/1_TB_Samsung_n1'),'*')
-        experiments_ = sggo(src,'*')
-
-        for e in experiments_:
-            if fname(e)[0] == '_' or '+' in e:
-                cr('skipping',e)
-            else:
-                experiments.append(e)
-                cb('using', e)
-
-        print src,experiments
-        for e in experiments:
-            cb(e)
-            locations = sggo(e,'locations/*')
-            for l in locations:
-                cb(l)
-                behavioral_modes = sggo(l,'*')
-                for b in behavioral_modes:
-                    cb(b)
-                    runs_ = sggo(b,'h5py','*')
-                    print runs_
-                    for r in runs_:
-                        cb(r)
-                        if 'Mr_Black' in r or fname(r)[0] == '_':
-                            cr('skipping',fname(r))
-                        else:
-                            run_folders.append(r)
-                            cb('using', fname(r))
 
     R = find_files_recursively(src,'original_timestamp_data.h5py',FILES_ONLY=True)
     run_folders = []
