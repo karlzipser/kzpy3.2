@@ -18,7 +18,9 @@ def h5py_file_has_topic(h5py_file,topic):
 
 
 if __name__ == '__main__':
-	M = find_files_recursively(opjm('rosbags'),'original_*',FILES_ONLY=True)
+	top = opjD('Data')
+	#top = opjm('rosbags')
+	M = find_files_recursively(top,'original_*',FILES_ONLY=True)
 	src = M['src']
 	for k in M['paths'].keys():
 		p = opj(src,k,M['paths'][k][0])
