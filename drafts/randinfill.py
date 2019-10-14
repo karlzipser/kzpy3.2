@@ -4,7 +4,7 @@ from kzpy3.vis3 import *
 
 
 def randinfill(img_lst,num_samples):
-	raw_enter(type(num_samples))
+	raw_enter(d2s(type(num_samples)))
 	shape_image = shape(img_lst[0])
 	for img in img_lst:
 		for y in range(shape_image[0]):
