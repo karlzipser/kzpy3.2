@@ -149,7 +149,7 @@ def process_and_save_Depth_images(run_folder,time_limit=None):
 
         if type(time_limit) == int:
             if time_limit_timer.check():
-                cr("Reached time limit of",time_limit,"seconds, stopping with",the_run)
+                cy("Reached time limit of",time_limit,"seconds, stopping with",the_run)
                 break
         if True:#try:
 
@@ -719,7 +719,10 @@ if __name__ == '__main__':
 
     if Arguments['task'] in ['raw','all']:
         run_folder = get_unprocessed_run(Arguments['src'])
-        process_and_save_Depth_images(run_folder,Arguments['limit'])
+        if run_folder:
+            process_and_save_Depth_images(run_folder,Arguments['limit'])
+        else:
+            cr("no runs left to process")
 
     
     if Arguments['task'] in ['log','all']:
