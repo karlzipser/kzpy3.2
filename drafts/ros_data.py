@@ -15,3 +15,11 @@ def h5py_file_has_topic(h5py_file,topic):
 	answer = topic in F.keys()
 	F.close()
 	return answer
+
+
+if __name__ == '__main__':
+	M = find_files_recursively(opjm('rosbags'),'original_*',FILES_ONLY=True)
+	src = M['src']
+	for k in M['paths'].keys():
+		p = opj(src,M['paths'][k][0])
+		print p
