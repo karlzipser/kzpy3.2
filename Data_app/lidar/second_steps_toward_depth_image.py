@@ -77,8 +77,10 @@ def get_unprocessed_run(src):
 
 
 
-def process_and_save_Depth_images(run_folder):
+def process_and_save_Depth_images(run_folder,time_limit=None):
 
+    if type(time_limit) == int:
+        time_limit_timer = Timer(time_limit)
     print run_folder
     spd2s("processing",fname(run_folder))
 
@@ -145,6 +147,10 @@ def process_and_save_Depth_images(run_folder):
 
     for t in range(len(p)):
 
+        if type(time_limit) == int:
+            if time_limit_timer.check():
+                cr("Reached time limit of",time_limit,"seconds, stopping with",the_run)
+                break
         if True:#try:
 
             ts = O['points']['ts'][t]
@@ -722,11 +728,14 @@ if __name__ == '__main__':
     ############################
     #
     Arguments['path'] = opjD('Depth_images')
+    if 'limit' not in Arguments:
+        Arguments['limit'] = None
     if 'src' in Arguments:
         Arguments['runs_location'] = Arguments['src']
     if Arguments['task'] in ['raw','all']:
         run_folder = get_unprocessed_run(Arguments['src'])
-        process_and_save_Depth_images(run_folder)
+        process_and_save_Depth_images(run_folder,Arguments['limit'])
+
     
     if Arguments['task'] in ['log','all']:
         depth_images_path = Arguments['path']
