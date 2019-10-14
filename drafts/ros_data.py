@@ -21,5 +21,5 @@ if __name__ == '__main__':
 	M = find_files_recursively(opjm('rosbags'),'original_*',FILES_ONLY=True)
 	src = M['src']
 	for k in M['paths'].keys():
-		p = opj(src,M['paths'][k][0])
+		p = opj(src,k,M['paths'][k][0])
 		print p
