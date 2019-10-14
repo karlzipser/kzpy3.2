@@ -18,6 +18,7 @@ def h5py_file_has_topic(h5py_file,topic):
 
 
 if __name__ == '__main__':
+	runs_with_lidar = []
 	top = opjD('Data')
 	#top = opjm('rosbags')
 	M = find_files_recursively(top,'original_*',FILES_ONLY=True)
@@ -25,4 +26,8 @@ if __name__ == '__main__':
 	for k in M['paths'].keys():
 		p = opj(src,k,M['paths'][k][0])
 		r = k.split('/')[-1]
-		print r,h5py_file_has_topic(p,'pointss')
+		answer = h5py_file_has_topic(p,'image')
+		print r,answer
+		if answer:
+			runs_with_lidar.append(r)
+	soD(runs_with_lidar,'runs_with_lidar')
