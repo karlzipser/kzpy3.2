@@ -266,6 +266,12 @@ def process_and_save_Depth_images(run_folder):
             Depth_images['ts'].append(ts)
             Depth_images['index'].append(t)
             
+            randinfill(
+                [Depth_images['depth'],
+                Depth_images['intensity'],
+                Depth_images['reflectivity']],
+                Depth_images['num_samples']
+            )
 
             #depth_img_prev = depth_img.copy()
 
@@ -408,8 +414,8 @@ def make_log_versions_of_images(depth_images_path):
             pa = Progress_animator(len(r),message='r')
 
             display = False
-            r[:,28,:] = r[:,27,:] # get adjacent data into these typically blank rows
-            r[:,29,:] = r[:,30,:]
+            #r[:,28,:] = r[:,27,:] # get adjacent data into these typically blank rows
+            #r[:,29,:] = r[:,30,:]
 
             shape_r = shape(r[0])
             height,width = shape_r[0],shape_r[1]
