@@ -9,40 +9,46 @@ log_min,log_max = -0.25,1.5
 
 
 def get_unprocessed_run(src):
-    experiments = []
-    locations = []
-    behavioral_mode = []
-    h5py = []
+    if False:
+        experiments = []
+        locations = []
+        behavioral_mode = []
+        h5py = []
+        run_folders = []
+
+        #experiments_ = sggo(opjm('/media/karlzipser/1_TB_Samsung_n1'),'*')
+        experiments_ = sggo(src,'*')
+
+        for e in experiments_:
+            if fname(e)[0] == '_' or '+' in e:
+                cr('skipping',e)
+            else:
+                experiments.append(e)
+                cb('using', e)
+
+        print src,experiments
+        for e in experiments:
+            cb(e)
+            locations = sggo(e,'locations/*')
+            for l in locations:
+                cb(l)
+                behavioral_modes = sggo(l,'*')
+                for b in behavioral_modes:
+                    cb(b)
+                    runs_ = sggo(b,'h5py','*')
+                    print runs_
+                    for r in runs_:
+                        cb(r)
+                        if 'Mr_Black' in r or fname(r)[0] == '_':
+                            cr('skipping',fname(r))
+                        else:
+                            run_folders.append(r)
+                            cb('using', fname(r))
+
+    R = find_files_recursively(src,'original_timestamp_data.h5py',FILES_ONLY=TRUE)
     run_folders = []
-
-    #experiments_ = sggo(opjm('/media/karlzipser/1_TB_Samsung_n1'),'*')
-    experiments_ = sggo(src,'*')
-
-    for e in experiments_:
-        if fname(e)[0] == '_' or '+' in e:
-            cr('skipping',e)
-        else:
-            experiments.append(e)
-            cb('using', e)
-
-    print src,experiments
-    for e in experiments:
-        cb(e)
-        locations = sggo(e,'locations/*')
-        for l in locations:
-            cb(l)
-            behavioral_modes = sggo(l,'*')
-            for b in behavioral_modes:
-                cb(b)
-                runs_ = sggo(b,'h5py','*')
-                print runs_
-                for r in runs_:
-                    cb(r)
-                    if 'Mr_Black' in r or fname(r)[0] == '_':
-                        cr('skipping',fname(r))
-                    else:
-                        run_folders.append(r)
-                        cb('using', fname(r))
+    for p in R['paths'].keys():
+        run_folders.append(opj(src,p))
 
     temp = sggo(opjD('Depth_images/*'))
 
@@ -110,12 +116,6 @@ def process_and_save_Depth_images(run_folder,time_limit=None):
     Depth_images['reflectivity'] = []
     Depth_images['display'] = []
     Depth_images['num_samples'] = []
-
-
-    """
-    left_ts = 0
-    left_t = 0
-    """
 
     CA()
 
@@ -350,7 +350,6 @@ def save_Depth_images(Depth_images,the_run,path=opjD('Depth_images')):
     file_path = opj(path,d2p(the_run,'Depth_image','h5py'))
     F = h5w(file_path)
     pd2s('saving',the_run,'Depth_images...')
-    raw_enter()
     for topic_ in Depth_images.keys():
         pd2s('\t',topic_,len(D[topic_]),type(D[topic_]),shape(D[topic_]))
 
@@ -374,25 +373,6 @@ def save_Depth_images(Depth_images,the_run,path=opjD('Depth_images')):
 
 
 
-if False: # sketch of making log verions
-    CA()
-    n = 7003
-    img = D['depth'][n][:]
-    img[28,:] = img[27,:]
-    img[29,:] = img[30,:]
-    mn,mx = -0.5,0.7
-    img = np.log10(img+0.001)
-    img[img>mx] = mx
-    img[img<mn] = mn
-    mi(img,'pre-resize')
-    img = cv2.resize(img,(256,94))
-    a1 = 128-168/2
-    a2 = 128+168/2
-    img = img[:,a1:a2]
-    if 'temporary (?)':
-        img[0,0] = mx; img[0,1] = mn
-    img = (z2o(img)*255).astype(np.uint8)
-    mi(img,'final')
 
 
 
@@ -730,11 +710,13 @@ if __name__ == '__main__':
 
     ############################
     #
+
     Arguments['path'] = opjD('Depth_images')
     if 'limit' not in Arguments:
         Arguments['limit'] = None
     if 'src' in Arguments:
         Arguments['runs_location'] = Arguments['src']
+
     if Arguments['task'] in ['raw','all']:
         run_folder = get_unprocessed_run(Arguments['src'])
         process_and_save_Depth_images(run_folder,Arguments['limit'])
@@ -759,39 +741,9 @@ if __name__ == '__main__':
     
     #
     ############################
-    """
-    ############################
-    #
-    if Arguments['task'] == 'raw':
-        run_folder = get_unprocessed_run(Arguments['src'])
-        process_and_save_Depth_images(run_folder)
-
-    elif Arguments['task'] == 'log':
-        depth_images_path = Arguments['path']
-        make_log_versions_of_images(depth_images_path)
-
-    #elif Arguments['task'] == 'flip':
-    #   depth_images_path = Arguments['path']
-    #   make_flip_versions_of_images(depth_images_path)
-
-    elif Arguments['task'] == 'resize_flip':
-        depth_images_path = Arguments['path']
-        make_resize_and_flip_versions_of_images(depth_images_path)
-
-    elif Arguments['task'] == 'left_ts':
-        depth_images_path = Arguments['path']
-        runs_location = Arguments['runs_location']
-        asign_left_timestamps(depth_images_path,runs_location)
-    else:
-        cr("Command line arguments do not specify a valid task.")
-    #
-    ############################
-    """
+    
 
 
-"""
-code_to_code_str(opjk("Data_app/lidar/first_steps_toward_depth_image2.py"))
-"""
 #EOF
 
 
@@ -800,27 +752,3 @@ code_to_code_str(opjk("Data_app/lidar/first_steps_toward_depth_image2.py"))
 
 
 
-
-if False:
-
-    D=h5r('/home/karlzipser/Desktop/Depth_resize_flip_temp/tegra-ubuntu_11Oct18_17h11m39s.Depth_image.log.flip.h5py' )
-
-    r = D['resized'][:]
-    l = D['resized_flipped'][:]
-    for i in range(len(r)):
-        img = r[i,:,:]
-        mci(
-            (img*255).astype(np.uint8),
-            scale=2.0,
-            color_mode=cv2.COLOR_GRAY2BGR,
-            title='resized'
-        )
-        img = l[i,:,:]
-        mci(
-            (img*255).astype(np.uint8),
-            scale=2.0,
-            color_mode=cv2.COLOR_GRAY2BGR,
-            title='resized_flipped'
-        )
-
-#EOF
