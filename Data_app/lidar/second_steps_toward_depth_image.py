@@ -279,7 +279,7 @@ def process_and_save_Depth_images(run_folder,time_limit=None):
                 Depth_images['reflectivity'][-1]],
                 Depth_images['num_samples'][-1]
             )
-
+            print type(Depth_images['depth']),shape(Depth_images['depth']),shape(Depth_images['depth'][-1])
             #depth_img_prev = depth_img.copy()
 
             if True:#plot_timer.check():
