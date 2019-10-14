@@ -424,6 +424,7 @@ def find_files_recursively(
     data = {}
     data['paths'] = folders
     data['parent_folders'] = [fname(f) for f in folders.keys()]
+    pd2s(ctr,'matches,',len(data['parent_folders']),'parent folders.')
     return data
 
 
