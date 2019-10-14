@@ -304,7 +304,7 @@ def pythonpaths(paths):
 
 
 
-def find_files_recursively(
+def _find_files_recursively(
     src,
     pattern,
     FILES_ONLY=False,
@@ -368,12 +368,13 @@ def find_files_recursively(
 
 
 
-def _find_files_recursively(
+def find_files_recursively(
     src,
     pattern,
     FILES_ONLY=False,
     DIRS_ONLY=False,
-    ignore_underscore=False,
+    ignore_underscore=True,
+    ignore_Trash=True,
 ):
     """
     https://stackoverflow.com/questions/2186525/use-a-glob-to-find-files-recursively-in-python
@@ -407,6 +408,9 @@ def _find_files_recursively(
         folders_ = {}
         for f in folders:
             ignore = False
+            if ignore_Trash:
+                if 'Trash' in f:
+                    ignore = True
             g = f.split('/')
             for h in g:
                 if len(h) > 0:
