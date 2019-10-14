@@ -90,7 +90,7 @@ def process_and_save_Depth_images(run_folder,time_limit=None):
 
     if 'O' not in locals():
         cs('loading O')
-        O=h5r(opj(run_folder,'original_timestamp_data.h5py' ))
+        O = h5r(opj(run_folder,'original_timestamp_data.h5py' ))
 
 
     p = O['points']['vals']
@@ -310,6 +310,8 @@ def process_and_save_Depth_images(run_folder,time_limit=None):
             CS_('Exception!',emphasis=True)
             CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)    
         """
+
+    O.close()
 
     try:
         os.system(d2s("rm",opjD('Depth_images',the_run)))
