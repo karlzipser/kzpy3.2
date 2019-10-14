@@ -28,7 +28,7 @@ def get_unprocessed_run(src):
 
     for r in run_folders:
         if fname(r)[0]!= '_':
-            if 'Mr_Black' not in r:
+            if 'tegra-ubuntu_'  in r:
 
                 if fname(r) not in runs_in_progress_or_done:
                     run_folder = r
