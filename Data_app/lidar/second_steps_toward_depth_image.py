@@ -45,7 +45,7 @@ def get_unprocessed_run(src):
                             run_folders.append(r)
                             cb('using', fname(r))
 
-    R = find_files_recursively(src,'original_timestamp_data.h5py',FILES_ONLY=TRUE)
+    R = find_files_recursively(src,'original_timestamp_data.h5py',FILES_ONLY=True)
     run_folders = []
     for p in R['paths'].keys():
         run_folders.append(opj(src,p))
