@@ -325,11 +325,8 @@ def find_files_recursively(
         else:
             use_list = filenames+dirnames
         for filename in fnmatch.filter(use_list, pattern):
-            """
-
-            """
-            file = opj(root,filename)
-            folder = pname(file).replace(src,'')
+            file_ = opj(root,filename)
+            folder = pname(file_).replace(src,'')
             if folder not in folders:
                 folders[folder] = []
             folders[folder].append(filename)
@@ -337,9 +334,6 @@ def find_files_recursively(
             if timer.check():
                 print(d2s(time_str('Pretty'),ctr,'matches'))
                 timer.reset()
-
-    #print(folders)
-    #print(type(folders))
     if ignore_underscore:
         folders_ = {}
         for f in folders:
@@ -354,7 +348,6 @@ def find_files_recursively(
             if not ignore:
                 folders_[f] = folders[f]
         folders = folders_
-
     data = {}
     data['paths'] = folders
     data['parent_folders'] = [fname(f) for f in folders.keys()]
