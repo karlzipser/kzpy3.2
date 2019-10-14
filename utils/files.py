@@ -299,7 +299,76 @@ def pythonpaths(paths):
         sys.path.append(opjh(p))
 
 
+
+
+
+
+
 def find_files_recursively(
+    src,
+    pattern,
+    FILES_ONLY=False,
+    DIRS_ONLY=False,
+    ignore_underscore=False,
+):
+    """
+    https://stackoverflow.com/questions/2186525/use-a-glob-to-find-files-recursively-in-python
+    """
+    files = []
+    folders = {}
+    ctr = 0
+    timer = Timer(5)
+    if src[-1] != '/':
+        src = src + '/'
+    print(d2s('src =',src,'pattern =',pattern))
+    for root, dirnames, filenames in os.walk(src):
+        assert(not(FILES_ONLY and DIRS_ONLY))
+        if FILES_ONLY:
+            use_list = filenames
+        elif DIRS_ONLY:
+            use_list = dirnames
+        else:
+            use_list = filenames+dirnames
+        for filename in fnmatch.filter(use_list, pattern):
+            """
+
+            """
+            file = opj(root,filename)
+            folder = pname(file).replace(src,'')
+            if folder not in folders:
+                folders[folder] = []
+            folders[folder].append(filename)
+            ctr += 1
+            if timer.check():
+                print(d2s(time_str('Pretty'),ctr,'matches'))
+                timer.reset()
+
+    #print(folders)
+    #print(type(folders))
+    if ignore_underscore:
+        folders_ = {}
+        for f in folders:
+            ignore = False
+            g = f.split('/')
+            for h in g:
+                if len(h) > 0:
+                    if h[0] == '_':
+                        #cb('ignoring',f)
+                        ignore = True
+                        break
+            if not ignore:
+                folders_[f] = folders[f]
+        folders = folders_
+
+    data = {}
+    data['paths'] = folders
+    data['parent_folders'] = [fname(f) for f in folders.keys()]
+    return data
+
+
+
+
+def _find_files_recursively(
     src,
     pattern,
     FILES_ONLY=False,
