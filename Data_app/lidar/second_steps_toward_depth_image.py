@@ -268,10 +268,10 @@ def process_and_save_Depth_images(run_folder):
             Depth_images['index'].append(t)
             
             randinfill(
-                [Depth_images['depth'],
-                Depth_images['intensity'],
-                Depth_images['reflectivity']],
-                Depth_images['num_samples']
+                [Depth_images['depth'][-1],
+                Depth_images['intensity'][-1],
+                Depth_images['reflectivity'][-1]],
+                Depth_images['num_samples'][-1]
             )
 
             #depth_img_prev = depth_img.copy()
