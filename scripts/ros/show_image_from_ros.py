@@ -68,7 +68,7 @@ def action(topic,scale=1,delay=33,s=3600,save_samples=False):
             img = image_list[-1]
             if first_time:
                 first_time = False
-                pd2s(topic,"image shape =",shape(img))
+                pd2s(topic,"shape =",shape(img))
             if save_samples_timer.check():
                 save_samples_timer.reset()
                 imsave(opj(samples_dir,d2n(ctr,'.png')),img)
