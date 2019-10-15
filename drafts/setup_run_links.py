@@ -12,7 +12,7 @@ for k in M['paths'].keys():
 	run_name = k.split('/')[-1]
 	if run_name not in runs_with_points:
 		print run_name,opj(M['src'],k)
-		os.system(d2s('ln -s',opj(M['src'],k),run_name)
+		os.system(d2s('ln -s',opj(M['src'],k),run_name))
 	else:
 		print run_name,False
 
