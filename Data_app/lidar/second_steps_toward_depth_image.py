@@ -2,6 +2,10 @@
 from kzpy3.vis3 import *
 from kzpy3.drafts.randinfill import *
 
+"""
+python kzpy3/Data_app/lidar/second_steps_toward_depth_image.py --src /home/karlzipser/Desktop/runs_with_points__h5py --task raw
+"""
+
 plot_timer = Timer(0.1)
 
 log_min,log_max = -0.25,1.5
@@ -141,8 +145,8 @@ def process_and_save_Depth_images(run_folder,time_limit=None):
                 x = q[i,0]
                 y = q[i,1]
                 z = q[i,2]
-                intensity_maybe = q[i,5]
-                reflectivity_maybe = q[i,3]
+                intensity_maybe = q[i,4]
+                reflectivity_maybe = q[i,5]
 
                 a = np.degrees(angle_between((1,0), (x,y)) )
 
