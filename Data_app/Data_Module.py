@@ -80,6 +80,8 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 		cprint(bv,'yellow')
 
 		bagv = rosbag.Bag(bv)
+		
+		first_time = True
 
 		for m_ in bagv.read_messages(topics=bair_all_topics_):
 			timestampv = round(m_[2].to_time(),3) # millisecond resolution
@@ -92,7 +94,8 @@ def Original_Timestamp_Data(bag_folder_path=None, h5py_path=None):
 
 			if 'zed' in m_[0]:
 				valv = bridge.imgmsg_to_cv2(m_[1],"rgb8")
-				if shape(valv) != (94,168,3):
+				if shape(valv) != (94,168,3) and first_time:
+					first_time = False
 					valv = cv2.resize(valv, (0,0), fx=0.25, fy=0.25)
 					cr('resizing zed image...')
 				if P['USE_ARUCO']:
