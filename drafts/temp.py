@@ -1,9 +1,6 @@
 #,a
-for k in R.keys():
-	for l in R[k].keys():
-		if 'tegra' not in l:
-			continue
-		if l not in run_names:
-			pd2s(k,l,'not in runs')
+
+D = h5r(opjD('Depth_images','tegra-ubuntu_01Dec18_16h03m42s.Depth_image.h5py'))
+
 
 #,b
