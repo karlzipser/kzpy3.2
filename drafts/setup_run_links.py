@@ -9,7 +9,7 @@ M = find_files_recursively(src,'*.bag',FILES_ONLY=True)
 
 for k in M['paths'].keys():
 	run_name = k.split('/')[-1]
-	if run_name in runs_with_points:
+	if run_name not in runs_with_points:
 		print run_name,k
 	else:
 		print run_name,False
