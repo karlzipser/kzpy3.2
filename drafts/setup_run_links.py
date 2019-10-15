@@ -14,6 +14,7 @@ for k in M['paths'].keys():
 		#print run_name,opj(M['src'],k)
 		print(d2s('ln -s',opj(M['src'],k),run_name))
 	else:
+		pass
 		#print run_name,False
 
 
