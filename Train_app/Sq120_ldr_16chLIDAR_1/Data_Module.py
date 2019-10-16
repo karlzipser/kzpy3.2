@@ -1,7 +1,11 @@
 from kzpy3.utils3 import *
-from kzpy3.Data_app.lidar.reprocess_lidar_points.runs_with_points import *
-
+#from kzpy3.Data_app.lidar.reprocess_lidar_points.runs_with_points import *
 exec(identify_file_str)
+
+temp = sggo(opjD('Depth_images/*.Depth_image.h5py'))
+runs_with_Depth_images = []
+for r in temp:
+	runs_with_Depth_images.append(fname(r).split('.')[0])
 
 def prepare_data_for_training(_):
 	full = True
@@ -190,11 +194,11 @@ def prepare_data_for_training(_):
 							#print fname(r)
 
 							assert(fname(r) not in _['run_name_to_run_path'])
-							if fname(r) in runs_with_points:
-								cg(fname(r),"is in runs_with_points")
+							if fname(r) in runs_with_Depth_images:
+								cg(fname(r),"is in runs_with_Depth_images")
 								_['run_name_to_run_path'][fname(r)] = r
 							else:
-								cb(fname(r),"is NOT in runs_with_points")
+								cb(fname(r),"is NOT in runs_with_Depth_images")
 
 				
 		#cg("***********************************")

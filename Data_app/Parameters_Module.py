@@ -72,9 +72,10 @@ P['USE_ARUCO'] = False
 
 P['Allow below-size bag files?'] = False
 
-P['min bagfile size'] = 0.99 * 1074813904
-P['min bagfile size'] = 90000000
-P['min bagfile size'] = 70*10**6
+#P['min bagfile size'] = 0.90 * 1074813904
+#P['min bagfile size'] = 90000000
+#P['min bagfile size'] = 70*10**6
+P['min bagfile size'] = 1000000000
 
 
 #EOF
