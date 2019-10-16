@@ -3,7 +3,7 @@ from kzpy3.vis3 import *
 from kzpy3.drafts.randinfill import *
 
 """
-python kzpy3/Data_app/lidar/third_steps_toward_depth_image.py --src /home/karlzipser/Desktop/runs_with_points__h5py --task raw
+python kzpy3/Data_app/lidar/second_steps_toward_depth_image.py --src /home/karlzipser/Desktop/runs_with_points__h5py --task raw
 """
 
 plot_timer = Timer(0.1)
@@ -77,8 +77,8 @@ def process_and_save_Depth_images(run_folder,time_limit=None):
     Depth_images['ts'] = []
     Depth_images['index'] = []
     Depth_images['depth'] = []
-    Depth_images['other'] = []
-    Depth_images['camera'] = []
+    Depth_images['intensity'] = []
+    Depth_images['reflectivity'] = []
     Depth_images['display'] = []
     Depth_images['num_samples'] = []
 
@@ -130,8 +130,8 @@ def process_and_save_Depth_images(run_folder,time_limit=None):
 
             Data = {
                 'depth':{},
-                'other':{},
-                'camera':{},
+                'intensity':{},
+                'reflectivity':{},
             }
 
             for ky in Data.keys():
@@ -199,8 +199,8 @@ def process_and_save_Depth_images(run_folder,time_limit=None):
                         dist = np.sqrt( x**2 + y**2 + z**2 )
 
                         Data['depth'][bi][ai].append(dist)
-                        Data['other'][bi][ai].append(intensity_maybe)
-                        Data['camera'][bi][ai].append(reflectivity_maybe)
+                        Data['intensity'][bi][ai].append(intensity_maybe)
+                        Data['reflectivity'][bi][ai].append(reflectivity_maybe)
 
                     except Exception as e:
                         ctr1+=1
@@ -239,15 +239,15 @@ def process_and_save_Depth_images(run_folder,time_limit=None):
             
             randinfill(
                 [Depth_images['depth'][-1],
-                Depth_images['other'][-1],
-                Depth_images['camera'][-1]],
+                Depth_images['intensity'][-1],
+                Depth_images['reflectivity'][-1]],
                 Depth_images['num_samples'][-1]
             )
             print type(Depth_images['depth']),shape(Depth_images['depth']),shape(Depth_images['depth'][-1])
 
             if True:#plot_timer.check():
 
-                for ky in ['num_samples','depth','other','camera']:
+                for ky in ['num_samples','depth','intensity','reflectivity']:
                     mci(
                         z55(Depth_images[ky][-1]),
                         scale=3.0,
@@ -535,6 +535,7 @@ def asign_left_timestamps(depth_images_path,runs_location):
                     P['run_name_to_run_path'][run_name] = r
                     cg(sggo(r,'left_timestamp_metadata_right_ts.h5py'))
 
+
     depth_image_files = sggo(depth_images_path,'*.Depth_image.log.resize.flip.h5py')
 
     for depth_image_file in depth_image_files:
@@ -552,6 +553,7 @@ def asign_left_timestamps(depth_images_path,runs_location):
             
         os.system(d2s('touch',touched_file))
 
+
         try:
             D = h5rw(depth_image_file)
             index = D['index'][:]
@@ -559,6 +561,8 @@ def asign_left_timestamps(depth_images_path,runs_location):
             L = h5r(opj(P['run_name_to_run_path'][run_name],'left_timestamp_metadata_right_ts.h5py'))
             left_camera_ts = L['ts'][:]
             L.close()
+
+            
 
             display_timer = Timer(2)
 
@@ -578,6 +582,7 @@ def asign_left_timestamps(depth_images_path,runs_location):
                 if finished:
                     break
 
+
                 pa['update'](i)
 
                 left_ts = left_camera_ts[i]
@@ -595,6 +600,7 @@ def asign_left_timestamps(depth_images_path,runs_location):
                 cg(dp(lidar_ts[lidar_index]-left_ts,3),lidar_index,i)
 
                 D_left_to_lidar_index[i] = lidar_index
+
 
             D.create_dataset('left_to_lidar_index',data=D_left_to_lidar_index)
             D.close()
@@ -614,7 +620,35 @@ def asign_left_timestamps(depth_images_path,runs_location):
 
 
 
+if False:
 
+    def transfer_lacking(src,dst):
+        src_files = sggo(src,'*.h5py')
+        src_runs = []
+        for s in src_files:
+            src_runs.append(fname(s).split('.')[0])
+        existing_files = sggo(dst,'*.h5py')
+        existing_runs = []
+        for e in existing_files:
+            existing_runs.append(fname(e).split('.')[0])
+
+        dont_copy = []
+        for s in src_runs:
+            for e in existing_runs:
+                if s == e:
+                    cr(s,"==",e)
+                    dont_copy.append(s)
+            #cg("cp",s,"to",dst)
+        for s in src_runs:
+            if s not in dont_copy:
+                cg("copy",s)
+                os.system(d2s("cp",opj(src,s+"*"),dst))
+
+
+    
+    src = opjD('Depth_images.log')
+    dst = opjD('Depth_images.log.resize.flip')
+    transfer_lacking(src,dst)
 
 
 if __name__ == '__main__':
