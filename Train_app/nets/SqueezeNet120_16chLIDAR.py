@@ -47,7 +47,13 @@ class SqueezeNet(nn.Module):
             )
         self.post_metadata_features = nn.Sequential(
             Fire(256, 16, 64, 64),
-            nn.MaxPool2d(kernel_size=3, stride=2, ceil_mode=True),
+            nn.MaxPool2d(kernel_size=3, stride=1, ceil_mode=True),
+            #nn.MaxPool2d(kernel_size=3, stride=2, ceil_mode=True),
+            # Disabling the above MaxPool2d,
+            # and optionally replacing it with a MaxPool2d of stride 1,
+            # allows the lidar net to use almost the
+            # same structure as the long-used zed net. Otherwise the vertical dimensions
+            # go to zero.
             Fire(128, 32, 128, 128),
             Fire(256, 32, 128, 128),
             nn.MaxPool2d(kernel_size=3, stride=2, ceil_mode=True),
@@ -83,6 +89,35 @@ class SqueezeNet(nn.Module):
         self.A['final_output'] = self.final_output(self.A['post_metadata_features'])
         self.A['final_output'] = self.A['final_output'].view(self.A['final_output'].size(0), -1)
         return self.A['final_output']
+
+def unit_test2():
+    print("Running unit_test2...")
+    a = 64/56.  # [5, 12, 64, 691]
+    #a = 1       # [5, 12, 56, 605]
+    S = SqueezeNet()
+    i = torch.randn(5, 12, int(a*56), int(a*605))
+    print i.size()
+    cm(0)
+    p = S.pre_metadata_features(i)
+    cm(1)
+    #meta = Variable(torch.randn(5, 128, 13, 151))
+    meta = Variable(torch.randn(5, 128, 15, 172))
+    cm(2)
+    m = torch.cat((p,meta),1)
+    cm(3)
+    po = S.post_metadata_features(m)
+    # RuntimeError: Given input size: (120x3x37). Calculated output size: (120x0x6). Output size is too small at /Users/soumith/code/builder/wheel/pytorch-src/aten/src/THNN/generic/SpatialAveragePooling.c:64cm(4)
+    f = S.final_output(po)
+    cm(5)
+    print("...done.")
+
+def unit_test():
+    S = SqueezeNet()
+    a = S(Variable(torch.randn(5, 12, 56, 605)), Variable(torch.randn(5, 128, 13, 151)))    
+    print('Tested SqueezeNet')
+
+#unit_test()
+unit_test2()
 
 
 
