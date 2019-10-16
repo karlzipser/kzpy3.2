@@ -1,4 +1,6 @@
 from kzpy3.utils3 import *
+from kzpy3.Data_app.lidar.reprocess_lidar_points.runs_with_points import *
+
 exec(identify_file_str)
 
 def prepare_data_for_training(_):
@@ -186,8 +188,14 @@ def prepare_data_for_training(_):
 					else:
 						for r in sggo(e,'h5py','*'):
 							#print fname(r)
+
 							assert(fname(r) not in _['run_name_to_run_path'])
-							_['run_name_to_run_path'][fname(r)] = r
+							if fname(r) in runs_with_points:
+								cg(fname(r),"is in runs_with_points")
+								_['run_name_to_run_path'][fname(r)] = r
+							else:
+								cb(fname(r),"is NOT in runs_with_points")
+
 				
 		#cg("***********************************")
 		equalize_to_max_len(B)

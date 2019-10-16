@@ -535,7 +535,7 @@ def asign_left_timestamps(depth_images_path,runs_location):
                     P['run_name_to_run_path'][run_name] = r
                     cg(sggo(r,'left_timestamp_metadata_right_ts.h5py'))
 
-    depth_image_files = sggo(depth_images_path,'*.Depth_image.log.resize.flip.h5py')
+    depth_image_files = sggo(depth_images_path,'*.Depth_image.h5py')
 
     for depth_image_file in depth_image_files:
         run_name = fname(depth_image_file).split('.')[0]
@@ -599,7 +599,7 @@ def asign_left_timestamps(depth_images_path,runs_location):
             D.create_dataset('left_to_lidar_index',data=D_left_to_lidar_index)
             D.close()
             os.system('rm '+touched_file)
-            os.system(d2s('mv',depth_image_file,depth_image_file.replace('.Depth_image.log.resize.flip.h5py','.Depth_image.log.resize.flip.with_left_ts.h5py')))
+            os.system(d2s('mv',depth_image_file,depth_image_file.replace('.Depth_image.h5py','.Depth_image.with_left_ts.h5py')))
             
         except Exception as e:
             D.close()
@@ -619,18 +619,19 @@ def asign_left_timestamps(depth_images_path,runs_location):
 
 if __name__ == '__main__':
 
-    ############################
-    #
+    setup_Default_Arguments(
+        {
+            'path' : opjD('Depth_images'),
+            'limit' : None,
+            'task' : 'task-not-set',
+            'src' : opjD('Data')
+        }
+    )
 
-    Arguments['path'] = opjD('Depth_images')
-    if 'limit' not in Arguments:
-        Arguments['limit'] = None
-    if 'src' in Arguments:
-        Arguments['runs_location'] = Arguments['src']
+    print_Arguments()
 
-
-    if Arguments['task'] in ['raw','all']:
-        run_folder = 'temp'
+    if Arguments['task'] in ['raw']:
+        run_folder = '...'
         while run_folder:
             run_folder = get_unprocessed_run(Arguments['src'])
             if run_folder:
@@ -638,22 +639,23 @@ if __name__ == '__main__':
             else:
                 cr("no runs left to process")
 
-    
-    if Arguments['task'] in ['log','all']:
+
+
+    elif Arguments['task'] in ['left_ts']:
         depth_images_path = Arguments['path']
-        make_log_versions_of_images(depth_images_path)
+        runs_location = Arguments['src']
+        asign_left_timestamps(depth_images_path,runs_location)
 
 
-    if Arguments['task']  in ['resize_flip','all']:
+
+    elif Arguments['task']  in ['resize_flip']:
         depth_images_path = Arguments['path']
         make_resize_and_flip_versions_of_images(depth_images_path)
 
+    else:
+        cr('--task',"'"+Arguments['task']+"'",'not found.')
 
-    if Arguments['task'] in ['left_ts','all']:
-        depth_images_path = Arguments['path']
-        runs_location = Arguments['runs_location']
-        asign_left_timestamps(depth_images_path,runs_location)
-    
+
     #
     ############################
     

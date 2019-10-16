@@ -6,6 +6,7 @@ if True:#'D' not in locals():
 	run_name = 'tegra-ubuntu_01Nov18_13h09m32s.Depth_image.h5py'
 	#run_name = 'tegra-ubuntu_30Oct18_15h58m09s.Depth_image.h5py'
 	run_name = 'tegra-ubuntu_15Nov18_20h52m26s.Depth_image.h5py'
+	run_name = 'tegra-ubuntu_01Nov18_13h09m32s.Depth_image.h5py'
 	D = h5r(opjD('Depth_images',run_name
 		))
 		
@@ -37,7 +38,7 @@ for i in range(shape(D['depth'])[0]):
 	a[a>255] = 255
 	a[a<0] = 0
 	a = 255-a
-	image[:,:,2] = a
+	#image[:,:,2] = a
 	mci(image,scale=3.0,title=run_name)
 	time.sleep(0.25)
 #,b

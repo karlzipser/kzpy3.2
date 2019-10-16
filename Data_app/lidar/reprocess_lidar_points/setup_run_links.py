@@ -1,5 +1,5 @@
 from kzpy3.utils3 import *
-from kzpy3.drafts.runs_with_points import *
+from kzpy3.Data_app.reprocess_lidar_points.runs_with_points import *
 
 src = Arguments['src']
 dst = Arguments['dst']
