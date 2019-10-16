@@ -630,11 +630,13 @@ if __name__ == '__main__':
 
 
     if Arguments['task'] in ['raw','all']:
-        run_folder = get_unprocessed_run(Arguments['src'])
-        if run_folder:
-            process_and_save_Depth_images(run_folder,Arguments['limit'])
-        else:
-            cr("no runs left to process")
+        run_folder = 'temp'
+        while run_folder:
+            run_folder = get_unprocessed_run(Arguments['src'])
+            if run_folder:
+                process_and_save_Depth_images(run_folder,Arguments['limit'])
+            else:
+                cr("no runs left to process")
 
     
     if Arguments['task'] in ['log','all']:

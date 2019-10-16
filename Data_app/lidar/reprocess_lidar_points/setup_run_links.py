@@ -20,8 +20,11 @@ for k in M['paths'].keys():
 
 """
 python kzpy3/drafts/setup_run_links.py --src /media/karlzipser/A3 --dst ~/Desktop/runs_with_points__links
-
 Data src ~/Desktop/runs_with_points__links dst ~/Desktop/runs_with_points__h5py
+
+
+python kzpy3/drafts/setup_run_links.py --src /media/karlzipser/model_car_data_A2 --dst ~/Desktop/runs_with_points2__links
+Data src ~/Desktop/runs_with_points2__links dst ~/Desktop/runs_with_points2__h5py
 """
 
 #EOF
