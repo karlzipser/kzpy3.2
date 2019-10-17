@@ -328,98 +328,49 @@ def save_Depth_images(Depth_images,the_run,path=opjD('Depth_images')):
 
 
 
+def process_images_to_rgb_v1(D,show=False):
+    image = zeros((32,360,3),np.uint8)
+    
+    Rgb_v1 = {'rgb_v1_normal':[],'rgb_v1_flip':[]}
 
+    pa = Progress_animator(len(D['depth']),message='r')
 
-def make_log_versions_of_images(depth_images_path):
+    for i in range(shape(D['depth'])[0]):
 
-    """
-    python kzpy3/Data_app/lidar/first_steps_toward_depth_image4.py task log path ~/Desktop/Depth_images_continue/
-    """
+        a = D['depth'][i,:,:]/2.0*255
+        a[a>255] = 255
+        a[a<0] = 0
+        image[:,:,0] = 255-a
 
-    depth_image_files = sggo(depth_images_path,'*.Depth_image.h5py')
+        a = D['camera'][i,:,:]
+        if False:
+            b = a.flatten()
+            hist(b);spause()
+        a = a/300.0*255
+        a[a>255] = 255
+        a[a<0] = 0
+        image[:,:,1] = a
 
-    for depth_image_file in depth_image_files:
+        a = D['other'][i,:,:]
+        a = a/100.0*255
+        a[a>255] = 255
+        a[a<0] = 0
+        a = 255-a
+        image[:,:,2] = a
 
-        error_file = depth_image_file+'.error'
-        touched_file = depth_image_file+'.work_in_progress'
-        if len(sggo(touched_file)) > 0:
-            continue
-        if len(sggo(error_file)) > 0:
-            continue
-            
-        os.system(d2s('touch',touched_file))
+        image_resized = cv2.resize(image,(690,64),interpolation=0)
 
+        image_resized_flip = cv2.flip(image_resized,1)
 
-        try:
-            D = h5rw(depth_image_file)
-            r = D['real'][:]
-            pa = Progress_animator(len(r),message='r')
+        Rgb_v1['rgb_v1_normal'].append(image_resized)
+        Rgb_v1['rgb_v1_flip'].append(image_resized_flip)
 
-            display = False
+        if show:
+            mci(image_resized,scale=2.0,title=run_name,delay=33)
 
-
-            shape_r = shape(r[0])
-            height,width = shape_r[0],shape_r[1]
-
-            g = zeros((33,360))
-            z = zeros((32,360))
-            e = r[0,:,:]
-
-            processed_depth_images = []
-
-            display_timer = Timer(2)
-
-            clear_screen()
-            cs("Processing",depth_image_file)
-            for i in rlen(r):
-
-                pa['update'](i)
-
-                if i > 0:
-                    a=r[i,:,:]
-                    b = a==0.0
-                    c = b.astype(int)
-                    d = (1-c)*a + c*e
-                    e = d.copy()
-                    f = np.log10(d+.001)
-                    h = (f>log_max).astype(int)
-                    k = (1-h)*f + h*(z+log_max)
-                    h = (f<log_min).astype(int)
-                    k = (1-h)*k + h*(z+log_min)
-                    if i == 1:
-                        processed_depth_images.append(k)
-                        # since first image has no previous, make first image equal second
-                    processed_depth_images.append(k)
-                    if display_timer.check():
-                        g[:32,:] = k
-                        g[32,0] = 1.5
-                        g[32,1:] = -0.25
-                        mi(g,'log10 depth image')
-                        if False:
-                            figure('hist');clf()
-                            hist(d.flatten(),bins=100);xylim(0,100,0,200)
-                            figure('log10 hist');clf()
-                            hist(k.flatten(),bins=100);xylim(-2,2,0,200)
-                        display_timer.reset()
-                spause()
-            assert len(processed_depth_images) == len(D['index'][:])
-            D.create_dataset('log',data=na(processed_depth_images))
-            D.close()
-            os.system('rm '+touched_file)
-            os.system(d2s('mv',depth_image_file,depth_image_file.replace('.Depth_image.h5py','.Depth_image.log.h5py')))
-            
-        except Exception as e:
-            os.system('rm '+touched_file)
-            os.system('touch '+error_file)
-            exc_type, exc_obj, exc_tb = sys.exc_info()
-            file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            CS_('Exception!',emphasis=True)
-            CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
-
-
-
-
-
+        pa['update'](i)
+        
+    return Rgb_v1
 
 
 
@@ -427,9 +378,7 @@ def make_log_versions_of_images(depth_images_path):
 
 def make_resize_and_flip_versions_of_images(depth_images_path):
 
-# PUT IN ZERO TO ONE SCALING
-
-    depth_image_files = sggo(depth_images_path,'*.Depth_image.log.h5py')
+    depth_image_files = sggo(depth_images_path,'*.Depth_image.with_left_ts.h5py')
     
     img_bigger = zeros((95,168))
 
@@ -447,46 +396,23 @@ def make_resize_and_flip_versions_of_images(depth_images_path):
 
         try:
             D = h5rw(depth_image_file)
-            r = D['log'][:]
             
-            pa = Progress_animator(len(r),message='r')
-
-            resized = []
-            resized_flipped = []
+            pa = Progress_animator(len(D['depth'][:]),message='r')
 
             display_timer = Timer(2)
 
-            
             cs("\n\nProcessing",depth_image_file,"for resize and flip.")
 
-            for i in rlen(r):
-                pa['update'](i)
-                #print shape(r[i,:,:])
-                img = cv2.resize(r[i,:,62:298],(168,94))
-                #print shape(img_bigger)
-                #print shape(img)
-                img_bigger = img_bigger * 0
-                img_bigger[:94,:] = img
-                img_bigger[94,0] = log_min
-                img_bigger[94,1] = log_max
-                
-                img = 255*z2o(img_bigger)[:94,:] # the 255 multiple is to put these images into same range as the rgb images
-                assert shape(img) == (94,168)
-                resized.append(img)
-                resized_flipped.append(cv2.flip(img,1))
-                if display_timer.check():
-                    mi(img_bigger,'img_bigger')
-                    mi(r[i,:,:],'log depth image')
-                    mi(resized[-1],'log resize depth image')
-                    display_timer.reset()
-                spause()
+            R = process_images_to_rgb_v1(D)
+            resized = R['rgb_v1_normal']
+            resized_flipped = R['rgb_v1_flip']
             assert len(resized) == len(D['index'][:])
             assert len(resized_flipped) == len(D['index'][:])
-            D.create_dataset('resized',data=na(resized))
-            D.create_dataset('resized_flipped',data=na(resized_flipped))
+            D.create_dataset('rgb_v1_normal',data=na(resized))
+            D.create_dataset('rgb_v1_flip',data=na(resized_flipped))
             D.close()
             os.system('rm '+touched_file)
-            os.system(d2s('mv',depth_image_file,depth_image_file.replace('.Depth_image.log.h5py','.Depth_image.log.resize.flip.h5py')))
+            os.system(d2s('mv',depth_image_file,depth_image_file.replace('.Depth_image.with_left_ts.h5py','.Depth_image.with_left_ts.rgb_v1.h5py')))
             
         except Exception as e:
             D.close()
@@ -536,6 +462,8 @@ def asign_left_timestamps(depth_images_path,runs_location):
                     cg(sggo(r,'left_timestamp_metadata_right_ts.h5py'))
 
     depth_image_files = sggo(depth_images_path,'*.Depth_image.h5py')
+    print depth_image_files
+    raw_enter()
 
     for depth_image_file in depth_image_files:
         run_name = fname(depth_image_file).split('.')[0]
