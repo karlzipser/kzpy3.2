@@ -13,7 +13,7 @@ Translation = {
 	'encoder_meo':'encoder',
 }
 
-def Batch(_,the_network=None):
+def Batch(_,the_network=None,the_network_depth=None):
 
 	if _['start menu automatically'] and using_linux():
 	    dic_name = "_"
@@ -52,7 +52,8 @@ def Batch(_,the_network=None):
 	zero_94_168_img = zeros((94,168),np.uint8)
 
 
-
+	D['network_depth'] = the_network_depth
+	D['camera_data_depth'] = torch.FloatTensor().cuda()
 	D['metadata_depth'] = torch.FloatTensor().cuda()
 	D['zeros, metadata_size_depth'] = zeros((1,1,15,172))
 	_['metadata_constant_blanks_depth'] = False
@@ -499,6 +500,42 @@ def Batch(_,the_network=None):
 				###################################################################
 
 
+
+
+
+
+				###################################################################
+				###################################################################
+				###################################################################
+				#### CAMERA DATA depth
+
+				#zeroed_channels = np.random.choice([ [0],[2],[0,2],[0,2],[0,2], ])
+
+
+				list_camera_input_depth = []
+				for t in ['depth_image_0','depth_image_n1']:
+					img = Data_moment[t]
+					list_camera_input_depth.append(torch.from_numpy(img))
+				camera_data_depth = torch.cat(list_camera_input_depth, 2)
+
+
+
+				camera_data_depth = camera_data_depth.cuda().float()/255. - 0.5
+				camera_data_depth = torch.transpose(camera_data_depth, 0, 2)
+				camera_data_depth = torch.transpose(camera_data_depth, 1, 2)
+				D['camera_data_depth'] = torch.cat((torch.unsqueeze(camera_data_depth, 0), D['camera_data_depth']), 0)
+				#####
+				###################################################################
+				###################################################################
+				###################################################################
+
+
+
+
+
+
+
+
 				###################################################################
 				###################################################################
 				###################################################################
@@ -613,6 +650,9 @@ def Batch(_,the_network=None):
 		D['outputs'] = D['network']['net'](torch.autograd.Variable(D['camera_data']), torch.autograd.Variable(D['metadata'])).cuda()
 		D['loss'] = D['network']['criterion'](D['outputs'], torch.autograd.Variable(D['target_data']))
 
+		D['network_depth']['optimizer'].zero_grad()
+		D['outputs_depth'] = D['network_depth']['net'](torch.autograd.Variable(D['camera_data_depth']), torch.autograd.Variable(D['metadata_depth'])).cuda()
+		#D['loss_depth'] = D['network_depth']['criterion'](D['outputs_depth'], torch.autograd.Variable(D['target_data']))
 
 
 	na = np.array

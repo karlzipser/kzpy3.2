@@ -68,9 +68,10 @@ else:
     cr("\n*********** STARTING FROM RANDOM WEIGHTS ***********\n")
     raw_enter()
 
-Network = Network_Module.Pytorch_Network(_)
+Network = Network_Module.Pytorch_Network(_,'zed')
+Network_depth = Network_Module.Pytorch_Network(_,'depth')
 
-Batch = Batch_Module.Batch(_,the_network=Network)
+Batch = Batch_Module.Batch(_,the_network=Network,the_network_depth=Network_depth)
 
 cr("\n\nTime needed for startup =",int(startup_timer.time()),"seconds.\n\n")
 del startup_timer

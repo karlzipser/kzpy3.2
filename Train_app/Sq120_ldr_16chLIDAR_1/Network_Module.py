@@ -1,11 +1,11 @@
 from kzpy3.utils3 import *
 import torch
 #from kzpy3.Train_app.nets.SqueezeNet40_global_A import SqueezeNet
-from kzpy3.Train_app.nets.SqueezeNet120 import SqueezeNet
-
+from kzpy3.Train_app.nets.SqueezeNet120 import SqueezeNet as SqueezeNet_zed
+from kzpy3.Train_app.nets.SqueezeNet120_16chLIDAR import SqueezeNet as SqueezeNet120_16chLIDAR
 
 exec(identify_file_str)
-
+raw_enter('Network_Module')
 def load_net(path):
     save_data = torch.load(path)
     net = save_data['net']
@@ -26,7 +26,7 @@ torch.save(weights,opjD('Sq120_from_Sq40.infer'))
 """
 
 
-def Pytorch_Network(_):
+def Pytorch_Network(_,network_class='zed'):
     """
     print(_['NETWORK_OUTPUT_FOLDER'])
     print(_['INITIAL_WEIGHTS_FOLDER'])
@@ -38,7 +38,10 @@ def Pytorch_Network(_):
     torch.cuda.device(_['GPU'])
     cg("GPUs =",torch.cuda.device_count(),"current GPU =",torch.cuda.current_device())
 
-    D['net'] = SqueezeNet().cuda()
+    if network_class == 'zed':
+        D['net'] = SqueezeNet_zed().cuda()
+    elif network_class == 'depth':
+        D['net'] = SqueezeNet120_16chLIDAR().cuda()
 
 
 
