@@ -40,7 +40,7 @@ class SqueezeNet(nn.Module):
         self.N_FRAMES = 2
         self.N_STEPS = 10
         self.pre_metadata_features = nn.Sequential(
-            nn.Conv2d(12, 64, kernel_size=3, stride=2),
+            nn.Conv2d(6, 64, kernel_size=3, stride=2),
             nn.ReLU(inplace=True),
             nn.MaxPool2d(kernel_size=3, stride=2, ceil_mode=True),
             Fire(64, 16, 64, 64),            
@@ -93,7 +93,7 @@ class SqueezeNet(nn.Module):
 def unit_test2():
     print("Running unit_test2...")
     S = SqueezeNet()
-    i = Variable(torch.randn(5, 12, 64, 690))
+    i = Variable(torch.randn(5, 6, 64, 690))
     print i.size()
     cm(0)
     p = S.pre_metadata_features(i)
@@ -107,10 +107,6 @@ def unit_test2():
     cm(4)
     print("...done.")
 
-def unit_test():
-    S = SqueezeNet()
-    a = S(Variable(torch.randn(5, 12, 56, 605)), Variable(torch.randn(5, 128, 13, 151)))    
-    print('Tested SqueezeNet')
 
 #unit_test()
 unit_test2()

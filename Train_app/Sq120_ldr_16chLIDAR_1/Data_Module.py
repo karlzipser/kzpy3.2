@@ -1,8 +1,8 @@
-from kzpy3.utils3 import *
+from kzpy3.vis3 import *
 exec(identify_file_str)
 
 def prepare_data_for_training(_):
-	full = True
+	full = False
 	if True: #########################################################################################
 
 		_['experiments_folders'] = []
@@ -253,6 +253,20 @@ def load_Network_Predictions(_):
 blank_meta = np.zeros((23,41,3),np.uint8)
 blank_camera = np.zeros((94,168,3),np.uint8)
 
+
+
+
+
+depth_images_path = opjD('Depth_images_copy')
+depth_image_files = sggo(depth_images_path,'*.Depth_image.with_left_ts.rgb_v1.h5py')
+Depth_runs = {}
+for f in depth_image_files:
+	run_name = fname(f).split('.')[0]
+	Depth_runs[run_name] = h5r(f)
+
+
+
+
 def get_Data_moment(_,Network_Predictions,dm=None,FLIP=None):
 
 	if True:#try:
@@ -264,6 +278,26 @@ def get_Data_moment(_,Network_Predictions,dm=None,FLIP=None):
 		steer_len = len(_['Loaded_image_files'][dm['run_name']]['left_timestamp_metadata']['steer'])
 		data_len = min(steer_len - left_index,90)
 		behavioral_mode = dm['behavioral_mode']
+
+
+
+
+
+		if dm['run_name'] in Depth_runs:
+			index = Depth_runs[dm['run_name']]['left_to_lidar_index'][left_index]
+			if index < 1:
+				return False
+			if FLIP:
+				fp = 'rgb_v1_flip'
+			else:
+				fp = 'rgb_v1_normal'
+			Data_moment['depth_image_0'] = Depth_runs[dm['run_name']][fp][index]
+			Data_moment['depth_image_n1'] = Depth_runs[dm['run_name']][fp][index-1]
+		else:
+			return False
+
+
+
 
 
 		Data_moment['predictions'] = {}
@@ -391,6 +425,16 @@ def get_Data_moment(_,Network_Predictions,dm=None,FLIP=None):
 					spd2s('if il0+1 < len(F[left_image_flip][vals]) and ir0+1 < len(F[right_image_flip][vals]): NOT TRUE!')
 
 					return False
+
+
+
+			mci(Data_moment['left'][0],title='left')
+			mci(Data_moment['right'][0],title='right')
+			mci(Data_moment['depth_image_0'],title='depth_image_0')
+			raw_enter()
+
+
+
 
 			return Data_moment
 
