@@ -5,7 +5,7 @@ from kzpy3.Train_app.nets.SqueezeNet120 import SqueezeNet as SqueezeNet_zed
 from kzpy3.Train_app.nets.SqueezeNet120_16chLIDAR import SqueezeNet as SqueezeNet120_16chLIDAR
 
 exec(identify_file_str)
-#raw_enter('Network_Module')
+raw_enter('Network_Module')
 def load_net(path):
     save_data = torch.load(path)
     net = save_data['net']
@@ -26,16 +26,16 @@ torch.save(weights,opjD('Sq120_from_Sq40.infer'))
 """
 
 
-def Pytorch_Network(P,network_class='zed'):
+def Pytorch_Network(_,network_class='zed'):
     """
-    print(P['NETWORK_OUTPUT_FOLDER'])
-    print(P['INITIAL_WEIGHTS_FOLDER'])
-    print(P['WEIGHTS_FILE_PATH'])
+    print(_['NETWORK_OUTPUT_FOLDER'])
+    print(_['INITIAL_WEIGHTS_FOLDER'])
+    print(_['WEIGHTS_FILE_PATH'])
     """
     D = {}
     torch.set_default_tensor_type('torch.FloatTensor') 
-    torch.cuda.set_device(P['GPU'])
-    torch.cuda.device(P['GPU'])
+    torch.cuda.set_device(_['GPU'])
+    torch.cuda.device(_['GPU'])
     cg("GPUs =",torch.cuda.device_count(),"current GPU =",torch.cuda.current_device())
 
     if network_class == 'zed':
@@ -53,41 +53,41 @@ def Pytorch_Network(P,network_class='zed'):
     D['optimizer'] = torch.optim.Adadelta(filter(lambda p: p.requires_grad,D['net'].parameters()))
     try:
         for folder in ['weights','loss','dm_ctrs','state_dict','optimizer']:
-            unix(d2s('mkdir -p',opj(P['NETWORK_OUTPUT_FOLDER'],folder)))
+            unix(d2s('mkdir -p',opj(_['NETWORK_OUTPUT_FOLDER'],folder)))
     except:
         cr('*** Failed to create default network output folders ***')
 
     def _function_save_net(temp=False):
-        if P['save_net_timer'].check() or temp:
+        if _['save_net_timer'].check() or temp:
             pd2s('2 lr=',D['net'].lr)
             print('saving net state . . .')
             weights = {'net':D['net'].state_dict().copy()}
             for key in weights['net']:
                 weights['net'][key] = weights['net'][key].cuda(device=0)
             if temp:
-                torch.save(weights, opj(P['NETWORK_OUTPUT_FOLDER'],'weights','temp.infer'))
+                torch.save(weights, opj(_['NETWORK_OUTPUT_FOLDER'],'weights','temp.infer'))
                 cb('. . . done saving temp.infer')
                 return
-            torch.save(weights, opj(P['NETWORK_OUTPUT_FOLDER'],'weights',P['SAVE_FILE_NAME']+'P'+time_str()+'.infer'))
-            so(P['LOSS_LIST_AVG'],opj(P['NETWORK_OUTPUT_FOLDER'],'loss',P['SAVE_FILE_NAME']+'P'+time_str()+'.loss_avg'))
-            if 'dm_ctrs' in P:
-                so(P['dm_ctrs'],opj(P['NETWORK_OUTPUT_FOLDER'],'dm_ctrs',P['SAVE_FILE_NAME']+'P'+time_str()+'.dm_ctrs'))
-            torch.save(D['optimizer'].state_dict(), opj(P['NETWORK_OUTPUT_FOLDER'],'optimizer',P['SAVE_FILE_NAME']+'P'+time_str()+'.optimizer_state'))
-            torch.save(D['net'].state_dict(), opj(P['NETWORK_OUTPUT_FOLDER'],'state_dict',P['SAVE_FILE_NAME']+'P'+time_str()+'.state_dict'))
+            torch.save(weights, opj(_['NETWORK_OUTPUT_FOLDER'],'weights',_['SAVE_FILE_NAME']+'_'+time_str()+'.infer'))
+            so(_['LOSS_LIST_AVG'],opj(_['NETWORK_OUTPUT_FOLDER'],'loss',_['SAVE_FILE_NAME']+'_'+time_str()+'.loss_avg'))
+            if 'dm_ctrs' in _:
+                so(_['dm_ctrs'],opj(_['NETWORK_OUTPUT_FOLDER'],'dm_ctrs',_['SAVE_FILE_NAME']+'_'+time_str()+'.dm_ctrs'))
+            torch.save(D['optimizer'].state_dict(), opj(_['NETWORK_OUTPUT_FOLDER'],'optimizer',_['SAVE_FILE_NAME']+'_'+time_str()+'.optimizer_state'))
+            torch.save(D['net'].state_dict(), opj(_['NETWORK_OUTPUT_FOLDER'],'state_dict',_['SAVE_FILE_NAME']+'_'+time_str()+'.state_dict'))
             print('. . . done saving.')
-            P['save_net_timer'].reset()
+            _['save_net_timer'].reset()
 
     D['SAVE_NET'] = _function_save_net
 
-    if P['RESUME']:
+    if _['RESUME']:
 
 
-        if P['freeze premetadata weights']:
+        if _['freeze premetadata weights']:
 
 
 
             A = load_net(most_recent_file_in_folder(opjD('Networks/net_24Dec2018_12imgs_projections/weights'),['.infer'],[]))
-            B = load_net(P['WEIGHTS_FILE_PATH'])
+            B = load_net(_['WEIGHTS_FILE_PATH'])
 
             for l in ['pre_metadata_features.0.weight',
                      'pre_metadata_features.0.bias',
@@ -97,30 +97,30 @@ def Pytorch_Network(P,network_class='zed'):
                      'pre_metadata_features.3.expand1x1.bias',
                      'pre_metadata_features.3.expand3x3.weight',
                      'pre_metadata_features.3.expand3x3.bias',]:
-                cy("Copying",l,'from',P['update premetadata weights from other model'])
+                cy("Copying",l,'from',_['update premetadata weights from other model'])
                 B[l] = A[l]
             weights = {'net':B}
-            torch.save(weights,opj(P['NETWORK_OUTPUT_FOLDER'],'weights','merged.infer'))
+            torch.save(weights,opj(_['NETWORK_OUTPUT_FOLDER'],'weights','merged.infer'))
 
         try:
-            if len(sggo(P['WEIGHTS_FILE_PATH'])) > 0:
+            if len(sggo(_['WEIGHTS_FILE_PATH'])) > 0:
                 
 
-                if P['freeze premetadata weights']:
-                    cprint(d2s('Resuming with',opj(P['NETWORK_OUTPUT_FOLDER'],'weights','merged.infer')),'red')
-                    save_data = torch.load(opj(P['NETWORK_OUTPUT_FOLDER'],'weights','merged.infer'))
+                if _['freeze premetadata weights']:
+                    cprint(d2s('Resuming with',opj(_['NETWORK_OUTPUT_FOLDER'],'weights','merged.infer')),'red')
+                    save_data = torch.load(opj(_['NETWORK_OUTPUT_FOLDER'],'weights','merged.infer'))
                 else:
-                    cprint(d2s('Resuming with',P['WEIGHTS_FILE_PATH']),'red')
-                    save_data = torch.load(P['WEIGHTS_FILE_PATH'])
+                    cprint(d2s('Resuming with',_['WEIGHTS_FILE_PATH']),'red')
+                    save_data = torch.load(_['WEIGHTS_FILE_PATH'])
 
                 D['net'].load_state_dict(save_data['net'])
 
                 if False:
-                    P['save_net_timer'].trigger()
+                    _['save_net_timer'].trigger()
                     D['SAVE_NET']()
                     raw_enter('This is STRANGE too!!!')
 
-            if P['freeze premetadata weights']:
+            if _['freeze premetadata weights']:
                 ctr = 0
                 for param in D['net'].parameters():
                     rg = True
@@ -135,21 +135,21 @@ def Pytorch_Network(P,network_class='zed'):
                     ctr += 1
 
             else:
-                CS_("Could not load "+P['WEIGHTS_FILE_PATH'])
-            m = most_recent_file_in_folder( opj(P['NETWORK_OUTPUT_FOLDER'],'loss') )
+                CS_("Could not load "+_['WEIGHTS_FILE_PATH'])
+            m = most_recent_file_in_folder( opj(_['NETWORK_OUTPUT_FOLDER'],'loss') )
             if m:
                 CS_("loading "+m)
-                P['LOSS_LIST_AVG'] = lo(m)
+                _['LOSS_LIST_AVG'] = lo(m)
             else:
                 CS_("Could not load loss")
-            m = most_recent_file_in_folder(opj(P['NETWORK_OUTPUT_FOLDER'],'optimizer'))
+            m = most_recent_file_in_folder(opj(_['NETWORK_OUTPUT_FOLDER'],'optimizer'))
             if m:
                 CS_("loading "+m)
                 D['optimizer'].load_state_dict(torch.load(m))
                 pd2s('1 lr=',D['net'].lr)
             else:
                 CS_("Could not load optimizer")
-            m = most_recent_file_in_folder(opj(P['NETWORK_OUTPUT_FOLDER'],'state_dict'))
+            m = most_recent_file_in_folder(opj(_['NETWORK_OUTPUT_FOLDER'],'state_dict'))
             """
             # This always fails
             if m:

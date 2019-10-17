@@ -107,7 +107,22 @@ def unit_test2():
     cm(4)
     print("...done.")
 
-
+def unit_test3():
+    print("Running unit_test3...")
+    S = SqueezeNet()
+    i = Variable(torch.randn(5, 12, 94, 168))
+    print i.size()
+    cm(0)
+    p = S.pre_metadata_features(i)
+    cm(1)
+    meta = Variable(torch.randn(5, 128, 23, 41))
+    cm(2)
+    m = torch.cat((p,meta),1)
+    cm(3)
+    po = S.post_metadata_features(m)
+    f = S.final_output(po)
+    cm(4)
+    print("...done.")
 #unit_test()
 unit_test2()
 

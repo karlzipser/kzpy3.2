@@ -599,17 +599,29 @@ def Batch(_,the_network=None,the_network_depth=None):
 				if False:
 					hv = hv - hv[0]
 
-				steer = torch.from_numpy(sv).cuda().float() / 99.
-				motor = torch.from_numpy(mv).cuda().float() / 99.
-				heading = (torch.from_numpy(hv).cuda().float()) / 90.0
-				encoder = (torch.from_numpy(ev).cuda().float()) / 5.0
+				steer = sv / 99.
+				motor = mv / 99.
+				heading = hv / 90.0
+				encoder = ev / 5.0
+
+				steer_c = torch.from_numpy(steer).cuda().float()
+				motor_c = torch.from_numpy(motor).cuda().float()
+				heading_c = torch.from_numpy(heading).cuda().float()
+				encoder_c = torch.from_numpy(encoder).cuda().float()
+
+				concat = np.concatenate((steer,motor,heading,encoder), axis=0)
+				target_data_depth = zeros((120,1,14))
+				for i in range(14):
+					target_data_depth[:,0,i] = concat
+				D['target_data_depth'] = torch.from_numpy(target_data_depth).cuda().float()
 
 				#target_data = torch.unsqueeze(torch.cat((
 				#	steer,steer,steer,motor,motor,motor,heading,heading,heading,encoder,encoder,encoder), 0), 0)
 				
-				target_data = torch.unsqueeze(torch.cat((steer,motor,heading,encoder), 0), 0)
+				target_data = torch.unsqueeze(torch.cat((steer_c,motor_c,heading_c,encoder_c), 0), 0)
 
 				D['target_data'] = torch.cat((target_data, D['target_data']), 0)
+				#cy(D['target_data'],ra=1)
 				####
 				###################################################################
 				###################################################################
@@ -649,10 +661,15 @@ def Batch(_,the_network=None,the_network_depth=None):
 		D['network']['optimizer'].zero_grad()
 		D['outputs'] = D['network']['net'](torch.autograd.Variable(D['camera_data']), torch.autograd.Variable(D['metadata'])).cuda()
 		D['loss'] = D['network']['criterion'](D['outputs'], torch.autograd.Variable(D['target_data']))
+		raw_enter(d2s(D['target_data'].size()))
+		raw_enter(d2s(D['outputs'].size()))
+
 
 		D['network_depth']['optimizer'].zero_grad()
 		D['outputs_depth'] = D['network_depth']['net'](torch.autograd.Variable(D['camera_data_depth']), torch.autograd.Variable(D['metadata_depth'])).cuda()
-		#D['loss_depth'] = D['network_depth']['criterion'](D['outputs_depth'], torch.autograd.Variable(D['target_data']))
+		raw_enter(d2s(D['target_data_depth'].size()))
+		raw_enter(d2s(D['outputs_depth'].size()))
+		D['loss_depth'] = D['network_depth']['criterion'](D['outputs_depth'], torch.autograd.Variable(D['target_data_depth']))
 
 
 	na = np.array
