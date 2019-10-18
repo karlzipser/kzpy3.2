@@ -666,6 +666,8 @@ def Batch(_,the_network=None,the_network_depth=None):
 
 
 		D['network_depth']['optimizer'].zero_grad()
+		raw_enter(D['camera_data_depth'].size())
+		raw_enter(D['metadata_depth'].size())
 		D['outputs_depth'] = D['network_depth']['net'](torch.autograd.Variable(D['camera_data_depth']), torch.autograd.Variable(D['metadata_depth'])).cuda()
 		raw_enter(d2s(D['target_data_depth'].size()))
 		raw_enter(d2s(D['outputs_depth'].size()))
