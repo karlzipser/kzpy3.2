@@ -90,24 +90,24 @@ class SqueezeNet(nn.Module):
         self.A['final_output'] = self.A['final_output'].view(self.A['final_output'].size(0), -1)
         return self.A['final_output']
 
-#def unit_test2():
-n = 2
-print("Running unit_test2...")
-S = SqueezeNet()
-i = Variable(torch.randn(n, 6, 64, 690))
-print i.size()
-cm(0)
-p = S.pre_metadata_features(i)
-cm(1)
-meta = Variable(torch.randn(n, 128, 15, 172))
-cm(2)
-m = torch.cat((p,meta),1)
-cm(3)
-po = S.post_metadata_features(m)
-f = S.final_output(po)
-cm(4)
-print f.size()
-print("...done.")
+def unit_test2():
+    n = 2
+    print("Running unit_test2...")
+    S = SqueezeNet()
+    i = Variable(torch.randn(n, 6, 64, 690))
+    print i.size()
+    cm(0)
+    p = S.pre_metadata_features(i)
+    cm(1)
+    meta = Variable(torch.randn(n, 128, 15, 172))
+    cm(2)
+    m = torch.cat((p,meta),1)
+    cm(3)
+    po = S.post_metadata_features(m)
+    f = S.final_output(po)
+    cm(4)
+    print f.size()
+    print("...done.")
 
 def unit_test3():
     print("Running unit_test3...")

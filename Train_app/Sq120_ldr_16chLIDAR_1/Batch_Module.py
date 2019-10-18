@@ -669,8 +669,9 @@ def Batch(_,the_network=None,the_network_depth=None):
 		True
 		#Trial_loss_record = D['network'][data_moment_loss_record]
 		D['network']['optimizer'].zero_grad()
-		D['outputs'] = D['network']['net'](torch.autograd.Variable(D['camera_data']), torch.autograd.Variable(D['metadata'])).cuda()
-		D['loss'] = D['network']['criterion'](D['outputs'], torch.autograd.Variable(D['target_data']))
+		if False:
+			D['outputs'] = D['network']['net'](torch.autograd.Variable(D['camera_data']), torch.autograd.Variable(D['metadata'])).cuda()
+			D['loss'] = D['network']['criterion'](D['outputs'], torch.autograd.Variable(D['target_data']))
 		#raw_enter(d2s('target_data',D['target_data'].size()))
 		#raw_enter(d2s('outputs',D['outputs'].size()))
 
@@ -690,9 +691,11 @@ def Batch(_,the_network=None,the_network_depth=None):
 	def _function_backward():
 		try:
 			D['tries'] += 1
-			D['loss'].backward()
-			nnutils.clip_grad_norm(D['network']['net'].parameters(), 1.0)
-			D['network']['optimizer'].step()
+
+			if False:
+				D['loss'].backward()
+				nnutils.clip_grad_norm(D['network']['net'].parameters(), 1.0)
+				D['network']['optimizer'].step()
 
 
 			D['loss_depth'].backward()
@@ -701,7 +704,10 @@ def Batch(_,the_network=None,the_network_depth=None):
 
 
 			if True: # np.mod(D['tries'],100) == 0:
-				_['LOSS_LIST'].append(D['loss'].data.cpu().numpy()[:].mean())
+				if False:
+					_['LOSS_LIST'].append(D['loss'].data.cpu().numpy()[:].mean())
+				else:
+					_['LOSS_LIST'].append(D['loss_depth'].data.cpu().numpy()[:].mean())
 				
 				try:
 					assert(len(_['current_batch']) == _['BATCH_SIZE'])
@@ -730,31 +736,25 @@ def Batch(_,the_network=None,the_network_depth=None):
 
 	def _function_display(network='network_depth'):
 
-		if False: ##### TEMP #####
-			if 'display on' not in _:
-				_['display on'] = False
-			if _['display']:
-				_['display on'] = True
-			if not _['display']:
-				if _['display on']:
-					CA()
-					_['display on'] = False
-				return
+		if network == 'network_depth':
+			suf = '_depth'
+		else:
+			suf = ''
 
 		if _['spause_timer'].check():
 			spause()
 			_['spause_timer'].reset()
 
-		if True: ##### TEMP #####_['print_timer'].check():
+		if _['print_timer'].check():
 			cprint(d2s("_['start time'] =",_['start time']),'blue','on_yellow')
 			for i in [0]:#range(_['BATCH_SIZE']):
-				ov = D['outputs'][i].data.cpu().numpy()
-				mv = D['metadata'][i].cpu().numpy()
+				ov = D['outputs'+suf][i].data.cpu().numpy()
+				mv = D['metadata'+suf][i].cpu().numpy()
 				tv = D['target_data'][i].cpu().numpy()
 				cg("len(ov),len(tv) =", len(ov),len(tv))
 				#raw_enter()
 				if _['verbose']: print('Loss:',dp(D['loss'].data.cpu().numpy()[0],5))
-				av = D['camera_data'][i][:].cpu().numpy()
+				av = D['camera_data'+suf][i][:].cpu().numpy()
 				bv = av.transpose(1,2,0)
 				hv = shape(av)[1]
 				wv = shape(av)[2]
@@ -762,7 +762,7 @@ def Batch(_,the_network=None,the_network_depth=None):
 				if _['verbose']: print(d2s(i,'camera_data min,max =',av.min(),av.max()))
 				
 				Net_activity = Activity_Module.Net_Activity('P',_,'batch_num',i, 'activiations',D[network]['net'].A)
-				Net_activity['view']('moment_index',i,'delay',33, 'scales',{'camera_input':1,'pre_metadata_features':0,'pre_metadata_features_metadata':1,'post_metadata_features':0})
+				Net_activity['view']('moment_index',i,'delay',33, 'scales',{'camera_input':1,'pre_metadata_features':0,'pre_metadata_features_metadata':1,'post_metadata_features':1})
 				bm = 'unknown behavioral_mode'
 				for j in range(len(_['behavioral_modes'])):
 					if mv[-(j+1),0,0]:
@@ -814,7 +814,7 @@ def Batch(_,the_network=None,the_network_depth=None):
 				cr('***','unknown behavioral_mode:',bm)
 				#raw_enter()
 
-		if _['loss_timer'].check() and len(_['LOSS_LIST_AVG'])>5:
+		if _['loss_timer'].check() and len(_['LOSS_LIST_AVG'])>0:
 			if _['num loss_list_avg steps to show'] == None:
 				q = int(len(_['LOSS_LIST_AVG'])*_['percent_of_loss_list_avg_to_show']/100.0)
 			else:
