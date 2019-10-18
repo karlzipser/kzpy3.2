@@ -385,11 +385,11 @@ def Batch(_,the_network=None,the_network_depth=None):
 					for camera in ('left', 'right'):
 						for color in [0,2,1]:
 							if True:
-								img = cv2.resize(Data_moment[camera][t][:,:,color] ,(172,15))
+								#img = cv2.resize(Data_moment[camera][t][:,:,color] ,(172,15))
 								img0 = zeros((1,1,15,172))
-								img0[0,0,:,:] = img
+								#img0[0,0,:,:] = img
 								img1 = torch.from_numpy(img0)
-								img2 = img1.cuda().float()/255. - 0.5
+								img2 = img1.cuda().float()#/255. - 0.5
 								cat_list_depth.append(img2)
 							else:
 								cat_list_depth.append(zero_matrix_depth)
@@ -399,7 +399,7 @@ def Batch(_,the_network=None,the_network_depth=None):
 				if True:
 					for j in [0,2,1]:
 						img = D['zeros, metadata_size_depth']
-						img[0,0,:,:] = cv2.resize(Data_moment['projections'][:,:,j] ,(172,15))
+						#img[0,0,:,:] = zero_matrix_depth.clone()#cv2.resize(Data_moment['projections'][:,:,j] ,(172,15))
 						img = torch.from_numpy(img)
 						img = img.cuda().float()/255.
 						cat_list_depth.append(img)
@@ -409,8 +409,8 @@ def Batch(_,the_network=None,the_network_depth=None):
 
 				cat_list_depth.append(_['metadata_constant_blanks_depth'])
 
-				for c in cat_list_depth:
-					cb(c.size())
+				#for c in cat_list_depth:
+				#	cb(c.size())
 
 				metadata_I_depth = torch.cat(cat_list_depth, 1)
 
@@ -609,11 +609,12 @@ def Batch(_,the_network=None,the_network_depth=None):
 				heading_c = torch.from_numpy(heading).cuda().float()
 				encoder_c = torch.from_numpy(encoder).cuda().float()
 
-				concat = np.concatenate((steer,motor,heading,encoder), axis=0)
-				target_data_depth = zeros((120,1,14))
-				for i in range(14):
-					target_data_depth[:,0,i] = concat
-				D['target_data_depth'] = torch.from_numpy(target_data_depth).cuda().float()
+				if False:#
+					concat = np.concatenate((steer,motor,heading,encoder), axis=0)
+					target_data_depth = zeros((1,120))
+					for i in range(1):
+						target_data_depth[0,:] = concat
+					D['target_data_depth'] = torch.from_numpy(target_data_depth).cuda().float()
 
 				#target_data = torch.unsqueeze(torch.cat((
 				#	steer,steer,steer,motor,motor,motor,heading,heading,heading,encoder,encoder,encoder), 0), 0)
@@ -621,6 +622,8 @@ def Batch(_,the_network=None,the_network_depth=None):
 				target_data = torch.unsqueeze(torch.cat((steer_c,motor_c,heading_c,encoder_c), 0), 0)
 
 				D['target_data'] = torch.cat((target_data, D['target_data']), 0)
+				#raw_enter(d2s('target_data',target_data.size()))
+				#raw_enter(d2s('target_data_depth',D['target_data_depth'].size()))
 				#cy(D['target_data'],ra=1)
 				####
 				###################################################################
@@ -651,6 +654,13 @@ def Batch(_,the_network=None,the_network_depth=None):
 		D['outputs'] = None
 		D['loss'] = None
 
+		D['camera_data_depth'] = torch.FloatTensor().cuda()
+		D['metadata_depth'] = torch.FloatTensor().cuda()
+		#D['target_data'] = torch.FloatTensor().cuda()
+		#D['states'] = []
+		#D['names'] = []
+		D['outputs_depth'] = None
+		D['loss_depth'] = None
 
 
 
@@ -661,17 +671,19 @@ def Batch(_,the_network=None,the_network_depth=None):
 		D['network']['optimizer'].zero_grad()
 		D['outputs'] = D['network']['net'](torch.autograd.Variable(D['camera_data']), torch.autograd.Variable(D['metadata'])).cuda()
 		D['loss'] = D['network']['criterion'](D['outputs'], torch.autograd.Variable(D['target_data']))
-		raw_enter(d2s(D['target_data'].size()))
-		raw_enter(d2s(D['outputs'].size()))
+		#raw_enter(d2s('target_data',D['target_data'].size()))
+		#raw_enter(d2s('outputs',D['outputs'].size()))
 
 
 		D['network_depth']['optimizer'].zero_grad()
-		raw_enter(D['camera_data_depth'].size())
-		raw_enter(D['metadata_depth'].size())
+		#raw_enter(d2s('camera_data_depth',D['camera_data_depth'].size()))
+		#raw_enter(d2s('metadata_depth',D['metadata_depth'].size()))
+		#raw_enter(d2s('target_data',D['target_data'].size()))
+		#raw_enter(d2s('outputs',D['outputs'].size()))
 		D['outputs_depth'] = D['network_depth']['net'](torch.autograd.Variable(D['camera_data_depth']), torch.autograd.Variable(D['metadata_depth'])).cuda()
-		raw_enter(d2s(D['target_data_depth'].size()))
-		raw_enter(d2s(D['outputs_depth'].size()))
-		D['loss_depth'] = D['network_depth']['criterion'](D['outputs_depth'], torch.autograd.Variable(D['target_data_depth']))
+		#raw_enter(d2s('target_data_depth',D['target_data_depth'].size()))
+		#raw_enter(d2s('outputs_depth',D['outputs_depth'].size()))
+		D['loss_depth'] = D['network_depth']['criterion'](D['outputs_depth'], torch.autograd.Variable(D['target_data']))
 
 
 	na = np.array
@@ -681,6 +693,12 @@ def Batch(_,the_network=None,the_network_depth=None):
 			D['loss'].backward()
 			nnutils.clip_grad_norm(D['network']['net'].parameters(), 1.0)
 			D['network']['optimizer'].step()
+
+
+			D['loss_depth'].backward()
+			nnutils.clip_grad_norm(D['network_depth']['net'].parameters(), 1.0)
+			D['network_depth']['optimizer'].step()
+
 
 			if True: # np.mod(D['tries'],100) == 0:
 				_['LOSS_LIST'].append(D['loss'].data.cpu().numpy()[:].mean())
@@ -710,7 +728,7 @@ def Batch(_,the_network=None,the_network_depth=None):
 
 
 
-	def _function_display():
+	def _function_display(network='network_depth'):
 
 		if False: ##### TEMP #####
 			if 'display on' not in _:
@@ -743,7 +761,7 @@ def Batch(_,the_network=None,the_network_depth=None):
 
 				if _['verbose']: print(d2s(i,'camera_data min,max =',av.min(),av.max()))
 				
-				Net_activity = Activity_Module.Net_Activity('P',_,'batch_num',i, 'activiations',D['network']['net'].A)
+				Net_activity = Activity_Module.Net_Activity('P',_,'batch_num',i, 'activiations',D[network]['net'].A)
 				Net_activity['view']('moment_index',i,'delay',33, 'scales',{'camera_input':1,'pre_metadata_features':0,'pre_metadata_features_metadata':1,'post_metadata_features':0})
 				bm = 'unknown behavioral_mode'
 				for j in range(len(_['behavioral_modes'])):

@@ -67,7 +67,7 @@ class SqueezeNet(nn.Module):
             nn.Dropout(p=0.5),
             final_conv,
             # nn.ReLU(inplace=True), # this allows initial training to recover from zeros in output
-            nn.AvgPool2d(kernel_size=5, stride=6)
+            nn.AvgPool2d(kernel_size=2, stride=(6,6*14))
             #nn.AdaptiveAvgPool2d(1)#kernel_size=5, stride=6)
         )
 
@@ -90,23 +90,24 @@ class SqueezeNet(nn.Module):
         self.A['final_output'] = self.A['final_output'].view(self.A['final_output'].size(0), -1)
         return self.A['final_output']
 
-def unit_test2():
-    n = 64
-    print("Running unit_test2...")
-    S = SqueezeNet()
-    i = Variable(torch.randn(n, 6, 64, 690))
-    print i.size()
-    cm(0)
-    p = S.pre_metadata_features(i)
-    cm(1)
-    meta = Variable(torch.randn(n, 128, 15, 172))
-    cm(2)
-    m = torch.cat((p,meta),1)
-    cm(3)
-    po = S.post_metadata_features(m)
-    f = S.final_output(po)
-    cm(4)
-    print("...done.")
+#def unit_test2():
+n = 2
+print("Running unit_test2...")
+S = SqueezeNet()
+i = Variable(torch.randn(n, 6, 64, 690))
+print i.size()
+cm(0)
+p = S.pre_metadata_features(i)
+cm(1)
+meta = Variable(torch.randn(n, 128, 15, 172))
+cm(2)
+m = torch.cat((p,meta),1)
+cm(3)
+po = S.post_metadata_features(m)
+f = S.final_output(po)
+cm(4)
+print f.size()
+print("...done.")
 
 def unit_test3():
     print("Running unit_test3...")
@@ -125,7 +126,7 @@ def unit_test3():
     cm(4)
     print("...done.")
 #unit_test()
-unit_test2()
+#unit_test2()
 
 
 

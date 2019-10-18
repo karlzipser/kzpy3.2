@@ -427,11 +427,11 @@ def get_Data_moment(_,Network_Predictions,dm=None,FLIP=None):
 					return False
 
 
-
-			mci(Data_moment['left'][0],title='left')
-			mci(Data_moment['right'][0],title='right')
-			mci(Data_moment['depth_image_0'],title='depth_image_0')
-			raw_enter()
+			if False:
+				mci(Data_moment['left'][0],title='left')
+				mci(Data_moment['right'][0],title='right')
+				mci(Data_moment['depth_image_0'],title='depth_image_0')
+				raw_enter()
 
 
 
