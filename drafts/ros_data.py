@@ -42,14 +42,21 @@ if False:#__name__ == '__main__':
 				print r
 
 
-def find_h5py_runs_with_topic(topic,top=opjD('Data')):
+def find_h5py_runs_with_topic(topic,top,filetype):
+	if filetype == 'h5py':
+		pattern = 'original_*'
+	elif filetype == 'bag':
+		pattern = '*.bag'
 	runs_with_topic = []
-	M = find_files_recursively(top,'original_*',FILES_ONLY=True)
+	M = find_files_recursively(top,pattern,FILES_ONLY=True)
 	src = M['src']
 	for k in M['paths'].keys():
 		p = opj(src,k,M['paths'][k][0])
 		r = k.split('/')[-1]
-		answer = h5py_file_has_topic(p,'image')
+		if filetype == 'h5py':
+			answer = h5py_file_has_topic(p,topic)
+		elif filetype == 'bag':
+			answer = bagfile_has_topic(p,topic)
 		print r,answer
 		if answer:
 			runs_with_topic.append(r)
