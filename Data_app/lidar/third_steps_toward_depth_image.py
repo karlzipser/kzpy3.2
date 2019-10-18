@@ -335,6 +335,27 @@ def process_images_to_rgb_v1(D,show=False):
 
     pa = Progress_animator(len(D['depth']),message='r')
 
+
+    """ # code from os1_ros.cpp to adjust data for image
+    if (point.reflectivity<500){ref255=500;}
+    else if (point.reflectivity>5000){ref255=5000;}
+    ref255=(int)(255*(ref255-500)/4500.0);
+    if (ref255<0) std::cout << "error1";
+    if (ref255>255) std::cout << "error2";
+
+    if (point.intensity>1700) int255=255;
+    else int255 = (int)(255*(point.intensity/1700));
+    if (int255<0) std::cout << "error3";
+    if (int255>255) std::cout << "error4";
+
+    const float rmax = 5.0;
+    if (r>rmax){r255=255;}
+    else {r255=(int)(r/rmax*255);}
+     if (r255<0) std::cout << "error5";
+    if (r255>255) std::cout << "error6";
+    """
+
+
     for i in range(shape(D['depth'])[0]):
 
         a = D['depth'][i,:,:]/2.0*255

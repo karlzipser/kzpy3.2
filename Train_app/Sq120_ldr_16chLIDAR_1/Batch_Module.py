@@ -689,7 +689,7 @@ def Batch(_,the_network=None,the_network_depth=None):
 
 	na = np.array
 	def _function_backward():
-		try:
+		if True:#try:
 			D['tries'] += 1
 
 			if False:
@@ -700,6 +700,8 @@ def Batch(_,the_network=None,the_network_depth=None):
 
 			D['loss_depth'].backward()
 			nnutils.clip_grad_norm(D['network_depth']['net'].parameters(), 1.0)
+			#raw_enter(d2s('network_depth in D','network_depth' in D))
+			#raw_enter(d2s('D[network_depth][optimizer] in D','optimizer' in D['network_depth']))
 			D['network_depth']['optimizer'].step()
 
 
@@ -720,7 +722,7 @@ def Batch(_,the_network=None,the_network_depth=None):
 					_['LOSS_LIST'] = []
 			D['successes'] += 1
 
-		except Exception as e:
+		else:#except Exception as e:
 			print("********** Exception ****** def _function_backward(): failed!!!! *****************")
 			print(e.message, e.args)
 			exc_type, exc_obj, exc_tb = sys.exc_info()
@@ -735,7 +737,15 @@ def Batch(_,the_network=None,the_network_depth=None):
 
 
 	def _function_display(network='network_depth'):
-
+		if 'display on' not in _:
+			_['display on'] = False
+		if _['display']:
+			_['display on'] = True
+		if not _['display']:
+			if _['display on']:
+				CA()
+				_['display on'] = False
+			return
 		if network == 'network_depth':
 			suf = '_depth'
 		else:

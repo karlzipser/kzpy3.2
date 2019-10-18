@@ -58,6 +58,9 @@ def Pytorch_Network(P,network_class='zed'):
         cr('*** Failed to create default network output folders ***')
 
     def _function_save_net(temp=False):
+        cprint(network_class,'yellow','on_blue')
+        if network_class == 'zed':
+            return
         if P['save_net_timer'].check() or temp:
             pd2s('2 lr=',D['net'].lr)
             print('saving net state . . .')
@@ -101,7 +104,7 @@ def Pytorch_Network(P,network_class='zed'):
                 B[l] = A[l]
             weights = {'net':B}
             torch.save(weights,opj(P['NETWORK_OUTPUT_FOLDER'],'weights','merged.infer'))
-
+        cy(network_class)
         try:
             if len(sggo(P['WEIGHTS_FILE_PATH'])) > 0:
                 
@@ -110,7 +113,7 @@ def Pytorch_Network(P,network_class='zed'):
                     cprint(d2s('Resuming with',opj(P['NETWORK_OUTPUT_FOLDER'],'weights','merged.infer')),'red')
                     save_data = torch.load(opj(P['NETWORK_OUTPUT_FOLDER'],'weights','merged.infer'))
                 else:
-                    cprint(d2s('Resuming with',P['WEIGHTS_FILE_PATH']),'red')
+                    cprint(d2s('Resuming with',P['WEIGHTS_FILE_PATH']),'blue','on_white')
                     save_data = torch.load(P['WEIGHTS_FILE_PATH'])
 
                 D['net'].load_state_dict(save_data['net'])
@@ -120,19 +123,19 @@ def Pytorch_Network(P,network_class='zed'):
                     D['SAVE_NET']()
                     raw_enter('This is STRANGE too!!!')
 
-            if P['freeze premetadata weights']:
-                ctr = 0
-                for param in D['net'].parameters():
-                    rg = True
-                    if ctr < 8:
-                        rg = False
-                    param.requires_grad = rg
-                    if rg:
-                        f = cg
-                    else:
-                        f = cr
-                    f(ctr,param.size())
-                    ctr += 1
+                if P['freeze premetadata weights']:
+                    ctr = 0
+                    for param in D['net'].parameters():
+                        rg = True
+                        if ctr < 8:
+                            rg = False
+                        param.requires_grad = rg
+                        if rg:
+                            f = cg
+                        else:
+                            f = cr
+                        f(ctr,param.size())
+                        ctr += 1
 
             else:
                 CS_("Could not load "+P['WEIGHTS_FILE_PATH'])

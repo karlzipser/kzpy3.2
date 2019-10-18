@@ -66,7 +66,7 @@ if _['freeze premetadata weights']:
 
 _['updated'] = []
 _['DISPLAY_EACH'] = False
-_['RESUME'] = False
+_['RESUME'] = True
 _['BATCH_SIZE'] = 64
 _['REQUIRE_ONE'] = []
 _['save_net_timer'] = Timer(1000*hours) #i.e., not used now

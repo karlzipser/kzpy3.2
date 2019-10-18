@@ -2,7 +2,7 @@ from kzpy3.vis3 import *
 exec(identify_file_str)
 
 def prepare_data_for_training(_):
-	full = True
+	full = False
 	if True: #########################################################################################
 
 		_['experiments_folders'] = []

@@ -59,6 +59,6 @@ def find_h5py_runs_with_topic(topic,top,filetype):
 			answer = bagfile_has_topic(p,topic)
 		print r,answer
 		if answer:
-			runs_with_topic.append(r)
+			runs_with_topic.append(k)
 	soD(runs_with_topic,'runs_with_topic_'+topic)
 	return runs_with_topic
