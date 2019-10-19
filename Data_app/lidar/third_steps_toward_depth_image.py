@@ -12,14 +12,14 @@ log_min,log_max = -0.25,1.5
 
 
 
-def get_unprocessed_run(src):
+def get_unprocessed_run(src,path):
 
     R = find_files_recursively(src,'original_timestamp_data.h5py',FILES_ONLY=True)
     run_folders = []
     for p in R['paths'].keys():
         run_folders.append(opj(src,p))
 
-    temp = sggo(opjD('Depth_images/*'))
+    temp = sggo(opj(path,'*'))
 
     runs_in_progress_or_done = []
 
@@ -49,7 +49,7 @@ def get_unprocessed_run(src):
 
 
 
-def process_and_save_Depth_images(run_folder,time_limit=None):
+def process_and_save_Depth_images(run_folder,time_limit=None,path=opjD('Depth_images')):
 
     if type(time_limit) == int:
         time_limit_timer = Timer(time_limit)
@@ -58,7 +58,7 @@ def process_and_save_Depth_images(run_folder,time_limit=None):
 
     the_run = fname(run_folder)
 
-    os.system(d2s("touch",opjD('Depth_images',the_run)))
+    os.system(d2s("touch",opj(path,the_run)))
 
     if 'O' not in locals():
         cs('loading O')
@@ -273,7 +273,7 @@ def process_and_save_Depth_images(run_folder,time_limit=None):
         CS_('Exception!',emphasis=True)
         CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
         
-    save_Depth_images(Depth_images,the_run)
+    save_Depth_images(Depth_images,the_run,path)
 
 
 
@@ -483,8 +483,8 @@ def asign_left_timestamps(depth_images_path,runs_location):
                     cg(sggo(r,'left_timestamp_metadata_right_ts.h5py'))
 
     depth_image_files = sggo(depth_images_path,'*.Depth_image.h5py')
-    print depth_image_files
-    raw_enter()
+    #print depth_image_files
+    #raw_enter()
 
     for depth_image_file in depth_image_files:
         run_name = fname(depth_image_file).split('.')[0]
@@ -582,9 +582,9 @@ if __name__ == '__main__':
     if Arguments['task'] in ['raw']:
         run_folder = '...'
         while run_folder:
-            run_folder = get_unprocessed_run(Arguments['src'])
+            run_folder = get_unprocessed_run(Arguments['src'],Arguments['path'])
             if run_folder:
-                process_and_save_Depth_images(run_folder,Arguments['limit'])
+                process_and_save_Depth_images(run_folder,Arguments['limit'],Arguments['path'])
             else:
                 cr("no runs left to process")
 

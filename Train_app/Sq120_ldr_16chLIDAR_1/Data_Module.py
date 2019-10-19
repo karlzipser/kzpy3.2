@@ -19,9 +19,9 @@ def prepare_data_for_training(_):
 				locations_to_classify = [opjD("Data/2_TB_Samsung_n3/rosbags__preprocessed_data")]
 			
 			for l in locations_to_classify:
-				#cb("classify_data.find_locations('",l,"'),_['experiments_folders'])...")
+				cb("classify_data.find_locations('",l,"'),_['experiments_folders'])...")
 				classify_data.find_locations(l,_['experiments_folders'],False)
-				#cb("...done.")
+			cb("...done.")
 			if _['verbose']: print len(_['experiments_folders'])
 			if _['verbose']: print _['experiments_folders']
 			#raw_enter()
@@ -53,9 +53,9 @@ def prepare_data_for_training(_):
 				locations_to_classify = [opjm('2_TB_Samsung_n3/rosbags__preprocessed_data')]
 			
 			for l in locations_to_classify:
-				#cb("classify_data.find_locations('",l,"'),_['experiments_folders'])...")
+				cb("classify_data.find_locations('",l,"'),_['experiments_folders'])...")
 				classify_data.find_locations(l,_['experiments_folders'],False)
-				#cb("...done.")
+			cb("...done.")
 			if _['verbose']: print len(_['experiments_folders'])
 			if _['verbose']: print _['experiments_folders']
 			#raw_enter()
@@ -144,7 +144,7 @@ def prepare_data_for_training(_):
 					if fname(e) == 'furtive':
 						continue
 					"""
-					#cb("\t",fname(e))
+					cb("\t",fname(e))
 
 					_data_moments_indexed = lo(opj(e,'data_moments_dic.pkl'),noisy=False)
 					#########################################################################
@@ -257,7 +257,7 @@ blank_camera = np.zeros((94,168,3),np.uint8)
 
 
 
-depth_images_path = opjD('Depth_images_copy')
+depth_images_path = opjD('Depth_images')
 depth_image_files = sggo(depth_images_path,'*.Depth_image.with_left_ts.rgb_v1.h5py')
 Depth_runs = {}
 for f in depth_image_files:
@@ -278,7 +278,7 @@ def get_Data_moment(_,Network_Predictions,dm=None,FLIP=None):
 		steer_len = len(_['Loaded_image_files'][dm['run_name']]['left_timestamp_metadata']['steer'])
 		data_len = min(steer_len - left_index,90)
 		behavioral_mode = dm['behavioral_mode']
-
+		#cg(dm['run_name'],left_index)
 
 
 
