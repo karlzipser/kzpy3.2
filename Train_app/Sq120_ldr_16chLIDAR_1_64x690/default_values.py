@@ -34,7 +34,7 @@ _['spause_timer_time'] = 10
 _['percent_of_loss_list_avg_to_show'] = 100.0
 _['cmd/clear_screen'] = False
 _['short timer time'] = 10*minutes
-
+_['NUM_LOSS_STEPS_TO_AVERAGE'] = 1 # 250
 #_['parameter_file_menu_load_timer_time'] = minute
 
 
@@ -66,8 +66,8 @@ if _['freeze premetadata weights']:
 
 _['updated'] = []
 _['DISPLAY_EACH'] = False
-_['RESUME'] = False
-_['BATCH_SIZE'] = 2#64
+_['RESUME'] = True
+_['BATCH_SIZE'] = 64
 _['REQUIRE_ONE'] = []
 _['save_net_timer'] = Timer(1000*hours) #i.e., not used now
 _['SAVE_FILE_NAME'] = 'net'

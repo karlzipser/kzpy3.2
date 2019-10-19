@@ -68,7 +68,8 @@ else:
     cr("\n*********** STARTING FROM RANDOM WEIGHTS ***********\n")
     #raw_enter()
 
-Network = Network_Module.Pytorch_Network(_,'zed')
+#Network = Network_Module.Pytorch_Network(_,'zed')
+Network = None
 Network_depth = Network_Module.Pytorch_Network(_,'depth')
 
 Batch = Batch_Module.Batch(_,the_network=Network,the_network_depth=Network_depth)
@@ -98,13 +99,13 @@ while _['ABORT'] == False:
     if timer.check():
         cg("\n\nQuitting after runing for",timer.time(),"seconds.\n\n")
         _['save_net_timer'].trigger()
-        Network['SAVE_NET']()
+        #Network['SAVE_NET']()
         Network_depth['SAVE_NET']()
         break
 
     if short_timer.check() or _['short timer time'] < short_timer.time():
         short_timer = Timer(_['short timer time'])
-        Network['SAVE_NET'](temp=True)
+        #Network['SAVE_NET'](temp=True)
         Network_depth['SAVE_NET'](temp=True)
         
     Batch['CLEAR']()
@@ -114,19 +115,6 @@ while _['ABORT'] == False:
     Batch['FORWARD']()
 
     Batch['DISPLAY']()
-
-    if False:
-        ###############################
-        #
-        import kzpy3.Cars.n26Dec18.nodes.network_utils.camera as camera
-        Q2 = camera.Quartet('camera from Quartet')
-        Q2['from_torch'](Network['net'].A['camera_input'])
-        Q2['display'](
-            delay_blank=1000,
-            delay_prev=1000,
-            delay_now=1000)    
-        #
-        ###############################
 
     Batch['BACKWARD']()
 

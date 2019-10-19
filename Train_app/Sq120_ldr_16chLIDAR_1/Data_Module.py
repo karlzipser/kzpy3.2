@@ -2,7 +2,7 @@ from kzpy3.vis3 import *
 exec(identify_file_str)
 
 def prepare_data_for_training(_):
-	full = True
+	full = False
 	if True: #########################################################################################
 
 		_['experiments_folders'] = []
@@ -431,6 +431,7 @@ def get_Data_moment(_,Network_Predictions,dm=None,FLIP=None):
 				mci(Data_moment['left'][0],title='left')
 				mci(Data_moment['right'][0],title='right')
 				mci(Data_moment['depth_image_0'],title='depth_image_0')
+				mci(Data_moment['depth_image_n1'],title='depth_image_n1')
 				raw_enter()
 
 

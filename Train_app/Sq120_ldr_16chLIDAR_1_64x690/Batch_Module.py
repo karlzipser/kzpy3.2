@@ -13,7 +13,7 @@ Translation = {
 	'encoder_meo':'encoder',
 }
 
-def Batch(_,the_network=None):
+def Batch(_,the_network=None,the_network_depth=None):
 
 	if _['start menu automatically'] and using_linux():
 	    dic_name = "_"
@@ -32,18 +32,11 @@ def Batch(_,the_network=None):
 	D['states'] = []
 	D['tries'] = 0
 	D['successes'] = 0
-
 	D['zeros, metadata_size'] = zeros((1,1,23,41))
+
 	_['data_moments_indexed_loaded'] = []
 	_['metadata_constant_blanks'] = False
 	_['metadata_constant_gradients'] = False
-
-	D['metadata_16chLIDAR_1'] = torch.FloatTensor().cuda()
-	D['zeros, metadata_size_16chLIDAR_1'] = zeros((1,1,64, 690))
-	_['data_moments_indexed_loaded'] = []
-	_['metadata_constant_blanks_16chLIDAR_1'] = False
-	_['metadata_constant_gradients_16chLIDAR_1'] = False
-
 	_['long_ctr'] = -1
 	_['LOSS_LIST'] = []
 	if 'LOSS_LIST_AVG' not in _:
@@ -58,11 +51,19 @@ def Batch(_,the_network=None):
 	temp = (255*z2o(np.random.randn(94,168))).astype(np.uint8)
 	zero_94_168_img = zeros((94,168),np.uint8)
 
-	# using 690 instead of 691
-	zero_matrix_16chLIDAR_1 = torch.FloatTensor(1, 1, 15, 172).zero_().cuda()
-	one_matrix_16chLIDAR_1 = torch.FloatTensor(1, 1, 15, 172).fill_(1).cuda()
-	temp_16chLIDAR_1 = (255*z2o(np.random.randn(64,690))).astype(np.uint8)
-	zero_64_691_img_16chLIDAR_1 = zeros((64,690),np.uint8)
+
+	D['network_depth'] = the_network_depth
+	D['camera_data_depth'] = torch.FloatTensor().cuda()
+	D['metadata_depth'] = torch.FloatTensor().cuda()
+	D['zeros, metadata_size_depth'] = zeros((1,1,15,172))
+	_['metadata_constant_blanks_depth'] = False
+	_['metadata_constant_gradients_depth'] = False
+	zero_matrix_depth = torch.FloatTensor(1, 1, 15, 172).zero_().cuda()
+	one_matrix_depth = torch.FloatTensor(1, 1, 15, 172).fill_(1).cuda()
+	temp_depth = (255*z2o(np.random.randn(64,690))).astype(np.uint8)
+	zero_94_168_img_depth = zeros((64,690),np.uint8)
+
+
 
 	files = sggo('/home/karlzipser/Desktop/Data/Network_Predictions_projected/*.net_projections.h5py')
 	GOOD_LIST = []
@@ -211,18 +212,6 @@ def Batch(_,the_network=None):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 				###################################################################
 				###################################################################
 				###################################################################
@@ -294,9 +283,6 @@ def Batch(_,the_network=None):
 
 				cat_list.append(_['metadata_constant_blanks'])
 
-				#for c in cat_list:
-				#	cy(c.size())
-
 				metadata_I = torch.cat(cat_list, 1)
 
 				metadata = torch.FloatTensor().cuda()
@@ -304,9 +290,8 @@ def Batch(_,the_network=None):
 				for cur_label in _['behavioral_modes']:
 
 					if cur_label in Data_moment['labels']:
-						#print cur_label,Data_moment['labels']
 
-						if False:#Data_moment['labels'][cur_label]: # NOT USING BEHAVIORAL MODES IN THIS VERSION
+						if False:
 							
 							metadata = torch.cat((one_matrix, metadata), 1);#mode_ctr += 1
 						else:
@@ -314,13 +299,11 @@ def Batch(_,the_network=None):
 					else:
 						metadata = torch.cat((zero_matrix, metadata), 1);#mode_ctr += 1
 
-				#metadata = torch.cat((metadata_constant, metadata), 1)
+
 				metadata = torch.cat((metadata_I, metadata), 1)
 
 
-
-
-				for topic in ['encoder']:#,'acc_x','acc_y','acc_z','gyro_x','gyro_y','gyro_z','encoder']:
+				for topic in ['encoder']:
 					meta_gradient5 = zero_matrix.clone()
 					d = Data_moment[topic+'_past']/100.0
 					if topic == 'encoder':
@@ -334,7 +317,6 @@ def Batch(_,the_network=None):
 						meta_gradient5[:,:,x,:] = d[x]
 					metadata = torch.cat((meta_gradient5, metadata), 1)
 					
-				#print metadata.size()
 
 				D['metadata'] = torch.cat((metadata, D['metadata']), 0)
 				####
@@ -352,105 +334,106 @@ def Batch(_,the_network=None):
 
 
 
-				###################################################################
-				###################################################################
-				###################################################################
-				####	METADATA 16chLIDAR_1
 
-				if type(_['metadata_constant_blanks_16chLIDAR_1']) == type(False):
-					assert _['metadata_constant_blanks_16chLIDAR_1'] == False
-					cr("************* making metadata_constant_16chLIDAR_1 *************")
+
+
+
+				###################################################################
+				###################################################################
+				###################################################################
+				####	METADATA depth
+
+				if type(_['metadata_constant_blanks_depth']) == type(False):
+					assert _['metadata_constant_blanks_depth'] == False
+					cr("************* making metadata_constant_depth *************")
 
 					mode_ctr = len(Data_moment['labels'])
-					metadata_constant = torch.FloatTensor().cuda()
+					metadata_constant_depth = torch.FloatTensor().cuda()
 					num_metadata_channels = 128
 					num_multival_metas = 1 + 4 + 12 + 3#+ 27
 					for i in range(num_metadata_channels - num_multival_metas - mode_ctr): # Concatenate zero matrices to fit the dataset
-						metadata_constant = torch.cat((zero_matrix_16chLIDAR_1, metadata_constant), 1)
-					_['metadata_constant_blanks_16chLIDAR_1'] = metadata_constant
+						metadata_constant_depth = torch.cat((zero_matrix_depth, metadata_constant_depth), 1)
+					_['metadata_constant_blanks_depth'] = metadata_constant_depth
 
-					metadata_constant = torch.FloatTensor().cuda()
-					meta_gradient1 = zero_matrix_16chLIDAR_1.clone()
+					metadata_constant_depth = torch.FloatTensor().cuda()
+					meta_gradient1 = zero_matrix_depth.clone()
 					for x in range(15):
 						meta_gradient1[:,:,x,:] = x/15.0#torch.from_numpy(rnd[:,:,:,y])
-					metadata_constant = torch.cat((meta_gradient1, metadata_constant), 1) #torch.from_numpy(meta_a)
+					metadata_constant_depth = torch.cat((meta_gradient1, metadata_constant_depth), 1) #torch.from_numpy(meta_a)
 
-					meta_gradient2 = zero_matrix_16chLIDAR_1.clone()
+					meta_gradient2 = zero_matrix_depth.clone()
 					for x in range(15):
 						meta_gradient2[:,:,x,:] = (1.0-x/15.0)#torch.from_numpy(rnd[:,:,:,y])
-					metadata_constant = torch.cat((meta_gradient2, metadata_constant), 1) #torch.from_numpy(meta_a)
+					metadata_constant_depth = torch.cat((meta_gradient2, metadata_constant_depth), 1) #torch.from_numpy(meta_a)
 
-					meta_gradient3 = zero_matrix_16chLIDAR_1.clone()
+					meta_gradient3 = zero_matrix_depth.clone()
 					for x in range(172):
 						meta_gradient3[:,:,:,x] = x/172.0#torch.from_numpy(rnd[:,:,:,y])
-					metadata_constant = torch.cat((meta_gradient3, metadata_constant), 1) #torch.from_numpy(meta_a)
+					metadata_constant_depth = torch.cat((meta_gradient3, metadata_constant_depth), 1) #torch.from_numpy(meta_a)
 
-					meta_gradient4 = zero_matrix_16chLIDAR_1.clone()
+					meta_gradient4 = zero_matrix_depth.clone()
 					for x in range(172):
 						meta_gradient4[:,:,:,x] = (1.0-x/172.0)#torch.from_numpy(rnd[:,:,:,y])
-					metadata_constant = torch.cat((meta_gradient4, metadata_constant), 1) #torch.from_numpy(meta_a)
-					_['metadata_constant_gradients'] = metadata_constant
+					metadata_constant_depth = torch.cat((meta_gradient4, metadata_constant_depth), 1) #torch.from_numpy(meta_a)
+					_['metadata_constant_gradients_depth'] = metadata_constant_depth
 
 
 
-				cat_list = [_['metadata_constant_gradients_16chLIDAR_1']]
+				cat_list_depth = [_['metadata_constant_gradients_depth']]
 
 				for t in range(D['network']['net'].N_FRAMES):
 					for camera in ('left', 'right'):
 						for color in [0,2,1]:
 							if True:
-								img = cv2.resize(Data_moment[camera][t][:,:,color] ,(172,15))
-								img0 = zeros((1,1,23,41))
-								img0[0,0,:,:] = img
+								#img = cv2.resize(Data_moment[camera][t][:,:,color] ,(172,15))
+								img0 = zeros((1,1,15,172))
+								#img0[0,0,:,:] = img
 								img1 = torch.from_numpy(img0)
-								img2 = img1.cuda().float()/255. - 0.5
-								cat_list.append(img2)
+								img2 = img1.cuda().float()#/255. - 0.5
+								cat_list_depth.append(img2)
 							else:
-								cat_list.append(zero_matrix)
+								cat_list_depth.append(zero_matrix_depth)
 
 				################################################################
 				# projection metadata
 				if True:
 					for j in [0,2,1]:
-						img = D['zeros, metadata_size_16chLIDAR_1']
-						img[0,0,:,:] = Data_moment['projections'][:,:,j] #resize needed
+						img = D['zeros, metadata_size_depth']
+						#img[0,0,:,:] = zero_matrix_depth.clone()#cv2.resize(Data_moment['projections'][:,:,j] ,(172,15))
 						img = torch.from_numpy(img)
 						img = img.cuda().float()/255.
-						cat_list.append(img)
+						cat_list_depth.append(img)
 				#
 				################################################################
 				
 
-				cat_list.append(_['metadata_constant_blanks_16chLIDAR_1'])
+				cat_list_depth.append(_['metadata_constant_blanks_depth'])
 
-				#for c in cat_list:
-				#	cy(c.size())
+				#for c in cat_list_depth:
+				#	cb(c.size())
 
-				metadata_I = torch.cat(cat_list, 1)
+				metadata_I_depth = torch.cat(cat_list_depth, 1)
 
-				metadata = torch.FloatTensor().cuda()
+				metadata_depth = torch.FloatTensor().cuda()
 
 				for cur_label in _['behavioral_modes']:
 
 					if cur_label in Data_moment['labels']:
-						#print cur_label,Data_moment['labels']
 
-						if False:#Data_moment['labels'][cur_label]: # NOT USING BEHAVIORAL MODES IN THIS VERSION
+						if False:
 							
-							metadata = torch.cat((one_matrix_16chLIDAR_1, metadata), 1);#mode_ctr += 1
+							metadata_depth = torch.cat((one_matrix_depth, metadata_depth), 1);#mode_ctr += 1
 						else:
-							metadata = torch.cat((zero_matrix_16chLIDAR_1, metadata), 1);#mode_ctr += 1
+							metadata_depth = torch.cat((zero_matrix_depth, metadata_depth), 1);#mode_ctr += 1
 					else:
-						metadata = torch.cat((zero_matrix_16chLIDAR_1, metadata), 1);#mode_ctr += 1
-
-				#metadata = torch.cat((metadata_constant, metadata), 1)
-				metadata = torch.cat((metadata_I, metadata), 1)
+						metadata_depth = torch.cat((zero_matrix_depth, metadata_depth), 1);#mode_ctr += 1
 
 
+				metadata_depth = torch.cat((metadata_I_depth, metadata_depth), 1)
 
 
-				for topic in ['encoder']:#,'acc_x','acc_y','acc_z','gyro_x','gyro_y','gyro_z','encoder']:
-					meta_gradient5 = zero_matrix.clone()
+				for topic in ['encoder']:
+					meta_gradient5 = zero_matrix_depth.clone()
 					d = Data_moment[topic+'_past']/100.0
 					if topic == 'encoder':
 						med = np.median(d)
@@ -461,15 +444,20 @@ def Batch(_,the_network=None):
 					d = d.reshape(-1,3).mean(axis=1)
 					for x in range(0,15):
 						meta_gradient5[:,:,x,:] = d[x]
-					metadata = torch.cat((meta_gradient5, metadata), 1)
+					metadata_depth = torch.cat((meta_gradient5, metadata_depth), 1)
 					
-				#print metadata.size()
 
-				D['metadata_16chLIDAR_1'] = torch.cat((metadata, D['metadata_16chLIDAR_1']), 0)
+				D['metadata_depth'] = torch.cat((metadata_depth, D['metadata_depth']), 0)
 				####
 				###################################################################
 				###################################################################
 				###################################################################
+
+
+
+
+
+
 
 
 
@@ -510,6 +498,42 @@ def Batch(_,the_network=None):
 				###################################################################
 				###################################################################
 				###################################################################
+
+
+
+
+
+
+				###################################################################
+				###################################################################
+				###################################################################
+				#### CAMERA DATA depth
+
+				#zeroed_channels = np.random.choice([ [0],[2],[0,2],[0,2],[0,2], ])
+
+
+				list_camera_input_depth = []
+				for t in ['depth_image_0','depth_image_n1']:
+					img = Data_moment[t]
+					list_camera_input_depth.append(torch.from_numpy(img))
+				camera_data_depth = torch.cat(list_camera_input_depth, 2)
+
+
+
+				camera_data_depth = camera_data_depth.cuda().float()/255. - 0.5
+				camera_data_depth = torch.transpose(camera_data_depth, 0, 2)
+				camera_data_depth = torch.transpose(camera_data_depth, 1, 2)
+				D['camera_data_depth'] = torch.cat((torch.unsqueeze(camera_data_depth, 0), D['camera_data_depth']), 0)
+				#####
+				###################################################################
+				###################################################################
+				###################################################################
+
+
+
+
+
+
 
 
 				###################################################################
@@ -575,17 +599,32 @@ def Batch(_,the_network=None):
 				if False:
 					hv = hv - hv[0]
 
-				steer = torch.from_numpy(sv).cuda().float() / 99.
-				motor = torch.from_numpy(mv).cuda().float() / 99.
-				heading = (torch.from_numpy(hv).cuda().float()) / 90.0
-				encoder = (torch.from_numpy(ev).cuda().float()) / 5.0
+				steer = sv / 99.
+				motor = mv / 99.
+				heading = hv / 90.0
+				encoder = ev / 5.0
+
+				steer_c = torch.from_numpy(steer).cuda().float()
+				motor_c = torch.from_numpy(motor).cuda().float()
+				heading_c = torch.from_numpy(heading).cuda().float()
+				encoder_c = torch.from_numpy(encoder).cuda().float()
+
+				if False:#
+					concat = np.concatenate((steer,motor,heading,encoder), axis=0)
+					target_data_depth = zeros((1,120))
+					for i in range(1):
+						target_data_depth[0,:] = concat
+					D['target_data_depth'] = torch.from_numpy(target_data_depth).cuda().float()
 
 				#target_data = torch.unsqueeze(torch.cat((
 				#	steer,steer,steer,motor,motor,motor,heading,heading,heading,encoder,encoder,encoder), 0), 0)
 				
-				target_data = torch.unsqueeze(torch.cat((steer,motor,heading,encoder), 0), 0)
+				target_data = torch.unsqueeze(torch.cat((steer_c,motor_c,heading_c,encoder_c), 0), 0)
 
 				D['target_data'] = torch.cat((target_data, D['target_data']), 0)
+				#raw_enter(d2s('target_data',target_data.size()))
+				#raw_enter(d2s('target_data_depth',D['target_data_depth'].size()))
+				#cy(D['target_data'],ra=1)
 				####
 				###################################################################
 				###################################################################
@@ -615,6 +654,13 @@ def Batch(_,the_network=None):
 		D['outputs'] = None
 		D['loss'] = None
 
+		D['camera_data_depth'] = torch.FloatTensor().cuda()
+		D['metadata_depth'] = torch.FloatTensor().cuda()
+		#D['target_data'] = torch.FloatTensor().cuda()
+		#D['states'] = []
+		#D['names'] = []
+		D['outputs_depth'] = None
+		D['loss_depth'] = None
 
 
 
@@ -623,21 +669,47 @@ def Batch(_,the_network=None):
 		True
 		#Trial_loss_record = D['network'][data_moment_loss_record]
 		D['network']['optimizer'].zero_grad()
-		D['outputs'] = D['network']['net'](torch.autograd.Variable(D['camera_data']), torch.autograd.Variable(D['metadata'])).cuda()
-		D['loss'] = D['network']['criterion'](D['outputs'], torch.autograd.Variable(D['target_data']))
+		if False:
+			D['outputs'] = D['network']['net'](torch.autograd.Variable(D['camera_data']), torch.autograd.Variable(D['metadata'])).cuda()
+			D['loss'] = D['network']['criterion'](D['outputs'], torch.autograd.Variable(D['target_data']))
+		#raw_enter(d2s('target_data',D['target_data'].size()))
+		#raw_enter(d2s('outputs',D['outputs'].size()))
 
+
+		D['network_depth']['optimizer'].zero_grad()
+		#raw_enter(d2s('camera_data_depth',D['camera_data_depth'].size()))
+		#raw_enter(d2s('metadata_depth',D['metadata_depth'].size()))
+		#raw_enter(d2s('target_data',D['target_data'].size()))
+		#raw_enter(d2s('outputs',D['outputs'].size()))
+		D['outputs_depth'] = D['network_depth']['net'](torch.autograd.Variable(D['camera_data_depth']), torch.autograd.Variable(D['metadata_depth'])).cuda()
+		#raw_enter(d2s('target_data_depth',D['target_data_depth'].size()))
+		#raw_enter(d2s('outputs_depth',D['outputs_depth'].size()))
+		D['loss_depth'] = D['network_depth']['criterion'](D['outputs_depth'], torch.autograd.Variable(D['target_data']))
 
 
 	na = np.array
 	def _function_backward():
-		try:
+		if True:#try:
 			D['tries'] += 1
-			D['loss'].backward()
-			nnutils.clip_grad_norm(D['network']['net'].parameters(), 1.0)
-			D['network']['optimizer'].step()
+
+			if False:
+				D['loss'].backward()
+				nnutils.clip_grad_norm(D['network']['net'].parameters(), 1.0)
+				D['network']['optimizer'].step()
+
+
+			D['loss_depth'].backward()
+			nnutils.clip_grad_norm(D['network_depth']['net'].parameters(), 1.0)
+			#raw_enter(d2s('network_depth in D','network_depth' in D))
+			#raw_enter(d2s('D[network_depth][optimizer] in D','optimizer' in D['network_depth']))
+			D['network_depth']['optimizer'].step()
+
 
 			if True: # np.mod(D['tries'],100) == 0:
-				_['LOSS_LIST'].append(D['loss'].data.cpu().numpy()[:].mean())
+				if False:
+					_['LOSS_LIST'].append(D['loss'].data.cpu().numpy()[:].mean())
+				else:
+					_['LOSS_LIST'].append(D['loss_depth'].data.cpu().numpy()[:].mean())
 				
 				try:
 					assert(len(_['current_batch']) == _['BATCH_SIZE'])
@@ -650,7 +722,7 @@ def Batch(_,the_network=None):
 					_['LOSS_LIST'] = []
 			D['successes'] += 1
 
-		except Exception as e:
+		else:#except Exception as e:
 			print("********** Exception ****** def _function_backward(): failed!!!! *****************")
 			print(e.message, e.args)
 			exc_type, exc_obj, exc_tb = sys.exc_info()
@@ -664,8 +736,7 @@ def Batch(_,the_network=None):
 
 
 
-	def _function_display():
-
+	def _function_display(network='network_depth'):
 		if 'display on' not in _:
 			_['display on'] = False
 		if _['display']:
@@ -675,6 +746,10 @@ def Batch(_,the_network=None):
 				CA()
 				_['display on'] = False
 			return
+		if network == 'network_depth':
+			suf = '_depth'
+		else:
+			suf = ''
 
 		if _['spause_timer'].check():
 			spause()
@@ -683,21 +758,21 @@ def Batch(_,the_network=None):
 		if _['print_timer'].check():
 			cprint(d2s("_['start time'] =",_['start time']),'blue','on_yellow')
 			for i in [0]:#range(_['BATCH_SIZE']):
-				ov = D['outputs'][i].data.cpu().numpy()
-				mv = D['metadata'][i].cpu().numpy()
+				ov = D['outputs'+suf][i].data.cpu().numpy()
+				mv = D['metadata'+suf][i].cpu().numpy()
 				tv = D['target_data'][i].cpu().numpy()
 				cg("len(ov),len(tv) =", len(ov),len(tv))
 				#raw_enter()
 				if _['verbose']: print('Loss:',dp(D['loss'].data.cpu().numpy()[0],5))
-				av = D['camera_data'][i][:].cpu().numpy()
+				av = D['camera_data'+suf][i][:].cpu().numpy()
 				bv = av.transpose(1,2,0)
 				hv = shape(av)[1]
 				wv = shape(av)[2]
 
 				if _['verbose']: print(d2s(i,'camera_data min,max =',av.min(),av.max()))
 				
-				Net_activity = Activity_Module.Net_Activity('P',_,'batch_num',i, 'activiations',D['network']['net'].A)
-				Net_activity['view']('moment_index',i,'delay',33, 'scales',{'camera_input':0,'pre_metadata_features':0,'pre_metadata_features_metadata':1,'post_metadata_features':0})
+				Net_activity = Activity_Module.Net_Activity('P',_,'batch_num',i, 'activiations',D[network]['net'].A)
+				Net_activity['view']('moment_index',i,'delay',33, 'scales',{'camera_input':1,'pre_metadata_features':0,'pre_metadata_features_metadata':1,'post_metadata_features':1})
 				bm = 'unknown behavioral_mode'
 				for j in range(len(_['behavioral_modes'])):
 					if mv[-(j+1),0,0]:
@@ -749,7 +824,7 @@ def Batch(_,the_network=None):
 				cr('***','unknown behavioral_mode:',bm)
 				#raw_enter()
 
-		if _['loss_timer'].check() and len(_['LOSS_LIST_AVG'])>5:
+		if _['loss_timer'].check() and len(_['LOSS_LIST_AVG'])>0:
 			if _['num loss_list_avg steps to show'] == None:
 				q = int(len(_['LOSS_LIST_AVG'])*_['percent_of_loss_list_avg_to_show']/100.0)
 			else:
@@ -764,11 +839,11 @@ def Batch(_,the_network=None):
 				file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
 				CS_('Exception!',emphasis=True)
 				CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
-			u = min(len(_['LOSS_LIST_AVG']),250)
+			u = min(len(_['LOSS_LIST_AVG']),_['NUM_LOSS_STEPS_TO_AVERAGE']) # was 250
 			median_val = np.median(na(_['LOSS_LIST_AVG'][-u:]))
 			plt.title(d2s('1000*median =',dp(1000.0*median_val,3)))
 			plot([0,q],[median_val,median_val],'r')
-			plt.xlim(0,q);plt.ylim(0,0.03)
+			plt.xlim(0,q);plt.ylim(0,0.05)
 			spause()
 			_['loss_timer'].reset()
 

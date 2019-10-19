@@ -19,7 +19,7 @@ minutes = minute
 hour = 60*minute
 hours = hour
 
-_['display'] = False
+_['display'] = True
 _['num loss_list_avg steps to show'] = None
 _['ABORT'] = False
 _['customers'] = ['train menu']
@@ -34,7 +34,7 @@ _['spause_timer_time'] = 10
 _['percent_of_loss_list_avg_to_show'] = 100.0
 _['cmd/clear_screen'] = False
 _['short timer time'] = 10*minutes
-_['NUM_LOSS_STEPS_TO_AVERAGE'] = 1 # 250
+_['NUM_LOSS_STEPS_TO_AVERAGE'] = 250
 #_['parameter_file_menu_load_timer_time'] = minute
 
 
@@ -66,7 +66,7 @@ if _['freeze premetadata weights']:
 
 _['updated'] = []
 _['DISPLAY_EACH'] = False
-_['RESUME'] = True
+_['RESUME'] = False
 _['BATCH_SIZE'] = 64
 _['REQUIRE_ONE'] = []
 _['save_net_timer'] = Timer(1000*hours) #i.e., not used now
@@ -77,7 +77,7 @@ _['start time'] = time_str()
 _['start time numeric'] = time.time()
 _['max_num_runs_to_open'] = 900
 _['min_num_runs_to_open'] = 1
-_['run time before quitting'] = 1.5*hours
+_['run time before quitting'] = 11.5*hours
 _['reload_image_file_timer_time'] =  30*minutes
 _['experiments_folders'] = []
 _['trigger print timer?'] = True

@@ -66,11 +66,12 @@ if _['RESUME']:
     _['WEIGHTS_FILE_PATH'] = most_recent_file_in_folder(_['INITIAL_WEIGHTS_FOLDER'],['.infer'],[])
 else:
     cr("\n*********** STARTING FROM RANDOM WEIGHTS ***********\n")
-    raw_enter()
+    #raw_enter()
 
-Network = Network_Module.Pytorch_Network(_)
+Network = Network_Module.Pytorch_Network(_,'zed')
+Network_depth = Network_Module.Pytorch_Network(_,'depth')
 
-Batch = Batch_Module.Batch(_,the_network=Network)
+Batch = Batch_Module.Batch(_,the_network=Network,the_network_depth=Network_depth)
 
 cr("\n\nTime needed for startup =",int(startup_timer.time()),"seconds.\n\n")
 del startup_timer
@@ -98,11 +99,13 @@ while _['ABORT'] == False:
         cg("\n\nQuitting after runing for",timer.time(),"seconds.\n\n")
         _['save_net_timer'].trigger()
         Network['SAVE_NET']()
+        Network_depth['SAVE_NET']()
         break
 
     if short_timer.check() or _['short timer time'] < short_timer.time():
         short_timer = Timer(_['short timer time'])
         Network['SAVE_NET'](temp=True)
+        Network_depth['SAVE_NET'](temp=True)
         
     Batch['CLEAR']()
 
