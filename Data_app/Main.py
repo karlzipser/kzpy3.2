@@ -91,7 +91,7 @@ for r in runs:
 	median_bag_size = np.median(na(bag_sizes))
 	P['min bagfile size'] = P['min bagfile proportion of median'] * median_bag_size
 
-	print("P['min bagfile size'] ="+str(P['min bagfile size']))
+	print('median_bag_size = '+str(median_bag_size)+", min bagfile size ="+str(P['min bagfile size']))
 
 	for b in bags:
 		#print b
