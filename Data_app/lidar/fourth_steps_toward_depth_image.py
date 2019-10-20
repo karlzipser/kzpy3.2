@@ -45,7 +45,7 @@ def get_unprocessed_run(src,path,pattern='original_timestamp_data.h5py'):
 
 
 
-def from_image_to_Depth_images_skeleton(run_folder,time_limit=None,path=None):
+def from_image_to_Depth_images_skeleton(run_folder,time_limit=None,path=None,step_size=1):
     print run_folder
     spd2s("processing",fname(run_folder))
     the_run = fname(run_folder)
@@ -60,7 +60,7 @@ def from_image_to_Depth_images_skeleton(run_folder,time_limit=None,path=None):
     Depth_images['index'] = []
     #Depth_images['image'] = []
     p = O['image']['ts']
-    for t in range(len(p)):
+    for t in range(0,len(p),step_size):
 
         if True:#try:
 
@@ -427,6 +427,42 @@ def process_images_to_rgb_v1(D,show=False):
     return Rgb_v1
 
 
+
+
+
+
+def image_process_images_to_rgb_v1(D,show=False,step_size=1):
+    image = zeros((32,360,3),np.uint8)
+    print D.keys()
+    print D['image']['vals']
+
+    Rgb_v1 = {'rgb_v1_normal':[],'rgb_v1_flip':[]}
+
+    pa = Progress_animator(len(D['image']['vals']),message='r')
+
+    for i in range(0,shape(D['image']['vals'])[0],step_size):
+
+        image = D['image']['vals'][i,:,:]
+
+        image_resized = image_to_rgb_v1(image)
+
+        image_resized_flip = cv2.flip(image_resized,1)
+
+        Rgb_v1['rgb_v1_normal'].append(image_resized)
+        Rgb_v1['rgb_v1_flip'].append(image_resized_flip)
+
+        #if show:
+        #    mci(image_resized,scale=2.0,title=run_name,delay=33)
+
+        pa['update'](i)
+        
+    return Rgb_v1
+
+
+
+
+
+
 def image_to_rgb_v1(img_in):
     img = 0 * img_in
     a = img_in[:,:,2]
@@ -445,34 +481,36 @@ def image_to_rgb_v1(img_in):
 
 
 
-def image_make_resize_and_flip_versions_of_images(depth_images_path):
+def image_make_resize_and_flip_versions_of_images(runs_folder,depth_images_path,step_size=1):
 
     depth_image_files = sggo(depth_images_path,'*.Depth_image.with_left_ts.h5py')
-    
-    #img_bigger = zeros((95,168))
-
+    cm(depth_image_files)
     for depth_image_file in depth_image_files:
+
+        run_name = fnamene(depth_image_file)
 
         error_file = depth_image_file+'.error'
         touched_file = depth_image_file+'.resize_flip_work_in_progress'
         if len(sggo(touched_file)) > 0:
+            cm(1)
             continue
         if len(sggo(error_file)) > 0:
+            cm(2)
             continue
             
         os.system(d2s('touch',touched_file))
 
 
-        try:
+        if True:#try:
             D = h5rw(depth_image_file)
-            
-            pa = Progress_animator(len(D['depth'][:]),message='r')
+            S = h5r(opj(runs_folder,run_name,'original_timestamp_data.h5py'))
+            pa = Progress_animator(len(D['ts'][:]),message='r')
 
             display_timer = Timer(2)
 
             cs("\n\nProcessing",depth_image_file,"for resize and flip.")
 
-            R = process_images_to_rgb_v1(D)
+            R = image_process_images_to_rgb_v1(S,show=False,step_size=step_size)
             resized = R['rgb_v1_normal']
             resized_flipped = R['rgb_v1_flip']
             assert len(resized) == len(D['index'][:])
@@ -480,10 +518,11 @@ def image_make_resize_and_flip_versions_of_images(depth_images_path):
             D.create_dataset('rgb_v1_normal',data=na(resized))
             D.create_dataset('rgb_v1_flip',data=na(resized_flipped))
             D.close()
+            S.close()
             os.system('rm '+touched_file)
             os.system(d2s('mv',depth_image_file,depth_image_file.replace('.Depth_image.with_left_ts.h5py','.Depth_image.with_left_ts.rgb_v1.h5py')))
             
-        except Exception as e:
+        else:#except Exception as e:
             D.close()
             os.system('rm '+touched_file)
             os.system('touch '+error_file)
@@ -825,7 +864,7 @@ if __name__ == '__main__':
         while run_folder:
             run_folder = get_unprocessed_run(Arguments['src'],Arguments['path'])
             if run_folder:
-                from_image_to_Depth_images_skeleton(run_folder,Arguments['limit'],Arguments['path'])
+                from_image_to_Depth_images_skeleton(run_folder,Arguments['limit'],Arguments['path'],step_size=2)
             else:
                 cr("no runs left to process")
 
@@ -834,7 +873,7 @@ if __name__ == '__main__':
         #depth_images_path = Arguments['path']
         #runs_location = Arguments['src']
         #asign_left_timestamps(Arguments['path'],Arguments['src'])
-        image_make_resize_and_flip_versions_of_images(Arguments['path'])
+        image_make_resize_and_flip_versions_of_images(Arguments['src'],Arguments['path'],step_size=2)
 
 
     else:

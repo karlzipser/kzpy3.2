@@ -70,6 +70,12 @@ from utils.have_using import *
 def fname(path):
     return path.split('/')[-1]
 
+def fnamene(path):
+    """
+    filename, no extension
+    """
+    return fname(path).split('.')[0]
+
 def pname(path):
     p = path.split('/')[:-1]
     pstr = ""

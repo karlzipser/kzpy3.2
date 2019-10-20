@@ -113,3 +113,11 @@ if False:
 
 
 
+
+def measure_steps(ts):
+    steps = []
+    for i in range(1,len(ts)):
+        steps.append(ts[i]-ts[i-1])
+    return steps
+
+
