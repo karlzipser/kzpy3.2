@@ -84,6 +84,13 @@ for r in runs:
 	bags = sgg(opj(r,'*.bag')) #+sgg(opj(r,'*.bag.too_small'))
 	cprint(d2s("\t",fname(r),len(bags)))
 	mtimes = []
+
+	bag_sizes = []
+	for b in bags:
+		bag_sizes.append( os.path.getsize(b) )
+	median_bag_size = na(bag_sizes).median()
+	P['min bagfile size'] = P['min bagfile proportion of median'] * median_bag_size
+
 	for b in bags:
 		#print b
 		bag_size = os.path.getsize(b)
@@ -94,6 +101,8 @@ for r in runs:
 			if bag_size < P['min bagfile size']:
 				cprint(d2s('Bagfile',b,'has size',bag_size,'which is below min size,',P['min bagfile size']),'red')
 				unix('mv '+b+' '+b+'.too_small')
+
+
 	mtimes = sorted(mtimes)
 	#pd2s('mtimes:',mtimes)
 	run_duration = mtimes[-1]-mtimes[0]

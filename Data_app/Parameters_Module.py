@@ -77,5 +77,5 @@ P['Allow below-size bag files?'] = False
 #P['min bagfile size'] = 70*10**6
 P['min bagfile size'] = 1000000000
 
-
+P['min bagfile proportion of median'] = 0.9
 #EOF
