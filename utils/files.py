@@ -314,6 +314,7 @@ def find_files_recursively(
     DIRS_ONLY=False,
     ignore_underscore=True,
     ignore_Trash=True,
+    followlinks=True,
 ):
     """
     https://stackoverflow.com/questions/2186525/use-a-glob-to-find-files-recursively-in-python
@@ -325,7 +326,7 @@ def find_files_recursively(
     if src[-1] != '/':
         src = src + '/'
     print(d2n('src =' ,src,', pattern = ',"\"",pattern,"\""))
-    for root, dirnames, filenames in os.walk(src):
+    for root, dirnames, filenames in os.walk(src,followlinks=followlinks):
         assert(not(FILES_ONLY and DIRS_ONLY))
         if FILES_ONLY:
             use_list = filenames

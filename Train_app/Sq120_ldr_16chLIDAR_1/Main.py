@@ -65,7 +65,7 @@ if _['RESUME']:
     _['INITIAL_WEIGHTS_FOLDER'] = opj(_['NETWORK_OUTPUT_FOLDER'],'weights')
     _['WEIGHTS_FILE_PATH'] = most_recent_file_in_folder(_['INITIAL_WEIGHTS_FOLDER'],['.infer'],[])
 else:
-    cr("\n*********** STARTING FROM RANDOM WEIGHTS ***********\n")
+    cprint("\n*********** STARTING FROM RANDOM WEIGHTS ***********\n",'blue','on_white')
     #raw_enter()
 
 #Network = Network_Module.Pytorch_Network(_,'zed')

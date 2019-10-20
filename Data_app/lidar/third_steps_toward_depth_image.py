@@ -12,9 +12,9 @@ log_min,log_max = -0.25,1.5
 
 
 
-def get_unprocessed_run(src,path):
+def get_unprocessed_run(src,path,pattern='original_timestamp_data.h5py'):
 
-    R = find_files_recursively(src,'original_timestamp_data.h5py',FILES_ONLY=True)
+    R = find_files_recursively(src,pattern,FILES_ONLY=True)
     run_folders = []
     for p in R['paths'].keys():
         run_folders.append(opj(src,p))
@@ -45,6 +45,39 @@ def get_unprocessed_run(src,path):
 
 
 
+def from_image_to_Depth_images_skeleton(run_folder,time_limit=None,path=None):
+    print run_folder
+    spd2s("processing",fname(run_folder))
+    the_run = fname(run_folder)
+
+    os.system(d2s("touch",opj(path,the_run)))
+
+    cs('loading O')
+    O = h5r(opj(run_folder,'original_timestamp_data.h5py' ))
+    Depth_images = {}
+    Depth_images['run'] = the_run
+    Depth_images['ts'] = []
+    Depth_images['index'] = []
+    #Depth_images['image'] = []
+    p = O['image']['ts']
+    for t in range(len(p)):
+
+        if True:#try:
+
+            ts = O['image']['ts'][t]
+
+            mes = d2n("ts = ",ts," t = ",t,"/",len(p),", ",int(t/(1.0*len(p))*100),'%')
+
+            cb(mes,sf=False)
+
+            Depth_images['ts'].append(ts)
+            Depth_images['index'].append(t)
+            
+    O.close()
+
+    os.system(d2s("rm",opj(path,the_run)))
+
+    save_Depth_images(Depth_images,the_run,path)
 
 
 
@@ -394,14 +427,29 @@ def process_images_to_rgb_v1(D,show=False):
     return Rgb_v1
 
 
+def image_to_rgb_v1(img_in):
+    img = 0 * img_in
+    a = img_in[:,:,2]
+    a[a>255] = 255
+    img[:,:,0] =  255 - a
+
+    a = 1700.*img_in[:,:,1]/300.
+    a[a>255] = 255
+    img[:,:,1] = a
+
+    img[:,:,2] =  255-img_in[:,:,0]
+
+    new_img = cv2.resize(img,(690,64),interpolation=0)
+
+    return new_img
 
 
 
-def make_resize_and_flip_versions_of_images(depth_images_path):
+def image_make_resize_and_flip_versions_of_images(depth_images_path):
 
     depth_image_files = sggo(depth_images_path,'*.Depth_image.with_left_ts.h5py')
     
-    img_bigger = zeros((95,168))
+    #img_bigger = zeros((95,168))
 
     for depth_image_file in depth_image_files:
 
@@ -449,7 +497,177 @@ def make_resize_and_flip_versions_of_images(depth_images_path):
 
 
 
+def make_resize_and_flip_versions_of_images(depth_images_path):
+
+    depth_image_files = sggo(depth_images_path,'*.Depth_image.with_left_ts.h5py')
+    
+    #img_bigger = zeros((95,168))
+
+    for depth_image_file in depth_image_files:
+
+        error_file = depth_image_file+'.error'
+        touched_file = depth_image_file+'.resize_flip_work_in_progress'
+        if len(sggo(touched_file)) > 0:
+            continue
+        if len(sggo(error_file)) > 0:
+            continue
+            
+        os.system(d2s('touch',touched_file))
+
+
+        try:
+            D = h5rw(depth_image_file)
+            
+            pa = Progress_animator(len(D['depth'][:]),message='r')
+
+            display_timer = Timer(2)
+
+            cs("\n\nProcessing",depth_image_file,"for resize and flip.")
+
+            R = process_images_to_rgb_v1(D)
+            resized = R['rgb_v1_normal']
+            resized_flipped = R['rgb_v1_flip']
+            assert len(resized) == len(D['index'][:])
+            assert len(resized_flipped) == len(D['index'][:])
+            D.create_dataset('rgb_v1_normal',data=na(resized))
+            D.create_dataset('rgb_v1_flip',data=na(resized_flipped))
+            D.close()
+            os.system('rm '+touched_file)
+            os.system(d2s('mv',depth_image_file,depth_image_file.replace('.Depth_image.with_left_ts.h5py','.Depth_image.with_left_ts.rgb_v1.h5py')))
+            
+        except Exception as e:
+            D.close()
+            os.system('rm '+touched_file)
+            os.system('touch '+error_file)
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            CS_('Exception!',emphasis=True)
+            CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+            break
+
+
+
+
 def asign_left_timestamps(depth_images_path,runs_location):
+
+    import kzpy3.Data_app.classify_data as classify_data
+    P = {}
+    P['experiments_folders'] = []
+    classify_data.find_locations( runs_location,P['experiments_folders'] )# (opjm("1_TB_Samsung_n1"),P['experiments_folders'])
+    P['experiments_folders'] = list(set(P['experiments_folders']))
+
+    P['run_name_to_run_path'] = {}
+
+    R = find_files_recursively(runs_location,'left_timestamp_metadata_right_ts.h5py')
+
+    for r in R['paths'].keys():
+        P['run_name_to_run_path'][fname(r)] = opj(runs_location,r)
+
+    """
+    for experiments_folder in P['experiments_folders']:
+        if fname(experiments_folder)[0] == '_':
+            continue
+        print experiments_folder
+        locations = sggo(experiments_folder,'*')
+        for location in locations:
+            if fname(location)[0] == '_':
+                spd2s('ignoring',location)
+                continue
+            print location
+            b_modes = sggo(location,'*')
+            print b_modes
+            for e in b_modes:
+                if fname(e)[0] == '_':
+                    continue
+                if fname(e) == 'racing':
+                    continue
+                spd2s(fname(e))
+                for r in sggo(e,'h5py','*'):
+                    run_name = fname(r)
+                    P['run_name_to_run_path'][run_name] = r
+                    cg(sggo(r,'left_timestamp_metadata_right_ts.h5py'))
+    """
+
+    depth_image_files = sggo(depth_images_path,'*.Depth_image.h5py')
+    #print depth_image_files
+    #raw_enter()
+
+    for depth_image_file in depth_image_files:
+        run_name = fname(depth_image_file).split('.')[0]
+        cb("<run_name =",run_name,"> depth_image_file = <",depth_image_file,">")
+        assert run_name in P['run_name_to_run_path']
+        
+
+        error_file = depth_image_file+'.error'
+        touched_file = depth_image_file+'.work_in_progress'
+        if len(sggo(touched_file)) > 0:
+            continue
+        if len(sggo(error_file)) > 0:
+            continue
+            
+        os.system(d2s('touch',touched_file))
+
+        try:
+            D = h5rw(depth_image_file)
+            index = D['index'][:]
+            lidar_ts = D['ts'][:]
+            L = h5r(opj(P['run_name_to_run_path'][run_name],'left_timestamp_metadata_right_ts.h5py'))
+            left_camera_ts = L['ts'][:]
+            L.close()
+
+            display_timer = Timer(2)
+
+            cs("\n\nProcessing",depth_image_file,"for left timestamps.")
+
+            lidar_index = 0
+
+            D_left_to_lidar_index = 0 * left_camera_ts
+
+            len_left_ts = len(left_camera_ts)
+
+            pa = Progress_animator(len_left_ts,message='r')
+
+            finished = False
+
+            for i in range(len_left_ts):
+                if finished:
+                    break
+
+                pa['update'](i)
+
+                left_ts = left_camera_ts[i]
+
+                while lidar_ts[lidar_index] < left_ts:
+
+                    if lidar_index >= len(lidar_ts)-1:
+                        finished = True
+                    if finished:
+                        break
+
+                    lidar_index += 1
+                    pa = Progress_animator(len(index),message=d2s(left_ts))
+
+                cg(dp(lidar_ts[lidar_index]-left_ts,3),lidar_index,i)
+
+                D_left_to_lidar_index[i] = lidar_index
+
+            D.create_dataset('left_to_lidar_index',data=D_left_to_lidar_index)
+            D.close()
+            os.system('rm '+touched_file)
+            os.system(d2s('mv',depth_image_file,depth_image_file.replace('.Depth_image.h5py','.Depth_image.with_left_ts.h5py')))
+            
+        except Exception as e:
+            D.close()
+            os.system('rm '+touched_file)
+            os.system('touch '+error_file)
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            CS_('Exception!',emphasis=True)
+            CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+    
+
+
+def _asign_left_timestamps(depth_images_path,runs_location):
 
     import kzpy3.Data_app.classify_data as classify_data
     P = {}
@@ -591,18 +809,37 @@ if __name__ == '__main__':
 
 
     elif Arguments['task'] in ['left_ts']:
-        depth_images_path = Arguments['path']
-        runs_location = Arguments['src']
-        asign_left_timestamps(depth_images_path,runs_location)
+        #depth_images_path = Arguments['path']
+        #runs_location = Arguments['src']
+        asign_left_timestamps(Arguments['path'],Arguments['src'])
 
 
 
     elif Arguments['task']  in ['resize_flip']:
-        depth_images_path = Arguments['path']
-        make_resize_and_flip_versions_of_images(depth_images_path)
+        #depth_images_path = Arguments['path']
+        make_resize_and_flip_versions_of_images(Arguments['path'])
+
+
+    if Arguments['task'] in ['image_skeleton']:
+        run_folder = '...'
+        while run_folder:
+            run_folder = get_unprocessed_run(Arguments['src'],Arguments['path'])
+            if run_folder:
+                from_image_to_Depth_images_skeleton(run_folder,Arguments['limit'],Arguments['path'])
+            else:
+                cr("no runs left to process")
+
+
+    elif Arguments['task'] in ['image_to_rbg_v1']:
+        #depth_images_path = Arguments['path']
+        #runs_location = Arguments['src']
+        #asign_left_timestamps(Arguments['path'],Arguments['src'])
+        image_make_resize_and_flip_versions_of_images(Arguments['path'])
+
 
     else:
         cr('--task',"'"+Arguments['task']+"'",'not found.')
+
 
 
     #

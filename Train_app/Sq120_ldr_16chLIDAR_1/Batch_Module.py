@@ -515,7 +515,7 @@ def Batch(_,the_network=None,the_network_depth=None):
 
 				#zeroed_channels = np.random.choice([ [0],[2],[0,2],[0,2],[0,2], ])
 
-				field_of_view_deg = int(270 + 15*randn())
+				field_of_view_deg = 360#int(270 + 15*randn())
 				if field_of_view_deg > 360:
 					field_of_view_deg = 360
 				if field_of_view_deg <180:

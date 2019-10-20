@@ -62,3 +62,17 @@ def find_h5py_runs_with_topic(topic,top,filetype):
 			runs_with_topic.append(k)
 	soD(runs_with_topic,'runs_with_topic_'+topic)
 	return runs_with_topic
+
+
+
+def make_folder_of_links_to_runs_with_topic(folder_path,topic,top,filetype):
+	os.system(d2s('mkdir -p',folder_path))
+	runs_with_topic = find_h5py_runs_with_topic(topic,top,filetype)
+	for r in runs_with_topic:
+		run_name = fname(r)
+		os.system(d2s('ln -s',opj(top,r),opj(folder_path,run_name)))
+
+
+if False:
+	make_folder_of_links_to_runs_with_topic(opjD('runs_with_image_topic'),'image',opjD(),'h5py')
+
