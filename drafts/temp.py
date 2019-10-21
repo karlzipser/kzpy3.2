@@ -121,3 +121,55 @@ def measure_steps(ts):
     return steps
 
 
+
+
+runs = []
+A = find_files_recursively(opjD('h5py_data_reprocessed_from_other_drives'),'tegra*')
+#A = find_files_recursively(opjD('h5py_have_already'),'tegra*')
+for b in A['paths'].keys():
+    runs += A['paths'][b]
+runs
+
+new_runs = runs
+
+runs = []
+A = find_files_recursively(opjD('Data'),'tegra*')
+for b in A['paths'].keys():
+    runs += A['paths'][b]
+
+old_runs = runs
+
+
+for n in new_runs:
+    if n in old_runs:
+        print n,True
+    else:
+        print n,False
+
+
+
+
+
+
+
+top = opjD('Data')
+A = find_files_recursively(top,'tegra-ubuntu_*',DIRS_ONLY=True)
+
+P = A['paths']
+Tasks = {'left_right_center':[],'left_direct_stop':[]}
+q = []
+for a in P.keys():
+    for b in P[a]:
+        original_path = opj(top,a,b,'original_timestamp_data.h5py')
+        D = h5r(original_path)
+        for t in Tasks.keys():
+            if t in a:
+                Tasks[t].append(D['left_image']['ts'][0])
+        D.close()
+CA()
+plot(sorted(Tasks['left_right_center']),'.')
+plot(sorted(Tasks['left_direct_stop']),'.')
+
+
+
+

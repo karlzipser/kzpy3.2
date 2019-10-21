@@ -12,7 +12,11 @@ def bagfile_has_topic(bagfile,topic):
 
 def h5py_file_has_topic(h5py_file,topic):
 	F = h5r(h5py_file)
-	answer = topic in F.keys()
+	answer = False
+	if topic in F.keys():
+		if len(F[topic]['vals']) > 0:
+			answer = True
+	#cg(F.keys(),topic,answer)
 	F.close()
 	return answer
 
