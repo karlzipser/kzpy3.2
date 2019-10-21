@@ -1,3 +1,5 @@
+print("\n\n\n\n\n\n\n")
+
 from kzpy3.utils3 import *
 import default_values
 import Batch_Module
@@ -7,6 +9,7 @@ import kzpy3.Menu_app.menu2 as menu2
 exec(identify_file_str)
 
 _ = default_values.P
+
 
 ####################### MENU ################################
 #

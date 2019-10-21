@@ -10,6 +10,7 @@ LIDAR_HEIGHT = 64
 
 
 
+
 Translation = {
 	'steer':'steer',
 	'motor':'motor',
@@ -46,6 +47,7 @@ def Batch(_,the_network=None,the_network_depth=None):
 	if 'LOSS_LIST_AVG' not in _:
 		_['LOSS_LIST_AVG'] = []
 	_['reload_image_file_timer'].trigger()
+	_['ZED_image'] = None
 
 	Data_Module.prepare_data_for_training(_)
 	Network_Predictions = Data_Module.load_Network_Predictions(_)
@@ -194,6 +196,7 @@ def Batch(_,the_network=None,the_network_depth=None):
 					cy('random.shuffle(_[data_moments_indexed_loaded])')
 				
 				FLIP = random.choice([0,1])
+				#cr(len(_['data_moments_indexed_loaded']),_['long_ctr'])
 				dm = _['data_moments_indexed_loaded'][_['long_ctr']]; _['long_ctr'] += 1#; ctr += 1
 
 				
@@ -503,8 +506,9 @@ def Batch(_,the_network=None,the_network_depth=None):
 					###################################################################
 					###################################################################
 
-
-
+				if ctr == D['batch_size']:#0+1: # ctr has already been incremented by this point
+					_['ZED_image'] = Data_moment['left'][0]
+					#cg( shape(_['ZED_image']), ra=1 )
 
 
 
@@ -751,6 +755,7 @@ def Batch(_,the_network=None,the_network_depth=None):
 
 
 	def _function_display(network='network_depth'):
+		
 		if 'display on' not in _:
 			_['display on'] = False
 		if _['display']:
@@ -770,6 +775,7 @@ def Batch(_,the_network=None,the_network_depth=None):
 			_['spause_timer'].reset()
 
 		if _['print_timer'].check():
+			mi(_['ZED_image'],'ZED_image')
 			cprint(d2s("_['start time'] =",_['start time']),'blue','on_yellow')
 			for i in [0]:#range(_['BATCH_SIZE']):
 				ov = D['outputs'+suf][i].data.cpu().numpy()

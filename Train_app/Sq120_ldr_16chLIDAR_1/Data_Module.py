@@ -1,5 +1,17 @@
 from kzpy3.vis3 import *
+#from kzpy3.Data_app.lidar.reprocess_lidar_points.runs_with_points import runs_with_points
 exec(identify_file_str)
+
+
+depth_images_path = opjD('Depth_images')
+#depth_images_path = opjD('Depth_images__to_be_introducted')
+paths_with_depth_Images = sggo(depth_images_path,'*')
+runs_with_depth_Images = []
+for r in paths_with_depth_Images:
+	runs_with_depth_Images.append(fnamene(r))
+#cb(runs_with_depth_Images,ra=0)
+#runs_with_depth_Images = runs_with_depth_Images[:4];cr('runs_with_depth_Images = runs_with_depth_Images[:4]',ra=1)
+cy('len(runs_with_depth_Images) =',len(runs_with_depth_Images))
 
 def prepare_data_for_training(_):
 	full = True
@@ -78,6 +90,31 @@ def prepare_data_for_training(_):
 
 
 	_['experiments_folders'] = list(set(_['experiments_folders']))
+
+
+
+	experiments_folders = []
+
+
+	#cm(0,len(_['experiments_folders']),ra=1)
+
+	for e in _['experiments_folders']:
+		R = {}
+		classify_data.classify_data(e,R)
+		runs = R.keys()
+		some_run_with_Depth_images = False
+		for r in runs:
+			if r in runs_with_depth_Images:
+				some_run_with_Depth_images = True
+				cg(e,'has runs_with_points',ra=0)
+				break
+		if some_run_with_Depth_images:
+			experiments_folders.append(e)
+	_['experiments_folders'] = experiments_folders
+	#cm(1,len(_['experiments_folders']),ra=1)
+
+
+
 	if _['proportion of experiements to use'] < 1.0:
 		random.shuffle(_['experiments_folders'])
 		_['experiments_folders'] = \
@@ -118,6 +155,7 @@ def prepare_data_for_training(_):
 	setup_timer = Timer(10)
 	setup_timer.trigger()
 	if True:
+		#cm(2,len(_['experiments_folders']),ra=1)
 		for experiments_folder in _['experiments_folders']:
 			setup_timer.message('setting up')
 			if fname(experiments_folder)[0] == '_':
@@ -144,9 +182,9 @@ def prepare_data_for_training(_):
 					if fname(e) == 'furtive':
 						continue
 					"""
-					cb("\t",fname(e))
+					#cb("\t",fname(e))
 
-					_data_moments_indexed = lo(opj(e,'data_moments_dic.pkl'),noisy=False)
+					_data_moments_indexed = lo(opj(e,'data_moments_dic.pkl'))
 					#########################################################################
 					# Validation to be done with separate runs, so combine all data here.
 					#########################################################################
@@ -186,6 +224,8 @@ def prepare_data_for_training(_):
 					else:
 						for r in sggo(e,'h5py','*'):
 							#print fname(r)
+							if fname(r) not in runs_with_depth_Images:
+								continue
 							assert(fname(r) not in _['run_name_to_run_path'])
 							_['run_name_to_run_path'][fname(r)] = r
 				
@@ -229,12 +269,19 @@ def prepare_data_for_training(_):
 def load_Network_Predictions(_):
 	Network_Predictions = {}
 	files = sggo(opjD('Data/Network_Predictions/*.pkl'))
-	cy(files)
+	#cy(files)
 	timer = Timer(60)
 	for f in files:
-		k = fname(f).replace('.net_predictions.pkl','')
+		k = fnamene(f)
+		
+		if k not in runs_with_depth_Images:
+			#cy(k)#,runs_with_depth_Images)
+			cy('not loading Network_Predictions for',f)
+			continue
+		#pprint(_['run_name_to_run_path'].keys())
+		#raw_enter()
 		if k not in _['run_name_to_run_path'].keys():
-			cr(fname(f))
+			#cr(fname(f))
 			cr('not loading Network_Predictions for',f)
 			continue
 		if False:#timer.check():
@@ -257,7 +304,8 @@ blank_camera = np.zeros((94,168,3),np.uint8)
 
 
 
-depth_images_path = opjD('Depth_images')
+
+
 depth_image_files = sggo(depth_images_path,'*.Depth_image.with_left_ts.rgb_v1.h5py')
 Depth_runs = {}
 for f in depth_image_files:
@@ -284,6 +332,8 @@ def get_Data_moment(_,Network_Predictions,dm=None,FLIP=None):
 
 
 		if dm['run_name'] in Depth_runs:
+			if left_index >= len(Depth_runs[dm['run_name']]['left_to_lidar_index']):
+				return False
 			index = Depth_runs[dm['run_name']]['left_to_lidar_index'][left_index]
 			if index < 1:
 				return False
