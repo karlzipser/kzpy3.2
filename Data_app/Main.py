@@ -118,16 +118,18 @@ for r in runs:
 	if fname(r) in preexisting_processed_runs:
 		pd2s(fname(r),'already processed, skipping this run.')
 		continue
-	if True:#try:
+	try:
 		Data_Module.Original_Timestamp_Data(bag_folder_path=r, h5py_path=h5py_dst)
 		Data_Module.make_flip_images(h5py_folder=opj(h5py_dst,fname(r)))
 		if False:#P['use_LIDAR']:
 			Data_Module.make_flip_lidar_images(h5py_folder=opj(h5py_dst,fname(r)))
 		Data_Module.Left_Timestamp_Metadata(run_name=fname(r), h5py_path=h5py_dst)
-	else:#except Exception as e:
-		print("**********for r in runs: Exception ***********************")
-		print(e.message, e.args)
-		success = False
+	except Exception as e:
+		exc_type, exc_obj, exc_tb = sys.exc_info()
+		file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+		CS_('Exception!',emphasis=True)
+		CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)	
+		
 if success:
 	if fname(bag_folders_src_) == 'new':
 		os.rename(bag_folders_src_,opj(pname(bag_folders_src_),'processed_'+time_str()))

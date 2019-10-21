@@ -34,7 +34,7 @@ _['spause_timer_time'] = 10
 _['percent_of_loss_list_avg_to_show'] = 100.0
 _['cmd/clear_screen'] = False
 _['short timer time'] = 10*minutes
-_['NUM_LOSS_STEPS_TO_AVERAGE'] = 250
+
 #_['parameter_file_menu_load_timer_time'] = minute
 
 
@@ -55,7 +55,7 @@ for k in _.keys():
 ###############################################################
 ###############################################################
 _['start menu automatically'] = False
-
+_['NUM_LOSS_STEPS_TO_AVERAGE'] = 250
 _['lacking runs'] = {}
 _['freeze premetadata weights'] = False
 if _['freeze premetadata weights']:
