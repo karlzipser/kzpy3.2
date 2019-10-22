@@ -4,7 +4,7 @@ exec(identify_file_str)
 
 try:
 	if len(sggo("kzpy3/Grapher_app_for_preprocessed_data/__local__/Parameters_Module__local_.py")) > 0:
-		q = raw_input('load __local__ parameters? (y/n)')
+		q = 'n'#raw_input('load __local__ parameters? (y/n)')
 		if q == 'y':
 			from kzpy3.Grapher_app_for_preprocessed_data.__local__.Parameters_Module__local_ import *
 	else:

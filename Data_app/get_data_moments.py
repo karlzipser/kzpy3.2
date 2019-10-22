@@ -84,7 +84,7 @@ def get_data_moments__LCR_dataset_version(dataset_path,location,behavioral_mode,
 	dm_test = []
 	for d in data_moments:
 		dm_test.append(d['left_ts_index'][0]-d['right_ts_index'][0])
-	figure(3);clf();hist(dm_test);spause()
+	figure("d['left_ts_index'][0]-d['right_ts_index'][0]");clf();hist(dm_test);spause()
 	try:
 		F.close()
 		L.close()
@@ -158,7 +158,7 @@ def get_data_moments__more_generic_version(dataset_path,location,behavioral_mode
 	dm_test = []
 	for d in data_moments:
 		dm_test.append(d['left_ts_index'][0]-d['right_ts_index'][0])
-	figure(3);clf();hist(dm_test);spause()
+	figure("d['left_ts_index'][0]-d['right_ts_index'][0]");clf();hist(dm_test);spause()
 	try:
 		F.close()
 		L.close()
@@ -231,7 +231,7 @@ def get_data_moments__left_right_center_dataset_version(dataset_path,location,be
 	dm_test = []
 	for d in data_moments:
 		dm_test.append(d['left_ts_index'][0]-d['right_ts_index'][0])
-	figure(3);clf();hist(dm_test);spause()
+	figure("d['left_ts_index'][0]-d['right_ts_index'][0]");clf();hist(dm_test);spause()
 	try:
 		F.close()
 		L.close()
@@ -325,7 +325,7 @@ def get_data_moments__left_direct_stop_dataset_version(dataset_path,location,beh
 	dm_test = []
 	for d in data_moments:
 		dm_test.append(d['left_ts_index'][0]-d['right_ts_index'][0])
-	figure(3);clf();hist(dm_test);spause()
+	figure("d['left_ts_index'][0]-d['right_ts_index'][0]");clf();hist(dm_test);spause()
 	try:
 		F.close()
 		L.close()
@@ -358,7 +358,7 @@ def right_indicies_timestamps(F,n=5):
 		test.append(best_j-i)
 		r_indicies.append(best_j)
 		r_timestamps.append(r_ts[best_j])
-	figure('test');clf()
+	figure('right_indicies_timestamps, best_j-i');clf()
 	hist(test);spause()
 	return r_indicies,r_timestamps
 

@@ -200,3 +200,37 @@ for r in runs:
     raw_enter()
     L.close()
 
+
+
+
+
+
+
+
+runs = []
+A = find_files_recursively(opjD('h5py_data_reprocessed_from_other_drives'),'tegra*')
+for b in A['paths'].keys():
+    runs += A['paths'][b]
+
+
+
+depth_runs = sggo(opjD('Depth_images5/tegra*')) + sggo(opjD('Depth_images4/tegra*'))
+
+depth_names = []
+for d in depth_runs:
+    depth_names.append(fnamene(d))
+
+
+for d in depth_names:
+    answer = d not in runs
+    print d,answer
+
+
+
+for i in rlen(m):
+    L['motor'][i] = m[i]
+L.close()
+
+
+
+#EOF
