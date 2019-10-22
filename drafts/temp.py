@@ -171,5 +171,32 @@ plot(sorted(Tasks['left_right_center']),'.')
 plot(sorted(Tasks['left_direct_stop']),'.')
 
 
+def f___(x,A,B):
+    return A*x+B
 
+
+slope,y_intercept = curve_fit(f___,e,m)[0]
+
+e_ = arange(0,7,0.1)
+m_ = slope * e_ + y_intercept 
+
+
+
+
+slope = 3.
+y_intercept = 50.
+
+runs = sggo('/home/karlzipser/Desktop/h5py_data_reprocessed_from_other_drives/locations/local/left_right_center/h5py/*')
+
+for r in runs:
+    print r
+    L = h5r(opj(r,'left_timestamp_metadata_right_ts.h5py'))
+    #raw_enter()
+    e = L['encoder'][:]
+    m = slope * e + y_intercept
+    #for i in rlen(e):
+    #    L['motor'][i] = m[i]
+    clf();plot(L['encoder'][:],L['motor'][:],'.');spause()
+    raw_enter()
+    L.close()
 
