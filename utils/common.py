@@ -76,6 +76,18 @@ def fnamene(path):
     """
     return fname(path).split('.')[0]
 
+def fnames(list_of_paths):
+    l = []
+    for p in list_of_paths:
+        l.append(fname(p))
+    return l
+
+def fnamenes(list_of_paths):
+    l = []
+    for p in list_of_paths:
+        l.append(fnamene(p))
+    return l
+
 def pname(path):
     p = path.split('/')[:-1]
     pstr = ""

@@ -3,15 +3,34 @@ from kzpy3.vis3 import *
 exec(identify_file_str)
 
 
-depth_images_path = opjD('Depth_images')
+def kprint(item,title=None):
+	if title != None:
+		cprint(d2n('\n',title,' (n=',len(item),')'),'green')
+	if type(item) == list:
+		for i in item:
+			cprint(d2n(i),'blue')
+
+
+
+
+
+depth_images_path = opjD('Data/Depth_images')
+
+runs_with_depth_Images = fnamenes(sggo(depth_images_path,'*'))
+
 #depth_images_path = opjD('Depth_images__to_be_introducted')
-paths_with_depth_Images = sggo(depth_images_path,'*')
-runs_with_depth_Images = []
-for r in paths_with_depth_Images:
-	runs_with_depth_Images.append(fnamene(r))
+#paths_with_depth_Images = sggo(depth_images_path,'*')
+#runs_with_depth_Images = []
+#for r in paths_with_depth_Images:
+#	runs_with_depth_Images.append(fnamene(r))
+#runs_with_depth_Images = fnamenes(paths_with_depth_Images)
 #cb(runs_with_depth_Images,ra=0)
 #runs_with_depth_Images = runs_with_depth_Images[:4];cr('runs_with_depth_Images = runs_with_depth_Images[:4]',ra=1)
-cy('len(runs_with_depth_Images) =',len(runs_with_depth_Images))
+#cy('len(runs_with_depth_Images) =',len(runs_with_depth_Images))
+
+#pprint(runs_with_depth_Images)
+
+kprint(runs_with_depth_Images,'runs_with_depth_Images')
 
 def prepare_data_for_training(_):
 	full = True
@@ -53,7 +72,7 @@ def prepare_data_for_training(_):
 		]
 
 		_['experiments_folders'] += older
-		#_['experiments_folders'] += newer
+		_['experiments_folders'] += newer
 
 	##############################################################################################
 
@@ -139,6 +158,7 @@ def prepare_data_for_training(_):
 				#if _['verbose']: cg("\t",location)
 				b_modes = sggo(location,'*')
 				#if _['verbose']: cg("\t\tbehavioral modes at this location:", b_modes)
+				#cg(b_modes)
 				for e in b_modes:
 					if fname(e)[0] == '_':
 						continue
@@ -198,7 +218,23 @@ def prepare_data_for_training(_):
 								continue
 							assert(fname(r) not in _['run_name_to_run_path'])
 							_['run_name_to_run_path'][fname(r)] = r
-				
+
+		cy("_['run_name_to_run_path'].keys()",len(_['run_name_to_run_path'].keys()))
+		pprint(_['run_name_to_run_path'].keys())
+		okay = True
+		for r in _['run_name_to_run_path'].keys():
+			if r not in runs_with_depth_Images:
+				okay = False
+				cprint(d2s(r,"not in runs_with_depth_Images"),'white','on_red')
+		if okay:
+			cg('runs_with_depth_Images accounted for.')
+		okay = True
+		for r in runs_with_depth_Images:
+			if r not in _['run_name_to_run_path'].keys():
+				okay = False
+				cprint(d2s(r,"not in _['run_name_to_run_path'].keys()"),'red','on_white')
+		if okay:
+			cg("not in _['run_name_to_run_path'].keys() accounted for.")
 		#cg("***********************************")
 		equalize_to_max_len(B)
 
@@ -222,17 +258,7 @@ def prepare_data_for_training(_):
 				data_moments_indexed.append(d)
 		_['data_moments_indexed'] = data_moments_indexed
 
-		#cb("\tlen( _['data_moments_indexed'] ) =", len( _['data_moments_indexed']) )
-		#cg("len(_['data_moments_indexed']) =",len(_['data_moments_indexed']))
-		#cg("len(_['heading_pause_data_moments_indexed']) =",len(_['heading_pause_data_moments_indexed']))
 
-		"""
-		_['net_projection_runs'] = []
-		temp = sggo(opjD('Data/Network_Predictions_projected/*.flip.h5py'))
-		for r in temp:
-			run_name = r.split('.')[0]
-			_['net_projection_runs'].append(fname(run_name))
-		"""
 
 
 
@@ -400,19 +426,12 @@ def get_Data_moment(_,Network_Predictions,dm=None,FLIP=None):
 
 		if FLIP:
 			F = _['Loaded_image_files'][Data_moment['name']]['flip']
-			S = _['Loaded_image_files'][Data_moment['name']]['flip projections']
+			
 		else:
 			F = _['Loaded_image_files'][Data_moment['name']]['normal']
-			S = _['Loaded_image_files'][Data_moment['name']]['normal projections']
-
+			
 		
-		if not FLIP:
-			Data_moment['projections'] = S[il0]
-		else:
-			blank_meta[:,:,0] = S[il0][:,:,1]
-			blank_meta[:,:,1] = S[il0][:,:,0]
-			blank_meta[:,:,2] = S[il0][:,:,2]
-			Data_moment['projections'] = blank_meta
+
 		
 		Data_moment['left'] = {}
 		Data_moment['right'] = {}
@@ -478,7 +497,6 @@ def get_Data_moment(_,Network_Predictions,dm=None,FLIP=None):
 
 
 
-# 17Dec2018 introducing projections into training, 12 Dec introduced small images.
 
 
 

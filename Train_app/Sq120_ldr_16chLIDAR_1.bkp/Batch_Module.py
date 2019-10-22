@@ -71,7 +71,10 @@ def Batch(_,the_network=None,the_network_depth=None):
 
 
 
-
+	files = sggo('/home/karlzipser/Desktop/Data/Network_Predictions_projected/*.net_projections.h5py')
+	GOOD_LIST = []
+	for f in files:
+	    GOOD_LIST.append(fname(f).split('.')[0])
 
 	def _load_image_files():
 		cy('_load_image_files()')
@@ -82,17 +85,23 @@ def Batch(_,the_network=None,the_network_depth=None):
 
 
 		for f in shuffled_keys[:_['max_num_runs_to_open']]:
-
+			if f not in GOOD_LIST:
+				#cr(f,"NOT LEAVING OUT THIS FILE")
+				continue
 			cg('_load_image_files():',f)
 			_['Loaded_image_files'][f] = {}
 			if True:
 				try:
 
 					L,O,F = open_run(run_name=f,h5py_path=pname(_['run_name_to_run_path'][f]))
+					S = h5r(opjD('Data','Network_Predictions_projected',f+'.net_projections.h5py'))
 
 					_['Loaded_image_files'][f]['normal'] = O
 					_['Loaded_image_files'][f]['flip'] = F
 					_['Loaded_image_files'][f]['left_timestamp_metadata'] = L
+					_['Loaded_image_files'][f]['projections'] = S
+					_['Loaded_image_files'][f]['normal projections'] = S['normal']
+					_['Loaded_image_files'][f]['flip projections'] = S['flip']
 
 					if _['use_LIDAR']:
 						path = opj(_['LIDAR_path'],f+_['LIDAR_extension'])
@@ -152,7 +161,9 @@ def Batch(_,the_network=None,the_network_depth=None):
 			try:
 				_['Loaded_image_files'][f]['normal'].close()
 				_['Loaded_image_files'][f]['flip'].close()
-
+				_['Loaded_image_files'][f]['projections'].close()
+				#_['Loaded_image_files'][f]['normal projections'].close()
+				#_['Loaded_image_files'][f]['flip projections'].close()
 
 				_['Loaded_image_files'][f]['left_timestamp_metadata'].close()
 				if _['use_LIDAR']:
@@ -204,6 +215,122 @@ def Batch(_,the_network=None,the_network_depth=None):
 				_['current_batch'].append(dm)
 				D['names'].insert(0,Data_moment['name']) # This to match torch.cat use below
 				D['flips'].insert(0,Data_moment['FLIP']) # This to match torch.cat use below
+
+
+
+				if False:
+					###################################################################
+					###################################################################
+					###################################################################
+					####	METADATA
+
+					if type(_['metadata_constant_blanks']) == type(False):
+						assert _['metadata_constant_blanks'] == False
+						cr("************* making metadata_constant *************")
+
+						mode_ctr = len(Data_moment['labels'])
+						metadata_constant = torch.FloatTensor().cuda()
+						num_metadata_channels = 128
+						num_multival_metas = 1 + 4 + 12 + 3#+ 27
+						for i in range(num_metadata_channels - num_multival_metas - mode_ctr): # Concatenate zero matrices to fit the dataset
+							metadata_constant = torch.cat((zero_matrix, metadata_constant), 1)
+						_['metadata_constant_blanks'] = metadata_constant
+
+						metadata_constant = torch.FloatTensor().cuda()
+						meta_gradient1 = zero_matrix.clone()
+						for x in range(23):
+							meta_gradient1[:,:,x,:] = x/23.0#torch.from_numpy(rnd[:,:,:,y])
+						metadata_constant = torch.cat((meta_gradient1, metadata_constant), 1) #torch.from_numpy(meta_a)
+
+						meta_gradient2 = zero_matrix.clone()
+						for x in range(23):
+							meta_gradient2[:,:,x,:] = (1.0-x/23.0)#torch.from_numpy(rnd[:,:,:,y])
+						metadata_constant = torch.cat((meta_gradient2, metadata_constant), 1) #torch.from_numpy(meta_a)
+
+						meta_gradient3 = zero_matrix.clone()
+						for x in range(41):
+							meta_gradient3[:,:,:,x] = x/41.0#torch.from_numpy(rnd[:,:,:,y])
+						metadata_constant = torch.cat((meta_gradient3, metadata_constant), 1) #torch.from_numpy(meta_a)
+
+						meta_gradient4 = zero_matrix.clone()
+						for x in range(41):
+							meta_gradient4[:,:,:,x] = (1.0-x/41.0)#torch.from_numpy(rnd[:,:,:,y])
+						metadata_constant = torch.cat((meta_gradient4, metadata_constant), 1) #torch.from_numpy(meta_a)
+						_['metadata_constant_gradients'] = metadata_constant
+
+
+
+					cat_list = [_['metadata_constant_gradients']]
+
+					for t in range(D['network']['net'].N_FRAMES):
+						for camera in ('left', 'right'):
+							for color in [0,2,1]:
+								if True:
+									img = cv2.resize(Data_moment[camera][t][:,:,color] ,(41,23))
+									img0 = zeros((1,1,23,41))
+									img0[0,0,:,:] = img
+									img1 = torch.from_numpy(img0)
+									img2 = img1.cuda().float()/255. - 0.5
+									cat_list.append(img2)
+								else:
+									cat_list.append(zero_matrix)
+
+					################################################################
+					# projection metadata
+					if True:
+						for j in [0,2,1]:
+							img = D['zeros, metadata_size']
+							img[0,0,:,:] = Data_moment['projections'][:,:,j]
+							img = torch.from_numpy(img)
+							img = img.cuda().float()/255.
+							cat_list.append(img)
+					#
+					################################################################
+					
+
+					cat_list.append(_['metadata_constant_blanks'])
+
+					metadata_I = torch.cat(cat_list, 1)
+
+					metadata = torch.FloatTensor().cuda()
+
+					for cur_label in _['behavioral_modes']:
+
+						if cur_label in Data_moment['labels']:
+
+							if False:
+								
+								metadata = torch.cat((one_matrix, metadata), 1);#mode_ctr += 1
+							else:
+								metadata = torch.cat((zero_matrix, metadata), 1);#mode_ctr += 1
+						else:
+							metadata = torch.cat((zero_matrix, metadata), 1);#mode_ctr += 1
+
+
+					metadata = torch.cat((metadata_I, metadata), 1)
+
+
+					for topic in ['encoder']:
+						meta_gradient5 = zero_matrix.clone()
+						d = Data_moment[topic+'_past']/100.0
+						if topic == 'encoder':
+							med = np.median(d)
+							for i in range(len(d)):
+								if d[i] < med/3.0:
+									d[i] = med # this to attempt to get rid of drop out from magnet not being read
+							d = d/5.0
+						d = d.reshape(-1,3).mean(axis=1)
+						for x in range(0,23):
+							meta_gradient5[:,:,x,:] = d[x]
+						metadata = torch.cat((meta_gradient5, metadata), 1)
+						
+
+					D['metadata'] = torch.cat((metadata, D['metadata']), 0)
+					####
+					###################################################################
+					###################################################################
+					###################################################################
+
 
 
 
@@ -275,7 +402,7 @@ def Batch(_,the_network=None,the_network_depth=None):
 								cat_list_depth.append(zero_matrix_depth)
 
 				################################################################
-				# projection metadata (just zeros)
+				# projection metadata
 				if True:
 					for j in [0,2,1]:
 						img = D['zeros, metadata_size_depth']

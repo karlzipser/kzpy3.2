@@ -244,29 +244,44 @@ def prepare_data_for_training(_):
 				break
 		num_runs_to_use = max(_['min_num_runs_to_open'],int(_['proportion of runs to use']*len(runs_weighted)))
 		runs_to_use = runs_weighted[:num_runs_to_use]
-
+		#cr(runs_weighted)
+		#cg(runs_to_use)
 		data_moments_indexed = []
 		for d in _['data_moments_indexed']:
 			if d['run_name'] in runs_to_use:
 				data_moments_indexed.append(d)
 		_['data_moments_indexed'] = data_moments_indexed
 
+		#cb("\tlen( _['data_moments_indexed'] ) =", len( _['data_moments_indexed']) )
+		#cg("len(_['data_moments_indexed']) =",len(_['data_moments_indexed']))
+		#cg("len(_['heading_pause_data_moments_indexed']) =",len(_['heading_pause_data_moments_indexed']))
 
+		"""
+		_['net_projection_runs'] = []
+		temp = sggo(opjD('Data/Network_Predictions_projected/*.flip.h5py'))
+		for r in temp:
+			run_name = r.split('.')[0]
+			_['net_projection_runs'].append(fname(run_name))
+		"""
 
 
 
 def load_Network_Predictions(_):
 	Network_Predictions = {}
 	files = sggo(opjD('Data/Network_Predictions/*.pkl'))
+	#cy(files)
 	timer = Timer(60)
 	for f in files:
 		k = fnamene(f)
 		
 		if k not in runs_with_depth_Images:
+			#cy(k)#,runs_with_depth_Images)
 			cy('not loading Network_Predictions for',f)
 			continue
-
+		#pprint(_['run_name_to_run_path'].keys())
+		#raw_enter()
 		if k not in _['run_name_to_run_path'].keys():
+			#cr(fname(f))
 			cr('not loading Network_Predictions for',f)
 			continue
 		if False:#timer.check():
@@ -415,11 +430,19 @@ def get_Data_moment(_,Network_Predictions,dm=None,FLIP=None):
 
 		if FLIP:
 			F = _['Loaded_image_files'][Data_moment['name']]['flip']
+			S = _['Loaded_image_files'][Data_moment['name']]['flip projections']
 		else:
 			F = _['Loaded_image_files'][Data_moment['name']]['normal']
+			S = _['Loaded_image_files'][Data_moment['name']]['normal projections']
 
 		
-
+		if not FLIP:
+			Data_moment['projections'] = S[il0]
+		else:
+			blank_meta[:,:,0] = S[il0][:,:,1]
+			blank_meta[:,:,1] = S[il0][:,:,0]
+			blank_meta[:,:,2] = S[il0][:,:,2]
+			Data_moment['projections'] = blank_meta
 		
 		Data_moment['left'] = {}
 		Data_moment['right'] = {}
@@ -485,6 +508,7 @@ def get_Data_moment(_,Network_Predictions,dm=None,FLIP=None):
 
 
 
+# 17Dec2018 introducing projections into training, 12 Dec introduced small images.
 
 
 
