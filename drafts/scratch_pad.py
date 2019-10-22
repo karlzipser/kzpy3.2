@@ -190,14 +190,15 @@ runs = sggo('/home/karlzipser/Desktop/h5py_data_reprocessed_from_other_drives/lo
 
 for r in runs:
     print r
-    L = h5r(opj(r,'left_timestamp_metadata_right_ts.h5py'))
+    L = h5rw(opj(r,'left_timestamp_metadata_right_ts.h5py'))
+    #L=h5rw('/home/karlzipser/Desktop/Data/2_TB_Samsung_n3/mid_Dec2018_with_lidar_image/locations/local/left_right_center/h5py/tegra-ubuntu_12Dec18_16h59m28s/left_timestamp_metadata_right_ts.h5py')
     #raw_enter()
     e = L['encoder'][:]
     m = slope * e + y_intercept
-    #for i in rlen(e):
-    #    L['motor'][i] = m[i]
+    for i in rlen(e):
+        L['motor'][i] = m[i]
     clf();plot(L['encoder'][:],L['motor'][:],'.');spause()
-    raw_enter()
+    #raw_enter()
     L.close()
 
 
@@ -230,6 +231,34 @@ for d in depth_names:
 for i in rlen(m):
     L['motor'][i] = m[i]
 L.close()
+
+
+
+
+
+
+
+
+locations = [
+    opjD("Data/2_TB_Samsung_n3/mid_Dec2018_with_lidar_image/locations"),
+    opjD("Data/h5py_data_reprocessed_from_other_drives/locations"),
+]
+run_paths = []
+for l in locations:
+    R = find_files_recursively(l,'original_timestamp_data.h5py')
+    for r in R['paths'].keys():
+        run_paths.append(opj(l,r))
+
+ctr = 0
+for r in run_paths:
+    if True:#not is_even(ctr):
+        cy('ctr =',ctr)
+        sys_str = d2s("python kzpy3/Cars/n11Dec2018__predictions/nodes/network_node__make_predictions.py --graphics False --dst_folder /home/karlzipser/Desktop/Network_Predictions__temp --run_folder",r)
+        cb(sys_str)
+        os.system(sys_str)
+    ctr += 1
+
+
 
 
 

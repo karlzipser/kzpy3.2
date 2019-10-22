@@ -15,76 +15,46 @@ cy('len(runs_with_depth_Images) =',len(runs_with_depth_Images))
 
 def prepare_data_for_training(_):
 	full = True
-	if True: #########################################################################################
+	#########################################################################################
 
-		_['experiments_folders'] = []
-		if True:
-			import kzpy3.Data_app.classify_data as classify_data
-			
-			
-			if full:
-				locations_to_classify = [
-					opjD("Data/1_TB_Samsung_n1"),
-					opjD("Data/2_TB_Samsung_n3/rosbags__preprocessed_data"),
-				]
-			else:
-				locations_to_classify = [opjD("Data/2_TB_Samsung_n3/rosbags__preprocessed_data")]
-			
-			for l in locations_to_classify:
-				cb("classify_data.find_locations('",l,"'),_['experiments_folders'])...")
-				classify_data.find_locations(l,_['experiments_folders'],False)
-			cb("...done.")
-			if _['verbose']: print len(_['experiments_folders'])
-			if _['verbose']: print _['experiments_folders']
-			#raw_enter()
-		################################################################
-		if full:
-		################################################################
-			older = [
-				opjD("Data/2_TB_Samsung_n3/bdd_car_data_July2017_LCR/locations"),
-				opjD("Data/2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_model_car_data_early_8Oct2018_lrc_LIDAR/locations"),
-				opjD("Data/2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_model_car_data_late_Sept_early_Oct2018_lrc/locations"),
-				opjD("Data/2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_car_data_late_Sept2018_lrc/locations"),
-				opjD("Data/2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_car_data_18July_to_18Sept2018_lrc/locations"),
-				opjD("Data/2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/model_car_data_July2018_lrc/locations"),
-				opjD("Data/2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/model_car_data_June2018_LCR/locations"),
-			]
-			_['experiments_folders'] += older
+	_['experiments_folders'] = []
 
-	else: #########################################################################################
+	import kzpy3.Data_app.classify_data as classify_data
+	
+	
+	if full:
+		locations_to_classify = [
+			opjD("Data/1_TB_Samsung_n1"),
+			opjD("Data/2_TB_Samsung_n3/rosbags__preprocessed_data"),
+		]
+	else:
+		locations_to_classify = [opjD("Data/2_TB_Samsung_n3/rosbags__preprocessed_data")]
+	
+	for l in locations_to_classify:
+		cb("classify_data.find_locations('",l,"'),_['experiments_folders'])...")
+		classify_data.find_locations(l,_['experiments_folders'],False)
+	
 
+	################################################################
+	if full:
+		older = [
+			opjD("Data/2_TB_Samsung_n3/bdd_car_data_July2017_LCR/locations"),
+			opjD("Data/2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_model_car_data_early_8Oct2018_lrc_LIDAR/locations"),
+			opjD("Data/2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_model_car_data_late_Sept_early_Oct2018_lrc/locations"),
+			opjD("Data/2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_car_data_late_Sept2018_lrc/locations"),
+			opjD("Data/2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_car_data_18July_to_18Sept2018_lrc/locations"),
+			opjD("Data/2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/model_car_data_July2018_lrc/locations"),
+			opjD("Data/2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/model_car_data_June2018_LCR/locations"),
+		]
+		
+		newer = [
+			opjD("Data/2_TB_Samsung_n3/mid_Dec2018_with_lidar_image/locations"),
+			opjD("Data/h5py_data_reprocessed_from_other_drives/locations"),
+		]
 
-		_['experiments_folders'] = []
-		if True:
-			import kzpy3.Data_app.classify_data as classify_data
-			
-			
-			if True:
-				locations_to_classify = [opjm("1_TB_Samsung_n1"),opjm('2_TB_Samsung_n3/rosbags__preprocessed_data')]
-			else:
-				locations_to_classify = [opjm('2_TB_Samsung_n3/rosbags__preprocessed_data')]
-			
-			for l in locations_to_classify:
-				cb("classify_data.find_locations('",l,"'),_['experiments_folders'])...")
-				classify_data.find_locations(l,_['experiments_folders'],False)
-			cb("...done.")
-			if _['verbose']: print len(_['experiments_folders'])
-			if _['verbose']: print _['experiments_folders']
-			#raw_enter()
-		################################################################
-		if True:
-		################################################################
-			older = [
-				#opjm('2_TB_Samsung_n3/bdd_car_data_July2017_LCR/locations'),
-				opjm('2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_model_car_data_early_8Oct2018_lrc_LIDAR/locations'),
-				opjm('2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_model_car_data_late_Sept_early_Oct2018_lrc/locations'),
-				opjm('2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_car_data_late_Sept2018_lrc/locations'),
-				opjm('2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_car_data_18July_to_18Sept2018_lrc/locations'),
-				opjm('2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/model_car_data_July2018_lrc/locations'),
-				#opjm('2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/model_car_data_June2018_LCR/locations'),
-			]
+		_['experiments_folders'] += older
+		#_['experiments_folders'] += newer
 
-			_['experiments_folders'] += older
 	##############################################################################################
 
 
@@ -106,7 +76,7 @@ def prepare_data_for_training(_):
 		for r in runs:
 			if r in runs_with_depth_Images:
 				some_run_with_Depth_images = True
-				cg(e,'has runs_with_points',ra=0)
+				cg(e,'has some_run_with_Depth_images',ra=0)
 				break
 		if some_run_with_Depth_images:
 			experiments_folders.append(e)
