@@ -457,6 +457,18 @@ def open_run(run_name,h5py_path=None,Runs_dic=None,want_list=['L','O','F'],verbo
 
 
 
+def backup_folder(
+    src=opjh('kzpy3')+'/',
+    dst=opjh('_kzpy3_older','kzpy3_'+time_str())+'/'
+    ):
+    """
+    Make a time marked backup, with default as kzpy3.
+    """
+    os.system('mkdir -p ' + dst)
+    #os.system(d2s('cp -r',src,dst))
+    os.system(d2s("rsync -ravL --exclude '*.pyc' --exclude '*.pkl'", src, dst))
+
+
 
 exec(identify_file_str)
 
