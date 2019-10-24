@@ -104,4 +104,58 @@ def cl(*args,**Kwargs):
 	)
 	return s
 #,b
+
+Originals = find_files_recursively(opjD('Data'),'original_timestamp_data.h5py')
+so(opjD('Originals'),Originals)
+
+
+from kzpy3.Data_app.classify_data import *
+#top = opjD('h5py_have_already')
+top = opjD('Older_version_of_h5py_runs')
+H = find_files_recursively(top ,'original*')
+for h in H['paths']:
+    i = opj(top,h)
+    r = fname(i)
+    #cg(i,is_preprocessed_run(i),r)
+    top2 = opjD('Data')
+    P = find_files_recursively(top2,r)
+    assert len(P['paths']) == 1
+    A = P['paths']
+    b = A.keys()[0]
+    C = A[b][0]
+    old_version_path = opj(top2,b,C)
+    new_src = opj(top,h)
+    new_dest = opj(top2,b)
+    sys_str = d2s('mv',old_version_path,opjD('h5py_have_already'))
+    cb(sys_str,ra=1)
+    os.system(sys_str)
+
+    sys_str = d2s('mv',new_src,new_dest)
+    cy(sys_str,ra=1)
+    os.system(sys_str)
+
+
+
+
+
+
+
+
+train duration = 2 minutes   frequency = 0.01 Hz
+tegra-ubuntu_01Dec18_16h38m21s lacks gyro_heading_x
+-9243
+Traceback (most recent call last):
+  File "kzpy3/Train_app/Sq120_ldr_16chLIDAR_180deg/Main.py", line 116, in <module>
+    Batch['FILL']()
+  File "/home/karlzipser/kzpy3/Train_app/Sq120_ldr_16chLIDAR_180deg/Batch_Module.py", line 192, in _function_fill
+    Data_moment = Data_Module.get_Data_moment(_,Network_Predictions,dm=dm,FLIP=FLIP)
+  File "/home/karlzipser/kzpy3/Train_app/Sq120_ldr_16chLIDAR_180deg/Data_Module.py", line 384, in get_Data_moment
+    Data_moment[q+past][:past_data_len] = _['Loaded_image_files'][dm['run_name']]['left_timestamp_metadata'][q][(left_index-past_data_len):left_index]
+ValueError: could not broadcast input array from shape (0) into shape (69)
+
+
+
+
+
+
 #EOF

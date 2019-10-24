@@ -380,7 +380,8 @@ def get_Data_moment(_,Network_Predictions,dm=None,FLIP=None):
 						return False
 					else:
 						pass#print "left_index-past_data_len >= 0:"
-					
+					#cg(q,past,past_data_len,left_index,dm['run_name'])
+					#cb(shape(_['Loaded_image_files'][dm['run_name']]['left_timestamp_metadata'][q][(left_index-past_data_len):left_index]))
 					Data_moment[q+past][:past_data_len] = _['Loaded_image_files'][dm['run_name']]['left_timestamp_metadata'][q][(left_index-past_data_len):left_index]
 					if FLIP:
 						if q == 'steer':
