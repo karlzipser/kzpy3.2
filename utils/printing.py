@@ -256,7 +256,7 @@ def cl(*args,**Kwargs):
     return s
 
 def clp(*args,**Kwargs):
-    print cl(*args,**Kwargs)
+    print(cl(*args,**Kwargs))
 
 
 
