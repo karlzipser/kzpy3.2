@@ -1,6 +1,9 @@
 #from kzpy3.utils.common import *
+# This file is used by .common, so can't import it. Therefore, imports must be
+# specified here.
 import numpy as np
 from termcolor import cprint
+from termcolor import colored
 
 PRINT_COMMENTS = True
 def CS_(comment,section='',s='',say_comment=False,emphasis=False,exception=False,newline=True,print_comment=True):
@@ -175,6 +178,79 @@ def format_row(list_of_sym_percent_pairs):
 
 
 
+
+
+def cl(*args,**Kwargs):
+    """
+    Return string based on colored function, but with d2s style input.
+
+    e.g.,
+        pd2n(
+            cl(1,2,3,o='b',s=' ... '),
+            cl(1,2,3,c='blue',s='+'),
+            cl(1,2,3,c='white',a=['r','b'],s='>')
+        )
+    """
+    Translation = {
+        'on_color': {
+            'on_red':['on_red','red','r'],
+            'on_green':['on_green','green','g'],
+            'on_blue':['on_blue','blue','b'],
+            'on_yellow':['on_yellow','on_yellow','y'],
+            'on_white':['on_white','white','w'],
+            'on_magenta':['on_magenta','magenta','m'],
+            'on_blue':['on_blue','blue','b'],
+            'on_yellow':['on_yellow','yellow','y'],
+            'on_cyan':['on_cyan','cyan','c'],
+        },
+        'color': {
+            'red':['red','r'],
+            'on_green':['green','g'],
+            'on_blue':['blue','b'],
+            'yellow':['yellow','y'],
+            'white':['white','w'],
+            'magenta':['magenta','m'],
+            'blue':['blue','b'],
+            'yellow':['yellow','y'],
+            'cyan':['cyan','c'],
+        },
+        'attrs': {
+            'bold':['bold','b'],
+            'underline':['underline','u'],
+            'dark': ['dark','d'],
+            'reverse': ['reverse','r']
+        }
+    }
+    Defaults = {'c':None, 'o':None, 'a':None, 's':' '}
+    for k in Kwargs.keys():
+        if k not in Defaults.keys():
+            cr("*** Warning, argument '"+k+"' not in expected arguments:\n\t",Defaults.keys())
+    for k in Defaults.keys():
+        if k not in Kwargs.keys():
+            Kwargs[k] = Defaults[k]
+    for c in Translation['color']:
+        if Kwargs['c'] in Translation['color'][c]:
+            Kwargs['c'] = c
+            break
+    for c in Translation['on_color']:
+        if Kwargs['o'] in Translation['on_color'][c]:
+            Kwargs['o'] = c
+            break
+    attributes = []
+    if Kwargs['a'] != None:
+        for a in Kwargs['a']:
+            for c in Translation['attrs']:
+                if a in Translation['attrs'][c]:
+                    attributes.append(c)
+                    break
+        Kwargs['a'] = attributes
+    s = colored(
+        text=d2s_spacer(args,spacer=Kwargs['s']),
+        color=Kwargs['c'],
+        on_color=Kwargs['o'],
+        attrs=Kwargs['a']
+    )
+    return s
 
 
 #exec(identify_file_str)

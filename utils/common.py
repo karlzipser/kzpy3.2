@@ -25,7 +25,7 @@ for im in import_list + import_from_list + import_as_list:
         if im[0] == 'FROM':
             try:
                 exec('from '+im[1]+' import '+im[2])
-                #print("from "+im[1]+" imported "+im[2])
+                print("from "+im[1]+" imported "+im[2])
             except:
                 pass
                 print('Failed to from '+im[1]+' import '+im[2])
