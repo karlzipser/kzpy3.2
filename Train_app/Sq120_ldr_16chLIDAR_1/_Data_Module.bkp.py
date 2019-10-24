@@ -259,6 +259,7 @@ def load_Network_Predictions(_):
 	Network_Predictions = {}
 	files = sggo(opjD('Data/Network_Predictions/*.pkl'))
 	timer = Timer(60)
+	ctr = 0
 	for f in files:
 		k = fnamene(f)
 		
@@ -273,7 +274,8 @@ def load_Network_Predictions(_):
 			cm('done')
 			return
 		if fname(f) != 'runs.pkl':
-			cb('loading',k)
+			ctr += 1
+			cb('loading',k,'(',ctr,')')
 			Network_Predictions[k] = lo(f)
 		else:
 			cr(f)

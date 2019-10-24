@@ -219,8 +219,8 @@ def prepare_data_for_training(_):
 							assert(fname(r) not in _['run_name_to_run_path'])
 							_['run_name_to_run_path'][fname(r)] = r
 
-		cy("_['run_name_to_run_path'].keys()",len(_['run_name_to_run_path'].keys()))
-		pprint(_['run_name_to_run_path'].keys())
+		#cy("_['run_name_to_run_path'].keys()",len(_['run_name_to_run_path'].keys()))
+		kprint(_['run_name_to_run_path'].keys(),title="_['run_name_to_run_path'].keys()")
 		okay = True
 		for r in _['run_name_to_run_path'].keys():
 			if r not in runs_with_depth_Images:
@@ -267,6 +267,7 @@ def load_Network_Predictions(_):
 	files = sggo(opjD('Data/Network_Predictions/*.pkl'))
 	#cy(files)
 	timer = Timer(60)
+	ctr = 0
 	for f in files:
 		k = fnamene(f)
 		
@@ -284,7 +285,8 @@ def load_Network_Predictions(_):
 			cm('done')
 			return
 		if fname(f) != 'runs.pkl':
-			cb('loading',k)
+			ctr += 1
+			cb('loading',k,'(',ctr,')')
 			Network_Predictions[k] = lo(f)
 		else:
 			cr(f)
