@@ -3,12 +3,7 @@ from kzpy3.vis3 import *
 exec(identify_file_str)
 
 
-def kprint(item,title=None):
-	if title != None:
-		cprint(d2n('\n',title,' (n=',len(item),')'),'green')
-	if type(item) == list:
-		for i in item:
-			cprint(d2n(i),'blue')
+
 
 
 
