@@ -205,8 +205,8 @@ def cl(*args,**Kwargs):
         },
         'color': {
             'red':['red','r'],
-            'on_green':['green','g'],
-            'on_blue':['blue','b'],
+            'green':['green','g'],
+            'blue':['blue','b'],
             'yellow':['yellow','y'],
             'white':['white','w'],
             'magenta':['magenta','m'],
@@ -228,6 +228,8 @@ def cl(*args,**Kwargs):
     for k in Defaults.keys():
         if k not in Kwargs.keys():
             Kwargs[k] = Defaults[k]
+    if type(Kwargs['a']) == str:
+        Kwargs['a'] = [char for char in Kwargs['a']]
     for c in Translation['color']:
         if Kwargs['c'] in Translation['color'][c]:
             Kwargs['c'] = c
@@ -244,6 +246,7 @@ def cl(*args,**Kwargs):
                     attributes.append(c)
                     break
         Kwargs['a'] = attributes
+    #print(Kwargs)
     s = colored(
         text=d2s_spacer(args,spacer=Kwargs['s']),
         color=Kwargs['c'],
@@ -252,7 +255,33 @@ def cl(*args,**Kwargs):
     )
     return s
 
+def clp(*args,**Kwargs):
+    print cl(*args,**Kwargs)
 
-#exec(identify_file_str)
+
+
+def kprint(item,title=None):
+    item_printed = False
+    if title != None:
+        print('')
+        if type(item) in [dict,list]:
+            len_item = len(item)
+            clp(title,' (n=',len_item,')',o='g',s='') 
+        else:
+            pd2n( cl(title,':',o='g',s=''),' ',cl(item,c='g') )
+            item_printed = True
+        
+    if type(item) == list:
+        for i in item:
+            clp(i,c='b')
+    elif type(item) == dict:
+        for k in sorted(item.keys()):
+            if type(item[k]) in [dict,list]:
+                l = len(item[k])
+            else:
+                l = 1
+            clp(k,' {n=',l,'}',c='y',s='')
+    elif not item_printed:
+        clp(item,c='g')
 
 #EOF
