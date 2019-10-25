@@ -1,0 +1,42 @@
+#wifi off
+#plug in ethernet between lidar and tx1
+#select OS1 connection so that it is confirmed
+
+sudo /etc/init.d/dnsmasq start
+
+journalctl -fu dnsmasq
+
+#important line:
+# Sep 19 10:35:42 Mr_Plain dnsmasq-dhcp[1822]: DHCPDISCOVER(enx00044b581223) 192.168.1.243 bc:0f:a7:00:01:5b
+
+
+
+# viz demo (openGL)
+~/Desktop/ouster_example/ouster_viz/build/viz 192.168.1.244 192.168.1.240
+
+
+
+# ROS demo
+
+source ~/catkin_ws/myworkspace/devel/setup.bash
+
+export ROS_MASTER_URI=http://192.168.1.240:11311
+export ROS_IP=192.168.1.240
+
+
+roslaunch ouster_ros os1.launch os1_hostname:=192.168.1.244 os1_udp_dest:=192.168.1.240
+
+rostopic list
+#outputs:
+#/os1_node/imu
+#/os1_node/imu_packets
+#/os1_node/lidar_packets
+#/os1_node/points
+#/rosout
+#/rosout_agg
+
+rviz -d ~/Desktop/ouster_example/ouster_ros/viz.rviz
+
+
+export ROS_MASTER_URI=http://192.168.1.101:11311
+export ROS_IP=192.168.101
