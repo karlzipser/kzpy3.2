@@ -31,7 +31,7 @@ def color_format(*args,**Kwargs):
     c = []
     for i in sorted(B.keys()):
         if len(B[i]['data']) > 0:
-            if len(B[i]['colors']) > 0:
+            if 'colors' in B[i] and B[i]['colors'] != None and len(B[i]['colors']) > 0:
                 c.append(colored(
                     d2s_spacer(B[i]['data'],spacer=Kwargs['s0']),
                     B[i]['colors'][0],
@@ -44,6 +44,11 @@ def color_format(*args,**Kwargs):
     return d2s_spacer(c,spacer=Kwargs['s1'])
 
 def color_print(*args,**Kwargs):
+    """
+    e.g.,
+
+        color_print(1,2,3,'`bgu',4,5,6,'`',7,8,9,'`gbb',s1='<==>',s0='-')
+    """
     print(color_format(*args,**Kwargs))
 
 cf = color_format
@@ -78,6 +83,10 @@ def translate_color_string(s):
         'b':'blue',
         'w':'white',
         'y':'yellow',
+        'r':'red',
+        'm':'magenta',
+        'c':'cyan',
+        'e':'grey',
         '-':None,
     }
     Translate_on_color = {
@@ -85,6 +94,10 @@ def translate_color_string(s):
         'b':'on_blue',
         'w':'on_white',
         'y':'on_yellow',
+        'r':'on_red',
+        'm':'on_magenta',
+        'c':'on_cyan',
+        'e':'on_grey',
         '-':None,
     }
     Translate_attribute = {
