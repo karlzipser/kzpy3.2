@@ -6,14 +6,16 @@ def kprint(item,title=None):
         print('')
         if type(item) in [dict,list]:
             len_item = len(item)
-            color_print(title,' (n=',len_item,')','`-g')  #o='g',s='') 
+            color_print(title,' (n=',len_item,')','`-g',s0='')  #o='g',s='') 
         else:
             color_print(title,':','`-g',' ','`',item,'`g' )
             item_printed = True
         
     if type(item) == list:
+        ctr = 0
         for i in item:
-            color_print(i,'`b')
+            color_print(ctr,') ','`--d',i,'`b',s1='',s0='')
+            ctr += 1
     elif type(item) == dict:
         for k in sorted(item.keys()):
             if type(item[k]) in [dict,list]:
@@ -103,6 +105,7 @@ def translate_color_string(s):
     Translate_attribute = {
         'b':'bold',
         'u':'underline',
+        'd':'dark',
         '-':None,
     }
     if len(s) > 0:
