@@ -348,6 +348,14 @@ def setup_Default_Arguments(Defaults):
             print("")
             sys.exit()              
 
+def set_Defaults(Defaults,Dst):
+    for k in Dst.keys():
+        if k not in Defaults.keys():
+            cr("*** Warning, argument '"+k+"' not in expected Dst:\n\t",Defaults.keys())
+    for k in Defaults.keys():
+        if k not in Dst.keys():
+            Dst[k] = Defaults[k]
+
 def print_Arguments():
     if len(Arguments) > 0:
         cg("\nArguments",sf=0)

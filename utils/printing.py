@@ -178,6 +178,19 @@ def format_row(list_of_sym_percent_pairs):
 
 
 
+
+
+
+# temp location
+def set_Defaults(Defaults,Dst):
+    for k in Dst.keys():
+        if k not in Defaults.keys():
+            cr("*** Warning, argument '"+k+"' not in expected Dst:\n\t",Defaults.keys())
+    for k in Defaults.keys():
+        if k not in Dst.keys():
+            Dst[k] = Defaults[k]
+
+
 def kprint(item,title=None):
     item_printed = False
     if title != None:
@@ -203,7 +216,8 @@ def kprint(item,title=None):
         color_print(i,'`g')
 
 
-def color_print(*args):
+def color_print(*args,**Kwargs):
+    set_Defaults({'s':' '},Kwargs,)
     B = _color_define_list(args)
     c = []
     for i in sorted(B.keys()):
@@ -218,7 +232,8 @@ def color_print(*args):
             else:
                 c.append(colored(*B[i]['data']))
     #print c
-    pd2n(*c)
+
+    print(d2s_spacer(c,spacer=Kwargs['s']))
 
 def _color_define_list(a):
     B = {}
