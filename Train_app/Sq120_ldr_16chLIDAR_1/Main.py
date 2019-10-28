@@ -125,7 +125,7 @@ while _['ABORT'] == False:
 
 # Start training with 12 mini metadata images at 9am 12Dec2018
 
-    menu_reminder.message(d2s("\n\nTo start menu:\n\tpython kzpy3/Menu_app/menu2.py path",_['project_path'],"dic P\n\n"))
+    menu_reminder.message(d2s("\n\nTo start menu:\n\tpython kzpy3/Menu_app/menu2.py path",_['project_path'],"--dic P\n\n"))
 
 
 

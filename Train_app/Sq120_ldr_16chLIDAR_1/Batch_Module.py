@@ -669,7 +669,7 @@ def Batch(_,the_network=None,the_network_depth=None):
 				if _['verbose']: print(d2s(i,'camera_data min,max =',av.min(),av.max()))
 				
 				Net_activity = Activity_Module.Net_Activity('P',_,'batch_num',i, 'activiations',D[network]['net'].A)
-				Net_activity['view']('moment_index',i,'delay',33, 'scales',{'camera_input':1,'pre_metadata_features':0,'pre_metadata_features_metadata':1,'post_metadata_features':1})
+				Net_activity['view']('moment_index',i,'delay',33, 'scales',{'camera_input':1,'pre_metadata_features':0,'pre_metadata_features_metadata':0,'post_metadata_features':0})
 				bm = 'unknown behavioral_mode'
 				for j in range(len(_['behavioral_modes'])):
 					if mv[-(j+1),0,0]:
