@@ -1135,7 +1135,6 @@ def show_color_net_inputs(camera_input,pre_metadata_features_metadata=None,chann
             assert shape(c) == (23,41,3)
             c = z55(c) #rgb
             mi(c,d2s(a,'to',b))
-            print 1
     spause()
 
 
