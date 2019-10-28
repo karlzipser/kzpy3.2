@@ -311,7 +311,7 @@ for f in depth_image_files:
 
 def get_Data_moment(_,Network_Predictions,dm=None,FLIP=None):
 
-	if True:#try:
+	try:
 		if dm['run_name'] in _['lacking runs']:
 			return False
 		Data_moment = {}
@@ -485,7 +485,7 @@ def get_Data_moment(_,Network_Predictions,dm=None,FLIP=None):
 
 		return False
 
-	else:#except Exception as e:
+	except Exception as e:
 	    exc_type, exc_obj, exc_tb = sys.exc_info()
 	    file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
 	    CS_('Exception!',emphasis=True)
