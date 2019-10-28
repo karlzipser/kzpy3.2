@@ -524,8 +524,15 @@ def Batch(_,the_network=None,the_network_depth=None):
 
 
 
-				_['frequency_timer'].freq(cf(
-					host_name,'`b-d','train duration =','`',int(_['duration timer'].time()/60),"minutes\t",'`y-b',))
+				_['frequency_timer'].freq(
+					cf(
+						host_name,'`b-d',
+						'train duration =','`',
+						int(_['duration timer'].time()/60),
+						"minutes",'`y-b',
+						time_str('TimeShort'),'`-b',
+					)
+				)
 			else: #except Exception as e:
 				print("*** while ctr < D['batch_size']: ******* Exception ***********************")
 				print(e.message, e.args)
