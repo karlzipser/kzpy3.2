@@ -82,7 +82,7 @@ alias sb='cd;source ~/.bashrc'
 #
 export COMPUTER_NAME=$HOSTNAME #'' #
 #PS1="$COMPUTER_NAME\W $ "
-PS1="\[\033[01;37m\]$HOSTNAME\w\[\033[00m\] $ "
+PS1="\[\033[01;35m\]\w\[\033[00m\] $ "
 if [ $HOSTNAME == "bdd2" ]
   then
     PS1="\[\033[01;32m\]$HOSTNAME\w\[\033[00m\] $ "
