@@ -788,7 +788,7 @@ def Click_Data(**Args):
             while _['X_PREV'] == _['X'] and _['Y_PREV'] == _['Y']:
                 plt.pause(0.1)#;print '.'
                 if not (_['X_PREV'] == _['X'] and _['Y_PREV'] == _['Y']):
-                    print _['X'],_['Y']
+                    print(_['X'],_['Y'])
                     xy_list.append([_['X'],_['Y']])
                     _['X_PREV'],_['Y_PREV'] = _['X'],_['Y']
                     break
