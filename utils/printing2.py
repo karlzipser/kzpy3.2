@@ -61,7 +61,7 @@ def color_define_list(a):
     ctr = 0
     B[ctr] = {}
     B[ctr]['data'] = []
-    B[ctr]['colors'] = None
+    B[ctr]['colors'] = (None,None,None)
     for c in a:
         if type(c) == str:
             if c[0]=='`':
@@ -69,7 +69,7 @@ def color_define_list(a):
                 ctr += 1
                 B[ctr] = {}
                 B[ctr]['data'] = []
-                B[ctr]['colors'] = None
+                B[ctr]['colors'] = (None,None,None)
                 continue
         B[ctr]['data'].append(c)
     for i in B.keys():
