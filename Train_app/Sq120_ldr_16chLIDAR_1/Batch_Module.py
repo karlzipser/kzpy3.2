@@ -600,8 +600,12 @@ def Batch(_,the_network=None,the_network_depth=None):
 				if False:
 					_['LOSS_LIST'].append(D['loss'].data.cpu().numpy()[:].mean())
 				else:
-					_['LOSS_LIST'].append(D['loss_depth'].data.cpu().numpy()[:].mean())
-				
+	
+					try:
+						_['LOSS_LIST'].append(D['loss_depth'].data.cpu().numpy()[:].mean())
+					except:
+						_['LOSS_LIST'].append(D['loss_depth'].data.cpu().numpy())
+
 				try:
 					assert(len(_['current_batch']) == _['BATCH_SIZE'])
 				except:
