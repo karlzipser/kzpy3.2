@@ -80,7 +80,7 @@ export PATH=~/kzpy3/Menu:$PATH
 alias sb='cd;source ~/.bashrc'
 #######################################################
 #
-export COMPUTER_NAME='' #$HOSTNAME
+export COMPUTER_NAME=$HOSTNAME #'' #
 PS1="$COMPUTER_NAME\W $ "
 if [ "$(whoami)" == "nvidia" ]
   then
