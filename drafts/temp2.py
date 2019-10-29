@@ -158,7 +158,7 @@ while True:
 			hide.remove('')
 		except:
 			pass
-		print(', '.join(hide))
+		clp('Hidden:','`',', '.join(hide),'`b')
 		for i in rlen(line_list):
 			a = line_list[i]
 			if len(a[0]) < 1:
