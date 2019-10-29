@@ -28,7 +28,7 @@ def kprint(item,title=None):
 
 
 def color_format(*args,**Kwargs):
-    set_Defaults({'s0':' ','s1':' '},Kwargs,)
+    set_Defaults({'s0':' ','s1':' ','ra':False},Kwargs,)
     B = color_define_list(args)
     c = []
     for i in sorted(B.keys()):
@@ -52,6 +52,9 @@ def color_print(*args,**Kwargs):
         color_print(1,2,3,'`bgu',4,5,6,'`',7,8,9,'`gbb',s1='<==>',s0='-')
     """
     print(color_format(*args,**Kwargs))
+    if 'ra' in Kwargs:
+        if Kwargs['ra']:
+            raw_enter()
 
 cf = color_format
 clp = color_print

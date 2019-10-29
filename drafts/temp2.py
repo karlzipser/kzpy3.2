@@ -1,4 +1,4 @@
-#,a
+
 
 
 def kprint(item,title=None):
@@ -105,6 +105,111 @@ if False:
 	kprint({1:2,3:4},title='aa')
 	kprint(1,title='aa')
 
+
+#,a
+
+bash_history = txt_file_to_list_of_strings(opjh('.bash_history'))
+H = {}
+Open = {}
+for bh in bash_history:
+	h = bh
+	while h[-1] in [' ','\t']:
+		h = h[:-1]
+	l = h.split(' ')
+	command = l[0]
+	if command not in H:
+		H[command] = []
+	H[command].append(h)
+	H[command] = list(set(H[command]))
+	Open[command] = False
+Open['python'] = True
+#Open['history'] = True
+#special = ['python','diff']
+#hide = ['gacp','et','more','mkdir','mv','pgacp','pgp','bk3','cd']
+show = ['python','grep','ls','diff']
+
+while True:
+	try:
+		clear_screen()
+		print 
+		sorted_H_keys = sorted(H.keys())
+		line_list = []
+		hide = []
+		for command in sorted_H_keys:
+			if command not in show:
+				hide.append(command)
+				continue
+
+			if Open[command]:
+				line_list.append((command,'-'))
+				#print(line_list[-1])
+				sorted_commands = sorted(H[command])
+				for c in sorted_commands:
+					line_list.append((c,'line'))
+					#print(line_list[-1])
+			else:
+				line_list.append((command,'+'))
+				#print(line_list[-1])
+
+		hide = list(set(hide))
+		hide.remove('')
+		print(', '.join(hide))
+		for i in rlen(line_list):
+			a = line_list[i]
+			if len(a[0]) < 1:
+				continue
+			assert type(a) == tuple
+			assert len(a) == 2
+			p = cf(i,')',s0='')
+			if a[1] == 'line':
+				s = cf('\t',a[0],'`y',s0='',s1='')
+			else:
+				#if a[0] in special:
+				#	p = cf(i,')','`--r',s0='')
+				if a[1] == '+':
+					s = cf(a[0],'+','`g')
+				elif a[1] == '-':
+					s = cf(a[0],'-','`r-b')
+
+			clp(p,s,s0=' ')
+
+		b = raw_input(cf("Enter number or 'q' to quit --> ",'`m'))
+		if b == 'q':
+			break
+		elif b[0] == '+':
+			show.append(b[1:])
+			Open[b[1:]] = True
+		elif b[0] == '-':
+			show.remove(b[1:])
+		if not str_is_int(b):
+			continue
+		n = int(b)
+		a = line_list[n]
+		if a[1] == '-':
+			Open[a[0]] = False
+		elif a[1] == '+':
+			Open[a[0]] = True
+		elif a[1] == 'line':
+			qu = cf('Do','`',a[0],'`rwb','[y]/n ? ')
+			try:
+				pyperclip.copy(a[0])
+				cy("In clipboard:","'"+a[0]+"'")
+			except:
+				cr('cannot copy to clipboard becaue do not have pyperclip')
+			u = raw_input(qu)
+			if u in ['','y']:
+				os.system(a[0])
+				raw_enter()
+
+	except KeyboardInterrupt:
+	    cr('*** KeyboardInterrupt ***')
+	    sys.exit()
+	except Exception as e:
+	    exc_type, exc_obj, exc_tb = sys.exc_info()
+	    file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+	    CS_('Exception!',emphasis=True)
+	    CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+	    raw_enter()   
 
 #,b
 
