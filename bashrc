@@ -119,5 +119,11 @@ alias rou='show_image_from_ros.py --scale --2 topic /os1_node/image'
     #qssh.py
 #fi
 
+if [ "$(whoami)" != "nvidia" ]
+  then
+    export HISTSIZE=2000
+    export HISTFILESIZE=4000
+fi
+
 
 #EOF

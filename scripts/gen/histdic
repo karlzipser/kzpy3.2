@@ -21,6 +21,7 @@ for filt in ['ignore','require']:
         Arguments[filt] = Arguments[filt].split(',')
 
 print_Arguments()
+#,a
 
 while True:
     #clear_screen()
@@ -40,7 +41,7 @@ while True:
             H[cmd][pro].append(' '.join(s[3:]))
 
     ks = sorted(H.keys())
-
+#,b
     lst = []
     ctr = 0
     cy('0 quit')

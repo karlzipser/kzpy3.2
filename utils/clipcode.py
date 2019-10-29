@@ -1,10 +1,11 @@
 from kzpy3.utils.files import *
 #from kzpy3.utils.printing import *
+#,a
 try:
     import pyperclip
 except:
     print("Failed: import pyperclip")
-
+#,b
 def get_code_snippet():
     code_file = most_recent_py_file()
     code_lst = txt_file_to_list_of_strings(code_file)
