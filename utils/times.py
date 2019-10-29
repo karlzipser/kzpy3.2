@@ -51,6 +51,10 @@ days = day
 """
 
 def time_str(mode='FileSafe'):
+    """
+    modes are:
+    FileSafe, Pretty, TimeShort
+    """
     now = datetime.datetime.now()
     if mode=='FileSafe':
        return now.strftime('%d%b%y_%Hh%Mm%Ss')

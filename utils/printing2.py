@@ -66,7 +66,7 @@ def color_define_list(a):
     B[ctr]['data'] = []
     B[ctr]['colors'] = (None,None,None)
     for c in a:
-        if type(c) == str:
+        if type(c) == str and len(c) > 0:
             if c[0]=='`':
                 B[ctr]['colors'] = translate_color_string(c[1:])
                 ctr += 1

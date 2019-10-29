@@ -266,7 +266,9 @@ def Default_Values(
                 else:
                     d = K[key]
                 if value == None:
-                    value = input(d2n("Enter value for '",key,"' (",d,"): "))
+                    type_str = '<'+str(type(d)).split("'")[1]+'>'
+                    #type_str = cf('<',type_str,'>','`e-d',s0='')
+                    value = input(cf("Enter value for '",key,"' (",d,' ',type_str,"): ",'`ybb',s0='',s1=''))
 
                 if type(K[key]) == np.ndarray:
                     if type(value) == str:
@@ -440,7 +442,13 @@ def Default_Values(
                 atr = colored.attr('res_underlined')
             else:
                 atr = ''
-            cb(bl,i,d2n(cc,k,atr),val_color,v,edited)
+            type_str = '---'
+            if v == '':
+                type_str = ''
+            else:
+                type_str = str(type(v)).split("'")[1]
+                type_str = cf('<',type_str,'>','`e-d',s0='')
+            cb(bl,i,d2n(cc,k,atr),val_color,v,edited,type_str)
         cg('$',message)
         return sorted_keys
 
