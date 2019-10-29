@@ -113,6 +113,8 @@ H = {}
 Open = {}
 for bh in bash_history:
 	h = bh
+	if len(h) < 1:
+		continue
 	while h[-1] in [' ','\t']:
 		h = h[:-1]
 	l = h.split(' ')
@@ -129,7 +131,7 @@ Open['python'] = True
 show = ['python','grep','ls','diff']
 
 while True:
-	try:
+	if True:#try:
 		clear_screen()
 		print 
 		sorted_H_keys = sorted(H.keys())
@@ -152,7 +154,10 @@ while True:
 				#print(line_list[-1])
 
 		hide = list(set(hide))
-		hide.remove('')
+		try:
+			hide.remove('')
+		except:
+			pass
 		print(', '.join(hide))
 		for i in rlen(line_list):
 			a = line_list[i]
@@ -200,7 +205,7 @@ while True:
 			if u in ['','y']:
 				os.system(a[0])
 				raw_enter()
-
+	"""
 	except KeyboardInterrupt:
 	    cr('*** KeyboardInterrupt ***')
 	    sys.exit()
@@ -209,7 +214,9 @@ while True:
 	    file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
 	    CS_('Exception!',emphasis=True)
 	    CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
-	    raw_enter()   
+	    raw_enter()
+	"""
+
 
 #,b
 
