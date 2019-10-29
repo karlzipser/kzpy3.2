@@ -500,6 +500,12 @@ for color in ['red','yellow','green','blue','magenta','cyan','white','Grey']:
     exec(an_exec_string)
     """
 
+
+
+
+
+from kzpy3.utils.printing2 import *
+
 exec(identify_file_str)
 
 #EOF

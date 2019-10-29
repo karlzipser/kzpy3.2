@@ -1,5 +1,9 @@
 from kzpy3.utils.files import *
 #from kzpy3.utils.printing import *
+try:
+    import pyperclip
+except:
+    print("Failed: import pyperclip")
 
 def get_code_snippet():
     code_file = most_recent_py_file()
@@ -14,10 +18,20 @@ def get_code_snippet():
         if started:
             snippet_lst.append(c)
     #print snippet_lst
+
+    code_str = '\n'.join(snippet_lst)
+    if using_osx():
+        setClipboardData(code_str)
+    else:
+        pyperclip.copy(code_str)
+    clp('set clipboard from','`',
+        cf(pname(code_file)+'/','`--d',fname(code_file),'`--b',s1=''),
+        cf('(',len(snippet_lst),' lines)','`y-d',s0='')
+    )
     if len(snippet_lst) == 0:
-        cr('*** No code snippet. Did you use #,a and #,b ? ***')
-    setClipboardData('\n'.join(snippet_lst))
-    cb('setClipboardData() from',code_file)
+        clp('*** No code snippet. Did you use #,a and #,b ? ***','`r-b')
+    #else:
+    #    clp('\t',len(snippet_lst),'lines')
 
 gsp = get_code_snippet
 
