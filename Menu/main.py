@@ -447,7 +447,7 @@ def Default_Values(
                 type_str = ''
             else:
                 type_str = str(type(v)).split("'")[1]
-                type_str = cf('<',type_str,'>','`e-d',s0='')
+                type_str = cf('<',type_str,'>','`w-d',s0='')
             cb(bl,i,d2n(cc,k,atr),val_color,v,edited,type_str)
         cg('$',message)
         return sorted_keys
