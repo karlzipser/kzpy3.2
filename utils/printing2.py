@@ -106,6 +106,7 @@ def translate_color_string(s):
         'b':'bold',
         'u':'underline',
         'd':'dark',
+        'r':'reverse',
         '-':None,
     }
     if len(s) > 0:
