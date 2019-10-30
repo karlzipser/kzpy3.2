@@ -1,30 +1,57 @@
 from kzpy3.utils.common import *
 
-def kprint(item,title=None):
+
+if False:
+    def Environment():
+        D = {}
+        D['encoder'] = 0
+        D['motor'] = 49
+        def _step():
+            D['encoder'] += 0.1*rndn()
+            D['motor'] += 10*rndn()
+            D['encoder'] = dp(D['encoder'])
+            D['motor'] = int(D['motor'])
+            return {
+                'encoder':D['encoder'],
+                'motor':D['motor'],
+            }
+        D['step'] = _step
+        D['lst'] = range(3)+[{'a':1,'b':2}]
+        D['dic'] = {'a':1,'b':2}
+        D['Dic2'] = {'c':{1:2,3:4},'d':{1:2,3:4},'e':{'c':{1:2,3:4},'d':{1:2,3:4},}}
+        return D
+    E = Environment()
+
+
+def kprint(item,title='<untitled>',ignore_keys=[],spaces='',space_increment='    '):
     item_printed = False
     if title != None:
-        print('')
         if type(item) in [dict,list]:
             len_item = len(item)
-            color_print(title,' (n=',len_item,')','`-g',s0='')  #o='g',s='') 
+            #color_print(spaces,'`',title,', n=',len_item,'','`y',s0='',s1='')  #o='g',s='') 
+            color_print(spaces,'`',title,s0='',s1='')  #o='g',s='') 
         else:
-            color_print(title,':','`-g',' ','`',item,'`g' )
+            color_print(spaces,'`',title,'','`y',' ','`',item,'`g',s1='',s0='' )
             item_printed = True
         
     if type(item) == list:
         ctr = 0
         for i in item:
-            color_print(ctr,') ','`--d',i,'`b',s1='',s0='')
+            kprint(i,title=None,spaces=spaces+space_increment)
+            #color_print(spaces+space_increment,'`',ctr,'. ','`--d',i,'`b',s1='',s0='')
             ctr += 1
     elif type(item) == dict:
         for k in sorted(item.keys()):
+            if k in ignore_keys:
+                continue
             if type(item[k]) in [dict,list]:
                 l = len(item[k])
             else:
                 l = 1
-            color_print(k,' {n=',l,'}','`y')
+            #color_print(k,' {n=',l,'}','`y')
+            kprint(item[k],title=k,spaces=spaces+space_increment)
     elif not item_printed:
-        color_print(i,'`g')
+        color_print(spaces,item,'`g',s0='',s1='')
 
 
 def color_format(*args,**Kwargs):
