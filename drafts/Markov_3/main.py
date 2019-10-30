@@ -48,16 +48,16 @@ def Environment():
     D = {}
     D['encoder'] = 0
     D['motor'] = 49
-    def _step():
-        D['encoder'] += 0.1*rndn()
+    def function_step():
         D['motor'] += 10*rndn()
-        D['encoder'] = dp(D['encoder'])
-        D['motor'] = int(D['motor'])
+        D['encoder'] = 0.1*rndn() + np.abs(D['motor']-49)/3.
+        D['motor'] = bound_value(D['motor'],0,99)
+        D['encoder'] = bound_value(D['encoder'],0,9)
         return {
             'encoder':D['encoder'],
             'motor':D['motor'],
         }
-    D['step'] = _step
+    D['step'] = function_step
     return D
 
 E = Environment()

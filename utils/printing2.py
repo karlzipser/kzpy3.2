@@ -1,30 +1,14 @@
 from kzpy3.utils.common import *
 
 
-if False:
-    def Environment():
-        D = {}
-        D['encoder'] = 0
-        D['motor'] = 49
-        def _step():
-            D['encoder'] += 0.1*rndn()
-            D['motor'] += 10*rndn()
-            D['encoder'] = dp(D['encoder'])
-            D['motor'] = int(D['motor'])
-            return {
-                'encoder':D['encoder'],
-                'motor':D['motor'],
-            }
-        D['step'] = _step
-        D['lst'] = range(3)+[{'a':1,'b':2}]
-        D['dic'] = {'a':1,'b':2}
-        D['Dic2'] = {'c':{1:2,3:4},'d':{1:2,3:4},'e':{'c':{1:2,3:4},'d':{1:2,3:4},}}
-        return D
-    E = Environment()
 
 
-def kprint(item,title='<untitled>',ignore_keys=[],spaces='',space_increment='    '):
+
+def kprint(item,title='<untitled>',spaces='',space_increment='    ',ignore_keys=[],ignore_types=[]):
     item_printed = False
+    if type(item) in ignore_types:
+        #cr('here',ra=1)
+        return
     if title != None:
         if type(item) in [dict,list]:
             len_item = len(item)
@@ -33,11 +17,12 @@ def kprint(item,title='<untitled>',ignore_keys=[],spaces='',space_increment='   
         else:
             color_print(spaces,'`',title,'','`y',' ','`',item,'`g',s1='',s0='' )
             item_printed = True
-        
+    #print type(item),ignore_types,type(item) in ignore_types
+
     if type(item) == list:
         ctr = 0
         for i in item:
-            kprint(i,title=None,spaces=spaces+space_increment)
+            kprint(i,title=None,spaces=spaces+space_increment,space_increment=space_increment,ignore_keys=ignore_keys,ignore_types=ignore_types)
             #color_print(spaces+space_increment,'`',ctr,'. ','`--d',i,'`b',s1='',s0='')
             ctr += 1
     elif type(item) == dict:
@@ -49,9 +34,14 @@ def kprint(item,title='<untitled>',ignore_keys=[],spaces='',space_increment='   
             else:
                 l = 1
             #color_print(k,' {n=',l,'}','`y')
-            kprint(item[k],title=k,spaces=spaces+space_increment)
+            kprint(item[k],title=k,spaces=spaces+space_increment,space_increment=space_increment,ignore_keys=ignore_keys,ignore_types=ignore_types)
     elif not item_printed:
         color_print(spaces,item,'`g',s0='',s1='')
+
+
+
+
+
 
 
 def color_format(*args,**Kwargs):
@@ -159,3 +149,30 @@ if False:
     kprint(1,title='aa')
 
 exec(identify_file_str)
+
+
+if False:
+    function_type = type(kprint)
+    def Environment():
+        D = {}
+        D['encoder'] = 0
+        D['motor'] = 49
+        def function_step():
+            D['encoder'] += 0.1*rndn()
+            D['motor'] += 10*rndn()
+            D['encoder'] = dp(D['encoder'])
+            D['motor'] = int(D['motor'])
+            return {
+                'encoder':D['encoder'],
+                'motor':D['motor'],
+            }
+        D['step'] = function_step
+        D['lst'] = range(3)+[{'a':1,'b':2},3,{'e':{'c':{1:2,3:4},'d':{1:2,3:4},}}]
+        D['dic'] = {'a':1,'b':2}
+        D['Dic2'] = {'c':{1:2,3:4},'d':{1:2,3:4},'e':{'c':{1:2,3:4},'d':{1:2,3:4},}}
+        return D
+    E = Environment()
+    kprint(E,'E',ignore_keys=[],ignore_types=[])
+
+
+#EOF
