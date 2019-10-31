@@ -7,23 +7,36 @@ from kzpy3.utils.common import *
 def kprint(item,title='<untitled>',spaces='',space_increment='    ',ignore_keys=[],ignore_types=[]):
     item_printed = False
     if type(item) in ignore_types:
-        #cr('here',ra=1)
         return
+    if type(title) not in [str,type(None)]:
+        #print title,str(title)
+        title = str(title)
+    lst = []
+    for i in range(len(space_increment)):
+        lst.append('-')
+    lst.append('.')
+    indent_text = ''.join(lst)
+    #print item,indent_text,title
+    if title != None:
+        if len(title) > len(indent_text):
+            indent_title = title
+        else:
+            indent_title = title + indent_text[len(title):]
     if title != None:
         if type(item) in [dict,list]:
-            len_item = len(item)
-            #color_print(spaces,'`',title,', n=',len_item,'','`y',s0='',s1='')  #o='g',s='') 
-            color_print(spaces,'`',title,s0='',s1='')  #o='g',s='') 
+            color_print(spaces,'`',indent_title,'`',s0='',s1='')
         else:
             color_print(spaces,'`',title,'','`y',' ','`',item,'`g',s1='',s0='' )
             item_printed = True
-    #print type(item),ignore_types,type(item) in ignore_types
+    else:
+        if type(item) in [dict,list]:
+            color_print(spaces,indent_text,s0='',s1='')
+
 
     if type(item) == list:
         ctr = 0
         for i in item:
             kprint(i,title=None,spaces=spaces+space_increment,space_increment=space_increment,ignore_keys=ignore_keys,ignore_types=ignore_types)
-            #color_print(spaces+space_increment,'`',ctr,'. ','`--d',i,'`b',s1='',s0='')
             ctr += 1
     elif type(item) == dict:
         for k in sorted(item.keys()):
@@ -33,7 +46,6 @@ def kprint(item,title='<untitled>',spaces='',space_increment='    ',ignore_keys=
                 l = len(item[k])
             else:
                 l = 1
-            #color_print(k,' {n=',l,'}','`y')
             kprint(item[k],title=k,spaces=spaces+space_increment,space_increment=space_increment,ignore_keys=ignore_keys,ignore_types=ignore_types)
     elif not item_printed:
         color_print(spaces,item,'`g',s0='',s1='')
@@ -151,7 +163,7 @@ if False:
 exec(identify_file_str)
 
 
-if False:
+if True:
     function_type = type(kprint)
     def Environment():
         D = {}
@@ -167,12 +179,12 @@ if False:
                 'motor':D['motor'],
             }
         D['step'] = function_step
-        D['lst'] = range(3)+[{'a':1,'b':2},3,{'e':{'c':{1:2,3:4},'d':{1:2,3:4},}}]
-        D['dic'] = {'a':1,'b':2}
-        D['Dic2'] = {'c':{1:2,3:4},'d':{1:2,3:4},'e':{'c':{1:2,3:4},'d':{1:2,3:4},}}
+        D['collection'] = range(3)+[{'a':1,'b':2},3,{'e':{'c':{1:2,3:4},'d':{1:2,3:4},}}]
+        D['dictionary'] = {'a':1,'b':2}
+        D['Dic2'] = {'cdefghi':{1:2,3:4},'d':{1:2,3:4},'e':{'c':{1:2,3:4},'d':{1:2,3:4},}}
         return D
     E = Environment()
-    kprint(E,'E',ignore_keys=[],ignore_types=[])
+    #kprint(E,'E',ignore_keys=[],ignore_types=[])
 
 
 #EOF
