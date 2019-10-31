@@ -7,40 +7,27 @@ tc = 'time_constant'
 dst = 'destination'
 
 
-def Net(Compact_notation,start):
+def Net(Network_layout,start):
     D = {}
-    C = Compact_notation
+    D['type'] = 'Net'
     Boxes = {}
-    for d in C.keys():
+    for box in Network_layout.keys():
         arrow_list = []
-        for u in C[d].keys(): 
-            X = C[d][u]
-            keys = X.keys()
-            keys.remove(tc)
-            keys.remove(dst)
-            var_dic_list = []
-            for k in keys:
-                s = k.split('__')
-                name = s[0]
-                val = X[k]
-                if s[1] == 'greater_than':
-                    op = greater_than
-                elif s[1] == 'less_than':
-                    op = less_than
-                var_dic_list.append({'name':name,'op':op,'val':val,})
+        for arrow in Network_layout[box]:
             arrow_list.append(
                 Arrow(
-                    var_dic_list=var_dic_list,
-                    transition_probability=X[tc],
-                    destination=X[dst],
+                    function=arrow['function'],
+                    destination=arrow['destination'],
                 )
             )
-        Boxes[d] = Box(d,arrow_list)
+        #kprint(arrow_list,title=box)
+        Boxes[box] = Box(box,arrow_list)
     D['Boxes'] = Boxes
     assert start in D['Boxes']
     D['current_box'] = start
     def function_evaluate(Environment):
         D['current_box'] = D['Boxes'][D['current_box']]['evaluate'](Environment)
+        assert D['current_box'] in Network_layout.keys()
         return D['current_box']
     D['evaluate'] = function_evaluate
     return D
@@ -50,45 +37,41 @@ def Net(Compact_notation,start):
 
 def Box(name,arrow_list):
     D = {}
+    D['type'] = 'Box'
     D['name'] = name
     D['arrow_list'] = arrow_list
-    D['timer'] = Timer()
-    D['timer'].time_s = -1
-    print_timer = Timer(0.05)
+    #D['timer'] = Timer()
+    #D['timer'].time_s = -1
+    #print_timer = Timer(0.05)
     def function_evaluate(Environment):
-        print_timer.message(D['name'])
+        #print_timer.message(D['name'])
         np.random.shuffle(arrow_list)
         for A in arrow_list:
             destination = A['evaluate'](Environment)
             if destination != False:
+                #cy(destination)
                 return destination
+        #cb(D['name'])
         return D['name'] # i.e., stay in same box
     D['evaluate'] = function_evaluate
     return D
 
 
 
-def Arrow(var_dic_list,transition_probability,destination):
+def Arrow(function,destination):
     D = {}
-    D['transition_probability'] = transition_probability
+    D['type'] = 'Arrow'
+    D['function'] = function
     D['destination'] = destination
-    D['Vars'] = {}
-    for v in var_dic_list:
-        D['Vars'][v['name']] = {'val':v['val'],'op':v['op']}
     def function_evaluate(Environment):
-        if rnd() > D['transition_probability']:
+        if D['function'](Environment):
+            return D['destination']
+        else:
             return False
-        Vars = D['Vars']
-        for n in Vars:
-            val = Vars[n]['val']
-            op = Vars[n]['op']
-            f = op.func_name
-            e = Environment[n]
-            if not op(e,val):
-                return False
-        return D['destination']
     D['evaluate'] = function_evaluate
     return D
+
+
 
 
 
