@@ -3,46 +3,57 @@ from kzpy3.vis3 import *
 import kzpy3.drafts.Markov_4.markov as markov
 
 
-def fun1(E):
-    if rndn() > 0:
+def still_to_slow_forward(E):
+    if E['encoder'] > 0.2 and E['motor'] > 51:
         return True
     else:
         return False
-def fun2(E):
-    return True
-def fun3(E):
-    return True
-def fun4(E):
-    return True
 
+def still_to_slow_backward(E):
+    if E['encoder'] > 0.2 and E['motor'] < 47:
+        return True
+    else:
+        return False
+
+def slow_forward_to_still(E):
+    if E['encoder'] < 0.2 and E['motor'] > 49:
+        return True
+    else:
+        return False
+
+def slow_backward_to_still(E):
+    if E['encoder'] < 0.2 and E['motor'] <= 49:
+        return True
+    else:
+        return False
 
 
 Network_layout = {
     'still': [
-        { 'function':fun1, 'destination':'slow_forward' },
-        { 'function':fun1, 'destination':'slow_backward' },
+        { 'function':still_to_slow_forward, 'destination':'slow_forward' },
+        { 'function':still_to_slow_backward, 'destination':'slow_backward' },
     ],
     'slow_forward': [
-        { 'function':fun1, 'destination':'fast_forward' },
-        { 'function':fun1, 'destination':'still' },
+        #{ 'function':fun1, 'destination':'fast_forward' },
+        { 'function':slow_forward_to_still, 'destination':'still' },
     ],
     'slow_backward': [
-        { 'function':fun1, 'destination':'fast_backward' },
-        { 'function':fun1, 'destination':'still' },
+        #{ 'function':fun1, 'destination':'fast_backward' },
+        { 'function':slow_backward_to_still, 'destination':'still' },
     ],
-    'fast_forward': [
-        { 'function':fun1, 'destination':'slow_forward' },
-    ],
-    'fast_backward': [
-        { 'function':fun1, 'destination':'slow_backward' },
-    ],
+    #'fast_forward': [
+    #    { 'function':fun1, 'destination':'slow_forward' },
+    #],
+    #'fast_backward': [
+    #    { 'function':fun1, 'destination':'slow_backward' },
+    #],
 }
 
 Driving_direction_model = markov.Net(
     Network_layout,
     'still',
 )
-
+"""
 while True:
 
     print Driving_direction_model['evaluate'](E)
@@ -71,7 +82,13 @@ E = Environment()
 
 timer = Timer(5)
 
-if __name__ == '__main__':
+while True:
+    s = Driving_direction_model['evaluate'](E)
+    kprint(E,s)
+    E['step']()
+    time.sleep(.1)
+
+if False:#__name__ == '__main__':
 
     States = {still:[],slow_fwd:[],fast_fwd:[],slow_bkw:[],fast_bkw:[]}
 
@@ -90,7 +107,7 @@ if __name__ == '__main__':
             spause()
             #raw_enter()
         #time.sleep(0.25)#
-"""
+
 
 
 
