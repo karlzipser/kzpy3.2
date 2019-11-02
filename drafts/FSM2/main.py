@@ -1,7 +1,25 @@
-
 from kzpy3.vis3 import *
 import kzpy3.drafts.FSM2.fsm as fsm
-import inspect
+import kzpy3.Menu.main
+
+
+
+Q = kzpy3.Menu.main.start_Dic(
+    dic_project_path=opjk('drafts','FSM2'), 
+    Arguments={
+        'menu':False,
+        'read_only':True,
+    }
+)
+
+
+
+
+
+
+
+
+
 
 if 'These are the transitions functions':
 
@@ -9,9 +27,7 @@ if 'These are the transitions functions':
 
 
     def locked_push(E):
-        #name = inspect.stack()[0][3];print(name)
         if E['push']:
-            #print(name)
             result = True
         else:
             result = False
@@ -20,7 +36,6 @@ if 'These are the transitions functions':
     locked_push_fail = locked_push
 
     def locked_coin(E):
-        #name = inspect.stack()[0][3];print(name)
         if E['coin']:
             result = True
         else:
@@ -30,7 +45,6 @@ if 'These are the transitions functions':
     locked_coin_fail = locked_coin
 
     def unlocked_push(E):
-        #name = inspect.stack()[0][3];print(name)
         if E['push']:
             result = True
         else:
@@ -40,7 +54,6 @@ if 'These are the transitions functions':
     unlocked_push_fail = unlocked_push
 
     def unlocked_coin(E):
-        #name = inspect.stack()[0][3];print(name)
         if E['coin']:
             result = True
         else:
@@ -52,24 +65,24 @@ if 'These are the transitions functions':
 
 
 
+if 'This is the network layout':
+    LOCKED = cf('locked','`wr')
+    UNLOCKED = cf('unlocked','`wg')
 
-LOCKED = cf('locked','`wr')
-UNLOCKED = cf('unlocked','`wg')
-
-Network_layout = {
-    LOCKED: [
-        { 'function':'locked_push',       'destination':LOCKED,     'p':0.9 },
-        { 'function':'locked_push_fail',  'destination':UNLOCKED,    'p':0.1 },
-        { 'function':'locked_coin',       'destination':UNLOCKED,   'p':0.9 },
-        { 'function':'locked_coin_fail',  'destination':LOCKED,     'p':0.1 },
-    ],
-    UNLOCKED: [
-        { 'function':'unlocked_push', 'destination':LOCKED,  'p':.9},
-        { 'function':'unlocked_push_fail', 'destination':UNLOCKED,  'p':.1},
-        { 'function':'unlocked_coin', 'destination':UNLOCKED, 'p':.9},
-        { 'function':'unlocked_coin_fail', 'destination':LOCKED, 'p':.1},
-    ],
-}
+    Network_layout = {
+        LOCKED: [
+            { 'function':'locked_push',       'destination':LOCKED,     'p':0.9 },
+            { 'function':'locked_push_fail',  'destination':UNLOCKED,    'p':0.1 },
+            { 'function':'locked_coin',       'destination':UNLOCKED,   'p':0.9 },
+            { 'function':'locked_coin_fail',  'destination':LOCKED,     'p':0.1 },
+        ],
+        UNLOCKED: [
+            { 'function':'unlocked_push', 'destination':LOCKED,  'p':.9},
+            { 'function':'unlocked_push_fail', 'destination':UNLOCKED,  'p':.1},
+            { 'function':'unlocked_coin', 'destination':UNLOCKED, 'p':.9},
+            { 'function':'unlocked_coin_fail', 'destination':LOCKED, 'p':.1},
+        ],
+    }
 
 
 
@@ -103,7 +116,6 @@ if __name__ == '__main__':
 
     N = fsm.Net(
         Network_layout=Network_layout,
-        #Functions=Functions,
         start=UNLOCKED,
     )
 
@@ -111,10 +123,26 @@ if __name__ == '__main__':
 
     prev_box = None
     current_box = 'unlocked'
+
     while True:
-        
+        if 'Menu data processing':
+            if Q['load']():
+                clp(' '+time_str('Pretty')+' ','`ybb')
+
+            if Q['Q']['aBORT']:
+                clp('aBORT ==',True)
+                break
+
+            if Q['Q']['pAUSE']:
+                clp('pAUSE ==',True)
+                time.sleep(1)
+                continue
+
+            if Q['Q']['cLEAR']:
+                clp('cLEAR ==',True)
+                clear_screen()
+
         R = N['evaluate'](Environment=E)
-        #kprint(R)
 
         if E['coin']:
             input_ = 'coin'
@@ -130,7 +158,10 @@ if __name__ == '__main__':
                 else:
                     Z = '`--r'
                 clp(prev_box,X,'--',Y,input_,'`','--',Y,R['function'],Z,'-->',Y,R['destination'],X)
-                time.sleep(2)
+                time.sleep(Q['Q']['sleep_time'])
+
+
+
         prev_box = R['destination']
 
         E['step']()

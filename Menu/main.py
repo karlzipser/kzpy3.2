@@ -416,8 +416,8 @@ def Default_Values(
                     val_color = wh
 
                 elif k.isupper():
-                    C[k] = False
-                    v = '' # '<auto False>'
+                    C[k] = not C[k] #False
+                    v = '' # '<auto False>' # Toggle
                     cc = wh+wh_bk
                 elif __is_meta_key(k):
                     v = C[k]
