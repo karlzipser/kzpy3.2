@@ -127,7 +127,8 @@ if __name__ == '__main__':
     while True:
         if 'Menu data processing':
             if Q['load']():
-                clp(' '+time_str('Pretty')+' ','`ybb')
+                pass
+                #clp(' '+time_str('Pretty')+' ','`ybb')
 
             if Q['Q']['aBORT']:
                 clp('aBORT ==',True)
