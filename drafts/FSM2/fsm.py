@@ -56,8 +56,8 @@ def Arrow(function,destination,p):
     def function_evaluate(Environment):
         Fail = {'destination':False,'function':None}
         r = rnd()
-        clp(p,r,p<r)
-        if p > r:
+        #clp(p,r,r > p)
+        if r > p:
             return Fail
         if Environment['functions'][function](Environment):
             return {'destination':destination,'function':function}
