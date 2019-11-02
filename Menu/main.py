@@ -97,7 +97,7 @@ def Default_Values(
         if len(sggo(opj(project_path,'__local__',name+'.pkl'))) == 0:
             return False
         try:
-            D = lo(opj(project_path,'__local__',name+'.pkl'))
+            D = lo(opj(project_path,'__local__',name+'.pkl'),noisy=False)
         except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
@@ -503,7 +503,7 @@ def Dic_Loader(path,wait_time=0.2):
         if D['wait timer'].check():
             D['wait timer'].reset()
             if file_modified_test():
-                D['Dic'] = lo(D['path'])
+                D['Dic'] = lo(D['path'],noisy=False)
                 return True
         time.sleep(D['wait time']/2.)
         return False

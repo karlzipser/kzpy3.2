@@ -6,7 +6,6 @@ Q = {
     'cLEAR': False,
     'pAUSE': False,
     'sleep_time': 2.,
+    'pause_sleep_time': 1.,
 }
 
-P = {    
-}
