@@ -4,7 +4,7 @@ from kzpy3.utils.common import *
 
 
 
-def kprint(item,title='<untitled>',spaces='',space_increment='    ',ignore_keys=[],ignore_types=[]):
+def kprint(item,title='<untitled>',spaces='',space_increment='    ',ignore_keys=[],ignore_types=[],numbering=False):
     item_printed = False
     if type(item) in ignore_types:
         return
@@ -17,6 +17,13 @@ def kprint(item,title='<untitled>',spaces='',space_increment='    ',ignore_keys=
     lst.append('.')
     indent_text = ''.join(lst)
     #print item,indent_text,title
+    n_equals = ''
+    if numbering:
+        if type(item) in [dict,list]:
+            n_equals = cf(' (n=',len(item),')','`w-d',s0='',s1='')
+
+            n_equals
+
     if title != None:
         if len(title) > len(indent_text):
             indent_title = title
@@ -24,13 +31,13 @@ def kprint(item,title='<untitled>',spaces='',space_increment='    ',ignore_keys=
             indent_title = title + indent_text[len(title):]
     if title != None:
         if type(item) in [dict,list]:
-            color_print(spaces,'`',indent_title,'`',s0='',s1='')
+            color_print(spaces,'`',indent_title,'`',n_equals,s0='',s1='')
         else:
             color_print(spaces,'`',title,'','`y',' ','`',item,'`g',s1='',s0='' )
             item_printed = True
     else:
         if type(item) in [dict,list]:
-            color_print(spaces,indent_text,s0='',s1='')
+            color_print(spaces,indent_text,n_equals,s0='',s1='')
 
 
     if type(item) == list:
@@ -163,7 +170,7 @@ if False:
 exec(identify_file_str)
 
 
-if True:
+if False:
     function_type = type(kprint)
     def Environment():
         D = {}
@@ -187,4 +194,11 @@ if True:
     #kprint(E,'E',ignore_keys=[],ignore_types=[])
 
 
+COUNTER_PRINT_CTR_____ = 0
+def counter_print(reset=False):
+    global COUNTER_PRINT_CTR_____
+    if reset:
+        COUNTER_PRINT_CTR_____ = 0
+    clp('counter_print','`',COUNTER_PRINT_CTR_____,'`--r')
+    COUNTER_PRINT_CTR_____ += 1
 #EOF

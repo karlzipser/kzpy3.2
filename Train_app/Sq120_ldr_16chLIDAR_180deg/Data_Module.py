@@ -25,10 +25,13 @@ runs_with_depth_Images = fnamenes(sggo(depth_images_path,'*'))
 
 #pprint(runs_with_depth_Images)
 
-kprint(runs_with_depth_Images,'runs_with_depth_Images')
+kprint(runs_with_depth_Images,'runs_with_depth_Images',numbering=True)
 
 def prepare_data_for_training(_):
-	full = True
+	if time.time()-30 > 1572561168.460011:
+		full = False
+	else:
+		full = True
 	#########################################################################################
 
 	_['experiments_folders'] = []
@@ -216,7 +219,7 @@ def prepare_data_for_training(_):
 
 		#cy("_['run_name_to_run_path'].keys()",len(_['run_name_to_run_path'].keys()))
 		#pprint(_['run_name_to_run_path'].keys())
-		kprint(_['run_name_to_run_path'].keys(),title="_['run_name_to_run_path'].keys()")
+		kprint(_['run_name_to_run_path'].keys(),title="_['run_name_to_run_path'].keys()",numbering=True)
 		okay = True
 		for r in _['run_name_to_run_path'].keys():
 			if r not in runs_with_depth_Images:
@@ -479,7 +482,10 @@ def get_Data_moment(_,Network_Predictions,dm=None,FLIP=None):
 				raw_enter()
 
 
+			if dm['run_name'] not in _['data_moment_count']:
+				_['data_moment_count'][dm['run_name']] = 0
 
+			_['data_moment_count'][dm['run_name']] += 1
 
 			return Data_moment
 

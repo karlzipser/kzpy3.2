@@ -106,7 +106,7 @@ if False:
 	kprint(1,title='aa')
 
 
-#,a
+
 
 bash_history = txt_file_to_list_of_strings(opjh('.bash_history'))
 H = {}
@@ -216,6 +216,27 @@ while True:
 	    CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
 	    raw_enter()
 	"""
+
+
+
+
+
+
+
+
+
+
+
+A=lo(opjD('Data/Network_Predictions/tegra-ubuntu_30Dec18_15h14m21s.net_predictions.pkl'))
+B=lo('/data/dataset/karl/Disk1/Data_1/Network_Predictions/tegra-ubuntu_30Dec18_15h14m21s.net_predictions.pkl')
+
+
+
+
+#,a
+
+
+
 
 
 #,b

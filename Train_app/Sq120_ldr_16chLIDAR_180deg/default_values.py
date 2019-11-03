@@ -63,7 +63,7 @@ if _['freeze premetadata weights']:
 	_['update premetadata weights from other model'] = most_recent_file_in_folder(opjD('Networks/net_24Dec2018_12imgs_projections/weights'),['.infer'],[])
 
 
-
+_['data_moment_count'] = {}
 _['updated'] = []
 _['DISPLAY_EACH'] = False
 _['RESUME'] = True

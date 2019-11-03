@@ -18,12 +18,12 @@ else:
     Arguments['falloff'] = float(Arguments['falloff'])
 cg(Arguments['topics'])
 cb(Arguments['colors'])
-topics = Arguments['topics'].split(',')
+topics = Arguments['topics']#.split(',')
 cb('topics =')
 for t in topics:
     cg(d2n("'",t,"'"))
 
-colors = Arguments['colors'].split(',')
+colors = Arguments['colors']#.split(',')
 assert len(topics) == len(colors)
 cb('colors =',colors)
 Topic_colors = {}

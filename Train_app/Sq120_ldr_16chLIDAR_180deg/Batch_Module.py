@@ -659,6 +659,7 @@ def Batch(_,the_network=None,the_network_depth=None):
 			_['spause_timer'].reset()
 
 		if _['print_timer'].check():
+			kprint(_['data_moment_count'],'data_moment_count',numbering=True)
 			mi(_['ZED_image'],'ZED_image')
 			cprint(d2s("_['start time'] =",_['start time']),'blue','on_yellow')
 			for i in [0]:#range(_['BATCH_SIZE']):

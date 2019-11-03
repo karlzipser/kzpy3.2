@@ -392,6 +392,8 @@ def assert_disk_locations(locations):
 
 
 def try_to_close(lst):
+    if type(lst) == str:
+        lst = [lst]
     for l in lst:
         try:
             l.close()
