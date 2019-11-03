@@ -9,8 +9,26 @@ from sensor_msgs.msg import Image
 import cv_bridge
 exec(identify_file_str)
 
+
+"""
+
+roscore
+python kzpy3/scripts/ros/publish_preprocessed_data.py  --pub_predictions 1 --step 0
+python kzpy3/scripts/ros/publish_preprocessed_data.py  --pub_predictions 9 --step 0
+python kzpy3/scripts/ros/publish_preprocessed_data.py  --pub_predictions 1 --step 0 --initial_index 10000
+python kzpy3/VT_net2__5April2019_2__18April2019_for_speed/main.py
+python kzpy3/VT_net2__5April2019_2__18April2019_for_speed/main.py # _['topic_suffix'] = '_'
+python kzpy3/scripts/ros/plot_topics.py topics headings_left_,headings_right_,headings_direct_ colors red,green,blue falloff 0.7
+python kzpy3/scripts/ros/plot_topics.py topics headings_left,headings_right,headings_direct colors red,green,blue falloff 0.7
+python kzpy3/Menu_app/menu2.py path kzpy3/Cars/a2Apr19/nodes dic P
+python kzpy3/Cars/a2Apr19/nodes/network_node.py desktop_mode 1
+rosplay_menu.py
+
+"""
+
+
 Defaults = {
-    'pub_predictions':True,
+    'pub_predictions':1,
     'step':False,
     'run_name':'tegra-ubuntu_29Oct18_13h28m05s',
     'run_path':opjD('Data/1_TB_Samsung_n1/left_direct_stop__29to30Oct2018/locations/local/left_direct_stop/h5py'),
