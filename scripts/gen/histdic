@@ -57,14 +57,19 @@ while True:
             pass
         clp('Hidden:','`',', '.join(hide),'`b')
         for i in rlen(line_list):
+            if is_even(i):
+                eo = '`y'
+            else:
+                eo = '`g'
             a = line_list[i]
             if len(a[0]) < 1:
                 continue
             assert type(a) == tuple
             assert len(a) == 2
-            p = cf(i,')',s0='')
+            p = cf(i,'`--r',s0='')
+            #p = cf(i,')',s0='')
             if a[1] == 'line':
-                s = cf('\t',a[0],'`y',s0='',s1='')
+                s = cf('',a[0],eo,s0='',s1='')
             else:
                 #if a[0] in special:
                 #   p = cf(i,')','`--r',s0='')
@@ -73,7 +78,7 @@ while True:
                 elif a[1] == '-':
                     s = cf(a[0],'-','`r-b')
 
-            clp(p,s,s0=' ')
+            clp(p,s,p,s0=' ')
 
         b = raw_input(cf("Enter number or 'q' to quit --> ",'`m'))
         if b == 'q':

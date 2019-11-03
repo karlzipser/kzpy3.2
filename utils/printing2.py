@@ -204,7 +204,9 @@ def fline():
     module = inspect.getmodule(frame[0])
     filename = module.__file__
     now = datetime.datetime.now()
-    clp(inspect.currentframe().f_back.f_lineno,'`--r',fname(filename),'`',pname(filename),now.strftime('(%H:%M)'),'`--d')
+    return cf(inspect.currentframe().f_back.f_lineno,'`--r',
+        fname(filename),'`',
+        pname(filename),now.strftime('(%H:%M:%S)'),'`--d')
 
 if False:
     COUNTER_PRINT_CTR_____ = 0

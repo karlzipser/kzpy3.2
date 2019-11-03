@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
 from kzpy3.utils3 import *
-fline()
-
+clp('test','`b',fline())
+print(fline())
 setup_Default_Arguments(
 	{
 		'start': 242,
@@ -14,15 +14,13 @@ setup_Default_Arguments(
 		'rsync': True,
 	}
 )
-fline()
-
-fline()
-
-fline()
-
+time.sleep(3)
+print(fline())
+print(fline())
 print_Arguments()
-fline()
-
-
-fline()
+print(fline())
+print(fline())
+clp(fline(),'`','test','`r',)
+print(fline())
+kprint(range(10),d2s('test',fline()))
 #EOF

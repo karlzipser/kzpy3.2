@@ -83,26 +83,26 @@ rospy.init_node('publish_node',anonymous=True,disable_signals=True)
 ##############################################################
 ##############################################################
 ##
-cm(0,5)
+print(fline())
 U = lo(opjD('Data/Network_Predictions',Arguments['run_name']+'.net_predictions.pkl'))
-cm(1,5)
+print(fline())
 L,O,___ = open_run(run_name=Arguments['run_name'],h5py_path=Arguments['run_path'],want_list=['L','O'])
-cm(2,5)
+print(fline())
 _['headings'] = L['gyro_heading_x'][:]
 _['encoders'] = L['encoder'][:]
-cm(3,5)
+print(fline())
 #CA();plot(_['encoders'],_['headings'],'.');spause()
 
 Left_timestamps_to_left_indicies = {}
 t0 = L['ts'][0]
-cm(4,5)
+print(fline())
 blank_meta = np.zeros((23,41,3),np.uint8)
 for i in rlen(L['ts']):
     t = (1000.0*(L['ts'][i] - t0)).astype(int)
     Left_timestamps_to_left_indicies[t] = i
 if Arguments['run_name'] in runs_with_Depth_images:
     _['Depth_data'] = h5r(opjD('Data','Depth_images',Arguments['run_name']+'.Depth_image.with_left_ts.rgb_v1.h5py'))
-cm(5,5)
+print(fline())
 ##
 ##############################################################
 ##############################################################
