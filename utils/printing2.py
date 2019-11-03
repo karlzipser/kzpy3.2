@@ -3,7 +3,6 @@ from kzpy3.utils.common import *
 
 
 
-
 def kprint(item,title='<untitled>',spaces='',space_increment='    ',ignore_keys=[],ignore_types=[],numbering=False):
     item_printed = False
     if type(item) in ignore_types:
@@ -194,11 +193,26 @@ if False:
     #kprint(E,'E',ignore_keys=[],ignore_types=[])
 
 
-COUNTER_PRINT_CTR_____ = 0
-def counter_print(reset=False):
-    global COUNTER_PRINT_CTR_____
-    if reset:
-        COUNTER_PRINT_CTR_____ = 0
-    clp('counter_print','`',COUNTER_PRINT_CTR_____,'`--r')
-    COUNTER_PRINT_CTR_____ += 1
+# http://code.activestate.com/recipes/145297-grabbing-the-current-line-number-easily/
+import inspect
+def lineno():
+    """Returns the current line number in our program."""
+    return inspect.currentframe().f_back.f_lineno
+
+def fline():
+    frame = inspect.stack()[1]
+    module = inspect.getmodule(frame[0])
+    filename = module.__file__
+    now = datetime.datetime.now()
+    clp(inspect.currentframe().f_back.f_lineno,'`--r',fname(filename),'`',pname(filename),now.strftime('(%H:%M)'),'`--d')
+
+if False:
+    COUNTER_PRINT_CTR_____ = 0
+    def counter_print(reset=False):
+        global COUNTER_PRINT_CTR_____
+        if reset:
+            COUNTER_PRINT_CTR_____ = 0
+        clp('counter_print','`',COUNTER_PRINT_CTR_____,'`--r')
+        COUNTER_PRINT_CTR_____ += 1
+
 #EOF
