@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 """
-python kzpy3/scripts/temp.py topics headings_left,headings_right,headings_direct colors red,green,blue
+python kzpy3/scripts/ros/plot_topics.py --topics headings_left,headings_right,headings_direct --colors red,green,blue --falloff 0.7
+
 """
 
 from kzpy3.vis3 import *
@@ -76,7 +77,15 @@ while True:
     try:
         for topic in topics:
             xys = []
-            for i in rlen(S[topic]):
+            for i in range(len(S[topic]-1)):
+                #print i
+                #a = S[topic][i]
+                #print a
+                #if i < len(S[topic])-1:
+                #    b = S[topic][i+1]
+                    #print b
+                #for j in arange(0,1,0.01):
+                #    xys.append([10*i+j/10.,(1-j)*a+j*b])
                 xys.append([i,S[topic][i]])
             xys = na(xys)
 
