@@ -59,7 +59,7 @@ def kprint(item,title='<untitled>',spaces='',space_increment='    ',ignore_keys=
 
 
 
-
+function_types = [type(sorted),type(fname)]
 
 
 

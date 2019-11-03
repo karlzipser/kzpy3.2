@@ -7,11 +7,15 @@ def Net(Network_layout,start):
     Boxes = {}
     for box in Network_layout.keys():
         arrow_list = []
-        for arrow in Network_layout[box]:
+        for A in Network_layout[box]:
+            kprint(A,box)
+            if 'p' not in A:
+                A['p'] = 1.
             arrow_list.append(
                 Arrow(
-                    function=arrow['function'],
-                    destination=arrow['destination'],
+                    function=A['function'],
+                    destination=A['destination'],
+                    p=A['p'],
                 )
             )
         Boxes[box] = Box(box,arrow_list)
@@ -19,9 +23,10 @@ def Net(Network_layout,start):
     assert start in D['Boxes']
     D['current_box'] = start
     def function_evaluate(Environment):
-        D['current_box'] = D['Boxes'][D['current_box']]['evaluate'](Environment)
+        R = D['Boxes'][D['current_box']]['evaluate'](Environment)
+        D['current_box'] = R['destination']
         assert D['current_box'] in Network_layout.keys()
-        return D['current_box']
+        return R
     D['evaluate'] = function_evaluate
     return D
 
@@ -36,25 +41,28 @@ def Box(name,arrow_list):
     def function_evaluate(Environment):
         np.random.shuffle(arrow_list)
         for A in arrow_list:
-            destination = A['evaluate'](Environment)
-            if destination != False:
-                return destination
-        return D['name'] # i.e., stay in same box
+            R = A['evaluate'](Environment)
+            if R['destination'] != False:
+                return R
+        return {'destination':D['name'],'function':None} # i.e., stay in same box
     D['evaluate'] = function_evaluate
     return D
 
 
 
-def Arrow(function,destination):
+def Arrow(function,destination,p):
     D = {}
     D['type'] = 'Arrow'
-    D['function'] = function
-    D['destination'] = destination
     def function_evaluate(Environment):
-        if D['function'](Environment):
-            return D['destination']
+        Fail = {'destination':False,'function':None}
+        r = rnd()
+        #clp(p,r,r > p)
+        if r > p:
+            return Fail
+        if Environment['functions'][function](Environment):
+            return {'destination':destination,'function':function}
         else:
-            return False
+            return Fail
     D['evaluate'] = function_evaluate
     return D
 

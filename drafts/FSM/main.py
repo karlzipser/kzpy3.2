@@ -1,65 +1,118 @@
-from kzpy3.utils3 import *
-from kzpy3.drafts.FSM.finite_state_machine import *
+
+from kzpy3.vis3 import *
+import kzpy3.drafts.FSM.fsm as fsm
 
 
+if 'These are the transitions functions':
 
-def y_function(E,D):
-    cy(D['name'],int(D['timer'].time()))
-    time.sleep(1)
-def g_function(E,D):
-    cg(D['name'],int(D['timer'].time()))
-    time.sleep(1)
-def r_function(E,D):
-    cr(D['name'],int(D['timer'].time()))
-    time.sleep(1)
-def b_function(E,D):
-    cb(D['name'],int(D['timer'].time()))
-    time.sleep(1)
+    failure_probability = 0.1
 
-def function_t(Environment):
-    if rnd() > Environment['transition_probability/function_t']:
-        cr('fail')
-        return False
-    cg('success')
-    return
 
-def function_0_or_1(Environment):
-	try:
-	    i = input('enter zero or one: ')
-	    if i:
-	        return True
-	    else:
-	        return False
-	except:
-		return False
+    def locked_push(E):
+        name = 'locked_push'
+        if E['push']:
+            result = True
+        else:
+            result = False
+        return failure(name,result,failure_probability)
 
-Environment = {
-    'transition_probability/function_t':0.2,
+    def locked_coin(E):
+        name = 'locked_coin'
+        if E['coin']:
+            result = True
+        else:
+            result = False
+        return failure(name,result,failure_probability)
+
+    def unlocked_push(E):
+        name = 'unlocked_push'
+        if E['push']:
+            result = True
+        else:
+            result = False
+        return failure(name,result,failure_probability)
+
+    def unlocked_coin(E):
+        name = 'unlocked_coin'
+        if E['coin']:
+            result = True
+        else:
+            result = False
+        return failure(name,result,failure_probability)
+
+
+    def failure(name,result,prob):
+        if rnd() < prob:
+            clp('Oops!','`r-b',name,'`--u','failed!')
+            return not result
+        else:
+            return result
+
+
+Network_layout = {
+    'locked': [
+        { 'function':locked_push, 'destination':'locked' },
+        { 'function':locked_coin, 'destination':'unlocked' },
+    ],
+    'unlocked': [
+        { 'function':unlocked_push, 'destination':'locked' },
+        { 'function':unlocked_coin, 'destination':'unlocked' },
+    ],
 }
 
-Fsm = Finite_state_machine(
-    [
-        Box('in B1',
-        	[
-        		Arrow('exit B1',0.1,function_0_or_1)
-        	],
-        	y_function
-        ),
-        Box('exit B1',
-        	[
-            	Arrow('enter B2',0.1,function_t),
-            	Arrow('in B1',0.1,function_t)
-        	],
-        	g_function
-        ),
-        Box('enter B2',[Arrow('in B2',0.1,function_true)],b_function),
-        Box('in B2',[Arrow('in B1',0.1,function_true)],r_function),    
-    ],
-)
 
-while True:
-	Fsm['step'](Environment)
 
-# ~ $ python kzpy3/drafts/FSM/main.py
+def Subway_environment():
+    D = {}
+    D['push'] = False
+    D['coin'] = False
+    def function_step():
+        D['push'] = rndchoice([True,False])
+        D['coin'] = not D['push']
+        return {
+            'push':D['push'],
+            'coin':D['coin'],
+        }
+    D['step'] = function_step
+    return D
+
+
+
+if __name__ == '__main__':
+
+    N = fsm.Net(
+        Network_layout=Network_layout,
+        start='unlocked',
+    )
+
+    E = Subway_environment()
+
+    prev_box = None
+    current_box = 'unlocked'
+    while True:
+        
+        current_box = N['evaluate'](Environment=E)
+
+        if E['coin']:
+            action = 'coin'
+        else:
+            action = 'push'
+
+        """
+        kprint(
+            item=E,
+            title=current_box,
+            ignore_keys=['motor_prev',],
+            ignore_types=function_types,
+        )
+        """
+        if prev_box != None:
+            clp(prev_box,'--',action,'-->',current_box)
+        prev_box = current_box
+
+        E['step']()
+
+        time.sleep(.5)
+
 
 #EOF
