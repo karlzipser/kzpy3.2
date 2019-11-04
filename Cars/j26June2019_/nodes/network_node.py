@@ -281,7 +281,8 @@ if __name__ == '__main__':
                             Q['add_rectangles'](N['rectangles_xys'],N['backup parameter'])
                         #cm(4)
                         #print(fline())
-                        mci(Q['left']['now']['full'])
+                        if False:
+                            mci(Q['left']['now']['full'])
                         #cm("mci(Q['left']['now']['full'])")
                         
                         #print(fline())
