@@ -2,6 +2,7 @@
 from kzpy3.utils3 import *
 exec(identify_file_str)
 
+
 bash_history = txt_file_to_list_of_strings(opjh('.bash_history'))
 H = {}
 Open = {}
@@ -19,8 +20,23 @@ for bh in bash_history:
     H[command] = list(set(H[command]))
     Open[command] = False
 Open['python'] = True
-command_show = ['python','grep','ls','diff']
-pattern_hide = ['']
+
+command_show_initial = ['python','grep','ls','diff']
+pattern_hide_initial = ['','Command','pcal35.py']
+try:
+    assert(False)
+    H = lo(opjk('scripts/__local__/histdic.pkl'))
+    command_show = H['command_show']
+    pattern_hide = H['pattern_hide']
+except:
+    command_show = []
+    for a in command_show_initial:
+        command_show.append(a)
+    pattern_hide = []
+    for a in pattern_hide_initial:
+        pattern_hide.append(a)
+
+
 while True:
     try:
         clear_screen()
@@ -88,6 +104,29 @@ while True:
         b = raw_input(cf("Enter number or 'q' to quit --> ",'`'))
         if b == 'q':
             break
+        elif b[0] == 'L':
+            try:
+                E = lo(opjk('scripts/__local__/histdic.pkl'))
+                command_show = E['command_show']
+                pattern_hide = E['pattern_hide']
+                #kprint(E,'E')
+                #raw_enter()
+            except:
+                clp(fline(),'could not load histdic.pkl',ra=1)
+        elif b[0] == 'S':
+            try:
+                so(opjk('scripts/__local__/histdic.pkl'),{'command_show':command_show,'pattern_hide':pattern_hide})
+                #command_show = H['command_show']
+                #pattern_hide = H['pattern_hide']
+            except:
+                clp(fline(),'could not load histdic.pkl')
+        elif b[0] == 'R':
+            command_show = []
+            for a in command_show_initial:
+                command_show.append(a)
+            pattern_hide = []
+            for a in pattern_hide_initial:
+                pattern_hide.append(a)
         elif b[0] == ']':
             pattern_hide.append(b[1:])
         elif b[0] == '[':
@@ -128,7 +167,10 @@ while True:
         CS_('Exception!',emphasis=True)
         CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
         clp("Type number of a command followed by '+' or '-' to open/close.")
-        clp("Type '+' or '-' followed by command name to add or subtract topics. E.g., -python")
+        clp("Type '+' or '-' followed by command name to add or subtract topics. E.g., '-python'")
+        clp("Type ']' or '[' followed by pattern to exclude or include it. E.g., ']Train_'")
+        clp("Type 'S' to save, 'L' to load, and 'R' to reset.")
+
         raw_enter()
 
 #EOF
