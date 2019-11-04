@@ -2,9 +2,6 @@
 from kzpy3.utils3 import *
 exec(identify_file_str)
 
-
-
-
 bash_history = txt_file_to_list_of_strings(opjh('.bash_history'))
 H = {}
 Open = {}
@@ -22,9 +19,6 @@ for bh in bash_history:
     H[command] = list(set(H[command]))
     Open[command] = False
 Open['python'] = True
-#Open['history'] = True
-#special = ['python','diff']
-#command_hide = ['gacp','et','more','mkdir','mv','pgacp','pgp','bk3','cd']
 command_show = ['python','grep','ls','diff']
 pattern_hide = ['']
 while True:
@@ -41,14 +35,11 @@ while True:
 
             if Open[command]:
                 line_list.append((command,'-'))
-                #print(line_list[-1])
                 sorted_commands = sorted(H[command])
                 for c in sorted_commands:
                     line_list.append((c,'line'))
-                    #print(line_list[-1])
             else:
                 line_list.append((command,'+'))
-                #print(line_list[-1])
 
         command_hide = sorted(list(set(command_hide)))
         try:
@@ -77,19 +68,15 @@ while True:
             else:
                 tb = ''
             p = cf(tb,'`',i,'`--u',s0='',s1='')
-            #p = cf(i,')',s0='')
             
             do_continue = False
             if a[1] == 'line':
                 for ph in pattern_hide:
                     if ph in a[0]:
-                        #cr('skip',a[0])
                         do_continue = True
                         break
                 s = cf('',a[0],eo,s0='',s1='')
             else:
-                #if a[0] in special:
-                #   p = cf(i,')','`--r',s0='')
                 if a[1] == '+':
                     s = cf(a[0],'+','`g')
                 elif a[1] == '-':
@@ -103,10 +90,8 @@ while True:
             break
         elif b[0] == ']':
             pattern_hide.append(b[1:])
-            #raw_enter(b)
         elif b[0] == '[':
             pattern_hide.remove(b[1:])
-            #raw_enter(b)
         elif b[0] == '+':
             command_show.append(b[1:])
             Open[b[1:]] = True
@@ -145,10 +130,5 @@ while True:
         clp("Type number of a command followed by '+' or '-' to open/close.")
         clp("Type '+' or '-' followed by command name to add or subtract topics. E.g., -python")
         raw_enter()
-    
-
-
-
-
 
 #EOF
