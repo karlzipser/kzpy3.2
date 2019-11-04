@@ -34,7 +34,8 @@ def eg_run(N,E,Q):
                 X = '`y'
                 Y = '`g'
                 if 'fail' in R['function']:
-                    Z = '`wm' 
+                    Z = '`wm'
+                    print(fline())
                 else:
                     Z = '`--r'
                 clp(prev_box,X,'--',Y,'`','--',Y,R['function'],Z,'-->',Y,R['destination'],X)
