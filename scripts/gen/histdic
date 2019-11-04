@@ -87,6 +87,11 @@ while True:
             
             do_continue = False
             if a[1] == 'line':
+                line_str = a[0]
+                line_str_split = line_str.split(' ')
+                if line_str_split[0] == 'python':
+                    if len(sggo(line_str_split[1])) < 1:
+                        eo = '`--d'
                 for ph in pattern_hide:
                     if ph in a[0]:
                         do_continue = True
@@ -101,7 +106,7 @@ while True:
                 continue
             clp(p,s,p,s0=' ')
 
-        b = raw_input(cf("Enter number or 'q' to quit --> ",'`'))
+        b = raw_input(cf("Enter number or 'q' to quit --> ",'`-b-'))
         if b == 'q':
             break
         elif b[0] == 'L':
