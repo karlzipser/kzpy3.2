@@ -24,19 +24,19 @@ for bh in bash_history:
 Open['python'] = True
 #Open['history'] = True
 #special = ['python','diff']
-#hide = ['gacp','et','more','mkdir','mv','pgacp','pgp','bk3','cd']
-show = ['python','grep','ls','diff']
-
+#command_hide = ['gacp','et','more','mkdir','mv','pgacp','pgp','bk3','cd']
+command_show = ['python','grep','ls','diff']
+pattern_hide = ['']
 while True:
     try:
         clear_screen()
         print 
         sorted_H_keys = sorted(H.keys())
         line_list = []
-        hide = []
+        command_hide = []
         for command in sorted_H_keys:
-            if command not in show:
-                hide.append(command)
+            if command not in command_show:
+                command_hide.append(command)
                 continue
 
             if Open[command]:
@@ -50,15 +50,21 @@ while True:
                 line_list.append((command,'+'))
                 #print(line_list[-1])
 
-        hide = list(set(hide))
+        command_hide = sorted(list(set(command_hide)))
         try:
-            hide.remove('')
+            command_hide.remove('')
         except:
             pass
-        clp('Hidden:','`',', '.join(hide),'`b')
+        pattern_hide = sorted(list(set(pattern_hide)))
+        try:
+            pattern_hide.remove('')
+        except:
+            pass
+        clp('command_hide:','`',', '.join(command_hide),'`b-b')
+        clp('pattern_hide:','`',', '.join(pattern_hide),'`m-b')
         for i in rlen(line_list):
             if is_even(i):
-                eo = '`y'
+                eo = '`c'
             else:
                 eo = '`g'
             a = line_list[i]
@@ -66,9 +72,20 @@ while True:
                 continue
             assert type(a) == tuple
             assert len(a) == 2
-            p = cf(i,'`--r',s0='')
-            #p = cf(i,')',s0='')
             if a[1] == 'line':
+                tb = '\t'
+            else:
+                tb = ''
+            p = cf(tb,'`',i,'`--u',s0='',s1='')
+            #p = cf(i,')',s0='')
+            
+            do_continue = False
+            if a[1] == 'line':
+                for ph in pattern_hide:
+                    if ph in a[0]:
+                        #cr('skip',a[0])
+                        do_continue = True
+                        break
                 s = cf('',a[0],eo,s0='',s1='')
             else:
                 #if a[0] in special:
@@ -77,21 +94,30 @@ while True:
                     s = cf(a[0],'+','`g')
                 elif a[1] == '-':
                     s = cf(a[0],'-','`r-b')
-
+            if do_continue:
+                continue
             clp(p,s,p,s0=' ')
 
-        b = raw_input(cf("Enter number or 'q' to quit --> ",'`m'))
+        b = raw_input(cf("Enter number or 'q' to quit --> ",'`'))
         if b == 'q':
             break
+        elif b[0] == ']':
+            pattern_hide.append(b[1:])
+            #raw_enter(b)
+        elif b[0] == '[':
+            pattern_hide.remove(b[1:])
+            #raw_enter(b)
         elif b[0] == '+':
-            show.append(b[1:])
+            command_show.append(b[1:])
             Open[b[1:]] = True
         elif b[0] == '-':
-            show.remove(b[1:])
+            command_show.remove(b[1:])
         if not str_is_int(b):
             continue
         n = int(b)
         a = line_list[n]
+        if len(a[1]) > 2:
+            print a[1]
         if a[1] == '-':
             Open[a[0]] = False
         elif a[1] == '+':
