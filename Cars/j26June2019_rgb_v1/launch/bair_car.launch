@@ -1,0 +1,112 @@
+<launch>
+    <arg name="car_name" default="bair_car" />
+    <arg name="use_zed" default="false" />
+    <arg name="use_caffe" default="false" />
+    
+    <arg name="record" default="false" />
+    <arg name="bagpath" default="/media/nvidia/rosbags" />
+
+    <group ns="$(arg car_name)">
+
+        <group ns="zed" if="$(arg use_zed)">        
+            <include file="$(find zed_wrapper)/launch/zed_tf.launch" />
+
+            <node name="zed_wrapper_node" pkg="zed_wrapper" type="zed_wrapper_node" args="" output="screen">
+
+            <param name="resolution"            value="3" />
+            <param name="quality"               value="0" />
+            <param name="sensing_mode"          value="1" />
+            <param name="frame_rate"            value="30" />
+            <param name="odometry_DB"           value="" />
+            <param name="openni_depth_mode"     value="0" />
+
+            <param name="rgb_topic"             value="rgb/image_rect_color" />
+            <param name="rgb_cam_info_topic"    value="rgb/camera_info" />
+            <param name="rgb_frame_id"          value="/zed_tracked_frame" />
+
+            <param name="left_topic"            value="left/image_rect_color" />
+            <param name="left_cam_info_topic"   value="left/camera_info" />
+            <param name="left_frame_id"         value="/zed_tracked_frame" />
+
+            <param name="right_topic"           value="right/image_rect_color" />
+            <param name="right_cam_info_topic"  value="right/camera_info" />
+            <param name="right_frame_id"        value="/zed_tracked_frame" />
+
+            <param name="depth_topic"           value="depth/image_rect_color" />
+            <param name="depth_cam_info_topic"  value="depth/camera_info" />
+            <param name="depth_frame_id"        value="/zed_tracked_frame" />
+
+            <param name="point_cloud_topic"     value="point_cloud/cloud" />
+            <param name="cloud_frame_id"        value="/zed_tracked_frame" />
+
+            <param name="odometry_topic"                value="odom" />
+            <param name="odometry_frame_id"             value="/zed_initial_frame" />
+            <param name="odometry_transform_frame_id"   value="/zed_tracked_frame" />
+
+
+            </node>
+        </group>
+        
+    </group>
+
+    <node name="rosbag_node" pkg="bair_car" type="rosbag_node.py" output="screen"
+     args="/media/nvidia/rosbags/active /media/nvidia/rosbags/new" respawn="true" if="$(arg record)">
+    </node>
+    # put in all topics
+    <arg name="rosbag_args"
+     value="/cmd/motor 
+            /cmd/steer
+            /cmd/camera
+            /$(arg car_name)/encoder
+            /$(arg car_name)/gyro
+            /$(arg car_name)/gyro_heading
+            /$(arg car_name)/acc
+            /$(arg car_name)/motor
+            /$(arg car_name)/state
+            /$(arg car_name)/steer
+            /$(arg car_name)/human_agent
+            /$(arg car_name)/button_number
+            /$(arg car_name)/place_choice
+            /$(arg car_name)/drive_mode
+            /$(arg car_name)/Hz_acc
+            /$(arg car_name)/Hz_mse
+            /$(arg car_name)/Hz_network
+            /$(arg car_name)/FL0
+            /$(arg car_name)/FL1
+            /$(arg car_name)/FL2
+            /$(arg car_name)/FL3
+            /$(arg car_name)/FR0
+            /$(arg car_name)/FR1
+            /$(arg car_name)/FR2
+            /$(arg car_name)/FR3
+            /$(arg car_name)/FC0
+            /$(arg car_name)/FC1
+            /$(arg car_name)/FC2
+            /$(arg car_name)/FC3
+            /$(arg car_name)/GPS_latitudeDegrees
+            /$(arg car_name)/GPS_longitudeDegrees
+            /$(arg car_name)/GPS_speed
+            /$(arg car_name)/GPS_angle
+            /$(arg car_name)/GPS_altitude
+            /$(arg car_name)/GPS_fixquality
+            /$(arg car_name)/GPS_satellites
+            /network_output_sample
+            /network_motor_offset
+            /network_steer_gain
+            /network_motor_gain
+            /network_output_sample
+            /network_smoothing_parameter
+            /os1_node/image
+            /$(arg car_name)/zed/left/camera_info 
+            /$(arg car_name)/zed/left/image_rect_color 
+            /$(arg car_name)/zed/right/camera_info 
+            /$(arg car_name)/zed/right/image_rect_color
+            /$(arg car_name)/left_right" />
+    <node pkg="rosbag" type="record" name="rosbag_record_all"
+          args="--split --duration=30 -b 2048 --lz4 -o /media/nvidia/rosbags/active/$(arg car_name) $(arg rosbag_args)"
+          respawn="false"
+          if="$(arg record)" >
+          
+    </node>
+
+</launch>

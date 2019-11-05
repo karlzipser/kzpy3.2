@@ -72,7 +72,7 @@ Pub['behavioral_mode'] = rospy.Publisher(bcs+'behavioral_mode',std_msgs.msg.Stri
 Pub['drive_mode'] = rospy.Publisher(bcs+'drive_mode',std_msgs.msg.Int32,queue_size=1)
 Pub['left_image'] = rospy.Publisher("/bair_car/zed/left/image_rect_color",Image,queue_size=1)
 Pub['right_image'] = rospy.Publisher("/bair_car/zed/right/image_rect_color",Image,queue_size=1)
-Pub['depth_image'] = rospy.Publisher("/os1_node/image",Image,queue_size=1)
+Pub['depth_image'] = rospy.Publisher("/os1_node/rgb_v1",Image,queue_size=1)
 
 rospy.init_node('publish_node',anonymous=True,disable_signals=True)
 ##

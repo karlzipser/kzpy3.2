@@ -255,6 +255,7 @@ try:
     CA = function_close_all_windows
 
     def mci(img,delay=33,title='mci',scale=1.0,color_mode=cv2.COLOR_RGB2BGR,fx=0,fy=0):
+        title = d2s(title)
         if not fx and not fx:
             fx = scale
             fy = scale
