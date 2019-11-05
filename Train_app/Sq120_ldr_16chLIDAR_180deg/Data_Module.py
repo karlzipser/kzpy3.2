@@ -28,10 +28,7 @@ runs_with_depth_Images = fnamenes(sggo(depth_images_path,'*'))
 kprint(runs_with_depth_Images,'runs_with_depth_Images',numbering=True)
 
 def prepare_data_for_training(_):
-	if time.time()-30 > 1572561168.460011:
-		full = False
-	else:
-		full = True
+	full = True
 	#########################################################################################
 
 	_['experiments_folders'] = []
