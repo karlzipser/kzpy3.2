@@ -283,8 +283,9 @@ if __name__ == '__main__':
                         #print(fline())
                         if True:
                             mci(network_utils.camera.rgb_v1_list[-1],title=-1)
-                            mci(network_utils.camera.rgb_v1_list[-4],title=-4)
-                            mci(z55(1.0*network_utils.camera.rgb_v1_list[-4]-1.0*network_utils.camera.rgb_v1_list[-1]),title='diff')
+                            if False:
+                                mci(network_utils.camera.rgb_v1_list[-4],title=-4)
+                                mci(z55(1.0*network_utils.camera.rgb_v1_list[-4]-1.0*network_utils.camera.rgb_v1_list[-1]),title='diff')
                         #cm("mci(Q['left']['now']['full'])")
                         
                         #print(fline())

@@ -52,6 +52,7 @@ def read_menu_and_load_network(N):
                 N['net']['Torch_network'] = \
                     network_utils.torch_network.Torch_Network(
                         N['weight_file_path'])
+                clp("N['weight_file_path'] =",N['weight_file_path'],'`ybb',ra=1)
 
                 cs( "Torch_network = net_utils.Torch_Network(N)" )
 

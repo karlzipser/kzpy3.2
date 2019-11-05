@@ -21,7 +21,7 @@ for bh in bash_history:
     Open[command] = False
 Open['python'] = True
 
-command_show_initial = ['python','grep','ls','diff']
+command_show_initial = ['python']#,'grep','ls','diff']
 pattern_hide_initial = ['','Command','pcal35.py']
 try:
     assert(False)
