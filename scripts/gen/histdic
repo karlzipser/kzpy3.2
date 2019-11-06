@@ -23,6 +23,8 @@ Open['python'] = True
 
 command_show_initial = ['python']#,'grep','ls','diff']
 pattern_hide_initial = ['','Command','pcal35.py']
+pattern_require = []
+
 try:
     assert(False)
     H = lo(opjk('scripts/__local__/histdic.pkl'))
@@ -63,6 +65,7 @@ while True:
         except:
             pass
         pattern_hide = sorted(list(set(pattern_hide)))
+        pattern_require = sorted(list(set(pattern_require)))
         try:
             pattern_hide.remove('')
         except:
@@ -77,6 +80,7 @@ while True:
             a = line_list[i]
             if len(a[0]) < 1:
                 continue
+
             assert type(a) == tuple
             assert len(a) == 2
             if a[1] == 'line':
@@ -93,6 +97,14 @@ while True:
                     if len(line_str_split) > 1:
                         if len(sggo(line_str_split[1])) < 1:
                             eo = '`--d'
+                if len(pattern_require) > 0:
+                    for pr in pattern_require:
+                        if pr not in a[0]:
+                            #clp(pr,'not in',a[0])
+                            do_continue = True
+                            break
+                        else:
+                            pass#clp(pr,'in',a[0])
                 for ph in pattern_hide:
                     if ph in a[0]:
                         do_continue = True
@@ -110,7 +122,7 @@ while True:
         b = raw_input(cf("Enter number or 'q' to quit --> ",'`-b-'))
         if b == 'q':
             break
-        elif b[0] == 'L':
+        elif b[0] == 'L': #load
             try:
                 E = lo(opjk('scripts/__local__/histdic.pkl'))
                 command_show = E['command_show']
@@ -119,20 +131,23 @@ while True:
                 #raw_enter()
             except:
                 clp(fline(),'could not load histdic.pkl',ra=1)
-        elif b[0] == 'S':
+        elif b[0] == 'S': #save
             try:
                 so(opjk('scripts/__local__/histdic.pkl'),{'command_show':command_show,'pattern_hide':pattern_hide})
                 #command_show = H['command_show']
                 #pattern_hide = H['pattern_hide']
             except:
                 clp(fline(),'could not load histdic.pkl')
-        elif b[0] == 'R':
+        elif b[0] == 'R': #reset
             command_show = []
             for a in command_show_initial:
                 command_show.append(a)
             pattern_hide = []
             for a in pattern_hide_initial:
                 pattern_hide.append(a)
+            pattern_require = []
+        elif b[0] == '!':
+            pattern_require.append(b[1:])
         elif b[0] == ']':
             pattern_hide.append(b[1:])
         elif b[0] == '[':
