@@ -265,9 +265,15 @@ def get_Data_moment(_,Network_Predictions,dm=None,FLIP=None):
 		data_len = min(steer_len - left_index,90)
 		behavioral_mode = dm['behavioral_mode']
 
+		if not FLIP:
+			left_ = 'left'
+			right_ = 'right'
+		else:
+			left_ = 'right'
+			right_ = 'left'
 
 		Data_moment['predictions'] = {}
-		for s in ['left','direct','right']:
+		for s in [left_,'direct',right_]:
 			_index = Network_Predictions[dm['run_name']]['index'][left_index]
 			if True:
 				Data_moment['predictions'][s] = Network_Predictions[dm['run_name']][s][_index].copy()
@@ -332,6 +338,9 @@ def get_Data_moment(_,Network_Predictions,dm=None,FLIP=None):
 				behavioral_mode = 'right'
 			elif behavioral_mode == 'right':
 				behavioral_mode = 'left'
+
+
+
 
 		for b in _['behavioral_modes']:
 			Data_moment['labels'][b] = 0
@@ -398,21 +407,15 @@ def get_Data_moment(_,Network_Predictions,dm=None,FLIP=None):
 
 
 
-			if False:
+			if True:
 				print 'Data_Module graphics'
 				mci(Data_moment['left'][0],title='left_',scale=3.0)
 				figure(0);clf()
-				if not FLIP:
-					left_ = 'left'
-					right_ = 'right'
 
-				else:
-					left_ = 'right'
-					right_ = 'left'
 
-				plot(-Data_moment['predictions'][left_]['heading'],range(10),'r.-')
+				plot(-Data_moment['predictions']['left']['heading'],range(10),'r.-')
 				plot(-Data_moment['predictions']['direct']['heading'],range(10),'b.-')
-				plot(-Data_moment['predictions'][right_]['heading'],range(10),'g.-')
+				plot(-Data_moment['predictions']['right']['heading'],range(10),'g.-')
 				plt.title(d2s('FLIP ==',FLIP))
 				xylim(-45,45,0,10);spause()
 				#raw_enter()

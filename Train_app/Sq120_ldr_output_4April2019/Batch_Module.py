@@ -428,12 +428,6 @@ def Batch(_,the_network=None):
 					print 'Batch_Module graphics'
 					mci(Data_moment['left'][0],title='left',scale=3.0)
 					figure(1);clf()
-					if not FLIP:
-						left_ = 'left'
-						right_ = 'right'
-					else:
-						left_ = 'right'
-						right_ = 'left'
 					plot(-(Data_moment['predictions']['left']['heading']-Data_moment['predictions']['left']['heading'][0]),range(10),'r.-')
 					plot(-(Data_moment['predictions']['direct']['heading']-Data_moment['predictions']['direct']['heading'][0]),range(10),'b.-')
 					plot(-(Data_moment['predictions']['right']['heading']-Data_moment['predictions']['right']['heading'][0]),range(10),'g.-')
