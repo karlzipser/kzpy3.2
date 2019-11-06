@@ -613,7 +613,7 @@ def Batch(_,the_network=None):
 			_['dm_ctrs'] = dm_ctrs
 			#figure('loss_list');clf();hist(loss_list)
 			spause()
-			raw_enter()
+			#raw_enter()
 
 
 
