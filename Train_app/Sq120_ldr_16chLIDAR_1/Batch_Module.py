@@ -577,7 +577,7 @@ def Batch(_,the_network=None,the_network_depth=None):
 		#raw_enter(d2s('outputs_depth',D['outputs_depth'].size()))
 		D['loss_depth'] = D['network_depth']['criterion'](D['outputs_depth'], torch.autograd.Variable(D['target_data']))
 
-
+	#loss_accumulator = []
 	na = np.array
 	def _function_backward():
 		if True:#try:
@@ -602,9 +602,14 @@ def Batch(_,the_network=None,the_network_depth=None):
 				else:
 	
 					try:
-						_['LOSS_LIST'].append(D['loss_depth'].data.cpu().numpy()[:].mean())
+						the_loss = D['loss_depth'].data.cpu().numpy()[:].mean()
+						_['LOSS_LIST'].append(the_loss)
 					except:
-						_['LOSS_LIST'].append(D['loss_depth'].data.cpu().numpy())
+						the_loss = D['loss_depth'].data.cpu().numpy()
+						_['LOSS_LIST'].append(the_loss)
+				#loss_accumulator.append(the_loss)
+				#clp('mean of the_loss =',na(loss_accumulator).mean())
+
 
 				try:
 					assert(len(_['current_batch']) == _['BATCH_SIZE'])

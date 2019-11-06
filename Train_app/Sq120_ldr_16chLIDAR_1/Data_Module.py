@@ -33,7 +33,7 @@ runs_with_depth_Images = fnamenes(sggo(depth_images_path,'*'))
 kprint(runs_with_depth_Images,'runs_with_depth_Images')
 
 def prepare_data_for_training(_):
-	full = True
+	full = False
 	#########################################################################################
 
 	_['experiments_folders'] = []
@@ -470,15 +470,19 @@ def get_Data_moment(_,Network_Predictions,dm=None,FLIP=None):
 
 			if False:
 				mci(Data_moment['left'][0],title='left')
-				mci(Data_moment['right'][0],title='right')
+				#mci(Data_moment['right'][0],title='right')
 				mci(Data_moment['depth_image_0'],title='depth_image_0')
-				mci(Data_moment['depth_image_n1'],title='depth_image_n1')
+				#mci(Data_moment['depth_image_n1'],title='depth_image_n1')
 				clf()
-				print shape(Data_moment['steer'])
-				plot(Data_moment['steer'][:30],'r.-')
-				plot(Data_moment['steer'][30:60],'g.-')
-				plot(Data_moment['steer'][60:],'b.-')
-				xylim(0,90,0,99);spause()
+				#print shape(Data_moment['steer'])
+				#plot(Data_moment['steer'][:30],'r.-')
+				#plot(Data_moment['steer'][30:60],'g.-')
+				#plot(Data_moment['steer'][60:],'b.-')
+				plot(-Data_moment['predictions']['left']['heading'],range(10),'r.-')
+				plot(-Data_moment['predictions']['direct']['heading'],range(10),'b.-')
+				plot(-Data_moment['predictions']['right']['heading'],range(10),'g.-')
+				plt.title(d2s('FLIP ==',FLIP))
+				xylim(-45,45,0,10);spause()
 				raw_enter()
 
 

@@ -101,9 +101,12 @@ _['GPU'] = 1
                                                         
 _['LIDAR_path'] = opjm('1_TB_Samsung_n1','_.Depth_images.log.resize.flip.left_ts')
 _['LIDAR_extension'] = ".Depth_image.log.resize.flip.with_left_ts.h5py"
-_['comparison losses'] = [lo(most_recent_file_in_folder(opjD('Networks/Sq40_initial_full_zeroing_and_projections_from_scratch/loss'),['.loss_avg.pkl'],[]))]
-_['comparison losses'] += [lo(most_recent_file_in_folder(opjD('Networks/net_24Dec2018_12imgs_projections/loss'),['.loss_avg.pkl'],[]))]
-_['comparison losses'] += [lo(most_recent_file_in_folder(opjD('Networks/Sq40_rb_zero_from_scratch/loss'),['.loss_avg.pkl'],[]))]
+try:
+	_['comparison losses'] = [lo(most_recent_file_in_folder(opjD('Networks/Sq40_initial_full_zeroing_and_projections_from_scratch/loss'),['.loss_avg.pkl'],[]))]
+	_['comparison losses'] += [lo(most_recent_file_in_folder(opjD('Networks/net_24Dec2018_12imgs_projections/loss'),['.loss_avg.pkl'],[]))]
+	_['comparison losses'] += [lo(most_recent_file_in_folder(opjD('Networks/Sq40_rb_zero_from_scratch/loss'),['.loss_avg.pkl'],[]))]
+except:
+	_['comparison losses'] = []
 _['frequency_timer'] = Timer(0.5*minute)
 _['duration timer'] = Timer()
 _['TRAIN_TIME'] = 60*5.0
