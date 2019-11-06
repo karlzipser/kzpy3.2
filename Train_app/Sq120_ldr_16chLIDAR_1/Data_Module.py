@@ -33,7 +33,7 @@ runs_with_depth_Images = fnamenes(sggo(depth_images_path,'*'))
 kprint(runs_with_depth_Images,'runs_with_depth_Images')
 
 def prepare_data_for_training(_):
-	full = False
+	full = True
 	#########################################################################################
 
 	_['experiments_folders'] = []

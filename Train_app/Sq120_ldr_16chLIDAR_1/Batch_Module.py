@@ -184,7 +184,7 @@ def Batch(_,the_network=None,the_network_depth=None):
 					random.shuffle(_['data_moments_indexed_loaded'])
 					cy('random.shuffle(_[data_moments_indexed_loaded])')
 				
-				FLIP = random.choice([0,1])
+				FLIP = 0#random.choice([0,1])
 				#cr(len(_['data_moments_indexed_loaded']),_['long_ctr'])
 				dm = _['data_moments_indexed_loaded'][_['long_ctr']]; _['long_ctr'] += 1#; ctr += 1
 
