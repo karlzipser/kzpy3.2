@@ -184,7 +184,7 @@ def Batch(_,the_network=None,the_network_depth=None):
 					random.shuffle(_['data_moments_indexed_loaded'])
 					cy('random.shuffle(_[data_moments_indexed_loaded])')
 				
-				FLIP = 0#random.choice([0,1])
+				FLIP = random.choice([0,1])
 				#cr(len(_['data_moments_indexed_loaded']),_['long_ctr'])
 				dm = _['data_moments_indexed_loaded'][_['long_ctr']]; _['long_ctr'] += 1#; ctr += 1
 
@@ -520,6 +520,19 @@ def Batch(_,the_network=None,the_network_depth=None):
 				###################################################################
 				###################################################################
 				###################################################################
+
+
+
+				if False:
+					print 'Batch_Module graphics'
+					#mci(Data_moment['left'][0],title='left',scale=3.0)
+					figure(1);clf()
+					plot(-(Data_moment['predictions']['left']['heading']-Data_moment['predictions']['left']['heading'][0]),range(10),'r.-')
+					plot(-(Data_moment['predictions']['direct']['heading']-Data_moment['predictions']['direct']['heading'][0]),range(10),'b.-')
+					plot(-(Data_moment['predictions']['right']['heading']-Data_moment['predictions']['right']['heading'][0]),range(10),'g.-')
+					plt.title(d2s('FLIP ==',FLIP))
+					xylim(-45,45,0,10);spause()
+					raw_enter()
 
 
 

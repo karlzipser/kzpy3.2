@@ -345,20 +345,21 @@ def get_Data_moment(_,Network_Predictions,dm=None,FLIP=None):
 			return False
 
 
-
-
+		if not FLIP: #!!!!!
+			left_ = 'left'
+			right_ = 'right'
+		else:
+			left_ = 'right'
+			right_ = 'left'
 
 		Data_moment['predictions'] = {}
-		for s in ['left','direct','right']:
+		for s,s0 in zip([left_,'direct',right_],['left','direct','right']): #!!!!!
 			_index = Network_Predictions[dm['run_name']]['index'][left_index]
-			if True:
-				Data_moment['predictions'][s] = Network_Predictions[dm['run_name']][s][_index].copy()
-			elif False:
-				Data_moment['predictions'][s] = Network_Predictions[dm['run_name']][s][_index]
-			#Data_moment['predictions'][s]['heading'] -= Data_moment['predictions'][s]['heading'][0]
+			Data_moment['predictions'][s] = Network_Predictions[dm['run_name']][s0][_index].copy() #!!!!!
 			if FLIP:
 				Data_moment['predictions'][s]['steer'] = 99 - Data_moment['predictions'][s]['steer']
 				Data_moment['predictions'][s]['heading'] = -1 * Data_moment['predictions'][s]['heading']
+
 
 		if True:
 			if steer_len - left_index < 90:
@@ -469,10 +470,11 @@ def get_Data_moment(_,Network_Predictions,dm=None,FLIP=None):
 
 
 			if False:
-				mci(Data_moment['left'][0],title='left')
+				mci(Data_moment['left'][0],title='left.',scale=3.0)
 				#mci(Data_moment['right'][0],title='right')
 				mci(Data_moment['depth_image_0'],title='depth_image_0')
 				#mci(Data_moment['depth_image_n1'],title='depth_image_n1')
+				figure(0)
 				clf()
 				#print shape(Data_moment['steer'])
 				#plot(Data_moment['steer'][:30],'r.-')

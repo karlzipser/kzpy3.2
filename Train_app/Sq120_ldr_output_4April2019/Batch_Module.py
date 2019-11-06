@@ -175,7 +175,8 @@ def Batch(_,the_network=None):
 					random.shuffle(_['data_moments_indexed_loaded'])
 					cy('random.shuffle(_[data_moments_indexed_loaded])')
 				
-				random.choice([0,1])
+				FLIP = random.choice([0,1])
+				
 				dm = _['data_moments_indexed_loaded'][_['long_ctr']]; _['long_ctr'] += 1#; ctr += 1
 
 				
@@ -424,7 +425,7 @@ def Batch(_,the_network=None):
 				###################################################################
 
 
-				if False:
+				if True:
 					print 'Batch_Module graphics'
 					mci(Data_moment['left'][0],title='left',scale=3.0)
 					figure(1);clf()
@@ -433,7 +434,7 @@ def Batch(_,the_network=None):
 					plot(-(Data_moment['predictions']['right']['heading']-Data_moment['predictions']['right']['heading'][0]),range(10),'g.-')
 					plt.title(d2s('FLIP ==',FLIP))
 					xylim(-45,45,0,10);spause()
-					#raw_enter()
+					raw_enter()
 
 
 				_['frequency_timer'].freq(d2s('train duration =',int(_['duration timer'].time()),"\t"))
