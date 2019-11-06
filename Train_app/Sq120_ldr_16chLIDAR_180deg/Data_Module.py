@@ -341,6 +341,8 @@ def get_Data_moment(_,Network_Predictions,dm=None,FLIP=None):
 			return False
 
 
+
+
 		if not FLIP: #!!!!!
 			left_ = 'left'
 			right_ = 'right'
@@ -355,6 +357,8 @@ def get_Data_moment(_,Network_Predictions,dm=None,FLIP=None):
 			if FLIP:
 				Data_moment['predictions'][s]['steer'] = 99 - Data_moment['predictions'][s]['steer']
 				Data_moment['predictions'][s]['heading'] = -1 * Data_moment['predictions'][s]['heading']
+
+
 
 
 		if True:
@@ -487,16 +491,25 @@ def get_Data_moment(_,Network_Predictions,dm=None,FLIP=None):
 
 
 
-			if True:
-				print 'Data_Module graphics'
-				mci(Data_moment['left'][0],title='left_',scale=3.0)
-				figure(0);clf()
+
+			if False:
+				mci(Data_moment['left'][0],title='left.',scale=3.0)
+				#mci(Data_moment['right'][0],title='right')
+				mci(Data_moment['depth_image_0'],title='depth_image_0')
+				#mci(Data_moment['depth_image_n1'],title='depth_image_n1')
+				figure(0)
+				clf()
+				#print shape(Data_moment['steer'])
+				#plot(Data_moment['steer'][:30],'r.-')
+				#plot(Data_moment['steer'][30:60],'g.-')
+				#plot(Data_moment['steer'][60:],'b.-')
 				plot(-Data_moment['predictions']['left']['heading'],range(10),'r.-')
 				plot(-Data_moment['predictions']['direct']['heading'],range(10),'b.-')
 				plot(-Data_moment['predictions']['right']['heading'],range(10),'g.-')
 				plt.title(d2s('FLIP ==',FLIP))
 				xylim(-45,45,0,10);spause()
 				raw_enter()
+
 
 
 
