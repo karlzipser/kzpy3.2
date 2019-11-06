@@ -2,7 +2,7 @@ from kzpy3.vis3 import *
 exec(identify_file_str)
 
 def prepare_data_for_training(_):
-	full = True
+	full = False
 	if True: #########################################################################################
 
 		_['experiments_folders'] = []
@@ -279,6 +279,11 @@ def get_Data_moment(_,Network_Predictions,dm=None,FLIP=None):
 			if FLIP:
 				Data_moment['predictions'][s]['steer'] = 99 - Data_moment['predictions'][s]['steer']
 				Data_moment['predictions'][s]['heading'] = -1 * Data_moment['predictions'][s]['heading']
+
+
+
+
+
 
 		if True:
 			if steer_len - left_index < 90:

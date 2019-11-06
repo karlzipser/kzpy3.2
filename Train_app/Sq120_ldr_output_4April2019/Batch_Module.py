@@ -378,6 +378,29 @@ def Batch(_,the_network=None):
 							n = Translation[m]
 							Data_moment['predictions'][s][n] = Data_moment[m]
 						break
+
+
+
+				modified = False
+				for i in rlen(Data_moment['predictions']['direct']['motor']):
+					if Data_moment['predictions']['direct']['motor'][i] < 49 or Data_moment['predictions']['direct']['encoder'][i] < 0.1:
+						for s in ['left','right']:
+							for em in ['motor','encoder']:
+								Data_moment['predictions'][s][em][i] = Data_moment['predictions']['direct'][em][i]
+						modified = True
+				if False and modified:
+					figure(6);clf();plt.title(time_str())
+					for s in ['left','direct','right']:
+						plot(Data_moment['predictions'][s]['motor'],'.-')
+					figure(7);clf()
+					for s in ['left','direct','right']:
+						plot(Data_moment['predictions'][s]['encoder'],'.-')
+					spause()
+					raw_enter()
+
+
+
+
 					#else:
 					#	for m in ['steer','motor','gyro_heading_x','encoder_meo']:
 					#		n = Translation[m]
@@ -590,6 +613,9 @@ def Batch(_,the_network=None):
 			_['dm_ctrs'] = dm_ctrs
 			#figure('loss_list');clf();hist(loss_list)
 			spause()
+			raw_enter()
+
+
 
 			if bm == 'unknown behavioral_mode':
 				cr('***','unknown behavioral_mode:',bm)

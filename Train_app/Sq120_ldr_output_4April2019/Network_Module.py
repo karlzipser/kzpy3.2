@@ -2,9 +2,26 @@ from kzpy3.utils3 import *
 import torch
 #from kzpy3.Train_app.nets.SqueezeNet40_global_A import SqueezeNet
 from kzpy3.Train_app.nets.SqueezeNet120 import SqueezeNet
-
-
 exec(identify_file_str)
+
+
+
+
+import torch._utils
+try:
+    torch._utils._rebuild_tensor_v2
+except AttributeError:
+    def _rebuild_tensor_v2(storage, storage_offset, size, stride, requires_grad, backward_hooks):
+        tensor = torch._utils._rebuild_tensor(storage, storage_offset, size, stride)
+        tensor.requires_grad = requires_grad
+        tensor._backward_hooks = backward_hooks
+        return tensor
+    torch._utils._rebuild_tensor_v2 = _rebuild_tensor_v2
+    
+
+
+
+
 
 def load_net(path):
     save_data = torch.load(path)
