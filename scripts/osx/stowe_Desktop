@@ -1,6 +1,8 @@
-#! //anaconda/bin/python
+#!/usr/bin/env python
+print('hi')
+##! //anaconda/bin/python
 
-from kzpy3.utils2 import *
+from kzpy3.utils3 import *
 import argparse
 
 

@@ -1,6 +1,7 @@
 from kzpy3.utils.times import *
 #from kzpy3.utils.printing import *
 
+"""
 def opj(*args):
     if len(args) == 0:
         args = ['']
@@ -21,7 +22,7 @@ def opjm(*args):
     else:
         media_path = '/Volumes'
         return opj(media_path,opj(*args))
-
+"""
 
 
 
@@ -471,7 +472,23 @@ def backup_folder(
     os.system(d2s("rsync -ravL --exclude '*.pyc' --exclude '*.pkl'", src, dst))
 
 
+def stowe_Desktop(dst=False):
+    if dst==False:
+        dst = opjh('Desktops_older','Desktop_'+time_str())
+    print(dst)
+    unix('mkdir -p ' + dst)
+    _,l = dir_as_dic_and_list(opjD(''))
+    for i in l:
+        shutil.move(opjD(i),dst)
 
+def restore_Desktop(src):
+    _,l = dir_as_dic_and_list(opjD(''))
+    if len(l) > 0:
+        print('**** Cannot restore Desktop because Desktop is not empty.')
+        return False
+    _,l = dir_as_dic_and_list(src)
+    for i in l:
+        shutil.move(opjh(src,i),opjD(''))
 exec(identify_file_str)
 
 #EOF

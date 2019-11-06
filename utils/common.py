@@ -8,7 +8,26 @@ import_as_list = [['AS','numpy','np'],['AS','cPickle','pickle']]
 
 
 
-
+def opj(*args):
+    if len(args) == 0:
+        args = ['']
+    str_args = []
+    for a in args:
+        str_args.append(str(a))
+    return os.path.join(*str_args)
+def opjh(*args):
+    return opj(home_path,opj(*args))
+def opjD(*args):
+    return opjh('Desktop',opj(*args))
+def opjk(*args):
+    return opjh('kzpy3',opj(*args))
+def opjm(*args):
+    if not using_osx():
+        media_path = opj('/media',username)
+        return opj(media_path,opj(*args))
+    else:
+        media_path = '/Volumes'
+        return opj(media_path,opj(*args))
 
 
 
@@ -208,23 +227,7 @@ def even_len(d):
 
 
 
-def stowe_Desktop(dst=False):
-    if dst==False:
-        dst = opjh('Desktop_'+time_str())
-    print(dst)
-    unix('mkdir -p ' + dst)
-    _,l = dir_as_dic_and_list(opjD(''))
-    for i in l:
-        shutil.move(opjD(i),dst)
 
-def restore_Desktop(src):
-    _,l = dir_as_dic_and_list(opjD(''))
-    if len(l) > 0:
-        print('**** Cannot restore Desktop because Desktop is not empty.')
-        return False
-    _,l = dir_as_dic_and_list(src)
-    for i in l:
-        shutil.move(opjh(src,i),opjD(''))
 
 def unix(command_line_str, print_stdout=False, print_stderr=False,print_cmd=False):
     command_line_str = command_line_str.replace('~',home_path)
