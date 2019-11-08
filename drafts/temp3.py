@@ -39,6 +39,7 @@ plot(m,e,'.')
 
 
 
+#,a
 
 network_to_validate = 'Sq120_ldr_output_4April2019'
 
@@ -66,7 +67,7 @@ for w in selected_weightfiles:
 
 
 
-#,a
+
 
 Val_lists = lo(opjD('Networks',network_to_validate,'Val_lists'))
 ctime_sorted_weightfiles = Val_lists['ctime_sorted_weightfiles']
@@ -85,7 +86,34 @@ plt.title(d2s('validation of',network_to_validate))
 plt.ylabel('loss')
 plt.xlabel('weightfiles')
 
+
 #,b
+
+V = {}
+ctr = 0
+validation_loss_files = sggo(opjD('Networks',network_to_validate,'validation_loss','*'))
+
+for s in selected_weightfiles:
+    V[fname(s)] = {'ctr':ctr,'lst':[]}
+    ctr += 1
+
+for s in selected_weightfiles:
+    for v in validation_loss_files:
+        print s,v
+        if fname(s) in v:
+            o = lo(v)
+            V[fname(s)]['lst'] += o
+
+validation_losses = range(len(selected_weightfiles))
+for a in V.keys():
+    validation_losses[V[a]['ctr']] = np.median(na(V[a]['lst']))
+
+clf()
+plot(validation_losses,'k.-')
+plt.title(d2s('validation of',network_to_validate))
+plt.ylabel('loss')
+plt.xlabel('weightfiles')
+
 
 
 

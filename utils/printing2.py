@@ -3,7 +3,15 @@ from kzpy3.utils.common import *
 
 
 
-def kprint(item,title='<untitled>',spaces='',space_increment='    ',ignore_keys=[],ignore_types=[],numbering=False):
+def kprint(
+    item,
+    title='<untitled>',
+    spaces='',
+    space_increment='    ',
+    ignore_keys=[],
+    ignore_types=[],
+    numbering=True
+):
     item_printed = False
     if type(item) in ignore_types:
         return
