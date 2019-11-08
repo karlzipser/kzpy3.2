@@ -82,7 +82,7 @@ _['min_num_runs_to_open'] = 1
 if not _['DOING_VALIDATION']:
 	_['run time before quitting'] = 1.5*hours
 else:
-	_['run time before quitting'] = 1*minutes
+	_['run time before quitting'] = 5*minutes
 _['reload_image_file_timer_time'] =  30*minutes
 _['experiments_folders'] = []
 _['trigger print timer?'] = True
