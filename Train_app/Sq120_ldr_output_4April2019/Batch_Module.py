@@ -493,8 +493,8 @@ def Batch(_,the_network=None):
 		D['loss'] = D['network']['criterion'](D['outputs'], torch.autograd.Variable(D['target_data']))
 
 		if True: # np.mod(D['tries'],100) == 0:
-			the_loss = D['loss'].data.cpu().numpy()[:].mean()
-			_['LOSS_LIST'].append(the_loss)
+			#the_loss = D['loss'].data.cpu().numpy()[:].mean()
+			#_['LOSS_LIST'].append(the_loss)
 			#loss_accumulator.append(the_loss)
 			#clp('mean of the_loss =',na(loss_accumulator).mean())
 	
