@@ -497,7 +497,14 @@ def Batch(_,the_network=None):
 			_['LOSS_LIST'].append(the_loss)
 			#loss_accumulator.append(the_loss)
 			#clp('mean of the_loss =',na(loss_accumulator).mean())
-			
+	
+			try:
+				the_loss = D['loss_depth'].data.cpu().numpy()[:].mean()
+				_['LOSS_LIST'].append(the_loss)
+			except:
+				the_loss = D['loss_depth'].data.cpu().numpy()
+				_['LOSS_LIST'].append(the_loss)
+
 			try:
 				assert(len(_['current_batch']) == _['BATCH_SIZE'])
 			except:
