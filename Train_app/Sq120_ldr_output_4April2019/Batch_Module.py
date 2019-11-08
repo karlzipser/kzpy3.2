@@ -499,10 +499,10 @@ def Batch(_,the_network=None):
 			#clp('mean of the_loss =',na(loss_accumulator).mean())
 	
 			try:
-				the_loss = D['loss_depth'].data.cpu().numpy()[:].mean()
+				the_loss = D['loss'].data.cpu().numpy()[:].mean()
 				_['LOSS_LIST'].append(the_loss)
 			except:
-				the_loss = D['loss_depth'].data.cpu().numpy()
+				the_loss = D['loss'].data.cpu().numpy()
 				_['LOSS_LIST'].append(the_loss)
 
 			try:
