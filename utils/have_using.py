@@ -48,6 +48,12 @@ except:
     #CS_('HAVE_GPU = False')
 
 
+
+
+
+
+
+
 #exec(identify_file_str)
 
 #EOF
