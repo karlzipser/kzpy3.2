@@ -492,6 +492,21 @@ def Batch(_,the_network=None):
 		D['outputs'] = D['network']['net'](torch.autograd.Variable(D['camera_data']), torch.autograd.Variable(D['metadata'])).cuda()
 		D['loss'] = D['network']['criterion'](D['outputs'], torch.autograd.Variable(D['target_data']))
 
+		if True: # np.mod(D['tries'],100) == 0:
+			the_loss = D['loss'].data.cpu().numpy()[:].mean()
+			_['LOSS_LIST'].append(the_loss)
+			#loss_accumulator.append(the_loss)
+			#clp('mean of the_loss =',na(loss_accumulator).mean())
+			
+			try:
+				assert(len(_['current_batch']) == _['BATCH_SIZE'])
+			except:
+				print(len(_['current_batch']),_['BATCH_SIZE'])
+			for i in range(_['BATCH_SIZE']):
+				_['current_batch'][i]['loss'].append(_['LOSS_LIST'][-1])
+			if len(_['LOSS_LIST']) > _['LOSS_LIST_N']:
+				_['LOSS_LIST_AVG'].append(na(_['LOSS_LIST']).mean())
+				_['LOSS_LIST'] = []
 
 	#loss_accumulator = []
 	na = np.array
@@ -502,7 +517,7 @@ def Batch(_,the_network=None):
 			nnutils.clip_grad_norm(D['network']['net'].parameters(), 1.0)
 			D['network']['optimizer'].step()
 
-			if True: # np.mod(D['tries'],100) == 0:
+			if False: # np.mod(D['tries'],100) == 0:
 				the_loss = D['loss'].data.cpu().numpy()[:].mean()
 				_['LOSS_LIST'].append(the_loss)
 				#loss_accumulator.append(the_loss)
@@ -640,7 +655,8 @@ def Batch(_,the_network=None):
 			median_val = np.median(na(_['LOSS_LIST_AVG'][-u:]))
 			plt.title(d2s('1000*median =',dp(1000.0*median_val,3)))
 			plot([0,q],[median_val,median_val],'r')
-			plt.xlim(0,q);plt.ylim(0,0.03)
+			if not _['DOING_VALIDATION']:
+				plt.xlim(0,q);plt.ylim(0,0.03)
 			spause()
 			_['loss_timer'].reset()
 

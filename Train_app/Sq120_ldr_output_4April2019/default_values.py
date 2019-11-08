@@ -54,6 +54,8 @@ for k in _.keys():
 ###############################################################
 ###############################################################
 ###############################################################
+_['DOING_VALIDATION'] = True
+#_['VALIDATION_WEIGHTS_FILE_PATH'] = '/home/karlzipser/Desktop/Network_Weights_from_bdd4/Sq120_ldr_output_4April2019/net_01Apr19_00h35m00s.infer'
 _['start menu automatically'] = False
 
 _['lacking runs'] = {}
@@ -77,7 +79,10 @@ _['start time'] = time_str()
 _['start time numeric'] = time.time()
 _['max_num_runs_to_open'] = 900
 _['min_num_runs_to_open'] = 1
-_['run time before quitting'] = 1.5*hours
+if not _['DOING_VALIDATION']:
+	_['run time before quitting'] = 1.5*hours
+else:
+	_['run time before quitting'] = 2*minutes
 _['reload_image_file_timer_time'] =  30*minutes
 _['experiments_folders'] = []
 _['trigger print timer?'] = True

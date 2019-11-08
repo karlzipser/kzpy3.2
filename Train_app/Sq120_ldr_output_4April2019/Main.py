@@ -8,6 +8,12 @@ exec(identify_file_str)
 
 _ = default_values.P
 
+if 'VALIDATION_WEIGHTS_FILE_PATH' in Arguments.keys():
+    _['VALIDATION_WEIGHTS_FILE_PATH'] = Arguments['VALIDATION_WEIGHTS_FILE_PATH']
+else:
+    if _['DOING_VALIDATION']:
+        assert False
+
 ####################### MENU ################################
 #
 def load_parameters(_,customer='train menu'):
@@ -61,7 +67,9 @@ if _['trigger loss_timer?']:
     _['loss_timer'].trigger()
 
 _['NETWORK_OUTPUT_FOLDER'] = opjD('Networks',fname(_['project_path']))
-if _['RESUME']:
+if _['DOING_VALIDATION']:
+    _['WEIGHTS_FILE_PATH'] = _['VALIDATION_WEIGHTS_FILE_PATH']
+elif _['RESUME']:
     _['INITIAL_WEIGHTS_FOLDER'] = opj(_['NETWORK_OUTPUT_FOLDER'],'weights')
     _['WEIGHTS_FILE_PATH'] = most_recent_file_in_folder(_['INITIAL_WEIGHTS_FOLDER'],['.infer'],[])
 else:
@@ -120,8 +128,10 @@ while _['ABORT'] == False:
         #
         ###############################
 
-    Batch['BACKWARD']()
-
+    if not _['DOING_VALIDATION']:
+        Batch['BACKWARD']()
+    else:
+        clp("_['DOING_VALIDATION']",'`rgb',fline())
     
 
 # Start training with 12 mini metadata images at 9am 12Dec2018

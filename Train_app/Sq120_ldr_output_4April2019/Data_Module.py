@@ -2,7 +2,9 @@ from kzpy3.vis3 import *
 exec(identify_file_str)
 
 def prepare_data_for_training(_):
-	full = True
+	full = False
+	if full and _['DOING_VALIDATION']:
+		assert False
 	if True: #########################################################################################
 
 		_['experiments_folders'] = []
@@ -15,8 +17,14 @@ def prepare_data_for_training(_):
 					opjD("Data/1_TB_Samsung_n1"),
 					opjD("Data/2_TB_Samsung_n3/rosbags__preprocessed_data"),
 				]
-			else:
+			elif not full and not _['DOING_VALIDATION']:
 				locations_to_classify = [opjD("Data/2_TB_Samsung_n3/rosbags__preprocessed_data")]
+
+			elif _['DOING_VALIDATION']:
+				clp("_['DOING_VALIDATION']",'`rgb')
+				locations_to_classify = [opjD("Data/2_TB_Samsung_n3/rosbags__preprocessed_data")]
+			else:
+				assert(False)
 			
 			for l in locations_to_classify:
 				#cb("classify_data.find_locations('",l,"'),_['experiments_folders'])...")

@@ -42,7 +42,7 @@ def kprint(item,title='<untitled>',spaces='',space_increment='    ',ignore_keys=
     if type(item) == list:
         ctr = 0
         for i in item:
-            kprint(i,title=None,spaces=spaces+space_increment,space_increment=space_increment,ignore_keys=ignore_keys,ignore_types=ignore_types)
+            kprint(i,title=None,spaces=spaces+space_increment,space_increment=space_increment,ignore_keys=ignore_keys,ignore_types=ignore_types,numbering=numbering)
             ctr += 1
     elif type(item) == dict:
         for k in sorted(item.keys()):
@@ -52,7 +52,7 @@ def kprint(item,title='<untitled>',spaces='',space_increment='    ',ignore_keys=
                 l = len(item[k])
             else:
                 l = 1
-            kprint(item[k],title=k,spaces=spaces+space_increment,space_increment=space_increment,ignore_keys=ignore_keys,ignore_types=ignore_types)
+            kprint(item[k],title=k,spaces=spaces+space_increment,space_increment=space_increment,ignore_keys=ignore_keys,ignore_types=ignore_types,numbering=numbering)
     elif not item_printed:
         color_print(spaces,item,'`g',s0='',s1='')
 

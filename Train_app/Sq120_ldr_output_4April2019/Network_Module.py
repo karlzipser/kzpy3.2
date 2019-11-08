@@ -66,27 +66,33 @@ def Pytorch_Network(_):
         D['optimizer'] = torch.optim.Adadelta(D['net'].parameters())
     D['optimizer'] = torch.optim.Adadelta(filter(lambda p: p.requires_grad,D['net'].parameters()))
     try:
-        for folder in ['weights','loss','dm_ctrs','state_dict','optimizer']:
+        for folder in ['weights','loss','validation_loss','dm_ctrs','state_dict','optimizer']:
             unix(d2s('mkdir -p',opj(_['NETWORK_OUTPUT_FOLDER'],folder)))
     except:
         cr('*** Failed to create default network output folders ***')
 
     def _function_save_net():
         if _['save_net_timer'].check():
-            pd2s('2 lr=',D['net'].lr)
-            print('saving net state . . .')
+            if not _['DOING_VALIDATION']:
+                pd2s('2 lr=',D['net'].lr)
+                print('saving net state . . .')
 
-            weights = {'net':D['net'].state_dict().copy()}
-            for key in weights['net']:
-                weights['net'][key] = weights['net'][key].cuda(device=0)
-            torch.save(weights, opj(_['NETWORK_OUTPUT_FOLDER'],'weights',_['SAVE_FILE_NAME']+'_'+time_str()+'.infer'))
-            so(_['LOSS_LIST_AVG'],opj(_['NETWORK_OUTPUT_FOLDER'],'loss',_['SAVE_FILE_NAME']+'_'+time_str()+'.loss_avg'))
-            if 'dm_ctrs' in _:
-                so(_['dm_ctrs'],opj(_['NETWORK_OUTPUT_FOLDER'],'dm_ctrs',_['SAVE_FILE_NAME']+'_'+time_str()+'.dm_ctrs'))
-            torch.save(D['optimizer'].state_dict(), opj(_['NETWORK_OUTPUT_FOLDER'],'optimizer',_['SAVE_FILE_NAME']+'_'+time_str()+'.optimizer_state'))
-            torch.save(D['net'].state_dict(), opj(_['NETWORK_OUTPUT_FOLDER'],'state_dict',_['SAVE_FILE_NAME']+'_'+time_str()+'.state_dict'))
-            print('. . . done saving.')
-            _['save_net_timer'].reset()
+                weights = {'net':D['net'].state_dict().copy()}
+                for key in weights['net']:
+                    weights['net'][key] = weights['net'][key].cuda(device=0)
+                torch.save(weights, opj(_['NETWORK_OUTPUT_FOLDER'],'weights',_['SAVE_FILE_NAME']+'_'+time_str()+'.infer'))
+                so(_['LOSS_LIST_AVG'],opj(_['NETWORK_OUTPUT_FOLDER'],'loss',_['SAVE_FILE_NAME']+'_'+time_str()+'.loss_avg'))
+                if 'dm_ctrs' in _:
+                    so(_['dm_ctrs'],opj(_['NETWORK_OUTPUT_FOLDER'],'dm_ctrs',_['SAVE_FILE_NAME']+'_'+time_str()+'.dm_ctrs'))
+                torch.save(D['optimizer'].state_dict(), opj(_['NETWORK_OUTPUT_FOLDER'],'optimizer',_['SAVE_FILE_NAME']+'_'+time_str()+'.optimizer_state'))
+                torch.save(D['net'].state_dict(), opj(_['NETWORK_OUTPUT_FOLDER'],'state_dict',_['SAVE_FILE_NAME']+'_'+time_str()+'.state_dict'))
+                print('. . . done saving.')
+                _['save_net_timer'].reset()
+            else:
+                print('saving net validation loss . . .')
+                so(_['LOSS_LIST_AVG'],opj(_['NETWORK_OUTPUT_FOLDER'],'validation_loss',fname(_['WEIGHTS_FILE_PATH'])+'.'+_['SAVE_FILE_NAME']+'_'+time_str()+'.loss_avg'))
+                print('. . . done saving.')
+                _['save_net_timer'].reset()               
 
     D['SAVE_NET'] = _function_save_net
 
@@ -149,8 +155,11 @@ def Pytorch_Network(_):
                 CS_("Could not load "+_['WEIGHTS_FILE_PATH'])
             m = most_recent_file_in_folder( opj(_['NETWORK_OUTPUT_FOLDER'],'loss') )
             if m:
-                CS_("loading "+m)
-                _['LOSS_LIST_AVG'] = lo(m)
+                if not _['DOING_VALIDATION']:
+                    CS_("loading "+m)
+                    _['LOSS_LIST_AVG'] = lo(m)
+                else:
+                    _['LOSS_LIST_AVG'] = []
             else:
                 CS_("Could not load loss")
             m = most_recent_file_in_folder(opj(_['NETWORK_OUTPUT_FOLDER'],'optimizer'))
