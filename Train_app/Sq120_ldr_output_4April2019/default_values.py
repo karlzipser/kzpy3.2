@@ -102,7 +102,10 @@ else:
 _['GPU'] = 0
 """
 GPUs = gpu_stats()
-_['GPU'] = GPUs['most_free']
+if GPUs[0]['util'] < 5 and GPUs[1]['util'] < 5:
+	_['GPU'] = random.choice([0,1])
+else:
+	_['GPU'] = GPUs['most_free']
 #
 ###############################################################
 
