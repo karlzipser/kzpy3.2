@@ -4,7 +4,12 @@ from kzpy3.utils3 import *
 regex = r'\w*def ([a-zA-Z0-9_]+)\('
 
 
-code = txt_file_to_list_of_strings(opjk('utils3.original.py'))
+code = txt_file_to_list_of_strings(opjk('utils.common.py'))
+
+e=r'^.+@[^.].*\.[a-z]{2,10}$'
+e=r'[a-zA-Z][a-zA-Z0-9_]+@[^.].*\.[a-z]{2,10}$'
+e=r'[a-zA-Z]+[a-zA-Z0-9_]*@[^.].*\.[a-z]{2,10}$'
+re.match(e,'a@b.co')
 
 functions = []
 ctr = 0
