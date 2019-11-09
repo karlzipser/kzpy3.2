@@ -49,6 +49,15 @@ def Pytorch_Network(_):
     print(_['INITIAL_WEIGHTS_FOLDER'])
     print(_['WEIGHTS_FILE_PATH'])
     """
+
+    GPUs = gpu_stats()
+    if GPUs[0]['util'] < 5 and GPUs[1]['util'] < 5:
+        _['GPU'] = random.choice([0,1])
+    else:
+        _['GPU'] = GPUs['most_free']
+    for i in range(20):
+        clp("Using GPU",_['GPU'])
+    
     D = {}
     torch.set_default_tensor_type('torch.FloatTensor') 
     torch.cuda.set_device(_['GPU'])
