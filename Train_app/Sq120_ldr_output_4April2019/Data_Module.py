@@ -269,8 +269,8 @@ def get_Data_moment(_,Network_Predictions,dm=None,FLIP=None):
 
 
 
-		if dm['run_name'] != 'tegra-ubuntu_15Nov18_20h52m26s':
-			return False
+		#f dm['run_name'] != 'tegra-ubuntu_15Nov18_20h52m26s':
+		#	return False
 
 
 		Data_moment = {}
