@@ -266,6 +266,13 @@ def get_Data_moment(_,Network_Predictions,dm=None,FLIP=None):
 	try:
 		if dm['run_name'] in _['lacking runs']:
 			return False
+
+
+
+		if dm['run_name'] != 'tegra-ubuntu_15Nov18_20h52m26s':
+			return False
+
+
 		Data_moment = {}
 		Data_moment['FLIP'] = FLIP
 		left_index = dm['left_ts_index'][1]
