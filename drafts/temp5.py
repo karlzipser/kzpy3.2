@@ -92,13 +92,14 @@ def get_predictions2D(headings,encoders,motors,sample_frequency,_):
 if 'O' not in locals():
     O = h5r(opjD('Data/1_TB_Samsung_n1/left_direct_stop__31Oct_to_1Nov2018/locations/local/left_direct_stop/h5py/tegra-ubuntu_30Oct18_15h58m09s/original_timestamp_data.h5py'))
 
-for i in range(10000,20000,10):
-    clf();plt_square();xylim(-2,2,0,5)
-    for c,t in zip(['r','b','g'],['left','direct','right']):
-        Q = N[t][i]
-        pts = get_predictions2D(Q['heading'],Q['encoder'],Q['motor'],30,P)
-        pts_plot(pts,c,'.-')
-    mci(O['left_image']['vals'][i])
-    spause();time.sleep(1/60.)
+if False:
+    for i in range(10000,20000,10):
+        clf();plt_square();xylim(-2,2,0,5)
+        for c,t in zip(['r','b','g'],['left','direct','right']):
+            Q = N[t][i]
+            pts = get_predictions2D(Q['heading'],Q['encoder'],Q['motor'],30,P)
+            pts_plot(pts,c,'.-')
+        mci(O['left_image']['vals'][i])
+        spause();time.sleep(1/60.)
 
 #EOF
