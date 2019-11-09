@@ -10,6 +10,14 @@ cg(sys_str)
 os.system(sys_str)
 
 
+"""
+These need to be updated on bdd4:
+# tegra-ubuntu_15Nov18_20h52m26s has to have +32 to motor values.
+# cp '/home/karlzipser/Desktop/Data/2_TB_Samsung_n3/rosbags__preprocessed_data/tu_15to16Nov2018/locations/local/left_direct_stop/h5py/tegra-ubuntu_15Nov18_20h52m26s/left_timestamp_metadata_right_ts.h5py' '/home/karlzipser/Desktop/Data/2_TB_Samsung_n3/rosbags__preprocessed_data/tu_15to16Nov2018/locations/local/left_direct_stop/h5py/tegra-ubuntu_15Nov18_20h52m26s/bkp.left_timestamp_metadata_right_ts.h5py'
+# copy over fixed left_timestamp_metadata_right_ts file
+# python kzpy3/Data_app/make_data_moments_dics.py --locations_path '/home/karlzipser/Desktop/Data/2_TB_Samsung_n3/rosbags__preprocessed_data/tu_15to16Nov2018/locations'
+# and copy over fixed data_moments_dic.pkl
+"""
 
 P = {}
 _ = P
@@ -54,7 +62,8 @@ for k in _.keys():
 ###############################################################
 ###############################################################
 ###############################################################
-_['DOING_VALIDATION'] = True
+_['DOING_VALIDATION'] = False
+_['full'] = False
 #_['VALIDATION_WEIGHTS_FILE_PATH'] = '/home/karlzipser/Desktop/Network_Weights_from_bdd4/Sq120_ldr_output_4April2019/net_01Apr19_00h35m00s.infer'
 _['start menu automatically'] = False
 
@@ -106,6 +115,8 @@ if GPUs[0]['util'] < 5 and GPUs[1]['util'] < 5:
 	_['GPU'] = random.choice([0,1])
 else:
 	_['GPU'] = GPUs['most_free']
+for i in range(20):
+	clp("Using GPU",_['GPU'])
 #
 ###############################################################
 

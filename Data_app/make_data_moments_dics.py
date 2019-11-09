@@ -128,7 +128,9 @@ def make_data_moments_dics(locations_path=''):
 
 
 
-
+if __name__ == '__main__':
+	if 'locations_path' in Arguments:
+		make_data_moments_dics(Arguments['locations_path'])
 
 
 
