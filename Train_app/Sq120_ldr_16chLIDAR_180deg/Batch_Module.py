@@ -465,12 +465,36 @@ def Batch(_,the_network=None,the_network_depth=None):
 
 
 				modified = False
+				# because the first prediction can sometimes be extremely low,
+				for u in [0,1]:
+					if Data_moment['predictions']['direct']['motor'][u] <= 49:
+						Data_moment['predictions']['direct']['motor'][u] = max(Data_moment['predictions']['direct']['motor'][:3])#,Data_moment['predictions']['direct']['motor'][1])
+						if False and ctr == D['batch_size'] and u == 1:
+							figure(1);clf();plot(Data_moment['predictions']['direct']['motor'],'.-')
+							spause();raw_enter()
+					if Data_moment['predictions']['direct']['encoder'][u] <= 0.1:
+						Data_moment['predictions']['direct']['encoder'][u] = max(Data_moment['predictions']['direct']['encoder'][:3])#,Data_moment['predictions']['direct']['encoder'][1])
+						if False and ctr == D['batch_size'] and u == 1:
+							figure(2);clf();plot(Data_moment['predictions']['direct']['encoder'],'.-')
+							spause();raw_enter()
+				for i in rlen(Data_moment['predictions']['direct']['motor']):
+					if Data_moment['predictions']['direct']['motor'][i] <= 49 or Data_moment['predictions']['direct']['encoder'][i] <= 0.1:
+						for s in ['left','right']:
+							for em in ['motor','encoder']:
+								Data_moment['predictions'][s][em][i] = Data_moment['predictions']['direct'][em][i]
+						modified = True
+				"""
 				for i in rlen(Data_moment['predictions']['direct']['motor']):
 					if Data_moment['predictions']['direct']['motor'][i] < 49 or Data_moment['predictions']['direct']['encoder'][i] < 0.1:
 						for s in ['left','right']:
 							for em in ['motor','encoder']:
 								Data_moment['predictions'][s][em][i] = Data_moment['predictions']['direct'][em][i]
 						modified = True
+				"""
+
+
+
+
 				if False and modified:
 					figure(6);clf();plt.title(time_str())
 					for s in ['left','direct','right']:
@@ -729,7 +753,22 @@ def Batch(_,the_network=None,the_network_depth=None):
 				plot([30,30],[-1.0,1.0],'k:')
 				plot([60,60],[-1.0,1.0],'k:')
 				plot([90,90],[-1.0,1.0],'k:')
-				plot(ov,'o-g'); plot(tv,'o-r'); plt.title(D['names'][0])
+				#plot(ov,'o-g'); plot(tv,'o-r'); plt.title(D['names'][0])
+
+
+
+				for u in range(12):
+					v = 10*u
+					plot(range(v,v+10),ov[v:v+10],'o-g')
+					plot(range(v,v+10),tv[v:v+10],'o-r')
+
+				#plot(tv,'o-r')
+
+
+				plt.title(D['names'][0])
+
+
+
 				#print(tv)
 				if D['flips'][0]:
 					flip_str = '(flip)'

@@ -87,6 +87,7 @@ _['trigger loss_timer?'] = True
 
 _['use_LIDAR'] = False
 _['lidar_only'] = False
+"""
 if _['lidar_only']:
 	_['GPU'] = 0
 elif _['use_LIDAR'] == False:
@@ -94,10 +95,11 @@ elif _['use_LIDAR'] == False:
 else:
 	_['GPU'] = 1
 _['GPU'] = 1
+"""
 #
 ###############################################################
 
-
+_['full'] = True
                                                         
 _['LIDAR_path'] = opjm('1_TB_Samsung_n1','_.Depth_images.log.resize.flip.left_ts')
 _['LIDAR_extension'] = ".Depth_image.log.resize.flip.with_left_ts.h5py"
