@@ -63,7 +63,7 @@ for k in _.keys():
 ###############################################################
 ###############################################################
 _['DOING_VALIDATION'] = False
-_['full'] = False
+_['full'] = True
 #_['VALIDATION_WEIGHTS_FILE_PATH'] = '/home/karlzipser/Desktop/Network_Weights_from_bdd4/Sq120_ldr_output_4April2019/net_01Apr19_00h35m00s.infer'
 _['start menu automatically'] = False
 
