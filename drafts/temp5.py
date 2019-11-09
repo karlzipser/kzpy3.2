@@ -93,13 +93,27 @@ if 'O' not in locals():
     O = h5r(opjD('Data/1_TB_Samsung_n1/left_direct_stop__31Oct_to_1Nov2018/locations/local/left_direct_stop/h5py/tegra-ubuntu_30Oct18_15h58m09s/original_timestamp_data.h5py'))
 
 if False:
+    Pts = {}
     for i in range(10000,20000,10):
         clf();plt_square();xylim(-2,2,0,5)
         for c,t in zip(['r','b','g'],['left','direct','right']):
             Q = N[t][i]
-            pts = get_predictions2D(Q['heading'],Q['encoder'],Q['motor'],30,P)
-            pts_plot(pts,c,'.-')
+            Pts[t] = get_predictions2D(Q['heading'],Q['encoder'],Q['motor'],30,P)
+            pts_plot(Pts[t],c,'.-')
+
+        obstacle_trajectory = random.choice(['left','direct','right'])
+        obstacle_point = random.choice(range(4,len(Pts['left'])))
+        obstacle_radius = .5
+        x0 = Pts[obstacle_trajectory][obstacle_point][1]
+        y0 = Pts[obstacle_trajectory][obstacle_point][0]
+        for t in ['left','direct','right']:
+            for j in rlen(Pts[t]):
+                x1 = Pts[t][j][1]
+                y1 = Pts[t][j][0]
+                if np.sqrt((x1-x0)**2+(y1-y0)**2) < obstacle_radius:
+                    plot(y1,x1,'k.')
+                #print x0,y0,x1,y1
         mci(O['left_image']['vals'][i])
         spause();time.sleep(1/60.)
-
+        break    
 #EOF
