@@ -8,8 +8,15 @@ code = txt_file_to_list_of_strings(opjk('utils.common.py'))
 
 e=r'^.+@[^.].*\.[a-z]{2,10}$'
 e=r'[a-zA-Z][a-zA-Z0-9_]+@[^.].*\.[a-z]{2,10}$'
-e=r'[a-zA-Z]+[a-zA-Z0-9_]*@[^.].*\.[a-z]{2,10}$'
-re.match(e,'a@b.co')
+e=r'[a-zA-Z]+[a-zA-Z0-9_]*@[a-zA-Z]+[a-zA-Z0-9_]*\.[a-z]{2,10}$'
+re.match(e,'a9A0A_Bq9@b___123ab9.co')
+
+
+name = '[a-zA-Z]+[a-zA-Z0-9_]*'
+dot = '[a-z]{2,10}$'
+#exec("e = r'"+name+r'@'+name+r'\.'+dot+"'")
+e = name+'@'+name+r'\.'+dot
+re.match(e,'a9A0A_Bq9@b___123ab9.co')
 
 functions = []
 ctr = 0
