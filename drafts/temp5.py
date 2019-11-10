@@ -160,7 +160,6 @@ def Traj():
     for d,c in zip(D['directions'],colors):
         D[d] = {'color':c,'pts':None,'blocked':[]}
 
-
     def function_make_random_obstacle(obstacle_radius=0.45):
         obstacle_trajectory = random.choice(D['directions'])
         obstacle_point = random.choice(range(4,len(D['left']['pts'])))
@@ -179,9 +178,13 @@ def Traj():
         spause();time.sleep(1/60.)
     
     def function_adjust_trajectory(direction):
+        if direction == 'direct':
+            random.shuffle(D['adjacent_directions']['direct'])
+        for d in D['adjacent_directions'][direction]:
+            print D[direction]['blocked']
 
-    
-    D['make_random_obstacle'] = function_make_obstacle
+    D['make_random_obstacle'] = function_make_random_obstacle
+    D['adjust_trajectory'] = function_adjust_trajectory
 
     return D
 
@@ -193,7 +196,8 @@ for i in range(20000+rndint(1000),30000,10):
         Q = N[t][i]
         T[t]['pts'] = get_predictions2D(Q['heading'],Q['encoder'],Q['motor'],30,P)
         pts_plot(T[t]['pts'],T[t]['color'],'.-')
-    T['make_obstacle']()
+    T['make_random_obstacle']()
+    T['adjust_trajectory']('left')
 
 
 
