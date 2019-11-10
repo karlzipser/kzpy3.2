@@ -113,7 +113,115 @@ if False:
                 if np.sqrt((x1-x0)**2+(y1-y0)**2) < obstacle_radius:
                     plot(y1,x1,'k.')
                 #print x0,y0,x1,y1
-        mci(O['left_image']['vals'][i])
+        mci(O['left_image']['vals'][i],scale=3.)
         spause();time.sleep(1/60.)
-        break    
+        break
+
+
+if False:
+    Pts = {}
+    for i in range(20000+rndint(1000),30000,10):
+        clf();plt_square();xylim(-2,2,0,5)
+        for c,t in zip(['r','b','g'],['left','direct','right']):
+            Q = N[t][i]
+            Pts[t] = get_predictions2D(Q['heading'],Q['encoder'],Q['motor'],30,P)
+            pts_plot(Pts[t],c,'.-')
+
+        obstacle_trajectory = random.choice(['left','direct','right'])
+        obstacle_point = random.choice(range(4,len(Pts['left'])))
+        obstacle_radius = .15
+        x0 = Pts[obstacle_trajectory][obstacle_point][1]
+        y0 = Pts[obstacle_trajectory][obstacle_point][0]
+        for t in ['left','direct','right']:
+            for j in rlen(Pts[t]):
+                x1 = Pts[t][j][1]
+                y1 = Pts[t][j][0]
+                if np.sqrt((x1-x0)**2+(y1-y0)**2) < obstacle_radius:
+                    plot(y1,x1,'k.')
+                #print x0,y0,x1,y1
+        mci(O['left_image']['vals'][i],scale=3.)
+        spause();time.sleep(1/60.)
+        break
+
+
+def Traj():
+
+    D = {}
+
+    D['directions'] = ['left','direct','right',]
+    D['adjacent_directions'] = {
+        'left':['direct','right'],
+        'direct':['left','right',],
+        'right':['left','direct','right',],
+    }
+
+    colors = ['r','b','g',]
+
+    for d,c in zip(D['directions'],colors):
+        D[d] = {'color':c,'pts':None,'blocked':[]}
+
+
+    def function_make_random_obstacle(obstacle_radius=0.45):
+        obstacle_trajectory = random.choice(D['directions'])
+        obstacle_point = random.choice(range(4,len(D['left']['pts'])))
+        D[obstacle_trajectory]['blocked'].append(obstacle_point)
+        x0 = D[obstacle_trajectory]['pts'][obstacle_point][1]
+        y0 = D[obstacle_trajectory]['pts'][obstacle_point][0]
+        for t in D['directions']:
+            for j in rlen(D[t]['pts']):
+                x1 = D[t]['pts'][j][1]
+                y1 = D[t]['pts'][j][0]
+                if np.sqrt((x1-x0)**2+(y1-y0)**2) < obstacle_radius:
+                    D[t]['blocked'].append(j)
+                    plot(y1,x1,'k.')
+                #print x0,y0,x1,y1
+        mci(O['left_image']['vals'][i],scale=3.)
+        spause();time.sleep(1/60.)
+    
+    def function_adjust_trajectory(direction):
+
+    
+    D['make_random_obstacle'] = function_make_obstacle
+
+    return D
+
+
+for i in range(20000+rndint(1000),30000,10):
+    clf();plt_square();xylim(-2,2,0,5)
+    T = Traj()
+    for t in T['directions']:
+        Q = N[t][i]
+        T[t]['pts'] = get_predictions2D(Q['heading'],Q['encoder'],Q['motor'],30,P)
+        pts_plot(T[t]['pts'],T[t]['color'],'.-')
+    T['make_obstacle']()
+
+
+
+
+
+
+
+
+    """
+    spause()
+    raw_enter()
+
+    obstacle_trajectory = random.choice(T['directions'])
+    obstacle_point = random.choice(range(4,len(Pts['left'])))
+    obstacle_radius = .15
+    x0 = Pts[obstacle_trajectory][obstacle_point][1]
+    y0 = Pts[obstacle_trajectory][obstacle_point][0]
+    for t in T['directions']:
+        for j in rlen(Pts[t]):
+            x1 = Pts[t][j][1]
+            y1 = Pts[t][j][0]
+            if np.sqrt((x1-x0)**2+(y1-y0)**2) < obstacle_radius:
+                plot(y1,x1,'k.')
+            #print x0,y0,x1,y1
+    mci(O['left_image']['vals'][i],scale=3.)
+    spause();time.sleep(1/60.)
+    break
+    """
+
+
 #EOF
