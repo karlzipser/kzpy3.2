@@ -26,6 +26,8 @@ def kprint(
     indent_text = ''.join(lst)
     #print item,indent_text,title
     n_equals = ''
+    if type(item) == type(na[0]):
+        item = item.tolist()
     if numbering:
         if type(item) in [dict,list]:
             n_equals = cf(' (n=',len(item),')','`w-d',s0='',s1='')

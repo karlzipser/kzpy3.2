@@ -94,7 +94,7 @@ if 'O' not in locals():
 
 if False:
     Pts = {}
-    for i in range(10000,20000,10):
+    for i in range(20000+rndint(1000),30000,10):
         clf();plt_square();xylim(-2,2,0,5)
         for c,t in zip(['r','b','g'],['left','direct','right']):
             Q = N[t][i]
@@ -103,7 +103,7 @@ if False:
 
         obstacle_trajectory = random.choice(['left','direct','right'])
         obstacle_point = random.choice(range(4,len(Pts['left'])))
-        obstacle_radius = .5
+        obstacle_radius = .15
         x0 = Pts[obstacle_trajectory][obstacle_point][1]
         y0 = Pts[obstacle_trajectory][obstacle_point][0]
         for t in ['left','direct','right']:
