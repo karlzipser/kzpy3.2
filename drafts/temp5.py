@@ -143,7 +143,7 @@ if False:
         spause();time.sleep(1/60.)
         break
 
-
+#,a
 def Traj():
 
     D = {}
@@ -152,7 +152,7 @@ def Traj():
     D['adjacent_directions'] = {
         'left':['direct','right'],
         'direct':['left','right',],
-        'right':['left','direct','right',],
+        'right':['direct','left',],
     }
 
     colors = ['r','b','g',]
@@ -177,12 +177,35 @@ def Traj():
         mci(O['left_image']['vals'][i],scale=3.)
         spause();time.sleep(1/60.)
     
-    def function_adjust_trajectory(direction):
-        if direction == 'direct':
-            random.shuffle(D['adjacent_directions']['direct'])
-        for d in D['adjacent_directions'][direction]:
-            print D[direction]['blocked']
 
+    def function_no_drections_blocked():
+        for t in D['directions']:
+            if D[t][blocked]:
+                return False
+        return True
+
+    def function_all_drections_blocked():
+        assert not function_no_drections_blocked()
+        for t in D['directions']:
+            if not D[t][blocked]:
+                return False
+        return True
+
+    def function_closest_non_blocked_direction(direction):
+        assert not function_all_drections_blocked()
+        ds = []
+        for i in [0,1]:
+            ds[i] = D['adjacent_directions'][direction][i]
+
+        if not D[ds[0]][blocked]:
+            return ds[0]
+        else:
+            return ds[1]
+
+
+    D['no_drections_blocked'] = function_no_drections_blocked
+    D['all_drections_blocked'] = function_all_drections_blocked
+    D['closest_non_blocked_direction'] = function_closest_non_blocked_direction
     D['make_random_obstacle'] = function_make_random_obstacle
     D['adjust_trajectory'] = function_adjust_trajectory
 
@@ -196,14 +219,27 @@ for i in range(20000+rndint(1000),30000,10):
         Q = N[t][i]
         T[t]['pts'] = get_predictions2D(Q['heading'],Q['encoder'],Q['motor'],30,P)
         pts_plot(T[t]['pts'],T[t]['color'],'.-')
-    T['make_random_obstacle']()
-    T['adjust_trajectory']('left')
+    T['make_random_obstacle'](0.2)
+    print T['no_drections_blocked']()
+    print T['all_drections_blocked']()
+    print T['closest_non_blocked_direction']('left')
+    raw_enter()
+#,b
+"""
+case 0 no direction blocked:
+    leave trajectories as is
 
+case 1, all directions blocked:
+    change trajectories to stop at earliest blocked point
 
+case 2, a direction blocked, but adjactent not blocked
+    add two trajectories in increasing proportions of 2nd
+    trajectory until not blocked
 
+case 3, a direction blocked, other/non adjacent not blocked
+    same as 2, but add the other trajectory
 
-
-
+"""
 
 
     """
