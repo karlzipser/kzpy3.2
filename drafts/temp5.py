@@ -207,7 +207,6 @@ def Traj():
     D['all_drections_blocked'] = function_all_drections_blocked
     D['closest_non_blocked_direction'] = function_closest_non_blocked_direction
     D['make_random_obstacle'] = function_make_random_obstacle
-    D['adjust_trajectory'] = function_adjust_trajectory
 
     return D
 
@@ -242,26 +241,26 @@ case 3, a direction blocked, other/non adjacent not blocked
 """
 
 
-    """
-    spause()
-    raw_enter()
+"""
+spause()
+raw_enter()
 
-    obstacle_trajectory = random.choice(T['directions'])
-    obstacle_point = random.choice(range(4,len(Pts['left'])))
-    obstacle_radius = .15
-    x0 = Pts[obstacle_trajectory][obstacle_point][1]
-    y0 = Pts[obstacle_trajectory][obstacle_point][0]
-    for t in T['directions']:
-        for j in rlen(Pts[t]):
-            x1 = Pts[t][j][1]
-            y1 = Pts[t][j][0]
-            if np.sqrt((x1-x0)**2+(y1-y0)**2) < obstacle_radius:
-                plot(y1,x1,'k.')
-            #print x0,y0,x1,y1
-    mci(O['left_image']['vals'][i],scale=3.)
-    spause();time.sleep(1/60.)
-    break
-    """
+obstacle_trajectory = random.choice(T['directions'])
+obstacle_point = random.choice(range(4,len(Pts['left'])))
+obstacle_radius = .15
+x0 = Pts[obstacle_trajectory][obstacle_point][1]
+y0 = Pts[obstacle_trajectory][obstacle_point][0]
+for t in T['directions']:
+    for j in rlen(Pts[t]):
+        x1 = Pts[t][j][1]
+        y1 = Pts[t][j][0]
+        if np.sqrt((x1-x0)**2+(y1-y0)**2) < obstacle_radius:
+            plot(y1,x1,'k.')
+        #print x0,y0,x1,y1
+mci(O['left_image']['vals'][i],scale=3.)
+spause();time.sleep(1/60.)
+break
+"""
 
 
 #EOF
