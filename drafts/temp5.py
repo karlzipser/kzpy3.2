@@ -92,58 +92,8 @@ def get_predictions2D(headings,encoders,motors,sample_frequency,_):
 if 'O' not in locals():
     O = h5r(opjD('Data/1_TB_Samsung_n1/left_direct_stop__31Oct_to_1Nov2018/locations/local/left_direct_stop/h5py/tegra-ubuntu_30Oct18_15h58m09s/original_timestamp_data.h5py'))
 
-if False:
-    Pts = {}
-    for i in range(20000+rndint(1000),30000,10):
-        clf();plt_square();xylim(-2,2,0,5)
-        for c,t in zip(['r','b','g'],['left','direct','right']):
-            Q = N[t][i]
-            Pts[t] = get_predictions2D(Q['heading'],Q['encoder'],Q['motor'],30,P)
-            pts_plot(Pts[t],c,'.-')
-
-        obstacle_trajectory = random.choice(['left','direct','right'])
-        obstacle_point = random.choice(range(4,len(Pts['left'])))
-        obstacle_radius = .15
-        x0 = Pts[obstacle_trajectory][obstacle_point][1]
-        y0 = Pts[obstacle_trajectory][obstacle_point][0]
-        for t in ['left','direct','right']:
-            for j in rlen(Pts[t]):
-                x1 = Pts[t][j][1]
-                y1 = Pts[t][j][0]
-                if np.sqrt((x1-x0)**2+(y1-y0)**2) < obstacle_radius:
-                    plot(y1,x1,'k.')
-                #print x0,y0,x1,y1
-        mci(O['left_image']['vals'][i],scale=3.)
-        spause();time.sleep(1/60.)
-        break
 
 
-if False:
-    Pts = {}
-    for i in range(20000+rndint(1000),30000,10):
-        clf();plt_square();xylim(-2,2,0,5)
-        for c,t in zip(['r','b','g'],['left','direct','right']):
-            Q = N[t][i]
-            Pts[t] = get_predictions2D(Q['heading'],Q['encoder'],Q['motor'],30,P)
-            pts_plot(Pts[t],c,'.-')
-
-        obstacle_trajectory = random.choice(['left','direct','right'])
-        obstacle_point = random.choice(range(4,len(Pts['left'])))
-        obstacle_radius = .15
-        x0 = Pts[obstacle_trajectory][obstacle_point][1]
-        y0 = Pts[obstacle_trajectory][obstacle_point][0]
-        for t in ['left','direct','right']:
-            for j in rlen(Pts[t]):
-                x1 = Pts[t][j][1]
-                y1 = Pts[t][j][0]
-                if np.sqrt((x1-x0)**2+(y1-y0)**2) < obstacle_radius:
-                    plot(y1,x1,'k.')
-                #print x0,y0,x1,y1
-        mci(O['left_image']['vals'][i],scale=3.)
-        spause();time.sleep(1/60.)
-        break
-
-#,a
 def Traj():
 
     D = {}
@@ -180,27 +130,32 @@ def Traj():
 
     def function_no_drections_blocked():
         for t in D['directions']:
-            if D[t][blocked]:
+            if D[t]['blocked']:
                 return False
+        print 'no_drections_blocked'
         return True
 
     def function_all_drections_blocked():
         assert not function_no_drections_blocked()
         for t in D['directions']:
-            if not D[t][blocked]:
+            if not D[t]['blocked']:
                 return False
+        print 'all_drections_blocked'
         return True
 
     def function_closest_non_blocked_direction(direction):
         assert not function_all_drections_blocked()
+        if not D[direction]['blocked']:
+            return direction
         ds = []
         for i in [0,1]:
-            ds[i] = D['adjacent_directions'][direction][i]
-
-        if not D[ds[0]][blocked]:
+            ds.append(D['adjacent_directions'][direction][i])
+        #print ds
+        if not D[ds[0]]['blocked']:
             return ds[0]
         else:
             return ds[1]
+                                                                                                     
 
 
     D['no_drections_blocked'] = function_no_drections_blocked
@@ -219,11 +174,13 @@ for i in range(20000+rndint(1000),30000,10):
         T[t]['pts'] = get_predictions2D(Q['heading'],Q['encoder'],Q['motor'],30,P)
         pts_plot(T[t]['pts'],T[t]['color'],'.-')
     T['make_random_obstacle'](0.2)
-    print T['no_drections_blocked']()
-    print T['all_drections_blocked']()
-    print T['closest_non_blocked_direction']('left')
+    if not T['no_drections_blocked']():
+        if not T['all_drections_blocked']():
+            for t in T['directions']:
+                clp(t,'-->','`y',T['closest_non_blocked_direction'](t),'`')
     raw_enter()
-#,b
+
+
 """
 case 0 no direction blocked:
     leave trajectories as is
