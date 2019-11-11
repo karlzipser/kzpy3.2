@@ -1,6 +1,6 @@
 from kzpy3.vis3 import *
 
-
+#,a
 
 if 'N' not in locals():
     N = lo(opjD('Data/Network_Predictions',('tegra-ubuntu_30Oct18_15h58m09s.net_predictions.pkl')))
@@ -114,19 +114,22 @@ def Traj():
         obstacle_trajectory = random.choice(D['directions'])
         obstacle_point = random.choice(range(4,len(D['left']['pts'])))
         D[obstacle_trajectory]['blocked'].append(obstacle_point)
-        x0 = D[obstacle_trajectory]['pts'][obstacle_point][1]
-        y0 = D[obstacle_trajectory]['pts'][obstacle_point][0]
         for t in D['directions']:
-            for j in rlen(D[t]['pts']):
-                x1 = D[t]['pts'][j][1]
-                y1 = D[t]['pts'][j][0]
-                if np.sqrt((x1-x0)**2+(y1-y0)**2) < obstacle_radius:
-                    D[t]['blocked'].append(j)
-                    plot(y1,x1,'k.')
-                #print x0,y0,x1,y1
-        mci(O['left_image']['vals'][i],scale=3.)
-        spause();time.sleep(1/60.)
-    
+            function_e(obstacle_point,obstacle_radius,obstacle_trajectory,t)
+
+
+    def function_e(obstacle_point,obstacle_radius,obstacle_trajectory,other_trajectory):
+
+        for j in rlen(D[other_trajectory]['pts']):
+
+            if distance_between_points(obstacle_trajectory,obstacle_point,other_trajectory,j) < obstacle_radius:
+
+                D[other_trajectory]['blocked'].append(j)
+
+        return not D[other_trajectory]['blocked']
+
+
+
 
     def function_no_drections_blocked():
         for t in D['directions']:
@@ -147,16 +150,41 @@ def Traj():
         assert not function_all_drections_blocked()
         if not D[direction]['blocked']:
             return direction
-        ds = []
-        for i in [0,1]:
-            ds.append(D['adjacent_directions'][direction][i])
-        #print ds
-        if not D[ds[0]]['blocked']:
-            return ds[0]
-        else:
-            return ds[1]
-                                                                                                     
+        a = D['adjacent_directions'][direction][0]
+        b = D['adjacent_directions'][direction][1]
 
+        if D[a]['blocked']:
+             return b
+
+        elif D[b]['blocked']:
+             return a
+
+        print 'neither direction blocked, need to measure distance'
+
+        if average_distance_between_trajectories(direction,a) > average_distance_between_trajectories(direction,b):
+            return b
+        else:
+            return a
+
+    def distance_between_points(dir0,i,dir1,j):
+        x0 = D[dir0]['pts'][i][1]
+        y0 = D[dir0]['pts'][i][0]   
+        x1 = D[dir1]['pts'][j][1]
+        y1 = D[dir1]['pts'][j][0]
+        d = np.sqrt((x1-x0)**2+(y1-y0)**2)
+        #print x0,y0,x1,y1,d
+        return d
+        
+
+    def average_distance_between_trajectories(dir0,dir1):
+        dist = 0.
+        for j in rlen(D[dir0]['pts']):
+            d = distance_between_points(dir0,j,dir1,j)
+            dist += d
+            #kprint([d,dist],'d')
+        r = dist/(1.0*len(D[dir0]['pts']))
+        #kprint(r,'r')
+        return r
 
     D['no_drections_blocked'] = function_no_drections_blocked
     D['all_drections_blocked'] = function_all_drections_blocked
@@ -219,5 +247,5 @@ spause();time.sleep(1/60.)
 break
 """
 
-
+#,b
 #EOF
