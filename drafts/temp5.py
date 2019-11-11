@@ -94,64 +94,70 @@ if 'O' not in locals():
 
 
 
-def Traj():
+def Traj(N,obstacle_radius=0.2):
 
     D = {}
 
-    D['directions'] = ['left','direct','right',]
-    D['adjacent_directions'] = {
+    D['trajectories'] = ['left','direct','right',]
+    D['adjacent_trajectories'] = {
         'left':['direct','right'],
         'direct':['left','right',],
         'right':['direct','left',],
     }
 
-    colors = ['r','b','g',]
+    D['display'] = {
+        'left':     {'color':'r','sym':'.','line':':'},
+        'direct':   {'color':'b','sym':'.','line':':'},
+        'right':    {'color':'g','sym':'.','line':':'},
+        'left_hybrid':     {'color':'r','sym':'.','line':'-'},
+        'direct_hybrid':   {'color':'b','sym':'.','line':'-'},
+        'right_hybrid':    {'color':'g','sym':'.','line':'-'},
+    }
 
-    for d,c in zip(D['directions'],colors):
-        D[d] = {'color':c,'pts':None,'blocked':[]}
+    for d in D['trajectories']:
+        D[d] = {'pts':None,'blocked':[]}
+        Q = N[d][i]
+        D[d]['pts'] = get_predictions2D(Q['heading'],Q['encoder'],Q['motor'],30,P)
 
-    def function_make_random_obstacle(obstacle_radius=0.45):
-        obstacle_trajectory = random.choice(D['directions'])
-        obstacle_point = random.choice(range(4,len(D['left']['pts'])))
-        D[obstacle_trajectory]['blocked'].append(obstacle_point)
-        for t in D['directions']:
-            function_e(obstacle_point,obstacle_radius,obstacle_trajectory,t)
+    D['obstacle_radius'] = obstacle_radius
+    D['obstacle_tracjectory'] = random.choice(D['trajectories'])
+    D['obstacle_point'] = random.choice(range(4,len(D['left']['pts'])))
 
+    D[D['obstacle_tracjectory']]['blocked'].append(D['obstacle_point'])
 
-    def function_e(obstacle_point,obstacle_radius,obstacle_trajectory,other_trajectory):
+    def function_trajectory_is_blocked(other_trajectory):
 
         for j in rlen(D[other_trajectory]['pts']):
 
-            if distance_between_points(obstacle_trajectory,obstacle_point,other_trajectory,j) < obstacle_radius:
+            if distance_between_points(D['obstacle_tracjectory'],D['obstacle_point'],other_trajectory,j) < D['obstacle_radius']:
 
                 D[other_trajectory]['blocked'].append(j)
 
-        return not D[other_trajectory]['blocked']
+        D[other_trajectory]['blocked'] = sorted(list(set(D[other_trajectory]['blocked'])))
 
-
-
+        return not not D[other_trajectory]['blocked']
 
     def function_no_drections_blocked():
-        for t in D['directions']:
+        for t in D['trajectories']:
             if D[t]['blocked']:
                 return False
-        print 'no_drections_blocked'
+        print 'no_trajectories_blocked'
         return True
 
     def function_all_drections_blocked():
         assert not function_no_drections_blocked()
-        for t in D['directions']:
+        for t in D['trajectories']:
             if not D[t]['blocked']:
                 return False
-        print 'all_drections_blocked'
+        print 'all_trajectories_blocked'
         return True
 
-    def function_closest_non_blocked_direction(direction):
+    def function_closest_non_blocked_trajectories(direction):
         assert not function_all_drections_blocked()
         if not D[direction]['blocked']:
             return direction
-        a = D['adjacent_directions'][direction][0]
-        b = D['adjacent_directions'][direction][1]
+        a = D['adjacent_trajectories'][direction][0]
+        b = D['adjacent_trajectories'][direction][1]
 
         if D[a]['blocked']:
              return b
@@ -159,7 +165,7 @@ def Traj():
         elif D[b]['blocked']:
              return a
 
-        print 'neither direction blocked, need to measure distance'
+        #print 'neither direction blocked, need to measure distance'
 
         if average_distance_between_trajectories(direction,a) > average_distance_between_trajectories(direction,b):
             return b
@@ -175,6 +181,11 @@ def Traj():
         #print x0,y0,x1,y1,d
         return d
         
+    def function_make_hybrid(direction,p):
+        D[direction+'_hybrid'] = {}
+        D[direction+'_hybrid']['blocked'] = []
+        D[direction+'_hybrid']['pts'] = p*D[direction]['pts'] + (1-p)*D[D['obstacle_tracjectory']]['pts']
+
 
     def average_distance_between_trajectories(dir0,dir1):
         dist = 0.
@@ -186,26 +197,65 @@ def Traj():
         #kprint(r,'r')
         return r
 
+    def function_plot():
+        clf();plt_square();xylim(-2,2,0,5)
+        blocked_pts = []
+        
+        for t in D.keys():
+            use_this_t = False
+            for q in D['trajectories']:
+                if q in t:
+                    use_this_t = True
+                    if use_this_t:
+                        #print t
+                        #print D[t]
+                        #kprint(D[t].keys(),t)
+                        pts_plot(
+                            D[t]['pts'],
+                            D['display'][t]['color'],
+                            D['display'][t]['sym']+D['display'][t]['line']
+                        )
+                        for i in D[t]['blocked']:
+                            blocked_pts.append(D[t]['pts'][i])
+        pts_plot(blocked_pts,'k')
+        mci(O['left_image']['vals'][i],scale=3.)
+        spause();time.sleep(1/60.)
+
+    for t in D['trajectories']:
+        function_trajectory_is_blocked(t)
+
     D['no_drections_blocked'] = function_no_drections_blocked
     D['all_drections_blocked'] = function_all_drections_blocked
-    D['closest_non_blocked_direction'] = function_closest_non_blocked_direction
-    D['make_random_obstacle'] = function_make_random_obstacle
-
+    D['closest_non_blocked_trajectories'] = function_closest_non_blocked_trajectories
+    D['plot'] = function_plot
+    D['trajectory_is_blocked'] = function_trajectory_is_blocked
+    D['make_hybrid'] = function_make_hybrid
     return D
 
 
 for i in range(20000+rndint(1000),30000,10):
-    clf();plt_square();xylim(-2,2,0,5)
-    T = Traj()
-    for t in T['directions']:
-        Q = N[t][i]
-        T[t]['pts'] = get_predictions2D(Q['heading'],Q['encoder'],Q['motor'],30,P)
-        pts_plot(T[t]['pts'],T[t]['color'],'.-')
-    T['make_random_obstacle'](0.2)
+    print('\n\n\n\n\n')
+    
+    T = Traj(N)
+
     if not T['no_drections_blocked']():
         if not T['all_drections_blocked']():
-            for t in T['directions']:
-                clp(t,'-->','`y',T['closest_non_blocked_direction'](t),'`')
+            for t in T['trajectories']:
+                closest = T['closest_non_blocked_trajectories'](t)
+                if closest == t:
+                    clp(t,'is not blocked')
+                else:
+                    clp(t,'is closest to','`y',closest,'`')
+
+                    for p in arange(0.1,1.04,0.05):
+                        print p
+                        T['make_hybrid'](closest,p)
+                        #print T['trajectory_is_blocked'](closest)
+                        if not T['trajectory_is_blocked'](closest+'_hybrid'):
+                            kprint(T[closest+'_hybrid'],closest+'_hybrid')
+                            break
+    T['plot']()
+    print('\n\n\n\n\n')
     raw_enter()
 
 
@@ -213,7 +263,7 @@ for i in range(20000+rndint(1000),30000,10):
 case 0 no direction blocked:
     leave trajectories as is
 
-case 1, all directions blocked:
+case 1, all trajectories blocked:
     change trajectories to stop at earliest blocked point
 
 case 2, a direction blocked, but adjactent not blocked
@@ -230,16 +280,16 @@ case 3, a direction blocked, other/non adjacent not blocked
 spause()
 raw_enter()
 
-obstacle_trajectory = random.choice(T['directions'])
-obstacle_point = random.choice(range(4,len(Pts['left'])))
-obstacle_radius = .15
-x0 = Pts[obstacle_trajectory][obstacle_point][1]
-y0 = Pts[obstacle_trajectory][obstacle_point][0]
-for t in T['directions']:
+D['obstacle_tracjectory'] = random.choice(T['trajectories'])
+D['obstacle_point'] = random.choice(range(4,len(Pts['left'])))
+D['obstacle_radius'] = .15
+x0 = Pts[D['obstacle_tracjectory']][D['obstacle_point']][1]
+y0 = Pts[D['obstacle_tracjectory']][D['obstacle_point']][0]
+for t in T['trajectories']:
     for j in rlen(Pts[t]):
         x1 = Pts[t][j][1]
         y1 = Pts[t][j][0]
-        if np.sqrt((x1-x0)**2+(y1-y0)**2) < obstacle_radius:
+        if np.sqrt((x1-x0)**2+(y1-y0)**2) < D['obstacle_radius']:
             plot(y1,x1,'k.')
         #print x0,y0,x1,y1
 mci(O['left_image']['vals'][i],scale=3.)
