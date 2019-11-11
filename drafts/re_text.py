@@ -4,7 +4,23 @@ from kzpy3.utils3 import *
 regex = r'\w*def ([a-zA-Z0-9_]+)\('
 
 
+<<<<<<< HEAD
 code = txt_file_to_list_of_strings(opjk('utils/common.py'))
+=======
+code = txt_file_to_list_of_strings(opjk('utils.common.py'))
+
+e=r'^.+@[^.].*\.[a-z]{2,10}$'
+e=r'[a-zA-Z][a-zA-Z0-9_]+@[^.].*\.[a-z]{2,10}$'
+e=r'[a-zA-Z]+[a-zA-Z0-9_]*@[a-zA-Z]+[a-zA-Z0-9_]*\.[a-z]{2,10}$'
+re.match(e,'a9A0A_Bq9@b___123ab9.co')
+
+
+name = '[a-zA-Z]+[a-zA-Z0-9_]*'
+dot = '[a-z]{2,10}$'
+#exec("e = r'"+name+r'@'+name+r'\.'+dot+"'")
+e = name+'@'+name+r'\.'+dot
+re.match(e,'a9A0A_Bq9@b___123ab9.co')
+>>>>>>> 2046f22e5bd1fe5b7f9233c67a1eac46a4d3167c
 
 functions = []
 ctr = 0

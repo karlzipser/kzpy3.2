@@ -10,8 +10,10 @@ def kprint(
     space_increment='    ',
     ignore_keys=[],
     ignore_types=[],
-    numbering=True
+    numbering=True,
+    max_items=sys.maxint,
 ):
+
     item_printed = False
     if type(item) in ignore_types:
         return
@@ -25,6 +27,8 @@ def kprint(
     indent_text = ''.join(lst)
     #print item,indent_text,title
     n_equals = ''
+    #if type(item) == type(na([0])):
+    #    item = item.tolist()
     if numbering:
         if type(item) in [dict,list]:
             n_equals = cf(' (n=',len(item),')','`w-d',s0='',s1='')
@@ -52,7 +56,10 @@ def kprint(
         for i in item:
             kprint(i,title=None,spaces=spaces+space_increment,space_increment=space_increment,ignore_keys=ignore_keys,ignore_types=ignore_types,numbering=numbering)
             ctr += 1
+            if ctr >= max_items:
+                break
     elif type(item) == dict:
+        ctr = 0
         for k in sorted(item.keys()):
             if k in ignore_keys:
                 continue
@@ -61,6 +68,9 @@ def kprint(
             else:
                 l = 1
             kprint(item[k],title=k,spaces=spaces+space_increment,space_increment=space_increment,ignore_keys=ignore_keys,ignore_types=ignore_types,numbering=numbering)
+            ctr += 1
+            if ctr >= max_items:
+                break            
     elif not item_printed:
         color_print(spaces,item,'`g',s0='',s1='')
 
