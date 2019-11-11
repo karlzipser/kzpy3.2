@@ -3,3 +3,7 @@ gnome-terminal --tab -e "roscore" --tab -e "python kzpy3/Train_app/Sq120_ldr_out
 
 
 gnome-terminal --tab -e "ssh -Y nvidia@192.168.1.106" --tab -e "ssh -Y nvidia@192.168.1.106" --tab -e "ssh -Y nvidia@192.168.1.106" --tab -e "ssh -Y nvidia@192.168.1.106" --tab -e "ssh -Y nvidia@192.168.1.106" --tab -e "ssh -Y nvidia@192.168.1.106" --tab -e "ssh -Y nvidia@192.168.1.106" --tab -e "ssh -Y nvidia@192.168.1.106" --tab -e "ssh -Y nvidia@192.168.1.106" --tab -e "ssh -Y nvidia@192.168.1.106" --tab -e "ssh -Y nvidia@192.168.1.106"
+
+
+
+screen -X -S 21835 quit

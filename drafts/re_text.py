@@ -4,14 +4,14 @@ from kzpy3.utils3 import *
 regex = r'\w*def ([a-zA-Z0-9_]+)\('
 
 
-code = txt_file_to_list_of_strings(opjk('utils3.original.py'))
+code = txt_file_to_list_of_strings(opjk('utils/common.py'))
 
 functions = []
 ctr = 0
 for line in code:
     ctr += 1
     result = re.findall(regex,line)
-    if len(result) > 0:
+    if len(result) > 0:q
         functions.append(result[0])
         #cg(ctr,result[0],sf=0)
         cg(ctr,line,sf=0)
