@@ -2,7 +2,7 @@
 
 from kzpy3.vis3 import *
 
-
+TYPE = '-type-'
 ###################
 #
 if 'O' not in locals():
@@ -37,12 +37,19 @@ def get_predictions2D(headings,encoders,motors,sample_frequency,vec_sample_frequ
 #
 ###################
 
-
+def distance_between_points(pt0,pt1):
+    x0 = pt0[1]
+    y0 = pt0[0]   
+    x1 = pt1[1]
+    y1 = pt1[0]
+    d = np.sqrt((x1-x0)**2+(y1-y0)**2)
+    return d
 
 ###################
 #
 def Trajectory(name,pts):
     _ = {}
+    _[TYPE] = "Trajectory(name,pts)"
     _['name'] = name
     _['pts'] = pts
     _['blocked_point_indicies'] = []
@@ -52,23 +59,25 @@ def Trajectory(name,pts):
                 _['blocked_point_indicies'].append(j)
         _['blocked_point_indicies'] = sorted(list(set(_['blocked_point_indicies'])))
         return not not _['blocked_point_indicies']
-        _['is_blocked'] = function_is_blocked
+        #_['is_blocked'] = function_is_blocked
+    _['is_blocked'] = function_is_blocked
+    #kprint(_,'Trajectory')
+    return _
 #
 ###################
 
 
 ###################
 #
-def Trajectories(N,obstacle_radius,index,E):
-
+def Trajectories(N,obstacle_radius,index):
     _ = {}
-
+    _[TYPE] = "Trajectories(N,obstacle_radius,index)"
     if True:
         _['vec sample frequency'] = 3.33
         _['vel-encoding coeficient'] = (1.0/2.3)
         _['index'] = index
         _['trajectory_names'] = ['left','direct','right',]
-        _['adjacent_trajectories'] = {
+        _['adjacent_trajectory_names'] = {
             'left':['direct','right'],
             'direct':['left','right',],
             'right':['direct','left',],
@@ -84,9 +93,9 @@ def Trajectories(N,obstacle_radius,index,E):
         _['obstacle_radius'] = obstacle_radius
         _['obstacle_tracjectory_name'] = random.choice(_['trajectory_names'])
 
-
+    _['trajectories'] = {}
     for t in _['trajectory_names']:
-        Q = N[t][i]
+        Q = N[t][index]
         pts = get_predictions2D(
             Q['heading'],
             Q['encoder'],
@@ -97,7 +106,8 @@ def Trajectories(N,obstacle_radius,index,E):
         )
         _['trajectories'][t] = Trajectory(t,pts)
 
-
+    #kprint(_,'Trajectories')
+    #raw_enter()
     _['obstacle_point_index'] = random.choice(range(4,len(_['trajectories']['left']['pts'])))
     _['trajectories'][_['obstacle_tracjectory_name']]['blocked_point_indicies'].append(_['obstacle_point_index'])
 
@@ -107,7 +117,7 @@ def Trajectories(N,obstacle_radius,index,E):
         for t in _['trajectory_names']:
             if _['trajectories'][t]['blocked_point_indicies']:
                 return False
-        print 'no_trajectories_blocked'
+        print 'no trajectories are blocked'
         return True
 
 
@@ -116,7 +126,7 @@ def Trajectories(N,obstacle_radius,index,E):
         for t in _['trajectory_names']:
             if not _['trajectories'][t]['blocked_point_indicies']:
                 return False
-        print 'all_trajectories_blocked'
+        print 'all trajectories are blocked'
         return True
 
 
@@ -124,13 +134,16 @@ def Trajectories(N,obstacle_radius,index,E):
         assert not function_all_drections_blocked()
         if not _['trajectories'][name]['blocked_point_indicies']:
             return name
-        a = _['adjacent_trajectories'][name][0]
-        b = _['adjacent_trajectories'][name][1]
+        a = _['adjacent_trajectory_names'][name][0]
+        b = _['adjacent_trajectory_names'][name][1]
 
-        if _[a]['blocked_point_indicies']:
+        #kprint(a)
+        #kprint(b)
+
+        if _['trajectories'][a]['blocked_point_indicies']:
              return b
 
-        elif _[b]['blocked_point_indicies']:
+        elif _['trajectories'][b]['blocked_point_indicies']:
              return a
 
         if average_distance_between_trajectories(name,a) > average_distance_between_trajectories(name,b):
@@ -139,13 +152,7 @@ def Trajectories(N,obstacle_radius,index,E):
             return a
 
 
-    def distance_between_points(pt0,pt1):
-        x0 = pt0[1]
-        y0 = pt0[0]   
-        x1 = pt1[1]
-        y1 = pt1[0]
-        d = np.sqrt((x1-x0)**2+(y1-y0)**2)
-        return d
+
 
 
     def average_distance_between_trajectories(name0,name1):
@@ -156,15 +163,24 @@ def Trajectories(N,obstacle_radius,index,E):
                 _['trajectories'][name1]['pts'][j]
             )
             dist += d
-        r = dist/(1.0*len(__['trajectories'][name0]['pts']))
+        r = dist/(1.0*len(_['trajectories'][name0]['pts']))
         return r
 
 
-    def function_make_hybrid(direction,p):
-        o = direction
-        _[o+'_hybrid'] = {}
-        _[o+'_hybrid']['blocked_point_indicies'] = []
-        _[o+'_hybrid']['pts'] = p*_[direction]['pts'] + (1-p)*_[o]['pts']
+    def function_make_hybrid(name,p):
+        hname = name + '_hybrid'
+        #o = _['obstacle_tracjectory_name']
+        #o = direction
+        #_['trajectories'][o+'_hybrid'] = Trajectory(o+'_hybrid',None)
+        #_['trajectories'][o+'_hybrid']['blocked_point_indicies'] = []
+        #_['trajectories'][o+'_hybrid']['pts'] = p*_['trajectories'][name]['pts'] + (1-p)*_['trajectories'][o]['pts']
+        #o = _['obstacle_tracjectory_name']
+        #o = direction
+        _['trajectories'][hname] = Trajectory(hname,None)
+        _['trajectories'][hname]['blocked_point_indicies'] = []
+        _['trajectories'][hname]['pts'] = \
+            p*_['trajectories'][name]['pts'] + \
+            (1-p)*_['trajectories'][_['obstacle_tracjectory_name']]['pts']
 
 
 
@@ -194,7 +210,10 @@ def Trajectories(N,obstacle_radius,index,E):
         spause();time.sleep(1/60.)
 
     for t in _['trajectory_names']:
-        _['trajectories'][t]['is_blocked'](_['obstacle_tracjectory_name'][_['obstacle_point_index']],_['obstacle_radius'])
+        _['trajectories'][t]['is_blocked'](
+            _['trajectories'][_['obstacle_tracjectory_name']]['pts'][_['obstacle_point_index']],
+            _['obstacle_radius']
+        )
 
 
 
@@ -204,42 +223,45 @@ def Trajectories(N,obstacle_radius,index,E):
     _['all_drections_blocked'] = function_all_drections_blocked
     _['closest_non_blocked_trajectories'] = function_closest_non_blocked_trajectories
     _['plot'] = function_plot
-    _['trajectory_is_blocked'] = function_trajectory_is_blocked
     _['make_hybrid'] = function_make_hybrid
     return _
 #
 ####################
 
 
-E = {'Trajectories':Trajectories(N,0.25,i)}
-kprint(E,ignore_types=[]
 
 
-if False:#__name__ == '__main__':
+if __name__ == '__main__':
     
     for i in range(20000+rndint(1000),30000,10):
         print('\n\n\n\n\n')
         
-        T = Traj(N,0.25,i)
+        E = {'Trajectories':Trajectories(N,0.25,25000)}
+        T = E['Trajectories']
+        #kprint(E,ignore_keys=['pts'])
 
         if not T['no_drections_blocked']():
             if not T['all_drections_blocked']():
                 for t in T['trajectory_names']:
                     closest = T['closest_non_blocked_trajectories'](t)
                     if closest == t:
-                        clp(t,'is not blocked_point_indicies')
+                        clp(t,'is not blocked')
                     else:
-                        clp(t,'is blocked_point_indicies, is closest to','`y',closest,'`')
+                        clp(t,'is blocked, is closest to','`y',closest,'`')
 
                         for p in arange(0.1,1.04,0.05):
                             #print p
                             T['make_hybrid'](closest,p)
                             #print T['trajectory_is_blocked'](closest)
-                            if not T['trajectory_is_blocked'](closest+'_hybrid'):
-                                kprint(T[closest+'_hybrid'],closest+'_hybrid',ignore_keys=['pts'])
+                            #print T['trajectories'][T['obstacle_tracjectory_name']]['pts'][T['obstacle_point_index']],T['obstacle_radius']
+                            if not T['trajectories'][closest+'_hybrid']['is_blocked'](
+                                T['trajectories'][T['obstacle_tracjectory_name']]['pts'][T['obstacle_point_index']],
+                                T['obstacle_radius']
+                                ):
+                                #kprint(T[closest+'_hybrid'],closest+'_hybrid',ignore_keys=['pts'])
                                 break
                         clp('p =',p,'`b')
-        T['plot']()
+        #T['plot']()
         print('\n\n\n\n\n')
         raw_enter()
 
