@@ -59,9 +59,13 @@ def Trajectory(name,pts):
                 _['blocked_point_indicies'].append(j)
         _['blocked_point_indicies'] = sorted(list(set(_['blocked_point_indicies'])))
         return not not _['blocked_point_indicies']
-        #_['is_blocked'] = function_is_blocked
+    def function_truncate_blocked():
+        first_blocked = _['blocked_point_indicies'][0]
+        for j in rlen(_['pts']):
+            if j >= first_blocked:
+                _['pts'][j] = _['pts'][first_blocked]
     _['is_blocked'] = function_is_blocked
-    #kprint(_,'Trajectory')
+    _['truncate_blocked'] = function_truncate_blocked
     return _
 #
 ###################
@@ -167,21 +171,22 @@ def Trajectories(N,obstacle_radius,index):
         return r
 
 
-    def function_make_hybrid(name,p,t):
-        hname = t + '_hybrid'
-        #hname = _['obstacle_tracjectory_name'] + '_hybrid'
-        #o = _['obstacle_tracjectory_name']
-        #o = direction
-        #_['trajectories'][o+'_hybrid'] = Trajectory(o+'_hybrid',None)
-        #_['trajectories'][o+'_hybrid']['blocked_point_indicies'] = []
-        #_['trajectories'][o+'_hybrid']['pts'] = p*_['trajectories'][name]['pts'] + (1-p)*_['trajectories'][o]['pts']
-        #o = _['obstacle_tracjectory_name']
-        #o = direction
-        _['trajectories'][hname] = Trajectory(hname,None)
-        _['trajectories'][hname]['blocked_point_indicies'] = []
-        _['trajectories'][hname]['pts'] = \
-            p*_['trajectories'][name]['pts'] + \
-            (1-p)*_['trajectories'][_['obstacle_tracjectory_name']]['pts']
+    def function_make_hybrid(closest,p,blocked_name):
+        hybrid_name = blocked_name + '_hybrid'
+        _['trajectories'][hybrid_name] = Trajectory(hybrid_name,None)
+        _['trajectories'][hybrid_name]['blocked_point_indicies'] = []
+        _['trajectories'][hybrid_name]['pts'] = \
+            p*_['trajectories'][closest]['pts'] + \
+            (1-p)*_['trajectories'][blocked_name]['pts']
+
+    if False:
+        def function_make_hybrid(closest,p,blocked_name):
+            hybrid_name = blocked_name + '_hybrid'
+            _['trajectories'][hybrid_name] = Trajectory(hybrid_name,None)
+            _['trajectories'][hybrid_name]['blocked_point_indicies'] = []
+            _['trajectories'][hybrid_name]['pts'] = \
+                p*_['trajectories'][closest]['pts'] + \
+                (1-p)*_['trajectories'][_['obstacle_tracjectory_name']]['pts']
 
 
 
@@ -246,24 +251,24 @@ if __name__ == '__main__':
                 for t in T['trajectory_names']:
                     closest = T['closest_non_blocked_trajectories'](t)
                     if closest == t:
-                        clp(t,'is not blocked')
+                        clp(t,'`--r','is not blocked')
                     else:
-                        clp(t,'is blocked, is closest to','`y',closest,'`')
+                        clp(t,'`--r','is blocked, is closest to','`y',closest,'`--u')
 
                         for p in arange(0.1,1.04,0.05):
-                            #print p
                             T['make_hybrid'](closest,p,t)
-                            #print T['trajectory_is_blocked'](closest)
-                            #print T['trajectories'][T['obstacle_tracjectory_name']]['pts'][T['obstacle_point_index']],T['obstacle_radius']
                             if not T['trajectories'][t+'_hybrid']['is_blocked'](
                                 T['trajectories'][T['obstacle_tracjectory_name']]['pts'][T['obstacle_point_index']],
                                 T['obstacle_radius']
                                 ):
-                                #kprint(T[closest+'_hybrid'],closest+'_hybrid',ignore_keys=['pts'])
+                                T['trajectories'][t+'_hybrid']['p'] = p
                                 break
                         clp('p =',p,'`b')
+            else:
+                for t in T['trajectory_names']:
+                    T['trajectories'][t]['truncate_blocked']()
         T['plot']()
-        kprint(E,ignore_keys=['pts'])
+        kprint(T['trajectories'],ignore_types=function_types,ignore_keys=['pts'])
         
         raw_enter()
         print('\n\n\n\n\n')
