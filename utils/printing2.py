@@ -9,6 +9,7 @@ def kprint(
     spaces='',
     space_increment='    ',
     ignore_keys=[],
+    only_keys=[],
     ignore_types=[],
     numbering=True,
     max_items=sys.maxint,
@@ -54,7 +55,7 @@ def kprint(
     if type(item) == list:
         ctr = 0
         for i in item:
-            kprint(i,title=None,spaces=spaces+space_increment,space_increment=space_increment,ignore_keys=ignore_keys,ignore_types=ignore_types,numbering=numbering)
+            kprint(i,title=None,spaces=spaces+space_increment,space_increment=space_increment,ignore_keys=ignore_keys,only_keys=only_keys,ignore_types=ignore_types,numbering=numbering)
             ctr += 1
             if ctr >= max_items:
                 break
@@ -63,11 +64,13 @@ def kprint(
         for k in sorted(item.keys()):
             if k in ignore_keys:
                 continue
+            if k not in only_keys:
+                continue
             if type(item[k]) in [dict,list]:
                 l = len(item[k])
             else:
                 l = 1
-            kprint(item[k],title=k,spaces=spaces+space_increment,space_increment=space_increment,ignore_keys=ignore_keys,ignore_types=ignore_types,numbering=numbering)
+            kprint(item[k],title=k,spaces=spaces+space_increment,space_increment=space_increment,ignore_keys=ignore_keys,only_keys=only_keys,ignore_types=ignore_types,numbering=numbering)
             ctr += 1
             if ctr >= max_items:
                 break            

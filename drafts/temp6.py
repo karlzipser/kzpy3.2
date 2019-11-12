@@ -167,8 +167,9 @@ def Trajectories(N,obstacle_radius,index):
         return r
 
 
-    def function_make_hybrid(name,p):
-        hname = name + '_hybrid'
+    def function_make_hybrid(name,p,t):
+        hname = t + '_hybrid'
+        #hname = _['obstacle_tracjectory_name'] + '_hybrid'
         #o = _['obstacle_tracjectory_name']
         #o = direction
         #_['trajectories'][o+'_hybrid'] = Trajectory(o+'_hybrid',None)
@@ -238,7 +239,7 @@ if __name__ == '__main__':
         
         E = {'Trajectories':Trajectories(N,0.25,25000)}
         T = E['Trajectories']
-        #kprint(E,ignore_keys=['pts'])
+        #
 
         if not T['no_drections_blocked']():
             if not T['all_drections_blocked']():
@@ -251,10 +252,10 @@ if __name__ == '__main__':
 
                         for p in arange(0.1,1.04,0.05):
                             #print p
-                            T['make_hybrid'](closest,p)
+                            T['make_hybrid'](closest,p,t)
                             #print T['trajectory_is_blocked'](closest)
                             #print T['trajectories'][T['obstacle_tracjectory_name']]['pts'][T['obstacle_point_index']],T['obstacle_radius']
-                            if not T['trajectories'][closest+'_hybrid']['is_blocked'](
+                            if not T['trajectories'][t+'_hybrid']['is_blocked'](
                                 T['trajectories'][T['obstacle_tracjectory_name']]['pts'][T['obstacle_point_index']],
                                 T['obstacle_radius']
                                 ):
@@ -262,8 +263,10 @@ if __name__ == '__main__':
                                 break
                         clp('p =',p,'`b')
         #T['plot']()
-        print('\n\n\n\n\n')
+        kprint(E,ignore_keys=['pts'])
+        
         raw_enter()
+        print('\n\n\n\n\n')
 
 
 
