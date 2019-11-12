@@ -245,7 +245,7 @@ for i in range(20000+rndint(1000),30000,10):
                 if closest == t:
                     clp(t,'is not blocked')
                 else:
-                    clp(t,'is closest to','`y',closest,'`')
+                    clp(t,'is blocked, is closest to','`y',closest,'`')
 
                     for p in arange(0.1,1.04,0.05):
                         #print p
