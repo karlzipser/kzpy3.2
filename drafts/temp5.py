@@ -248,7 +248,7 @@ for i in range(20000+rndint(1000),30000,10):
                     clp(t,'is closest to','`y',closest,'`')
 
                     for p in arange(0.1,1.04,0.05):
-                        print p
+                        print p 
                         T['make_hybrid'](closest,p)
                         #print T['trajectory_is_blocked'](closest)
                         if not T['trajectory_is_blocked'](closest+'_hybrid'):
