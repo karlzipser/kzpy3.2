@@ -254,6 +254,7 @@ for i in range(20000+rndint(1000),30000,10):
                         if not T['trajectory_is_blocked'](closest+'_hybrid'):
                             kprint(T[closest+'_hybrid'],closest+'_hybrid',ignore_keys=['pts'])
                             break
+                    clp('p =',p,'`b')
     T['plot']()
     print('\n\n\n\n\n')
     raw_enter()
