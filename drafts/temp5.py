@@ -94,10 +94,10 @@ if 'O' not in locals():
 
 
 
-def Traj(N,obstacle_radius=0.2):
+def Traj(N,obstacle_radius,index):
 
     D = {}
-
+    D['index'] = index
     D['trajectories'] = ['left','direct','right',]
     D['adjacent_trajectories'] = {
         'left':['direct','right'],
@@ -217,8 +217,8 @@ def Traj(N,obstacle_radius=0.2):
                         )
                         for i in D[t]['blocked']:
                             blocked_pts.append(D[t]['pts'][i])
-        pts_plot(blocked_pts,'k')
-        mci(O['left_image']['vals'][i],scale=3.)
+        pts_plot(blocked_pts,'k',sym='s')
+        mci(O['left_image']['vals'][D['index']],scale=3.)
         spause();time.sleep(1/60.)
 
     for t in D['trajectories']:
@@ -236,7 +236,7 @@ def Traj(N,obstacle_radius=0.2):
 for i in range(20000+rndint(1000),30000,10):
     print('\n\n\n\n\n')
     
-    T = Traj(N)
+    T = Traj(N,0.25,i)
 
     if not T['no_drections_blocked']():
         if not T['all_drections_blocked']():
@@ -259,43 +259,7 @@ for i in range(20000+rndint(1000),30000,10):
     raw_enter()
 
 
-"""
-case 0 no direction blocked:
-    leave trajectories as is
 
-case 1, all trajectories blocked:
-    change trajectories to stop at earliest blocked point
-
-case 2, a direction blocked, but adjactent not blocked
-    add two trajectories in increasing proportions of 2nd
-    trajectory until not blocked
-
-case 3, a direction blocked, other/non adjacent not blocked
-    same as 2, but add the other trajectory
-
-"""
-
-
-"""
-spause()
-raw_enter()
-
-D['obstacle_tracjectory'] = random.choice(T['trajectories'])
-D['obstacle_point'] = random.choice(range(4,len(Pts['left'])))
-D['obstacle_radius'] = .15
-x0 = Pts[D['obstacle_tracjectory']][D['obstacle_point']][1]
-y0 = Pts[D['obstacle_tracjectory']][D['obstacle_point']][0]
-for t in T['trajectories']:
-    for j in rlen(Pts[t]):
-        x1 = Pts[t][j][1]
-        y1 = Pts[t][j][0]
-        if np.sqrt((x1-x0)**2+(y1-y0)**2) < D['obstacle_radius']:
-            plot(y1,x1,'k.')
-        #print x0,y0,x1,y1
-mci(O['left_image']['vals'][i],scale=3.)
-spause();time.sleep(1/60.)
-break
-"""
 
 #,b
 #EOF
