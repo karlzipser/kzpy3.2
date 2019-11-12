@@ -182,9 +182,11 @@ def Traj(N,obstacle_radius,index):
         return d
         
     def function_make_hybrid(direction,p):
-        D[direction+'_hybrid'] = {}
-        D[direction+'_hybrid']['blocked'] = []
-        D[direction+'_hybrid']['pts'] = p*D[direction]['pts'] + (1-p)*D[D['obstacle_tracjectory']]['pts']
+        #o = D['obstacle_tracjectory']
+        o = direction
+        D[o+'_hybrid'] = {}
+        D[o+'_hybrid']['blocked'] = []
+        D[o+'_hybrid']['pts'] = p*D[direction]['pts'] + (1-p)*D[o]['pts']
 
 
     def average_distance_between_trajectories(dir0,dir1):

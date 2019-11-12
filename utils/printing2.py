@@ -5,7 +5,7 @@ from kzpy3.utils.common import *
 
 def kprint(
     item,
-    title='<untitled>',
+    title='', 
     spaces='',
     space_increment='    ',
     ignore_keys=[],
@@ -13,7 +13,7 @@ def kprint(
     numbering=True,
     max_items=sys.maxint,
 ):
-
+    #'<untitled>',
     item_printed = False
     if type(item) in ignore_types:
         return
