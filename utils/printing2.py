@@ -64,8 +64,9 @@ def kprint(
         for k in sorted(item.keys()):
             if k in ignore_keys:
                 continue
-            if k not in only_keys:
-                continue
+            if len(only_keys) > 0:
+                if k not in only_keys:
+                    continue
             if type(item[k]) in [dict,list]:
                 l = len(item[k])
             else:
