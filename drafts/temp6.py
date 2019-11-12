@@ -86,9 +86,9 @@ def Trajectories(N,obstacle_radius,index):
             'left':     {'color':'r','sym':'.','line':':'},
             'direct':   {'color':'b','sym':'.','line':':'},
             'right':    {'color':'g','sym':'.','line':':'},
-            'left_hybrid':     {'color':'r','sym':'.','line':'-'},
-            'direct_hybrid':   {'color':'b','sym':'.','line':'-'},
-            'right_hybrid':    {'color':'g','sym':'.','line':'-'},
+            'left_hybrid':     {'color':'r','sym':'x','line':'-'},
+            'direct_hybrid':   {'color':'b','sym':'x','line':'-'},
+            'right_hybrid':    {'color':'g','sym':'x','line':'-'},
         }
         _['obstacle_radius'] = obstacle_radius
         _['obstacle_tracjectory_name'] = random.choice(_['trajectory_names'])
@@ -190,7 +190,7 @@ def Trajectories(N,obstacle_radius,index):
         clf();plt_square();xylim(-2,2,0,5)
         blocked_pts = []
         
-        for t in _.keys():
+        for t in _['trajectories']:
             use_this_t = False
             for q in _['trajectory_names']:
                 if q in t:
@@ -200,12 +200,12 @@ def Trajectories(N,obstacle_radius,index):
                         #print _[t]
                         #kprint(_[t].keys(),t)
                         pts_plot(
-                            _[t]['pts'],
+                            _['trajectories'][t]['pts'],
                             _['display'][t]['color'],
                             _['display'][t]['sym']+_['display'][t]['line']
                         )
-                        for i in _[t]['blocked_point_indicies']:
-                            blocked_pts.append(_[t]['pts'][i])
+                        for i in _['trajectories'][t]['blocked_point_indicies']:
+                            blocked_pts.append(_['trajectories'][t]['pts'][i])
         pts_plot(blocked_pts,'k',sym='s')
         mci(O['left_image']['vals'][_['index']],scale=3.)
         spause();time.sleep(1/60.)
@@ -237,7 +237,7 @@ if __name__ == '__main__':
     for i in range(20000+rndint(1000),30000,10):
         print('\n\n\n\n\n')
         
-        E = {'Trajectories':Trajectories(N,0.25,25000)}
+        E = {'Trajectories':Trajectories(N,0.25,i)}
         T = E['Trajectories']
         #
 
@@ -262,7 +262,7 @@ if __name__ == '__main__':
                                 #kprint(T[closest+'_hybrid'],closest+'_hybrid',ignore_keys=['pts'])
                                 break
                         clp('p =',p,'`b')
-        #T['plot']()
+        T['plot']()
         kprint(E,ignore_keys=['pts'])
         
         raw_enter()
