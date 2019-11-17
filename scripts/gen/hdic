@@ -190,6 +190,7 @@ while True:
         clp("\tType number of a command followed by '+' or '-' to open/close.")
         clp("\tType '+' or '-' followed by command name to add or subtract topics. E.g., '-python'")
         clp("\tType ']' or '[' followed by pattern to exclude or include it. E.g., ']Train_'")
+        clp("\tType '!' followed by pattern to require it. E.g., '!menu'")
         clp("\tType 'S' to save, 'L' to load, and 'R' to reset.")
         clp()
         raw_enter()
