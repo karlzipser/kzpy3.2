@@ -107,7 +107,7 @@ if __name__ == '__main__':
                 headings['right'] =     S['headings_right']
                 first = False
             mt_prev = _['99 mov timer time']
-            #load_parameters(_)
+            load_parameters(_)
             if mt_prev !=  _['99 mov timer time']:
                 #mov.time_s = _['99 mov timer time']
                 #mov.trigger()
