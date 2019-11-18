@@ -154,6 +154,10 @@ if __name__ == '__main__':
 
             Pub['ldr_img'].publish(cv_bridge.CvBridge().cv2_to_imgmsg(metadata_3D_img,'rgb8'))
 
+        except KeyboardInterrupt:
+            cr('*** KeyboardInterrupt ***')
+            _['ABORT'] = True
+
         except Exception as e:
             cr('*** index',_['index'],'failed ***')
             exc_type, exc_obj, exc_tb = sys.exc_info()
