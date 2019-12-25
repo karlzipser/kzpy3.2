@@ -60,18 +60,43 @@ def test(Runs,Values):
 
     img = zeros((94,168*2,3),np.uint8)
 
-    while raw_input() != 'q':
-        ky = a_key(Values)
-        print ky,Values[ky]
+    keys = Values.keys()
+    np.random.shuffle(keys)
+    while True:
+        ky = keys.pop()
         f0 = ky[0][0]
         f1 = ky[1][0]
         i0 = ky[0][1]
-        i0 = ky[1][1]
+        i1 = ky[1][1]
+        if ky[0] in too_many or ky[1] in too_many:
+            continue
+        if Values[ky] < 0.25:
+            print ky,Values[ky]
 
-    img[:,:168,:] = Os[f0]['left_image']['vals'][i0]
-    img[:,168:,:] = Os[f1]['left_image']['vals'][i1]
-    mi(img,img_title=d2s(Values[ky]))
+
+            img[:,:168,:] = Os[f0]['left_image']['vals'][i0]
+            img[:,168:,:] = Os[f1]['left_image']['vals'][i1]
+            mi(img,img_title=d2s(Values[ky]))
+            spause()
+            if raw_input('hit enter or q > ') == 'q':
+                break
     
+
+
+
+
+Counts = {}
+too_many = []
+limit = 10
+for v in Values:
+    for i in [0,1]:
+        r = v[i]
+        if r not in Counts:
+            Counts[r] = 0
+        Counts[r] += 1
+        if Counts[r] > limit:
+            too_many.append(r)
+too_many = list(set(too_many))
 
 
 
