@@ -43,13 +43,21 @@ for i in range(20000+rndint(5000),30000,10):
         else:
             for t in T['trajectory_names']:
                 T['trajectories'][t]['truncate_blocked']()
+
+
+
     T['plot'](O)
+
     kprint(T['trajectories'],ignore_types=function_types,ignore_keys=['pts'])
     
+
     a = raw_enter()
+
     if a == 'q':
         O.close()
         break
+
+        
     print('\n\n\n\n\n')
 
 
