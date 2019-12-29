@@ -1,7 +1,8 @@
 from kzpy3.vis3 import *
-import kzpy3.drafts.Sq1.network as network    
+import network  
+import graphics  
 import Menu.main
-from input_target import make_XOR_input_target
+from get_data import make_XOR_input_target as make_input_meta_target
 exec(identify_file_str)
 
 ########################################
@@ -13,14 +14,10 @@ M = Menu.main.start_Dic(
 )
 M['load']()
 P = M['Q']['network_parameters']
-U = M['Q']['other_parameters']
+#U = M['Q']['other_parameters']
 ###
 ########################################
 ########################################
-
-
-
-
 
 
 
@@ -31,57 +28,28 @@ N = network.SqueezeNet(
     P['NUM_METADATA_CHANNELS'],
     )
 
-losses = []
 
 
 def main():
 
-    for i in range(20000):
+    while not M['Q']['other_parameters']['abort']:
+
+        M['load']()
 
         input_data, meta_data, target_data = \
-            network.make_batch( make_XOR_input_target, P['BATCH_SIZE'] )
+            network.make_batch( make_input_meta_target, P['BATCH_SIZE'] )
 
         N.forward(input_data,meta_data,target_data)
 
         N.backward()
 
-        losses.append( N.extract('loss',None) )
-
-        graphics()
+        graphics.graphics(N)
 
     raw_enter()
 
 
 
-graphics_timer = Timer(U['graphics_timer_time'])
 
-def graphics():
-    if graphics_timer.check():
-        
-        M['load']()
-        kprint(M['Q']['other_parameters'])
-        graphics_timer.s = M['Q']['other_parameters']['graphics_timer_time']
-        graphics_timer.reset()
-    else:
-        return
-
-    figure('loss')
-    ab = N.extract('camera_input',0)
-    a = ab[0,0,0]
-    b = ab[1,0,0]
-    c = N.extract('final_output',0)[0]
-    print dp(a),dp(b),dp(c)
-
-    clf()
-    plot(losses,'.')
-    m = meo(na(losses),100)
-    if False:#len(m) > 30:
-        lm = na(m[-30:]).mean()
-    else:
-        lm = 1.
-    plot(m)
-    ylim(0,lm*1.)
-    spause()
 
 
 if __name__ == '__main__':

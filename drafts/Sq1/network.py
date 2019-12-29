@@ -25,6 +25,7 @@ class SqueezeNet(nn.Module):
         NUM_INPUT_CHANNELS,
         NUM_OUTPUTS,
         NUM_METADATA_CHANNELS,
+        previous_losses = [],
         LR=0.01,
         MOMENTUM=0.001,
     ):
@@ -32,6 +33,7 @@ class SqueezeNet(nn.Module):
         self.A = {}
         self.lr = LR
         self.momentum = MOMENTUM
+
         self.pre_metadata_features = nn.Sequential(
             nn.Conv2d(NUM_INPUT_CHANNELS, 64, kernel_size=3, stride=2),
             nn.ReLU(inplace=True),
@@ -68,7 +70,9 @@ class SqueezeNet(nn.Module):
         self.criterion = torch.nn.MSELoss()#.cuda()
         self.optimizer = torch.optim.Adadelta(filter(lambda p: p.requires_grad,self.parameters()))
         self.loss = None
+        self.losses = previous_losses
 
+        
 
     def forward(self,input_data,meta_data,target_data):
 
@@ -95,6 +99,8 @@ class SqueezeNet(nn.Module):
 
         self.loss = self.criterion(self.A['final_output'],target_torch)
 
+        self.losses.append( self.extract('loss') )
+
         return self.A['final_output']
 
 
@@ -104,7 +110,7 @@ class SqueezeNet(nn.Module):
         self.optimizer.step()
 
 
-    def extract(self,layer_name,batch_number):
+    def extract(self,layer_name,batch_number=0):
         if layer_name == 'loss':
             return self.loss.data.cpu().numpy()
         else:
