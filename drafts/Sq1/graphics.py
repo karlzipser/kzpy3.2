@@ -1,15 +1,14 @@
 from kzpy3.vis3 import *
 import Menu.main
 exec(identify_file_str)
+import menu_str
+exec(menu_str.exec_str)
 
 ########################################
 ########################################
 ###
-M = Menu.main.start_Dic(
-    dic_project_path=pname(opjh(__file__)), 
-    Arguments={'menu':False,'read_only':True}
-)
-M['load']()
+#M = Menu.main.start_Dic(dic_project_path=pname(opjh(__file__))); time.sleep(1)
+#M['load']()
 ###
 ########################################
 ########################################
@@ -20,11 +19,9 @@ graphics_timer = Timer(M['Q']['other_parameters']['graphics_timer_time'])
 def graphics(N):
     global graphics_timer
     if graphics_timer.check():
-        
         M['load']()
-        
         graphics_timer = Timer(M['Q']['other_parameters']['graphics_timer_time'])#M['Q']['other_parameters']['graphics_timer_time']
-
+        kprint(M['Q'])
     else:
         return
 
@@ -39,7 +36,10 @@ def graphics(N):
     plot(N.losses,'.')
     m = meo(na(N.losses),33)
     plot(m)
-    ylim(0,1.)
+    ylim(
+        M['Q']['other_parameters']['graphics_ylim'][0],
+        M['Q']['other_parameters']['graphics_ylim'][1]
+    )
     spause()
 
 

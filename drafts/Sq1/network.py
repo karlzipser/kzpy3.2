@@ -25,6 +25,7 @@ class SqueezeNet(nn.Module):
         NUM_INPUT_CHANNELS,
         NUM_OUTPUTS,
         NUM_METADATA_CHANNELS,
+        NUM_LOSSES_TO_AVERAGE,
         previous_losses = [],
         LR=0.01,
         MOMENTUM=0.001,
@@ -71,8 +72,9 @@ class SqueezeNet(nn.Module):
         self.optimizer = torch.optim.Adadelta(filter(lambda p: p.requires_grad,self.parameters()))
         self.loss = None
         self.losses = previous_losses
+        self.num_losses_to_average = NUM_LOSSES_TO_AVERAGE
+        self.losses_to_average = []
 
-        
 
     def forward(self,input_data,meta_data,target_data):
 
@@ -98,9 +100,11 @@ class SqueezeNet(nn.Module):
         self.A['final_output'] = self.A['final_output'].view(self.A['final_output'].size(0), -1)
 
         self.loss = self.criterion(self.A['final_output'],target_torch)
-
-        self.losses.append( self.extract('loss') )
-
+        self.losses_to_average.append(self.extract('loss'))
+        if len(self.losses_to_average) >= self.num_losses_to_average:
+            #cy(self.num_losses_to_average,len(self.losses_to_average))
+            self.losses.append( na(self.losses_to_average).mean() )
+            self.losses_to_average = []
         return self.A['final_output']
 
 

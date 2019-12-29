@@ -37,8 +37,10 @@ setup_Default_Arguments(
         'help': False,
         'path': 'kzpy3/Menu',
         #'start_keys':[],
+        'load_timer_time':0.1,
     }
 )
+
 
 
 if False:
@@ -61,7 +63,8 @@ def Default_Values(
     project_path,
     parent_keys=[],
     read_only=False,
-    Dics={}
+    Dics={},
+    load_timer_time=0.1,
 ):
     D = {}
     os.system('mkdir -p '+opj(project_path,'__local__'))
@@ -73,7 +76,7 @@ def Default_Values(
     D['read_only'] = read_only
     D['Dics'] = Dics
     D['mtime_prev'] = -1
-    D['load_timer'] = Timer(0.1)
+    D['load_timer'] = Timer(load_timer_time)
     def __add_keys(E,keys=[]):
         E['--keys--'] = keys
         if '--mode--' not in E:
@@ -497,6 +500,11 @@ def Dic_Loader(path,wait_time=0.2):
     D['mtime_prev'] = -1
     D['wait time'] = wait_time
     D['wait timer'] = Timer(D['wait time'])
+    ############ 12/29/19
+    #
+    # D['wait timer'].trigger()
+    #
+    ############
     D['Dic'] = None
 
     def function_load():
@@ -598,7 +606,9 @@ def menu_python():
         return {'message':message}
 
 
-def start_Dic(dic_project_path,Dics={},parent_keys=[],Arguments=Arguments):
+def start_Dic(dic_project_path,Dics={},parent_keys=[],Arguments={}):
+    set_Defaults( {'menu':False,'read_only':True,'load_timer_time':1.0}, Arguments )
+    
     if True:#dic_project_path not in Dics:
         exec_str = d2s(
             'from',
@@ -607,13 +617,17 @@ def start_Dic(dic_project_path,Dics={},parent_keys=[],Arguments=Arguments):
         )
         #cy(exec_str,ra=1)
         exec(exec_str)
+        #kprint(Arguments,title='Arguments')
+        #raw_enter()
         Dics[dic_project_path] = \
             Default_Values(
                 Q,
                 dic_project_path,
                 read_only=Arguments['read_only'],
                 parent_keys=parent_keys,
-                Dics=Dics)
+                Dics=Dics,
+                load_timer_time=Arguments['load_timer_time'],
+            )
 
     if Arguments['read_only']:
         Dics[dic_project_path]['load']()
@@ -639,7 +653,7 @@ if __name__ == '__main__':
 
     Dics = {}
 
-    start_Dic(dic_project_path=opjh(Arguments['path']),Dics=Dics)
+    start_Dic(dic_project_path=opjh(Arguments['path']),Dics=Dics,Arguments=Arguments)
 
 
 
