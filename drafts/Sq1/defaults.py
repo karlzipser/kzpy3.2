@@ -15,7 +15,7 @@ Q = {
 		'INPUT_HEIGHT':94,
 		'METADATA_WIDTH':41,
 		'METADATA_HEIGHT':23,
-		'NUM_IN_BATCH':64,
+		'BATCH_SIZE':64,
     }
 }
 

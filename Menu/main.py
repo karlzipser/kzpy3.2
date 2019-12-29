@@ -415,7 +415,7 @@ def Default_Values(
                     cc = wh+underlined
                     val_color = wh
 
-                elif k.isupper():
+                elif False:#k.isupper():
                     C[k] = not C[k] #False
                     v = '' # '<auto False>' # Toggle
                     cc = wh+wh_bk

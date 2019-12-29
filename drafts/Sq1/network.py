@@ -136,3 +136,16 @@ class Fire(nn.Module):
             self.expand3x3_activation(self.expand3x3(x))
         ], 1)
 
+
+def make_batch(input_target_function,batch_size):
+    input_batch = []
+    meta_batch = []
+    target_batch = []
+    for i in range(batch_size):
+        input_data,meta_data,target_data = input_target_function()
+        input_batch.append(input_data)
+        target_batch.append(target_data)
+    return na(input_batch),None,na(target_batch)
+
+
+#EOF
