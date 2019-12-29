@@ -13,9 +13,13 @@ M = Menu.main.start_Dic(
 )
 M['load']()
 P = M['Q']['network_parameters']
+U = M['Q']['other_parameters']
 ###
 ########################################
 ########################################
+
+
+
 
 
 
@@ -27,45 +31,62 @@ N = network.SqueezeNet(
     P['NUM_METADATA_CHANNELS'],
     )
 
-
 losses = []
 
-for i in range(20000):
 
-    input_data,meta_data,target_data = \
-        network.make_batch(make_XOR_input_target,P['BATCH_SIZE'])
+def main():
 
-    N.forward(input_data,meta_data,target_data)
+    for i in range(20000):
 
-    N.backward()
+        input_data, meta_data, target_data = \
+            network.make_batch( make_XOR_input_target, P['BATCH_SIZE'] )
 
-    losses.append( N.extract('loss',None) )
+        N.forward(input_data,meta_data,target_data)
+
+        N.backward()
+
+        losses.append( N.extract('loss',None) )
+
+        graphics()
+
+    raw_enter()
 
 
 
-    ###########
-    #
-    if mod(i,1000):
-        figure('loss')
-        ab = N.extract('camera_input',0)
-        a = ab[0,0,0]
-        b = ab[1,0,0]
-        c = N.extract('final_output',0)[0]
-        print dp(a),dp(b),dp(c)
+graphics_timer = Timer(U['graphics_timer_time'])
 
-        clf()
-        plot(losses,'.')
-        m = meo(na(losses),100)
-        if False:#len(m) > 30:
-            lm = na(m[-30:]).mean()
-        else:
-            lm = 1.
-        plot(m)
-        ylim(0,lm*1.)
-        spause()
-    #
-    ###########
+def graphics():
+    if graphics_timer.check():
+        
+        M['load']()
+        kprint(M['Q']['other_parameters'])
+        graphics_timer.s = M['Q']['other_parameters']['graphics_timer_time']
+        graphics_timer.reset()
+    else:
+        return
 
-raw_enter()
+    figure('loss')
+    ab = N.extract('camera_input',0)
+    a = ab[0,0,0]
+    b = ab[1,0,0]
+    c = N.extract('final_output',0)[0]
+    print dp(a),dp(b),dp(c)
+
+    clf()
+    plot(losses,'.')
+    m = meo(na(losses),100)
+    if False:#len(m) > 30:
+        lm = na(m[-30:]).mean()
+    else:
+        lm = 1.
+    plot(m)
+    ylim(0,lm*1.)
+    spause()
+
+
+if __name__ == '__main__':
+    main()
+
+
 
 #EOF

@@ -6,6 +6,7 @@ Q = {
     'other_parameters':{
         'RESUME':False,
         'NETWORKS_FOLDER':opjD('Networks',fname(project_path)),
+        'graphics_timer_time':1,
     },
     'network_parameters': {
 		'NUM_INPUT_CHANNELS':2,
