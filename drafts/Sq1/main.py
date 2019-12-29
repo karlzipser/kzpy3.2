@@ -18,7 +18,15 @@ P = M['Q']['network_parameters']
 ########################################
 
 
-
+def make_batch(input_target_function):
+    input_batch = []
+    meta_batch = []
+    target_batch = []
+    for i in range(P['NUM_IN_BATCH']):
+        input_data,meta_data,target_data = input_target_function()
+        input_batch.append(input_data)
+        target_batch.append(target_data)
+    return na(input_batch),None,na(target_batch)
 
 
 N = network.SqueezeNet(
