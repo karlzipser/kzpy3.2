@@ -643,7 +643,7 @@ def start_Dic(dic_project_path,Dics={},parent_keys=[],Arguments={}):
     if Arguments['menu']:
         Dics[dic_project_path]['menu']()
     else:
-        clp('run menu from command line:\n~/kzpy3/Menu/main.py --path',dic_project_path,'`--rb')
+        clp('run menu from command line:\n','`','~/kzpy3/Menu/main.py --path',dic_project_path,'`--rb')
 
     return Dics[dic_project_path]
 

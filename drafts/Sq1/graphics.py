@@ -4,16 +4,6 @@ exec(identify_file_str)
 import menu_str
 exec(menu_str.exec_str)
 
-########################################
-########################################
-###
-#M = Menu.main.start_Dic(dic_project_path=pname(opjh(__file__))); time.sleep(1)
-#M['load']()
-###
-########################################
-########################################
-
-
 graphics_timer = Timer(M['Q']['other_parameters']['graphics_timer_time'])
 
 def graphics(N):
@@ -21,7 +11,7 @@ def graphics(N):
     if graphics_timer.check():
         M['load']()
         graphics_timer = Timer(M['Q']['other_parameters']['graphics_timer_time'])#M['Q']['other_parameters']['graphics_timer_time']
-        kprint(M['Q'])
+        #kprint(M['Q'])
     else:
         return
 
@@ -34,7 +24,7 @@ def graphics(N):
 
     clf()
     plot(N.losses,'.')
-    m = meo(na(N.losses),33)
+    m = meo(na(N.losses),M['Q']['other_parameters']['meo_num'])
     plot(m)
     ylim(
         M['Q']['other_parameters']['graphics_ylim'][0],

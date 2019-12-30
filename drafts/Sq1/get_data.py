@@ -4,16 +4,6 @@ exec(identify_file_str)
 import menu_str
 exec(menu_str.exec_str)
 
-########################################
-########################################
-###
-#M = Menu.main.start_Dic(dic_project_path=pname(opjh(__file__))); time.sleep(1)
-#M['load']()
-#P = M['Q']['network_parameters']
-###
-########################################
-########################################
-
 
 def make_XOR_input_target():
     a = random.choice([0,1])

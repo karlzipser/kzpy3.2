@@ -1,5 +1,5 @@
 from kzpy3.utils.times import *
-#from kzpy3.utils.printing import *
+from kzpy3.utils.printing2 import *
 
 """
 def opj(*args):
@@ -110,7 +110,7 @@ def dir_as_dic_and_list( path ):
 
 
 
-def save_obj(obj, name,noisy=True):
+def save_obj(obj, name,noisy=True,show_time=False):
     assert_disk_locations([pname(name)])
     if name.endswith('.pkl'):
         name = name[:-len('.pkl')]
@@ -118,13 +118,19 @@ def save_obj(obj, name,noisy=True):
         pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
     if noisy:
         timer = Timer()
-        print(d2s('. . . saved',name+'.pkl in',dp(timer.time()),'seconds.\r')),
+        a = cf('. . . saved','`',name+'.pkl','`--rb')
+        if show_time:
+            b = d2s('`','in',dp(timer.time()),'seconds.\r')
+        else:
+            b=''
+        clp(a,b)
         #sys.stdout.flush()
-def load_obj(name,noisy=True):
+def load_obj(name,noisy=True,time=False):
     assert_disk_locations([pname(name)])
     if noisy:
         timer = Timer()
-        print(d2s('Loading',name,'. . .\r')),
+        clp('Loading','`',name,'`--rb','. . .\r'),
+
         #sys.stdout.flush()
     if name.endswith('.pkl'):
         name = name[:-len('.pkl')]
@@ -132,7 +138,7 @@ def load_obj(name,noisy=True):
     with open(name + '.pkl', 'rb') as f:
         o = pickle.load(f)
         if noisy:
-            print(d2s('. . . loaded in',dp(timer.time()),'seconds.\r')),
+            clp(d2s('. . . loaded in',dp(timer.time()),'seconds.\r')),
             #sys.stdout.flush()
         return o
         

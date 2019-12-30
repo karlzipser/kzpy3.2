@@ -4,11 +4,11 @@ project_path = pname(opjh(__file__))
 
 Q = {
     'other_parameters':{
-        'RESUME':False,
-        'NETWORKS_FOLDER':opjD('Networks',fname(project_path)),
+
         'graphics_timer_time':1,
         'abort':False,
         'graphics_ylim':[-0.1,30.],
+        'meo_num':8,
     },
     'network_parameters': {
 		'NUM_INPUT_CHANNELS':2,
@@ -20,6 +20,9 @@ Q = {
 		'METADATA_HEIGHT':23,
 		'BATCH_SIZE':64,
 		'NUM_LOSSES_TO_AVERAGE':1,
+        'RESUME':True,
+        'NETWORK_OUTPUT_FOLDER':opjD('Networks',fname(project_path)),
+        'NET_SAVE_TIMER_TIME':60,
     }
 }
 

@@ -6,19 +6,8 @@ from get_data import make_XOR_input_target as make_input_meta_target
 exec(identify_file_str)
 import menu_str
 exec(menu_str.exec_str)
-########################################
-########################################
-###
-#M = Menu.main.start_Dic(dic_project_path=pname(opjh(__file__))); time.sleep(1)
-#M['load']()
-#P = M['Q']['network_parameters']
-#U = M['Q']['other_parameters']
-###
-########################################
-########################################
 
 kprint(M['Q'])
-#raw_enter()
 
 
 N = network.SqueezeNet(
@@ -26,7 +15,17 @@ N = network.SqueezeNet(
     P['NUM_OUTPUTS'],
     P['NUM_METADATA_CHANNELS'],
     P['NUM_LOSSES_TO_AVERAGE'],
+    P['NETWORK_OUTPUT_FOLDER'],
+    P['NET_SAVE_TIMER_TIME'],
     )
+
+
+if P['RESUME']:
+    import torch
+    N.load()
+else:
+    clp('Starting with random weights')
+ 
 
 
 
@@ -42,6 +41,8 @@ def main():
         N.forward(input_data,meta_data,target_data)
 
         N.backward()
+
+        N.save()
 
         graphics.graphics(N)
 

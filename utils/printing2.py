@@ -100,7 +100,10 @@ def color_format(*args,**Kwargs):
             else:
                 c.append(colored(*B[i]['data']))
     #print c
-    return d2s_spacer(c,spacer=Kwargs['s1'])
+    s = d2s_spacer(c,spacer=Kwargs['s1'])
+    if 'strip_opjh' not in Kwargs or Kwargs['strip_opjh']:
+        s = s.replace(opjh(),'')
+    return s #d2s_spacer(c,spacer=Kwargs['s1'])
 
 def color_print(*args,**Kwargs):
     """

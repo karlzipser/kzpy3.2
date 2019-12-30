@@ -26,6 +26,8 @@ class SqueezeNet(nn.Module):
         NUM_OUTPUTS,
         NUM_METADATA_CHANNELS,
         NUM_LOSSES_TO_AVERAGE,
+        NETWORK_OUTPUT_FOLDER,
+        NET_SAVE_TIMER_TIME,
         previous_losses = [],
         LR=0.01,
         MOMENTUM=0.001,
@@ -34,7 +36,7 @@ class SqueezeNet(nn.Module):
         self.A = {}
         self.lr = LR
         self.momentum = MOMENTUM
-
+        self.NETWORK_OUTPUT_FOLDER = NETWORK_OUTPUT_FOLDER
         self.pre_metadata_features = nn.Sequential(
             nn.Conv2d(NUM_INPUT_CHANNELS, 64, kernel_size=3, stride=2),
             nn.ReLU(inplace=True),
@@ -74,7 +76,7 @@ class SqueezeNet(nn.Module):
         self.losses = previous_losses
         self.num_losses_to_average = NUM_LOSSES_TO_AVERAGE
         self.losses_to_average = []
-
+        self.save_net_timer = Timer(NET_SAVE_TIMER_TIME)
 
     def forward(self,input_data,meta_data,target_data):
 
@@ -120,8 +122,37 @@ class SqueezeNet(nn.Module):
         else:
             return self.A[layer_name][batch_number,:].data.cpu().numpy()
 
-        
 
+    def save(self,temp=False):
+        if self.save_net_timer.check() or temp:
+            for f in ['weights','optimizer','state_dict','loss']:
+                os.system(d2s('mkdir -p',opj(self.NETWORK_OUTPUT_FOLDER,f)))
+            print('saving net state . . .')
+            weights = {'net':self.state_dict().copy()}
+            for key in weights['net']:
+                weights['net'][key] = weights['net'][key]#.cuda(device=0)
+            if temp:
+                torch.save(weights, opj(self.NETWORK_OUTPUT_FOLDER,'weights','temp.infer'))
+                cb('. . . done saving temp.infer')
+                return
+            torch.save(weights, opj(self.NETWORK_OUTPUT_FOLDER,'weights','net'+'_'+time_str()+'.infer'))
+            so(self.losses,opj(self.NETWORK_OUTPUT_FOLDER,'loss','net'+'_'+time_str()+'.loss_avg'))
+            torch.save(self.optimizer.state_dict(), opj(self.NETWORK_OUTPUT_FOLDER,'optimizer','net'+'_'+time_str()+'.optimizer_state'))
+            torch.save(self.state_dict(), opj(self.NETWORK_OUTPUT_FOLDER,'state_dict','net'+'_'+time_str()+'.state_dict'))
+            print('. . . done saving.')
+            self.save_net_timer.reset()
+
+
+    def load(self):
+        f = most_recent_file_in_folder(opj(self.NETWORK_OUTPUT_FOLDER,'weights'),['.infer'],[])
+        #f = most_recent_file_in_folder(opj(self.NETWORK_OUTPUT_FOLDER,'state_dict'),['.state_dict'],[])
+        #cm(f,ra=0)
+        clp('Resuming with','`','',f,'','`--rb'); time.sleep(1)
+        save_data = torch.load(f)
+        self.load_state_dict(save_data['net'])
+
+        f = most_recent_file_in_folder(opj(self.NETWORK_OUTPUT_FOLDER,'loss'),['.loss_avg.pkl'],[])
+        self.losses = lo(f)
 
 
 class Fire(nn.Module):
@@ -157,5 +188,37 @@ def make_batch(input_target_function,batch_size):
         target_batch.append(target_data)
     return na(input_batch),None,na(target_batch)
 
+
+"""
+def load_net(path):
+    save_data = torch.load(path)
+    net = save_data['net']
+    return net
+"""
+
+"""
+_ = {}
+_['NETWORK_OUTPUT_FOLDER'] = opjD('Temp')
+_['save_net_timer'] = Timer(10)
+_['SAVE_FILE_NAME'] = 'temp'
+def save_net(N,temp=False):
+    for f in ['weights','optimizer','state_dict','loss']:
+        os.system(d2s('mkdir -p',opj(_['NETWORK_OUTPUT_FOLDER'],f)))
+    if _['save_net_timer'].check() or temp:
+        print('saving net state . . .')
+        weights = {'net':N.state_dict().copy()}
+        for key in weights['net']:
+            weights['net'][key] = weights['net'][key]#.cuda(device=0)
+        if temp:
+            torch.save(weights, opj(_['NETWORK_OUTPUT_FOLDER'],'weights','temp.infer'))
+            cb('. . . done saving temp.infer')
+            return
+        torch.save(weights, opj(_['NETWORK_OUTPUT_FOLDER'],'weights',_['SAVE_FILE_NAME']+'_'+time_str()+'.infer'))
+        #so(_['LOSS_LIST_AVG'],opj(_['NETWORK_OUTPUT_FOLDER'],'loss',_['SAVE_FILE_NAME']+'_'+time_str()+'.loss_avg'))
+        torch.save(N.optimizer.state_dict(), opj(_['NETWORK_OUTPUT_FOLDER'],'optimizer',_['SAVE_FILE_NAME']+'_'+time_str()+'.optimizer_state'))
+        torch.save(N.state_dict(), opj(_['NETWORK_OUTPUT_FOLDER'],'state_dict',_['SAVE_FILE_NAME']+'_'+time_str()+'.state_dict'))
+        print('. . . done saving.')
+        _['save_net_timer'].reset()
+"""
 
 #EOF
