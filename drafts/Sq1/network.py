@@ -18,7 +18,6 @@ except AttributeError:
 
 
 
-
 class SqueezeNet(nn.Module):
     def __init__(
         self,
@@ -75,6 +74,7 @@ class SqueezeNet(nn.Module):
             torch.cuda.set_device(self.GPU)
             torch.cuda.device(self.GPU)
             clp("GPUs =",torch.cuda.device_count(),"current GPU =",torch.cuda.current_device())
+            torch.cuda.set_device(0);torch.cuda.device(0)
             self.criterion = torch.nn.MSELoss().cuda()
         else:
             self.criterion = torch.nn.MSELoss()
@@ -90,24 +90,25 @@ class SqueezeNet(nn.Module):
         self.optimizer.zero_grad()
 
         if self.GPU > -1:
-            input_torch = torch.autograd.Variable(torch.from_numpy(input_data).cuda().float())
+            input_torch = torch.autograd.Variable(torch.from_numpy(input_data).cuda(device=0).float())
         else:
             input_torch = torch.autograd.Variable(torch.from_numpy(input_data).float())
 
         if type(meta_data) != type(None):
             if self.GPU > -1:
-                meta_data_torch = torch.autograd.Variable(torch.from_numpy(meta_data).cuda().float())
+                meta_data_torch = torch.autograd.Variable(torch.from_numpy(meta_data).cuda(device=0).float())
             else:
                 meta_data_torch = torch.autograd.Variable(torch.from_numpy(meta_data).float())
         else:
             meta_data_torch = None
 
         if self.GPU > -1:
-            target_torch = torch.autograd.Variable(torch.from_numpy(target_data).cuda().float())
+            target_torch = torch.autograd.Variable(torch.from_numpy(target_data).cuda(device=0).float())
         else:
             target_torch = torch.autograd.Variable(torch.from_numpy(target_data).float())
 
         self.A['camera_input'] = input_torch
+
         self.A['pre_metadata_features'] = self.pre_metadata_features(self.A['camera_input'])
         if type(meta_data) == type(None):
             self.A['pre_metadata_features_metadata'] = self.A['pre_metadata_features']

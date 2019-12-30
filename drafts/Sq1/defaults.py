@@ -23,7 +23,7 @@ Q = {
         'RESUME':False,
         'NETWORK_OUTPUT_FOLDER':opjD('Networks',fname(project_path)),
         'NET_SAVE_TIMER_TIME':60,
-        'GPU':-1,
+        'GPU':1,
     }
 }
 

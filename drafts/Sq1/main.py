@@ -25,7 +25,7 @@ if P['RESUME']:
     import torch
     N.load()
 else:
-    clp('Starting with random weights','`byb')
+    clp('Starting with random weights','`wbb')
  
 
 
