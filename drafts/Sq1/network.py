@@ -28,6 +28,7 @@ class SqueezeNet(nn.Module):
         NUM_LOSSES_TO_AVERAGE,
         NETWORK_OUTPUT_FOLDER,
         NET_SAVE_TIMER_TIME,
+        GPU,
         previous_losses = [],
         LR=0.01,
         MOMENTUM=0.001,
@@ -36,6 +37,7 @@ class SqueezeNet(nn.Module):
         self.A = {}
         self.lr = LR
         self.momentum = MOMENTUM
+        self.GPU = GPU
         self.NETWORK_OUTPUT_FOLDER = NETWORK_OUTPUT_FOLDER
         self.pre_metadata_features = nn.Sequential(
             nn.Conv2d(NUM_INPUT_CHANNELS, 64, kernel_size=3, stride=2),
@@ -69,8 +71,13 @@ class SqueezeNet(nn.Module):
                     init.kaiming_uniform(m.weight.data)
                 if m.bias is not None:
                     m.bias.data.zero_()
-    
-        self.criterion = torch.nn.MSELoss()#.cuda()
+        if self.GPU > -1:
+            torch.cuda.set_device(self.GPU)
+            torch.cuda.device(self.GPU)
+            clp("GPUs =",torch.cuda.device_count(),"current GPU =",torch.cuda.current_device())
+            self.criterion = torch.nn.MSELoss().cuda()
+        else:
+            self.criterion = torch.nn.MSELoss()
         self.optimizer = torch.optim.Adadelta(filter(lambda p: p.requires_grad,self.parameters()))
         self.loss = None
         self.losses = previous_losses
@@ -82,14 +89,23 @@ class SqueezeNet(nn.Module):
 
         self.optimizer.zero_grad()
 
-        input_torch = torch.autograd.Variable(torch.from_numpy(input_data).float())
+        if self.GPU > -1:
+            input_torch = torch.autograd.Variable(torch.from_numpy(input_data).cuda().float())
+        else:
+            input_torch = torch.autograd.Variable(torch.from_numpy(input_data).float())
 
         if type(meta_data) != type(None):
-            meta_data_torch = torch.autograd.Variable(torch.from_numpy(meta_data).float())
+            if self.GPU > -1:
+                meta_data_torch = torch.autograd.Variable(torch.from_numpy(meta_data).cuda().float())
+            else:
+                meta_data_torch = torch.autograd.Variable(torch.from_numpy(meta_data).float())
         else:
             meta_data_torch = None
 
-        target_torch = torch.autograd.Variable(torch.from_numpy(target_data).float())
+        if self.GPU > -1:
+            target_torch = torch.autograd.Variable(torch.from_numpy(target_data).cuda().float())
+        else:
+            target_torch = torch.autograd.Variable(torch.from_numpy(target_data).float())
 
         self.A['camera_input'] = input_torch
         self.A['pre_metadata_features'] = self.pre_metadata_features(self.A['camera_input'])
@@ -104,7 +120,6 @@ class SqueezeNet(nn.Module):
         self.loss = self.criterion(self.A['final_output'],target_torch)
         self.losses_to_average.append(self.extract('loss'))
         if len(self.losses_to_average) >= self.num_losses_to_average:
-            #cy(self.num_losses_to_average,len(self.losses_to_average))
             self.losses.append( na(self.losses_to_average).mean() )
             self.losses_to_average = []
         return self.A['final_output']
@@ -122,7 +137,6 @@ class SqueezeNet(nn.Module):
         else:
             return self.A[layer_name][batch_number,:].data.cpu().numpy()
 
-
     def save(self,temp=False):
         if self.save_net_timer.check() or temp:
             for f in ['weights','optimizer','state_dict','loss']:
@@ -130,7 +144,10 @@ class SqueezeNet(nn.Module):
             print('saving net state . . .')
             weights = {'net':self.state_dict().copy()}
             for key in weights['net']:
-                weights['net'][key] = weights['net'][key]#.cuda(device=0)
+                if self.GPU > -1:
+                    weights['net'][key] = weights['net'][key].cuda(device=0)
+                else:
+                    weights['net'][key] = weights['net'][key]
             if temp:
                 torch.save(weights, opj(self.NETWORK_OUTPUT_FOLDER,'weights','temp.infer'))
                 cb('. . . done saving temp.infer')
@@ -145,8 +162,6 @@ class SqueezeNet(nn.Module):
 
     def load(self):
         f = most_recent_file_in_folder(opj(self.NETWORK_OUTPUT_FOLDER,'weights'),['.infer'],[])
-        #f = most_recent_file_in_folder(opj(self.NETWORK_OUTPUT_FOLDER,'state_dict'),['.state_dict'],[])
-        #cm(f,ra=0)
         clp('Resuming with','`','',f,'','`--rb'); time.sleep(1)
         save_data = torch.load(f)
         self.load_state_dict(save_data['net'])
@@ -189,36 +204,5 @@ def make_batch(input_target_function,batch_size):
     return na(input_batch),None,na(target_batch)
 
 
-"""
-def load_net(path):
-    save_data = torch.load(path)
-    net = save_data['net']
-    return net
-"""
-
-"""
-_ = {}
-_['NETWORK_OUTPUT_FOLDER'] = opjD('Temp')
-_['save_net_timer'] = Timer(10)
-_['SAVE_FILE_NAME'] = 'temp'
-def save_net(N,temp=False):
-    for f in ['weights','optimizer','state_dict','loss']:
-        os.system(d2s('mkdir -p',opj(_['NETWORK_OUTPUT_FOLDER'],f)))
-    if _['save_net_timer'].check() or temp:
-        print('saving net state . . .')
-        weights = {'net':N.state_dict().copy()}
-        for key in weights['net']:
-            weights['net'][key] = weights['net'][key]#.cuda(device=0)
-        if temp:
-            torch.save(weights, opj(_['NETWORK_OUTPUT_FOLDER'],'weights','temp.infer'))
-            cb('. . . done saving temp.infer')
-            return
-        torch.save(weights, opj(_['NETWORK_OUTPUT_FOLDER'],'weights',_['SAVE_FILE_NAME']+'_'+time_str()+'.infer'))
-        #so(_['LOSS_LIST_AVG'],opj(_['NETWORK_OUTPUT_FOLDER'],'loss',_['SAVE_FILE_NAME']+'_'+time_str()+'.loss_avg'))
-        torch.save(N.optimizer.state_dict(), opj(_['NETWORK_OUTPUT_FOLDER'],'optimizer',_['SAVE_FILE_NAME']+'_'+time_str()+'.optimizer_state'))
-        torch.save(N.state_dict(), opj(_['NETWORK_OUTPUT_FOLDER'],'state_dict',_['SAVE_FILE_NAME']+'_'+time_str()+'.state_dict'))
-        print('. . . done saving.')
-        _['save_net_timer'].reset()
-"""
 
 #EOF

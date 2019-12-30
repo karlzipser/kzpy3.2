@@ -17,6 +17,7 @@ N = network.SqueezeNet(
     P['NUM_LOSSES_TO_AVERAGE'],
     P['NETWORK_OUTPUT_FOLDER'],
     P['NET_SAVE_TIMER_TIME'],
+    P['GPU'],
     )
 
 
@@ -24,7 +25,7 @@ if P['RESUME']:
     import torch
     N.load()
 else:
-    clp('Starting with random weights')
+    clp('Starting with random weights','`byb')
  
 
 

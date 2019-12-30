@@ -20,9 +20,10 @@ Q = {
 		'METADATA_HEIGHT':23,
 		'BATCH_SIZE':64,
 		'NUM_LOSSES_TO_AVERAGE':1,
-        'RESUME':True,
+        'RESUME':False,
         'NETWORK_OUTPUT_FOLDER':opjD('Networks',fname(project_path)),
         'NET_SAVE_TIMER_TIME':60,
+        'GPU':-1,
     }
 }
 
