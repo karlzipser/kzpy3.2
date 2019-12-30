@@ -99,6 +99,7 @@ def Images_and_Value_Getter(Runs,Values):
         np.random.shuffle(Keys[n])
 
     def function_get():
+        FLIP = random.choice([0,1])
         n = np.random.choice(Values.keys())
         ky = Keys[n][randint(len(Keys[n]))]
         f0 = ky[0][0]

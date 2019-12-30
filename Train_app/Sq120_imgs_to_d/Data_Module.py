@@ -1,37 +1,80 @@
-from kzpy3.vis3 import *
+from kzpy3.utils3 import *
 exec(identify_file_str)
 
 def prepare_data_for_training(_):
-	
-	full = True
+	full = False
+	if True: #########################################################################################
 
-	_['experiments_folders'] = []
+		_['experiments_folders'] = []
+		if True:
+			import kzpy3.Data_app.classify_data as classify_data
+			
+			
+			if full:
+				locations_to_classify = [
+					opjD("Data/1_TB_Samsung_n1"),
+					opjD("Data/2_TB_Samsung_n3/rosbags__preprocessed_data"),
+				]
+			else:
+				locations_to_classify = [opjD("Data/2_TB_Samsung_n3/rosbags__preprocessed_data")]
+			
+			for l in locations_to_classify:
+				#cb("classify_data.find_locations('",l,"'),_['experiments_folders'])...")
+				classify_data.find_locations(l,_['experiments_folders'],False)
+				#cb("...done.")
+			if _['verbose']: print len(_['experiments_folders'])
+			if _['verbose']: print _['experiments_folders']
+			#raw_enter()
+		################################################################
+		if full:
+		################################################################
+			older = [
+				opjD("Data/2_TB_Samsung_n3/bdd_car_data_July2017_LCR/locations"),
+				opjD("Data/2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_model_car_data_early_8Oct2018_lrc_LIDAR/locations"),
+				opjD("Data/2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_model_car_data_late_Sept_early_Oct2018_lrc/locations"),
+				opjD("Data/2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_car_data_late_Sept2018_lrc/locations"),
+				opjD("Data/2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_car_data_18July_to_18Sept2018_lrc/locations"),
+				opjD("Data/2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/model_car_data_July2018_lrc/locations"),
+				opjD("Data/2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/model_car_data_June2018_LCR/locations"),
+			]
+			_['experiments_folders'] += older
 
-	import kzpy3.Data_app.classify_data as classify_data
-	
-	if full:
-		locations_to_classify = [
-			opjD("Data/1_TB_Samsung_n1"),
-			opjD("Data/2_TB_Samsung_n3/rosbags__preprocessed_data"),
-		]
-	else:
-		locations_to_classify = [opjD("Data/2_TB_Samsung_n3/rosbags__preprocessed_data")]
-	
-	for l in locations_to_classify:
-		classify_data.find_locations(l,_['experiments_folders'],False)
+	else: #########################################################################################
 
-	if full:
 
-		older = [
-			opjD("Data/2_TB_Samsung_n3/bdd_car_data_July2017_LCR/locations"),
-			opjD("Data/2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_model_car_data_early_8Oct2018_lrc_LIDAR/locations"),
-			opjD("Data/2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_model_car_data_late_Sept_early_Oct2018_lrc/locations"),
-			opjD("Data/2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_car_data_late_Sept2018_lrc/locations"),
-			opjD("Data/2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_car_data_18July_to_18Sept2018_lrc/locations"),
-			opjD("Data/2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/model_car_data_July2018_lrc/locations"),
-			opjD("Data/2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/model_car_data_June2018_LCR/locations"),
-		]
-		_['experiments_folders'] += older
+		_['experiments_folders'] = []
+		if True:
+			import kzpy3.Data_app.classify_data as classify_data
+			
+			
+			if True:
+				locations_to_classify = [opjm("1_TB_Samsung_n1"),opjm('2_TB_Samsung_n3/rosbags__preprocessed_data')]
+			else:
+				locations_to_classify = [opjm('2_TB_Samsung_n3/rosbags__preprocessed_data')]
+			
+			for l in locations_to_classify:
+				#cb("classify_data.find_locations('",l,"'),_['experiments_folders'])...")
+				classify_data.find_locations(l,_['experiments_folders'],False)
+				#cb("...done.")
+			if _['verbose']: print len(_['experiments_folders'])
+			if _['verbose']: print _['experiments_folders']
+			#raw_enter()
+		################################################################
+		if True:
+		################################################################
+			older = [
+				#opjm('2_TB_Samsung_n3/bdd_car_data_July2017_LCR/locations'),
+				opjm('2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_model_car_data_early_8Oct2018_lrc_LIDAR/locations'),
+				opjm('2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_model_car_data_late_Sept_early_Oct2018_lrc/locations'),
+				opjm('2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_car_data_late_Sept2018_lrc/locations'),
+				opjm('2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_car_data_18July_to_18Sept2018_lrc/locations'),
+				opjm('2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/model_car_data_July2018_lrc/locations'),
+				#opjm('2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/model_car_data_June2018_LCR/locations'),
+			]
+
+			_['experiments_folders'] += older
+	##############################################################################################
+
 
 
 	_['experiments_folders'] = list(set(_['experiments_folders']))
@@ -42,7 +85,10 @@ def prepare_data_for_training(_):
 
 
 	def equalize_to_max_len(M):
-
+		#cg("equalize_to_max_len()")
+		#cg("\tinitial lengths:")
+		for k in M.keys():
+			pass#cg("\t\t",k,len(M[k]))
 		lens = []
 		steer_types = M.keys()
 
@@ -61,6 +107,9 @@ def prepare_data_for_training(_):
 
 		for k in steer_types:
 			assert (len(M[k]) == max_len) or (len(M[k]) == 0)
+		#cg("\tfinal lengths:")
+		for k in M.keys():
+			pass#cg("\t\t",k,len(M[k]))
 
 	B = {}
 	B['left'] = []
@@ -73,16 +122,29 @@ def prepare_data_for_training(_):
 			setup_timer.message('setting up')
 			if fname(experiments_folder)[0] == '_':
 				continue
+			#cg("experiments_folder =",experiments_folder)
 			locations = sggo(experiments_folder,'*')
 			for location in locations:
 				if fname(location)[0] == '_':
+					#spd2s('ignoring',location,"because of '_'" )
 					continue
+				#if _['verbose']: cg("\t",location)
 				b_modes = sggo(location,'*')
+				#if _['verbose']: cg("\t\tbehavioral modes at this location:", b_modes)
 				for e in b_modes:
 					if fname(e)[0] == '_':
 						continue
 					if fname(e) == 'racing':
 						continue
+					"""
+					if fname(e) == 'play':
+						continue
+					if fname(e) == 'follow':
+						continue
+					if fname(e) == 'furtive':
+						continue
+					"""
+					#cb("\t",fname(e))
 
 					_data_moments_indexed = lo(opj(e,'data_moments_dic.pkl'),noisy=False)
 					#########################################################################
@@ -154,29 +216,46 @@ def prepare_data_for_training(_):
 		#cg("len(_['data_moments_indexed']) =",len(_['data_moments_indexed']))
 		#cg("len(_['heading_pause_data_moments_indexed']) =",len(_['heading_pause_data_moments_indexed']))
 
+		"""
 		_['net_projection_runs'] = []
 		temp = sggo(opjD('Data/Network_Predictions_projected/*.flip.h5py'))
 		for r in temp:
 			run_name = r.split('.')[0]
 			_['net_projection_runs'].append(fname(run_name))
+		"""
+
+
+
+def load_Network_Predictions(_):
+	Network_Predictions = {}
+	files = sggo(opjD('Data/Network_Predictions/*.pkl'))
+	cy(files)
+	timer = Timer(60)
+	for f in files:
+		k = fname(f).replace('.net_predictions.pkl','')
+		if k not in _['run_name_to_run_path'].keys():
+			cr(fname(f))
+			cr('not loading Network_Predictions for',f)
+			continue
+		if False:#timer.check():
+			cm('done')
+			return
+		if fname(f) != 'runs.pkl':
+			cb('loading',k)
+			Network_Predictions[k] = lo(f)
+		else:
+			cr(f)
+	return Network_Predictions
+
 
 
 
 blank_meta = np.zeros((23,41,3),np.uint8)
-blank_camera = blank_meta#np.zeros((94,168,3),np.uint8)
+blank_camera = np.zeros((94,168,3),np.uint8)
 
+def get_Data_moment(_,Network_Predictions,dm=None,FLIP=None):
 
-def indicies_offset():##############################3
-	logtime = np.random.random() * 5 - 1.1
-	lintime = np.e**logtime -0.25
-	index_offset = intr(lintime*30.)
-	#target = logtime
-	return intr(lintime*30.),max((logtime+1.1)/5.,0)
-
-timer = Timer(5)
-def get_Data_moment(_,dm=None,FLIP=None):
-
-	try:
+	if True:#try:
 		if dm['run_name'] in _['lacking runs']:
 			return False
 		Data_moment = {}
@@ -185,6 +264,20 @@ def get_Data_moment(_,dm=None,FLIP=None):
 		steer_len = len(_['Loaded_image_files'][dm['run_name']]['left_timestamp_metadata']['steer'])
 		data_len = min(steer_len - left_index,90)
 		behavioral_mode = dm['behavioral_mode']
+
+
+		Data_moment['predictions'] = {}
+		for s in ['left','direct','right']:
+			_index = Network_Predictions[dm['run_name']]['index'][left_index]
+			if True:
+				Data_moment['predictions'][s] = Network_Predictions[dm['run_name']][s][_index].copy()
+			elif False:
+				Data_moment['predictions'][s] = Network_Predictions[dm['run_name']][s][_index]
+			#Data_moment['predictions'][s]['heading'] -= Data_moment['predictions'][s]['heading'][0]
+			if FLIP:
+				Data_moment['predictions'][s]['steer'] = 99 - Data_moment['predictions'][s]['steer']
+				Data_moment['predictions'][s]['heading'] = -1 * Data_moment['predictions'][s]['heading']
+
 		if True:
 			if steer_len - left_index < 90:
 				print steer_len - left_index
@@ -258,37 +351,18 @@ def get_Data_moment(_,dm=None,FLIP=None):
 			F = _['Loaded_image_files'][Data_moment['name']]['normal']
 			S = _['Loaded_image_files'][Data_moment['name']]['normal projections']
 
-
-
-		#cm(len(F['left_image']['vals']))
-		#cm(il0)
-		#if dm['left_ts_index'][0] + 100 > len(F['left_image']['vals']): #########################
-		#	return False #########################
-
-		index_offset,z2o_logtime = indicies_offset()
-		#print index_offset,z2o_logtime
-		if 'left_image' in F:
-			if 'vals' in F['left_image']:
-				if index_offset + il0 > len(F['left_image']['vals']):
-					return False
-			else:
-				return False
+		
+		if not FLIP:
+			Data_moment['projections'] = S[il0]
 		else:
-			return False
-
-		for pro,indx in [('projections',dm['LDR ref index']),('projections2',dm['LDR index'])]: ######################
-			if not FLIP:
-				Data_moment[pro] = S[indx] ###############
-			else:
-				blank_meta[:,:,0] = S[indx][:,:,1]
-				blank_meta[:,:,1] = S[indx][:,:,0]
-				blank_meta[:,:,2] = S[indx][:,:,2]
-				Data_moment[pro] = blank_meta
-
-	
-
+			blank_meta[:,:,0] = S[il0][:,:,1]
+			blank_meta[:,:,1] = S[il0][:,:,0]
+			blank_meta[:,:,2] = S[il0][:,:,2]
+			Data_moment['projections'] = blank_meta
+		
 		Data_moment['left'] = {}
 		Data_moment['right'] = {}
+
 
 		if False: # for full zeroing of camera inputs
 			Data_moment['left'][0] = blank_camera
@@ -298,19 +372,12 @@ def get_Data_moment(_,dm=None,FLIP=None):
 			return Data_moment
 
 		else: # below is the normal case
-			if True:#not FLIP:
+			if not FLIP:
 				if il0+1 < len(F['left_image']['vals']) and ir0+1 < len(F['right_image']['vals']):
-					#mi(Data_moment['projections'],1);plt.title(shape(Data_moment['projections']))#;spause();raw_enter()
-					#mi(Data_moment['projections2'],2);plt.title(shape(Data_moment['projections2']));spause();time.sleep(0.3)
-					Data_moment['left'][0] = Data_moment['projections']
-					Data_moment['right'][0] = Data_moment['projections2']
-					Data_moment['left'][1] = 0*Data_moment['projections']
-					Data_moment['right'][1] = 0*Data_moment['projections2']
-					if timer.check():
-						timer.reset()
-						mci(z55(Data_moment['projections']),title='left')
-						mci(z55(Data_moment['projections2']),title='right')
-						mci(F['left_image']['vals'][indx],title='left rgb')
+					Data_moment['left'][0] = F['left_image']['vals'][il0]
+					Data_moment['right'][0] = F['right_image']['vals'][ir0]
+					Data_moment['left'][1] = F['left_image']['vals'][il0+1] # note, ONE frame
+					Data_moment['right'][1] = F['right_image']['vals'][ir0+1]
 				else:
 					spd2s('if il0+1 < len(F[left_image][vals]) and ir0+1 < len(F[right_image][vals]): NOT TRUE!')
 					return False
@@ -325,28 +392,22 @@ def get_Data_moment(_,dm=None,FLIP=None):
 
 					return False
 
-			#Data_moment['steer'] *= 0
-			Data_moment['steer'][:] = z2o_logtime
-			#cm(Data_moment['steer'][0])
-			#Data_moment['motor'] *= 0
-			#Data_moment['gyro_heading_x'] *= 0
-			#Data_moment['encoder_meo'] *= 0
-
 			return Data_moment
 
 		return False
 
-	except Exception as e:
+	else:#except Exception as e:
 	    exc_type, exc_obj, exc_tb = sys.exc_info()
 	    file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
 	    CS_('Exception!',emphasis=True)
 	    CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
-	    _['ABORT'] = True
 
 	return False
 
 
-	
+
+
+# 17Dec2018 introducing projections into training, 12 Dec introduced small images.
 
 
 

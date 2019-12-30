@@ -121,7 +121,7 @@ for f in files:
     name = fname(f).split('.')[0]
     Files[name] = h5r(f)['normal']
 
-blank_meta = np.zeros((23,41,3),np.uint8)
+#blank_meta = np.zeros((23,41,3),np.uint8)
 
 
 if 'threshold' not in Arguments:
@@ -161,83 +161,60 @@ while _['ABORT'] == False:
 
     other_name = a_key(Files)
     other_index = np.random.randint(len(Files[other_name]))
-    #cb(other_index)
     other_img = Files[other_name][other_index].copy()
     the_img = other_img
-    blank_meta[:,:,0] = the_img[:,:,1]
-    blank_meta[:,:,1] = the_img[:,:,0]
-    blank_meta[:,:,2] = the_img[:,:,2]
+    #blank_meta[:,:,0] = the_img[:,:,1]
+    #blank_meta[:,:,1] = the_img[:,:,0]
+    #blank_meta[:,:,2] = the_img[:,:,2]
     other_img = the_img.copy()
 
-    cluster_found = False
-    #cr(cluster_list,ra=1)
-    #np.random.shuffle(cluster_list)
-    indicies = range(len(cluster_list))
-    np.random.shuffle(indicies)
-    for i in indicies:
-        c = cluster_list[i]
-        C = np.random.choice(c)
-        C = c[0]
-        ref_name = C['name']
-        ref_index = C['index']
-        #cg(ref_index)
-        ref_img = Files[ref_name][ref_index].copy()
-        the_img = ref_img
-        blank_meta[:,:,0] = the_img[:,:,1]
-        blank_meta[:,:,1] = the_img[:,:,0]
-        blank_meta[:,:,2] = the_img[:,:,2]
-        ref_img = the_img.copy()
+    ref_name = a_key(Files)
+    ref_index = np.random.randint(len(Files[ref_name]))
+    ref_img = Files[ref_name][ref_index].copy()
+    the_img = ref_img
+    #blank_meta[:,:,0] = the_img[:,:,1]
+    #blank_meta[:,:,1] = the_img[:,:,0]
+    #blank_meta[:,:,2] = the_img[:,:,2]
+    ref_img = the_img.copy()
+    #mi(ref_img,1);mi(other_img,2);spause()
+
+    Batch['CLEAR']()
+
+    Batch['FILL'](
+        ref_name,
+        ref_index,
+        ref_img,
+        other_name,
+        other_index,
+        other_img,       
+    )
+
+    value = Batch['FORWARD']()
+
+
+    s = sorted([ref_name,other_name])
+
+    if s[0] == ref_name:
+        a = (ref_name,ref_index)
+        b = (other_name,other_index)
+    else:
+        b = (ref_name,ref_index)
+        a = (other_name,other_index)
+    c = (a,b,value)
+    #print c
+
+    n = int(value*10)
+    if n not in Interval_data:
+        Interval_data[n] = []
+    Interval_data[n].append(c)
+    if save_timer.check():
+        save_timer.reset()
+        so(Interval_data,opjD('Interval_data',time_str()))
+        Interval_data = {}
+    
 
 
 
-        Batch['CLEAR']()
-
-        Batch['FILL'](
-            ref_name,
-            ref_index,
-            ref_img,
-            other_name,
-            other_index,
-            other_img,       
-        )
-
-        value = Batch['FORWARD']()
-
-
-        s = sorted([ref_name,other_name])
-
-        if s[0] == ref_name:
-            a = (ref_name,ref_index)
-            b = (other_name,other_index)
-        else:
-            b = (ref_name,ref_index)
-            a = (other_name,other_index)
-        c = (a,b,value)
-        #print c
-
-        n = int(value*10)
-        if n not in Interval_data:
-            Interval_data[n] = []
-        Interval_data[n].append(c)
-        if save_timer.check():
-            save_timer.reset()
-            so(Interval_data,opjD('Interval_data',time_str()))
-            Interval_data = {}
-        
-        if False:#value < 0.25 and (other_name != ref_name or np.abs(ref_index-other_index) > 30*60):
-            c.append({'name':other_name,'index':other_index})
-            cluster_found = True
-            if _['display']:
-                mi(ref_img,'ref_run')
-                mi(other_img,'other_run')
-                spause()
-            #cg(ref_index-other_index)
-            break
-
-
-    if False:#len(cluster_list) < 1024:
-        if cluster_found == False:
-            cluster_list.append([{'name':other_name,'index':other_index}])
 
 
 
