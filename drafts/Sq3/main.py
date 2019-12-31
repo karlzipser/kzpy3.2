@@ -2,16 +2,27 @@ from kzpy3.vis3 import *
 import network  
 import graphics  
 import Menu.main
-from get_data import make_Runs_Values_input_target as make_input_meta_target
-#from get_data import make_XOR_input_target as make_input_meta_target
-
 exec(identify_file_str)
 import menu_str
 exec(menu_str.exec_str)
 
+
+
+if P['NET_TYPE'] == 'Runs_Values':
+    from get_data import make_Runs_Values_input_target as make_input_meta_target
+elif P['NET_TYPE'] == 'XOR':
+    from get_data import make_XOR_input_target as         make_input_meta_target
+
+input_data, meta_data, target_data = \
+            network.make_batch( make_input_meta_target, P, P['BATCH_SIZE'] )
+P['NUM_INPUT_CHANNELS'] = shape(input_data)[1]
+P['NUM_OUTPUTS'] = shape(target_data)[1]
+P['NUM_METADATA_CHANNELS'] = 0
+P['INPUT_WIDTH'] = shape(input_data)[2]
+P['INPUT_HEIGHT'] = shape(input_data)[3]
+P['METADATA_WIDTH'] = 41
+P['METADATA_HEIGHT'] = 23
 kprint(M['Q'])
-
-
 
 N = network.SqueezeNet(
     P['NUM_INPUT_CHANNELS'],
