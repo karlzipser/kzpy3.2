@@ -32,9 +32,12 @@ def graphics(N,M):
     )
 
     c = N.extract('camera_input')
+    t = N.extract('target_torch')
     d = N.extract('final_output')#;kprint(d,title='d')
-    for i in [0,3]:
-        mi(c[i,:,:].transpose(),i,img_title=d2s(d))
+    #for i in [0,3]:
+    #    mi(c[i,:,:].transpose(),i,img_title=d2s(dp(t),dp(d)))
+    mi(c[0,:,:].transpose(),0,img_title=d2s(dp(t),dp(d)))
+    mi(c[3,:,:].transpose(),3)
 
     spause()
 

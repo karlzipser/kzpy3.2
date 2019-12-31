@@ -271,7 +271,7 @@ def Default_Values(
                 if value == None:
                     type_str = '<'+str(type(d)).split("'")[1]+'>'
                     #type_str = cf('<',type_str,'>','`e-d',s0='')
-                    value = input(cf("Enter value for '",key,"' (",d,' ',type_str,"): ",'`ybb',s0='',s1=''))
+                    value = input(cf("Enter value for '",key,"' (",d,' ',type_str,"):",'`ybb',' ',s0='',s1=''))
 
                 if type(K[key]) == np.ndarray:
                     if type(value) == str:

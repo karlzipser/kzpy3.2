@@ -72,7 +72,7 @@ class SqueezeNet(nn.Module):
                     m.bias.data.zero_()
         if self.GPU > -1:
             if self.GPU == 999:
-                GPUs = gpu_stats(100)
+                GPUs = gpu_stats(400)
                 if GPUs[0]['util'] < 5 and GPUs[1]['util'] < 5:
                     self.GPU = random.choice([0,1])
                 else:
@@ -123,7 +123,7 @@ class SqueezeNet(nn.Module):
         self.A['post_metadata_features'] = self.post_metadata_features(self.A['pre_metadata_features_metadata'])
         self.A['final_output'] = self.final_output(self.A['post_metadata_features'])
         self.A['final_output'] = self.A['final_output'].view(self.A['final_output'].size(0), -1)
-
+        self.A['target_torch'] = target_torch
         self.loss = self.criterion(self.A['final_output'],target_torch)
         self.losses_to_average.append(self.extract('loss'))
         if len(self.losses_to_average) >= self.num_losses_to_average:

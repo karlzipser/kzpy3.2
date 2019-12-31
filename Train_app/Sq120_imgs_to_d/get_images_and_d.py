@@ -51,9 +51,76 @@ def create_Runs_and_Values_files(path,ctr_mx=100000000,save=True):
 
     return Runs,Values
 
+#,a
+def create_Runs_and_Values_files2(path,ctr_mx=100000000,save=True):
+    files = sggo(opjD('Interval_data/*.pkl'))
+
+    Runs = {}
+    Values = {}
+
+    ctr = 0
+    
+    Es = {}
 
 
-def test(Runs,Values):
+    r = range(len(files))
+    np.random.shuffle(r)
+    print r
+    for x in r:#range(len(files):
+        total,reject = 0,0
+        kprint(x,title='file number')
+        I = lo(files[x])
+        for n in I.keys():
+            Values[n] = {}
+            for i in I[n]:
+                f0 = i[0][0]
+                f1 = i[1][0]
+                i0 = i[0][1]
+                i1 = i[1][1]
+                v = i[2]
+                do_reject = False
+                for j in [0,1]:
+                    f = i[j][0]
+                    if f not in Runs:
+                        H = find_files_recursively(opjD('Data'),f,DIRS_ONLY=True)
+                        Runs[f] = H['paths'].keys()[0]
+                        #print Runs[f]
+                        #print f
+                        #print H
+                        L = h5r(opjD('Data',Runs[f],f,'left_timestamp_metadata_right_ts.h5py'))
+                        Es[f] = L['encoder'][:]
+                        #Es[f][:int(rnd()*len(Es[f]))] *= 0
+                        L.close()
+                        #clf();plot(Es[f]);plt.title(f);spause();raw_enter()
+                    
+                    #cy(f,i[j][1])
+                    if Es[f][i[j][1]] < 0.1:
+                        do_reject = True
+                total += 1
+                if do_reject:
+                    reject += 1
+                else:
+                    srt = sorted([f0,f1])
+                    if srt[0] == f0:
+                        ky = ((f0,i0),(f1,i1))
+                    else:
+                        ky = ((f1,i1),(f0,i0))
+                    Values[n][ky] = v
+
+        clp(files[x],total,reject,int(100*reject/(1.*total)),'%')#;raw_enter()
+        ctr += 1
+        if ctr > ctr_mx:
+            break
+    if save:
+        so(opj(path,'Runs'),Runs)
+        so(opj(path,'Values'),Values)
+
+    return Runs,Values
+#,b
+
+
+
+def test(Runs,Values,category_number):
     Os = {}
     for r in Runs.keys():
         p = opjD('Data',Runs[r],r,'original_timestamp_data.h5py')
@@ -67,20 +134,21 @@ def test(Runs,Values):
         np.random.shuffle(Keys[n])
 
     value_keys = Values.keys()
+    n = category_number
     while True:
         np.random.shuffle(value_keys)
-        for n in value_keys:
-            ky = Keys[n][randint(len(Keys[n]))]
-            f0 = ky[0][0]
-            f1 = ky[1][0]
-            i0 = ky[0][1]
-            i1 = ky[1][1]
-            img[:,:168,:] = Os[f0]['left_image']['vals'][i0]
-            img[:,168:,:] = Os[f1]['left_image']['vals'][i1]
-            mi(img,img_title=d2s(n,'     ',Values[n][ky]))
-            spause()
-            if raw_input('hit enter or q > ') == 'q':
-                break
+        #for n in value_keys:
+        ky = Keys[n][randint(len(Keys[n]))]
+        f0 = ky[0][0]
+        f1 = ky[1][0]
+        i0 = ky[0][1]
+        i1 = ky[1][1]
+        img[:,:168,:] = Os[f0]['left_image']['vals'][i0]
+        img[:,168:,:] = Os[f1]['left_image']['vals'][i1]
+        mi(img,img_title=d2s(n,'     ',Values[n][ky]))
+        spause()
+        if raw_input('hit enter or q > ') == 'q':
+            break
 
 
 
