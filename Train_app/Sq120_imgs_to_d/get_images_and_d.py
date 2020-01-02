@@ -71,7 +71,8 @@ def create_Runs_and_Values_files2(path,ctr_mx=100000000,save=True):
         kprint(x,title='file number')
         I = lo(files[x])
         for n in I.keys():
-            Values[n] = {}
+            if n not in Values:
+                Values[n] = {}
             for i in I[n]:
                 f0 = i[0][0]
                 f1 = i[1][0]
