@@ -20,8 +20,14 @@ def graphics_function(N,M):
     a = ab[0,0,0]
     b = ab[1,0,0]
     c = N.extract('final_output',0)[0]
+    t = N.extract('target')[0]
     if True:
-        print dp(a),dp(b),dp(c)
+        diff = np.abs(dp(c)-dp(t))
+        if diff < 0.2:
+            color = '`wgb'
+        else:
+            color = '`wrb'
+        clp( diff,color, dp(a),dp(b),dp(c),dp(t),'`' )
 
     clf()
     plot(N.losses,'.')
@@ -33,12 +39,12 @@ def graphics_function(N,M):
     )
 
     c = N.extract('camera_input')
-    t = N.extract('target_torch')
+    t = N.extract('target')
     d = N.extract('final_output')#;kprint(d,title='d')
     #for i in [0,3]:
     #    mi(c[i,:,:].transpose(),i,img_title=d2s(dp(t),dp(d)))
-    mi(c[0,:,:],0,img_title=d2s(dp(t),dp(d)))
-    mi(c[1,:,:],3)
+    #mi(c[0,:,:],0,img_title=d2s(dp(t),dp(d)))
+    #mi(c[1,:,:],3)
 
     spause()
 

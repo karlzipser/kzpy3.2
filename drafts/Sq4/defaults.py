@@ -18,6 +18,9 @@ Q = {
         'NETWORK_OUTPUT_FOLDER':opjD('Networks',fname(project_path)),
         'NET_SAVE_TIMER_TIME':60*5,
         'GPU':-1, # -1->no GPU, 999->choose least used GPU
+        'LR':0.01,
+        'MOMENTUM':0.001,
+
     }
 }
 

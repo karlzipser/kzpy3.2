@@ -9,6 +9,7 @@ def get_data_function(P):
     NUM_OUTPUTS = 1
     a = random.choice([0,1])
     b = random.choice([0,1])
+    n = 0.
 
     if a and b:
         c = 0
@@ -17,15 +18,17 @@ def get_data_function(P):
     else:
         c = 0
 
-    input_data =    0.01*rndn(NUM_INPUT_CHANNELS, INPUT_WIDTH,INPUT_HEIGHT)
+    input_data =  n*rndn(NUM_INPUT_CHANNELS, INPUT_WIDTH,INPUT_HEIGHT)
     input_data[0,:] += a
     input_data[1,:] += b
 
-    meta_data = None
-    target_data =   0.1*rndn(NUM_OUTPUTS)
+    target_data =   n*rndn(NUM_OUTPUTS)
     target_data += c
-    #kprint(shape(input_data),title='input_data')
-    return input_data,meta_data,target_data
+    return {
+        'input':input_data,
+        'target':target_data,
+    }
+
 
 
 
