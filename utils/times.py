@@ -135,6 +135,17 @@ def Progress_animator(total_count,update_Hz=1.0,message=''):
 
 
 
+def format_seconds(time):
+    day = time // (24 * 3600)
+    time = time % (24 * 3600)
+    hour = time // 3600
+    time %= 3600
+    minutes = time // 60
+    time %= 60
+    seconds = time
+    return "%d:%d:%d:%d" % (day, hour, minutes, seconds)
+
+
 
 exec(identify_file_str)
 
