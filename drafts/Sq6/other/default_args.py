@@ -10,6 +10,15 @@ Default_Arguments = {
 	    'num_losses_to_average':5,
 	    'save_time':30,
 	},
+    'ConDecon_test':{
+	    'resume':True,
+	    'gpu':-1,
+	    'momentum':0.001,
+	    'lr':0.01,
+	    'batch_size':8,
+	    'num_losses_to_average':5,
+	    'save_time':30,
+	},
 	'Runs_Values':{
 	    'resume':True,
 	    'gpu':999,

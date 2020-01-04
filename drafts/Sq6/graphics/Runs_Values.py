@@ -15,10 +15,10 @@ def graphics_function(N,M):
         return
 
     figure('loss')
-    ab = N.extract('camera_input',0)
+    ab = N.extract('input',0)
     a = ab[0,0,0]
     b = ab[1,0,0]
-    c = N.extract('final_output',0)[0]
+    c = N.extract('output',0)[0]
     if False:
         print dp(a),dp(b),dp(c)
 
@@ -31,9 +31,9 @@ def graphics_function(N,M):
         M['Q']['runtime_parameters']['graphics_ylim'][1]
     )
 
-    c = N.extract('camera_input')
+    c = N.extract('input')
     t = N.extract('target_torch')
-    d = N.extract('final_output')#;kprint(d,title='d')
+    d = N.extract('output')#;kprint(d,title='d')
     #for i in [0,3]:
     #    mi(c[i,:,:].transpose(),i,img_title=d2s(dp(t),dp(d)))
     mi(c[0,:,:].transpose(),0,img_title=d2s(dp(t),dp(d)))

@@ -28,6 +28,11 @@ elif P['NET_TYPE'] == 'XOR':
     from graphics.XOR import graphics_function
     import networks.other
     Network = networks.other.OtherNet
+elif P['NET_TYPE'] == 'ConDecon_test':
+    from get_data.ConDecon_test import get_data_function
+    from graphics.ConDecon_test import graphics_function
+    import networks.condecon
+    Network = networks.condecon.ConDecon
 project_path = pname(opjh(__file__))
 P['NETWORK_OUTPUT_FOLDER'] = opjD('Networks',d2n(fname(project_path),'_',P['NET_TYPE']))
 Data = networks.net.make_batch( get_data_function, P, P['BATCH_SIZE'] )

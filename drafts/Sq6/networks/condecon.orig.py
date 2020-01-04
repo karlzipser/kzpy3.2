@@ -1,13 +1,14 @@
 # https://github.com/pgtgrly/Convolution-Deconvolution-Network-Pytorch/blob/master/Neural_Network_Class.py
+from kzpy3.utils3 import *
+import torch
+import torch.nn as nn
+from torch.autograd import Variable
+class conv_deconv(nn.Module):
 
-from net import *
-exec(identify_file_str)
+    def __init__(self):
+        super(conv_deconv,self).__init__()
 
-class ConDecon(Net):
-
-    def setup_layers(self,P):
-
-        self.conv1=nn.Conv2d(in_channels=P['NUM_INPUT_CHANNELS'],out_channels=16, kernel_size=4,stride=1, padding=0)
+        self.conv1=nn.Conv2d(in_channels=3,out_channels=16, kernel_size=4,stride=1, padding=0)
         nn.init.xavier_uniform(self.conv1.weight) #Xaviers Initialisation
         self.swish1= nn.ReLU()
 
@@ -35,16 +36,12 @@ class ConDecon(Net):
 
         self.maxunpool2=nn.MaxUnpool2d(kernel_size=2)
 
-        self.deconv3=nn.ConvTranspose2d(in_channels=16,out_channels=P['NUM_OUTPUTS'],kernel_size=4)
+        self.deconv3=nn.ConvTranspose2d(in_channels=16,out_channels=3,kernel_size=4)
         nn.init.xavier_uniform(self.deconv3.weight)
         self.swish6=nn.ReLU()
 
-    def forward(self,Data):
-
-        self.optimizer.zero_grad()
-        Torch_data = self.data_to_torch(Data)
-        self.A['input'] = Torch_data['input']
-        out=self.conv1(self.A['input'])
+    def forward(self,x):
+        out=self.conv1(x)
         out=self.swish1(out)
         size1 = out.size()
         out,indices1=self.maxpool1(out)
@@ -63,17 +60,13 @@ class ConDecon(Net):
         out=self.maxunpool2(out,indices1,size1)
         out=self.deconv3(out)
         out=self.swish6(out)
-        self.A['output'] = out
-        self.A['target'] = Torch_data['target']
-        self.loss = self.criterion(self.A['output'],self.A['target'])
-        self.losses_to_average.append(self.extract('loss'))
-        if len(self.losses_to_average) >= self.num_losses_to_average:
-            self.losses.append( na(self.losses_to_average).mean() )
-            self.losses_to_average = []
-        return(self.A['output'])
+        return(out)
 
-    
-    def setup_weights(self):
-        pass
+if __name__ == '__main__':
+    C = conv_deconv()
+    #x = torch.DoubleTensor(zeros((16,3,30,30))).float()
+    x = torch.DoubleTensor(zeros((16,3,41,23))).float()
+    y = C.forward(x)
+    print y.size()
 
 #EOF

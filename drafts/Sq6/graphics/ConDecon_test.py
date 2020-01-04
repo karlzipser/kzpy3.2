@@ -19,8 +19,8 @@ def graphics_function(N,M):
     ab = N.extract('input',0)
     a = ab[0,0,0]
     b = ab[1,0,0]
-    c = N.extract('output',0)[0]
-    t = N.extract('target')[0]
+    c = N.extract('output',0)[0,0,0]
+    t = N.extract('target',0)[0,0,0]
     if True:
         diff = np.abs(dp(c)-dp(t))
         if diff < 0.2:

@@ -44,15 +44,7 @@ class Net(nn.Module):
             clp('Starting with random weights','`wbb')
 
 
-    def setup_weights(self):
-        for m in self.modules():
-            if isinstance(m, nn.Conv2d):
-                if m is self.final_conv:
-                    init.normal(m.weight.data, mean=0.0, std=0.01)
-                else:
-                    init.kaiming_uniform(m.weight.data)
-                if m.bias is not None:
-                    m.bias.data.zero_()
+
 
 
     def setup_GPU(self):
@@ -141,8 +133,23 @@ class Net(nn.Module):
         f = most_recent_file_in_folder(opj(self.NETWORK_OUTPUT_FOLDER,'loss'),['.loss_avg.pkl'],[])
         self.losses = lo(f)
 
-
-
+    """
+    def setup_weights(self):
+        for m in self.modules():
+            #print m
+            if isinstance(m, nn.Conv2d) or isinstance(m, nn.ConvTranspose2d):
+                try:
+                    if m is self.final_conv:
+                        init.normal(m.weight.data, mean=0.0, std=0.01)
+                    else:
+                        init.kaiming_uniform(m.weight.data)
+                except:
+                    print('exception')
+                if m.bias is not None:
+                    m.bias.data.zero_()
+            else:
+                pass#assert(False)
+    """
 
 
 
