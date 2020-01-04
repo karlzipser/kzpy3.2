@@ -327,7 +327,13 @@ if temp != None:
             a = a[2:]
         else:
             print(Args)
-            pd2s('*** Warning, argument',"'"+k+"'",'not proceeded by -- on command line ***')
+            pd2s('\x1b[1m\x1b[41m\x1b[37m',
+                '*** Warning, argument',
+                "'"+k+"'",
+                'not proceeded by -- on command line ***',
+                '\x1b[0m'
+            )
+            time.sleep(4)
             #raw_enter()
         if str_is_int(ar):
             Arguments[a] = int(ar)

@@ -105,6 +105,9 @@ alias rzl='show_image_from_ros.py --scale 2 --topic /bair_car/zed/left/image_rec
 alias rzr='show_image_from_ros.py --scale 2 --topic /bair_car/zed/right/image_rect_color'
 alias rou='show_image_from_ros.py --scale --2 topic /os1_node/image'
 
+alias menu='python ~/kzpy3/Menu/main.py'
+
+
 #python kzpy3/scripts/connect/quick_print.py
 
 #date
