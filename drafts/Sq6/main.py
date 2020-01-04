@@ -36,8 +36,7 @@ P['NUM_OUTPUTS'] = shape(Data['target'])[1]
 P['NUM_METADATA_CHANNELS'] = 0
 P['INPUT_WIDTH'] = shape(Data['input'])[2]
 P['INPUT_HEIGHT'] = shape(Data['input'])[3]
-#P['METADATA_WIDTH'] = 41
-#P['METADATA_HEIGHT'] = 23
+
 kprint(M['Q'])
 
 N = Network(P)

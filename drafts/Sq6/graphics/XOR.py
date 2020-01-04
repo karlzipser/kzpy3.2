@@ -41,10 +41,6 @@ def graphics_function(N,M):
     c = N.extract('camera_input')
     t = N.extract('target')
     d = N.extract('final_output')#;kprint(d,title='d')
-    #for i in [0,3]:
-    #    mi(c[i,:,:].transpose(),i,img_title=d2s(dp(t),dp(d)))
-    #mi(c[0,:,:],0,img_title=d2s(dp(t),dp(d)))
-    #mi(c[1,:,:],3)
 
     spause()
 
