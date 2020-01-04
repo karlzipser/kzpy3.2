@@ -47,7 +47,7 @@ freq_timer = Timer(30)
 
 def main():
 
-    while not M['Q']['other_parameters']['abort']:
+    while not M['Q']['runtime_parameters']['abort']:
 
         M['load']()
 
@@ -59,9 +59,9 @@ def main():
 
         N.save()
 
-        try:
+        if True:#try:
             graphics_function(N,M)
-        except Exception as e:
+        else:#except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             clp('Exception!','`wrb',exc_type, file_name, exc_tb.tb_lineno)   
@@ -71,7 +71,8 @@ def main():
         if is_number(f):
             clp( 'Frequency =', int(np.round(f*P['BATCH_SIZE'])), 'Hz, run time =',format_seconds(run_timer.time()))
 
-    raw_enter()
+    clp('Exiting.')
+    #raw_enter()
 
 
 

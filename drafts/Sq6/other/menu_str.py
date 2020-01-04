@@ -7,7 +7,7 @@ time.sleep(1)
 
 M['load']()
 
-P = M['Q']['network_parameters']
+P = M['Q']['startup_parameters']
 
 """
 
