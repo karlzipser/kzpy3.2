@@ -1,6 +1,7 @@
 from kzpy3.vis3 import *
 exec(identify_file_str)
 
+CA()
 
 graphics_timer = None
 
@@ -16,6 +17,7 @@ def graphics_function(N,M):
         return
 
     figure('loss')
+    """
     ab = N.extract('input',0)
     a = ab[0,0,0]
     b = ab[1,0,0]
@@ -28,7 +30,7 @@ def graphics_function(N,M):
         else:
             color = '`wrb'
         clp( diff,color, dp(a),dp(b),dp(c),dp(t),'`' )
-
+    """
     clf()
     plot(N.losses,'.')
     m = meo(na(N.losses),M['Q']['runtime_parameters']['meo_num'])
@@ -42,9 +44,12 @@ def graphics_function(N,M):
     t = N.extract('target')
     d = N.extract('output')#;kprint(d,title='d')
     #mi(c[0,:,:])#,0,img_title=d2s(dp(t),dp(d)))
-    mi(c.transpose(2,1,0),'input')
-    mi(d.transpose(2,1,0),'output')
-    print shape(c)
+    mi(z55(c.transpose(2,1,0)),'input')
+    mi(z55(d.transpose(2,1,0)),'output')
+    mi(z55(t.transpose(2,1,0)),'target')
+    #mi(d.transpose(2,1,0)[:,:,1],9)
+    #figure('d');clf();plot(d.transpose(2,1,0)[10,:,1])
+    #print shape(c)
     spause()
 
 

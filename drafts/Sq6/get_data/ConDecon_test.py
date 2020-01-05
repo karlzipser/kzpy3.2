@@ -9,7 +9,7 @@ def get_data_function(P):
     #NUM_OUTPUTS = 3
     a = random.choice([0,1])
     b = random.choice([0,1])
-    n = 0.
+    n = 0.3
 
     if a and b:
         c = 0

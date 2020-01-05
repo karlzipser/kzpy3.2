@@ -33,6 +33,11 @@ elif P['NET_TYPE'] == 'ConDecon_test':
     from graphics.ConDecon_test import graphics_function
     import networks.condecon
     Network = networks.condecon.ConDecon
+elif P['NET_TYPE'] == 'ConDecon_test2':
+    from get_data.ConDecon_test2 import get_data_function
+    from graphics.ConDecon_test2 import graphics_function
+    import networks.condecon
+    Network = networks.condecon.ConDecon
 project_path = pname(opjh(__file__))
 P['NETWORK_OUTPUT_FOLDER'] = opjD('Networks',d2n(fname(project_path),'_',P['NET_TYPE']))
 Data = networks.net.make_batch( get_data_function, P, P['BATCH_SIZE'] )
