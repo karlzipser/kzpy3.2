@@ -166,9 +166,42 @@ if False:
                 too_many.append(r)
     too_many = list(set(too_many))
 
+#,a
+def copy_to_latest(folder_path,require=''):
+    latest = most_recent_file_in_folder(folder_path)
+    cr(latest)
+    if require not in latest:
+        return False
+    os.system(d2s('rm',opj(folder_path,'latest')))
+    sys_str = d2s('cp',latest,opj(folder_path,'latest'))
+    os.system(sys_str)
+    clp(sys_str,'`--r')
+    return True
+
+#,b
 
 
+def copy_to_latest2(networks):
+    os.system(d2s('rm -r',opjD('LATEST')))
+    for network in networks:
+        LATEST = opjD('LATEST',network)#.'+time_str())
+        os.system(d2s('mkdir -p',LATEST))
+        print LATEST
+        for q in ['weights','loss']:
+            latest = most_recent_file_in_folder(opjD('Networks',network,q))
+            sys_str = d2s('cp',latest,opj(LATEST))
+            clp(sys_str,'`--r')
+            os.system(sys_str)
 
+    
+
+net =  'Sq3'#'Sq7_ConDecon_test2.84X47'
+for f in ['weights','loss']:
+    fp = opjD('Networks',net,f)
+    print fp
+    copy_to_latest(fp)
+
+scp -r -P 1022 karlzipser@bdd3.neuro.berkeley.edu:'Desktop/Networks/Sq3/weights/latest' Desktop/latest.weights
 
 if False:#__name__ == '__main__':
 
@@ -180,5 +213,22 @@ if False:#__name__ == '__main__':
         Runs = lo(opj(Arguments['path'],'Runs'))
         Values = lo(opj(Arguments['path'],'Values'))
         test(Runs,Values)
+
+
+
+
+scp -P 1022 karlzipser@bdd3.neuro.berkeley.edu:'Desktop/Networks/Sq7_ConDecon_test2.84x47/weights/net_06Jan20_17h03m17s.cuda.infer' Desktop/LATEST/Sq7_ConDecon_test2.84X47
+
+scp -P 1022 karlzipser@bdd3.neuro.berkeley.edu:'Desktop/Networks/Sq7_ConDecon_test2.84x47/loss/net_06Jan20_17h08m18s.cuda.loss_avg.pkl'  Desktop/LATEST/Sq7_ConDecon_test2.84X47
+
+
+
+
+scp -P 1022 karlzipser@bdd3.neuro.berkeley.edu:'Desktop/Networks/Sq3/loss/net_06Jan20_17h12m26s.cuda.loss_avg.pkl'  Desktop/LATEST/Sq3
+scp -P 1022 karlzipser@bdd3.neuro.berkeley.edu:'Desktop/Networks/Sq3/weights/net_06Jan20_17h12m26s.cuda.infer'  Desktop/LATEST/Sq3
+
+scp -P 1022 -r karlzipser@bdd3.neuro.berkeley.edu:'Desktop/LATEST'  Desktop
+
+cp Desktop/LATEST/Sq3/*.infer Desktop/Networks/Sq3/weights
 
 #EOF
