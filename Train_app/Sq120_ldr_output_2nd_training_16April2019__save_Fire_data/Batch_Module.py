@@ -79,6 +79,7 @@ def Batch(_,the_network=None):
 					_['Loaded_image_files'][f]['normal'] = O
 					_['Loaded_image_files'][f]['flip'] = F
 					_['Loaded_image_files'][f]['left_timestamp_metadata'] = L
+					_['LENGTHS'][f] = len(L['motor'])
 					_['Loaded_image_files'][f]['projections'] = S
 					_['Loaded_image_files'][f]['normal projections'] = S['normal']
 					_['Loaded_image_files'][f]['flip projections'] = S['flip']
@@ -175,7 +176,7 @@ def Batch(_,the_network=None):
 					random.shuffle(_['data_moments_indexed_loaded'])
 					cy('random.shuffle(_[data_moments_indexed_loaded])')
 				
-				FLIP = random.choice([0,1])
+				FLIP = 0#random.choice([0,1])
 				dm = _['data_moments_indexed_loaded'][_['long_ctr']]; _['long_ctr'] += 1#; ctr += 1
 
 				
@@ -498,9 +499,9 @@ def Batch(_,the_network=None):
 
 	def _function_display():
 		t = D['network']['net'].A['pre_metadata_features'].data.cpu().numpy()
-		print shape(t)
+		#print shape(t)
 		try:
-			mci(z55(t[60,0,:,:]),'pre_metadata_features')
+			mci(z55(t[0,60,:,:]),title='pre_metadata_features')
 			spause()
 			#raw_enter()
 		except:

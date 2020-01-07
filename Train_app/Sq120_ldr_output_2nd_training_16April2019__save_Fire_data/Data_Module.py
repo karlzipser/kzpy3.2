@@ -2,78 +2,11 @@ from kzpy3.utils3 import *
 exec(identify_file_str)
 
 def prepare_data_for_training(_):
-	full = False
-	if True: #########################################################################################
-
-		_['experiments_folders'] = []
-		if True:
-			import kzpy3.Data_app.classify_data as classify_data
-			
-			
-			if full:
-				locations_to_classify = [
-					opjD("Data/1_TB_Samsung_n1"),
-					opjD("Data/2_TB_Samsung_n3/rosbags__preprocessed_data"),
-				]
-			else:
-				locations_to_classify = [opjD("Data/2_TB_Samsung_n3/rosbags__preprocessed_data")]
-			
-			for l in locations_to_classify:
-				#cb("classify_data.find_locations('",l,"'),_['experiments_folders'])...")
-				classify_data.find_locations(l,_['experiments_folders'],False)
-				#cb("...done.")
-			if _['verbose']: print len(_['experiments_folders'])
-			if _['verbose']: print _['experiments_folders']
-			#raw_enter()
-		################################################################
-		if full:
-		################################################################
-			older = [
-				opjD("Data/2_TB_Samsung_n3/bdd_car_data_July2017_LCR/locations"),
-				opjD("Data/2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_model_car_data_early_8Oct2018_lrc_LIDAR/locations"),
-				opjD("Data/2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_model_car_data_late_Sept_early_Oct2018_lrc/locations"),
-				opjD("Data/2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_car_data_late_Sept2018_lrc/locations"),
-				opjD("Data/2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_car_data_18July_to_18Sept2018_lrc/locations"),
-				opjD("Data/2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/model_car_data_July2018_lrc/locations"),
-				opjD("Data/2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/model_car_data_June2018_LCR/locations"),
-			]
-			_['experiments_folders'] += older
-
-	else: #########################################################################################
-
-
-		_['experiments_folders'] = []
-		if True:
-			import kzpy3.Data_app.classify_data as classify_data
-			
-			
-			if True:
-				locations_to_classify = [opjm("1_TB_Samsung_n1"),opjm('2_TB_Samsung_n3/rosbags__preprocessed_data')]
-			else:
-				locations_to_classify = [opjm('2_TB_Samsung_n3/rosbags__preprocessed_data')]
-			
-			for l in locations_to_classify:
-				#cb("classify_data.find_locations('",l,"'),_['experiments_folders'])...")
-				classify_data.find_locations(l,_['experiments_folders'],False)
-				#cb("...done.")
-			if _['verbose']: print len(_['experiments_folders'])
-			if _['verbose']: print _['experiments_folders']
-			#raw_enter()
-		################################################################
-		if True:
-		################################################################
-			older = [
-				#opjm('2_TB_Samsung_n3/bdd_car_data_July2017_LCR/locations'),
-				opjm('2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_model_car_data_early_8Oct2018_lrc_LIDAR/locations'),
-				opjm('2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_model_car_data_late_Sept_early_Oct2018_lrc/locations'),
-				opjm('2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_car_data_late_Sept2018_lrc/locations'),
-				opjm('2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/bdd_car_data_18July_to_18Sept2018_lrc/locations'),
-				opjm('2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/model_car_data_July2018_lrc/locations'),
-				#opjm('2_TB_Samsung_n3/preprocessed_5Oct2018_500GB/model_car_data_June2018_LCR/locations'),
-			]
-
-			_['experiments_folders'] += older
-	##############################################################################################
+	
+	H = find_files_recursively(opjD('Data'),_['RUN'])
+	_['experiments_folders'] = [opjD('Data',H['paths'].keys()[0].split('locations')[0],'locations')]
+	cy(H)
+	cm(_['experiments_folders'],ra=0)
 
 
 
@@ -233,9 +166,9 @@ def load_Network_Predictions(_):
 	timer = Timer(60)
 	for f in files:
 		k = fname(f).replace('.net_predictions.pkl','')
-		if k not in _['run_name_to_run_path'].keys():
-			cr(fname(f))
-			cr('not loading Network_Predictions for',f)
+		if k not in [_['RUN']]:#_['run_name_to_run_path'].keys():
+			cm(fname(f))
+			cm('not loading Network_Predictions for',f)
 			continue
 		if False:#timer.check():
 			cm('done')
@@ -255,6 +188,16 @@ blank_camera = np.zeros((94,168,3),np.uint8)
 
 def get_Data_moment(_,Network_Predictions,dm=None,FLIP=None):
 
+	dm = {
+		'behavioral_mode':'left',
+		'left_ts_index':(1542403069.0650001,_['INDEX'] ),
+    	'motor':49,
+    	'right_ts_index':(1542403069.089,_['INDEX'] +1),
+    	'run_name':_['RUN'],
+    	'steer':49,
+	}
+	kprint(dm)
+	_['INDEX'] += 10
 	if True:#try:
 		if dm['run_name'] in _['lacking runs']:
 			return False
@@ -269,9 +212,12 @@ def get_Data_moment(_,Network_Predictions,dm=None,FLIP=None):
 		Data_moment['predictions'] = {}
 		for s in ['left','direct','right']:
 			_index = Network_Predictions[dm['run_name']]['index'][left_index]
-			if True:
+			#if True:
+			try:
 				Data_moment['predictions'][s] = Network_Predictions[dm['run_name']][s][_index].copy()
-			elif False:
+			#elif False:
+			except:
+				return False
 				Data_moment['predictions'][s] = Network_Predictions[dm['run_name']][s][_index]
 			#Data_moment['predictions'][s]['heading'] -= Data_moment['predictions'][s]['heading'][0]
 			if FLIP:

@@ -8,6 +8,9 @@ exec(identify_file_str)
 
 _ = default_values.P
 
+_['INDEX'] = 0
+_['RUN'] = ''
+_['LENGTHS'] = {}
 ####################### MENU ################################
 #
 def load_parameters(_,customer='train menu'):
@@ -48,7 +51,7 @@ startup_timer = Timer()
 
 for a in Arguments.keys():
     _[a] = Arguments[a]
-print_Arguments()
+kprint(Arguments,'Arguments')
 
 _['print_timer'] = Timer(_['print_timer_time'])
 _['loss_timer'] = Timer(_['loss_timer_time'])
@@ -112,21 +115,10 @@ while _['ABORT'] == False:
 
     Batch['DISPLAY']()
 
-    if False:
-        ###############################
-        #
-        import kzpy3.Cars.n26Dec18.nodes.network_utils.camera as camera
-        Q2 = camera.Quartet('camera from Quartet')
-        Q2['from_torch'](Network['net'].A['camera_input'])
-        Q2['display'](
-            delay_blank=1000,
-            delay_prev=1000,
-            delay_now=1000)    
-        #
-        ###############################
-
-    Batch['BACKWARD']()
-
+    #Batch['BACKWARD']()
+    print _['INDEX'],_['LENGTHS'][_['RUN']]
+    if _['INDEX'] >= _['LENGTHS'][_['RUN']]:
+        break
     
 
 # Start training with 12 mini metadata images at 9am 12Dec2018
