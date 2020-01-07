@@ -16,11 +16,23 @@ for n in Values.keys():
     Keys[n] = Values[n].keys()
     np.random.shuffle(Keys[n])
 
-
+categories = [2,3,4,5,6,7,8]
+"""
+for n in Keys.keys():
+    if n < 1:
+        continue
+    if n > 9:
+        continue
+    l = len(Keys[n])
+    print n,l
+    if l > 1000:
+        categories.append(n)
+"""
+kprint(categories,title('categories'))
 
 def make_Runs_Values_input_target(P):
     #n = np.random.choice(Values.keys())
-    n = np.random.choice([2,3,4,5,6,7,8])
+    n = np.random.choice(categories)#[2,3,4,5,6,7,8])
     ky = Keys[n][randint(len(Keys[n]))]
     f0 = ky[0][0]
     f1 = ky[1][0]
