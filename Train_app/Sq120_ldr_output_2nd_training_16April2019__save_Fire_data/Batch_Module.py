@@ -498,9 +498,9 @@ def Batch(_,the_network=None):
 
 	def _function_display():
 		t = D['network']['net'].A['pre_metadata_features'].data.cpu().numpy()
-
+		print shape(t)
 		try:
-			mi(z55(t[0,0,:,:]),'pre_metadata_features')
+			mci(z55(t[60,0,:,:]),'pre_metadata_features')
 			spause()
 			#raw_enter()
 		except:
