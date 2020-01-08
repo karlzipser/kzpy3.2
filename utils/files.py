@@ -425,7 +425,7 @@ def save_as_h5py(file_path,D,dtype='float16'):
     clp('writing topics to',file_path)
     for k in D.keys():
         D[k] = na(D[k])
-        clp('\t',k,len(D[k]))
+        clp('    ',k,len(D[k]))
         F.create_dataset(k,data=D[k],dtype=dtype) 
     F.close()
     clp('done.')
