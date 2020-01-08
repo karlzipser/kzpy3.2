@@ -496,17 +496,21 @@ def Batch(_,the_network=None):
 
 
 
-
+	#python kzpy3/Train_app/Sq120_ldr_output_2nd_training_16April2019__save_Fire_data/Main.py --RUN Mr_Black_03Oct18_19h11m35s
 	def _function_display():
-		t = D['network']['net'].A['pre_metadata_features'].data.cpu().numpy()
-		#print shape(t)
-		try:
-			mci(z55(t[0,60,:,:]),title='pre_metadata_features')
-			spause()
-			#raw_enter()
-		except:
-			print 'fail'
-			pass
+		#print D['network']['net'].A.keys()
+		for i in range(8):
+			name = d2n('Fire',i,'.squeeze_activation')
+			#print D['network']['net'].A[name].size()
+			#try:
+			mci(z55(D['network']['net'].A[name][0,0,:,:].data.cpu().numpy()),title=name)
+				#spause()
+				#raw_enter()
+			#except:
+			#	print 'fail'
+			#	pass
+
+
 		if 'display on' not in _:
 			_['display on'] = False
 		if _['display']:
@@ -516,6 +520,9 @@ def Batch(_,the_network=None):
 				CA()
 				_['display on'] = False
 			return
+
+
+
 
 		if _['spause_timer'].check():
 			spause()

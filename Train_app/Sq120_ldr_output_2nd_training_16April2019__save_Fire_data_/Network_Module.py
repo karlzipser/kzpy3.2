@@ -1,7 +1,7 @@
 from kzpy3.utils3 import *
 import torch
 #from kzpy3.Train_app.nets.SqueezeNet40_global_A import SqueezeNet
-from kzpy3.Train_app.nets.SqueezeNet120 import SqueezeNet
+from kzpy3.Train_app.nets.SqueezeNet120_access_Fire import SqueezeNet
 
 
 exec(identify_file_str)

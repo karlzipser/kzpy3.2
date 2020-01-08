@@ -502,14 +502,16 @@ def Batch(_,the_network=None):
 
 
 	def _function_display():
-		print D['network']['net'].A['pre_metadata_features'].size()
-		try:
-			mi(z55(D['network']['net'].A['pre_metadata_features'][0,0,:,:].data.cpu().numpy()),'pre_metadata_features')
-			spause()
-			#raw_enter()
-		except:
-			print 'fail'
-			pass
+		for i in range(8):
+			name = d2n(Fire,i)
+			print D['network']['net'].A[name].size()
+			try:
+				mi(z55(D['network']['net'].A[name][0,0,:,:].data.cpu().numpy()),name,scale=4)
+				spause()
+				#raw_enter()
+			except:
+				print 'fail'
+				pass
 		if 'display on' not in _:
 			_['display on'] = False
 		if _['display']:

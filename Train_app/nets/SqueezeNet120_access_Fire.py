@@ -96,6 +96,7 @@ a = S(Variable(torch.randn(64, 12, 94, 168)), Variable(torch.randn(64, 128, 23, 
 print('Tested SqueezeNet')
 for a in sorted(S.A.keys()):
     kprint(S.A[a].size(),title=a)
+    #raw_enter()
 #print S.A['Fire1.squeeze_activation'].size()
 
 #unit_test()
