@@ -420,6 +420,17 @@ def h5rw(filename):
     return h5py.File(filename,'r+')
 
 
+def save_as_h5py(file_path,D,dtype='float16'):
+    F = h5w(file_path)
+    clp('writing topics to',file_path)
+    for k in D.keys():
+        D[k] = na(D[k])
+        clp('\t',k,len(D[k]))
+        F.create_dataset(k,data=D[k],dtype=dtype) 
+    F.close()
+    clp('done.')
+
+
 def percent_disk_free(disk='/'):
     statvfs = os.statvfs(disk)
     size_of_filesystem_in_bytes = statvfs.f_frsize * statvfs.f_blocks     # Size of filesystem in bytes
