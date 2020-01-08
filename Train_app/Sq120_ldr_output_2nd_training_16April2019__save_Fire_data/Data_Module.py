@@ -196,8 +196,8 @@ def get_Data_moment(_,Network_Predictions,dm=None,FLIP=None):
     	'run_name':_['RUN'],
     	'steer':49,
 	}
-	kprint(dm)
-	_['INDEX'] += 10
+	#kprint(dm)
+	_['INDEX'] += 1
 	if True:#try:
 		if dm['run_name'] in _['lacking runs']:
 			return False

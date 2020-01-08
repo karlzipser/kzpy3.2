@@ -11,6 +11,9 @@ _ = default_values.P
 _['INDEX'] = 0
 _['RUN'] = ''
 _['LENGTHS'] = {}
+_['Activations'] = {'data':{},'indicies':{}}
+_['FAILED'] = 0
+
 ####################### MENU ################################
 #
 def load_parameters(_,customer='train menu'):
@@ -52,7 +55,12 @@ startup_timer = Timer()
 for a in Arguments.keys():
     _[a] = Arguments[a]
 kprint(Arguments,'Arguments')
-
+for typ in ['data','indicies']:
+    file_path = opjD('Activations',typ,_['RUN']+'.h5py')
+    os.system(d2s('mkdir -p',pname(file_path)))
+    touch_str = d2s('touch',file_path)
+    os.system(d2s('touch',file_path))
+    clp(touch_str,'`g')
 _['print_timer'] = Timer(_['print_timer_time'])
 _['loss_timer'] = Timer(_['loss_timer_time'])
 _['menu_load_timer'] = Timer(_['menu_load_timer_time'])
@@ -83,6 +91,7 @@ menu_reminder = Timer(10*60)
 menu_reminder.trigger()
 timer = Timer(_['run time before quitting'])
 short_timer = Timer(_['short timer time'])
+timer2 = Timer(5)
 
 while _['ABORT'] == False:
 
@@ -106,19 +115,31 @@ while _['ABORT'] == False:
     if short_timer.check() or _['short timer time'] < short_timer.time():
         short_timer = Timer(_['short timer time'])
         Network['SAVE_NET'](temp=True)
-        
-    Batch['CLEAR']()
+    try:
+        Batch['CLEAR']()
 
-    Batch['FILL']()
+        Batch['FILL']()
 
-    Batch['FORWARD']()
+        Batch['FORWARD']()
 
-    Batch['DISPLAY']()
+        Batch['DISPLAY']()
 
-    #Batch['BACKWARD']()
-    print _['INDEX'],_['LENGTHS'][_['RUN']]
+        #Batch['BACKWARD']()
+        timer2.message(cf(_['INDEX'],_['LENGTHS'][_['RUN']]))
+
+    except KeyboardInterrupt:
+        cr("""
+
+    *** KeyboardInterrupt ***
+    """)
+        sys.exit()
+    except:
+        print 'except'
+
     if _['INDEX'] >= _['LENGTHS'][_['RUN']]:
         break
+
+
     
 
 # Start training with 12 mini metadata images at 9am 12Dec2018
@@ -126,10 +147,11 @@ while _['ABORT'] == False:
     menu_reminder.message(d2s("\n\nTo start menu:\n\tpython kzpy3/Menu_app/menu2.py path",_['project_path'],"dic P\n\n"))
 
 
-
-
-    
-
+#so(opjD('act'),_['Activations'])
+for typ in ['data','indicies']:
+    file_path = opjD('Activations',typ,_['RUN']+'.h5py')
+    os.system(d2s('mkdir -p',pname(file_path)))
+    save_as_h5py(file_path,_['Activations'][typ],dtype='float16')
 
 
 #EOF

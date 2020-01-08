@@ -183,6 +183,8 @@ def Batch(_,the_network=None):
 				Data_moment = Data_Module.get_Data_moment(_,Network_Predictions,dm=dm,FLIP=FLIP)
 
 				if Data_moment == False:
+					_['FAILED'] += 1
+					clp('failed',_['FAILED'])
 					continue
 
 				ctr += 1
@@ -499,11 +501,18 @@ def Batch(_,the_network=None):
 	#python kzpy3/Train_app/Sq120_ldr_output_2nd_training_16April2019__save_Fire_data/Main.py --RUN Mr_Black_03Oct18_19h11m35s
 	def _function_display():
 		#print D['network']['net'].A.keys()
-		for i in range(8):
+		for i in [3]:#range(8):
 			name = d2n('Fire',i,'.squeeze_activation')
+			if name not in _['Activations']['data']:
+				_['Activations']['data'][name] = []
+				_['Activations']['indicies'][name] = []
+
 			#print D['network']['net'].A[name].size()
 			#try:
-			mci(z55(D['network']['net'].A[name][0,0,:,:].data.cpu().numpy()),title=name)
+			a = D['network']['net'].A[name][0,:,:,:].data.cpu().numpy()
+			_['Activations']['data'][name].append(a)
+			#mci(z55(a),title=name)
+			_['Activations']['indicies'][name].append(_['INDEX'])
 				#spause()
 				#raw_enter()
 			#except:

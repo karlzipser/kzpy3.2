@@ -1,4 +1,5 @@
 #,a
+from kzpy3.utils3 import *
 if False:
 	file_path = opjD('temp.h5py')
 
@@ -136,7 +137,16 @@ train_runs = [
 
 pcom = "python kzpy3/Train_app/Sq120_ldr_output_2nd_training_16April2019__save_Fire_data/Main.py --RUN " #tegra-ubuntu_01Nov18_13h09m32s
 
-for r in train_runs+val_runs:
+#python kzpy3/Train_app/Sq120_ldr_output_2nd_training_16April2019__save_Fire_data/temp.py
 
+for r in train_runs+val_runs:
+	runs = sggo( opjD('Activations','data','*' ) )
+	break_true = False
+	for a in runs:
+		if r in a:
+			break_true = True
+			break
+	if break_true:
+		continue
 	os.system(pcom+r)
 
