@@ -139,6 +139,7 @@ if True:
         if os.path.getsize(r) > 0:
             if time.time() - os.path.getmtime(r) > 60:
                 runs.append(fname(r).split('.')[0])
+    np.random.shuffle(runs)
 
 
 
@@ -167,7 +168,7 @@ for r in runs:
         }
         
 
-        kprint(H)
+        #kprint(H)
 
         Runs[r]['original_timestamp_data'] = \
             {'path':opj(opjD('Data'),H['paths'].keys()[0],r,'original_timestamp_data.h5py'),'data':None}
@@ -213,6 +214,11 @@ for r in runs:
 
         Runs[r]['activations/indicies']['data'] = \
             Runs[r]['activations/indicies']['data'][u'Fire3.squeeze_activation']
+
+
+
+
+
         u = Runs[r]['activations/indicies']['data'][:]
         v = Runs[r]['activations/reverse-indicies']['data']
 
@@ -228,26 +234,19 @@ for r in runs:
                 #if i < 1000:
                 #    print ii,v[ii]
 
-        run_ctr += 1   
+           
 
-        
         #CA()
-        figure('u,v')
-        plot(v,'x')
-        plot(u,'.')
-        print len(u)
-        print len(v)
-        spause()#;raw_enter()
+        #figure('u,v')
+        #plot(v,'x')
+        #plot(u,'.')
+        #print len(u)
+        #print len(v)
+        #spause()#;raw_enter()
 
-        for j in range(0,len(v)):
-            print j,v[j],j-v[j]
-            if v[j] > -1:
-                
-                mci(Runs[r]['original_timestamp_data']['data']['left_image']['vals'][j],delay=1,title='left')
-                #kprint(Runs[r]['activations/data']['data'][u'Fire3.squeeze_activation'])#Runs[r]['activations/data'][i,9,:,:]'")
-                img = z55(Runs[r]['activations/data']['data'][u'Fire3.squeeze_activation'][v[j],9,:,:])
-                mci(img,title='fire3',delay=1)
-        raw_enter()
+
+
+        run_ctr += 1
     """
     except KeyboardInterrupt:
         cr('*** KeyboardInterrupt ***')
@@ -260,11 +259,22 @@ for r in runs:
     """
 #kprint(Runs)
 
-
+"""
+r = rndchoice(runs)
+for j in range(0,len(v)):
+    print j,v[j],j-v[j]
+    if v[j] > -1:
+        
+        mci(Runs[r]['original_timestamp_data']['data']['left_image']['vals'][j],delay=1,title='left')
+        #kprint(Runs[r]['activations/data']['data'][u'Fire3.squeeze_activation'])#Runs[r]['activations/data'][i,9,:,:]'")
+        img = z55(Runs[r]['activations/data']['data'][u'Fire3.squeeze_activation'][v[j],9,:,:])
+        mci(img,title='fire3',delay=1)
+raw_enter()
+"""
 
 ###############
 n = 5
-input_data_plus = zeros((3,2*n+WIDTH,2*n+HEIGHT))#+0.5
+input_data_plus = zeros((32,2*n+WIDTH,2*n+HEIGHT))#+0.5
 target_data_plus = zeros((3,2*n+WIDTH,2*n+HEIGHT))+0.5
 
 
@@ -288,29 +298,37 @@ def get_data_function(P):
     #    ctr = rndint(length)
     #    if Runs[r]['button_number'][ctr] != 4:
     #        break
-    good = good_list[rndint(len(good_list))]
+    while True:
+        try:
+            good = good_list[rndint(len(good_list))]
 
-    r, ctr = Run_coder[good[0]], good[1]
+            r, ctr = Run_coder[good[0]], good[1]
 
-    flip = rndint(2)
-    #flip = 1 
+            flip = 0#rndint(2)
+            #flip = 1 
 
 
-    if not flip:
-        A = Runs[r]['net_projections']['data']['normal']
-        B = Runs[r]['original_timestamp_data']['data']['left_image']['vals']
-        #print 'not flip'
-    else:
-        A = Runs[r]['net_projections']['data']['flip']
-        B = Runs[r]['flip_images']['data']['left_image_flip']['vals']
-        #print 'FLIP'
-    #input_data =  Runs[r]['net_projections']['data']['normal'][ctr].transpose(2,1,0)
-    #target_data =  Runs[r]['original_timestamp_data']['data']['left_image']['vals'][ctr]
-    #input_data =  A[ctr].transpose(2,1,0)
+            if not flip:
+                #A = Runs[r]['net_projections']['data']['normal']
+                A = Runs[r]['activations/data']['data'][u'Fire3.squeeze_activation']
+                B = Runs[r]['original_timestamp_data']['data']['left_image']['vals']
+                #print 'not flip'
+            else:
+                assert(False)
+                A = Runs[r]['net_projections']['data']['flip']
+                B = Runs[r]['flip_images']['data']['left_image_flip']['vals']
+                #print 'FLIP'
+            #input_data =  Runs[r]['net_projections']['data']['normal'][ctr].transpose(2,1,0)
+            #target_data =  Runs[r]['original_timestamp_data']['data']['left_image']['vals'][ctr]
+            #input_data =  A[ctr].transpose(2,1,0)
 
-    ###############
-    input_data =  A[ctr]
-    temp = A[ctr]
+            ###############
+            input_data =  A[Runs[r]['activations/reverse-indicies']['data'][ctr]]
+            temp = A[ctr]
+            break
+        except:
+            print 'except'
+
     if flip:
         input_data[:,:,0] = temp[:,:,1]
         input_data[:,:,1] = temp[:,:,0]
@@ -324,13 +342,24 @@ def get_data_function(P):
             input_data = cv2.resize(input_data ,(WIDTH,HEIGHT)).transpose(2,1,0)
             target_data =  target_data.transpose(2,1,0)
 
-    input_data = cv2.resize(input_data ,(WIDTH,HEIGHT)).transpose(2,1,0)
+    #print shape(input_data)
+    #print shape(input_data.transpose(1,2,0))
+    input_data = input_data.astype(float).transpose(1,2,0)
+    #print shape(input_data)
+    #input_data = cv2.resize(input_data.transpose(1,2,0) ,(WIDTH,HEIGHT)).transpose(2,1,0)
+#    input_data = cv2.resize(zeros((32,11,20)).transpose(1,2,0) ,(WIDTH,HEIGHT)).transpose(2,1,0)
+    input_data = cv2.resize( input_data,(WIDTH,HEIGHT)).transpose(2,1,0)
+
     target_data = cv2.resize(target_data ,(WIDTH,HEIGHT)).transpose(2,1,0)
 
 
-    input_data = 1/255.0*input_data
-    input_data = input_data - 0.5
+    #input_data = 1/255.0*input_data
+    #input_data = input_data - 0.5
     target_data = 1/255.0*target_data
+
+    #figure(99);clf()
+    #plot(input_data[19,16,:])
+    #spause()
     #target_data = target_data - 0.5
     #print target_data.min().min(),target_data.max().max()
     #ctr += 1
