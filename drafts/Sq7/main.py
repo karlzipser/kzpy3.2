@@ -6,7 +6,11 @@ import other.menu_str
 import other.default_args
 exec(other.menu_str.exec_str)
 
-assert 'NET_TYPE' in Arguments
+
+if 'NET_TYPE' not in Arguments:
+    clp("\n\n--NET_TYPE argument required.\n")
+    clp("    e.g., python kzpy3/drafts/Sq7/main.py --RESUME 1 --NET_TYPE ConDecon_test2 --NET_TYPE_SUFFIX 84x47\n\n")
+    sys.exit()
 setup_Default_Arguments(
     other.default_args.Default_Arguments[Arguments['NET_TYPE']]
 )
@@ -48,6 +52,12 @@ elif P['NET_TYPE'] == 'ConDecon_test2':
     from get_data.ConDecon_test2 import get_data_function
     from graphics.ConDecon_test2 import graphics_function
     from get_data.ConDecon_test2 import X
+    import networks.condecon
+    Network = networks.condecon.ConDecon
+elif P['NET_TYPE'] == 'ConDecon_Fire3':
+    from get_data.ConDecon_Fire3 import get_data_function
+    from graphics.ConDecon_Fire3 import graphics_function
+    from get_data.ConDecon_Fire3 import X
     import networks.condecon
     Network = networks.condecon.ConDecon
 project_path = pname(opjh(__file__))

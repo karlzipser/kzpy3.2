@@ -513,6 +513,8 @@ def Batch(_,the_network=None):
 			_['Activations']['data'][name].append(a)
 			#mci(z55(a),title=name)
 			_['Activations']['indicies'][name].append(_['INDEX'])
+			#print _['INDEX']-_['INDEX_PREV']
+			_['INDEX_PREV'] = _['INDEX']
 				#spause()
 				#raw_enter()
 			#except:

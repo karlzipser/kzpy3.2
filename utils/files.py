@@ -426,7 +426,11 @@ def save_as_h5py(file_path,D,dtype='float16'):
     for k in D.keys():
         D[k] = na(D[k])
         clp('    ',k,len(D[k]))
-        F.create_dataset(k,data=D[k],dtype=dtype) 
+        if type(dtype) == dict:
+            dt = dtype[k]
+        else:
+            dt = dtype
+        F.create_dataset(k,data=D[k],dtype=dt)
     F.close()
     clp('done.')
 

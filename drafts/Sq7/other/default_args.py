@@ -30,8 +30,20 @@ Default_Arguments = {
 	    'BATCH_SIZE':512,
 	    'NUM_LOSSES_TO_AVERAGE':25,
 	    'NET_SAVE_TIMER_TIME':5*minutes,
-
 	},
+
+
+	'ConDecon_Fire3':{
+	    'RESUME':True,
+	    'GPU':999,
+	    'MOMENTUM':0.001,
+	    'LR':0.01,
+	    'BATCH_SIZE':512,
+	    'NUM_LOSSES_TO_AVERAGE':25,
+	    'NET_SAVE_TIMER_TIME':5*minutes,
+	},
+	
+
 	'Runs_Values':{
 	    'RESUME':True,
 	    'GPU':999,

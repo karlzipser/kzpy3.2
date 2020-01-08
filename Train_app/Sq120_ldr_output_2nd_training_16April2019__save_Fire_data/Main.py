@@ -9,6 +9,7 @@ exec(identify_file_str)
 _ = default_values.P
 
 _['INDEX'] = 0
+_['INDEX_PREV'] = 0
 _['RUN'] = ''
 _['LENGTHS'] = {}
 _['Activations'] = {'data':{},'indicies':{}}
@@ -94,7 +95,8 @@ short_timer = Timer(_['short timer time'])
 timer2 = Timer(5)
 
 while _['ABORT'] == False:
-
+    #if _['INDEX'] > 1000:
+    #    break
     ##################################
     #
     load_parameters(_,customer='train menu')
@@ -151,7 +153,7 @@ while _['ABORT'] == False:
 for typ in ['data','indicies']:
     file_path = opjD('Activations',typ,_['RUN']+'.h5py')
     os.system(d2s('mkdir -p',pname(file_path)))
-    save_as_h5py(file_path,_['Activations'][typ],dtype='float16')
+    save_as_h5py(file_path,_['Activations'][typ],dtype={'data':'float16','indicies':'int32'}[typ])
 
 
 #EOF
