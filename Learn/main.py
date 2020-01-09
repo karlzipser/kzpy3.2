@@ -1,25 +1,16 @@
-from kzpy3.vis3 import *
-
-import Menu.main
-exec(identify_file_str)
-import other.menu_str
-import other.default_args
-exec(other.menu_str.exec_str)
 
 required_arguments = ['NET_TYPE']
-requirements_satisfied = True
-kprint(other.default_args.Default_Arguments,'Default arguments')
 
-for a in required_arguments:
-    if a not in Arguments or len(Arguments.keys()) == 0:
-        requirements_satisfied = False
-        clp('ERROR!!! Argument',"'"+a+"'",'is required','`wrb')
-if not requirements_satisfied:
-    sys.exit()
+import other.menu_str
+
+exec(other.menu_str.exec_str)
 
 setup_Default_Arguments(
     other.default_args.Default_Arguments[Arguments['NET_TYPE']]
 )
+
+exec(identify_file_str)
+
 if 'NET_TYPE_SUFFIX' not in Arguments:
     Arguments['NET_TYPE_SUFFIX'] = ''
 else:
@@ -56,6 +47,7 @@ elif P['NET_TYPE'] == 'ConDecon_Fire3':
     from get_data.ConDecon_Fire3 import X
     import networks.condecon
     Network = networks.condecon.ConDecon
+
 project_path = pname(opjh(__file__))
 P['NETWORK_OUTPUT_FOLDER'] = opjD(
     'Networks',

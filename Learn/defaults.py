@@ -9,8 +9,6 @@ Q = {
         'graphics_ylim':[-0.1,1.],
         'meo_num':8,
     },
-    #'startup_parameters': {
-    #},
 }
 
 
