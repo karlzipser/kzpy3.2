@@ -6,11 +6,17 @@ import other.menu_str
 import other.default_args
 exec(other.menu_str.exec_str)
 
+required_arguments = ['NET_TYPE']
+requirements_satisfied = True
+kprint(other.default_args.Default_Arguments,'Default arguments')
 
-if 'NET_TYPE' not in Arguments:
-    clp("\n\n--NET_TYPE argument required.\n")
-    clp("    e.g., python kzpy3/drafts/Sq7/main.py --RESUME 1 --NET_TYPE ConDecon_test2 --NET_TYPE_SUFFIX 84x47\n\n")
+for a in required_arguments:
+    if a not in Arguments or len(Arguments.keys()) == 0:
+        requirements_satisfied = False
+        clp('ERROR!!! Argument',"'"+a+"'",'is required','`wrb')
+if not requirements_satisfied:
     sys.exit()
+
 setup_Default_Arguments(
     other.default_args.Default_Arguments[Arguments['NET_TYPE']]
 )
@@ -21,18 +27,7 @@ else:
 P = {}
 for k in Arguments:
     P[k] = Arguments[k]
-#kprint(P);raw_enter()
-"""
-P['NET_TYPE'] = Arguments['net']
-P['RESUME'] = Arguments['resume']
-P['GPU'] = Arguments['gpu']
-P['LR'] = Arguments['lr']
-P['MOMENTUM'] = Arguments['momentum']
-P['BATCH_SIZE'] = Arguments['batch_size']
-P['NET_SAVE_TIMER_TIME'] = Arguments['save_time']
-P['NUM_LOSSES_TO_AVERAGE'] = Arguments['num_losses_to_average']
-"""
-#P['data_tracker'] = Arguments['data_tracker']
+
 if P['NET_TYPE'] == 'Runs_Values':
     from get_data.Runs_Values import get_data_function
     from graphics.Runs_Values import graphics_function
@@ -41,6 +36,7 @@ if P['NET_TYPE'] == 'Runs_Values':
 elif P['NET_TYPE'] == 'XOR':
     from get_data.XOR import get_data_function
     from graphics.XOR import graphics_function
+    X = None
     import networks.other
     Network = networks.other.OtherNet
 elif P['NET_TYPE'] == 'ConDecon_test':
@@ -96,9 +92,9 @@ def main():
 
         N.save()
 
-        try:
+        if True:#try:
             graphics_function(N,M,X)
-        except Exception as e:
+        else:#except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             clp('Exception!','`wrb',exc_type, file_name, exc_tb.tb_lineno)   
