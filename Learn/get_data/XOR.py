@@ -10,7 +10,7 @@ def get_data_function(P):
 
     a = random.choice([0,1])
     b = random.choice([0,1])
-    n = 1/1000.
+    n = 1/10.
 
     if a and b:
         c = 0

@@ -80,9 +80,9 @@ def main():
 
         N.save()
 
-        if True:#try:
+        try:
             graphics_function(N,M,X)
-        else:#except Exception as e:
+        except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             clp('Exception!','`wrb',exc_type, file_name, exc_tb.tb_lineno)   
