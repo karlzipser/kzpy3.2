@@ -1,4 +1,4 @@
-from kzpy3.vis3 import *
+pfrom kzpy3.vis3 import *
 
 setup_Default_Arguments(
     {
@@ -230,5 +230,24 @@ scp -P 1022 karlzipser@bdd3.neuro.berkeley.edu:'Desktop/Networks/Sq3/weights/net
 scp -P 1022 -r karlzipser@bdd3.neuro.berkeley.edu:'Desktop/LATEST'  Desktop
 
 cp Desktop/LATEST/Sq3/*.infer Desktop/Networks/Sq3/weights
+
+
+
+
+data = find_files_recursively(opjk(),'defaults.py',FILES_ONLY=True,ignore_underscore=True) 
+
+
+l Sq7 --NET_TYPE abc
+
+
+
+H = find_files_recursively(opjk(),'main.py',FILES_ONLY=True,ignore_underscore=True)
+lst = []
+for p in H['paths']:
+    lst.append(d2n("alias ",p.split('/')[-1],"='python ",opj('~/kzpy3',p,"main.py'")))
+list_of_strings_to_txt_file(opjk('misc/auto_aliases'),lst)    
+
+
+
 
 #EOF

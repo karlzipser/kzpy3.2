@@ -1,6 +1,8 @@
 #clear
 #echo "Start kzpy3/bashrc..."
 
+source ~/kzpy3/misc/auto_aliases
+
 alias ls='ls -alh'
 alias rlog='rm -r ~/.ros/log/*'
 alias rla='rlog;roslaunch bair_car bair_car.launch use_zed:=true record:=true' 
