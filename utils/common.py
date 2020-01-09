@@ -339,6 +339,10 @@ if temp != None:
             Arguments[a] = int(ar)
         elif ',' in ar:
             Arguments[a] = ar.split(',')
+        elif ar == 'True':
+            Arguments[a] = True
+        elif ar == 'False':
+            Arguments[a] = False        
         else:
             Arguments[a] = ar
 

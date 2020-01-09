@@ -3,7 +3,7 @@ from kzpy3.utils3 import *
 Default_Arguments = { # top key is selected by required_arguments[0]
 
     'XOR':{
-	    'RESUME':False,
+	    'RESUME':0,
 	    'GPU':-1,
 	    'MOMENTUM':0.001,
 	    'LR':0.01,
@@ -13,7 +13,7 @@ Default_Arguments = { # top key is selected by required_arguments[0]
 	},
 
     'ConDecon_test':{
-	    'RESUME':True,
+	    'RESUME':1,
 	    'GPU':-1,
 	    'MOMENTUM':0.001,
 	    'LR':0.01,
@@ -23,7 +23,7 @@ Default_Arguments = { # top key is selected by required_arguments[0]
 	},
 
 	'ConDecon_test2':{
-	    'RESUME':True,
+	    'RESUME':1,
 	    'GPU':999,
 	    'MOMENTUM':0.001,
 	    'LR':0.01,
@@ -32,9 +32,8 @@ Default_Arguments = { # top key is selected by required_arguments[0]
 	    'NET_SAVE_TIMER_TIME':5*minutes,
 	},
 
-
 	'ConDecon_Fire3':{
-	    'RESUME':True,
+	    'RESUME':1,
 	    'GPU':999,
 	    'MOMENTUM':0.001,
 	    'LR':0.01,
@@ -43,9 +42,8 @@ Default_Arguments = { # top key is selected by required_arguments[0]
 	    'NET_SAVE_TIMER_TIME':5*minutes,
 	},
 	
-
 	'Runs_Values':{
-	    'RESUME':True,
+	    'RESUME':1,
 	    'GPU':999,
 	    'MOMENTUM':0.001,
 	    'LR':0.01,
@@ -54,3 +52,7 @@ Default_Arguments = { # top key is selected by required_arguments[0]
 	    'NET_SAVE_TIMER_TIME':5*minutes,
 	}
 }
+
+
+
+#EOF

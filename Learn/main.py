@@ -1,6 +1,6 @@
 
 required_arguments = ['NET_TYPE']
-
+#KEY_ARG = 'Runs_Values'
 import kzpy3.utils.startup.a as startup
 exec(startup.exec_str)
 exec(identify_file_str)
@@ -15,6 +15,7 @@ P = {}
 for k in Arguments:
     P[k] = Arguments[k]
 
+#kprint(Arguments,'Arguments',ra=1)
 if P['NET_TYPE'] == 'Runs_Values':
     from get_data.Runs_Values import get_data_function
     from graphics.Runs_Values import graphics_function
