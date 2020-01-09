@@ -1,6 +1,6 @@
 from kzpy3.utils3 import *
 
-Default_Arguments = {
+Default_Arguments = { # top key is selected by required_arguments[0]
 
     'XOR':{
 	    'RESUME':False,

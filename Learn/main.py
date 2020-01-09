@@ -1,15 +1,11 @@
 
 required_arguments = ['NET_TYPE']
 
-import other.menu_str
-
-exec(other.menu_str.exec_str)
-
-setup_Default_Arguments(
-    other.default_args.Default_Arguments[Arguments['NET_TYPE']]
-)
-
+import kzpy3.utils.startup.a as startup
+exec(startup.exec_str)
 exec(identify_file_str)
+
+
 
 if 'NET_TYPE_SUFFIX' not in Arguments:
     Arguments['NET_TYPE_SUFFIX'] = ''
