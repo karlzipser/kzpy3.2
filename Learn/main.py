@@ -1,11 +1,13 @@
 
 required_arguments = ['NET_TYPE']
-#KEY_ARG = 'Runs_Values'
+
 import kzpy3.utils.startup.a as startup
 exec(startup.exec_str)
 exec(identify_file_str)
 
-
+if 'HELP' in Arguments and Arguments['HELP']:
+    kprint(Arguments,'Arguments')
+    sys.exit()
 
 if 'NET_TYPE_SUFFIX' not in Arguments:
     Arguments['NET_TYPE_SUFFIX'] = ''
@@ -15,7 +17,7 @@ P = {}
 for k in Arguments:
     P[k] = Arguments[k]
 
-#kprint(Arguments,'Arguments',ra=1)
+kprint(Arguments,'Arguments',ra=1)
 if P['NET_TYPE'] == 'Runs_Values':
     from get_data.Runs_Values import get_data_function
     from graphics.Runs_Values import graphics_function
@@ -59,7 +61,7 @@ P['NUM_METADATA_CHANNELS'] = 0
 P['INPUT_WIDTH'] = shape(Data['input'])[2]
 P['INPUT_HEIGHT'] = shape(Data['input'])[3]
 
-kprint(M['Q'])
+#kprint(M['Q'])
 
 N = Network(P)
 

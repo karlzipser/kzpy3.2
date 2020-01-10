@@ -3,6 +3,9 @@
 
 source ~/kzpy3/misc/auto_aliases
 
+source ~/kzpy3/Menu/complete.sh
+source ~/kzpy3/Learn/complete.sh
+
 alias ls='ls -alh'
 alias rlog='rm -r ~/.ros/log/*'
 alias rla='rlog;roslaunch bair_car bair_car.launch use_zed:=true record:=true' 

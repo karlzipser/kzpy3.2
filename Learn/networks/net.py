@@ -21,7 +21,7 @@ except AttributeError:
 class Net(nn.Module):
     def __init__(self,P):
 
-        kprint(P,title='from SN')
+        #kprint(P,title='from SN')
         super(Net, self).__init__()
         self.A = {}
         self.lr = P['LR']

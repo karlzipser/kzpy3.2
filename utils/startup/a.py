@@ -16,7 +16,10 @@ import default_args
 
 
 requirements_satisfied = True
-kprint(default_args.Default_Arguments,'Default arguments')
+#kprint(default_args.Default_Arguments,'Default arguments')
+
+if 'HELP' in Arguments:
+    del required_arguments
 
 if 'required_arguments' in locals():
 	for a in required_arguments:
