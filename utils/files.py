@@ -512,4 +512,22 @@ def restore_Desktop(src):
         shutil.move(opjh(src,i),opjD(''))
 exec(identify_file_str)
 
+
+
+
+
+def make_kzpy3_links():
+    a = sggo(opjk('*'))
+    for b in a:
+        if os.path.isdir(b):
+            c = fname(b)
+            s = d2s('ln -s',b,c)
+            print s
+
+
+
+
+
+
+
 #EOF
