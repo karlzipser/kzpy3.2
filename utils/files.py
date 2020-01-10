@@ -523,6 +523,7 @@ def make_kzpy3_links():
             c = fname(b)
             s = d2s('ln -s',b,c)
             print s
+            os.system(s)
 
 
 
