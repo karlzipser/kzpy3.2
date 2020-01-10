@@ -6,7 +6,6 @@ exec(identify_file_str)
 X = {'data_tracker':{}}
 
 WIDTH,HEIGHT = 41,23
-#WIDTH,HEIGHT = 168,94
 WIDTH,HEIGHT = 168/2,94/2
 
 
@@ -132,16 +131,16 @@ runs = train_runs
 #runs = val_runs
 
 
-if True:
-    aruns = sggo(opjD('Activations','data','*.h5py'))
-    runs = []
-    for r in aruns:
-        if os.path.getsize(r) > 0:
-            if time.time() - os.path.getmtime(r) > 60:
-                runs.append(fname(r).split('.')[0])
-    np.random.shuffle(runs)
 
+aruns = sggo(opjD('Activations','data','*.h5py'))
+runs = []
+for r in aruns:
+    if os.path.getsize(r) > 0:
+        if time.time() - os.path.getmtime(r) > 60:
+            runs.append(fname(r).split('.')[0])
+np.random.shuffle(runs)
 
+runs = val_runs
 
 Run_coder = {}
 
@@ -150,99 +149,82 @@ run_ctr = 0
 good_list = []
 
 for r in runs:
-    #if r != 'Mr_Black_02Oct18_18h16m32s':
-    #    continue
-    if True:#
-        Run_coder[run_ctr] = r
 
-        H = find_files_recursively(opjD('Data'),r,DIRS_ONLY=True)
+    Run_coder[run_ctr] = r
 
-        
-        Runs[r] = {
-            'original_timestamp_data':{},
-            'flip_images':{},
-            'left_timestamp_metadata_right_ts':{},
-            'net_projections':{},
-            'activations/data':{},
-            'activations/indicies':{},
-        }
-        
+    H = find_files_recursively(opjD('Data'),r,DIRS_ONLY=True)
 
-        #kprint(H)
+    
+    Runs[r] = {
+        'original_timestamp_data':{},
+        'flip_images':{},
+        'left_timestamp_metadata_right_ts':{},
+        'net_projections':{},
+        'activations/data':{},
+        'activations/indicies':{},
+    }
+    
 
-        Runs[r]['original_timestamp_data'] = \
-            {'path':opj(opjD('Data'),H['paths'].keys()[0],r,'original_timestamp_data.h5py'),'data':None}
 
-        Runs[r]['flip_images'] = \
-            {'path':opj(opjD('Data'),H['paths'].keys()[0],r,'flip_images.h5py'),'data':None}
+    Runs[r]['original_timestamp_data'] = \
+        {'path':opj(opjD('Data'),H['paths'].keys()[0],r,'original_timestamp_data.h5py'),'data':None}
 
-        Runs[r]['left_timestamp_metadata_right_ts'] = \
-            {'path':opj(opjD('Data'),H['paths'].keys()[0],r,'left_timestamp_metadata_right_ts.h5py'),'data':None}
+    Runs[r]['flip_images'] = \
+        {'path':opj(opjD('Data'),H['paths'].keys()[0],r,'flip_images.h5py'),'data':None}
 
-        Runs[r]['net_projections'] = \
-            {'path':opj(opjD('Data'),'Network_Predictions_projected',r+'.net_projections.h5py'),'data':None}
+    Runs[r]['left_timestamp_metadata_right_ts'] = \
+        {'path':opj(opjD('Data'),H['paths'].keys()[0],r,'left_timestamp_metadata_right_ts.h5py'),'data':None}
 
-        Runs[r]['activations/data'] = \
-            {'path':opj(opjD('Activations'),'data',r+'.h5py'),'data':None}
+    Runs[r]['net_projections'] = \
+        {'path':opj(opjD('Data'),'Network_Predictions_projected',r+'.net_projections.h5py'),'data':None}
 
-        Runs[r]['activations/indicies'] = \
-            {'path':opj(opjD('Activations'),'indicies',r+'.h5py'),'data':None}
+    Runs[r]['activations/data'] = \
+        {'path':opj(opjD('Activations'),'data',r+'.h5py'),'data':None}
+
+    Runs[r]['activations/indicies'] = \
+        {'path':opj(opjD('Activations'),'indicies',r+'.h5py'),'data':None}
 
 
 
-        Runs[r]['button_number'] = None
-        Runs[r]['encoder'] = None
+    Runs[r]['button_number'] = None
+    Runs[r]['encoder'] = None
 
 
 
-        for k in Runs[r].keys():
-            if k not in ['button_number','encoder']:
-                if Runs[r][k]['data'] == None:
-                    Runs[r][k]['data'] = h5r(Runs[r][k]['path'])
-        for kk in ['button_number','encoder']:
-            if Runs[r][kk] == None:
-                Runs[r][kk] = Runs[r]['left_timestamp_metadata_right_ts']['data'][kk][:]
+    for k in Runs[r].keys():
+        if k not in ['button_number','encoder']:
+            if Runs[r][k]['data'] == None:
+                Runs[r][k]['data'] = h5r(Runs[r][k]['path'])
+    for kk in ['button_number','encoder']:
+        if Runs[r][kk] == None:
+            Runs[r][kk] = Runs[r]['left_timestamp_metadata_right_ts']['data'][kk][:]
 
-        length = len(Runs[r]['original_timestamp_data']['data']['left_image']['vals'])
-        for i in range(length):
-            if Runs[r]['button_number'][i] != 4 and Runs[r]['encoder'][i] > 0.1:
-                good_list.append((run_ctr,i))
+    length = len(Runs[r]['original_timestamp_data']['data']['left_image']['vals'])
+    for i in range(length):
+        if Runs[r]['button_number'][i] != 4 and Runs[r]['encoder'][i] > 0.1:
+            good_list.append((run_ctr,i))
 
-        Runs[r]['activations/reverse-indicies'] = \
-            {'data':np.zeros(len(Runs[r]['left_timestamp_metadata_right_ts']['data']['motor']),int)-1}
+    Runs[r]['activations/reverse-indicies'] = \
+        {'data':np.zeros(len(Runs[r]['left_timestamp_metadata_right_ts']['data']['motor']),int)-1}
 
 
-        Runs[r]['activations/indicies']['data'] = \
-            Runs[r]['activations/indicies']['data'][u'Fire3.squeeze_activation']
+    Runs[r]['activations/indicies']['data'] = \
+        Runs[r]['activations/indicies']['data'][u'Fire3.squeeze_activation']
 
 
 
 
 
-        u = Runs[r]['activations/indicies']['data'][:]
-        v = Runs[r]['activations/reverse-indicies']['data']
+    u = Runs[r]['activations/indicies']['data'][:]
+    v = Runs[r]['activations/reverse-indicies']['data']
 
-        #kprint(type(u),title='type(u)')
-        #kprint(type(v),title='type(v)')
 
-        for i in rlen(u):
-            #kprint(type(u[i]),title='type(u[i])')
-            ii = u[i].astype(int)
+    for i in rlen(u):
+        ii = u[i].astype(int)
 
-            if ii < len(v) and ii > -1:
-                v[ii] = i
-                #if i < 1000:
-                #    print ii,v[ii]
+        if ii < len(v) and ii > -1:
+            v[ii] = i
 
-           
-
-        #CA()
-        #figure('u,v')
-        #plot(v,'x')
-        #plot(u,'.')
-        #print len(u)
-        #print len(v)
-        #spause()#;raw_enter()
 
 
 
@@ -257,20 +239,7 @@ for r in runs:
         CS_('Exception!',emphasis=True)
         CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)   
     """
-#kprint(Runs)
 
-"""
-r = rndchoice(runs)
-for j in range(0,len(v)):
-    print j,v[j],j-v[j]
-    if v[j] > -1:
-        
-        mci(Runs[r]['original_timestamp_data']['data']['left_image']['vals'][j],delay=1,title='left')
-        #kprint(Runs[r]['activations/data']['data'][u'Fire3.squeeze_activation'])#Runs[r]['activations/data'][i,9,:,:]'")
-        img = z55(Runs[r]['activations/data']['data'][u'Fire3.squeeze_activation'][v[j],9,:,:])
-        mci(img,title='fire3',delay=1)
-raw_enter()
-"""
 
 ###############
 n = 5
@@ -279,35 +248,47 @@ target_data_plus = zeros((3,2*n+WIDTH,2*n+HEIGHT))+0.5
 
 
 
-"""
-r = 'Mr_Black_27Jul18_18h46m35s' #.net_projections.h5py'
-p = opjD('temp_data')
-O = h5r(opj(p,r,'original_timestamp_data.h5py'))
-J = h5r(opj(p,d2p(r,'net_projections.h5py')))
-ctr = 0
-length = len(O['left_image']['vals'])
-assert len(J['normal']) == length
-"""
+WWWW = Toggler()
+global_ctr = 0
+
+def _selector(P):
+    global global_ctr
+    R = P['runtime_parameters']
+    #kprint(R,'R')
+    good = good_list[rndint(len(good_list))]
+    r, ctr = Run_coder[good[0]], good[1]
+    flip = rndint(2)
+
+    if R['data_from_run'] != 'no':
+        assert(type(R['data_from_run']) == str)
+        r = R['data_from_run']
+
+    if R['data_from_ctr'] > -1:
+        if WWWW['test'](R['ctr_reset']):
+            ctr = R['data_from_ctr']
+            global_ctr = ctr
+        else:
+            global_ctr += 1
+            if global_ctr >= len(Runs[r]['original_timestamp_data']['data']['left_image']['vals']):
+                global_ctr = R['data_from_ctr']
+            ctr = global_ctr
+
+    if R['data_from_flip'] > -1:
+        assert(type(R['data_from_flip']) == int)
+        assert(R['data_from_flip'] in [0,1])
+        flip = R['data_from_flip']
+
+    #print ctr
+    return r,ctr,flip
 
 
 def get_data_function(P):
 
-    #print Runs[r]['original_timestamp_data'].keys()
-    #length = len(Runs[r]['original_timestamp_data']['data']['left_image']['vals'])
-    #while True:
-    #    ctr = rndint(length)
-    #    if Runs[r]['button_number'][ctr] != 4:
-    #        break
+
     while True:
-        try:
-            good = good_list[rndint(len(good_list))]
-
-            r, ctr = Run_coder[good[0]], good[1]
-
-            flip = 0#rndint(2)
-            #flip = 1 
-
-
+        if True:#try:
+            r,ctr,flip = _selector(P)
+            flip = 0
             if not flip:
                 #A = Runs[r]['net_projections']['data']['normal']
                 A = Runs[r]['activations/data']['data'][u'Fire3.squeeze_activation']
@@ -318,15 +299,14 @@ def get_data_function(P):
                 A = Runs[r]['net_projections']['data']['flip']
                 B = Runs[r]['flip_images']['data']['left_image_flip']['vals']
                 #print 'FLIP'
-            #input_data =  Runs[r]['net_projections']['data']['normal'][ctr].transpose(2,1,0)
-            #target_data =  Runs[r]['original_timestamp_data']['data']['left_image']['vals'][ctr]
-            #input_data =  A[ctr].transpose(2,1,0)
 
-            ###############
             input_data =  A[Runs[r]['activations/reverse-indicies']['data'][ctr]]
+            if ctr >= len(A):
+                print 'ctr >= len(A)'
+                continue
             temp = A[ctr]
             break
-        except:
+        else:#except:
             print 'except'
 
     if flip:
@@ -334,49 +314,26 @@ def get_data_function(P):
         input_data[:,:,1] = temp[:,:,0]
     target_data = B[ctr]
 
-    if False:
-        if WIDTH == 41:
-            target_data = cv2.resize(target_data ,(WIDTH,HEIGHT)).transpose(2,1,0)
-            input_data =  input_data.transpose(2,1,0)
-        else:
-            input_data = cv2.resize(input_data ,(WIDTH,HEIGHT)).transpose(2,1,0)
-            target_data =  target_data.transpose(2,1,0)
 
-    #print shape(input_data)
-    #print shape(input_data.transpose(1,2,0))
+
     input_data = input_data.astype(float).transpose(1,2,0)
-    #print shape(input_data)
-    #input_data = cv2.resize(input_data.transpose(1,2,0) ,(WIDTH,HEIGHT)).transpose(2,1,0)
-#    input_data = cv2.resize(zeros((32,11,20)).transpose(1,2,0) ,(WIDTH,HEIGHT)).transpose(2,1,0)
     input_data = cv2.resize( input_data,(WIDTH,HEIGHT)).transpose(2,1,0)
 
     target_data = cv2.resize(target_data ,(WIDTH,HEIGHT)).transpose(2,1,0)
 
 
-    #input_data = 1/255.0*input_data
-    #input_data = input_data - 0.5
     target_data = 1/255.0*target_data
 
-    #figure(99);clf()
-    #plot(input_data[19,16,:])
-    #spause()
-    #target_data = target_data - 0.5
-    #print target_data.min().min(),target_data.max().max()
-    #ctr += 1
-    #if ctr >= length:
-    #    ctr = 0
-    #cy(P.keys(),ra=1)
+
     if r not in X['data_tracker']:
         X['data_tracker'][r] = {}
     if ctr not in X['data_tracker'][r]:
         X['data_tracker'][r][ctr] = 0
     X['data_tracker'][r][ctr] += 1
 
-    ###############
     target_data_plus[:,n:n+WIDTH,n:n+HEIGHT] = target_data
     input_data_plus[:,n:n+WIDTH,n:n+HEIGHT] = input_data
 
-    #cy( shape(input_data_plus),shape(target_data_plus))
     return {
         'input':input_data_plus,
         'target':target_data_plus,

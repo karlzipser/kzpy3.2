@@ -13,11 +13,14 @@ if 'NET_TYPE_SUFFIX' not in Arguments:
     Arguments['NET_TYPE_SUFFIX'] = ''
 else:
     Arguments['NET_TYPE_SUFFIX'] = '.'+Arguments['NET_TYPE_SUFFIX']
-P = {}
+
+P = {'runtime_parameters':{}}
+
 for k in Arguments:
     P[k] = Arguments[k]
 
-kprint(Arguments,'Arguments',ra=1)
+X = None
+kprint(Arguments,'Arguments',ra=0)
 if P['NET_TYPE'] == 'Runs_Values':
     from get_data.Runs_Values import get_data_function
     from graphics.Runs_Values import graphics_function
@@ -26,7 +29,6 @@ if P['NET_TYPE'] == 'Runs_Values':
 elif P['NET_TYPE'] == 'XOR':
     from get_data.XOR import get_data_function
     from graphics.XOR import graphics_function
-    X = None
     import networks.other
     Network = networks.other.OtherNet
 elif P['NET_TYPE'] == 'ConDecon_test':
@@ -50,10 +52,16 @@ elif P['NET_TYPE'] == 'ConDecon_Fire3':
 project_path = pname(opjh(__file__))
 P['NETWORK_OUTPUT_FOLDER'] = opjD(
     'Networks',
-    d2n(fname(project_path),
-        '_',
+    d2n(#fname(project_path),
+        #'_',
         P['NET_TYPE']+Arguments['NET_TYPE_SUFFIX']
     ))
+
+M['load']()
+#kprint(M['Q']['runtime_parameters'])
+for k in M['Q']['runtime_parameters'].keys():
+    P['runtime_parameters'][k] = M['Q']['runtime_parameters'][k]
+
 Data = networks.net.make_batch( get_data_function, P, P['BATCH_SIZE'] )
 P['NUM_INPUT_CHANNELS'] = shape(Data['input'])[1]
 P['NUM_OUTPUTS'] = shape(Data['target'])[1]
@@ -61,7 +69,6 @@ P['NUM_METADATA_CHANNELS'] = 0
 P['INPUT_WIDTH'] = shape(Data['input'])[2]
 P['INPUT_HEIGHT'] = shape(Data['input'])[3]
 
-#kprint(M['Q'])
 
 N = Network(P)
 
@@ -69,17 +76,30 @@ run_timer = Timer()
 freq_timer = Timer(30)
 
 
+
+
+
 def main():
 
-    while not M['Q']['runtime_parameters']['abort']:
+    Abort = Toggler()
+
+    while True:
 
         M['load']()
+
+        if Abort['test'](M['Q']['runtime_parameters']['abort']):
+            break
+
+        for k in M['Q']['runtime_parameters'].keys():
+            P['runtime_parameters'][k] = M['Q']['runtime_parameters'][k]
+
 
         Data = networks.net.make_batch( get_data_function, P, P['BATCH_SIZE'] )
 
         N.forward(Data)
 
-        N.backward()
+        if P['BACKWARDS']:
+            N.backward()
 
         N.save()
 
@@ -96,7 +116,6 @@ def main():
             clp( 'Frequency =', int(np.round(f*P['BATCH_SIZE'])), 'Hz, run time =',format_seconds(run_timer.time()))
 
     clp('Exiting.')
-    #raw_enter()
 
 
 

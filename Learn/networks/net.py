@@ -21,7 +21,6 @@ except AttributeError:
 class Net(nn.Module):
     def __init__(self,P):
 
-        #kprint(P,title='from SN')
         super(Net, self).__init__()
         self.A = {}
         self.lr = P['LR']
@@ -50,7 +49,7 @@ class Net(nn.Module):
     def setup_GPU(self):
         if self.GPU > -1:
             if self.GPU == 999:
-                GPUs = gpu_stats(400)
+                GPUs = gpu_stats(200)
                 if GPUs[0]['util'] < 5 and GPUs[1]['util'] < 5:
                     self.GPU = random.choice([0,1])
                 else:
@@ -125,6 +124,7 @@ class Net(nn.Module):
 
 
     def load(self):
+        clp(opj(self.NETWORK_OUTPUT_FOLDER,'weights'))
         f = most_recent_file_in_folder(opj(self.NETWORK_OUTPUT_FOLDER,'weights'),['.infer'],[])
         clp('Resuming with','`','',f,'','`--rb'); time.sleep(1)
         save_data = torch.load(f)
@@ -133,23 +133,7 @@ class Net(nn.Module):
         f = most_recent_file_in_folder(opj(self.NETWORK_OUTPUT_FOLDER,'loss'),['.loss_avg.pkl'],[])
         self.losses = lo(f)
 
-    """
-    def setup_weights(self):
-        for m in self.modules():
-            #print m
-            if isinstance(m, nn.Conv2d) or isinstance(m, nn.ConvTranspose2d):
-                try:
-                    if m is self.final_conv:
-                        init.normal(m.weight.data, mean=0.0, std=0.01)
-                    else:
-                        init.kaiming_uniform(m.weight.data)
-                except:
-                    print('exception')
-                if m.bias is not None:
-                    m.bias.data.zero_()
-            else:
-                pass#assert(False)
-    """
+
 
 
 

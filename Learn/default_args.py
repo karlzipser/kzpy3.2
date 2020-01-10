@@ -38,6 +38,7 @@ Default_Arguments = { # top key is selected by required_arguments[0]
 	    'MOMENTUM':0.001,
 	    'LR':0.01,
 	    'BATCH_SIZE':512,
+	    'BACKWARDS':True,
 	    'NUM_LOSSES_TO_AVERAGE':25,
 	    'NET_SAVE_TIMER_TIME':5*minutes,
 	},

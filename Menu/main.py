@@ -262,6 +262,11 @@ def Default_Values(
                 else:
                     message = d2n("'",key,"' unchanged")
                     return {'message':message}
+        elif K[key] in ['_toggle','toggle_']:
+            if K[key] == '_toggle':
+                value = 'toggle_'
+            else:
+                value = '_toggle'
         else:
             try:
                 if type(K[key]) == np.ndarray:
@@ -646,6 +651,29 @@ def start_Dic(dic_project_path,Dics={},parent_keys=[],Arguments={}):
         clp('run menu from command line:\n','`','~/kzpy3/Menu/main.py --path',dic_project_path,'`--rb')
 
     return Dics[dic_project_path]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 if __name__ == '__main__':
