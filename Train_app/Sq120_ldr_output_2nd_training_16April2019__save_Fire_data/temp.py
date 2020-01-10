@@ -137,7 +137,9 @@ train_runs = [
 
 pcom = "python kzpy3/Train_app/Sq120_ldr_output_2nd_training_16April2019__save_Fire_data/Main.py --RUN " #tegra-ubuntu_01Nov18_13h09m32s
 
-#python kzpy3/Train_app/Sq120_ldr_output_2nd_training_16April2019__save_Fire_data/temp.py
+"""
+python kzpy3/Train_app/Sq120_ldr_output_2nd_training_16April2019__save_Fire_data/temp.py
+"""
 
 for r in train_runs+val_runs:
 	runs = sggo( opjD('Activations','data','*' ) )
