@@ -24,20 +24,20 @@ class Net(nn.Module):
         super(Net, self).__init__()
         self.A = {}
         self.lr = P['LR']
-        self.momentum = P['MOMENTUM']
+        self.momentum = P['momentum']
         self.GPU = P['GPU']
         self.NETWORK_OUTPUT_FOLDER = P['NETWORK_OUTPUT_FOLDER']
         self.loss = None
         self.losses = []
-        self.num_losses_to_average = P['LOSSES_TO_AVERAGE']
+        self.num_losses_to_average = P['losses_to_average']
         self.losses_to_average = []
-        self.save_net_timer = Timer(P['SAVE_TIMER_TIME'])
+        self.save_net_timer = Timer(P['save_timer_time'])
         self.setup_layers(P)
         self.setup_weights()
         self.setup_GPU()
         self.optimizer = torch.optim.Adadelta(filter(lambda p: p.requires_grad,self.parameters()))
 
-        if P['RESUME']:
+        if P['resume']:
             self.load()
         else:
             clp('Starting with random weights','`wbb')

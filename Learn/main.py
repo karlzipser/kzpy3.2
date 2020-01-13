@@ -1,18 +1,18 @@
 
-required_arguments = ['TYPE']
+required_arguments = ['type']
 
 import kzpy3.utils.startup.a as startup
 exec(startup.exec_str)
 exec(identify_file_str)
 
-if 'HELP' in Arguments and Arguments['HELP']:
+if 'Help' in Arguments and Arguments['Help']:
     kprint(Arguments,'Arguments')
     sys.exit()
 
-if 'TYPE_SUFFIX' not in Arguments:
-    Arguments['TYPE_SUFFIX'] = ''
+if 'suffix' not in Arguments:
+    Arguments['suffix'] = ''
 else:
-    Arguments['TYPE_SUFFIX'] = '.'+Arguments['TYPE_SUFFIX']
+    Arguments['suffix'] = '.'+Arguments['suffix']
 
 P = {'runtime_parameters':{}}
 
@@ -21,34 +21,34 @@ for k in Arguments:
 
 X = None
 kprint(Arguments,'Arguments',ra=0)
-if P['TYPE'] == 'Runs_Values':
+if P['type'] == 'Runs_Values':
     from get_data.Runs_Values import get_data_function
     from graphics.Runs_Values import graphics_function
     import networks.squeeze
     Network = networks.squeeze.SqueezeNet
-elif P['TYPE'] == 'XOR':
+elif P['type'] == 'XOR':
     from get_data.XOR import get_data_function
     from graphics.XOR import graphics_function
     import networks.other
     Network = networks.other.OtherNet
-elif P['TYPE'] == 'ConDecon_test':
+elif P['type'] == 'ConDecon_test':
     from get_data.ConDecon_test import get_data_function
     from graphics.ConDecon_test import graphics_function
     import networks.condecon
     Network = networks.condecon.ConDecon
-elif P['TYPE'] == 'ConDecon_test2':
+elif P['type'] == 'ConDecon_test2':
     from get_data.ConDecon_test2 import get_data_function
     from graphics.ConDecon_test2 import graphics_function
     from get_data.ConDecon_test2 import X
     import networks.condecon
     Network = networks.condecon.ConDecon
-elif P['TYPE'] == 'ConDecon_Fire3':
+elif P['type'] == 'ConDecon_Fire3':
     from get_data.ConDecon_Fire3 import get_data_function
     from graphics.ConDecon_Fire3 import graphics_function
     from get_data.ConDecon_Fire3 import X
     import networks.condecon
     Network = networks.condecon.ConDecon
-elif P['TYPE'] == 'ConDecon_Fire':
+elif P['type'] == 'ConDecon_Fire':
     from get_data.ConDecon_Fire import get_data_function
     from graphics.ConDecon_Fire import graphics_function
     from get_data.ConDecon_Fire import X
@@ -60,7 +60,7 @@ P['NETWORK_OUTPUT_FOLDER'] = opjD(
     'Networks',
     d2n(#fname(project_path),
         #'_',
-        P['TYPE']+Arguments['TYPE_SUFFIX']
+        P['type']+Arguments['suffix']
     ))
 
 M['load']()
@@ -68,7 +68,7 @@ M['load']()
 for k in M['Q']['runtime_parameters'].keys():
     P['runtime_parameters'][k] = M['Q']['runtime_parameters'][k]
 
-Data = networks.net.make_batch( get_data_function, P, P['BATCH_SIZE'] )
+Data = networks.net.make_batch( get_data_function, P, P['batch_size'] )
 P['NUM_INPUT_CHANNELS'] = shape(Data['input'])[1]
 P['NUM_OUTPUTS'] = shape(Data['target'])[1]
 P['NUM_METADATA_CHANNELS'] = 0
@@ -100,11 +100,11 @@ def main():
             P['runtime_parameters'][k] = M['Q']['runtime_parameters'][k]
 
 
-        Data = networks.net.make_batch( get_data_function, P, P['BATCH_SIZE'] )
+        Data = networks.net.make_batch( get_data_function, P, P['batch_size'] )
 
         N.forward(Data)
 
-        if P['BACKWARDS']:
+        if P['backwards']:
             N.backward()
 
         N.save()
@@ -119,7 +119,7 @@ def main():
 
         f = freq_timer.freq(do_print=False)
         if is_number(f):
-            clp( 'Frequency =', int(np.round(f*P['BATCH_SIZE'])), 'Hz, run time =',format_seconds(run_timer.time()))
+            clp( 'Frequency =', int(np.round(f*P['batch_size'])), 'Hz, run time =',format_seconds(run_timer.time()))
 
     clp('Exiting.')
 

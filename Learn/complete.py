@@ -3,7 +3,7 @@ from kzpy3.utils3 import *
 
 from default_args import Default_Arguments as D
 
-w = ['--TYPE','--HELP','True','False']
+w = ['--type','--Help','True','False']
 
 for a in D.keys():
 	w.append(''+a)
