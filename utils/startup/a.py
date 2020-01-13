@@ -3,6 +3,8 @@ exec_str = """
 
 from kzpy3.utils3 import *
 
+
+
 import Menu.main
 
 M = Menu.main.start_Dic(dic_project_path=pname(opjh(__file__)))
@@ -48,6 +50,10 @@ else:
 	setup_Default_Arguments(
 	    default_args.Default_Arguments[key_arg]
 	)
+
+
+
+
 """
 #    default_args.Default_Arguments[Arguments[required_arguments[0]]]#Arguments['NET_TYPE']]
 
