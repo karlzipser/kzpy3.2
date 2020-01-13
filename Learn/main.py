@@ -1,5 +1,5 @@
 
-required_arguments = ['NET_TYPE']
+required_arguments = ['TYPE']
 
 import kzpy3.utils.startup.a as startup
 exec(startup.exec_str)
@@ -9,10 +9,10 @@ if 'HELP' in Arguments and Arguments['HELP']:
     kprint(Arguments,'Arguments')
     sys.exit()
 
-if 'NET_TYPE_SUFFIX' not in Arguments:
-    Arguments['NET_TYPE_SUFFIX'] = ''
+if 'TYPE_SUFFIX' not in Arguments:
+    Arguments['TYPE_SUFFIX'] = ''
 else:
-    Arguments['NET_TYPE_SUFFIX'] = '.'+Arguments['NET_TYPE_SUFFIX']
+    Arguments['TYPE_SUFFIX'] = '.'+Arguments['TYPE_SUFFIX']
 
 P = {'runtime_parameters':{}}
 
@@ -21,34 +21,34 @@ for k in Arguments:
 
 X = None
 kprint(Arguments,'Arguments',ra=0)
-if P['NET_TYPE'] == 'Runs_Values':
+if P['TYPE'] == 'Runs_Values':
     from get_data.Runs_Values import get_data_function
     from graphics.Runs_Values import graphics_function
     import networks.squeeze
     Network = networks.squeeze.SqueezeNet
-elif P['NET_TYPE'] == 'XOR':
+elif P['TYPE'] == 'XOR':
     from get_data.XOR import get_data_function
     from graphics.XOR import graphics_function
     import networks.other
     Network = networks.other.OtherNet
-elif P['NET_TYPE'] == 'ConDecon_test':
+elif P['TYPE'] == 'ConDecon_test':
     from get_data.ConDecon_test import get_data_function
     from graphics.ConDecon_test import graphics_function
     import networks.condecon
     Network = networks.condecon.ConDecon
-elif P['NET_TYPE'] == 'ConDecon_test2':
+elif P['TYPE'] == 'ConDecon_test2':
     from get_data.ConDecon_test2 import get_data_function
     from graphics.ConDecon_test2 import graphics_function
     from get_data.ConDecon_test2 import X
     import networks.condecon
     Network = networks.condecon.ConDecon
-elif P['NET_TYPE'] == 'ConDecon_Fire3':
+elif P['TYPE'] == 'ConDecon_Fire3':
     from get_data.ConDecon_Fire3 import get_data_function
     from graphics.ConDecon_Fire3 import graphics_function
     from get_data.ConDecon_Fire3 import X
     import networks.condecon
     Network = networks.condecon.ConDecon
-elif P['NET_TYPE'] == 'ConDecon_Fire':
+elif P['TYPE'] == 'ConDecon_Fire':
     from get_data.ConDecon_Fire import get_data_function
     from graphics.ConDecon_Fire import graphics_function
     from get_data.ConDecon_Fire import X
@@ -60,7 +60,7 @@ P['NETWORK_OUTPUT_FOLDER'] = opjD(
     'Networks',
     d2n(#fname(project_path),
         #'_',
-        P['NET_TYPE']+Arguments['NET_TYPE_SUFFIX']
+        P['TYPE']+Arguments['TYPE_SUFFIX']
     ))
 
 M['load']()

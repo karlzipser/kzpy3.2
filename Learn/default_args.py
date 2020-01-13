@@ -9,8 +9,8 @@ Default_Arguments = { # top key is selected by required_arguments[0]
 	    'LR':0.01,
 	    'BATCH_SIZE':8,
 	    'BACKWARDS':True,
-	    'NUM_LOSSES_TO_AVERAGE':5,
-	    'NET_SAVE_TIMER_TIME':30,
+	    'LOSSES_TO_AVERAGE':5,
+	    'SAVE_TIMER_TIME':30,
 	},
 
     'ConDecon_test':{
@@ -20,8 +20,8 @@ Default_Arguments = { # top key is selected by required_arguments[0]
 	    'LR':0.01,
 	    'BATCH_SIZE':8,
 	    'BACKWARDS':True,
-	    'NUM_LOSSES_TO_AVERAGE':5,
-	    'NET_SAVE_TIMER_TIME':30,
+	    'LOSSES_TO_AVERAGE':5,
+	    'SAVE_TIMER_TIME':30,
 	},
 
 	'ConDecon_test2':{
@@ -31,8 +31,8 @@ Default_Arguments = { # top key is selected by required_arguments[0]
 	    'LR':0.01,
 	    'BATCH_SIZE':512,
 	    'BACKWARDS':True,
-	    'NUM_LOSSES_TO_AVERAGE':25,
-	    'NET_SAVE_TIMER_TIME':5*minutes,
+	    'LOSSES_TO_AVERAGE':25,
+	    'SAVE_TIMER_TIME':5*minutes,
 	},
 
 	'ConDecon_Fire3':{
@@ -42,8 +42,8 @@ Default_Arguments = { # top key is selected by required_arguments[0]
 	    'LR':0.01,
 	    'BATCH_SIZE':512,
 	    'BACKWARDS':True,
-	    'NUM_LOSSES_TO_AVERAGE':25,
-	    'NET_SAVE_TIMER_TIME':5*minutes,
+	    'LOSSES_TO_AVERAGE':25,
+	    'SAVE_TIMER_TIME':5*minutes,
 	},
 	
 
@@ -54,8 +54,8 @@ Default_Arguments = { # top key is selected by required_arguments[0]
 	    'LR':0.01,
 	    'BATCH_SIZE':512,
 	    'BACKWARDS':True,
-	    'NUM_LOSSES_TO_AVERAGE':25,
-	    'NET_SAVE_TIMER_TIME':5*minutes,
+	    'LOSSES_TO_AVERAGE':25,
+	    'SAVE_TIMER_TIME':5*minutes,
 	},
 	
 	'Runs_Values':{
@@ -65,8 +65,8 @@ Default_Arguments = { # top key is selected by required_arguments[0]
 	    'LR':0.01,
 	    'BATCH_SIZE':64,
 	    'BACKWARDS':True,
-	    'NUM_LOSSES_TO_AVERAGE':100,
-	    'NET_SAVE_TIMER_TIME':5*minutes,
+	    'LOSSES_TO_AVERAGE':100,
+	    'SAVE_TIMER_TIME':5*minutes,
 	}
 }
 

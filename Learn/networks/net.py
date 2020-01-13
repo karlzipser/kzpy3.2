@@ -29,9 +29,9 @@ class Net(nn.Module):
         self.NETWORK_OUTPUT_FOLDER = P['NETWORK_OUTPUT_FOLDER']
         self.loss = None
         self.losses = []
-        self.num_losses_to_average = P['NUM_LOSSES_TO_AVERAGE']
+        self.num_losses_to_average = P['LOSSES_TO_AVERAGE']
         self.losses_to_average = []
-        self.save_net_timer = Timer(P['NET_SAVE_TIMER_TIME'])
+        self.save_net_timer = Timer(P['SAVE_TIMER_TIME'])
         self.setup_layers(P)
         self.setup_weights()
         self.setup_GPU()
