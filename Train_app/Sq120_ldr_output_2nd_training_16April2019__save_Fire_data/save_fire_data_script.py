@@ -105,7 +105,23 @@ train_runs = [
 
 pcom = "python kzpy3/Train_app/Sq120_ldr_output_2nd_training_16April2019__save_Fire_data/Main.py --RUN " #tegra-ubuntu_01Nov18_13h09m32s
 
+#time.sleep(rndint(2*minutes))
 for r in train_runs+val_runs:
-
+    next = False
+    in_progress = sggo(opjD('Activations','data','*'))
+    for i in in_progress:
+        #cm(r,i,ra=1)
+        if r in i:
+            next = True
+            break
+    if next:
+        cy('skipping',r)
+        continue
+    #time.sleep(rndint(2*minutes))
+    clp('processing',r,'`rwb')
+    os.system('touch '+opjD('Activations','data',r+'.h5py'))
+    #raw_enter()
     os.system(pcom+r)
+    
+    #print pcom+r
 
