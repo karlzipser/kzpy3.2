@@ -11,7 +11,7 @@ Q = {
         'data_from_run':'no',#tegra-ubuntu_01Nov18_13h46m55s
         'data_from_ctr':-1,
         'data_from_flip':-1,
-        'data_reset':'_toggle',
+        'step':5,
         'ctr_reset':'_toggle',
     },
 }

@@ -6,11 +6,14 @@ CA()
 graphics_timer = None
 
 
-def graphics_function(N,M,X):
+def graphics_function(N,M):#,X):
     global graphics_timer
     if graphics_timer == None:
         graphics_timer = Timer(M['Q']['runtime_parameters']['graphics_timer_time'])
-    if True:#graphics_timer.check():
+
+    if graphics_timer.check() or M['Q']['runtime_parameters']['graphics_timer_time'] < 0:
+        if M['Q']['runtime_parameters']['graphics_timer_time'] < 0:
+            pass#print M['Q']['runtime_parameters']['ctr']
         M['load']()
         graphics_timer = Timer(M['Q']['runtime_parameters']['graphics_timer_time'])
     else:
@@ -46,9 +49,9 @@ def graphics_function(N,M,X):
     t = N.extract('target')[:3,:,:]
     d = N.extract('output')[:3,:,:]
     #mi(c[0,:,:])#,0,img_title=d2s(dp(t),dp(d)))
-    mci(z55(c.transpose(2,1,0)),scale=4,title='input')
-    mci(z55(d.transpose(2,1,0)),scale=4,title='output')
-    mci(z55(t.transpose(2,1,0)),scale=4,title='target')
+    mci(z55(c.transpose(2,1,0)),1,scale=4,title='input')
+    mci(z55(d.transpose(2,1,0)),1,scale=4,title='output')
+    mci(z55(t.transpose(2,1,0)),1,scale=4,title='target')
     #mi(d.transpose(2,1,0)[:,:,1],9)
     #figure('d');clf();plot(d.transpose(2,1,0)[10,:,1])
     #print shape(c)

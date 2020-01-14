@@ -5,11 +5,13 @@ exec(identify_file_str)
 
 
 
-make_Runs_Values_input_target__started = False
+__started__ = False
 def get_data_function(P):
-    global make_Runs_Values_input_target__started
-    if not make_Runs_Values_input_target__started:
-        make_Runs_Values_input_target__started = True
+    
+    global __started__
+
+    if not __started__:
+        __started__ = True
         Values=loD('Values')
         Runs=loD('Runs')
         Os = {}
@@ -23,7 +25,7 @@ def get_data_function(P):
         for n in Values.keys():
             Keys[n] = Values[n].keys()
             np.random.shuffle(Keys[n])        
-    #n = np.random.choice(Values.keys())
+
     n = np.random.choice([2,3,4,5,6,7,8])
     ky = Keys[n][randint(len(Keys[n]))]
     f0 = ky[0][0]

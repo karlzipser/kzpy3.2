@@ -501,7 +501,7 @@ def Batch(_,the_network=None):
 	#python kzpy3/Train_app/Sq120_ldr_output_2nd_training_16April2019__save_Fire_data/Main.py --RUN Mr_Black_03Oct18_19h11m35s
 	def _function_display():
 		#print D['network']['net'].A.keys()
-		for i in [6,7]:#[3]:#range(8):
+		for i in [0,1,2]:#[3,6,7]:#range(8):
 			name = d2n('Fire',i,'.squeeze_activation')
 			if name not in _['Activations']['data']:
 				_['Activations']['data'][name] = []
