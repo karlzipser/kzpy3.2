@@ -10,14 +10,14 @@ def setup(P):
 
     Runs = {}
 
-
-    activation_folders = sggo(opjD('Activations_folders','*'))
+    #activation_folders = sggo(opjD('Activations_folders','*'))
+    activation_folders = sggo(opjm('2_TB_Samsung','Activations_folders','*'))
     for a in activation_folders:
         #print a
         files = sggo(a,'indicies','*.h5py')
         E = h5r(files[0])
         if P['type'][1] in ' '.join(E.keys()):
-            aruns = sggo(a,'data','*.h5py')
+            aruns = sggo(a,'indicies','*.h5py')
         E.close()
 
     _Runs = {}
