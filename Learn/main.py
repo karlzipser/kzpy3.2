@@ -51,6 +51,17 @@ elif P['type'][0] == 'ConDecon_Fire':
     import networks.condecon
     Network = networks.condecon.ConDecon
 
+elif P['type'][0] == 'ConDecon_Fire_FS':
+    from get_data.ConDecon_Fire import get_data_function
+    import get_data.ConDecon_Fire
+    get_data.ConDecon_Fire.setup(P)
+    #X = P['X']
+    from graphics.ConDecon_Fire import graphics_function
+    #from get_data.ConDecon_Fire import X
+    import networks.condecon_FS
+    Network = networks.condecon_FS.ConDecon_FS
+
+
 #P['X'] = X
 project_path = pname(opjh(__file__))
 P['NETWORK_OUTPUT_FOLDER'] = opjD(
