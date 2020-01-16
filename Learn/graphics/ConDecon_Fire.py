@@ -39,7 +39,7 @@ def graphics_function(N,M,P):#,X):
     d = dd[:3,:,:]
     c = cc[:3,:,:]
     img = np.concatenate((c.transpose(2,1,0),d.transpose(2,1,0),t.transpose(2,1,0)),axis=1)
-    mci(z55(img),1,scale=4,title=d2s('target 0-2',shape(dd)))
+    mci(z55(img),1,scale=4,title=d2s('input/output/target (channels 0-2)',shape(dd)))
 
 #    print shape(tt)
     if False:#shape(tt)[0] == 6:

@@ -19,10 +19,18 @@ karls-macbook-2,192.168.42.3
 
 
 
+$ source ~/kzpy3/bashrc
+
+$ menu --path ~/kzpy3/Learn
+# enter this sequence of numbers into menu to change loss plot y-limits
+choice: 1 <enter>
+choice: 7 <enter>
+Enter value for 'graphics_ylim' ([0, 1] <list>):    [0,2] <enter>
 
 
-
-
+$ Learn --type ConDecon_Fire_FS,Fire3,16Jan20_12h08m42s --resume False --save_timer_time 30 --runs validate
+# note this trains with validation runs, useful for debugging because they load faster. To train, use "--runs train"
+# kill with ctrl-C or by doing abort (choice 1) from menu.
 
 
 
