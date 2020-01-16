@@ -13,6 +13,7 @@ Q = {
         'data_from_flip':-1,
         'step':5,
         'ctr_reset':'_toggle',
+        'save_images':False,
     },
 }
 

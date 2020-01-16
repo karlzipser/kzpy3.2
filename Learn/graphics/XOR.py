@@ -5,7 +5,7 @@ exec(identify_file_str)
 graphics_timer = None
 
 
-def graphics_function(N,M,_):
+def graphics_function(N,M,P):
     global graphics_timer
     if graphics_timer == None:
         graphics_timer = Timer(M['Q']['runtime_parameters']['graphics_timer_time'])

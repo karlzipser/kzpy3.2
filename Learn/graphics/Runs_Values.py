@@ -5,7 +5,7 @@ scatter_plot = []
 graphics_timer = None
 
 
-def graphics_function(N,M):
+def graphics_function(N,M,P):
     t = N.extract('target_torch')
     d = N.extract('final_output')#;kprint(d,title='d')
     advance(scatter_plot,[t,d],10000)

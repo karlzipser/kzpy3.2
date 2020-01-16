@@ -109,10 +109,10 @@ class _ConDecon(Net):
 
 
 
-class ConDecon_FS(nn.Module):
+class ConDecon_FS(Net):
 
-    def __init__(self,P):
-        super(ConDecon_FS, self).__init__()
+    def setup_layers(self,P):
+        #super(ConDecon_FS, self).__init__()
         self.A = {}
 
         self.fire1=Fire(P['NUM_INPUT_CHANNELS'],aa,b,b)
@@ -130,7 +130,7 @@ class ConDecon_FS(nn.Module):
         self.maxunpool=nn.MaxUnpool2d(kernel_size=3,stride=2,padding=0)
 
         self.final_deconv = nn.ConvTranspose2d(2*a, P['NUM_OUTPUTS'], kernel_size=1)
-
+        self.swish6=nn.ReLU()
 
     def forward(self,Data):
 
@@ -196,6 +196,7 @@ class ConDecon_FS(nn.Module):
 
 
         x = self.final_deconv(x)
+        x = self.swish6(x)
         #kprint(x.size(),"final_deconv",ra=0)
 
         self.A['output'] = x

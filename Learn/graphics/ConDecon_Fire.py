@@ -6,7 +6,7 @@ CA()
 graphics_timer = None
 
 
-def graphics_function(N,M):#,X):
+def graphics_function(N,M,P):#,X):
     global graphics_timer
     if graphics_timer == None:
         graphics_timer = Timer(M['Q']['runtime_parameters']['graphics_timer_time'])
@@ -45,6 +45,7 @@ def graphics_function(N,M):#,X):
         )
 
 
+        
     c = N.extract('input')[:3,:,:]
     t = N.extract('target')[:3,:,:]
     d = N.extract('output')[:3,:,:]
@@ -55,6 +56,13 @@ def graphics_function(N,M):#,X):
     #mi(d.transpose(2,1,0)[:,:,1],9)
     #figure('d');clf();plot(d.transpose(2,1,0)[10,:,1])
     #print shape(c)
+    #kprint(M['Q'])
+    if M['Q']['runtime_parameters']['save_images']:
+        path = opjD('__TEMP__',fname(P['NETWORK_OUTPUT_FOLDER']))
+        print path
+        os.system(d2s('mkdir -p',path))
+        img = np.concatenate((d.transpose(2,1,0),t.transpose(2,1,0)),axis=1)
+        imsave(opj(path,str(time.time())+'.png'),img)
 
     if False:
         d = N.extract('output')[3:6,:,:]

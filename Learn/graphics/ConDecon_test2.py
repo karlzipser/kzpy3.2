@@ -6,7 +6,7 @@ CA()
 graphics_timer = None
 
 
-def graphics_function(N,M):#,X):
+def graphics_function(N,M,P):#,X):
     global graphics_timer
     if graphics_timer == None:
         graphics_timer = Timer(M['Q']['runtime_parameters']['graphics_timer_time'])
