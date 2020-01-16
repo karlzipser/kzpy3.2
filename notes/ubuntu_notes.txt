@@ -16,9 +16,12 @@ rsync -e "ssh -p 1022" -ravL /media/karlzipser/2_TB_Samsung/Activations_folders/
 
 karls-macbook-2,192.168.42.3
 
-
-
-
+# if setting up in other account
+$ git clone https://github.com/karlzipser/kzpy3.2.git
+$ mv kzpy3.2 kzpy3
+$ mkdir -p ~/Desktop; cd ~/Desktop
+$ ln -s /home/karlzipser/Desktop/Activations_folders Activations_folders
+$ cd
 $ source ~/kzpy3/bashrc
 
 $ menu --path ~/kzpy3/Learn
@@ -27,10 +30,16 @@ choice: 1 <enter>
 choice: 7 <enter>
 Enter value for 'graphics_ylim' ([0, 1] <list>):    [0,2] <enter>
 
-
-$ Learn --type ConDecon_Fire_FS,Fire3,16Jan20_12h08m42s --resume False --save_timer_time 30 --runs validate
-# note this trains with validation runs, useful for debugging because they load faster. To train, use "--runs train"
+# get rgb from hidden layer
+$ Learn --type ConDecon_Fire_FS,Fire3,to_rgb --resume False --save_timer_time 30 --runs validate --inputs Fire3 --targets rgb
+# note this trains with validation runs, useful for debugging because they load faster.
+# To train properly, use "--runs train"
 # kill with ctrl-C or by doing abort (choice 1) from menu.
+
+# predict future hidden layer state
+$ Learn --type ConDecon_Fire_FS,Fire3,predict --resume False --save_timer_time 30 --runs validate
+
+
 
 
 
