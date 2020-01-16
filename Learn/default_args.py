@@ -27,12 +27,17 @@ Default_Arguments = { # top key is selected by required_arguments[0]
 	},
 
 	'ConDecon_Fire':{
-		'batch_size':1,
-		'losses_to_average':256,
+
 	},
 	
 	'ConDecon_Fire_FS':{
 		'batch_size':1,
+		'losses_to_average':64,
+		'runs':'validate',
+		'input_offset':0,
+		'target_offset':10,
+		'inputs':['Fire3'],
+		'targets':['Fire3'],
 	},
 
 	'Runs_Values':{

@@ -10,10 +10,10 @@ def setup(P):
 
     Runs = {}
 
-    #activation_folders = sggo(opjD('Activations_folders','*'))
-    activation_folders = sggo(opjm('2_TB_Samsung','Activations_folders','*'))
+    #activation_folders = sggo(opjm('2_TB_Samsung','Activations_folders','*'))
+    activation_folders = sggo(opjD('Activations_folders','*'))
+    
     for a in activation_folders:
-        #print a
         files = sggo(a,'indicies','*.h5py')
         E = h5r(files[0])
         if P['type'][1] in ' '.join(E.keys()):
@@ -50,8 +50,6 @@ def setup(P):
             'activations/indicies':{},
         }
         
-
-
         Runs[r]['original_timestamp_data'] = \
             {'path':opj(opjD('Data'),H['paths'].keys()[0],r,'original_timestamp_data.h5py'),'data':None}
 
@@ -103,16 +101,7 @@ def setup(P):
                 v[ii] = i
 
             run_ctr += 1
-        """
-        except KeyboardInterrupt:
-            cr('*** KeyboardInterrupt ***')
-            sys.exit()
-        except Exception as e:
-            exc_type, exc_obj, exc_tb = sys.exc_info()
-            file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            CS_('Exception!',emphasis=True)
-            CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)   
-        """
+
 
     P['Runs'] = Runs
     P['good_list'] = good_list
@@ -159,70 +148,118 @@ def _selector(P):
 
 def get_data_function(P):
 
+    #kprint(P.keys(),'P',ra=1)
     global input_data_plus, target_data_plus
+
     Runs = P['Runs']
-    #X = P['X']
+
     while True:
-        if True:#try:
+        try:
             r,ctr,flip = _selector(P)
+
             flip = 0
+            input_list = []
+            target_list = []
             if not flip:
-                #A = Runs[r]['net_projections']['data']['normal']
                 A = Runs[r]['activations/data']['data'][P['type'][1]+'.squeeze_activation']
                 B = Runs[r]['original_timestamp_data']['data']['left_image']['vals']
-                #print 'not flip'
+                #C = Runs[r]['net_projections']['data']['normal']
             else:
                 assert(False)
                 A = Runs[r]['net_projections']['data']['flip']
                 B = Runs[r]['flip_images']['data']['left_image_flip']['vals']
-                #print 'FLIP'
-
-            input_data =  A[Runs[r]['activations/reverse-indicies']['data'][ctr]]
+                #C = Runs[r]['net_projections']['data']['flip']
             if ctr >= len(A):
                 print 'ctr >= len(A)'
                 continue
-            temp = A[ctr]
+
+            if 'Fire3' in P['inputs']:
+                i = A[Runs[r]['activations/reverse-indicies']['data'][ctr+P['input_offset']]]
+                #print shape(i)
+                i = i.transpose(1,2,0)
+                #print shape(i)
+                input_list.append(i)
+
+            if 'Fire3' in P['targets']:
+                i = A[Runs[r]['activations/reverse-indicies']['data'][ctr+P['target_offset']]]
+                #print shape(i)
+                i = i.transpose(1,2,0)
+                #print shape(i)
+                target_list.append(i)
+
+            if 'rgb' in P['targets']:
+                target_list.append(B[ctr+P['target_offset']])#.transpose(2,1,0))
+
+            if 'rgb' in P['inputs']:
+                input_list.append(B[ctr+P['input_offset']])#.transpose(2,1,0))
+
             break
-        else:#except:
-            print 'except'
+
+        except KeyboardInterrupt:
+            cr('*** KeyboardInterrupt ***')
+            sys.exit()
+        except Exception as e:
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            CS_('Exception!',emphasis=True)
+            CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
 
     P['ctr'] = ctr
 
-    if flip:
-        input_data[:,:,0] = temp[:,:,1]
-        input_data[:,:,1] = temp[:,:,0]
-    target_data = B[ctr]
+    for lst in [input_list,target_list]:
+        for l in rlen(lst):
+            e = lst[l]
+            e = e.astype(float)
+            #print shape(e)
+            #e = e.astype(float).transpose(1,2,0)
+            #print shape(e)
+            #print type(e)
+            e = cv2.resize( e,(WIDTH,HEIGHT))
+            #print shape(e)
+            e = e.transpose(2,1,0)
+            #print shape(e)
+            #print
+            lst[l] = e
+    """
+    if True:#####
+        target_data = B[ctr]
+    else:#####
+        b,c = B[ctr],C[ctr]
+        cc = cv2.resize( c,(WIDTH,HEIGHT))
+        bb = cv2.resize( b,(WIDTH,HEIGHT))
+        target_data = np.concatenate((cc,bb),2)
+    """
 
+    """
     n = 5
     if input_data_plus == None:
         nc = shape(input_data)[0]
         n = 5
         input_data_plus = zeros((nc,2*n+WIDTH,2*n+HEIGHT))#+0.5
-        target_data_plus = zeros((3,2*n+WIDTH,2*n+HEIGHT))+0.5
+        if True:#####
+            target_data_plus = zeros((3,2*n+WIDTH,2*n+HEIGHT))+0.5
+        else:#####
+            target_data_plus = zeros((shape(target_data)[2],2*n+WIDTH,2*n+HEIGHT))+0.5
+    """
 
-
+    """
     input_data = input_data.astype(float).transpose(1,2,0)
 
     input_data = cv2.resize( input_data,(WIDTH,HEIGHT)).transpose(2,1,0)
+
+
 
     target_data = cv2.resize(target_data ,(WIDTH,HEIGHT)).transpose(2,1,0)
 
 
     target_data = 1/255.0*target_data
-
-    if False:
-        if r not in X['data_tracker']:
-            X['data_tracker'][r] = {}
-        if ctr not in X['data_tracker'][r]:
-            X['data_tracker'][r][ctr] = 0
-        X['data_tracker'][r][ctr] += 1
-
-    target_data_plus[:,n:n+WIDTH,n:n+HEIGHT] = target_data
-    input_data_plus[:,n:n+WIDTH,n:n+HEIGHT] = input_data
+    """
+    #target_data_plus[:,n:n+WIDTH,n:n+HEIGHT] = target_data
+    #input_data_plus[:,n:n+WIDTH,n:n+HEIGHT] = input_data
 
     return {
-        'input':input_data_plus,
-        'target':target_data_plus,
+        'input':input_list[0],#_plus,
+        'target':target_list[0],#,_plus,
         'ctr':ctr,
     }
 

@@ -13,7 +13,7 @@ def graphics_function(N,M,P):#,X):
     cv2.waitKey(1)
     if graphics_timer.check() or M['Q']['runtime_parameters']['graphics_timer_time'] < 0:
         if M['Q']['runtime_parameters']['graphics_timer_time'] < 0:
-            pass#print M['Q']['runtime_parameters']['ctr']
+            pass
         M['load']()
         graphics_timer = Timer(M['Q']['runtime_parameters']['graphics_timer_time'])
     else:
@@ -21,20 +21,6 @@ def graphics_function(N,M,P):#,X):
 
     if True:
         figure('loss')
-        """
-        ab = N.extract('input',0)
-        a = ab[0,0,0]
-        b = ab[1,0,0]
-        c = N.extract('output',0)[0,0,0]
-        t = N.extract('target',0)[0,0,0]
-        if True:
-            diff = np.abs(dp(c)-dp(t))
-            if diff < 0.2:
-                color = '`wgb'
-            else:
-                color = '`wrb'
-            clp( diff,color, dp(a),dp(b),dp(c),dp(t),'`' )
-        """
         clf()
         plot(N.losses,'.')
         m = meo(na(N.losses),M['Q']['runtime_parameters']['meo_num'])
@@ -46,44 +32,36 @@ def graphics_function(N,M,P):#,X):
 
 
         
-    c = N.extract('input')[:3,:,:]
-    t = N.extract('target')[:3,:,:]
-    d = N.extract('output')[:3,:,:]
-    #mi(c[0,:,:])#,0,img_title=d2s(dp(t),dp(d)))
-    #mci(z55(c.transpose(2,1,0)),1,scale=4,title='input')
-    #mci(z55(d.transpose(2,1,0)),1,scale=4,title='output')
-    #mci(z55(t.transpose(2,1,0)),1,scale=4,title='target')
-    img = np.concatenate((d.transpose(2,1,0),t.transpose(2,1,0)),axis=1)
-    mci(z55(img),1,scale=4,title='target')
-    #mi(d.transpose(2,1,0)[:,:,1],9)
-    #figure('d');clf();plot(d.transpose(2,1,0)[10,:,1])
-    #print shape(c)
-    #kprint(M['Q'])
+    cc = N.extract('input')
+    tt = N.extract('target')
+    dd = N.extract('output')
+    t = tt[:3,:,:]
+    d = dd[:3,:,:]
+    c = cc[:3,:,:]
+    img = np.concatenate((c.transpose(2,1,0),d.transpose(2,1,0),t.transpose(2,1,0)),axis=1)
+    mci(z55(img),1,scale=4,title=d2s('target 0-2',shape(dd)))
+
+#    print shape(tt)
+    if False:#shape(tt)[0] == 6:
+        t = tt[3:,:,:]
+        d = dd[3:,:,:]
+        img = np.concatenate((d.transpose(2,1,0),t.transpose(2,1,0)),axis=1)
+        mci(z55(img),1,scale=4,title=d2s('target 3-5',shape(dd)))
+    if False:#shape(tt)[0] > 6:
+        n = rndint(shape(tt)[0]-3)
+        print shape(tt)[0],n,n+2
+        t = tt[n:n+2,:,:]
+        d = dd[n:n+2,:,:]
+        img = np.concatenate((d.transpose(2,1,0),t.transpose(2,1,0)),axis=1)
+        mci(z55(img),1,scale=4,title=d2s('target',n,'-',n+3,shape(dd)))
+
+
     if M['Q']['runtime_parameters']['save_images']:
         path = opjD('__TEMP__',fname(P['NETWORK_OUTPUT_FOLDER']))
         print path
         os.system(d2s('mkdir -p',path))
-        #img = np.concatenate((d.transpose(2,1,0),t.transpose(2,1,0)),axis=1)
         imsave(opj(path,str(time.time())+'.png'),img)
 
-    if False:
-        d = N.extract('output')[3:6,:,:]
-        mi(z55(d.transpose(2,1,0)),'output-1')
-        d = N.extract('output')[6:9,:,:]
-        mi(z55(d.transpose(2,1,0)),'output-2')
-
-    if False:
-        c = N.extract('input')[3:6,:,:]
-        mi(z55(c.transpose(2,1,0)),'input-1')
-        c = N.extract('input')[6:9,:,:]
-        mi(z55(c.transpose(2,1,0)),'input-2')
-
-    if False:
-        ctr = 0
-        for r in X['data_tracker'].keys():
-            ctr += 1
-            clp('\t',ctr,r,len(X['data_tracker'][r].keys()))
-        print '\n'
 
     spause()
 
