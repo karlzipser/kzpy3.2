@@ -3,7 +3,7 @@ import default_values
 import Batch_Module
 import Network_Module
 import kzpy3.Menu_app.menu2 as menu2
-
+import ConDecon_Fire_graphics
 exec(identify_file_str)
 
 _ = default_values.P
@@ -66,7 +66,7 @@ if _['RESUME']:
     _['WEIGHTS_FILE_PATH'] = most_recent_file_in_folder(_['INITIAL_WEIGHTS_FOLDER'],['.infer'],[])
 else:
     cr("\n*********** STARTING FROM RANDOM WEIGHTS ***********\n")
-    raw_enter()
+    #raw_enter()
 
 Network = Network_Module.Pytorch_Network(_)
 
@@ -113,6 +113,8 @@ while _['ABORT'] == False:
     Batch['DISPLAY']()
 
     Batch['BACKWARD']()
+
+    ConDecon_Fire_graphics.graphics_function(Network['net'],Batch['target_data'])
 
     menu_reminder.message(d2s("\n\nTo start menu:\n\tpython kzpy3/Menu_app/menu2.py path",_['project_path'],"dic P\n\n"))
 

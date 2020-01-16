@@ -7,3 +7,23 @@ gnome-terminal --tab -e "ssh -Y nvidia@192.168.1.106" --tab -e "ssh -Y nvidia@19
 
 
 screen -X -S 21835 quit
+
+
+
+
+rsync -e "ssh -p 1022" -ravL /media/karlzipser/2_TB_Samsung/Activations_folders/Activations.Fire3/*  karlzipser@169.229.219.140:'Desktop/Activations.Fire3/'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

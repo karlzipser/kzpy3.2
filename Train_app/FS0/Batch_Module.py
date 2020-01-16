@@ -3,7 +3,24 @@ import Data_Module
 import torch
 import torch.nn.utils as nnutils
 import Activity_Module
+from ConDecon_Fire_get_data import make_batch
 exec(identify_file_str)
+
+
+
+def data_to_torch(Data):
+
+    Torch_data = {}
+
+    for k in Data:
+
+        if type(Data[k]) != type(None):
+            Torch_data[k] = torch.from_numpy(Data[k]).cuda(device=0).float()
+        else:
+            Torch_data[k] = None
+
+    return Torch_data
+
 
 
 Translation = {
@@ -24,9 +41,9 @@ def Batch(_,the_network=None):
 	D = {}
 	D['network'] = the_network
 	D['batch_size'] = _['BATCH_SIZE']
-	D['camera_data'] = torch.FloatTensor()#.cuda()
+	D['camera_data'] = torch.FloatTensor().cuda()
 	#D['metadata'] = torch.FloatTensor()#.cuda()
-	D['target_data'] = torch.FloatTensor()#.cuda()
+	D['target_data'] = torch.FloatTensor().cuda()
 	D['names'] = []
 	D['flips'] = []
 	D['states'] = []
@@ -43,139 +60,36 @@ def Batch(_,the_network=None):
 		_['LOSS_LIST_AVG'] = []
 	_['reload_image_file_timer'].trigger()
 
-	if False:
-		Data_Module.prepare_data_for_training(_)
-		Network_Predictions = Data_Module.load_Network_Predictions(_)
-
-		zero_matrix = torch.FloatTensor(1, 1, 23, 41).zero_()#.cuda()
-		one_matrix = torch.FloatTensor(1, 1, 23, 41).fill_(1)#.cuda()
-		temp = (255*z2o(np.random.randn(94,168))).astype(np.uint8)
-		zero_94_168_img = zeros((94,168),np.uint8)
-
-		files = sggo('/home/karlzipser/Desktop/Data/Network_Predictions_projected/*.net_projections.h5py')
-		GOOD_LIST = []
-		for f in files:
-		    GOOD_LIST.append(fname(f).split('.')[0])
-
-		def _load_image_files():
-			cy('_load_image_files()')
-			_['Loaded_image_files'] = {}
-
-			shuffled_keys = _['run_name_to_run_path'].keys()
-			random.shuffle(shuffled_keys)
-
-
-			for f in shuffled_keys[:_['max_num_runs_to_open']]:
-				if f not in GOOD_LIST:
-					#cr(f,"NOT LEAVING OUT THIS FILE")
-					continue
-				cg('_load_image_files():',f)
-				_['Loaded_image_files'][f] = {}
-				if True:
-					try:
-
-						L,O,F = open_run(run_name=f,h5py_path=pname(_['run_name_to_run_path'][f]))
-						S = h5r(opjD('Data','Network_Predictions_projected',f+'.net_projections.h5py'))
-
-						_['Loaded_image_files'][f]['normal'] = O
-						_['Loaded_image_files'][f]['flip'] = F
-						_['Loaded_image_files'][f]['left_timestamp_metadata'] = L
-						_['Loaded_image_files'][f]['projections'] = S
-						_['Loaded_image_files'][f]['normal projections'] = S['normal']
-						_['Loaded_image_files'][f]['flip projections'] = S['flip']
-
-						if _['use_LIDAR']:
-							path = opj(_['LIDAR_path'],f+_['LIDAR_extension'])
-							cg("*",path,"*")
-							#raw_enter()
-							R = h5r(path)
-							_['Loaded_image_files'][f]['depth'] = R
-							#cg("*",path," success*")
-							#raw_enter()
-
-
-						#print f
-					except Exception as e:
-						print("********** Exception ***********************")
-						print(e.message, e.args)
-
-			if _['verbose']: print(len(_['Loaded_image_files']))
-
-			pd2s('1) len(_[data_moments_indexed]) =',len(_['data_moments_indexed']))
-
-			timer = Timer()
-			_['data_moments_indexed_loaded'] = []
-
-
-
-			if "ORIGINAL VERSION":
-				for dm in _['data_moments_indexed']:
-					if dm['run_name'] in _['Loaded_image_files']:
-						_['data_moments_indexed_loaded'].append(dm)
-			else: 
-				for dm in _['data_moments_indexed']:
-					if dm['run_name'] in _['Loaded_image_files']:
-						if np.random.random() < 0.1:
-							cg('yes')
-							_['data_moments_indexed_loaded'].append(dm)
-						else:
-							cr('no')
-
-
-
-			random.shuffle(_['data_moments_indexed_loaded'])
-
-			pd2s('index discovery time =',timer.time(),'len(_[data_moments_indexed_loaded]) =',len(_['data_moments_indexed_loaded']))
-		
-
-
-
-
-
-
-		def _close_image_files():#
-
-			cy('_close_image_files()')
-
-			for f in _['Loaded_image_files']:
-
-				try:
-					_['Loaded_image_files'][f]['normal'].close()
-					_['Loaded_image_files'][f]['flip'].close()
-					_['Loaded_image_files'][f]['projections'].close()
-					#_['Loaded_image_files'][f]['normal projections'].close()
-					#_['Loaded_image_files'][f]['flip projections'].close()
-
-					_['Loaded_image_files'][f]['left_timestamp_metadata'].close()
-					if _['use_LIDAR']:
-						_['Loaded_image_files'][f]['depth'].close()
-
-				except Exception as e:
-					print("********** _close_image_files Exception ***********************")
-					print(e.message, e.args)
-
-
-
 
 
 
 
 	def _function_fill():
 
-		a = rnd((_['BATCH_SIZE'], 3, 47, 84))
-		b = 0.01*rndn(_['BATCH_SIZE'], 3, 47, 84)
-		D['camera_data'] = torch.from_numpy(a+b).float()
-		D['target_data'] = torch.from_numpy(a).float()
+		Data = make_batch(_['BATCH_SIZE'])
+		Torch_data = data_to_torch(Data)
 
+		if False:
+			a = rnd((_['BATCH_SIZE'], 3, 47, 84))
+			b = 0.01*rndn(_['BATCH_SIZE'], 3, 47, 84)
+			D['camera_data'] = torch.from_numpy(a+b).float()
+			D['target_data'] = torch.from_numpy(a).float()
 
+		if False:
+			print shape(Data['input'])
+			print shape(Data['target'])
+			print 
+
+		D['camera_data'] = Torch_data['input'].float()
+		D['target_data'] = Torch_data['target'].float()
 
 
 
 
 	def _function_clear():
-		D['camera_data'] = torch.FloatTensor()#.cuda()
-		D['metadata'] = torch.FloatTensor()#.cuda()
-		D['target_data'] = torch.FloatTensor()#.cuda()
+		D['camera_data'] = torch.FloatTensor().cuda()
+		D['metadata'] = torch.FloatTensor().cuda()
+		D['target_data'] = torch.FloatTensor().cuda()
 		D['states'] = []
 		D['names'] = []
 		D['outputs'] = None
@@ -188,12 +102,12 @@ def Batch(_,the_network=None):
 	def _function_forward():
 		True
 		D['network']['optimizer'].zero_grad()
-		D['outputs'] = D['network']['net'](torch.autograd.Variable(D['camera_data']))#.cuda()
+		D['outputs'] = D['network']['net'](torch.autograd.Variable(D['camera_data'])).cuda()
 		D['loss'] = D['network']['criterion'](D['outputs'], torch.autograd.Variable(D['target_data']))
 
 
 
-	na = np.array
+
 	def _function_backward():
 		try:
 			D['tries'] += 1

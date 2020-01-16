@@ -16,18 +16,18 @@ def Pytorch_Network(_):
 
     D = {}
     torch.set_default_tensor_type('torch.FloatTensor')
-    if False:
+    if True:
         torch.cuda.set_device(_['GPU'])
         torch.cuda.device(_['GPU'])
         cg("GPUs =",torch.cuda.device_count(),"current GPU =",torch.cuda.current_device())
 
-    D['net'] = ConDecon_FS()#.cuda()
+    D['net'] = ConDecon_FS().cuda()
 
 
 
 
 
-    D['criterion'] = torch.nn.MSELoss()#.cuda()
+    D['criterion'] = torch.nn.MSELoss().cuda()
     if False: #original
         D['optimizer'] = torch.optim.Adadelta(D['net'].parameters())
     D['optimizer'] = torch.optim.Adadelta(filter(lambda p: p.requires_grad,D['net'].parameters()))

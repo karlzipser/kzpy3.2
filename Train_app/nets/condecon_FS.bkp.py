@@ -79,7 +79,7 @@ class ConDecon_FS(nn.Module):
 
         self.smoke4=Smoke(f,c,d,d)
         self.smoke3=Smoke(e,b,c,c)
-        self.smoke2=Smoke(d,a,b,b)
+        self.smoke2=Smoke(d+d,a,b,b)
         self.smoke1=Smoke(c,aa,a,a)
 
         self.maxunpool=nn.MaxUnpool2d(kernel_size=3,stride=2,padding=0)
@@ -112,6 +112,7 @@ class ConDecon_FS(nn.Module):
 
         x=self.fire2(x)
         self.A['pre_metadata_features_metadata'] = x
+        self.A['fire2'] = x
         #kprint(x.size(),"fire2",ra=0)
         size_fire2 = x.size()
 
@@ -147,7 +148,7 @@ class ConDecon_FS(nn.Module):
         #kprint(x.size(),"maxunpool",ra=0)
 
 
-        x=self.smoke2(x)
+        x=self.smoke2(torch.cat((self.A['fire2'],x),1))
         #kprint(x.size(),"smoke2",ra=0)
 
 

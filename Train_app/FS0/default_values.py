@@ -66,10 +66,10 @@ if _['freeze premetadata weights']:
 
 _['updated'] = []
 _['DISPLAY_EACH'] = False
-_['RESUME'] = False
-_['BATCH_SIZE'] = 8
+_['RESUME'] = True
+_['BATCH_SIZE'] = 1
 _['REQUIRE_ONE'] = []
-_['save_net_timer'] = Timer(1000*hours) #i.e., not used now
+_['save_net_timer'] = Timer(30)#Timer(1000*hours) #i.e., not used now
 _['SAVE_FILE_NAME'] = 'net'
 _['proportion of experiements to use'] = 1.0
 _['proportion of runs to use'] = 1.0 #1/8. #(np.random.random()**2) 
