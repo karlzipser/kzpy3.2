@@ -37,7 +37,7 @@ $ Learn --type ConDecon_Fire_FS,Fire3,to_rgb --resume False --save_timer_time 30
 # kill with ctrl-C or by doing abort (choice 1) from menu.
 
 # predict future hidden layer state
-$ Learn --type ConDecon_Fire_FS,Fire3,predict --resume False --save_timer_time 30 --runs validate
+$ Learn --type ConDecon_Fire_FS,Fire3,predict --resume True --save_timer_time 30 --target_offset 10 --inputs Fire3 --outputs Fire3 --runs validate
 
 
 
