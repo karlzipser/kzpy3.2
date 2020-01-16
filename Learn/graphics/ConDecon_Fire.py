@@ -38,7 +38,7 @@ def graphics_function(N,M,P):#,X):
     t = tt[:3,:,:]
     d = dd[:3,:,:]
     c = cc[:3,:,:]
-    img = np.concatenate((c.transpose(2,1,0),d.transpose(2,1,0),t.transpose(2,1,0)),axis=1)
+    img = np.concatenate((z55(c.transpose(2,1,0)),z55(d.transpose(2,1,0)),z55(t.transpose(2,1,0))),axis=1)
     mci(z55(img),1,scale=4,title=d2s('input/output/target (channels 0-2)',shape(dd)))
 
 #    print shape(tt)
