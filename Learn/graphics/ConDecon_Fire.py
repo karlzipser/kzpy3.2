@@ -10,7 +10,7 @@ def graphics_function(N,M,P):#,X):
     global graphics_timer
     if graphics_timer == None:
         graphics_timer = Timer(M['Q']['runtime_parameters']['graphics_timer_time'])
-
+    cv2.waitKey(1)
     if graphics_timer.check() or M['Q']['runtime_parameters']['graphics_timer_time'] < 0:
         if M['Q']['runtime_parameters']['graphics_timer_time'] < 0:
             pass#print M['Q']['runtime_parameters']['ctr']
@@ -50,9 +50,11 @@ def graphics_function(N,M,P):#,X):
     t = N.extract('target')[:3,:,:]
     d = N.extract('output')[:3,:,:]
     #mi(c[0,:,:])#,0,img_title=d2s(dp(t),dp(d)))
-    mci(z55(c.transpose(2,1,0)),1,scale=4,title='input')
-    mci(z55(d.transpose(2,1,0)),1,scale=4,title='output')
-    mci(z55(t.transpose(2,1,0)),1,scale=4,title='target')
+    #mci(z55(c.transpose(2,1,0)),1,scale=4,title='input')
+    #mci(z55(d.transpose(2,1,0)),1,scale=4,title='output')
+    #mci(z55(t.transpose(2,1,0)),1,scale=4,title='target')
+    img = np.concatenate((d.transpose(2,1,0),t.transpose(2,1,0)),axis=1)
+    mci(z55(img),1,scale=4,title='target')
     #mi(d.transpose(2,1,0)[:,:,1],9)
     #figure('d');clf();plot(d.transpose(2,1,0)[10,:,1])
     #print shape(c)
@@ -61,7 +63,7 @@ def graphics_function(N,M,P):#,X):
         path = opjD('__TEMP__',fname(P['NETWORK_OUTPUT_FOLDER']))
         print path
         os.system(d2s('mkdir -p',path))
-        img = np.concatenate((d.transpose(2,1,0),t.transpose(2,1,0)),axis=1)
+        #img = np.concatenate((d.transpose(2,1,0),t.transpose(2,1,0)),axis=1)
         imsave(opj(path,str(time.time())+'.png'),img)
 
     if False:

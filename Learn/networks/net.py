@@ -112,7 +112,7 @@ class Net(nn.Module):
                 torch.save(weights, opj(self.NETWORK_OUTPUT_FOLDER,'weights','temp.infer'))
                 cb('. . . done saving temp.infer')
                 return
-            net_str = 'net'+'_'+time_str()
+            net_str = 'net'+'_'+time_str()+'.'+str(self.losses[-1])
             if self.GPU > -1:
                 net_str = net_str+'.cuda'
             torch.save(weights, opj(self.NETWORK_OUTPUT_FOLDER,'weights',net_str+'.infer'))
@@ -121,6 +121,7 @@ class Net(nn.Module):
             torch.save(self.state_dict(), opj(self.NETWORK_OUTPUT_FOLDER,'state_dict',net_str+'.state_dict'))
             print('. . . done saving.')
             self.save_net_timer.reset()
+
 
 
     def load(self):
