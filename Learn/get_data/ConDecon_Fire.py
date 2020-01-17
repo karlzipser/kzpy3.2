@@ -182,11 +182,20 @@ def get_data_function(P):
 
                 if 'rgb' in P[k]:
                     #print k,'rgb'
-                    Lists[k].append(B[ctr+P[k+'_offset']])
+                    noise = 25*rnd(shape(B[ctr]))-15.5
+                    Lists[k].append(B[ctr+P[k+'_offset']]+noise)
 
                 if 'projections' in P[k]:
                     #print k,'projections'
-                    Lists[k].append(C[ctr+P[k+'_offset']])
+                    #s0,s1,s2,s3 = shape(C[ctr])[0],shape(C[ctr])[1],shape(C[ctr])[2],shape(C[ctr])[3]
+                    #print shape(C[ctr])
+                    if False:#'+noise=' in P[k]:
+                        mag = int(P[k].split('+noise=')[-1])
+                        noise = mag*rnd(shape(C[ctr]))
+                    else:
+                        noise = 0
+                    noise = 25*rnd(shape(C[ctr]))-15.5
+                    Lists[k].append(C[ctr+P[k+'_offset']]+noise )
 
                 if 'button' in P[k]:
                     #print k,'button'

@@ -23,9 +23,11 @@ def graphics_function(N,M,P):#,X):
     else:
         return
 
+    title_name = title='.'.join(P['type'])
+
     if True:
         
-        figure('loss',figsize=(2,10))
+        figure(P['type'][-1],figsize=(2,10))
         clf()
         plot(N.losses,'.')
         m = meo(na(N.losses),M['Q']['runtime_parameters']['meo_num'])
@@ -52,6 +54,7 @@ def graphics_function(N,M,P):#,X):
     img_lst = []
     for k in ['input','target','output']:
         Imgs[k] = N.extract(k)
+        print k,Imgs[k].min(),Imgs[k].max()
         lst = P['display.'+k]
         for i in range(0,len(lst),2):
             start = int(lst[i])
@@ -70,7 +73,7 @@ def graphics_function(N,M,P):#,X):
         else:
             #print 'b',shape(concatt),shape(img)
             concatt = np.concatenate((concatt,img),axis=1)
-    mci(concatt,1,scale=M['Q']['runtime_parameters']['scale'],title=d2s('concat'))
+    mci(concatt,1,scale=M['Q']['runtime_parameters']['scale'],title=title_name)
     #mci(concatt,1,scale=2,title=d2s('concat'))
 
 

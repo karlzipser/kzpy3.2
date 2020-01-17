@@ -13,6 +13,8 @@ Default_Arguments = { # top key is selected by required_arguments[0]
 	    'losses_to_average':25,
 	    'save_timer_time':5*minutes,
 	    'runs':'train',
+	    'clip':1,
+	    'noise':0,
 	},
 
     'XOR':{

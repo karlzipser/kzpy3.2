@@ -57,7 +57,7 @@ class Net(nn.Module):
             torch.cuda.set_device(self.GPU)
             torch.cuda.device(self.GPU)
             clp("GPUs =",torch.cuda.device_count(),"current GPU =",torch.cuda.current_device(),'`ybb');time.sleep(1)
-            torch.cuda.set_device(0);torch.cuda.device(0)
+            #torch.cuda.set_device(0);torch.cuda.device(0)
             self.criterion = torch.nn.MSELoss().cuda()
         else:
             self.criterion = torch.nn.MSELoss()
@@ -75,7 +75,7 @@ class Net(nn.Module):
 
             if type(Data[k]) != type(None):
                 if self.GPU > -1:
-                    Torch_data[k] = torch.autograd.Variable(torch.from_numpy(Data[k]).cuda(device=0).float())
+                    Torch_data[k] = torch.autograd.Variable(torch.from_numpy(Data[k]).cuda(device=self.GPU).float())
                 else:
                     Torch_data[k] = torch.autograd.Variable(torch.from_numpy(Data[k]).float())
             else:
@@ -86,7 +86,7 @@ class Net(nn.Module):
 
     def backward(self):
         self.loss.backward()
-        nnutils.clip_grad_norm(self.parameters(), 1.0)
+        nnutils.clip_grad_norm_(self.parameters(), P['clip'])#0.01) #1.0)
         self.optimizer.step()
 
 
@@ -105,7 +105,7 @@ class Net(nn.Module):
             weights = {'net':self.state_dict().copy()}
             for key in weights['net']:
                 if self.GPU > -1:
-                    weights['net'][key] = weights['net'][key].cuda(device=0)
+                    weights['net'][key] = weights['net'][key].cuda(device=self.GPU)
                 else:
                     weights['net'][key] = weights['net'][key]
             if temp:
