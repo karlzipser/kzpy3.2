@@ -15,6 +15,11 @@ Default_Arguments = { # top key is selected by required_arguments[0]
 	    'runs':'train',
 	    'clip':1,
 	    'noise':0,
+	    'input':False,
+	    'target':False,
+	    'display.output':[0,3],
+	    'display.input':[0,3],
+	    'display.target':[0,3],
 	},
 
     'XOR':{

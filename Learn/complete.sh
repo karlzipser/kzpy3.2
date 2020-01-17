@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-complete -o default -W "--LR --GPU ConDecon_test2 --backwards False --momentum ConDecon_Fire --losses_to_average --resume --type --runs --default-- train XOR ConDecon_Fire_FS --save_timer_time validate Runs_Values True --Help --batch_size" Learn
+complete -o default -W "--LR --input --display.target projections --Help --display.input --save_timer_time rgb --noise Fire3 ConDecon_Fire True --clip --momentum --backwards XOR --input_offset --target train Runs_Values validate --batch_size --GPU ConDecon_test2 False --display.output --inputs --losses_to_average --resume --type --target_offset --runs --targets ConDecon_Fire_FS --default-- button" Learn
