@@ -20,7 +20,12 @@ Enter value for 'graphics_ylim' ([0, 1] <list>):    [0,2] <enter>
 
 # In a second terminal, start the network:
 # Task: get rgb from hidden layer
-$ Learn --type ConDecon_Fire_FS,Fire3,to_rgb --resume False --save_timer_time 30 --runs validate --inputs Fire3 --targets rgb
+####$ Learn --type ConDecon_Fire_FS,Fire3,to_rgb --resume False --save_timer_time 30 --runs validate --inputs Fire3 --targets rgb
+
+# rgb_test
+Learn/main.py --type ConDecon_Fire_FS,Fire3,rgb_test --runs train --batch_size 1 --resume False --LR 0.01 --inputs Fire3 --targets rgb --momentum 0.001 --save_timer_time 300 --losses_to_average 250
+
+
 # Note this trains with validation runs, useful for debugging because they load faster.
 # To train properly, use "--runs train"
 # Kill with Ctrl-C or by doing abort (choice 1) from menu.
