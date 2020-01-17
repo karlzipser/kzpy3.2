@@ -1,0 +1,47 @@
+# Repository is called kzpy3. It is loaded in my account but you might want to
+# set it up elsewhere.
+# If setting up in other account:
+
+$ git clone https://github.com/karlzipser/kzpy3.2.git
+$ mv kzpy3.2 kzpy3
+$ mkdir -p ~/Desktop; cd ~/Desktop
+$ ln -s /home/karlzipser/Desktop/Activations_folders Activations_folders
+$ cd
+$ source ~/kzpy3/bashrc # for each terminal (put in .bashrc or equivalent).
+
+# The system uses a menu in one terminal to control runtime parameters.
+# Load this first, at least the first time:
+
+$ menu --path ~/kzpy3/Learn
+# enter this sequence of numbers into menu to change loss plot y-limits
+choice: 1 <enter>
+choice: 7 <enter>
+Enter value for 'graphics_ylim' ([0, 1] <list>):    [0,2] <enter>
+
+# In a second terminal, start the network:
+# Task: get rgb from hidden layer
+$ Learn --type ConDecon_Fire_FS,Fire3,to_rgb --resume False --save_timer_time 30 --runs validate --inputs Fire3 --targets rgb
+# Note this trains with validation runs, useful for debugging because they load faster.
+# To train properly, use "--runs train"
+# Kill with Ctrl-C or by doing abort (choice 1) from menu.
+
+# A second configuration:
+# Task: predict future hidden layer state
+$ Learn --type ConDecon_Fire_FS,Fire3,predict --resume True --save_timer_time 30 --target_offset 10 --inputs Fire3 --outputs Fire3 --runs validate
+# Note, target_offset is in frames (frame rate=30Hz).
+
+
+
+To do:
+* get flip data (but is this valid for the fire data? e.g., the trajectory data cannot be flipped
+	 without swapping channels.)
+* put navigational mode into prediction input data
+* separate menus for seperate runs
+* input and output to/from networks like functions, so can easily combine (e.g., take output of
+	predition net and send it to rendering net)
+* clean up input/output specificication
+* view more output channels (multiple windows or concatenate them on side on single window)
+* data: fire, rgb, navigational mode with whatever time offset.
+* image display scale
+
+
