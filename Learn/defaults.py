@@ -14,6 +14,7 @@ Q = {
         'step':5,
         'ctr_reset':'_toggle',
         'save_images':False,
+        'scale':2,
     },
 }
 

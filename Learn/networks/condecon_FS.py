@@ -82,6 +82,8 @@ class ConDecon_FS(Net):
         self.final_deconv = nn.ConvTranspose2d(2*a, P['NUM_OUTPUTS'], kernel_size=1)
         self.relu=nn.ReLU()
 
+        self.drop_layer = nn.Dropout(p=0.1)
+
     def forward(self,Data):
 
         self.optimizer.zero_grad()
@@ -94,12 +96,16 @@ class ConDecon_FS(Net):
 
         size_fire1 = x.size()
 
+        x = self.drop_layer(x)
+
         x,indices_fire1 = self.maxpool1(x)
 
         x = self.fire2(x)
         f2 = x
 
         size_fire2 = x.size()
+
+        x = self.drop_layer(x)
 
         x,indices_fire2=self.maxpool2(x)
 
@@ -112,7 +118,7 @@ class ConDecon_FS(Net):
 
         size_fire3 = x.size()
 
-
+        x = self.drop_layer(x)
 
         if False: # these inner layers cause instability
 
@@ -136,6 +142,7 @@ class ConDecon_FS(Net):
         else:
             x = self.smoke3(x)
 
+        x = self.drop_layer(x)
 
         x = self.maxunpool2(x,indices_fire2,size_fire2)
 
@@ -145,6 +152,7 @@ class ConDecon_FS(Net):
         else:
             x = self.smoke2(x)
 
+        x = self.drop_layer(x)
 
         x = self.maxunpool1(x,indices_fire1,size_fire1)
 
@@ -154,10 +162,13 @@ class ConDecon_FS(Net):
         else:
             x = self.smoke1(x)
 
+        #x = self.drop_layer(x)
 
         x = self.final_deconv(x)
 
         x = self.relu(x)
+
+        #x = self.drop_layer(x)
 
         self.A['output'] = x
         self.A['target'] = Torch_data['target']

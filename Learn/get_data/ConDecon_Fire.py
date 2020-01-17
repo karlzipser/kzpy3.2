@@ -42,7 +42,6 @@ def setup(P):
 
         H = find_files_recursively(opjD('Data'),r,DIRS_ONLY=True)
 
-        
         Runs[r] = {
             'original_timestamp_data':{},
             'flip_images':{},
@@ -115,8 +114,9 @@ input_data_plus = None
 target_data_plus = None
 
 
-WWWW = Toggler()
+Toggle = Toggler()
 global_ctr = 0
+
 
 def _selector(P):
     global global_ctr
@@ -131,7 +131,7 @@ def _selector(P):
         r = R['data_from_run']
 
     if R['data_from_ctr'] > -1:
-        if WWWW['test'](R['ctr_reset']):
+        if Toggle['test'](R['ctr_reset']):
             ctr = R['data_from_ctr']
             global_ctr = ctr
         else:
@@ -150,53 +150,60 @@ def _selector(P):
 
 def get_data_function(P):
 
-    #kprint(P.keys(),'P',ra=1)
     global input_data_plus, target_data_plus
 
     Runs = P['Runs']
 
     while True:
-        try:
+        if True:#try:
             r,ctr,flip = _selector(P)
 
             flip = 0
-            input_list = []
-            target_list = []
+            #input_list = []
+            #target_list = []
+
+            Lists = {'inputs':[],'targets':[]}
+
             if not flip:
                 A = Runs[r]['activations/data']['data'][P['type'][1]+'.squeeze_activation']
                 B = Runs[r]['original_timestamp_data']['data']['left_image']['vals']
-                #C = Runs[r]['net_projections']['data']['normal']
+                #print Runs[r]['button_number'][ctr]
+                C = Runs[r]['net_projections']['data']['normal']
             else:
                 assert(False)
                 A = Runs[r]['net_projections']['data']['flip']
                 B = Runs[r]['flip_images']['data']['left_image_flip']['vals']
-                #C = Runs[r]['net_projections']['data']['flip']
+                C = Runs[r]['net_projections']['data']['flip']
             if ctr >= len(A):
                 print 'ctr >= len(A)'
                 continue
 
-            if 'Fire3' in P['inputs']:
-                i = A[Runs[r]['activations/reverse-indicies']['data'][ctr+P['input_offset']]]
-                #print shape(i)
-                i = i.transpose(1,2,0)
-                #print shape(i)
-                input_list.append(i)
+            for k in Lists.keys():
 
-            if 'Fire3' in P['targets']:
-                i = A[Runs[r]['activations/reverse-indicies']['data'][ctr+P['target_offset']]]
-                #print shape(i)
-                i = i.transpose(1,2,0)
-                #print shape(i)
-                target_list.append(i)
+                if 'rgb' in P[k]:
+                    #print k,'rgb'
+                    Lists[k].append(B[ctr+P['target_offset']])
 
-            if 'rgb' in P['targets']:
-                target_list.append(B[ctr+P['target_offset']])#.transpose(2,1,0))
+                if 'projections' in P[k]:
+                    #print k,'projections'
+                    Lists[k].append(C[ctr+P['target_offset']])
 
-            if 'rgb' in P['inputs']:
-                input_list.append(B[ctr+P['input_offset']])#.transpose(2,1,0))
+                if 'button' in P[k]:
+                    #print k,'button'
+                    img = 0*B[ctr]
+                    bn = int(Runs[r]['button_number'][ctr])
+                    #print bn
+                    img[:,:,bn-1] = 1
+                    Lists[k].append(img)
+
+                if 'Fire3' in P[k]:
+                    #print k,'Fire3'
+                    i = A[Runs[r]['activations/reverse-indicies']['data'][ctr+P['input_offset']]]
+                    i = i.transpose(1,2,0)
+                    Lists[k].append(i)
 
             break
-
+        """
         except KeyboardInterrupt:
             cr('*** KeyboardInterrupt ***')
             sys.exit()
@@ -205,63 +212,32 @@ def get_data_function(P):
             file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             CS_('Exception!',emphasis=True)
             CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+        """
 
     P['ctr'] = ctr
 
-    for lst in [input_list,target_list]:
+    for k in sorted(Lists.keys()):
+        lst = Lists[k]
         for l in rlen(lst):
             e = lst[l]
             e = e.astype(float)
-            #print shape(e)
-            #e = e.astype(float).transpose(1,2,0)
-            #print shape(e)
-            #print type(e)
             e = cv2.resize( e,(WIDTH,HEIGHT))
-            #print shape(e)
             e = e.transpose(2,1,0)
-            #print shape(e)
-            #print
             lst[l] = e
-    """
-    if True:#####
-        target_data = B[ctr]
-    else:#####
-        b,c = B[ctr],C[ctr]
-        cc = cv2.resize( c,(WIDTH,HEIGHT))
-        bb = cv2.resize( b,(WIDTH,HEIGHT))
-        target_data = np.concatenate((cc,bb),2)
-    """
 
-    """
-    n = 5
-    if input_data_plus == None:
-        nc = shape(input_data)[0]
-        n = 5
-        input_data_plus = zeros((nc,2*n+WIDTH,2*n+HEIGHT))#+0.5
-        if True:#####
-            target_data_plus = zeros((3,2*n+WIDTH,2*n+HEIGHT))+0.5
-        else:#####
-            target_data_plus = zeros((shape(target_data)[2],2*n+WIDTH,2*n+HEIGHT))+0.5
-    """
+    Concats = {}
+    for k in sorted(Lists.keys()):
+        lst = Lists[k]
+        for l in rlen(lst):
+            if k not in Concats:
+                Concats[k] = lst[l]
+            else:
+                Concats[k] = np.concatenate((Concats[k],lst[l]))
 
-    """
-    input_data = input_data.astype(float).transpose(1,2,0)
-
-    input_data = cv2.resize( input_data,(WIDTH,HEIGHT)).transpose(2,1,0)
-
-
-
-    target_data = cv2.resize(target_data ,(WIDTH,HEIGHT)).transpose(2,1,0)
-
-
-    target_data = 1/255.0*target_data
-    """
-    #target_data_plus[:,n:n+WIDTH,n:n+HEIGHT] = target_data
-    #input_data_plus[:,n:n+WIDTH,n:n+HEIGHT] = input_data
 
     return {
-        'input':input_list[0],#_plus,
-        'target':target_list[0],#,_plus,
+        'input':Concats['inputs'],
+        'target':Concats['targets'],
         'ctr':ctr,
     }
 

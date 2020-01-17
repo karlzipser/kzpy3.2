@@ -4,12 +4,16 @@ exec(identify_file_str)
 CA()
 
 graphics_timer = None
-
+#W = {}
 
 def graphics_function(N,M,P):#,X):
     global graphics_timer
     if graphics_timer == None:
         graphics_timer = Timer(M['Q']['runtime_parameters']['graphics_timer_time'])
+        #W['display.input'] = P['display.input']
+        #W['display.output'] = P['display.output']
+        #W['display.target'] = P['display.target']
+
     cv2.waitKey(1)
     if graphics_timer.check() or M['Q']['runtime_parameters']['graphics_timer_time'] < 0:
         if M['Q']['runtime_parameters']['graphics_timer_time'] < 0:
@@ -27,39 +31,47 @@ def graphics_function(N,M,P):#,X):
         m = meo(na(N.losses),M['Q']['runtime_parameters']['meo_num'])
         plot(m)
         mm = na(m[int(len(m)/2):])
-        mx = mm.max() * 1.3
-        mn = mm.min() * 0.8
+        #kprint(shape(mm),'shape(mm)')
+        if len(mm) > 5 :
+            #kprint(shape(mm),'shape(mm)')
+            mx = mm.max() * 1.3
+            mn = mm.min() * 0.8
+            ylim(
+                mn,#M['Q']['runtime_parameters']['graphics_ylim'][0],
+                mx,#M['Q']['runtime_parameters']['graphics_ylim'][1]
+            )
 
-        ylim(
-            mn,#M['Q']['runtime_parameters']['graphics_ylim'][0],
-            mx,#M['Q']['runtime_parameters']['graphics_ylim'][1]
-        )
+
+    #P['display.output'] = [0,3,3,6]
+    #P['display.target'] = [0,3,3,6]
+    #P['display.input'] = [3,6]
 
 
-        
-    cc = N.extract('input')
-    tt = N.extract('target')
-    dd = N.extract('output')
-    c = cc[:3,:,:]
-    t = tt[:3,:,:]
-    d = dd[:3,:,:]
-    
-    img = np.concatenate((z55(c.transpose(2,1,0)),z55(d.transpose(2,1,0)),z55(t.transpose(2,1,0))),axis=1)
-    mci(z55(img),1,scale=4,title=d2s('input/output/target (channels 0-2)',shape(dd)))
 
-#    print shape(tt)
-    if False:#shape(tt)[0] == 6:
-        t = tt[3:,:,:]
-        d = dd[3:,:,:]
-        img = np.concatenate((d.transpose(2,1,0),t.transpose(2,1,0)),axis=1)
-        mci(z55(img),1,scale=4,title=d2s('target 3-5',shape(dd)))
-    if False:#shape(tt)[0] > 6:
-        n = rndint(shape(tt)[0]-3)
-        print shape(tt)[0],n,n+2
-        t = tt[n:n+2,:,:]
-        d = dd[n:n+2,:,:]
-        img = np.concatenate((d.transpose(2,1,0),t.transpose(2,1,0)),axis=1)
-        mci(z55(img),1,scale=4,title=d2s('target',n,'-',n+3,shape(dd)))
+    Imgs = {}
+    img_lst = []
+    for k in ['input','target','output']:
+        Imgs[k] = N.extract(k)
+        lst = P['display.'+k]
+        for i in range(0,len(lst),2):
+            start = int(lst[i])
+            stop = int(lst[i+1])
+            img = Imgs[k][start:stop,:,:]
+            img = z55(img.transpose(2,1,0))
+            #mci(img,title=d2s(k,start,stop),scale=4)
+            img_lst.append(img)
+    #kprint(W)
+    concatt = None
+    while len(img_lst) > 0:
+        img = img_lst.pop(0)
+        if type(concatt) == type(None):
+            concatt = img.copy()
+            #print 'a',shape(concatt),shape(img)
+        else:
+            #print 'b',shape(concatt),shape(img)
+            concatt = np.concatenate((concatt,img),axis=1)
+    mci(concatt,1,scale=M['Q']['runtime_parameters']['scale'],title=d2s('concat'))
+
 
 
     if M['Q']['runtime_parameters']['save_images']:

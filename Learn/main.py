@@ -89,7 +89,7 @@ freq_timer = Timer(30)
 def main():
 
     Abort = Toggler()
-    
+
     N = Network(P)
 
     while True:
@@ -104,6 +104,8 @@ def main():
 
 
         Data = networks.net.make_batch( get_data_function, P, P['batch_size'] )
+
+        #kprint(Data['Info'])
 
         N.forward(Data)
 
