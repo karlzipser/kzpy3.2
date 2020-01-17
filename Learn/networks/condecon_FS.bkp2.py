@@ -39,48 +39,39 @@ f = 512
 rgb = 3
 
 
-lateral = True
+
 
 class ConDecon_FS(Net):
 
     def setup_layers(self,P):
+        #super(ConDecon_FS, self).__init__()
         self.A = {}
 
-        self.fire1 = Fire(P['NUM_INPUT_CHANNELS'],aa,b,b)
+        self.fire1=Fire(P['NUM_INPUT_CHANNELS'],aa,b,b)
+        #self.sq1=Squeeze(P['NUM_INPUT_CHANNELS'],aa,b,b)
+        #self.ex1=Expand(P['NUM_INPUT_CHANNELS'],aa,b,b)
 
-        self.fire2 = Fire(c,a,c,c)
+        self.fire2=Fire(c,a,c,c)
+        #self.sq2=Fire(c,a,c,c)
+        #self.ex2=Fire(c,a,c,c)
 
-        self.fire3 = Fire(d,b,d,d)
+        self.fire3=Fire(d,b,d,d)
+        #self.sq3=Fire(d,b,d,d)
+        #self.ex3=Fire(d,b,d,d)
 
+        #self.fire4=Fire(e,c,e,e)
 
+        self.maxpool= nn.MaxPool2d(kernel_size=3,stride=2,return_indices=True,padding=0)
 
-        self.fire4=Fire(e,c,e,e)
+        #self.smoke4=Smoke(f,c,d,d)
+        self.smoke3=Smoke(e+e,b,c,c)
+        self.smoke2=Smoke(d+d,a,b,b)
+        self.smoke1=Smoke(c+c,aa,a,a)
 
-        
-
-        self.smoke4=Smoke(f,c,d,d)
-
-
-
-        self.maxpool1 = nn.MaxPool2d(kernel_size=3,stride=2,return_indices=True,padding=0)
-        self.maxpool2 = nn.MaxPool2d(kernel_size=3,stride=2,return_indices=True,padding=0)
-        self.maxpool3= nn.MaxPool2d(kernel_size=3,stride=2,return_indices=True,padding=0)
-
-        if lateral:
-            self.smoke3 = Smoke(e+e,b,c,c)
-            self.smoke2 = Smoke(d+d,a,b,b)
-            self.smoke1 = Smoke(c+c,aa,a,a)
-        else:
-            self.smoke3 = Smoke(e,b,c,c)
-            self.smoke2 = Smoke(d,a,b,b)
-            self.smoke1 = Smoke(c,aa,a,a)
-
-        self.maxunpool1 = nn.MaxUnpool2d(kernel_size=3,stride=2,padding=0)
-        self.maxunpool2 = nn.MaxUnpool2d(kernel_size=3,stride=2,padding=0)
-        self.maxunpool3 = nn.MaxUnpool2d(kernel_size=3,stride=2,padding=0)
+        self.maxunpool=nn.MaxUnpool2d(kernel_size=3,stride=2,padding=0)
 
         self.final_deconv = nn.ConvTranspose2d(2*a, P['NUM_OUTPUTS'], kernel_size=1)
-        self.relu=nn.ReLU()
+        self.swish6=nn.ReLU()
 
     def forward(self,Data):
 
@@ -89,33 +80,38 @@ class ConDecon_FS(Net):
         self.A['input'] = Torch_data['input']
         x = self.A['input']
 
-        x = self.fire1(x)
-        f1 = x
+        #kprint(x.size(),"x",ra=0)
 
+        x=self.fire1(x)
+        f1 = x
+        #x=self.sq1(x)
+        #x=self.ex1(x)
+        #kprint(x.size(),"fire1",ra=0)
         size_fire1 = x.size()
 
-        x,indices_fire1 = self.maxpool1(x)
+        x,indices_fire1=self.maxpool(x)
+        #kprint(x.size(),"maxpool",ra=0)
 
-        x = self.fire2(x)
+        x=self.fire2(x)
         f2 = x
-
+        #kprint(x.size(),"fire2",ra=0)
+        #x=self.sq2(x)
+        #x=self.ex2(x)
         size_fire2 = x.size()
 
-        x,indices_fire2=self.maxpool2(x)
+        x,indices_fire2=self.maxpool(x)
+        #kprint(x.size(),"maxpool",ra=0)
 
-        x = self.fire3(x)
+        x=self.fire3(x)
         f3 = x
-
+        #kprint(x.size(),"fire3",ra=0)
+        #x=self.sq3(x)
+        #x=self.ex3(x)
         size_fire3 = x.size()
 
+        """
 
-        #### center ####
-
-
-
-
-
-        x,indices_fire3=self.maxpool3(x)
+        x,indices_fire3=self.maxpool(x)
         #kprint(x.size(),"maxpool",ra=0)
 
         x=self.fire4(x)
@@ -126,40 +122,34 @@ class ConDecon_FS(Net):
         #kprint(x.size(),"smoke4",ra=0)
 
         
-        x=self.maxunpool3(x,indices_fire3,size_fire3)
+        x=self.maxunpool(x,indices_fire3,size_fire3)
+        #kprint(x.size(),"maxunpool",ra=0)
+
+        """
+
+        x=self.smoke3(torch.cat((x,f3),1))
+        #kprint(x.size(),"smoke3",ra=0)
+
+        
+        x=self.maxunpool(x,indices_fire2,size_fire2)
+        #kprint(x.size(),"maxunpool",ra=0)
 
 
+        x=self.smoke2(torch.cat((x,f2),1))
+        #kprint(x.size(),"smoke2",ra=0)
 
 
+        x=self.maxunpool(x,indices_fire1,size_fire1)
+        #kprint(x.size(),"maxunpool",ra=0)
 
 
+        x=self.smoke1(torch.cat((x,f1),1))
+        #kprint(x.size(),"smoke1",ra=0)
 
-
-
-
-        if lateral:
-            x = self.smoke3(torch.cat((x,f3),1))
-        else:
-            x = self.smoke3(x)
-
-
-        x = self.maxunpool2(x,indices_fire2,size_fire2)
-
-        if lateral:
-            x = self.smoke2(torch.cat((x,f2),1))
-        else:
-            x = self.smoke2(x)
-
-        x = self.maxunpool1(x,indices_fire1,size_fire1)
-
-        if lateral:
-            x = self.smoke1(torch.cat((x,f1),1))
-        else:
-            x = self.smoke1(x)
 
         x = self.final_deconv(x)
-
-        x = self.relu(x)
+        x = self.swish6(x)
+        #kprint(x.size(),"final_deconv",ra=0)
 
         self.A['output'] = x
         self.A['target'] = Torch_data['target']

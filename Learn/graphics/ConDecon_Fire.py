@@ -20,14 +20,19 @@ def graphics_function(N,M,P):#,X):
         return
 
     if True:
-        figure('loss')
+        
+        figure('loss',figsize=(2,10))
         clf()
         plot(N.losses,'.')
         m = meo(na(N.losses),M['Q']['runtime_parameters']['meo_num'])
         plot(m)
+        mm = na(m[int(len(m)/2):])
+        mx = mm.max() * 1.3
+        mn = mm.min() * 0.8
+
         ylim(
-            M['Q']['runtime_parameters']['graphics_ylim'][0],
-            M['Q']['runtime_parameters']['graphics_ylim'][1]
+            mn,#M['Q']['runtime_parameters']['graphics_ylim'][0],
+            mx,#M['Q']['runtime_parameters']['graphics_ylim'][1]
         )
 
 
@@ -35,9 +40,10 @@ def graphics_function(N,M,P):#,X):
     cc = N.extract('input')
     tt = N.extract('target')
     dd = N.extract('output')
+    c = cc[:3,:,:]
     t = tt[:3,:,:]
     d = dd[:3,:,:]
-    c = cc[:3,:,:]
+    
     img = np.concatenate((z55(c.transpose(2,1,0)),z55(d.transpose(2,1,0)),z55(t.transpose(2,1,0))),axis=1)
     mci(z55(img),1,scale=4,title=d2s('input/output/target (channels 0-2)',shape(dd)))
 
