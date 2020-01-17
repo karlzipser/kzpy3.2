@@ -115,7 +115,7 @@ def main():
         N.save()
 
         try:
-            graphics_function(N,M,P) # graphics can cause an error with remote login
+            pass#graphics_function(N,M,P) # graphics can cause an error with remote login
         except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
