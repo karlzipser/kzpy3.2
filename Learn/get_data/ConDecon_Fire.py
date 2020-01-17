@@ -182,7 +182,7 @@ def get_data_function(P):
 
                 if 'rgb' in P[k]:
                     #print k,'rgb'
-                    noies =0
+                    noise =0
                     if P['noise'] > 0:
                         noise = P['noise']*rnd(shape(B[ctr]))-P['noise']/2.
                     Lists[k].append(B[ctr+P[k+'_offset']]+noise)
@@ -196,7 +196,7 @@ def get_data_function(P):
                     #    noise = mag*rnd(shape(C[ctr]))
                     #else:
                     #    noise = 0
-                    noies =0
+                    noise =0
                     if P['noise'] > 0:
                         noise = P['noise']*rnd(shape(C[ctr]))-P['noise']/2.
                     #noise = 25*rnd(shape(C[ctr]))-15.5
@@ -249,11 +249,13 @@ def get_data_function(P):
                 Concats[k] = np.concatenate((Concats[k],lst[l]))
 
 
-    return {
+    Data = {
         'input':Concats['input'],
         'target':Concats['target'],
         'ctr':ctr,
     }
+
+    return Data
 
 
 

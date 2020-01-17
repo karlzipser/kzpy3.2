@@ -76,9 +76,7 @@ P['NUM_METADATA_CHANNELS'] = 0
 P['INPUT_WIDTH'] = shape(Data['input'])[2]
 P['INPUT_HEIGHT'] = shape(Data['input'])[3]
 
-Duplicates = {}
-for k in ['input','target']:
-    Duplicates[k] = Data[k].copy()
+
 
 
 run_timer = Timer()
@@ -90,13 +88,9 @@ freq_timer = Timer(30)
 
 def main():
 
-    if P['Data_write_path'] != False:
-        os.system('rm '+P['Data_write_path'])
-
     Abort = Toggler()
 
     N = Network(P)
-    wait_timer = Timer(5)
 
     while True:
 
@@ -109,58 +103,11 @@ def main():
             P['runtime_parameters'][k] = M['Q']['runtime_parameters'][k]
 
 
+        Data = networks.net.make_batch( get_data_function, P, P['batch_size'] )
 
-        if P['Data_read_path'] == False:
-            Data = networks.net.make_batch( get_data_function, P, P['batch_size'] )
-        else:
-
-            while True:
-                assert '.pkl' in P['Data_read_path']
-                f = sggo(P['Data_read_path'])
-                if len(f) > 0:
-                    Data = lo(f[0])
-
-                    os.system('rm '+P['Data_read_path'])
-                    Data['target'] = Duplicates['target']
-                    break
-                wait_timer.message(d2s('waiting to read',P['Data_read_path']))
-                #print 'wait for read'
-                time.sleep(1)
-
-
-        #for k in Data.keys():
-        #    kprint(d2s(k,shape(Data[k])),title='Data')
+        #kprint(Data['Info'])
 
         N.forward(Data)
-
-
-
-
-        if P['Data_write_path'] != False:
-                    #if P['Data_read_path'] != False:
-            raw_enter()
-            while True:
-                assert '.pkl' in P['Data_write_path']
-                f = sggo(P['Data_write_path'])
-                if len(f) == 0:
-                    break
-                #cm(0)
-                wait_timer.message(d2s('waiting to write',P['Data_write_path']))
-                #print 'wait for write')
-                time.sleep(1)
-
-            os.system('mkdir -p '+pname(P['Data_write_path']))
-            Out_data = {}
-            #or k in ['input','target','output']:
-            #Out_data[k] = na([N.extract(k)])
-            #Out_data['target'] = Duplicates['target']
-            Out_data['input'] = na([N.extract('output')])
-            #for k in Out_data.keys():
-                #kprint(d2s(k,shape(Out_data[k])),title='Out_data')
-            so(P['Data_write_path'],Out_data)
-
-
-
 
         if P['backwards']:
             N.backward()
@@ -173,7 +120,6 @@ def main():
             exc_type, exc_obj, exc_tb = sys.exc_info()
             file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             clp('Exception!','`wrb',exc_type, file_name, exc_tb.tb_lineno)   
-
 
 
         f = freq_timer.freq(do_print=False)
