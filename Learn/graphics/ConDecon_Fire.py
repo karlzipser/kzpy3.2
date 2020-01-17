@@ -70,7 +70,8 @@ def graphics_function(N,M,P):#,X):
         else:
             #print 'b',shape(concatt),shape(img)
             concatt = np.concatenate((concatt,img),axis=1)
-    mci(concatt,1,scale=M['Q']['runtime_parameters']['scale'],title=d2s('concat'))
+    #mci(concatt,1,scale=M['Q']['runtime_parameters']['scale'],title=d2s('concat'))
+    mci(concatt,1,scale=2,title=d2s('concat'))
 
 
 
