@@ -103,37 +103,31 @@ class ConDecon_FS(Net):
 
         x,indices_fire2=self.maxpool2(x)
 
+
+
+
+        
         x = self.fire3(x)
         f3 = x
 
         size_fire3 = x.size()
 
 
-        #### center ####
 
+        if False: # these inner layers cause instability
 
+            x,indices_fire3=self.maxpool3(x)
+            #kprint(x.size(),"maxpool",ra=0)
 
+            x=self.fire4(x)
+            #kprint(x.size(),"fire4",ra=0)
+            size_fire4 = x.size()
 
+            x=self.smoke4(x)
+            #kprint(x.size(),"smoke4",ra=0)
 
-        x,indices_fire3=self.maxpool3(x)
-        #kprint(x.size(),"maxpool",ra=0)
-
-        x=self.fire4(x)
-        #kprint(x.size(),"fire4",ra=0)
-        size_fire4 = x.size()
-
-        x=self.smoke4(x)
-        #kprint(x.size(),"smoke4",ra=0)
-
-        
-        x=self.maxunpool3(x,indices_fire3,size_fire3)
-
-
-
-
-
-
-
+            
+            x=self.maxunpool3(x,indices_fire3,size_fire3)
 
 
 
@@ -145,17 +139,21 @@ class ConDecon_FS(Net):
 
         x = self.maxunpool2(x,indices_fire2,size_fire2)
 
+
         if lateral:
             x = self.smoke2(torch.cat((x,f2),1))
         else:
             x = self.smoke2(x)
 
+
         x = self.maxunpool1(x,indices_fire1,size_fire1)
+
 
         if lateral:
             x = self.smoke1(torch.cat((x,f1),1))
         else:
             x = self.smoke1(x)
+
 
         x = self.final_deconv(x)
 

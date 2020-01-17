@@ -77,7 +77,7 @@ P['INPUT_WIDTH'] = shape(Data['input'])[2]
 P['INPUT_HEIGHT'] = shape(Data['input'])[3]
 
 
-N = Network(P)
+
 
 run_timer = Timer()
 freq_timer = Timer(30)
@@ -89,6 +89,8 @@ freq_timer = Timer(30)
 def main():
 
     Abort = Toggler()
+    
+    N = Network(P)
 
     while True:
 
@@ -111,7 +113,7 @@ def main():
         N.save()
 
         if True:#try:
-            graphics_function(N,M,P)#,P['X'])
+            graphics_function(N,M,P) # graphics can cause an error with remote login
         else:#except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
