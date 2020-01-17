@@ -26,6 +26,7 @@ class Net(nn.Module):
         self.lr = P['LR']
         self.momentum = P['momentum']
         self.GPU = P['GPU']
+        self.clip_param = P['clip']
         self.NETWORK_OUTPUT_FOLDER = P['NETWORK_OUTPUT_FOLDER']
         self.loss = None
         self.losses = []
@@ -86,7 +87,7 @@ class Net(nn.Module):
 
     def backward(self):
         self.loss.backward()
-        nnutils.clip_grad_norm_(self.parameters(), P['clip'])#0.01) #1.0)
+        nnutils.clip_grad_norm(self.parameters(), self.clip_param)#0.01) #1.0)
         self.optimizer.step()
 
 

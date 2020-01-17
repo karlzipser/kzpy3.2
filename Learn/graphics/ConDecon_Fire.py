@@ -54,7 +54,7 @@ def graphics_function(N,M,P):#,X):
     img_lst = []
     for k in ['input','target','output']:
         Imgs[k] = N.extract(k)
-        print k,Imgs[k].min(),Imgs[k].max()
+        #print k,Imgs[k].min(),Imgs[k].max()
         lst = P['display.'+k]
         for i in range(0,len(lst),2):
             start = int(lst[i])
