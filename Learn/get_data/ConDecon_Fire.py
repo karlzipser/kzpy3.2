@@ -162,7 +162,7 @@ def get_data_function(P):
             #input_list = []
             #target_list = []
 
-            Lists = {'inputs':[],'targets':[]}
+            Lists = {'input':[],'target':[]}
 
             if not flip:
                 A = Runs[r]['activations/data']['data'][P['type'][1]+'.squeeze_activation']
@@ -182,23 +182,23 @@ def get_data_function(P):
 
                 if 'rgb' in P[k]:
                     #print k,'rgb'
-                    Lists[k].append(B[ctr+P['target_offset']])
+                    Lists[k].append(B[ctr+P[k+'_offset']])
 
                 if 'projections' in P[k]:
                     #print k,'projections'
-                    Lists[k].append(C[ctr+P['target_offset']])
+                    Lists[k].append(C[ctr+P[k+'_offset']])
 
                 if 'button' in P[k]:
                     #print k,'button'
                     img = 0*B[ctr]
-                    bn = int(Runs[r]['button_number'][ctr])
+                    bn = int(Runs[r]['button_number'][ctr+P[k+'_offset']])
                     #print bn
                     img[:,:,bn-1] = 1
                     Lists[k].append(img)
 
                 if 'Fire3' in P[k]:
                     #print k,'Fire3'
-                    i = A[Runs[r]['activations/reverse-indicies']['data'][ctr+P['input_offset']]]
+                    i = A[Runs[r]['activations/reverse-indicies']['data'][ctr+P[k+'_offset']]]
                     i = i.transpose(1,2,0)
                     Lists[k].append(i)
 
@@ -236,8 +236,8 @@ def get_data_function(P):
 
 
     return {
-        'input':Concats['inputs'],
-        'target':Concats['targets'],
+        'input':Concats['input'],
+        'target':Concats['target'],
         'ctr':ctr,
     }
 

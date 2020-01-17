@@ -52,3 +52,10 @@ To do:
 *scale
 *image divisor
 
+python Learn/main.py --type ConDecon_Fire_FS,Fire3,fire2fireFuture --resume False --save_timer_time 300 --target_offset 10 --input button,Fire3 --target Fire3 --losses_to_average 256 --runs train --display.output 0,3 --display.input 0,3,3,6 --display.target 0,3
+
+
+python Learn/main.py --type ConDecon_Fire_FS,Fire3,buttonFire2rgbProjections --resume False --save_timer_time 300 --target_offset 0 --input button,Fire3 --targets rgb,projections --losses_to_average 256 --runs train --display.output 0,3,3,6 --display.input 3,6 --display.target 0,3,3,6
+
+
+ python Learn/main.py --type ConDecon_Fire_FS,Fire3,pro2proFuture --resume False --save_timer_time 300 --target_offset 10 --input button,projections --target projections --losses_to_average 256 --runs train --display.output 0,3 --display.input 0,3,3,6 --display.target 0,3
