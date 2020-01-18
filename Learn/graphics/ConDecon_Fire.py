@@ -73,7 +73,7 @@ def graphics_function(N,M,P):#,X):
                     img[:,:168,0] = b
                     img[:,:168,1] = g
                     img[:,:168,2] = r
-                print shape(img),shape(img_spacer)
+                #print shape(img),shape(img_spacer)
                 #mci(img,title=d2s(k,start,stop),scale=4)
                 if k_prev != k:
                     k_prev = k
