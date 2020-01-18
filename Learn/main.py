@@ -60,7 +60,7 @@ all2allFuture_6 = """
 
     Learn 
         --type ConDecon_Fire_FS,Fire3,all2allFuture.6 
-        --resume False 
+        --resume True 
         --save_timer_time 300 
         --target_offset 6 
         --input  button,rgb,projections,Fire3
@@ -80,7 +80,7 @@ all2allFuture_12 = """
 
     Learn 
         --type ConDecon_Fire_FS,Fire3,all2allFuture.12 
-        --resume False 
+        --resume True 
         --save_timer_time 300 
         --target_offset 12 
         --input  button,rgb,projections,Fire3
