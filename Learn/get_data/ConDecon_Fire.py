@@ -186,6 +186,7 @@ def get_data_function(P):
                     if P['noise'] > 0:
                         noise = P['noise']*rnd(shape(B[ctr]))-P['noise']/2.
                     Lists[k].append(B[ctr+P[k+'_offset']]+noise)
+                    #print 'rgb', dp(Lists[k][-1].min()), dp(Lists[k][-1].max())
 
                 if 'projections' in P[k]:
                     #print k,'projections'
@@ -201,6 +202,7 @@ def get_data_function(P):
                         noise = P['noise']*rnd(shape(C[ctr]))-P['noise']/2.
                     #noise = 25*rnd(shape(C[ctr]))-15.5
                     Lists[k].append(C[ctr+P[k+'_offset']]+noise )
+                    #print 'projections', dp(Lists[k][-1].min()), dp(Lists[k][-1].max())
 
                 if 'button' in P[k]:
                     #print k,'button'
@@ -209,14 +211,18 @@ def get_data_function(P):
                     #print bn
                     #print bn
                     if bn in (1,2,3):
-                        img[:,:,bn-1] = 1
+                        img[:,:,bn-1] = 255
+                    img[0,0,:] = 255# + 24*rnd(shape(img))-12,
                     Lists[k].append(img)
+                    #print 'button', dp(Lists[k][-1].min()), dp(Lists[k][-1].max())
 
                 if 'Fire3' in P[k]:
                     #print k,'Fire3'
                     i = A[Runs[r]['activations/reverse-indicies']['data'][ctr+P[k+'_offset']]]
-                    i = i.transpose(1,2,0)
+                    i = i.transpose(1,2,0) * 255/15.
                     Lists[k].append(i)
+                    #print 'Fire3', dp(Lists[k][-1].min()), dp(Lists[k][-1].max())
+                    
 
             break
         """

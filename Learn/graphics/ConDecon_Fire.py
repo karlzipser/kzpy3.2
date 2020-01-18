@@ -55,14 +55,15 @@ def graphics_function(N,M,P):#,X):
     for k in ['input','target','output']:
         Imgs[k] = N.extract(k)
         #print k,Imgs[k].min(),Imgs[k].max()
-        lst = P['display.'+k]
-        for i in range(0,len(lst),2):
-            start = int(lst[i])
-            stop = int(lst[i+1])
-            img = Imgs[k][start:stop,:,:]
-            img = z55(img.transpose(2,1,0))
-            #mci(img,title=d2s(k,start,stop),scale=4)
-            img_lst.append(img)
+        if 'display.'+k in P:
+            lst = P['display.'+k]
+            for i in range(0,len(lst),2):
+                start = int(lst[i])
+                stop = int(lst[i+1])
+                img = Imgs[k][start:stop,:,:]
+                img = z55(img.transpose(2,1,0))
+                #mci(img,title=d2s(k,start,stop),scale=4)
+                img_lst.append(img)
     #kprint(W)
     concatt = None
     while len(img_lst) > 0:
