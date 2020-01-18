@@ -70,7 +70,7 @@ all2allFuture_6 = """
         --display.output 0,3,3,6,9,12
         --display.input  0,3,3,6,9,12
         --display.target 0,3,3,6,9,12 
-        --clip 1
+        --clip 1.0
         --backwards True
         --win_x 20
         --win_y 310
@@ -90,7 +90,7 @@ all2allFuture_12 = """
         --display.output 0,3,3,6,9,12
         --display.input  0,3,3,6,9,12
         --display.target 0,3,3,6,9,12 
-        --clip 1
+        --clip 1.0
         --backwards True
         --win_x 20
         --win_y 310
