@@ -52,9 +52,13 @@ def graphics_function(N,M,P):#,X):
 
     Imgs = {}
     img_lst = []
-    for k in ['input','target','output']:
+    img_spacer = False
+    k_prev = 'input'
+    for k in ['input','output','target']:
         Imgs[k] = N.extract(k)
         #print k,Imgs[k].min(),Imgs[k].max()
+        
+
         if 'display.'+k in P:
             lst = P['display.'+k]
             for i in range(0,len(lst),2):
@@ -62,7 +66,21 @@ def graphics_function(N,M,P):#,X):
                 stop = int(lst[i+1])
                 img = Imgs[k][start:stop,:,:]
                 img = z55(img.transpose(2,1,0))
+                if False:#k == 'input':
+                    r = img[:,:168,0].copy()
+                    g = img[:,:168,1].copy()
+                    b = img[:,:168,2].copy()
+                    img[:,:168,0] = b
+                    img[:,:168,1] = g
+                    img[:,:168,2] = r
+                print shape(img),shape(img_spacer)
                 #mci(img,title=d2s(k,start,stop),scale=4)
+                if k_prev != k:
+                    k_prev = k
+                    if type(img_spacer) == type(False):
+                        img_spacer = 128+0*img[:,:10,:]
+                    img_lst.append(img_spacer)
+
                 img_lst.append(img)
     #kprint(W)
     concatt = None

@@ -175,7 +175,7 @@ def get_data_function(P):
                 B = Runs[r]['flip_images']['data']['left_image_flip']['vals']
                 C = Runs[r]['net_projections']['data']['flip']
             if ctr >= len(A):
-                print 'ctr >= len(A)'
+                #print 'ctr >= len(A)'
                 continue
 
             for k in Lists.keys():
@@ -210,16 +210,26 @@ def get_data_function(P):
                     bn = int(Runs[r]['button_number'][ctr+P[k+'_offset']])
                     #print bn
                     #print bn
-                    if bn in (1,2,3):
-                        img[:,:,bn-1] = 255
-                    img[0,0,:] = 255# + 24*rnd(shape(img))-12,
+                    if 'original_Fire3_scaling' not in P:
+                        if bn in (1,2,3):
+                            img[:,:,bn-1] = 255
+                        img[0,0,:] = 255# + 24*rnd(shape(img))-12,
+                    else:
+                        pass#print '********************* original_Fire3_scaling button'
+                        if bn in (1,2,3):
+                            img[:,:,bn-1] = 1
                     Lists[k].append(img)
                     #print 'button', dp(Lists[k][-1].min()), dp(Lists[k][-1].max())
 
                 if 'Fire3' in P[k]:
                     #print k,'Fire3'
                     i = A[Runs[r]['activations/reverse-indicies']['data'][ctr+P[k+'_offset']]]
-                    i = i.transpose(1,2,0) * 255/15.
+                    i = i.transpose(1,2,0)
+                    if 'original_Fire3_scaling' not in P:
+                        i = i * 255/15.
+                    else:
+                        pass#print '********************* original_Fire3_scaling Fire3'
+
                     Lists[k].append(i)
                     #print 'Fire3', dp(Lists[k][-1].min()), dp(Lists[k][-1].max())
                     

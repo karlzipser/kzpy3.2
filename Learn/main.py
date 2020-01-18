@@ -33,6 +33,30 @@ Fire2rgbProjections = """
 """
 
 
+
+
+Fire2rgbProjections_ = """
+
+    Learn 
+        --type ConDecon_Fire_FS,Fire3,Fire2rgbProjections.b
+        --resume False 
+        --save_timer_time 999999 
+        --target_offset 0 
+        --input Fire3 
+        --target rgb,projections 
+        --losses_to_average 256 
+        --runs validate 
+        --display.output 0,3,3,6 
+        --display.input 0,3 
+        --display.target 0,3,3,6
+        --clip 1
+        --backwards True
+        --win_x 20
+        --win_y 40
+
+"""
+
+
 fire2fireFuture = """
 
     Learn 
@@ -80,7 +104,7 @@ all2allFuture_12 = """
 
     Learn 
         --type ConDecon_Fire_FS,Fire3,all2allFuture.12 
-        --resume False 
+        --resume True 
         --save_timer_time 300 
         --target_offset 12 
         --input  button,rgb,projections,Fire3
@@ -168,6 +192,163 @@ def main0():
 
             #print n
             #raw_enter()
+        raw_enter()
+
+
+
+
+def main2():
+
+    if 'type' not in Arguments.keys():
+        clp('   FROM SYS_STR   ','`ybb',ra=0,p=1)
+        Nets = {
+            'N0':Net_Main(M=M,sys_str=Fire2rgbProjections.replace('\n',' ').replace('\t',' ')),
+        }
+    else:
+        clp('   FROM COMMMAND LINE   ','`ybb',ra=0,p=1)
+        Nets = {
+            'N0':Net_Main(M=M,Arguments_=Arguments),
+        }
+
+    run_timer = Timer()
+    freq_timer = Timer(30)
+
+    Abort = Toggler()
+
+    wait_timer = Timer(5)
+
+    minute_timer = Timer(60)
+
+
+
+    while True:
+        M['load']()
+        if Abort['test'](M['Q']['runtime_parameters']['abort']):
+            break
+
+
+        if minute_timer.check():
+            minute_timer.reset()
+            Nets['N0']['P']['clip'] = float(Nets['N0']['P']['clip'])
+            a = Nets['N0']['P']['clip']
+            #cg(a,type(a))
+            Nets['N0']['P']['clip'] *= 0.98
+            print 'clip',Nets['N0']['P']['clip'],int(run_timer.time())
+
+
+        for n in Nets.keys():
+
+            Nets[n]['P']['original_Fire3_scaling'] = True
+
+            for k in M['Q']['runtime_parameters'].keys():
+                Nets[n]['P']['runtime_parameters'][k] = M['Q']['runtime_parameters'][k]
+
+
+            Data = networks.net.make_batch( Nets[n]['get_data_function'], Nets[n]['P'], Nets[n]['P']['batch_size'] )
+
+
+            Nets[n]['N'].forward(Data)
+
+
+            if Nets[n]['P']['backwards']:
+                Nets[n]['N'].backward()
+
+            Nets[n]['N'].save()
+
+            if True:#try:
+                Nets[n]['graphics_function'](Nets[n]['N'],M,Nets[n]['P']) # graphics can cause an error with remote login
+            else:#except Exception as e:
+                exc_type, exc_obj, exc_tb = sys.exc_info()
+                file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                clp('Exception!','`wrb',exc_type, file_name, exc_tb.tb_lineno)   
+
+
+
+            f = freq_timer.freq(do_print=False)
+            if is_number(f):
+                clp( 'Frequency =', int(np.round(f*Nets[n]['P']['batch_size'])), 'Hz, run time =',format_seconds(run_timer.time()))
+
+            #print n
+        raw_enter()
+
+
+
+
+
+
+def main3():
+
+    if 'type' not in Arguments.keys():
+        clp('   FROM SYS_STR   ','`ybb',ra=0,p=1)
+        Nets = {
+            'N0':Net_Main(M=M,sys_str=Fire2rgbProjections_.replace('\n',' ').replace('\t',' ')),
+        }
+    else:
+        clp('   FROM COMMMAND LINE   ','`ybb',ra=0,p=1)
+        Nets = {
+            'N0':Net_Main(M=M,Arguments_=Arguments),
+        }
+
+    run_timer = Timer()
+    freq_timer = Timer(30)
+
+    Abort = Toggler()
+
+    wait_timer = Timer(5)
+
+    minute_timer = Timer(60)
+
+
+
+    while True:
+        M['load']()
+        if Abort['test'](M['Q']['runtime_parameters']['abort']):
+            break
+
+
+        if minute_timer.check():
+            minute_timer.reset()
+            Nets['N0']['P']['clip'] = float(Nets['N0']['P']['clip'])
+            a = Nets['N0']['P']['clip']
+            #cg(a,type(a))
+            Nets['N0']['P']['clip'] *= 0.98
+            print 'clip',Nets['N0']['P']['clip'],int(run_timer.time())
+
+
+        for n in Nets.keys():
+
+            Nets[n]['P']['original_Fire3_scaling'] = True
+
+            for k in M['Q']['runtime_parameters'].keys():
+                Nets[n]['P']['runtime_parameters'][k] = M['Q']['runtime_parameters'][k]
+
+
+            Data = networks.net.make_batch( Nets[n]['get_data_function'], Nets[n]['P'], Nets[n]['P']['batch_size'] )
+
+
+            Nets[n]['N'].forward(Data)
+
+
+            if Nets[n]['P']['backwards']:
+                Nets[n]['N'].backward()
+
+            Nets[n]['N'].save()
+
+            if True:#try:
+                Nets[n]['graphics_function'](Nets[n]['N'],M,Nets[n]['P']) # graphics can cause an error with remote login
+            else:#except Exception as e:
+                exc_type, exc_obj, exc_tb = sys.exc_info()
+                file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                clp('Exception!','`wrb',exc_type, file_name, exc_tb.tb_lineno)   
+
+
+
+            f = freq_timer.freq(do_print=False)
+            if is_number(f):
+                clp( 'Frequency =', int(np.round(f*Nets[n]['P']['batch_size'])), 'Hz, run time =',format_seconds(run_timer.time()))
+
+            #print n
+        #raw_enter()
 
 
 
@@ -203,8 +384,10 @@ def main1():
 
 
         for n in Nets.keys():
+            Nets[n]['P']['original_Fire3_scaling'] = True
             for k in M['Q']['runtime_parameters'].keys():
                 Nets[n]['P']['runtime_parameters'][k] = M['Q']['runtime_parameters'][k]
+                
 
 
         if ctr == 0 or ctr >= 10:
@@ -230,14 +413,11 @@ def main1():
 
 
 
-
+        for n in Nets.keys():
+            Nets[n]['P']['original_Fire3_scaling'] = True
 
 
 #e = cv2.resize( e,(WIDTH,HEIGHT))
-
-
-
-
 
 
 
@@ -275,7 +455,8 @@ def main1():
 
         for n in Nets.keys():
             Nets[n]['graphics_function'](Nets[n]['N'],M,Nets[n]['P'])
-        cm('',ra=1)
+        
+        raw_enter()
 
         
 
@@ -292,10 +473,18 @@ if __name__ == '__main__':
             clp('*** main0() ***',p=2)
             main0()
 
-        if Arguments['main'] == 1:
+        elif Arguments['main'] == 1:
             clp('*** main1() ***',p=2)
             main1()
 
+        elif Arguments['main'] == 2:
+            clp('*** main2() ***',p=2)
+            main2()
+
+
+        elif Arguments['main'] == 3:
+            clp('*** main3() ***',p=2)
+            main3()
 
 
 #EOF
