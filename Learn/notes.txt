@@ -75,7 +75,16 @@ scp -P 1022    karlzipser@169.229.219.140:'Desktop/Networks/ConDecon_Fire_FS.Fir
 scp -P 1022    karlzipser@169.229.219.140:'Desktop/Networks/ConDecon_Fire_FS.Fire3.buttonFire2rgbProjections/loss/net_17Jan20_05h01m00s.1044.011*' Desktop
 
 
+1 Learn --type ConDecon_Fire_FS,Fire3,fire2fireFuture.c --resume True --save_timer_time 99999 --target_offset 15 --input button,Fire3 --target Fire3 --runs train --display.output 0,3 --display.input 0,3,3,6 --display.target 0,3 --backwards False --Data_write_path ~/Desktop/temp9.pkl
+ Learn --type ConDecon_Fire_FS,Fire3,Fire2rgbProjections.b --resume True --save_timer_time 99999 --target_offset 0 --input Fire3 --target rgb,projections --losses_to_average 256 --runs train --display.output 0,3,3,6 --display.input 0,3 --display.target 0,3,3,6 --backwards False --Data_read_path ~/Desktop/temp9.pkl
 
+
+
+Learn --type ConDecon_Fire_FS,Fire3,fire2fireFuture.c --resume True --save_timer_time 300 --clip 0.01 --target_offset 15 --input button,Fire3 --target Fire3 --losses_to_average 256 --runs train --display.output 0,3 --display.input 0,3,3,6 --display.target 0,3
+Learn --type ConDecon_Fire_FS,Fire3,fire2fireFuture.b --resume True --save_timer_time 300 --clip 0.01 --target_offset 10 --input button,Fire3 --target Fire3 --losses_to_average 256 --runs train --display.output 0,3 --display.input 0,3,3,6 --display.target 0,3
+Learn --type ConDecon_Fire_FS,Fire3,buttonFire2rgbProjections.b --resume True --save_timer_time 300 --target_offset 0 --input button,Fire3 --target rgb,projections --losses_to_average 256 --runs train --display.output 0,3,3,6 --display.input 3,6 --display.target 0,3,3,6
+0 Learn --type ConDecon_Fire_FS,Fire3,Fire2rgbProjections.b --resume False --save_timer_time 300 --target_offset 0 --input Fire3 --target rgb,projections --losses_to_average 256 --runs train --display.output 0,3,3,6 --display.input 3,6 --display.target 0,3,3,6 --clip 0.1
+Learn --type ConDecon_Fire_FS,Fire3,pro2proFuture.b --resume True --save_timer_time 300 --target_offset 10 --input button,projections --target projections --losses_to_average 256 --runs train --display.output 0,3 --display.input 0,3,3,6 --display.target 0,3
 
 
 

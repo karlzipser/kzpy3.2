@@ -60,16 +60,16 @@ all2allFuture_6 = """
 
     Learn 
         --type ConDecon_Fire_FS,Fire3,all2allFuture.6 
-        --resume True 
+        --resume False 
         --save_timer_time 300 
         --target_offset 6 
         --input  button,rgb,projections,Fire3
         --target button,rgb,projections,Fire3 
         --losses_to_average 256 
         --runs train 
-        --display.output 0,3,3,6,6,9,9,12
-        --display.input  0,3,3,6,6,9,9,12
-        --display.target 0,3,3,6,6,9,9,12 
+        --display.output 0,3,3,6,9,12
+        --display.input  0,3,3,6,9,12
+        --display.target 0,3,3,6,9,12 
         --clip 1
         --backwards True
         --win_x 20
@@ -80,7 +80,7 @@ all2allFuture_12 = """
 
     Learn 
         --type ConDecon_Fire_FS,Fire3,all2allFuture.12 
-        --resume False 
+        --resume True 
         --save_timer_time 300 
         --target_offset 12 
         --input  button,rgb,projections,Fire3
@@ -90,7 +90,7 @@ all2allFuture_12 = """
         --display.output 0,3,3,6,9,12
         --display.input  0,3,3,6,9,12
         --display.target 0,3,3,6,9,12 
-        --clip 1.0
+        --clip 0.1
         --backwards True
         --win_x 20
         --win_y 310
@@ -102,7 +102,7 @@ def main0():
     if 'type' not in Arguments.keys():
         clp('   FROM SYS_STR   ','`ybb',ra=0,p=1)
         Nets = {
-            'N0':Net_Main(M=M,sys_str=all2allFuture_6.replace('\n',' ').replace('\t',' ')),
+            'N0':Net_Main(M=M,sys_str=all2allFuture_12.replace('\n',' ').replace('\t',' ')),
         }
     else:
         clp('   FROM COMMMAND LINE   ','`ybb',ra=0,p=1)
@@ -117,7 +117,7 @@ def main0():
 
     wait_timer = Timer(5)
 
-
+    minute_timer = Timer(60)
 
 
 
@@ -127,6 +127,10 @@ def main0():
             break
 
 
+        if minute_timer.check():
+            minute_timer.reset()
+            Nets['N0']['P']['clip'] *= 0.98
+            print 'clip',Nets['N0']['P']['clip'],int(run_timer.time())
 
 
         for n in Nets.keys():
