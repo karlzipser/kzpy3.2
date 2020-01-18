@@ -70,7 +70,7 @@ all2allFuture_6 = """
         --display.output 0,3,3,6,9,12
         --display.input  0,3,3,6,9,12
         --display.target 0,3,3,6,9,12 
-        --clip 1.0
+        --clip 1
         --backwards True
         --win_x 20
         --win_y 310
@@ -90,7 +90,7 @@ all2allFuture_12 = """
         --display.output 0,3,3,6,9,12
         --display.input  0,3,3,6,9,12
         --display.target 0,3,3,6,9,12 
-        --clip 1.0
+        --clip 1
         --backwards True
         --win_x 20
         --win_y 310
@@ -102,7 +102,7 @@ def main0():
     if 'type' not in Arguments.keys():
         clp('   FROM SYS_STR   ','`ybb',ra=0,p=1)
         Nets = {
-            'N0':Net_Main(M=M,sys_str=all2allFuture_12.replace('\n',' ').replace('\t',' ')),
+            'N0':Net_Main(M=M,sys_str=all2allFuture_6.replace('\n',' ').replace('\t',' ')),
         }
     else:
         clp('   FROM COMMMAND LINE   ','`ybb',ra=0,p=1)
@@ -129,6 +129,9 @@ def main0():
 
         if minute_timer.check():
             minute_timer.reset()
+            Nets['N0']['P']['clip'] = float(Nets['N0']['P']['clip'])
+            a = Nets['N0']['P']['clip']
+            cg(a,type(a))
             Nets['N0']['P']['clip'] *= 0.98
             print 'clip',Nets['N0']['P']['clip'],int(run_timer.time())
 
