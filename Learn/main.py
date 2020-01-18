@@ -156,9 +156,10 @@ def main1():
         else:
             Out_data2 = {}
             Out_data2['input'] = Data['input']
-            cy(shape(Out_data2['input']))
-            cg(shape(Nets['N0']['N'].extract('output')))
+            #cy(shape(Out_data2['input']))
+            #cg(shape(Nets['N0']['N'].extract('output')))
             Out_data2['input'][0,3:35,:,:] = z2o(Nets['N0']['N'].extract('output'))*15.
+            Out_data2['input'][0,3:35,:,:] = cv2.blur(Out_data2['input'][0,3:35,:,:],(5,5))
             Out_data2['target'] = 0*Nets['N0']['Duplicates']['target']
             Data = Out_data2
 
