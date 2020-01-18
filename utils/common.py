@@ -346,6 +346,68 @@ if temp != None:
         else:
             Arguments[a] = ar
 
+
+
+
+
+
+def parse_to_Arguments(sys_str):
+    a = sys_str.split(' ')
+    b = []
+    for c in a:
+        if c != '':
+            b.append(c)
+    if len(b) > 1:
+        b = b[1:]
+
+    temp = args_to_dictionary(b)
+    if type(temp) != dict:
+        return {}
+    kprint(temp,'temp')
+    if temp != None:
+        Args = {}
+        for k in temp.keys():
+            if '/' in temp[k]:
+                print('Treating '+temp[k]+' as filename')
+                exec("Args[\'"+k+"\'] = '"+temp[k]+"'")
+            elif type(temp[k]) == str:
+                exec("Args[\'"+k+"\'] = '"+temp[k]+"'")
+            else:
+                exec('Args[\''+k+'\'] = '+temp[k])
+        del temp
+        Arguments_ = {}
+        for a in Args.keys():
+            ar = Args[a]
+            if a[0] == '-':
+                assert a[0] == '-'
+                assert a[1] == '-'
+                a = a[2:]
+            else:
+                print(Args)
+                pd2s('\x1b[1m\x1b[41m\x1b[37m',
+                    '*** Warning, argument',
+                    "'"+k+"'",
+                    'not proceeded by -- on command line ***',
+                    '\x1b[0m'
+                )
+                time.sleep(4)
+                #raw_enter()
+            if str_is_int(ar):
+                Arguments_[a] = int(ar)
+            elif ',' in ar:
+                Arguments_[a] = ar.split(',')
+            elif ar == 'True':
+                Arguments_[a] = True
+            elif ar == 'False':
+                Arguments_[a] = False        
+            else:
+                Arguments_[a] = ar
+    return Arguments_
+
+
+
+
+
 def setup_Default_Arguments(Defaults):
     for k in Arguments:
         if k not in Defaults:
