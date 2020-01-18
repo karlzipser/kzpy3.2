@@ -96,7 +96,7 @@ Fire2rgbProjections = """
 fire2fireFuture = """
 
     Learn 
-        --type ConDecon_Fire_FS,Fire3,fire2fireFuture.b 
+        --type ConDecon_Fire_FS,Fire3,fire2fireFuture.c 
         --resume True 
         --save_timer_time 999999 
         --target_offset 15 
@@ -158,8 +158,11 @@ def main1():
             Out_data2['input'] = Data['input']
             #cy(shape(Out_data2['input']))
             #cg(shape(Nets['N0']['N'].extract('output')))
-            Out_data2['input'][0,3:35,:,:] = z2o(Nets['N0']['N'].extract('output'))*15.
-            Out_data2['input'][0,3:35,:,:] = cv2.blur(Out_data2['input'][0,3:35,:,:],(5,5))
+            Out_data2['input'][0,3:35,:,:] = Nets['N0']['N'].extract('output')
+            #Out_data2['input'][0,3:35,:,:] = cv2.GaussianBlur(Out_data2['input'][0,3:35,:,:],(2,2),cv2.BORDER_DEFAULT)
+            Out_data2['input'][0,3:35,:,:] = cv2.blur(Out_data2['input'][0,3:35,:,:],(1,1))
+            Out_data2['input'][0,3:35,:,:] =  z2o(Out_data2['input'][0,3:35,:,:]) * 15.
+
             Out_data2['target'] = 0*Nets['N0']['Duplicates']['target']
             Data = Out_data2
 
@@ -213,9 +216,9 @@ def main1():
 
         for n in Nets.keys():
             Nets[n]['graphics_function'](Nets[n]['N'],M,Nets[n]['P'])
-        cm(6,ra=1)
+        cm('',ra=1)
 
-
+        cv2.moveWindow('ConDecon_Fire_FS.Fire3.Fire2rgbProjections.c',500,200)
 
 
 
