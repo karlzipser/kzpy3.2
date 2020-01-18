@@ -80,7 +80,7 @@ all2allFuture_12 = """
 
     Learn 
         --type ConDecon_Fire_FS,Fire3,all2allFuture.12 
-        --resume True 
+        --resume False 
         --save_timer_time 300 
         --target_offset 12 
         --input  button,rgb,projections,Fire3
@@ -102,7 +102,7 @@ def main0():
     if 'type' not in Arguments.keys():
         clp('   FROM SYS_STR   ','`ybb',ra=0,p=1)
         Nets = {
-            'N0':Net_Main(M=M,sys_str=all2allFuture_6.replace('\n',' ').replace('\t',' ')),
+            'N0':Net_Main(M=M,sys_str=all2allFuture_12.replace('\n',' ').replace('\t',' ')),
         }
     else:
         clp('   FROM COMMMAND LINE   ','`ybb',ra=0,p=1)
