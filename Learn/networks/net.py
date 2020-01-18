@@ -57,7 +57,7 @@ class Net(nn.Module):
                     self.GPU = GPUs['most_free']            
             torch.cuda.set_device(self.GPU)
             torch.cuda.device(self.GPU)
-            clp("GPUs =",torch.cuda.device_count(),"current GPU =",torch.cuda.current_device(),'`ybb');time.sleep(1)
+            clp("GPUs =",torch.cuda.device_count(),"current GPU =",torch.cuda.current_device(),'`ybb')#;time.sleep(1)
             #torch.cuda.set_device(0);torch.cuda.device(0)
             self.criterion = torch.nn.MSELoss().cuda()
         else:

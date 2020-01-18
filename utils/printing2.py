@@ -89,7 +89,7 @@ function_types = [type(sorted),type(fname)]
 
 
 def color_format(*args,**Kwargs):
-    set_Defaults({'s0':' ','s1':' ','ra':False},Kwargs,)
+    set_Defaults({'s0':' ','s1':' ','ra':False,'p':0},Kwargs,)
     B = color_define_list(args)
     c = []
     for i in sorted(B.keys()):
@@ -119,6 +119,8 @@ def color_print(*args,**Kwargs):
     if 'ra' in Kwargs:
         if Kwargs['ra']:
             raw_enter()
+    if 'p' in Kwargs:
+        time.sleep(Kwargs['p'])
 
 cf = color_format
 clp = color_print

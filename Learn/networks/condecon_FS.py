@@ -170,7 +170,7 @@ class ConDecon_FS(Net):
 
         #x = self.drop_layer(x)
 
-        #x = torch.clamp(x, 0., 255.)
+        #x = torch.clamp(x, 0., 15.)
 
         self.A['output'] = x
         self.A['target'] = Torch_data['target']
