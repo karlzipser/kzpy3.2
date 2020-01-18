@@ -74,6 +74,7 @@ def graphics_function(N,M,P):#,X):
             #print 'b',shape(concatt),shape(img)
             concatt = np.concatenate((concatt,img),axis=1)
     mci(concatt,1,scale=M['Q']['runtime_parameters']['scale'],title=title_name)
+    #cv2.moveWindow(title_name,P['win_x'],P['win_y'])
     #mci(concatt,1,scale=2,title=d2s('concat'))
 
 

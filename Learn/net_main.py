@@ -36,7 +36,9 @@ def Net_Main(M=False,sys_str=False,Arguments_=False):
         'targets':['Fire3'],
         'Data_read_path':False,
         'Data_write_path':False,
-        'runtime_parameters':{}
+        'runtime_parameters':{},
+        'win_x':0,
+        'win_y':0,
     }
 
     if sys_str != False:
@@ -88,7 +90,7 @@ def Net_Main(M=False,sys_str=False,Arguments_=False):
     D['get_data_function'] = get_data_function
     D['graphics_function'] = graphics_function
     D['Duplicates'] = Duplicates
-    
+
     return D
 
 

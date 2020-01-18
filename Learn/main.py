@@ -11,13 +11,79 @@ sys_str0 = "Learn --type ConDecon_Fire_FS,Fire3,Fire2rgbProjections.b --resume F
 sys_str1 = "Learn --type ConDecon_Fire_FS,Fire3,Fire2rgb.a --resume False --save_timer_time 3000 --target_offset 0 --input Fire3 --target rgb,projections --losses_to_average 256 --runs validate --display.output 0,3 --display.input 3,6 --display.target 0,3 --clip 0.1"
 
 
+Fire2rgbProjections = """
+
+    Learn 
+        --type ConDecon_Fire_FS,Fire3,Fire2rgbProjections.b
+        --resume True 
+        --save_timer_time 999999 
+        --target_offset 0 
+        --input Fire3 
+        --target rgb,projections 
+        --losses_to_average 256 
+        --runs validate 
+        --display.output 0,3,3,6 
+        --display.input 0,3 
+        --display.target 0,3,3,6
+        --clip 0.1
+        --backwards False
+        --win_x 20
+        --win_y 40
+
+"""
+
+
+fire2fireFuture = """
+
+    Learn 
+        --type ConDecon_Fire_FS,Fire3,fire2fireFuture.c 
+        --resume True 
+        --save_timer_time 999999 
+        --target_offset 15 
+        --input button,Fire3 
+        --target Fire3 
+        --losses_to_average 256 
+        --runs validate 
+        --display.output 0,3 
+        --display.input 0,3,3,6 
+        --display.target 0,3 
+        --clip 0.1
+        --backwards False
+        --win_x 20
+        --win_y 310
+
+"""
+
+
+
+all2allFuture = """
+
+    Learn 
+        --type ConDecon_Fire_FS,Fire3,all2allFuture.a 
+        --resume False 
+        --save_timer_time 999999 
+        --target_offset 6 
+        --input  button,rgb,projections,Fire3
+        --target button,rgb,projections,Fire3 
+        --losses_to_average 256 
+        --runs train 
+        --display.output 0,3,3,6,6,9,9,12
+        --display.input  0,3,3,6,6,9,9,12
+        --display.target 0,3,3,6,6,9,9,12 
+        --clip 1.0
+        --backwards False
+        --win_x 20
+        --win_y 310
+
+"""
+
+
 def main0():
 
     if 'type' not in Arguments.keys():
         clp('   FROM SYS_STR   ','`ybb',ra=0,p=1)
         Nets = {
-            'N0':Net_Main(M=M,sys_str=sys_str0),
-            'N1':Net_Main(M=M,sys_str=sys_str1),
+            'N0':Net_Main(M=M,sys_str=all2allFuture.replace('\n',' ').replace('\t',' ')),
         }
     else:
         clp('   FROM COMMMAND LINE   ','`ybb',ra=0,p=1)
@@ -74,43 +140,11 @@ def main0():
             if is_number(f):
                 clp( 'Frequency =', int(np.round(f*Nets[n]['P']['batch_size'])), 'Hz, run time =',format_seconds(run_timer.time()))
 
+            #print n
+            #raw_enter()
 
-Fire2rgbProjections = """
 
-    Learn 
-        --type ConDecon_Fire_FS,Fire3,Fire2rgbProjections.b
-        --resume True 
-        --save_timer_time 999999 
-        --target_offset 0 
-        --input Fire3 
-        --target rgb,projections 
-        --losses_to_average 256 
-        --runs validate 
-        --display.output 0,3,3,6 
-        --display.input 0,3 
-        --display.target 0,3,3,6
-        --clip 0.1
-        --backwards False
 
-"""
-fire2fireFuture = """
-
-    Learn 
-        --type ConDecon_Fire_FS,Fire3,fire2fireFuture.c 
-        --resume True 
-        --save_timer_time 999999 
-        --target_offset 15 
-        --input button,Fire3 
-        --target Fire3 
-        --losses_to_average 256 
-        --runs validate 
-        --display.output 0,3 
-        --display.input 0,3,3,6 
-        --display.target 0,3 
-        --clip 0.1
-        --backwards False
-
-"""
 
 
 def main1():
@@ -156,11 +190,10 @@ def main1():
         else:
             Out_data2 = {}
             Out_data2['input'] = Data['input']
-            #cy(shape(Out_data2['input']))
-            #cg(shape(Nets['N0']['N'].extract('output')))
             Out_data2['input'][0,3:35,:,:] = Nets['N0']['N'].extract('output')
-            #Out_data2['input'][0,3:35,:,:] = cv2.GaussianBlur(Out_data2['input'][0,3:35,:,:],(2,2),cv2.BORDER_DEFAULT)
-            Out_data2['input'][0,3:35,:,:] = cv2.blur(Out_data2['input'][0,3:35,:,:],(1,1))
+            #t = cv2.resize(Out_data2['input'][0,:,:,:],(168/4,94/4))
+            #t = cv2.resize(t,(168,94))
+            #Out_data2['input'][0,:,:,:] = t
             Out_data2['input'][0,3:35,:,:] =  z2o(Out_data2['input'][0,3:35,:,:]) * 15.
 
             Out_data2['target'] = 0*Nets['N0']['Duplicates']['target']
@@ -174,7 +207,7 @@ def main1():
 
 
 
-
+#e = cv2.resize( e,(WIDTH,HEIGHT))
 
 
 
@@ -218,7 +251,7 @@ def main1():
             Nets[n]['graphics_function'](Nets[n]['N'],M,Nets[n]['P'])
         cm('',ra=1)
 
-        cv2.moveWindow('ConDecon_Fire_FS.Fire3.Fire2rgbProjections.c',500,200)
+        
 
 
 

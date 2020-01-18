@@ -207,7 +207,9 @@ def get_data_function(P):
                     img = 0*B[ctr]
                     bn = int(Runs[r]['button_number'][ctr+P[k+'_offset']])
                     #print bn
-                    img[:,:,bn-1] = 1
+                    #print bn
+                    if bn in (1,2,3):
+                        img[:,:,bn-1] = 1
                     Lists[k].append(img)
 
                 if 'Fire3' in P[k]:
