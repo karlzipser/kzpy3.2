@@ -36,6 +36,8 @@ def setup(P):
 
     good_list = []
 
+    
+
     for r in _Runs.keys():
 
         Run_coder[run_ctr] = r
@@ -154,6 +156,8 @@ def get_data_function(P):
 
     Runs = P['Runs']
 
+    drop = 0.05
+
     while True:
         if True:#try:
             r,ctr,flip = _selector(P)
@@ -186,6 +190,8 @@ def get_data_function(P):
                     if P['noise'] > 0:
                         noise = P['noise']*rnd(shape(B[ctr]))-P['noise']/2.
                     Lists[k].append(B[ctr+P[k+'_offset']]+noise)
+                    if rnd() < drop and k == 'input':
+                        Lists[k][-1] *= 0
                     #print 'rgb', dp(Lists[k][-1].min()), dp(Lists[k][-1].max())
 
                 if 'projections' in P[k]:
@@ -202,6 +208,8 @@ def get_data_function(P):
                         noise = P['noise']*rnd(shape(C[ctr]))-P['noise']/2.
                     #noise = 25*rnd(shape(C[ctr]))-15.5
                     Lists[k].append(C[ctr+P[k+'_offset']]+noise )
+                    if rnd() < drop and k == 'input':
+                        Lists[k][-1] *= 0
                     #print 'projections', dp(Lists[k][-1].min()), dp(Lists[k][-1].max())
 
                 if 'button' in P[k]:
@@ -214,6 +222,8 @@ def get_data_function(P):
                         img[:,:,bn-1] = 255
                     img[0,0,:] = 255# + 24*rnd(shape(img))-12,
                     Lists[k].append(img)
+                    if rnd() < drop and k == 'input':
+                        Lists[k][-1] *= 0
                     #print 'button', dp(Lists[k][-1].min()), dp(Lists[k][-1].max())
 
                 if 'Fire3' in P[k]:
@@ -221,6 +231,8 @@ def get_data_function(P):
                     i = A[Runs[r]['activations/reverse-indicies']['data'][ctr+P[k+'_offset']]]
                     i = i.transpose(1,2,0) * 255/15.
                     Lists[k].append(i)
+                    if rnd() < drop and k == 'input':
+                        Lists[k][-1] *= 0
                     #print 'Fire3', dp(Lists[k][-1].min()), dp(Lists[k][-1].max())
                     
 
