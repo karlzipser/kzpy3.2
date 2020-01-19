@@ -133,6 +133,13 @@ def str_is_int(s):
     except:
         return False
 
+def str_is_float(s):
+    try:
+        float(s)
+        return True
+    except:
+        return False
+
 def rlen(a):
     return range(len(a))
 
@@ -394,6 +401,9 @@ def parse_to_Arguments(sys_str):
                 #raw_enter()
             if str_is_int(ar):
                 Arguments_[a] = int(ar)
+            if str_is_float(ar):
+                Arguments_[a] = float(ar)
+
             elif ',' in ar:
                 Arguments_[a] = ar.split(',')
             elif ar == 'True':

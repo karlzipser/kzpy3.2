@@ -156,9 +156,11 @@ def get_data_function(P):
 
     Runs = P['Runs']
 
-    drop = 0.05
+    #drop = 0.1
+
 
     while True:
+        #print P['drop'],type(P['drop'])
         if True:#try:
             r,ctr,flip = _selector(P)
 
@@ -183,14 +185,14 @@ def get_data_function(P):
                 continue
 
             for k in Lists.keys():
-
+                P[k+'_offset'] = int(P[k+'_offset'])
                 if 'rgb' in P[k]:
                     #print k,'rgb'
                     noise =0
                     if P['noise'] > 0:
                         noise = P['noise']*rnd(shape(B[ctr]))-P['noise']/2.
                     Lists[k].append(B[ctr+P[k+'_offset']]+noise)
-                    if rnd() < drop and k == 'input':
+                    if rnd() < P['drop'] and k == 'input':
                         Lists[k][-1] *= 0
                     #print 'rgb', dp(Lists[k][-1].min()), dp(Lists[k][-1].max())
 
@@ -208,12 +210,13 @@ def get_data_function(P):
                         noise = P['noise']*rnd(shape(C[ctr]))-P['noise']/2.
                     #noise = 25*rnd(shape(C[ctr]))-15.5
                     Lists[k].append(C[ctr+P[k+'_offset']]+noise )
-                    if rnd() < drop and k == 'input':
+                    if rnd() < P['drop'] and k == 'input':
                         Lists[k][-1] *= 0
                     #print 'projections', dp(Lists[k][-1].min()), dp(Lists[k][-1].max())
 
                 if 'button' in P[k]:
                     #print k,'button'
+                    #print ctr,k,P[k+'_offset']
                     img = 0*B[ctr]
                     bn = int(Runs[r]['button_number'][ctr+P[k+'_offset']])
                     #print bn
@@ -227,7 +230,7 @@ def get_data_function(P):
                         if bn in (1,2,3):
                             img[:,:,bn-1] = 1
                     Lists[k].append(img)
-                    if rnd() < drop and k == 'input':
+                    if rnd() < P['drop'] and k == 'input':
                         Lists[k][-1] *= 0
                     #print 'button', dp(Lists[k][-1].min()), dp(Lists[k][-1].max())
 
@@ -241,7 +244,7 @@ def get_data_function(P):
                         pass#print '********************* original_Fire3_scaling Fire3'
 
                     Lists[k].append(i)
-                    if rnd() < drop and k == 'input':
+                    if rnd() < P['drop'] and k == 'input':
                         Lists[k][-1] *= 0
                     #print 'Fire3', dp(Lists[k][-1].min()), dp(Lists[k][-1].max())
                     
