@@ -7,174 +7,195 @@ exec(identify_file_str)
 M = Menu.main.start_Dic(dic_project_path=pname(opjh(__file__)))
 
 
-sys_str0 = "Learn --type ConDecon_Fire_FS,Fire3,Fire2rgbProjections.b --resume False --save_timer_time 3000 --target_offset 0 --input Fire3 --target rgb,projections --losses_to_average 256 --runs validate --display.output 0,3,3,6 --display.input 3,6 --display.target 0,3,3,6 --clip 0.1"
-sys_str1 = "Learn --type ConDecon_Fire_FS,Fire3,Fire2rgb.a --resume False --save_timer_time 3000 --target_offset 0 --input Fire3 --target rgb,projections --losses_to_average 256 --runs validate --display.output 0,3 --display.input 3,6 --display.target 0,3 --clip 0.1"
+Net_strs = {
+
+    #Learn --main 4 --net_str Fire2rgbProjections.dcgan
+    'Fire2rgbProjections.dcgan' : """
+
+        Learn 
+            --type ConDecon_Fire_FS,Fire3,Fire2rgbProjections.dcgan
+            --resume True 
+            --batch_size 1
+            --save_timer_time 300 
+            --target_offset 0 
+            --input Fire3 
+            --target rgb,projections 
+            --losses_to_average 256 
+            --runs train 
+            --display.output 0,3,3,6 
+            --display.input 0,3 
+            --display.target 0,3,3,6
+            --clip 0.01
+            --backwards True
+            --win_x 20
+            --win_y 40
+            --drop 0.0
+
+    """,
 
 
-Fire2rgbProjections_dcgan = """
+    'Fire2rgbProjections.dcgan.A' : """
 
-    Learn 
-        --type ConDecon_Fire_FS,Fire3,Fire2rgbProjections.dcgan
-        --resume True 
-        --batch_size 1
-        --save_timer_time 300 
-        --target_offset 0 
-        --input Fire3 
-        --target rgb,projections 
-        --losses_to_average 256 
-        --runs train 
-        --display.output 0,3,3,6 
-        --display.input 0,3 
-        --display.target 0,3,3,6
-        --clip 0.01
-        --backwards True
-        --win_x 20
-        --win_y 40
-        --drop 0.0
+        Learn 
+            --type ConDecon_Fire_FS,Fire3,Fire2rgbProjections.dcgan
+            --resume True 
+            --batch_size 1
+            --save_timer_time 300 
+            --target_offset 0 
+            --input Fire3 
+            --target rgb,projections 
+            --losses_to_average 256 
+            --runs train 
+            --display.output 0,3,3,6 
+            --display.input 0,3 
+            --display.target 0,3,3,6
+            --clip 0.01
+            --backwards True
+            --win_x 20
+            --win_y 40
+            --drop 0.0
 
-"""
+    """,
 
+    'pro2rgb.dcgan' : """
 
-Fire2rgbProjections_dcgan_A = """
+        Learn 
+            --type ConDecon_Fire_FS,Fire3,pro2rgb.dcgan
+            --resume True 
+            --batch_size 1
+            --save_timer_time 300
+            --target_offset 0 
+            --input projections 
+            --target rgb 
+            --losses_to_average 256 
+            --runs train 
+            --display.output 0,3
+            --display.input 0,3 
+            --display.target 0,3
+            --clip 0.1
+            --backwards True
+            --win_x 20
+            --win_y 40
+            --drop 0.0
 
-    Learn 
-        --type ConDecon_Fire_FS,Fire3,Fire2rgbProjections.dcgan
-        --resume True 
-        --batch_size 1
-        --save_timer_time 300 
-        --target_offset 0 
-        --input Fire3 
-        --target rgb,projections 
-        --losses_to_average 256 
-        --runs train 
-        --display.output 0,3,3,6 
-        --display.input 0,3 
-        --display.target 0,3,3,6
-        --clip 0.1
-        --backwards True
-        --win_x 20
-        --win_y 40
-        --drop 0.0
+    """,
 
-"""
+    'Fire2rgbProjections_' : """
 
+        Learn 
+            --type ConDecon_Fire_FS,Fire3,Fire2rgbProjections.b
+            --resume False 
+            --save_timer_time 999999 
+            --target_offset 0 
+            --input Fire3 
+            --target rgb,projections 
+            --losses_to_average 256 
+            --runs validate 
+            --display.output 0,3,3,6 
+            --display.input 0,3 
+            --display.target 0,3,3,6
+            --clip 1
+            --backwards True
+            --win_x 20
+            --win_y 40
+            --drop 0
 
-Fire2rgbProjections_ = """
-
-    Learn 
-        --type ConDecon_Fire_FS,Fire3,Fire2rgbProjections.b
-        --resume False 
-        --save_timer_time 999999 
-        --target_offset 0 
-        --input Fire3 
-        --target rgb,projections 
-        --losses_to_average 256 
-        --runs validate 
-        --display.output 0,3,3,6 
-        --display.input 0,3 
-        --display.target 0,3,3,6
-        --clip 1
-        --backwards True
-        --win_x 20
-        --win_y 40
-        --drop 0
-
-"""
+    """,
 
 
-fire2fireFuture = """
+    'fire2fireFuture' : """
 
-    Learn 
-        --type ConDecon_Fire_FS,Fire3,fire2fireFuture.c 
-        --resume True 
-        --save_timer_time 999999 
-        --target_offset 15 
-        --input button,Fire3 
-        --target Fire3 
-        --losses_to_average 256 
-        --runs validate 
-        --display.output 0,3 
-        --display.input 0,3,3,6 
-        --display.target 0,3 
-        --clip 0.1
-        --backwards False
-        --win_x 20
-        --win_y 310
-        --drop 0.2
+        Learn 
+            --type ConDecon_Fire_FS,Fire3,fire2fireFuture.c 
+            --resume True 
+            --save_timer_time 999999 
+            --target_offset 15 
+            --input button,Fire3 
+            --target Fire3 
+            --losses_to_average 256 
+            --runs validate 
+            --display.output 0,3 
+            --display.input 0,3,3,6 
+            --display.target 0,3 
+            --clip 0.1
+            --backwards False
+            --win_x 20
+            --win_y 310
+            --drop 0.2
 
-"""
+    """,
 
+    # Learn --main 5 --net_str fire2fireFuture.dcgan.a
+    'fire2fireFuture.dcgan.a' : """
 
+        Learn 
+            --type ConDecon_Fire_FS,Fire3,fire2fireFuture.dcgan.a
+            --resume True 
+            --save_timer_time 300 
+            --target_offset 12
+            --input button,Fire3 
+            --target Fire3 
+            --losses_to_average 256 
+            --runs train 
+            --display.output 0,3 
+            --display.input 0,3,3,6
+            --display.target 0,3 
+            --clip 1
+            --backwards True
+            --win_x 20
+            --win_y 310
+            --drop 0
+            --height 94
+            --width 168
+            --original_Fire3_scaling True
 
-fire2fireFuture_dcgan_a = """
-
-    Learn 
-        --type ConDecon_Fire_FS,Fire3,fire2fireFuture.dcgan.a
-        --resume False 
-        --save_timer_time 300 
-        --target_offset 12
-        --input button,Fire3 
-        --target Fire3 
-        --losses_to_average 256 
-        --runs train 
-        --display.output 0,3 
-        --display.input 0,3,3,6
-        --display.target 0,3 
-        --clip 1
-        --backwards True
-        --win_x 20
-        --win_y 310
-        --drop 0
-        --height 94
-        --width 168
-        --original_Fire3_scaling True
-
-"""
-
+    """,
 
 
-all2allFuture_6 = """
+    'all2allFuture.6' : """
 
-    Learn 
-        --type ConDecon_Fire_FS,Fire3,all2allFuture.6 
-        --resume True 
-        --save_timer_time 300 
-        --target_offset 6 
-        --input  button,rgb,projections,Fire3
-        --target button,rgb,projections,Fire3 
-        --losses_to_average 256 
-        --runs train 
-        --display.output 0,3,3,6,9,12
-        --display.input  0,3,3,6,9,12
-        --display.target 0,3,3,6,9,12 
-        --clip 1
-        --backwards True
-        --win_x 20
-        --win_y 310
-        --drop 0.2
+        Learn 
+            --type ConDecon_Fire_FS,Fire3,all2allFuture.6 
+            --resume True 
+            --save_timer_time 300 
+            --target_offset 6 
+            --input  button,rgb,projections,Fire3
+            --target button,rgb,projections,Fire3 
+            --losses_to_average 256 
+            --runs train 
+            --display.output 0,3,3,6,9,12
+            --display.input  0,3,3,6,9,12
+            --display.target 0,3,3,6,9,12 
+            --clip 1
+            --backwards True
+            --win_x 20
+            --win_y 310
+            --drop 0.2
 
-"""
-all2allFuture_12 = """
+    """,
+    'all2allFuture.12' : """
 
-    Learn 
-        --type ConDecon_Fire_FS,Fire3,all2allFuture.12 
-        --resume True 
-        --save_timer_time 300 
-        --target_offset 12 
-        --input  button,rgb,projections,Fire3
-        --target button,rgb,projections,Fire3 
-        --losses_to_average 256 
-        --runs train 
-        --display.output 0,3,3,6,9,12
-        --display.input  0,3,3,6,9,12
-        --display.target 0,3,3,6,9,12 
-        --clip 0.1
-        --backwards True
-        --win_x 20
-        --win_y 310
-        --drop 0.2
+        Learn 
+            --type ConDecon_Fire_FS,Fire3,all2allFuture.12 
+            --resume True 
+            --save_timer_time 300 
+            --target_offset 12 
+            --input  button,rgb,projections,Fire3
+            --target button,rgb,projections,Fire3 
+            --losses_to_average 256 
+            --runs train 
+            --display.output 0,3,3,6,9,12
+            --display.input  0,3,3,6,9,12
+            --display.target 0,3,3,6,9,12 
+            --clip 0.1
+            --backwards True
+            --win_x 20
+            --win_y 310
+            --drop 0.2
 
-"""
+    """,
+}
+
 
 def main0():
 
@@ -352,10 +373,15 @@ def main5():
     optimizerD = optim.Adam(DISCRIMINATOR.parameters(), lr=0.01, betas=(0.5, 0.999))
 
 
+    """
+    fire2fireFuture.dcgan.a
+    """
     if 'type' not in Arguments.keys():
         clp('   FROM SYS_STR   ','`ybb',ra=0,p=1)
         Nets = {
-            'N0':Net_Main(M=M,sys_str=fire2fireFuture_dcgan_a.replace('\n',' ').replace('\t',' ')),
+            #'N0':Net_Main(M=M,sys_str=fire2fireFuture_dcgan_a.replace('\n',' ').replace('\t',' ')),
+            'N0':Net_Main(M=M,sys_str=Net_strs[Arguments['net_str']].replace('\n',' ').replace('\t',' ')),
+
         }
     else:
         clp('   FROM COMMMAND LINE   ','`ybb',ra=0,p=1)
@@ -493,20 +519,15 @@ def main4():
         import torchvision.utils as vutils
         import torch.nn.utils as nnutils
 
-        from discriminator1 import Discriminator,weights_init
-        DISCRIMINATOR = Discriminator(nc=3).cuda()#ngpu).cuda()#.to(device)
-        DISCRIMINATOR.apply(weights_init)
-        #if _DISCRIMINATOR != '':
-        #    DISCRIMINATOR.load_state_dict(torch.load(_DISCRIMINATOR))
-        criterion = nn.BCELoss()
-        optimizerD = optim.Adam(DISCRIMINATOR.parameters(), lr=0.01, betas=(0.5, 0.999))
 
 
-
+        """
+        'Fire2rgbProjections.dcgan.A'
+        """
         if 'type' not in Arguments.keys():
             clp('   FROM SYS_STR   ','`ybb',ra=0,p=1)
             Nets = {
-                'N0':Net_Main(M=M,sys_str=Fire2rgbProjections_dcgan_A.replace('\n',' ').replace('\t',' ')),
+                'N0':Net_Main(M=M,sys_str=Net_strs[Arguments['net_str']].replace('\n',' ').replace('\t',' ')),
             }
         else:
             clp('   FROM COMMMAND LINE   ','`ybb',ra=0,p=1)
@@ -524,6 +545,16 @@ def main4():
         minute_timer = Timer(60)
 
 
+        from discriminator1 import Discriminator,weights_init
+        DISCRIMINATOR = Discriminator(nc=3).cuda()#ngpu).cuda()#.to(device)
+        DISCRIMINATOR.apply(weights_init)
+        #if _DISCRIMINATOR != '':
+        #    DISCRIMINATOR.load_state_dict(torch.load(_DISCRIMINATOR))
+        criterion = nn.BCELoss()
+        optimizerD = optim.Adam(DISCRIMINATOR.parameters(), lr=0.01, betas=(0.5, 0.999))
+
+
+        #kprint(Nets['N0']['P'],ra=1)
         try:
             if Nets['N0']['P']['resume']:
                 DISCRIMINATOR.load(Nets['N0']['P']['NETWORK_OUTPUT_FOLDER']+'.dcgan')
@@ -839,6 +870,9 @@ if __name__ == '__main__':
 
         elif Arguments['main'] == 4:
             clp('*** main4() ***',p=2)
+            
+            if 'net_str' not in Arguments:
+                Arguments['net_str'] = ''
             main4()
 
 

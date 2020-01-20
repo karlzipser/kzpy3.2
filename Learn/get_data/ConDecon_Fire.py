@@ -45,7 +45,7 @@ def setup(P):
         H = find_files_recursively(opjD('Data'),r,DIRS_ONLY=True)
 
         if len(H['paths']) == 0:
-            cy(r,'not found.')
+            cr(r,'not found.')
             continue
         else:
             cg(r,'found.')
