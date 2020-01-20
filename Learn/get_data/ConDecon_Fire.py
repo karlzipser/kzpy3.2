@@ -3,7 +3,7 @@ exec(identify_file_str)
 
 # python kzpy3/drafts/Sq7/main.py --RESUME 1 --NET_TYPE ConDecon_test2 --NET_TYPE_SUFFIX 84x47
 #WIDTH,HEIGHT = 168/2,94/2
-WIDTH,HEIGHT = 168,94
+
 
 
 from runs import All_runs
@@ -223,7 +223,8 @@ def get_data_function(P):
                 if 'button' in P[k]:
                     #print k,'button'
                     #print ctr,k,P[k+'_offset']
-                    img = 0*B[ctr]
+                    #img = 0*B[ctr]
+                    img = zeros((P['width'],P['height'],3))
                     bn = int(Runs[r]['button_number'][ctr+P[k+'_offset']])
                     #print bn
                     #print bn
@@ -274,7 +275,8 @@ def get_data_function(P):
         for l in rlen(lst):
             e = lst[l]
             e = e.astype(float)
-            e = cv2.resize( e,(WIDTH,HEIGHT))
+            if P['width'] and P['height']:
+                e = cv2.resize( e,(P['width'],P['height']))
             e = e.transpose(2,1,0)
             lst[l] = e
 
@@ -282,6 +284,7 @@ def get_data_function(P):
     for k in sorted(Lists.keys()):
         lst = Lists[k]
         for l in rlen(lst):
+            #print shape(lst[l])
             if k not in Concats:
                 Concats[k] = lst[l]
             else:

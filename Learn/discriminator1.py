@@ -23,7 +23,7 @@ _cuda=True
 _ngpu=1
 _GENERATOR=''
 _DISCRIMINATOR=''
-nc=3
+
 ngpu = int(_ngpu)
 nz = int(_nz)
 ngf = int(_ngf)
@@ -73,7 +73,7 @@ class Fire(nn.Module):
 
 class Discriminator(nn.Module):
 
-    def __init__(self):
+    def __init__(self,nc=3):
         super(Discriminator, self).__init__()
         self.A = {}
         self.lr = 0.01
@@ -81,7 +81,7 @@ class Discriminator(nn.Module):
         self.N_FRAMES = 2
         self.N_STEPS = 10
         self.pre_metadata_features = nn.Sequential(
-            nn.Conv2d(3, 64, kernel_size=3, stride=2),
+            nn.Conv2d(nc, 64, kernel_size=3, stride=2),
             nn.ReLU(inplace=True),
             nn.MaxPool2d(kernel_size=3, stride=2, ceil_mode=True),
             Fire(64, 16, 64, 64),            
@@ -127,6 +127,43 @@ class Discriminator(nn.Module):
         #self.A['final_output'] = self.A['final_output'].view(-1, 1).squeeze(1)
         #print self.A['final_output'].size()
         return self.A['final_output'].view(-1, 1).squeeze(1)
+
+
+
+    def save(self,NETWORK_OUTPUT_FOLDER):
+        if True:
+            for f in ['weights','optimizer','state_dict','loss']:
+                os.system(d2s('mkdir -p',opj(NETWORK_OUTPUT_FOLDER,f)))
+            print('saving net state . . .')
+            weights = {'net':self.state_dict().copy()}
+            for key in weights['net']:
+                if True:#self.GPU > -1:
+                    weights['net'][key] = weights['net'][key].cuda()#(device=self.GPU)
+                else:
+                    weights['net'][key] = weights['net'][key]
+            net_str = 'net'+'_'+time_str()#+'.'+str(self.losses[-1])
+            if True:#self.GPU > -1:
+                net_str = net_str+'.cuda'
+            torch.save(weights, opj(NETWORK_OUTPUT_FOLDER,'weights',net_str+'.infer'))
+            #so(self.losses,opj(NETWORK_OUTPUT_FOLDER,'loss',net_str+'.loss_avg'))
+            #torch.save(self.optimizer.state_dict(), opj(NETWORK_OUTPUT_FOLDER,'optimizer',net_str+'.optimizer_state'))
+            torch.save(self.state_dict(), opj(NETWORK_OUTPUT_FOLDER,'state_dict',net_str+'.state_dict'))
+            print('. . . done saving.')
+            #self.save_net_timer.reset()
+
+
+
+    def load(self,NETWORK_OUTPUT_FOLDER):
+        print NETWORK_OUTPUT_FOLDER
+        clp(opj(NETWORK_OUTPUT_FOLDER,'weights'))
+        f = most_recent_file_in_folder(opj(NETWORK_OUTPUT_FOLDER,'weights'),['.infer'],[])
+        clp('Resuming with','`','',f,'','`--rb'); time.sleep(1)
+        save_data = torch.load(f)
+        self.load_state_dict(save_data['net'])
+
+        #f = most_recent_file_in_folder(opj(NETWORK_OUTPUT_FOLDER,'loss'),['.loss_avg.pkl'],[])
+        #self.losses = lo(f)
+
 
 
 ###########################################################################
@@ -182,16 +219,4 @@ class DDDDiscriminator(nn.Module):
 #
 ###########################################################################
 
-
-DISCRIMINATOR = Discriminator().cuda()#ngpu).cuda()#.to(device)
-DISCRIMINATOR.apply(weights_init)
-if _DISCRIMINATOR != '':
-    DISCRIMINATOR.load_state_dict(torch.load(_DISCRIMINATOR))
-criterion = nn.BCELoss()
-#fixed_noise = torch.randn(_batchSize, nz, 1, 1,).cuda()# device=device)
-#real_label = 1
-#fake_label = 0
-
-
-optimizerD = optim.Adam(DISCRIMINATOR.parameters(), lr=_lr, betas=(_beta1, 0.999))
 

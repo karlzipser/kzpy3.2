@@ -39,6 +39,8 @@ def Net_Main(M=False,sys_str=False,Arguments_=False):
         'runtime_parameters':{},
         'win_x':0,
         'win_y':0,
+        'width':168,
+        'height':94,
     }
 
     if sys_str != False:

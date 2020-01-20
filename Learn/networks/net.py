@@ -124,6 +124,9 @@ class Net(nn.Module):
             torch.save(self.state_dict(), opj(self.NETWORK_OUTPUT_FOLDER,'state_dict',net_str+'.state_dict'))
             print('. . . done saving.')
             self.save_net_timer.reset()
+            return True
+        else:
+            return False
 
 
 
