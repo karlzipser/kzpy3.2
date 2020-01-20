@@ -102,8 +102,9 @@ class Discriminator(nn.Module):
             nn.Dropout(p=0.5),
             final_conv,
             # nn.ReLU(inplace=True), # this allows initial training to recover from zeros in output
-            nn.AvgPool2d(kernel_size=5, stride=6)
+            nn.AvgPool2d(kernel_size=5, stride=6),
             #nn.AdaptiveAvgPool2d(1)#kernel_size=5, stride=6)
+            nn.Sigmoid()
         )
 
         for m in self.modules():
@@ -115,7 +116,7 @@ class Discriminator(nn.Module):
                 if m.bias is not None:
                     m.bias.data.zero_()
 
-
+    #self.timer = Timer(2)
     def forward(self, x):
         self.A['camera_input'] = x
         self.A['pre_metadata_features'] = self.pre_metadata_features(self.A['camera_input'])
@@ -125,7 +126,7 @@ class Discriminator(nn.Module):
         self.A['final_output'] = self.A['final_output'].view(self.A['final_output'].size(0), -1)
         #self.A['final_output'] = self.A['final_output'].view(-1, 1).squeeze(1)
         #print self.A['final_output'].size()
-        return self.A['final_output']
+        return self.A['final_output'].view(-1, 1).squeeze(1)
 
 
 ###########################################################################

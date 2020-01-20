@@ -22,7 +22,7 @@ Fire2rgbProjections_dcgan = """
         --input Fire3 
         --target rgb,projections 
         --losses_to_average 256 
-        --runs validate 
+        --runs train 
         --display.output 0,3,3,6 
         --display.input 0,3 
         --display.target 0,3,3,6
@@ -349,7 +349,10 @@ def main4():
         real = Data['target'][:,:3,:,:] #2
         label = torch.full((Nets[n]['P']['batch_size'],), 1,).cuda() #3
         output = DISCRIMINATOR(torch.from_numpy(real).cuda().float()) #4
-        print output.size(),label.size()
+        #output = output.view(-1, 1).squeeze(1)
+        #print output.size(), output.view(-1, 1).squeeze(1).size()
+
+        #raw_enter()
         errD_real = criterion(output, label) #5
         errD_real.backward() #6
         D_x = output.mean().item() #7
@@ -358,6 +361,8 @@ def main4():
         fake = GENERATOR.A['output'][:,:3,:,:]
         label.fill_(0) #9
         output = DISCRIMINATOR(fake.detach()) #10
+        #output = output.view(-1, 1).squeeze(1)
+
         errD_fake = criterion(output, label) #11
         errD_fake.backward() #12
         D_G_z1 = output.mean().item() #13
@@ -367,8 +372,12 @@ def main4():
         GENERATOR.optimizer.zero_grad() #16
         label.fill_(1) #17
         output = DISCRIMINATOR(fake) #18
+        #output = output.view(-1, 1).squeeze(1)
+
         s = 0.25
+        #GENERATOR.loss =  (1-s) * criterion(output, label) #19
         GENERATOR.loss = s*GENERATOR.criterion(GENERATOR.A['output'],GENERATOR.A['target']) + (1-s) * criterion(output, label) #19
+
         GENERATOR.loss.backward() #20
         nnutils.clip_grad_norm(GENERATOR.parameters(), GENERATOR.clip_param)#0.01) #1.0)
         GENERATOR.optimizer.step() #21
