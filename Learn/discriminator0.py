@@ -208,40 +208,40 @@ if False:
             # (1) Update D network: maximize log(D(x)) + log(1 - D(G(z)))
             ###########################
             # train with real
-            DISCRIMINATOR.zero_grad()
-           
-            q = rndint(len(A['left_image_flip']['vals']))
-            real_cpu = torch.zeros(1,1,64,64).cuda()
-            real_cpu[0,0,:,:] = torch.from_numpy(cv2.resize(A['left_image_flip']['vals'][q,:,:,1],(64,64))).cuda()#.to(device)
 
+            #A
+            DISCRIMINATOR.zero_grad() #!
+            q = rndint(len(A['left_image_flip']['vals']))
+            real_cpu = torch.zeros(1,1,64,64).cuda() #2
+            real_cpu[0,0,:,:] = torch.from_numpy(cv2.resize(A['left_image_flip']['vals'][q,:,:,1],(64,64))).cuda()#.to(device)
             batch_size = real_cpu.size(0)
-            label = torch.full((batch_size,), real_label,).cuda()# device=device)
-            output = DISCRIMINATOR(real_cpu)
-            errD_real = criterion(output, label)
-            errD_real.backward()
-            D_x = output.mean().item()
+            label = torch.full((batch_size,), real_label,).cuda()# device=device) #3
+            output = DISCRIMINATOR(real_cpu) #4
+            errD_real = criterion(output, label) #5
+            errD_real.backward() #6
+            D_x = output.mean().item() #7
 
             # train with fake
             noise = torch.randn(batch_size, nz, 1, 1,).cuda()# device=device)
-            fake = GENERATOR(noise)
-            label.fill_(fake_label)
-            output = DISCRIMINATOR(fake.detach())
-            errD_fake = criterion(output, label)
-            errD_fake.backward()
-            D_G_z1 = output.mean().item()
-            errD = errD_real + errD_fake
-            optimizerD.step()
+            fake = GENERATOR(noise) #8
+            label.fill_(fake_label) #9
+            output = DISCRIMINATOR(fake.detach()) #10
+            errD_fake = criterion(output, label) #11
+            errD_fake.backward() #12
+            D_G_z1 = output.mean().item() #13
+            errD = errD_real + errD_fake #14
+            optimizerD.step() #15
 
             ############################
             # (2) Update G network: maximize log(D(G(z)))
             ###########################
-            GENERATOR.zero_grad()
-            label.fill_(real_label)  # fake labels are real for generator cost
-            output = DISCRIMINATOR(fake)
-            errG = criterion(output, label)
-            errG.backward()
+            GENERATOR.zero_grad() #16
+            label.fill_(real_label)  #17 # fake labels are real for generator cost
+            output = DISCRIMINATOR(fake) #18
+            errG = criterion(output, label) #19
+            errG.backward() #20
             D_G_z2 = output.mean().item()
-            optimizerG.step()
+            optimizerG.step() #21
 
             loss_avg.append(errD.item())
 

@@ -22,7 +22,7 @@ Fire2rgbProjections_dcgan = """
         --input Fire3 
         --target rgb,projections 
         --losses_to_average 256 
-        --runs train 
+        --runs validate 
         --display.output 0,3,3,6 
         --display.input 0,3 
         --display.target 0,3,3,6
@@ -291,7 +291,7 @@ def main4():
     import torchvision.utils as vutils
     import torch.nn.utils as nnutils
 
-    from discriminator0 import DISCRIMINATOR,criterion,optimizerD,optimizerG
+    from discriminator1 import DISCRIMINATOR,criterion,optimizerD
 
     if 'type' not in Arguments.keys():
         clp('   FROM SYS_STR   ','`ybb',ra=0,p=1)
@@ -326,7 +326,7 @@ def main4():
             Nets['N0']['P']['clip'] = float(Nets['N0']['P']['clip'])
             a = Nets['N0']['P']['clip']
             #cg(a,type(a))
-            Nets['N0']['P']['clip'] *= 0.98
+            Nets['N0']['P']['clip'] *= 0.99
             print 'clip',Nets['N0']['P']['clip'],int(run_timer.time())
 
 
@@ -349,6 +349,7 @@ def main4():
         real = Data['target'][:,:3,:,:] #2
         label = torch.full((Nets[n]['P']['batch_size'],), 1,).cuda() #3
         output = DISCRIMINATOR(torch.from_numpy(real).cuda().float()) #4
+        print output.size(),label.size()
         errD_real = criterion(output, label) #5
         errD_real.backward() #6
         D_x = output.mean().item() #7
@@ -364,13 +365,13 @@ def main4():
         optimizerD.step() #15
         
         GENERATOR.optimizer.zero_grad() #16
-        label.fill_(1)
-        output = DISCRIMINATOR(fake)
+        label.fill_(1) #17
+        output = DISCRIMINATOR(fake) #18
         s = 0.25
-        GENERATOR.loss = s*GENERATOR.criterion(GENERATOR.A['output'],GENERATOR.A['target']) + (1-s) * criterion(output, label)
-        GENERATOR.loss.backward()
+        GENERATOR.loss = s*GENERATOR.criterion(GENERATOR.A['output'],GENERATOR.A['target']) + (1-s) * criterion(output, label) #19
+        GENERATOR.loss.backward() #20
         nnutils.clip_grad_norm(GENERATOR.parameters(), GENERATOR.clip_param)#0.01) #1.0)
-        GENERATOR.optimizer.step()
+        GENERATOR.optimizer.step() #21
 
 
 
