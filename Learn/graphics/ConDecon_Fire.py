@@ -10,9 +10,6 @@ def graphics_function(N,M,P):#,X):
     global graphics_timer
     if graphics_timer == None:
         graphics_timer = Timer(M['Q']['runtime_parameters']['graphics_timer_time'])
-        #W['display.input'] = P['display.input']
-        #W['display.output'] = P['display.output']
-        #W['display.target'] = P['display.target']
 
     cv2.waitKey(1)
     if graphics_timer.check() or M['Q']['runtime_parameters']['graphics_timer_time'] < 0:
@@ -33,22 +30,17 @@ def graphics_function(N,M,P):#,X):
         m = meo(na(N.losses),M['Q']['runtime_parameters']['meo_num'])
         plot(m)
         mm = na(m[int(len(m)/2):])
-        #kprint(shape(mm),'shape(mm)')
-        if len(mm) > 5 :
-            #kprint(shape(mm),'shape(mm)')
+        mn,mx = 0,1
+        if False:#len(['Q']['runtime_parameters']['graphics_ylim']) == 2:
+            mx = M['Q']['runtime_parameters']['graphics_ylim'][0]
+            mx = M['Q']['runtime_parameters']['graphics_ylim'][1]
+        elif len(mm) > 5 :
             mx = mm.max() * 1.3
             mn = mm.min() * 0.8
-            ylim(
-                mn,#M['Q']['runtime_parameters']['graphics_ylim'][0],
-                mx,#M['Q']['runtime_parameters']['graphics_ylim'][1]
-            )
-
-
-    #P['display.output'] = [0,3,3,6]
-    #P['display.target'] = [0,3,3,6]
-    #P['display.input'] = [3,6]
-
-
+        ylim(
+            mn,
+            mx,
+        )
 
     Imgs = {}
     img_lst = []
@@ -56,8 +48,6 @@ def graphics_function(N,M,P):#,X):
     k_prev = 'input'
     for k in ['input','output','target']:
         Imgs[k] = N.extract(k)
-        #print k,Imgs[k].min(),Imgs[k].max()
-        
 
         if 'display.'+k in P:
             lst = P['display.'+k]
@@ -73,8 +63,7 @@ def graphics_function(N,M,P):#,X):
                     img[:,:168,0] = b
                     img[:,:168,1] = g
                     img[:,:168,2] = r
-                #print shape(img),shape(img_spacer)
-                #mci(img,title=d2s(k,start,stop),scale=4)
+
                 if k_prev != k:
                     k_prev = k
                     if type(img_spacer) == type(False):
@@ -82,7 +71,7 @@ def graphics_function(N,M,P):#,X):
                     img_lst.append(img_spacer)
 
                 img_lst.append(img)
-    #kprint(W)
+
     concatt = None
     while len(img_lst) > 0:
         img = img_lst.pop(0)
@@ -93,9 +82,6 @@ def graphics_function(N,M,P):#,X):
             #print 'b',shape(concatt),shape(img)
             concatt = np.concatenate((concatt,img),axis=1)
     mci(concatt,1,scale=M['Q']['runtime_parameters']['scale'],title=title_name)
-    #cv2.moveWindow(title_name,P['win_x'],P['win_y'])
-    #mci(concatt,1,scale=2,title=d2s('concat'))
-
 
 
     if M['Q']['runtime_parameters']['save_images']:
@@ -108,4 +94,8 @@ def graphics_function(N,M,P):#,X):
     spause()
 
 
+
 #EOF
+
+
+

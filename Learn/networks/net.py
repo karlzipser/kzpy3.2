@@ -48,6 +48,8 @@ class Net(nn.Module):
 
 
     def setup_GPU(self):
+        self.GPU = 0
+        print 'GPU set to 0'
         if self.GPU > -1:
             if self.GPU == 999:
                 GPUs = gpu_stats(200)

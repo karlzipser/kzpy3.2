@@ -45,23 +45,11 @@ class ConDecon_FS(Net):
 
     def setup_layers(self,P):
         self.A = {}
-
         self.fire1 = Fire(P['NUM_INPUT_CHANNELS'],aa,b,b)
-
         self.fire2 = Fire(c,a,c,c)
-
         self.fire3 = Fire(d,b,d,d)
-
-
-
         self.fire4=Fire(e,c,e,e)
-
-        
-
         self.smoke4=Smoke(f,c,d,d)
-
-
-
         self.maxpool1 = nn.MaxPool2d(kernel_size=3,stride=2,return_indices=True,padding=0)
         self.maxpool2 = nn.MaxPool2d(kernel_size=3,stride=2,return_indices=True,padding=0)
         self.maxpool3= nn.MaxPool2d(kernel_size=3,stride=2,return_indices=True,padding=0)
@@ -90,34 +78,19 @@ class ConDecon_FS(Net):
         Torch_data = self.data_to_torch(Data)
         self.A['input'] = Torch_data['input']
         x = self.A['input']
-
         x = self.fire1(x)
         f1 = x
-
         size_fire1 = x.size()
-
         x = self.drop_layer(x)
-
         x,indices_fire1 = self.maxpool1(x)
-
         x = self.fire2(x)
         f2 = x
-
         size_fire2 = x.size()
-
         x = self.drop_layer(x)
-
         x,indices_fire2=self.maxpool2(x)
-
-
-
-
-        
         x = self.fire3(x)
         f3 = x
-
         size_fire3 = x.size()
-
         x = self.drop_layer(x)
 
         if False: # these inner layers cause instability
@@ -132,10 +105,7 @@ class ConDecon_FS(Net):
             x=self.smoke4(x)
             #kprint(x.size(),"smoke4",ra=0)
 
-            
             x=self.maxunpool3(x,indices_fire3,size_fire3)
-
-
 
         if lateral:
             x = self.smoke3(torch.cat((x,f3),1))
@@ -143,9 +113,7 @@ class ConDecon_FS(Net):
             x = self.smoke3(x)
 
         x = self.drop_layer(x)
-
         x = self.maxunpool2(x,indices_fire2,size_fire2)
-
 
         if lateral:
             x = self.smoke2(torch.cat((x,f2),1))
@@ -153,9 +121,7 @@ class ConDecon_FS(Net):
             x = self.smoke2(x)
 
         x = self.drop_layer(x)
-
         x = self.maxunpool1(x,indices_fire1,size_fire1)
-
 
         if lateral:
             x = self.smoke1(torch.cat((x,f1),1))
@@ -163,22 +129,89 @@ class ConDecon_FS(Net):
             x = self.smoke1(x)
 
         #x = self.drop_layer(x)
-
         x = self.final_deconv(x)
-
         x = self.relu(x)
-
         #x = self.drop_layer(x)
-
         #x = torch.clamp(x, 0., 15.)
-
         self.A['output'] = x
         self.A['target'] = Torch_data['target']
+
+        
         self.loss = self.criterion(self.A['output'],self.A['target'])
         self.losses_to_average.append(self.extract('loss'))
+        
         if len(self.losses_to_average) >= self.num_losses_to_average:
             self.losses.append( na(self.losses_to_average).mean() )
             self.losses_to_average = []
+
+        return(self.A['output'])
+
+    
+
+    def forward_no_loss(self,Data):
+
+        
+        Torch_data = self.data_to_torch(Data)
+        self.A['input'] = Torch_data['input']
+        x = self.A['input']
+        x = self.fire1(x)
+        f1 = x
+        size_fire1 = x.size()
+        x = self.drop_layer(x)
+        x,indices_fire1 = self.maxpool1(x)
+        x = self.fire2(x)
+        f2 = x
+        size_fire2 = x.size()
+        x = self.drop_layer(x)
+        x,indices_fire2=self.maxpool2(x)
+        x = self.fire3(x)
+        f3 = x
+        size_fire3 = x.size()
+        x = self.drop_layer(x)
+
+        if False: # these inner layers cause instability
+
+            x,indices_fire3=self.maxpool3(x)
+            #kprint(x.size(),"maxpool",ra=0)
+
+            x=self.fire4(x)
+            #kprint(x.size(),"fire4",ra=0)
+            size_fire4 = x.size()
+
+            x=self.smoke4(x)
+            #kprint(x.size(),"smoke4",ra=0)
+
+            x=self.maxunpool3(x,indices_fire3,size_fire3)
+
+        if lateral:
+            x = self.smoke3(torch.cat((x,f3),1))
+        else:
+            x = self.smoke3(x)
+
+        x = self.drop_layer(x)
+        x = self.maxunpool2(x,indices_fire2,size_fire2)
+
+        if lateral:
+            x = self.smoke2(torch.cat((x,f2),1))
+        else:
+            x = self.smoke2(x)
+
+        x = self.drop_layer(x)
+        x = self.maxunpool1(x,indices_fire1,size_fire1)
+
+        if lateral:
+            x = self.smoke1(torch.cat((x,f1),1))
+        else:
+            x = self.smoke1(x)
+
+        #x = self.drop_layer(x)
+        x = self.final_deconv(x)
+        x = self.relu(x)
+        #x = self.drop_layer(x)
+        #x = torch.clamp(x, 0., 15.)
+        self.A['output'] = x
+        self.A['target'] = Torch_data['target']
+
         return(self.A['output'])
 
     

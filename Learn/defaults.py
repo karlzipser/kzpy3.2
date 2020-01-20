@@ -6,7 +6,7 @@ Q = {
     'runtime_parameters':{
         'graphics_timer_time':5,
         'abort':'_toggle',
-        'graphics_ylim':[0,0.1],
+        'graphics_ylim':[], #[0,0.1],
         'meo_num':8,
         'data_from_run':'no',#tegra-ubuntu_01Nov18_13h46m55s
         'data_from_ctr':-1,

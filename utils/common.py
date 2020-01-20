@@ -401,9 +401,8 @@ def parse_to_Arguments(sys_str):
                 #raw_enter()
             if str_is_int(ar):
                 Arguments_[a] = int(ar)
-            if str_is_float(ar):
+            elif str_is_float(ar):
                 Arguments_[a] = float(ar)
-
             elif ',' in ar:
                 Arguments_[a] = ar.split(',')
             elif ar == 'True':

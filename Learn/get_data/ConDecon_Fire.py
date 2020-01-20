@@ -13,7 +13,7 @@ def setup(P):
     Runs = {}
 
     #activation_folders = sggo(opjm('2_TB_Samsung','Activations_folders','*'))
-    activation_folders = sggo(opjD('Activations_folders','*'))
+    activation_folders = sggo(opjD('Data', 'Activations_folders','*'))
     
     for a in activation_folders:
         files = sggo(a,'indicies','*.h5py')
@@ -43,6 +43,12 @@ def setup(P):
         Run_coder[run_ctr] = r
 
         H = find_files_recursively(opjD('Data'),r,DIRS_ONLY=True)
+
+        if len(H['paths']) == 0:
+            cy(r,'not found.')
+            continue
+        else:
+            cg(r,'found.')
 
         Runs[r] = {
             'original_timestamp_data':{},
