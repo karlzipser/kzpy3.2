@@ -6,7 +6,7 @@ import networks.net
 exec(identify_file_str)
 
 
-def Net_Main(M=False,sys_str=False,Arguments_=False):
+def Net_Main(M=False,sys_str=False,Arguments_=False,P_Runs_saved=None):
 
     D = {}
 
@@ -22,6 +22,7 @@ def Net_Main(M=False,sys_str=False,Arguments_=False):
         'runs':'train',
         'clip':1,
         'noise':0,
+        'projection.noise':0,
         'input':False,
         'target':False,
         'display.output':[0,3],
@@ -58,7 +59,13 @@ def Net_Main(M=False,sys_str=False,Arguments_=False):
     assert P['type'][0] == 'ConDecon_Fire_FS'
     from get_data.ConDecon_Fire import get_data_function
     import get_data.ConDecon_Fire
-    get_data.ConDecon_Fire.setup(P)
+    if type(P_Runs_saved) != type(None):
+        P['Runs'] = P_Runs_saved['Runs']
+        P['good_list'] = P_Runs_saved['good_list']
+        P['Run_coder'] = P_Runs_saved['Run_coder']
+    else:
+        get_data.ConDecon_Fire.setup(P)
+
     from graphics.ConDecon_Fire import graphics_function
     import networks.condecon_FS
     Network = networks.condecon_FS.ConDecon_FS

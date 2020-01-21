@@ -31,12 +31,15 @@ def graphics_function(N,M,P):#,X):
         plot(m)
         mm = na(m[int(len(m)/2):])
         mn,mx = 0,1
-        if False:#len(['Q']['runtime_parameters']['graphics_ylim']) == 2:
-            mx = M['Q']['runtime_parameters']['graphics_ylim'][0]
+        if len(M['Q']['runtime_parameters']['graphics_ylim']) == 2:
+            mn = M['Q']['runtime_parameters']['graphics_ylim'][0]
             mx = M['Q']['runtime_parameters']['graphics_ylim'][1]
+            #print mn,mx
         elif len(mm) > 5 :
-            mx = mm.max() * 1.3
-            mn = mm.min() * 0.8
+            #av = mm.mean()
+            av=0
+            mx = (mm.max()-av) * 1.3# + av
+            mn = (mm.min()-av) * 0.8# + av
         ylim(
             mn,
             mx,

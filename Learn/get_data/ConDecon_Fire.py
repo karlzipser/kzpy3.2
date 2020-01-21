@@ -156,6 +156,8 @@ def _selector(P):
     return r,ctr,flip
 
 
+#Button_translation = {1:0,2:2,3:1}
+
 def get_data_function(P):
 
     global input_data_plus, target_data_plus
@@ -191,7 +193,8 @@ def get_data_function(P):
                 continue
 
             for k in Lists.keys():
-                P[k+'_offset'] = int(P[k+'_offset'])
+                #P[k+'_offset'] = int(P[k+'_offset'])
+
                 if 'rgb' in P[k]:
                     #print k,'rgb'
                     noise =0
@@ -203,22 +206,19 @@ def get_data_function(P):
                     #print 'rgb', dp(Lists[k][-1].min()), dp(Lists[k][-1].max())
 
                 if 'projections' in P[k]:
-                    #print k,'projections'
-                    #s0,s1,s2,s3 = shape(C[ctr])[0],shape(C[ctr])[1],shape(C[ctr])[2],shape(C[ctr])[3]
-                    #print shape(C[ctr])
-                    #if False:#'+noise=' in P[k]:
-                    #    mag = int(P[k].split('+noise=')[-1])
-                    #    noise = mag*rnd(shape(C[ctr]))
-                    #else:
-                    #    noise = 0
-                    noise =0
-                    if P['noise'] > 0:
-                        noise = P['noise']*rnd(shape(C[ctr]))-P['noise']/2.
-                    #noise = 25*rnd(shape(C[ctr]))-15.5
-                    Lists[k].append(C[ctr+P[k+'_offset']]+noise )
-                    if rnd() < P['drop'] and k == 'input':
-                        Lists[k][-1] *= 0
-                    #print 'projections', dp(Lists[k][-1].min()), dp(Lists[k][-1].max())
+                    if type(P[k+'_offset']) == list:
+                        offset_list = P[k+'_offset']
+                    else:
+                        offset_list = [P[k+'_offset']]
+                    for off in offset_list:
+                        off = int(off)
+                        noise =0
+                        if k == 'input':
+                            if P['projection.noise'] > 0:
+                                noise = P['projection.noise'] * rnd(shape(C[ctr])) - P['projection.noise']/2.
+                        Lists[k].append(C[ctr+off]+noise )
+                        if rnd() < P['drop'] and k == 'input':
+                            Lists[k][-1] *= 0
 
                 if 'button' in P[k]:
                     #print k,'button'
@@ -230,10 +230,10 @@ def get_data_function(P):
                     #print bn
                     if 'original_Fire3_scaling' not in P:
                         if bn in (1,2,3):
-                            img[:,:,bn-1] = 255
+                            img[:,:,bn-1] = 255        
                         img[0,0,:] = 255# + 24*rnd(shape(img))-12,
                     else:
-                        pass#print '********************* original_Fire3_scaling button'
+                        pass #print '********************* original_Fire3_scaling button'
                         if bn in (1,2,3):
                             img[:,:,bn-1] = 1
                     Lists[k].append(img)
