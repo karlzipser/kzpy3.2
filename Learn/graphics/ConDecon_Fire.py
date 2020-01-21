@@ -70,7 +70,7 @@ def graphics_function(N,M,P):#,X):
                 if k_prev != k:
                     k_prev = k
                     if type(img_spacer) == type(False):
-                        img_spacer = 128+0*img[:,:10,:]
+                        img_spacer = 255+0*img[:,:10,:]
                     img_lst.append(img_spacer)
 
                 img_lst.append(img)

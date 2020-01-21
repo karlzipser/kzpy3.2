@@ -35,10 +35,10 @@ Net_strs = {
     'pro2pros' : """
         Learn 
             --type ConDecon_Fire_FS,Fire3,pro2pros
-            --resume False 
+            --resume True 
             --batch_size 1
             --save_timer_time 300 
-            --target_offset 3,6,9,12,15 
+            --target_offset 18,36,54,72,90
             --input button,projections 
             --target projections 
             --losses_to_average 256 
@@ -569,6 +569,8 @@ def main6():
     except:
         clp("*** DISCRIMINATOR.load(Nets[n]['P']['NETWORK_OUTPUT_FOLDER']+'.dcgan') failed ***",ra=1)
 
+    #ctr0 = 0
+    #ctr_timer = Timer()
     while True:
 
         M['load']()
@@ -658,7 +660,9 @@ def main6():
             file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             clp('Exception!','`wrb',exc_type, file_name, exc_tb.tb_lineno)   
 
-
+        #ctr0 += 1
+        #if ctr0 % 100 == 0:
+        #    clp(dp(ctr0 / ctr_timer.time()))
 
         f = freq_timer.freq(do_print=False)
         if is_number(f):

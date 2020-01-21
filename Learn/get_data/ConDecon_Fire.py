@@ -4,7 +4,7 @@ exec(identify_file_str)
 # python kzpy3/drafts/Sq7/main.py --RESUME 1 --NET_TYPE ConDecon_test2 --NET_TYPE_SUFFIX 84x47
 #WIDTH,HEIGHT = 168/2,94/2
 
-
+#from kzpy3.Learn.get_data.runs import All_runs
 
 from runs import All_runs
 
@@ -148,6 +148,10 @@ def _selector(P):
                 global_ctr = R['data_from_ctr']
             ctr = global_ctr
 
+    if ctr > len(Runs[r]['original_timestamp_data']['data']['left_image']['vals']) - 300:
+        clp('_selector calss self, ctr=',ctr,'run =',r)
+        r,ctr,flip = _selector(P)
+
     if R['data_from_flip'] > -1:
         assert(type(R['data_from_flip']) == int)
         assert(R['data_from_flip'] in [0,1])
@@ -171,6 +175,8 @@ def get_data_function(P):
         #print P['drop'],type(P['drop'])
         if True:#try:
             r,ctr,flip = _selector(P)
+
+
 
             flip = 0
             #input_list = []
