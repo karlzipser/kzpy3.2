@@ -283,7 +283,7 @@ def d2s(*args):
 
 
 
-def h(D,*args,**kwargs):
+def c(D,*args,**kwargs):
     #print type(D),D
     assert type(D) == dict
     assert len(args) > 0
