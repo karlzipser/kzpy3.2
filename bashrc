@@ -94,7 +94,7 @@ if [ $HOSTNAME == "bdd2" ]
 fi
 if [ $HOSTNAME == "bdd4" ]
   then
-    PS1="\[\033[01;34m\]*** $HOSTNAME ***\w\[\033[00m\] $ "
+    PS1="\[\033[01;34m\]*** $HOSTNAME *** \w\[\033[00m\] $ "
 fi
 if [ "$(whoami)" == "nvidia" ]
   then
