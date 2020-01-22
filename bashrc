@@ -19,6 +19,7 @@ alias rmo='rostopic echo /bair_car/motor'
 alias ren='rostopic echo /bair_car/encoder'
 
 #alias ssd='sudo shutdown -h now'
+alias ssd="echo 'Do shutdown manually!'"
 alias srb='sudo reboot'
 alias rivl='rosrun image_view image_view image:=/bair_car/zed/left/image_rect_color'
 alias rivr='rosrun image_view image_view image:=/bair_car/zed/right/image_rect_color'
