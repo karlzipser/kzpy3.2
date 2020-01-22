@@ -88,15 +88,23 @@ alias sb='cd;source ~/.bashrc'
 export COMPUTER_NAME=$HOSTNAME #'' #
 #PS1="$COMPUTER_NAME\W $ "
 PS1="\[\033[01;35m\]\w\[\033[00m\] $ "
+
 if [ $HOSTNAME == "bdd2" ]
   then
     #PS1="\[\033[01;33m\]$HOSTNAME\w\[\033[00m\] $ "
     PS1="\[\033[01;34m\]*** $HOSTNAME *** \w\[\033[00m\] $ "
 fi
+
+if [ $HOSTNAME == "bdd3" ]
+  then
+    PS1="\[\033[01;32m\]*** $HOSTNAME *** \w\[\033[00m\] $ "
+fi
+
 if [ $HOSTNAME == "bdd4" ]
   then
     PS1="\[\033[01;34m\]*** $HOSTNAME *** \w\[\033[00m\] $ "
 fi
+
 if [ "$(whoami)" == "nvidia" ]
   then
     export COMPUTER_NAME=$HOSTNAME
