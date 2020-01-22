@@ -11,7 +11,7 @@ from runs import All_runs
 def setup(P):
 
     Runs = {}
-
+    """
     #activation_folders = sggo(opjm('2_TB_Samsung','Activations_folders','*'))
     activation_folders = sggo(opjD('Data', 'Activations_folders','*'))
     
@@ -29,7 +29,7 @@ def setup(P):
             if os.path.getsize(r) > 0:
                 if time.time() - os.path.getmtime(r) > 60:
                     _Runs[run] = opjh(r)
-
+    """
     Run_coder = {}
 
     run_ctr = 0
@@ -38,7 +38,7 @@ def setup(P):
 
     
 
-    for r in _Runs.keys():
+    for r in All_runs:#_Runs.keys():
 
         Run_coder[run_ctr] = r
 
