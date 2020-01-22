@@ -12,7 +12,7 @@ def graphics_function(N,M,P):#,X):
         graphics_timer = Timer(M['Q']['runtime_parameters']['graphics_timer_time'])
         graphics_timer.trigger()
 
-    cv2.waitKey(1)
+    #cv2.waitKey(1)
     if graphics_timer.check() or M['Q']['runtime_parameters']['graphics_timer_time'] < 0:
         if M['Q']['runtime_parameters']['graphics_timer_time'] == -2:
             raw_enter()
@@ -27,8 +27,10 @@ def graphics_function(N,M,P):#,X):
         
         figure(P['type'][-1],figsize=(2,10))
         clf()
-        plot(N.losses,'.')
-        m = meo(na(N.losses),M['Q']['runtime_parameters']['meo_num'])
+
+        n = int(M['Q']['runtime_parameters']['percent_loss_to_show']/100.0 * len(N.losses))
+        plot(N.losses[-n:],'.')
+        m = meo(na(N.losses[-n:]),M['Q']['runtime_parameters']['meo_num'])
         plot(m)
         mm = na(m[int(len(m)/2):])
         mn,mx = 0,1
@@ -39,8 +41,12 @@ def graphics_function(N,M,P):#,X):
         elif len(mm) > 5 :
             #av = mm.mean()
             av=0
-            mx = (mm.max()-av) * 1.3# + av
-            mn = (mm.min()-av) * 0.8# + av
+            std = mm.std()
+            #mx = (mm.max()-av) * 1.3# + av
+            #mn = (mm.min()-av) * 0.8# + av
+            mn = mm.mean()-std*M['Q']['runtime_parameters']['loss_stds']
+            mx = mm.mean()+std*M['Q']['runtime_parameters']['loss_stds']
+        #print(std,mn,mx)
         ylim(
             mn,
             mx,

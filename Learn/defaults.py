@@ -14,7 +14,9 @@ Q = {
         'step':5,
         'ctr_reset':'_toggle',
         'save_images':False,
-        'scale':2,
+        'scale':2.0,
+        'percent_loss_to_show':100,
+        'loss_stds':3.0,
     },
 }
 

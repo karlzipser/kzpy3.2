@@ -86,12 +86,12 @@ Net_strs = {
             --target_offset 0 
             --input projections 
             --target rgb 
-            --losses_to_average 256 
+            --losses_to_average 40 
             --runs train 
             --display.output 0,3
             --display.input 0,3 
             --display.target 0,3
-            --clip .00001
+            --clip 1
             --backwards True
             --win_x 20
             --win_y 40
@@ -712,6 +712,7 @@ def main4():
         Abort = Toggler()
 
         wait_timer = Timer(5)
+        wait_timer.trigger()
 
         minute_timer = Timer(60)
 
@@ -732,6 +733,12 @@ def main4():
         except:
             clp("*** DISCRIMINATOR.load(Nets[n]['P']['NETWORK_OUTPUT_FOLDER']+'.dcgan') failed ***",ra=1)
 
+    prev_loss = None
+
+    weight_timer = Timer(30)
+    n = 'N0'
+    GENERATOR = Nets[n]['N']
+    GENERATOR.clip_param = 0.0001
 
     while True:
 
@@ -748,12 +755,33 @@ def main4():
             print 'clip',Nets['N0']['P']['clip'],int(run_timer.time())
 
 
-        n = 'N0'
-        GENERATOR = Nets[n]['N']
+        
+        
         Nets[n]['P']['original_Fire3_scaling'] = True
 
         for k in M['Q']['runtime_parameters'].keys():
             Nets[n]['P']['runtime_parameters'][k] = M['Q']['runtime_parameters'][k]
+
+
+        
+        if weight_timer.check():
+            weight_timer.reset()
+            current_loss = GENERATOR.losses[-1]#na(GENERATOR.losses[-3:]).mean()
+            if prev_loss == None:
+                prev_loss = current_loss
+            d = (current_loss - prev_loss) / current_loss
+            print(d,current_loss,prev_loss)
+            if d > 0.1:
+                clp("if (current_loss - pre_loss) / current_loss > 0.75:",'wrb')
+                GENERATOR.use_stored_weight()
+                Nets['N0']['P']['clip'] /= 2.0
+            else:
+                GENERATOR.store_weights()
+            prev_loss = current_loss
+            
+            
+            
+            
 
 
         Data = networks.net.make_batch( Nets[n]['get_data_function'], Nets[n]['P'], Nets[n]['P']['batch_size'] )

@@ -37,7 +37,8 @@ class Net(nn.Module):
         self.setup_weights()
         self.setup_GPU()
         self.optimizer = torch.optim.Adadelta(filter(lambda p: p.requires_grad,self.parameters()))
-
+        #elf.weight_list = []
+        self.W = {}
         if P['resume']:
             self.load()
         else:
@@ -141,9 +142,31 @@ class Net(nn.Module):
         self.losses = lo(f)
 
 
+    def store_weights(self):
+        import copy
+        self.W[self.losses[-1]] = copy.deepcopy(self.state_dict())
+        #self.weight_list.append(copy.deepcopy(self.state_dict()))
+        ks = sorted(self.W.keys())
+        if len(ks) > 100:
+            for k in [100,len(ks)]:
+                del self.W[k]
+        #if len(self.weight_list) > 30:
+            self.weight_list.pop(0)
+        clp("len(self.W) =",len(self.W.keys()))
 
+    def use_stored_weight(self):
+        print("use_stored_weight(self)")
+        #a = self.state_dict()['final_deconv.weight'].data.cpu().numpy()[:,0,0,0]
+        ks = sorted(self.W.keys())
+        print(ks)
+        #b = self.weight_list[0]['final_deconv.weight'].data.cpu().numpy()[:,0,0,0]
+        #b = self.weight_list[0]['final_deconv.weight'].data.cpu().numpy()[:,0,0,0]
+        #print("((a-b)**2).sum()",((a-b)**2).sum())
+        #l = max(1,int(len(ks)/10.0))
+        l = min(10,len(ks))
+        self.load_state_dict(self.W[rndchoice(ks[:l])])
 
-
+        clp("self.load_state_dict(rndchoice(self.weight_list))",'`rwb')
 
 class Fire(nn.Module):
     def __init__(self, inplanes, squeeze_planes,

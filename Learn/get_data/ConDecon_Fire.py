@@ -149,7 +149,7 @@ def _selector(P):
             ctr = global_ctr
 
     if ctr > len(Runs[r]['original_timestamp_data']['data']['left_image']['vals']) - 300:
-        clp('_selector calss self, ctr=',ctr,'run =',r)
+        #clp('_selector calss self, ctr=',ctr,'run =',r)
         r,ctr,flip = _selector(P)
 
     if R['data_from_flip'] > -1:
