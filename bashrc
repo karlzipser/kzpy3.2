@@ -94,7 +94,7 @@ if [ $HOSTNAME == "bdd2" ]
 fi
 if [ $HOSTNAME == "bdd4" ]
   then
-    PS1="\[\033[01;34m\]$HOSTNAME\w\[\033[00m\] $ "
+    PS1="\[\033[01;31m\]$HOSTNAME\w\[\033[00m\] $ "
 fi
 if [ "$(whoami)" == "nvidia" ]
   then
@@ -133,5 +133,7 @@ if [ "$(whoami)" != "nvidia" ]
     export HISTFILESIZE=4000
 fi
 
+alias U3='ssh -p 1022 -XY karlzipser@169.229.219.141'
+alias U='ssh -p 1022 -XY karlzipser@169.229.219.140'
 
 #EOF
