@@ -36,7 +36,7 @@ def setup(P):
 
     good_list = []
 
-    kprint(_Runs)
+    #kprint(_Runs)
 
     for r in _Runs.keys():
 
