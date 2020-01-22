@@ -250,4 +250,61 @@ list_of_strings_to_txt_file(opjk('misc/auto_aliases'),lst)
 
 
 
+
+
+def h(D,*args)
+
+
+def d2s_spacer(args,spacer=' '):
+    lst = []
+    for e in args:
+        lst.append(str(e))
+    return spacer.join(lst)
+
+def d2s_spacer(args,spacer=' '):
+    lst = []
+    for e in args:
+        lst.append(str(e))
+    return spacer.join(lst)
+def d2s(*args):
+    '''
+    e.g.,
+    
+    d2s('I','like',1,'or',[2,3,4])
+    
+    yields
+    
+    'I like 1 or [2, 3, 4]'
+    
+    d2c(1,2,3) => '1,2,3'
+    d2f('/',1,2,3) => '1/2/3'
+    '''
+    return d2s_spacer(args)
+
+
+
+def h(D,*args,**kwargs):
+    #print type(D),D
+    assert type(D) == dict
+    assert len(args) > 0
+    a = args[0]
+    #print a
+    
+    if a not in D:
+        clp('warning, adding',a,'to dic','`--r')
+        D[a] = {}
+
+    if len(args) == 1:
+        if 'eq' in kwargs:
+            D[a] = kwargs['eq']
+        return D[a]
+    else:
+        assert len(args) > 1
+        if 'eq' in kwargs:
+            return h(D[a],*args[1:],eq=kwargs['eq'])
+        else:
+            return h(D[a],*args[1:])
+
+
+
 #EOF

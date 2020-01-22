@@ -159,7 +159,9 @@ def _selector(P):
 
     return r,ctr,flip
 
-
+if False:
+    ctr_lst = []
+    ctr_timer = Timer(15)
 #Button_translation = {1:0,2:2,3:1}
 
 def get_data_function(P):
@@ -197,6 +199,14 @@ def get_data_function(P):
             if ctr >= len(A):
                 #print 'ctr >= len(A)'
                 continue
+
+            if False:
+                ctr_lst.append(ctr)
+                if ctr_timer.check():
+                    ctr_timer.reset()
+                    figure('ctr hist')
+                    hist(ctr_lst)
+                    spause()
 
             for k in Lists.keys():
                 #P[k+'_offset'] = int(P[k+'_offset'])

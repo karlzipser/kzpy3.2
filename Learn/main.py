@@ -24,7 +24,7 @@ Net_strs = {
             --display.output 0,3,3,6 
             --display.input 0,3 
             --display.target 0,3,3,6
-            --clip 0.001
+            --clip 0.0001
             --backwards True
             --win_x 20
             --win_y 40
@@ -38,7 +38,7 @@ Net_strs = {
             --resume True 
             --batch_size 1
             --save_timer_time 300 
-            --target_offset 18,36,54,72,90
+            --target_offset  9,18,27,36,45
             --input button,projections 
             --target projections 
             --losses_to_average 256 
@@ -46,7 +46,7 @@ Net_strs = {
             --display.output 0,3,3,6,6,9,9,12,12,15
             --display.input 0,3,3,6
             --display.target 0,3,3,6,6,9,9,12,12,15
-            --clip 1
+            --clip 0.0001
             --backwards True
             --win_x 20
             --win_y 40
@@ -75,7 +75,7 @@ Net_strs = {
             --drop 0.0
 
     """,
-
+    ####################################################
     'pro2rgb.dcgan' : """
 
         Learn 
@@ -91,7 +91,7 @@ Net_strs = {
             --display.output 0,3
             --display.input 0,3 
             --display.target 0,3
-            --clip 1
+            --clip .00001
             --backwards True
             --win_x 20
             --win_y 40
@@ -630,7 +630,7 @@ def main6():
         output = DISCRIMINATOR(fake) #18
         #output = output.view(-1, 1).squeeze(1)
 
-        s = 0.25
+        s = 0.01
         #GENERATOR.loss =  (1-s) * criterion(output, label) #19
         GENERATOR.loss = s*GENERATOR.criterion(GENERATOR.A['output'],GENERATOR.A['target']) + (1-s) * criterion(output, label) #19
 
@@ -774,6 +774,8 @@ def main4():
 
         GENERATOR.forward_no_loss(Data) #8
         fake = GENERATOR.A['output'][:,:3,:,:]
+        fake = torch.clamp(fake, min=0, max=255)
+        #print(fake.min(), fake.max())
         label.fill_(0) #9
         output = DISCRIMINATOR(fake.detach()) #10
         #output = output.view(-1, 1).squeeze(1)
@@ -789,7 +791,7 @@ def main4():
         output = DISCRIMINATOR(fake) #18
         #output = output.view(-1, 1).squeeze(1)
 
-        s = 0.25
+        s = 0.005
         #GENERATOR.loss =  (1-s) * criterion(output, label) #19
         GENERATOR.loss = s*GENERATOR.criterion(GENERATOR.A['output'],GENERATOR.A['target']) + (1-s) * criterion(output, label) #19
 
