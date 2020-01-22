@@ -23,7 +23,7 @@ def setup(P):
         E.close()
 
     _Runs = {}
-    for r in All_runs:#aruns:
+    for r in aruns:
         run = fname(r).split('.')[0]
         if run in All_runs[P['runs']]:
             if os.path.getsize(r) > 0:
@@ -36,7 +36,7 @@ def setup(P):
 
     good_list = []
 
-    
+    kprint(_Runs)
 
     for r in _Runs.keys():
 
