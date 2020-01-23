@@ -223,6 +223,8 @@ def get_data_function(P):
                     Lists[k].append(B[ctr+P[k+'_offset']]+noise)
                     if rnd() < P['drop'] and k == 'input':
                         Lists[k][-1] *= 0
+                    if 'drop.rgb' in P and rnd() < P['drop.rgb'] and k == 'input':
+                        Lists[k][-1] *= 0
                     #print 'rgb', dp(Lists[k][-1].min()), dp(Lists[k][-1].max())
 
                 if 'projections' in P[k]:

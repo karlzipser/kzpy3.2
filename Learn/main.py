@@ -65,7 +65,7 @@ Net_strs = {
             --input button,projections 
             --target projections 
             --losses_to_average 256 
-            --runs validate 
+            --runs train 
             --display.output 0,3,3,6,6,9,9,12,12,15
             --display.input 0,3,3,6
             --display.target 0,3,3,6,6,9,9,12,12,15
@@ -78,8 +78,31 @@ Net_strs = {
     """,
 
 
-
-
+    'proRgb2rgb' : """
+        Learn 
+            --type ConDecon_Fire_FS,Fire3,proRgb2rgb
+            --resume False 
+            --batch_size 1
+            --save_timer_time 300 
+            --target_offset  0
+            --input projections,rgb 
+            --target rgb 
+            --losses_to_average 256 
+            --runs validate 
+            --display.output 0,3
+            --display.input 0,3,3,6
+            --display.target 0,3
+            --clip 1
+            --backwards True
+            --win_x 20
+            --win_y 40
+            --drop.rgb 0
+            --drop 0
+            --blue_center_button True
+    """,
+            
+    
+#--drop.rgb 0.5
     'Fire2rgbProjections.dcgan.A' : """
 
         Learn 
@@ -251,12 +274,8 @@ def main6():
     import torch.nn.utils as nnutils
 
     from discriminator1 import Discriminator,weights_init
-    DISCRIMINATOR = Discriminator(nc=5*3).cuda()#ngpu).cuda()#.to(device)
-    DISCRIMINATOR.apply(weights_init)
-    #if _DISCRIMINATOR != '':
-    #    DISCRIMINATOR.load_state_dict(torch.load(_DISCRIMINATOR))
-    criterion = nn.BCELoss()
-    optimizerD = optim.Adam(DISCRIMINATOR.parameters(), lr=0.01, betas=(0.5, 0.999))
+
+
 
 
     """
@@ -274,6 +293,24 @@ def main6():
         Nets = {
             'N0':Net_Main(M=M,Arguments_=Arguments),
         }
+
+    n = 'N0'
+    Data = networks.net.make_batch( Nets[n]['get_data_function'], Nets[n]['P'], Nets[n]['P']['batch_size'] )
+    cg('Data',shape(Data['input']),shape(Data['target']))
+
+
+
+
+    DISCRIMINATOR = Discriminator(nc=shape(Data['target'])[1]).cuda()   #shape(Data['target'])[1]).cuda()
+
+
+    DISCRIMINATOR.apply(weights_init)
+    #if _DISCRIMINATOR != '':
+    #    DISCRIMINATOR.load_state_dict(torch.load(_DISCRIMINATOR))
+    criterion = nn.BCELoss()
+    optimizerD = optim.Adam(DISCRIMINATOR.parameters(), lr=0.01, betas=(0.5, 0.999))
+
+
 
     run_timer = Timer()
     freq_timer = Timer(30)
@@ -307,7 +344,7 @@ def main6():
             clp('clip',Nets['N0']['P']['clip'],int(run_timer.time()),"`yb")
 
 
-        n = 'N0'
+        
         GENERATOR = Nets[n]['N']
         Nets[n]['P']['original_Fire3_scaling'] = True
 
@@ -317,9 +354,8 @@ def main6():
 
 
 
-        Data = networks.net.make_batch( Nets[n]['get_data_function'], Nets[n]['P'], Nets[n]['P']['batch_size'] )
 
-
+        
 
         #A
         DISCRIMINATOR.zero_grad() #1
