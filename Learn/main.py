@@ -544,8 +544,8 @@ def main4():
             DISCRIMINATOR.save(Nets[n]['P']['NETWORK_OUTPUT_FOLDER']+'.dcgan')
 
         if True:#try:
-            print Nets['N0']['P']['show_graphics']
-            if Nets['N0']['P']['show_graphics']:
+            print Nets['N0']['P']['runtime_parameters']['show_graphics']
+            if Nets['N0']['P']['runtime_parameters']['show_graphics']:
                 if not graphics_on:
                     clp('turning graphics on')
                 graphics_on = True
