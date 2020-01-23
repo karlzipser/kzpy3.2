@@ -42,6 +42,7 @@ def Net_Main(M=False,sys_str=False,Arguments_=False,P_Runs_saved=None):
         'win_y':0,
         'width':168,
         'height':94,
+        'show_graphics':True,
     }
 
     if sys_str != False:

@@ -17,6 +17,7 @@ Q = {
         'scale':2.0,
         'percent_loss_to_show':100,
         'loss_stds':3.0,
+        'show_graphics':True,
     },
 }
 
