@@ -53,6 +53,33 @@ Net_strs = {
             --drop 0.0
     """,
 
+
+
+    'pro2pros.b' : """
+        Learn 
+            --type ConDecon_Fire_FS,Fire3,pro2pros.b
+            --resume False 
+            --batch_size 1
+            --save_timer_time 300 
+            --target_offset  3,6,9,12,15
+            --input button,projections 
+            --target projections 
+            --losses_to_average 256 
+            --runs validate 
+            --display.output 0,3,3,6,6,9,9,12,12,15
+            --display.input 0,3,3,6
+            --display.target 0,3,3,6,6,9,9,12,12,15
+            --clip 1
+            --backwards True
+            --win_x 20
+            --win_y 40
+            --drop 0.0
+            --blue_center_button True
+    """,
+
+
+
+
     'Fire2rgbProjections.dcgan.A' : """
 
         Learn 
@@ -470,8 +497,8 @@ def Main6_Output_Object(net_str='pro2pros'):
 
 
 
-
-if False:
+do_example = False
+if do_example:
 
 
     from kzpy3.Learn.main import Main6_Output_Object

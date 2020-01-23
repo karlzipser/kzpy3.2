@@ -248,6 +248,13 @@ def get_data_function(P):
                     bn = int(Runs[r]['button_number'][ctr+P[k+'_offset']])
                     #print bn
                     #print bn
+                    if 'blue_center_button' in P:
+                        if bn == 1:
+                            bn = 1
+                        elif bn == 2:
+                            bn = 3
+                        elif bn == 3:
+                            bn = 2
                     if 'original_Fire3_scaling' not in P:
                         if bn in (1,2,3):
                             img[:,:,bn-1] = 255        

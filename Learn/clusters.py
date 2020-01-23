@@ -1,5 +1,5 @@
 
-
+from kzpy3.vis3 import *
 from kzpy3.Learn.get_data.runs import All_runs
 
 
@@ -142,6 +142,18 @@ def Clusters(similarity):
                 cg('saving cluster_averages.pkl')
                 so(opj(path,'cluster_averages.pkl'),D['cluster_averages'])
 
+    def _function_get_img(cluster_number,img_number):
+        info = cluster_list[cluster_number][img_number]
+        return Runs[info['name']]['net_projections']['data']['normal'][info['index']]
+
+    def _function_get_random_img_from_cluster(cluster_number):
+        #i = rndint(len(D['cluster_list']))
+        info = rndchoice(cluster_list[cluster_number])
+        name = info['name']
+        index = info['index']
+        cluster_img = Runs[name]['net_projections']['data']['normal'][index]
+        return cluster_img
+
     def _function_find_most_similar_cluster(img,use_random=False,show=True):
         similarity_list = []
         for i in range(1024):
@@ -157,41 +169,45 @@ def Clusters(similarity):
     D['Runs'] = Runs
     D['affinity'] = affinity
     D['cluster_list'] = cluster_list
+    D['get_img'] = _function_get_img
     D['find_most_similar_cluster'] = _function_find_most_similar_cluster
     D['function_make_average_clusters'] = _function_make_average_clusters
+    D['get_random_img_from_cluster'] = _function_get_random_img_from_cluster
 
     return D
         
 
-
-
-from kzpy3.Train_app.Sq_ldr_interval_tester5_modified.Main import get_similarity
-
-C = Clusters(get_similarity)
-
-for n in range(300,500):#n = 401
-
-    a = C['cluster_averages'][n]
-    #C['Runs'][ a_key(C['Runs'])][]
-
-    r = C['find_most_similar_cluster'](a,show=False,use_random=False)
-    CA()
-    mi(C['cluster_averages'][n],n)
-
-    mi(C['cluster_averages'][r[1]],r[1])
-    raw_enter()
+def threshold_img(img,t):
+    img = 1.0*img
+    img -= t
+    img[img<0] = 0
+    return z55(img)
 
 
 
+if False:
+    from kzpy3.Train_app.Sq_ldr_interval_tester5_modified.Main import get_similarity
 
-#EOF
+    C = Clusters(get_similarity)
+
+    for n in range(300,500):#n = 401
+
+        a = C['cluster_averages'][n]
+        #C['Runs'][ a_key(C['Runs'])][]
+
+        r = C['find_most_similar_cluster'](a,show=False,use_random=False)
+        CA()
+        mi(C['cluster_averages'][n],n)
+
+        mi(C['cluster_averages'][r[1]],r[1])
+        raw_enter()
 
 
-0 1->2 2->1
-for i in [0,2,1]: # center left right [???]
-red  left
-center green
-right blue
+
+
+
+
+
 
 if False:
     for i in range(1024):
@@ -202,32 +218,9 @@ if False:
 
 
 
-
-a,b,c = 2,4,8
-p = rnd()*(a+b+c)
-if p < a:
-    print 'a'
-elif p < a+b:
-    print 'b'
-else:
-    print 'c'
+    for i in range(400,450):
+        mi(C['get_img'](i,0),d2s(i,len(C['cluster_list'][i])))
 
 
-
-
-def weighted_probs(weight_lst,repeats=1000):
-    o = zeros(len(weight_lst))
-    w = 1.0*sum(weight_lst)
-    for r in range(repeats):
-        p = rnd() * w
-        v = 0
-        for i in rlen(weight_lst):
-            v += weight_lst[i]
-            if p < v:
-                o[i] += 1
-                break
-    return o/(1.0*repeats)
-    
-
-np.argsort(weighted_probs([1,2,9],1))
+#EOF
 

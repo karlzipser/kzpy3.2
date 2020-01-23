@@ -158,6 +158,7 @@ save_timer = Timer(60*5)
 def get_similarity(            
     ref_img,
     other_img,
+    show=True,
 ): 
 
     #other_img = Files[other_name][other_index].copy()
@@ -186,9 +187,10 @@ def get_similarity(
     )
 
     value = Batch['FORWARD']()
-    mi(ref_img,'ref_run')
-    mi(other_img,'other_run')
-    spause()
+    if show:
+        mi(ref_img,'ref_run')
+        mi(other_img,'other_run')
+        spause()
     return value
 
 #EOF
