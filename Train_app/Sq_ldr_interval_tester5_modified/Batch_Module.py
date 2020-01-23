@@ -1,5 +1,5 @@
 from kzpy3.vis3 import *
-import Data_Module
+#import Data_Module
 import torch
 import torch.nn.utils as nnutils
 import Activity_Module
@@ -40,7 +40,7 @@ def Batch(_,the_network=None):
 	_['ref_run'] = {}
 	_['other_run'] = {}
 
-	Data_Module.prepare_data_for_training(_)
+	#Data_Module.prepare_data_for_training(_)
 
 	zero_matrix = torch.FloatTensor(1, 1, 23, 41).zero_().cuda()
 	one_matrix = torch.FloatTensor(1, 1, 23, 41).fill_(1).cuda()

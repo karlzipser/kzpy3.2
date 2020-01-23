@@ -114,16 +114,16 @@ del startup_timer
 menu_reminder = Timer(10*60)
 menu_reminder.trigger()
 timer = Timer(_['run time before quitting'])
-
+"""
 files = sggo('/home/karlzipser/Desktop/Data/Network_Predictions_projected/*.net_projections.h5py')
 Files = {}
 for f in files:
     name = fname(f).split('.')[0]
     Files[name] = h5r(f)['normal']
-
+"""
 blank_meta = np.zeros((23,41,3),np.uint8)
 
-
+"""
 if 'threshold' not in Arguments:
     Arguments['threshold'] = 0.25
 
@@ -153,22 +153,21 @@ if 'prune' in Arguments:
 
 count_timer = Timer(60)
 save_timer = Timer(60*5)
+"""
 
 def get_similarity(            
-    ref_name,
-    ref_index,
-    other_name,
-    other_index,
+    ref_img,
+    other_img,
 ): 
 
-    other_img = Files[other_name][other_index].copy()
+    #other_img = Files[other_name][other_index].copy()
     the_img = other_img
     blank_meta[:,:,0] = the_img[:,:,1]
     blank_meta[:,:,1] = the_img[:,:,0]
     blank_meta[:,:,2] = the_img[:,:,2]
     other_img = the_img.copy()
 
-    ref_img = Files[ref_name][ref_index].copy()
+    #ref_img = Files[ref_name][ref_index].copy()
     the_img = ref_img
     blank_meta[:,:,0] = the_img[:,:,1]
     blank_meta[:,:,1] = the_img[:,:,0]
@@ -178,11 +177,11 @@ def get_similarity(
     Batch['CLEAR']()
 
     Batch['FILL'](
-        ref_name,
-        ref_index,
+        'ref_name',
+        0,
         ref_img,
-        other_name,
-        other_index,
+        'other_name',
+        0,
         other_img,       
     )
 

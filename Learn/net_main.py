@@ -44,7 +44,7 @@ def Net_Main(M=False,sys_str=False,Arguments_=False,P_Runs_saved=None):
         'height':94,
         'show_graphics':True,
     }
-
+    P['type']= ['ConDecon_Fire_FS','Fire3'] #!!!!!!!!!!!!!!!!!
     if sys_str != False:
         Arguments_ = parse_to_Arguments(sys_str)
     else:
@@ -52,6 +52,7 @@ def Net_Main(M=False,sys_str=False,Arguments_=False,P_Runs_saved=None):
 
     for k in Arguments_:
         P[k] = Arguments_[k]
+
     kprint(P)
     for k in ['type','input','target']:
         if type(P[k]) == str:
