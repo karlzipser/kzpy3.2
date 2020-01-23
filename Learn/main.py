@@ -46,7 +46,7 @@ Net_strs = {
             --display.output 0,3,3,6,6,9,9,12,12,15
             --display.input 0,3,3,6
             --display.target 0,3,3,6,6,9,9,12,12,15
-            --clip 0.0001
+            --clip 0.000001
             --backwards True
             --win_x 20
             --win_y 40
@@ -86,12 +86,12 @@ Net_strs = {
             --target_offset 0 
             --input projections 
             --target rgb 
-            --losses_to_average 40 
+            --losses_to_average 512 
             --runs train 
             --display.output 0,3
             --display.input 0,3 
             --display.target 0,3
-            --clip 1
+            --clip 0.2
             --backwards True
             --win_x 20
             --win_y 40
@@ -210,312 +210,6 @@ Net_strs = {
     """,
 }
 
-
-def main0():
-    if 'type' not in Arguments.keys():
-        clp('   FROM SYS_STR   ','`ybb',ra=0,p=1)
-        Nets = {
-            'N0':Net_Main(M=M,sys_str=all2allFuture_12.replace('\n',' ').replace('\t',' ')),
-        }
-    else:
-        clp('   FROM COMMMAND LINE   ','`ybb',ra=0,p=1)
-        Nets = {
-            'N0':Net_Main(M=M,Arguments_=Arguments),
-        }
-
-    run_timer = Timer()
-    freq_timer = Timer(30)
-
-    Abort = Toggler()
-
-    wait_timer = Timer(5)
-
-    minute_timer = Timer(60)
-
-
-  
-    while True:
-        M['load']()
-        if Abort['test'](M['Q']['runtime_parameters']['abort']):
-            break
-
-
-        if minute_timer.check():
-            minute_timer.reset()
-            Nets['N0']['P']['clip'] = float(Nets['N0']['P']['clip'])
-            a = Nets['N0']['P']['clip']
-            #cg(a,type(a))
-            Nets['N0']['P']['clip'] *= 0.98
-            print 'clip',Nets['N0']['P']['clip'],int(run_timer.time())
-
-        
-        for n in Nets.keys():
-
-            for k in M['Q']['runtime_parameters'].keys():
-                Nets[n]['P']['runtime_parameters'][k] = M['Q']['runtime_parameters'][k]
-
-
-            Data = networks.net.make_batch( Nets[n]['get_data_function'], Nets[n]['P'], Nets[n]['P']['batch_size'] )
-
-
-            Nets[n]['N'].forward(Data)
-
-
-            if Nets[n]['P']['backwards']:
-                Nets[n]['N'].backward()
-
-            Nets[n]['N'].save()
-
-            if True:#try:
-                Nets[n]['graphics_function'](Nets[n]['N'],M,Nets[n]['P']) # graphics can cause an error with remote login
-            else:#except Exception as e:
-                exc_type, exc_obj, exc_tb = sys.exc_info()
-                file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-                clp('Exception!','`wrb',exc_type, file_name, exc_tb.tb_lineno)   
-
-
-
-            f = freq_timer.freq(do_print=False)
-            if is_number(f):
-                clp( 'Frequency =', int(np.round(f*Nets[n]['P']['batch_size'])), 'Hz, run time =',format_seconds(run_timer.time()))
-
-            #print n
-            #raw_enter()
-        #raw_enter()
-
-
-
-
-def main2():
-
-    if 'type' not in Arguments.keys():
-        clp('   FROM SYS_STR   ','`ybb',ra=0,p=1)
-        Nets = {
-            'N0':Net_Main(M=M,sys_str=Fire2rgbProjections.replace('\n',' ').replace('\t',' ')),
-        }
-    else:
-        clp('   FROM COMMMAND LINE   ','`ybb',ra=0,p=1)
-        Nets = {
-            'N0':Net_Main(M=M,Arguments_=Arguments),
-        }
-
-    run_timer = Timer()
-    freq_timer = Timer(30)
-
-    Abort = Toggler()
-
-    wait_timer = Timer(5)
-
-    minute_timer = Timer(60)
-
-
-
-    while True:
-        M['load']()
-        if Abort['test'](M['Q']['runtime_parameters']['abort']):
-            break
-
-
-        if minute_timer.check():
-            minute_timer.reset()
-            Nets['N0']['P']['clip'] = float(Nets['N0']['P']['clip'])
-            a = Nets['N0']['P']['clip']
-            #cg(a,type(a))
-            Nets['N0']['P']['clip'] *= 0.98
-            print 'clip',Nets['N0']['P']['clip'],int(run_timer.time())
-
-
-        for n in Nets.keys():
-
-            Nets[n]['P']['original_Fire3_scaling'] = True
-
-            for k in M['Q']['runtime_parameters'].keys():
-                Nets[n]['P']['runtime_parameters'][k] = M['Q']['runtime_parameters'][k]
-
-
-            Data = networks.net.make_batch( Nets[n]['get_data_function'], Nets[n]['P'], Nets[n]['P']['batch_size'] )
-
-
-            Nets[n]['N'].forward(Data)
-
-
-            if Nets[n]['P']['backwards']:
-                Nets[n]['N'].backward()
-
-            Nets[n]['N'].save()
-
-            if True:#try:
-                Nets[n]['graphics_function'](Nets[n]['N'],M,Nets[n]['P']) # graphics can cause an error with remote login
-            else:#except Exception as e:
-                exc_type, exc_obj, exc_tb = sys.exc_info()
-                file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-                clp('Exception!','`wrb',exc_type, file_name, exc_tb.tb_lineno)   
-
-
-
-            f = freq_timer.freq(do_print=False)
-            if is_number(f):
-                clp( 'Frequency =', int(np.round(f*Nets[n]['P']['batch_size'])), 'Hz, run time =',format_seconds(run_timer.time()))
-
-            #print n
-        raw_enter()
-
-
-
-
-def main5():
-
-    import torch
-    import torch.nn as nn
-    import torch.nn.parallel
-    import torch.backends.cudnn as cudnn
-    import torch.optim as optim
-    import torch.utils.data
-    import torchvision.datasets as dset
-    import torchvision.transforms as transforms
-    import torchvision.utils as vutils
-    import torch.nn.utils as nnutils
-
-    from discriminator1 import Discriminator,weights_init
-    DISCRIMINATOR = Discriminator(nc=32).cuda()#ngpu).cuda()#.to(device)
-    DISCRIMINATOR.apply(weights_init)
-    #if _DISCRIMINATOR != '':
-    #    DISCRIMINATOR.load_state_dict(torch.load(_DISCRIMINATOR))
-    criterion = nn.BCELoss()
-    optimizerD = optim.Adam(DISCRIMINATOR.parameters(), lr=0.01, betas=(0.5, 0.999))
-
-
-    """
-    fire2fireFuture.dcgan.a
-    """
-    if 'type' not in Arguments.keys():
-        clp('   FROM SYS_STR   ','`ybb',ra=0,p=1)
-        Nets = {
-            #'N0':Net_Main(M=M,sys_str=fire2fireFuture_dcgan_a.replace('\n',' ').replace('\t',' ')),
-            'N0':Net_Main(M=M,sys_str=Net_strs[Arguments['net_str']].replace('\n',' ').replace('\t',' ')),
-
-        }
-    else:
-        clp('   FROM COMMMAND LINE   ','`ybb',ra=0,p=1)
-        Nets = {
-            'N0':Net_Main(M=M,Arguments_=Arguments),
-        }
-
-    run_timer = Timer()
-    freq_timer = Timer(30)
-
-    Abort = Toggler()
-
-    wait_timer = Timer(5)
-
-    minute_timer = Timer(60)
-    #DISCRIMINATOR.load(Nets[n]['P']['NETWORK_OUTPUT_FOLDER']+'.dcgan')
-    try:
-        if Nets['N0']['P']['resume']:
-            DISCRIMINATOR.load(Nets['N0']['P']['NETWORK_OUTPUT_FOLDER']+'.dcgan')
-    except:
-        clp("*** DISCRIMINATOR.load(Nets[n]['P']['NETWORK_OUTPUT_FOLDER']+'.dcgan') failed ***",ra=1)
-
-    while True:
-
-        M['load']()
-        if Abort['test'](M['Q']['runtime_parameters']['abort']):
-            break
-
-        if minute_timer.check():
-            minute_timer.reset()
-            Nets['N0']['P']['clip'] = float(Nets['N0']['P']['clip'])
-            a = Nets['N0']['P']['clip']
-            #cg(a,type(a))
-            Nets['N0']['P']['clip'] *= 0.98
-            print 'clip',Nets['N0']['P']['clip'],int(run_timer.time())
-
-
-        n = 'N0'
-        GENERATOR = Nets[n]['N']
-        Nets[n]['P']['original_Fire3_scaling'] = True
-
-        for k in M['Q']['runtime_parameters'].keys():
-            Nets[n]['P']['runtime_parameters'][k] = M['Q']['runtime_parameters'][k]
-
-
-
-
-        Data = networks.net.make_batch( Nets[n]['get_data_function'], Nets[n]['P'], Nets[n]['P']['batch_size'] )
-
-
-
-        #A
-        DISCRIMINATOR.zero_grad() #1
-        real = Data['target'][:,:,:,:] #2
-        label = torch.full((Nets[n]['P']['batch_size'],), 1,).cuda() #3
-        output = DISCRIMINATOR(torch.from_numpy(real).cuda().float()) #4
-        #output = output.view(-1, 1).squeeze(1)
-        #print output.size(), output.view(-1, 1).squeeze(1).size()
-
-        #raw_enter()
-        errD_real = criterion(output, label) #5
-        errD_real.backward() #6
-        D_x = output.mean().item() #7
-
-        GENERATOR.forward_no_loss(Data) #8
-        fake = GENERATOR.A['output'][:,:,:,:]
-        label.fill_(0) #9
-        output = DISCRIMINATOR(fake.detach()) #10
-        #output = output.view(-1, 1).squeeze(1)
-
-        errD_fake = criterion(output, label) #11
-        errD_fake.backward() #12
-        D_G_z1 = output.mean().item() #13
-        errD = errD_real + errD_fake #14
-        optimizerD.step() #15
-        
-        GENERATOR.optimizer.zero_grad() #16
-        label.fill_(1) #17
-        output = DISCRIMINATOR(fake) #18
-        #output = output.view(-1, 1).squeeze(1)
-
-        s = 0.25
-        #GENERATOR.loss =  (1-s) * criterion(output, label) #19
-        GENERATOR.loss = s*GENERATOR.criterion(GENERATOR.A['output'],GENERATOR.A['target']) + (1-s) * criterion(output, label) #19
-
-
-        if Nets[n]['P']['backwards']:
-            GENERATOR.loss.backward() #20
-            nnutils.clip_grad_norm(GENERATOR.parameters(), GENERATOR.clip_param)#0.01) #1.0)
-            GENERATOR.optimizer.step() #21
-
-
-
-        GENERATOR.losses_to_average.append(GENERATOR.extract('loss'))
-        if len(GENERATOR.losses_to_average) >= GENERATOR.num_losses_to_average:
-            GENERATOR.losses.append( na(GENERATOR.losses_to_average).mean() )
-            GENERATOR.losses_to_average = []
-
-        #if Nets[n]['P']['backwards']:
-        #    GENERATOR.backward()
-
-        if GENERATOR.save():
-            DISCRIMINATOR.save(Nets[n]['P']['NETWORK_OUTPUT_FOLDER']+'.dcgan')
-
-        if True:#try:
-            Nets[n]['graphics_function'](Nets[n]['N'],M,Nets[n]['P']) # graphics can cause an error with remote login
-        else:#except Exception as e:
-            exc_type, exc_obj, exc_tb = sys.exc_info()
-            file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            clp('Exception!','`wrb',exc_type, file_name, exc_tb.tb_lineno)   
-
-
-
-        f = freq_timer.freq(do_print=False)
-        if is_number(f):
-            clp( 'Frequency =', int(np.round(f*Nets[n]['P']['batch_size'])), 'Hz, run time =',format_seconds(run_timer.time()))
-
-        #print n
-    #raw_enter()
-
-
-
 def main6():
 
     import torch
@@ -583,7 +277,7 @@ def main6():
             a = Nets['N0']['P']['clip']
             #cg(a,type(a))
             Nets['N0']['P']['clip'] *= 0.98
-            print 'clip',Nets['N0']['P']['clip'],int(run_timer.time())
+            clp('clip',Nets['N0']['P']['clip'],int(run_timer.time()),"`yb")
 
 
         n = 'N0'
@@ -630,7 +324,7 @@ def main6():
         output = DISCRIMINATOR(fake) #18
         #output = output.view(-1, 1).squeeze(1)
 
-        s = 0.01
+        s = 0.0001
         #GENERATOR.loss =  (1-s) * criterion(output, label) #19
         GENERATOR.loss = s*GENERATOR.criterion(GENERATOR.A['output'],GENERATOR.A['target']) + (1-s) * criterion(output, label) #19
 
@@ -738,7 +432,7 @@ def main4():
     weight_timer = Timer(30)
     n = 'N0'
     GENERATOR = Nets[n]['N']
-    GENERATOR.clip_param = 0.0001
+    
 
     while True:
 
@@ -752,8 +446,8 @@ def main4():
             a = Nets['N0']['P']['clip']
             #cg(a,type(a))
             Nets['N0']['P']['clip'] *= 0.98
-            print 'clip',Nets['N0']['P']['clip'],int(run_timer.time())
-
+            #print 'clip',Nets['N0']['P']['clip'],int(run_timer.time())
+            clp('clip',Nets['N0']['P']['clip'],int(run_timer.time()),"`yb")
 
         
         
@@ -765,24 +459,30 @@ def main4():
 
         
         if weight_timer.check():
-            weight_timer.reset()
-            current_loss = GENERATOR.losses[-1]#na(GENERATOR.losses[-3:]).mean()
-            if prev_loss == None:
+            try:
+                weight_timer.reset()
+                current_loss = GENERATOR.losses[-1]#na(GENERATOR.losses[-3:]).mean()
+                if prev_loss == None:
+                    prev_loss = current_loss
+                d = (current_loss - prev_loss) / current_loss
+                print(d,current_loss,prev_loss)
+                if d > 0.1:
+                    clp("if (current_loss - pre_loss) / current_loss > 0.75:",'wrb')
+                    GENERATOR.use_stored_weight()
+                    Nets['N0']['P']['clip'] /= 2.0
+                else:
+                    GENERATOR.store_weights()
                 prev_loss = current_loss
-            d = (current_loss - prev_loss) / current_loss
-            print(d,current_loss,prev_loss)
-            if d > 0.1:
-                clp("if (current_loss - pre_loss) / current_loss > 0.75:",'wrb')
-                GENERATOR.use_stored_weight()
-                Nets['N0']['P']['clip'] /= 2.0
-            else:
-                GENERATOR.store_weights()
-            prev_loss = current_loss
-            
-            
-            
-            
+            except KeyboardInterrupt:
+                cr('*** KeyboardInterrupt ***')
+                sys.exit()
+            except Exception as e:
+                exc_type, exc_obj, exc_tb = sys.exc_info()
+                file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                CS_('Exception!',emphasis=True)
+                CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)        
 
+            
 
         Data = networks.net.make_batch( Nets[n]['get_data_function'], Nets[n]['P'], Nets[n]['P']['batch_size'] )
 
@@ -819,7 +519,8 @@ def main4():
         output = DISCRIMINATOR(fake) #18
         #output = output.view(-1, 1).squeeze(1)
 
-        s = 0.005
+        s = 0.1 # 0.001
+        s = 0.001 # 1/22 13:13
         #GENERATOR.loss =  (1-s) * criterion(output, label) #19
         GENERATOR.loss = s*GENERATOR.criterion(GENERATOR.A['output'],GENERATOR.A['target']) + (1-s) * criterion(output, label) #19
 
@@ -860,6 +561,386 @@ def main4():
 
 
 
+        
+
+
+
+
+
+
+
+if __name__ == '__main__':
+
+    
+        if 'main' not in Arguments or Arguments['main'] == 0:
+            clp('*** main0() ***',p=2)
+            main0()
+
+        elif Arguments['main'] == 1:
+            clp('*** main1() ***',p=2)
+            main1()
+
+        elif Arguments['main'] == 2:
+            clp('*** main2() ***',p=2)
+            main2()
+
+
+        elif Arguments['main'] == 3:
+            clp('*** main3() ***',p=2)
+            main3()
+
+        elif Arguments['main'] == 4:
+            clp('*** main4() ***',p=2)
+            
+            if 'net_str' not in Arguments:
+                Arguments['net_str'] = ''
+            main4()
+
+
+        elif Arguments['main'] == 5:
+            clp('*** main5() ***',p=2)
+            main5()
+
+
+        elif Arguments['main'] == 6:
+            kprint(Arguments)
+            clp('*** main6() ***',p=2)
+            if 'net_str' not in Arguments:
+                Arguments['net_str'] = ''
+            main6()
+
+
+
+
+
+
+
+
+
+
+
+
+
+def main0():
+    if 'type' not in Arguments.keys():
+        clp('   FROM SYS_STR   ','`ybb',ra=0,p=1)
+        Nets = {
+            'N0':Net_Main(M=M,sys_str=all2allFuture_12.replace('\n',' ').replace('\t',' ')),
+        }
+    else:
+        clp('   FROM COMMMAND LINE   ','`ybb',ra=0,p=1)
+        Nets = {
+            'N0':Net_Main(M=M,Arguments_=Arguments),
+        }
+
+    run_timer = Timer()
+    freq_timer = Timer(30)
+
+    Abort = Toggler()
+
+    wait_timer = Timer(5)
+
+    minute_timer = Timer(60)
+
+
+  
+    while True:
+        M['load']()
+        if Abort['test'](M['Q']['runtime_parameters']['abort']):
+            break
+
+
+        if minute_timer.check():
+            minute_timer.reset()
+            Nets['N0']['P']['clip'] = float(Nets['N0']['P']['clip'])
+            a = Nets['N0']['P']['clip']
+            #cg(a,type(a))
+            Nets['N0']['P']['clip'] *= 0.98
+            clp('clip',Nets['N0']['P']['clip'],int(run_timer.time()),'`by')
+
+        
+        for n in Nets.keys():
+
+            for k in M['Q']['runtime_parameters'].keys():
+                Nets[n]['P']['runtime_parameters'][k] = M['Q']['runtime_parameters'][k]
+
+
+            Data = networks.net.make_batch( Nets[n]['get_data_function'], Nets[n]['P'], Nets[n]['P']['batch_size'] )
+
+
+            Nets[n]['N'].forward(Data)
+
+
+            if Nets[n]['P']['backwards']:
+                Nets[n]['N'].backward()
+
+            Nets[n]['N'].save()
+
+            if True:#try:
+                Nets[n]['graphics_function'](Nets[n]['N'],M,Nets[n]['P']) # graphics can cause an error with remote login
+            else:#except Exception as e:
+                exc_type, exc_obj, exc_tb = sys.exc_info()
+                file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                clp('Exception!','`wrb',exc_type, file_name, exc_tb.tb_lineno)   
+
+
+
+            f = freq_timer.freq(do_print=False)
+            if is_number(f):
+                clp( 'Frequency =', int(np.round(f*Nets[n]['P']['batch_size'])), 'Hz, run time =',format_seconds(run_timer.time()))
+
+            #print n
+            #raw_enter()
+        #raw_enter()
+
+
+
+
+def main2():
+
+    if 'type' not in Arguments.keys():
+        clp('   FROM SYS_STR   ','`ybb',ra=0,p=1)
+        Nets = {
+            'N0':Net_Main(M=M,sys_str=Fire2rgbProjections.replace('\n',' ').replace('\t',' ')),
+        }
+    else:
+        clp('   FROM COMMMAND LINE   ','`ybb',ra=0,p=1)
+        Nets = {
+            'N0':Net_Main(M=M,Arguments_=Arguments),
+        }
+
+    run_timer = Timer()
+    freq_timer = Timer(30)
+
+    Abort = Toggler()
+
+    wait_timer = Timer(5)
+
+    minute_timer = Timer(60)
+
+
+
+    while True:
+        M['load']()
+        if Abort['test'](M['Q']['runtime_parameters']['abort']):
+            break
+
+
+        if minute_timer.check():
+            minute_timer.reset()
+            Nets['N0']['P']['clip'] = float(Nets['N0']['P']['clip'])
+            a = Nets['N0']['P']['clip']
+            #cg(a,type(a))
+            Nets['N0']['P']['clip'] *= 0.98
+            #print 'clip',Nets['N0']['P']['clip'],int(run_timer.time())
+            clp('clip',Nets['N0']['P']['clip'],int(run_timer.time()),"`yb")
+
+        for n in Nets.keys():
+
+            Nets[n]['P']['original_Fire3_scaling'] = True
+
+            for k in M['Q']['runtime_parameters'].keys():
+                Nets[n]['P']['runtime_parameters'][k] = M['Q']['runtime_parameters'][k]
+
+
+            Data = networks.net.make_batch( Nets[n]['get_data_function'], Nets[n]['P'], Nets[n]['P']['batch_size'] )
+
+
+            Nets[n]['N'].forward(Data)
+
+
+            if Nets[n]['P']['backwards']:
+                Nets[n]['N'].backward()
+
+            Nets[n]['N'].save()
+
+            if True:#try:
+                Nets[n]['graphics_function'](Nets[n]['N'],M,Nets[n]['P']) # graphics can cause an error with remote login
+            else:#except Exception as e:
+                exc_type, exc_obj, exc_tb = sys.exc_info()
+                file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                clp('Exception!','`wrb',exc_type, file_name, exc_tb.tb_lineno)   
+
+
+
+            f = freq_timer.freq(do_print=False)
+            if is_number(f):
+                clp( 'Frequency =', int(np.round(f*Nets[n]['P']['batch_size'])), 'Hz, run time =',format_seconds(run_timer.time()))
+
+            #print n
+        raw_enter()
+
+
+
+
+def main5():
+
+    import torch
+    import torch.nn as nn
+    import torch.nn.parallel
+    import torch.backends.cudnn as cudnn
+    import torch.optim as optim
+    import torch.utils.data
+    import torchvision.datasets as dset
+    import torchvision.transforms as transforms
+    import torchvision.utils as vutils
+    import torch.nn.utils as nnutils
+
+    from discriminator1 import Discriminator,weights_init
+    DISCRIMINATOR = Discriminator(nc=32).cuda()#ngpu).cuda()#.to(device)
+    DISCRIMINATOR.apply(weights_init)
+    #if _DISCRIMINATOR != '':
+    #    DISCRIMINATOR.load_state_dict(torch.load(_DISCRIMINATOR))
+    criterion = nn.BCELoss()
+    optimizerD = optim.Adam(DISCRIMINATOR.parameters(), lr=0.01, betas=(0.5, 0.999))
+
+
+    """
+    fire2fireFuture.dcgan.a
+    """
+    if 'type' not in Arguments.keys():
+        clp('   FROM SYS_STR   ','`ybb',ra=0,p=1)
+        Nets = {
+            #'N0':Net_Main(M=M,sys_str=fire2fireFuture_dcgan_a.replace('\n',' ').replace('\t',' ')),
+            'N0':Net_Main(M=M,sys_str=Net_strs[Arguments['net_str']].replace('\n',' ').replace('\t',' ')),
+
+        }
+    else:
+        clp('   FROM COMMMAND LINE   ','`ybb',ra=0,p=1)
+        Nets = {
+            'N0':Net_Main(M=M,Arguments_=Arguments),
+        }
+
+    run_timer = Timer()
+    freq_timer = Timer(30)
+
+    Abort = Toggler()
+
+    wait_timer = Timer(5)
+
+    minute_timer = Timer(60)
+    #DISCRIMINATOR.load(Nets[n]['P']['NETWORK_OUTPUT_FOLDER']+'.dcgan')
+    try:
+        if Nets['N0']['P']['resume']:
+            DISCRIMINATOR.load(Nets['N0']['P']['NETWORK_OUTPUT_FOLDER']+'.dcgan')
+    except:
+        clp("*** DISCRIMINATOR.load(Nets[n]['P']['NETWORK_OUTPUT_FOLDER']+'.dcgan') failed ***",ra=1)
+
+    while True:
+
+        M['load']()
+        if Abort['test'](M['Q']['runtime_parameters']['abort']):
+            break
+
+        if minute_timer.check():
+            minute_timer.reset()
+            Nets['N0']['P']['clip'] = float(Nets['N0']['P']['clip'])
+            a = Nets['N0']['P']['clip']
+            #cg(a,type(a))
+            Nets['N0']['P']['clip'] *= 0.98
+            #print 'clip',Nets['N0']['P']['clip'],int(run_timer.time())
+            clp('clip',Nets['N0']['P']['clip'],int(run_timer.time()),"`yb")
+
+        n = 'N0'
+        GENERATOR = Nets[n]['N']
+        Nets[n]['P']['original_Fire3_scaling'] = True
+
+        for k in M['Q']['runtime_parameters'].keys():
+            Nets[n]['P']['runtime_parameters'][k] = M['Q']['runtime_parameters'][k]
+
+
+
+
+        Data = networks.net.make_batch( Nets[n]['get_data_function'], Nets[n]['P'], Nets[n]['P']['batch_size'] )
+
+
+
+        #A
+        DISCRIMINATOR.zero_grad() #1
+        real = Data['target'][:,:,:,:] #2
+        label = torch.full((Nets[n]['P']['batch_size'],), 1,).cuda() #3
+        output = DISCRIMINATOR(torch.from_numpy(real).cuda().float()) #4
+        #output = output.view(-1, 1).squeeze(1)
+        #print output.size(), output.view(-1, 1).squeeze(1).size()
+
+        #raw_enter()
+        errD_real = criterion(output, label) #5
+        errD_real.backward() #6
+        D_x = output.mean().item() #7
+
+        GENERATOR.forward_no_loss(Data) #8
+        fake = GENERATOR.A['output'][:,:,:,:]
+        label.fill_(0) #9
+        output = DISCRIMINATOR(fake.detach()) #10
+        #output = output.view(-1, 1).squeeze(1)
+
+        errD_fake = criterion(output, label) #11
+        errD_fake.backward() #12
+        D_G_z1 = output.mean().item() #13
+        errD = errD_real + errD_fake #14
+        optimizerD.step() #15
+        
+        GENERATOR.optimizer.zero_grad() #16
+        label.fill_(1) #17
+        output = DISCRIMINATOR(fake) #18
+        #output = output.view(-1, 1).squeeze(1)
+
+        s = 0.25
+        #GENERATOR.loss =  (1-s) * criterion(output, label) #19
+        GENERATOR.loss = s*GENERATOR.criterion(GENERATOR.A['output'],GENERATOR.A['target']) + (1-s) * criterion(output, label) #19
+
+
+        if Nets[n]['P']['backwards']:
+            GENERATOR.loss.backward() #20
+            nnutils.clip_grad_norm(GENERATOR.parameters(), GENERATOR.clip_param)#0.01) #1.0)
+            GENERATOR.optimizer.step() #21
+
+
+
+        GENERATOR.losses_to_average.append(GENERATOR.extract('loss'))
+        if len(GENERATOR.losses_to_average) >= GENERATOR.num_losses_to_average:
+            GENERATOR.losses.append( na(GENERATOR.losses_to_average).mean() )
+            GENERATOR.losses_to_average = []
+
+        #if Nets[n]['P']['backwards']:
+        #    GENERATOR.backward()
+
+        if GENERATOR.save():
+            DISCRIMINATOR.save(Nets[n]['P']['NETWORK_OUTPUT_FOLDER']+'.dcgan')
+
+        if True:#try:
+            Nets[n]['graphics_function'](Nets[n]['N'],M,Nets[n]['P']) # graphics can cause an error with remote login
+        else:#except Exception as e:
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            clp('Exception!','`wrb',exc_type, file_name, exc_tb.tb_lineno)   
+
+
+
+        f = freq_timer.freq(do_print=False)
+        if is_number(f):
+            clp( 'Frequency =', int(np.round(f*Nets[n]['P']['batch_size'])), 'Hz, run time =',format_seconds(run_timer.time()))
+
+        #print n
+    #raw_enter()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 def main3():
 
     if 'type' not in Arguments.keys():
@@ -896,8 +977,8 @@ def main3():
             a = Nets['N0']['P']['clip']
             #cg(a,type(a))
             Nets['N0']['P']['clip'] *= 0.98
-            print 'clip',Nets['N0']['P']['clip'],int(run_timer.time())
-
+            #print 'clip',Nets['N0']['P']['clip'],int(run_timer.time())
+            clp('clip',Nets['N0']['P']['clip'],int(run_timer.time()),"`yb")
 
         for n in Nets.keys():
 
@@ -1044,54 +1125,6 @@ def main1():
         kprint(ctr,'ctr',ra=1)
 
         ctr += 1
-
-        
-
-
-
-
-
-
-
-if __name__ == '__main__':
-
-    
-        if 'main' not in Arguments or Arguments['main'] == 0:
-            clp('*** main0() ***',p=2)
-            main0()
-
-        elif Arguments['main'] == 1:
-            clp('*** main1() ***',p=2)
-            main1()
-
-        elif Arguments['main'] == 2:
-            clp('*** main2() ***',p=2)
-            main2()
-
-
-        elif Arguments['main'] == 3:
-            clp('*** main3() ***',p=2)
-            main3()
-
-        elif Arguments['main'] == 4:
-            clp('*** main4() ***',p=2)
-            
-            if 'net_str' not in Arguments:
-                Arguments['net_str'] = ''
-            main4()
-
-
-        elif Arguments['main'] == 5:
-            clp('*** main5() ***',p=2)
-            main5()
-
-
-        elif Arguments['main'] == 6:
-            kprint(Arguments)
-            clp('*** main6() ***',p=2)
-            if 'net_str' not in Arguments:
-                Arguments['net_str'] = ''
-            main6()
 
 
 #EOF

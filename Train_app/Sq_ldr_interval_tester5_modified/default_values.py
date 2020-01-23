@@ -64,7 +64,7 @@ _['LDR values'] = []
 
 _['updated'] = []
 _['DISPLAY_EACH'] = False
-_['RESUME'] = False
+_['RESUME'] = True
 _['BATCH_SIZE'] = 1
 _['REQUIRE_ONE'] = []
 _['save_net_timer'] = Timer(1000*hours) #i.e., not used now
@@ -91,7 +91,7 @@ elif _['use_LIDAR'] == False:
 	_['GPU'] = 0
 else:
 	_['GPU'] = 1
-_['GPU'] = 1
+_['GPU'] = 0
 #
 ###############################################################
 

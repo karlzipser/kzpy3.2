@@ -178,7 +178,11 @@ def get_data_function(P):
         if True:#try:
             r,ctr,flip = _selector(P)
 
+            #P[r].append(ctr)
 
+            #if r_ctr_dic_timer.check():
+            #    r_ctr_dic_timer.reset()
+            #    soD(P)
 
             flip = 0
             #input_list = []

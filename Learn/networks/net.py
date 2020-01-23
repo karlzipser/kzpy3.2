@@ -147,11 +147,11 @@ class Net(nn.Module):
         self.W[self.losses[-1]] = copy.deepcopy(self.state_dict())
         #self.weight_list.append(copy.deepcopy(self.state_dict()))
         ks = sorted(self.W.keys())
-        if len(ks) > 100:
-            for k in [100,len(ks)]:
+        if len(ks) > 101:
+            for k in ks[100:len(ks)]:
                 del self.W[k]
         #if len(self.weight_list) > 30:
-            self.weight_list.pop(0)
+            #self.weight_list.pop(0)
         clp("len(self.W) =",len(self.W.keys()))
 
     def use_stored_weight(self):
