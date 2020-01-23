@@ -433,6 +433,7 @@ def main4():
     n = 'N0'
     GENERATOR = Nets[n]['N']
     
+    graphics_on = False
 
     while True:
 
@@ -543,7 +544,16 @@ def main4():
             DISCRIMINATOR.save(Nets[n]['P']['NETWORK_OUTPUT_FOLDER']+'.dcgan')
 
         if True:#try:
-            Nets[n]['graphics_function'](Nets[n]['N'],M,Nets[n]['P']) # graphics can cause an error with remote login
+            if Nets['N0']['P']['show_graphics']:
+                if not graphics_on:
+                    clp('turning graphics on')
+                graphics_on = True
+                Nets[n]['graphics_function'](Nets[n]['N'],M,Nets[n]['P']) # graphics can cause an error with remote login
+            else:
+                if graphics_on:
+                    clp('turning graphics off')
+                    graphics_on = False
+                    CA()
         else:#except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
