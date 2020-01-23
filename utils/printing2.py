@@ -14,6 +14,7 @@ def kprint(
     numbering=True,
     max_items=sys.maxint,
     ra=0,
+    r=0,
 ):
     #'<untitled>',
     item_printed = False
@@ -79,7 +80,7 @@ def kprint(
     elif not item_printed:
         color_print(spaces,item,'`g',s0='',s1='')
 
-    if ra:
+    if ra or r:
         raw_enter()
 
 
@@ -89,7 +90,7 @@ function_types = [type(sorted),type(fname)]
 
 
 def color_format(*args,**Kwargs):
-    set_Defaults({'s0':' ','s1':' ','ra':False,'p':0},Kwargs,)
+    set_Defaults({'s0':' ','s1':' ','ra':False,'r':False,'p':0},Kwargs,)
     B = color_define_list(args)
     c = []
     for i in sorted(B.keys()):
@@ -116,9 +117,15 @@ def color_print(*args,**Kwargs):
         color_print(1,2,3,'`bgu',4,5,6,'`',7,8,9,'`gbb',s1='<==>',s0='-')
     """
     print(color_format(*args,**Kwargs))
+    re = False
     if 'ra' in Kwargs:
         if Kwargs['ra']:
-            raw_enter()
+            re = True
+    if 'r' in Kwargs:
+        if Kwargs['r']:
+            re = True
+    if re:
+        raw_enter()
     if 'p' in Kwargs:
         time.sleep(Kwargs['p'])
 

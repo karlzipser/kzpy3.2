@@ -576,6 +576,10 @@ cstr = "CVerbose['COLOR'] = True\\n"+\
     "\t\tif kwargs['ra'] == 1:\\n"+\
     "\t\t\tcprint('\b  (hit Enter to continue)','COLOR')\\n"+\
     "\t\t\traw_input()\\n"+\
+    "\tif 'r' in kwargs:\\n"+\
+    "\t\tif kwargs['r'] == 1:\\n"+\
+    "\t\t\tcprint('\b  (hit Enter to continue)','COLOR')\\n"+\
+    "\t\t\traw_input()\\n"+\
     "\tif 't' in kwargs:\\n"+\
     "\t\tif kwargs['t'] > 0:\\n"+\
     "\t\t\ttime.sleep(kwargs['t'])\\n"
