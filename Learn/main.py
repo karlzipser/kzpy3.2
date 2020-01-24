@@ -417,6 +417,8 @@ def main6():
         #output = output.view(-1, 1).squeeze(1)
 
         s = 0.0001
+        if net_str == 'proRgb2rgb.noise':
+            s = 0.000001
         #GENERATOR.loss =  (1-s) * criterion(output, label) #19
         GENERATOR.loss = s*GENERATOR.criterion(GENERATOR.A['output'],GENERATOR.A['target']) + (1-s) * criterion(output, label) #19
 
