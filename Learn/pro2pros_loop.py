@@ -5,7 +5,8 @@ from kzpy3.Learn.main import Main6_Output_Object
 from kzpy3.Learn.clusters import Clusters,threshold_img
 
 C = Clusters(get_similarity)
-M = Main6_Output_Object('pro2pros')
+Pro2pros = Main6_Output_Object('pro2pros')
+ProRgb2rgb = Main6_Output_Object('proRgb2rgb')
 
 
 cluster_number = 400
@@ -31,8 +32,9 @@ for i in range(10):
 	button[:,:,button_number] = 1
 	#in_imgs = [img,button]
 	for j in range(10):
+		raw_enter()
 		in_imgs = [img,button]
-		out_imgs = M['output'](in_imgs)
+		out_imgs = Pro2pros['output'](in_imgs)
 		img = out_imgs[0]
 		#mi(in_imgs[0],5)
 		#mi(img,10)
@@ -43,8 +45,15 @@ for i in range(10):
 		img = C['get_random_img_from_cluster'](r[0])
 		img = cv2.resize( img,(168,94))
 		in_imgs = [img,button]
-
-		#raw_enter()
+		noise = 50 * rnd((23,41,3)) - 50/2.
+		img_small = 1.0 * cv2.resize( img,(41,23)) + noise
+		img_noise = cv2.resize( img_small,(168,94))
+		rgb_img = ProRgb2rgb['output']([0*img_noise,img_noise])[0]
+		cv2.waitKey(33)
+		mi(img,99)
+		mi(rgb_img,100)
+		spause()
+		
 
 
 

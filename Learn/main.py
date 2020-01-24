@@ -58,7 +58,7 @@ Net_strs = {
     'pro2pros.b' : """
         Learn 
             --type ConDecon_Fire_FS,Fire3,pro2pros.b
-            --resume False 
+            --resume True 
             --batch_size 1
             --save_timer_time 300 
             --target_offset  3,6,9,12,15
@@ -81,24 +81,25 @@ Net_strs = {
     'proRgb2rgb' : """
         Learn 
             --type ConDecon_Fire_FS,Fire3,proRgb2rgb
-            --resume False 
+            --resume True 
             --batch_size 1
             --save_timer_time 300 
             --target_offset  0
             --input projections,rgb 
             --target rgb 
             --losses_to_average 256 
-            --runs validate 
+            --runs train 
             --display.output 0,3
             --display.input 0,3,3,6
             --display.target 0,3
-            --clip 1
+            --clip 0.001
             --backwards True
             --win_x 20
             --win_y 40
-            --drop.rgb 0.5
+            --drop.rgb 0.8
             --drop 0
             --blue_center_button True
+            --projection.noise 50
     """,
             
     
@@ -445,12 +446,6 @@ def Main6_Output_Object(net_str='pro2pros'):
     import torch.nn.utils as nnutils
 
     from discriminator1 import Discriminator,weights_init
-    DISCRIMINATOR = Discriminator(nc=5*3).cuda()#ngpu).cuda()#.to(device)
-    DISCRIMINATOR.apply(weights_init)
-    #if _DISCRIMINATOR != '':
-    #    DISCRIMINATOR.load_state_dict(torch.load(_DISCRIMINATOR))
-    criterion = nn.BCELoss()
-    optimizerD = optim.Adam(DISCRIMINATOR.parameters(), lr=0.01, betas=(0.5, 0.999))
 
 
     """
@@ -468,6 +463,18 @@ def Main6_Output_Object(net_str='pro2pros'):
         Nets = {
             'N0':Net_Main(M=M,Arguments_=Arguments),
         }
+
+    n = 'N0'
+
+    Data = networks.net.make_batch( Nets[n]['get_data_function'], Nets[n]['P'], Nets[n]['P']['batch_size'] )
+    cg('Data',shape(Data['input']),shape(Data['target']))
+
+    DISCRIMINATOR = Discriminator(nc=shape(Data['target'])[1]).cuda()
+    DISCRIMINATOR.apply(weights_init)
+    criterion = nn.BCELoss()
+    optimizerD = optim.Adam(DISCRIMINATOR.parameters(), lr=0.01, betas=(0.5, 0.999))
+
+
 
     run_timer = Timer()
     freq_timer = Timer(30)
@@ -501,7 +508,7 @@ def Main6_Output_Object(net_str='pro2pros'):
             Nets['N0']['P']['clip'] *= 0.98
             clp('clip',Nets['N0']['P']['clip'],int(run_timer.time()),"`yb")
 
-        n = 'N0'
+        
         GENERATOR = Nets[n]['N']
         Nets[n]['P']['original_Fire3_scaling'] = True
 
@@ -523,7 +530,7 @@ def Main6_Output_Object(net_str='pro2pros'):
  
         fake = GENERATOR.extract('output')
         imgs = []
-        for i in range(0,15,3):
+        for i in range(0,shape(Data['target'])[1],3):
             imgs.append(z55(fake[i:i+3,:,:].transpose(2,1,0)))
         return imgs
 
@@ -999,6 +1006,8 @@ def main3():
                 Nets[n]['N'].backward()
 
             Nets[n]['N'].save()
+
+            Nets[n]['P']['runtime_parameters']['graphics_timer_time'] = -1
 
             if True:#try:
                 Nets[n]['graphics_function'](Nets[n]['N'],M,Nets[n]['P']) # graphics can cause an error with remote login
