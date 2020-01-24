@@ -105,7 +105,7 @@ Net_strs = {
     'proRgb2rgb.noise' : """
         Learn 
             --type ConDecon_Fire_FS,Fire3,proRgb2rgb.noise
-            --resume True 
+            --resume False 
             --batch_size 1
             --save_timer_time 300 
             --target_offset  0
@@ -116,14 +116,14 @@ Net_strs = {
             --display.output 0,3
             --display.input 0,3,3,6
             --display.target 0,3
-            --clip 0.0001
+            --clip 1
             --backwards True
             --win_x 20
             --win_y 40
             --drop.rgb 0.8
             --drop 0
             --blue_center_button True
-            --projection.noise 50
+            --projection.noise 100
             --rgb.noise 100
     """,
     
