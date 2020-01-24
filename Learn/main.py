@@ -96,7 +96,7 @@ Net_strs = {
             --backwards True
             --win_x 20
             --win_y 40
-            --drop.rgb 0
+            --drop.rgb 0.5
             --drop 0
             --blue_center_button True
     """,
@@ -353,7 +353,7 @@ def main6():
 
 
 
-
+        Data = networks.net.make_batch( Nets[n]['get_data_function'], Nets[n]['P'], Nets[n]['P']['batch_size'] )
 
         
 
