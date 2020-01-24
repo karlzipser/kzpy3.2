@@ -59,10 +59,24 @@ def trajectory_curves(img):
 
 
 
+h,w,d = shape(img2)
+for y in range(h):
+	for x in range(w):
+		for z in range(d):
+			if img2[y,x,z] == 255:
+				world_img[y,x,:] = Colors[z]
 
 
 
 
+
+
+for i in rlen(I['cluster_avg_img']):
+	img = I['cluster_avg_img'][i]
+	world_img = I['world_img'][i]
+
+	img2 = trajectory_curves(img)
+	mi(img2+world_img);spause();time.sleep(30/1000.)
 
 
 
