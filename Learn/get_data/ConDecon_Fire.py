@@ -226,7 +226,11 @@ def get_data_function(P):
                     if 'drop.rgb' in P and rnd() < P['drop.rgb'] and k == 'input':
                         Lists[k][-1] *= 0
                     #print 'rgb', dp(Lists[k][-1].min()), dp(Lists[k][-1].max())
-
+                    if k == 'input':
+                        if P['rgb.noise'] > 0:
+                            noise = P['rgb.noise'] * rnd(shape(C[ctr])) - P['rgb.noise']/2.
+                            noise = cv2.resize(noise,(168,94))
+                            Lists[k][-1] = Lists[k][-1]*1.0 + noise
                 if 'projections' in P[k]:
                     if type(P[k+'_offset']) == list:
                         offset_list = P[k+'_offset']
