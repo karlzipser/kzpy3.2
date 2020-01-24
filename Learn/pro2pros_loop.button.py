@@ -17,36 +17,106 @@ index = 1
 threshold = 25
 button_number = None
 
+
+
+
+
+
+
+
+
+
+Colors = {
+    0:(255,0,0),
+    1:(0,255,0),
+    2:(0,0,255)
+}
+#img = imread(opjD('t.jpg'))#"/Users/karlzipser/Desktop/Ellen.jpg")
+def trajectory_curves(img):
+	img = cv2.resize(img,(168,94))
+	img2=img.copy() * 0
+	h,w,d = shape(img)
+	for z in range(d):
+	    a,a_prev = None,None
+	    pt = None
+	    for y in range(h/2+4,h-5):
+	        if a != None:
+	            a_prev = a
+	        a = np.argsort(img[y,:,z])[-1]
+	        if a_prev == None:
+	            a_prev = a
+	        #print(a)
+	        #print a,a_prev,b
+	        b = int((a+a_prev)/2.0)
+	        if pt == None:
+	            pt = (b,y)
+	        s = int((y**2/47./3.)/10)
+	        #print s
+	        cv2.line(img2,pt,(b,y),Colors[z],s)
+	        pt = (b,y)
+	return img2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 if True:
+
+
+
 	I = {
 		'cluster_img':[],
 		'world_img':[],
 		'prediction_img':[],
 		'cluster_avg_img':[],
 		'button':[],
+		'button_number':[],
 	}
 
 	img = C['get_img'](cluster_number,index)
-
-	CA()
 	img = cv2.resize( img,(168,94))
-	for i in range(100):
+	button = 0*img.astype(float)
+	button0 = button.copy()
+	button1 = button.copy()
+	button2 = button.copy()
+	button0[:,:,0] = 1
+	button1[:,:,1] = 1
+	button2[:,:,2] = 1	
+	B = {
+		0:button0,
+		1:button1,
+		2:button2,
+	}
+	button = B[1].copy()
+	CA()
+	
+	s = 0.90
+	for i in range(30*3):
 		button_number = rndchoice([0,1,2])
-		if False:
-			while type(button_number) != int:
-				try:
-					button_number = input('button number >')
-					assert type(button) == int
-				except:
-					cr('try again')
-		button = 0*img
-		button[:,:,button_number] = 1
 
-		for j in range(10):
 
-			#raw_enter()
+		for j in range(20):
+			button = s * button + (1-s) * B[button_number]
+			print button_number,button[0,0,:]
+			#button = 0.1*button/(1.0*button.sum()) * 15792.0
 			in_imgs = [img,button]
 			I['button'].append(button)
+			I['button_number'].append(B[button_number])
 			out_imgs = Pro2pros['output'](in_imgs)
 			img = out_imgs[0]
 			I['prediction_img'].append(img)
