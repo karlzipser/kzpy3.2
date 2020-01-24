@@ -231,3 +231,40 @@ def weighted_probs(weight_lst,repeats=1000):
 
 np.argsort(weighted_probs([1,2,9],1))
 
+
+
+
+Colors = {
+    0:(255,0,0),
+    1:(0,255,0),
+    2:(0,0,255)
+}
+img = imread(opjD('t.jpg'))#"/Users/karlzipser/Desktop/Ellen.jpg")
+img = cv2.resize(img,(168,94))
+img2=img.copy() * 0
+h,w,d = shape(img)
+for z in range(d):
+    a,a_prev = None,None
+    pt = None
+    for y in range(h/2,h-5):
+        if a != None:
+            a_prev = a
+        a = np.argsort(img[y,:,z])[-1]
+        if a_prev == None:
+            a_prev = a
+        #print(a)
+        #print a,a_prev,b
+        b = int((a+a_prev)/2.0)
+        if pt == None:
+            pt = (b,y)
+        s = int((y**2/47./3.)/10)
+        print s
+        cv2.line(img2,pt,(b,y),Colors[z],s)
+        pt = (b,y)
+        #img2[y,b-1:b+1,z] = 255
+        #a_prev = a
+CA()
+mi(img2,3)
+
+
+

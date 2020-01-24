@@ -116,7 +116,7 @@ Net_strs = {
             --display.output 0,3
             --display.input 0,3,3,6
             --display.target 0,3
-            --clip 0.00001
+            --clip 1
             --backwards True
             --win_x 20
             --win_y 40
@@ -418,7 +418,7 @@ def main6():
 
         s = 0.0001
         if Arguments['net_str'] == 'proRgb2rgb.noise':
-            s = 0.000001
+            s = 0.0000001
         #GENERATOR.loss =  (1-s) * criterion(output, label) #19
         GENERATOR.loss = s*GENERATOR.criterion(GENERATOR.A['output'],GENERATOR.A['target']) + (1-s) * criterion(output, label) #19
 
