@@ -23,7 +23,7 @@ button_number = None
 
 
 
-
+I = loD('I_second_pass.pkl')
 
 
 Colors = {
@@ -32,6 +32,7 @@ Colors = {
     2:(0,0,255)
 }
 #img = imread(opjD('t.jpg'))#"/Users/karlzipser/Desktop/Ellen.jpg")
+e = 0.1
 def trajectory_curves(img):
 	img = cv2.resize(img,(168,94))
 	img2=img.copy() * 0
@@ -39,7 +40,7 @@ def trajectory_curves(img):
 	for z in range(d):
 	    a,a_prev = None,None
 	    pt = None
-	    for y in range(h/2+4,h-5):
+	    for y in range(h/2+6,h-5):
 	        if a != None:
 	            a_prev = a
 	        a = np.argsort(img[y,:,z])[-1]
@@ -47,7 +48,7 @@ def trajectory_curves(img):
 	            a_prev = a
 	        #print(a)
 	        #print a,a_prev,b
-	        b = int((a+a_prev)/2.0)
+	        b = int(e*a + (1-e)*(a_prev))
 	        if pt == None:
 	            pt = (b,y)
 	        s = int((y**2/47./3.)/10)
@@ -58,25 +59,27 @@ def trajectory_curves(img):
 
 
 
-
-h,w,d = shape(img2)
-for y in range(h):
-	for x in range(w):
-		for z in range(d):
-			if img2[y,x,z] == 255:
-				world_img[y,x,:] = Colors[z]
+world_img = I['world_img'][-1]
 
 
+#mi(world_img)
 
 
 
 
 for i in rlen(I['cluster_avg_img']):
 	img = I['cluster_avg_img'][i]
-	world_img = I['world_img'][i]
+	world_img = I['world_img'][i].copy()
 
 	img2 = trajectory_curves(img)
-	mi(img2+world_img);spause();time.sleep(30/1000.)
+	h,w,d = shape(img2)
+	for y in range(h):
+		for x in range(w):
+			for z in range(d):
+				if img2[y,x,z] == 255:
+					world_img[y,x,:] = Colors[z]
+
+	mci(world_img,scale=4);#spause();time.sleep(30/1000.)
 
 
 
