@@ -105,7 +105,7 @@ Net_strs = {
     'proRgb2rgb.noise' : """
         Learn 
             --type ConDecon_Fire_FS,Fire3,proRgb2rgb.noise
-            --resume False 
+            --resume True 
             --batch_size 1
             --save_timer_time 300 
             --target_offset  0
