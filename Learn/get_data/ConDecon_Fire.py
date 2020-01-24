@@ -226,7 +226,7 @@ def get_data_function(P):
                     if 'drop.rgb' in P and rnd() < P['drop.rgb'] and k == 'input':
                         Lists[k][-1] *= 0
                     #print 'rgb', dp(Lists[k][-1].min()), dp(Lists[k][-1].max())
-                    if k == 'input':
+                    if k == 'input' and 'rgb.noise' in P:
                         if P['rgb.noise'] > 0:
                             noise = P['rgb.noise'] * rnd(shape(C[ctr])) - P['rgb.noise']/2.
                             noise = cv2.resize(noise,(168,94))
