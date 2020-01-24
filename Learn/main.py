@@ -354,6 +354,10 @@ def main6():
 
     #ctr0 = 0
     #ctr_timer = Timer()
+
+    graphics_on = False
+
+
     while True:
 
         M['load']()
@@ -435,13 +439,40 @@ def main6():
         if GENERATOR.save():
             DISCRIMINATOR.save(Nets[n]['P']['NETWORK_OUTPUT_FOLDER']+'.dcgan')
 
+
+
+
+        if True:#try:
+            
+            if Nets['N0']['P']['runtime_parameters']['show_graphics']:
+                if not graphics_on:
+                    clp('turning graphics on')
+                graphics_on = True
+                Nets[n]['graphics_function'](Nets[n]['N'],M,Nets[n]['P']) # graphics can cause an error with remote login
+            else:
+                if graphics_on:
+                    clp('turning graphics off')
+                    graphics_on = False
+                    CA()
+        else:#except Exception as e:
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            clp('Exception!','`wrb',exc_type, file_name, exc_tb.tb_lineno)   
+
+
+
+
+        """
         if True:#try:
             Nets[n]['graphics_function'](Nets[n]['N'],M,Nets[n]['P']) # graphics can cause an error with remote login
         else:#except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             clp('Exception!','`wrb',exc_type, file_name, exc_tb.tb_lineno)   
+        """
 
+
+        
         #ctr0 += 1
         #if ctr0 % 100 == 0:
         #    clp(dp(ctr0 / ctr_timer.time()))
