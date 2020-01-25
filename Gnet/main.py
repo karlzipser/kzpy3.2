@@ -125,7 +125,7 @@ if True:
     torch.cuda.set_device(0)
     CA()
 
-    timer = Timer(30)
+    timer = Timer(5)
     save_timer = Timer(300)
 
     while True:
