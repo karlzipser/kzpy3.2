@@ -125,7 +125,7 @@ if True:
     torch.cuda.set_device(0)
     CA()
 
-    timer = Timer(5)
+    timer = Timer(30)
     save_timer = Timer(300)
 
     while True:
@@ -150,7 +150,7 @@ if True:
             timer.reset()
             print loss_list[-1]
             if True:#host_name != 'bdd4':
-                figure('loss');clf();xylim(0,20000,0,0.02);plot(loss_list[100:],'.')#;spause()
+                figure('loss');clf();ylim(0.02);plot(loss_list[100:],'.')#;spause()
 
                 t = Data['target'][0,:]
                 y=x.data.cpu().numpy()[0,:]
