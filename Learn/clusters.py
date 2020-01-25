@@ -4,7 +4,7 @@ from kzpy3.Learn.get_data.runs import All_runs
 
 
 #
-def Clusters(similarity):
+def Clusters(similarity=None):
 
     global affinity,cluster_list
 
@@ -31,7 +31,7 @@ def Clusters(similarity):
 
         #Run_coder[run_ctr] = r
 
-        if False:
+        if True:
             H = find_files_recursively(opjD('Data'),r,DIRS_ONLY=True)
 
             if len(H['paths']) == 0:
@@ -49,13 +49,13 @@ def Clusters(similarity):
             'activations/indicies':{},
         }
         
-        """
+        
         Runs[r]['original_timestamp_data'] = \
             {'path':opj(opjD('Data'),H['paths'].keys()[0],r,'original_timestamp_data.h5py'),'data':None}
-
+        """
         Runs[r]['flip_images'] = \
             {'path':opj(opjD('Data'),H['paths'].keys()[0],r,'flip_images.h5py'),'data':None}
-
+        
         Runs[r]['left_timestamp_metadata_right_ts'] = \
             {'path':opj(opjD('Data'),H['paths'].keys()[0],r,'left_timestamp_metadata_right_ts.h5py'),'data':None}
         """
@@ -72,17 +72,14 @@ def Clusters(similarity):
         Runs[r]['encoder'] = None
 
         for k in Runs[r].keys():
-            if k not in [
-                'button_number',
-                'encoder',
+            if k in [
                 'original_timestamp_data',
-                'flip_images',
-                'left_timestamp_metadata_right_ts',
-                'activations/data',
-                'activations/indicies',
+                'net_projections',
             ]:
                 if Runs[r][k]['data'] == None:
                     Runs[r][k]['data'] = h5r(Runs[r][k]['path'])
+                    print r,k
+                    #raw_enter()
         if False:
             for kk in ['button_number','encoder']:
                 if Runs[r][kk] == None:
