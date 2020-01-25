@@ -44,11 +44,11 @@ def get_data_function(P):
     #mci(img,scale=2)
     img = cv2.resize(img,(224,224))
     img = img.transpose(2,1,0)
-    target = 1-affinity[a]
+    target = affinity[a]
     #clf();plot(target)
     return {
         'input':img,
-        'target':target,
+        'target':affinity[a],
         #'pro':C['Runs'][r]['net_projections']['data']['normal'][i]
     }
 
@@ -79,22 +79,6 @@ def save(N,losses,NETWORK_OUTPUT_FOLDER):
     os.system(d2s('mkdir -p',opj(NETWORK_OUTPUT_FOLDER,'loss')))
     torch.save(weights, opj(NETWORK_OUTPUT_FOLDER,'weights',net_str+'.infer'))
     so(losses,opj(NETWORK_OUTPUT_FOLDER,'loss',net_str+'.loss_avg'))
-    print('. . . done saving.')
-
-
-
-def __save(N,losses,NETWORK_OUTPUT_FOLDER):
-    print('saving net state . . .')
-    Net = {
-        'weights':N.state_dict().copy(),
-        'losses':losses,
-        'clips':[],
-    }
-    for k in Net['weights']:
-        Net['weights'][k] = Net['weights'][k].cuda(0)
-    net_str = 'net'+'_'+time_str()+'.'+str(losses[-1])
-    os.system(d2s('mkdir -p',opj(NETWORK_OUTPUT_FOLDER)))
-    torch.save(Net, opj(NETWORK_OUTPUT_FOLDER,net_str+'.dic'))
     print('. . . done saving.')
 
 
@@ -131,7 +115,9 @@ if True:
         Data = make_batch(get_data_function,P,num_batches)
         #print shape(Data['input']),shape(Data['target'])
         x = G.forward(torch.from_numpy(Data['input']).cuda().float())
+        y = x.data.cpu().numpy()
         target = torch.from_numpy(Data['target']).cuda().float()
+        z = target.data.cpu().numpy()
         loss = criterion(x,target)
         loss.backward()
         nnutils.clip_grad_norm(G.parameters(), 1)

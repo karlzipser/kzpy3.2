@@ -39,20 +39,23 @@ def dream(image, model, iterations, lr):
     global out_sum
     """ Updates the image to maximize outputs for n iterations """
     #Tensor = torch.cuda.FloatTensor if torch.cuda.is_available else torch.FloatTensor
-    Tensor =  torch.FloatTensor
+    #Tensor =  torch.FloatTensor
+    Tensor = torch.cuda.FloatTensor
     image = Variable(Tensor(image), requires_grad=True)
-    target = torch.from_numpy(zeros((1024))).float()
-    target[400] = 1
+    target = torch.from_numpy(zeros((1024))).cuda().float() + 1
+    target[400] = 0
 
     criterion = torch.nn.MSELoss().cuda()
+
     for i in range(iterations):
-        #print(i)
+        print(i)
         model.zero_grad()
         out = model(image)
         
         #print(target.size())
         #print(out.size())
-        out_sum += out.data.numpy()[0,:]
+        out_sum = out.data.data.cpu().numpy()[0,:]
+        #figure(1);clf();plot(out_sum,'.');spause();raw_enter()
         #plot(target.data.numpy(),'o')
         #plot(out.data.numpy()[0,:],'.');spause()
         loss = criterion(out,target)
@@ -69,7 +72,7 @@ def dream(image, model, iterations, lr):
         image.data += norm_lr * image.grad.data
         image.data = clip(image.data)
         image.grad.data.zero_()
-    figure(1);clf();plot(out_sum,'.');spause()
+        
     return image.cpu().data.numpy()
 
 deprocessed_dreamed_image = None
@@ -84,22 +87,27 @@ def deep_dream(image, model, iterations, lr, octave_scale, num_octaves):
         octaves.append(nd.zoom(octaves[-1], (1, 1, 1 / octave_scale, 1 / octave_scale), order=1))
 
     detail = np.zeros_like(octaves[-1])
-    for octave, octave_base in enumerate(tqdm.tqdm(octaves[::-1], desc="Dreaming")):
-        if octave > 0:
-            # Upsample detail to new octave dimension
-            detail = nd.zoom(detail, np.array(octave_base.shape) / np.array(detail.shape), order=1)
-        # Add deep dream detail from previous octave to new base
-        input_image = octave_base + detail
-        # Get new deep dream image
-        dreamed_image = dream(input_image, model, iterations, lr)
-        dreamed_image += 0.1*torch.randn(1,3,244,244)
-        # Extract deep dream details
-        detail = dreamed_image - octave_base
-        mi(deprocess(dreamed_image),2);spause()
-        deprocessed_dreamed_image = deprocess(dreamed_image)
+    for i in range(100000):
+        for octave, octave_base in enumerate(tqdm.tqdm(octaves[::-1], desc="Dreaming")):
+            if octave > 0:
+                # Upsample detail to new octave dimension
+                detail = nd.zoom(detail, np.array(octave_base.shape) / np.array(detail.shape), order=1)
+            # Add deep dream detail from previous octave to new base
+            input_image = octave_base + detail
+            # Get new deep dream image
+            dreamed_image = dream(input_image, model, iterations, lr)
+            #dreamed_image += 0.1*torch.randn(1,3,244,244)
+            # Extract deep dream details
+            detail = dreamed_image - octave_base
+            figure(1);clf();plot(out_sum,'.');spause()
+            mi(deprocess(dreamed_image),2);spause()
+            deprocessed_dreamed_image = deprocess(dreamed_image)
     return deprocess(dreamed_image)
 
-b = deep_dream(rnd((244,244,3)), G, iterations=20, lr=0.1, octave_scale=1, num_octaves=100)
+b = deep_dream(rnd((244,244,3)), G, iterations=100, lr=0.1, octave_scale=1, num_octaves=1)
+
+
+
 """
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
