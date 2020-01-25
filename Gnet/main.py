@@ -29,9 +29,15 @@ if False:
 
 def get_data_function(P):
 
-    a = rndint(1024)
-    c = cluster_list[a]
+    while True:
+        a = rndint(1024)
+        c = cluster_list[a]
+        if len(c) > 25:
+            break
+        #print len(c)
+
     S = c[rndint(len(c))]
+
     r,i = S['name'],S['index']
     #print r,i
     img = C['Runs'][r]['original_timestamp_data']['data']['left_image']['vals'][i]
@@ -62,19 +68,48 @@ def make_batch(get_data_function,P,batch_size):
 
 
 
+def save(N,losses,NETWORK_OUTPUT_FOLDER):
+    print('saving net state . . .')
+    weights = {'net':N.state_dict().copy()}
+    for key in weights['net']:
+        weights['net'][key] = weights['net'][key].cuda(0)
+    net_str = 'net'+'_'+time_str()+'.'+str(losses[-1])
+    net_str = net_str+'.cuda'
+    os.system(d2s('mkdir -p',opj(NETWORK_OUTPUT_FOLDER,'weights')))
+    os.system(d2s('mkdir -p',opj(NETWORK_OUTPUT_FOLDER,'loss')))
+    torch.save(weights, opj(NETWORK_OUTPUT_FOLDER,'weights',net_str+'.infer'))
+    so(losses,opj(NETWORK_OUTPUT_FOLDER,'loss',net_str+'.loss_avg'))
+    print('. . . done saving.')
+
+
+
+def load(G,NETWORK_OUTPUT_FOLDER):
+    f = most_recent_file_in_folder(opj(NETWORK_OUTPUT_FOLDER,'weights'),['.infer'],[])
+    clp('Resuming with','`','',f,'','`--rb'); time.sleep(1)
+    save_data = torch.load(f)
+    G.load_state_dict(save_data['net'])
+    f = most_recent_file_in_folder(opj(NETWORK_OUTPUT_FOLDER,'loss'),['.loss_avg.pkl'],[])
+    losses = lo(f)
+    return losses
+
+NUM_OUTPUTS=1024
 if True:
-    if False:
+    if True:
         G = GoogLeNet(num_classes=NUM_OUTPUTS).cuda()
         optimizer = torch.optim.Adam(G.parameters(), lr=0.01, betas=(0.5, 0.999))
         #optimizer = torch.optim.Adadelta(filter(lambda p: p.requires_grad,G.parameters()))
-        criterion = torch.nn.MSELoss()
+        criterion = torch.nn.MSELoss().cuda()
         loss_list = []
     
+    loss_list = load(G,opjD('Networks/googlenet0'))
 
 
-
-    timer = Timer(3000)
+    torch.cuda.set_device(0)
     CA()
+
+    timer = Timer(30)
+    save_timer = Timer(300)
+
     while True:
         G.zero_grad()
         Data = make_batch(get_data_function,P,num_batches)
@@ -87,17 +122,26 @@ if True:
         optimizer.step()
         loss_list.append(loss.data.cpu().numpy())
 
+
+        if save_timer.check():
+            save_timer.reset()
+            save(G,loss_list,opjD('Networks/googlenet0'))
+
         #print Data['input'][:,0,0],Data['target'][:,0],dp(x[0,0].data.cpu().numpy()),dp(loss_list[-1])
         if timer.check():
             timer.reset()
-            figure('loss');clf();plot(loss_list[100:],'.')#;spause()
+            print loss_list[-1]
+            if host_name != 'bdd4':
+                figure('loss');clf();xylim(0,20000,0,0.02);plot(loss_list[100:],'.')#;spause()
 
-            t = Data['target'][0,:]
-            y=x.data.cpu().numpy()[0,:]
-            figure('target-output');clf();plt_square();plot(t,y,'.')#;spause()
+                t = Data['target'][0,:]
+                y=x.data.cpu().numpy()[0,:]
+                figure('target-output');clf();plt_square();xylim(0,1,0,1);plot(t,y,'.');plot([0,1],[0,1],'r')#;spause()
+                y2=x.data.cpu().numpy()[6,:]
+                figure('target-output2');clf();plt_square();xylim(0,1,0,1);plot(t,y2,'.');plot([0,1],[0,1],'r')#;spause()
 
-            mci(Data['input'][0,:,:,:].transpose(2,1,0),scale=2,title='input');spause()
-
+                mi(Data['input'][0,:,:,:].transpose(2,1,0),'input 0');spause()
+                mi(Data['input'][6,:,:,:].transpose(2,1,0),'input 6');spause()
 
 
 
