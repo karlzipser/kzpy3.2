@@ -42,7 +42,7 @@ def trajectory_curves(img):
 	    pt = None
 	    for y in range(h/2+6,h-5):
 	        if a != None:
-	            a_prev = a
+	            a_prev = b
 	        a = np.argsort(img[y,:,z])[-1]
 	        if a_prev == None:
 	            a_prev = a
@@ -68,7 +68,7 @@ world_img = I['world_img'][-1]
 
 
 for i in rlen(I['cluster_avg_img']):
-	img = I['cluster_avg_img'][i]
+	img = I['prediction_img'][i]
 	world_img = I['world_img'][i].copy()
 
 	img2 = trajectory_curves(img)
