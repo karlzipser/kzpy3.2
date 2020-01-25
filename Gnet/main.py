@@ -45,6 +45,8 @@ def get_data_function(P):
     img = cv2.resize(img,(224,224))
     img = img.transpose(2,1,0)
     target = 1-affinity[a]
+    plot(target);spause()
+
     #clf();plot(target)
     return {
         'input':img,
