@@ -149,7 +149,7 @@ if True:
         if timer.check():
             timer.reset()
             print loss_list[-1]
-            if host_name != 'bdd4':
+            if True:#host_name != 'bdd4':
                 figure('loss');clf();xylim(0,20000,0,0.02);plot(loss_list[100:],'.')#;spause()
 
                 t = Data['target'][0,:]
