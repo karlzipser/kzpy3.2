@@ -11,6 +11,10 @@ import tqdm
 import scipy.ndimage as nd
 #from utils import deprocess, preprocess, clip
 
+
+path = opjD('Destkop_clusters_and_not_essential_24July2019')
+affinity = lo(opj(path,'affinity'))
+
 import numpy as np
 import torch
 from torchvision import transforms
@@ -42,19 +46,24 @@ def dream(image, model, iterations, lr):
     #Tensor =  torch.FloatTensor
     Tensor = torch.cuda.FloatTensor
     image = Variable(Tensor(image), requires_grad=True)
-    target = torch.from_numpy(zeros((1024))).cuda().float() + 1
-    target[400] = 0
+    
+    target = torch.from_numpy(1-affinity[400]).cuda().float()
+    #target = torch.from_numpy(zeros((1024))).cuda().float() + 1
+    #target[400] = 0
 
     criterion = torch.nn.MSELoss().cuda()
 
     for i in range(iterations):
-        print(i)
+        #print(i)`
         model.zero_grad()
         out = model(image)
         
         #print(target.size())
         #print(out.size())
         out_sum = out.data.data.cpu().numpy()[0,:]
+        cc = np.corrcoef(out_sum,1-affinity[400])[0,1]
+        if cc < 0:
+            cc = 0
         #figure(1);clf();plot(out_sum,'.');spause();raw_enter()
         #plot(target.data.numpy(),'o')
         #plot(out.data.numpy()[0,:],'.');spause()
@@ -69,11 +78,11 @@ def dream(image, model, iterations, lr):
         loss.backward()
         avg_grad = np.abs(image.grad.data.cpu().numpy()).mean()
         norm_lr = lr / avg_grad
-        image.data += norm_lr * image.grad.data
+        image.data += cc**2 * norm_lr * image.grad.data
         image.data = clip(image.data)
         image.grad.data.zero_()
         
-    return image.cpu().data.numpy()
+    return image.cpu().data.numpy()# * 0.9
 
 deprocessed_dreamed_image = None
 def deep_dream(image, model, iterations, lr, octave_scale, num_octaves):
@@ -88,6 +97,8 @@ def deep_dream(image, model, iterations, lr, octave_scale, num_octaves):
 
     detail = np.zeros_like(octaves[-1])
     for i in range(100000):
+        lr *= 0.99
+        print(lr)
         for octave, octave_base in enumerate(tqdm.tqdm(octaves[::-1], desc="Dreaming")):
             if octave > 0:
                 # Upsample detail to new octave dimension
@@ -99,12 +110,14 @@ def deep_dream(image, model, iterations, lr, octave_scale, num_octaves):
             #dreamed_image += 0.1*torch.randn(1,3,244,244)
             # Extract deep dream details
             detail = dreamed_image - octave_base
-            figure(1);clf();plot(out_sum,'.');spause()
+            figure(1);clf()
+            plt_square();xylim(0,1,0,1);plot(1-affinity[400],out_sum/out_sum.max(),'.');plot([0,1],[0,1],'r')
+            spause()
             mi(deprocess(dreamed_image),2);spause()
             deprocessed_dreamed_image = deprocess(dreamed_image)
     return deprocess(dreamed_image)
 
-b = deep_dream(rnd((244,244,3)), G, iterations=100, lr=0.1, octave_scale=1, num_octaves=1)
+#b = deep_dream(rnd((244,244,3)), G, iterations=100, lr=1, octave_scale=1, num_octaves=1)
 
 
 

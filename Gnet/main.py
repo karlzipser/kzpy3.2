@@ -114,7 +114,7 @@ def load(G,NETWORK_OUTPUT_FOLDER):
 if True:
     if True:
         G = GoogLeNet(num_classes=NUM_OUTPUTS).cuda()
-        optimizer = torch.optim.Adam(G.parameters(), lr=0.01, betas=(0.5, 0.999))
+        optimizer = torch.optim.Adam(G.parameters(), lr=0.001, betas=(0.5, 0.999))
         #optimizer = torch.optim.Adadelta(filter(lambda p: p.requires_grad,G.parameters()))
         criterion = torch.nn.MSELoss().cuda()
         loss_list = []
@@ -149,7 +149,7 @@ if True:
         if timer.check():
             timer.reset()
             print loss_list[-1]
-            if True:#host_name != 'bdd4':
+            if host_name != 'bdd4':
                 figure('loss');clf();ylim(0.02);plot(loss_list[100:],'.')#;spause()
 
                 t = Data['target'][0,:]
