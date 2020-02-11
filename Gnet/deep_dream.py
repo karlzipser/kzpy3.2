@@ -10,7 +10,7 @@ import os
 import tqdm
 import scipy.ndimage as nd
 #from utils import deprocess, preprocess, clip
-
+from kzpy3.vis3 import *
 
 path = opjD('Destkop_clusters_and_not_essential_24July2019')
 affinity = lo(opj(path,'affinity'))
@@ -78,7 +78,7 @@ def dream(image, model, iterations, lr):
         loss.backward()
         avg_grad = np.abs(image.grad.data.cpu().numpy()).mean()
         norm_lr = lr / avg_grad
-        image.data += cc**2 * norm_lr * image.grad.data
+        image.data += cc * norm_lr * image.grad.data
         image.data = clip(image.data)
         image.grad.data.zero_()
         
@@ -111,13 +111,14 @@ def deep_dream(image, model, iterations, lr, octave_scale, num_octaves):
             # Extract deep dream details
             detail = dreamed_image - octave_base
             figure(1);clf()
-            plt_square();xylim(0,1,0,1);plot(1-affinity[400],out_sum/out_sum.max(),'.');plot([0,1],[0,1],'r')
+            #plt_square();xylim(0,1,0,1);plot(1-affinity[400],out_sum/out_sum.max(),'.');plot([0,1],[0,1],'r')
+            xylim(0,1,-3,-10);plot(1-affinity[400],out_sum,'.')#;plot([0,1],[0,1],'r')
             spause()
             mi(deprocess(dreamed_image),2);spause()
             deprocessed_dreamed_image = deprocess(dreamed_image)
     return deprocess(dreamed_image)
 
-#b = deep_dream(rnd((244,244,3)), G, iterations=100, lr=1, octave_scale=1, num_octaves=1)
+b = deep_dream(rnd((244,244,3)), G, iterations=100, lr=1, octave_scale=1, num_octaves=1)
 
 
 

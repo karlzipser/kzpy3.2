@@ -267,4 +267,18 @@ CA()
 mi(img2,3)
 
 
+def rr(A,r,D):
+    for k in r:
+        assert k in A
+        assert k not in D
+    for k in D:
+        if 'c' not in A:
+            A['c'] = D['c']
 
+def asd(A,r=False):
+    rr(['a','b'],{'c':3},)
+    kprint(A,r=r)
+
+asd({'a':1,'b':2})
+
+#EOF

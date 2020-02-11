@@ -46,6 +46,8 @@ alias sra='screen -r SA'
 alias srb='screen -r SB'
 alias src='screen -r SC'
 
+alias empty_trash='rm -rf ~/.local/share/Trash/*'
+
 alias Data='python ~/kzpy3/Data_app/Main.py'
 alias pGraph='python ~/kzpy3/Grapher_app_for_preprocessed_data/Main.py'
 alias rGraph='python ~/kzpy3/Grapher_app_for_live_ros_data/Main.py'

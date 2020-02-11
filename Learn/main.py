@@ -32,10 +32,33 @@ Net_strs = {
     """,
 
 ##################################################################################
+    'proRgb2proRgb' : """
+        Learn 
+            --type ConDecon_Fire_FS,Fire3,proRgb2proRgb
+            --resume True 
+            --batch_size 1
+            --save_timer_time 300 
+            --target_offset  4
+            --input button,projections,rgb 
+            --target projections,rgb 
+            --losses_to_average 256 
+            --runs train 
+            --display.output 0,3,3,6
+            --display.input 0,3,3,6,6,9
+            --display.target 0,3,3,6
+            --clip 1
+            --backwards True
+            --win_x 20
+            --win_y 40
+            --drop 0.1
+            --projection.noise 50
+    """,
+
+
     'pro2pros' : """
         Learn 
             --type ConDecon_Fire_FS,Fire3,pro2pros
-            --resume True 
+            --resume False 
             --batch_size 1
             --save_timer_time 300 
             --target_offset  9,18,27,36,45
@@ -139,12 +162,12 @@ Net_strs = {
             --input Fire3 
             --target rgb,projections 
             --losses_to_average 256 
-            --runs train 
+            --runs validate 
             --display.output 0,3,3,6 
             --display.input 0,3 
             --display.target 0,3,3,6
             --clip 0.001
-            --backwards True
+            --backwards False
             --win_x 20
             --win_y 40
             --drop 0.0
