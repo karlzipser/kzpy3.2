@@ -1,29 +1,5 @@
  
-from kzpy3.vis3 import *
-from kzpy3.Train_app.Sq_ldr_interval_tester5_modified.Main import get_similarity
-from kzpy3.Learn.main import Main6_Output_Object
-from kzpy3.Learn.clusters import Clusters,threshold_img
 
-C = Clusters(get_similarity)
-Pro2pros = Main6_Output_Object('pro2pros')
-ProRgb2rgb = Main6_Output_Object('proRgb2rgb')
-
-path = opjD('Destkop_clusters_and_not_essential_24July2019')
-cluster_averages = lo(opj(path,'cluster_averages.pkl'))
-
-
-cluster_number = 400
-index = 1
-threshold = 25
-button_number = None
-
-
-
-
-
-
-
-I = loD('I_second_pass.pkl')
 
 
 Colors = {
@@ -59,35 +35,31 @@ def trajectory_curves(img):
 	return img2
 
 
-def ppercent(i,total,n=100,s='charlie: '):
-	if i % n == 0:
-		clp(s,int(100.0 *i/(1.0*total)),'%',s0='')
-
-#world_img = I['world_img'][-1]
 
 
-#mi(world_img)
 
-I['world_img_with_traj'] = []
-timer = Timer(5)
-l = len(I['cluster_avg_img'])
+Q = {
+	6:[400,410],
+	1:[538,405],
+	3:[400,410],
+	9:[400,524],
+}
+CA()
+for k in Q:
+	for i in range(1024):
+		img = imread(opjD('images','img'+str(k)+'.png'))
+		traj = trajectory_curves(imread(opjD('imgs2',d2n(i,'.png'))))
+		world_img = img.copy()
+		h,w,d = shape(traj)
+		for y in range(h):
+			for x in range(w):
+				for z in range(d):
+					if traj[y,x,z] == 255:
+						world_img[y,x,:] = Colors[z]
+		#mi(world_img)
+		#spause()
+		imsave(opjD('imgs_all',str(k)+'.'+str(i)+'.png'),world_img)
 
-I['world_img_with_traj'] = []
-for i in rlen(I['cluster_avg_img']):
-	if i % 100 == 0:
-		print i,l
-	img = I['prediction_img'][i]
-	world_img = I['world_img'][i].copy()
-	timer.message(d2s(int(100*i/(1.0*l)),'%'))
-	img2 = trajectory_curves(img)
-	h,w,d = shape(img2)
-	for y in range(h):
-		for x in range(w):
-			for z in range(d):
-				if img2[y,x,z] == 255:
-					world_img[y,x,:] = Colors[z]
-	I['world_img_with_traj'].append(world_img)
-	#mci(world_img,scale=4);#spause();time.sleep(30/1000.)
 
 
 
