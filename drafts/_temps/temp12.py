@@ -32,7 +32,7 @@ def c(D,*args,**kwargs):
 D = {0:2,1:{2:{3:4}},5:{2:{3:9}}}
 kprint(D,'\nD')
 
-c(D,5,2,3,v=5)
+oo(D,5,2,3,eq=5)
 
 kprint(D,'\nD')
 
@@ -47,7 +47,11 @@ c(D,10,4,v=0.0)
 kprint(D,'\nD')
 
 
-c(X, 2, 3, c(D, 0), v=c(D, 5) )
+oo(X, 2, 3, oo(D, 0), eq= oo(D, 5) )
+
+a = D[0]
+b = D[5]
+oo(X, 2, 3, a, eq= b)
 
 #,b
 
