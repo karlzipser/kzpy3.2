@@ -49,7 +49,16 @@ kprint(D,'\nD')
 
 oo(X, 2, 3, oo(D, 0), eq= oo(D, 5) )
 
-a = D[0]
+apple_ = 'apple'
+bear_ = 'bear'
+
+a = D[0]['apple']['bear']['c']
+
+a = D[0][apple_][bear_][c_]
+
+
+a = oo(D,0,apple_,bear_,c_)
+
 b = D[5]
 oo(X, 2, 3, a, eq= b)
 
