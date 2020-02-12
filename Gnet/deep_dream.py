@@ -11,6 +11,9 @@ import tqdm
 import scipy.ndimage as nd
 #from utils import deprocess, preprocess, clip
 from kzpy3.vis3 import *
+from Gnet.googlenet import GoogLeNet
+NUM_OUTPUTS = 1024
+
 
 path = opjD('Destkop_clusters_and_not_essential_24July2019')
 affinity = lo(opj(path,'affinity'))
@@ -47,7 +50,7 @@ def dream(image, model, iterations, lr):
     Tensor = torch.cuda.FloatTensor
     image = Variable(Tensor(image), requires_grad=True)
     
-    target = torch.from_numpy(1-affinity[400]).cuda().float()
+    target = torch.from_numpy((1-affinity[400])**2).cuda().float()
     #target = torch.from_numpy(zeros((1024))).cuda().float() + 1
     #target[400] = 0
 
@@ -61,7 +64,8 @@ def dream(image, model, iterations, lr):
         #print(target.size())
         #print(out.size())
         out_sum = out.data.data.cpu().numpy()[0,:]
-        cc = np.corrcoef(out_sum,1-affinity[400])[0,1]
+        #cc = np.corrcoef(out_sum,1-affinity[400])[0,1]
+        cc = 1.
         if cc < 0:
             cc = 0
         #figure(1);clf();plot(out_sum,'.');spause();raw_enter()
@@ -78,13 +82,24 @@ def dream(image, model, iterations, lr):
         loss.backward()
         avg_grad = np.abs(image.grad.data.cpu().numpy()).mean()
         norm_lr = lr / avg_grad
-        image.data += cc * norm_lr * image.grad.data
+        image.data = (1-lr/10.)*image.data + cc * norm_lr * image.grad.data 
         image.data = clip(image.data)
         image.grad.data.zero_()
-        
-    return image.cpu().data.numpy()# * 0.9
 
+        return_image = image.cpu().data.numpy()
+
+        #if loss_val < min_loss:
+        #    min_loss = loss_val
+
+        
+    return return_image
+
+timer = Timer(1)
 deprocessed_dreamed_image = None
+
+img_list = []
+min_loss = 9999
+
 def deep_dream(image, model, iterations, lr, octave_scale, num_octaves):
     """ Main deep dream method """
     global deprocessed_dreamed_image
@@ -97,7 +112,7 @@ def deep_dream(image, model, iterations, lr, octave_scale, num_octaves):
 
     detail = np.zeros_like(octaves[-1])
     for i in range(100000):
-        lr *= 0.99
+        lr *= 0.99999
         print(lr)
         for octave, octave_base in enumerate(tqdm.tqdm(octaves[::-1], desc="Dreaming")):
             if octave > 0:
@@ -110,15 +125,23 @@ def deep_dream(image, model, iterations, lr, octave_scale, num_octaves):
             #dreamed_image += 0.1*torch.randn(1,3,244,244)
             # Extract deep dream details
             detail = dreamed_image - octave_base
-            figure(1);clf()
-            #plt_square();xylim(0,1,0,1);plot(1-affinity[400],out_sum/out_sum.max(),'.');plot([0,1],[0,1],'r')
-            xylim(0,1,-3,-10);plot(1-affinity[400],out_sum,'.')#;plot([0,1],[0,1],'r')
-            spause()
-            mi(deprocess(dreamed_image),2);spause()
+            if timer.check():
+                timer.reset()
+                figure(8);clf()
+                plt_square()
+                xylim(-.5,1.5,-.5,1.5)
+                
+                plot(1-affinity[400],1-out_sum/out_sum.max(),'.');plot([0,1],[0,1],'r')
+                #xylim(0,1,-3,-10)
+                #figure(9);clf()
+                #plot(1-affinity[400],1-out_sum,'.')#;plot([0,1],[0,1],'r')
+                #spause()
+                mi(deprocess(dreamed_image),2)
+                spause()
             deprocessed_dreamed_image = deprocess(dreamed_image)
     return deprocess(dreamed_image)
 
-b = deep_dream(rnd((244,244,3)), G, iterations=100, lr=1, octave_scale=1, num_octaves=1)
+
 
 
 
@@ -163,6 +186,26 @@ if __name__ == "__main__":
     plt.show()
 
 """
+def load(G,NETWORK_OUTPUT_FOLDER):
+    f = most_recent_file_in_folder(opj(NETWORK_OUTPUT_FOLDER,'weights'),['.infer'],[])
+    clp('Resuming with','`','',f,'','`--rb'); time.sleep(1)
+    save_data = torch.load(f)
+    G.load_state_dict(save_data['net'])
+    f = most_recent_file_in_folder(opj(NETWORK_OUTPUT_FOLDER,'loss'),['.loss_avg.pkl'],[])
+    losses = lo(f)
+    return losses
+
+if True:
+    if True:
+        G = GoogLeNet(num_classes=NUM_OUTPUTS).cuda()
+        optimizer = torch.optim.Adam(G.parameters(), lr=0.001, betas=(0.5, 0.999))
+        #optimizer = torch.optim.Adadelta(filter(lambda p: p.requires_grad,G.parameters()))
+        criterion = torch.nn.MSELoss().cuda()
+        loss_list = []
+    
+    loss_list = load(G,opjD('Networks/googlenet0'))
+
+    b = deep_dream(rnd((244,244,3)), G, iterations=100, lr=.01, octave_scale=1, num_octaves=1)
 
 #EOF
 
