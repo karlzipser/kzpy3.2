@@ -42,8 +42,15 @@ def clip(image_tensor):
     return image_tensor
 
 out_sum = zeros(1024)
+
+
+
+img_list = []
+loss_list = []
+min_loss = 9999
+
 def dream(image, model, iterations, lr):
-    global out_sum
+    global out_sum,min_loss,loss_list,img_list
     """ Updates the image to maximize outputs for n iterations """
     #Tensor = torch.cuda.FloatTensor if torch.cuda.is_available else torch.FloatTensor
     #Tensor =  torch.FloatTensor
@@ -78,6 +85,7 @@ def dream(image, model, iterations, lr):
         #loss[:]=0
         #loss[400]=1
         #print(loss)
+        
         #print(loss.size())
         loss.backward()
         avg_grad = np.abs(image.grad.data.cpu().numpy()).mean()
@@ -88,17 +96,33 @@ def dream(image, model, iterations, lr):
 
         return_image = image.cpu().data.numpy()
 
-        #if loss_val < min_loss:
-        #    min_loss = loss_val
+        loss_val = loss.cpu().data.numpy()
+        if False:#loss_val < min_loss:
+            min_loss = loss_val
+            a = []
+            b = []
+            print len(loss_list)
+
+            c = na(loss_list).argsort()
+            c = list(c)
+            #c.reverse()
+            #print c
+            for i in c:
+                a.append(img_list[i])
+                b.append(loss_list[i])
+            img_list = a
+            loss_list = b
+            if len(img_list) > 10:
+                img_list = img_list[-10:]
+                loss_list = loss_list[-10:]
 
         
-    return return_image
+    return return_image #img_list[rndint(len(img_list))] #
 
 timer = Timer(1)
 deprocessed_dreamed_image = None
 
-img_list = []
-min_loss = 9999
+
 
 def deep_dream(image, model, iterations, lr, octave_scale, num_octaves):
     """ Main deep dream method """
@@ -205,7 +229,7 @@ if True:
     
     loss_list = load(G,opjD('Networks/googlenet0'))
 
-    b = deep_dream(rnd((244,244,3)), G, iterations=100, lr=.01, octave_scale=1, num_octaves=1)
+    b = deep_dream(rnd((244,244,3)), G, iterations=100, lr=.1, octave_scale=1, num_octaves=1)
 
 #EOF
 
