@@ -19,11 +19,11 @@ if False:
     ###
 
 
-
+#,a
 
 P = {
     'vel-encoding coeficient':  1.0/2.3,
-    'vec sample frequency': 3.33,
+    'vec sample frequency': 30,#3.33,
 }
 
 
@@ -51,24 +51,111 @@ def get_predictions2D(headings,encoders,motors,sample_frequency,P):
     pts2D_1step = na(xys)
     return pts2D_1step
 
-if True:
-    if 'L' not in locals():
-        L=h5r(opjh(
-            'Desktops_older',
-            'Desktop_19Feb19_08h49m53s',
-            'model_car_data_July2018_lrc',
-            'locations/local/left_right_center/h5py',
-            'Mr_Black_24Jul18_20h04m17s_local_lrc',
-            'left_timestamp_metadata_right_ts.h5py'
+run_path = opjh('Desktops_older',
+        'Desktop_19Feb19_08h49m53s',
+        'model_car_data_July2018_lrc',
+        'locations/local/left_right_center/h5py',
+        'Mr_Black_24Jul18_20h04m17s_local_lrc',
+        )
+
+if 'L' not in locals():
+    L = h5r(opj(
+        run_path,
+        'left_timestamp_metadata_right_ts.h5py'
+    ))
+if 'O' not in locals():
+    O = h5r(opj(
+        run_path,
+        'original_timestamp_data.h5py'
         ))
-    h = L['gyro_heading_x'][:]
-    e = L['encoder'][:]
-    m = L['motor'][:]
-    a = get_predictions2D(h,e,m,30,P)
-    pts_plot(a,sym=',')
-    pts_plot(a[:-30000,:],sym=',',color='b')
+
+h = L['gyro_heading_x'][:]
+e = L['encoder'][:]
+em = L['encoder_meo'][:]
+m = L['motor'][:]
+
+pts = get_predictions2D(h,e,m,30,P)
+slow_pts = []
+for i in rlen(pts):
+    if em[i] < 0.25:
+        slow_pts.append(pts[i]) 
+
+
+def get_index_of_nearest_point(pts,p):
+    min_dist = 10**30
+    min_indx = -999
+    def dist(a,b):
+        return np.sqrt((a[0]-b[0])**2 + (a[1]-b[1])**2)
+    for i in rlen(pts):    
+        d = dist(pts[i,:],p)
+        if d < min_dist:
+            min_indx = i
+            min_dist = d
+    assert(i >= 0 and i < len(pts))
+    return min_indx
+
+    
+
+
+n = 30*30
+m = 50
+CA()
+for i in range(50): 
+    clf()
+    fig = figure(1)
+    pts_plot(pts,sym=',',color='b')
+    pts_plot(slow_pts,sym=',',color='r')
+    plot(pts[0,0],pts[0,1],'og')
+    plot(pts[-1,0],pts[-1,1],'or')
     plt_square()
-    raw_enter()
+    xylim(min(pts[:,0])-m,max(pts[:,0])+m,min(pts[:,1])-m,max(pts[:,1])+m)
+    Cdat = Click_Data(FIG=fig,NO_SHOW=True)
+    xy_list = Cdat['CLICK'](NUM_PTS=1)
+    if None in xy_list[0]:
+        print('done.')
+        break
+    indx = get_index_of_nearest_point(pts,xy_list[0])
+    pts_plot([pts[indx,:]],sym='.',color='g')
+    spause()
+    xy_list = Cdat['CLICK'](NUM_PTS=1)
+    if None in xy_list[0]:
+        print('done.')
+        break
+    indx2 = get_index_of_nearest_point(pts,xy_list[0])
+    pts_plot([pts[indx2,:]],sym='.',color='r')
+    spause()
+    r = raw_input('enter to continue, q to reclick => ')
+    if r == 'q':
+        continue
+    
+    xs = pts[indx:indx2,0]
+    ys = pts[indx:indx2,1]
+    
+    
+    xylim(min(xs)-10,max(xs)+10,min(ys)-10,max(ys)+10)
+    pts_plot(slow_pts,sym='x',color='r')
+    spause()
+    try:
+        for j in range(indx,indx2):
+            if not np.mod(j,60):
+                print j
+                plot(pts[j,0],pts[j,1],'.k')
+                #pts_plot([pts[j,:]],sym='.',color='k')
+                spause()
+            mci(O['left_image']['vals'][j],delay=33)
+        raw_enter()
+    except:
+        print('exception')
+
+
+        
+#,b
+if False:
+    for i in range(1000,len(a),1000):
+        plot(a[i-1000,0],a[i-1000,1],'r.')
+        plot(a[i,0],a[i,1],'k.')
+        spause()
+raw_enter()
 
 if False:
     zeros_23_41_3 = np.zeros((23,41,3))

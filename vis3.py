@@ -782,7 +782,10 @@ def Click_Data(**Args):
             pt_str = 'point'
         else:
             pt_str = 'points'
-        pd2s('click',num_pts,pt_str)
+        if 'STR' in Args:
+            print(Args['STR'])
+        else:
+            pd2s('click',num_pts,pt_str)
         fig.canvas.callbacks.connect('button_press_event', _callback)
         xy_list = []
         while len(xy_list) < num_pts:
