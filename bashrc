@@ -147,5 +147,5 @@ fi
 
 alias U3='ssh -p 1022 -XY karlzipser@169.229.219.141'
 alias U='ssh -p 1022 -XY karlzipser@169.229.219.140'
-
+alias P='ssh -X nvidia@169.254.131.243'
 #EOF

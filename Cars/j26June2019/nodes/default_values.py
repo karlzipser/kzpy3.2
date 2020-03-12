@@ -74,7 +74,7 @@ _['ldr_off_time'] = 0.25
 _['temp_camera'] = 49
 _['still_motor_offset_gain'] = 0.0
 ###########################
-_['use flex'] = False ####TEMP_CHANGE
+_['use flex'] = True ####TEMP_CHANGE
 _['flex_motor_smoothing_parameter'] = _['network_motor_smoothing_parameter']
 _['flex_servo_smoothing_parameter'] = _['network_servo_smoothing_parameter']
 _['flex_motor_gain'] = 1.5

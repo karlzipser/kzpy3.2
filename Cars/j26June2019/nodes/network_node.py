@@ -9,6 +9,16 @@ import network_utils.Activity_Module
 import default_values
 exec(identify_file_str)
 import torch
+import torch._utils
+try:
+    torch._utils._rebuild_tensor_v2
+except AttributeError:
+    def _rebuild_tensor_v2(storage, storage_offset, size, stride, requires_grad, backward_hooks):
+        tensor = torch._utils._rebuild_tensor(storage, storage_offset, size, stride)
+        tensor.requires_grad = requires_grad
+        tensor._backward_hooks = backward_hooks
+        return tensor
+    torch._utils._rebuild_tensor_v2 = _rebuild_tensor_v2
 import kzpy3.VT_net2__1June2019.default_values as VT_net2__1June2019_default_values
 #import flex_network_node
 N = default_values.P

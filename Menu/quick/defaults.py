@@ -46,16 +46,16 @@ Q = {
     " --tab -e 'python "+car_path+"/network_node.py'"+\
     " --tab -e 'python kzpy3/VT_net2__5April2019_2__18April2019_for_speed/main.py'"+\
     " --tab -e 'show_image_from_ros.py --topic ldr_img'"+\
-    " --tab -e 'python kzpy3/VT_net2__1June2019/main.py'"+\
-    " --tab -e 'python kzpy3/Grapher/main.py'"+\
+    #" --tab -e 'python kzpy3/VT_net2__1June2019/main.py'"+\
+    #" --tab -e 'python kzpy3/Grapher/main.py'"+\
     " --tab -e 'python "+car_path+"/control_node.py'",
 
     'All car MENUs': "gnome-terminal"+\
     " --tab -e 'python kzpy3/Menu_app/menu2.py --path "+car_path+" --dic P'"+\
-    " --tab -e 'python kzpy3/Menu_app/menu2.py --path kzpy3/VT_net2__1June2019 --dic P'"+\
+    #" --tab -e 'python kzpy3/Menu_app/menu2.py --path kzpy3/VT_net2__1June2019 --dic P'"+\
     " --tab -e 'python kzpy3/Menu_app/menu2.py --path kzpy3/VT_net2__5April2019_2__18April2019_for_speed --dic P'"+\
-    " --tab -e 'python kzpy3/Menu/main.py --path kzpy3/Grapher'"
-   
+    #" --tab -e 'python kzpy3/Menu/main.py --path kzpy3/Grapher'"+\
+    ""   
 }
 if use_ssh:
     for k in Q.keys():

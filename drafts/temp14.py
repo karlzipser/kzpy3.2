@@ -281,4 +281,21 @@ def asd(A,r=False):
 
 asd({'a':1,'b':2})
 
+
+for i in range(1,25):
+    ampm = 'a.m.'
+    a = i
+    if a > 12:
+        a -= 12
+        ampm = 'p.m.'
+    b = i+15
+    if b > 24:
+        b -= 24
+    if b > 12:
+        b -=12
+
+    print a,ampm,b
+
+
+
 #EOF
