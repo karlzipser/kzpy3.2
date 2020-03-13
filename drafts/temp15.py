@@ -123,6 +123,13 @@ for i in range(50):
         break
     indx2 = get_index_of_nearest_point(pts,xy_list[0])
     pts_plot([pts[indx2,:]],sym='.',color='r')
+
+    if indx > indx2:
+        clp(' Warning, indicies reversed to have time direction correct ','`wrb')
+        a = indx2
+        indx2 = indx
+        indx = a
+
     spause()
     r = raw_input('enter to continue, q to reclick => ')
     if r == 'q':
@@ -134,11 +141,16 @@ for i in range(50):
     
     xylim(min(xs)-10,max(xs)+10,min(ys)-10,max(ys)+10)
     pts_plot(slow_pts,sym='x',color='r')
+    figure(2)
+    clf()
+    plot(h[indx:indx2],',')
+    spause();
+    figure(1)
     spause()
     try:
         for j in range(indx,indx2):
-            if not np.mod(j,60):
-                print j
+            if not np.mod(j,30*5):
+                #print j
                 plot(pts[j,0],pts[j,1],'.k')
                 #pts_plot([pts[j,:]],sym='.',color='k')
                 spause()
