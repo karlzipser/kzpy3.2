@@ -1,4 +1,11 @@
 from kzpy3.vis3 import *
+from kzpy3.Train_app.Sq_ldr_interval_tester5_modified.Main import get_similarity
+#from kzpy3.Learn.main import Main6_Output_Object
+from kzpy3.Learn.clusters import Clusters#,threshold_img
+
+C = Clusters(get_similarity)
+path = opjD('Destkop_clusters_and_not_essential_24July2019')
+cluster_averages = lo(opj(path,'cluster_averages.pkl'))
 
 if False:
     import fit3d#_torch as fit3d
@@ -65,6 +72,9 @@ run_path = opjh('Desktops_older',
         #'Mr_Black_25Jul18_14h29m56s_local_lrc',
         'Mr_Black_24Jul18_20h04m17s_local_lrc',
         )
+run_path = '/home/karlzipser/Desktop/Data/2_TB_Samsung_n/mid_Dec2018_with_lidar_image/locations/local/left_right_center/h5py/tegra-ubuntu_12Dec18_15h04m54s'
+run_path = '/home/karlzipser/Desktop/Data/1_TB_Samsung_n1/tu_25to26Oct2018/locations/local/left_right_center/h5py/tegra-ubuntu_25Oct18_10h21m55s'
+run_projected_path = '/home/karlzipser/Desktop/Data/Network_Predictions_projected/tegra-ubuntu_25Oct18_10h21m55s.net_projections.h5py'
 
 if 'L' not in locals():
     L = h5r(opj(
@@ -76,6 +86,8 @@ if 'O' not in locals():
         run_path,
         'original_timestamp_data.h5py'
         ))
+if 'Q' not in locals():
+    Q = h5r(run_projected_path)
 
 h = L['gyro_heading_x'][:]
 e = L['encoder'][:]
@@ -148,11 +160,10 @@ for i in range(50):
     xs = pts[indx:indx2,0]
     ys = pts[indx:indx2,1]
     
-    m,b = curve_fit(f___,xs,ys)[0]
-
-    ys_fit = m * xs + b
-
-    plot(xs,ys_fit,',k')
+    if False:
+        m,b = curve_fit(f___,xs,ys)[0]
+        ys_fit = m * xs + b
+        plot(xs,ys_fit,',k')
     
     xylim(min(xs)-10,max(xs)+10,min(ys)-10,max(ys)+10)
     pts_plot(slow_pts,sym='x',color='r')
@@ -170,7 +181,13 @@ for i in range(50):
                 plot(pts[j,0],pts[j,1],'k.')
                 #pts_plot([pts[j,:]],sym='.',color='k')
                 spause()
-            mci(O['left_image']['vals'][j],delay=33,scale=3)
+            mci(Q['normal'][j],delay=1,scale=6,title='ldr')
+            mci(O['left_image']['vals'][j],delay=33,scale=3,title='img')
+            r = C['find_most_similar_cluster'](Q['normal'][j],show=False,use_random=False)
+            img = cluster_averages[r[0]]
+            mci(img,delay=1,scale=6,title='cluster_averages 0')
+            img = cluster_averages[r[1]]
+            mci(img,delay=1,scale=6,title='cluster_averages 1')
         raw_enter()
     except:
         print('exception')
