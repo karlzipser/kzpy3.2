@@ -41,6 +41,12 @@ def f(x,A,B):
     return A*x + B
 
 
+def f___(x,A,B):
+    return A*x+B
+
+    
+
+
 def get_predictions2D(headings,encoders,motors,sample_frequency,P):
     xy = array([0.0,0.0])
     xys = []
@@ -55,6 +61,8 @@ run_path = opjh('Desktops_older',
         'Desktop_19Feb19_08h49m53s',
         'model_car_data_July2018_lrc',
         'locations/local/left_right_center/h5py',
+        #'Mr_Black_25Jul18_14h44m55s_local_lrc',
+        #'Mr_Black_25Jul18_14h29m56s_local_lrc',
         'Mr_Black_24Jul18_20h04m17s_local_lrc',
         )
 
@@ -107,6 +115,7 @@ for i in range(50):
     pts_plot(slow_pts,sym=',',color='r')
     plot(pts[0,0],pts[0,1],'og')
     plot(pts[-1,0],pts[-1,1],'or')
+    pts_plot(slow_pts,sym='x',color='r')
     plt_square()
     xylim(min(pts[:,0])-m,max(pts[:,0])+m,min(pts[:,1])-m,max(pts[:,1])+m)
     Cdat = Click_Data(FIG=fig,NO_SHOW=True)
@@ -116,6 +125,7 @@ for i in range(50):
         break
     indx = get_index_of_nearest_point(pts,xy_list[0])
     pts_plot([pts[indx,:]],sym='.',color='g')
+
     spause()
     xy_list = Cdat['CLICK'](NUM_PTS=1)
     if None in xy_list[0]:
@@ -138,23 +148,29 @@ for i in range(50):
     xs = pts[indx:indx2,0]
     ys = pts[indx:indx2,1]
     
+    m,b = curve_fit(f___,xs,ys)[0]
+
+    ys_fit = m * xs + b
+
+    plot(xs,ys_fit,',k')
     
     xylim(min(xs)-10,max(xs)+10,min(ys)-10,max(ys)+10)
     pts_plot(slow_pts,sym='x',color='r')
-    figure(2)
-    clf()
-    plot(h[indx:indx2],',')
-    spause();
-    figure(1)
+    if False:
+        figure(2)
+        clf()
+        plot(h[indx:indx2],',')
+        spause();
+        figure(1)
     spause()
     try:
         for j in range(indx,indx2):
-            if not np.mod(j,30*5):
+            if not np.mod(j,30*1):
                 #print j
-                plot(pts[j,0],pts[j,1],'.k')
+                plot(pts[j,0],pts[j,1],'k.')
                 #pts_plot([pts[j,:]],sym='.',color='k')
                 spause()
-            mci(O['left_image']['vals'][j],delay=33)
+            mci(O['left_image']['vals'][j],delay=33,scale=3)
         raw_enter()
     except:
         print('exception')
