@@ -1,1 +1,2 @@
-a = input('How do you feel? ')
+n = {}
+n['art'] = 4.0
