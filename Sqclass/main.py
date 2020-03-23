@@ -125,7 +125,9 @@ if __name__ == '__main__':
         os.system(d2s('mkdir -p',NETWORK_OUTPUT_FOLDER))
 
     torch.cuda.set_device(0)
-    CA()
+
+    if host_name != 'bdd4':
+        CA()
 
     timer = Timer(30)
     save_timer = Timer(300)
