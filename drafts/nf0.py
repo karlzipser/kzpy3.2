@@ -26,3 +26,14 @@ print D
 print E
 #
 ########################
+#
+def f(a):
+	b = a+1
+	print a,b
+	return a+1
+
+f(0)
+
+print f(0)
+#
+######################
