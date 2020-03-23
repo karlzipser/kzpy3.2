@@ -151,9 +151,11 @@ def Clusters(similarity=None):
         cluster_img = Runs[name]['net_projections']['data']['normal'][index]
         return cluster_img
 
-    def _function_find_most_similar_cluster(img,use_random=False,show=True):
+    def _function_find_most_similar_cluster(img,use_random=False,show=True,cluster_mask=[]):
         similarity_list = []
         for i in range(1024):
+            if len(cluster_mask) == 1024 and cluster_mask[i] < 1:
+                continue
             if use_random:
                 info = rndchoice(cluster_list[i])
                 cluster_img = Runs[info['name']]['net_projections']['data']['normal'][info['index']]

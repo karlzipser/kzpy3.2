@@ -139,6 +139,7 @@ if __name__ == '__main__':
         G.zero_grad()
         Data = make_batch(get_data_function,P,num_batches)
         #print shape(Data['input']),shape(Data['target'])
+        print shape(Data['input'])
         x = G.forward(torch.from_numpy(Data['input']).cuda().float())
         target = torch.from_numpy(Data['target']).cuda().float()
         #print x.size(),target.size()
