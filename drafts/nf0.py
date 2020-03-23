@@ -8,10 +8,10 @@ def g(Q):
 
 
 
-print g(D)
+print D
 
 g(D)
 
-print g(D)
+print D
 #
 ######################
