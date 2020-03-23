@@ -1,13 +1,8 @@
 
 #####################
 #
-n = {}
-n['art'] = 4.0
-
-
-print( n.keys() )
-
-for k in n:
-	print k, n[k]
+s = 'Hi Fran!'
+t = 'Can you read this?'
+print s + ' ' + t
 #
 ######################
