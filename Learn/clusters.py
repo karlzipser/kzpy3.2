@@ -154,15 +154,22 @@ def Clusters(similarity=None):
     def _function_find_most_similar_cluster(img,use_random=False,show=True,cluster_mask=[]):
         similarity_list = []
         for i in range(1024):
-            if len(cluster_mask) == 1024 and cluster_mask[i] < 1:
-                continue
+            
             if use_random:
                 info = rndchoice(cluster_list[i])
                 cluster_img = Runs[info['name']]['net_projections']['data']['normal'][info['index']]
             else:
                 cluster_img = D['cluster_averages'][i]
-            similarity_list.append(similarity(img,cluster_img,show))
+
+            if len(cluster_mask) == 1024 and cluster_mask[i] < 1:
+                sim = 1.
+            else:
+                sim = similarity(img,cluster_img,show)
+
+            similarity_list.append(sim)
+            
         most_similar = np.argsort(similarity_list)
+        
         return most_similar
 
     D['Runs'] = Runs
