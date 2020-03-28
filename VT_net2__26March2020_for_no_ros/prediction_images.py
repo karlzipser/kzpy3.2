@@ -126,7 +126,7 @@ def get_prediction_images_3D(pts2D_1step_list,img,_):
 HEADING = 0
 XY = array([[0.0,0.0]])
 
-def get__pts2D_multi_step(d_heading,encoder,sample_frequency,headings,encoders,motors,pts2D_multi_step,_):
+def __get__pts2D_multi_step(d_heading,encoder,sample_frequency,headings,encoders,motors,pts2D_multi_step,_):
 
     global HEADING, XY
     HEADING += -d_heading*_['d_heading_multiplier']
@@ -240,10 +240,8 @@ if False:
 
 
 
-def __get__pts2D_multi_step(d_heading,encoder,sample_frequency,headings,encoders,motors,pts2D_multi_step,_):
-    global HEADING
-    HEADING += -d_heading*_['d_heading_multiplier']
-    print dp(HEADING),dp(d_heading)
+def get__pts2D_multi_step(d_heading,encoder,sample_frequency,headings,encoders,motors,pts2D_multi_step,_):
+
     Pts2D_1step = {}
 
     for behavioral_mode in _['behavioral_mode_list']:
