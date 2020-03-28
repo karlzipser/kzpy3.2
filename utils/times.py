@@ -80,6 +80,13 @@ class Timer:
     def c(self):
         #cr('*** warning, Timer.c() used ***',ra=1)
         return self.check()
+    def check2(self):
+        #self.count += 1
+        if time.time() - self.start_time > self.time_s:
+            self.reset()
+            return True
+        else:
+            return False
     def time(self):
         return time.time() - self.start_time
     def reset(self):

@@ -54,7 +54,7 @@ load_parameters(_)
 ##############################################################
 ##############################################################
 
-
+save_timer = Timer(10)
 
 
 if __name__ == '__main__':
@@ -129,6 +129,11 @@ if __name__ == '__main__':
 
 
         prediction_images.show_maybe_save_images(Prediction2D_plot,left_camera_3D_img,metadata_3D_img,_)
+
+        if save_timer.check2():
+            soD(pts2D_multi_step,'pts2D_multi_step')
+
+
 
 
 ##############################################################

@@ -126,7 +126,7 @@ def get_prediction_images_3D(pts2D_1step_list,img,_):
 HEADING = 0
 XY = array([[0.0,0.0]])
 
-def __get__pts2D_multi_step(d_heading,encoder,sample_frequency,headings,encoders,motors,pts2D_multi_step,_):
+def get__pts2D_multi_step_2(d_heading,encoder,sample_frequency,headings,encoders,motors,pts2D_multi_step,_):
 
     global HEADING, XY
     HEADING += -d_heading*_['d_heading_multiplier']
@@ -217,22 +217,21 @@ if False:
         figure('XY');plt_square();#xylim(-10,10,-10,10);#clf() ###
         pts_plot(XY);
 
-        figure('lst[-1]');plt_square();xylim(-10,10,-10,10);#clf() ###
+        if True:
+            Colors = {'direct':'b','left':'r','right':'g'}
+            P = {}
+            P['behavioral_mode_list'] = ['left','direct','right']
+            lst=lo('/Users/karlzipser/Desktop/pts2D_multi_step.pkl')
 
-        for b in _['behavioral_mode_list']:
-            
-            if len(lst) > _['num timesteps']:
-                lst = lst[-_['num timesteps']:]
+            figure('lst[-1]');clf();plt_square();
 
-            lst[-1][b] = \
-                rotatePolygon(
-                    A[b],
-                    HEADING
-                ) + XY
+            pts = 0
 
-            pts_plot(lst[-1][b],color=Colors[b]) ###
-
-        spause() ###
+            for i in range(0,len(lst),10):
+                for b in P['behavioral_mode_list']:
+                    pts_plot(lst[i][b],color=Colors[b]) ###
+                    pts += len(lst[i][b])
+            spause() ###
 
         return lst
 ###
@@ -275,7 +274,7 @@ def get__pts2D_multi_step(d_heading,encoder,sample_frequency,headings,encoders,m
                     pts2D_multi_step[i][behavioral_mode],
                     -d_heading*_['d_heading_multiplier']
                 )
-
+        pts2D_multi_step[i][behavioral_mode] = list(pts2D_multi_step[i][behavioral_mode])
         pts2D_multi_step[-1][behavioral_mode].append(trajectory_vector)
 
         for i in rlen(pts2D_multi_step):
@@ -290,7 +289,7 @@ def get__pts2D_multi_step(d_heading,encoder,sample_frequency,headings,encoders,m
 ###
 def prepare_2D_and_3D_images(Prediction2D_plot,pts2D_multi_step,d_heading,encoder,sample_frequency,headings,encoders,motors,img,_):
 
-    pts2D_multi_step = get__pts2D_multi_step(d_heading,encoder,sample_frequency,headings,encoders,motors,pts2D_multi_step,_)
+    pts2D_multi_step = get__pts2D_multi_step_2(d_heading,encoder,sample_frequency,headings,encoders,motors,pts2D_multi_step,_)
 
     if _['graphics 1']:
         Prediction2D_plot['clear']()
