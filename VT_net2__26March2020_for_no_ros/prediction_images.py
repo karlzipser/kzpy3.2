@@ -1,6 +1,6 @@
 from kzpy3.vis3 import *
 
-import fit3d#_torch as fit3d
+import fit3d #_torch as fit3d
 
 ##############################################################
 ##############################################################
@@ -56,6 +56,7 @@ def get_prediction_images_3D(pts2D_1step_list,img,_):
 
         for behavioral_mode in Pts2D_1step.keys():
             pts2D_1step = Pts2D_1step[behavioral_mode]
+            #cm(pts2D_1step)
             for i in rlen(pts2D_1step):
                 a = pts2D_1step[i,:]
                 if a[1]<0:
@@ -122,8 +123,127 @@ def get_prediction_images_3D(pts2D_1step_list,img,_):
 ##############################################################
 ##############################################################
 ###
+HEADING = 0
+XY = array([[0.0,0.0]])
+
 def get__pts2D_multi_step(d_heading,encoder,sample_frequency,headings,encoders,motors,pts2D_multi_step,_):
 
+    global HEADING, XY
+    HEADING += -d_heading*_['d_heading_multiplier']
+
+    A = {}
+    lst = pts2D_multi_step
+    lst.append({})
+
+    for b in _['behavioral_mode_list']:
+
+        A[b] = \
+            get_predictions2D(
+                headings[b],
+                encoders[b],
+                motors[b],
+                sample_frequency,
+                _)
+
+    velocity = encoder * _['vel-encoding coeficient']
+
+    trajectory_vector = rotatePolygon(
+        na([[0,1]]) * velocity / sample_frequency,
+        HEADING
+        )    
+
+    XY += trajectory_vector
+
+    for b in _['behavioral_mode_list']:
+        
+        if len(lst) > _['num timesteps']:
+            lst = lst[-_['num timesteps']:]
+
+        lst[-1][b] = \
+            rotatePolygon(
+                A[b],
+                HEADING
+            ) + XY
+
+    return lst
+###
+##############################################################
+
+##############################################################
+###
+if False:
+    HEADING = 0
+    XY = array([[0.0,0.0]])
+
+    def get__pts2D_multi_step(d_heading,encoder,sample_frequency,headings,encoders,motors,pts2D_multi_step,_):
+
+        global HEADING, XY
+        HEADING += -d_heading*_['d_heading_multiplier']
+
+        A = {}
+        lst = pts2D_multi_step
+
+        figure('A');plt_square();xylim(-10,10,-10,10);#clf() ###
+
+        for b in _['behavioral_mode_list']:
+
+            A[b] = \
+                get_predictions2D(
+                    headings[b],
+                    encoders[b],
+                    motors[b],
+                    sample_frequency,
+                    _)
+            pts_plot(A[b],color=Colors[b]) ###
+
+        lst.append({})
+
+
+        figure('trajectory_vector');plt_square();xylim(-10,10,-10,10);#clf() ###
+
+        velocity = encoder * _['vel-encoding coeficient']
+
+        trajectory_vector = rotatePolygon(
+            na([[0,1]]) * velocity / sample_frequency,
+            HEADING
+            )    
+
+        pts_plot(trajectory_vector)
+
+        XY += trajectory_vector
+
+        cm(velocity,sample_frequency,trajectory_vector,XY)
+
+        figure('XY');plt_square();#xylim(-10,10,-10,10);#clf() ###
+        pts_plot(XY);
+
+        figure('lst[-1]');plt_square();xylim(-10,10,-10,10);#clf() ###
+
+        for b in _['behavioral_mode_list']:
+            
+            if len(lst) > _['num timesteps']:
+                lst = lst[-_['num timesteps']:]
+
+            lst[-1][b] = \
+                rotatePolygon(
+                    A[b],
+                    HEADING
+                ) + XY
+
+            pts_plot(lst[-1][b],color=Colors[b]) ###
+
+        spause() ###
+
+        return lst
+###
+##############################################################
+
+
+
+def __get__pts2D_multi_step(d_heading,encoder,sample_frequency,headings,encoders,motors,pts2D_multi_step,_):
+    global HEADING
+    HEADING += -d_heading*_['d_heading_multiplier']
+    print dp(HEADING),dp(d_heading)
     Pts2D_1step = {}
 
     for behavioral_mode in _['behavioral_mode_list']:
@@ -152,7 +272,11 @@ def get__pts2D_multi_step(d_heading,encoder,sample_frequency,headings,encoders,m
     for behavioral_mode in _['behavioral_mode_list']:
 
         for i in rlen(pts2D_multi_step):
-            pts2D_multi_step[i][behavioral_mode] = rotatePolygon(pts2D_multi_step[i][behavioral_mode],-d_heading*_['d_heading_multiplier'])
+            pts2D_multi_step[i][behavioral_mode] = \
+                rotatePolygon(
+                    pts2D_multi_step[i][behavioral_mode],
+                    -d_heading*_['d_heading_multiplier']
+                )
 
         pts2D_multi_step[-1][behavioral_mode].append(trajectory_vector)
 
@@ -161,10 +285,6 @@ def get__pts2D_multi_step(d_heading,encoder,sample_frequency,headings,encoders,m
             pts2D_multi_step[i][behavioral_mode] = pts2D_multi_step[i][behavioral_mode] - pts2D_multi_step[-1][behavioral_mode][-1]
 
     return pts2D_multi_step
-###
-##############################################################
-
-
 
 
 ################################################################

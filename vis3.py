@@ -594,7 +594,7 @@ def rotatePolygon(polygon,theta):
     rotatedPolygon = []
     for corner in polygon :
         rotatedPolygon.append(( corner[0]*math.cos(theta)-corner[1]*math.sin(theta) , corner[0]*math.sin(theta)+corner[1]*math.cos(theta)) )
-    return rotatedPolygon
+    return na(rotatedPolygon)
 
 
 def rotatePolygon__array_version(polygon,theta):
