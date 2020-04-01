@@ -5,6 +5,8 @@ from kzpy3.vis3 import *
 import default_values
 #import publish_no_ros
 
+
+
 S = {}
 S['ts'] = 0
 S['ts_prev'] = 0
@@ -70,16 +72,27 @@ import fit3d
 exec(identify_file_str)
 P = default_values.P
 
+assert 'run_name' in Arguments
+run_name = Arguments['run_name']
+
 Defaults = {
     'pub_predictions':True,
     'step':False,
-    'run':'tegra-ubuntu_29Oct18_13h28m05s',
+    #'run':'tegra-ubuntu_29Oct18_13h28m05s', # 'tegra-ubuntu_31Oct18_16h06m32s'
 }
 for k in Defaults:
     if k not in Arguments:
         Arguments[k] = Defaults[k]
 
+save_path = opjD('Data','pts2D_multi_step','pkl',run_name+'.pkl')
+os.system('mkdir -p '+opj(pname(save_path)))
 
+cm(sggo(save_path))
+if len(sggo(save_path)) > 0:
+    clp(save_path,'exists!!!','`wrb')
+    exit()
+
+os.system(d2s('touch',save_path))
 ##############################################################
 ##############################################################
 ##
@@ -95,9 +108,10 @@ if False:
 
 
 
+
 if False:
     U = lo(opjD('Data/Network_Predictions',fname(run_path)+'.net_predictions.pkl'))
-U = lo(opjD('tegra-ubuntu_31Oct18_16h06m32s.net_predictions.pkl'))
+U = lo(opjD('Data','Network_Predictions',run_name+'.net_predictions.pkl'))
 for i in rlen(U['left']):
     if U['left'][i] is not None and len(U['left'][i]) > 0:
         break
@@ -107,7 +121,21 @@ clp('first valid index =',P['index'],'; initial index=',P['initial index'])
 
 if False:
     L,O,___ = open_run(run_name=Arguments['run'],h5py_path=pname(run_path),want_list=['L','O'])
-L,O,___ = open_run(run_name='tegra-ubuntu_31Oct18_16h06m32s',h5py_path=pname(opjD()),want_list=['L','O'])
+clp()
+
+H = find_files_recursively(opjD('Data'),'tegra-ubuntu_31Oct18_16h06m32s',DIRS_ONLY=True)
+#kprint(H,title='H')
+h5py_path = None
+for p in H['paths']:
+    if fname(p) == 'h5py':
+        h5py_path = opj(H['src'],p)
+        break
+assert h5py_path is not None
+#cg(h5py_path)
+
+
+L,O,___ = open_run(run_name=run_name,h5py_path=h5py_path,want_list=['L','O'],verbose=True)
+
 P['headings'] = L['gyro_heading_x'][:]
 P['encoders'] = L['encoder'][:]
 P['steers'] = L['steer'][:]

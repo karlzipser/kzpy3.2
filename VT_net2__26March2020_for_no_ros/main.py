@@ -5,7 +5,7 @@ from kzpy3.vis3 import *
 from scipy.optimize import curve_fit
 import kzpy3.Menu_app.menu2 as menu2
 import default_values
-from subscribe_no_ros import S,step
+from subscribe_no_ros import S,step,run_name,save_path
 import prediction_images
 exec(identify_file_str)
 _ = default_values._
@@ -56,7 +56,6 @@ load_parameters(_)
 
 save_timer = Timer(30)
 
-
 if __name__ == '__main__':
 
     Prediction2D_plot = CV2Plot(height_in_pixels=141,width_in_pixels=62,pixels_per_unit=7,y_origin_in_pixels=41)
@@ -72,8 +71,9 @@ if __name__ == '__main__':
 
     while not _['ABORT']:
 
-        first = True
         
+        first = True
+
         step()
 
         if first:
@@ -85,7 +85,7 @@ if __name__ == '__main__':
         mt_prev = _['99 mov timer time']
         load_parameters(_)
         if mt_prev !=  _['99 mov timer time']:
-            cg('*** new 99 mov timer time, t =',_['99 mov timer time'],'***')
+            pass #cg('*** new 99 mov timer time, t =',_['99 mov timer time'],'***')
         
 
         camera_heading = (S['cmd/camera']-49) * _['cmd_camera_to_camera_heading_cooeficient']
@@ -96,7 +96,7 @@ if __name__ == '__main__':
             mov.reset()
 
         if not mov.check():
-            cg("mov.time() =",intr(1000*mov.time()),"ms")
+            #cg("mov.time() =",intr(1000*mov.time()),"ms")
             pass
 
         else:
@@ -115,10 +115,22 @@ if __name__ == '__main__':
         encoder =               S['encoder']
         sample_frequency =      S['sample_frequency']
 
+        try:
+            #pts2D_multi_step = 
+            prediction_images.get__pts2D_multi_step_2(d_heading,encoder,S['steer'],sample_frequency,headings,encoders,motors,pts2D_multi_step,S,_)
 
-        #pts2D_multi_step = prediction_images.get__pts2D_multi_step_2(d_heading,encoder,S['steer'],sample_frequency,headings,encoders,motors,pts2D_multi_step,S,_)
+        except KeyboardInterrupt:
+            cr('*** KeyboardInterrupt ***')
+            sys.exit()
+        except Exception as e:
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+            CS_('Exception!',emphasis=True)
+            CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+            _['ABORT'] = True
+            continue
 
-        if True:
+        if False:
             Prediction2D_plot,left_camera_3D_img,metadata_3D_img = \
                 prediction_images.prepare_2D_and_3D_images(
                     Prediction2D_plot,
@@ -133,10 +145,14 @@ if __name__ == '__main__':
                     S['left_image'],
                     S,
                     _)
-            prediction_images.show_maybe_save_images(Prediction2D_plot,left_camera_3D_img,metadata_3D_img,_)
+            #prediction_images.show_maybe_save_images(Prediction2D_plot,left_camera_3D_img,metadata_3D_img,_)
 
-        if save_timer.check2():
-            soD(pts2D_multi_step,'pts2D_multi_step')
+        #if save_timer.check2():
+        #    so(pts2D_multi_step,save_path)
+
+
+
+    so(pts2D_multi_step,save_path)
 
 
 

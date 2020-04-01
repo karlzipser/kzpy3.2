@@ -253,20 +253,24 @@ def prepare_2D_and_3D_images(
 
     pts2D_multi_step = get__pts2D_multi_step_2(d_heading,encoder,steer,sample_frequency,headings,encoders,motors,pts2D_multi_step,S,_)
 
-    if _['graphics 1']:
-        Prediction2D_plot['clear']()
+    if False:
+        if _['graphics 1']:
+            Prediction2D_plot['clear']()
 
-        for behavioral_mode in _['behavioral_mode_list']:
+            for behavioral_mode in _['behavioral_mode_list']:
 
-            for i in rlen(pts2D_multi_step):
+                for i in rlen(pts2D_multi_step):
 
-                Prediction2D_plot['pts_plot'](na(pts2D_multi_step[i][behavioral_mode]),Colors[behavioral_mode],add_mode=_['add_mode'])
+                    Prediction2D_plot['pts_plot'](na(pts2D_multi_step[i][behavioral_mode]),Colors[behavioral_mode],add_mode=_['add_mode'])
 
 
 
-    left_camera_3D_img,metadata_3D_img = get_prediction_images_3D(pts2D_multi_step,img,_)
+        left_camera_3D_img,metadata_3D_img = get_prediction_images_3D(pts2D_multi_step,img,_)
 
-    return Prediction2D_plot,left_camera_3D_img,metadata_3D_img
+        return Prediction2D_plot,left_camera_3D_img,metadata_3D_img
+
+    return Prediction2D_plot,None,None
+
 ###
 ################################################################
 ################################################################
