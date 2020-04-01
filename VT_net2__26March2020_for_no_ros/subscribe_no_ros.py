@@ -87,7 +87,6 @@ for k in Defaults:
 save_path = opjD('Data','pts2D_multi_step','pkl',run_name+'.pkl')
 os.system('mkdir -p '+opj(pname(save_path)))
 
-cm(sggo(save_path))
 if len(sggo(save_path)) > 0:
     clp(save_path,'exists!!!','`wrb')
     exit()
@@ -123,7 +122,7 @@ if False:
     L,O,___ = open_run(run_name=Arguments['run'],h5py_path=pname(run_path),want_list=['L','O'])
 clp()
 
-H = find_files_recursively(opjD('Data'),'tegra-ubuntu_31Oct18_16h06m32s',DIRS_ONLY=True)
+H = find_files_recursively(opjD('Data'),run_name,DIRS_ONLY=True)
 #kprint(H,title='H')
 h5py_path = None
 for p in H['paths']:
