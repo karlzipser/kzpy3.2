@@ -96,20 +96,6 @@ os.system(d2s('touch',save_path))
 ##############################################################
 ##
 
-if False:
-    runs = lo(opjD('Data/Network_Predictions/runs.pkl'))
-    Runs = {}
-
-    for r in runs:
-        Runs[fname(r)] = r
-    run_path = Runs[Arguments['run']]
-    run_path = run_path.replace('/media/karlzipser','/home/karlzipser/Desktop/Data')
-
-
-
-
-if False:
-    U = lo(opjD('Data/Network_Predictions',fname(run_path)+'.net_predictions.pkl'))
 U = lo(opjD('Data','Network_Predictions',run_name+'.net_predictions.pkl'))
 for i in rlen(U['left']):
     if U['left'][i] is not None and len(U['left'][i]) > 0:
@@ -118,22 +104,12 @@ for i in rlen(U['left']):
         P['index'] += 1
 clp('first valid index =',P['index'],'; initial index=',P['initial index'])
 
-if False:
-    L,O,___ = open_run(run_name=Arguments['run'],h5py_path=pname(run_path),want_list=['L','O'])
-clp()
-
-H = find_files_recursively(opjD('Data'),run_name,DIRS_ONLY=True)
-#kprint(H,title='H')
-h5py_path = None
-for p in H['paths']:
-    if fname(p) == 'h5py':
-        h5py_path = opj(H['src'],p)
-        break
-assert h5py_path is not None
-#cg(h5py_path)
 
 
-L,O,___ = open_run(run_name=run_name,h5py_path=h5py_path,want_list=['L','O'],verbose=True)
+#h5py_path = find_h5py_path(run_name)
+
+#L,O,___ = open_run(run_name=run_name,h5py_path=h5py_path,want_list=['L','O'],verbose=True)
+L,O,___ = open_run2(run_name=run_name,want_list=['L','O'],verbose=True)
 
 P['headings'] = L['gyro_heading_x'][:]
 P['encoders'] = L['encoder'][:]

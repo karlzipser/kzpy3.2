@@ -444,7 +444,19 @@ def percent_disk_free(disk='/'):
     return percent_free
 
 
+def find_h5py_path(run_name):
+    H = find_files_recursively(opjD('Data'),run_name,DIRS_ONLY=True)
+    h5py_path = None
+    for p in H['paths']:
+        if fname(p) == 'h5py':
+            h5py_path = opj(H['src'],p)
+            break
+    assert h5py_path is not None
+    return h5py_path
 
+def make_path_and_touch_file(path):
+    os.system('mkdir -p '+pname(path))
+    os.system('touch '+path)
 
 def open_run(run_name,h5py_path=None,Runs_dic=None,want_list=['L','O','F'],verbose=False):
     #cb("run_name =",run_name,"h5py_path =",h5py_path)
@@ -478,8 +490,10 @@ def open_run(run_name,h5py_path=None,Runs_dic=None,want_list=['L','O','F'],verbo
             return False,False,False
     return Files['L'],Files['O'],Files['F']
 
-
-
+def open_run2(run_name,Runs_dic=None,want_list=['L','O','F'],verbose=False):
+    h5py_path = find_h5py_path(run_name)
+    L,O,F = open_run(run_name,h5py_path=h5py_path,want_list=want_list,verbose=verbose)
+    return L,O,F
 
 def backup_folder(
     src=opjh('kzpy3')+'/',
