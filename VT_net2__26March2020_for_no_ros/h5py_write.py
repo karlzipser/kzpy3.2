@@ -48,34 +48,44 @@ freq = Timer(10)
 
 
 for n in range(0,len(lst),1):
-    indicies.append(lst[n]['index'])
-    heading = -lst[n]['HEADING']
-    Prediction2D_plot['clear']()
-    a,b,c = max(0,n - Arguments['backward']), min(len(lst),n + Arguments['forward']), 1
-    for i in range(a,b,c):
-        if np.abs(lst[i]['steer'] - 49) < 100:
-            for b in ['left','right','direct']:
-                pts = rotatePolygon(
-                    lst[i][b]-na([[lst[n]['x'],lst[n]['y']]]),
-                    heading
-                )
-                if i == n:
-                    sym = '.'
-                else:
-                    sym = ','
-                if False:
-                    pts_plot(pts,color=Colors[b],sym=sym) ###
-                Prediction2D_plot['pts_plot'](pts,Colors[b],add_mode=True)
+    try:
+        indicies.append(lst[n]['index'])
+        heading = -lst[n]['HEADING']
+        Prediction2D_plot['clear']()
+        a,b,c = max(0,n - Arguments['backward']), min(len(lst),n + Arguments['forward']), 1
+        for i in range(a,b,c):
+            if np.abs(lst[i]['steer'] - 49) < 100:
+                for b in ['left','right','direct']:
+                    pts = rotatePolygon(
+                        lst[i][b]-na([[lst[n]['x'],lst[n]['y']]]),
+                        heading
+                    )
+                    if i == n:
+                        sym = '.'
+                    else:
+                        sym = ','
+                    if False:
+                        pts_plot(pts,color=Colors[b],sym=sym) ###
+                    Prediction2D_plot['pts_plot'](pts,Colors[b],add_mode=True)
 
-    
-    img = Prediction2D_plot['show'](autocontrast2=True,scale=3.0,threshold=10,return_img=True)
+        
+        img = Prediction2D_plot['show'](autocontrast2=True,scale=3.0,threshold=10,return_img=True)
 
-    if Arguments['show']:
-        mci(img,scale=3.0)
+        if Arguments['show']:
+            mci(img,scale=3.0)
 
-    images.append(img)
-    freq.freq(d2n(int(100 * n/len(lst)),'% '))
-    #raw_enter()
+        images.append(img)
+        freq.freq(d2n(int(100 * n/len(lst)),'% '))
+
+    except KeyboardInterrupt:
+        cr('*** KeyboardInterrupt ***')
+        sys.exit()
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        CS_('Exception!',emphasis=True)
+        CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+        break
 
 F = h5w(save_path)
 F.create_dataset('index',data=na(indicies))

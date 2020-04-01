@@ -23,18 +23,23 @@ a0,O,a1 = open_run2(Arguments['run_name'])
 
 indicies = F['index'][:]
 
-if A['stop'] = -1:
-    A['stop'] = len(indicies)
+mx = len(F['images'])
+
+if A['stop'] == -1:
+    A['stop'] = mx
 
 if A['start_percent'] is not None:
-    A['start'] = int(A['start_percent'] * len(indicies) / 100.0)
+    A['start'] = int(A['start_percent'] * mx / 100.0)
 
 if A['stop_percent'] is not None:
-    A['stop'] = int(A['stop_percent'] * len(indicies) / 100.0)
+    A['stop'] = int(A['stop_percent'] * mx / 100.0)
 
 assert A['stop'] > A['start']
 
-for i in range(A['start'],A['stop'],A['step']:
+cg(A['start'],A['stop'],A['step'])
+
+for i in range(A['start'],A['stop'],A['step']):
+    print i
 
     mci(O['left_image']['vals'][indicies[i]],title='a',scale=3.)
 
