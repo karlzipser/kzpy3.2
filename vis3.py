@@ -826,12 +826,27 @@ def CV2Plot(height_in_pixels,width_in_pixels,pixels_per_unit,x_origin_in_pixels=
     D['y_origin_in_pixels'] = y_origin_in_pixels
 
 
-    def function_show(autocontrast=False,delay=1,title='image',scale=1.0,fx=0,fy=0):
+    def function_show(
+        autocontrast=False,
+        delay=1,
+        title='image',
+        scale=1.0,
+        fx=0,
+        fy=0,
+        autocontrast2=False,
+        threshold=0,
+        return_img=False
+        ):
         
         img = D['image']
+        if threshold > 0:
+            img[img>threshold] = threshold
         if autocontrast:
             img = z2_255_by_channel(img)
-            #cg(img.min(),img.max())
+        elif autocontrast2:
+            img = z2_255(img)
+        if return_img:
+            return img
         return mci(img,scale=scale,fx=fx,fy=fy,delay=delay,title=title)
     def function_safe(px,py):
         if px >= 0:

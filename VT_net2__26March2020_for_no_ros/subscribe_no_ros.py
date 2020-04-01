@@ -16,12 +16,20 @@ S['encoder'] = 0
 S['left_image'] = False
 S['delta cmd/camera'] = 0
 S['cmd/camera'] = 49
+S['steer'] = 49
+S['motor'] = 49
 
 def MODALITY_SIDE_callback(data,modality,side):
     S[modality+'_'+side] = na(data).astype(float)/1000.
 
 def encoder_callback(data):
     S['encoder'] = data
+
+def steer_callback(data):
+    S['steer'] = data
+
+def motor_callback(data):
+    S['motor'] = data
 
 
 def gyro_heading_x_callback(data):
@@ -102,6 +110,8 @@ if False:
 L,O,___ = open_run(run_name='tegra-ubuntu_31Oct18_16h06m32s',h5py_path=pname(opjD()),want_list=['L','O'])
 P['headings'] = L['gyro_heading_x'][:]
 P['encoders'] = L['encoder'][:]
+P['steers'] = L['steer'][:]
+P['motors'] = L['motor'][:]
 
 Left_timestamps_to_left_indicies = {}
 t0 = L['ts'][0]
@@ -131,6 +141,9 @@ def get_data(P):
 
     encoder = P['encoders'][indx]
 
+    steer = P['steers'][indx]
+    motor = P['motors'][indx]
+
     if False:#P['index'] > 0:
         sample_frequency = 1.0 / (L['left_timestamp_index'][P['index']]-L['left_timestamp_index'][P['index']-1])
     else:
@@ -149,7 +162,7 @@ def get_data(P):
     left_image = O['left_image']['vals'][left_index].copy()
     right_image = O['right_image']['vals'][left_index].copy()
 
-    return d_heading,sample_frequency,left_image,right_image,gyro_heading_x,encoder,headings,encoders,motors
+    return d_heading,sample_frequency,left_image,right_image,gyro_heading_x,encoder,steer,motor,headings,encoders,motors
 ##
 ##############################################################
 ##############################################################
@@ -175,7 +188,7 @@ def step(index=-1):
         #    rate_timer.reset()
         Data = {}
 
-        d_heading,sample_frequency,left_image,right_image,gyro_heading_x,encoder,Data['headings'],Data['encoders'],Data['motors'] = get_data(P)
+        d_heading,sample_frequency,left_image,right_image,gyro_heading_x,encoder,steer,motor,Data['headings'],Data['encoders'],Data['motors'] = get_data(P)
 
         if Arguments['pub_predictions']:
             for modality in ['headings','encoders','motors']:
@@ -186,10 +199,15 @@ def step(index=-1):
 
         encoder_callback( encoder )
 
+        steer_callback( steer )
+
+        motor_callback( motor )
+
         left_callback( left_image )
 
         if Arguments['step']:
             cg("P['index'] =",P['index'],ra=1)
+        S['index'] = P['index']
         P['index'] += P['step_size']
         P['timer'].freq(d2s("P['index'] =",P['index'], int(100*P['index']/(1.0*len(U['ts']))),'%'))
 

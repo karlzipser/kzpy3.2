@@ -54,7 +54,7 @@ load_parameters(_)
 ##############################################################
 ##############################################################
 
-save_timer = Timer(10)
+save_timer = Timer(30)
 
 
 if __name__ == '__main__':
@@ -116,19 +116,24 @@ if __name__ == '__main__':
         sample_frequency =      S['sample_frequency']
 
 
-        Prediction2D_plot,left_camera_3D_img,metadata_3D_img = \
-            prediction_images.prepare_2D_and_3D_images(
-                Prediction2D_plot,
-                pts2D_multi_step,
-                d_heading,encoder,
-                sample_frequency,
-                headings,
-                encoders,
-                motors,
-                S['left_image'],_)
+        #pts2D_multi_step = prediction_images.get__pts2D_multi_step_2(d_heading,encoder,S['steer'],sample_frequency,headings,encoders,motors,pts2D_multi_step,S,_)
 
-
-        prediction_images.show_maybe_save_images(Prediction2D_plot,left_camera_3D_img,metadata_3D_img,_)
+        if True:
+            Prediction2D_plot,left_camera_3D_img,metadata_3D_img = \
+                prediction_images.prepare_2D_and_3D_images(
+                    Prediction2D_plot,
+                    pts2D_multi_step,
+                    d_heading,
+                    encoder,
+                    S['steer'],
+                    sample_frequency,
+                    headings,
+                    encoders,
+                    motors,
+                    S['left_image'],
+                    S,
+                    _)
+            prediction_images.show_maybe_save_images(Prediction2D_plot,left_camera_3D_img,metadata_3D_img,_)
 
         if save_timer.check2():
             soD(pts2D_multi_step,'pts2D_multi_step')
