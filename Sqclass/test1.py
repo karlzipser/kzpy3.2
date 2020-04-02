@@ -127,8 +127,8 @@ m = 50
 #M['Q']['num_clusters_to_use'] = 10
 #M['Q']['num_clusters_to_average'] = 5
 load_timer = Timer(1)
-
-
+cycle_timer = Timer(5)
+Abort = Toggler()
 
 CA()
 
@@ -177,7 +177,7 @@ while True:
 
 
 
-    try:
+    if True:#try:
         for j in range(indx,indx2):
             if not np.mod(j,30*1):
 
@@ -224,10 +224,13 @@ while True:
             if load_timer.check():
                 load_timer.reset()
                 M['load']()
-                #kprint(M['Q'])
+                if Abort['test'](M['Q']['ABORT']):
+                    sys.exit()
+
+            cycle_timer.freq('cycle_timer')
 
         raw_enter()
-    except:
+    else:#except:
         print('exception')
 
 # net_23Mar20_10h23m49s.0.0043994044.cuda.infer
