@@ -10,6 +10,12 @@ from runs import All_runs
 
 def setup(P):
 
+
+    P['pts2d_runs'] = []
+    pruns = sggo(opjD('Data','pts2D_multi_step','h5py','*.h5py'))
+    for p in pruns:
+        P['pts2d_runs'].append(fname(p).split('.')[0])
+
     Runs = {}
 
     #activation_folders = sggo(opjm('2_TB_Samsung','Activations_folders','*'))
@@ -39,6 +45,12 @@ def setup(P):
     #kprint(_Runs)
 
     for r in _Runs.keys():
+
+
+        if 'pts2d' in P['target']:
+            if r not in P['pts2d_runs']:
+                cm('not using',r)
+                continue
 
         Run_coder[run_ctr] = r
 
@@ -102,15 +114,33 @@ def setup(P):
 
         u = Runs[r]['activations/indicies']['data'][:]
         v = Runs[r]['activations/reverse-indicies']['data']
-
         for i in rlen(u):
             ii = u[i].astype(int)
-
             if ii < len(v) and ii > -1:
                 v[ii] = i
 
-            run_ctr += 1
+        #Runs = {}
+        #r = 'Mr_Black_24Jul18_20h04m17s_local_lrc'
+        #Runs[r] = {}
+        Runs[r]['pts2d'] = {'path':opjD('Data','pts2D_multi_step','h5py',r+'.h5py')}
+        if os.path.exists(Runs[r]['pts2d']['path']):
+            #P['pts2d_runs'].append(r)
+            Runs[r]['pts2d']['h5py'] = h5r(Runs[r]['pts2d']['path'])
+            Runs[r]['pts2d']['data'] = Runs[r]['pts2d']['h5py']['images']
 
+            Runs[r]['pts2d']['reverse-indicies'] = np.zeros(int(1.5*len(Runs[r]['pts2d']['data'])))#     len(Runs[r]['left_timestamp_metadata_right_ts']['data']['motor']),int)-1
+            u = Runs[r]['pts2d']['h5py']['index'][:]
+            v = Runs[r]['pts2d']['reverse-indicies']
+            for i in rlen(u):
+                ii = u[i].astype(int)
+                if ii < len(v) and ii > -1:
+                    v[ii] = i
+                
+        else:
+            clp('warning,','`y',Runs[r]['pts2d']['path'],'`y-r','not found','`y')
+
+        run_ctr += 1
+        
 
     P['Runs'] = Runs
     P['good_list'] = good_list
@@ -232,7 +262,19 @@ def get_data_function(P):
                         Lists[k][-1] *= 0
                     #print 'rgb', dp(Lists[k][-1].min()), dp(Lists[k][-1].max())
 
+
+
+                if 'pts2d' in P[k]:
+
+                    i = Runs[r]['pts2d']['reverse-indicies'][ctr]
+                    p = Runs[r]['pts2d']['data'][i + P[k+'_offset']]
+                    Lists[k].append(p)
+                    
+
+
+
                 if 'projections' in P[k]:
+
                     if type(P[k+'_offset']) == list:
                         offset_list = P[k+'_offset']
                     else:
@@ -290,6 +332,11 @@ def get_data_function(P):
                     #print 'Fire3', dp(Lists[k][-1].min()), dp(Lists[k][-1].max())
                     
 
+
+                    Lists[k].append(i)
+                    if rnd() < P['drop'] and k == 'input':
+                        Lists[k][-1] *= 0
+                    
             break
         """
         except KeyboardInterrupt:

@@ -589,7 +589,11 @@ for color in ['red','yellow','green','blue','magenta','cyan','white','Grey']:
     """
 
 
-
+def in_True(a,B):
+    if a in B and B[a]:
+        return True
+    else:
+        return False
 
 
 from kzpy3.utils.printing2 import *

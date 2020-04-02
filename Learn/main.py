@@ -10,7 +10,6 @@ M = Menu.main.start_Dic(dic_project_path=pname(opjh(__file__)))
 Net_strs = {
     #Learn --main 4 --net_str Fire2rgbProjections.dcgan
     'Fire2rgbProjections.dcgan' : """
-
         Learn 
             --type ConDecon_Fire_FS,Fire3,Fire2rgbProjections.dcgan
             --resume True 
@@ -31,7 +30,29 @@ Net_strs = {
             --drop 0.0
     """,
 
-##################################################################################
+    'pts2d0' : """
+        Learn 
+            --type ConDecon_Fire_FS,Fire3,pts2d0
+            --resume False 
+            --batch_size 1
+            --save_timer_time 300 
+            --target_offset 0 
+            --input rgb,Fire3,button
+            --target pts2d 
+            --losses_to_average 256 
+            --runs train 
+            --display.output 0,3 
+            --display.input 0,3,3,6,6,9
+            --display.target 0,3
+            --clip 0.0001
+            --backwards True
+            --win_x 20
+            --win_y 40
+            --drop 0.0
+            --blue_center_button True
+
+    """,
+
     'proRgb2proRgb' : """
         Learn 
             --type ConDecon_Fire_FS,Fire3,proRgb2proRgb
