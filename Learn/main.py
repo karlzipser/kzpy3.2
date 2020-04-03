@@ -33,7 +33,7 @@ Net_strs = {
     'pts2d0' : """
         Learn 
             --type ConDecon_Fire_FS,Fire3,pts2d0
-            --resume False 
+            --resume True 
             --batch_size 1
             --save_timer_time 300 
             --target_offset 0 
