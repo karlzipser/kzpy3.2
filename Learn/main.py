@@ -44,7 +44,7 @@ Net_strs = {
             --display.output 0,3 
             --display.input 0,3,3,6,6,9
             --display.target 0,3
-            --clip 0.1
+            --clip 0.0001
             --backwards True
             --win_x 20
             --win_y 40
