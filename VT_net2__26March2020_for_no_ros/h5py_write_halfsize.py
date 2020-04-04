@@ -19,6 +19,7 @@ save_path = read_path.replace('/h5py/','/h5py_half/')
 os.system('mkdir -p '+pname(save_path))
 A = Arguments
 
+clp('processing',run_name,'`--r')
 
 F = h5r(read_path)
 
@@ -44,7 +45,7 @@ assert A['stop'] > A['start']
 cg(A['start'],A['stop'],A['step'])
 
 for i in range(A['start'],A['stop'],A['step']):
-    print i
+    #print i
 
     G['index'].append(F['index'][i])
     
