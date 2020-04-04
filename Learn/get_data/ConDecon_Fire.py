@@ -10,7 +10,7 @@ from runs import All_runs
 
 def setup(P):
 
-    if 'pts2d' in P['target'] or 'pts2d' in P['input']:
+    if 'pts2d' in P['target']:# or 'pts2d' in P['input']:
         P['pts2d_runs'] = []
         pruns = sggo(opjD('Data','pts2D_multi_step',P['pts2_h5py_type'],'*.h5py'))
         for p in pruns:
@@ -47,7 +47,7 @@ def setup(P):
     for r in _Runs.keys():
 
 
-        if 'pts2d' in P['target'] or 'pts2d' in P['input']:
+        if 'pts2d' in P['target']:# or 'pts2d' in P['input']:
             if r not in P['pts2d_runs']:
                 cm('not using',r)
                 continue
