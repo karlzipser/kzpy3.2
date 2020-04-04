@@ -49,7 +49,7 @@ class Net(nn.Module):
 
 
     def setup_GPU(self):
-        self.GPU = 0
+        #self.GPU = 0
         #print 'GPU set to 0'
         cm(0)
         if self.GPU > -1:
