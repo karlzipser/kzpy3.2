@@ -47,10 +47,11 @@ def graphics_function(N,M,P):#,X):
             mn = mm.mean()-std*M['Q']['runtime_parameters']['loss_stds']
             mx = mm.mean()+std*M['Q']['runtime_parameters']['loss_stds']
         #print(std,mn,mx)
-        ylim(
-            mn,
-            mx,
-        )
+        if type(mn) == float and type(mx) == float:
+            ylim(
+                mn,
+                mx,
+            )
 
     Imgs = {}
     img_lst = []
