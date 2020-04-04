@@ -51,13 +51,13 @@ class Net(nn.Module):
     def setup_GPU(self):
         #self.GPU = 0
         #print 'GPU set to 0'
-        cm(0)
+        #cm(0)
         if self.GPU > -1:
-            cm(1,self.GPU)
+            #cm(1,self.GPU)
             if self.GPU == 999:
-                cm(2)
+                #cm(2)
                 GPUs = gpu_stats(200)
-                kprint(GPUs,r=1)
+                #kprint(GPUs,r=1)
                 if GPUs[0]['util'] < 5 and GPUs[1]['util'] < 5:
                     self.GPU = random.choice([0,1])
                 else:
