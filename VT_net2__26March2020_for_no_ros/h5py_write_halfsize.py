@@ -16,7 +16,13 @@ for k in Defaults:
         Arguments[k] = Defaults[k]
 read_path = opjD('Data','pts2D_multi_step','h5py',Arguments['run_name']+'.h5py')
 save_path = read_path.replace('/h5py/','/h5py_half/')
-os.system('mkdir -p '+pname(save_path))
+
+if os.path.exists(save_path):
+    clp('!!!',save_path,'exists!!!','`wrb')
+    exit()
+
+make_path_and_touch_file(save_path)
+
 A = Arguments
 
 clp('processing',Arguments['run_name'],'`--r')
