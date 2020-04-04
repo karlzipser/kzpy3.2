@@ -267,7 +267,7 @@ def get_data_function(P):
                     i = Runs[r]['pts2d']['reverse-indicies'][ctr]
                     p = Runs[r]['pts2d']['data'][i + P[k+'_offset']]
                     if k == 'input':
-                        p[:,18:,:] = 0
+                        p[:,18*2:,:] = 0
                     Lists[k].append(p)
                     
 
