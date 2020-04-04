@@ -122,7 +122,7 @@ def setup(P):
         #Runs = {}
         #r = 'Mr_Black_24Jul18_20h04m17s_local_lrc'
         #Runs[r] = {}
-        Runs[r]['pts2d'] = {'path':opjD('Data','pts2D_multi_step','h5py',r+'.h5py')}
+        Runs[r]['pts2d'] = {'path':opjD('Data','pts2D_multi_step','h5py_half',r+'.h5py')}
         if os.path.exists(Runs[r]['pts2d']['path']):
             #P['pts2d_runs'].append(r)
             Runs[r]['pts2d']['h5py'] = h5r(Runs[r]['pts2d']['path'])
