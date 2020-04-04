@@ -64,7 +64,7 @@ Net_strs = {
             --losses_to_average 256 
             --runs train 
             --display.output 0,3 
-            --display.input 0,3,3,6,6,9
+            --display.input 0,3,3,6,6,9,9,12
             --display.target 0,3
             --clip 0.0001
             --backwards True
