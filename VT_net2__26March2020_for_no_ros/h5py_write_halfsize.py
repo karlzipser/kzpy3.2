@@ -19,7 +19,7 @@ save_path = read_path.replace('/h5py/','/h5py_half/')
 os.system('mkdir -p '+pname(save_path))
 A = Arguments
 
-clp('processing',run_name,'`--r')
+clp('processing',Arguments['run_name'],'`--r')
 
 F = h5r(read_path)
 
