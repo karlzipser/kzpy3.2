@@ -10,11 +10,11 @@ from runs import All_runs
 
 def setup(P):
 
-
-    P['pts2d_runs'] = []
-    pruns = sggo(opjD('Data','pts2D_multi_step','h5py','*.h5py'))
-    for p in pruns:
-        P['pts2d_runs'].append(fname(p).split('.')[0])
+    if 'pts2d' in P['target'] or 'pts2d' in P['input']:
+        P['pts2d_runs'] = []
+        pruns = sggo(opjD('Data','pts2D_multi_step',P['pts2_h5py_type'],'*.h5py'))
+        for p in pruns:
+            P['pts2d_runs'].append(fname(p).split('.')[0])
 
     Runs = {}
 
@@ -47,7 +47,7 @@ def setup(P):
     for r in _Runs.keys():
 
 
-        if 'pts2d' in P['target']:
+        if 'pts2d' in P['target'] or 'pts2d' in P['input']:
             if r not in P['pts2d_runs']:
                 cm('not using',r)
                 continue
@@ -119,22 +119,20 @@ def setup(P):
             if ii < len(v) and ii > -1:
                 v[ii] = i
 
-        #Runs = {}
-        #r = 'Mr_Black_24Jul18_20h04m17s_local_lrc'
-        #Runs[r] = {}
-        Runs[r]['pts2d'] = {'path':opjD('Data','pts2D_multi_step','h5py_half',r+'.h5py')}
-        if os.path.exists(Runs[r]['pts2d']['path']):
-            #P['pts2d_runs'].append(r)
-            Runs[r]['pts2d']['h5py'] = h5r(Runs[r]['pts2d']['path'])
-            Runs[r]['pts2d']['data'] = Runs[r]['pts2d']['h5py']['images']
+        if 'pts2d' in P['target'] or 'pts2d' in P['input']:
 
-            Runs[r]['pts2d']['reverse-indicies'] = np.zeros(int(1.5*len(Runs[r]['pts2d']['data'])))#     len(Runs[r]['left_timestamp_metadata_right_ts']['data']['motor']),int)-1
-            u = Runs[r]['pts2d']['h5py']['index'][:]
-            v = Runs[r]['pts2d']['reverse-indicies']
-            for i in rlen(u):
-                ii = u[i].astype(int)
-                if ii < len(v) and ii > -1:
-                    v[ii] = i
+            Runs[r]['pts2d'] = {'path':opjD('Data','pts2D_multi_step',P['pts2_h5py_type'],r+'.h5py')}
+            if os.path.exists(Runs[r]['pts2d']['path']):
+                Runs[r]['pts2d']['h5py'] = h5r(Runs[r]['pts2d']['path'])
+                Runs[r]['pts2d']['data'] = Runs[r]['pts2d']['h5py']['images']
+
+                Runs[r]['pts2d']['reverse-indicies'] = np.zeros(int(1.5*len(Runs[r]['pts2d']['data'])))#     len(Runs[r]['left_timestamp_metadata_right_ts']['data']['motor']),int)-1
+                u = Runs[r]['pts2d']['h5py']['index'][:]
+                v = Runs[r]['pts2d']['reverse-indicies']
+                for i in rlen(u):
+                    ii = u[i].astype(int)
+                    if ii < len(v) and ii > -1:
+                        v[ii] = i
                 
         else:
             clp('warning,','`y',Runs[r]['pts2d']['path'],'`y-r','not found','`y')
@@ -268,6 +266,8 @@ def get_data_function(P):
 
                     i = Runs[r]['pts2d']['reverse-indicies'][ctr]
                     p = Runs[r]['pts2d']['data'][i + P[k+'_offset']]
+                    if k == 'input':
+                        p[:,18:,:] = 0
                     Lists[k].append(p)
                     
 

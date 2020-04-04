@@ -29,7 +29,6 @@ Net_strs = {
             --win_y 40
             --drop 0.0
     """,
-
     'pts2d0' : """
         Learn 
             --type ConDecon_Fire_FS,Fire3,pts2d0
@@ -50,6 +49,30 @@ Net_strs = {
             --win_y 40
             --drop 0.0
             --blue_center_button True
+            --pts2_h5py_type h5py_half
+
+    """,
+    'pts2d1' : """
+        Learn 
+            --type ConDecon_Fire_FS,Fire3,pts2d1
+            --resume True 
+            --batch_size 1
+            --save_timer_time 300 
+            --target_offset 0 
+            --input rgb,Fire3,button,pts2d
+            --target pts2d 
+            --losses_to_average 256 
+            --runs train 
+            --display.output 0,3 
+            --display.input 0,3,3,6,6,9
+            --display.target 0,3
+            --clip 0.0001
+            --backwards True
+            --win_x 20
+            --win_y 40
+            --drop 0.0
+            --blue_center_button True
+            --pts2_h5py_type h5py_half2
 
     """,
 
