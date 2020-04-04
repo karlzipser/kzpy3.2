@@ -511,7 +511,7 @@ def main6():
 
 
 
-        try:
+        if True:#try:
             
             if Nets['N0']['P']['runtime_parameters']['show_graphics']:
                 if not graphics_on:
@@ -523,7 +523,7 @@ def main6():
                     clp('turning graphics off')
                     graphics_on = False
                     CA()
-        except Exception as e:
+        else:#except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             clp('Exception!','`wrb',exc_type, file_name, exc_tb.tb_lineno)   
