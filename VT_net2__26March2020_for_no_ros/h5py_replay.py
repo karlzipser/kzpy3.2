@@ -8,11 +8,12 @@ Defaults = {
     'stop_percent':None,
     'step':1,
     'scale':3.0,
+    'h5py_dir':'h5py_half',
 }
 for k in Defaults:
     if k not in Arguments:
         Arguments[k] = Defaults[k]
-save_path = opjD('Data','pts2D_multi_step','h5py',Arguments['run_name']+'.h5py')
+save_path = opjD('Data','pts2D_multi_step',Arguments['h5py_dir'],Arguments['run_name']+'.h5py')
 
 A = Arguments
 
