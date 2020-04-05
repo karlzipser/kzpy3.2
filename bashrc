@@ -46,6 +46,8 @@ alias sra='screen -r SA'
 alias srb='screen -r SB'
 alias src='screen -r SC'
 
+alias kill_screen='pkill screen'
+
 alias empty_trash='rm -rf ~/.local/share/Trash/*'
 
 alias Data='python ~/kzpy3/Data_app/Main.py'

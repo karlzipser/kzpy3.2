@@ -54,19 +54,34 @@ for i in range(A['start'],A['stop'],A['step']):
     #print i
 
     G['index'].append(F['index'][i])
-    
+
+    q = 6
     #img = F['images'][i][47-18:94-18,42:42+168/2,:]
-    img = F['images'][i]
-    #print shape(img)
-    img = np.rot90(img,k=-1)
-    img = img[ 168/2-94/4:168/2+94/4+1, :168/2, : ]
-    #img[:,18:,:] = 0
-    #print shape(img)
-    #img[47-18:,:,:] = 0
+    img = F['images'][i][47-q:94-q,42:42+168/2,:]
     assert shape(img) == (47, 84, 3)
+    img[:47-18+q,:,:] = 0
     img = cv2.resize(img,(0,0),fx=2.0,fy=2.0)
+    
     assert shape(img) == (94, 168, 3)
     G['images'].append(img)
+
+
+
+    if False:
+        #img = F['images'][i][47-18:94-18,42:42+168/2,:]
+        img = F['images'][i]
+        #print shape(img)
+        img = np.rot90(img,k=-1)
+        img = img[ 168/2-94/4:168/2+94/4+1, :168/2, : ]
+        #img[:,18:,:] = 0
+        #print shape(img)
+        #img[47-18:,:,:] = 0
+        assert shape(img) == (47, 84, 3)
+        img = cv2.resize(img,(0,0),fx=2.0,fy=2.0)
+        assert shape(img) == (94, 168, 3)
+        G['images'].append(img)
+
+
 
     if Arguments['show']:
         mci(O['left_image']['vals'][indicies[i]],title='a',scale=3.)
