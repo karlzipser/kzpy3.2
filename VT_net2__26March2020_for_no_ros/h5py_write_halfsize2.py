@@ -59,7 +59,7 @@ for i in range(A['start'],A['stop'],A['step']):
     #img = F['images'][i][47-18:94-18,42:42+168/2,:]
     img = F['images'][i][47-q:94-q,42:42+168/2,:]
     assert shape(img) == (47, 84, 3)
-    img[:47-18+q,:,:] = 0
+    #img[:47-18+q,:,:] = 0
     img = cv2.resize(img,(0,0),fx=2.0,fy=2.0)
     
     assert shape(img) == (94, 168, 3)
