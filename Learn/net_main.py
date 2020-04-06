@@ -46,22 +46,14 @@ def Net_Main(M=False,sys_str=False,Arguments_=False,P_Runs_saved=None):
     }
     P['type']= ['ConDecon_Fire_FS','Fire3'] #!!!!!!!!!!!!!!!!!
     if sys_str != False:
-        Arguments__ = parse_to_Arguments(sys_str)
-        for k in Arguments__:
-            P[k] = Arguments__[k]
+        Arguments_ = parse_to_Arguments(sys_str)
     else:
         assert type(Arguments_) == dict
 
-    kprint(Arguments_,title='Arguments_')
-    kprint(P,title='P')
     for k in Arguments_:
-        if k == 'net_str':
-            continue
-        clp('using',k,'=',Arguments_[k],'in place of',k,'=',P[k],'`y-rb',r=1)
-        #time.sleep(0.25)
         P[k] = Arguments_[k]
 
-    
+    kprint(P)
     for k in ['type','input','target']:
         if type(P[k]) == str:
             P[k] = [P[k]]
