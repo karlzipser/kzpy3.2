@@ -52,6 +52,8 @@ def Net_Main(M=False,sys_str=False,Arguments_=False,P_Runs_saved=None):
     else:
         assert type(Arguments_) == dict
 
+    kprint(Arguments_,title='Arguments_')
+    kprint(P,title='P')
     for k in Arguments_:
         if k == 'net_str':
             continue
@@ -59,7 +61,7 @@ def Net_Main(M=False,sys_str=False,Arguments_=False,P_Runs_saved=None):
         #time.sleep(0.25)
         P[k] = Arguments_[k]
 
-    kprint(P)
+    
     for k in ['type','input','target']:
         if type(P[k]) == str:
             P[k] = [P[k]]
