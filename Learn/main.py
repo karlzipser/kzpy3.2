@@ -174,10 +174,7 @@ def main6():
         real = Data['target'][:,:,:,:] #2
         label = torch.full((Nets[n]['P']['batch_size'],), 1,).cuda() #3
         output = DISCRIMINATOR(torch.from_numpy(real).cuda().float()) #4
-        #output = output.view(-1, 1).squeeze(1)
-        #print output.size(), output.view(-1, 1).squeeze(1).size()
 
-        #raw_enter()
         errD_real = criterion(output, label) #5
         errD_real.backward() #6
         D_x = output.mean().item() #7
@@ -186,7 +183,6 @@ def main6():
         fake = GENERATOR.A['output'][:,:,:,:]
         label.fill_(0) #9
         output = DISCRIMINATOR(fake.detach()) #10
-        #output = output.view(-1, 1).squeeze(1)
 
         errD_fake = criterion(output, label) #11
         errD_fake.backward() #12
@@ -197,12 +193,11 @@ def main6():
         GENERATOR.optimizer.zero_grad() #16
         label.fill_(1) #17
         output = DISCRIMINATOR(fake) #18
-        #output = output.view(-1, 1).squeeze(1)
 
         s = 0.0001
         if Arguments['net_str'] == 'proRgb2rgb.noise':
             s = 0.0000001
-        #GENERATOR.loss =  (1-s) * criterion(output, label) #19
+
         GENERATOR.loss = s*GENERATOR.criterion(GENERATOR.A['output'],GENERATOR.A['target']) + (1-s) * criterion(output, label) #19
 
 
@@ -218,8 +213,7 @@ def main6():
             GENERATOR.losses.append( na(GENERATOR.losses_to_average).mean() )
             GENERATOR.losses_to_average = []
 
-        #if Nets[n]['P']['backwards']:
-        #    GENERATOR.backward()
+
 
         if GENERATOR.save():
             DISCRIMINATOR.save(Nets[n]['P']['NETWORK_OUTPUT_FOLDER']+'.dcgan')
@@ -274,9 +268,7 @@ def Main6_Output_Object(net_str='pro2pros'):
     from discriminator1 import Discriminator,weights_init
 
 
-    """
-    fire2fireFuture.dcgan.a
-    """
+
     if 'type' not in Arguments.keys():
         clp('   FROM SYS_STR   ','`ybb',ra=0,p=1)
         Nets = {
@@ -343,14 +335,13 @@ def Main6_Output_Object(net_str='pro2pros'):
             Nets[n]['P']['runtime_parameters'][k] = M['Q']['runtime_parameters'][k]
 
         Data = networks.net.make_batch( Nets[n]['get_data_function'], Nets[n]['P'], Nets[n]['P']['batch_size'] )
-        #print Data.keys()
-        #print shape(Data['input'])
+
         if len(in_imgs) > 0:
             Data['input'] = in_array
-        #print shape(in_array)
+
         GENERATOR.forward_no_loss(Data) 
 
-        #A['output'][:,:,:,:]
+
 
         Nets[n]['graphics_function'](Nets[n]['N'],M,Nets[n]['P']) # graphics can cause an error with remote login
  

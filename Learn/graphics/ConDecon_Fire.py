@@ -13,6 +13,8 @@ def graphics_function(N,M,P):#,X):
         graphics_timer.trigger()
 
     cv2.waitKey(1)
+    if graphics_timer.time_s != M['Q']['runtime_parameters']['graphics_timer_time']:
+        graphics_timer.trigger()
     if graphics_timer.check() or M['Q']['runtime_parameters']['graphics_timer_time'] < 0:
         if M['Q']['runtime_parameters']['graphics_timer_time'] == -2:
             raw_enter()
