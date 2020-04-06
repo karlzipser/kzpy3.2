@@ -55,7 +55,7 @@ def Net_Main(M=False,sys_str=False,Arguments_=False,P_Runs_saved=None):
     for k in Arguments_:
         if k == 'net_str':
             continue
-        clp('using',k,'=',Arguments_[k],'in place of',k,'=',P[k],'`y-rb',r1)
+        clp('using',k,'=',Arguments_[k],'in place of',k,'=',P[k],'`y-rb',r=1)
         #time.sleep(0.25)
         P[k] = Arguments_[k]
 
