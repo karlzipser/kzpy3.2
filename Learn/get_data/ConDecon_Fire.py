@@ -268,7 +268,8 @@ def get_data_function(P):
                     p = Runs[r]['pts2d']['data'][i + P[k+'_offset']]
                     if k == 'input':
                         #p[:,18*2:,:] = 0
-                        p[:(47-18+6)*2,:,:] = 0
+                        p *= 0
+                        #p[:(47-18+6)*2,:,:] = 0
                     Lists[k].append(p)
                     
 
