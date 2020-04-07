@@ -136,7 +136,7 @@ def setup(P):
                         if ii < len(v) and ii > -1:
                             v[ii] = i
             else:
-                clp('size of',path,'== 0','ybb',r=1)
+                clp('size of',path,'== 0','`ybb')
                 
         else:
             clp('warning,','`y',Runs[r]['pts2d']['path'],'`y-r','not found','`y')
