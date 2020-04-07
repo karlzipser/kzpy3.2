@@ -12,6 +12,9 @@ elif Arguments['sys'] == 'h5py_write_halfsize':
 elif Arguments['sys'] == 'h5py_write_halfsize2':
 	sys_str = "python kzpy3/VT_net2__26March2020_for_no_ros/h5py_write_halfsize2.py --show False --save True --run_name "
 
+elif Arguments['sys'] == 'pkl_write_angles0':
+	sys_str = "python kzpy3/VT_net2__26March2020_for_no_ros/pkl_write_angles0.py --run_name "
+
 elif Arguments['sys'] == 'h5py_write_angles0':
 	sys_str = "python kzpy3/VT_net2__26March2020_for_no_ros/h5py_write_angles0.py --show False --save True --run_name "
 
