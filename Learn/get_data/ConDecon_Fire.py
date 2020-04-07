@@ -14,7 +14,8 @@ def setup(P):
         P['pts2d_runs'] = []
         pruns = sggo(opjD('Data','pts2D_multi_step',P['pts2_h5py_type'],'*.h5py'))
         for p in pruns:
-            P['pts2d_runs'].append(fname(p).split('.')[0])
+            if os.path.getsize(p) > 0:
+                P['pts2d_runs'].append(fname(p).split('.')[0])
 
     Runs = {}
 
