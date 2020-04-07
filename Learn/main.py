@@ -61,11 +61,11 @@ Net_strs = {
             --type ConDecon_Fire_FS,Fire3,pts2d2
             --resume True 
             --batch_size 1
-            --save_timer_time 600 
+            --save_timer_time 900 
             --target_offset 0 
             --input rgb,Fire3,button
             --target pts2d
-            --losses_to_average 256 
+            --losses_to_average 1024 
             --runs train 
             --display.output 0,3 
             --display.input 0,3,3,6,6,9
