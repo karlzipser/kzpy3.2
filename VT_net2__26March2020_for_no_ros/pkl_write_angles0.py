@@ -5,6 +5,10 @@ assert 'run_name' in Arguments
 
 save_path = opjD('Data','pts2D_multi_step','pkl_angles0',Arguments['run_name']+'.pkl')
 
+if os.path.exists(save_path):
+    clp('!!!',save_path,'exists!!!','`wrb')
+    exit()
+    
 make_path_and_touch_file(save_path)
 
 if 'lst' not in locals():
