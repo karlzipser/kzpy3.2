@@ -61,6 +61,7 @@ alias otn='kzpy3/scripts/connect/open_tab_with_quick_menu.sh'
 alias gacp="git add .;git commit -m 'gacp';git push origin master"
 alias pgacp='cd ~/kzpy3; git pull; gacp; cd'
 alias pgp='cd ~/kzpy3; git pull; cd'
+alias upgp="pgacp; ssh -p 1022 karlzipser@169.229.219.140 'cd ~/kzpy3; git pull; cd'"
 git config --global credential.helper "cache --timeout=86400"
 alias ipy="ipython --no-banner"
 
