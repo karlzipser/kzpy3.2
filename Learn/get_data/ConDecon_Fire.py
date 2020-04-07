@@ -205,7 +205,7 @@ def get_data_function(P):
 
     while True:
         #print P['drop'],type(P['drop'])
-        if True:#try:
+        try:
             r,ctr,flip = _selector(P)
 
             #P[r].append(ctr)
@@ -342,7 +342,7 @@ def get_data_function(P):
                         Lists[k][-1] *= 0
                     
             break
-        """
+        
         except KeyboardInterrupt:
             cr('*** KeyboardInterrupt ***')
             sys.exit()
@@ -351,7 +351,7 @@ def get_data_function(P):
             file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             CS_('Exception!',emphasis=True)
             CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
-        """
+        
 
     P['ctr'] = ctr
 
