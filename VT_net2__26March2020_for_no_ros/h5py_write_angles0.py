@@ -6,7 +6,7 @@ Defaults = {
     'show2':False,
     'backward':50,
     'forward':250,
-    'save':False,
+    'save':True,
     'start':0,
     'halve':True,
 }
