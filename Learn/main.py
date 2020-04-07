@@ -15,7 +15,7 @@ Net_strs = {
             --type ConDecon_Fire_FS,Fire3,pts2d0
             --resume True 
             --batch_size 1
-            --save_timer_time 300 
+            --save_timer_time 600 
             --target_offset 0 
             --input rgb,Fire3,button
             --target pts2d 
@@ -38,7 +38,7 @@ Net_strs = {
             --type ConDecon_Fire_FS,Fire3,pts2d1
             --resume True 
             --batch_size 1
-            --save_timer_time 300 
+            --save_timer_time 600 
             --target_offset 0 
             --input rgb,Fire3,button,pts2d
             --target pts2d 
@@ -59,9 +59,9 @@ Net_strs = {
     'pts2d2' : """
         Learn 
             --type ConDecon_Fire_FS,Fire3,pts2d2
-            --resume True 
+            --resume False 
             --batch_size 1
-            --save_timer_time 300 
+            --save_timer_time 30 
             --target_offset 0 
             --input rgb,Fire3,button
             --target pts2d 
@@ -76,7 +76,7 @@ Net_strs = {
             --win_y 40
             --drop 0.0
             --blue_center_button True
-            --pts2_h5py_type h5py_angles0
+            --pts2_h5py_type h5py_half
 
     """,
     'Fire2rgbProjections.dcgan' : """
