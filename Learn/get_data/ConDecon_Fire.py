@@ -120,19 +120,21 @@ def setup(P):
                 v[ii] = i
 
         if 'pts2d' in P['target'] or 'pts2d' in P['input']:
+            path = opjD('Data','pts2D_multi_step',P['pts2_h5py_type'],r+'.h5py')
+            if os.path.getsize(path) > 0:
 
-            Runs[r]['pts2d'] = {'path':opjD('Data','pts2D_multi_step',P['pts2_h5py_type'],r+'.h5py')}
-            if os.path.exists(Runs[r]['pts2d']['path']):
-                Runs[r]['pts2d']['h5py'] = h5r(Runs[r]['pts2d']['path'])
-                Runs[r]['pts2d']['data'] = Runs[r]['pts2d']['h5py']['images']
+                Runs[r]['pts2d'] = {'path':path}
+                if os.path.exists(Runs[r]['pts2d']['path']):
+                    Runs[r]['pts2d']['h5py'] = h5r(Runs[r]['pts2d']['path'])
+                    Runs[r]['pts2d']['data'] = Runs[r]['pts2d']['h5py']['images']
 
-                Runs[r]['pts2d']['reverse-indicies'] = np.zeros(int(1.5*len(Runs[r]['pts2d']['data'])))#     len(Runs[r]['left_timestamp_metadata_right_ts']['data']['motor']),int)-1
-                u = Runs[r]['pts2d']['h5py']['index'][:]
-                v = Runs[r]['pts2d']['reverse-indicies']
-                for i in rlen(u):
-                    ii = u[i].astype(int)
-                    if ii < len(v) and ii > -1:
-                        v[ii] = i
+                    Runs[r]['pts2d']['reverse-indicies'] = np.zeros(int(1.5*len(Runs[r]['pts2d']['data'])))#     len(Runs[r]['left_timestamp_metadata_right_ts']['data']['motor']),int)-1
+                    u = Runs[r]['pts2d']['h5py']['index'][:]
+                    v = Runs[r]['pts2d']['reverse-indicies']
+                    for i in rlen(u):
+                        ii = u[i].astype(int)
+                        if ii < len(v) and ii > -1:
+                            v[ii] = i
                 
         else:
             clp('warning,','`y',Runs[r]['pts2d']['path'],'`y-r','not found','`y')
