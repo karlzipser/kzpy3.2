@@ -219,7 +219,7 @@ class ConDecon_FS(Net):
         x = self.drop_layer(x)
 
         if True: # these inner layers cause instability
-
+            cm(0)
             x,indices_fire3=self.maxpool3(x)
             #kprint(x.size(),"maxpool",ra=0)
 
