@@ -28,6 +28,7 @@ class Net(nn.Module):
         self.GPU = P['GPU']
         self.clip_param = P['clip']
         self.NETWORK_OUTPUT_FOLDER = P['NETWORK_OUTPUT_FOLDER']
+        self.reset_loss = P['reset_loss']
         self.loss = None
         self.losses = []
         self.num_losses_to_average = P['losses_to_average']
@@ -141,9 +142,9 @@ class Net(nn.Module):
         clp('Resuming with','`','',f,'','`--rb'); time.sleep(1)
         save_data = torch.load(f)
         self.load_state_dict(save_data['net'])
-
-        f = most_recent_file_in_folder(opj(self.NETWORK_OUTPUT_FOLDER,'loss'),['.loss_avg.pkl'],[])
-        self.losses = lo(f)
+        if not self.reset_loss:
+            f = most_recent_file_in_folder(opj(self.NETWORK_OUTPUT_FOLDER,'loss'),['.loss_avg.pkl'],[])
+            self.losses = lo(f)
 
 
     def store_weights(self):

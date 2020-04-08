@@ -77,6 +77,7 @@ Net_strs = {
             --drop 0.0
             --blue_center_button True
             --pts2_h5py_type h5py_angles0
+            --reset_loss True
 
     """,
     'pts2d2_from_scratch' : """
@@ -100,6 +101,7 @@ Net_strs = {
             --drop 0.0
             --blue_center_button True
             --pts2_h5py_type h5py_angles0
+            --reset_loss True
 
     """,
     'Fire2rgbProjections.dcgan' : """
