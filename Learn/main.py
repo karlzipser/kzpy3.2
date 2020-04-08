@@ -178,7 +178,7 @@ def main6():
             #a = Nets['N0']['P']['clip']
             #cg(a,type(a))
             Nets['N0']['P']['clip'] *= 0.98
-            clp('clip',Nets['N0']['P']['clip'],int(run_timer.time()),"`yb")
+            #clp('clip',Nets['N0']['P']['clip'],int(run_timer.time()),"`yb")
 
 
         
