@@ -4,6 +4,7 @@ try:
     from net import *
 except:
     print "from net import * failed."
+    assert False
 
 exec(identify_file_str)
 
