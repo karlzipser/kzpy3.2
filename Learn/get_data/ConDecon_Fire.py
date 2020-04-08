@@ -275,7 +275,7 @@ def get_data_function(P):
                         #p[:,18*2:,:] = 0
                         p *= 0
                         #p[:(47-18+6)*2,:,:] = 0
-                    if 'pts2d2' in P['type']:
+                    if 'pts2d2' in P['type'] or 'pts2d2_from_scratch' in P['type']:
                         p[:,:,2] /= 3
                     Lists[k].append(p)
                     
