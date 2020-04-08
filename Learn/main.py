@@ -79,6 +79,29 @@ Net_strs = {
             --pts2_h5py_type h5py_angles0
 
     """,
+    'pts2d2_from_scratch' : """
+        Learn 
+            --type ConDecon_Fire_FS,Fire3,pts2d2_from_scratch
+            --resume True 
+            --batch_size 1
+            --save_timer_time 900 
+            --target_offset 0 
+            --input rgb,Fire3,button
+            --target pts2d
+            --losses_to_average 1024 
+            --runs train 
+            --display.output 0,3 
+            --display.input 0,3,3,6,6,9
+            --display.target 0,3
+            --clip 0.0001
+            --backwards True
+            --win_x 20
+            --win_y 40
+            --drop 0.0
+            --blue_center_button True
+            --pts2_h5py_type h5py_angles0
+
+    """,
     'Fire2rgbProjections.dcgan' : """
         Learn 
             --type ConDecon_Fire_FS,Fire3,Fire2rgbProjections.dcgan
