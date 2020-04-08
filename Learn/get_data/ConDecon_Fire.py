@@ -275,6 +275,8 @@ def get_data_function(P):
                         #p[:,18*2:,:] = 0
                         p *= 0
                         #p[:(47-18+6)*2,:,:] = 0
+                    if 'pts2d2' in P['type']:
+                        p[:,:,2] *= 0
                     Lists[k].append(p)
                     
 
