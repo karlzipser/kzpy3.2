@@ -89,7 +89,7 @@ Net_strs = {
             --target_offset 0 
             --input rgb,Fire3,button
             --target pts2d
-            --losses_to_average 1024 
+            --losses_to_average 10 
             --runs train 
             --display.output 0,3 
             --display.input 0,3,3,6,6,9
