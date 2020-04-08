@@ -244,7 +244,7 @@ def main6():
         label.fill_(1) #17
         output = DISCRIMINATOR(fake) #18
 
-        if 's' not in Nets[n]['P']
+        if 's' not in Nets[n]['P']:
             s = 0.0001
         else:
             s = Nets[n]['P']['s']
