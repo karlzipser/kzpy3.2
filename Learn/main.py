@@ -82,7 +82,7 @@ Net_strs = {
     'pts2d2_from_scratch' : """
         Learn 
             --type ConDecon_Fire_FS,Fire3,pts2d2_from_scratch
-            --resume True 
+            --resume False 
             --batch_size 1
             --save_timer_time 900 
             --target_offset 0 
