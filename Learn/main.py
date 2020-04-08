@@ -83,7 +83,7 @@ Net_strs = {
     'pts2d2_from_scratch' : """
         Learn 
             --type ConDecon_Fire_FS,Fire3,pts2d2_from_scratch
-            --resume True 
+            --resume False 
             --batch_size 1
             --save_timer_time 300 
             --target_offset 0 
@@ -102,8 +102,8 @@ Net_strs = {
             --blue_center_button True
             --pts2_h5py_type h5py_angles0
             --reset_loss False
-            --momentum 0.0001
-            --LR 0.001
+            --momentum 0.001
+            --LR 0.01
 
     """,
     'Fire2rgbProjections.dcgan' : """
