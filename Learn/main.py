@@ -102,6 +102,8 @@ Net_strs = {
             --blue_center_button True
             --pts2_h5py_type h5py_angles0
             --reset_loss True
+            --momentum 0.00001
+            --LR 0.0001
 
     """,
     'Fire2rgbProjections.dcgan' : """
