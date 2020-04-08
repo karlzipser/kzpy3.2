@@ -77,6 +77,7 @@ Net_strs = {
             --drop 0.0
             --blue_center_button True
             --pts2_h5py_type h5py_angles0
+            --s 1.0
 
     """,
     'pts2d2_from_scratch' : """
@@ -100,6 +101,7 @@ Net_strs = {
             --drop 0.0
             --blue_center_button True
             --pts2_h5py_type h5py_angles0
+            --s 1.0
 
     """,
     'Fire2rgbProjections.dcgan' : """
@@ -242,9 +244,10 @@ def main6():
         label.fill_(1) #17
         output = DISCRIMINATOR(fake) #18
 
-        s = 0.0001
-        if Arguments['net_str'] == 'proRgb2rgb.noise':
-            s = 0.0000001
+        if 's' not in Nets[n]['P']
+            s = 0.0001
+        else:
+            s = Nets[n]['P']['s']
 
         GENERATOR.loss = s*GENERATOR.criterion(GENERATOR.A['output'],GENERATOR.A['target']) + (1-s) * criterion(output, label) #19
 
