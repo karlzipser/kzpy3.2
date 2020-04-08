@@ -203,7 +203,7 @@ def main6():
             #a = Nets['N0']['P']['clip']
             #cg(a,type(a))
             Nets['N0']['P']['clip'] *= 0.98
-            #clp('clip',Nets['N0']['P']['clip'],int(run_timer.time()),"`yb")
+            clp('clip',Nets['N0']['P']['clip'],int(run_timer.time()),"`yb")
 
 
         
@@ -254,7 +254,8 @@ def main6():
 
         if Nets[n]['P']['backwards']:
             GENERATOR.loss.backward() #20
-            nnutils.clip_grad_norm(GENERATOR.parameters(), GENERATOR.clip_param)#0.01) #1.0)
+            nnutils.clip_grad_norm(GENERATOR.parameters(), Nets['N0']['P']['clip'])
+            #nnutils.clip_grad_norm(GENERATOR.parameters(), GENERATOR.clip_param)
             GENERATOR.optimizer.step() #21
 
 
