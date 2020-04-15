@@ -32,6 +32,7 @@ if Arguments['save']:
     make_path_and_touch_file(save_path)
 
 Colors = {'direct':'b','left':'r','right':'g'}
+Syms = {'direct':'o','left':'.','right':'.'}
 P = {}
 P['behavioral_mode_list'] = ['left','direct','right']
 #lst=lo('/Users/karlzipser/Desktop/pts2D_multi_step.pkl')
@@ -58,24 +59,35 @@ for n in range(Arguments['start'],len(lst),1):
         indicies.append(lst[n]['index'])
         heading = -lst[n]['HEADING']
         Prediction2D_plot['clear']()
-        a,d,c = max(0,n - Arguments['backward']), min(len(lst),n + Arguments['forward']), 1
+
+        # a,d,c = max(0,n - Arguments['backward']), min(len(lst),n + Arguments['forward']), 1
 
 
         for b in ['left','right','direct']:
             Pts[b] = []
 
-        for i in range(a,d,c):
+        # for i in range(a,d,c):
+        for j in range(-60,30):#(-Arguments['backward'],Arguments['forward']):
+            i = j + n
+            if i < 0:
+                continue
+            if i >= len(lst)-1:
+                continue
 
             if np.abs(lst[i]['steer'] - 49) < 100:
                 for b in ['left','right','direct']:
-                    j = i
-                    #if b != 'direct':
-                    #    j = i - 90
+                    
+                    if b != 'direct':
+                        if j > -30:
+                            continue
+                    else:
+                        if j != 0:
+                            continue
                     v = lst[i][b]-na([[lst[n]['x'],lst[n]['y']]])
                     #v = lst[n][b]-na([[lst[n]['x'],lst[n]['y']]])
                     if b in ['left','right']:
                         #print len(v)
-                        v = v[-2:]
+                        v = v[-3:]
                     else:
                         v = [[lst[i]['x'],lst[i]['y']]]-na([[lst[n]['x'],lst[n]['y']]])
                         #v = [v[0]]
@@ -88,7 +100,7 @@ for n in range(Arguments['start'],len(lst),1):
                     else:
                         sym = '.'
 
-                    #print shape(pts)
+                    
                     Pts[b].append(pts[0])
 
                     #if True:
@@ -96,8 +108,10 @@ for n in range(Arguments['start'],len(lst),1):
                     #Prediction2D_plot['pts_plot'](pts,Colors[b],add_mode=False)
 
         for b in ['left','right','direct']:
-            pts_plot(Pts[b],Colors[b])
-            Prediction2D_plot['pts_plot'](na(Pts[b]),Colors[b],add_mode=False)
+            print shape(Pts[b]),b
+            pts_plot(Pts[b],Colors[b],sym=',')
+            plot(na(Pts[b])[:,0].mean(),na(Pts[b])[:,1].mean(),Colors[b]+'o')
+            #Prediction2D_plot['pts_plot'](na(Pts[b]),Colors[b],add_mode=False)
         #raw_enter()
 
 
@@ -127,6 +141,76 @@ F.create_dataset('index',data=na(indicies))
 F.create_dataset('images',data=na(images),dtype='uint8')          
 F.close()
 """
+
+#,a
+Colors = {'direct':'b','left':'r','right':'g'}
+
+Pts = {
+    'left':{},
+    'right':{},
+    'direct':{},
+}
+for k in Pts:
+    for i in range(10):
+        Pts[k][i] = []
+Pts['xy'] = []
+if 'lst' not in locals():
+    lst = lo('/Users/karlzipser/Desktop/Data/pts2D_multi_step/pkl/tegra-ubuntu_31Oct18_16h06m32s.pkl')
+#figure(1);clf();plt_square()
+for i in range(len(lst)-10):
+    N = lst[i]
+    Pts['xy'].append(na([N['x'],N['y']]))
+    for b in ['left','right','direct']:
+        for j in rlen(N[b]):
+            Pts[b][j].append(N[b][j])
+
+ll = []
+rl = []
+l = Pts['left']
+r = Pts['right']
+
+p = Pts['xy'][8000]
+
+def pts_dist(a,b):
+    return np.sqrt((a[0]-b[0])**2 + (a[1]-b[1])**2)
+
+for i in rlen(Pts['left'][9]):
+    if pts_dist(p,l[9][i]) < 4:
+        ll.append(l[9][i])
+    if pts_dist(p,r[9][i]) < 4:
+        rl.append(r[9][i])
+
+figure(1);clf();plt_square()
+pts_plot(ll,'r')
+pts_plot(rl,'g')
+pts_plot([p],'b',sym='o')
+spause()
+
+        #p = N[b][-1]
+        #plot(p[0],p[1],Colors[b]+'.')
+#spause()
+#,b
+
+
+o = lo('/Users/karlzipser/Desktop/Data/pts2D_multi_step/pkl_angles0/tegra-ubuntu_31Oct18_16h06m32s.pkl')
+c = o['left']
+d = o['right']
+
+n = 5
+a = Pts['left'][9]
+b = Pts['right'][9]
+ax = meo(na(a)[:,0],n)
+ay = meo(na(a)[:,1],n)
+bx = meo(na(b)[:,0],n)
+by = meo(na(b)[:,1],n)
+figure(1);clf();plt_square()
+plot(ax,ay,'r')
+plot(bx,by,'g')
+for i in rlen(ax):
+    #if c[i] < -30:
+    #    plot(ax[i],ay[i],'r.')
+    if d[i] > 30:
+        plot(bx[i],by[i],'g.')
 
 
 
