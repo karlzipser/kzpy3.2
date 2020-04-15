@@ -214,4 +214,17 @@ for i in rlen(ax):
 
 
 
+s = 0.75
+sn = np.sin(arange(0,30,0.1))
+sn += 0.2*rndn(len(sn))
+tn = [0]
+for i in range(1,len(sn)):
+    b = s * tn[i-1] + (1-s) * sn[i]
+    tn.append( b )
+tn = na(tn)
+clf()
+plot(sn)
+plot(tn[:-2])
+plot(meo(sn,5))
+
 #EOF
