@@ -142,7 +142,7 @@ F.create_dataset('images',data=na(images),dtype='uint8')
 F.close()
 """
 
-#,a
+
 Colors = {'direct':'b','left':'r','right':'g'}
 
 Pts = {
@@ -174,6 +174,59 @@ p = Pts['xy'][8000]
 def pts_dist(a,b):
     return np.sqrt((a[0]-b[0])**2 + (a[1]-b[1])**2)
 
+def ppp(u,iu,v,delta):
+    dst = 9**9
+    iv = 9*9
+    for i in range(iu-delta,iu+delta):
+        d = pts_dist(u[iu],v[i])
+        if d < dst:
+            dst,iv = d,i
+    return dst,iv
+
+
+ppp(Pts['xy'],6000,Pts['left'][9],100)
+
+#,a
+
+def qqq(u,iu,v,a,b):
+
+    figure(1);clf();plt_square()
+    dst = 9**9
+    iv = 9**9
+
+    for i in range(a,b):
+
+        pts_plot([v[i]],'r')
+        
+        d = np.degrees(angle_between(u[iu]-u[iu-1],v[i]-u[iu-1]))
+        
+        #cm(i,d,dst,np.abs(d-90),np.abs(dst-90))
+        if np.abs(90-d) < np.abs(90-dst):
+            dst,iv = d,i
+            print d,i
+        plot([u[iu][0],v[i][0]],[u[iu][1],v[i][1]],'c:')
+
+    plot([u[iu][0],v[iv][0]],[u[iu][1],v[iv][1]],'r')
+    plot([u[iu][0],u[iu-1][0]],[u[iu][1],u[iu-1][1]],'b.-')
+    spause()
+    return dst,iv
+
+qqq(Pts['xy'],6000,Pts['left'][9],5860,5875)
+for i in range(6000,7000):
+    qqq(Pts['xy'],i,Pts['left'][9],i-200,i+0)
+    raw_enter()
+#,b
+
+n = 5
+a = Pts['left'][9]
+ax = meo(na(a)[:,0],n)
+ay = meo(na(a)[:,1],n)
+#Pts['left9_meo'] = 1 * Pts['left'][9]
+#Pts['left9_meo'][:,0] = ax
+#Pts['left9_meo'][:,1] = ay
+Pts['left9_meo'] = na([ax,ay]).transpose()
+dst,iv = qqq(Pts['xy'],6000,Pts['left9_meo'],100)
+
 for i in rlen(Pts['left'][9]):
     if pts_dist(p,l[9][i]) < 4:
         ll.append(l[9][i])
@@ -189,7 +242,7 @@ spause()
         #p = N[b][-1]
         #plot(p[0],p[1],Colors[b]+'.')
 #spause()
-#,b
+
 
 
 o = lo('/Users/karlzipser/Desktop/Data/pts2D_multi_step/pkl_angles0/tegra-ubuntu_31Oct18_16h06m32s.pkl')
