@@ -352,6 +352,8 @@ def pt_plot(xy,color='r'):
 def pts_plot(xys,color='r',sym='.'):
     if type(xys) == list:
         xys = na(xys)
+    if len(shape(xys)) == 1:
+        xys = na([xys])
     assert(len(color)==1)
     x = xys[:,0]
     y = xys[:,1]

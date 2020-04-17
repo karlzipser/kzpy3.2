@@ -142,6 +142,7 @@ F.create_dataset('images',data=na(images),dtype='uint8')
 F.close()
 """
 
+#,a
 
 Colors = {'direct':'b','left':'r','right':'g'}
 
@@ -157,6 +158,7 @@ Pts['xy'] = []
 if 'lst' not in locals():
     lst = lo('/Users/karlzipser/Desktop/Data/pts2D_multi_step/pkl/tegra-ubuntu_31Oct18_16h06m32s.pkl')
 #figure(1);clf();plt_square()
+
 for i in range(len(lst)-10):
     N = lst[i]
     Pts['xy'].append(na([N['x'],N['y']]))
@@ -184,48 +186,100 @@ def ppp(u,iu,v,delta):
     return dst,iv
 
 
-ppp(Pts['xy'],6000,Pts['left'][9],100)
+#ppp(Pts['xy'],6000,Pts['left'][9],100)
 
-#,a
 
-def qqq(u,iu,v,a,b):
 
-    figure(1);clf();plt_square()
-    dst = 9**9
-    iv = 9**9
+def angle_between_with_sign(a,b):
+
+    import math
+
+    class Vect: # magnitudes not correct for large angles, only sign
+
+       def __init__(self, a, b):
+            self.a = a
+            self.b = b
+
+       def findClockwiseAngle(self, other):
+           # using cross-product formula
+           return -math.degrees(math.asin((self.a * other.b - self.b * other.a)/(self.length()*other.length())))
+           # the dot-product formula, left here just for comparison (does not return angles in the desired range)
+           # return math.degrees(math.acos((self.a * other.a + self.b * other.b)/(self.length()*other.length())))
+
+       def length(self):
+           return math.sqrt(self.a**2 + self.b**2)
+
+    sgn = 1.
+    vector1 = Vect(a[0],a[1])
+    vector2 = Vect(b[0],b[1])
+    angle = vector1.findClockwiseAngle(vector2)
+    if angle < 0.:
+        sgn = -1
+
+    return sgn * degrees(angle_between(a,b))
+
+
+def qqq(u,iu,v,a,b,c):
+
+    
+    dst = 99999999
+    iv = 99999999
 
     for i in range(a,b):
 
-        pts_plot([v[i]],'r')
+        pts_plot([v[i]],c)
         
-        d = np.degrees(angle_between(u[iu]-u[iu-1],v[i]-u[iu-1]))
+        #d = -angle_between_with_sign(u[iu]-u[iu-1],v[i]-u[iu-1])
+        
+        d = degrees(angle_between(u[iu]-u[iu-1],v[i]-u[iu-1]))
+        
         
         #cm(i,d,dst,np.abs(d-90),np.abs(dst-90))
         if np.abs(90-d) < np.abs(90-dst):
             dst,iv = d,i
-            print d,i
+            #print d,i
         plot([u[iu][0],v[i][0]],[u[iu][1],v[i][1]],'c:')
-
-    plot([u[iu][0],v[iv][0]],[u[iu][1],v[iv][1]],'r')
+    clp(len(u),iu,len(v),iv)
+    plot([u[iu][0],v[iv][0]],[u[iu][1],v[iv][1]],c)
     plot([u[iu][0],u[iu-1][0]],[u[iu][1],u[iu-1][1]],'b.-')
-    spause()
+
     return dst,iv
 
-qqq(Pts['xy'],6000,Pts['left'][9],5860,5875)
-for i in range(6000,7000):
-    qqq(Pts['xy'],i,Pts['left'][9],i-200,i+0)
-    raw_enter()
-#,b
+#qqq(Pts['xy'],6000,Pts['left'][9],5860,5875)
 
-n = 5
+
+
+#n = 5
+n = 33
 a = Pts['left'][9]
 ax = meo(na(a)[:,0],n)
 ay = meo(na(a)[:,1],n)
-#Pts['left9_meo'] = 1 * Pts['left'][9]
-#Pts['left9_meo'][:,0] = ax
-#Pts['left9_meo'][:,1] = ay
 Pts['left9_meo'] = na([ax,ay]).transpose()
-dst,iv = qqq(Pts['xy'],6000,Pts['left9_meo'],100)
+a = Pts['right'][9]
+ax = meo(na(a)[:,0],n)
+ay = meo(na(a)[:,1],n)
+Pts['right9_meo'] = na([ax,ay]).transpose()
+a = Pts['direct'][9]
+ax = meo(na(a)[:,0],n)
+ay = meo(na(a)[:,1],n)
+Pts['direct9_meo'] = na([ax,ay]).transpose()
+
+for i in range(6500,1000+6500):
+    try:
+        figure(1);clf();plt_square()# ;xylim(-28,-24,4,5)
+        qqq(Pts['direct9_meo'],i,Pts['left9_meo'],i-100,i+30,'r')
+        qqq(Pts['xy'],i,Pts['right9_meo'],i-100,i+30,'g')
+        spause()#raw_enter()
+    
+    except KeyboardInterrupt:
+        cr('*** KeyboardInterrupt ***')
+        sys.exit()
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        CS_('Exception!',emphasis=True)
+        CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+     
 
 for i in rlen(Pts['left'][9]):
     if pts_dist(p,l[9][i]) < 4:
