@@ -3,8 +3,8 @@
 
 source ~/kzpy3/misc/auto_aliases
 
-source ~/kzpy3/Menu/complete.sh
-source ~/kzpy3/Learn/complete.sh
+#source ~/kzpy3/Menu/complete.sh
+#source ~/kzpy3/Learn/complete.sh
 
 alias ls='ls -alh'
 alias rlog='rm -r ~/.ros/log/*'
