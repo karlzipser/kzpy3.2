@@ -2,6 +2,10 @@ from kzpy3.vis3 import *
 
 #,a
 
+Arguments = {
+    'run_name':'tegra-ubuntu_31Oct18_16h06m32s',
+}
+
 def plot_line(A,B,c='r'):
     plot([A[0],B[0]],[A[1],B[1]],c)
 
@@ -11,8 +15,9 @@ def pts_dist(A,B):
 Colors = {'direct':'b','left':'r','right':'g'}
 
 if True:
+
     if 'lst' not in locals():
-        lst = lo('/Users/karlzipser/Desktop/Data/pts2D_multi_step/pkl/tegra-ubuntu_31Oct18_16h06m32s.pkl')
+        lst = lo('/Users/karlzipser/Desktop/Data/pts2D_multi_step/pkl/'+Arguments['run_name']+'.pkl')
 
     if 'Pts' not in locals():
         Pts = {
@@ -34,7 +39,7 @@ if True:
 
     if 'angles' not in Pts:
         Pts['angles'] = {}
-        o = lo('/Users/karlzipser/Desktop/Data/pts2D_multi_step/pkl_angles0/tegra-ubuntu_31Oct18_16h06m32s.pkl')
+        o = lo('/Users/karlzipser/Desktop/Data/pts2D_multi_step/pkl_angles0/'+Arguments['run_name']+'.pkl')
         Pts['angles']['left'] = o['left']
         Pts['angles']['right'] = o['right']
 
@@ -57,6 +62,9 @@ if True:
         ax = meo(na(a)[:,0],n)
         ay = meo(na(a)[:,1],n)
         Pts['direct9_meo'] = na([ax,ay]).transpose()
+
+    if 'O' not in locals():
+        a0,O,a1 = open_run2(Arguments['run_name'])
 
 
 start = -2*30
@@ -110,6 +118,11 @@ for i in range(6500,200000+6500,1):
             rotatePolygon(
                 Pts[k+'9_meo'][i+start:i+end:step] -Pts['direct9_meo'][i+start-1],alpha),
             Colors[k],sym='.-')
+
+    img = O['left_image']['vals'][i]
+    img = cv2.resize(img,(168*2,94*2))
+    img[:,168,:] = int((127+255)/2)
+    mci(img,title='left_image',scale=1.)
     
 # width of path
 # angles over various distances
