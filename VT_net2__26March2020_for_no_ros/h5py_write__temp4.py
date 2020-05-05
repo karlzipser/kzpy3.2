@@ -1,5 +1,5 @@
 from kzpy3.vis3 import *
-
+#
 #,a
 
 Arguments = {
@@ -80,7 +80,7 @@ for i in range(6500,200000+6500,1):
         figure(1);clf();plt_square(); xylim(XY[0]-d,XY[0]+d,XY[1]-d,XY[1]+d)
 
     
-    if False:
+    if True:
         xy = na(Pts['xy'][i-15:i+1])
         plot(xy[:,0],xy[:,1],'k')
 
