@@ -50,18 +50,26 @@ if True:
 
     if 'direct9_meo' not in Pts:
         n = 90#33
-        a = Pts['left'][9]
-        ax = meo(na(a)[:,0],n)
-        ay = meo(na(a)[:,1],n)
-        Pts['left9_meo'] = na([ax,ay]).transpose()
-        a = Pts['right'][9]
-        ax = meo(na(a)[:,0],n)
-        ay = meo(na(a)[:,1],n)
-        Pts['right9_meo'] = na([ax,ay]).transpose()
-        a = Pts['direct'][9]
-        ax = meo(na(a)[:,0],n)
-        ay = meo(na(a)[:,1],n)
-        Pts['direct9_meo'] = na([ax,ay]).transpose()
+        for side in ['left','direct','right']:
+            for u in range(10):
+                cm(side,u)
+                a = Pts[side][u]
+                ax = meo(na(a)[:,0],n)
+                ay = meo(na(a)[:,1],n)
+                Pts[side+str(u)+'_meo'] = na([ax,ay]).transpose()
+        if False:
+            a = Pts['left'][9]
+            ax = meo(na(a)[:,0],n)
+            ay = meo(na(a)[:,1],n)
+            Pts['left9_meo'] = na([ax,ay]).transpose()
+            a = Pts['right'][9]
+            ax = meo(na(a)[:,0],n)
+            ay = meo(na(a)[:,1],n)
+            Pts['right9_meo'] = na([ax,ay]).transpose()
+            a = Pts['direct'][9]
+            ax = meo(na(a)[:,0],n)
+            ay = meo(na(a)[:,1],n)
+            Pts['direct9_meo'] = na([ax,ay]).transpose()
 
     if 'O' not in locals():
         a0,O,a1 = open_run2(Arguments['run_name'])
@@ -69,13 +77,13 @@ if True:
 
 start = -2*30
 end = start + 5*60*30
-step = 1#30/3
+step = 30/3
 d = 50
 marker_size = 15
 
 CA()
 
-for i in range(6500,200000+6500,1):
+for i in range(6500,7000):#200000+6500,1):
 
     if True:
         XY = Pts['xy'][i]
@@ -83,25 +91,51 @@ for i in range(6500,200000+6500,1):
         plot((0,10),(0,0),'k',linewidth=1)
         #plt.text(5-1,-2,'10 m')
     
-    if True:
+    if False:
         xy = na(Pts['xy'][i-15:i+1])
         plot(xy[:,0],xy[:,1],'k')
 
-    for k in Colors.keys():
-        xy = Pts[k+'9_meo'][i+start:i+end:step]
-        plot(xy[:,0],xy[:,1],Colors[k]+'-',linewidth=3)
+    if True:
+        for k in Colors.keys():
+            xy = Pts[k+'9_meo'][i+start:i+end:step]
+            plot(xy[:,0],xy[:,1],Colors[k]+'-')#,linewidth=3)
+
+
+
+
+    cy(i)
 
     for j in range(i+start,i+end,step):
 
-        if Pts['angles_meo']['left'][j] < -40:
-            pts_plot(Pts['left9_meo'][j],'r',sym='.',ms=marker_size)
-        elif Pts['angles_meo']['left'][j] < -20:
-            pts_plot(Pts['left9_meo'][j],'r',sym='.',ms=int(marker_size/2))
 
-        if Pts['angles_meo']['right'][j] > 40:
-            pts_plot(Pts['right9_meo'][j],'g',sym='.',ms=marker_size)
-        elif Pts['angles_meo']['right'][j] > 20:
-            pts_plot(Pts['right9_meo'][j],'g',sym='.',ms=int(marker_size/2))
+        cg(i,j)
+
+        
+        if True:
+            for k in Colors:
+                m = []
+                for l in range(10):
+                    xy = Pts[k+str(l)+'_meo'][j+l]
+                    m.append(xy)
+                    #cm(i,l,xy)
+                pts_plot(m,Colors[k],sym='-')
+
+        if False:
+            if Pts['angles_meo']['left'][j] < -40:
+                pts_plot(Pts['left9_meo'][j],'r',sym='.',ms=marker_size)
+            elif Pts['angles_meo']['left'][j] < -20:
+                pts_plot(Pts['left9_meo'][j],'r',sym='.',ms=int(marker_size/2))
+
+            if Pts['angles_meo']['right'][j] > 40:
+                pts_plot(Pts['right9_meo'][j],'g',sym='.',ms=marker_size)
+            elif Pts['angles_meo']['right'][j] > 20:
+                pts_plot(Pts['right9_meo'][j],'g',sym='.',ms=int(marker_size/2))
+
+        if True:
+            for k in ['left','right']:
+                a = min(np.abs(Pts['angles_meo'][k][j]),40)
+                marker_size = int(a/2.)
+                pts_plot(Pts[k+'9_meo'][j],Colors[k],sym='.',ms=marker_size)
 
         if False:
             E = Pts['left9_meo'][j]#+step]
@@ -110,6 +144,9 @@ for i in range(6500,200000+6500,1):
             plot_line(R,D,'g:')
             plot_line(E,D,'r:')
 
+
+        if False:
+            pts_plot(Pts['xy'][j],'k')
     
     plt_square(); #xylim(XY[0]-d,XY[0]+d,XY[1]-d,XY[1]+d)
 
