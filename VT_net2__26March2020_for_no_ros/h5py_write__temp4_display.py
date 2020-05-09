@@ -68,17 +68,19 @@ if True:
 
 
 start = -2*30
-end = start + 10*30
+end = start + 5*60*30
 step = 30/3
-d = 20
+d = 50
 
+CA()
 
 for i in range(6500,200000+6500,1):
 
     if True:
         XY = Pts['xy'][i]
-        figure(1);clf();plt_square(); xylim(XY[0]-d,XY[0]+d,XY[1]-d,XY[1]+d)
-
+        figure(1,figsize=(16,16));clf();
+        plot((0,10),(0,0),'k',linewidth=1)
+        #plt.text(5-1,-2,'10 m')
     
     if True:
         xy = na(Pts['xy'][i-15:i+1])
@@ -86,7 +88,7 @@ for i in range(6500,200000+6500,1):
 
     for k in Colors.keys():
         xy = Pts[k+'9_meo'][i+start:i+end:step]
-        plot(xy[:,0],xy[:,1],Colors[k]+'-')
+        plot(xy[:,0],xy[:,1],Colors[k]+'-',linewidth=3)
 
     for j in range(i+start,i+end,step):
 
@@ -100,35 +102,77 @@ for i in range(6500,200000+6500,1):
         elif Pts['angles_meo']['right'][j] > 20:
             pts_plot(Pts['right9_meo'][j],'g',sym='.')
 
-        E = Pts['left9_meo'][j]#+step]
-        R = Pts['right9_meo'][j]#+step]
-        D = Pts['direct9_meo'][j]
-        plot_line(R,D,'g:')
-        plot_line(E,D,'r:')
+        if False:
+            E = Pts['left9_meo'][j]#+step]
+            R = Pts['right9_meo'][j]#+step]
+            D = Pts['direct9_meo'][j]
+            plot_line(R,D,'g:')
+            plot_line(E,D,'r:')
 
     
-    
+    plt_square(); #xylim(XY[0]-d,XY[0]+d,XY[1]-d,XY[1]+d)
     spause()
-    e = 15
-    figure(2);clf();plt_square(); xylim(-e,e,-e/4,2*e)
-    A = Pts['direct9_meo'][i+start] - Pts['direct9_meo'][i+start-2]
-    alpha = angle_clockwise((0,1),A)
-    for k in Colors:
-        pts_plot(
-            rotatePolygon(
-                Pts[k+'9_meo'][i+start:i+end:step] -Pts['direct9_meo'][i+start-1],alpha),
-            Colors[k],sym='.-')
 
-    img = O['left_image']['vals'][i]
-    img = cv2.resize(img,(168*2,94*2))
-    img[:,168,:] = int((127+255)/2)
-    mci(img,title='left_image',scale=1.)
+    if False:
+        e = 15
+        figure(2);clf();plt_square(); xylim(-e,e,-e/4,2*e)
+        A = Pts['direct9_meo'][i+start] - Pts['direct9_meo'][i+start-2]
+        alpha = angle_clockwise((0,1),A)
+        for k in Colors:
+            pts_plot(
+                rotatePolygon(
+                    Pts[k+'9_meo'][i+start:i+end:step] -Pts['direct9_meo'][i+start-1],alpha),
+                Colors[k],sym='.-')
+
+    if False:
+        img = O['left_image']['vals'][i]
+        img = cv2.resize(img,(168*2,94*2))
+        if False: img[:,168,:] = int((127+255)/2)
+        mci(img,title='left_image',scale=1.)
+
+    break #clp('',r=1)
     
+if False:
+    plt.savefig(opjD('a'),format='pdf')
+
 # width of path
 # angles over various distances
 # input future navigation commands
 
-    spause()    
+
+
+
+def nearest_xy_index(xy):
+    XY = (-999,-999)
+    indx = -999
+    dmin = 9999
+    for i in rlen(Pts['xy']):
+        d = pts_dist(xy,Pts['xy'][i])
+        if d < dmin:
+            dmin = d
+            XY = Pts['xy'][i]
+            indx = i
+            #print i,d,indx
+    assert indx != -999
+    return indx
+
+
+if False:
+    Cdat = Click_Data(FIG=figure(1))
+    path = opjD(d2p('click',time_str()))
+    os.system('mkdir -p ' + path)
+    for i in range(30):
+        xy_list = Cdat['CLICK'](NUM_PTS=1)
+        plt.text(xy_list[0][0],xy_list[0][1],str(i))
+        indx = nearest_xy_index(xy_list[0])
+        img = O['left_image']['vals'][indx]
+        #img = cv2.resize(img,(168*2,94*2))
+        #if False: img[:,168,:] = int((127+255)/2)
+        mci(img,title='left',scale=2.)
+        imsave(opj(path,d2n(i,'_',dp(xy_list[0][0]),'_',dp(xy_list[0][1]),'.png')),img,format='png')
+    plt.savefig(opj(path,'map.pdf'),format='pdf')
+
+
 
 #,b
 

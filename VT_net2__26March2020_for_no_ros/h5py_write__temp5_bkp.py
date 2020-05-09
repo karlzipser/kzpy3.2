@@ -2,7 +2,7 @@
 
 from kzpy3.VT_net2__26March2020_for_no_ros.h5py_write__temp5__init import *
 
-alpha_prev = 0
+
 
 start = -3*30
 end = start + 9*30
@@ -13,10 +13,27 @@ d = 8
 for i in range(6700,200000,1):
 
 
+    XY = Pts['xy'][i]
+    
 
-    if L['motor'][i] < 54 or L['encoder'][i] < 2.0:
-        cm(i,'motor/encoder')
-        continue
+
+    figure(1)
+    clf()
+    plt_square()
+    xylim(XY[0]-d,XY[0]+d,XY[1]-d,XY[1]+d)
+
+
+
+    if True:
+
+        xy = na(Pts['xy'][i+start:i+end:step])
+        plot(xy[:,0],xy[:,1],'c'+'.-')
+
+        for a in []:#[0,3,6,9]:
+            xy = na(Pts['direct_meo'][a][i+start:i+end:step])
+            plot(xy[:,0],xy[:,1],'b'+'-')
+            #xy = na(Pts['direct'][a][i+start:i+end:step])
+            #plot(xy[:,0],xy[:,1],'b'+'x-')
 
 
     if True:
@@ -32,58 +49,34 @@ for i in range(6700,200000,1):
                 break
             else:
                 i_back -= 1
-
-        if i - i_back > 200:
-            cm(i,'i_back')
-            continue
         #xy = na(Pts['xy'][i_back:i+1])
+        xy = na(Pts['direct_meo'][9][i_back:i+1-90])
+        plot(xy[:,0],xy[:,1],'k')
+        xy = xy[range(0,len(xy),3)]
+        plot(xy[:,0],xy[:,1],'k.')
 
-        XY = Pts['xy'][i]
-        figure(1)
-        clf()
-        plt_square()
-        xylim(XY[0]-d,XY[0]+d,XY[1]-d,XY[1]+d)
-
-        xy_xy = na(Pts['xy'][i+start:i+end:step])
-        plot(xy_xy[:,0],xy_xy[:,1],'c'+'.-')
-
-        #xy = na(Pts['direct_meo'][9][i_back:i+1-90:1])
-        xy = na(Pts['xy'][i_back+90:i+1:1])
-        plot(xy[:,0],xy[:,1],'kx')
-
-        #xy = xy[range(i_back,len(xy),1)]
-        #plot(xy[:,0],xy[:,1],'k.')
-
-    if True:
+        #h = normalized_vector_from_pts(xy)
         m,b = curve_fit(f___,xy[:,0],xy[:,1])[0]
         xs = na([XY[0]-20,XY[0]+20])
         ys = m * xs + b
         plot(xs,ys,'k:')
 
-        alpha_prev = alpha
         alpha = angle_clockwise((1,0),(1,m))
-        if np.abs(alpha - alpha_prev) > 5:
-            cs = '`wrb'
-            ra = True
-        else:
-            cs = '`m'
-            ra = False
-        clp(i,dp(alpha),dp(m),cs,ra=ra)
-
-    
+        cg(i,dp(alpha))
 
     if True:
         e = 8
-        figure(2);clf();plt_square(); xylim(-e,e,-e,e)#-e/4,2*e)
+        figure(2);clf();plt_square(); xylim(-e,e,-e/4,2*e)
         #A = Pts['direct_meo'][9][i+start] - Pts['direct_meo'][9][i+start-2]
         #alpha = angle_clockwise((0,1),A)
         for q,sym,lne in [(9,'o','-')]:#[(1,',',':'),(4,'.','-'),(9,'o','-'),]:#4,9]:
             for k in Colors:
+                
                 rotated_points = rotatePolygon(
-                        Pts[k+'_meo'][q][i+start:i+end:step] - A, alpha - 90)
-
-                pts_plot(rotated_points[:-start/step],Colors[k],sym='x:')
-                pts_plot(rotated_points[-start/step:],Colors[k],sym='.-')
+                        Pts[k+'_meo'][q][i+start:i+end:step] - Pts['direct_meo'][q][i-90], alpha-90)
+                        #Pts[k+'_meo'][q][i+start:i+end:step] - Pts['xy'][i], alpha-90),
+                pts_plot(rotated_points[:-start/step],Colors[k],sym='x')
+                pts_plot(rotated_points[-start/step:],Colors[k],sym='.'+lne)
         """
         pts_plot(
             rotatePolygon(

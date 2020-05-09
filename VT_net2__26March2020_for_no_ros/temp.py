@@ -1,4 +1,4 @@
-#,a
+
 from kzpy3.vis3 import *
 
 def plot_line(A,B,c='r'):
@@ -68,6 +68,52 @@ print dp(x),dp(y)
 import __main__ as main
 if hasattr(main, '__file__'):
 	cm('Done.',ra=1)
+
+#, a
+aa = []
+ra = []
+figure(1)
+clf()
+plt_square()
+for a in range(360):
+	r = np.radians(a)
+	x = np.cos(r)
+	y = -np.sin(r)
+	plot(x,y,'.')
+	b = angle_clockwise((1,0),(x,y)) + 3*rndn()
+	aa.append(a)
+	ra.append(b)
+figure(2)
+clf()
+plot(aa)
+plot(ra)
+spause()
+#,b
+
+#,a
+aa = []
+ra = []
+rb = []
+
+for m in np.concatenate((arange(-10,10,0.1),arange(-.001,.001,0.0001))):
+	x = 1
+	y = m
+	if x >= 0 and y >= 0:
+		
+	b = angle_clockwise((1,0),(x,y)) + 1*rndn()
+	aa.append(m)
+	ra.append(b)
+	if m > 0:
+		rb.append(b-360)
+	else:
+		rb.append(b)
+rb = -na(rb)
+figure(1)
+clf()
+#plot(aa)
+plot(aa,ra,'.')
+plot(aa,rb+10,'.')
+spause()
 #,b
 
 #EOF

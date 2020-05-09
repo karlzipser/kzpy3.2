@@ -69,7 +69,7 @@ if True:
             Pts['direct_meo'][q] = na([ax,ay]).transpose()
 
     if 'O' not in locals():
-        a0,O,a1 = open_run2(Arguments['run_name'])
+        L,O,a1 = open_run2(Arguments['run_name'])
 
 
 
