@@ -349,7 +349,7 @@ def isub(src,dst,xy):
 def pt_plot(xy,color='r'):
     plot(xy[0],xy[1],color+'.')
 
-def pts_plot(xys,color='r',sym='.'):
+def pts_plot(xys,color='r',sym='.',ms=None):
     if type(xys) == list:
         xys = na(xys)
     if len(shape(xys)) == 1:
@@ -357,8 +357,10 @@ def pts_plot(xys,color='r',sym='.'):
     assert(len(color)==1)
     x = xys[:,0]
     y = xys[:,1]
-    plot(x,y,color+sym)
-
+    if ms is None:
+        plot(x,y,color+sym)
+    else:
+        plot(x,y,color+sym,ms=ms)
         
 
 ###########

@@ -69,8 +69,9 @@ if True:
 
 start = -2*30
 end = start + 5*60*30
-step = 30/3
+step = 1#30/3
 d = 50
+marker_size = 15
 
 CA()
 
@@ -93,14 +94,14 @@ for i in range(6500,200000+6500,1):
     for j in range(i+start,i+end,step):
 
         if Pts['angles_meo']['left'][j] < -40:
-            pts_plot(Pts['left9_meo'][j],'r',sym='o')
+            pts_plot(Pts['left9_meo'][j],'r',sym='.',ms=marker_size)
         elif Pts['angles_meo']['left'][j] < -20:
-            pts_plot(Pts['left9_meo'][j],'r',sym='.')
+            pts_plot(Pts['left9_meo'][j],'r',sym='.',ms=int(marker_size/2))
 
         if Pts['angles_meo']['right'][j] > 40:
-            pts_plot(Pts['right9_meo'][j],'g',sym='o')
+            pts_plot(Pts['right9_meo'][j],'g',sym='.',ms=marker_size)
         elif Pts['angles_meo']['right'][j] > 20:
-            pts_plot(Pts['right9_meo'][j],'g',sym='.')
+            pts_plot(Pts['right9_meo'][j],'g',sym='.',ms=int(marker_size/2))
 
         if False:
             E = Pts['left9_meo'][j]#+step]
@@ -111,6 +112,7 @@ for i in range(6500,200000+6500,1):
 
     
     plt_square(); #xylim(XY[0]-d,XY[0]+d,XY[1]-d,XY[1]+d)
+
     spause()
 
     if False:
