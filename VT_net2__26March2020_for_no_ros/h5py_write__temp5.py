@@ -3,14 +3,21 @@
 from kzpy3.VT_net2__26March2020_for_no_ros.h5py_write__temp5__init import *
 
 alpha_prev = 0
+alpha = 0
 
 start = -3*30
 end = start + 9*30
 step = 30/3
 d = 8
 
+istep = 30
 
-for i in range(6700,200000,1):
+
+path = opjD(d2p('istep',time_str()))
+os.system('mkdir -p ' + path)
+
+
+for i in range(6700,200000,istep):
 
 
 
@@ -21,6 +28,7 @@ for i in range(6700,200000,1):
 
     if True:
         #A = Pts['xy'][i]
+
         A = Pts['direct_meo'][9][i-90]
         i_back = i-1-90
         while True:
@@ -38,21 +46,23 @@ for i in range(6700,200000,1):
             continue
         #xy = na(Pts['xy'][i_back:i+1])
 
-        XY = Pts['xy'][i]
-        figure(1)
-        clf()
-        plt_square()
-        xylim(XY[0]-d,XY[0]+d,XY[1]-d,XY[1]+d)
+        if True:
+            XY = Pts['xy'][i]
+            figure(1)
+            clf()
+            plt_square()
+            xylim(XY[0]-d,XY[0]+d,XY[1]-d,XY[1]+d)
 
-        xy_xy = na(Pts['xy'][i+start:i+end:step])
-        plot(xy_xy[:,0],xy_xy[:,1],'c'+'.-')
+        if True:
+            xy_xy = na(Pts['xy'][i+start:i+end:step])
+            plot(xy_xy[:,0],xy_xy[:,1],'c'+'.-')
+        if True:
+            #xy = na(Pts['direct_meo'][9][i_back:i+1-90:1])
+            xy = na(Pts['xy'][i_back+90:i+1:1])
+            plot(xy[:,0],xy[:,1],'kx')
 
-        #xy = na(Pts['direct_meo'][9][i_back:i+1-90:1])
-        xy = na(Pts['xy'][i_back+90:i+1:1])
-        plot(xy[:,0],xy[:,1],'kx')
-
-        #xy = xy[range(i_back,len(xy),1)]
-        #plot(xy[:,0],xy[:,1],'k.')
+            #xy = xy[range(i_back,len(xy),1)]
+            #plot(xy[:,0],xy[:,1],'k.')
 
     if True:
         m,b = curve_fit(f___,xy[:,0],xy[:,1])[0]
@@ -68,10 +78,9 @@ for i in range(6700,200000,1):
         else:
             cs = '`m'
             ra = False
-        clp(i,dp(alpha),dp(m),cs,ra=ra)
+        
 
     
-
     if True:
         e = 8
         figure(2);clf();plt_square(); xylim(-e,e,-e,e)#-e/4,2*e)
@@ -84,18 +93,38 @@ for i in range(6700,200000,1):
 
                 pts_plot(rotated_points[:-start/step],Colors[k],sym='x:')
                 pts_plot(rotated_points[-start/step:],Colors[k],sym='.-')
-        """
-        pts_plot(
-            rotatePolygon(
-                na(Pts['xy'][i_back:i]) - na(Pts['xy'][i]),alpha-90),
-            color='k'
-        )
-        """
+
+
+    if True:
+        e = 3
+        figure(3);clf();plt_square(); xylim(-e,e,-0.5,e*2)#-e/4,2*e)
+
+
+
+        for k in Colors:
+
+            h = []
+            for l in range(10):
+                h.append(Pts[k+'_meo'][l][i])
+            h = na(h)
+
+            rotated_points = rotatePolygon(
+                    h - Pts['direct_meo'][0][i], alpha - 90)
+
+            pts_plot(rotated_points,Colors[k],sym='.-')
+
+
     img = O['left_image']['vals'][i]
-    img = cv2.resize(img,(168*2,94*2))
-    img[:,168,:] = int((127+255)/2)
+    #img = cv2.resize(img,(168*2,94*2))
+    #img[:,168,:] = int((127+255)/2)
     mci(img,title='left_image',scale=1.)
     spause()
+
+
+    if True:
+        imsave(opj(path,d2p(i,'png')),img,format='png')
+        plt.savefig(opj(path,d2p(i,'pdf')),format='pdf')
+    clp(i,ra=False)#ra)
     
 
 
