@@ -110,11 +110,15 @@ def dir_as_dic_and_list( path ):
 
 
 
-def save_obj(obj, name,noisy=True,show_time=False):
+def save_obj(obj, name,noisy=True,show_time=False,use_real_path=True):
     assert_disk_locations([pname(name)])
-    if name.endswith('.pkl'):
-        name = name[:-len('.pkl')]
+    name = name.replace('.pkl','')
+    name = name + '.pkl'
+    if use_real_path:
+        name = os.path.realpath(name)
     with open(name + '.pkl', 'wb') as f:
+        if use_real_path:
+            f = os.path.realpath(f)
         pickle.dump(obj, f, pickle.HIGHEST_PROTOCOL)
     if noisy:
         timer = Timer()
@@ -125,17 +129,22 @@ def save_obj(obj, name,noisy=True,show_time=False):
             b=''
         clp(a,b)
         #sys.stdout.flush()
-def load_obj(name,noisy=True,time=False):
+def load_obj(name,noisy=True,time=False,use_real_path=True):
     assert_disk_locations([pname(name)])
     if noisy:
         timer = Timer()
         clp('Loading','`',name,'`--rb','. . .\r'),
 
         #sys.stdout.flush()
-    if name.endswith('.pkl'):
-        name = name[:-len('.pkl')]
-    assert_disk_locations(name+'.pkl')
-    with open(name + '.pkl', 'rb') as f:
+    #if name.endswith('.pkl'):
+    #    name = name[:-len('.pkl')]
+    #print name
+    name = name.replace('.pkl','')
+    name = name + '.pkl'
+    if use_real_path:
+        name = os.path.realpath(name)
+    assert_disk_locations(name)
+    with open(name, 'rb') as f:
         o = pickle.load(f)
         if noisy:
             clp(d2s('. . . loaded in',dp(timer.time()),'seconds.\r')),
@@ -144,7 +153,9 @@ def load_obj(name,noisy=True,time=False):
         
 lo = load_obj
 
-def loD(name,noisy=True):
+def loD(name,noisy=True,use_real_path=True):
+    if use_real_path:
+        name = os.path.realpath(name)
     return load_obj(opjD(name),noisy)
 
 def so(arg1,arg2,noisy=True):
@@ -408,14 +419,20 @@ def try_to_close(lst):
         except: pass
 
 
-def h5r(filename,assert_exists=True):
+def h5r(filename,assert_exists=True,use_real_path=True):
+    if use_real_path:
+        filename = os.path.realpath(filename)
     if assert_exists:
         assert_disk_locations(filename)
     return h5py.File(filename,'r')
-def h5w(filename):
+def h5w(filename,use_real_path=True):
+    if use_real_path:
+        filename = os.path.realpath(filename)
     assert_disk_locations(pname(filename))
     return h5py.File(filename,'w')
-def h5rw(filename):
+def h5rw(filename,use_real_path=True):
+    if use_real_path:
+        filename = os.path.realpath(filename)
     assert_disk_locations(pname(filename))
     return h5py.File(filename,'r+')
 

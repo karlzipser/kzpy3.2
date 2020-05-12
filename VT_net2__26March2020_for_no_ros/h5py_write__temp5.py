@@ -14,6 +14,8 @@ istep = 30
 
 
 path = opjD(d2p('istep',time_str()))
+#path = os.path.realpath(path)
+#path = os.path.realpath(path)
 os.system('mkdir -p ' + path)
 
 
