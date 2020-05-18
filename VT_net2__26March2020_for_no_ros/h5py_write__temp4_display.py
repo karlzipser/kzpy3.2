@@ -76,42 +76,51 @@ if True:
 
 
 start = -2*30
-end = start + 5*60*30
+end = start + 1*60*30
 step = 30/3
 d = 50
-marker_size = 15
+marker_size = 40
 
 CA()
+
+
+fig = 4
 
 for i in range(6500,7000):#200000+6500,1):
 
     if True:
         XY = Pts['xy'][i]
         figure(1,figsize=(16,16));clf();
-        plot((0,10),(0,0),'k',linewidth=1)
+        plot((-41,-40),(3,3),'k',linewidth=1)
         #plt.text(5-1,-2,'10 m')
     
     if False:
         xy = na(Pts['xy'][i-15:i+1])
         plot(xy[:,0],xy[:,1],'k')
 
-    if True:
+    if fig in [3,4]:
         for k in Colors.keys():
             xy = Pts[k+'9_meo'][i+start:i+end:step]
-            plot(xy[:,0],xy[:,1],Colors[k]+'-')#,linewidth=3)
+            plot(xy[:,0],xy[:,1],Colors[k]+'-',linewidth=3)
 
 
 
 
     cy(i)
 
-    for j in range(i+start,i+end,step):
+    for j in range(i+start,i+end,1):#step):
 
 
         cg(i,j)
 
+        if fig in [0,1,2]:
+            xy = na([Pts['direct0_meo'][j]])
+            plot(xy[:,0],xy[:,1],'k.')
+
+        if j % step != 0:
+            continue
         
-        if True:
+        if fig in [1,2,3]: # trajectories
             for k in Colors:
                 m = []
                 for l in range(10):
@@ -131,7 +140,7 @@ for i in range(6500,7000):#200000+6500,1):
             elif Pts['angles_meo']['right'][j] > 20:
                 pts_plot(Pts['right9_meo'][j],'g',sym='.',ms=int(marker_size/2))
 
-        if True:
+        if fig in [2,3,4]: # markers
             for k in ['left','right']:
                 a = min(np.abs(Pts['angles_meo'][k][j]),40)
                 marker_size = int(a/2.)
@@ -170,6 +179,8 @@ for i in range(6500,7000):#200000+6500,1):
         mci(img,title='left_image',scale=1.)
 
     break #clp('',r=1)
+
+xylim(-47,-37,0,9)
     
 if False:
     plt.savefig(opjD('a'),format='pdf')
@@ -177,8 +188,6 @@ if False:
 # width of path
 # angles over various distances
 # input future navigation commands
-
-
 
 
 def nearest_xy_index(xy):
