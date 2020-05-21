@@ -6,21 +6,42 @@ alpha_prev = 0
 alpha = 0
 
 start = -3*30
-end = start + 9*30
+end = start + (14-3)*30
 step = 30/3
 d = 8
 
-istep = 30
+istep = 5
 
 
 path = opjD(d2p('istep',time_str()))
 #path = os.path.realpath(path)
-#path = os.path.realpath(path)
 os.system('mkdir -p ' + path)
 
 
-for i in range(6700,200000,istep):
 
+def corrected_angle(m,point,origin):
+
+    alpha = angle_clockwise((1,0),(1,m))
+
+    x = point[0]-origin[0]
+    y = point[1]-origin[1]
+
+    if x >= 0 and y >= 0:
+        alpha = 360 - alpha
+    elif x < 0 and y >= 0:
+        alpha = 180 - alpha
+    elif x < 0 and y < 0:
+        alpha = 180+360 - alpha
+    elif x >= 0 and y < 0:
+        alpha = 90-alpha+270
+    else:
+        assert False
+
+    return alpha
+
+
+
+for i in range(6700,200000,istep):
 
 
     if L['motor'][i] < 54 or L['encoder'][i] < 2.0:
@@ -73,8 +94,13 @@ for i in range(6700,200000,istep):
         ys = m * xs + b
         plot(xs,ys,'k:')
 
+
         alpha_prev = alpha
-        alpha = angle_clockwise((1,0),(1,m))
+        if False:
+            alpha = angle_clockwise((1,0),(1,m))
+        if True:
+            alpha = corrected_angle(m,xy[-1,:],xy[0,:])
+        cm(int(alpha),sf=0)
         if np.abs(alpha - alpha_prev) > 5:
             cs = '`wrb'
             ra = True
@@ -85,22 +111,22 @@ for i in range(6700,200000,istep):
 
     
     if True:
-        e = 8
+        e = 16
         figure(2);clf();plt_square(); xylim(-e,e,-e,e)#-e/4,2*e)
         #A = Pts['direct_meo'][9][i+start] - Pts['direct_meo'][9][i+start-2]
         #alpha = angle_clockwise((0,1),A)
         for q,sym,lne in [(9,'o','-')]:#[(1,',',':'),(4,'.','-'),(9,'o','-'),]:#4,9]:
             for k in Colors:
                 rotated_points = rotatePolygon(
-                        Pts[k+'_meo'][q][i+start:i+end:step] - A, alpha - 90)
+                        Pts[k+'_meo'][q][i+start:i+end:step] - A, 90-alpha)
 
                 pts_plot(rotated_points[:-start/step],Colors[k],sym='x:')
                 pts_plot(rotated_points[-start/step:],Colors[k],sym='.-')
 
 
-    if True:
+    if False:
         e = 3
-        figure(3);clf();plt_square(); xylim(-e,e,-0.5,e*2)#-e/4,2*e)
+        figure(3);clf();plt_square(); xylim(-e,e,-e,e)#-0.5,e*2)#-e/4,2*e)
 
 
 
@@ -124,10 +150,10 @@ for i in range(6700,200000,istep):
     spause()
 
 
-    if True:
+    if False:
         imsave(opj(path,d2p(i,'png')),img,format='png')
         plt.savefig(opj(path,d2p(i,'pdf')),format='pdf')
-    clp(i,ra=False)#ra)
+    #clp(i,ra=False)#ra)
     
 
 
