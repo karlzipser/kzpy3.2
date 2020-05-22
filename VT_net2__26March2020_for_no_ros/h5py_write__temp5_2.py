@@ -10,7 +10,7 @@ end = start + (14-3)*30
 step = 30/3
 d = 8
 
-istep = 5
+istep = 1
 
 
 path = opjD(d2p('istep',time_str()))
@@ -19,25 +19,7 @@ os.system('mkdir -p ' + path)
 
 
 
-def corrected_angle(m,point,origin):
 
-    alpha = angle_clockwise((1,0),(1,m))
-
-    x = point[0]-origin[0]
-    y = point[1]-origin[1]
-
-    if x >= 0 and y >= 0:
-        alpha = 360 - alpha
-    elif x < 0 and y >= 0:
-        alpha = 180 - alpha
-    elif x < 0 and y < 0:
-        alpha = 180+360 - alpha
-    elif x >= 0 and y < 0:
-        alpha = 90-alpha+270
-    else:
-        assert False
-
-    return alpha
 
 
 
@@ -146,7 +128,7 @@ for i in range(6700,200000,istep):
     img = O['left_image']['vals'][i]
     #img = cv2.resize(img,(168*2,94*2))
     #img[:,168,:] = int((127+255)/2)
-    mci(img,title='left_image',scale=1.)
+    mci(img,title='left_image',scale=4.)
     spause()
 
 

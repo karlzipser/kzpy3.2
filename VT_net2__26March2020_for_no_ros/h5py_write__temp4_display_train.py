@@ -1,6 +1,6 @@
 from kzpy3.vis3 import *
 
-#, a
+#,a
 
 
 Arguments = {
@@ -14,6 +14,14 @@ def pts_dist(A,B):
     return np.sqrt((A[0]-B[0])**2 + (A[1]-B[1])**2)
 
 Colors = {'direct':'b','left':'r','right':'g'}
+
+
+
+
+
+
+
+
 
 if True:
 
@@ -58,19 +66,7 @@ if True:
                 ax = meo(na(a)[:,0],n)
                 ay = meo(na(a)[:,1],n)
                 Pts[side+str(u)+'_meo'] = na([ax,ay]).transpose()
-        if False:
-            a = Pts['left'][9]
-            ax = meo(na(a)[:,0],n)
-            ay = meo(na(a)[:,1],n)
-            Pts['left9_meo'] = na([ax,ay]).transpose()
-            a = Pts['right'][9]
-            ax = meo(na(a)[:,0],n)
-            ay = meo(na(a)[:,1],n)
-            Pts['right9_meo'] = na([ax,ay]).transpose()
-            a = Pts['direct'][9]
-            ax = meo(na(a)[:,0],n)
-            ay = meo(na(a)[:,1],n)
-            Pts['direct9_meo'] = na([ax,ay]).transpose()
+
 
     if 'O' not in locals():
         L,O,___ = open_run2(Arguments['run_name'])
@@ -83,8 +79,10 @@ step = 30/3
 d = 50
 marker_size_divisor = 4.0
 marker_size = 80/marker_size_divisor
-CA()
+#CA()
 
+D = {}
+R = {}
 
 for fig in [4]:#range(5):
 
@@ -114,7 +112,8 @@ for fig in [4]:#range(5):
 
         if 'meter scale bar':
             XY = Pts['xy'][i]
-            figure(1,figsize=(16,16));clf();xylim(-100,100,-150,50);plt_square();
+            figure(1,figsize=(16,16));clf() #xylim(-100,100,-150,50)
+            xylim(-60,-10,-25,25);plt_square();
             plot((-41,-40),(3,3),'k',linewidth=1)
             #plt.text(5-1,-2,'10 m')
         
@@ -122,9 +121,10 @@ for fig in [4]:#range(5):
             xy = na(Pts['xy'][i-15:i+1])
             plot(xy[:,0],xy[:,1],'k')
 
-        if fig in [3,4]:
-            for k in ['left','right']:#Colors.keys():
-                xy = Pts[k+'9_meo'][i+start:i+end:step]
+        if 'outer countors':
+            for k in ['left','right']:
+                D['outor_contours_'+k] = Pts[k+'9_meo'][i+start:i+end:step]
+                xy = D['outor_contours_'+k]
                 plot(xy[:,0],xy[:,1],Colors[k]+'-',linewidth=1)
 
 
@@ -144,7 +144,7 @@ for fig in [4]:#range(5):
             if j % step != 0:
                 continue
             
-            if fig in [1,2,3]: # trajectories
+            if not 'trajectories':
                 for k in ['left','right']:
                     m = []
                     for l in range(10):
@@ -155,7 +155,7 @@ for fig in [4]:#range(5):
 
 
 
-            if fig in [2,3,4]: # markers
+            if 'markers':
                 for k in ['left','right']:
                     a = min(np.abs(Pts['angles_meo'][k][j]),40)
                     marker_size = int(a/marker_size_divisor)
@@ -172,7 +172,7 @@ for fig in [4]:#range(5):
 
 
 
-        if 'get slope, alpha':
+        if not 'get slope, alpha':
             xy = na(Pts['xy'][i_back+90:i+1:1])
             plot(xy[:,0],xy[:,1],'kx')
 
@@ -181,16 +181,9 @@ for fig in [4]:#range(5):
             ys = m * xs + b
             plot(xs,ys,'k:')
 
-            #alpha_prev = alpha
-            alpha = angle_clockwise((1,0),(1,m))
+            alpha = corrected_angle(m,xy[-1,:],xy[0,:])
 
-            if False:
-                if np.abs(alpha - alpha_prev) > 5:
-                    cs = '`wrb'
-                    ra = True
-                else:
-                    cs = '`m'
-                    ra = False
+
 
 
 
@@ -253,26 +246,7 @@ if False:
 
 
 
-#,a
-def corrected_angle(m,point,origin):
 
-    alpha = angle_clockwise((1,0),(1,m))
-
-    x = point[0]-origin[0]
-    y = point[1]-origin[1]
-
-    if x >= 0 and y >= 0:
-        alpha = 360 - alpha
-    elif x < 0 and y >= 0:
-        alpha = 180 - alpha
-    elif x < 0 and y < 0:
-        alpha = 180+360 - alpha
-    elif x >= 0 and y < 0:
-        alpha = 90-alpha+270
-    else:
-        assert False
-
-    return alpha
 
 
 
@@ -303,7 +277,7 @@ for q in rlen(xsq):
     spause()
 
     if False:
-        #alpha_prev = alpha
+        
         alpha = angle_clockwise((1,0),(1,m))
         cm([dp(xsq[q]),dp(ysq[q])],'m:',dp(m),'b:',dp(b),'alpha:',np.round(alpha),r=1)
         if xsq[q] >= 0 and ysq[q] >= 0:
@@ -316,12 +290,7 @@ for q in rlen(xsq):
             cm(int(90-alpha+270),sf=0)
     print dp( corrected_angle(m, (xsq[q],ysq[q]), (0,0)) )
 
-if np.abs(alpha - alpha_prev) > 5:
-    cs = '`wrb'
-    ra = True
-else:
-    cs = '`m'
-    ra = False
+
 
 spause()
 #,b

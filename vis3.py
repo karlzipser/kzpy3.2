@@ -553,6 +553,28 @@ def angle_clockwise(A, B):
         return 360-inner
 
 
+def corrected_angle(slope,point,origin):
+
+    alpha = angle_clockwise((1,0),(1,slope))
+
+    x = point[0]-origin[0]
+    y = point[1]-origin[1]
+
+    if x >= 0 and y >= 0:
+        alpha = 360 - alpha
+    elif x < 0 and y >= 0:
+        alpha = 180 - alpha
+    elif x < 0 and y < 0:
+        alpha = 180+360 - alpha
+    elif x >= 0 and y < 0:
+        alpha = 90-alpha+270
+    else:
+        assert False
+
+    return alpha
+
+
+    
 
 
 def unit_vector(vector):
