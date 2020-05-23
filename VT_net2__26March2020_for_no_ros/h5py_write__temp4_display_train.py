@@ -81,6 +81,8 @@ marker_size_divisor = 4.0
 marker_size = 80/marker_size_divisor
 #CA()
 
+
+
 D = {}
 D['marker_size'] = {}
 D['marker_size']['left'] = []
@@ -88,8 +90,8 @@ D['marker_size']['right'] = []
 D['outor_contours'] = {}
 D['outer_countours_rotated'] = {}
 R = {}
+e = 16
 
-cg('NOW 2')
 
 for i in range(6500,11000,5):#200000+6500,1):
 
@@ -116,6 +118,9 @@ for i in range(6500,11000,5):#200000+6500,1):
 
 
 
+
+    XY = Pts['xy'][i]
+
     
     if not 'Pts[xy]':
         xy = na(Pts['xy'][i-15:i+1])
@@ -139,6 +144,23 @@ for i in range(6500,11000,5):#200000+6500,1):
                 marker_size = int(a/marker_size_divisor)
                 D['marker_size'][k][l] = marker_size
 
+    if 'find turns':
+
+        aa = L['gyro_heading_x_meo'][i+start:i+end:step]
+        bb = L['gyro_heading_x_meo'][i+start-step:i+end-step:step]
+        cc = aa - bb
+        dd = L['behavioral_mode'][i+start:i+end:step]
+        ee = 0 * dd
+        ee[ cc > 5 ] = 3 - 2
+        ee[ cc < -5] = 1 - 2
+        ff = 0 * dd
+        ff[dd == 1] = 1
+        ff[dd == 3] = 1
+        gg = ee * ff + 2
+
+
+        D['turns'] = gg
+
                 
     if 'make rotated':
 
@@ -155,8 +177,8 @@ for i in range(6500,11000,5):#200000+6500,1):
             alpha = corrected_angle(m,xy[-1,:],xy[0,:])
 
         for k in ['left','right']:
-            D['outer_countours_rotated'][k] = rotatePolygon(
-                    D['outor_contours'][k] - A, 90-alpha)
+            D['outer_countours_rotated'][k] = \
+                rotatePolygon( D['outor_contours'][k] - A, 90-alpha)
 
 
 
@@ -166,7 +188,6 @@ for i in range(6500,11000,5):#200000+6500,1):
         if 'plot non-rotated plot':
 
             if 'meter scale bar':
-                XY = Pts['xy'][i]
                 x = XY[0]; y = XY[1]
                 figure(1)
                 clf()
@@ -186,13 +207,14 @@ for i in range(6500,11000,5):#200000+6500,1):
 
 
         if 'plot rotated' and 'outer_countours_rotated' in D:
-            e = 16
+            
             figure(2);clf();plt_square(); xylim(-e,e,-e/4,2*e)
             for k in ['left','right']:
                 xy = D['outer_countours_rotated'][k]
                 plot(xy[:,0],xy[:,1],Colors[k]+'-',linewidth=1)
                 for r in rlen(D['outer_countours_rotated'][k]):
                     pts_plot(D['outer_countours_rotated'][k][r],Colors[k],sym='.',ms = D['marker_size'][k][r])
+
 
 
         if '1-d plot':
@@ -204,11 +226,11 @@ for i in range(6500,11000,5):#200000+6500,1):
                 plot(y,Colors[k]+'.-')
                 ms = na(D['marker_size'][k])
                 plot(ms/10.+7,Colors[k]+'o')
-            plot(L['behavioral_mode'][i+start:i+end:step],'k.')
-            a = L['gyro_heading_x_meo'][i+start:i+end:step]
-            b = L['gyro_heading_x_meo'][i+start-2:i+end-2:step]
-            cy('behavioral_mode',L['behavioral_mode'][i])
-            plot(a-b,'b.-')
+            #plot(L['behavioral_mode'][i+start:i+end:step]+0.2,'k.')
+            #cy('behavioral_mode',L['behavioral_mode'][i])
+            #plot(cc,'b.-')
+            plot(D['turns'],'c.-')
+            #plot(aa/10.)
 
 
         if 'show camera image':
