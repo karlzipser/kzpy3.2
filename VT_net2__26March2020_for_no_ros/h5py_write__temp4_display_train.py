@@ -1,7 +1,6 @@
 from kzpy3.vis3 import *
 
 #,a
-cm('NOW 1')
 
 Arguments = {
     'run_name':'tegra-ubuntu_31Oct18_16h06m32s',
@@ -14,11 +13,6 @@ def pts_dist(A,B):
     return np.sqrt((A[0]-B[0])**2 + (A[1]-B[1])**2)
 
 Colors = {'direct':'b','left':'r','right':'g'}
-
-
-
-
-
 
 
 
@@ -89,33 +83,41 @@ D['marker_size']['left'] = []
 D['marker_size']['right'] = []
 D['outor_contours'] = {}
 D['outer_countours_rotated'] = {}
+D['angles'] = {}
+
 R = {}
 e = 16
 
+timer = Timer(10)
+timer.trigger()
 
-for i in range(6500,11000,5):#200000+6500,1):
+data = list(zeros(len(L['steer'])))
+
+for i in rlen(L['steer']):#range(6500,11000,1):#200000+6500,1):
+
+    timer.freq(str(i))
+    #cm(i)
 
     if L['motor'][i] < 54 or L['encoder'][i] < 2.0:
-        cm(i,'motor/encoder')
+        #cm(i,'motor/encoder')
+        #data.append(None)
         continue
+
 
     if 'find i_back':
         A = Pts['direct9_meo'][i-90]
         i_back = i-1-90
         while True:
-            #B = Pts['xy'][i_back]
             B = Pts['direct9_meo'][i_back]
             pd = pts_dist(A,B)
             if pd > 0.5:
-                #print k,i,dp(pd)
                 break
             else:
                 i_back -= 1
 
         if i - i_back > 200:
-            cm(i,'i_back')
+            #cm(i,'i_back')
             continue
-
 
 
 
@@ -131,6 +133,7 @@ for i in range(6500,11000,5):#200000+6500,1):
     if 'outer countors':
         
         for k in ['left','right']:
+
             D['outor_contours'][k] = Pts[k+'9_meo'][i+start:i+end:step]
 
 
@@ -143,6 +146,10 @@ for i in range(6500,11000,5):#200000+6500,1):
                 a = min(np.abs(D['marker_size'][k][l]),80)
                 marker_size = int(a/marker_size_divisor)
                 D['marker_size'][k][l] = marker_size
+
+            D['angles'][k] = na(Pts['angles_meo'][k][i+start:i+end:step])
+
+
 
     if 'find turns':
 
@@ -182,7 +189,7 @@ for i in range(6500,11000,5):#200000+6500,1):
 
 
 
-    if 'plot':
+    if not 'plot':
 
 
         if 'plot non-rotated plot':
@@ -224,13 +231,10 @@ for i in range(6500,11000,5):#200000+6500,1):
                 plot(x,Colors[k]+'x-')
                 y = D['outer_countours_rotated'][k][:,1]
                 plot(y,Colors[k]+'.-')
-                ms = na(D['marker_size'][k])
-                plot(ms/10.+7,Colors[k]+'o')
-            #plot(L['behavioral_mode'][i+start:i+end:step]+0.2,'k.')
-            #cy('behavioral_mode',L['behavioral_mode'][i])
-            #plot(cc,'b.-')
+                plot(D['angles'][k]/10.,Colors[k]+'-')
+
             plot(D['turns'],'c.-')
-            #plot(aa/10.)
+
 
 
         if 'show camera image':
@@ -241,8 +245,19 @@ for i in range(6500,11000,5):#200000+6500,1):
 
 
 
+    if not 'plot':
+        spause()
 
-    spause()
+    data[i] = {
+        'outer_countours_rotated' : D['outer_countours_rotated'],
+        'angles' : D['angles'],
+        'turns' : D['turns'],
+        'angles' : D['angles'],
+        'index' : i,
+        }
+    
+
+
 
 
 
