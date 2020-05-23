@@ -115,21 +115,19 @@ for i in range(6500,11000,5):#200000+6500,1):
             continue
 
 
-    if 'meter scale bar':
-        XY = Pts['xy'][i]
-        figure(1,figsize=(16,16));clf() #xylim(-100,100,-150,50)
-        xylim(-60,-10,-25,25);plt_square();
-        #plot((-41,-40),(3,3),'k',linewidth=1)
-        #plt.text(5-1,-2,'10 m')
+
     
     if not 'Pts[xy]':
         xy = na(Pts['xy'][i-15:i+1])
         plot(xy[:,0],xy[:,1],'k')
 
+
+
     if 'outer countors':
         
         for k in ['left','right']:
             D['outor_contours'][k] = Pts[k+'9_meo'][i+start:i+end:step]
+
 
     if 'markers':
 
@@ -142,57 +140,82 @@ for i in range(6500,11000,5):#200000+6500,1):
                 D['marker_size'][k][l] = marker_size
 
                 
+    if 'make rotated':
 
+        if 'get slope, alpha':
+            xy = na(Pts['xy'][i_back+90:i+1:1])
+            D["Pts['xy'] to fit"] = xy
+            
+            m,b = curve_fit(f___,xy[:,0],xy[:,1])[0]
+            xs = na([XY[0]-20,XY[0]+20])
+            ys = m * xs + b
+            D["xs_fit_line"] = xs
+            D["ys_fit_line"] = ys
+            
+            alpha = corrected_angle(m,xy[-1,:],xy[0,:])
 
-
-
-    if 'get slope, alpha':
-
-        xy = na(Pts['xy'][i_back+90:i+1:1])
-        plot(xy[:,0],xy[:,1],'kx')
-
-        m,b = curve_fit(f___,xy[:,0],xy[:,1])[0]
-        xs = na([XY[0]-20,XY[0]+20])
-        ys = m * xs + b
-        plot(xs,ys,'k:')
-
-        alpha = corrected_angle(m,xy[-1,:],xy[0,:])
-
-
-
-    if 'plot non-rotated plote':
-        for k in ['left','right']:
-            xy = D['outor_contours'][k]
-            plot(xy[:,0],xy[:,1],Colors[k]+'-',linewidth=1)
-            for l in rlen(D['marker_size'][k]):
-                pts_plot(D['outor_contours'][k][l],Colors[k],sym='.',ms = D['marker_size'][k][l])
-
-
-    if 'rotated':
-        e = 16
-        figure(2);clf();plt_square(); xylim(-e,e,-e/4,2*e)
         for k in ['left','right']:
             D['outer_countours_rotated'][k] = rotatePolygon(
                     D['outor_contours'][k] - A, 90-alpha)
-            pts_plot(D['outer_countours_rotated'][k],Colors[k],sym='-')
-            for r in rlen(D['outer_countours_rotated'][k]):
-                pts_plot(D['outer_countours_rotated'][k][r],Colors[k],sym='.',ms = D['marker_size'][k][r])
 
-    if '1-d plot':
-        figure(3);clf()
-        for k in ['left','right']:
-            x = D['outer_countours_rotated'][k][:,0]
-            plot(x,Colors[k]+'x-')
-            y = D['outer_countours_rotated'][k][:,1]
-            plot(y,Colors[k]+'.-')
-            ms = na(D['marker_size'][k])
-            plot(ms/10.,Colors[k]+'o')
 
-    if 'show camera image':
-        img = O['left_image']['vals'][i]
-        img = cv2.resize(img,(168*2,94*2))
-        if False: img[:,168,:] = int((127+255)/2)
-        mci(img,title='left_image',scale=1.)
+
+    if 'plot':
+
+
+        if 'plot non-rotated plot':
+
+            if 'meter scale bar':
+                XY = Pts['xy'][i]
+                x = XY[0]; y = XY[1]
+                figure(1)
+                clf()
+                xylim(x-e,x+e,y-e,y+e);plt_square();
+
+
+            for k in ['left','right']:
+                xy = D['outor_contours'][k]
+                plot(xy[:,0],xy[:,1],Colors[k]+'-',linewidth=1)
+                for l in rlen(D['marker_size'][k]):
+                    pts_plot(D['outor_contours'][k][l],Colors[k],sym='.',ms = D['marker_size'][k][l])
+
+        if 'plot fit':
+            plot(D["Pts['xy'] to fit"][:,0],D["Pts['xy'] to fit"][:,1],'kx')
+            plot(D["xs_fit_line"],D["ys_fit_line"],'k:')
+
+
+
+        if 'plot rotated' and 'outer_countours_rotated' in D:
+            e = 16
+            figure(2);clf();plt_square(); xylim(-e,e,-e/4,2*e)
+            for k in ['left','right']:
+                xy = D['outer_countours_rotated'][k]
+                plot(xy[:,0],xy[:,1],Colors[k]+'-',linewidth=1)
+                for r in rlen(D['outer_countours_rotated'][k]):
+                    pts_plot(D['outer_countours_rotated'][k][r],Colors[k],sym='.',ms = D['marker_size'][k][r])
+
+
+        if '1-d plot':
+            figure(3);clf()
+            for k in ['left','right']:
+                x = D['outer_countours_rotated'][k][:,0]
+                plot(x,Colors[k]+'x-')
+                y = D['outer_countours_rotated'][k][:,1]
+                plot(y,Colors[k]+'.-')
+                ms = na(D['marker_size'][k])
+                plot(ms/10.+7,Colors[k]+'o')
+            plot(L['behavioral_mode'][i+start:i+end:step],'k.')
+            a = L['gyro_heading_x_meo'][i+start:i+end:step]
+            b = L['gyro_heading_x_meo'][i+start-2:i+end-2:step]
+            cy('behavioral_mode',L['behavioral_mode'][i])
+            plot(a-b,'b.-')
+
+
+        if 'show camera image':
+            img = O['left_image']['vals'][i]
+            img = cv2.resize(img,(168*2,94*2))
+            if False: img[:,168,:] = int((127+255)/2)
+            mci(img,title='left_image',scale=1.)
 
 
 
