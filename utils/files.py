@@ -423,6 +423,7 @@ def h5r(filename,assert_exists=True,use_real_path=False):
     if use_real_path:
         filename = os.path.realpath(filename)
     if assert_exists:
+        cy(filename,ra=1)
         assert_disk_locations(filename)
     return h5py.File(filename,'r')
 def h5w(filename,use_real_path=False):
