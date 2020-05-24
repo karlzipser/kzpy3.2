@@ -130,7 +130,7 @@ def save_obj(obj, name,noisy=True,show_time=False,use_real_path=False):
         clp(a,b)
         #sys.stdout.flush()
 def load_obj(name,noisy=True,time=False,use_real_path=False):
-    #assert_disk_locations([pname(name)])
+    assert_disk_locations([pname(name)])
     if noisy:
         timer = Timer()
         clp('Loading','`',name,'`--rb','. . .\r'),
@@ -143,7 +143,7 @@ def load_obj(name,noisy=True,time=False,use_real_path=False):
     name = name + '.pkl'
     if use_real_path:
         name = os.path.realpath(name)
-    #assert_disk_locations(name)
+    assert_disk_locations(name)
     with open(name, 'rb') as f:
         o = pickle.load(f)
         if noisy:

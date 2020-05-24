@@ -69,7 +69,7 @@ if True:
 
     if 'angles' not in Pts:
         Pts['angles'] = {}
-        o = lo('/Users/karlzipser/Desktop/Data/pts2D_multi_step/pkl_angles0/'+Arguments['run_name']+'.pkl')
+        o = loD('Data/pts2D_multi_step/pkl_angles0/'+Arguments['run_name']+'.pkl')
         Pts['angles']['left'] = o['left']
         Pts['angles']['right'] = o['right']
 
