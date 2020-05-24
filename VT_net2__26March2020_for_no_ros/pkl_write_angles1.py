@@ -1,7 +1,7 @@
 #,a
 from kzpy3.vis3 import *
 
-if  'from command line':
+if  not 'from command line':
     Arguments = {
         'run_name':'tegra-ubuntu_31Oct18_16h06m32s',
     }
