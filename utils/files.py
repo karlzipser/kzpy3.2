@@ -394,7 +394,7 @@ def assert_disk_locations(locations):
     if type(locations) == str:
         locations = [locations]
     for l in locations:
-        #print(d2s("Checking for",l))
+        cm(d2s("Checking for",l),ra=1)
         if len(gg(l)) < 1:
             if False: # old version
                 srpd2s(d2s("Error:\n",l,"not available!"))
