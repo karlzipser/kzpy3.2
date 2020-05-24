@@ -110,10 +110,10 @@ def dir_as_dic_and_list( path ):
 
 
 
-def save_obj(obj, name,noisy=True,show_time=False,use_real_path=True):
+def save_obj(obj, name,noisy=True,show_time=False,use_real_path=False):
     assert_disk_locations([pname(name)])
     name = name.replace('.pkl','')
-    name = name + '.pkl'
+    #name = name + '.pkl'
     if use_real_path:
         name = os.path.realpath(name)
     with open(name + '.pkl', 'wb') as f:
@@ -129,7 +129,7 @@ def save_obj(obj, name,noisy=True,show_time=False,use_real_path=True):
             b=''
         clp(a,b)
         #sys.stdout.flush()
-def load_obj(name,noisy=True,time=False,use_real_path=True):
+def load_obj(name,noisy=True,time=False,use_real_path=False):
     assert_disk_locations([pname(name)])
     if noisy:
         timer = Timer()
@@ -153,13 +153,13 @@ def load_obj(name,noisy=True,time=False,use_real_path=True):
         
 lo = load_obj
 
-def loD(name,noisy=True,use_real_path=True):
+def loD(name,noisy=True,use_real_path=False):
     if use_real_path:
         name = os.path.realpath(name)
     return load_obj(opjD(name),noisy)
 
 def so(arg1,arg2,noisy=True):
-    try:
+    if True:#try:
         if type(arg1) == str and type(arg2) != str:
             save_obj(arg2,arg1,noisy)
             return
@@ -169,7 +169,7 @@ def so(arg1,arg2,noisy=True):
         if type(arg2) == str and type(arg1) == str:
             pd2s('def so(arg1,arg2): both args cannot be strings')
         assert(False)
-    except:
+    else:#except:
         exec(EXCEPT_STR)
 
 def soD(arg1,arg2,noisy=True):
@@ -419,18 +419,18 @@ def try_to_close(lst):
         except: pass
 
 
-def h5r(filename,assert_exists=True,use_real_path=True):
+def h5r(filename,assert_exists=True,use_real_path=False):
     if use_real_path:
         filename = os.path.realpath(filename)
     if assert_exists:
         assert_disk_locations(filename)
     return h5py.File(filename,'r')
-def h5w(filename,use_real_path=True):
+def h5w(filename,use_real_path=False):
     if use_real_path:
         filename = os.path.realpath(filename)
     assert_disk_locations(pname(filename))
     return h5py.File(filename,'w')
-def h5rw(filename,use_real_path=True):
+def h5rw(filename,use_real_path=False):
     if use_real_path:
         filename = os.path.realpath(filename)
     assert_disk_locations(pname(filename))
