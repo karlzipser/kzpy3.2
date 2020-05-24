@@ -395,7 +395,7 @@ def assert_disk_locations(locations):
         locations = [locations]
     for l in locations:
         cm(d2s("Checking for",l),ra=1)
-        if len(gg(l,'*')) < 1: #NEW 24May2020
+        if len(gg(l+'/*')) < 1: #NEW 24May2020
             if False: # old version
                 srpd2s(d2s("Error:\n",l,"not available!"))
                 if len(l.split('/')) > 0:
