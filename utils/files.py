@@ -130,7 +130,7 @@ def save_obj(obj, name,noisy=True,show_time=False,use_real_path=False):
         clp(a,b)
         #sys.stdout.flush()
 def load_obj(name,noisy=True,time=False,use_real_path=False):
-    assert_disk_locations([pname(name)])
+    #assert_disk_locations([pname(name)])
     if noisy:
         timer = Timer()
         clp('Loading','`',name,'`--rb','. . .\r'),
@@ -395,7 +395,7 @@ def assert_disk_locations(locations):
         locations = [locations]
     for l in locations:
         cm(d2s("Checking for",l),ra=1)
-        if len(gg(l+'/*')) < 1: #NEW 24May2020
+        if len(gg(l)) < 1:
             if False: # old version
                 srpd2s(d2s("Error:\n",l,"not available!"))
                 if len(l.split('/')) > 0:
