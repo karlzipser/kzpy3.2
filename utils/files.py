@@ -143,7 +143,7 @@ def load_obj(name,noisy=True,time=False,use_real_path=False):
     name = name + '.pkl'
     if use_real_path:
         name = os.path.realpath(name)
-    assert_disk_locations(name)
+    #assert_disk_locations(name)
     with open(name, 'rb') as f:
         o = pickle.load(f)
         if noisy:
