@@ -8,10 +8,10 @@ if not 'from command line': #sys.stdin.isatty():#
     }
     Defaults = {
         'show':False,
-        'show2':True,
+        'show2':False,
         #'backward':50,
         #'forward':250,
-        'save':False,
+        'save':True,
         'start':0,
         'end':-1,
         'istep':1,
@@ -141,7 +141,7 @@ if Arguments['save']:
         'outer_countours_rotated_left' : zeros((lenL,42,2)),
         'angles_right' : zeros((lenL,42)),
         'outer_countours_rotated_right' : zeros((lenL,42,2)),
-        'turns' : zeros(lenL),
+        'turns' : zeros((lenL,42)),
     }
 
     
@@ -310,14 +310,17 @@ if not Arguments['show2']:
             for k in ['left','right']:
                 M['angles_'+k][i] = D['angles'][k].copy()
                 M['outer_countours_rotated_'+k][i] = D['outer_countours_rotated'][k].copy()
-                M['turns'][i] = D['turns'].copy()
+                #clp(shape(D['turns']),shape(M['turns'][i]))
+                M['turns'][i] = D['turns']
 
+        
         except KeyboardInterrupt:
             cr('*** KeyboardInterrupt ***')
             sys.exit()
         
         except:
             clp(i,'failed','`wrb')
+        
 
 
     if Arguments['save']:
