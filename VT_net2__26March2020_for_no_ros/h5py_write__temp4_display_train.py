@@ -414,6 +414,8 @@ elif Arguments['show2']:
             plot(D['turns'],'c.-')
 
 
+        spause()
+        
 
         if 'show camera image':
             img = O['left_image']['vals'][i]
