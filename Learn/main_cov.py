@@ -4,85 +4,13 @@ import Menu.main
 from net_main import Net_Main
 exec(identify_file_str)
 
-use_discrim = False
+USE_DISCRIMINATOR = False
 
 M = Menu.main.start_Dic(dic_project_path=pname(opjh(__file__)))
 
 #python kzpy3/Learn/main_cov.py --main 6 --net_str pts2d2_from_scratch
 
 Net_strs = {
-    #Learn --main 4 --net_str Fire2rgbProjections.dcgan
-
-    'pts2d0' : """
-        Learn 
-            --type ConDecon_Fire_FS,Fire3,pts2d0
-            --resume True 
-            --batch_size 1
-            --save_timer_time 600 
-            --target_offset 0 
-            --input rgb,Fire3,button
-            --target pts2d 
-            --losses_to_average 256 
-            --runs train 
-            --display.output 0,3 
-            --display.input 0,3,3,6,6,9
-            --display.target 0,3
-            --clip 0.0001
-            --backwards True
-            --win_x 20
-            --win_y 40
-            --drop 0.0
-            --blue_center_button True
-            --pts2_h5py_type h5py_half
-
-    """,
-    'pts2d1' : """
-        Learn 
-            --type ConDecon_Fire_FS,Fire3,pts2d1
-            --resume True 
-            --batch_size 1
-            --save_timer_time 600 
-            --target_offset 0 
-            --input rgb,Fire3,button,pts2d
-            --target pts2d 
-            --losses_to_average 256 
-            --runs train 
-            --display.output 0,3 
-            --display.input 0,3,3,6,6,9,9,12
-            --display.target 0,3
-            --clip 0.0001
-            --backwards True
-            --win_x 20
-            --win_y 40
-            --drop 0.0
-            --blue_center_button True
-            --pts2_h5py_type h5py_half2
-
-    """,
-    'pts2d2' : """
-        Learn 
-            --type ConDecon_Fire_FS,Fire3,pts2d2
-            --resume True 
-            --batch_size 1
-            --save_timer_time 900 
-            --target_offset 0 
-            --input rgb,Fire3,button
-            --target pts2d
-            --losses_to_average 1024 
-            --runs train 
-            --display.output 0,3 
-            --display.input 0,3,3,6,6,9
-            --display.target 0,3
-            --clip 0.0001
-            --backwards True
-            --win_x 20
-            --win_y 40
-            --drop 0.0
-            --blue_center_button True
-            --pts2_h5py_type h5py_angles0
-            --reset_loss False
-
-    """,
     'pts2d2_from_scratch' : """
         Learn 
             --type ConDecon_Fire_FS,Fire3,pts2d2_from_scratch
@@ -109,28 +37,6 @@ Net_strs = {
             --LR 0.01
 
     """,
-    'Fire2rgbProjections.dcgan' : """
-        Learn 
-            --type ConDecon_Fire_FS,Fire3,Fire2rgbProjections.dcgan
-            --resume True 
-            --batch_size 1
-            --save_timer_time 300 
-            --target_offset 0 
-            --input Fire3 
-            --target rgb,projections 
-            --losses_to_average 256 
-            --runs train 
-            --display.output 0,3,3,6 
-            --display.input 0,3 
-            --display.target 0,3,3,6
-            --clip 0.0001
-            --backwards True
-            --win_x 20
-            --win_y 40
-            --drop 0.0
-    """,
-
-
 }
 
 def main6():
@@ -146,13 +52,12 @@ def main6():
     import torchvision.utils as vutils
     import torch.nn.utils as nnutils
 
-    if use_discrim:
+    if USE_DISCRIMINATOR:
         from discriminator1 import Discriminator,weights_init
 
     if 'type' not in Arguments.keys():
         clp('   FROM SYS_STR   ','`ybb',ra=0,p=1)
         Nets = {
-            #'N0':Net_Main(M=M,sys_str=fire2fireFuture_dcgan_a.replace('\n',' ').replace('\t',' ')),
             'N0':Net_Main(M=M,sys_str=Net_strs[Arguments['net_str']].replace('\n',' ').replace('\t',' '),Arguments_=Arguments),
 
         }
@@ -167,15 +72,15 @@ def main6():
     cg('Data',shape(Data['input']),shape(Data['target']))
 
 
-    if use_discrim:
-        DISCRIMINATOR = Discriminator(nc=shape(Data['target'])[1]).cuda()   #shape(Data['target'])[1]).cuda()
+    if USE_DISCRIMINATOR:
+        DISCRIMINATOR = Discriminator(nc=shape(Data['target'])[1]).cuda()
 
 
-    if use_discrim:
+    if USE_DISCRIMINATOR:
         DISCRIMINATOR.apply(weights_init)
 
     criterion = nn.BCELoss()
-    if use_discrim:
+    if USE_DISCRIMINATOR:
         optimizerD = optim.Adam(DISCRIMINATOR.parameters(), lr=0.01, betas=(0.5, 0.999))
 
 
@@ -189,7 +94,7 @@ def main6():
 
     minute_timer = Timer(60)
 
-    if use_discrim:
+    if USE_DISCRIMINATOR:
         try:
             if Nets['N0']['P']['resume']:
                 DISCRIMINATOR.load(Nets['N0']['P']['NETWORK_OUTPUT_FOLDER']+'.dcgan')
@@ -209,8 +114,7 @@ def main6():
         if minute_timer.check():
             minute_timer.reset()
             Nets['N0']['P']['clip'] = float(Nets['N0']['P']['clip'])
-            #a = Nets['N0']['P']['clip']
-            #cg(a,type(a))
+
             Nets['N0']['P']['clip'] *= 0.98
             clp('clip',Nets['N0']['P']['clip'],int(run_timer.time()),"`yb")
 
@@ -228,7 +132,7 @@ def main6():
 
         
 
-        if use_discrim:
+        if USE_DISCRIMINATOR:
             DISCRIMINATOR.zero_grad() 
             real = Data['target'][:,:,:,:] 
             label = torch.full((Nets[n]['P']['batch_size'],), 1,).cuda() 
@@ -241,11 +145,11 @@ def main6():
         GENERATOR.forward_no_loss(Data) 
         fake = GENERATOR.A['output'][:,:,:,:]
         
-        if use_discrim:
+        if USE_DISCRIMINATOR:
             label.fill_(0)
             output = DISCRIMINATOR(fake.detach()) 
 
-        if use_discrim:
+        if USE_DISCRIMINATOR:
             errD_fake = criterion(output, label) 
             errD_fake.backward() 
             D_G_z1 = output.mean().item() 
@@ -254,11 +158,11 @@ def main6():
         
         GENERATOR.optimizer.zero_grad()
 
-        if use_discrim:
+        if USE_DISCRIMINATOR:
             label.fill_(1) 
             output = DISCRIMINATOR(fake) 
 
-        if use_discrim:
+        if USE_DISCRIMINATOR:
             if 's' not in Nets[n]['P']:
                 s = 0.0001
             else:
@@ -273,7 +177,6 @@ def main6():
         if Nets[n]['P']['backwards']:
             GENERATOR.loss.backward() #20
             nnutils.clip_grad_norm(GENERATOR.parameters(), Nets['N0']['P']['clip'])
-            #nnutils.clip_grad_norm(GENERATOR.parameters(), GENERATOR.clip_param)
             GENERATOR.optimizer.step() #21
 
 
@@ -284,7 +187,7 @@ def main6():
             GENERATOR.losses_to_average = []
 
 
-        if use_discrim:
+        if USE_DISCRIMINATOR:
             if GENERATOR.save():
                 DISCRIMINATOR.save(Nets[n]['P']['NETWORK_OUTPUT_FOLDER']+'.dcgan')
 
@@ -342,9 +245,7 @@ def Main6_Output_Object(net_str='pro2pros'):
     if 'type' not in Arguments.keys():
         clp('   FROM SYS_STR   ','`ybb',ra=0,p=1)
         Nets = {
-            #'N0':Net_Main(M=M,sys_str=fire2fireFuture_dcgan_a.replace('\n',' ').replace('\t',' ')),
             'N0':Net_Main(M=M,sys_str=Net_strs[net_str].replace('\n',' ').replace('\t',' ')),
-            # 'pro2rgb.dcgan'
         }
     else:
         clp('   FROM COMMMAND LINE   ','`ybb',ra=0,p=1)
@@ -386,13 +287,12 @@ def Main6_Output_Object(net_str='pro2pros'):
 
         M['load']()
         if Abort['test'](M['Q']['runtime_parameters']['abort']):
-            return False#break
+            return False#
 
         if minute_timer.check():
             minute_timer.reset()
             Nets['N0']['P']['clip'] = float(Nets['N0']['P']['clip'])
             a = Nets['N0']['P']['clip']
-            #cg(a,type(a))
             Nets['N0']['P']['clip'] *= 0.98
             clp('clip',Nets['N0']['P']['clip'],int(run_timer.time()),"`yb")
 
@@ -453,7 +353,9 @@ if do_example:
 
 
 
-
+Mains = {
+    6: main6,
+}
         
 
 
@@ -464,43 +366,12 @@ if do_example:
 
 if __name__ == '__main__':
 
-    
-        if 'main' not in Arguments or Arguments['main'] == 0:
-            clp('*** main0() ***',p=2)
-            main0()
-
-        elif Arguments['main'] == 1:
-            clp('*** main1() ***',p=2)
-            main1()
-
-        elif Arguments['main'] == 2:
-            clp('*** main2() ***',p=2)
-            main2()
-
-
-        elif Arguments['main'] == 3:
-            clp('*** main3() ***',p=2)
-            main3()
-
-        elif Arguments['main'] == 4:
-            clp('*** main4() ***',p=2)
-            
-            if 'net_str' not in Arguments:
-                Arguments['net_str'] = ''
-            main4()
-
-
-        elif Arguments['main'] == 5:
-            clp('*** main5() ***',p=2)
-            main5()
-
-
-        elif Arguments['main'] == 6:
+        if Arguments['main'] == 6:
             kprint(Arguments)
             clp('*** main6() ***',p=2)
             if 'net_str' not in Arguments:
                 Arguments['net_str'] = ''
-            main6()
+            Mains[6]()
 
 
 
