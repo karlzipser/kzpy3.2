@@ -223,7 +223,7 @@ def get_data_function(P):
 
     P['ctr'] = ctr
 
-    for k in sorted(Lists.keys()):
+    for k in ['input']:#sorted(Lists.keys()):
         lst = Lists[k]
         for l in rlen(lst):
             e = lst[l]
