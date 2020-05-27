@@ -212,7 +212,7 @@ def get_data_function(P):
                 for b in range(3):
                     temp[a,:,b] = line
             #Lists['target'].append(temp)
-            Lists['target'].append(line)
+            #Lists['target'].append(line)
 
 
                     
@@ -248,6 +248,8 @@ def get_data_function(P):
         'target':line,#Lists['target'][0],#Concats['target'],
         'ctr':ctr,
     }
+    print(shape(Data['input']))
+    print(shape(Data['target']))
 
     return Data
 
