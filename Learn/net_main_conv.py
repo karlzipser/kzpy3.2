@@ -58,7 +58,7 @@ def Net_Main(M=False,sys_str=False,Arguments_=False,P_Runs_saved=None):
         if type(P[k]) == str:
             P[k] = [P[k]]
 
-    assert P['type'][0] == 'ConDecon_Fire_FS'
+    assert P['type'][0] == 'conv0'
     from get_data.Conv import get_data_function
     import get_data.Conv
     if type(P_Runs_saved) != type(None):
