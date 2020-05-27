@@ -1,6 +1,20 @@
 from kzpy3.vis3 import *
 exec(identify_file_str)
 
+
+
+
+
+
+assert(False)
+
+
+
+
+
+
+
+
 # python kzpy3/drafts/Sq7/main.py --RESUME 1 --NET_TYPE ConDecon_test2 --NET_TYPE_SUFFIX 84x47
 #WIDTH,HEIGHT = 168/2,94/2
 

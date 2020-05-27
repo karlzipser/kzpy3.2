@@ -1,14 +1,6 @@
 from kzpy3.vis3 import *
 exec(identify_file_str)
 
-
-
-
-assert(False)
-
-
-
-
 CA()
 
 graphics_timer = None

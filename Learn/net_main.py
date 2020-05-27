@@ -6,6 +6,20 @@ import networks.net
 exec(identify_file_str)
 
 
+
+
+
+
+
+assert(False)
+
+
+
+
+
+
+
+
 def Net_Main(M=False,sys_str=False,Arguments_=False,P_Runs_saved=None):
 
     D = {}

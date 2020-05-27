@@ -66,7 +66,7 @@ def Net_Main(M=False,sys_str=False,Arguments_=False,P_Runs_saved=None):
         P['good_list'] = P_Runs_saved['good_list']
         P['Run_coder'] = P_Runs_saved['Run_coder']
     else:
-        get_data.ConDecon_Fire.setup(P)
+        get_data.Conv.setup(P)
 
     from graphics.Conv import graphics_function
     import networks.condecon_FS
