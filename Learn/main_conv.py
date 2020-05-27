@@ -11,19 +11,19 @@ M = Menu.main.start_Dic(dic_project_path=pname(opjh(__file__)))
 #python kzpy3/Learn/main_cov.py --main 6 --net_str pts2d2_from_scratch
 
 Net_strs = {
-    'pts2d2_from_scratch' : """
+    'conv0' : """
         Learn 
-            --type ConDecon_Fire_FS,Fire3,pts2d2_from_scratch
-            --resume True 
+            --type ConDecon_Fire_FS,Fire3,conv0
+            --resume False 
             --batch_size 1
             --save_timer_time 300 
             --target_offset 0 
-            --input rgb,Fire3,button
+            --input rgb
             --target pts2d
             --losses_to_average 256 
             --runs train 
             --display.output 0,3 
-            --display.input 0,3,3,6,6,9
+            --display.input 0,3
             --display.target 0,3
             --clip 0.0001
             --backwards True
