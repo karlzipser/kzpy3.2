@@ -156,8 +156,6 @@ class Conv(Net):
         
 
 
-
-
         if lateral:
             x = self.smoke3(torch.cat((x,f3),1))
         else:
@@ -193,92 +191,5 @@ class Conv(Net):
         pass
 
 
-if False:
-    P_ = {
-        'LR': 0.01,
-        'momentum':0.001,
-        'GPU':0,
-        'clip':1,
-        'NETWORK_OUTPUT_FOLDER':'',
-        'losses_to_average':4,
-        'save_timer_time':300,
-        'NUM_INPUT_CHANNELS':3,
-        'NUM_OUTPUTS':3,
-        'resume':False,
-    }
-
-    S = ConDecon_FS(P_) 
-
-    h,w = 94,168
-    """
-    Fire1.squeeze_activation (5, 8, 94, 168)
-    Fire2.squeeze_activation (5, 16, 46, 83)
-    Fire3.squeeze_activation (5, 32, 22, 41)
-    Smoke1.squeeze_activation (5, 8, 94, 168)
-    Smoke2.squeeze_activation (5, 16, 46, 83)
-    Smoke3.squeeze_activation (5, 32, 22, 41)
-    input (5, 3, 94, 168)
-    output (5, 3, 94, 168)
-    target (5, 3, 94, 168)
-    """
-    h,w = 10,20
-    """
-    Fire1.squeeze_activation (5, 8, 10, 20)
-    Fire2.squeeze_activation (5, 16, 4, 9)
-    Fire3.squeeze_activation (5, 32, 1, 4)
-    Smoke1.squeeze_activation (5, 8, 10, 20)
-    Smoke2.squeeze_activation (5, 16, 4, 9)
-    Smoke3.squeeze_activation (5, 32, 1, 4)
-    input (5, 3, 10, 20)
-    output (5, 3, 10, 20)
-    target (5, 3, 10, 20)
-    """
-
-
-    o = S.forward_no_loss(
-        {
-            'input':randn(5, 3, h, w),
-            'target':randn(5, 3, h, w),
-        }
-    )
-    for k in sorted(S.A.keys()):
-        print k,S.A[k].size()
-
-
-
-"""
-
-class Squeeze(nn.Module):
-    def __init__(self, inplanes, squeeze_planes,
-                 expand1x1_planes, expand3x3_planes):
-        super(Squeeze, self).__init__()
-        self.inplanes = inplanes
-        self.squeeze = nn.Conv2d(inplanes, squeeze_planes, kernel_size=1)
-        self.squeeze_activation = nn.ReLU(inplace=True)
-
-    def forward(self, x):
-        x = self.squeeze_activation(self.squeeze(x))
-        return x
-
-
-
-class Expand(nn.Module):
-    def __init__(self, inplanes, squeeze_planes,
-                 expand1x1_planes, expand3x3_planes):
-        super(Expand, self).__init__()
-        self.expand1x1 = nn.Conv2d(squeeze_planes, expand1x1_planes,
-                                   kernel_size=1)
-        self.expand1x1_activation = nn.ReLU(inplace=True)
-        self.expand3x3 = nn.Conv2d(squeeze_planes, expand3x3_planes,
-                                   kernel_size=3, padding=1)
-        self.expand3x3_activation = nn.ReLU(inplace=True)
-
-    def forward(self, x):
-        return torch.cat([
-            self.expand1x1_activation(self.expand1x1(x)),
-            self.expand3x3_activation(self.expand3x3(x))
-        ], 1)
-
-"""
 
 #EOF

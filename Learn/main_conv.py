@@ -171,8 +171,11 @@ def main6():
             GENERATOR.loss = s*GENERATOR.criterion(GENERATOR.A['output'],GENERATOR.A['target']) + (1-s) * criterion(output, label) #19
 
         else:
+            figure(1);cls();
+            plot(GENERATOR.A['output_2'])
+            plot(GENERATOR.A['target'])
             s = 1.0
-            cg(GENERATOR.A['output_2'].size(),GENERATOR.A['target'].size())
+            #cg(GENERATOR.A['output_2'].size(),GENERATOR.A['target'].size())
             GENERATOR.loss = s*GENERATOR.criterion(GENERATOR.A['output_2'],GENERATOR.A['target'])
 
         if Nets[n]['P']['backwards']:
@@ -257,7 +260,7 @@ def Main6_Output_Object(net_str='pro2pros'):
     n = 'N0'
 
     Data = networks.net.make_batch( Nets[n]['get_data_function'], Nets[n]['P'], Nets[n]['P']['batch_size'] )
-    cg('Data',shape(Data['input']),shape(Data['target']))
+    #cg('Data',shape(Data['input']),shape(Data['target']))
 
     DISCRIMINATOR = Discriminator(nc=shape(Data['target'])[1]).cuda()
     DISCRIMINATOR.apply(weights_init)

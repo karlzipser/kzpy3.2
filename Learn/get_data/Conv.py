@@ -248,8 +248,8 @@ def get_data_function(P):
         'target':line,#Concats['target'],
         'ctr':ctr,
     }
-    print(shape(Data['input']))
-    print(shape(Data['target']))
+    #print(shape(Data['input']))
+    #print(shape(Data['target']))
 
     return Data
 
