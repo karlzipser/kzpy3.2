@@ -57,17 +57,20 @@ def main6():
 
     if 'type' not in Arguments.keys():
         clp('   FROM SYS_STR   ','`ybb',ra=0,p=1)
-        Nets = {
-            'N0':Net_Main(M=M,sys_str=Net_strs[Arguments['net_str']].replace('\n',' ').replace('\t',' '),Arguments_=Arguments),
-        }
+        Net = Net_Main(M=M,sys_str=Net_strs[Arguments['net_str']].replace('\n',' ').replace('\t',' '),Arguments_=Arguments),
+        cy(11111,ra=1)
     else:
         clp('   FROM COMMMAND LINE   ','`ybb',ra=0,p=1)
-        Nets = {
-            'N0':Net_Main(M=M,Arguments_=Arguments),
-        }
+        Net = Net_Main(M=M,Arguments_=Arguments)
+        cg(22222,ra=1)
+        
 
-    n = 'N0'
-    Data = networks.net.make_batch( Nets[n]['get_data_function'], Nets[n]['P'], Nets[n]['P']['batch_size'] )
+    kprint(Net)
+    kprint(Net['get_data_function'])
+    kprint(Net['P'])
+    kprint(Net['P']['batch_size'])
+
+    Data = networks.net.make_batch( Net['get_data_function'], Net['P'], Net['P']['batch_size'] )
     cg('Data',shape(Data['input']),shape(Data['target']))
 
 
@@ -95,10 +98,10 @@ def main6():
 
     if USE_DISCRIMINATOR:
         try:
-            if Nets['N0']['P']['resume']:
-                DISCRIMINATOR.load(Nets['N0']['P']['NETWORK_OUTPUT_FOLDER']+'.dcgan')
+            if Net['P']['resume']:
+                DISCRIMINATOR.load(Net['P']['NETWORK_OUTPUT_FOLDER']+'.dcgan')
         except:
-            clp("*** DISCRIMINATOR.load(Nets[n]['P']['NETWORK_OUTPUT_FOLDER']+'.dcgan') failed ***",ra=1)
+            clp("*** DISCRIMINATOR.load(Net['P']['NETWORK_OUTPUT_FOLDER']+'.dcgan') failed ***",ra=1)
 
 
     graphics_on = False
@@ -112,29 +115,29 @@ def main6():
 
         if minute_timer.check():
             minute_timer.reset()
-            Nets['N0']['P']['clip'] = float(Nets['N0']['P']['clip'])
+            Net['P']['clip'] = float(Net['P']['clip'])
 
-            Nets['N0']['P']['clip'] *= 0.98
-            clp('clip',Nets['N0']['P']['clip'],int(run_timer.time()),"`yb")
+            Net['P']['clip'] *= 0.98
+            clp('clip',Net['P']['clip'],int(run_timer.time()),"`yb")
 
 
         
-        GENERATOR = Nets[n]['N']
-        Nets[n]['P']['original_Fire3_scaling'] = True
+        GENERATOR = Net['N']
+        Net['P']['original_Fire3_scaling'] = True
 
         for k in M['Q']['runtime_parameters'].keys():
-            Nets[n]['P']['runtime_parameters'][k] = M['Q']['runtime_parameters'][k]
+            Net['P']['runtime_parameters'][k] = M['Q']['runtime_parameters'][k]
 
 
 
-        Data = networks.net.make_batch( Nets[n]['get_data_function'], Nets[n]['P'], Nets[n]['P']['batch_size'] )
+        Data = networks.net.make_batch( Net['get_data_function'], Net['P'], Net['P']['batch_size'] )
 
         
 
         if USE_DISCRIMINATOR:
             DISCRIMINATOR.zero_grad() 
             real = Data['target'][:,:,:,:] 
-            label = torch.full((Nets[n]['P']['batch_size'],), 1,).cuda() 
+            label = torch.full((Net['P']['batch_size'],), 1,).cuda() 
             output = DISCRIMINATOR(torch.from_numpy(real).cuda().float()) 
 
             errD_real = criterion(output, label) 
@@ -162,10 +165,10 @@ def main6():
             output = DISCRIMINATOR(fake) 
 
         if USE_DISCRIMINATOR:
-            if 's' not in Nets[n]['P']:
+            if 's' not in Net['P']:
                 s = 0.0001
             else:
-                s = Nets[n]['P']['s']
+                s = Net['P']['s']
 
             GENERATOR.loss = s*GENERATOR.criterion(GENERATOR.A['output'],GENERATOR.A['target']) + (1-s) * criterion(output, label) #19
 
@@ -173,9 +176,9 @@ def main6():
             s = 1.0
             GENERATOR.loss = s*GENERATOR.criterion(GENERATOR.A['output'],GENERATOR.A['target'])
 
-        if Nets[n]['P']['backwards']:
+        if Net['P']['backwards']:
             GENERATOR.loss.backward() #20
-            nnutils.clip_grad_norm(GENERATOR.parameters(), Nets['N0']['P']['clip'])
+            nnutils.clip_grad_norm(GENERATOR.parameters(), Net['P']['clip'])
             GENERATOR.optimizer.step() #21
 
 
@@ -188,18 +191,18 @@ def main6():
 
         if USE_DISCRIMINATOR:
             if GENERATOR.save():
-                DISCRIMINATOR.save(Nets[n]['P']['NETWORK_OUTPUT_FOLDER']+'.dcgan')
+                DISCRIMINATOR.save(Net['P']['NETWORK_OUTPUT_FOLDER']+'.dcgan')
 
 
 
 
         if True:#try:
             
-            if Nets['N0']['P']['runtime_parameters']['show_graphics']:
+            if Net['P']['runtime_parameters']['show_graphics']:
                 if not graphics_on:
                     clp('turning graphics on')
                 graphics_on = True
-                Nets[n]['graphics_function'](Nets[n]['N'],M,Nets[n]['P']) # graphics can cause an error with remote login
+                Net['graphics_function'](Net['N'],M,Net['P']) # graphics can cause an error with remote login
             else:
                 if graphics_on:
                     clp('turning graphics off')
@@ -217,7 +220,7 @@ def main6():
 
         f = freq_timer.freq(do_print=False)
         if is_number(f):
-            clp( 'Frequency =', int(np.round(f*Nets[n]['P']['batch_size'])), 'Hz, run time =',format_seconds(run_timer.time()))
+            clp( 'Frequency =', int(np.round(f*Net['P']['batch_size'])), 'Hz, run time =',format_seconds(run_timer.time()))
 
 
 
@@ -254,7 +257,7 @@ def Main6_Output_Object(net_str='pro2pros'):
 
     n = 'N0'
 
-    Data = networks.net.make_batch( Nets[n]['get_data_function'], Nets[n]['P'], Nets[n]['P']['batch_size'] )
+    Data = networks.net.make_batch( Net['get_data_function'], Net['P'], Net['P']['batch_size'] )
     cg('Data',shape(Data['input']),shape(Data['target']))
 
     DISCRIMINATOR = Discriminator(nc=shape(Data['target'])[1]).cuda()
@@ -290,20 +293,20 @@ def Main6_Output_Object(net_str='pro2pros'):
 
         if minute_timer.check():
             minute_timer.reset()
-            Nets['N0']['P']['clip'] = float(Nets['N0']['P']['clip'])
-            a = Nets['N0']['P']['clip']
-            Nets['N0']['P']['clip'] *= 0.98
-            clp('clip',Nets['N0']['P']['clip'],int(run_timer.time()),"`yb")
+            Net['P']['clip'] = float(Net['P']['clip'])
+            a = Net['P']['clip']
+            Net['P']['clip'] *= 0.98
+            clp('clip',Net['P']['clip'],int(run_timer.time()),"`yb")
 
         
-        GENERATOR = Nets[n]['N']
-        Nets[n]['P']['original_Fire3_scaling'] = True
+        GENERATOR = Net['N']
+        Net['P']['original_Fire3_scaling'] = True
 
         for k in M['Q']['runtime_parameters'].keys():
 
-            Nets[n]['P']['runtime_parameters'][k] = M['Q']['runtime_parameters'][k]
+            Net['P']['runtime_parameters'][k] = M['Q']['runtime_parameters'][k]
 
-        Data = networks.net.make_batch( Nets[n]['get_data_function'], Nets[n]['P'], Nets[n]['P']['batch_size'] )
+        Data = networks.net.make_batch( Net['get_data_function'], Net['P'], Net['P']['batch_size'] )
 
         if len(in_imgs) > 0:
             Data['input'] = in_array
@@ -312,7 +315,7 @@ def Main6_Output_Object(net_str='pro2pros'):
 
 
 
-        Nets[n]['graphics_function'](Nets[n]['N'],M,Nets[n]['P']) # graphics can cause an error with remote login
+        Net['graphics_function'](Net['N'],M,Net['P']) # graphics can cause an error with remote login
  
         fake = GENERATOR.extract('output')
         imgs = []
