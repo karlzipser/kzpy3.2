@@ -120,6 +120,11 @@ class Conv(Net):
         self.drop_layer = nn.Dropout(p=0.1)
 
 
+        self.final_conv_2 = nn.Conv2d(512, P['NUM_OUTPUTS'], kernel_size=1)
+        self.output_2 = nn.Sequential(
+            nn.Dropout(p=0.5),
+            self.final_conv_2,
+            nn.AvgPool2d(kernel_size=5, stride=6)
 
     
 
@@ -141,6 +146,14 @@ class Conv(Net):
         f3 = x
         size_fire3 = x.size()
         x = self.drop_layer(x)
+
+
+
+        self.A['output_2'] = self.output_2(x)
+        self.A['output_2'] = self.A['output_2'].view(self.A['output_2'].size(0), -1)
+        print self.A['output_2']
+
+
 
         if lateral:
             x = self.smoke3(torch.cat((x,f3),1))
