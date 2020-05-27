@@ -43,7 +43,7 @@ def Net_Main(M=False,sys_str=False,Arguments_=False,P_Runs_saved=None):
         'width':168,
         'height':94,
         'show_graphics':True,
-        'type']:['conv0','v0'],
+        'type':['conv0','v0'],
     }
  
     if sys_str != False:
