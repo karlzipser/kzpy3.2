@@ -32,8 +32,6 @@ def Net_Main(M=False,sys_str=False,Arguments_=False,P_Runs_saved=None):
         'runs':'train',
         'input_offset':0,
         'target_offset':0,
-        #'inputs':['Fire3'],
-        #'targets':['Fire3'],
         'Data_read_path':False,
         'Data_write_path':False,
         'runtime_parameters':{},
@@ -43,7 +41,7 @@ def Net_Main(M=False,sys_str=False,Arguments_=False,P_Runs_saved=None):
         'height':94,
         'show_graphics':True,
     }
-    #P['type']= ['Conv','Fire3'] #!!!!!!!!!!!!!!!!!
+
     if sys_str != False:
         Arguments_ = parse_to_Arguments(sys_str)
     else:
