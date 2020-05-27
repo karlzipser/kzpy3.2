@@ -59,16 +59,16 @@ def Net_Main(M=False,sys_str=False,Arguments_=False,P_Runs_saved=None):
             P[k] = [P[k]]
 
     assert P['type'][0] == 'ConDecon_Fire_FS'
-    from get_data.ConDecon_Fire import get_data_function
-    import get_data.ConDecon_Fire
+    from get_data.Conv import get_data_function
+    import get_data.Conv
     if type(P_Runs_saved) != type(None):
         P['Runs'] = P_Runs_saved['Runs']
         P['good_list'] = P_Runs_saved['good_list']
         P['Run_coder'] = P_Runs_saved['Run_coder']
     else:
-        get_data.ConDecon_Fire.setup(P)
+        get_data.Conv.setup(P)
 
-    from graphics.ConDecon_Fire import graphics_function
+    from graphics.Conv import graphics_function
     import networks.condecon_FS
     Network = networks.condecon_FS.ConDecon_FS
 
