@@ -140,7 +140,7 @@ def setup(P):
                 clp('size of',path,'== 0','`ybb')
                 
         else:
-            clp('warning,','`y',Runs[r]['pts2d']['path'],'`y-r','not found','`y')
+            clp(""" 'warning,','`y',Runs[r]['pts2d']['path'],'`y-r','not found','`y' """)
 
         run_ctr += 1
         
