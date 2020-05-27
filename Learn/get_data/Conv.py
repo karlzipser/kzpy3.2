@@ -205,7 +205,7 @@ def get_data_function(P):
 
     while True:
         
-        try:
+        if True:#try:
             r,ctr,flip = _selector(P)
 
 
@@ -219,7 +219,7 @@ def get_data_function(P):
                 #A = Runs[r]['activations/data']['data'][P['type'][1]+'.squeeze_activation']
                 B = Runs[r]['original_timestamp_data']['data']['left_image']['vals']
                 #print Runs[r]['button_number'][ctr]
-                C = Runs[r]['net_projections']['data']['normal']
+                #C = Runs[r]['net_projections']['data']['normal']
             else:
                 assert(False)
                 #A = Runs[r]['net_projections']['data']['flip']
@@ -333,6 +333,7 @@ def get_data_function(P):
                     
             break
         
+        """
         except KeyboardInterrupt:
             cr('*** KeyboardInterrupt ***')
             sys.exit()
@@ -341,6 +342,7 @@ def get_data_function(P):
             file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             CS_('Exception!',emphasis=True)
             CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
+        """
         
 
     P['ctr'] = ctr
