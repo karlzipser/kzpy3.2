@@ -89,7 +89,7 @@ f = 512
 rgb = 3
 
 
-lateral = False
+lateral = True
 
 class ConDecon_FS(Net):
 

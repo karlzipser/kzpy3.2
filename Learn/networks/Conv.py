@@ -86,7 +86,7 @@ f = 512
 rgb = 3
 
 
-lateral = False
+lateral = True
 
 class Conv(Net):
 
