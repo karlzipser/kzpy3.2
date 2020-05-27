@@ -172,7 +172,7 @@ def main6():
 
         else:
             s = 1.0
-            GENERATOR.loss = s*GENERATOR.criterion(GENERATOR.A['output'],GENERATOR.A['target'])
+            GENERATOR.loss = s*GENERATOR.criterion(GENERATOR.A['output_2'],GENERATOR.A['target'])
 
         if Nets[n]['P']['backwards']:
             GENERATOR.loss.backward() #20
