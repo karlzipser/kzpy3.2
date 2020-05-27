@@ -237,13 +237,7 @@ def get_data_function(P):
                 #print 'ctr >= len(A)'
                 continue
 
-            if False:
-                ctr_lst.append(ctr)
-                if ctr_timer.check():
-                    ctr_timer.reset()
-                    figure('ctr hist')
-                    hist(ctr_lst)
-                    spause()
+
 
             for k in Lists.keys():
                 #P[k+'_offset'] = int(P[k+'_offset'])
@@ -266,7 +260,7 @@ def get_data_function(P):
                     #print 'rgb', dp(Lists[k][-1].min()), dp(Lists[k][-1].max())
 
 
-
+                """
                 if 'pts2d' in P[k]:
 
                     i = Runs[r]['pts2d']['reverse-indicies'][ctr]
@@ -297,6 +291,7 @@ def get_data_function(P):
                         Lists[k].append(C[ctr+off]+noise )
                         if rnd() < P['drop'] and k == 'input':
                             Lists[k][-1] *= 0
+                """
 
                 if 'button' in P[k]:
                     #print k,'button'
@@ -326,6 +321,7 @@ def get_data_function(P):
                         Lists[k][-1] *= 0
                     #print 'button', dp(Lists[k][-1].min()), dp(Lists[k][-1].max())
 
+                """
                 if 'Fire3' in P[k]:
                     #print k,'Fire3'
                     i = A[Runs[r]['activations/reverse-indicies']['data'][ctr+P[k+'_offset']]]
@@ -345,6 +341,7 @@ def get_data_function(P):
                     Lists[k].append(i)
                     if rnd() < P['drop'] and k == 'input':
                         Lists[k][-1] *= 0
+                """
                     
             break
         
