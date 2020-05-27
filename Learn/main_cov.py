@@ -4,6 +4,8 @@ import Menu.main
 from net_main import Net_Main
 exec(identify_file_str)
 
+use_discrim = False
+
 M = Menu.main.start_Dic(dic_project_path=pname(opjh(__file__)))
 
 
