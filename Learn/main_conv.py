@@ -1,7 +1,7 @@
 from kzpy3.vis3 import *
 import networks.net
 import Menu.main
-from net_main import Net_Main
+from net_main_conv import Net_Main
 exec(identify_file_str)
 
 USE_DISCRIMINATOR = False
