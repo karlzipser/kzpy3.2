@@ -85,7 +85,7 @@ def graphics_function(N,M,P):#,X):
 
                 img_lst.append(img)
 
-    figure(1);clf();
+    figure(2);clf();
     plot(N.extract('output_2'))
     plot(N.extract('target'))
     spause()
