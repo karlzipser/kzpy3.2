@@ -58,17 +58,18 @@ def main6():
     if 'type' not in Arguments.keys():
         clp('   FROM SYS_STR   ','`ybb',ra=0,p=1)
         Net = Net_Main(M=M,sys_str=Net_strs[Arguments['net_str']].replace('\n',' ').replace('\t',' '),Arguments_=Arguments),
-        cm(0,ra=1)
+        cy(11111,ra=1)
     else:
         clp('   FROM COMMMAND LINE   ','`ybb',ra=0,p=1)
         Net = Net_Main(M=M,Arguments_=Arguments)
-        cm(1,ra=1)
+        cg(22222,ra=1)
         
 
+    kprint(Net)
     kprint(Net['get_data_function'])
     kprint(Net['P'])
     kprint(Net['P']['batch_size'])
-    
+
     Data = networks.net.make_batch( Net['get_data_function'], Net['P'], Net['P']['batch_size'] )
     cg('Data',shape(Data['input']),shape(Data['target']))
 
