@@ -230,7 +230,7 @@ def get_data_function(P):
 
 
 
-            for k in Lists.keys():
+            for k in ['input','target']:
 
                 if 'rgb' in P[k]:
                     noise =0
