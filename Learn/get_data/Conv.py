@@ -23,6 +23,7 @@ def setup(P):
     activation_folders = sggo(opjD('Data', 'Activations_folders','*'))
     
     for a in activation_folders:
+        print a
         files = sggo(a,'indicies','*.h5py')
         E = h5r(files[0])
         if P['type'][1] in ' '.join(E.keys()):
