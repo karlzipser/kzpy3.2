@@ -47,11 +47,12 @@ def setup(P):
 
     for r in _Runs.keys():
 
-
+        """
         if 'pts2d' in P['target']:# or 'pts2d' in P['input']:
             if r not in P['pts2d_runs']:
                 cm('not using',r)
                 continue
+        """
 
         Run_coder[run_ctr] = r
 
@@ -67,9 +68,9 @@ def setup(P):
             'original_timestamp_data':{},
             'flip_images':{},
             'left_timestamp_metadata_right_ts':{},
-            'net_projections':{},
-            'activations/data':{},
-            'activations/indicies':{},
+            #'net_projections':{},
+            #'activations/data':{},
+            #'activations/indicies':{},
         }
         
         Runs[r]['original_timestamp_data'] = \
@@ -80,7 +81,7 @@ def setup(P):
 
         Runs[r]['left_timestamp_metadata_right_ts'] = \
             {'path':opj(opjD('Data'),H['paths'].keys()[0],r,'left_timestamp_metadata_right_ts.h5py'),'data':None}
-
+        """
         Runs[r]['net_projections'] = \
             {'path':opj(opjD('Data'),'Network_Predictions_projected',r+'.net_projections.h5py'),'data':None}
 
@@ -89,7 +90,7 @@ def setup(P):
 
         Runs[r]['activations/indicies'] = \
             {'path':opj(pname(pname(_Runs[r])),'indicies',r+'.h5py'),'data':None}
-
+        """
         Runs[r]['button_number'] = None
         Runs[r]['encoder'] = None
 
@@ -105,7 +106,7 @@ def setup(P):
         for i in range(length):
             if Runs[r]['button_number'][i] != 4 and Runs[r]['encoder'][i] > 0.1:
                 good_list.append((run_ctr,i))
-
+        """
         Runs[r]['activations/reverse-indicies'] = \
             {'data':np.zeros(len(Runs[r]['left_timestamp_metadata_right_ts']['data']['motor']),int)-1}
 
@@ -140,8 +141,8 @@ def setup(P):
                 clp('size of',path,'== 0','`ybb')
                 
         else:
-            clp(""" 'warning,','`y',Runs[r]['pts2d']['path'],'`y-r','not found','`y' """)
-
+            clp(" 'warning,','`y',Runs[r]['pts2d']['path'],'`y-r','not found','`y' )
+        """
         run_ctr += 1
         
 
@@ -182,7 +183,6 @@ def _selector(P):
             ctr = global_ctr
 
     if ctr > len(Runs[r]['original_timestamp_data']['data']['left_image']['vals']) - 300:
-        #clp('_selector calss self, ctr=',ctr,'run =',r)
         r,ctr,flip = _selector(P)
 
     if R['data_from_flip'] > -1:
@@ -192,10 +192,7 @@ def _selector(P):
 
     return r,ctr,flip
 
-if False:
-    ctr_lst = []
-    ctr_timer = Timer(15)
-#Button_translation = {1:0,2:2,3:1}
+
 
 def get_data_function(P):
 
@@ -203,23 +200,18 @@ def get_data_function(P):
 
     Runs = P['Runs']
 
-    #drop = 0.1
+    
 
 
     while True:
-        #print P['drop'],type(P['drop'])
+        
         try:
             r,ctr,flip = _selector(P)
 
-            #P[r].append(ctr)
 
-            #if r_ctr_dic_timer.check():
-            #    r_ctr_dic_timer.reset()
-            #    soD(P)
 
             flip = 0
-            #input_list = []
-            #target_list = []
+            
 
             Lists = {'input':[],'target':[]}
 
@@ -234,16 +226,13 @@ def get_data_function(P):
                 B = Runs[r]['flip_images']['data']['left_image_flip']['vals']
                 C = Runs[r]['net_projections']['data']['flip']
             if ctr >= len(A):
-                #print 'ctr >= len(A)'
                 continue
 
 
 
             for k in Lists.keys():
-                #P[k+'_offset'] = int(P[k+'_offset'])
 
                 if 'rgb' in P[k]:
-                    #print k,'rgb'
                     noise =0
                     if P['noise'] > 0:
                         noise = P['noise']*rnd(shape(B[ctr]))-P['noise']/2.
@@ -257,7 +246,6 @@ def get_data_function(P):
                             Lists[k][-1] = Lists[k][-1]*1.0 + noise
                     if 'drop.rgb' in P and rnd() < P['drop.rgb'] and k == 'input':
                         Lists[k][-1] *= 0
-                    #print 'rgb', dp(Lists[k][-1].min()), dp(Lists[k][-1].max())
 
 
                 """
