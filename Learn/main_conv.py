@@ -172,8 +172,8 @@ def main6():
 
         else:
             figure(1);clf();
-            plot(GENERATOR.A['output_2'])
-            plot(GENERATOR.A['target'])
+            plot(GENERATOR.extract('output_2'))
+            plot(GENERATOR.extractr'target'))
             spause()
             s = 1.0
             #cg(GENERATOR.A['output_2'].size(),GENERATOR.A['target'].size())
