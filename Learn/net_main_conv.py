@@ -43,9 +43,8 @@ def Net_Main(M=False,sys_str=False,Arguments_=False,P_Runs_saved=None):
         'width':168,
         'height':94,
         'show_graphics':True,
-        'type':['conv0','v0'],
     }
- 
+    P['type']= ['ConDecon_Fire_FS','Fire3'] #!!!!!!!!!!!!!!!!!
     if sys_str != False:
         Arguments_ = parse_to_Arguments(sys_str)
     else:
@@ -59,17 +58,17 @@ def Net_Main(M=False,sys_str=False,Arguments_=False,P_Runs_saved=None):
         if type(P[k]) == str:
             P[k] = [P[k]]
 
-    assert P['type'][0] == 'conv0'
-    from get_data.Conv import get_data_function
-    import get_data.Conv
+    assert P['type'][0] == 'ConDecon_Fire_FS'
+    from get_data.ConDecon_Fire import get_data_function
+    import get_data.ConDecon_Fire
     if type(P_Runs_saved) != type(None):
         P['Runs'] = P_Runs_saved['Runs']
         P['good_list'] = P_Runs_saved['good_list']
         P['Run_coder'] = P_Runs_saved['Run_coder']
     else:
-        get_data.Conv.setup(P)
+        get_data.ConDecon_Fire.setup(P)
 
-    from graphics.Conv import graphics_function
+    from graphics.ConDecon_Fire import graphics_function
     import networks.condecon_FS
     Network = networks.condecon_FS.ConDecon_FS
 

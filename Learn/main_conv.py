@@ -11,20 +11,21 @@ M = Menu.main.start_Dic(dic_project_path=pname(opjh(__file__)))
 #python kzpy3/Learn/main_cov.py --main 6 --net_str pts2d2_from_scratch
 
 Net_strs = {
-    'conv0' : """
+    'pts2d2_from_scratch' : """
         Learn 
-            --resume False 
+            --type ConDecon_Fire_FS,Fire3,pts2d2_from_scratch
+            --resume True 
             --batch_size 1
             --save_timer_time 300 
             --target_offset 0 
-            --input rgb
+            --input rgb,Fire3,button
             --target pts2d
             --losses_to_average 256 
             --runs train 
             --display.output 0,3 
-            --display.input 0,3
+            --display.input 0,3,3,6,6,9
             --display.target 0,3
-            --clip 0.01
+            --clip 0.0001
             --backwards True
             --win_x 20
             --win_y 40
@@ -37,10 +38,6 @@ Net_strs = {
 
     """,
 }
-
-
-
-
 
 def main6():
 
@@ -133,8 +130,7 @@ def main6():
 
         Data = networks.net.make_batch( Nets[n]['get_data_function'], Nets[n]['P'], Nets[n]['P']['batch_size'] )
 
-        so(Data,opjD('Dt'))
-        cm('saved data',ra=1)
+        
 
         if USE_DISCRIMINATOR:
             DISCRIMINATOR.zero_grad() 
