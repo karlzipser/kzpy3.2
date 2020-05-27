@@ -148,8 +148,7 @@ class Conv(Net):
         size_fire3 = x.size()
         x = self.drop_layer(x)
 
-
-
+        print(x)
         self.A['output_2'] = self.output_2(x)
         self.A['output_2'] = self.A['output_2'].view(self.A['output_2'].size(0), -1)
         print self.A['output_2']
