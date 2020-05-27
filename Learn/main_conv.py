@@ -174,6 +174,7 @@ def main6():
             figure(1);cls();
             plot(GENERATOR.A['output_2'])
             plot(GENERATOR.A['target'])
+            spause()
             s = 1.0
             #cg(GENERATOR.A['output_2'].size(),GENERATOR.A['target'].size())
             GENERATOR.loss = s*GENERATOR.criterion(GENERATOR.A['output_2'],GENERATOR.A['target'])
