@@ -245,7 +245,7 @@ def get_data_function(P):
 
     Data = {
         'input':Concats['input'],
-        'target':Lists['target']:,#Concats['target'],
+        'target':Lists['target'][0],#Concats['target'],
         'ctr':ctr,
     }
 
