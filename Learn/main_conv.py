@@ -39,6 +39,10 @@ Net_strs = {
     """,
 }
 
+
+
+
+
 def main6():
 
     import torch
@@ -55,12 +59,13 @@ def main6():
     if USE_DISCRIMINATOR:
         from discriminator1 import Discriminator,weights_init
 
-    if 'type' not in Arguments.keys():
+    if 'net_str' in Arguments.keys():
         clp('   FROM SYS_STR   ','`ybb',ra=0,p=1)
         Nets = {
             'N0':Net_Main(M=M,sys_str=Net_strs[Arguments['net_str']].replace('\n',' ').replace('\t',' '),Arguments_=Arguments),
         }
     else:
+        assert(False)
         clp('   FROM COMMMAND LINE   ','`ybb',ra=0,p=1)
         Nets = {
             'N0':Net_Main(M=M,Arguments_=Arguments),
@@ -129,7 +134,8 @@ def main6():
 
         Data = networks.net.make_batch( Nets[n]['get_data_function'], Nets[n]['P'], Nets[n]['P']['batch_size'] )
 
-        
+        so(Data,opjD('Dt'))
+        cm('saved data',ra=1)
 
         if USE_DISCRIMINATOR:
             DISCRIMINATOR.zero_grad() 
