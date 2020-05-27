@@ -151,9 +151,10 @@ class Conv(Net):
 
         
         self.A['output_2'] = self.output_2(x)
+        clp('x',x.size(),'output_2',self.A['output_2'].size())
         self.A['output_2'] = self.A['output_2'].view(self.A['output_2'].size(0), -1)
         
-        clp('x',x.size(),'output_2',self.A['output_2'].size())
+
 
 
 
