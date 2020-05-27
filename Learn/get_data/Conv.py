@@ -216,15 +216,15 @@ def get_data_function(P):
             Lists = {'input':[],'target':[]}
 
             if not flip:
-                A = Runs[r]['activations/data']['data'][P['type'][1]+'.squeeze_activation']
+                #A = Runs[r]['activations/data']['data'][P['type'][1]+'.squeeze_activation']
                 B = Runs[r]['original_timestamp_data']['data']['left_image']['vals']
                 #print Runs[r]['button_number'][ctr]
                 C = Runs[r]['net_projections']['data']['normal']
             else:
                 assert(False)
-                A = Runs[r]['net_projections']['data']['flip']
+                #A = Runs[r]['net_projections']['data']['flip']
                 B = Runs[r]['flip_images']['data']['left_image_flip']['vals']
-                C = Runs[r]['net_projections']['data']['flip']
+                #C = Runs[r]['net_projections']['data']['flip']
             if ctr >= len(A):
                 continue
 
