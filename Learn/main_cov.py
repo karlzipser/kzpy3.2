@@ -62,10 +62,13 @@ def main6():
     else:
         clp('   FROM COMMMAND LINE   ','`ybb',ra=0,p=1)
         Net = Net_Main(M=M,Arguments_=Arguments)
-        cm(0,ra=2)
+        cm(1,ra=1)
         
 
-
+    kprint(Net['get_data_function'])
+    kprint(Net['P'])
+    kprint(Net['P']['batch_size'])
+    
     Data = networks.net.make_batch( Net['get_data_function'], Net['P'], Net['P']['batch_size'] )
     cg('Data',shape(Data['input']),shape(Data['target']))
 
