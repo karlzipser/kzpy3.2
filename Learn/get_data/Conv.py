@@ -211,7 +211,7 @@ def get_data_function(P):
             for a in range(94):
                 for b in range(3):
                     temp[a,:,b] = line
-            Lists['target'].append(temp)
+            Lists['target'].append(img)
 
 
                     
