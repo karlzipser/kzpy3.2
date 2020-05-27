@@ -354,7 +354,7 @@ if do_example:
 
 
 Mains = {
-    6: main6,
+    5: main6,
 }
         
 
