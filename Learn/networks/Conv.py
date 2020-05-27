@@ -125,6 +125,7 @@ class Conv(Net):
             nn.Dropout(p=0.5),
             self.final_conv_2,
             nn.AvgPool2d(kernel_size=5, stride=6)
+        )
 
     
 
