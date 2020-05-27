@@ -11,9 +11,8 @@ M = Menu.main.start_Dic(dic_project_path=pname(opjh(__file__)))
 #python kzpy3/Learn/main_cov.py --main 6 --net_str pts2d2_from_scratch
 
 Net_strs = {
-    'pts2d2_from_scratch' : """
+    'conv0' : """
         Learn 
-            --type conv0
             --resume False 
             --batch_size 1
             --save_timer_time 300 
