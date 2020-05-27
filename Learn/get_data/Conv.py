@@ -206,7 +206,12 @@ def get_data_function(P):
 
 
             img = B[ctr+P[k+'_offset']]
-            Lists['target'].append(img)
+            line = img[94/2,:,0]
+            temp = img.copy()
+            for a in range(94):
+                for b in range(3):
+                    temp[a,:,b] = line
+            Lists['target'].append(temp)
 
 
                     
