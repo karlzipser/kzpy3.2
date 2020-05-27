@@ -124,7 +124,7 @@ class Conv(Net):
         self.output_2 = nn.Sequential(
             nn.Dropout(p=0.5),
             self.final_conv_2,
-            nn.AvgPool2d(kernel_size=5, stride=6)
+            nn.AvgPool2d(kernel_size=5*4, stride=6*4)
         )
 
     
