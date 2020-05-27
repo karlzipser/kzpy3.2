@@ -13,7 +13,7 @@ M = Menu.main.start_Dic(dic_project_path=pname(opjh(__file__)))
 Net_strs = {
     'conv0' : """
         Learn 
-            --type Conv,Fire,conv0
+            --type Conv,Fire3,conv0
             --resume False 
             --batch_size 1
             --save_timer_time 300 
