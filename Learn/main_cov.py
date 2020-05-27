@@ -8,6 +8,7 @@ use_discrim = False
 
 M = Menu.main.start_Dic(dic_project_path=pname(opjh(__file__)))
 
+#python kzpy3/Learn/main_cov.py --main 6 --net_str pts2d2_from_scratch
 
 Net_strs = {
     #Learn --main 4 --net_str Fire2rgbProjections.dcgan
@@ -266,6 +267,7 @@ def main6():
             GENERATOR.loss = s*GENERATOR.criterion(GENERATOR.A['output'],GENERATOR.A['target']) + (1-s) * criterion(output, label) #19
 
         else:
+            s = 1.0
             GENERATOR.loss = s*GENERATOR.criterion(GENERATOR.A['output'],GENERATOR.A['target'])
 
         if Nets[n]['P']['backwards']:
