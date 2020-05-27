@@ -120,7 +120,7 @@ class Conv(Net):
         self.drop_layer = nn.Dropout(p=0.1)
 
 
-        self.final_conv_2 = nn.Conv2d(256, 100], kernel_size=1)
+        self.final_conv_2 = nn.Conv2d(256, 100, kernel_size=1)
         self.output_2 = nn.Sequential(
             nn.Dropout(p=0.5),
             self.final_conv_2,
