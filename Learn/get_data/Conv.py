@@ -10,16 +10,10 @@ from runs import All_runs
 
 def setup(P):
 
-    if 'pts2d' in P['target']:# or 'pts2d' in P['input']:
-        P['pts2d_runs'] = []
-        pruns = sggo(opjD('Data','pts2D_multi_step',P['pts2_h5py_type'],'*.h5py'))
-        for p in pruns:
-            if os.path.getsize(p) > 0:
-                P['pts2d_runs'].append(fname(p).split('.')[0])
+
 
     Runs = {}
 
-    #activation_folders = sggo(opjm('2_TB_Samsung','Activations_folders','*'))
     activation_folders = sggo(opjD('Data', 'Activations_folders','*'))
     
     for a in activation_folders:
@@ -43,16 +37,8 @@ def setup(P):
 
     good_list = []
 
-    #kprint(_Runs)
 
     for r in _Runs.keys():
-
-        """
-        if 'pts2d' in P['target']:# or 'pts2d' in P['input']:
-            if r not in P['pts2d_runs']:
-                cm('not using',r)
-                continue
-        """
 
         Run_coder[run_ctr] = r
 
@@ -68,9 +54,6 @@ def setup(P):
             'original_timestamp_data':{},
             'flip_images':{},
             'left_timestamp_metadata_right_ts':{},
-            #'net_projections':{},
-            #'activations/data':{},
-            #'activations/indicies':{},
         }
         
         Runs[r]['original_timestamp_data'] = \
@@ -81,16 +64,7 @@ def setup(P):
 
         Runs[r]['left_timestamp_metadata_right_ts'] = \
             {'path':opj(opjD('Data'),H['paths'].keys()[0],r,'left_timestamp_metadata_right_ts.h5py'),'data':None}
-        """
-        Runs[r]['net_projections'] = \
-            {'path':opj(opjD('Data'),'Network_Predictions_projected',r+'.net_projections.h5py'),'data':None}
 
-        Runs[r]['activations/data'] = \
-            {'path':opj(pname(pname(_Runs[r])),'data',r+'.h5py'),'data':None}
-
-        Runs[r]['activations/indicies'] = \
-            {'path':opj(pname(pname(_Runs[r])),'indicies',r+'.h5py'),'data':None}
-        """
         Runs[r]['button_number'] = None
         Runs[r]['encoder'] = None
 
@@ -106,43 +80,7 @@ def setup(P):
         for i in range(length):
             if Runs[r]['button_number'][i] != 4 and Runs[r]['encoder'][i] > 0.1:
                 good_list.append((run_ctr,i))
-        """
-        Runs[r]['activations/reverse-indicies'] = \
-            {'data':np.zeros(len(Runs[r]['left_timestamp_metadata_right_ts']['data']['motor']),int)-1}
 
-
-        Runs[r]['activations/indicies']['data'] = \
-            Runs[r]['activations/indicies']['data'][P['type'][1]+'.squeeze_activation']
-
-        u = Runs[r]['activations/indicies']['data'][:]
-        v = Runs[r]['activations/reverse-indicies']['data']
-        for i in rlen(u):
-            ii = u[i].astype(int)
-            if ii < len(v) and ii > -1:
-                v[ii] = i
-
-        if 'pts2d' in P['target'] or 'pts2d' in P['input']:
-            path = opjD('Data','pts2D_multi_step',P['pts2_h5py_type'],r+'.h5py')
-            if os.path.getsize(path) > 0:
-
-                Runs[r]['pts2d'] = {'path':path}
-                if os.path.exists(Runs[r]['pts2d']['path']):
-                    Runs[r]['pts2d']['h5py'] = h5r(Runs[r]['pts2d']['path'])
-                    Runs[r]['pts2d']['data'] = Runs[r]['pts2d']['h5py']['images']
-
-                    Runs[r]['pts2d']['reverse-indicies'] = np.zeros(int(1.5*len(Runs[r]['pts2d']['data'])))#     len(Runs[r]['left_timestamp_metadata_right_ts']['data']['motor']),int)-1
-                    u = Runs[r]['pts2d']['h5py']['index'][:]
-                    v = Runs[r]['pts2d']['reverse-indicies']
-                    for i in rlen(u):
-                        ii = u[i].astype(int)
-                        if ii < len(v) and ii > -1:
-                            v[ii] = i
-            else:
-                clp('size of',path,'== 0','`ybb')
-                
-        else:
-            clp(" 'warning,','`y',Runs[r]['pts2d']['path'],'`y-r','not found','`y' )
-        """
         run_ctr += 1
         
 
@@ -216,15 +154,10 @@ def get_data_function(P):
             Lists = {'input':[],'target':[]}
 
             if not flip:
-                #A = Runs[r]['activations/data']['data'][P['type'][1]+'.squeeze_activation']
                 B = Runs[r]['original_timestamp_data']['data']['left_image']['vals']
-                #print Runs[r]['button_number'][ctr]
-                #C = Runs[r]['net_projections']['data']['normal']
             else:
                 assert(False)
-                #A = Runs[r]['net_projections']['data']['flip']
                 B = Runs[r]['flip_images']['data']['left_image_flip']['vals']
-                #C = Runs[r]['net_projections']['data']['flip']
             if ctr >= len(B):
                 continue
 
@@ -248,47 +181,9 @@ def get_data_function(P):
                         Lists[k][-1] *= 0
 
 
-                """
-                if 'pts2d' in P[k]:
-
-                    i = Runs[r]['pts2d']['reverse-indicies'][ctr]
-                    p = Runs[r]['pts2d']['data'][i + P[k+'_offset']]
-                    if k == 'input':
-                        #p[:,18*2:,:] = 0
-                        p *= 0
-                        #p[:(47-18+6)*2,:,:] = 0
-                    if 'pts2d2' in P['type'] or 'pts2d2_from_scratch' in P['type']:
-                        p[:,:,2] /= 3
-                    Lists[k].append(p)
-                    
-
-
-
-                if 'projections' in P[k]:
-
-                    if type(P[k+'_offset']) == list:
-                        offset_list = P[k+'_offset']
-                    else:
-                        offset_list = [P[k+'_offset']]
-                    for off in offset_list:
-                        off = int(off)
-                        noise =0
-                        if k == 'input':
-                            if P['projection.noise'] > 0:
-                                noise = P['projection.noise'] * rnd(shape(C[ctr])) - P['projection.noise']/2.
-                        Lists[k].append(C[ctr+off]+noise )
-                        if rnd() < P['drop'] and k == 'input':
-                            Lists[k][-1] *= 0
-                """
-
                 if 'button' in P[k]:
-                    #print k,'button'
-                    #print ctr,k,P[k+'_offset']
-                    #img = 0*B[ctr]
                     img = zeros((P['width'],P['height'],3))
                     bn = int(Runs[r]['button_number'][ctr+P[k+'_offset']])
-                    #print bn
-                    #print bn
                     if 'blue_center_button' in P:
                         if bn == 1:
                             bn = 1
@@ -299,50 +194,19 @@ def get_data_function(P):
                     if 'original_Fire3_scaling' not in P:
                         if bn in (1,2,3):
                             img[:,:,bn-1] = 255        
-                        img[0,0,:] = 255# + 24*rnd(shape(img))-12,
+                        img[0,0,:] = 255
                     else:
-                        pass #print '********************* original_Fire3_scaling button'
                         if bn in (1,2,3):
                             img[:,:,bn-1] = 1
                     Lists[k].append(img)
                     if rnd() < P['drop'] and k == 'input':
                         Lists[k][-1] *= 0
-                    #print 'button', dp(Lists[k][-1].min()), dp(Lists[k][-1].max())
-
-                """
-                if 'Fire3' in P[k]:
-                    #print k,'Fire3'
-                    i = A[Runs[r]['activations/reverse-indicies']['data'][ctr+P[k+'_offset']]]
-                    i = i.transpose(1,2,0)
-                    if 'original_Fire3_scaling' not in P:
-                        i = i * 255/15.
-                    else:
-                        pass#print '********************* original_Fire3_scaling Fire3'
-
-                    Lists[k].append(i)
-                    if rnd() < P['drop'] and k == 'input':
-                        Lists[k][-1] *= 0
-                    #print 'Fire3', dp(Lists[k][-1].min()), dp(Lists[k][-1].max())
-                    
 
 
-                    Lists[k].append(i)
-                    if rnd() < P['drop'] and k == 'input':
-                        Lists[k][-1] *= 0
-                """
                     
             break
         
-        """
-        except KeyboardInterrupt:
-            cr('*** KeyboardInterrupt ***')
-            sys.exit()
-        except Exception as e:
-            exc_type, exc_obj, exc_tb = sys.exc_info()
-            file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            CS_('Exception!',emphasis=True)
-            CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
-        """
+
         
 
     P['ctr'] = ctr
@@ -361,7 +225,6 @@ def get_data_function(P):
     for k in sorted(Lists.keys()):
         lst = Lists[k]
         for l in rlen(lst):
-            #print shape(lst[l])
             if k not in Concats:
                 Concats[k] = lst[l]
             else:
