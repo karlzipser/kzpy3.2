@@ -245,7 +245,7 @@ def get_data_function(P):
 
     Data = {
         'input':Concats['input'],
-        'target':Concats['target'],
+        'target':line,#Concats['target'],
         'ctr':ctr,
     }
     print(shape(Data['input']))
