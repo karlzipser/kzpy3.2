@@ -185,7 +185,7 @@ class Conv(Net):
         self.A['output'] = x
         self.A['target'] = Torch_data['target']
 
-        return(self.A['output_2'])
+        return(self.A['output'])
 
     
 
