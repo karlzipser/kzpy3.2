@@ -171,10 +171,6 @@ def main6():
             GENERATOR.loss = s*GENERATOR.criterion(GENERATOR.A['output'],GENERATOR.A['target']) + (1-s) * criterion(output, label) #19
 
         else:
-            figure(1);clf();
-            plot(GENERATOR.extract('output_2'))
-            plot(GENERATOR.extract('target'))
-            spause()
             s = 1.0
             #cg(GENERATOR.A['output_2'].size(),GENERATOR.A['target'].size())
             GENERATOR.loss = s*GENERATOR.criterion(GENERATOR.A['output_2'],GENERATOR.A['target'])

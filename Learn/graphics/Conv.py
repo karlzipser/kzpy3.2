@@ -85,6 +85,11 @@ def graphics_function(N,M,P):#,X):
 
                 img_lst.append(img)
 
+    figure(1);clf();
+    plot(N.extract('output_2'))
+    plot(N.extract('target'))
+    spause()
+
     concatt = None
     while len(img_lst) > 0:
         img = img_lst.pop(0)
