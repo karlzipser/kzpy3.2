@@ -58,9 +58,11 @@ def main6():
     if 'type' not in Arguments.keys():
         clp('   FROM SYS_STR   ','`ybb',ra=0,p=1)
         Net = Net_Main(M=M,sys_str=Net_strs[Arguments['net_str']].replace('\n',' ').replace('\t',' '),Arguments_=Arguments),
+        cm(0,ra=1)
     else:
         clp('   FROM COMMMAND LINE   ','`ybb',ra=0,p=1)
-        Nets = Net_Main(M=M,Arguments_=Arguments)
+        Net = Net_Main(M=M,Arguments_=Arguments)
+        cm(0,ra=2)
         
 
 
