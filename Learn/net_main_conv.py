@@ -2,7 +2,6 @@
 
 from kzpy3.vis3 import *
 import networks.net
-#import Menu.main
 exec(identify_file_str)
 
 
@@ -69,8 +68,8 @@ def Net_Main(M=False,sys_str=False,Arguments_=False,P_Runs_saved=None):
         get_data.Conv.setup(P)
 
     from graphics.Conv import graphics_function
-    import networks.condecon_FS
-    Network = networks.condecon_FS.ConDecon_FS
+    import networks.Conv
+    Network = networks.Conv.Conv
 
     P['NETWORK_OUTPUT_FOLDER'] = opjD(
         'Networks',
