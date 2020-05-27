@@ -44,7 +44,7 @@ def Net_Main(M=False,sys_str=False,Arguments_=False,P_Runs_saved=None):
         'height':94,
         'show_graphics':True,
     }
-    P['type']= ['ConDecon_Fire_FS','Fire3'] #!!!!!!!!!!!!!!!!!
+    P['type']= ['Conv','0'] #!!!!!!!!!!!!!!!!!
     if sys_str != False:
         Arguments_ = parse_to_Arguments(sys_str)
     else:
@@ -58,7 +58,7 @@ def Net_Main(M=False,sys_str=False,Arguments_=False,P_Runs_saved=None):
         if type(P[k]) == str:
             P[k] = [P[k]]
 
-    assert P['type'][0] == 'ConDecon_Fire_FS'
+    assert P['type'][0] == 'Conv'
     from get_data.Conv import get_data_function
     import get_data.Conv
     if type(P_Runs_saved) != type(None):

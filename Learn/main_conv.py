@@ -13,7 +13,7 @@ M = Menu.main.start_Dic(dic_project_path=pname(opjh(__file__)))
 Net_strs = {
     'conv0' : """
         Learn 
-            --type ConDecon_Fire_FS,Fire3,conv0
+            --type Conv,0,conv0
             --resume False 
             --batch_size 1
             --save_timer_time 300 
@@ -21,7 +21,7 @@ Net_strs = {
             --input rgb
             --target pts2d
             --losses_to_average 256 
-            --runs train 
+            --runs validate 
             --display.output 0,3 
             --display.input 0,3
             --display.target 0,3
@@ -31,7 +31,6 @@ Net_strs = {
             --win_y 40
             --drop 0.0
             --blue_center_button True
-            --pts2_h5py_type h5py_angles0
             --reset_loss False
             --momentum 0.001
             --LR 0.01
