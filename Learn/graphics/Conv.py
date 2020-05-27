@@ -59,7 +59,7 @@ def graphics_function(N,M,P):#,X):
     img_lst = []
     img_spacer = False
     k_prev = 'input'
-    for k in ['input','output','target']:
+    for k in ['input']:#,'output','target']:
         Imgs[k] = N.extract(k)
 
         if 'display.'+k in P:
