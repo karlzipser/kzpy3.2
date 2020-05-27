@@ -234,7 +234,7 @@ def get_data_function(P):
             lst[l] = e
 
     Concats = {}
-    for k in sorted(Lists.keys()):
+    for k in ['input']:#sorted(Lists.keys()):
         lst = Lists[k]
         for l in rlen(lst):
             if k not in Concats:
@@ -245,7 +245,7 @@ def get_data_function(P):
 
     Data = {
         'input':Concats['input'],
-        'target':Concats['target'],
+        'target':Lists['target']:,#Concats['target'],
         'ctr':ctr,
     }
 
