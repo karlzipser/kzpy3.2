@@ -31,6 +31,7 @@ Net_strs = {
             --win_y 40
             --drop 0.0
             --blue_center_button True
+            --pts2_h5py_type h5py_angles0
             --reset_loss False
             --momentum 0.001
             --LR 0.01
