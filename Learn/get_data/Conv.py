@@ -225,7 +225,7 @@ def get_data_function(P):
                 #A = Runs[r]['net_projections']['data']['flip']
                 B = Runs[r]['flip_images']['data']['left_image_flip']['vals']
                 #C = Runs[r]['net_projections']['data']['flip']
-            if ctr >= len(A):
+            if ctr >= len(B):
                 continue
 
 
