@@ -181,7 +181,8 @@ class Conv(Net):
             x = self.relu(x)
 
             self.A['output'] = x
-            self.A['target'] = Torch_data['target']
+
+        self.A['target'] = Torch_data['target']
 
         return(self.A['output_2'])
 

@@ -143,10 +143,10 @@ def main6():
             D_x = output.mean().item() 
 
         GENERATOR.forward_no_loss(Data)
-        if False:
-            fake = GENERATOR.A['output'][:,:,:,:]
+            
         
         if USE_DISCRIMINATOR:
+            fake = GENERATOR.A['output'][:,:,:,:]
             label.fill_(0)
             output = DISCRIMINATOR(fake.detach()) 
 
