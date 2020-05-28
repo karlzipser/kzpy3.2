@@ -101,9 +101,8 @@ class MyMaxPool(nn.Module):
         kprint(self.D,title=self.D['name'],ignore_keys=['name'],r=1)
 
     def forward(self, x):
-
-        D = self.D
-
+        print type(x)
+        print x
         inxsize = x.size()
         x = self.maxpool(x)
         outxsize = x.size()
