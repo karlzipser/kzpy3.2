@@ -113,7 +113,7 @@ class Conv(Net):
         self.maxunpool1 = nn.MaxUnpool2d(kernel_size=3,stride=2,padding=0)
         self.maxunpool2 = nn.MaxUnpool2d(kernel_size=3,stride=2,padding=0)
         self.maxunpool3 = nn.MaxUnpool2d(kernel_size=3,stride=2,padding=0)
-        cm('in net',P['NUM_OUTPUTS'],ra=1)
+        #cm('in net',P['NUM_OUTPUTS'],ra=1)
         self.final_deconv = nn.ConvTranspose2d(2*a, P['NUM_OUTPUTS'], kernel_size=1)
         self.relu=nn.ReLU()
 

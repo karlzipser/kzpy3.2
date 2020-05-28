@@ -92,9 +92,9 @@ def Net_Main(M=False,sys_str=False,Arguments_=False,P_Runs_saved=None):
     P['NUM_METADATA_CHANNELS'] = 0
     P['INPUT_WIDTH'] = shape(Data['input'])[2]
     P['INPUT_HEIGHT'] = shape(Data['input'])[3]
-    cm(shape(Data['target']),ra=0)
-    cm(shape(Data['target'])[1],ra=0)
-    cm(P['NUM_OUTPUTS'],ra=1)
+    #cm(shape(Data['target']),ra=0)
+    #cm(shape(Data['target'])[1],ra=0)
+    #cm(P['NUM_OUTPUTS'],ra=1)
 
     N = Network(P)
 
