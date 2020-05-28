@@ -15,7 +15,7 @@ Net_strs = {
         Learn 
             --type Conv,Fire3,conv0
             --resume False 
-            --batch_size 1
+            --batch_size 64
             --save_timer_time 300 
             --target_offset 0 
             --input rgb
@@ -33,8 +33,8 @@ Net_strs = {
             --blue_center_button True
             --pts2_h5py_type h5py_angles0
             --reset_loss False
-            --momentum 0.01
-            --LR 0.1
+            --momentum 0.001
+            --LR 0.01
 
     """,
 }
