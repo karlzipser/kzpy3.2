@@ -60,13 +60,59 @@ class Fire(nn.Module):
 
         outxsize = x.size()
 
-        if 'insize' not in self.D:
+        if 'in_size' not in self.D:
             self.D['in_size'] = (inxsize[2],inxsize[3])
             self.D['out_size'] = (outxsize[2],outxsize[3])
             self.describe()
 
         return x
 
+
+class MyMaxPool(nn.Module):
+    def __init__(
+        self,
+        kernel_size,
+        stride,
+        return_indices,
+        padding,
+        name='',
+        A=False
+    ):
+        super(MyMaxPool, self).__init__()
+        self.A = A
+        D = {
+            'name':name,
+            'kernel_size':kernel_size,
+            'stride':,stride,
+            'return_indices':return_indices,
+            'padding':padding,
+        }
+        self.D = D
+        self.name = name
+        self.maxpool = nn.MaxPool2d(
+            kernel_size=D['kernel_size'],
+            stride=D['stride'],
+            return_indices=D['return_indices'],
+            padding=D['padding']
+        )
+
+    def describe(self):
+        kprint(self.D,title=self.D['name'],ignore_keys=['name'],r=1)
+
+    def forward(self, x):
+
+        D = self.D
+
+        inxsize = x.size()
+        x = self.maxpool(x)
+        outxsize = x.size()
+
+        if 'in_size' not in self.D:
+            self.D['in_size'] = (inxsize[2],inxsize[3])
+            self.D['out_size'] = (outxsize[2],outxsize[3])
+            self.describe()
+
+        return x
 
 
 aa = 8
