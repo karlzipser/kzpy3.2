@@ -43,8 +43,10 @@ class Fire(nn.Module):
                                    kernel_size=3, padding=1)
         self.expand3x3_activation = nn.ReLU(inplace=True)
         #self.describe()
+
     def describe(self):
         kprint(self.D,title=self.D['name'],ignore_keys=['name'],r=1)
+
     def forward(self, x):
         inxsize = x.size()
 
@@ -58,11 +60,9 @@ class Fire(nn.Module):
 
         outxsize = x.size()
 
-        if 'inwidth' not in self.D:
-            self.D['inwidth'] = inxsize[2]
-            self.D['inheight'] = inxsize[3]
-            self.D['outwidth'] = outxsize[2]
-            self.D['outheight'] = outxsize[3]
+        if 'insize' not in self.D:
+            self.D['insize'] = (inxsize[2],inxsize[3])
+            self.D['outwidth'] = (outxsize[2],outxsize[3])
             self.describe()
 
         return x
