@@ -123,7 +123,7 @@ class MyFinalOutput(nn.Module):
             nn.Dropout(p=0.5),
             final_conv,
             # nn.ReLU(inplace=True), # this allows initial training to recover from zeros in output
-            nn.AvgPool2d(kernel_size=5, stride=6)
+            nn.AvgPool2d(kernel_size=5*2, stride=6*2)
             #nn.AdaptiveAvgPool2d(1)#kernel_size=5, stride=6)
         )
 
@@ -136,7 +136,7 @@ class MyFinalOutput(nn.Module):
         inxsize = x.size()
         x = self.final_output(x)
         outxsize = x.size()
-
+        cm(inxsize,outxsize,x.size(),'MyFinalOutput')
         if 'in_size' not in self.D:
             self.D['in_size'] = (inxsize[2],inxsize[3])
             self.D['out_size'] = (outxsize[2],outxsize[3])
