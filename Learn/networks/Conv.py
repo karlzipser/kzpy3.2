@@ -105,6 +105,8 @@ class MyMaxPool(nn.Module):
         print x
         inxsize = x.size()
         x = self.maxpool(x)
+        print type(x)
+        print x
         outxsize = x.size()
 
         if 'in_size' not in self.D:
