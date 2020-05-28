@@ -67,9 +67,7 @@ def Net_Main(M=False,sys_str=False,Arguments_=False,P_Runs_saved=None):
 
     from graphics.Conv import graphics_function
     import networks.Conv
-    Network = networks.Conv.Conv
-    #import networks.condecon_FS
-    #Network = networks.condecon_FS.ConDecon_FS
+    Network = networks.Conv.MyConv
 
     P['NETWORK_OUTPUT_FOLDER'] = opjD(
         'Networks',

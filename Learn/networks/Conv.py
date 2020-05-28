@@ -11,7 +11,7 @@ exec(identify_file_str)
 
 del Fire
 
-class Fire(nn.Module):
+class MyFire(nn.Module):
     def __init__(
         self,
         inplanes,
@@ -133,18 +133,15 @@ rgb = 3
 
 lateral = True
 
-class Conv(Net):
+class MyConv(Net):
 
     def setup_layers(self,P):
         self.A = {}
-        self.fire1 = Fire(P['NUM_INPUT_CHANNELS'],aa,b,b,'Fire1',self.A)
-        self.fire2 = Fire(c,a,c,c,'Fire2',self.A)
-        self.fire3 = Fire(d,b,d,d,'Fire3',self.A)
-        self.fire4=Fire(e,c,e,e,'Fire4',self.A)
+        self.fire1 = MyFire(P['NUM_INPUT_CHANNELS'],aa,b,b,'Fire1',self.A)
+        self.fire2 = MyFire(c,a,c,c,'Fire2',self.A)
+        self.fire3 = MyFire(d,b,d,d,'Fire3',self.A)
         self.maxpool1 = MyMaxPool(kernel_size=3,stride=2,return_indices=True,padding=0,name='maxpool1')
-        #self.maxpool1 = nn.MaxPool2d(kernel_size=3,stride=2,return_indices=True,padding=0)
         self.maxpool2 = MyMaxPool(kernel_size=3,stride=2,return_indices=True,padding=0,name='maxpool2')
-        self.maxpool3= MyMaxPool(kernel_size=3,stride=2,return_indices=True,padding=0,name='maxpool3')
 
         self.final_deconv = nn.ConvTranspose2d(2*a, P['NUM_OUTPUTS'], kernel_size=1)
         self.relu=nn.ReLU()
