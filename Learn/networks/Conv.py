@@ -231,7 +231,7 @@ class MyConv(Net):
         self.maxpool = MyMaxPool(kernel_size=3,stride=2,return_indices=True,padding=0,name='maxpool1')
         #self.maxpool2 = MyMaxPool(kernel_size=3,stride=2,return_indices=True,padding=0,name='maxpool2')
 
-        self.final_deconv = nn.ConvTranspose2d(2*a, P['NUM_OUTPUTS'], kernel_size=1)
+        #self.final_deconv = nn.ConvTranspose2d(2*a, P['NUM_OUTPUTS'], kernel_size=1)
         self.relu=nn.ReLU()
 
         self.drop_layer = nn.Dropout(p=0.1)
