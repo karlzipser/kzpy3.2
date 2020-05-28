@@ -118,12 +118,12 @@ class MyFinalOutput(nn.Module):
         }
         self.D = D
         self.name = name
-        final_conv = nn.Conv2d(512, 120, kernel_size=1)
-        self.final_output = nn.Sequential(
-            nn.Dropout(p=0.5),
+        self.final_conv = nn.Conv2d(512, 120, kernel_size=1)
+        #self.final_output = nn.Sequential(
+        self.drop = nn.Dropout(p=0.5),
             final_conv,
             # nn.ReLU(inplace=True), # this allows initial training to recover from zeros in output
-            nn.AvgPool2d(kernel_size=5, stride=4)
+        self.avg = nn.AvgPool2d(kernel_size=5, stride=4)
             #nn.AdaptiveAvgPool2d(1)#kernel_size=5, stride=6)
         )
 
@@ -134,7 +134,10 @@ class MyFinalOutput(nn.Module):
     def forward(self, x):
 
         inxsize = x.size()
-        x = self.final_output(x)
+        x = self.drop(x);cm(x.size())
+        x = self.final_conv(x);cm(x.size())
+        x = self.avg(x);cm(x.size())
+        #x = self.final_output(x)
         outxsize = x.size()
         cm(inxsize,outxsize,x.size(),'MyFinalOutput')
         if 'in_size' not in self.D:
