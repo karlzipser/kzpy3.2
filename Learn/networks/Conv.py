@@ -104,7 +104,7 @@ class MyMaxPool(nn.Module):
         print type(x)
         print x
         inxsize = x.size()
-        x = self.maxpool(x)
+        x,indicies = self.maxpool(x)
         print type(x)
         print x
         outxsize = x.size()
@@ -114,7 +114,10 @@ class MyMaxPool(nn.Module):
             self.D['out_size'] = (outxsize[2],outxsize[3])
             self.describe()
 
-        return x
+        if self.D['return_indices']:
+            return x,indicies
+        else:
+            return x
 
 
 aa = 8
