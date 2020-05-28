@@ -198,7 +198,7 @@ class MyConv(Net):
 
         self.final_conv = nn.Conv2d(512, P['NUM_OUTPUTS'], kernel_size=1)
         self.drop = nn.Dropout(p=0.5)
-        self.avg = nn.AvgPool2d(kernel_size=5, stride=3)
+        self.avg = nn.AvgPool2d(kernel_size=1, stride=5)
         
 
 
@@ -242,15 +242,15 @@ class MyConv(Net):
         cm(3,x.size())
 
 
-
-        for k in range(1,10):
-            for s in range(1,10):
-                try:
-                    avg = nn.AvgPool2d(kernel_size=k, stride=s)
-                    x = avg(x)
-                    cm(k,s)
-                except:
-                    pass
+        if False:
+            for k in range(1,10):
+                for s in range(1,10):
+                    try:
+                        avg = nn.AvgPool2d(kernel_size=k, stride=s)
+                        x = avg(x)
+                        cm(k,s)
+                    except:
+                        pass
 
 
         cm(4,x.size(),ra=1)
