@@ -122,7 +122,7 @@ class Net(nn.Module):
                 torch.save(weights, opj(self.NETWORK_OUTPUT_FOLDER,'weights','temp.infer'))
                 cb('. . . done saving temp.infer')
                 return
-            if len(self.losses) > 0:
+            if len(self.losses) > 0:
                 loss_str = str(self.losses[-1])
             else:
                 loss_str = 'pre_train'
