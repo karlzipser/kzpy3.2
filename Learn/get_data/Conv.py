@@ -10,37 +10,28 @@ from runs import All_runs
 
 def setup(P):
 
-
-
     Runs = {}
 
-    activation_folders = sggo(opjD('Data', 'Activations_folders','*'))
-    
-    for a in activation_folders:
-        files = sggo(a,'indicies','*.h5py')
-        E = h5r(files[0])
-        if P['type'][1] in ' '.join(E.keys()):
-            aruns = sggo(a,'indicies','*.h5py')
-        E.close()
+    for path in sggo(opjD('Data/outer_contours/rotated','*.h5py')):
+        r = fname(path).split('.')[0]
+        if r in All_runs[P['runs']]:
+            if os.path.getsize(path) > 0:
+                if time.time() - os.path.getmtime(path) > 60:
+                    Runs[r] = {}
+                    for k in [
+                        'rotated',
+                        'original_timestamp_data',
+                        'flip_images',
+                        'left_timestamp_metadata_right_ts',
+                        'button_number',
+                        'encoder',
+                    ]:
+                        Runs[r][k] = None
+                    Runs[r]['rotated'] = h5r(path)
 
-    _Runs = {}
-    for r in aruns:
-        run = fname(r).split('.')[0]
-        if run in All_runs[P['runs']]:
-            if os.path.getsize(r) > 0:
-                if time.time() - os.path.getmtime(r) > 60:
-                    _Runs[run] = opjh(r)
+    P['good_indicies'] = []
 
-    Run_coder = {}
-
-    run_ctr = 0
-
-    good_list = []
-
-
-    for r in _Runs.keys():
-
-        Run_coder[run_ctr] = r
+    for r in Runs.keys():
 
         H = find_files_recursively(opjD('Data'),r,DIRS_ONLY=True)
 
@@ -50,121 +41,52 @@ def setup(P):
         else:
             cg(r,'found.')
 
-        Runs[r] = {
-            'original_timestamp_data':{},
-            'flip_images':{},
-            'left_timestamp_metadata_right_ts':{},
-        }
-        
-        Runs[r]['original_timestamp_data'] = \
-            {'path':opj(opjD('Data'),H['paths'].keys()[0],r,'original_timestamp_data.h5py'),'data':None}
+        for k in ['original_timestamp_data','flip_images','left_timestamp_metadata_right_ts']:
+            Runs[r][k] = h5r(opj(opjD('Data'),H['paths'].keys()[0],r,k+'.h5py'))
 
-        Runs[r]['flip_images'] = \
-            {'path':opj(opjD('Data'),H['paths'].keys()[0],r,'flip_images.h5py'),'data':None}
-
-        Runs[r]['left_timestamp_metadata_right_ts'] = \
-            {'path':opj(opjD('Data'),H['paths'].keys()[0],r,'left_timestamp_metadata_right_ts.h5py'),'data':None}
-
-        Runs[r]['button_number'] = None
-        Runs[r]['encoder'] = None
-
-        for k in Runs[r].keys():
-            if k not in ['button_number','encoder']:
-                if Runs[r][k]['data'] == None:
-                    Runs[r][k]['data'] = h5r(Runs[r][k]['path'])
-        for kk in ['button_number','encoder']:
-            if Runs[r][kk] == None:
-                Runs[r][kk] = Runs[r]['left_timestamp_metadata_right_ts']['data'][kk][:]
-
-        length = len(Runs[r]['original_timestamp_data']['data']['left_image']['vals'])
-        for i in range(length):
-            if Runs[r]['button_number'][i] != 4 and Runs[r]['encoder'][i] > 0.1:
-                good_list.append((run_ctr,i))
-
-        run_ctr += 1
-        
+        for i in rlen(Runs[r]['rotated']['valid']):
+            if Runs[r]['rotated']['valid'][i]:
+                P['good_indicies'].append( (r,i) )
 
     P['Runs'] = Runs
-    P['good_list'] = good_list
-    P['Run_coder'] = Run_coder
-
-###############
-
-input_data_plus = None
-target_data_plus = None
+    
 
 
-Toggle = Toggler()
-global_ctr = 0
 
 
-def _selector(P):
-    global global_ctr
-    R = P['runtime_parameters']
-    Runs = P['Runs']
-    good = P['good_list'][rndint(len(P['good_list']))]
-    r, ctr = P['Run_coder'][good[0]], good[1]
-    flip = rndint(2)
 
-    if R['data_from_run'] != 'no':
-        assert(type(R['data_from_run']) == str)
-        r = R['data_from_run']
-
-    if R['data_from_ctr'] > -1:
-        if Toggle['test'](R['ctr_reset']):
-            ctr = R['data_from_ctr']
-            global_ctr = ctr
-        else:
-            global_ctr += R['step']
-            if global_ctr >= len(Runs[r]['original_timestamp_data']['data']['left_image']['vals']):
-                global_ctr = R['data_from_ctr']
-            ctr = global_ctr
-
-    if ctr > len(Runs[r]['original_timestamp_data']['data']['left_image']['vals']) - 300:
-        r,ctr,flip = _selector(P)
-
-    if R['data_from_flip'] > -1:
-        assert(type(R['data_from_flip']) == int)
-        assert(R['data_from_flip'] in [0,1])
-        flip = R['data_from_flip']
-
-    return r,ctr,flip
 
 
 
 def get_data_function(P):
 
-    global input_data_plus, target_data_plus
 
     Runs = P['Runs']
 
     
-
-
     while True:
         
         if True:#try:
-            r,ctr,flip = _selector(P)
 
-
-
+            g = len(P['good_indicies'])
+            r,ctr = P['good_indicies'][rndint(g)]
             flip = 0
+
             
 
             Lists = {'input':[],'target':[]}
 
             if not flip:
-                B = Runs[r]['original_timestamp_data']['data']['left_image']['vals']
+                B = Runs[r]['original_timestamp_data']['left_image']['vals']
             else:
                 assert(False)
-                B = Runs[r]['flip_images']['data']['left_image_flip']['vals']
+                B = Runs[r]['flip_images']['left_image_flip']['vals']
             if ctr >= len(B):
                 continue
 
 
 
             for k in ['input']:
-
 
                 if 'rgb' in P[k]:
                     noise =0
@@ -204,12 +126,10 @@ def get_data_function(P):
                         Lists[k][-1] *= 0
 
 
-            if 'test1' in P['target']:
-                img = B[ctr+P[k+'_offset']]
-                line = img[:,:,1].mean(axis=0)
-                Lists['target'].append(line)
+            if 'outer_contours' in P['target']:
+                Lists['target'].append(Runs[r][ctr]['outer_countours_rotated_left'][0,:])
 
-            if 'test2' in P['target']:
+            if 'test22' in P['target']:
                 img = B[ctr+P[k+'_offset']]
                 line = img[:,:,1].mean(axis=1)
                 Lists['target'].append(line)
