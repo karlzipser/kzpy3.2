@@ -134,8 +134,7 @@ class MyFinalOutput(nn.Module):
     def forward(self, x):
 
         inxsize = x.size()
-        x = self.conv2d(x)
-        x = self.relu(x)
+        x = self.final_output(x)
         outxsize = x.size()
 
         if 'in_size' not in self.D:
