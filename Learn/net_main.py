@@ -104,6 +104,7 @@ def Net_Main(M=False,sys_str=False,Arguments_=False,P_Runs_saved=None):
 
     P['NUM_INPUT_CHANNELS'] = shape(Data['input'])[1]
     P['NUM_OUTPUTS'] = shape(Data['target'])[1]
+    cy(shape(Data['target']),ra=1)
     P['NUM_METADATA_CHANNELS'] = 0
     P['INPUT_WIDTH'] = shape(Data['input'])[2]
     P['INPUT_HEIGHT'] = shape(Data['input'])[3]
