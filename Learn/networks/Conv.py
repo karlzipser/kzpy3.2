@@ -240,7 +240,18 @@ class MyConv(Net):
         cm(2,x.size())
         x = self.final_conv(x)
         cm(3,x.size())
-        x = self.avg(x)
+
+
+
+        for k in range(1,10):
+            for s in range(1,10):
+                try:
+                    x = self.avg(x)
+                    cm(k,s)
+                except:
+                    pass
+
+
         cm(4,x.size())
         cm(Torch_data['target'].size())
         self.A['output_2'] = x
