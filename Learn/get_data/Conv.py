@@ -241,7 +241,7 @@ def get_data_function(P):
             else:
                 Concats[k] = np.concatenate((Concats[k],lst[l]))
 
-    cm(shape(Concats['input']),ra=1)
+    cm(shape(Concats['target']),ra=1)
 
     Data = {
         'input':Concats['input'],
