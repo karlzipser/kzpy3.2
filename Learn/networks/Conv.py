@@ -242,6 +242,7 @@ class MyConv(Net):
         cm(3,x.size())
         x = self.avg(x)
         cm(4,x.size())
+        cm(Torch_data['target'].size())
         self.A['output_2'] = x
 
         self.A['output_2'] = self.A['output_2'].view(self.A['output_2'].size(0), -1)
