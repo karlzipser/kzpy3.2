@@ -204,11 +204,16 @@ def get_data_function(P):
                         Lists[k][-1] *= 0
 
 
-            img = B[ctr+P[k+'_offset']]
+            if 'test1' in P['target']:
+                img = B[ctr+P[k+'_offset']]
+                line = img[:,:,1].mean(axis=0)
+                Lists['target'].append(line)
 
-            line = img[:,:,1].mean(axis=0)
+            if 'test2' in P['target']:
+                img = B[ctr+P[k+'_offset']]
+                line = img[:,:,1].mean(axis=1)
+                Lists['target'].append(line)
 
-            Lists['target'].append(line)
 
             break
         
