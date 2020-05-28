@@ -172,6 +172,7 @@ def main6():
 
         else:
             s = 1.0
+            cm(1,ra=1)
             #cg(GENERATOR.A['output_2'].size(),GENERATOR.A['target'].size())
             GENERATOR.loss = s*GENERATOR.criterion(GENERATOR.A['output_2'],GENERATOR.A['target'])
 
