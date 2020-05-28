@@ -165,6 +165,7 @@ def get_data_function(P):
 
             for k in ['input']:
 
+
                 if 'rgb' in P[k]:
                     noise =0
                     if P['noise'] > 0:
@@ -179,8 +180,6 @@ def get_data_function(P):
                             Lists[k][-1] = Lists[k][-1]*1.0 + noise
                     if 'drop.rgb' in P and rnd() < P['drop.rgb'] and k == 'input':
                         Lists[k][-1] *= 0
-
-
 
 
                 if 'button' in P[k]:
@@ -206,17 +205,11 @@ def get_data_function(P):
 
 
             img = B[ctr+P[k+'_offset']]
-            if False:
-                line = img[94/2,:,0]
-                temp = img.copy()
-                for a in range(94):
-                    for b in range(3):
-                        temp[a,:,b] = line
-                Lists['target'].append(temp.transpose(2,1,0))
+
             line = img[:,:,1].mean(axis=0)
 
+            Lists['target'].append(line)
 
-                    
             break
         
 
@@ -246,7 +239,7 @@ def get_data_function(P):
 
     Data = {
         'input':Concats['input'],
-        'target':line,#Concats['target'],
+        'target':Concats['target'],
         'ctr':ctr,
     }
     #print(shape(Data['input']))
