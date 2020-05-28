@@ -43,38 +43,6 @@ class Fire(nn.Module):
         ], 1)
 
 
-if False:
-    class Smoke(nn.Module):
-        def __init__(
-            self,
-            inplanes,
-            squeeze_planes,
-            expand1x1_planes,
-            expand3x3_planes,
-            name='',
-            A=False
-        ):
-            super(Smoke, self).__init__()
-            self.A = A
-            self.name = name
-            self.inplanes = inplanes
-            self.squeeze = nn.ConvTranspose2d(inplanes, squeeze_planes, kernel_size=1)
-            self.squeeze_activation = nn.ReLU(inplace=True)
-            self.expand1x1 = nn.ConvTranspose2d(squeeze_planes, expand1x1_planes,
-                                       kernel_size=1)
-            self.expand1x1_activation = nn.ReLU(inplace=True)
-            self.expand3x3 = nn.ConvTranspose2d(squeeze_planes, expand3x3_planes,
-                                       kernel_size=3, padding=1)
-            self.expand3x3_activation = nn.ReLU(inplace=True)
-
-        def forward(self, x):
-            x = self.squeeze_activation(self.squeeze(x))
-            if type(self.A) != type(False):
-                self.A[d2p(self.name,'squeeze_activation')] = x
-            return torch.cat([
-                self.expand1x1_activation(self.expand1x1(x)),
-                self.expand3x3_activation(self.expand3x3(x))
-            ], 1)
 
 aa = 8
 a = 16
@@ -96,31 +64,14 @@ class Conv(Net):
         self.fire2 = Fire(c,a,c,c,'Fire2',self.A)
         self.fire3 = Fire(d,b,d,d,'Fire3',self.A)
         self.fire4=Fire(e,c,e,e,'Fire4',self.A)
-        #self.smoke4=Smoke(f,c,d,d,'Smoke4',self.A)
         self.maxpool1 = nn.MaxPool2d(kernel_size=3,stride=2,return_indices=True,padding=0)
         self.maxpool2 = nn.MaxPool2d(kernel_size=3,stride=2,return_indices=True,padding=0)
         self.maxpool3= nn.MaxPool2d(kernel_size=3,stride=2,return_indices=True,padding=0)
 
-        if False:
-            if lateral:
-                self.smoke3 = Smoke(e+e,b,c,c,'Smoke3',self.A)
-                self.smoke2 = Smoke(d+d,a,b,b,'Smoke2',self.A)
-                self.smoke1 = Smoke(c+c,aa,a,a,'Smoke1',self.A)
-            else:
-                self.smoke3 = Smoke(e,b,c,c,'Smoke3',self.A)
-                self.smoke2 = Smoke(d,a,b,b,'Smoke2',self.A)
-                self.smoke1 = Smoke(c,aa,a,a,'Smoke1',self.A)
-
-            self.maxunpool1 = nn.MaxUnpool2d(kernel_size=3,stride=2,padding=0)
-            self.maxunpool2 = nn.MaxUnpool2d(kernel_size=3,stride=2,padding=0)
-            self.maxunpool3 = nn.MaxUnpool2d(kernel_size=3,stride=2,padding=0)
-
-        #cm('in net',P['NUM_OUTPUTS'],ra=1)
         self.final_deconv = nn.ConvTranspose2d(2*a, P['NUM_OUTPUTS'], kernel_size=1)
         self.relu=nn.ReLU()
 
         self.drop_layer = nn.Dropout(p=0.1)
-
 
         self.final_conv_2 = nn.Conv2d(256, P['NUM_OUTPUTS'], kernel_size=1)
         self.output_2 = nn.Sequential(
@@ -128,59 +79,26 @@ class Conv(Net):
             self.final_conv_2,
             nn.AvgPool2d(kernel_size=5*4, stride=6*4)
         )
-
     
-
     def forward_no_loss(self,Data):
         Torch_data = self.data_to_torch(Data)
         self.A['input'] = Torch_data['input']
         x = self.A['input']
         x = self.fire1(x)
-        #f1 = x
-        #size_fire1 = x.size()
+
         x = self.drop_layer(x)
         x,indices_fire1 = self.maxpool1(x)
         x = self.fire2(x)
-        #f2 = x
-        #size_fire2 = x.size()
+
         x = self.drop_layer(x)
         x,indices_fire2=self.maxpool2(x)
         x = self.fire3(x)
-        #f3 = x
+
         size_fire3 = x.size()
         x = self.drop_layer(x)
 
         self.A['output_2'] = self.output_2(x)
         self.A['output_2'] = self.A['output_2'].view(self.A['output_2'].size(0), -1)
-        #clp('x',x.size(),'output_2',self.A['output_2'].size())
-        
-
-        if False:
-            if lateral:
-                x = self.smoke3(torch.cat((x,f3),1))
-            else:
-                x = self.smoke3(x)
-
-            x = self.drop_layer(x)
-            x = self.maxunpool2(x,indices_fire2,size_fire2)
-
-            if lateral:
-                x = self.smoke2(torch.cat((x,f2),1))
-            else:
-                x = self.smoke2(x)
-
-            x = self.drop_layer(x)
-            x = self.maxunpool1(x,indices_fire1,size_fire1)
-
-            if lateral:
-                x = self.smoke1(torch.cat((x,f1),1))
-            else:
-                x = self.smoke1(x)
-
-            x = self.final_deconv(x)
-            x = self.relu(x)
-
-            self.A['output'] = x
 
         self.A['target'] = Torch_data['target']
 
