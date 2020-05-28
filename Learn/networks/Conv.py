@@ -252,7 +252,7 @@ class MyConv(Net):
                     pass
 
 
-        cm(4,x.size())
+        cm(4,x.size(),ra=1)
         cm(Torch_data['target'].size())
         self.A['output_2'] = x
 
