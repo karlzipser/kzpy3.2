@@ -125,8 +125,8 @@ class Net(nn.Module):
             if len(self.losses) > 0:
                 loss_str = str(self.losses[-1])
             else:
-                loss_str = 'pre_train'
-            net_str = 'net'+'_'+time_str()+'.'+loss_str)
+                loss_str = 'no_losses'
+            net_str = 'net'+'_'+time_str()+'.'+loss_str
             if self.GPU > -1:
                 net_str = net_str+'.cuda'
             torch.save(weights, opj(self.NETWORK_OUTPUT_FOLDER,'weights',net_str+'.infer'))
