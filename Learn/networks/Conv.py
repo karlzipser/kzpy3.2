@@ -70,6 +70,7 @@ class MyFire(nn.Module):
 
 class MyInitialConv(nn.Module):
     def __init__(
+        self,
         name='',
         A=False
     ):
