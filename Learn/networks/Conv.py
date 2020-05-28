@@ -87,7 +87,6 @@ class MyMaxPool(nn.Module):
             'return_indices':return_indices,
             'padding':padding,
         }
-        self.D = D
         self.name = name
         self.maxpool = nn.MaxPool2d(
             kernel_size=D['kernel_size'],
@@ -135,7 +134,8 @@ class Conv(Net):
         self.fire2 = Fire(c,a,c,c,'Fire2',self.A)
         self.fire3 = Fire(d,b,d,d,'Fire3',self.A)
         self.fire4=Fire(e,c,e,e,'Fire4',self.A)
-        self.maxpool1 = nn.MaxPool2d(kernel_size=3,stride=2,return_indices=True,padding=0)
+        self.maxpool1 = MyMaxPool(kernel_size=3,stride=2,return_indices=True,padding=0,name='maxpool1')
+        #self.maxpool1 = nn.MaxPool2d(kernel_size=3,stride=2,return_indices=True,padding=0)
         self.maxpool2 = nn.MaxPool2d(kernel_size=3,stride=2,return_indices=True,padding=0)
         self.maxpool3= nn.MaxPool2d(kernel_size=3,stride=2,return_indices=True,padding=0)
 
