@@ -78,7 +78,6 @@ class MyMaxPool(nn.Module):
         name='',
         A=False
     ):
-        self.D = D
         self.name = name
         super(MyMaxPool, self).__init__()
         self.A = A
@@ -89,6 +88,7 @@ class MyMaxPool(nn.Module):
             'return_indices':return_indices,
             'padding':padding,
         }
+        self.D = D
         self.name = name
         self.maxpool = nn.MaxPool2d(
             kernel_size=D['kernel_size'],
