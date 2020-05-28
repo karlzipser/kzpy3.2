@@ -28,6 +28,7 @@ class Fire(nn.Module):
             'squeeze_planes':squeeze_planes,
             'expand1x1_planes':expand1x1_planes,
             'expand3x3_planes':expand3x3_planes,
+            'outplanes': expand1x1_planes + expand3x3_planes,
             'name':name,
         }
         self.D = D
