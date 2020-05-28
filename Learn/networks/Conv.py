@@ -233,13 +233,13 @@ class MyConv(Net):
         #x,___ = self.maxpool3(x)
 
         x = self.fire7(x)
-        cm(0,x.size())
+        #cm(0,x.size())
         x = self.fire8(x)
-        cm(1,x.size())
+        #cm(1,x.size())
         x = self.drop(x)
-        cm(2,x.size())
+        #cm(2,x.size())
         x = self.final_conv(x)
-        cm(3,x.size())
+        #cm(3,x.size())
 
 
         if False:
@@ -253,8 +253,8 @@ class MyConv(Net):
                         pass
 
         x = self.avg(x)
-        cm(4,x.size(),ra=0)
-        cm(Torch_data['target'].size())
+        #cm(4,x.size(),ra=0)
+        #cm(Torch_data['target'].size())
         self.A['output_2'] = x
 
         self.A['output_2'] = self.A['output_2'].view(self.A['output_2'].size(0), -1)
