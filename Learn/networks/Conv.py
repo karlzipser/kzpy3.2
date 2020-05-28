@@ -252,7 +252,7 @@ class MyConv(Net):
                     except:
                         pass
 
-
+        x = self.avg(x)
         cm(4,x.size(),ra=1)
         cm(Torch_data['target'].size())
         self.A['output_2'] = x
