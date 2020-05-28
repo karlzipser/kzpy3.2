@@ -198,7 +198,7 @@ class MyConv(Net):
 
         self.final_conv = nn.Conv2d(512, P['NUM_OUTPUTS'], kernel_size=1)
         self.drop = nn.Dropout(p=0.5)
-        self.avg = nn.AvgPool2d(kernel_size=2, stride=5)
+        self.avg = nn.AvgPool2d(kernel_size=2, stride=6)
         
 
 
@@ -253,7 +253,7 @@ class MyConv(Net):
                         pass
 
         x = self.avg(x)
-        cm(4,x.size(),ra=1)
+        cm(4,x.size(),ra=0)
         cm(Torch_data['target'].size())
         self.A['output_2'] = x
 
