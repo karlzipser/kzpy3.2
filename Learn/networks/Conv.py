@@ -198,12 +198,11 @@ class MyConv(Net):
 
         self.final_conv = nn.Conv2d(512, P['NUM_OUTPUTS'], kernel_size=1)
         self.drop = nn.Dropout(p=0.5)
-        self.avg = nn.AvgPool2d(kernel_size=5, stride=2)
+        self.avg = nn.AvgPool2d(kernel_size=5, stride=4)
         
 
 
-
-
+4
 
 
     
