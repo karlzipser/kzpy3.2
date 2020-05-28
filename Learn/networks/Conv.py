@@ -246,7 +246,8 @@ class MyConv(Net):
         for k in range(1,10):
             for s in range(1,10):
                 try:
-                    x = self.avg(x)
+                    avg = nn.AvgPool2d(kernel_size=k, stride=s)
+                    x = avg(x)
                     cm(k,s)
                 except:
                     pass
