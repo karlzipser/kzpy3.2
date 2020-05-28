@@ -206,13 +206,14 @@ def get_data_function(P):
 
 
             img = B[ctr+P[k+'_offset']]
-            line = img[94/2,:,0]
-            temp = img.copy()
-            for a in range(94):
-                for b in range(3):
-                    temp[a,:,b] = line
-            Lists['target'].append(temp.transpose(2,1,0))
-            #Lists['target'].append(line)
+            if False:
+                line = img[94/2,:,0]
+                temp = img.copy()
+                for a in range(94):
+                    for b in range(3):
+                        temp[a,:,b] = line
+                Lists['target'].append(temp.transpose(2,1,0))
+            line = img[:,:,1].mean(axis=0)
 
 
                     
