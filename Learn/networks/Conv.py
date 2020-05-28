@@ -61,8 +61,8 @@ class Fire(nn.Module):
         outxsize = x.size()
 
         if 'insize' not in self.D:
-            self.D['insize'] = (inxsize[2],inxsize[3])
-            self.D['outwidth'] = (outxsize[2],outxsize[3])
+            self.D['in_size'] = (inxsize[2],inxsize[3])
+            self.D['out_size'] = (outxsize[2],outxsize[3])
             self.describe()
 
         return x
