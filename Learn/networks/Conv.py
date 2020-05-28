@@ -104,6 +104,48 @@ class MyInitialConv(nn.Module):
         return x
 
 
+class MyFinalOutput(nn.Module):
+    def __init__(
+        self,
+        name='',
+        A=False
+    ):
+        self.name = name
+        super(MyFinalOutput, self).__init__()
+        self.A = A
+        D = {
+            'name':name,
+        }
+        self.D = D
+        self.name = name
+        final_conv = nn.Conv2d(512, 120, kernel_size=1)
+        self.final_output = nn.Sequential(
+            nn.Dropout(p=0.5),
+            final_conv,
+            # nn.ReLU(inplace=True), # this allows initial training to recover from zeros in output
+            nn.AvgPool2d(kernel_size=5, stride=6)
+            #nn.AdaptiveAvgPool2d(1)#kernel_size=5, stride=6)
+        )
+
+
+    def describe(self):
+        kprint(self.D,title=self.D['name'],ignore_keys=['name'],r=0)
+
+    def forward(self, x):
+
+        inxsize = x.size()
+        x = self.conv2d(x)
+        x = self.relu(x)
+        outxsize = x.size()
+
+        if 'in_size' not in self.D:
+            self.D['in_size'] = (inxsize[2],inxsize[3])
+            self.D['out_size'] = (outxsize[2],outxsize[3])
+            self.describe()
+
+        return x
+
+
 class MyMaxPool(nn.Module):
     def __init__(
         self,
@@ -156,7 +198,7 @@ class MyMaxPool(nn.Module):
         else:
             return x
 
-
+"""
 aa = 8
 a = 16
 b = 32
@@ -165,6 +207,7 @@ d = 128
 e = 256
 f = 512
 rgb = 3
+"""
 
 
 lateral = True
@@ -174,48 +217,71 @@ class MyConv(Net):
     def setup_layers(self,P):
         self.A = {}
         self.conv_init = MyInitialConv('conv_init',self.A)
-        self.fire1 = MyFire(c,aa,b,b,'Fire1',self.A)
-        self.fire2 = MyFire(c,a,c,c,'Fire2',self.A)
-        self.fire3 = MyFire(d,b,d,d,'Fire3',self.A)
-        self.maxpool1 = MyMaxPool(kernel_size=3,stride=2,return_indices=True,padding=0,name='maxpool1')
-        self.maxpool2 = MyMaxPool(kernel_size=3,stride=2,return_indices=True,padding=0,name='maxpool2')
+
+        self.fire1 = MyFire(64, 16, 64, 64,'Fire1',self.A)
+        self.fire2 = MyFire(128, 16, 64, 64,'Fire2',self.A)
+
+        self.fire3 = MyFire(128, 32, 128, 128,'Fire3',self.A)
+        self.fire4 = MyFire(256, 32, 128, 128,'Fire4',self.A)
+
+        self.fire5 = MyFire(256, 48, 192, 192,'Fire5',self.A)
+        self.fire6 = MyFire(384, 48, 192, 192,'Fire6',self.A)
+        self.fire7 = MyFire(384, 64, 256, 256,'Fire7',self.A)
+        self.fire8 = MyFire(512, 64, 256, 256,'Fire8',self.A)
+        self.maxpool = MyMaxPool(kernel_size=3,stride=2,return_indices=True,padding=0,name='maxpool1')
+        #self.maxpool2 = MyMaxPool(kernel_size=3,stride=2,return_indices=True,padding=0,name='maxpool2')
 
         self.final_deconv = nn.ConvTranspose2d(2*a, P['NUM_OUTPUTS'], kernel_size=1)
         self.relu=nn.ReLU()
 
         self.drop_layer = nn.Dropout(p=0.1)
 
-        self.final_conv_2 = nn.Conv2d(256, P['NUM_OUTPUTS'], kernel_size=1)
+        #self.final_conv_2 = nn.Conv2d(256, P['NUM_OUTPUTS'], kernel_size=1)
+        self.final_output = MyFinalOutput('MyFinalOutput',self.A)
+        """
         self.output_2 = nn.Sequential(
             nn.Dropout(p=0.5),
             self.final_conv_2,
             nn.AvgPool2d(kernel_size=5*2, stride=6*2)
         )
+        """
     
     def forward_no_loss(self,Data):
         Torch_data = self.data_to_torch(Data)
         self.A['input'] = Torch_data['input']
+
         x = self.A['input']
 
         x = self.conv_init(x)
 
-        x = self.fire1(x)
+        x,___ = self.maxpool(x)
 
-        x = self.drop_layer(x)
-        x,indices_fire1 = self.maxpool1(x)
+        x = self.fire1(x) 
         x = self.fire2(x)
 
-        x = self.drop_layer(x)
-        x,indices_fire2=self.maxpool2(x)
+        x,___ = self.maxpool(x)
+
         x = self.fire3(x)
+        x = self.fire4(x)
 
-        size_fire3 = x.size()
-        x = self.drop_layer(x)
+        x,___ = self.maxpool(x)
 
-        self.A['output_2'] = self.output_2(x)
+        x = self.fire5(x)
+        x = self.fire6(x)
+        x = self.fire7(x)
+        x = self.fire8(x)
+
+        #x = self.drop_layer(x)
+
+        #self.A['output_2'] = self.output_2(x)
+
+        self.A['output_2'] = self.final_output(x)
+
         self.A['output_2'] = self.A['output_2'].view(self.A['output_2'].size(0), -1)
 
         self.A['target'] = Torch_data['target']
+
+        # x = self.drop_layer(x)
 
         return(self.A['output_2'])
 
