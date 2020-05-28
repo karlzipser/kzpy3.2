@@ -142,8 +142,9 @@ def main6():
             errD_real.backward() 
             D_x = output.mean().item() 
 
-        GENERATOR.forward_no_loss(Data) 
-        fake = GENERATOR.A['output_2'][:,:,:,:]
+        GENERATOR.forward_no_loss(Data)
+        if False:
+            fake = GENERATOR.A['output'][:,:,:,:]
         
         if USE_DISCRIMINATOR:
             label.fill_(0)
