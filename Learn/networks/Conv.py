@@ -83,7 +83,7 @@ class MyMaxPool(nn.Module):
         D = {
             'name':name,
             'kernel_size':kernel_size,
-            'stride':,stride,
+            'stride':stride,
             'return_indices':return_indices,
             'padding':padding,
         }
