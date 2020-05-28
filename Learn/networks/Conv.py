@@ -42,11 +42,12 @@ class Fire(nn.Module):
         self.expand3x3 = nn.Conv2d(squeeze_planes, expand3x3_planes,
                                    kernel_size=3, padding=1)
         self.expand3x3_activation = nn.ReLU(inplace=True)
-        self.describe()
+        #self.describe()
     def describe(self):
         kprint(self.D,title=self.D['name'],ignore_keys=['name'],r=1)
     def forward(self, x):
-        cg(x.size())
+        inxsize = x.size()
+
         x = self.squeeze_activation(self.squeeze(x))
         if type(self.A) != type(False):
             self.A[d2p(self.name,'squeeze_activation')] = x
@@ -54,7 +55,15 @@ class Fire(nn.Module):
             self.expand1x1_activation(self.expand1x1(x)),
             self.expand3x3_activation(self.expand3x3(x))
         ], 1)
-        cr(x.size(),ra=1)
+
+        outxsize = x.size()
+
+        if 'inwidth' not in self.D:
+            self.D['inwidth'] = inxsize[2]
+            self.D['inheight'] = inxsize[3]
+            self.D['outwidth'] = outxsize[2]
+            self.D['outheight'] = outxsize[3]
+            self.describe()
 
         return x
 
