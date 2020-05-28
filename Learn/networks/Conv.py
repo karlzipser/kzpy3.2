@@ -45,7 +45,7 @@ class MyFire(nn.Module):
         #self.describe()
 
     def describe(self):
-        kprint(self.D,title=self.D['name'],ignore_keys=['name'],r=1)
+        kprint(self.D,title=self.D['name'],ignore_keys=['name'],r=0)
 
     def forward(self, x):
         inxsize = x.size()
@@ -58,6 +58,41 @@ class MyFire(nn.Module):
             self.expand3x3_activation(self.expand3x3(x))
         ], 1)
 
+        outxsize = x.size()
+
+        if 'in_size' not in self.D:
+            self.D['in_size'] = (inxsize[2],inxsize[3])
+            self.D['out_size'] = (outxsize[2],outxsize[3])
+            self.describe()
+
+        return x
+
+
+class MyInitialConv(nn.Module):
+    def __init__(
+        name='',
+        A=False
+    ):
+        self.name = name
+        super(MyInitialConv, self).__init__()
+        self.A = A
+        D = {
+            'name':name,
+        }
+        self.D = D
+        self.name = name
+        self.conv2d = nn.Conv2d(12, 64, kernel_size=3, stride=2)
+        self.relu = nn.ReLU(inplace=True)
+
+
+    def describe(self):
+        kprint(self.D,title=self.D['name'],ignore_keys=['name'],r=0)
+
+    def forward(self, x):
+
+        inxsize = x.size()
+        x = self.conv2d(x)
+        x = self.relu(x)
         outxsize = x.size()
 
         if 'in_size' not in self.D:
@@ -98,7 +133,7 @@ class MyMaxPool(nn.Module):
         )
 
     def describe(self):
-        kprint(self.D,title=self.D['name'],ignore_keys=['name'],r=1)
+        kprint(self.D,title=self.D['name'],ignore_keys=['name'],r=0)
 
     def forward(self, x):
 
@@ -137,6 +172,7 @@ class MyConv(Net):
 
     def setup_layers(self,P):
         self.A = {}
+        self.conv_init = MyConv('conv_init',self.A)
         self.fire1 = MyFire(P['NUM_INPUT_CHANNELS'],aa,b,b,'Fire1',self.A)
         self.fire2 = MyFire(c,a,c,c,'Fire2',self.A)
         self.fire3 = MyFire(d,b,d,d,'Fire3',self.A)
@@ -159,6 +195,9 @@ class MyConv(Net):
         Torch_data = self.data_to_torch(Data)
         self.A['input'] = Torch_data['input']
         x = self.A['input']
+
+        x = self.conv_init(x)
+
         x = self.fire1(x)
 
         x = self.drop_layer(x)
