@@ -25,7 +25,7 @@ Net_strs = {
             --display.output 0,3 
             --display.input 0,3
             --display.target 0,3
-            --clip 0.0001
+            --clip 0.1
             --backwards True
             --win_x 20
             --win_y 40
@@ -108,10 +108,11 @@ def main6():
     while True:
 
         M['load']()
+
         if Abort['test'](M['Q']['runtime_parameters']['abort']):
             break
 
-        if minute_timer.check():
+        if False:#minute_timer.check():
             minute_timer.reset()
             Nets['N0']['P']['clip'] = float(Nets['N0']['P']['clip'])
 
@@ -126,11 +127,7 @@ def main6():
         for k in M['Q']['runtime_parameters'].keys():
             Nets[n]['P']['runtime_parameters'][k] = M['Q']['runtime_parameters'][k]
 
-
-
         Data = networks.net.make_batch( Nets[n]['get_data_function'], Nets[n]['P'], Nets[n]['P']['batch_size'] )
-
-        
 
         if USE_DISCRIMINATOR:
             DISCRIMINATOR.zero_grad() 
@@ -144,13 +141,10 @@ def main6():
 
         GENERATOR.forward_no_loss(Data)
             
-        
         if USE_DISCRIMINATOR:
             fake = GENERATOR.A['output'][:,:,:,:]
             label.fill_(0)
             output = DISCRIMINATOR(fake.detach()) 
-
-        if USE_DISCRIMINATOR:
             errD_fake = criterion(output, label) 
             errD_fake.backward() 
             D_G_z1 = output.mean().item() 
@@ -162,8 +156,6 @@ def main6():
         if USE_DISCRIMINATOR:
             label.fill_(1) 
             output = DISCRIMINATOR(fake) 
-
-        if USE_DISCRIMINATOR:
             if 's' not in Nets[n]['P']:
                 s = 0.0001
             else:
@@ -182,8 +174,6 @@ def main6():
             nnutils.clip_grad_norm(GENERATOR.parameters(), Nets['N0']['P']['clip'])
             GENERATOR.optimizer.step() #21
 
-
-
         GENERATOR.losses_to_average.append(GENERATOR.extract('loss'))
         if len(GENERATOR.losses_to_average) >= GENERATOR.num_losses_to_average:
             GENERATOR.losses.append( na(GENERATOR.losses_to_average).mean() )
@@ -193,7 +183,8 @@ def main6():
         if USE_DISCRIMINATOR:
             if GENERATOR.save():
                 DISCRIMINATOR.save(Nets[n]['P']['NETWORK_OUTPUT_FOLDER']+'.dcgan')
-
+        else:
+            GENERATOR.save()
 
 
 
