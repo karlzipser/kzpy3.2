@@ -34,7 +34,7 @@ class Net(nn.Module):
         self.num_losses_to_average = P['losses_to_average']
         self.losses_to_average = []
         self.save_net_timer = Timer(P['save_timer_time'])
-        #self.save_net_timer.trigger()
+        self.save_net_timer.trigger()
         self.setup_layers(P)
         self.setup_weights()
         self.setup_GPU()
@@ -122,7 +122,11 @@ class Net(nn.Module):
                 torch.save(weights, opj(self.NETWORK_OUTPUT_FOLDER,'weights','temp.infer'))
                 cb('. . . done saving temp.infer')
                 return
-            net_str = 'net'+'_'+time_str()+'.'+str(self.losses[-1])
+            if len(self.losses) > 0:
+                loss_str = str(self.losses[-1])
+            else:
+                loss_str = 'pre_train'
+            net_str = 'net'+'_'+time_str()+'.'+loss_str)
             if self.GPU > -1:
                 net_str = net_str+'.cuda'
             torch.save(weights, opj(self.NETWORK_OUTPUT_FOLDER,'weights',net_str+'.infer'))
