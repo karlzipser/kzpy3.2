@@ -143,7 +143,7 @@ def main6():
             D_x = output.mean().item() 
 
         GENERATOR.forward_no_loss(Data) 
-        fake = GENERATOR.A['output'][:,:,:,:]
+        fake = GENERATOR.A['output_2'][:,:,:,:]
         
         if USE_DISCRIMINATOR:
             label.fill_(0)
