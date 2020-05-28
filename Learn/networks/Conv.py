@@ -78,6 +78,8 @@ class MyMaxPool(nn.Module):
         name='',
         A=False
     ):
+        self.D = D
+        self.name = name
         super(MyMaxPool, self).__init__()
         self.A = A
         D = {
