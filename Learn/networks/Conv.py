@@ -21,7 +21,7 @@ class MyFire(nn.Module):
         name='',
         A=False
     ):
-        super(Fire, self).__init__()
+        super(MyFire, self).__init__()
         self.A = A
         D = {
             'inplanes':inplanes,
