@@ -230,12 +230,15 @@ class MyConv(Net):
         x = self.fire5(x)
         x = self.fire6(x)
         x = self.fire7(x)
+        cm(0,x.size())
         x = self.fire8(x)
-
+        cm(1,x.size())
         x = self.drop(x)
+        cm(2,x.size())
         x = self.final_conv(x)
+        cm(3,x.size())
         x = self.avg(x)
-
+        cm(4,x.size())
         self.A['output_2'] = x
 
         self.A['output_2'] = self.A['output_2'].view(self.A['output_2'].size(0), -1)
