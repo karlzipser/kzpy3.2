@@ -41,6 +41,7 @@ class Fire(nn.Module):
         self.expand3x3 = nn.Conv2d(squeeze_planes, expand3x3_planes,
                                    kernel_size=3, padding=1)
         self.expand3x3_activation = nn.ReLU(inplace=True)
+        self.describe()
     def describe(self):
         kprint(self.D,'class Fire(nn.Module)',r=1)
     def forward(self, x):
