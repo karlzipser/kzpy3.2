@@ -229,6 +229,9 @@ class MyConv(Net):
 
         x = self.fire5(x)
         x = self.fire6(x)
+
+        x,___ = self.maxpool3(x)
+        
         x = self.fire7(x)
         cm(0,x.size())
         x = self.fire8(x)
