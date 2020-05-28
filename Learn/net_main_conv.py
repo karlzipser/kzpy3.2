@@ -86,12 +86,14 @@ def Net_Main(M=False,sys_str=False,Arguments_=False,P_Runs_saved=None):
     Duplicates = {}
     for k in ['input','target']:
         Duplicates[k] = Data[k].copy()
-    cm(shape(Data['target']),ra=0)
+    
     P['NUM_INPUT_CHANNELS'] = shape(Data['input'])[1]
     P['NUM_OUTPUTS'] = shape(Data['target'])[1]
     P['NUM_METADATA_CHANNELS'] = 0
     P['INPUT_WIDTH'] = shape(Data['input'])[2]
     P['INPUT_HEIGHT'] = shape(Data['input'])[3]
+    cm(shape(Data['target']),ra=0)
+    cm(shape(P['NUM_OUTPUTS']),ra=0)
 
     N = Network(P)
 
