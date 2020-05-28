@@ -82,7 +82,7 @@ class MyInitialConv(nn.Module):
         }
         self.D = D
         self.name = name
-        self.conv2d = nn.Conv2d(12, 64, kernel_size=3, stride=2)
+        self.conv2d = nn.Conv2d(3, 64, kernel_size=3, stride=2)
         self.relu = nn.ReLU(inplace=True)
 
 
@@ -174,7 +174,7 @@ class MyConv(Net):
     def setup_layers(self,P):
         self.A = {}
         self.conv_init = MyInitialConv('conv_init',self.A)
-        self.fire1 = MyFire(P['NUM_INPUT_CHANNELS'],aa,b,b,'Fire1',self.A)
+        self.fire1 = MyFire(c,aa,b,b,'Fire1',self.A)
         self.fire2 = MyFire(c,a,c,c,'Fire2',self.A)
         self.fire3 = MyFire(d,b,d,d,'Fire3',self.A)
         self.maxpool1 = MyMaxPool(kernel_size=3,stride=2,return_indices=True,padding=0,name='maxpool1')
