@@ -43,7 +43,7 @@ class Fire(nn.Module):
         self.expand3x3_activation = nn.ReLU(inplace=True)
         self.describe()
     def describe(self):
-        kprint(self.D,title=self.D['name'],ignore_keys('name'),r=1)
+        kprint(self.D,title=self.D['name'],ignore_keys=['name'],r=1)
     def forward(self, x):
         x = self.squeeze_activation(self.squeeze(x))
         if type(self.A) != type(False):
