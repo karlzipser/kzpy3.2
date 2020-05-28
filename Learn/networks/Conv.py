@@ -125,7 +125,7 @@ class MyFinalOutput(nn.Module):
             # nn.ReLU(inplace=True), # this allows initial training to recover from zeros in output
         self.avg = nn.AvgPool2d(kernel_size=5, stride=4)
             #nn.AdaptiveAvgPool2d(1)#kernel_size=5, stride=6)
-        )
+        
 
 
     def describe(self):
