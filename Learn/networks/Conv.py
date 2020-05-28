@@ -101,12 +101,13 @@ class MyMaxPool(nn.Module):
         kprint(self.D,title=self.D['name'],ignore_keys=['name'],r=1)
 
     def forward(self, x):
-        print type(x)
-        print x
+
         inxsize = x.size()
-        x,indicies = self.maxpool(x)
-        print type(x)
-        print x
+        if self.D['return_indices']:
+            x,indicies = self.maxpool(x)
+        else:
+            x = self.maxpool(x)
+
         outxsize = x.size()
 
         if 'in_size' not in self.D:
@@ -140,10 +141,10 @@ class Conv(Net):
         self.fire2 = Fire(c,a,c,c,'Fire2',self.A)
         self.fire3 = Fire(d,b,d,d,'Fire3',self.A)
         self.fire4=Fire(e,c,e,e,'Fire4',self.A)
-        self.maxpool1 = MyMaxPool(kernel_size=3,stride=2,return_indices=True,padding=0,name='maxpool1')
+        self.maxpool1 = MyMaxPool(kernel_size=3,stride=2,return_indices=False,padding=0,name='maxpool1')
         #self.maxpool1 = nn.MaxPool2d(kernel_size=3,stride=2,return_indices=True,padding=0)
-        self.maxpool2 = nn.MaxPool2d(kernel_size=3,stride=2,return_indices=True,padding=0)
-        self.maxpool3= nn.MaxPool2d(kernel_size=3,stride=2,return_indices=True,padding=0)
+        self.maxpool2 = MyMaxPool(kernel_size=3,stride=2,return_indices=False,padding=0,name='maxpool2')
+        self.maxpool3= MyMaxPool(kernel_size=3,stride=2,return_indices=False,padding=0,name='maxpool3')
 
         self.final_deconv = nn.ConvTranspose2d(2*a, P['NUM_OUTPUTS'], kernel_size=1)
         self.relu=nn.ReLU()
