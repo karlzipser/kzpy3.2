@@ -120,8 +120,8 @@ class MyFinalOutput(nn.Module):
         self.name = name
         self.final_conv = nn.Conv2d(512, 120, kernel_size=1)
         #self.final_output = nn.Sequential(
-        self.drop = nn.Dropout(p=0.5),
-            final_conv,
+        self.drop = nn.Dropout(p=0.5)#,
+            #final_conv,
             # nn.ReLU(inplace=True), # this allows initial training to recover from zeros in output
         self.avg = nn.AvgPool2d(kernel_size=5, stride=4)
             #nn.AdaptiveAvgPool2d(1)#kernel_size=5, stride=6)
