@@ -9,6 +9,7 @@ except:
 exec(identify_file_str)
 
 
+del Fire
 
 class Fire(nn.Module):
     def __init__(
@@ -22,6 +23,14 @@ class Fire(nn.Module):
     ):
         super(Fire, self).__init__()
         self.A = A
+        D = {
+            'inplanes':inplanes,
+            'squeeze_planes':squeeze_planes,
+            'expand1x1_planes':expand1x1_planes,
+            'expand3x3_planes':expand3x3_planes,
+            'name':name,
+        }
+        self.D = D
         self.name = name
         self.inplanes = inplanes
         self.squeeze = nn.Conv2d(inplanes, squeeze_planes, kernel_size=1)
@@ -32,7 +41,8 @@ class Fire(nn.Module):
         self.expand3x3 = nn.Conv2d(squeeze_planes, expand3x3_planes,
                                    kernel_size=3, padding=1)
         self.expand3x3_activation = nn.ReLU(inplace=True)
-
+    def describe(self):
+        kprint(self.D,'class Fire(nn.Module)',r=1)
     def forward(self, x):
         x = self.squeeze_activation(self.squeeze(x))
         if type(self.A) != type(False):
