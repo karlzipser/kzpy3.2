@@ -195,7 +195,7 @@ def graphics_function(N,M,P):#,X):
             outer_countours_rotated_right,
             angles_left,
             angles_right,
-            color='r',
+            color='b',
             name='map',
             e = 16,
         )
