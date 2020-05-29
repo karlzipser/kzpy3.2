@@ -164,6 +164,9 @@ def graphics_function(N,M,P):#,X):
 
     output_2 = N.extract('output_2')
     target = N.extract('target')
+    meta = N.extract('meta')
+
+    mi(meta[5,:,:],'meta')
 
     plot(output_2,'r.')
     plot(target,'k.')
