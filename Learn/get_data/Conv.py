@@ -165,20 +165,30 @@ def get_data_function(P):
     
     #Lists = {'meta':[]}
 
+    meta_turns = meta_blank.copy()
+    turns = Lists['target'].append(Runs[r]['rotated']['turns'][ctr][:]*10.)
 
+    len_turns = len(turns)
+    for i in range(len_turns):
+        x = int(i/(1.0*len_turns)*21)
+        meta_turns[0,:,x] += turns[i]
+
+    mmi(meta_turns[0,:,:])
+    spause()
+    raw_enter()
 
     Lists['meta'].append(meta_gradient1)
     Lists['meta'].append(meta_gradient2)
     Lists['meta'].append(meta_gradient3)
     Lists['meta'].append(meta_gradient4)
+    Lists['meta'].append(meta_turns)
 
     for i in range(10-len(Lists['meta'])):
         Lists['meta'].append(meta_blank)
         
-    for i in rlen(Lists['meta']):
-        mi(z55(Lists['meta'][i][0,:,:]),i)
-
-    spause()
+    #for i in rlen(Lists['meta']):
+    #    mi(z55(Lists['meta'][i][0,:,:]),i)
+    #spause()
 
     P['ctr'] = ctr
 
