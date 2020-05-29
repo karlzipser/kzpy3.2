@@ -100,7 +100,6 @@ def get_data_function(P):
             if not flip:
                 B = Runs[r]['original_timestamp_data']['left_image']['vals']
             else:
-                assert(False)
                 B = Runs[r]['flip_images']['left_image_flip']['vals']
             if ctr >= len(B):
                 continue
