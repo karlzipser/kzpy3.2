@@ -149,12 +149,31 @@ def get_data_function(P):
 
 
             break
-        
+    
 
     meta_blank = zeros((1,41,22))
-    for i in range(10):
+
+    meta_gradient1 = meta_blank.copy()
+    meta_gradient2 = meta_blank.copy()
+    meta_gradient3 = meta_blank.copy()
+    meta_gradient4 = meta_blank.copy()
+
+    for x in range(22):
+        meta_gradient1[1,x,:] = x/21.0
+        meta_gradient2[1,x,:] = 1-x/21.0
+
+    for x in range(41):
+        meta_gradient3[1,:,x] = x/40.0
+        meta_gradient4[1,:,x] = 1-x/40.0
+
+
+    for i in range(10-len(Lists['meta'])):
         Lists['meta'].append(meta_blank)
         
+    for i in rlen(Lists['meta']):
+        mi(Lists['meta'][i],i)
+
+    spause()
 
     P['ctr'] = ctr
 
@@ -178,7 +197,7 @@ def get_data_function(P):
                 Concats[k] = np.concatenate((Concats[k],lst[l]))
 
     #cm(shape(Concats['target']),ra=1)
-    print shape(Concats['meta'])
+    #print shape(Concats['meta'])
     Data = {
         'input':Concats['input'],
         'target':Concats['target'],
