@@ -170,7 +170,8 @@ def get_data_function(P):
 
     len_turns = len(turns)
     for i in range(len_turns):
-        x = int(i/(1.0*len_turns)*21)
+        x = int(i/(1.0*len_turns)*22)
+        print i,x,turns[i]
         meta_turns[0,:,x] += turns[i]
 
     mi(meta_turns[0,:,:])
