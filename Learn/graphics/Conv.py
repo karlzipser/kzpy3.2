@@ -6,6 +6,54 @@ CA()
 graphics_timer = None
 #W = {}
 
+
+
+
+def plot_map(
+    outer_countours_rotated_left,
+    outer_countours_rotated_right,
+    angles_left,
+    angles_right,
+    color='k',
+    name='map',
+    e = 16,
+)
+    D = {
+            'angles' : {
+                'left' :     angles_left,
+                'right' :    angles_right,
+            },
+            'outer_countours_rotated' : {
+                'left' :     outer_countours_rotated_left,
+                'right' :    outer_countours_rotated_right,
+            },
+            'marker_size' : {
+                'left' :     angles_left,
+                'right' :    angles_right,
+            },
+            'turns' : M['turns'][i].copy(),
+    }
+
+    for k in ['left','right']:
+        for l in rlen(D['marker_size'][k]):
+            a = min(np.abs(D['marker_size'][k][l]),80)
+            marker_size = int(a/marker_size_divisor)
+            D['marker_size'][k][l] = marker_size
+ 
+
+    if 'plot rotated' and 'outer_countours_rotated' in D:
+        
+        figure(name);clf();plt_square(); xylim(-e,e,-e/4,2*e)
+        for k in ['left','right']:
+            xy = D['outer_countours_rotated'][k]
+            plot(xy[:,0],xy[:,1],Colors[k]+'-',linewidth=1)
+            for r in rlen(D['outer_countours_rotated'][k]):
+                pts_plot(D['outer_countours_rotated'][k][r],color,sym='.',ms = D['marker_size'][k][r])
+
+
+
+
+
 def graphics_function(N,M,P):#,X):
     global graphics_timer
     if graphics_timer == None:
@@ -86,8 +134,24 @@ def graphics_function(N,M,P):#,X):
                 img_lst.append(img)
 
     figure(2);clf();
-    plot(N.extract('output_2'),'r.')
-    plot(N.extract('target'),'k.')
+
+    output_2 = N.extract('output_2')
+    target = N.extract('target')
+
+    plot(output_2,'r.')
+    plot(target,'k.')
+
+    if False:
+        q = target
+        plot_map(
+            q[0:42],
+            q[42:84],
+            angles_left,
+            angles_right,
+            color='k',
+            name='map',
+            e = 16,
+        )
 
     if False:
         meta = N.extract('meta')

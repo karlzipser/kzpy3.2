@@ -14,7 +14,7 @@ Net_strs = {
     'conv0' : """
         Learn 
             --type Conv,Fire3,conv0
-            --resume False 
+            --resume True 
             --batch_size 64
             --save_timer_time 600 
             --target_offset 0 
