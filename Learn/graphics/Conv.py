@@ -88,9 +88,11 @@ def graphics_function(N,M,P):#,X):
     figure(2);clf();
     plot(N.extract('output_2'),'r.')
     plot(N.extract('target'),'k.')
-    meta = N.extract('meta')
-    for i in range(5):
-        mi(meta[i,:,:],i)
+
+    if False:
+        meta = N.extract('meta')
+        for i in range(5):
+            mi(meta[i,:,:],i)
     spause()
 
     concatt = None
