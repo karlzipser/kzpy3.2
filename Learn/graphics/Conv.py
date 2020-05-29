@@ -7,7 +7,7 @@ graphics_timer = None
 #W = {}
 
 
-def parse_target_vector(v):
+def parse_target_vector(v,reverse=False):
     #print shape(v)
     q = 42
     assert len(v) == 6*q
@@ -17,6 +17,11 @@ def parse_target_vector(v):
     ry = v[3*q:4*q] * 10
     al = v[4*q:5*q] * 10
     ar = v[5*q:6*q] * 10
+    if reverse:
+        lx *= -1
+        rx *= -1
+        al *= -1
+        ar *= -1
     outer_countours_rotated_left = zeros((q,2))
     outer_countours_rotated_left[:,0] = lx
     outer_countours_rotated_left[:,1] = ly
@@ -163,31 +168,64 @@ def graphics_function(N,M,P):#,X):
     plot(output_2,'r.')
     plot(target,'k.')
 
-    outer_countours_rotated_left, outer_countours_rotated_right, angles_left, angles_right = parse_target_vector(target)
+    if 'mapping1':
+        outer_countours_rotated_left, outer_countours_rotated_right, angles_left, angles_right = parse_target_vector(target)
 
-    figure('map');clf()
+        figure('map');clf()
 
-    plot_map(
-        outer_countours_rotated_left,
-        outer_countours_rotated_right,
-        angles_left,
-        angles_right,
-        color='k',
-        name='map',
-        e = 16,
-    )
+        plot_map(
+            outer_countours_rotated_left,
+            outer_countours_rotated_right,
+            angles_left,
+            angles_right,
+            color='k',
+            name='map',
+            e = 16,
+        )
 
-    outer_countours_rotated_left, outer_countours_rotated_right, angles_left, angles_right = parse_target_vector(output_2)
+        outer_countours_rotated_left, outer_countours_rotated_right, angles_left, angles_right = parse_target_vector(output_2)
 
-    plot_map(
-        outer_countours_rotated_left,
-        outer_countours_rotated_right,
-        angles_left,
-        angles_right,
-        color='r',
-        name='map',
-        e = 16,
-    )
+        plot_map(
+            outer_countours_rotated_left,
+            outer_countours_rotated_right,
+            angles_left,
+            angles_right,
+            color='r',
+            name='map',
+            e = 16,
+        )
+
+    if 'mapping2':
+
+        outer_countours_rotated_left, outer_countours_rotated_right, angles_left, angles_right = parse_target_vector(target)
+
+        figure('map2');clf()
+
+        plot_map(
+            outer_countours_rotated_left,
+            outer_countours_rotated_right,
+            angles_left,
+            angles_right,
+            color='k',
+            name='map',
+            e = 16,
+        )
+
+        outer_countours_rotated_left, outer_countours_rotated_right, angles_left, angles_right = parse_target_vector(target,True)
+
+        plot_map(
+            outer_countours_rotated_left,
+            outer_countours_rotated_right,
+            angles_left,
+            angles_right,
+            color='b',
+            name='map',
+            e = 16,
+        )
+
+
+
+
 
     if False:
         meta = N.extract('meta')
