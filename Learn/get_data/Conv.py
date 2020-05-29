@@ -151,7 +151,7 @@ def get_data_function(P):
             break
         
 
-    meta_blank = zeros((10,41,22))
+    meta_blank = zeros((1,41,22))
     for i in range(10):
         Lists['meta'].append(meta_blank)
         
@@ -178,7 +178,7 @@ def get_data_function(P):
                 Concats[k] = np.concatenate((Concats[k],lst[l]))
 
     #cm(shape(Concats['target']),ra=1)
-
+    print shape(Concats['meta'])
     Data = {
         'input':Concats['input'],
         'target':Concats['target'],
