@@ -35,6 +35,8 @@ def parse_target_vector(v,reverse=False):
 
     return outer_countours_rotated_left, outer_countours_rotated_right, angles_left, angles_right,
 
+Colors = {'direct':'b','left':'r','right':'g'}
+
 def plot_map(
     outer_countours_rotated_left,
     outer_countours_rotated_right,
@@ -72,6 +74,7 @@ def plot_map(
         
         figure(name); plt_square(); xylim(-e,e,-e/4,2*e)
         for k in ['left','right']:
+            color = Colors[k]
             xy = D['outer_countours_rotated'][k]
             plot(xy[:,0],xy[:,1],color+'-',linewidth=1)
             for r in rlen(D['outer_countours_rotated'][k]):
