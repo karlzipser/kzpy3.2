@@ -92,7 +92,7 @@ def get_data_function(P):
 
             g = len(P['good_indicies'])
             r,ctr = P['good_indicies'][rndint(g)]
-            flip = 1#rndint(2)
+            flip = rndint(2)
             assert flip in [0,1]
 
             
@@ -148,20 +148,28 @@ def get_data_function(P):
                         Lists[k][-1] *= 0
 
 
-            if flip:
-                sign = -1
-            else:
-                sign = 1
 
             if 'outer_contours' in P['target']:
-                Lists['target'].append(sign*Runs[r]['rotated']['outer_countours_rotated_left'][ctr][:,0])
-                Lists['target'].append(sign*Runs[r]['rotated']['outer_countours_rotated_right'][ctr][:,0])
-                Lists['target'].append(Runs[r]['rotated']['outer_countours_rotated_left'][ctr][:,1]/10.)
-                Lists['target'].append(Runs[r]['rotated']['outer_countours_rotated_right'][ctr][:,1]/10.)
-                Lists['target'].append(sign*Runs[r]['rotated']['angles_left'][ctr][:]/10.)
-                Lists['target'].append(sign*Runs[r]['rotated']['angles_right'][ctr][:]/10.)
 
+                if not flip:
+                    Lists['target'].append(Runs[r]['rotated']['outer_countours_rotated_left'][ctr][:,0])
+                    Lists['target'].append(Runs[r]['rotated']['outer_countours_rotated_right'][ctr][:,0])
 
+                    Lists['target'].append(Runs[r]['rotated']['outer_countours_rotated_left'][ctr][:,1]/10.)
+                    Lists['target'].append(Runs[r]['rotated']['outer_countours_rotated_right'][ctr][:,1]/10.)
+
+                    Lists['target'].append(Runs[r]['rotated']['angles_left'][ctr][:]/10.)
+                    Lists['target'].append(Runs[r]['rotated']['angles_right'][ctr][:]/10.)
+
+                else:
+                    Lists['target'].append(-Runs[r]['rotated']['outer_countours_rotated_right'][ctr][:,0])
+                    Lists['target'].append(-Runs[r]['rotated']['outer_countours_rotated_left'][ctr][:,0])
+                    
+                    Lists['target'].append(Runs[r]['rotated']['outer_countours_rotated_right'][ctr][:,1]/10.)
+                    Lists['target'].append(Runs[r]['rotated']['outer_countours_rotated_left'][ctr][:,1]/10.)
+                    
+                    Lists['target'].append(-Runs[r]['rotated']['angles_right'][ctr][:]/10.)
+                    Lists['target'].append(-Runs[r]['rotated']['angles_left'][ctr][:]/10.)
 
             break
     
