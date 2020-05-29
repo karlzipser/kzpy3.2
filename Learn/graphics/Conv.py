@@ -165,8 +165,8 @@ def graphics_function(N,M,P):#,X):
     outer_countours_rotated_left, outer_countours_rotated_right, angles_left, angles_right = parse_target_vector(target)
 
     plot_map(
-        q[0:42],
-        q[42:84],
+        outer_countours_rotated_left,
+        outer_countours_rotated_right,
         angles_left,
         angles_right,
         color='k',
