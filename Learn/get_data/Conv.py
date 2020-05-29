@@ -91,7 +91,7 @@ def get_data_function(P):
 
             g = len(P['good_indicies'])
             r,ctr = P['good_indicies'][rndint(g)]
-            flip = 0#rndint(2)
+            flip = rndint(2)
             assert flip in [0,1]
 
             
