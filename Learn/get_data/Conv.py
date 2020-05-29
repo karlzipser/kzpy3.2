@@ -48,10 +48,13 @@ def setup(P):
             for i in rlen(Runs[r]['rotated']['valid']):
                 if Runs[r]['rotated']['valid'][i]:
                     P['good_indicies'].append( (r,i) )
-            so(opjD('temp.pkl'),P['good_indicies'])
+    
+
 
     if len(sggo(opjD('temp.pkl'))) == 1:
         P['good_indicies'] = lo(opjD('temp.pkl'))
+    else:
+        so(opjD('temp.pkl'),P['good_indicies'])
 
     P['Runs'] = Runs
     
@@ -134,6 +137,8 @@ def get_data_function(P):
             if 'outer_contours' in P['target']:
                 Lists['target'].append(Runs[r]['rotated']['outer_countours_rotated_left'][ctr][:,0])
                 Lists['target'].append(Runs[r]['rotated']['outer_countours_rotated_right'][ctr][:,0])
+                Lists['target'].append(Runs[r]['rotated']['outer_countours_rotated_left'][ctr][:,1])
+                Lists['target'].append(Runs[r]['rotated']['outer_countours_rotated_right'][ctr][:,1])
 
             if 'test22' in P['target']:
                 img = B[ctr+P[k+'_offset']]
