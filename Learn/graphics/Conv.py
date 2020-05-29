@@ -86,8 +86,8 @@ def graphics_function(N,M,P):#,X):
                 img_lst.append(img)
 
     figure(2);clf();
-    plot(N.extract('output_2'))
-    plot(N.extract('target'))
+    plot(N.extract('output_2','r'))
+    plot(N.extract('target','k'))
     spause()
 
     concatt = None
