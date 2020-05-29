@@ -91,7 +91,7 @@ def get_data_function(P):
 
             g = len(P['good_indicies'])
             r,ctr = P['good_indicies'][rndint(g)]
-            flip = 0
+            flip = rndint(2)
 
             
 
@@ -147,13 +147,18 @@ def get_data_function(P):
                         Lists[k][-1] *= 0
 
 
+            if flip:
+                sign = -1
+            else:
+                sign = 1
+
             if 'outer_contours' in P['target']:
-                Lists['target'].append(Runs[r]['rotated']['outer_countours_rotated_left'][ctr][:,0])
-                Lists['target'].append(Runs[r]['rotated']['outer_countours_rotated_right'][ctr][:,0])
+                Lists['target'].append(sign*Runs[r]['rotated']['outer_countours_rotated_left'][ctr][:,0])
+                Lists['target'].append(sign*Runs[r]['rotated']['outer_countours_rotated_right'][ctr][:,0])
                 Lists['target'].append(Runs[r]['rotated']['outer_countours_rotated_left'][ctr][:,1]/10.)
                 Lists['target'].append(Runs[r]['rotated']['outer_countours_rotated_right'][ctr][:,1]/10.)
-                Lists['target'].append(Runs[r]['rotated']['angles_left'][ctr][:]/10.)
-                Lists['target'].append(Runs[r]['rotated']['angles_right'][ctr][:]/10.)
+                Lists['target'].append(sign*Runs[r]['rotated']['angles_left'][ctr][:]/10.)
+                Lists['target'].append(sign*Runs[r]['rotated']['angles_right'][ctr][:]/10.)
 
             if 'test22' in P['target']:
                 img = B[ctr+P[k+'_offset']]
@@ -167,6 +172,10 @@ def get_data_function(P):
 
     meta_turns = meta_blank.copy()
     turns = Runs[r]['rotated']['turns'][ctr][:]
+    if flip:
+        turns -= 2
+        turns *= -1
+        turns += 2
 
     len_turns = len(turns)
     for i in range(len_turns):

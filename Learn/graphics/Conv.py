@@ -207,7 +207,7 @@ def graphics_function(N,M,P):#,X):
             angles_left,
             angles_right,
             color='k',
-            name='map',
+            name='map2',
             e = 16,
         )
 
@@ -219,7 +219,7 @@ def graphics_function(N,M,P):#,X):
             angles_left,
             angles_right,
             color='b',
-            name='map',
+            name='map2',
             e = 16,
         )
 
