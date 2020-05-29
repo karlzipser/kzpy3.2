@@ -179,7 +179,7 @@ class MyConv(Net):
         self.conv_init = MyInitialConv('conv_init',self.A)
 
         self.fire1 = MyFire(64, 16, 64, 64,'Fire1',self.A)
-        self.fire2 = MyFire(128, 16, 64, 64,'Fire2',self.A)
+        self.fire2 = MyFire(128+P['NUM_METADATA_CHANNELS'], 16, 64, 64,'Fire2',self.A)
 
         self.fire3 = MyFire(128, 32, 128, 128,'Fire3',self.A)
         self.fire4 = MyFire(256, 32, 128, 128,'Fire4',self.A)
@@ -217,10 +217,16 @@ class MyConv(Net):
 
         x,___ = self.maxpool1(x)
 
-        x = self.fire1(x) 
+        x = self.fire1(x)
+
+        cm(0,x.size())
+        x = torch.cat((x, Torch_data['meta']), 1)
+        cm(1,x.size(),ra=1)
+
         x = self.fire2(x)
 
         x,___ = self.maxpool2(x)
+
 
         x = self.fire3(x)
         x = self.fire4(x)
