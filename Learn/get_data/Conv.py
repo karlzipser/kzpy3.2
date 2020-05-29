@@ -91,7 +91,8 @@ def get_data_function(P):
 
             g = len(P['good_indicies'])
             r,ctr = P['good_indicies'][rndint(g)]
-            flip = 1#rndint(2)
+            flip = rndint(2)
+            assert flip in [0,1]
 
             
 
@@ -109,7 +110,7 @@ def get_data_function(P):
             for k in ['input']:
 
                 if 'rgb' in P[k]:
-                    noise =0
+                    noise = 0
                     if P['noise'] > 0:
                         noise = P['noise']*rnd(shape(B[ctr]))-P['noise']/2.
                     Lists[k].append(B[ctr+P[k+'_offset']]+noise)

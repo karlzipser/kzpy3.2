@@ -195,7 +195,7 @@ def graphics_function(N,M,P):#,X):
             e = 16,
         )
 
-    if 'mapping2':
+    if not 'mapping2':
 
         outer_countours_rotated_left, outer_countours_rotated_right, angles_left, angles_right = parse_target_vector(target)
 
