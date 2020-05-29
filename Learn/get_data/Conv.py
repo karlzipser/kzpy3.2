@@ -159,19 +159,19 @@ def get_data_function(P):
     meta_gradient4 = meta_blank.copy()
 
     for x in range(22):
-        meta_gradient1[1,x,:] = x/21.0
-        meta_gradient2[1,x,:] = 1-x/21.0
+        meta_gradient1[0,x,:] = x/21.0
+        meta_gradient2[0,x,:] = 1-x/21.0
 
     for x in range(41):
-        meta_gradient3[1,:,x] = x/40.0
-        meta_gradient4[1,:,x] = 1-x/40.0
+        meta_gradient3[0,:,x] = x/40.0
+        meta_gradient4[0,:,x] = 1-x/40.0
 
 
     for i in range(10-len(Lists['meta'])):
         Lists['meta'].append(meta_blank)
         
     for i in rlen(Lists['meta']):
-        mi(Lists['meta'][i],i)
+        mi(Lists['meta'][i][0,:,:],i)
 
     spause()
 
