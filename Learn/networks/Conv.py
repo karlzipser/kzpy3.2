@@ -219,9 +219,9 @@ class MyConv(Net):
 
         x = self.fire1(x)
 
-        cm(0,x.size())
+        #cm(0,x.size())
         x = torch.cat((x, Torch_data['meta']), 1)
-        cm(1,x.size(),ra=1)
+        #cm(1,x.size(),ra=1)
 
         x = self.fire2(x)
 
