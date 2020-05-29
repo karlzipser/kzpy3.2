@@ -38,6 +38,7 @@ def plot_map(
     color='k',
     name='map',
     e = 16,
+    marker_size_divisor = 4.0,
 ):
     D = {
             'angles' : {
@@ -165,7 +166,7 @@ def graphics_function(N,M,P):#,X):
     outer_countours_rotated_left, outer_countours_rotated_right, angles_left, angles_right = parse_target_vector(target)
 
     figure('map');clf()
-    
+
     plot_map(
         outer_countours_rotated_left,
         outer_countours_rotated_right,
