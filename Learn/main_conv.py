@@ -8,13 +8,13 @@ USE_DISCRIMINATOR = False
 
 M = Menu.main.start_Dic(dic_project_path=pname(opjh(__file__)))
 
-#python kzpy3/Learn/main_cov.py --main 6 --net_str pts2d2_from_scratch
+# python kzpy3/Learn/main_conv.py --main 6 --net_str conv0
 
 Net_strs = {
     'conv0' : """
         Learn 
             --type Conv,Fire3,conv0
-            --resume False 
+            --resume True 
             --batch_size 64
             --save_timer_time 300 
             --target_offset 0 
