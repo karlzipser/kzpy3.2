@@ -8,7 +8,7 @@ graphics_timer = None
 
 
 def parse_target_vector(v):
-    print shape(v)
+    #print shape(v)
     q = 42
     assert len(v) == 6*q
     lx = v[0:q]
