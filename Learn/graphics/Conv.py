@@ -228,8 +228,9 @@ def graphics_function(N,M,P):#,X):
 
 
     figure('meta')
-    meta[4,0,0] = 3
     meta[4,0,0] = 1
+    meta[4,0,1] = 2
+    meta[4,0,2] = 3
     mi(meta[4,:,:],'meta')
 
     if False:
