@@ -152,7 +152,7 @@ def get_data_function(P):
         
 
     meta_blank = zeros((10,41,22))
-    for i in range(P['NUM_METADATA_CHANNELS']):
+    for i in range(10):
         Lists['meta'].append(meta_blank)
         
 
