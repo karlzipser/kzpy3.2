@@ -7,7 +7,28 @@ graphics_timer = None
 #W = {}
 
 
+def parse_target_vector(v):
+    print shape(v)
+    q = 42
+    assert len(v) == 6*q
+    lx = v[0:q]
+    rx = v[q:2*q]
+    ly = v[2*q:3*q] * 10
+    ry = v[3*q:4*q] * 10
+    al = v[4*q:5*q] * 10
+    ar = v[5*q:6*q] * 10
+    outer_countours_rotated_left = zeros((q,2))
+    outer_countours_rotated_left[:,0] = lx
+    outer_countours_rotated_left[:,1] = ly
 
+    outer_countours_rotated_right = zeros((q,2))
+    outer_countours_rotated_right[:,0] = rx
+    outer_countours_rotated_right[:,1] = ry
+
+    angles_left = al
+    angles_right = ar
+
+    return outer_countours_rotated_left, outer_countours_rotated_right, angles_left, angles_right,
 
 def plot_map(
     outer_countours_rotated_left,
@@ -141,17 +162,17 @@ def graphics_function(N,M,P):#,X):
     plot(output_2,'r.')
     plot(target,'k.')
 
-    if False:
-        q = target
-        plot_map(
-            q[0:42],
-            q[42:84],
-            angles_left,
-            angles_right,
-            color='k',
-            name='map',
-            e = 16,
-        )
+    outer_countours_rotated_left, outer_countours_rotated_right, angles_left, angles_right = parse_target_vector(target)
+
+    plot_map(
+        q[0:42],
+        q[42:84],
+        angles_left,
+        angles_right,
+        color='k',
+        name='map',
+        e = 16,
+    )
 
     if False:
         meta = N.extract('meta')
