@@ -166,7 +166,7 @@ def get_data_function(P):
     #Lists = {'meta':[]}
 
     meta_turns = meta_blank.copy()
-    turns = Lists['target'].append(Runs[r]['rotated']['turns'][ctr][:]*10.)
+    turns = Runs[r]['rotated']['turns'][ctr][:]*10.
 
     len_turns = len(turns)
     for i in range(len_turns):
