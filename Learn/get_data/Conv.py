@@ -48,7 +48,7 @@ def setup(P):
             for i in rlen(Runs[r]['rotated']['valid']):
                 if Runs[r]['rotated']['valid'][i]:
                     P['good_indicies'].append( (r,i) )
-            so(opjD('temp.pkl'),P['good_indicies')
+            so(opjD('temp.pkl'),P['good_indicies'])
 
     if len(sggo(opjD('temp.pkl'))) == 1:
         P['good_indicies'] = lo(opjD('temp.pkl'))
