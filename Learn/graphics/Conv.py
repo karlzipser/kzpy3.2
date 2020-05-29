@@ -166,7 +166,7 @@ def graphics_function(N,M,P):#,X):
     target = N.extract('target')
     meta = N.extract('meta')
 
-    mi(meta[5,:,:],'meta')
+
 
     plot(output_2,'r.')
     plot(target,'k.')
@@ -227,8 +227,8 @@ def graphics_function(N,M,P):#,X):
         )
 
 
-
-
+    figure('meta')
+    mi(meta[4,:,:],'meta')
 
     if False:
         meta = N.extract('meta')
