@@ -220,6 +220,8 @@ class MyConv(Net):
         x = self.fire1(x)
 
         #cm(0,x.size())
+        self.A['meta'] = Torch_data['meta']
+        
         x = torch.cat((x, Torch_data['meta']), 1)
         #cm(1,x.size(),ra=1)
 
