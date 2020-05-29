@@ -52,7 +52,7 @@ def plot_map(
                 'left' :     angles_left,
                 'right' :    angles_right,
             },
-            'turns' : M['turns'][i].copy(),
+            #'turns' : M['turns'][i].copy(),
     }
 
     for k in ['left','right']:
@@ -64,7 +64,7 @@ def plot_map(
 
     if 'plot rotated' and 'outer_countours_rotated' in D:
         
-        figure(name);clf();plt_square(); xylim(-e,e,-e/4,2*e)
+        figure(name); plt_square(); xylim(-e,e,-e/4,2*e)
         for k in ['left','right']:
             xy = D['outer_countours_rotated'][k]
             plot(xy[:,0],xy[:,1],Colors[k]+'-',linewidth=1)
@@ -164,6 +164,8 @@ def graphics_function(N,M,P):#,X):
 
     outer_countours_rotated_left, outer_countours_rotated_right, angles_left, angles_right = parse_target_vector(target)
 
+    figure('map');clf()
+    
     plot_map(
         outer_countours_rotated_left,
         outer_countours_rotated_right,
