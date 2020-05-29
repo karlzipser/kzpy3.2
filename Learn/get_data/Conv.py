@@ -137,10 +137,10 @@ def get_data_function(P):
             if 'outer_contours' in P['target']:
                 Lists['target'].append(Runs[r]['rotated']['outer_countours_rotated_left'][ctr][:,0])
                 Lists['target'].append(Runs[r]['rotated']['outer_countours_rotated_right'][ctr][:,0])
-                Lists['target'].append(Runs[r]['rotated']['outer_countours_rotated_left'][ctr][:,1])
-                Lists['target'].append(Runs[r]['rotated']['outer_countours_rotated_right'][ctr][:,1])
-                Lists['target'].append(Runs[r]['rotated']['angles_left'][ctr][:])
-                Lists['target'].append(Runs[r]['rotated']['angles_right'][ctr][:])
+                Lists['target'].append(Runs[r]['rotated']['outer_countours_rotated_left'][ctr][:,1]/10.)
+                Lists['target'].append(Runs[r]['rotated']['outer_countours_rotated_right'][ctr][:,1]/10.)
+                Lists['target'].append(Runs[r]['rotated']['angles_left'][ctr][:]/10.)
+                Lists['target'].append(Runs[r]['rotated']['angles_right'][ctr][:]/10.)
 
             if 'test22' in P['target']:
                 img = B[ctr+P[k+'_offset']]

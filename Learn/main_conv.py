@@ -14,14 +14,14 @@ Net_strs = {
     'conv0' : """
         Learn 
             --type Conv,Fire3,conv0
-            --resume True 
+            --resume False 
             --batch_size 64
             --save_timer_time 300 
             --target_offset 0 
             --input rgb
             --target outer_contours
             --losses_to_average 256 
-            --runs validate 
+            --runs train 
             --display.output 0,3 
             --display.input 0,3
             --display.target 0,3
