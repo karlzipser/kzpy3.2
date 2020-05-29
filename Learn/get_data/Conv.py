@@ -161,15 +161,11 @@ def get_data_function(P):
                 Lists['target'].append(sign*Runs[r]['rotated']['angles_left'][ctr][:]/10.)
                 Lists['target'].append(sign*Runs[r]['rotated']['angles_right'][ctr][:]/10.)
 
-            if 'test22' in P['target']:
-                img = B[ctr+P[k+'_offset']]
-                line = img[:,:,1].mean(axis=1)
-                Lists['target'].append(line)
 
 
             break
     
-    #Lists = {'meta':[]}
+
 
     meta_turns = meta_blank.copy()
     turns = Runs[r]['rotated']['turns'][ctr][:]
@@ -180,9 +176,10 @@ def get_data_function(P):
 
     turns22 = interpolation.zoom(turns,22/(1.0*len(turns)))
 
+    cm(shape(turns22),ra=1)
     
     for i in range(len(turns)):
-        meta_turns[0,i,:] = turns22
+        meta_turns[0,:,i] = turns22
 
     #mi(meta_turns[0,:,:])
     #spause()
