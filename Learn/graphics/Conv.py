@@ -17,7 +17,7 @@ def plot_map(
     color='k',
     name='map',
     e = 16,
-)
+):
     D = {
             'angles' : {
                 'left' :     angles_left,
