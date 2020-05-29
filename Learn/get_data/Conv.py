@@ -182,7 +182,7 @@ def get_data_function(P):
 
     
     for i in range(len(turns)):
-        meta_turns[0,:,i] turns22
+        meta_turns[0,:,i] = turns22
 
     #mi(meta_turns[0,:,:])
     #spause()
