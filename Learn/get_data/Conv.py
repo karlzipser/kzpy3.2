@@ -171,7 +171,7 @@ def get_data_function(P):
         Lists['meta'].append(meta_blank)
         
     for i in rlen(Lists['meta']):
-        mi(Lists['meta'][i][0,:,:],i)
+        mi(z55(Lists['meta'][i][0,:,:]),i)
 
     spause()
 
