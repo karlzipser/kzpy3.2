@@ -178,7 +178,7 @@ def get_data_function(P):
 
     #cm(shape(turns22),ra=1)
 
-    for i in range(shape(meta_turns[1])):
+    for i in range(shape(meta_turns)[1]):
         meta_turns[0,i,:] = turns22
 
     #mi(meta_turns[0,:,:])
