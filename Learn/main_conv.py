@@ -19,7 +19,7 @@ Net_strs = {
             --save_timer_time 300 
             --target_offset 0 
             --input rgb
-            --target test1
+            --target outer_contours
             --losses_to_average 256 
             --runs validate 
             --display.output 0,3 
