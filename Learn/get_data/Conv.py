@@ -177,9 +177,9 @@ def get_data_function(P):
     turns22 = interpolation.zoom(turns,22/(1.0*len(turns)))
 
     cm(shape(turns22),ra=1)
-    
+
     for i in range(len(turns)):
-        meta_turns[0,:,i] = turns22
+        meta_turns[0,i,:] = turns22
 
     #mi(meta_turns[0,:,:])
     #spause()
