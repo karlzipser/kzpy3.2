@@ -178,7 +178,7 @@ def get_data_function(P):
         turns *= -1
         turns += 2
 
-    turns22 = interpolation.zoom(a,22/42.)
+    turns22 = interpolation.zoom(turns,22/(1.0*len(turns)))
 
     
     for i in range(len(turns)):
