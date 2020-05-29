@@ -178,7 +178,7 @@ def Default_Values(
             else:
                 return False
         except:
-            cr('function_load(): load failed')
+            cr('In kzpy3/Menu/main.py, function_load(): load failed')
             return False
 
     def function_up():

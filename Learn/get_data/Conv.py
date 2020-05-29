@@ -82,7 +82,7 @@ def get_data_function(P):
 
             
 
-            Lists = {'input':[],'target':[]}
+            Lists = {'input':[],'target':[],'meta':[]}
 
             if not flip:
                 B = Runs[r]['original_timestamp_data']['left_image']['vals']
@@ -151,6 +151,9 @@ def get_data_function(P):
             break
         
 
+    meta_blank = zeros((10,41,22))
+    for i in range(P['NUM_METADATA_CHANNELS']):
+        Lists['meta'].append(meta_blank)
         
 
     P['ctr'] = ctr
@@ -166,7 +169,7 @@ def get_data_function(P):
             lst[l] = e
 
     Concats = {}
-    for k in ['input','target']:#sorted(Lists.keys()):
+    for k in ['input','target','meta']:#sorted(Lists.keys()):
         lst = Lists[k]
         for l in rlen(lst):
             if k not in Concats:
@@ -179,7 +182,7 @@ def get_data_function(P):
     Data = {
         'input':Concats['input'],
         'target':Concats['target'],
-        'meta':zeros((10,41,22)),
+        'meta':Concats['meta'],
         'ctr':ctr,
     }
     #print(shape(Data['input']))
