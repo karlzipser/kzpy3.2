@@ -152,6 +152,7 @@ def get_data_function(P):
             if 'outer_contours' in P['target']:
 
                 if not flip:
+                    cm('not flip')
                     Lists['target'].append(Runs[r]['rotated']['outer_countours_rotated_left'][ctr][:,0])
                     Lists['target'].append(Runs[r]['rotated']['outer_countours_rotated_right'][ctr][:,0])
 
@@ -162,6 +163,7 @@ def get_data_function(P):
                     Lists['target'].append(Runs[r]['rotated']['angles_right'][ctr][:]/10.)
 
                 else:
+                    cy('flip')
                     Lists['target'].append(-Runs[r]['rotated']['outer_countours_rotated_right'][ctr][:,0])
                     Lists['target'].append(-Runs[r]['rotated']['outer_countours_rotated_left'][ctr][:,0])
                     
