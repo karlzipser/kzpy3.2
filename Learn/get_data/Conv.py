@@ -179,7 +179,7 @@ def get_data_function(P):
     Data = {
         'input':Concats['input'],
         'target':Concats['target'],
-        'meta':zeros((10,41,22))
+        'meta':zeros((10,41,22)),
         'ctr':ctr,
     }
     #print(shape(Data['input']))
