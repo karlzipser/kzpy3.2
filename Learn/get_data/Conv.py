@@ -68,7 +68,7 @@ def setup(P):
 
 def get_data_function(P):
 
-    kprint(P,r=1)
+    cm(P.keys(),ra=1)
     Runs = P['Runs']
 
     
