@@ -177,6 +177,18 @@ def graphics_function(N,M,P):#,X):
         e = 16,
     )
 
+    outer_countours_rotated_left, outer_countours_rotated_right, angles_left, angles_right = parse_target_vector(output_2)
+
+    plot_map(
+        outer_countours_rotated_left,
+        outer_countours_rotated_right,
+        angles_left,
+        angles_right,
+        color='r',
+        name='map',
+        e = 16,
+    )
+
     if False:
         meta = N.extract('meta')
         for i in range(5):
