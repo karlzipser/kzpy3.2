@@ -78,6 +78,7 @@ for x in range(41):
     meta_gradient4[0,x,:] = 1-x/40.0
 
 
+from scipy.ndimage import interpolation
 
 def get_data_function(P):
 
@@ -177,11 +178,11 @@ def get_data_function(P):
         turns *= -1
         turns += 2
 
-    len_turns = len(turns)
-    for i in range(len_turns):
-        x = int(i/(1.0*len_turns)*22)
-        #print i,x,turns[i]
-        meta_turns[0,:,x] += turns[i]
+    turns22 = interpolation.zoom(a,22/42.)
+
+    
+    for i in range(len(turns)):
+        meta_turns[0,:,i] turns22
 
     #mi(meta_turns[0,:,:])
     #spause()
