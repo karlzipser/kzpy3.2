@@ -44,9 +44,13 @@ def setup(P):
         for k in ['original_timestamp_data','flip_images','left_timestamp_metadata_right_ts']:
             Runs[r][k] = h5r(opj(opjD('Data'),H['paths'].keys()[0],r,k+'.h5py'))
 
-        for i in rlen(Runs[r]['rotated']['valid']):
-            if Runs[r]['rotated']['valid'][i]:
-                P['good_indicies'].append( (r,i) )
+        if len(sggo(opjD('temp.pkl'))) == 0:
+            for i in rlen(Runs[r]['rotated']['valid']):
+                if Runs[r]['rotated']['valid'][i]:
+                    P['good_indicies'].append( (r,i) )
+
+    if len(sggo(opjD('temp.pkl'))) == 1:
+        P['good_indicies'] = lo(opjD('temp.pkl'))
 
     P['Runs'] = Runs
     
