@@ -173,7 +173,7 @@ def get_data_function(P):
         x = int(i/(1.0*len_turns)*21)
         meta_turns[0,:,x] += turns[i]
 
-    mmi(meta_turns[0,:,:])
+    mi(meta_turns[0,:,:])
     spause()
     raw_enter()
 
