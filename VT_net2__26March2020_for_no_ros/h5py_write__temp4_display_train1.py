@@ -1,5 +1,5 @@
 from kzpy3.vis3 import *
-cm(0,ra=1)
+
 #,a
 
 if not 'from command line': #sys.stdin.isatty():# 
@@ -124,7 +124,7 @@ if Arguments['save']:
     end = start + (14+8) * seconds * frames_per_second; end = int(end)
     step = 30/3
     d = 50
-    cm((end-start)/step,ra=1)
+    #cm((end-start)/step,ra=1)
     
     
     #CA()
@@ -155,7 +155,7 @@ if Arguments['save']:
 if not Arguments['show2']:
     for i in range(Arguments['start'],Arguments['end'],Arguments['istep']):#rlen(L['steer']):#range(6500,11000,1):#200000+6500,1):
 
-        try:
+        if True:#try:
 
             timer.freq(str(i))
 
@@ -314,13 +314,14 @@ if not Arguments['show2']:
                 #clp(shape(D['turns']),shape(M['turns'][i]))
                 M['turns'][i] = D['turns']
 
-        
+        """
         except KeyboardInterrupt:
             cr('*** KeyboardInterrupt ***')
             sys.exit()
         
         except:
             clp(i,'failed','`wrb')
+        """
         
 
 
