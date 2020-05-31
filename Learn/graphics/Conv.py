@@ -75,7 +75,7 @@ def plot_map(
         figure(name); plt_square(); xylim(-e,e,-e/4,2*e)
         for k in ['left','right']:
             xy = D['outer_countours_rotated'][k]
-            plot(xy[:,0]+x_offset,xy[:,1],color+'-',linewidth=1)
+            plot(xy[:,0],xy[:,1],color+'-',linewidth=1)
             for r in rlen(D['outer_countours_rotated'][k]):
                 pts_plot(D['outer_countours_rotated'][k][r],Colors[k],sym='.',ms = D['marker_size'][k][r])
 
