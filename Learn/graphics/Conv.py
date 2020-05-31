@@ -205,6 +205,7 @@ def graphics_function(N,M,P):#,X):
 
         import kzpy3.Array.fit3d as fit3d
         c = []
+        figure('map3d');clf();plt_square();xylim(0,168,0,94)
         for i in rlen(outer_countours_rotated_left):
             a = outer_countours_rotated_left[i,:]
             b = fit3d.point_in_3D_to_point_in_2D(
@@ -214,7 +215,6 @@ def graphics_function(N,M,P):#,X):
                 backup_parameter=1,
             )
             c.append(b)
-        figure('map3d');clf();plt_square();xylim(0,94,0,168)
         c =na(c)
         c[:,1] = 94-c[:,1]
         pts_plot(c,color='r',sym='.-')
