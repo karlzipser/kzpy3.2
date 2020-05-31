@@ -116,6 +116,7 @@ if False:
 
     for k in net0.keys():
         if 'final_conv' not in k:
+            print k
             net1[k] = net0[k]
     weights = {'net':net1}
     torch.save(weights,opj('Desktop/Networks/Conv.Fire3.conv1/weights/','transfered_from_conv0.cuda.infer'))
