@@ -8,9 +8,37 @@ USE_DISCRIMINATOR = False
 
 M = Menu.main.start_Dic(dic_project_path=pname(opjh(__file__)))
 
+# python kzpy3/Learn/main_conv.py --main 6 --net_str conv1
 # python kzpy3/Learn/main_conv.py --main 6 --net_str conv0
 
 Net_strs = {
+
+    'conv1' : """
+        Learn 
+            --type Conv,Fire3,conv1
+            --resume True 
+            --batch_size 64
+            --save_timer_time 600 
+            --target_offset 0 
+            --input rgb
+            --target outer_contours
+            --losses_to_average 256 
+            --runs validate 
+            --display.output 0,3 
+            --display.input 0,3
+            --display.target 0,3
+            --clip 0.1
+            --backwards True
+            --win_x 20
+            --win_y 40
+            --drop 0.0
+            --blue_center_button True
+            --pts2_h5py_type h5py_angles0
+            --reset_loss False
+            --momentum 0.0001
+            --LR 0.001
+    """,
+
     'conv0' : """
         Learn 
             --type Conv,Fire3,conv0

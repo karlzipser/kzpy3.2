@@ -124,6 +124,7 @@ if Arguments['save']:
     end = start + 14 * seconds * frames_per_second; end = int(end)
     step = 30/3
     d = 50
+    cm((end-start)/step),ra=0)
     
     
     #CA()
