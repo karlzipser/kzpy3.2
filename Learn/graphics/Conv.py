@@ -204,8 +204,9 @@ def graphics_function(N,M,P):#,X):
 
 
         import kzpy3.Array.fit3d as fit3d
-        c = []
+        
         figure('map3d');clf();plt_square();xylim(0,168,0,94)
+        c = []
         for i in rlen(outer_countours_rotated_left):
             a = outer_countours_rotated_left[i,:]
             b = fit3d.point_in_3D_to_point_in_2D(
@@ -219,6 +220,19 @@ def graphics_function(N,M,P):#,X):
         c[:,1] = 94-c[:,1]
         pts_plot(c,color='r',sym='.-')
 
+        c = []
+        for i in rlen(outer_countours_rotated_right):
+            a = outer_countours_rotated_left[i,:]
+            b = fit3d.point_in_3D_to_point_in_2D(
+                a,
+                height_in_pixels = 94,
+                width_in_pixels = 168,
+                backup_parameter=1,
+            )
+            c.append(b)
+        c =na(c)
+        c[:,1] = 94-c[:,1]
+        pts_plot(c,color='g',sym='.-')
 
 
         outer_countours_rotated_left, outer_countours_rotated_right, angles_left, angles_right = parse_target_vector(target)
