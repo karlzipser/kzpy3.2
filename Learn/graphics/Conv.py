@@ -72,7 +72,7 @@ def plot_map(
 
     if 'plot rotated' and 'outer_countours_rotated' in D:
         
-        figure(name); plt_square(); xylim(-e,e,-e,e=e)
+        figure(name); plt_square(); xylim(-e,e,-e,e)
         for k in ['left','right']:
             xy = D['outer_countours_rotated'][k]
             plot(xy[:,0],xy[:,1],color+'-',linewidth=1)
@@ -221,7 +221,7 @@ def graphics_function(N,M,P):#,X):
             c.append(b)
         c =na(c)
         #c[:,1] = 94-c[:,1]
-        pts_plot(c,color='r',sym='.-')
+        pts_plot(c,color='r',sym='.')
 
         c = []
         for i in rlen(outer_countours_rotated_right):
@@ -235,7 +235,7 @@ def graphics_function(N,M,P):#,X):
             c.append(b)
         c =na(c)
         #c[:,1] = 94-c[:,1]
-        pts_plot(c,color='g',sym='.-')
+        pts_plot(c,color='g',sym='.')
 
 
         outer_countours_rotated_left, outer_countours_rotated_right, angles_left, angles_right = parse_target_vector(target)
