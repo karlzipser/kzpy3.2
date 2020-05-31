@@ -121,10 +121,10 @@ if Arguments['save']:
     frames_per_second = 30
     start = -10*30
     #end = start + 2.5*minutes*30; end = int(end)
-    end = start + 14 * seconds * frames_per_second; end = int(end)
+    end = start + (14+8) * seconds * frames_per_second; end = int(end)
     step = 30/3
     d = 50
-    cm((end-start)/step,ra=0)
+    cm((end-start)/step,ra=1)
     
     
     #CA()
