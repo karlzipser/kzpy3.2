@@ -220,7 +220,7 @@ def graphics_function(N,M,P):#,X):
             )
             c.append(b)
         c =na(c)
-        c[:,1] = 94-c[:,1]
+        #c[:,1] = 94-c[:,1]
         pts_plot(c,color='r',sym='.-')
 
         c = []
@@ -234,7 +234,7 @@ def graphics_function(N,M,P):#,X):
             )
             c.append(b)
         c =na(c)
-        c[:,1] = 94-c[:,1]
+        #c[:,1] = 94-c[:,1]
         pts_plot(c,color='g',sym='.-')
 
 
