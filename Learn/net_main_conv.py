@@ -105,4 +105,22 @@ def Net_Main(M=False,sys_str=False,Arguments_=False,P_Runs_saved=None):
     return D
 
 
+if False:
+    conv0_model_path = 'Desktop/Networks/Conv.Fire3.conv0/weights/net_31May20_15h12m30s.3.7331793.cuda.infer'
+    s0 = torch.load(path)
+    net0 = s0['net']
 
+    conv1_model_path = conv0_model_path#'Desktop/Networks/Conv.Fire3.conv1/weights/'
+    s1 = torch.load(path)
+    net1 = s1['net']
+
+    for k in net0.keys():
+        if 'final_conv' not in k:
+            net1[k] = net0[k]
+    weights = {'net':net1}
+    torch.save(weights,opj('Desktop/Networks/Conv.Fire3.conv1/weights/','transfered_from_conv0.cuda.infer'))
+
+
+
+
+#EOF

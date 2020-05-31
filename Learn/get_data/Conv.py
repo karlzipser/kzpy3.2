@@ -12,7 +12,7 @@ def setup(P):
 
     Runs = {}
 
-    for path in sggo(opjD('Data/outer_contours/rotated','*.h5py')):
+    for path in sggo(opjD('Data/outer_contours/rotated1','*.h5py')):
         r = fname(path).split('.')[0]
         if r in All_runs[P['runs']]:
             if os.path.getsize(path) > 0:
