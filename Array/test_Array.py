@@ -1,3 +1,4 @@
+#,a
 from kzpy3.vis3 import *
 import kzpy3.Array.fit3d as fit3d
 from kzpy3.Array.Array import Array
@@ -34,15 +35,18 @@ def test_Array():
     
     B['to_3D'](A)
 
-    B['show'](
-        use_CV2_circles=True,
-        color=(0,127,255),
+    q = B['show'](
+        use_CV2_circles=False,
+        color=(255,255,255),
+        background_image=z55(0.*rnd((94,168,3)))
     )
     
 
 
 if __name__ == '__main__':
     test_Array()
+#,b
     raw_enter()
+
 
 #EOF
