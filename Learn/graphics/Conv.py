@@ -222,7 +222,7 @@ def graphics_function(N,M,P):#,X):
 
         c = []
         for i in rlen(outer_countours_rotated_right):
-            a = outer_countours_rotated_left[i,:]
+            a = outer_countours_rotated_right[i,:]
             b = fit3d.point_in_3D_to_point_in_2D(
                 a,
                 height_in_pixels = 94,
