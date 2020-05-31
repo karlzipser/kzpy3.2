@@ -46,7 +46,6 @@ def plot_map(
     name='map',
     e = 16,
     marker_size_divisor = 4.0,
-    x_offset=0,
 ):
     D = {
             'angles' : {
@@ -78,9 +77,7 @@ def plot_map(
             xy = D['outer_countours_rotated'][k]
             plot(xy[:,0]+x_offset,xy[:,1],color+'-',linewidth=1)
             for r in rlen(D['outer_countours_rotated'][k]):
-                x = D['outer_countours_rotated'][k][r].copy()
-                x[:,0] += x_offset
-                pts_plot(x,Colors[k],sym='.',ms = D['marker_size'][k][r])
+                pts_plot(D['outer_countours_rotated'][k][r],Colors[k],sym='.',ms = D['marker_size'][k][r])
 
 
 
@@ -188,7 +185,7 @@ def graphics_function(N,M,P):#,X):
             color='k',
             name='map',
             e = 19,
-            x_offset=-0,
+            #x_offset=-0,
         )
 
         outer_countours_rotated_left, outer_countours_rotated_right, angles_left, angles_right = parse_target_vector(output_2)
@@ -201,7 +198,7 @@ def graphics_function(N,M,P):#,X):
             color='b',
             name='map',
             e = 19,
-            x_offset=0,
+            #x_offset=0,
         )
 
 
@@ -220,7 +217,7 @@ def graphics_function(N,M,P):#,X):
             color='k',
             name='map',
             e = 19,
-            x_offset=-0,
+            #x_offset=-0,
         )
 
         outer_countours_rotated_left, outer_countours_rotated_right, angles_left, angles_right = parse_target_vector(output_2)
@@ -235,7 +232,7 @@ def graphics_function(N,M,P):#,X):
             color='b',
             name='map',
             e = 19,
-            x_offset=0,
+            #x_offset=0,
         )
 
 
