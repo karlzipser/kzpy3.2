@@ -44,7 +44,7 @@ def plot_map(
     angles_right,
     color='k',
     name='map',
-    e = 16,
+    e = 24,
     marker_size_divisor = 4.0,
 ):
     D = {
