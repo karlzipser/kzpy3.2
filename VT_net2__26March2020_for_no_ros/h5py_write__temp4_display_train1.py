@@ -1,5 +1,5 @@
 from kzpy3.vis3 import *
-
+cm(0,ra=1)
 #,a
 
 if not 'from command line': #sys.stdin.isatty():# 
