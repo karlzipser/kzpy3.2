@@ -55,7 +55,7 @@ def setup(P):
     if len(sggo(good_indicies_file)) == 1:
         P['good_indicies'] = lo(good_indicies_file)
     else:
-        so(good_indicies_file),P['good_indicies'])
+        so(good_indicies_file,P['good_indicies'])
 
     P['Runs'] = Runs
     
