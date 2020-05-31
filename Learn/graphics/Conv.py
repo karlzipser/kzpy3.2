@@ -5,7 +5,7 @@ CA()
 
 graphics_timer = None
 #W = {}
-
+e = 24
 
 def parse_target_vector(v,reverse=False):
     #print shape(v)
