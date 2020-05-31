@@ -213,7 +213,7 @@ def graphics_function(N,M,P):#,X):
                 a,
                 height_in_pixels = 94,
                 width_in_pixels = 168,
-                backup_parameter=1,
+                backup_parameter=2,
             )
             c.append(b)
         c =na(c)
@@ -227,7 +227,7 @@ def graphics_function(N,M,P):#,X):
                 a,
                 height_in_pixels = 94,
                 width_in_pixels = 168,
-                backup_parameter=1,
+                backup_parameter=2,
             )
             c.append(b)
         c =na(c)
