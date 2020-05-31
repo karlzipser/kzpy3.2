@@ -201,19 +201,21 @@ def graphics_function(N,M,P):#,X):
             #x_offset=0,
         )
 
-    import kzpy3.Array.fit3d as fit3d
-    c = []
-    for i in rlen(outer_countours_rotated_left):
-        a = outer_countours_rotated_left[i,:]
-        b = fit3d.point_in_3D_to_point_in_2D(
-            a,
-            height_in_pixels = 94,
-            width_in_pixels = 168,
-            backup_parameter=1,
-        )
-        c.append(b)
-    figure('map3d');clf()
-    pts_plot(c,color='r',sym='.-')
+
+
+        import kzpy3.Array.fit3d as fit3d
+        c = []
+        for i in rlen(outer_countours_rotated_left):
+            a = outer_countours_rotated_left[i,:]
+            b = fit3d.point_in_3D_to_point_in_2D(
+                a,
+                height_in_pixels = 94,
+                width_in_pixels = 168,
+                backup_parameter=1,
+            )
+            c.append(b)
+        figure('map3d');clf()
+        pts_plot(c,color='r',sym='.-')
 
 
 
