@@ -25,9 +25,12 @@ elif Arguments['sys'] == 'pkl_write_angles1':
 elif Arguments['sys'] == 'h5py_write__temp4_display_train':
 	sys_str = "python kzpy3/VT_net2__26March2020_for_no_ros/h5py_write__temp4_display_train.py --run_name "
 
+elif Arguments['sys'] == 'h5py_write__temp4_display_train1':
+	sys_str = "python kzpy3/VT_net2__26March2020_for_no_ros/h5py_write__temp4_display_train1.py --run_name "
 
 # python kzpy3/VT_net2__26March2020_for_no_ros/batch.py --sys pkl_write_angles1
-# python kzpy3/VT_net2__26March2020_for_no_ros/batch.py --sys h5py_write__temp4_display_train 
+# python kzpy3/VT_net2__26March2020_for_no_ros/batch.py --sys h5py_write__temp4_display_train
+# python kzpy3/VT_net2__26March2020_for_no_ros/batch.py --sys h5py_write__temp4_display_train1
 
 
 elif Arguments['sys'] == 'h5py_write_angles0':
