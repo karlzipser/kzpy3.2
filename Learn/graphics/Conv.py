@@ -46,6 +46,7 @@ def plot_map(
     name='map',
     e = 16,
     marker_size_divisor = 4.0,
+    x_offset=0,
 ):
     D = {
             'angles' : {
@@ -75,9 +76,11 @@ def plot_map(
         figure(name); plt_square(); xylim(-e,e,-e/4,2*e)
         for k in ['left','right']:
             xy = D['outer_countours_rotated'][k]
-            plot(xy[:,0],xy[:,1],color+'-',linewidth=1)
+            plot(xy[:,0]+x_offset,xy[:,1],color+'-',linewidth=1)
             for r in rlen(D['outer_countours_rotated'][k]):
-                pts_plot(D['outer_countours_rotated'][k][r],Colors[k],sym='.',ms = D['marker_size'][k][r])
+                x = D['outer_countours_rotated'][k][r].copy()
+                x[:,0] += x_offset
+                pts_plot(x,Colors[k],sym='.',ms = D['marker_size'][k][r])
 
 
 
@@ -162,16 +165,15 @@ def graphics_function(N,M,P):#,X):
 
                 img_lst.append(img)
 
-    figure(2);clf();
 
     output_2 = N.extract('output_2')
     target = N.extract('target')
     meta = N.extract('meta')
 
-
-
+    figure('target-output',figsize=(4,3)));clf();
     plot(output_2,'r.')
     plot(target,'k.')
+
 
     if 'mapping1':
         outer_countours_rotated_left, outer_countours_rotated_right, angles_left, angles_right = parse_target_vector(target)
@@ -185,7 +187,8 @@ def graphics_function(N,M,P):#,X):
             angles_right,
             color='k',
             name='map',
-            e = 16,
+            e = 19,
+            x_offset=-7,
         )
 
         outer_countours_rotated_left, outer_countours_rotated_right, angles_left, angles_right = parse_target_vector(output_2)
@@ -197,39 +200,11 @@ def graphics_function(N,M,P):#,X):
             angles_right,
             color='b',
             name='map',
-            e = 16,
+            e = 19,
+            x_offset=7,
         )
 
-    if not 'mapping2':
-
-        outer_countours_rotated_left, outer_countours_rotated_right, angles_left, angles_right = parse_target_vector(target)
-
-        figure('map2');clf()
-
-        plot_map(
-            outer_countours_rotated_left,
-            outer_countours_rotated_right,
-            angles_left,
-            angles_right,
-            color='k',
-            name='map2',
-            e = 16,
-        )
-
-        outer_countours_rotated_left, outer_countours_rotated_right, angles_left, angles_right = parse_target_vector(target,True)
-
-        plot_map(
-            outer_countours_rotated_left,
-            outer_countours_rotated_right,
-            angles_left,
-            angles_right,
-            color='b',
-            name='map2',
-            e = 16,
-        )
-
-
-    figure('meta')
+    figure('meta',figsize=(3,3))
     meta[4,0,0] = 1
     meta[4,0,1] = 2
     meta[4,0,2] = 3
