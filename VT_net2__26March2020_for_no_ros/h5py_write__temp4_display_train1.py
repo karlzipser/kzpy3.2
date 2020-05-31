@@ -124,6 +124,7 @@ if Arguments['save']:
     end = start + (14+8) * seconds * frames_per_second; end = int(end)
     step = 30/3
     d = 50
+    length = len(range(start,end,step))
     #cm((end-start)/step,ra=1)
     
     
@@ -138,11 +139,11 @@ if Arguments['save']:
 
     M = {
         'valid' : zeros(lenL),
-        'angles_left' : zeros((lenL,42)),
-        'outer_countours_rotated_left' : zeros((lenL,42,2)),
-        'angles_right' : zeros((lenL,42)),
-        'outer_countours_rotated_right' : zeros((lenL,42,2)),
-        'turns' : zeros((lenL,42)),
+        'angles_left' : zeros((lenL,length)),
+        'outer_countours_rotated_left' : zeros((lenL,length,2)),
+        'angles_right' : zeros((lenL,length)),
+        'outer_countours_rotated_right' : zeros((lenL,length,2)),
+        'turns' : zeros((lenL,length)),
     }
 
     
