@@ -214,7 +214,9 @@ def graphics_function(N,M,P):#,X):
                 backup_parameter=1,
             )
             c.append(b)
-        figure('map3d');clf()
+        figure('map3d');clf();plt_square();xylim(0,94,0,168)
+        c =na(c)
+        c[:,1] = 94-c[:,1]
         pts_plot(c,color='r',sym='.-')
 
 
