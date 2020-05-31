@@ -170,7 +170,7 @@ def graphics_function(N,M,P):#,X):
     target = N.extract('target')
     meta = N.extract('meta')
 
-    figure('target-output',figsize=(4,3)));clf();
+    figure('target-output',figsize=(4,3));clf();
     plot(output_2,'r.')
     plot(target,'k.')
 
@@ -188,7 +188,7 @@ def graphics_function(N,M,P):#,X):
             color='k',
             name='map',
             e = 19,
-            x_offset=-7,
+            x_offset=-0,
         )
 
         outer_countours_rotated_left, outer_countours_rotated_right, angles_left, angles_right = parse_target_vector(output_2)
@@ -201,8 +201,46 @@ def graphics_function(N,M,P):#,X):
             color='b',
             name='map',
             e = 19,
-            x_offset=7,
+            x_offset=0,
         )
+
+
+
+
+
+        outer_countours_rotated_left, outer_countours_rotated_right, angles_left, angles_right = parse_target_vector(target)
+
+        figure('map target');clf()
+
+        plot_map(
+            outer_countours_rotated_left,
+            outer_countours_rotated_right,
+            angles_left,
+            angles_right,
+            color='k',
+            name='map',
+            e = 19,
+            x_offset=-0,
+        )
+
+        outer_countours_rotated_left, outer_countours_rotated_right, angles_left, angles_right = parse_target_vector(output_2)
+
+        figure('map output_2');clf()
+
+        plot_map(
+            outer_countours_rotated_left,
+            outer_countours_rotated_right,
+            angles_left,
+            angles_right,
+            color='b',
+            name='map',
+            e = 19,
+            x_offset=0,
+        )
+
+
+
+
 
     figure('meta',figsize=(3,3))
     meta[4,0,0] = 1
