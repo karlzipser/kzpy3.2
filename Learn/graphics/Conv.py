@@ -205,7 +205,7 @@ def graphics_function(N,M,P):#,X):
 
         import kzpy3.Array.fit3d as fit3d
         
-        figure('map3d');clf();plt_square();xylim(0,168,0,94)
+        figure('map3d');clf()#;plt_square();xylim(0,168,0,94)
         imag = N.extract('input')
         mi(imag,'map3d')
         c = []
