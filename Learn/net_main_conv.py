@@ -110,7 +110,7 @@ if False:
     s0 = torch.load(path)
     net0 = s0['net']
 
-    conv1_model_path = conv0_model_path#'Desktop/Networks/Conv.Fire3.conv1/weights/'
+    conv1_model_path = 'Desktop/Networks/Conv.Fire3.conv1/weights/net_31May20_15h45m05s.no_losses.cuda.infer'
     s1 = torch.load(path)
     net1 = s1['net']
 

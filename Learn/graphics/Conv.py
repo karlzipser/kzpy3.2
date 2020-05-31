@@ -9,7 +9,7 @@ graphics_timer = None
 
 def parse_target_vector(v,reverse=False):
     #print shape(v)
-    q = 42
+    q = 66#42
     assert len(v) == 6*q
     lx = v[0:q]
     rx = v[q:2*q]
