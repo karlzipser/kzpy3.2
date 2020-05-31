@@ -208,7 +208,7 @@ def graphics_function(N,M,P):#,X):
         figure('map3d');clf()#;plt_square();xylim(0,168,0,94)
         im = N.extract('input')
         im = z55(im.transpose(2,1,0))
-        mi(imag,'map3d')
+        mi(im,'map3d')
         c = []
         for i in rlen(outer_countours_rotated_left):
             a = outer_countours_rotated_left[i,:]
