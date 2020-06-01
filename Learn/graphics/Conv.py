@@ -7,7 +7,7 @@ graphics_timer = None
 #W = {}
 e = 24
 
-def double_interp_array(a):
+def double_interp_1D_array(a):
     b = []
     for i in range(len(a)-1):
         c = a[i]
@@ -18,6 +18,13 @@ def double_interp_array(a):
     b.append(a[-1])
     return na(b)
 
+def double_interp_2D_array(a):
+    b = double_interp_1D_array(a[:,0])
+    c = double_interp_1D_array(a[:,1])
+    d = zeros((len(b),2))
+    d[:,0] = b
+    d[:,1] = c
+    return d
 
 def parse_target_vector(v,reverse=False):
     #print shape(v)
@@ -237,6 +244,7 @@ def graphics_function(N,M,P):#,X):
 
         for o,color in ((outer_countours_rotated_left,'r'),(outer_countours_rotated_right,'g')):
             c = []
+            o = double_interp_2D_array(o)
             for i in rlen(o):
                 a = o[i,:]
                 b = fit3d.point_in_3D_to_point_in_2D(
