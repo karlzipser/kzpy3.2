@@ -244,11 +244,11 @@ def graphics_function(N,M,P):#,X):
 
         for o,color in ((outer_countours_rotated_left,'r'),(outer_countours_rotated_right,'g')):
             c = []
-            w = double_interp_2D_array(o[:25,:])
+            w = double_interp_2D_array(o[:33,:])
             w = double_interp_2D_array(w)
             w = double_interp_2D_array(w)
-            o = np.concatenate((w,o[25:,:]))
-            
+            o = np.concatenate((w,o[33:,:]))
+
             for i in rlen(o):
                 a = o[i,:]
                 b = fit3d.point_in_3D_to_point_in_2D(
@@ -257,6 +257,7 @@ def graphics_function(N,M,P):#,X):
                     width_in_pixels = 168,
                     backup_parameter=1,
                 )
+                print b
                 c.append(b)
             c =na(c)
             pts_plot(c,color=color,sym='.')
