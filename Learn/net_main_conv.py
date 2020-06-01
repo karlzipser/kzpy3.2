@@ -107,11 +107,11 @@ def Net_Main(M=False,sys_str=False,Arguments_=False,P_Runs_saved=None):
 
 if False:
     conv0_model_path = 'Desktop/Networks/Conv.Fire3.conv0/weights/net_31May20_15h12m30s.3.7331793.cuda.infer'
-    s0 = torch.load(path)
+    s0 = torch.load(conv0_model_path)
     net0 = s0['net']
 
-    conv1_model_path = 'Desktop/Networks/Conv.Fire3.conv1/weights/net_31May20_15h45m05s.no_losses.cuda.infer'
-    s1 = torch.load(path)
+    conv1_model_path = 'Desktop/Networks/Conv.Fire3.conv1/weights/net_31May20_16h06m13s.no_losses.cuda.infer'
+    s1 = torch.load(conv1_model_path)
     net1 = s1['net']
 
     for k in net0.keys():

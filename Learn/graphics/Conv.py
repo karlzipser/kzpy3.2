@@ -7,6 +7,18 @@ graphics_timer = None
 #W = {}
 e = 24
 
+def double_interp_array(a):
+    b = []
+    for i in range(len(a)-1):
+        c = a[i]
+        d = a[i+1]
+        e = (c+d)/2.0
+        b.append(c)
+        b.append(e)
+    b.append(a[-1])
+    return na(b)
+
+
 def parse_target_vector(v,reverse=False):
     #print shape(v)
     q = 66#42
@@ -210,6 +222,10 @@ def graphics_function(N,M,P):#,X):
         im = z55(im.transpose(2,1,0))
         mi(im,'map3d')
         c = []
+        x = outer_countours_rotated_left[:,0]
+        y = outer_countours_rotated_left[:,1]
+        x = double_interp_array(x)
+        x = double_interp_array(x)
         for i in rlen(outer_countours_rotated_left):
             a = outer_countours_rotated_left[i,:]
             b = fit3d.point_in_3D_to_point_in_2D(
