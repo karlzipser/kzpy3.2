@@ -230,11 +230,28 @@ def graphics_function(N,M,P):#,X):
         im = N.extract('input')
         im = z55(im.transpose(2,1,0))
         mi(im,'map3d')
-        c = []
-        x = outer_countours_rotated_left[:,0]
-        y = outer_countours_rotated_left[:,1]
 
-        for i in rlen(outer_countours_rotated_left):
+
+        #x = outer_countours_rotated_left[:,0]
+        #y = outer_countours_rotated_left[:,1]
+
+        for o,color in ((outer_countours_rotated_left,'r'),(outer_countours_rotated_right,'g')):
+            c = []
+            for i in rlen(o):
+                a = o[i,:]
+                b = fit3d.point_in_3D_to_point_in_2D(
+                    a,
+                    height_in_pixels = 94,
+                    width_in_pixels = 168,
+                    backup_parameter=1,
+                )
+                c.append(b)
+            c =na(c)
+            pts_plot(c,color=color,sym='.')
+
+        """
+        c = []
+        for i in rlen(o):
             a = outer_countours_rotated_left[i,:]
             b = fit3d.point_in_3D_to_point_in_2D(
                 a,
@@ -244,7 +261,6 @@ def graphics_function(N,M,P):#,X):
             )
             c.append(b)
         c =na(c)
-        #c[:,1] = 94-c[:,1]
         pts_plot(c,color='r',sym='.')
 
         c = []
@@ -258,8 +274,8 @@ def graphics_function(N,M,P):#,X):
             )
             c.append(b)
         c =na(c)
-        #c[:,1] = 94-c[:,1]
         pts_plot(c,color='g',sym='.')
+        """
 
 
         outer_countours_rotated_left, outer_countours_rotated_right, angles_left, angles_right = parse_target_vector(target)
