@@ -12,7 +12,7 @@ def setup(P):
 
     Runs = {}
 
-    for path in sggo(opjD('Data/outer_contours/rotated1','*.h5py')):
+    for path in sggo(opjD('Data/outer_contours/rotated2','*.h5py')):
         r = fname(path).split('.')[0]
         if r in All_runs[P['runs']]:
             if os.path.getsize(path) > 0:
@@ -65,8 +65,9 @@ def setup(P):
         'hours of good_indicies':dp(g/30. /60. /60.),
         'data type':P['runs']
     }
+    print ''
     kprint(T,title='good_indicies',p=3)
-
+    print ''
 
 
 meta_blank = zeros((1,41,22))
