@@ -233,14 +233,10 @@ def graphics_function(N,M,P):#,X):
 
         import kzpy3.Array.fit3d as fit3d
         
-        figure('map3d');clf()#;plt_square();xylim(0,168,0,94)
+        figure('map3d');clf()
         im = N.extract('input')
         im = z55(im.transpose(2,1,0))
         mi(im,'map3d')
-
-
-        #x = outer_countours_rotated_left[:,0]
-        #y = outer_countours_rotated_left[:,1]
 
         for o,color in ((outer_countours_rotated_left,'r'),(outer_countours_rotated_right,'g')):
             c = []
