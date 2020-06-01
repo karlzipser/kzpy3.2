@@ -240,7 +240,8 @@ def graphics_function(N,M,P):#,X):
         im = z55(im.transpose(2,1,0))
 
         for data,name in ((output_2,'output_2'),(target,'target')):
-        outer_countours_rotated_left, outer_countours_rotated_right, angles_left, angles_right = parse_target_vector(data)
+            
+            outer_countours_rotated_left, outer_countours_rotated_right, angles_left, angles_right = parse_target_vector(data)
             figname = 'map3d-'+name
             figure(figname);clf()
 
