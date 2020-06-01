@@ -226,12 +226,11 @@ def graphics_function(N,M,P):#,X):
         y = outer_countours_rotated_left[:,1]
         x = double_interp_array(x)
         x = double_interp_array(x)
-        x = double_interp_array(x)
-        x = double_interp_array(x)
-        x = double_interp_array(x)
-        x = double_interp_array(x)
+        y = double_interp_array(y)
+        y = double_interp_array(y)
+
         for i in rlen(outer_countours_rotated_left):
-            a = x#outer_countours_rotated_left[i,:]
+            a = na([x[i],y[i]])#outer_countours_rotated_left[i,:]
             b = fit3d.point_in_3D_to_point_in_2D(
                 a,
                 height_in_pixels = 94,
