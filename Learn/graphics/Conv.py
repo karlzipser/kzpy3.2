@@ -231,33 +231,43 @@ def graphics_function(N,M,P):#,X):
 
 
 
+
+
+
         import kzpy3.Array.fit3d as fit3d
-        
-        figure('map3d');clf()
+
         im = N.extract('input')
         im = z55(im.transpose(2,1,0))
-        mi(im,'map3d')
 
-        for o,color in ((outer_countours_rotated_left,'r'),(outer_countours_rotated_right,'g')):
-            c = []
-            w = double_interp_2D_array(o[:33,:])
-            w = double_interp_2D_array(w)
-            w = double_interp_2D_array(w)
-            o = np.concatenate((w,o[33:,:]))
+        for data,name in ((output_2,'output_2'),(target,'target')):
+        outer_countours_rotated_left, outer_countours_rotated_right, angles_left, angles_right = parse_target_vector(data)
+            figname = 'map3d-'+name
+            figure(figname);clf()
 
-            for i in rlen(o):
-                a = o[i,:]
-                b = fit3d.point_in_3D_to_point_in_2D(
-                    a,
-                    height_in_pixels = 94,
-                    width_in_pixels = 168,
-                    backup_parameter=1,
-                )
-                #print b
-                if False not in b:
-                    c.append(b)
-            c =na(c)
-            pts_plot(c,color=color,sym='.')
+            mi(im,figname)
+
+            for o,color in ((outer_countours_rotated_left,'r'),(outer_countours_rotated_right,'g')):
+                c = []
+                w = double_interp_2D_array(o[:33,:])
+                w = double_interp_2D_array(w)
+                w = double_interp_2D_array(w)
+                o = np.concatenate((w,o[33:,:]))
+
+                for i in rlen(o):
+                    a = o[i,:]
+                    b = fit3d.point_in_3D_to_point_in_2D(
+                        a,
+                        height_in_pixels = 94,
+                        width_in_pixels = 168,
+                        backup_parameter=1,
+                    )
+                    if False not in b:
+                        c.append(b)
+                c =na(c)
+                pts_plot(c,color=color,sym='.')
+
+
+
 
         """
         c = []
