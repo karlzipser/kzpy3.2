@@ -23,7 +23,7 @@ Net_strs = {
             --input rgb
             --target outer_contours
             --losses_to_average 256 
-            --runs validate 
+            --runs train 
             --display.output 0,3 
             --display.input 0,3
             --display.target 0,3
