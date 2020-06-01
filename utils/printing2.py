@@ -15,6 +15,7 @@ def kprint(
     max_items=sys.maxint,
     ra=0,
     r=0,
+    p=0,
 ):
     #'<untitled>',
     item_printed = False
@@ -79,6 +80,9 @@ def kprint(
                 break            
     elif not item_printed:
         color_print(spaces,item,'`g',s0='',s1='')
+
+    if p:
+        time.sleep(p)
 
     if ra or r:
         raw_enter()

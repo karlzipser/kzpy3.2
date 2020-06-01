@@ -59,7 +59,13 @@ def setup(P):
 
     P['Runs'] = Runs
     
-
+    g = len(P['good_indicies'])
+    T = {
+        'n good_indicies':g,
+        'hours of good_indicies':dp(g/30. /60. /60.),
+        'data type':P['runs']
+    }
+    kprint(T,title='good_indicies',p=3)
 
 
 
