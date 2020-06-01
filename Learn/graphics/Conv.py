@@ -58,6 +58,7 @@ def plot_map(
     name='map',
     e = 24,
     marker_size_divisor = 4.0,
+    grid=True,
 ):
     D = {
             'angles' : {
@@ -85,11 +86,17 @@ def plot_map(
     if 'plot rotated' and 'outer_countours_rotated' in D:
         
         figure(name); plt_square(); xylim(-e,e,-e,e)
+
+        if grid:
+            plot([-e,e],[0,0],'k:')
+            plot([0,0],[-e,e],'k:')
+
         for k in ['left','right']:
             xy = D['outer_countours_rotated'][k]
             plot(xy[:,0],xy[:,1],color+'-',linewidth=1)
             for r in rlen(D['outer_countours_rotated'][k]):
                 pts_plot(D['outer_countours_rotated'][k][r],Colors[k],sym='.',ms = D['marker_size'][k][r])
+
 
 
 
@@ -196,7 +203,8 @@ def graphics_function(N,M,P):#,X):
             angles_right,
             color='k',
             name='map',
-            e = e,
+            e=e,
+            grid=True,
             #x_offset=-0,
         )
 
@@ -209,7 +217,8 @@ def graphics_function(N,M,P):#,X):
             angles_right,
             color='b',
             name='map',
-            e = e,
+            e=e,
+            grid=False,
             #x_offset=0,
         )
 
@@ -264,7 +273,7 @@ def graphics_function(N,M,P):#,X):
             angles_right,
             color='k',
             name='map target',
-            e = e,
+            e=e,
             #x_offset=-0,
         )
 
@@ -279,7 +288,7 @@ def graphics_function(N,M,P):#,X):
             angles_right,
             color='b',
             name='map output_2',
-            e = e,
+            e=e,
             #x_offset=0,
         )
 
