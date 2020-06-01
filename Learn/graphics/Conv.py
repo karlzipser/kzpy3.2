@@ -257,8 +257,9 @@ def graphics_function(N,M,P):#,X):
                     width_in_pixels = 168,
                     backup_parameter=1,
                 )
-                print b
-                c.append(b)
+                #print b
+                if False not in b:
+                    c.append(b)
             c =na(c)
             pts_plot(c,color=color,sym='.')
 
