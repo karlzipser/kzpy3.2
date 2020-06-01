@@ -24,8 +24,8 @@ class Net(nn.Module):
         super(Net, self).__init__()
         self.A = {}
         self.lr = P['LR']
-        if self.ls > 0 and P['runs'] == 'validate':
-            clp('Warning, LR > 0 for validate runs','`wrb',p=1)
+        if self.lr > 0 and P['runs'] == 'validate':
+            clp('Warning, LR > 0 for validate runs','`wrb',p=3)
 
         self.momentum = P['momentum']
         self.GPU = P['GPU']
