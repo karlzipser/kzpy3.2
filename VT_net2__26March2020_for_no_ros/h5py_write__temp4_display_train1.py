@@ -31,15 +31,18 @@ else:
     }
 
 assert 'run_name' in Arguments
+
 for k in Defaults:
     if k not in Arguments:
         Arguments[k] = Defaults[k]
-save_path = opjD('Data','outer_contours','rotated1',Arguments['run_name']+'.h5py')
+
+save_path = opjD('Data','outer_contours','rotated2',Arguments['run_name']+'.h5py')
 
 if Arguments['save']:
     if os.path.exists(save_path):
         clp('!!!',save_path,'exists!!!','`wrb')
         exit()
+        
 if Arguments['save']:
     make_path_and_touch_file(save_path)
 
@@ -160,8 +163,15 @@ if not Arguments['show2']:
 
             timer.freq(str(i))
 
-            if L['motor'][i] < 54 or L['encoder'][i] < 2.0:
+            if False:
+                if L['motor'][i] < 54 or L['encoder'][i] < 2.0:
+                    continue
+
+
+
+            if not L['drive_mode']:
                 continue
+
 
 
             if 'find i_back':
