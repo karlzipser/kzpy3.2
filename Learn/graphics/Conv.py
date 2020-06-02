@@ -138,7 +138,11 @@ def plot_map(
 
 
 
-
+def k_in_D(k,D):
+    if k not in D:
+        return False
+    else:
+        return D[k]
 
 
 def graphics_function(N,M,P):#,X):
@@ -150,6 +154,10 @@ def graphics_function(N,M,P):#,X):
     cv2.waitKey(1)
     if graphics_timer.time_s != M['Q']['runtime_parameters']['graphics_timer_time']:
         graphics_timer.trigger()
+
+    if k_in_D('save_figures',P):
+        graphics_timer.trigger()
+
     if graphics_timer.check() or M['Q']['runtime_parameters']['graphics_timer_time'] < 0:
         if M['Q']['runtime_parameters']['graphics_timer_time'] == -2:
             raw_enter()
@@ -304,33 +312,7 @@ def graphics_function(N,M,P):#,X):
 
 
 
-        """
-        c = []
-        for i in rlen(o):
-            a = outer_countours_rotated_left[i,:]
-            b = fit3d.point_in_3D_to_point_in_2D(
-                a,
-                height_in_pixels = 94,
-                width_in_pixels = 168,
-                backup_parameter=1,
-            )
-            c.append(b)
-        c =na(c)
-        pts_plot(c,color='r',sym='.')
 
-        c = []
-        for i in rlen(outer_countours_rotated_right):
-            a = outer_countours_rotated_right[i,:]
-            b = fit3d.point_in_3D_to_point_in_2D(
-                a,
-                height_in_pixels = 94,
-                width_in_pixels = 168,
-                backup_parameter=1,
-            )
-            c.append(b)
-        c =na(c)
-        pts_plot(c,color='g',sym='.')
-        """
 
 
         outer_countours_rotated_left, outer_countours_rotated_right, angles_left, angles_right = parse_target_vector(target)
@@ -400,6 +382,8 @@ def graphics_function(N,M,P):#,X):
 
     spause()
 
+    if k_in_D('save_figures',P):
+        cm('ready to save figure',ra=1)
 
 
 #EOF
