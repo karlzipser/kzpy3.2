@@ -157,7 +157,7 @@ def graphics_function(N,M,P):#,X):
     if graphics_timer.time_s != M['Q']['runtime_parameters']['graphics_timer_time']:
         graphics_timer.trigger()
 
-    if k_in_D('save_figures',P):
+    if 'save_figures' in P:
         if P['save_figures'] > 0:
             time_string = d2p(P['run'],P['ctr'])
             graphics_timer.trigger()
@@ -355,6 +355,9 @@ def graphics_function(N,M,P):#,X):
             e=e,
             #x_offset=0,
         )
+        if k_in_D('save_figures',P):
+            plt.savefig(opj(fig_path,d2p(time_string,'map_output_2','pdf')),format='pdf')
+
 
 
 
