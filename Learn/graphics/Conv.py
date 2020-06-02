@@ -159,6 +159,7 @@ def graphics_function(N,M,P):#,X):
 
     if 'save_figures' in P:
         if P['save_figures'] > 0:
+            cb("P['save_figures'] =",P['save_figures'])
             time_string = d2p(P['run'],P['ctr'])
             graphics_timer.trigger()
             P['save_figures'] -= 1
