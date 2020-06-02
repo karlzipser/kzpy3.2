@@ -144,6 +144,8 @@ def k_in_D(k,D):
     else:
         return D[k]
 
+fig_path = opjD('Data/outer_countors/figures')
+os.system('mkdir -p',fig_path)
 
 def graphics_function(N,M,P):#,X):
     global graphics_timer
@@ -156,6 +158,7 @@ def graphics_function(N,M,P):#,X):
         graphics_timer.trigger()
 
     if k_in_D('save_figures',P):
+        time_string = str(time.time())
         graphics_timer.trigger()
 
     if graphics_timer.check() or M['Q']['runtime_parameters']['graphics_timer_time'] < 0:
@@ -252,7 +255,6 @@ def graphics_function(N,M,P):#,X):
             name='map',
             e=e,
             grid=True,
-            #x_offset=-0,
         )
 
         outer_countours_rotated_left, outer_countours_rotated_right, angles_left, angles_right = parse_target_vector(output_2)
@@ -266,8 +268,10 @@ def graphics_function(N,M,P):#,X):
             name='map',
             e=e,
             grid=False,
-            #x_offset=0,
         )
+
+        if k_in_D('save_figures',P):
+            plt.savefig(opj(fig_path,d2p('map',time_string),'pdf')),format='pdf')
 
 
 
@@ -310,8 +314,8 @@ def graphics_function(N,M,P):#,X):
                 except:
                     clp('Exception, shape(c) =',shape(c),'`wrb')
 
-
-
+            if k_in_D('save_figures',P):
+                plt.savefig(opj(fig_path,d2p(figname,time_string),'pdf'))),format='pdf')
 
 
 
@@ -372,18 +376,21 @@ def graphics_function(N,M,P):#,X):
             concatt = np.concatenate((concatt,img),axis=1)
     mci(concatt,1,scale=M['Q']['runtime_parameters']['scale'],title=title_name)
 
+    if k_in_D('save_figures',P):
+        plt.savefig(opj(fig_path,d2p('meta',time_string),'pdf')),format='pdf')
+
 
     if M['Q']['runtime_parameters']['save_images']:
         path = opjD('__TEMP__',fname(P['NETWORK_OUTPUT_FOLDER']))
         print path
         os.system(d2s('mkdir -p',path))
-        imsave(opj(path,str(time.time())+'.png'),img)
+        imsave(opj(path,str(time.time()))+'.png'),img)
 
 
     spause()
 
-    if k_in_D('save_figures',P):
-        cm('ready to save figure',ra=1)
+    #if k_in_D('save_figures',P):
+    #    cm('ready to save figure',ra=1)
 
 
 #EOF
