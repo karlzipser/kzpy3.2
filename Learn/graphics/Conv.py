@@ -271,7 +271,7 @@ def graphics_function(N,M,P):#,X):
         )
 
         if k_in_D('save_figures',P):
-            plt.savefig(opj(fig_path,d2p('map',time_string),'pdf'),format='pdf')
+            plt.savefig(opj(fig_path,d2p('map',time_string,'pdf')),format='pdf')
 
 
 
@@ -315,7 +315,7 @@ def graphics_function(N,M,P):#,X):
                     clp('Exception, shape(c) =',shape(c),'`wrb')
 
             if k_in_D('save_figures',P):
-                plt.savefig(opj(fig_path,d2p(figname,time_string),'pdf'),format='pdf')
+                plt.savefig(opj(fig_path,d2p(figname,time_string,'pdf')),format='pdf')
 
 
 
@@ -377,7 +377,7 @@ def graphics_function(N,M,P):#,X):
     mci(concatt,1,scale=M['Q']['runtime_parameters']['scale'],title=title_name)
 
     if k_in_D('save_figures',P):
-        plt.savefig(opj(fig_path,d2p('meta',time_string),'pdf'),format='pdf')
+        plt.savefig(opj(fig_path,d2p('meta',time_string,'pdf')),format='pdf')
 
 
     if M['Q']['runtime_parameters']['save_images']:
