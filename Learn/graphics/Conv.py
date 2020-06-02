@@ -384,7 +384,7 @@ def graphics_function(N,M,P):#,X):
         path = opjD('__TEMP__',fname(P['NETWORK_OUTPUT_FOLDER']))
         print path
         os.system(d2s('mkdir -p',path))
-        imsave(opj(path,str(time.time()))+'.png'),img)
+        imsave(opj(path,str(time.time())+'.png'),img)
 
 
     spause()
