@@ -43,14 +43,21 @@ def Net_Main(M=False,sys_str=False,Arguments_=False,P_Runs_saved=None):
     }
 
     if sys_str != False:
-        Arguments_ = parse_to_Arguments(sys_str)
+        Arguments_sys_str = parse_to_Arguments(sys_str)
     else:
+        Arguments_sys_str = {}
         assert type(Arguments_) == dict
 
+    for k in Arguments_sys_str:
+        cg(k,'from Arguments_sys_str')
+        P[k] = Arguments_sys_str[k]
+
     for k in Arguments_:
+        cy(k,'from Arguments_')
         P[k] = Arguments_[k]
 
     kprint(P)
+
     for k in ['type','input','target']:
         if type(P[k]) == str:
             P[k] = [P[k]]
