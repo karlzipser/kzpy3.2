@@ -145,7 +145,7 @@ def k_in_D(k,D):
         return D[k]
 
 fig_path = opjD('Data/outer_contours/figures')
-os.system('mkdir -p',fig_path)
+os.system('mkdir -p '+fig_path)
 
 def graphics_function(N,M,P):#,X):
     global graphics_timer
