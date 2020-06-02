@@ -158,8 +158,12 @@ def graphics_function(N,M,P):#,X):
         graphics_timer.trigger()
 
     if k_in_D('save_figures',P):
-        time_string = str(time.time())
-        graphics_timer.trigger()
+        if P['save_figures'] > 0:
+            time_string = P['run']+'.'+P['ctr']
+            graphics_timer.trigger()
+            P['save_figures'] -= 1
+            if P['save_figures'] < 0:
+                P['save_figures'] = 0
 
     if graphics_timer.check() or M['Q']['runtime_parameters']['graphics_timer_time'] < 0:
         if M['Q']['runtime_parameters']['graphics_timer_time'] == -2:
@@ -271,7 +275,7 @@ def graphics_function(N,M,P):#,X):
         )
 
         if k_in_D('save_figures',P):
-            plt.savefig(opj(fig_path,d2p('map',time_string,'pdf')),format='pdf')
+            plt.savefig(opj(fig_path,d2p(time_string,'map','pdf')),format='pdf')
 
 
 
@@ -315,7 +319,7 @@ def graphics_function(N,M,P):#,X):
                     clp('Exception, shape(c) =',shape(c),'`wrb')
 
             if k_in_D('save_figures',P):
-                plt.savefig(opj(fig_path,d2p(figname,time_string,'pdf')),format='pdf')
+                plt.savefig(opj(fig_path,d2p(time_string,figname,'pdf')),format='pdf')
 
 
 
@@ -377,7 +381,7 @@ def graphics_function(N,M,P):#,X):
     mci(concatt,1,scale=M['Q']['runtime_parameters']['scale'],title=title_name)
 
     if k_in_D('save_figures',P):
-        plt.savefig(opj(fig_path,d2p('meta',time_string,'pdf')),format='pdf')
+        plt.savefig(opj(fig_path,d2p(time_string,'meta','pdf')),format='pdf')
 
 
     if M['Q']['runtime_parameters']['save_images']:

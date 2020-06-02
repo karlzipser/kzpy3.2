@@ -217,6 +217,7 @@ def get_data_function(P):
     #spause()
 
     P['ctr'] = ctr
+    P['run'] = r
 
     for k in ['input']:#sorted(Lists.keys()):
         lst = Lists[k]
