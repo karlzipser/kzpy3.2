@@ -167,7 +167,7 @@ def graphics_function(N,M,P):#,X):
                 P['save_figures'] = 0
         else:
             cg('done saving figures')
-            assert(False)
+            sys.exit(0)
 
     if graphics_timer.check() or M['Q']['runtime_parameters']['graphics_timer_time'] < 0:
         if M['Q']['runtime_parameters']['graphics_timer_time'] == -2:
