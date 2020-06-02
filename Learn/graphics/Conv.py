@@ -159,11 +159,14 @@ def graphics_function(N,M,P):#,X):
 
     if k_in_D('save_figures',P):
         if P['save_figures'] > 0:
-            time_string = P['run']+'.'+P['ctr']
+            time_string = d2p(P['run'],P['ctr'])
             graphics_timer.trigger()
             P['save_figures'] -= 1
             if P['save_figures'] < 0:
                 P['save_figures'] = 0
+        else:
+            cg('done saving figures')
+            assert(False)
 
     if graphics_timer.check() or M['Q']['runtime_parameters']['graphics_timer_time'] < 0:
         if M['Q']['runtime_parameters']['graphics_timer_time'] == -2:
