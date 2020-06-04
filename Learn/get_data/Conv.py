@@ -88,9 +88,12 @@ for x in range(41):
 
 from scipy.ndimage import interpolation
 
+gctr = 0
+
 def get_data_function(P):
 
-    #cm(P.keys(),ra=1)
+    global gctr
+
     Runs = P['Runs']
 
     
@@ -98,10 +101,18 @@ def get_data_function(P):
         
         if True:#try:
 
-            g = len(P['good_indicies'])
-            r,ctr = P['good_indicies'][rndint(g)]
-            flip = rndint(2)
-            assert flip in [0,1]
+            if not P['single_run']:
+                g = len(P['good_indicies'])
+                r,ctr = P['good_indicies'][rndint(g)]
+                flip = rndint(2)
+                assert flip in [0,1]
+            else:
+                r = P['single_run']
+                ctr = gctr
+                flip = 0
+                gctr += 1
+                if gctr > 0 len(Runs[r]['original_timestamp_data']['left_image']['vals']):
+                    raw_enter()
 
             
 
