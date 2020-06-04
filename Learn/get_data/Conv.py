@@ -33,7 +33,7 @@ def setup(P):
 
     if 'save_output_2' in P and P['save_output_2']:
         P['output_2_data'] = {}
-        
+
     for r in Runs.keys():
 
         H = find_files_recursively(opjD('Data'),r,DIRS_ONLY=True)
@@ -231,6 +231,7 @@ def get_data_function(P):
     #spause()
 
     P['ctr'] = ctr
+    cy(ctr)
     P['run'] = r
 
     for k in ['input']:#sorted(Lists.keys()):
