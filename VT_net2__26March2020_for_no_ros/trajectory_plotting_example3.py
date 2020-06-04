@@ -54,11 +54,27 @@ if 'vector functions':
         return np.sqrt( (A[0]-B[0])**2 + (A[1]-B[1])**2 )
 
     def distance_decimate_vector(v,d):
-        u = [v[0,:]]
+        ref = v[0,:]
+        u = [ref]
         for i in range(0,len(v)-1):
             e = dist(v[i],v[i+1])
-            print e
+            if dist(ref,v[i]) >= d:
+                ref = v[i]
+                u.append(ref)
+        u.append(v[-1])
+        return na(u)
 
+    def distance_decimate_vector_with_indicies(v,d):
+
+        ref = v[0,:]
+        u = [ref]
+        for i in range(0,len(v)-1):
+            #e = dist(v[i,:2],v[i+1,:2])
+            if dist(ref[:2],v[i,:2]) >= d:
+                ref = v[i]
+                u.append(ref)
+        u.append(v[-1])
+        return na(u)
 
 def grow_path(heading,encoder,motor,xyi,alpha,i,back_steps):
 
@@ -77,6 +93,7 @@ def grow_path(heading,encoder,motor,xyi,alpha,i,back_steps):
 
         xyi[:,:2] = rotate_alpha(d_alpha, xy)
 
+        print shape(xyi)
     else:
         d_alpha = 0
 
@@ -90,31 +107,31 @@ def grow_path(heading,encoder,motor,xyi,alpha,i,back_steps):
 
 
 
+if True:
+    U = {
+        'past':{
+            'range':(23,24),
+            'back_steps':back_steps,
+            'S':{},
+        },
+        'future':{
+            'range':(21,66),
+            'S':{},
+            'back_steps':2,
+        },
+    }
 
-U = {
-    'past':{
-        'range':(23,24),
-        'back_steps':back_steps,
-        'S':{},
-    },
-    'future':{
-        'range':(21,66),
-        'S':{},
-        'back_steps':2,
-    },
-}
-
-for k in ['past','future']:
-    a,b = U[k]['range']
-    for i in range(start,12000,1):
-        #print i
-        U[k]['S'][i] = {
-            'left': T['outer_countours_rotated_left'][i,a:b,:],
-            'right':  T['outer_countours_rotated_right'][i,a:b,:],
-            'index':i,
-            'back_steps':U[k]['back_steps'],
-            'step_left':0,
-        }
+    for k in ['past','future']:
+        a,b = U[k]['range']
+        for i in range(start,12000,1):
+            #print i
+            U[k]['S'][i] = {
+                'left': T['outer_countours_rotated_left'][i,a:b,:],
+                'right':  T['outer_countours_rotated_right'][i,a:b,:],
+                'index':i,
+                'back_steps':U[k]['back_steps'],
+                'steps_left':0,
+            }
 
 
 Ctr = {}
@@ -148,16 +165,22 @@ for i in range(start,stop):
             R = S[j]
 
             if R['index'] == i:
-                R['step_left'] = R['back_steps']
+                R['steps_left'] = R['back_steps']
 
 
-            if R['step_left']:
-                R['step_left'] -= 1
+            if R['steps_left']:
+
+                R['steps_left'] -= 1
+
                 for s in ['left','right']:
+
                     R[s] -= na([[0,magnitude(a)]])
+        
+                    #R[s] = distance_decimate_vector(R[s],5)
+
                     R[s] = rotate_alpha(d_alpha, R[s])
 
-            assert R['step_left'] >= 0
+            assert R['steps_left'] >= 0
 
 
 
@@ -175,9 +198,9 @@ for i in range(start,stop):
                 S = U[k]['S']
                 for j in S:
                     R = S[j]
-                    if R['step_left']:
+                    if R['steps_left']:
                         pts_plot(R['left'],sym='.',ms=2,color='r')
-                    if R['step_left']:
+                    if R['steps_left']:
                         pts_plot(R['right'],sym='.',ms=2,color='g')
 
             xylim(-25,25,-50,25)
@@ -193,9 +216,9 @@ for i in range(start,stop):
                 S = U[k]['S']
                 for j in S:
                     R = S[j]
-                    if R['step_left']:
+                    if R['steps_left']:
                         pts_plot(R['left'],sym='.',ms=3,color='r')
-                    if R['step_left']:
+                    if R['steps_left']:
                         pts_plot(R['right'],sym='.',ms=3,color='g')
 
             xylim(-12,12,-24,24)
