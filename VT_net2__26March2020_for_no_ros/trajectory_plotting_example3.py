@@ -12,9 +12,9 @@ if 'startup material':
         T = h5r(opjD('Data/outer_contours/rotated2/tegra-ubuntu_31Oct18_16h06m32s.h5py'))
 
     start = 6500
-    stop = len(L['motor'])#12000
+    stop = 10000#len(L['motor'])#12000
     print_timer = Timer(1/70.)
-    back_steps = 30*10
+    back_steps = 30*60
     alpha = 0
     xyi = na([[0,0,0]])
 
@@ -91,9 +91,13 @@ def grow_path(heading,encoder,motor,xyi,alpha,i,back_steps):
 
         xy -= xy[-1]
 
-        xyi[:,:2] = rotate_alpha(d_alpha, xy)
+        xyi[:,:2] = xy
 
-        print shape(xyi)
+        xyi = distance_decimate_vector_with_indicies(xyi,0.5)
+
+        xyi[:,:2] = rotate_alpha(d_alpha, xyi[:,:2])
+
+        #print shape(xyi)
     else:
         d_alpha = 0
 
@@ -161,7 +165,8 @@ for i in range(start,stop):
     for k in ['past','future']:
         S = U[k]['S']
         for j in S:
-
+            if j % 5:
+                continue
             R = S[j]
 
             if R['index'] == i:
@@ -193,7 +198,7 @@ for i in range(start,stop):
             clf()
             plot([-e,e],[0,0],'k:')
             plot([0,0],[-e,e],'k:')
-            pts_plot(xy,sym='.-',color='c',ms=1)
+            pts_plot(xy,sym='.',color='c',ms=4)
             for k in ['past','future']:
                 S = U[k]['S']
                 for j in S:
@@ -206,23 +211,24 @@ for i in range(start,stop):
             xylim(-25,25,-50,25)
             plt_square()
 
-            figure(2)
-            clf()
-            plot([-e,e],[0,0],'k:')
-            plot([0,0],[-e,e],'k:')
-            pts_plot(xy,sym='.-',color='c',ms=2)
+            if False:
+                figure(2)
+                clf()
+                plot([-e,e],[0,0],'k:')
+                plot([0,0],[-e,e],'k:')
+                pts_plot(xy,sym='.',color='c',ms=2)
 
-            for k in ['past','future']:#U:
-                S = U[k]['S']
-                for j in S:
-                    R = S[j]
-                    if R['steps_left']:
-                        pts_plot(R['left'],sym='.',ms=3,color='r')
-                    if R['steps_left']:
-                        pts_plot(R['right'],sym='.',ms=3,color='g')
+                for k in ['past','future']:#U:
+                    S = U[k]['S']
+                    for j in S:
+                        R = S[j]
+                        if R['steps_left']:
+                            pts_plot(R['left'],sym='.',ms=3,color='r')
+                        if R['steps_left']:
+                            pts_plot(R['right'],sym='.',ms=3,color='g')
 
-            xylim(-12,12,-24,24)
-            plt_square()
+                xylim(-12,12,-24,24)
+                plt_square()
 
             spause()
 
