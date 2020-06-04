@@ -356,6 +356,7 @@ def graphics_function(N,M,P):#,X):
             e=e,
             #x_offset=0,
         )
+        cg(P['ctr'])
         if k_in_D('save_figures',P):
             plt.savefig(opj(fig_path,d2p(time_string,'map_output_2','pdf')),format='pdf')
 
