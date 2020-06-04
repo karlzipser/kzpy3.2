@@ -104,7 +104,7 @@ def get_data_function(P):
         
         if True:#try:
 
-            if not P['single_run']:
+            if not 'single_run' in P or not P['single_run']:
                 g = len(P['good_indicies'])
                 r,ctr = P['good_indicies'][rndint(g)]
                 flip = rndint(2)
