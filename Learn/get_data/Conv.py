@@ -231,7 +231,7 @@ def get_data_function(P):
     #spause()
 
     P['ctr'] = ctr
-    cy(ctr)
+    #cy(ctr)
     P['run'] = r
 
     for k in ['input']:#sorted(Lists.keys()):
