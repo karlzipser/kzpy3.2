@@ -111,7 +111,7 @@ def get_data_function(P):
                 ctr = gctr
                 flip = 0
                 gctr += 1
-                if gctr > 0 len(Runs[r]['original_timestamp_data']['left_image']['vals']):
+                if gctr > len(Runs[r]['original_timestamp_data']['left_image']['vals']):
                     raw_enter()
 
             
