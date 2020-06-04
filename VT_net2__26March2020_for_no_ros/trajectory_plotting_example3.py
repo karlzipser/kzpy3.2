@@ -11,10 +11,10 @@ if 'startup material':
     if 'T' not in locals():
         T = h5r(opjD('Data/outer_contours/rotated2/tegra-ubuntu_31Oct18_16h06m32s.h5py'))
 
-    start = 4000#6500
+    start = 6500
     stop = len(L['motor'])#12000
     print_timer = Timer(1/70.)
-    back_steps = 300#30*60
+    back_steps = 30*10
     alpha = 0
     xyi = na([[0,0,0]])
 
@@ -50,9 +50,17 @@ if 'vector functions':
     def magnitude(a):
         return np.sqrt(a[0]**2+a[1]**2)
 
+    def dist(A,B):
+        return np.sqrt( (A[0]-B[0])**2 + (A[1]-B[1])**2 )
+
+    def distance_decimate_vector(v,d):
+        u = [v[0,:]]
+        for i in range(0,len(v)-1):
+            e = dist(v[i],v[i+1])
+            print e
 
 
-def grow_path(heading,encoder,motor,xyi,alpha,i):
+def grow_path(heading,encoder,motor,xyi,alpha,i,back_steps):
 
     a = vec(heading,encoder,motor)
 
@@ -80,26 +88,48 @@ def grow_path(heading,encoder,motor,xyi,alpha,i):
     return xyi,alpha,d_alpha,a
 
 
-S = {}
-for i in range(5000,7000,10):
-    S[i] = {
-        'left': T['outer_countours_rotated_left'][i,12:14,:],    #2*rndn(10,2)-na([1,0]),
-        'right':  T['outer_countours_rotated_right'][i,12:14,:],  #1*rndn(10,2)+na([1,0]),
-        'index':i,
-        'active':False
-    }
 
 
+
+U = {
+    'past':{
+        'range':(23,24),
+        'back_steps':back_steps,
+        'S':{},
+    },
+    'future':{
+        'range':(21,66),
+        'S':{},
+        'back_steps':2,
+    },
+}
+
+for k in ['past','future']:
+    a,b = U[k]['range']
+    for i in range(start,12000,1):
+        #print i
+        U[k]['S'][i] = {
+            'left': T['outer_countours_rotated_left'][i,a:b,:],
+            'right':  T['outer_countours_rotated_right'][i,a:b,:],
+            'index':i,
+            'back_steps':U[k]['back_steps'],
+            'step_left':0,
+        }
+
+
+Ctr = {}
+ctr = start
 
 for i in range(start,stop):
-    print i
+
     if not L['drive_mode'][i]:
-        cr(i)
         continue
 
     if L['motor'][i] < 54 or L['encoder'][i] < 2.0:
-        cr(i)
         continue
+
+    Ctr[i] = ctr
+    ctr += 1
 
     xyi,alpha,d_alpha,a = grow_path(
         L['gyro_heading_x_meo'][i],
@@ -108,61 +138,67 @@ for i in range(start,stop):
         xyi,
         alpha,
         i,
+        back_steps,
     )
 
+    for k in ['past','future']:
+        S = U[k]['S']
+        for j in S:
 
-    for j in S:
-        R = S[j]
+            R = S[j]
 
-        if R['index'] == i:
-            R['active'] = True
-            cy(i,'activated')
-
-
-        if R['active']:
-            if R['index'] + back_steps < xyi[-1,2]:
-                R['active'] = False
-                cb(j,'inactivated')
+            if R['index'] == i:
+                R['step_left'] = R['back_steps']
 
 
-        if R['active']:
-            for s in ['left','right']:
-                R[s] -= na([[0,magnitude(a)]])
-                R[s] = rotate_alpha(d_alpha, R[s])
+            if R['step_left']:
+                R['step_left'] -= 1
+                for s in ['left','right']:
+                    R[s] -= na([[0,magnitude(a)]])
+                    R[s] = rotate_alpha(d_alpha, R[s])
 
-
-
-
+            assert R['step_left'] >= 0
 
 
 
     if 'graphics':
-        if i % 2 == 0:
+        e = 100
+        if i % 15 == 0:
+            cy(i)
             xy = xyi[:,:2]
             figure(1)
             clf()
+            plot([-e,e],[0,0],'k:')
+            plot([0,0],[-e,e],'k:')
             pts_plot(xy,sym='.-',color='c',ms=1)
-            for j in S:
-                R = S[j]
-                if R['active']:
-                    pts_plot(R['left'],sym='.',ms=2,color='r')
-                if R['active']:
-                    pts_plot(R['right'],sym='.',ms=2,color='g')
-            xylim(-25,25,-50,3)
+            for k in ['past','future']:
+                S = U[k]['S']
+                for j in S:
+                    R = S[j]
+                    if R['step_left']:
+                        pts_plot(R['left'],sym='.',ms=2,color='r')
+                    if R['step_left']:
+                        pts_plot(R['right'],sym='.',ms=2,color='g')
+
+            xylim(-25,25,-50,25)
             plt_square()
 
             figure(2)
             clf()
+            plot([-e,e],[0,0],'k:')
+            plot([0,0],[-e,e],'k:')
             pts_plot(xy,sym='.-',color='c',ms=2)
 
-            for j in S:
-                R = S[j]
-                if R['active']:
-                    pts_plot(R['left'],sym='.',ms=2,color='r')
-                if R['active']:
-                    pts_plot(R['right'],sym='.',ms=2,color='g')
+            for k in ['past','future']:#U:
+                S = U[k]['S']
+                for j in S:
+                    R = S[j]
+                    if R['step_left']:
+                        pts_plot(R['left'],sym='.',ms=3,color='r')
+                    if R['step_left']:
+                        pts_plot(R['right'],sym='.',ms=3,color='g')
 
-            xylim(-1,1,-2,0.1)
+            xylim(-12,12,-24,24)
             plt_square()
 
             spause()
