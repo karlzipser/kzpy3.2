@@ -31,6 +31,9 @@ def setup(P):
 
     P['good_indicies'] = []
 
+    if 'save_output_2' in P and P['save_output_2']:
+        P['output_2_data'] = {}
+        
     for r in Runs.keys():
 
         H = find_files_recursively(opjD('Data'),r,DIRS_ONLY=True)
