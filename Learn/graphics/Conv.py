@@ -169,7 +169,7 @@ def graphics_function(N,M,P):#,X):
         }
 
         if save_timer.check():
-            soD('save_output_2',P['save_output_2'],)
+            soD('output_2_data',P['output_2_data'],)
             save_timer.reset()
     return
 
