@@ -147,9 +147,33 @@ def k_in_D(k,D):
 fig_path = opjD('Data/outer_contours/figures')
 os.system('mkdir -p '+fig_path)
 
-
+save_timer = Timer(60)
 
 def graphics_function(N,M,P):#,X):
+
+
+
+    if 'save_output_2' in P and P['save_output_2']:
+
+        cm(P['ctr'])
+
+        output_2 = N.extract('output_2')
+
+        outer_countours_rotated_left, outer_countours_rotated_right, angles_left, angles_right = parse_target_vector(output_2)
+
+        P['output_2_data'][P['ctr']] = {
+            'outer_countours_rotated_left':outer_countours_rotated_left,
+            'outer_countours_rotated_right':outer_countours_rotated_right,
+            'angles_left':angles_left,
+            'angles_right':angles_right,
+        }
+
+        if save_timer.check():
+            soD('temp')
+            save_timer.reset()
+    return
+
+
     global graphics_timer
     if graphics_timer == None:
         graphics_timer = Timer(M['Q']['runtime_parameters']['graphics_timer_time'])
@@ -346,13 +370,7 @@ def graphics_function(N,M,P):#,X):
 
         outer_countours_rotated_left, outer_countours_rotated_right, angles_left, angles_right = parse_target_vector(output_2)
 
-        if P['save_output_2']:
-            P['output_2_data'][P['ctr']] = {
-                'outer_countours_rotated_left':outer_countours_rotated_left,
-                'outer_countours_rotated_right':outer_countours_rotated_right,
-                'angles_left':angles_left,
-                'angles_right':angles_right,
-            }
+
 
         figure('map output_2');clf()
 
