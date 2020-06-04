@@ -36,7 +36,6 @@ Net_strs = {
             --reset_loss False
             --momentum 0.0001
             --LR 0.001
-            --single_run False
     """,
 
     'conv0' : """
