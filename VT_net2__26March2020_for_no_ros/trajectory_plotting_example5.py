@@ -11,17 +11,25 @@ if 'startup material':
     if 'T' not in locals():
         T = h5r(opjD('Data/outer_contours/rotated2/tegra-ubuntu_31Oct18_16h06m32s.h5py'))
 
+    if 'Y' not in locals():
+        Y = o=loD('output_2_data.pkl')
+
     start = 0
-    stop = len(L['motor'])
+    stop = 30000#len(L['motor'])
     print_timer = Timer(1/70.)
     alpha = 0
     xyi = na([[0,0,0]])
     sample_frequency = 30
 
-    if 'U' not in locals():
-        cm('Building U...')
+
+
+
+
+
+    if 'UT' not in locals():
+        cm('Building UT...')
         t0 = time.time()
-        U = {
+        UT = {
             'past':{
                 'range':(23,24),
                 'back_steps':30*sample_frequency,
@@ -35,19 +43,58 @@ if 'startup material':
         }
 
         for k in ['past','future']:
-            a,b = U[k]['range']
+            a,b = UT[k]['range']
             for i in range(start,stop,1):
-                U[k]['S'][i] = {
+                UT[k]['S'][i] = {
                     'left': T['outer_countours_rotated_left'][i,a:b,:],
                     'right':  T['outer_countours_rotated_right'][i,a:b,:],
                     'index':i,
                     'steps_left':0,
                 }
-        soD(U,'U')
-        cm('Made U in',dp(time.time()-t0),'seconds')
+        soD(UT,'UT')
+        cm('Made UT in',dp(time.time()-t0),'seconds')
     else:
         t0 = time.time()
-        U = loD('U')
+        UT = loD('UT')
+        cm('in',time.time()-t0,'seconds')
+
+
+
+
+
+
+    if 'UO' not in locals():
+        cm('Building UO...')
+        t0 = time.time()
+        UO = {
+            'past':{
+                'range':(21,26),#(23,24),
+                'back_steps':30*sample_frequency,
+                'S':{},
+            },
+            'future':{
+                'range':(21,66),
+                'back_steps':5,
+                'S':{},
+            },
+        }
+
+        for k in ['past','future']:
+            a,b = UO[k]['range']
+            for i in range(start,stop,1):
+                if i not in Y:
+                    continue
+                UO[k]['S'][i] = {
+                    'left': Y[i]['outer_countours_rotated_left'][a:b,:],
+                    'right':  Y[i]['outer_countours_rotated_right'][a:b,:],
+                    'index':i,
+                    'steps_left':0,
+                }
+        soD(UO,'UO')
+        cm('Made UO in',dp(time.time()-t0),'seconds')
+    else:
+        t0 = time.time()
+        UO = loD('UO')
         cm('in',time.time()-t0,'seconds')
 
 
@@ -143,6 +190,10 @@ times_mean = {
     'graphics':0,
 }
 
+
+U = UO
+
+
 for i in range(start,stop):
 
     if not L['drive_mode'][i]:
@@ -168,9 +219,6 @@ for i in range(start,stop):
     t0 = time.time()
 
     for k in ['past','future']:
-
-        #if i % 10:
-        #    continue
 
         S = U[k]['S']
 
