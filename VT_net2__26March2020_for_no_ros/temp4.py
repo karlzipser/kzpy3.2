@@ -1,6 +1,19 @@
 
 #,a
+if False:
+    P={}
+    print('#############\n#')
 
+    for r in All_runs['train']:
+        q = find_files_recursively(opjD('Data'),r,DIRS_ONLY=True)
+        if 'h5py' in q['parent_folders']:
+            a = q['src']
+            b = a_key(q['paths'])
+            c = q['paths'][b][0]
+            P[r] = opj(a,b,c)
+    print('#\n#############\n')
+    for r in P:
+        print P[r]
 
 if 'startup material':
 
