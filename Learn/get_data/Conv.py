@@ -115,8 +115,28 @@ def get_data_function(P):
                 flip = 0
                 gctr += 1
                 if gctr > len(Runs[r]['original_timestamp_data']['left_image']['vals']):
-                    raw_enter()
+                    #raw_enter()
 
+                    if 'save_output_2' in P and P['save_output_2']:
+
+                        cm(P['ctr'])
+
+                        output_2 = N.extract('output_2')
+
+                        outer_countours_rotated_left, outer_countours_rotated_right, angles_left, angles_right = parse_target_vector(output_2)
+
+                        P['output_2_data'][P['ctr']] = {
+                            'outer_countours_rotated_left':outer_countours_rotated_left,
+                            'outer_countours_rotated_right':outer_countours_rotated_right,
+                            'angles_left':angles_left,
+                            'angles_right':angles_right,
+                        }
+
+                        if True:
+                            os.system(d2s('mkdir -p',opjD('Data/outer_contours/output_2_data'))
+                            soD(opjD('Data/outer_contours/output_2_data',r),P['output_2_data'])
+                            cg('done saving figures')
+                            sys.exit(output_2_data)
             
 
             Lists = {'input':[],'target':[],'meta':[]}

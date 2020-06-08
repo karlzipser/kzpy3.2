@@ -168,10 +168,10 @@ def graphics_function(N,M,P):#,X):
             'angles_right':angles_right,
         }
 
-        if save_timer.check():
-            soD('output_2_data',P['output_2_data'],)
-            save_timer.reset()
-            
+        if False:
+            if save_timer.check():
+                soD('output_2_data',P['output_2_data'],)
+                save_timer.reset() 
         return
 
 
