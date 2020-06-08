@@ -133,9 +133,9 @@ def get_data_function(P):
                         }
 
                         if True:
-                            os.system(d2s('mkdir -p',opjD('Data/outer_contours/output_2_data'))
+                            os.system(d2s('mkdir -p',opjD('Data/outer_contours/output_2_data')))
                             soD(opjD('Data/outer_contours/output_2_data',r),P['output_2_data'])
-                            cg('done saving figures')
+                            cg('done saving',r,'output_2_data')
                             sys.exit(output_2_data)
             
 
