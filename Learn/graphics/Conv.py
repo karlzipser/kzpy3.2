@@ -172,7 +172,7 @@ def graphics_function(N,M,P):#,X):
             #soD('output_2_data',P['output_2_data'],)
             os.system(d2s('mkdir -p',opjD('Data/outer_contours/output_2_data')))
             soD(opjD('Data/outer_contours/output_2_data',P['run']),P['output_2_data'])
-            cg('saving',P['run'],'output_2_data')
+            cg('saving',P['run'],'output_2_data',P['ctr'])
             #sys.exit(output_2_data)
             save_timer.reset()           
         return
