@@ -38,7 +38,7 @@ class Net(nn.Module):
         self.num_losses_to_average = P['losses_to_average']
         self.losses_to_average = []
         self.save_net_timer = Timer(P['save_timer_time'])
-        self.save_net_timer.trigger()
+        #self.save_net_timer.trigger()
         self.setup_layers(P)
         self.setup_weights()
         self.setup_GPU()

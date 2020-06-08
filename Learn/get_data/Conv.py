@@ -93,6 +93,8 @@ from scipy.ndimage import interpolation
 
 gctr = 0
 
+save_output_2_timer = Timer(10)
+
 def get_data_function(P):
 
     global gctr
@@ -102,6 +104,11 @@ def get_data_function(P):
     
     while True:
         
+        if 'save_output_2' in P and P['save_output_2']:
+            if save_output_2_timer.check():
+                cy(P['ctr'])
+                save_output_2_timer.reset()
+
         if True:#try:
 
             if not 'single_run' in P or not P['single_run']:
