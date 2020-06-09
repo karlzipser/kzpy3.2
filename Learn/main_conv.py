@@ -10,7 +10,7 @@ M = Menu.main.start_Dic(dic_project_path=pname(opjh(__file__)))
 
 # python kzpy3/Learn/main_conv.py --main 6 --net_str conv1
 # python kzpy3/Learn/main_conv.py --main 6 --net_str conv0
-
+# python kzpy3/Learn/main_conv.py --main 6 --net_str conv1  --save_output_2 True --batch_size 1 --save_timer_time 999999 --LR 0 --runs validate --single_run Mr_Black_24Sep18_18h52m26s
 Net_strs = {
 
     'conv1' : """

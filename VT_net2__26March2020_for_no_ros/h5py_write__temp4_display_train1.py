@@ -314,7 +314,7 @@ if not Arguments['show2']:
 
 
 
-            if Arguments['show']:#not 'plot':
+            if Arguments['show']:# not 'plot':
                 spause()
 
             
