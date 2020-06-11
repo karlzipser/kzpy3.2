@@ -69,3 +69,60 @@ for r in P:
     clp("mkdir -p",Q[r])
     clp("scp -P 1022 -r karlzipser@bdd3.neuro.berkeley.edu:'"+opj(Q[r],'*')+"'",  Q[r])
     print ''
+
+
+
+#,a
+
+Arguments = {
+    'run_name':'tegra-ubuntu_31Oct18_16h06m32s',
+}
+
+def vec(heading,encoder,motor,sample_frequency=30.,vel_encoding_coeficient=1.0/2.6): #2.3): #3.33
+    velocity = encoder * vel_encoding_coeficient # rough guess
+    if motor < 49:
+        velocity *= -1.0
+    a = [0,1]
+    a = array(rotatePoint([0,0],a,heading))
+    a *= velocity/sample_frequency
+    return array(a)
+
+
+if 'o' not in locals():
+  o = {}
+assert type(o) is dict
+
+
+if 'O' not in o:
+
+  o['L'],o['O'],__flip = open_run2(Arguments['run_name'])
+
+  o['xy'] = [na([0,0])]
+
+  L = o['L']
+  for i in rlen(L['motor']):
+      a = vec(
+          L['gyro_heading_x_meo'][i],
+          L['encoder_meo'][i],
+          L['motor'][i],
+      )
+      o['xy'].append(o['xy'][-1]+a)
+
+  o['S'] = lo(opjD('Data/outer_contours/output_2_data/train/tegra-ubuntu_31Oct18_16h06m32s.pkl'))
+
+
+figure(1)
+clf()
+plt_square()
+for i in range(6000,8000,20):
+  b = o['S'][i]
+  xy = b['outer_countours_rotated_left']
+  plot(xy[:,0],xy[:,1],ms=3)
+  plot([-1,1],[0,0],'k:')
+  plot([0,0],[-1,1],'k:')
+  spause()
+  time.sleep(0.3)
+
+#,b
+
+

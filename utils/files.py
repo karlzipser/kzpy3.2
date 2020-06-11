@@ -476,7 +476,7 @@ def make_path_and_touch_file(path):
     os.system('mkdir -p '+pname(path))
     os.system('touch '+path)
 
-def open_run(run_name,h5py_path=None,Runs_dic=None,want_list=['L','O','F'],verbose=False):
+def open_run(run_name,h5py_path=None,Runs_dic=None,want_list=['L','O'],verbose=False):
     #cb("run_name =",run_name,"h5py_path =",h5py_path)
     if h5py_path != None:
         path = h5py_path
@@ -489,7 +489,7 @@ def open_run(run_name,h5py_path=None,Runs_dic=None,want_list=['L','O','F'],verbo
         cr("*** Can't open run",run_name,"because h5py_path=None and Runs_dic=None ***")
         return False,False,False
     files = sggo(path,run_name,"*.h5py")
-    if len(files) < 3:
+    if len(files) < len(want_list):
         cr("*** Can't open run",run_name,"because len(files) < 3 ***")
         return False,False,False
     Files = {'L':None,'O':None,'F':None,}
@@ -508,7 +508,7 @@ def open_run(run_name,h5py_path=None,Runs_dic=None,want_list=['L','O','F'],verbo
             return False,False,False
     return Files['L'],Files['O'],Files['F']
 
-def open_run2(run_name,Runs_dic=None,want_list=['L','O','F'],verbose=False):
+def open_run2(run_name,Runs_dic=None,want_list=['L','O'],verbose=False):
     h5py_path = find_h5py_path(run_name)
     L,O,F = open_run(run_name,h5py_path=h5py_path,want_list=want_list,verbose=verbose)
     return L,O,F

@@ -29,7 +29,6 @@ def Net_Main(M=False,sys_str=False,Arguments_=False,P_Runs_saved=None):
         'display.target':[0,3],
         'batch_size':1,
         'losses_to_average':64,
-        'runs':'train',
         'input_offset':0,
         'target_offset':0,
         'Data_read_path':False,
