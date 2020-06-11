@@ -1,10 +1,10 @@
 
 
 #,a
-
+ 
 Arguments = {
-    'run': 'tegra-ubuntu_31Oct18_16h06m32s'#'tegra-ubuntu_17Oct18_12h11m22s'#'tegra-ubuntu_16Nov18_15h59m28s'
-    #'tegra-ubuntu_12Oct18_11h11m30s',# 'tegra-ubuntu_12Nov18_20h56m16s',#'tegra-ubuntu_31Oct18_16h06m32s'#  ,
+    'run': 'tegra-ubuntu_12Oct18_11h11m30s',#'tegra-ubuntu_07Oct18_18h24m28s'#'tegra-ubuntu_17Oct18_12h11m22s'#'tegra-ubuntu_16Nov18_15h59m28s'
+    # 'tegra-ubuntu_12Nov18_20h56m16s',#'tegra-ubuntu_31Oct18_16h06m32s'#  ,
 }
 
 def vec(heading,encoder,motor,sample_frequency=30.,vel_encoding_coeficient=1.0/2.6): #2.3): #3.33
@@ -27,6 +27,7 @@ if 'O' not in o:
 
   if len(sggo(opjD('Data/train/h5py',Arguments['run']))) > 0:
       run_type = 'train'
+      assert(False)
   elif len(sggo(opjD('Data/validate/h5py',Arguments['run']))) > 0:
       run_type = 'validate'
   else:
