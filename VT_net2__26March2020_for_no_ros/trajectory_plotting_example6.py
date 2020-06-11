@@ -1,7 +1,7 @@
 
 #,a
 
-Arguments['run'] = 'Mr_Black_24Sep18_18h52m26s'#'tegra-ubuntu_31Oct18_16h06m32s'  # 
+Arguments['run'] = 'tegra-ubuntu_12Oct18_11h11m30s'#'Mr_Black_24Sep18_18h52m26s'#'tegra-ubuntu_31Oct18_16h06m32s'  # 
 
 if len(sggo(opjD('Data/train/h5py',Arguments['run']))) > 0:
     run_type = 'train'
