@@ -91,7 +91,7 @@ for x in range(41):
 
 from scipy.ndimage import interpolation
 
-gctr = 0
+gctr = 10000 #TEMP
 
 def get_data_function(P):
 
