@@ -147,7 +147,7 @@ save_timer = Timer(60)
 
 def graphics_function(N,M,P):#,X):
 
-
+    global graphics_timer
 
     if k_in_D('save_output_2',P):
 
@@ -175,11 +175,11 @@ def graphics_function(N,M,P):#,X):
             cg('saving',P['run'],'output_2_data',P['ctr'])
             #sys.exit(output_2_data)
             save_timer.reset()
-        cm(0,ra=1)        
-        return
+        #cm(0,ra=1)        
+        #return
+        graphics_timer.trigger()
 
-
-    global graphics_timer
+    
     if graphics_timer == None:
         graphics_timer = Timer(M['Q']['runtime_parameters']['graphics_timer_time'])
         graphics_timer.trigger()
