@@ -163,6 +163,7 @@ def graphics_function(N,M,P):#,X):
 
         cm(P['ctr'])
 
+        """
         output_2 = N.extract('output_2')
 
         outer_countours_rotated_left, outer_countours_rotated_right, angles_left, angles_right = parse_target_vector(output_2)
@@ -188,6 +189,7 @@ def graphics_function(N,M,P):#,X):
             save_timer.reset()
         #cm(0,ra=1)        
         #return
+        """
         graphics_timer.trigger()
 
 
