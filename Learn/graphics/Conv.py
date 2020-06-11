@@ -149,7 +149,7 @@ def graphics_function(N,M,P):#,X):
 
 
 
-    if 'save_output_2' in P and P['save_output_2']:
+    if k_in_D('save_output_2',P):
 
         cm(P['ctr'])
 
@@ -163,14 +163,18 @@ def graphics_function(N,M,P):#,X):
             'angles_left':angles_left,
             'angles_right':angles_right,
         }
-
+        figure(99)
+        clf();plt_square()
+        pts_plot(outer_countours_rotated_left,'r')
+        pts_plot(outer_countours_rotated_right,'g')
         if save_timer.check():
             #soD('output_2_data',P['output_2_data'],)
             os.system(d2s('mkdir -p',opjD('Data/outer_contours/output_2_data')))
             soD(opjD('Data/outer_contours/output_2_data',P['run']),P['output_2_data'])
             cg('saving',P['run'],'output_2_data',P['ctr'])
             #sys.exit(output_2_data)
-            save_timer.reset()           
+            save_timer.reset()
+            cm()        
         return
 
 
