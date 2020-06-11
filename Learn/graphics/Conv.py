@@ -149,6 +149,16 @@ def graphics_function(N,M,P):#,X):
 
     global graphics_timer
 
+
+
+    
+    if graphics_timer == None:
+        graphics_timer = Timer(M['Q']['runtime_parameters']['graphics_timer_time'])
+        graphics_timer.trigger()
+
+
+
+
     if k_in_D('save_output_2',P):
 
         cm(P['ctr'])
@@ -179,10 +189,9 @@ def graphics_function(N,M,P):#,X):
         #return
         graphics_timer.trigger()
 
-    
-    if graphics_timer == None:
-        graphics_timer = Timer(M['Q']['runtime_parameters']['graphics_timer_time'])
-        graphics_timer.trigger()
+
+
+
 
     cv2.waitKey(1)
     if graphics_timer.time_s != M['Q']['runtime_parameters']['graphics_timer_time']:
