@@ -167,6 +167,7 @@ def graphics_function(N,M,P):#,X):
         clf();plt_square()
         pts_plot(outer_countours_rotated_left,'r')
         pts_plot(outer_countours_rotated_right,'g')
+        spause()
         if save_timer.check():
             #soD('output_2_data',P['output_2_data'],)
             os.system(d2s('mkdir -p',opjD('Data/outer_contours/output_2_data')))
@@ -174,7 +175,7 @@ def graphics_function(N,M,P):#,X):
             cg('saving',P['run'],'output_2_data',P['ctr'])
             #sys.exit(output_2_data)
             save_timer.reset()
-            cm(0,ra=1)        
+        cm(0,ra=1)        
         return
 
 
