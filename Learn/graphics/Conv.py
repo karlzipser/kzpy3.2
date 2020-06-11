@@ -174,7 +174,7 @@ def graphics_function(N,M,P):#,X):
             cg('saving',P['run'],'output_2_data',P['ctr'])
             #sys.exit(output_2_data)
             save_timer.reset()
-            cm()        
+            cm(0,ra=1)        
         return
 
 

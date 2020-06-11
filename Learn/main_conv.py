@@ -11,6 +11,19 @@ M = Menu.main.start_Dic(dic_project_path=pname(opjh(__file__)))
 # python kzpy3/Learn/main_conv.py --main 6 --net_str conv1
 # python kzpy3/Learn/main_conv.py --main 6 --net_str conv0
 # python kzpy3/Learn/main_conv.py --main 6 --net_str conv1  --save_output_2 True --batch_size 1 --save_timer_time 999999 --LR 0 --runs validate --single_run Mr_Black_24Sep18_18h52m26s
+
+"""
+python kzpy3/Learn/main_conv.py --main 6 --net_str conv1  --save_output_2 True --batch_size 1 --save_timer_time 999999 --LR 0 --runs validate --single_run tegra-ubuntu_07Oct18_18h24m28s
+python kzpy3/Learn/main_conv.py --main 6 --net_str conv1  --save_output_2 True --batch_size 1 --save_timer_time 999999 --LR 0 --runs validate --single_run tegra-ubuntu_25Oct18_10h21m55s
+python kzpy3/Learn/main_conv.py --main 6 --net_str conv1  --save_output_2 True --batch_size 1 --save_timer_time 999999 --LR 0 --runs validate --single_run tegra-ubuntu_17Oct18_12h11m22s
+python kzpy3/Learn/main_conv.py --main 6 --net_str conv1  --save_output_2 True --batch_size 1 --save_timer_time 999999 --LR 0 --runs validate --single_run tegra-ubuntu_12Oct18_11h11m30s
+python kzpy3/Learn/main_conv.py --main 6 --net_str conv1  --save_output_2 True --batch_size 1 --save_timer_time 999999 --LR 0 --runs validate --single_run Mr_Black_24Sep18_18h52m26s
+python kzpy3/Learn/main_conv.py --main 6 --net_str conv1  --save_output_2 True --batch_size 1 --save_timer_time 999999 --LR 0 --runs validate --single_run tegra-ubuntu_12Nov18_20h56m16s
+python kzpy3/Learn/main_conv.py --main 6 --net_str conv1  --save_output_2 True --batch_size 1 --save_timer_time 999999 --LR 0 --runs validate --single_run tegra-ubuntu_01Nov18_13h46m55s
+python kzpy3/Learn/main_conv.py --main 6 --net_str conv1  --save_output_2 True --batch_size 1 --save_timer_time 999999 --LR 0 --runs validate --single_run tegra-ubuntu_25Oct18_15h43m36s
+"""
+
+
 Net_strs = {
 
     'conv1' : """
