@@ -176,8 +176,8 @@ def graphics_function(N,M,P):#,X):
         if 'graphics':
             figure(99)
             clf();plt_square()
-            pts_plot(P['output_2_data']['outer_countours_rotated_left'][P['ctr']],'r')
-            pts_plot(P['output_2_data']['outer_countours_rotated_right'][P['ctr']],'g')
+            pts_plot(P['output_2_data'][P['ctr']]['outer_countours_rotated_left'],'r')
+            pts_plot(P['output_2_data'][P['ctr']]['outer_countours_rotated_right'],'g')
             spause()
         if save_timer.check():
             #soD('output_2_data',P['output_2_data'],)
