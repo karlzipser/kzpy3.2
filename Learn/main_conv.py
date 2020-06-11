@@ -194,38 +194,44 @@ def main6():
         
         GENERATOR.optimizer.zero_grad()
 
-        if USE_DISCRIMINATOR:
-            label.fill_(1) 
-            output = DISCRIMINATOR(fake) 
-            if 's' not in Nets[n]['P']:
-                s = 0.0001
+        if Nets[n]['P']['runs'] == 'validate':
+
+            cb('validate')
+
+        else:
+            
+            if USE_DISCRIMINATOR:
+                label.fill_(1) 
+                output = DISCRIMINATOR(fake) 
+                if 's' not in Nets[n]['P']:
+                    s = 0.0001
+                else:
+                    s = Nets[n]['P']['s']
+
+                GENERATOR.loss = s*GENERATOR.criterion(GENERATOR.A['output'],GENERATOR.A['target']) + (1-s) * criterion(output, label) #19
+
             else:
-                s = Nets[n]['P']['s']
+                s = 1.0
+                #cm(1,ra=1)
+                #cm(GENERATOR.A['output_2'].size(),GENERATOR.A['target'].size(),ra=1)
+                GENERATOR.loss = s*GENERATOR.criterion(GENERATOR.A['output_2'],GENERATOR.A['target'])
 
-            GENERATOR.loss = s*GENERATOR.criterion(GENERATOR.A['output'],GENERATOR.A['target']) + (1-s) * criterion(output, label) #19
+            if Nets[n]['P']['backwards']:
+                GENERATOR.loss.backward() #20
+                nnutils.clip_grad_norm(GENERATOR.parameters(), Nets['N0']['P']['clip'])
+                GENERATOR.optimizer.step() #21
 
-        else:
-            s = 1.0
-            #cm(1,ra=1)
-            #cm(GENERATOR.A['output_2'].size(),GENERATOR.A['target'].size(),ra=1)
-            GENERATOR.loss = s*GENERATOR.criterion(GENERATOR.A['output_2'],GENERATOR.A['target'])
-
-        if Nets[n]['P']['backwards']:
-            GENERATOR.loss.backward() #20
-            nnutils.clip_grad_norm(GENERATOR.parameters(), Nets['N0']['P']['clip'])
-            GENERATOR.optimizer.step() #21
-
-        GENERATOR.losses_to_average.append(GENERATOR.extract('loss'))
-        if len(GENERATOR.losses_to_average) >= GENERATOR.num_losses_to_average:
-            GENERATOR.losses.append( na(GENERATOR.losses_to_average).mean() )
-            GENERATOR.losses_to_average = []
+            GENERATOR.losses_to_average.append(GENERATOR.extract('loss'))
+            if len(GENERATOR.losses_to_average) >= GENERATOR.num_losses_to_average:
+                GENERATOR.losses.append( na(GENERATOR.losses_to_average).mean() )
+                GENERATOR.losses_to_average = []
 
 
-        if USE_DISCRIMINATOR:
-            if GENERATOR.save():
-                DISCRIMINATOR.save(Nets[n]['P']['NETWORK_OUTPUT_FOLDER']+'.dcgan')
-        else:
-            GENERATOR.save()
+            if USE_DISCRIMINATOR:
+                if GENERATOR.save():
+                    DISCRIMINATOR.save(Nets[n]['P']['NETWORK_OUTPUT_FOLDER']+'.dcgan')
+            else:
+                GENERATOR.save()
 
 
 
