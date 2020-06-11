@@ -46,6 +46,8 @@ alias sra='screen -r SA'
 alias srb='screen -r SB'
 alias src='screen -r SC'
 
+alias wait='python ~/kzpy3/scripts/connect/wait_for_pull.py'
+
 alias kill_screen='pkill screen'
 
 alias empty_trash='rm -rf ~/.local/share/Trash/*'

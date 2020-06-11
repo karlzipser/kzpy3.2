@@ -108,7 +108,7 @@ class Net(nn.Module):
         if layer_name == 'loss':
             return self.loss.data.cpu().numpy()
         else:
-            return self.A[layer_name][batch_number,:].data.cpu().numpy()#.copy()
+            return self.A[layer_name][batch_number,:].data.cpu().numpy()
 
 
     def save(self,temp=False):
