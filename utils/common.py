@@ -595,6 +595,11 @@ def in_True(a,B):
     else:
         return False
 
+def k_in_D(k,D):
+    if k not in D:
+        return False
+    else:
+        return D[k]
 
 from kzpy3.utils.printing2 import *
 

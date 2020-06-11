@@ -200,18 +200,20 @@ def get_data_function(P):
 
 
     meta_turns = meta_blank.copy()
-    turns = Runs[r]['rotated']['turns'][ctr][:]
-    if flip:
-        turns -= 2
-        turns *= -1
-        turns += 2
 
-    turns22 = interpolation.zoom(turns,22/(1.0*len(turns)))
+    if not k_in_D('turns_zeroed',P):
+        turns = Runs[r]['rotated']['turns'][ctr][:]
+        if flip:
+            turns -= 2
+            turns *= -1
+            turns += 2
 
-    #cm(shape(turns22),ra=1)
+        turns22 = interpolation.zoom(turns,22/(1.0*len(turns)))
 
-    for i in range(shape(meta_turns)[1]):
-        meta_turns[0,i,:] = turns22
+        #cm(shape(turns22),ra=1)
+
+        for i in range(shape(meta_turns)[1]):
+            meta_turns[0,i,:] = turns22
 
     #mi(meta_turns[0,:,:])
     #spause()

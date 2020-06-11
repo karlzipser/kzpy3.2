@@ -138,11 +138,7 @@ def plot_map(
 
 
 
-def k_in_D(k,D):
-    if k not in D:
-        return False
-    else:
-        return D[k]
+
 
 fig_path = opjD('Data/outer_contours/figures')
 os.system('mkdir -p '+fig_path)
