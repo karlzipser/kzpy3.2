@@ -21,6 +21,8 @@ python kzpy3/Learn/main_conv.py --main 6 --net_str conv1  --save_output_2 True -
 python kzpy3/Learn/main_conv.py --main 6 --net_str conv1  --save_output_2 True --batch_size 1 --save_timer_time 999999 --LR 0 --runs validate --single_run tegra-ubuntu_12Nov18_20h56m16s
 python kzpy3/Learn/main_conv.py --main 6 --net_str conv1  --save_output_2 True --batch_size 1 --save_timer_time 999999 --LR 0 --runs validate --single_run tegra-ubuntu_01Nov18_13h46m55s
 python kzpy3/Learn/main_conv.py --main 6 --net_str conv1  --save_output_2 True --batch_size 1 --save_timer_time 999999 --LR 0 --runs validate --single_run tegra-ubuntu_25Oct18_15h43m36s
+
+stat -c %Y kzpy3/.git/FETCH_HEAD
 """
 
 

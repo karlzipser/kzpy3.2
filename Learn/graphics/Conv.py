@@ -173,11 +173,12 @@ def graphics_function(N,M,P):#,X):
             'angles_left':angles_left,
             'angles_right':angles_right,
         }
-        figure(99)
-        clf();plt_square()
-        pts_plot(outer_countours_rotated_left,'r')
-        pts_plot(outer_countours_rotated_right,'g')
-        spause()
+        if not 'graphics':
+            figure(99)
+            clf();plt_square()
+            pts_plot(outer_countours_rotated_left,'r')
+            pts_plot(outer_countours_rotated_right,'g')
+            spause()
         if save_timer.check():
             #soD('output_2_data',P['output_2_data'],)
             os.system(d2s('mkdir -p',opjD('Data/outer_contours/output_2_data')))
@@ -186,8 +187,8 @@ def graphics_function(N,M,P):#,X):
             #sys.exit(output_2_data)
             save_timer.reset()
         #cm(0,ra=1)        
-        #return
-        graphics_timer.trigger()
+        return
+        #graphics_timer.trigger()
 
 
 
