@@ -195,11 +195,11 @@ def main6():
         GENERATOR.optimizer.zero_grad()
 
         if Nets[n]['P']['runs'] == 'validate':
-
-            cb('validate')
+            pass
+            #cb('validate')
 
         else:
-            
+
             if USE_DISCRIMINATOR:
                 label.fill_(1) 
                 output = DISCRIMINATOR(fake) 
