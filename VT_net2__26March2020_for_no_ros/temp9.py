@@ -82,7 +82,8 @@ def get_offshoot(A,B,r,theta):
 figure(1)
 clf()
 plt_square()
-for i in range(3200,5000,5):#rlen(L['motor']):
+for i in range(3500,5000,5):#rlen(L['motor']):
+
   figure(1)
   clf()
   if not L['drive_mode'][i]:
@@ -146,8 +147,8 @@ for i in range(3200,5000,5):#rlen(L['motor']):
       q = w
       #q = np.concatenate((w,q[33:,:]))
 
-      for i in rlen(q):
-          a = q[i,:]
+      for w in rlen(q):
+          a = q[w,:]
           bb = fit3d.point_in_3D_to_point_in_2D(
               a,
               height_in_pixels = 94,
@@ -162,6 +163,8 @@ for i in range(3200,5000,5):#rlen(L['motor']):
       except:
           clp('Exception, shape(c) =',shape(c),'`wrb')
   spause()
+  #if i == 3400:
+  #  raw_enter()
   time.sleep(0.00005)
   #cm(a,ra=1)
 
