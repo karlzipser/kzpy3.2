@@ -27,10 +27,11 @@ for r in arange(3.5,3.8,.001):
 		break
 	E[r] = X[-32:]
 
-	clf()
-	plot(X)
-	plt.xlabel(dp(r))
-	spause()
+	if False:
+		clf()
+		plot(X)
+		plt.xlabel(dp(r))
+		spause()
 	#raw_enter()
 
 figure(2);clf()
