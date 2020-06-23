@@ -19,7 +19,7 @@ E = {}
 
 
 for r in arange(3.,3.8,.00001):
-	figure(1);clf()
+	#figure(1);clf()
 	X = []
 	main(X,r)
 	R.append(r)
