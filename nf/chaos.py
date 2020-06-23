@@ -6,7 +6,7 @@ from kzpy3.vis3 import *
 X = []
 
 def main(X,r):
-    print("This program illustrates a chaotic function")
+    #print("This program illustrates a chaotic function")
     x = .3#input("Enter a number between 0 and 1: ")
     for i in range(300):
         x = r * x * (1 - x)
@@ -19,7 +19,8 @@ E = {}
 
 
 for r in arange(3.,3.8,.00001):
-	#figure(1);clf()
+	##figure(1);clf()
+	print r
 	X = []
 	main(X,r)
 	R.append(r)
