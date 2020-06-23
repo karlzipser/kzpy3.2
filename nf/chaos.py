@@ -8,7 +8,7 @@ X = []
 def main(X,r):
     print("This program illustrates a chaotic function")
     x = .3#input("Enter a number between 0 and 1: ")
-    for i in range(100):
+    for i in range(300):
         x = r * x * (1 - x)
         #x = x**2 + c
         print(x)
@@ -18,7 +18,7 @@ R = []
 E = {}
 
 
-for r in arange(3.5,3.8,.001):
+for r in arange(3.5,3.8,.0003):
 	figure(1);clf()
 	X = []
 	main(X,r)
