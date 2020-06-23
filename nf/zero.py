@@ -4,15 +4,14 @@ x = []
 y = []
 
 a = -5
-b = 5+1
+b = 5+1 # why +1?
 c = 1
 
 for i in range(a, b, c):
 	x.append(i)
 	y.append( i**2 )
 
-clp('x:', x)
-clp('y:', y)
+
 
 
 clf() # clear plot
@@ -23,5 +22,6 @@ plot(x, y, 'o-')
 spause() # makes the current plot visible
 
 
-
+clp('x:', x)
+clp('y:', y, r=1)
 
