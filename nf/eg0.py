@@ -7,9 +7,16 @@ a = -5
 b = 5+1 # why +1?
 c = 1
 
+
+def f(x):
+	y = x * x
+	return y
+
+
+
 for i in range(a, b, c):
-	x.append(i)
-	y.append( i**2 )
+	x.append( i )
+	y.append( f( i ) )
 
 
 
