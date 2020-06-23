@@ -36,5 +36,7 @@ for r in arange(3.5,3.8,.001):
 figure(2);clf()
 
 for r in E.keys():
-	plot(r*(zeros(10)+1),E[r],'k.',markersize=2)#,m=2)
+	plot(r*(zeros(32)+1),E[r],'k.',markersize=2)#,m=2)
 ylim(0,1)
+
+raw_enter()
