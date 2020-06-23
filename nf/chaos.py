@@ -11,7 +11,7 @@ def main(X,r):
     for i in range(300):
         x = r * x * (1 - x)
         #x = x**2 + c
-        print(x)
+        #print(x)
         X.append(x)
 
 R = []
