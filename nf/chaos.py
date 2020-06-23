@@ -18,14 +18,14 @@ R = []
 E = {}
 
 
-for r in arange(3.5,3.8,.0003):
+for r in arange(3.,3.8,.00001):
 	figure(1);clf()
 	X = []
 	main(X,r)
 	R.append(r)
 	if not is_number(X[-1]):
 		break
-	E[r] = X[-32:]
+	E[r] = X[-100:]
 
 	if False:
 		clf()
@@ -37,7 +37,7 @@ for r in arange(3.5,3.8,.0003):
 figure(2);clf()
 
 for r in E.keys():
-	plot(r*(zeros(32)+1),E[r],'k.',markersize=2)#,m=2)
+	plot(r*(zeros(100)+1),E[r],'k.',markersize=2)#,m=2)
 ylim(0,1)
 
 raw_enter()
