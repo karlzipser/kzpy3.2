@@ -1,0 +1,114 @@
+# Repository is called kzpy3. It is loaded in my account but you might want to
+# set it up elsewhere.
+# If setting up in other account:
+
+$ git clone https://github.com/karlzipser/kzpy3.2.git
+$ mv kzpy3.2 kzpy3
+$ mkdir -p ~/Desktop; cd ~/Desktop
+$ ln -s /home/karlzipser/Desktop/Activations_folders Activations_folders
+$ cd
+$ source ~/kzpy3/bashrc # for each terminal (put in .bashrc or equivalent).
+
+# The system uses a menu in one terminal to control runtime parameters.
+# Load this first, at least the first time:
+
+$ menu --path ~/kzpy3/Learn
+# enter this sequence of numbers into menu to change loss plot y-limits
+choice: 1 <enter>
+choice: 7 <enter>
+Enter value for 'graphics_ylim' ([0, 1] <list>):    [0,2] <enter>
+
+# In a second terminal, start the network:
+# Task: get rgb from hidden layer
+####$ Learn --type ConDecon_Fire_FS,Fire3,to_rgb --resume False --save_timer_time 30 --runs validate --inputs Fire3 --targets rgb
+
+# rgb_test
+Learn --type ConDecon_Fire_FS,Fire3,rgb_test --runs train --batch_size 1 --resume False --LR 0.01 --inputs Fire3 --targets rgb --momentum 0.001 --save_timer_time 300 --losses_to_average 250
+
+
+# Note this trains with validation runs, useful for debugging because they load faster.
+# To train properly, use "--runs train"
+# Kill with Ctrl-C or by doing abort (choice 1) from menu.
+
+# A second configuration:
+# Task: predict future hidden layer state
+$ Learn --type ConDecon_Fire_FS,Fire3,predict --resume True --save_timer_time 30 --target_offset 10 --inputs Fire3 --outputs Fire3 --runs validate
+# Note, target_offset is in frames (frame rate=30Hz).
+
+
+
+To do:
+* get flip data (but is this valid for the fire data? e.g., the trajectory data cannot be flipped
+	 without swapping channels.)
+* put navigational mode into prediction input data
+* separate menus for seperate runs
+* input and output to/from networks like functions, so can easily combine (e.g., take output of
+	predition net and send it to rendering net)
+* clean up input/output specificication
+* view more output channels (multiple windows or concatenate them on side on single window)
+* data: fire, rgb, navigational mode with whatever time offset.
+* image display scale
+
+*scale
+*image divisor
+
+Learn --type ConDecon_Fire_FS,Fire3,fire2fireFuture.b --resume False --save_timer_time 30 --target_offset 10 --input button,Fire3 --target Fire3 --losses_to_average 256 --runs train --display.output 0,3 --display.input 0,3,3,6 --display.target 0,3
+Learn --type ConDecon_Fire_FS,Fire3,fire2fireFuture.b --resume True --save_timer_time 300 --target_offset 10 --input button,Fire3 --target Fire3 --losses_to_average 256 --runs train --display.output 0,3 --display.input 0,3,3,6 --display.target 0,3
+Learn --type ConDecon_Fire_FS,Fire3,fire2fireFuture.c --resume True --save_timer_time 300 --target_offset 15 --input button,Fire3 --target Fire3 --losses_to_average 256 --runs train --display.output 0,3 --display.input 0,3,3,6 --display.target 0,3
+Learn --type ConDecon_Fire_FS,Fire3,fire2fireFuture.b --resume True --save_timer_time 300 --clip 0.01 --target_offset 10 --input button,Fire3 --target Fire3 --losses_to_average 256 --runs train --display.output 0,3 --display.input 0,3,3,6 --display.target 0,3
+Learn --type ConDecon_Fire_FS,Fire3,fire2fireFuture.c --resume True --save_timer_time 300 --clip 0.01 --target_offset 15 --input button,Fire3 --target Fire3 --losses_to_average 256 --runs train --display.output 0,3 --display.input 0,3,3,6 --display.target 0,3
+
+Learn --type ConDecon_Fire_FS,Fire3,fire2fireFuture.b --resume True --save_timer_time 300 --clip 0.01 --target_offset 10 --input button,Fire3 --target Fire3 --losses_to_average 256 --runs train --display.output 0,3 --display.input 0,3,3,6 --display.target 0,3
+Learn --type ConDecon_Fire_FS,Fire3,buttonFire2rgbProjections.b --resume True --save_timer_time 300 --target_offset 0 --input button,Fire3 --target rgb,projections --losses_to_average 256 --runs train --display.output 0,3,3,6 --display.input 3,6 --display.target 0,3,3,6
+
+
+Learn --type ConDecon_Fire_FS,Fire3,pro2proFuture.b --resume False --save_timer_time 30 --target_offset 10 --input button,projections --target projections --losses_to_average 256 --runs train --display.output 0,3 --display.input 0,3,3,6 --display.target 0,3
+Learn --type ConDecon_Fire_FS,Fire3,pro2proFuture.b --resume True --save_timer_time 300 --target_offset 10 --input button,projections --target projections --losses_to_average 256 --runs train --display.output 0,3 --display.input 0,3,3,6 --display.target 0,3
+
+
+
+
+
+scp -P 1022    karlzipser@169.229.219.140:'Desktop/Networks/ConDecon_Fire_FS.Fire3.pro2proFuture/weights/net_17Jan20_00h51m15s.700.397.cuda.infer' Desktop
+scp -P 1022    karlzipser@169.229.219.140:'Desktop/Networks/ConDecon_Fire_FS.Fire3.pro2proFuture/loss/net_17Jan20_00h51m15s.700.397*' Desktop
+scp -P 1022    karlzipser@169.229.219.140:'Desktop/Networks/ConDecon_Fire_FS.Fire3.fire2fireFuture/loss/net_17Jan20_07h40m22s.0.39137113*' Desktop
+scp -P 1022    karlzipser@169.229.219.140:'Desktop/Networks/ConDecon_Fire_FS.Fire3.buttonFire2rgbProjections/loss/net_17Jan20_05h01m00s.1044.011*' Desktop
+
+
+1 Learn --type ConDecon_Fire_FS,Fire3,fire2fireFuture.c --resume True --save_timer_time 99999 --target_offset 15 --input button,Fire3 --target Fire3 --runs train --display.output 0,3 --display.input 0,3,3,6 --display.target 0,3 --backwards False --Data_write_path ~/Desktop/temp9.pkl
+ Learn --type ConDecon_Fire_FS,Fire3,Fire2rgbProjections.b --resume True --save_timer_time 99999 --target_offset 0 --input Fire3 --target rgb,projections --losses_to_average 256 --runs train --display.output 0,3,3,6 --display.input 0,3 --display.target 0,3,3,6 --backwards False --Data_read_path ~/Desktop/temp9.pkl
+
+
+
+Learn --type ConDecon_Fire_FS,Fire3,fire2fireFuture.c --resume True --save_timer_time 300 --clip 0.01 --target_offset 15 --input button,Fire3 --target Fire3 --losses_to_average 256 --runs train --display.output 0,3 --display.input 0,3,3,6 --display.target 0,3
+Learn --type ConDecon_Fire_FS,Fire3,fire2fireFuture.b --resume True --save_timer_time 300 --clip 0.01 --target_offset 10 --input button,Fire3 --target Fire3 --losses_to_average 256 --runs train --display.output 0,3 --display.input 0,3,3,6 --display.target 0,3
+Learn --type ConDecon_Fire_FS,Fire3,buttonFire2rgbProjections.b --resume True --save_timer_time 300 --target_offset 0 --input button,Fire3 --target rgb,projections --losses_to_average 256 --runs train --display.output 0,3,3,6 --display.input 3,6 --display.target 0,3,3,6
+0 Learn --type ConDecon_Fire_FS,Fire3,Fire2rgbProjections.b --resume False --save_timer_time 300 --target_offset 0 --input Fire3 --target rgb,projections --losses_to_average 256 --runs train --display.output 0,3,3,6 --display.input 3,6 --display.target 0,3,3,6 --clip 0.1
+Learn --type ConDecon_Fire_FS,Fire3,pro2proFuture.b --resume True --save_timer_time 300 --target_offset 10 --input button,projections --target projections --losses_to_average 256 --runs train --display.output 0,3 --display.input 0,3,3,6 --display.target 0,3
+
+
+
+GOOD:
+Learn --type ConDecon_Fire_FS,Fire3,Fire2rgbProjections.c --resume False --save_timer_time 300 --target_offset 0 --input Fire3 --target rgb,projections --losses_to_average 2000 --runs train --display.output 0,3,3,6 --display.input 3,6 --display.target 0,3,3,6 --clip 1.0
+
+    Learn 
+        --type ConDecon_Fire_FS,Fire3,all2allFuture.6 
+        --resume False 
+        --save_timer_time 300 
+        --target_offset 6 
+        --input  button,rgb,projections,Fire3
+        --target button,rgb,projections,Fire3 
+        --losses_to_average 256 
+        --runs train 
+        --display.output 0,3,3,6,9,12
+        --display.input  0,3,3,6,9,12
+        --display.target 0,3,3,6,9,12 
+        --clip 1
+        --backwards True
+        --win_x 20
+        --win_y 310
+
+
+
+
+#EOF
