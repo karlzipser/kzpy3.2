@@ -147,6 +147,6 @@ def sort_by_column(a,col,reverse=False):
         a *= -1
     return a
 
-exec(identify_file_str)
+#exec(identify_file_str)
 
 #EOF

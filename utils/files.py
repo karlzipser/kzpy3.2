@@ -542,7 +542,7 @@ def restore_Desktop(src):
     _,l = dir_as_dic_and_list(src)
     for i in l:
         shutil.move(opjh(src,i),opjD(''))
-exec(identify_file_str)
+
 
 
 
@@ -558,7 +558,7 @@ def make_kzpy3_links():
             os.system(s)
 
 
-
+#exec(identify_file_str)
 
 
 

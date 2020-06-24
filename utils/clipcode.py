@@ -107,6 +107,6 @@ def _code_to_clipboard(code,start,stop):
     print('\nOkay, it is in the clipboard')
 
 
-exec(identify_file_str)
+#exec(identify_file_str)
 
 #EOF

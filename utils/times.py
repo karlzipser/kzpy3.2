@@ -154,6 +154,6 @@ def format_seconds(time):
 
 
 
-exec(identify_file_str)
+#exec(identify_file_str)
 
 #EOF

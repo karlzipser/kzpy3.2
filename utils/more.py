@@ -83,6 +83,6 @@ def Toggler(t=5):
 
 
 
-exec(identify_file_str)
+#exec(identify_file_str)
 
 #EOF

@@ -34,6 +34,6 @@ def str_contains_one(st,str_list):
     return False
 
             
-exec(identify_file_str)
+#exec(identify_file_str)
 
 #EOF
