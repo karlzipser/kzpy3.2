@@ -1,6 +1,6 @@
 # File: chaos.py
 # A simple program illustrating chaotic behavior.
-
+#,a
 from kzpy3.vis3 import *
 
 X = []
@@ -8,7 +8,7 @@ X = []
 def main(X,r):
     #print("This program illustrates a chaotic function")
     x = .3#input("Enter a number between 0 and 1: ")
-    for i in range(300):
+    for i in range(5000):
         x = r * x * (1 - x)
         #x = x**2 + c
         #print(x)
@@ -18,7 +18,7 @@ R = []
 E = {}
 
 
-for r in arange(3.,3.8,.00001):
+for r in arange(3.5,3.6,.00001):
 	##figure(1);clf()
 	print r
 	X = []
@@ -38,7 +38,8 @@ for r in arange(3.,3.8,.00001):
 figure(2);clf()
 
 for r in E.keys():
-	plot(r*(zeros(100)+1),E[r],'k.',markersize=2)#,m=2)
+	plot(r*(zeros(100)+1),E[r],'k,')#,markersize=2)#,m=2)
 ylim(0,1)
 
 raw_enter()
+#,b
