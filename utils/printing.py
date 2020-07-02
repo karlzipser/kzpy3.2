@@ -38,11 +38,25 @@ def cs(*args):
 
 
 
-def d2s_spacer(args,spacer=' '):
+def __d2s_spacer(args,spacer=' '):
     lst = []
     for e in args:
         lst.append(str(e))
     return spacer.join(lst)
+
+
+def d2s_spacer(args,spacer=' '):
+    lst = []
+    for e in args:
+        try:
+            ee = str(e)
+        except:
+            ee = e
+            print('d2s_spacer except with '+ee)
+        lst.append(ee)
+    return spacer.join(lst)
+
+
 def d2s(*args):
     '''
     e.g.,

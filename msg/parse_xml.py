@@ -11,7 +11,7 @@ from kzpy3.utils3 import *
 
 def parse(fname):
 
-	with open(opjD(fname+'.xml')) as fd:
+	with open(opjD(fname)) as fd:
 	    c = xmltodict.parse(fd.read())
 
 	d = c['plist']['dict']['array']['dict']
@@ -87,8 +87,8 @@ def parse(fname):
 	}
 	return R
 
-fname = 'f'
-pprint(parse(fname))
+#fname = 'f'
+#pprint(parse(fname))
 #pprint(R)
 #pprint(R2)
 
