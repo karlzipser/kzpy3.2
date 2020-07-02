@@ -554,7 +554,7 @@ CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
 identify_file_str = """
 if '__file__' not in locals():
     __file__ = 'INTERPRETER'
-cprint('using '+__file__,'yellow')
+#cprint('using '+__file__,'yellow')
 CVerbose = {}
 CShowFile = {}
 cfile = fname(__file__)#.replace(opjk(),'').replace(opjh(),'')
@@ -603,7 +603,7 @@ def k_in_D(k,D):
 
 from kzpy3.utils.printing2 import *
 
-#exec(identify_file_str)
+exec(identify_file_str)
 
 #EOF
 
