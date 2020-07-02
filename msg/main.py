@@ -27,9 +27,16 @@ from datetime import datetime
 from kzpy3.utils3 import *
 
 
-def parse_xml(fname):
+def parse_xml(fnm):
 
-    with open(opjD(fname)) as fd:
+    a = fname(fnm).split(" on ")
+    correspondent = a[0]
+    b = a[1].split(' at ')
+    text_date = b[0]
+    text_time = b[1].replace('.ichat','')
+
+
+    with open(opjD(fnm)) as fd:
         c = xmltodict.parse(fd.read())
 
     d = c['plist']['dict']['array']['dict']
@@ -100,22 +107,20 @@ def parse_xml(fname):
                 else:
                     pass
     try:
-        print 'texts start'
-        for t in texts:
-            print(t)
-        print 'texts end'
-        phone = int(texts[-1])
+        #print 'texts start'
+        #for t in texts:
+        #    print(t)
+        #print 'texts end'
+        phone = texts[-1]
     except:
         clp(texts,'`wr')
         clp(timestamps,'`wr')
-        clp(mes,'`wr',r=1)
+        clp(mes,'`wr',r=0)
         return {
             'Error':True,
             'timestamps':timestamps,
             'mes':mes,
             'texts':texts,
-            #'p':p,
-            #'string':e['string'],
         }
 
 
@@ -148,7 +153,11 @@ def parse_xml(fname):
             'texts':texts,
             #'p':p,
             #'string':e['string'],
-        }       
+        } 
+
+    R['correspondent'] = correspondent
+    R['text_date'] = text_date
+    R['text_time'] = text_time
 
     return R
 
@@ -231,7 +240,7 @@ def update_dic():
         R = lo(dname)
     else:
         R = {
-            'phone':{}
+            'correspondent':{}
         }
 
     xml_folders = sggo(A['xml_dst'],'*')
@@ -243,12 +252,12 @@ def update_dic():
             R0 = lo(x)
             if 'Error' in R0:
                 continue
-            phone = R0['phone']
-            if phone not in R['phone']:
-                R['phone'][phone] = {}
+            correspondent = R0['correspondent']
+            if correspondent not in R['correspondent']:
+                R['correspondent'][correspondent] = {}
             for timestamp in R0['texts']:
                 text = R0['texts'][timestamp]
-                R['phone'][phone][timestamp] = text
+                R['correspondent'][correspondent][timestamp] = text
 
     return R
 
@@ -268,6 +277,7 @@ def main():
         update_xml()
     update_pkl()
     R = update_dic()
+    
     """
     d_path = opj(pname(A['xml_dst']),'D.pkl')
 

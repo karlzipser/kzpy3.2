@@ -52,7 +52,7 @@ def d2s_spacer(args,spacer=' '):
             ee = str(e)
         except:
             ee = e
-            print('d2s_spacer except with '+ee)
+            #print('d2s_spacer except with '+ee)
         lst.append(ee)
     return spacer.join(lst)
 
