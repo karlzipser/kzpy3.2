@@ -1,38 +1,5 @@
 #,a
-metamers = [
-    ['Ping','X','Beatrice','+1 929 270-8285','9292708285'],
 
-    ['Nino Zipser','Nino','Chat with Nino Zipser et al'],
-
-    ['Banafsheh','Banafsheh Old'],
-
-    ['Kelley','Kelley Herndon','+1 510 847-1373','5108471373'],
-
-    ['Francesca','Fran','Maybe- Fran','francescaannaz@gmail.com'],
-
-    ['Ellen','+1 415 385-4220','4153854220'],
-
-    ['Jackie','+1 415 747-4631','4157474631'],
-
-    ['Karl Zipser','+1 510 909 9328','5109099328'],
-
-    ['Vivian','+1 415 819-5552'],
-
-    ['Julie','+1 415 939-0586'],
-
-    ['Mel','+1 209 200-1438'],
-
-    ['Arnold snow','+1 209 768-1403'],
-
-    ['Eva','+1 415 238-7899'],
-
-    ['Elizabeth','+1 415 652-1623'],
-
-    ['Ed from Stockton'],['+1 415 717-5397'],
-
-    ['Amy','+1 415 806-5414'],
-
-]
 
 
 from kzpy3.utils3 import *
