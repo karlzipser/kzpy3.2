@@ -1,9 +1,46 @@
 #,a
+metamers = [
+    ['Ping','X','Beatrice','+1 929 270-8285','9292708285'],
+
+    ['Nino Zipser','Nino','Chat with Nino Zipser et al'],
+
+    ['Banafsheh','Banafsheh Old'],
+
+    ['Kelley','Kelley Herndon','+1 510 847-1373','5108471373'],
+
+    ['Francesca','Fran','Maybe- Fran','francescaannaz@gmail.com'],
+
+    ['Ellen','+1 415 385-4220','4153854220'],
+
+    ['Jackie','+1 415 747-4631','4157474631'],
+
+    ['Karl Zipser','+1 510 909 9328','5109099328'],
+
+    ['Vivian','+1 415 819-5552'],
+
+    ['Julie','+1 415 939-0586'],
+
+    ['Mel','+1 209 200-1438'],
+
+    ['Arnold snow','+1 209 768-1403'],
+
+    ['Eva','+1 415 238-7899'],
+
+    ['Elizabeth','+1 415 652-1623'],
+
+    ['Ed from Stockton'],['+1 415 717-5397'],
+
+    ['Amy','+1 415 806-5414'],
+
+]
+
+
 from kzpy3.utils3 import *
 import xmltodict
 from json import loads, dumps
 from datetime import datetime
-from datetime import datetime
+import rtfunicode
+
 
 Defaults = {
     'ichat_src':opjh('Library/Messages/Archive'),
@@ -173,6 +210,7 @@ def parse_xml(fnm):
 def test_if_msg_is_calendar_entry(msg):
     return False
 
+
 def mac_safe_filename(f):
     f = f.replace(' ','\ ')
     return f
@@ -230,13 +268,19 @@ def update_pkl():
 
 
 
+Metamers = {}
+for m in metamers:
+    v = m[0]
+    for k in m[1:]:
+        Metamers[k] = v
+
 
 def update_dic():
 
     dname = opj(pname(A['xml_dst']),'R.pkl')
 
     if os.path.lexists(dname):
-        R = lo(dname)
+        R = lo(dname,noisy=False)
     else:
         R = {
             'correspondent':{}
@@ -248,10 +292,14 @@ def update_dic():
         assert os.path.isdir(p)
         pkl_files = sggo(p,'*.pkl')
         for x in pkl_files:
-            R0 = lo(x)
+            R0 = lo(x,noisy=False)
             if 'Error' in R0:
                 continue
             correspondent = R0['correspondent']
+            if correspondent in Metamers:
+                c = Metamers[correspondent]
+                cm(correspondent,'->',c)
+                correspondent = c
             if correspondent not in R['correspondent']:
                 R['correspondent'][correspondent] = {}
             for timestamp in R0['texts']:
@@ -297,7 +345,7 @@ def rtf_encode(unistr):
     return ''.join(rtf_encode_char(c) for c in unistr)
 
 
-import rtfunicode
+
 
 
 rtf_header = """
@@ -313,34 +361,9 @@ rtf_header = """
 
 
 
-R = update_dic()
-
-for c in R['correspondent'].keys():
-
-    if True:#try:
-        save_lst = [rtf_header]
-
-        save_lst.append("\\f0\\fs64 \\cf0 "+c+"\n\\f1\n\\fs30 \\")
 
 
 
-        sl = R_str(R,c)
-        #print "\\f1\\fs64 " + c +"\n\\fs24 \\" 
-
-        for s in sl:
-            s = s.replace('?','^^^')
-            r = s.encode('rtfunicode').replace('?','').replace('&&&','\\')
-            #print '\\f0 ' + r.replace('^^^','?') + ' \\'
-            save_lst.append('\\f0 ' + r.replace('^^^','?') + ' \\\n\\')
-        save_lst.append('}')
-
-        dname = opj(pname(A['xml_dst']),'printouts',c+'.rtf')
-
-        os.system(d2s('mkdir -p',pname(dname)))
-
-        list_of_strings_to_txt_file(dname,save_lst)
-    else:#except:
-        cr(c,'failed')
 
 def main():
 
@@ -351,17 +374,33 @@ def main():
     R = update_dic()
     
     so(opj(pname(A['xml_dst']),'R.pkl'),R)
-    """
-    d_path = opj(pname(A['xml_dst']),'D.pkl')
 
-    if os.path.lexists(d_path):
-        d_mtime = os.path.getmtime(d_path)
-        D = lo(d_path)
-    else:
-        D = {}
-        d_mtime = time.time()
-    """
+    for c in R['correspondent'].keys():
 
+        if True:#try:
+            save_lst = [rtf_header]
+
+            save_lst.append("\\f0\\fs64 \\cf0 "+c+"\n\\f1\n\\fs30 \\")
+
+
+
+            sl = R_str(R,c)
+            #print "\\f1\\fs64 " + c +"\n\\fs24 \\" 
+
+            for s in sl:
+                s = s.replace('?','^^^')
+                r = s.encode('rtfunicode').replace('?','').replace('&&&','\\')
+                #print '\\f0 ' + r.replace('^^^','?') + ' \\'
+                save_lst.append('\\f0 ' + r.replace('^^^','?') + ' \\\n\\')
+            save_lst.append('}')
+
+            dname = opj(pname(A['xml_dst']),'printouts',c+'.rtf')
+
+            os.system(d2s('mkdir -p',pname(dname)))
+
+            list_of_strings_to_txt_file(dname,save_lst)
+        else:#except:
+            cr(c,'failed')
 #,b
 
 if __name__ == '__main__':
