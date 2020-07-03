@@ -279,7 +279,11 @@ def R_str(R,correspondent):
             idstr = ' &&&cf2 '
         else:
             idstr = ' &&&cf0 '
-        str_lst.append(idstr + C[t]['text'])
+        try:
+            str_lst.append(idstr + C[t]['text'])
+        except:
+            cr(correspondent,idstr,C[t]['text'],'failed')
+
     return str_lst
 
 
@@ -301,23 +305,42 @@ rtf_header = """
 {\\rtf1\\ansi\\ansicpg1252\cocoartf1561\cocoasubrtf610
 {\\fonttbl\\f0\\fswiss\\fcharset0 Helvetica;\\f1\\fnil\\fcharset0 AppleColorEmoji;}
 {\colortbl;\\red255\green255\\blue255;\\red243\green0\\blue146;\\red33\green255\\blue6;}
-{\*\expandedcolortbl;;\cssrgb\c97337\c1611\c63799;\cssrgb\c0\c97680\c0;}
+{\*\expandedcolortbl;;\\cssrgb\\c57337\\c57337\c57337;\\cssrgb\\c1611\\c27337\\c63799;}
 \margl1440\margr1440\\vieww10800\\viewh8400\\viewkind0
 \pard\\tx720\\tx1440\\tx2160\\tx2880\\tx3600\\tx4320\\tx5040\\tx5760\\tx6480\\tx7200\\tx7920\\tx8640\pardirnatural\partightenfactor0
 
 """
-save_lst = [rtf_header]
-c = 'Ping'
-sl = R_str(R,c)
-#print "\\f1\\fs64 " + c +"\n\\fs24 \\" 
 
-for s in sl:
-    s = s.replace('?','^^^')
-    r = s.encode('rtfunicode').replace('?','').replace('&&&','\\')
-    #print '\\f0 ' + r.replace('^^^','?') + ' \\'
-    save_lst.append('\\f0 ' + r.replace('^^^','?') + ' \\\n\\')
-save_lst.append('}')
-list_of_strings_to_txt_file(opjD('temp4.rtf'),save_lst)
+
+
+R = update_dic()
+
+for c in R['correspondent'].keys():
+
+    if True:#try:
+        save_lst = [rtf_header]
+
+        save_lst.append("\\f0\\fs64 \\cf0 "+c+"\n\\f1\n\\fs30 \\")
+
+
+
+        sl = R_str(R,c)
+        #print "\\f1\\fs64 " + c +"\n\\fs24 \\" 
+
+        for s in sl:
+            s = s.replace('?','^^^')
+            r = s.encode('rtfunicode').replace('?','').replace('&&&','\\')
+            #print '\\f0 ' + r.replace('^^^','?') + ' \\'
+            save_lst.append('\\f0 ' + r.replace('^^^','?') + ' \\\n\\')
+        save_lst.append('}')
+
+        dname = opj(pname(A['xml_dst']),'printouts',c+'.rtf')
+
+        os.system(d2s('mkdir -p',pname(dname)))
+
+        list_of_strings_to_txt_file(dname,save_lst)
+    else:#except:
+        cr(c,'failed')
 
 def main():
 
