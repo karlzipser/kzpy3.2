@@ -1,7 +1,9 @@
 #,a
 from kzpy3.utils3 import *
-
-#import parse_xml
+import xmltodict
+from json import loads, dumps
+from datetime import datetime
+from datetime import datetime
 
 Defaults = {
     'ichat_src':opjh('Library/Messages/Archive'),
@@ -18,22 +20,18 @@ A = Arguments
 
 
 
+dt = 1593336840.0 - 615054922 + 7*3600
+time_format_str = "%A, %B %d, %Y %H:%M"
 
 
-
-import xmltodict
-from json import loads, dumps
-from datetime import datetime
-from kzpy3.utils3 import *
 
 
 def parse_xml(fnm):
-
     a = fname(fnm).split(" on ")
-    correspondent = a[0]
+    correspondent = get_safe_name(a[0],safe_chars=['+','.','@','-'],replacement_char=' ',condense=True)
     b = a[1].split(' at ')
-    text_date = b[0]
-    text_time = b[1].replace('.ichat','')
+    text_date = get_safe_name(b[0],safe_chars=['+','.','@','-'],replacement_char=' ',condense=True)
+    text_time = get_safe_name(b[1],safe_chars=['+','.','@','-'],replacement_char=' ',condense=True).replace('.ichat','')
 
 
     with open(opjD(fnm)) as fd:
@@ -51,6 +49,7 @@ def parse_xml(fnm):
         I_start = True
 
     timestamps = []
+    timestamps_str = []
     mes = []
     texts = []
 
@@ -61,9 +60,9 @@ def parse_xml(fnm):
             if 'key' in e and 'real' in e:
                 if 'integer' in e['dict']:
                     if e['dict']['integer'] == '15' and 'NS.time' in e['key']:
-
-                        timestamps.append(float(e['real']))
-
+                        t = float(e['real'])
+                        timestamps.append(t)
+                        timestamps_str.append(datetime.fromtimestamp(dt+t).strftime(time_format_str))
                     else:
                         pass
 
@@ -130,7 +129,7 @@ def parse_xml(fnm):
     try:
         for i in rlen(timestamps):
             lst.append({timestamps[i]:{'me':mes[i],'text':texts[i]}})
-            T[timestamps[i]] = {'me':mes[i],'text':texts[i]}
+            T[timestamps[i]] = {'me':mes[i],'text':texts[i],'ts':timestamps_str[i]}
         R = {
             'phone':phone,
             'texts':T,
@@ -266,18 +265,69 @@ def update_dic():
 
 
 
+def R_str(R,correspondent):
+    C = R['correspondent'][correspondent]
+    ts = sorted(C.keys())
+    t_prev = 0
+    str_lst = []
+    for t in ts:
+        if t - t_prev > 60*60:
+            tstr = datetime.fromtimestamp(dt+t).strftime(time_format_str)
+            str_lst.append(tstr)
+            t_prev = t
+        if C[t]['me']:
+            idstr = ' &&&cf2 '
+        else:
+            idstr = ' &&&cf0 '
+        str_lst.append(idstr + C[t]['text'])
+    return str_lst
 
 
+def rtf_encode_char(unichar):
+    code = ord(unichar)
+    if code < 128:
+        return str(unichar)
+    return '\\u' + str(code if code <= 32767 else code-65536)
+
+def rtf_encode(unistr):
+    return ''.join(rtf_encode_char(c) for c in unistr)
 
 
+import rtfunicode
+
+
+rtf_header = """
+
+{\\rtf1\\ansi\\ansicpg1252\cocoartf1561\cocoasubrtf610
+{\\fonttbl\\f0\\fswiss\\fcharset0 Helvetica;\\f1\\fnil\\fcharset0 AppleColorEmoji;}
+{\colortbl;\\red255\green255\\blue255;\\red243\green0\\blue146;\\red33\green255\\blue6;}
+{\*\expandedcolortbl;;\cssrgb\c97337\c1611\c63799;\cssrgb\c0\c97680\c0;}
+\margl1440\margr1440\\vieww10800\\viewh8400\\viewkind0
+\pard\\tx720\\tx1440\\tx2160\\tx2880\\tx3600\\tx4320\\tx5040\\tx5760\\tx6480\\tx7200\\tx7920\\tx8640\pardirnatural\partightenfactor0
+
+"""
+save_lst = [rtf_header]
+c = 'Ping'
+sl = R_str(R,c)
+#print "\\f1\\fs64 " + c +"\n\\fs24 \\" 
+
+for s in sl:
+    s = s.replace('?','^^^')
+    r = s.encode('rtfunicode').replace('?','').replace('&&&','\\')
+    #print '\\f0 ' + r.replace('^^^','?') + ' \\'
+    save_lst.append('\\f0 ' + r.replace('^^^','?') + ' \\\n\\')
+save_lst.append('}')
+list_of_strings_to_txt_file(opjD('temp4.rtf'),save_lst)
 
 def main():
 
     if A['update_xml']:
         update_xml()
     update_pkl()
+
     R = update_dic()
     
+    so(opj(pname(A['xml_dst']),'R.pkl'),R)
     """
     d_path = opj(pname(A['xml_dst']),'D.pkl')
 

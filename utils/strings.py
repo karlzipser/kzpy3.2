@@ -2,14 +2,29 @@ from kzpy3.utils.common import *
 
 
 
-def get_safe_name(name):
+def get_safe_name(
+    name,
+    safe_chars=[],
+    replacement_char='_',
+    condense=False
+):
     lst = []
     for i in range(len(name)):
         if name[i].isalnum():
             lst.append(name[i])
+        elif name[i] in safe_chars:
+            lst.append(name[i])
         else:
-            lst.append('_')
-    return "".join(lst)
+            lst.append(replacement_char)
+    s = "".join(lst)
+    if condense:
+        lst = s.split(replacement_char)
+        d = []
+        for e in lst:
+            if e != '':
+                d.append(e)
+        s = replacement_char.join(d)
+    return s
     
 
 def num_from_str(s):

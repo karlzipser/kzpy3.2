@@ -111,7 +111,7 @@ for fname in ['a','b','c','d','e','f','g','h','i','j']:
 	p = -1
 	t = 0
 	q = -1
-	time_format_str = "%A, %B %d, %Y %I:%M"
+	time_format_str = "%A, %B %d, %Y %H:%M"
 
 
 	if False:
