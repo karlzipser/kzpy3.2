@@ -117,6 +117,7 @@ def get_data_function(P):
                 r = P['single_run']
                 while True:
                     try:
+                        r = P['single_run']
                         print Runs[r]['rotated']['turns'][ctr][:]
                         ctr,i_v = input('ctr, ((indx,val),...)')
                         assert type(ctr) == int
