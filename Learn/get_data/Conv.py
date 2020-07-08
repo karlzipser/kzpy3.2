@@ -113,6 +113,7 @@ def get_data_function(P):
                 r,ctr = P['good_indicies'][rndint(g)]
                 flip = rndint(2)
                 assert flip in [0,1]
+
             elif k_in_D('manual_input0',P):
                 r = P['single_run']
                 while True:
@@ -235,7 +236,7 @@ def get_data_function(P):
     if k_in_D('manual_input0',P):
         meta_turns += 2
         for iv in i_v:
-            meta_turns[0,iv[0],:] = iv[1]
+            meta_turns[0,:,iv[0]] = iv[1]
         clp(meta_turns,r=1)
 
     elif not k_in_D('turns_zeroed',P):
