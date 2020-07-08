@@ -118,8 +118,9 @@ def get_data_function(P):
                 while True:
                     try:
                         r = P['single_run']
-                        print Runs[r]['rotated']['turns'][ctr][:]
+                        
                         ctr,i_v = input('ctr, ((indx,val),...)')
+                        print Runs[r]['rotated']['turns'][ctr][:]
                         assert type(ctr) == int
                         assert ctr < len(Runs[r]['original_timestamp_data']['left_image']['vals'])
                         for i,v in i_v:
