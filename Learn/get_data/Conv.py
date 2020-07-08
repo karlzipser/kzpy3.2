@@ -117,7 +117,7 @@ def get_data_function(P):
                 r = P['single_run']
                 while True:
                     try:
-                        ctr,lr,i = input('ctr, left/right, indx')
+                        ctr,lr,i = input('ctr, left/right, indx: ')
                         assert type(ctr) == int
                         assert ctr < len(Runs[r]['original_timestamp_data']['left_image']['vals'])
                         assert lr in ('left','right')
