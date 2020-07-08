@@ -124,10 +124,11 @@ def get_data_function(P):
                         print Runs[r]['rotated']['turns'][ctr][:]
                         assert type(ctr) == int
                         assert ctr < len(Runs[r]['original_timestamp_data']['left_image']['vals'])
-                        for iv in i_v:
-                            print iv
-                            assert 0 <= iv[0] < 22
-                            assert iv[1] in [1,2,3]
+                        if False:
+                            for iv in i_v:
+                                print iv
+                                assert 0 <= iv[0] < 22
+                                assert iv[1] in [1,2,3]
                         flip = 0
                         break
 
@@ -235,8 +236,8 @@ def get_data_function(P):
 
     if k_in_D('manual_input0',P):
         meta_turns += 2
-        for iv in i_v:
-            meta_turns[0,:,iv[0]] = iv[1]
+        for i in range(22):i_v:
+            meta_turns[0,:,i = iv
         #clp(meta_turns,r=1)
 
     elif not k_in_D('turns_zeroed',P):
