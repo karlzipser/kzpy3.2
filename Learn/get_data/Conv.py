@@ -123,11 +123,10 @@ def get_data_function(P):
                         print Runs[r]['rotated']['turns'][ctr][:]
                         assert type(ctr) == int
                         assert ctr < len(Runs[r]['original_timestamp_data']['left_image']['vals'])
-                        for i,v in i_v:
-                            assert 0 <= i < 22
-                            #assert v in ()
-                        
-                        
+                        for iv in i_v:
+                            print iv
+                            assert 0 <= iv[0] < 22
+                            assert iv[1] in (1,2,3)
                         flip = 0
                         break
 
