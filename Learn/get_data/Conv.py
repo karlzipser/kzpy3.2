@@ -236,7 +236,7 @@ def get_data_function(P):
 
     if k_in_D('manual_input0',P):
         meta_turns += 2
-        for i in range(22):i_v:
+        for i in range(22):#i_v:
             meta_turns[0,:,i = iv
         #clp(meta_turns,r=1)
 
