@@ -117,12 +117,15 @@ def get_data_function(P):
                 r = P['single_run']
                 while True:
                     try:
-                        ctr,lr,indx = input('ctr, left/right, indx: ')
+                        print Runs[r]['rotated']['turns'][ctr][:]
+                        ctr,i_v = input('ctr, ((indx,val),...)')
                         assert type(ctr) == int
                         assert ctr < len(Runs[r]['original_timestamp_data']['left_image']['vals'])
-                        assert lr in ('left','right')
-                        assert type(indx) == int
-                        assert 0 <= indx < 22
+                        for i,v in i_v:
+                            assert 0 <= i < 22
+                            #assert v in ()
+                        
+                        
                         flip = 0
                         break
 
