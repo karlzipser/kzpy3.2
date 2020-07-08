@@ -110,6 +110,21 @@ def get_data_function(P):
                 r,ctr = P['good_indicies'][rndint(g)]
                 flip = rndint(2)
                 assert flip in [0,1]
+            elif k_in_D('manual_input0',P):
+                r = P['single_run']
+                while True:
+                    try:
+                        ctr,lr,i = input('ctr, left/right, indx')
+                        assert type(ctr) == int
+                        assert ctr < len(Runs[r]['original_timestamp_data']['left_image']['vals'])
+                        assert lr in ('left','right')
+                        assert type(indx) == int
+                        assert 0 <= indx < 22
+                        flip = 0
+                        break
+                    except:
+                        clp('Try again','`wrb')
+
             else:
                 r = P['single_run']
                 ctr = gctr
