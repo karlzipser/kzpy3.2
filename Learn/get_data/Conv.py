@@ -237,7 +237,7 @@ def get_data_function(P):
         meta_turns += 2
         for iv in i_v:
             meta_turns[0,:,iv[0]] = iv[1]
-        clp(meta_turns,r=1)
+        #clp(meta_turns,r=1)
 
     elif not k_in_D('turns_zeroed',P):
         turns = Runs[r]['rotated']['turns'][ctr][:]
