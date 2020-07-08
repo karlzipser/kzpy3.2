@@ -94,6 +94,9 @@ from scipy.ndimage import interpolation
 gctr = 0 #10000
 #cm('gctr = 10000',ra=1)
 
+
+# python kzpy3/Learn/main_conv.py --main 6 --net_str conv1  --save_output_2 True --batch_size 1 --save_timer_time 999999 --LR 0 --runs validate --single_run tegra-ubuntu_25Oct18_15h43m36s --manual_input0 True
+
 def get_data_function(P):
 
     global gctr
@@ -122,7 +125,15 @@ def get_data_function(P):
                         assert 0 <= indx < 22
                         flip = 0
                         break
-                    except:
+
+                    except KeyboardInterrupt:
+                        cr('*** KeyboardInterrupt ***')
+                        sys.exit()
+                    except Exception as e:
+                        exc_type, exc_obj, exc_tb = sys.exc_info()
+                        file_name = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+                        CS_('Exception!',emphasis=True)
+                        CS_(d2s(exc_type,file_name,exc_tb.tb_lineno),emphasis=False)
                         clp('Try again','`wrb')
 
             else:
