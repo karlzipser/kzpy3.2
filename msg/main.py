@@ -25,8 +25,8 @@ A = Arguments
 
 
 dt = 1593336840.0 - 615054922 + 7*3600
-time_format_str = "%A, %B %d, %Y %H:%M"
-
+#time_format_str = "%A, %B %d, %Y %H:%M"
+time_format_str = '%A, %d %B %Y, %H:%M %p'
 
 
 

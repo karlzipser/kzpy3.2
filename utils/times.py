@@ -53,15 +53,29 @@ days = day
 def time_str(mode='FileSafe'):
     """
     modes are:
-    FileSafe, Pretty, TimeShort
+    FileSafe, Pretty, Pretty2, TimeShort
     """
     now = datetime.datetime.now()
+
     if mode=='FileSafe':
        return now.strftime('%d%b%y_%Hh%Mm%Ss')
+
     if mode=='Pretty':
+
        return now.strftime('%A, %d %b %Y, %r')
+
+    if mode=='Pretty2':
+       s = now.strftime('%A, %d %B %Y, %H:%M %p')
+       s = s.replace('AM','a.m.')
+       s = s.replace('PM','p.m.')
+       s = s.replace(', 0',', ')
+       return s
+
     if mode=='TimeShort':
+
        return now.strftime('%H:%M')
+
+    assert False
 
 
 
