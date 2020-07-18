@@ -2,6 +2,8 @@
 #,a
 from kzpy3.utils3 import *
 
+
+
 save_dir = opjh('multiclip')
 
 os.system('mkdir -p' + save_dir)
@@ -23,13 +25,17 @@ try:
 except:
 	lst = []
 
+use_prefix_and_suffix = k_in_D('x',Arguments)
 
+prefix = "Hi "
+suffix = "! You seem like a fun and interesting person. It would be fascinating to get to know you. I'd love to hear more about your interests and passions."
 
 E = {
 	'Command':None,
-	'noisy':True,
+	'noisy':False,
 	'num_chars':100,
 	'lst':lst,
+	'pause_thread':False,
 }
 
 def clipthread():
@@ -41,8 +47,21 @@ def clipthread():
 		if E['Command'] == 'quit':
 			cg('quitting clipthread()')
 			return 0
+		if True:
+			#cm(E['pause_thread'])
+			if E['pause_thread']:
+				E['thread_sleeping'] = True
+				time.sleep(0.2)
+				E['thread_sleeping'] = False
+				return 0
 
 		c = getClipboardData()
+
+		
+
+		if use_prefix_and_suffix and prefix not in c and suffix not in c:
+			c = prefix + c + suffix
+			setClipboardData(c)
 
 		found = False
 		for l in E['lst']:
@@ -50,10 +69,10 @@ def clipthread():
 				found = True
 
 		if found:
+			E['thread_sleeping'] = True
 			time.sleep(0.2)
-
 		else:
-			
+			E['thread_sleeping'] = False
 
 			s = time_str('Pretty2')
 			E['lst'].append( [c,s] )
@@ -82,9 +101,19 @@ def print_lst():
 threading.Thread(target=clipthread).start()
 
 while True:
-
+	if False:#not E['thread_sleeping']:
+		continue
 	try:
-		q = raw_input('--> ')
+		istr =  '--> '
+
+		if use_prefix_and_suffix:
+			istr = 'X' + istr
+
+		if E['pause_thread']:
+			istr = 'P' + istr
+		
+			
+		q = raw_input(istr)
 		r = q.split(' ')
 		if str_is_int(r[0]):
 			setClipboardData(E['lst'][int(r[0])][0])
@@ -117,6 +146,15 @@ while True:
 			j = input('==>> ')
 			E['lst'] = lo(files[j])
 			print_lst()
+		elif r[0] == 'x':
+			if use_prefix_and_suffix:
+				use_prefix_and_suffix = False
+			else:
+				use_prefix_and_suffix = True
+
+		elif r[0] == 'p':
+			E['pause_thread'] = not E['pause_thread']
+
 	except KeyboardInterrupt:
 	    cr('*** KeyboardInterrupt ***')
 	    E['Command'] = 'quit'
