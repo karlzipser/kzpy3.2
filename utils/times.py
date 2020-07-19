@@ -65,7 +65,7 @@ def time_str(mode='FileSafe'):
        return now.strftime('%A, %d %b %Y, %r')
 
     if mode=='Pretty2':
-       s = now.strftime('%A, %d %B %Y, %H:%M %p')
+       s = now.strftime('%A, %d %B %Y, %I:%M %p')
        s = s.replace('AM','a.m.')
        s = s.replace('PM','p.m.')
        s = s.replace(', 0',', ')
