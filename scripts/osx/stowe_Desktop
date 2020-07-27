@@ -1,18 +1,28 @@
 #!/usr/bin/env python
-print('hi')
+
 ##! //anaconda/bin/python
 
 from kzpy3.utils3 import *
-import argparse
 
 
-INVALID_DEFAULT = '__nada__'
-parser = argparse.ArgumentParser(description='stowe_Desktop')
-parser.add_argument('dst', nargs='?',action="store", type=str,default=INVALID_DEFAULT,help='dst')
+if False:
+	import argparse
 
-results = parser.parse_args()
 
-if results.dst == INVALID_DEFAULT:
-	stowe_Desktop()
+	INVALID_DEFAULT = '__nada__'
+	parser = argparse.ArgumentParser(description='stowe_Desktop')
+	parser.add_argument('dst', nargs='?',action="store", type=str,default=INVALID_DEFAULT,help='dst')
+
+	results = parser.parse_args()
+
+	if results.dst == INVALID_DEFAULT:
+		stowe_Desktop()
+	else:
+		stowe_Desktop(results.dst)
+
+if 'suffix' in Arguments:
+	s = Arguments['suffix']
 else:
-	stowe_Desktop(results.dst)
+	s = ''
+
+stowe_Desktop2(s)
