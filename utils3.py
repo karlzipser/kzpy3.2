@@ -1,3 +1,5 @@
+print("this is kzpy3")
+
 from utils.times import *
 from utils.files import *
 from utils.strings import *
